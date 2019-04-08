@@ -31,10 +31,17 @@ class Str
      * Converts strings to camelize style
      *
      * <code>
-     * echo Phalcon\Text::camelize("coco_bongo"); // CocoBongo
-     * echo Phalcon\Text::camelize("co_co-bon_go", "-"); // Co_coBon_go
-     * echo Phalcon\Text::camelize("co_co-bon_go", "_-"); // CoCoBonGo
+     * use Phalcon\Helper\Str;
+     *
+     * echo Str::camelize("coco_bongo");            // CocoBongo
+     * echo Str::camelize("co_co-bon_go", "-");     // Co_coBon_go
+     * echo Str::camelize("co_co-bon_go", "_-");    // CoCoBonGo
      * </code>
+     *
+     * @param string $text
+     * @param mixed  $delimiter
+     *
+     * @return string
      */
     final public static function camelize(string! text, var delimiter = null) -> string
     {
@@ -46,7 +53,7 @@ class Str
      * places concatenation
      *
      * <code>
-     * $str = Phalcon\Text::concat(
+     * $str = Phalcon\Helper\Str::concat(
      *     "/",
      *     "/tmp/",
      *     "/folder_1/",
@@ -54,14 +61,15 @@ class Str
      *     "folder_3/"
      * );
      *
-     * // /tmp/folder_1/folder_2/folder_3/
-     * echo $str;
+     * echo $str;   // /tmp/folder_1/folder_2/folder_3/
      * </code>
      *
      * @param string separator
      * @param string a
      * @param string b
      * @param string ...N
+     *
+     * @return string
      */
     final public static function concat() -> string
     {
@@ -121,6 +129,7 @@ class Str
      *
      * @param string $string
      * @param bool   $upperRest
+     * @param string $encoding
      *
      * @return string
      */
@@ -159,22 +168,31 @@ class Str
      * Generates random text in accordance with the template
      *
      * <code>
+     * use Phalcon\Helper\Str;
+     *
      * // Hi my name is a Bob
-     * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
+     * echo Str::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
      *
      * // Hi my name is a Jon
-     * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
+     * echo Str::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
      *
      * // Hello my name is a Bob
-     * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
+     * echo Str::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
      *
      * // Hello my name is a Zyxep
-     * echo Phalcon\Text::dynamic(
+     * echo Str::dynamic(
      *     "[Hi/Hello], my name is a [Zyxep/Mark]!",
      *     "[", "]",
      *     "/"
      * );
      * </code>
+     *
+     * @param string $text
+     * @param string $leftDelimiter
+     * @param string $rightDelimiter
+     * @param string $separator
+     *
+     * @return string
      */
     final public static function dynamic(
         string! text,
@@ -220,10 +238,18 @@ class Str
      * Check if a string ends with a given string
      *
      * <code>
-     * echo Phalcon\Text::endsWith("Hello", "llo"); // true
-     * echo Phalcon\Text::endsWith("Hello", "LLO", false); // false
-     * echo Phalcon\Text::endsWith("Hello", "LLO"); // true
+     * use Phalcon\Helper\Str;
+     *
+     * echo Str::endsWith("Hello", "llo");          // true
+     * echo Str::endsWith("Hello", "LLO", false);   // false
+     * echo Str::endsWith("Hello", "LLO");          // true
      * </code>
+     *
+     * @param string $text
+     * @param string $end
+     * @param bool   $ignoreCase
+     *
+     * @return bool
      */
     final public static function endsWith(string text, string end, bool ignoreCase = true) -> bool
     {
@@ -257,9 +283,15 @@ class Str
      * Makes an underscored or dashed phrase human-readable
      *
      * <code>
-     * echo Phalcon\Text::humanize("start-a-horse"); // "start a horse"
-     * echo Phalcon\Text::humanize("five_cats"); // "five cats"
+     * use Phalcon\Helper\Str;
+     *
+     * echo Str::humanize("start-a-horse"); // "start a horse"
+     * echo Str::humanize("five_cats");     // "five cats"
      * </code>
+     *
+     * @param string $text
+     *
+     * @return string
      */
     final public static function humanize(string! text) -> string
     {
@@ -288,9 +320,16 @@ class Str
      * defined
      *
      * <code>
-     * echo Phalcon\Text::increment("a"); // "a_1"
-     * echo Phalcon\Text::increment("a_1"); // "a_2"
+     * use Phalcon\Helper\Str;
+     *
+     * echo Str::increment("a");    // "a_1"
+     * echo Str::increment("a_1");  // "a_2"
      * </code>
+     *
+     * @param string $text
+     * @param string $separator
+     *
+     * @return string
      */
     final public static function increment(string text, string separator = "_") -> string
     {
@@ -324,7 +363,8 @@ class Str
     /**
      * Returns true if the given string is lower case, false otherwise.
      *
-     * @param string text
+     * @param string $text
+     * @param string $encoding
      *
      * @return bool
      */
@@ -353,6 +393,7 @@ class Str
      * Returns true if the given string is upper case, false otherwise.
      *
      * @param string text
+     * @param string encoding
      *
      * @return bool
      */
@@ -370,8 +411,13 @@ class Str
      * available
      *
      * <code>
-     * echo Phalcon\Text::lower("HELLO"); // hello
+     * echo Phalcon\Helper\Str::lower("HELLO"); // hello
      * </code>
+     *
+     * @param string $text
+     * @param string $encoding
+     *
+     * @return string
      */
     final public static function lower(string! text, string! encoding = "UTF-8") -> string
     {
@@ -391,11 +437,15 @@ class Str
      * RANDOM_* constants
      *
      * <code>
-     * use Phalcon\Text;
+     * use Phalcon\Helper\Str;
      *
-     * // "aloiwkqz"
-     * echo Text::random(Text::RANDOM_ALNUM);
+     * echo Str::random(Str::RANDOM_ALNUM); // "aloiwkqz"
      * </code>
+     *
+     * @param int $type
+     * @param int $length
+     *
+     * @return string
      */
     final public static function random(int type = 0, long length = 8) -> string
     {
@@ -448,9 +498,13 @@ class Str
      * Reduces multiple slashes in a string to single slashes
      *
      * <code>
-     * echo Phalcon\Text::reduceSlashes("foo//bar/baz"); // foo/bar/baz
-     * echo Phalcon\Text::reduceSlashes("http://foo.bar///baz/buz"); // http://foo.bar/baz/buz
+     * echo Phalcon\Helper\Str::reduceSlashes("foo//bar/baz");              // foo/bar/baz
+     * echo Phalcon\Helper\Str::reduceSlashes("http://foo.bar///baz/buz");  // http://foo.bar/baz/buz
      * </code>
+     *
+     * @param string $text
+     *
+     * @return string
      */
     final public static function reduceSlashes(string! text) -> string
     {
@@ -461,10 +515,18 @@ class Str
      * Check if a string starts with a given string
      *
      * <code>
-     * echo Phalcon\Text::startsWith("Hello", "He"); // true
-     * echo Phalcon\Text::startsWith("Hello", "he", false); // false
-     * echo Phalcon\Text::startsWith("Hello", "he"); // true
+     * use Phalcon\Helper\Str;
+     *
+     * echo Str::startsWith("Hello", "He");         // true
+     * echo Str::startsWith("Hello", "he", false);  // false
+     * echo Str::startsWith("Hello", "he");         // true
      * </code>
+     *
+     * @param string $text
+     * @param string $start
+     * @param bool   $ignoreCase
+     *
+     * @return bool
      */
     final public static function startsWith(string! text, string! start, bool ignoreCase = true) -> bool
     {
@@ -475,9 +537,16 @@ class Str
      * Uncamelize strings which are camelized
      *
      * <code>
-     * echo Phalcon\Text::uncamelize("CocoBongo"); // coco_bongo
-     * echo Phalcon\Text::uncamelize("CocoBongo", "-"); // coco-bongo
+     * use Phalcon\Helper\Str;
+     *
+     * echo Str::uncamelize("CocoBongo");       // coco_bongo
+     * echo Str::uncamelize("CocoBongo", "-");  // coco-bongo
      * </code>
+     *
+     * @param string $text
+     * @param mixed  $delimiter
+     *
+     * @return string
      */
     final public static function uncamelize(string! text, var delimiter = null) -> string
     {
@@ -488,9 +557,15 @@ class Str
      * Makes a phrase underscored instead of spaced
      *
      * <code>
-     * echo Phalcon\Text::underscore("look behind"); // "look_behind"
-     * echo Phalcon\Text::underscore("Awesome Phalcon"); // "Awesome_Phalcon"
+     * use Phalcon\Helper\Str;
+     *
+     * echo Str::underscore("look behind");     // "look_behind"
+     * echo Str::underscore("Awesome Phalcon"); // "Awesome_Phalcon"
      * </code>
+     *
+     * @param string $text
+     *
+     * @return string
      */
     final public static function underscore(string! text) -> string
     {
@@ -502,8 +577,13 @@ class Str
      * available
      *
      * <code>
-     * echo Phalcon\Text::upper("hello"); // HELLO
+     * echo Phalcon\Helper\Str::upper("hello"); // HELLO
      * </code>
+     *
+     * @param string $text
+     * @param string $encoding
+     *
+     * @return string
      */
     final public static function upper(string! text, string! encoding = "UTF-8") -> string
     {
