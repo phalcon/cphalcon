@@ -555,6 +555,20 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
+     * Returns the models involved in the query
+     */
+    public function getModels() -> string | array | null
+    {
+        var models = this->models;
+
+        if typeof models == "array" && count(models) == 1 {
+            return array_values(models)[0];
+        }
+
+        return models;
+    }
+
+    /**
      * Returns the current OFFSET clause
      */
     public function getOffset() -> int
