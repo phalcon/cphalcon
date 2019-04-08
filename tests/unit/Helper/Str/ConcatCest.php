@@ -28,9 +28,9 @@ class ConcatCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textConcat(UnitTester $I)
+    public function helperStrConcat(UnitTester $I)
     {
-        $I->wantToTest('Text - concat()');
+        $I->wantToTest('Helper\Str - concat()');
         // Test 1
         $actual   = Str::concat('/', '/tmp/', '/folder_1/', '/folder_2', 'folder_3/');
         $expected = '/tmp/folder_1/folder_2/folder_3/';

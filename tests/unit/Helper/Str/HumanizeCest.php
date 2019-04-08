@@ -28,9 +28,9 @@ class HumanizeCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textHumanize(UnitTester $I)
+    public function helperStrHumanize(UnitTester $I)
     {
-        $I->wantToTest('Text - humanize()');
+        $I->wantToTest('Helper\Str - humanize()');
         $expected = 'start a horse';
         $actual   = Str::humanize('start_a_horse');
         $I->assertEquals($expected, $actual);

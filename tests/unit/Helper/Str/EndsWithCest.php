@@ -28,9 +28,9 @@ class EndsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textEndsWith(UnitTester $I)
+    public function helperStrEndsWith(UnitTester $I)
     {
-        $I->wantToTest('Text - endsWith()');
+        $I->wantToTest('Helper\Str - endsWith()');
         $actual = Str::endsWith("Hello", "o");
         $I->assertTrue($actual);
 
@@ -49,9 +49,9 @@ class EndsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textEndsWithEmpty(UnitTester $I)
+    public function helperStrEndsWithEmpty(UnitTester $I)
     {
-        $I->wantToTest('Text - endsWith() - empty strings');
+        $I->wantToTest('Helper\Str - endsWith() - empty strings');
         $actual = Str::endsWith("", "");
         $I->assertFalse($actual);
     }
@@ -64,9 +64,9 @@ class EndsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textEndsWithEmptySearchString(UnitTester $I)
+    public function helperStrEndsWithEmptySearchString(UnitTester $I)
     {
-        $I->wantToTest('Text - endsWith() - search empty string');
+        $I->wantToTest('Helper\Str - endsWith() - search empty string');
         $actual = Str::endsWith("", "hello");
         $I->assertFalse($actual);
     }
@@ -80,9 +80,9 @@ class EndsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textEndsWithCaseInsensitive(UnitTester $I)
+    public function helperStrEndsWithCaseInsensitive(UnitTester $I)
     {
-        $I->wantToTest('Text - endsWith() - case insensitive flag');
+        $I->wantToTest('Helper\Str - endsWith() - case insensitive flag');
         $actual = Str::endsWith("Hello", "O");
         $I->assertTrue($actual);
 
@@ -101,9 +101,9 @@ class EndsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textEndsWithCaseSensitive(UnitTester $I)
+    public function helperStrEndsWithCaseSensitive(UnitTester $I)
     {
-        $I->wantToTest('Text - endsWith() - case sensitive flag');
+        $I->wantToTest('Helper\Str - endsWith() - case sensitive flag');
         $actual = Str::endsWith("Hello", "hello", true);
         $I->assertTrue($actual);
 

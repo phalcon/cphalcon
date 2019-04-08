@@ -28,9 +28,9 @@ class ReduceSlashesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textReduceSlashes(UnitTester $I)
+    public function helperStrReduceSlashes(UnitTester $I)
     {
-        $I->wantToTest('Text - reduceSlashes()');
+        $I->wantToTest('Helper\Str - reduceSlashes()');
         $expected = 'app/controllers/IndexController';
         $actual   = Str::reduceSlashes('app/controllers//IndexController');
         $I->assertEquals($expected, $actual);

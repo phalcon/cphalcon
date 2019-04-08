@@ -28,9 +28,9 @@ class RandomCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textRandomConstants(UnitTester $I)
+    public function helperStrRandomConstants(UnitTester $I)
     {
-        $I->wantToTest('Text - random() - constants');
+        $I->wantToTest('Helper\Str - random() - constants');
         $I->assertEquals(0, Str::RANDOM_ALNUM);
         $I->assertEquals(1, Str::RANDOM_ALPHA);
         $I->assertEquals(2, Str::RANDOM_HEXDEC);
@@ -47,9 +47,9 @@ class RandomCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textRandomAlnum(UnitTester $I)
+    public function helperStrRandomAlnum(UnitTester $I)
     {
-        $I->wantToTest('Text - random() - alnum');
+        $I->wantToTest('Helper\Str - random() - alnum');
         for ($i = 1; $i < 10; $i++) {
             $source = Str::random(Str::RANDOM_ALNUM, $i);
 
@@ -75,9 +75,9 @@ class RandomCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textRandomAlpha(UnitTester $I)
+    public function helperStrRandomAlpha(UnitTester $I)
     {
-        $I->wantToTest('Text - random() - alpha');
+        $I->wantToTest('Helper\Str - random() - alpha');
         for ($i = 1; $i < 10; $i++) {
             $source = Str::random(Str::RANDOM_ALPHA, $i);
 
@@ -103,9 +103,9 @@ class RandomCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textRandomHexDec(UnitTester $I)
+    public function helperStrRandomHexDec(UnitTester $I)
     {
-        $I->wantToTest('Text - random() - hexdex');
+        $I->wantToTest('Helper\Str - random() - hexdex');
         for ($i = 1; $i < 10; $i++) {
             $source = Str::random(Str::RANDOM_HEXDEC, $i);
 
@@ -131,9 +131,9 @@ class RandomCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textRandomNumeric(UnitTester $I)
+    public function helperStrRandomNumeric(UnitTester $I)
     {
-        $I->wantToTest('Text - random() - numeric');
+        $I->wantToTest('Helper\Str - random() - numeric');
         for ($i = 1; $i < 10; $i++) {
             $source = Str::random(Str::RANDOM_NUMERIC, $i);
 
@@ -159,9 +159,9 @@ class RandomCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textRandomNonZero(UnitTester $I)
+    public function helperStrRandomNonZero(UnitTester $I)
     {
-        $I->wantToTest('Text - random() - non zero');
+        $I->wantToTest('Helper\Str - random() - non zero');
         for ($i = 1; $i < 10; $i++) {
             $source = Str::random(Str::RANDOM_NOZERO, $i);
 
@@ -187,9 +187,9 @@ class RandomCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textRandomDistinct(UnitTester $I)
+    public function helperStrRandomDistinct(UnitTester $I)
     {
-        $I->wantToTest('Text - random() - distinct');
+        $I->wantToTest('Helper\Str - random() - distinct');
         $examples = [1, 10, 100, 200, 500, 1000, 2000, 3000, 4000, 5000];
         foreach ($examples as $i) {
             $source  = Str::random(Str::RANDOM_DISTINCT, $i);

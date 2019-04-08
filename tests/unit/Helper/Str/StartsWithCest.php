@@ -28,9 +28,9 @@ class StartsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textStartsWith(UnitTester $I)
+    public function helperStrStartsWith(UnitTester $I)
     {
-        $I->wantToTest('Text - startsWith()');
+        $I->wantToTest('Helper\Str - startsWith()');
         $actual = Str::startsWith("Hello", "H");
         $I->assertTrue($actual);
 
@@ -49,9 +49,9 @@ class StartsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textStartsWithEmpty(UnitTester $I)
+    public function helperStrStartsWithEmpty(UnitTester $I)
     {
-        $I->wantToTest('Text - startsWith() - empty strings');
+        $I->wantToTest('Helper\Str - startsWith() - empty strings');
         $actual = Str::startsWith("", "");
         $I->assertFalse($actual);
     }
@@ -64,9 +64,9 @@ class StartsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textStartsWithEmptySearchString(UnitTester $I)
+    public function helperStrStartsWithEmptySearchString(UnitTester $I)
     {
-        $I->wantToTest('Text - startsWith() - search empty string');
+        $I->wantToTest('Helper\Str - startsWith() - search empty string');
         $actual = Str::startsWith("", "hello");
         $I->assertFalse($actual);
     }
@@ -80,9 +80,9 @@ class StartsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textStartsWithCaseInsensitive(UnitTester $I)
+    public function helperStrStartsWithCaseInsensitive(UnitTester $I)
     {
-        $I->wantToTest('Text - startsWith() - case insensitive flag');
+        $I->wantToTest('Helper\Str - startsWith() - case insensitive flag');
         $actual = Str::startsWith("Hello", "h");
         $I->assertTrue($actual);
 
@@ -101,9 +101,9 @@ class StartsWithCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
-    public function textStartsWithCaseSensitive(UnitTester $I)
+    public function helperStrStartsWithCaseSensitive(UnitTester $I)
     {
-        $I->wantToTest('Text - startsWith() - case sensitive flag');
+        $I->wantToTest('Helper\Str - startsWith() - case sensitive flag');
         $actual = Str::startsWith("Hello", "hello", true);
         $I->assertTrue($actual);
 
