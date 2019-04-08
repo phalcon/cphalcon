@@ -24,10 +24,9 @@ use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
 
 class Abonnes extends Model
 {
-
-    public function getSource(): string
+    public function initialize()
     {
-        return 'subscriptores';
+        $this->setSource("subscriptores");
     }
 
     public function beforeValidation()

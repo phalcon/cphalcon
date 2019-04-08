@@ -15,9 +15,9 @@ use Phalcon\Mvc\Model;
 
 class CountryStats extends Model
 {
-    public function getSource(): string
+    public function initialize()
     {
-        return 'stats';
+        $this->setSource("stats");
     }
 
     public function getResultsetClass()

@@ -17,11 +17,8 @@ class M2MRobots extends Model
 {
     public function initialize()
     {
-        $this->hasManyToMany('id', M2MRobotsParts::class, 'robots_id', 'parts_id', 'M2MParts', 'id');
-    }
+        $this->setSource("m2m_robots");
 
-    public function getSource(): string
-    {
-        return 'm2m_robots';
+        $this->hasManyToMany('id', M2MRobotsParts::class, 'robots_id', 'parts_id', 'M2MParts', 'id');
     }
 }

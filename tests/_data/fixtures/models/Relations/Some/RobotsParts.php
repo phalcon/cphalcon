@@ -15,13 +15,10 @@ use Phalcon\Mvc\Model;
 
 class RobotsParts extends Model
 {
-    public function getSource(): string
-    {
-        return 'robots_parts';
-    }
-
     public function initialize()
     {
+        $this->setSource("robots_parts");
+
         $this->belongsTo('parts_id', Parts::class, 'id', [
             'foreignKey' => true,
         ]);
