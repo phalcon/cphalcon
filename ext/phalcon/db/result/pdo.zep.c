@@ -134,7 +134,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct) {
 }
 
 /**
- * Moves internal resultset cursor to another position letting us to fetch a certain row
+ * Moves internal resultset cursor to another position letting us to fetch a
+ * certain row
  *
  *<code>
  * $result = $connection->query(
@@ -208,8 +209,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 }
 
 /**
- * Allows to execute the statement again. Some database systems don't support scrollable cursors,
- * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
+ * Allows to execute the statement again. Some database systems don't
+ * support scrollable cursors. So, as cursors are forward only, we need to
+ * execute the cursor again to fetch rows from the begining
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, execute) {
 
@@ -229,8 +231,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, execute) {
 }
 
 /**
- * Fetches an array/object of strings that corresponds to the fetched row, or FALSE if there are no more rows.
- * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+ * Fetches an array/object of strings that corresponds to the fetched row,
+ * or FALSE if there are no more rows. This method is affected by the active
+ * fetch flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
  *
  *<code>
  * $result = $connection->query("SELECT * FROM robots ORDER BY name");
@@ -282,7 +285,8 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetch) {
 
 /**
  * Returns an array of arrays containing all the records in the result
- * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+ * This method is affected by the active fetch flag set using
+ * `Phalcon\Db\Result\Pdo::setFetchMode()`
  *
  *<code>
  * $result = $connection->query(
@@ -351,8 +355,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll) {
 }
 
 /**
- * Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows.
- * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+ * Returns an array of strings that corresponds to the fetched row, or FALSE
+ * if there are no more rows. This method is affected by the active fetch
+ * flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
  *
  *<code>
  * $result = $connection->query("SELECT * FROM robots ORDER BY name");
@@ -465,7 +470,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 				ZVAL_STRING(&_7$$6, "/^SELECT\\s+(.*)/i");
 				zephir_preg_match(&_6$$6, &_7$$6, &sqlStatement, &matches, 0, 0 , 0  TSRMLS_CC);
 				if (zephir_is_true(&_6$$6)) {
-					zephir_array_fetch_long(&_8$$7, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Db/Result/Pdo.zep", 282 TSRMLS_CC);
+					zephir_array_fetch_long(&_8$$7, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Db/Result/Pdo.zep", 301 TSRMLS_CC);
 					ZEPHIR_INIT_VAR(&_9$$7);
 					ZEPHIR_CONCAT_SVS(&_9$$7, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", &_8$$7, ")");
 					zephir_read_property(&_10$$7, this_ptr, SL("bindParams"), PH_NOISY_CC | PH_READONLY);
@@ -475,7 +480,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 					ZEPHIR_CALL_METHOD(&row, &result, "fetch", NULL, 0);
 					zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&rowCount);
-					zephir_array_fetch_string(&rowCount, &row, SL("numrows"), PH_NOISY, "phalcon/Db/Result/Pdo.zep", 288 TSRMLS_CC);
+					zephir_array_fetch_string(&rowCount, &row, SL("numrows"), PH_NOISY, "phalcon/Db/Result/Pdo.zep", 307 TSRMLS_CC);
 				}
 			} else {
 				ZEPHIR_INIT_NVAR(&rowCount);

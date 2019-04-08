@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
 
@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Html_TagLocatorFactory, newInstance) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&escaper, this_ptr, "getescaper", NULL, 208);
+	ZEPHIR_CALL_METHOD(&escaper, this_ptr, "getescaper", NULL, 207);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&helpers);
 	zephir_create_array(&helpers, 25, 0 TSRMLS_CC);
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Html_TagLocatorFactory, newInstance) {
 	zephir_array_update_string(&helpers, SL("title"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&factory);
 	object_init_ex(&factory, phalcon_service_locator_ce);
-	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 184, &helpers);
+	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 183, &helpers);
 	zephir_check_call_status();
 	RETURN_CCTOR(&factory);
 
@@ -183,16 +183,14 @@ PHP_METHOD(Phalcon_Html_TagLocatorFactory, newInstance) {
  */
 PHP_METHOD(Phalcon_Html_TagLocatorFactory, getEscaper) {
 
-	zval container, escaper, _1, _2, _3$$3;
+	zval container, _1, _2;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&container);
-	ZVAL_UNDEF(&escaper);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3$$3);
 
 	ZEPHIR_MM_GROW();
 
@@ -202,20 +200,19 @@ PHP_METHOD(Phalcon_Html_TagLocatorFactory, getEscaper) {
 	ZVAL_STRING(&_2, "escaper");
 	ZEPHIR_CALL_METHOD(&_1, &container, "has", NULL, 0, &_2);
 	zephir_check_call_status();
-	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_1)) {
-		ZEPHIR_INIT_VAR(&_3$$3);
-		ZVAL_STRING(&_3$$3, "escaper");
-		ZEPHIR_CALL_METHOD(&escaper, &container, "getservice", NULL, 0, &_3$$3);
-		zephir_check_call_status();
-	} else {
-		ZEPHIR_INIT_NVAR(&escaper);
-		object_init_ex(&escaper, phalcon_escaper_ce);
-		if (zephir_has_constructor(&escaper TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(NULL, &escaper, "__construct", NULL, 0);
+	if (!(zephir_is_true(&_1))) {
+		object_init_ex(return_value, phalcon_escaper_ce);
+		if (zephir_has_constructor(return_value TSRMLS_CC)) {
+			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
+		RETURN_MM();
 	}
-	RETURN_CCTOR(&escaper);
+	ZEPHIR_INIT_NVAR(&_2);
+	ZVAL_STRING(&_2, "escaper");
+	ZEPHIR_RETURN_CALL_METHOD(&container, "getservice", NULL, 0, &_2);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

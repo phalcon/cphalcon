@@ -46,7 +46,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, appendMessage);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, assign);
 
 /**
- * Allows to calculate the average value on a column matching the specified conditions
+ * Allows to calculate the average value on a column matching the specified
+ * conditions
  *
  * @param array parameters
  * @return double
@@ -83,8 +84,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMapHydrate);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, count);
 
 /**
- * Inserts a model instance. If the instance already exists in the persistence it will throw an exception
- * Returning true on success or false otherwise.
+ * Inserts a model instance. If the instance already exists in the
+ * persistence it will throw an exception. Returning true on success or
+ * false otherwise.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, create);
 
@@ -106,18 +108,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, find);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, findFirst);
 
 /**
- * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+ * Fires an event, implicitly calls behaviors and listeners in the events
+ * manager are notified
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, fireEvent);
 
 /**
- * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
- * This method stops if one of the callbacks/listeners returns bool false
+ * Fires an event, implicitly calls behaviors and listeners in the events
+ * manager are notified. This method stops if one of the callbacks/listeners
+ * returns bool false
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, fireEventCancel);
 
 /**
- * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
+ * Returns one of the DIRTY_STATE_* constants telling if the record exists
+ * in the database or not
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getDirtyState);
 
@@ -175,7 +180,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getWriteConnection);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getWriteConnectionService);
 
 /**
- * Allows to get the maximum value of a column that match the specified conditions
+ * Allows to get the maximum value of a column that match the specified
+ * conditions
  *
  * @param array parameters
  * @return mixed
@@ -183,7 +189,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getWriteConnectionService);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, maximum);
 
 /**
- * Allows to get the minimum value of a column that match the specified conditions
+ * Allows to get the minimum value of a column that match the specified
+ * conditions
  *
  * @param array parameters
  * @return mixed
@@ -201,7 +208,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, query);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, refresh);
 
 /**
- * Inserts or updates a model instance. Returning true on success or false otherwise.
+ * Inserts or updates a model instance. Returning true on success or false
+ * otherwise.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, save);
 
@@ -211,7 +219,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, save);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setConnectionService);
 
 /**
- * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
+ * Sets the dirty state of the object using one of the DIRTY_STATE_*
+ * constants
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setDirtyState);
 
@@ -221,8 +230,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setDirtyState);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, setReadConnectionService);
 
 /**
- * Sets the record's snapshot data.
- * This method is used internally to set snapshot data when the model was set up to keep snapshot data
+ * Sets the record's snapshot data. This method is used internally to set
+ * snapshot data when the model was set up to keep snapshot data
  *
  * @param array columnMap
  */
@@ -257,8 +266,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, sum);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, validationHasFailed);
 
 /**
- * Updates a model instance. If the instance doesn't exist in the persistence it will throw an exception
- * Returning true on success or false otherwise.
+ * Updates a model instance. If the instance doesn't exist in the
+ * persistence it will throw an exception. Returning true on success or
+ * false otherwise.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, update);
 

@@ -36,8 +36,9 @@
 /**
  * Phalcon\Mvc\Application
  *
- * This component encapsulates all the complex operations behind instantiating every component
- * needed and integrating it with the rest to allow the MVC pattern to operate as desired.
+ * This component encapsulates all the complex operations behind instantiating
+ * every component needed and integrating it with the rest to allow the MVC
+ * pattern to operate as desired.
  *
  *<code>
  * use Phalcon\Mvc\Application;
@@ -192,7 +193,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 1, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Application.zep", 90 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Application.zep", 93 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -277,7 +278,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			_16$$13 = Z_TYPE_P(&module) != IS_OBJECT;
 		}
 		if (_16$$13) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 181);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 189);
 			return;
 		}
 		if (Z_TYPE_P(&module) == IS_ARRAY) {
@@ -296,7 +297,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 						ZEPHIR_CONCAT_SVS(&_18$$21, "Module definition path '", &path, "' doesn't exist");
 						ZEPHIR_CALL_METHOD(NULL, &_17$$21, "__construct", NULL, 1, &_18$$21);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(&_17$$21, "phalcon/Mvc/Application.zep", 202 TSRMLS_CC);
+						zephir_throw_exception_debug(&_17$$21, "phalcon/Mvc/Application.zep", 213 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -314,7 +315,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			zephir_check_call_status();
 		} else {
 			if (!(zephir_instance_of_ev(&module, zend_ce_closure TSRMLS_CC))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 223);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 235);
 				return;
 			}
 			ZEPHIR_INIT_VAR(&_20$$22);

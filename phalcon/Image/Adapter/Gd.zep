@@ -179,92 +179,29 @@ class Gd extends Adapter
     {
         var image, rect;
 
-        if version_compare(PHP_VERSION, "5.5.0") < 0 {
-            let image = this->processCreate(width, height);
+        let rect = [
+            "x": offsetX,
+            "y": offsetY,
 
-            if imagecopyresampled(image, this->image, 0, 0, offsetX, offsetY, width, height, width, height) {
-                imagedestroy(this->image);
+            "width":  width,
+            "height": height
+        ];
 
-                let this->image = image;
-                let this->width  = imagesx(image);
-                let this->height = imagesy(image);
-            }
-        } else {
-            let rect = [
-                "x": offsetX,
-                "y": offsetY,
+        let image = imagecrop(this->image, rect);
 
-                "width":  width,
-                "height": height
-            ];
+        imagedestroy(this->image);
 
-            let image = imagecrop(this->image, rect);
-
-            imagedestroy(this->image);
-
-            let this->image = image;
-            let this->width  = imagesx(image);
-            let this->height = imagesy(image);
-        }
+        let this->image = image;
+        let this->width  = imagesx(image);
+        let this->height = imagesy(image);
     }
 
     protected function processFlip(int direction)
     {
-        var image, x;
-
-        if version_compare(PHP_VERSION, "5.5.0") < 0 {
-
-            let image = this->processCreate(this->width, this->height);
-
-            if direction == \Phalcon\Image::HORIZONTAL {
-                let x = 0;
-
-                while x < this->width {
-                    let x++;
-
-                    imagecopy(
-                        image,
-                        this->image,
-                        x,
-                        0,
-                        this->width - x - 1,
-                        0,
-                        1,
-                        this->height
-                    );
-                }
-            } else {
-                let x = 0;
-
-                while x < this->height {
-                    let x++;
-
-                    imagecopy(
-                        image,
-                        this->image,
-                        0,
-                        x,
-                        0,
-                        this->height - x - 1,
-                        this->width,
-                        1
-                    );
-                }
-            }
-
-            imagedestroy(this->image);
-            let this->image = image;
-
-            let this->width  = imagesx(image);
-            let this->height = imagesy(image);
+        if direction == \Phalcon\Image::HORIZONTAL {
+            imageflip(this->image, IMG_FLIP_HORIZONTAL);
         } else {
-
-            if direction == \Phalcon\Image::HORIZONTAL {
-                imageflip(this->image, IMG_FLIP_HORIZONTAL);
-            } else {
-                imageflip(this->image, IMG_FLIP_VERTICAL);
-            }
-
+            imageflip(this->image, IMG_FLIP_VERTICAL);
         }
     }
 
@@ -451,45 +388,13 @@ class Gd extends Adapter
 
     protected function processResize(int width, int height)
     {
-        var image, pre_width, pre_height, reduction_width, reduction_height;
+        var image;
 
-        if version_compare(PHP_VERSION, "5.5.0") < 0 {
-
-            let pre_width = this->width;
-            let pre_height = this->height;
-
-            if width > (this->width / 2) && height > (this->height / 2) {
-                let reduction_width  = round(width  * 1.1);
-                let reduction_height = round(height * 1.1);
-
-                while pre_width / 2 > reduction_width && pre_height / 2 > reduction_height {
-                    let pre_width /= 2;
-                    let pre_height /= 2;
-                }
-
-                let image = this->processCreate(pre_width, pre_height);
-
-                if imagecopyresized(image, this->image, 0, 0, 0, 0, pre_width, pre_height, this->width, this->height) {
-                    imagedestroy(this->image);
-                    let this->image = image;
-                }
-            }
-
-            let image = this->processCreate(width, height);
-
-            if imagecopyresampled(image, this->image, 0, 0, 0, 0, width, height, pre_width, pre_height) {
-                imagedestroy(this->image);
-                let this->image = image;
-                let this->width  = imagesx(image);
-                let this->height = imagesy(image);
-            }
-        } else {
-            let image = imagescale(this->image, width, height);
-            imagedestroy(this->image);
-            let this->image = image;
-            let this->width  = imagesx(image);
-            let this->height = imagesy(image);
-        }
+        let image = imagescale(this->image, width, height);
+        imagedestroy(this->image);
+        let this->image = image;
+        let this->width  = imagesx(image);
+        let this->height = imagesy(image);
     }
 
     protected function processRotate(int degrees)

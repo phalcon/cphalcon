@@ -71,7 +71,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, findById);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, findFirst);
 
 /**
- * Fires an event, implicitly calls behaviors and listeners in the events manager are notified
+ * Fires an event, implicitly calls behaviors and listeners in the events
+ * manager are notified
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, fireEvent);
 
@@ -89,9 +90,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, fireEventCancel);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, getConnection);
 
 /**
- * Returns one of the DIRTY_STATE_* constants telling if the record exists in the database or not
- *
- * @return int
+ * Returns one of the DIRTY_STATE_* constants telling if the record exists
+ * in the database or not
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, getDirtyState);
 
@@ -108,7 +108,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, getId);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, getMessages);
 
 /**
- * Returns an array with reserved properties that cannot be part of the insert/update
+ * Returns an array with reserved properties that cannot be part of the
+ * insert/update
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, getReservedAttributes);
 
@@ -128,7 +129,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, save);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, setConnectionService);
 
 /**
- * Sets the dirty state of the object using one of the DIRTY_STATE_* constants
+ * Sets the dirty state of the object using one of the DIRTY_STATE_*
+ * constants
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_CollectionInterface, setDirtyState);
 

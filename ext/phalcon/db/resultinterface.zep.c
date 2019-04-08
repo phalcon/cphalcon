@@ -34,35 +34,40 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_ResultInterface) {
 }
 
 /**
- * Moves internal resultset cursor to another position letting us to fetch a certain row
+ * Moves internal resultset cursor to another position letting us to fetch a
+ * certain row
  *
  * @param long number
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, dataSeek);
 
 /**
- * Allows to executes the statement again. Some database systems don't support scrollable cursors,
- * So, as cursors are forward only, we need to execute the cursor again to fetch rows from the begining
+ * Allows to executes the statement again. Some database systems don't
+ * support scrollable cursors. So, as cursors are forward only, we need to
+ * execute the cursor again to fetch rows from the begining
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, execute);
 
 /**
- * Fetches an array/object of strings that corresponds to the fetched row, or FALSE if there are no more rows.
- * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+ * Fetches an array/object of strings that corresponds to the fetched row,
+ * or FALSE if there are no more rows. This method is affected by the active
+ * fetch flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
  *
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, fetch);
 
 /**
- * Returns an array of arrays containing all the records in the result
- * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+ * Returns an array of arrays containing all the records in the result. This
+ * method is affected by the active fetch flag set using
+ * `Phalcon\Db\Result\Pdo::setFetchMode()`
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, fetchAll);
 
 /**
- * Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows.
- * This method is affected by the active fetch flag set using Phalcon\Db\Result\Pdo::setFetchMode
+ * Returns an array of strings that corresponds to the fetched row, or FALSE
+ * if there are no more rows. This method is affected by the active fetch
+ * flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
  *
  * @return mixed
  */

@@ -34,8 +34,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_RequestInterface) {
 }
 
 /**
- * Gets a variable from the $_REQUEST superglobal applying filters if needed.
- * If no parameters are given the $_REQUEST superglobal is returned
+ * Gets a variable from the $_REQUEST superglobal applying filters if
+ * needed. If no parameters are given the $_REQUEST superglobal is returned
  *
  *<code>
  * // Returns value from $_REQUEST["user_email"] without sanitizing
@@ -48,38 +48,45 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_RequestInterface) {
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, get);
 
 /**
- * Gets an array with mime/types and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT"]
+ * Gets an array with mime/types and their quality accepted by the
+ * browser/client from _SERVER["HTTP_ACCEPT"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getAcceptableContent);
 
 /**
- * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_USER"]
+ * Gets auth info accepted by the browser/client from
+ * $_SERVER["PHP_AUTH_USER"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getBasicAuth);
 
 /**
- * Gets best mime/type accepted by the browser/client from _SERVER["HTTP_ACCEPT"]
+ * Gets best mime/type accepted by the browser/client from
+ * _SERVER["HTTP_ACCEPT"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getBestAccept);
 
 /**
- * Gets best charset accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
+ * Gets best charset accepted by the browser/client from
+ * _SERVER["HTTP_ACCEPT_CHARSET"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getBestCharset);
 
 /**
- * Gets best language accepted by the browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
+ * Gets best language accepted by the browser/client from
+ * _SERVER["HTTP_ACCEPT_LANGUAGE"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getBestLanguage);
 
 /**
  * Gets most possible client IPv4 Address. This method searches in
- * $_SERVER["REMOTE_ADDR"] and optionally in $_SERVER["HTTP_X_FORWARDED_FOR"]
+ * $_SERVER["REMOTE_ADDR"] and optionally in
+ * $_SERVER["HTTP_X_FORWARDED_FOR"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getClientAddress);
 
 /**
- * Gets a charsets array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_CHARSET"]
+ * Gets a charsets array and their quality accepted by the browser/client
+ * from _SERVER["HTTP_ACCEPT_CHARSET"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getClientCharsets);
 
@@ -89,7 +96,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getClientCharsets);
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getContentType);
 
 /**
- * Gets auth info accepted by the browser/client from $_SERVER["PHP_AUTH_DIGEST"]
+ * Gets auth info accepted by the browser/client from
+ * $_SERVER["PHP_AUTH_DIGEST"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getDigestAuth);
 
@@ -161,7 +169,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getHTTPReferer);
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getJsonRawBody);
 
 /**
- * Gets languages array and their quality accepted by the browser/client from _SERVER["HTTP_ACCEPT_LANGUAGE"]
+ * Gets languages array and their quality accepted by the browser/client
+ * from _SERVER["HTTP_ACCEPT_LANGUAGE"]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getLanguages);
 
@@ -171,8 +180,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getLanguages);
  * If the X-HTTP-Method-Override header is set, and if the method is a POST,
  * then it is used to determine the "real" intended HTTP method.
  *
- * The _method request parameter can also be used to determine the HTTP method,
- * but only if setHttpMethodParameterOverride(true) has been called.
+ * The _method request parameter can also be used to determine the HTTP
+ * method, but only if setHttpMethodParameterOverride(true) has been called.
  *
  * The method is always an uppercased string.
  */
@@ -258,7 +267,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getServerAddress);
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getServerName);
 
 /**
- * Gets attached files as Phalcon\Http\Request\FileInterface compatible instances
+ * Gets attached files as Phalcon\Http\Request\FileInterface compatible
+ * instances
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getUploadedFiles);
 
@@ -366,7 +376,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isSecure);
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isSoap);
 
 /**
- * Checks whether HTTP method is TRACE. if $_SERVER["REQUEST_METHOD"] === "TRACE"
+ * Checks whether HTTP method is TRACE.
+ * if $_SERVER["REQUEST_METHOD"] === "TRACE"
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isTrace);
 

@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 		ZEPHIR_CALL_METHOD(&accepted, this_ptr, "getoption", NULL, 0, &_2$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&accepted) == IS_ARRAY) {
-			zephir_array_fetch(&_3$$4, &accepted, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Identical.zep", 72 TSRMLS_CC);
+			zephir_array_fetch(&_3$$4, &accepted, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Identical.zep", 73 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(&accepted, &_3$$4);
 		}
 		valid = ZEPHIR_IS_EQUAL(&value, &accepted);
@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 			ZEPHIR_CALL_METHOD(&valueOption, this_ptr, "getoption", NULL, 0, &_6$$6);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&valueOption) == IS_ARRAY) {
-				zephir_array_fetch(&_7$$7, &valueOption, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Identical.zep", 79 TSRMLS_CC);
+				zephir_array_fetch(&_7$$7, &valueOption, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Identical.zep", 80 TSRMLS_CC);
 				ZEPHIR_CPY_WRT(&valueOption, &_7$$7);
 			}
 			valid = ZEPHIR_IS_EQUAL(&value, &valueOption);
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_10$$8);
 		ZVAL_STRING(&_10$$8, "Identical");
-		ZEPHIR_CALL_METHOD(NULL, &_8$$8, "__construct", NULL, 361, &_9$$8, field, &_10$$8, &code);
+		ZEPHIR_CALL_METHOD(NULL, &_8$$8, "__construct", NULL, 358, &_9$$8, field, &_10$$8, &code);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_8$$8);
 		zephir_check_call_status();

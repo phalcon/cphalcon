@@ -31,9 +31,10 @@
 /**
  * Phalcon\Mvc\Dispatcher
  *
- * Dispatching is the process of taking the request object, extracting the module name,
- * controller name, action name, and optional parameters contained in it, and then
- * instantiating a controller and calling an action of that controller.
+ * Dispatching is the process of taking the request object, extracting the
+ * module name, controller name, action name, and optional parameters contained
+ * in it, and then instantiating a controller and calling an action of that
+ * controller.
  *
  *<code>
  * $di = new \Phalcon\Di();
@@ -162,7 +163,8 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController) {
 }
 
 /**
- * Possible controller class name that will be located to dispatch the request
+ * Possible controller class name that will be located to dispatch the
+ * request
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass) {
 
@@ -421,7 +423,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException) {
 		ZVAL_LONG(&_5$$3, 0);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 1, &_2$$3, &_5$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Dispatcher.zep", 222 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Dispatcher.zep", 224 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -445,7 +447,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException) {
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_6)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(&exception, "phalcon/Mvc/Dispatcher.zep", 244 TSRMLS_CC);
+	zephir_throw_exception_debug(&exception, "phalcon/Mvc/Dispatcher.zep", 246 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

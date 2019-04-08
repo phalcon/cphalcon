@@ -79,7 +79,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setParamToView);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setVar);
 
 /**
- * Sets views directory. Depending of your platform, always add a trailing slash or backslash
+ * Sets views directory. Depending of your platform, always add a trailing
+ * slash or backslash
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, setViewsDir);
 

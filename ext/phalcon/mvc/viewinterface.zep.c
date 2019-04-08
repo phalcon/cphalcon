@@ -125,29 +125,34 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, render);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, reset);
 
 /**
- * Sets base path. Depending of your platform, always add a trailing slash or backslash
+ * Sets base path. Depending of your platform, always add a trailing slash
+ * or backslash
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setBasePath);
 
 /**
- * Change the layout to be used instead of using the name of the latest controller name
+ * Change the layout to be used instead of using the name of the latest
+ * controller name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setLayout);
 
 /**
  * Sets the layouts sub-directory. Must be a directory under the views
- * directory. Depending of your platform, always add a trailing slash or backslash
+ * directory. Depending of your platform, always add a trailing slash or
+ * backslash
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setLayoutsDir);
 
 /**
- * Sets default view name. Must be a file without extension in the views directory
+ * Sets default view name. Must be a file without extension in the views
+ * directory
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setMainView);
 
 /**
  * Sets a partials sub-directory. Must be a directory under the views
- * directory. Depending of your platform, always add a trailing slash or backslash
+ * directory. Depending of your platform, always add a trailing slash or
+ * backslash
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewInterface, setPartialsDir);
 

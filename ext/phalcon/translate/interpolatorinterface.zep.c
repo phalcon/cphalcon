@@ -21,9 +21,9 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Translate\AdapterInterface
+ * Phalcon\Translate\InterpolatorInterface
  *
- * Interface for Phalcon\Translate adapters
+ * Interface for Phalcon\Translate interpolators
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_InterpolatorInterface) {
 

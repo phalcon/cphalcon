@@ -368,7 +368,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addFilter) {
 
 
 
-	zephir_update_property_array_append(this_ptr, SL("filters"), filter TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("filters"), filter);
 	RETURN_THISW();
 
 }
@@ -443,7 +443,8 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 	}
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 105, &content, &_1, &collectionAttributes);
 	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("codes"), &_0 TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("codes"), &_0);
+	ZEPHIR_INIT_NVAR(&_0);
 	RETURN_THIS();
 
 }
@@ -496,7 +497,8 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 	}
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 106, &content, &_1, &collectionAttributes);
 	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("codes"), &_0 TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("codes"), &_0);
+	ZEPHIR_INIT_NVAR(&_0);
 	RETURN_THIS();
 
 }
@@ -612,13 +614,14 @@ PHP_METHOD(Phalcon_Assets_Collection, current) {
 	zephir_read_property(&_0, this_ptr, SL("assets"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_VAR(&_2);
 	zephir_read_property(&_2, this_ptr, SL("position"), PH_NOISY_CC);
-	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY | PH_READONLY, "phalcon/Assets/Collection.zep", 223 TSRMLS_CC);
+	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY | PH_READONLY, "phalcon/Assets/Collection.zep", 232 TSRMLS_CC);
 	RETURN_CTOR(&_1);
 
 }
 
 /**
- * Returns the complete location where the joined/filtered collection must be written
+ * Returns the complete location where the joined/filtered collection must
+ * be written
  */
 PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 
@@ -697,7 +700,8 @@ PHP_METHOD(Phalcon_Assets_Collection, has) {
 }
 
 /**
- * Sets if all filtered assets in the collection must be joined in a single result file
+ * Sets if all filtered assets in the collection must be joined in a single
+ * result file
  */
 PHP_METHOD(Phalcon_Assets_Collection, join) {
 
@@ -1031,13 +1035,14 @@ PHP_METHOD(Phalcon_Assets_Collection, addAsset) {
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		if (zephir_instance_of_ev(asset, phalcon_assets_asset_ce TSRMLS_CC)) {
-			zephir_update_property_array_append(this_ptr, SL("assets"), asset TSRMLS_CC);
+			zephir_update_property_array_append(this_ptr, SL("assets"), asset);
 		} else {
-			zephir_update_property_array_append(this_ptr, SL("codes"), asset TSRMLS_CC);
+			zephir_update_property_array_append(this_ptr, SL("codes"), asset);
 		}
 		ZEPHIR_CALL_METHOD(&_1$$3, asset, "getassetkey", NULL, 0);
 		zephir_check_call_status();
-		zephir_update_property_array_append(this_ptr, SL("includedAssets"), &_1$$3 TSRMLS_CC);
+		zephir_update_property_array_append(this_ptr, SL("includedAssets"), &_1$$3);
+		ZEPHIR_INIT_NVAR(&_1$$3);
 		RETURN_MM_BOOL(1);
 	}
 	RETURN_MM_BOOL(0);
