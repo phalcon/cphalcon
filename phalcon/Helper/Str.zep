@@ -63,10 +63,9 @@ class Str
      * @param string b
      * @param string ...N
      */
-    //final public static function concat(string! separator, string! a, string! b) -> string
     final public static function concat() -> string
     {
-        var argument, arguments, data, first, last, prefix, separator, suffix;
+        var argument, arguments, data, first, last, prefix, delimiter, suffix;
 
         let arguments = func_get_args();
 
@@ -74,7 +73,7 @@ class Str
             throw new Exception("concat needs at least three parameters");
         }
 
-        let separator = Arr::first(arguments),
+        let delimiter = Arr::first(arguments),
             arguments = Arr::sliceRight(arguments),
             first     = Arr::first(arguments),
             last      = Arr::last(arguments),
@@ -82,20 +81,20 @@ class Str
             suffix    = "",
             data      = [];
 
-        if self::startsWith(first, separator) {
-            let prefix = separator;
+        if self::startsWith(first, delimiter) {
+            let prefix = delimiter;
         }
 
-        if self::endsWith(last, separator) {
-            let suffix = separator;
+        if self::endsWith(last, delimiter) {
+            let suffix = delimiter;
         }
 
 
         for argument in arguments {
-            let data[] = rtrim(ltrim(argument, separator), separator);
+            let data[] = rtrim(ltrim(argument, delimiter), delimiter);
         }
 
-        return prefix . implode(separator, data) . suffix;
+        return prefix . implode(delimiter, data) . suffix;
     }
 
     /**
@@ -125,7 +124,11 @@ class Str
      *
      * @return string
      */
-    final public static function decapitalize(string! text, bool upperRest = false, string! encoding = "UTF-8") -> string
+    final public static function decapitalize(
+        string! text,
+        bool upperRest = false,
+        string! encoding = "UTF-8"
+    ) -> string
     {
         var substr, suffix;
 
@@ -222,31 +225,31 @@ class Str
      * echo Phalcon\Text::endsWith("Hello", "LLO"); // true
      * </code>
      */
-    final public static function endsWith(string str, string end, bool ignoreCase = true) -> bool
+    final public static function endsWith(string text, string end, bool ignoreCase = true) -> bool
     {
-        return ends_with(str, end, ignoreCase);
+        return ends_with(text, end, ignoreCase);
     }
 
     /**
      * Returns the first string there is between the strings from the
      * parameter start and end.
      *
-     * @param string $haystack
+     * @param string $text
      * @param string $start
      * @param string $end
      *
      * @return string
      */
     final public static function firstBetween(
-        string! haystack,
+        string! text,
         string! start,
         string! end
     ) -> string
     {
         if function_exists("mb_strstr") {
-            return trim(mb_strstr(mb_strstr(haystack, start), end, true), start . end);
+            return trim(mb_strstr(mb_strstr(text, start), end, true), start . end);
         } else {
-            return trim(strstr(strstr(haystack, start), end, true), start . end);
+            return trim(strstr(strstr(text, start), end, true), start . end);
         }
     }
 
@@ -289,11 +292,11 @@ class Str
      * echo Phalcon\Text::increment("a_1"); // "a_2"
      * </code>
      */
-    final public static function increment(string str, string separator = "_") -> string
+    final public static function increment(string text, string separator = "_") -> string
     {
         var parts, number;
 
-        let parts = explode(separator, str);
+        let parts = explode(separator, text);
 
         if fetch number, parts[1] {
             let number++;
@@ -370,17 +373,17 @@ class Str
      * echo Phalcon\Text::lower("HELLO"); // hello
      * </code>
      */
-    final public static function lower(string! str, string! encoding = "UTF-8") -> string
+    final public static function lower(string! text, string! encoding = "UTF-8") -> string
     {
         /**
          * 'lower' checks for the mbstring extension to make a correct lowercase
          * transformation
          */
         if function_exists("mb_strtolower") {
-            return mb_strtolower(str, encoding);
+            return mb_strtolower(text, encoding);
         }
 
-        return str->lower();
+        return text->lower();
     }
 
     /**
@@ -396,7 +399,7 @@ class Str
      */
     final public static function random(int type = 0, long length = 8) -> string
     {
-        var pool, str = "";
+        var pool, text = "";
         int end;
 
         switch type {
@@ -434,11 +437,11 @@ class Str
 
         let end = count(pool) - 1;
 
-        while strlen(str) < length {
-            let str .= pool[mt_rand(0, end)];
+        while strlen(text) < length {
+            let text .= pool[mt_rand(0, end)];
         }
 
-        return str;
+        return text;
     }
 
     /**
