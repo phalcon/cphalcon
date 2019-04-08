@@ -202,11 +202,7 @@ class QueryBuilder extends Adapter
          */
         if hasHaving {
             let sql = totalQuery->getSql(),
-              modelClass = builder->getModels();
-
-            if typeof modelClass == "null" {
-                throw new Exception("Model not defined in builder");
-            }
+              modelClass = builder->_models;
 
             if typeof modelClass == "array" {
                 let modelClass = array_values(modelClass)[0];
