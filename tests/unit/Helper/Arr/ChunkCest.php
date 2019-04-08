@@ -1,0 +1,91 @@
+<?php
+declare(strict_types=1);
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Test\Unit\Helper\Arr;
+
+use Phalcon\Helper\Arr;
+use UnitTester;
+
+/**
+ * Class ChunkCest
+ */
+class ChunkCest
+{
+    /**
+     * Tests Phalcon\Helper\Arr :: chunk()
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-04-06
+     */
+    public function helperArrChunk(UnitTester $I)
+    {
+        $I->wantToTest('Helper\Arr - chunk()');
+
+        $source   = [
+            'k1' => 1,
+            'k2' => 2,
+            'k3' => 3,
+            'k4' => 4,
+            'k5' => 5,
+            'k6' => 6,
+        ];
+
+        $expected = [
+            [1, 2],
+            [3, 4],
+            [5, 6],
+        ];
+        $actual   = Arr::chunk($source, 2);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Helper\Arr :: chunk() - preserve
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-04-06
+     */
+    public function helperArrChunkPreserve(UnitTester $I)
+    {
+        $I->wantToTest('Helper\Arr - chunk() - preserve');
+
+        $source   = [
+            'k1' => 1,
+            'k2' => 2,
+            'k3' => 3,
+            'k4' => 4,
+            'k5' => 5,
+            'k6' => 6,
+        ];
+
+        $expected = [
+            [
+                'k1' => 1,
+                'k2' => 2,
+            ],
+            [
+                'k3' => 3,
+                'k4' => 4,
+            ],
+            [
+                'k5' => 5,
+                'k6' => 6,
+            ],
+        ];
+        $actual   = Arr::chunk($source, 2, true);
+        $I->assertEquals($expected, $actual);
+    }
+}

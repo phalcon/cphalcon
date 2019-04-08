@@ -15,12 +15,6 @@ use Phalcon\Mvc\Model;
 
 class RobottersDeles extends Model
 {
-
-    public function getSource(): string
-    {
-        return 'robots_parts';
-    }
-
     public function columnMap()
     {
         return [
@@ -32,6 +26,7 @@ class RobottersDeles extends Model
 
     public function initialize()
     {
+        $this->setSource("robots_parts");
 
         $this->belongsTo('delesCode', Deles::class, 'code', [
             'foreignKey' => true,

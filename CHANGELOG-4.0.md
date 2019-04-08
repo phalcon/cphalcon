@@ -3,18 +3,22 @@
 ## Added
 - Added `Phalcon\Cli\Router\Route::setDescription()` to sets the route's description [#13936](https://github.com/phalcon/cphalcon/pull/13936)
 - Added `Phalcon\Cli\Router\Route::getDescription()` returns the route's description [#13936](https://github.com/phalcon/cphalcon/pull/13936)
+- Added `chunk()`, `first()`, `firstKey()`, `flatten()`, `group()`, `isUnique()`, `last()`, `lastKey()`, `order()`, `pluck()`, `sliceLeft()`, `sliceRight()`, `split()`, `tail()`, `validateAll()`, `validateAny()` to `Phalcon\Helper\Arr` [#13954](https://github.com/phalcon/cphalcon/pull/13954)
+- Added `camelize()`, `concat()`, `countVowels()`, `decapitalize()`, `dynamic()`, `endsWith()`, `firstStringBetween()`, `includes()`, `increment()`, `isAnagram()`, `isLower()`, `isPalindrome()`, `isUpper()`, `lower()`, `random()`, `reduceSlashes()`, `startsWith()`, `uncamelize()`, `underscore()`, `upper()` to `Phalcon\Helper\Str` [#13954](https://github.com/phalcon/cphalcon/pull/13954) 
 
 ## Changed
 - Refactored `Phalcon\Events\Manager` to only use `SplPriorityQueue` to store events. [#13924](https://github.com/phalcon/cphalcon/pull/13924)
 - `Phalcon\Translate\InterpolatorInterface` now only accepts placeholder arrays. [#13939](https://github.com/phalcon/cphalcon/pull/13939)
 - `Phalcon\Dispatcher::forward()` and `Phalcon\Dispatcher::setParams()` now require an array as a parameter. [#13935](https://github.com/phalcon/cphalcon/pull/13935)
 - CLI Routes with bad class names (eg. `MyApp\\Tasks\\`) now throw an exception instead of suppressing the error. [#13936](https://github.com/phalcon/cphalcon/pull/13936)
-- Refacted `Phalcon\Mvc\Collection\Behavior\SoftDelete` and `Phalcon\Mvc\Model\Behavior\SoftDelete`. [#13930](https://github.com/phalcon/cphalcon/pull/13930)
+- Refactored `Phalcon\Mvc\Collection\Behavior\SoftDelete` and `Phalcon\Mvc\Model\Behavior\SoftDelete`. [#13930](https://github.com/phalcon/cphalcon/pull/13930)
+- Model methods that extend Model Manager functionality are now `final`. [#13950](https://github.com/phalcon/cphalcon/pull/13950)
+- Changed `Phalcon\Text` to call methods from `Phalcon\Helper\Str` [#13954](https://github.com/phalcon/cphalcon/pull/13954)
 
 ## Fixed
 - Fixed `Mvc\Collection::isInitialized()` now works as intended. [#13931](https://github.com/phalcon/cphalcon/pull/13931)
 - Update docblocks to show that we can no longer assign properties via `save()` in models (as per #12317). [#13945](https://github.com/phalcon/cphalcon/pull/13945)
-- Fixed `Mvc\Model` and `Mvc\ModelInterface` `findFirst` to return `ModelInterface` or `bool [#13947](https://github.com/phalcon/cphalcon/issues/13947)
+- Fixed `Mvc\Model` and `Mvc\ModelInterface` `findFirst` to return `ModelInterface` or `bool` [#13947](https://github.com/phalcon/cphalcon/issues/13947)
 
 ## Removed
 - Removed `arrayHelpers` property from the Volt compiler. [#13925](https://github.com/phalcon/cphalcon/pull/13925)

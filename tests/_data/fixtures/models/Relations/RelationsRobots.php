@@ -17,6 +17,8 @@ class RelationsRobots extends Model
 {
     public function initialize()
     {
+        $this->setSource("robots");
+
         $this->hasMany('id', RelationsRobotsParts::class, 'robots_id', [
             'foreignKey' => true,
         ]);
@@ -28,10 +30,5 @@ class RelationsRobots extends Model
             RelationsParts::class,
             'id'
         );
-    }
-
-    public function getSource(): string
-    {
-        return 'robots';
     }
 }

@@ -23,13 +23,10 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  */
 class Language extends Model
 {
-    public function getSource(): string
-    {
-        return 'language';
-    }
-
     public function initialize()
     {
+        $this->setSource("language");
+
         $this->hasMany(
             ['lang', 'locale'],
             LanguageI18n::class,

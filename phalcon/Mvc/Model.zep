@@ -1656,7 +1656,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Gets the connection used to read data for the model
      */
-    public function getReadConnection() -> <AdapterInterface>
+    final public function getReadConnection() -> <AdapterInterface>
     {
         var transaction;
 
@@ -1672,7 +1672,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Returns the DependencyInjection connection service name used to read data
      related the model
      */
-    public function getReadConnectionService() -> string
+    final public function getReadConnectionService() -> string
     {
         return (<ManagerInterface> this->modelsManager)->getReadConnectionService(this);
     }
@@ -1717,7 +1717,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Returns schema name where the mapped table is located
      */
-    public function getSchema() -> string
+    final public function getSchema() -> string
     {
         return (<ManagerInterface> this->modelsManager)->getModelSchema(this);
     }
@@ -1733,7 +1733,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Returns the table name mapped in the model
      */
-    public function getSource() -> string
+    final public function getSource() -> string
     {
         return (<ManagerInterface> this->modelsManager)->getModelSource(this);
     }
@@ -1808,7 +1808,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Gets the connection used to write data to the model
      */
-    public function getWriteConnection() -> <AdapterInterface>
+    final public function getWriteConnection() -> <AdapterInterface>
     {
         var transaction;
 
@@ -1824,7 +1824,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Returns the DependencyInjection connection service name used to write
      * data related to the model
      */
-    public function getWriteConnectionService() -> string
+    final public function getWriteConnectionService() -> string
     {
         return (<ManagerInterface> this->modelsManager)->getWriteConnectionService(this);
     }
@@ -2393,7 +2393,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Sets the DependencyInjection connection service name
      */
-    public function setConnectionService(string! connectionService) -> <ModelInterface>
+    final public function setConnectionService(string! connectionService) -> <ModelInterface>
     {
         (<ManagerInterface> this->modelsManager)->setConnectionService(
             this,
@@ -2431,7 +2431,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Sets the DependencyInjection connection service name used to read data
      */
-    public function setReadConnectionService(string! connectionService) -> <ModelInterface>
+    final public function setReadConnectionService(string! connectionService) -> <ModelInterface>
     {
         (<ManagerInterface> this->modelsManager)->setReadConnectionService(
             this,
@@ -2701,7 +2701,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Sets the DependencyInjection connection service name used to write data
      */
-    public function setWriteConnectionService(string! connectionService) -> <ModelInterface>
+    final public function setWriteConnectionService(string! connectionService) -> <ModelInterface>
     {
         return (<ManagerInterface> this->modelsManager)->setWriteConnectionService(
             this,
@@ -4729,7 +4729,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * generated UPDATE statement
      *
      *<code>
-     *
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -4774,7 +4773,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Setup a reverse 1-1 or n-1 relation between two models
      *
      *<code>
-     *
      * class RobotsParts extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -4853,7 +4851,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Setup a 1-n relation between two models
      *
      *<code>
-     *
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -4879,7 +4876,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * relation
      *
      *<code>
-     *
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -4922,7 +4918,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Setup a 1-1 relation between two models
      *
      *<code>
-     *
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -4947,7 +4942,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Sets if the model must keep the original record snapshot in memory
      *
      *<code>
-     *
      * use Phalcon\Mvc\Model;
      *
      * class Robots extends Model
@@ -4970,7 +4964,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Sets schema name where the mapped table is located
      */
-    protected function setSchema(string! schema) -> <ModelInterface>
+    final protected function setSchema(string! schema) -> <ModelInterface>
     {
         (<ManagerInterface> this->modelsManager)->setModelSchema(
             this,
@@ -4983,7 +4977,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Sets the table name to which model should be mapped
      */
-    protected function setSource(string! source) -> <ModelInterface>
+    final protected function setSource(string! source) -> <ModelInterface>
     {
         (<ManagerInterface> this->modelsManager)->setModelSource(this, source);
         return this;
@@ -4994,7 +4988,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * generated INSERT/UPDATE statement
      *
      *<code>
-     *
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -5019,7 +5012,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * generated INSERT statement
      *
      *<code>
-     *
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -5053,7 +5045,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * generated UPDATE statement
      *
      *<code>
-     *
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -5086,7 +5077,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Sets if a model must use dynamic update instead of the all-field update
      *
      *<code>
-     *
      * use Phalcon\Mvc\Model;
      *
      * class Robots extends Model
