@@ -560,7 +560,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getModels() -> string | array | null
     {
-        var models = this->_models;
+        var models = this->models;
 
         if typeof models == "array" && count(models) == 1 {
             return Arr::first(models);
