@@ -45,7 +45,7 @@ class Relation implements RelationInterface
      * @param string|array referencedFields
      * @param array options
      */
-    public function __construct(type, string! referencedModel, var fields, var referencedFields, var options = null)
+    public function __construct(int type, string! referencedModel, var fields, var referencedFields, var options = null) -> void
     {
         let this->type = type,
             this->referencedModel = referencedModel,
@@ -218,7 +218,7 @@ class Relation implements RelationInterface
      * @param string|array intermediateFields
      * @param string intermediateReferencedFields
      */
-    public function setIntermediateRelation(intermediateFields, string! intermediateModel, intermediateReferencedFields)
+    public function setIntermediateRelation(var intermediateFields, string! intermediateModel, var intermediateReferencedFields)
     {
         let this->intermediateFields = intermediateFields,
             this->intermediateModel = intermediateModel,

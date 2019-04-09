@@ -26,7 +26,7 @@ interface ManagerInterface
     /**
      * Binds a behavior to a model
      */
-    public function addBehavior(<ModelInterface> model, <\Phalcon\Mvc\Model\BehaviorInterface> behavior);
+    public function addBehavior(<ModelInterface> model, <\Phalcon\Mvc\Model\BehaviorInterface> behavior) -> void;
 
     /**
      * Setup a relation reverse 1-1  between two models
@@ -290,17 +290,17 @@ interface ManagerInterface
     /**
      * Sets both write and read connection service for a model
      */
-    public function setConnectionService(<ModelInterface> model, string! connectionService);
+    public function setConnectionService(<ModelInterface> model, string! connectionService) -> void;
 
     /**
      * Sets read connection service for a model
      */
-    public function setReadConnectionService(<ModelInterface> model, string! connectionService);
+    public function setReadConnectionService(<ModelInterface> model, string! connectionService) -> void;
 
     /**
      * Sets the mapped schema for a model
      */
-    public function setModelSchema(<ModelInterface> model, string! schema);
+    public function setModelSchema(<ModelInterface> model, string! schema) -> void;
 
     /**
      * Sets the mapped source for a model
@@ -315,5 +315,5 @@ interface ManagerInterface
     /**
      * Sets if a model must use dynamic update instead of the all-field update
      */
-    public function useDynamicUpdate(<ModelInterface> model, bool dynamicUpdate);
+    public function useDynamicUpdate(<ModelInterface> model, bool dynamicUpdate) -> void;
 }

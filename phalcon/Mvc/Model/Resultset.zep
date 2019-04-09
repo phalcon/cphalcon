@@ -96,7 +96,7 @@ abstract class Resultset
      *
      * @param \Phalcon\Db\ResultInterface|false result
      */
-    public function __construct(result, <BackendInterface> cache = null)
+    public function __construct(result, <BackendInterface> cache = null) -> void
     {
         var rowCount, rows;
 
@@ -518,7 +518,7 @@ abstract class Resultset
     /**
      * Sets the hydration mode in the resultset
      */
-    public function setHydrateMode(int hydrateMode) -> <Resultset>
+    public function setHydrateMode(int hydrateMode) -> <ResultsetInterface>
     {
         let this->hydrateMode = hydrateMode;
         return this;
@@ -527,7 +527,7 @@ abstract class Resultset
     /**
      * Set if the resultset is fresh or an old one cached
      */
-    public function setIsFresh(bool isFresh) -> <Resultset>
+    public function setIsFresh(bool isFresh) -> <ResultsetInterface>
     {
         let this->isFresh = isFresh;
         return this;

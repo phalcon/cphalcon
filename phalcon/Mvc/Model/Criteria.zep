@@ -38,23 +38,22 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
  */
 class Criteria implements CriteriaInterface, InjectionAwareInterface
 {
+    protected bindParams;
 
-    protected _model;
+    protected bindTypes;
 
-    protected _params;
+    protected hiddenParamNumber = 0;
 
-    protected _bindParams;
+    protected model;
 
-    protected _bindTypes;
-
-    protected _hiddenParamNumber = 0;
+    protected params;
 
     /**
      * Sets the DependencyInjector container
      */
     public function setDI(<DiInterface> container) -> void
     {
-        let this->_params["di"] = container;
+        let this->params["di"] = container;
     }
 
     /**
@@ -62,7 +61,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->_params["di"];
+        return this->params["di"];
     }
 
     /**
@@ -70,7 +69,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function setModelName(string! modelName) -> <CriteriaInterface>
     {
-        let this->_model = modelName;
+        let this->model = modelName;
         return this;
     }
 
@@ -79,7 +78,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function getModelName() -> string
     {
-        return this->_model;
+        return this->model;
     }
 
     /**
@@ -91,18 +90,18 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         var bind;
 
         if merge {
-            if isset this->_params["bind"] {
-                let bind = this->_params["bind"];
+            if isset this->params["bind"] {
+                let bind = this->params["bind"];
             } else {
                 let bind = null;
             }
             if typeof bind == "array" {
-                let this->_params["bind"] = bind + bindParams;
+                let this->params["bind"] = bind + bindParams;
             } else {
-                let this->_params["bind"] = bindParams;
+                let this->params["bind"] = bindParams;
             }
         } else {
-            let this->_params["bind"] = bindParams;
+            let this->params["bind"] = bindParams;
         }
 
         return this;
@@ -114,7 +113,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function bindTypes(array! bindTypes) -> <CriteriaInterface>
     {
-        let this->_params["bindTypes"] = bindTypes;
+        let this->params["bindTypes"] = bindTypes;
         return this;
     }
 
@@ -123,7 +122,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
      public function distinct(var distinct) -> <CriteriaInterface>
      {
-         let this->_params["distinct"] = distinct;
+         let this->params["distinct"] = distinct;
          return this;
      }
 
@@ -143,7 +142,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function columns(var columns) -> <CriteriaInterface>
     {
-        let this->_params["columns"] = columns;
+        let this->params["columns"] = columns;
         return this;
     }
 
@@ -162,7 +161,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         var join, mergedJoins, currentJoins;
 
         let join = [model, conditions, alias, type];
-        if fetch currentJoins, this->_params["joins"] {
+        if fetch currentJoins, this->params["joins"] {
             if typeof currentJoins == "array" {
                 let mergedJoins = array_merge(currentJoins, [join]);
             } else {
@@ -172,7 +171,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
             let mergedJoins = [join];
         }
 
-        let this->_params["joins"] = mergedJoins;
+        let this->params["joins"] = mergedJoins;
 
         return this;
     }
@@ -222,16 +221,16 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     {
         var currentBindParams, currentBindTypes;
 
-        let this->_params["conditions"] = conditions;
+        let this->params["conditions"] = conditions;
 
         /**
          * Update or merge existing bound parameters
          */
         if typeof bindParams == "array" {
-            if fetch currentBindParams, this->_params["bind"] {
-                let this->_params["bind"] = array_merge(currentBindParams, bindParams);
+            if fetch currentBindParams, this->params["bind"] {
+                let this->params["bind"] = array_merge(currentBindParams, bindParams);
             } else {
-                let this->_params["bind"] = bindParams;
+                let this->params["bind"] = bindParams;
             }
         }
 
@@ -239,10 +238,10 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
          * Update or merge existing bind types parameters
          */
         if typeof bindTypes == "array" {
-            if fetch currentBindTypes, this->_params["bindTypes"] {
-                let this->_params["bindTypes"] = array_merge(currentBindTypes, bindTypes);
+            if fetch currentBindTypes, this->params["bindTypes"] {
+                let this->params["bindTypes"] = array_merge(currentBindTypes, bindTypes);
             } else {
-                let this->_params["bindTypes"] = bindTypes;
+                let this->params["bindTypes"] = bindTypes;
             }
         }
 
@@ -256,7 +255,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     {
         var currentConditions;
 
-        if fetch currentConditions, this->_params["conditions"] {
+        if fetch currentConditions, this->params["conditions"] {
             let conditions = "(" . currentConditions . ") AND (" . conditions . ")";
         }
 
@@ -270,7 +269,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     {
         var currentConditions;
 
-        if fetch currentConditions, this->_params["conditions"] {
+        if fetch currentConditions, this->params["conditions"] {
             let conditions = "(" . currentConditions . ") OR (" . conditions . ")";
         }
 
@@ -288,7 +287,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     {
         var hiddenParam, minimumKey, nextHiddenParam, maximumKey;
 
-        let hiddenParam = this->_hiddenParamNumber, nextHiddenParam = hiddenParam + 1;
+        let hiddenParam = this->hiddenParamNumber, nextHiddenParam = hiddenParam + 1;
 
         /**
          * Minimum key with auto bind-params
@@ -309,7 +308,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
             [minimumKey: minimum, maximumKey: maximum]
         );
 
-        let nextHiddenParam++, this->_hiddenParamNumber = nextHiddenParam;
+        let nextHiddenParam++, this->hiddenParamNumber = nextHiddenParam;
 
         return this;
     }
@@ -325,7 +324,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     {
         var hiddenParam, nextHiddenParam, minimumKey, maximumKey;
 
-        let hiddenParam = this->_hiddenParamNumber;
+        let hiddenParam = this->hiddenParamNumber;
 
         let nextHiddenParam = hiddenParam + 1;
 
@@ -350,7 +349,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
         let nextHiddenParam++;
 
-        let this->_hiddenParamNumber = nextHiddenParam;
+        let this->hiddenParamNumber = nextHiddenParam;
 
         return this;
     }
@@ -371,7 +370,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
             return this;
         }
 
-        let hiddenParam = this->_hiddenParamNumber;
+        let hiddenParam = this->hiddenParamNumber;
 
         let bindParams = [], bindKeys = [];
         for value in values {
@@ -394,7 +393,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
          */
         this->andWhere(expr . " IN (" . join(", ", bindKeys) . ")", bindParams);
 
-        let this->_hiddenParamNumber = hiddenParam;
+        let this->hiddenParamNumber = hiddenParam;
 
         return this;
     }
@@ -410,7 +409,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     {
         var hiddenParam, bindParams, bindKeys, value, key;
 
-        let hiddenParam = this->_hiddenParamNumber;
+        let hiddenParam = this->hiddenParamNumber;
 
         let bindParams = [], bindKeys = [];
         for value in values {
@@ -430,7 +429,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
          * Append the IN to the current conditions using and "and"
          */
         this->andWhere(expr . " NOT IN (" . join(", ", bindKeys) . ")", bindParams);
-        let this->_hiddenParamNumber = hiddenParam;
+        let this->hiddenParamNumber = hiddenParam;
 
         return this;
     }
@@ -440,7 +439,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function conditions(string! conditions) -> <CriteriaInterface>
     {
-        let this->_params["conditions"] = conditions;
+        let this->params["conditions"] = conditions;
         return this;
     }
 
@@ -449,7 +448,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function orderBy(string! orderColumns) -> <CriteriaInterface>
     {
-        let this->_params["order"] = orderColumns;
+        let this->params["order"] = orderColumns;
         return this;
     }
 
@@ -458,7 +457,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function groupBy(var group) -> <CriteriaInterface>
     {
-        let this->_params["group"] = group;
+        let this->params["group"] = group;
         return this;
     }
 
@@ -467,7 +466,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function having(var having) -> <CriteriaInterface>
     {
-        let this->_params["having"] = having;
+        let this->params["having"] = having;
         return this;
     }
 
@@ -490,9 +489,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
         if is_numeric(offset) {
             let offset = abs((int) offset);
-            let this->_params["limit"] = ["number": limit, "offset": offset];
+            let this->params["limit"] = ["number": limit, "offset": offset];
         } else {
-            let this->_params["limit"] = limit;
+            let this->params["limit"] = limit;
         }
 
         return this;
@@ -503,7 +502,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function forUpdate(bool forUpdate = true) -> <CriteriaInterface>
     {
-        let this->_params["for_update"] = forUpdate;
+        let this->params["for_update"] = forUpdate;
         return this;
     }
 
@@ -512,7 +511,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function sharedLock(bool sharedLock = true) -> <CriteriaInterface>
     {
-        let this->_params["shared_lock"] = sharedLock;
+        let this->params["shared_lock"] = sharedLock;
         return this;
     }
 
@@ -522,7 +521,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function cache(array! cache) -> <CriteriaInterface>
     {
-        let this->_params["cache"] = cache;
+        let this->params["cache"] = cache;
         return this;
     }
 
@@ -532,7 +531,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function getWhere() -> string | null
     {
         var conditions;
-        if fetch conditions, this->_params["conditions"] {
+        if fetch conditions, this->params["conditions"] {
             return conditions;
         }
         return null;
@@ -546,7 +545,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function getColumns() -> string | null
     {
         var columns;
-        if fetch columns, this->_params["columns"] {
+        if fetch columns, this->params["columns"] {
             return columns;
         }
         return null;
@@ -558,7 +557,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function getConditions() -> string | null
     {
         var conditions;
-        if fetch conditions, this->_params["conditions"] {
+        if fetch conditions, this->params["conditions"] {
             return conditions;
         }
         return null;
@@ -575,7 +574,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function getLimit() -> string | null
     {
         var limit;
-        if fetch limit, this->_params["limit"] {
+        if fetch limit, this->params["limit"] {
             return limit;
         }
         return null;
@@ -587,7 +586,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function getOrderBy() -> string | null
     {
         var order;
-        if fetch order, this->_params["order"] {
+        if fetch order, this->params["order"] {
             return order;
         }
         return null;
@@ -599,7 +598,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function getGroupBy()
     {
         var group;
-        if fetch group, this->_params["group"] {
+        if fetch group, this->params["group"] {
             return group;
         }
         return null;
@@ -611,7 +610,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function getHaving()
     {
         var having;
-        if fetch having, this->_params["having"] {
+        if fetch having, this->params["having"] {
             return having;
         }
         return null;
@@ -622,7 +621,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function getParams() -> array
     {
-        return this->_params;
+        return this->params;
     }
 
     /**
@@ -712,8 +711,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         /**
          * Builds a query with the passed parameters
          */
-        let builder = manager->createBuilder(this->_params);
-        builder->from(this->_model);
+        let builder = manager->createBuilder(this->params);
+        builder->from(this->model);
 
         return builder;
     }

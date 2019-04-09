@@ -22,7 +22,6 @@ use Phalcon\Mvc\Model\Exception;
  */
 class Timestampable extends Behavior
 {
-
     /**
      * Listens for notifications from the models manager
      */

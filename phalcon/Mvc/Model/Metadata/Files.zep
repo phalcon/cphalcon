@@ -37,7 +37,7 @@ class Files extends MetaData
      *
      * @param array options
      */
-    public function __construct(options = null)
+    public function __construct(options = null) -> void
     {
         var metaDataDir;
 

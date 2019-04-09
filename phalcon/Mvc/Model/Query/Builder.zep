@@ -55,28 +55,27 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
  */
 class Builder implements BuilderInterface, InjectionAwareInterface
 {
-
-    protected _bindParams;
-    protected _bindTypes;
-    protected _columns;
-    protected _conditions;
+    protected bindParams;
+    protected bindTypes;
+    protected columns;
+    protected conditions;
     protected container;
-    protected _distinct;
-    protected _forUpdate;
-    protected _group;
-    protected _having;
-    protected _hiddenParamNumber = 0;
-    protected _joins;
-    protected _limit;
-    protected _models;
-    protected _offset;
-    protected _order;
-    protected _sharedLock;
+    protected distinct;
+    protected forUpdate;
+    protected group;
+    protected having;
+    protected hiddenParamNumber = 0;
+    protected joins;
+    protected limit;
+    protected models;
+    protected offset;
+    protected order;
+    protected sharedLock;
 
     /**
      * Phalcon\Mvc\Model\Query\Builder constructor
      */
-    public function __construct(var params = null, <DiInterface> container = null)
+    public function __construct(var params = null, <DiInterface> container = null) -> void
     {
         var conditions, columns, groupClause, havingClause, limitClause,
             forUpdate, sharedLock, orderClause, offsetClause, joinsClause,
@@ -91,10 +90,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
              * Process conditions
              */
             if fetch conditions, params[0] {
-                let this->_conditions = conditions;
+                let this->conditions = conditions;
             } else {
                 if fetch conditions, params["conditions"] {
-                    let this->_conditions = conditions;
+                    let this->conditions = conditions;
                 }
             }
 
@@ -125,14 +124,14 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                     }
                 }
 
-                let this->_conditions = implode(" AND ", mergedConditions);
+                let this->conditions = implode(" AND ", mergedConditions);
 
                 if typeof mergedParams == "array" {
-                    let this->_bindParams = mergedParams;
+                    let this->bindParams = mergedParams;
                 }
 
                 if typeof mergedTypes == "array" {
-                    let this->_bindTypes  = mergedTypes;
+                    let this->bindTypes  = mergedTypes;
                 }
             }
 
@@ -140,60 +139,60 @@ class Builder implements BuilderInterface, InjectionAwareInterface
              * Assign bind types
              */
             if fetch bind, params["bind"] {
-                let this->_bindParams = bind;
+                let this->bindParams = bind;
             }
 
             if fetch bindTypes, params["bindTypes"] {
-                let this->_bindTypes = bindTypes;
+                let this->bindTypes = bindTypes;
             }
 
             /**
              * Assign SELECT DISTINCT / SELECT ALL clause
              */
             if fetch distinct, params["distinct"] {
-                let this->_distinct = distinct;
+                let this->distinct = distinct;
             }
 
             /**
              * Assign FROM clause
              */
             if fetch fromClause, params["models"] {
-                let this->_models = fromClause;
+                let this->models = fromClause;
             }
 
             /**
              * Assign COLUMNS clause
              */
             if fetch columns, params["columns"] {
-                let this->_columns = columns;
+                let this->columns = columns;
             }
 
             /**
              * Assign JOIN clause
              */
             if fetch joinsClause, params["joins"] {
-                let this->_joins = joinsClause;
+                let this->joins = joinsClause;
             }
 
             /**
              * Assign GROUP clause
              */
             if fetch groupClause, params["group"] {
-                let this->_group = groupClause;
+                let this->group = groupClause;
             }
 
             /**
              * Assign HAVING clause
              */
             if fetch havingClause, params["having"] {
-                let this->_having = havingClause;
+                let this->having = havingClause;
             }
 
             /**
              * Assign ORDER clause
              */
             if fetch orderClause, params["order"] {
-                let this->_order = orderClause;
+                let this->order = orderClause;
             }
 
             /**
@@ -203,18 +202,18 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                 if typeof limitClause == "array" {
                     if fetch limit, limitClause[0] {
                         if is_int(limit) {
-                            let this->_limit = limit;
+                            let this->limit = limit;
                         }
                         if fetch offset, limitClause[1] {
                             if is_int(offset) {
-                                let this->_offset = offset;
+                                let this->offset = offset;
                             }
                         }
                     } else {
-                        let this->_limit = limitClause;
+                        let this->limit = limitClause;
                     }
                 } else {
-                    let this->_limit = limitClause;
+                    let this->limit = limitClause;
                 }
             }
 
@@ -222,25 +221,25 @@ class Builder implements BuilderInterface, InjectionAwareInterface
              * Assign OFFSET clause
              */
             if fetch offsetClause, params["offset"] {
-                let this->_offset = offsetClause;
+                let this->offset = offsetClause;
             }
 
             /**
              * Assign FOR UPDATE clause
              */
             if fetch forUpdate, params["for_update"] {
-                let this->_forUpdate = forUpdate;
+                let this->forUpdate = forUpdate;
             }
 
             /**
              * Assign SHARED LOCK clause
              */
             if fetch sharedLock, params["shared_lock"] {
-                let this->_sharedLock = sharedLock;
+                let this->sharedLock = sharedLock;
             }
         } else {
             if typeof params == "string" && params !== "" {
-                let this->_conditions = params;
+                let this->conditions = params;
             }
         }
 
@@ -267,7 +266,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     {
         var models, currentModel;
 
-        let models = this->_models;
+        let models = this->models;
         if typeof models != "array" {
             if typeof models != "null" {
                 let currentModel = models,
@@ -283,7 +282,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             let models[] = model;
         }
 
-        let this->_models = models;
+        let this->models = models;
         return this;
     }
 
@@ -310,7 +309,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     {
         var currentConditions;
 
-        let currentConditions = this->_having;
+        let currentConditions = this->having;
 
         /**
          * Nest the condition to current ones or set as unique
@@ -341,7 +340,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     {
         var currentConditions;
 
-        let currentConditions = this->_conditions;
+        let currentConditions = this->conditions;
 
         /**
          * Nest the condition to current ones or set as unique
@@ -412,7 +411,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function columns(var columns) -> <BuilderInterface>
     {
-        let this->_columns = columns;
+        let this->columns = columns;
         return this;
     }
 
@@ -426,7 +425,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
      public function distinct(var distinct) -> <BuilderInterface>
      {
-         let this->_distinct = distinct;
+         let this->distinct = distinct;
          return this;
      }
 
@@ -439,7 +438,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function forUpdate(bool forUpdate) -> <BuilderInterface>
     {
-        let this->_forUpdate = forUpdate;
+        let this->forUpdate = forUpdate;
         return this;
     }
 
@@ -466,7 +465,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function from(var models) -> <BuilderInterface>
     {
-        let this->_models = models;
+        let this->models = models;
         return this;
     }
 
@@ -475,7 +474,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getBindParams() -> array
     {
-        return this->_bindParams;
+        return this->bindParams;
     }
 
     /**
@@ -483,7 +482,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getBindTypes() -> array
     {
-        return this->_bindTypes;
+        return this->bindTypes;
     }
 
     /**
@@ -493,7 +492,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getColumns()
     {
-        return this->_columns;
+        return this->columns;
     }
 
     /**
@@ -509,7 +508,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getDistinct() -> bool
     {
-        return this->_distinct;
+        return this->distinct;
     }
 
     /**
@@ -519,7 +518,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getFrom()
     {
-        return this->_models;
+        return this->models;
     }
 
     /**
@@ -527,7 +526,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getGroupBy() -> string
     {
-        return this->_group;
+        return this->group;
     }
 
     /**
@@ -535,7 +534,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getHaving() -> string
     {
-        return this->_having;
+        return this->having;
     }
 
     /**
@@ -543,7 +542,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getJoins() -> array
     {
-        return this->_joins;
+        return this->joins;
     }
 
     /**
@@ -553,7 +552,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getLimit()
     {
-        return this->_limit;
+        return this->limit;
     }
 
     /**
@@ -561,7 +560,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getModels() -> string | array | null
     {
-        var models = this->_models;
+        var models = this->models;
 
         if typeof models == "array" && count(models) == 1 {
             return Arr::first(models);
@@ -575,7 +574,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getOffset() -> int
     {
-        return this->_offset;
+        return this->offset;
     }
 
     /**
@@ -585,7 +584,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getOrderBy()
     {
-        return this->_order;
+        return this->order;
     }
 
     /**
@@ -608,7 +607,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                 this->container = container;
         }
 
-        let models = this->_models;
+        let models = this->models;
         if typeof models == "array" {
             if !count(models) {
                 throw new Exception(
@@ -623,7 +622,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             }
         }
 
-        let conditions = this->_conditions;
+        let conditions = this->conditions;
 
         if is_numeric(conditions) {
 
@@ -689,7 +688,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             }
         }
 
-        let distinct = this->_distinct;
+        let distinct = this->distinct;
         if typeof distinct != "null" && typeof distinct == "boolean" {
             if distinct {
                 let phql = "SELECT DISTINCT ";
@@ -700,7 +699,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             let phql = "SELECT ";
         }
 
-        let columns = this->_columns;
+        let columns = this->columns;
         if typeof columns !== "null" {
 
             /**
@@ -772,7 +771,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         /**
          * Check if joins were passed to the builders
          */
-        let joins = this->_joins;
+        let joins = this->joins;
         if typeof joins == "array" {
 
             for join in joins {
@@ -832,7 +831,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         /**
          * Process group parameters
          */
-        let group = this->_group;
+        let group = this->group;
         if group !== null {
             if typeof group == "string" {
                 if memstr(group, ",") {
@@ -853,7 +852,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         /**
          * Process having clause
          */
-        let having = this->_having;
+        let having = this->having;
         if having !== null {
             if !empty having {
                 let phql .= " HAVING " . having;
@@ -863,7 +862,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         /**
          * Process order clause
          */
-        let order = this->_order;
+        let order = this->order;
         if order !== null {
             if typeof order == "array" {
                 let orderItems = [];
@@ -897,7 +896,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         /**
          * Process limit parameters
          */
-        let limit = this->_limit;
+        let limit = this->limit;
         if limit !== null {
 
             let number = null;
@@ -913,7 +912,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             } else {
                 if is_numeric(limit) {
                     let number = limit,
-                        offset = this->_offset;
+                        offset = this->offset;
                     if offset !== null {
                         if !is_numeric(offset) {
                             let offset = 0;
@@ -925,18 +924,18 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             if is_numeric(number) {
 
                 let phql .= " LIMIT :APL0:",
-                    this->_bindParams["APL0"] = intval(number, 10),
-                    this->_bindTypes["APL0"] = Column::BIND_PARAM_INT;
+                    this->bindParams["APL0"] = intval(number, 10),
+                    this->bindTypes["APL0"] = Column::BIND_PARAM_INT;
 
                 if is_numeric(offset) {
                     let phql .= " OFFSET :APL1:",
-                        this->_bindParams["APL1"] = intval(offset, 10),
-                        this->_bindTypes["APL1"] = Column::BIND_PARAM_INT;
+                        this->bindParams["APL1"] = intval(offset, 10),
+                        this->bindTypes["APL1"] = Column::BIND_PARAM_INT;
                 }
             }
         }
 
-        let forUpdate = this->_forUpdate;
+        let forUpdate = this->forUpdate;
         if typeof forUpdate === "boolean" {
             if forUpdate {
                 let phql .= " FOR UPDATE";
@@ -973,19 +972,19 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         );
 
         // Set default bind params
-        let bindParams = this->_bindParams;
+        let bindParams = this->bindParams;
         if typeof bindParams == "array" {
             query->setBindParams(bindParams);
         }
 
         // Set default bind types
-        let bindTypes = this->_bindTypes;
+        let bindTypes = this->bindTypes;
         if typeof bindTypes == "array" {
             query->setBindTypes(bindTypes);
         }
 
-        if typeof this->_sharedLock === "boolean" {
-            query->setSharedLock(this->_sharedLock);
+        if typeof this->sharedLock === "boolean" {
+            query->setSharedLock(this->sharedLock);
         }
 
         return query;
@@ -998,7 +997,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function getWhere()
     {
-        return this->_conditions;
+        return this->conditions;
     }
 
     /**
@@ -1016,7 +1015,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function groupBy(var group) -> <BuilderInterface>
     {
-        let this->_group = group;
+        let this->group = group;
         return this;
     }
 
@@ -1043,17 +1042,17 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     {
         var currentBindParams, currentBindTypes;
 
-        let this->_having = conditions;
+        let this->having = conditions;
 
         /**
          * Merge the bind params to the current ones
          */
         if typeof bindParams == "array" {
-            let currentBindParams = this->_bindParams;
+            let currentBindParams = this->bindParams;
             if typeof currentBindParams == "array" {
-                let this->_bindParams = currentBindParams + bindParams;
+                let this->bindParams = currentBindParams + bindParams;
             } else {
-                let this->_bindParams = bindParams;
+                let this->bindParams = bindParams;
             }
         }
 
@@ -1061,11 +1060,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
          * Merge the bind types to the current ones
          */
         if typeof bindTypes == "array" {
-            let currentBindTypes = this->_bindTypes;
+            let currentBindTypes = this->bindTypes;
             if typeof currentBindTypes == "array" {
-                let this->_bindTypes = currentBindTypes + bindTypes;
+                let this->bindTypes = currentBindTypes + bindTypes;
             } else {
-                let this->_bindTypes = bindTypes;
+                let this->bindTypes = bindTypes;
             }
         }
 
@@ -1100,7 +1099,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function innerJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
     {
-        let this->_joins[] = [model, conditions, alias, "INNER"];
+        let this->joins[] = [model, conditions, alias, "INNER"];
         return this;
     }
 
@@ -1135,7 +1134,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function join(string! model, string conditions = null, string alias = null, string type = null) -> <BuilderInterface>
     {
-        let this->_joins[] = [model, conditions, alias, type];
+        let this->joins[] = [model, conditions, alias, type];
         return this;
     }
 
@@ -1148,7 +1147,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function leftJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
     {
-        let this->_joins[] = [model, conditions, alias, "LEFT"];
+        let this->joins[] = [model, conditions, alias, "LEFT"];
         return this;
     }
 
@@ -1169,10 +1168,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             return this;
         }
 
-        let this->_limit = limit;
+        let this->limit = limit;
 
         if is_numeric(offset) {
-            let this->_offset = abs((int) offset);
+            let this->offset = abs((int) offset);
         }
 
         return this;
@@ -1235,7 +1234,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function offset(int offset) -> <BuilderInterface>
     {
-        let this->_offset = offset;
+        let this->offset = offset;
         return this;
     }
 
@@ -1252,7 +1251,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function orderBy(var orderBy) -> <BuilderInterface>
     {
-        let this->_order = orderBy;
+        let this->order = orderBy;
         return this;
     }
 
@@ -1279,7 +1278,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     {
         var currentConditions;
 
-        let currentConditions = this->_having;
+        let currentConditions = this->having;
 
         /**
          * Nest the condition to current ones or set as unique
@@ -1310,7 +1309,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     {
         var currentConditions;
 
-        let currentConditions = this->_conditions;
+        let currentConditions = this->conditions;
 
         /**
          * Nest the condition to current ones or set as unique
@@ -1331,7 +1330,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function rightJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
     {
-        let this->_joins[] = [model, conditions, alias, "RIGHT"];
+        let this->joins[] = [model, conditions, alias, "RIGHT"];
         return this;
     }
 
@@ -1343,14 +1342,14 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         var currentBindParams;
 
         if merge {
-            let currentBindParams = this->_bindParams;
+            let currentBindParams = this->bindParams;
             if typeof currentBindParams == "array" {
-                let this->_bindParams = currentBindParams + bindParams;
+                let this->bindParams = currentBindParams + bindParams;
             } else {
-                let this->_bindParams = bindParams;
+                let this->bindParams = bindParams;
             }
         } else {
-            let this->_bindParams = bindParams;
+            let this->bindParams = bindParams;
         }
 
         return this;
@@ -1364,14 +1363,14 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         var currentBindTypes;
 
         if unlikely merge {
-            let currentBindTypes = this->_bindTypes;
+            let currentBindTypes = this->bindTypes;
             if typeof currentBindTypes == "array" {
-                let this->_bindTypes = currentBindTypes + bindTypes;
+                let this->bindTypes = currentBindTypes + bindTypes;
             } else {
-                let this->_bindTypes = bindTypes;
+                let this->bindTypes = bindTypes;
             }
         } else {
-            let this->_bindTypes = bindTypes;
+            let this->bindTypes = bindTypes;
         }
 
         return this;
@@ -1407,17 +1406,17 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     {
         var currentBindParams, currentBindTypes;
 
-        let this->_conditions = conditions;
+        let this->conditions = conditions;
 
         /**
          * Merge the bind params to the current ones
          */
         if count(bindParams) > 0 {
-            let currentBindParams = this->_bindParams;
+            let currentBindParams = this->bindParams;
             if typeof currentBindParams == "array" {
-                let this->_bindParams = currentBindParams + bindParams;
+                let this->bindParams = currentBindParams + bindParams;
             } else {
-                let this->_bindParams = bindParams;
+                let this->bindParams = bindParams;
             }
         }
 
@@ -1425,11 +1424,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
          * Merge the bind types to the current ones
          */
         if count(bindTypes) > 0 {
-            let currentBindTypes = this->_bindTypes;
+            let currentBindTypes = this->bindTypes;
             if typeof currentBindTypes == "array" {
-                let this->_bindTypes = currentBindTypes + bindTypes;
+                let this->bindTypes = currentBindTypes + bindTypes;
             } else {
-                let this->_bindTypes = bindTypes;
+                let this->bindTypes = bindTypes;
             }
         }
 
@@ -1449,7 +1448,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
         let operatorMethod = operator . clause;
 
-        let hiddenParam = this->_hiddenParamNumber,
+        let hiddenParam = this->hiddenParamNumber,
             nextHiddenParam = hiddenParam + 1;
 
         /**
@@ -1470,7 +1469,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         );
 
         let nextHiddenParam++,
-            this->_hiddenParamNumber = nextHiddenParam;
+            this->hiddenParamNumber = nextHiddenParam;
 
         return this;
     }
@@ -1494,7 +1493,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             return this;
         }
 
-        let hiddenParam = (int) this->_hiddenParamNumber;
+        let hiddenParam = (int) this->hiddenParamNumber;
 
         let bindParams = [], bindKeys = [];
         for value in values {
@@ -1515,7 +1514,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
          */
         this->{operatorMethod}(expr . " IN (" . join(", ", bindKeys) . ")", bindParams);
 
-        let this->_hiddenParamNumber = hiddenParam;
+        let this->hiddenParamNumber = hiddenParam;
 
         return this;
     }
@@ -1533,7 +1532,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
         let operatorMethod = operator . clause;
 
-        let hiddenParam = this->_hiddenParamNumber,
+        let hiddenParam = this->hiddenParamNumber,
             nextHiddenParam = hiddenParam + 1;
 
         /**
@@ -1553,7 +1552,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         );
 
         let nextHiddenParam++,
-            this->_hiddenParamNumber = nextHiddenParam;
+            this->hiddenParamNumber = nextHiddenParam;
 
         return this;
     }
@@ -1577,7 +1576,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             return this;
         }
 
-        let hiddenParam = (int) this->_hiddenParamNumber;
+        let hiddenParam = (int) this->hiddenParamNumber;
 
         let bindParams = [], bindKeys = [];
         for value in values {
@@ -1598,7 +1597,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
          */
         this->{operatorMethod}(expr . " NOT IN (" . join(", ", bindKeys) . ")", bindParams);
 
-        let this->_hiddenParamNumber = hiddenParam;
+        let this->hiddenParamNumber = hiddenParam;
 
         return this;
     }

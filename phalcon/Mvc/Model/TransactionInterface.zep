@@ -21,11 +21,6 @@ use Phalcon\Mvc\Model\Transaction\ManagerInterface;
 interface TransactionInterface
 {
     /**
-     * Sets transaction manager related to the transaction
-     */
-    public function setTransactionManager(<ManagerInterface> manager);
-
-    /**
      * Starts the transaction
      */
     public function begin() -> bool;
@@ -63,15 +58,20 @@ interface TransactionInterface
     /**
      * Sets if is a reused transaction or new once
      */
-    public function setIsNewTransaction(bool isNew);
-
-    /**
-     * Sets object which generates rollback action
-     */
-    public function setRollbackedRecord(<ModelInterface> record);
+    public function setIsNewTransaction(bool isNew) -> void;
 
     /**
      * Sets flag to rollback on abort the HTTP connection
      */
-    public function setRollbackOnAbort(bool rollbackOnAbort);
+    public function setRollbackOnAbort(bool rollbackOnAbort) -> void;
+
+    /**
+     * Sets object which generates rollback action
+     */
+    public function setRollbackedRecord(<ModelInterface> record) -> void;
+
+    /**
+     * Sets transaction manager related to the transaction
+     */
+    public function setTransactionManager(<ManagerInterface> manager) -> void;
 }

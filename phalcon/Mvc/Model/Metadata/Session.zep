@@ -31,7 +31,6 @@ use Phalcon\Mvc\Model\Exception;
  */
 class Session extends MetaData
 {
-
     protected prefix = "";
 
     /**
@@ -39,7 +38,7 @@ class Session extends MetaData
      *
      * @param array options
      */
-    public function __construct(options = null)
+    public function __construct(options = null) -> void
     {
         var prefix;
 

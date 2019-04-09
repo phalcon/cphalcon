@@ -80,12 +80,12 @@ interface ResultsetInterface
     /**
      * Sets the hydration mode in the resultset
      */
-    public function setHydrateMode(int hydrateMode) -> <Resultset>;
+    public function setHydrateMode(int hydrateMode) -> <ResultsetInterface>;
 
     /**
      * Set if the resultset is fresh or an old one cached
      */
-    public function setIsFresh(bool isFresh);
+    public function setIsFresh(bool isFresh) -> <ResultsetInterface>;
 
     /**
      * Returns a complete resultset as an array, if the resultset has a big number of rows

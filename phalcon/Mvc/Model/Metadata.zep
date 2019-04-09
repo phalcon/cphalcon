@@ -396,9 +396,9 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         let columnMap = this->getReverseColumnMap(model);
         if typeof columnMap == "array" {
             return isset columnMap[attribute];
-        } else {
-            return isset this->readMetaData(model)[self::MODELS_DATA_TYPES][attribute];
         }
+
+        return isset this->readMetaData(model)[self::MODELS_DATA_TYPES][attribute];
     }
 
     /**

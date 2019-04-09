@@ -26,7 +26,7 @@ class Failed extends Exception
     /**
      * Phalcon\Mvc\Model\Transaction\Failed constructor
      */
-    public function __construct(string! message, <ModelInterface> record = null)
+    public function __construct(string! message, <ModelInterface> record = null) -> void
     {
         let this->record = record;
         parent::__construct(message);

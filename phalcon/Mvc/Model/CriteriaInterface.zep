@@ -89,7 +89,7 @@ interface CriteriaInterface
      *
      * @return string|null
      */
-    public function getConditions();
+    public function getConditions() -> string | null;
 
     /**
      * Returns the group clause in the criteria
@@ -107,9 +107,9 @@ interface CriteriaInterface
      * an array with 'number' and 'offset' keys if an offset was set with the limit,
      * or null if limit has not been set.
      *
-     * @return int|array|null
+     * @return string|null
      */
-    public function getLimit();
+    public function getLimit() -> string | null;
 
     /**
      * Returns an internal model name on which the criteria will be applied
@@ -121,7 +121,7 @@ interface CriteriaInterface
      *
      * @return string|null
      */
-    public function getOrderBy();
+    public function getOrderBy() -> string | null;
 
     /**
      * Returns all the parameters defined in the criteria
@@ -133,7 +133,7 @@ interface CriteriaInterface
      *
      * @return string|null
      */
-    public function getWhere();
+    public function getWhere() -> string | null;
 
     /**
      * Adds the group-by clause to the criteria
