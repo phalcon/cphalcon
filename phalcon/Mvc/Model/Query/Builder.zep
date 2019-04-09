@@ -13,6 +13,7 @@ namespace Phalcon\Mvc\Model\Query;
 use Phalcon\Di;
 use Phalcon\Db\Column;
 use Phalcon\DiInterface;
+use Phalcon\Helper\Arr;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\QueryInterface;
@@ -563,7 +564,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         var models = this->_models;
 
         if typeof models == "array" && count(models) == 1 {
-            return array_values(models)[0];
+            return Arr::first(models);
         }
 
         return models;
