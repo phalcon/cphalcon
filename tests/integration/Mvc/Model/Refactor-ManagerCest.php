@@ -19,6 +19,7 @@ use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\AlbumORama\Artists;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\Relations\RobotsParts;
+use Phalcon\Test\Models\People;
 use Phalcon\Test\Models\Robots;
 
 class ManagerCest
@@ -62,6 +63,29 @@ class ManagerCest
 
         $I->assertEquals('wp_robots', $robots->getModelsManager()->getModelSource($robots));
         $I->assertEquals('wp_robots', $robots->getSource());
+    }
+
+    /**
+     * Tests model source from different classes
+     *
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-06
+     */
+    public function testModelSourceShouldBeTheSame(IntegrationTester $I)
+    {
+        $manager = new Manager();
+
+        $robots = new People(null, null, $manager);
+
+        $I->assertEquals(
+            "personas",
+            $robots->getSource()
+        );
+
+        $I->assertEquals(
+            "personas",
+            $robots->getModelsManager()->getModelSource($robots)
+        );
     }
 
     public function testAliasedNamespacesRelations(IntegrationTester $I)

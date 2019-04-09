@@ -41,7 +41,7 @@ class Complex extends Resultset implements ResultsetInterface
      *
      * @param array columnTypes
      */
-    public function __construct(var columnTypes, <ResultInterface> result = null, <BackendInterface> cache = null)
+    public function __construct(var columnTypes, <ResultInterface> result = null, <BackendInterface> cache = null) -> void
     {
         /**
          * Column types, tell the resultset how to build the result

@@ -55,99 +55,100 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareInterface
 {
 
-    protected container;
-
-    protected eventsManager;
-
-    protected _customEventsManager = [];
-
-    protected _readConnectionServices = [];
-
-    protected _writeConnectionServices = [];
-
-    protected _aliases = [];
-
-    protected _modelVisibility = [];
-
-    /**
-     * Has many relations
-     */
-    protected _hasMany = [];
-
-    /**
-     * Has many relations by model
-     */
-    protected _hasManySingle = [];
-
-    /**
-     * Has one relations
-     */
-    protected _hasOne = [];
-
-    /**
-     * Has one relations by model
-     */
-    protected _hasOneSingle = [];
-
-    /**
-     * Belongs to relations
-     */
-    protected _belongsTo = [];
-
-    /**
-     * All the relationships by model
-     */
-    protected _belongsToSingle = [];
-
-    /**
-     * Has many-Through relations
-     */
-    protected _hasManyToMany = [];
-
-    /**
-     * Has many-Through relations by model
-     */
-    protected _hasManyToManySingle = [];
-
-    /**
-     * Mark initialized models
-     */
-    protected _initialized = [];
-
-    protected _prefix = "";
-
-    protected _sources = [];
-
-    protected _schemas = [];
+    protected aliases = [];
 
     /**
      * Models' behaviors
      */
-    protected _behaviors = [];
+    protected behaviors = [];
 
     /**
-     * Last model initialized
+     * Belongs to relations
      */
-    protected _lastInitialized;
+    protected belongsTo = [];
 
     /**
-     * Last query created/executed
+     * All the relationships by model
      */
-    protected _lastQuery;
+    protected belongsToSingle = [];
 
-    /**
-     * Stores a list of reusable instances
-     */
-    protected _reusable = [];
+    protected container;
 
-    protected _keepSnapshots = [];
+    protected customEventsManager = [];
 
     /**
      * Does the model use dynamic update, instead of updating all rows?
      */
-    protected _dynamicUpdate = [];
+    protected dynamicUpdate = [];
 
-    protected _namespaceAliases = [];
+    protected eventsManager;
+
+    /**
+     * Has many relations
+     */
+    protected hasMany = [];
+
+    /**
+     * Has many relations by model
+     */
+    protected hasManySingle = [];
+
+    /**
+     * Has many-Through relations
+     */
+    protected hasManyToMany = [];
+
+    /**
+     * Has many-Through relations by model
+     */
+    protected hasManyToManySingle = [];
+
+    /**
+     * Has one relations
+     */
+    protected hasOne = [];
+
+    /**
+     * Has one relations by model
+     */
+    protected hasOneSingle = [];
+
+    /**
+     * Mark initialized models
+     */
+    protected initialized = [];
+
+    protected keepSnapshots = [];
+
+    /**
+     * Last model initialized
+     */
+    protected lastInitialized;
+
+    /**
+     * Last query created/executed
+     */
+    protected lastQuery;
+
+    protected modelVisibility = [];
+
+    protected namespaceAliases = [];
+
+    protected prefix = "";
+
+    protected readConnectionServices = [];
+
+    protected sources = [];
+
+    protected schemas = [];
+
+    protected writeConnectionServices = [];
+
+
+    /**
+     * Stores a list of reusable instances
+     */
+    protected reusable = [];
 
     /**
      * Sets the DependencyInjector container
@@ -185,9 +186,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Sets a custom events manager for a specific model
      */
-    public function setCustomEventsManager(<ModelInterface> model, <EventsManagerInterface> eventsManager)
+    public function setCustomEventsManager(<ModelInterface> model, <EventsManagerInterface> eventsManager) -> void
     {
-        let this->_customEventsManager[get_class_lower(model)] = eventsManager;
+        let this->customEventsManager[get_class_lower(model)] = eventsManager;
     }
 
     /**
@@ -197,7 +198,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var eventsManager;
 
-        if !fetch eventsManager, this->_customEventsManager[get_class_lower(model)] {
+        if !fetch eventsManager, this->customEventsManager[get_class_lower(model)] {
             return false;
         }
 
@@ -216,14 +217,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Models are just initialized once per request
          */
-        if isset this->_initialized[className] {
+        if isset this->initialized[className] {
             return false;
         }
 
         /**
          * Update the model as initialized, this avoid cyclic initializations
          */
-        let this->_initialized[className] = true;
+        let this->initialized[className] = true;
 
         /**
          * Call the 'initialize' method if it's implemented
@@ -236,7 +237,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Update the last initialized model, so it can be used in
          * modelsManager:afterInitialize
          */
-        let this->_lastInitialized = model;
+        let this->lastInitialized = model;
 
         /**
          * If an EventsManager is available we pass to it every initialized
@@ -255,7 +256,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function isInitialized(string! className) -> bool
     {
-        return isset this->_initialized[strtolower(className)];
+        return isset this->initialized[strtolower(className)];
     }
 
     /**
@@ -263,7 +264,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getLastInitialized() -> <ModelInterface>
     {
-        return this->_lastInitialized;
+        return this->lastInitialized;
     }
 
     /**
@@ -321,7 +322,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function setModelPrefix(string! prefix) -> void
     {
-        let this->_prefix = prefix;
+        let this->prefix = prefix;
     }
 
     /**
@@ -343,7 +344,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getModelPrefix() -> string
     {
-        return this->_prefix;
+        return this->prefix;
     }
 
     /**
@@ -351,7 +352,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function setModelSource(<ModelInterface> model, string! source) -> void
     {
-        let this->_sources[get_class_lower(model)] = source;
+        let this->sources[get_class_lower(model)] = source;
     }
 
     /**
@@ -370,11 +371,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let className = get_class(model);
 
-        if !isset this->_modelVisibility[className] {
-            let this->_modelVisibility[className] = get_object_vars(model);
+        if !isset this->modelVisibility[className] {
+            let this->modelVisibility[className] = get_object_vars(model);
         }
 
-        let properties = this->_modelVisibility[className];
+        let properties = this->modelVisibility[className];
 
         return array_key_exists(property, properties);
     }
@@ -388,11 +389,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let entityName = get_class_lower(model);
 
-        if !isset this->_sources[entityName] {
-            let this->_sources[entityName] = uncamelize(get_class_ns(model));
+        if !isset this->sources[entityName] {
+            let this->sources[entityName] = uncamelize(get_class_ns(model));
         }
 
-        return this->_prefix . this->_sources[entityName];
+        return this->prefix . this->sources[entityName];
     }
 
     /**
@@ -400,7 +401,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function setModelSchema(<ModelInterface> model, string! schema) -> void
     {
-        let this->_schemas[get_class_lower(model)] = schema;
+        let this->schemas[get_class_lower(model)] = schema;
     }
 
     /**
@@ -410,7 +411,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var schema;
 
-        if !fetch schema, this->_schemas[get_class_lower(model)] {
+        if !fetch schema, this->schemas[get_class_lower(model)] {
             return "";
         }
 
@@ -431,7 +432,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function setWriteConnectionService(<ModelInterface> model, string! connectionService) -> void
     {
-        let this->_writeConnectionServices[get_class_lower(model)] = connectionService;
+        let this->writeConnectionServices[get_class_lower(model)] = connectionService;
     }
 
     /**
@@ -439,7 +440,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function setReadConnectionService(<ModelInterface> model, string! connectionService) -> void
     {
-        let this->_readConnectionServices[get_class_lower(model)] = connectionService;
+        let this->readConnectionServices[get_class_lower(model)] = connectionService;
     }
 
     /**
@@ -447,7 +448,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getReadConnection(<ModelInterface> model) -> <AdapterInterface>
     {
-        return this->_getConnection(model, this->_readConnectionServices);
+        return this->_getConnection(model, this->readConnectionServices);
     }
 
     /**
@@ -455,7 +456,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getWriteConnection(<ModelInterface> model) -> <AdapterInterface>
     {
-        return this->_getConnection(model, this->_writeConnectionServices);
+        return this->_getConnection(model, this->writeConnectionServices);
     }
 
     /**
@@ -495,7 +496,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         return this->_getConnectionService(
             model,
-            this->_readConnectionServices
+            this->readConnectionServices
         );
     }
 
@@ -506,7 +507,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         return this->_getConnectionService(
             model,
-            this->_writeConnectionServices
+            this->writeConnectionServices
         );
     }
 
@@ -540,7 +541,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Dispatch events to the global events manager
          */
-        if fetch modelsBehaviors, this->_behaviors[get_class_lower(model)] {
+        if fetch modelsBehaviors, this->behaviors[get_class_lower(model)] {
 
             /**
              * Notify all the events on the behavior
@@ -567,7 +568,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * A model can has a specific events manager for it
          */
-        if fetch customEventsManager, this->_customEventsManager[get_class_lower(model)] {
+        if fetch customEventsManager, this->customEventsManager[get_class_lower(model)] {
             let status = customEventsManager->fire("model:" . eventName, model);
             if status === false {
                 return false;
@@ -589,7 +590,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Dispatch events to the global events manager
          */
-        if fetch modelsBehaviors, this->_behaviors[get_class_lower(model)] {
+        if fetch modelsBehaviors, this->behaviors[get_class_lower(model)] {
 
             /**
              * Notify all the events on the behavior
@@ -616,7 +617,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Binds a behavior to a model
      */
-    public function addBehavior(<ModelInterface> model, <BehaviorInterface> behavior)
+    public function addBehavior(<ModelInterface> model, <BehaviorInterface> behavior) -> void
     {
         var entityName, modelsBehaviors;
 
@@ -625,7 +626,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Get the current behaviors
          */
-        if !fetch modelsBehaviors, this->_behaviors[entityName] {
+        if !fetch modelsBehaviors, this->behaviors[entityName] {
             let modelsBehaviors = [];
         }
 
@@ -637,7 +638,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Update the behaviors list
          */
-        let this->_behaviors[entityName] = modelsBehaviors;
+        let this->behaviors[entityName] = modelsBehaviors;
     }
 
     /**
@@ -645,7 +646,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function keepSnapshots(<ModelInterface> model, bool keepSnapshots) -> void
     {
-        let this->_keepSnapshots[get_class_lower(model)] = keepSnapshots;
+        let this->keepSnapshots[get_class_lower(model)] = keepSnapshots;
     }
 
     /**
@@ -655,7 +656,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var isKeeping;
 
-        if !fetch isKeeping, this->_keepSnapshots[get_class_lower(model)] {
+        if !fetch isKeeping, this->keepSnapshots[get_class_lower(model)] {
             return false;
         }
 
@@ -665,12 +666,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Sets if a model must use dynamic update instead of the all-field update
      */
-    public function useDynamicUpdate(<ModelInterface> model, bool dynamicUpdate)
+    public function useDynamicUpdate(<ModelInterface> model, bool dynamicUpdate) -> void
     {
         var entityName;
         let entityName = get_class_lower(model),
-            this->_dynamicUpdate[entityName] = dynamicUpdate,
-            this->_keepSnapshots[entityName] = dynamicUpdate;
+            this->dynamicUpdate[entityName] = dynamicUpdate,
+            this->keepSnapshots[entityName] = dynamicUpdate;
     }
 
     /**
@@ -680,7 +681,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var isUsing;
 
-        if !fetch isUsing, this->_dynamicUpdate[get_class_lower(model)] {
+        if !fetch isUsing, this->dynamicUpdate[get_class_lower(model)] {
             return false;
         }
 
@@ -703,7 +704,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let keyRelation = entityName . "$" . referencedEntity;
 
-        if !fetch relations, this->_hasOne[keyRelation] {
+        if !fetch relations, this->hasOne[keyRelation] {
             let relations = [];
         }
 
@@ -747,13 +748,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Update the relations
          */
         let relations[] = relation,
-            this->_aliases[entityName . "$" . lowerAlias] = relation,
-            this->_hasOne[keyRelation] = relations;
+            this->aliases[entityName . "$" . lowerAlias] = relation,
+            this->hasOne[keyRelation] = relations;
 
         /**
          * Get existing relations by model
          */
-        if !fetch singleRelations, this->_hasOneSingle[entityName] {
+        if !fetch singleRelations, this->hasOneSingle[entityName] {
             let singleRelations = [];
         }
 
@@ -765,7 +766,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Update relations by model
          */
-        let this->_hasOneSingle[entityName] = singleRelations;
+        let this->hasOneSingle[entityName] = singleRelations;
 
         return relation;
     }
@@ -786,7 +787,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let keyRelation = entityName . "$" . referencedEntity;
 
-        if !fetch relations, this->_belongsTo[keyRelation] {
+        if !fetch relations, this->belongsTo[keyRelation] {
             let relations = [];
         }
 
@@ -830,13 +831,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Update the relations
          */
         let relations[] = relation,
-            this->_aliases[entityName . "$" . lowerAlias] = relation,
-            this->_belongsTo[keyRelation] = relations;
+            this->aliases[entityName . "$" . lowerAlias] = relation,
+            this->belongsTo[keyRelation] = relations;
 
         /**
          * Get existing relations by model
          */
-        if !fetch singleRelations, this->_belongsToSingle[entityName] {
+        if !fetch singleRelations, this->belongsToSingle[entityName] {
             let singleRelations = [];
         }
 
@@ -848,7 +849,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Update relations by model
          */
-        let this->_belongsToSingle[entityName] = singleRelations;
+        let this->belongsToSingle[entityName] = singleRelations;
 
         return relation;
     }
@@ -869,7 +870,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
             referencedEntity = strtolower(referencedModel),
             keyRelation = entityName . "$" . referencedEntity;
 
-        let hasMany = this->_hasMany;
+        let hasMany = this->hasMany;
         if !fetch relations, hasMany[keyRelation] {
             let relations = [];
         }
@@ -914,13 +915,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Update the relations
          */
         let relations[] = relation,
-            this->_aliases[entityName . "$" . lowerAlias] = relation,
-            this->_hasMany[keyRelation] = relations;
+            this->aliases[entityName . "$" . lowerAlias] = relation,
+            this->hasMany[keyRelation] = relations;
 
         /**
          * Get existing relations by model
          */
-        if !fetch singleRelations, this->_hasManySingle[entityName] {
+        if !fetch singleRelations, this->hasManySingle[entityName] {
             let singleRelations = [];
         }
 
@@ -932,7 +933,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Update relations by model
          */
-        let this->_hasManySingle[entityName] = singleRelations;
+        let this->hasManySingle[entityName] = singleRelations;
 
         return relation;
     }
@@ -957,7 +958,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
             referencedEntity = strtolower(referencedModel),
             keyRelation = entityName . "$" . referencedEntity;
 
-        let hasManyToMany = this->_hasManyToMany;
+        let hasManyToMany = this->hasManyToMany;
         if !fetch relations, hasManyToMany[keyRelation] {
             let relations = [];
         }
@@ -1026,17 +1027,17 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Update the global alias
          */
-        let this->_aliases[entityName . "$" . lowerAlias] = relation;
+        let this->aliases[entityName . "$" . lowerAlias] = relation;
 
         /**
          * Update the relations
          */
-        let this->_hasManyToMany[keyRelation] = relations;
+        let this->hasManyToMany[keyRelation] = relations;
 
         /**
          * Get existing relations by model
          */
-        if !fetch singleRelations, this->_hasManyToManySingle[entityName] {
+        if !fetch singleRelations, this->hasManyToManySingle[entityName] {
             let singleRelations = [];
         }
 
@@ -1048,7 +1049,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Update relations by model
          */
-        let this->_hasManyToManySingle[entityName] = singleRelations;
+        let this->hasManyToManySingle[entityName] = singleRelations;
 
         return relation;
     }
@@ -1070,11 +1071,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Initialize the model first
          */
-        if !isset this->_initialized[entityName] {
+        if !isset this->initialized[entityName] {
             this->load(modelName);
         }
 
-        return isset this->_belongsTo[keyRelation];
+        return isset this->belongsTo[keyRelation];
     }
 
     /**
@@ -1094,11 +1095,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Initialize the model first
          */
-        if !isset this->_initialized[entityName] {
+        if !isset this->initialized[entityName] {
             this->load(modelName);
         }
 
-        return isset this->_hasMany[keyRelation];
+        return isset this->hasMany[keyRelation];
     }
 
     /**
@@ -1118,11 +1119,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Initialize the model first
          */
-        if !isset this->_initialized[entityName] {
+        if !isset this->initialized[entityName] {
             this->load(modelName);
         }
 
-        return isset this->_hasOne[keyRelation];
+        return isset this->hasOne[keyRelation];
     }
 
     /**
@@ -1142,11 +1143,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Initialize the model first
          */
-        if !isset this->_initialized[entityName] {
+        if !isset this->initialized[entityName] {
             this->load(modelName);
         }
 
-        return isset this->_hasManyToMany[keyRelation];
+        return isset this->hasManyToMany[keyRelation];
     }
 
     /**
@@ -1156,7 +1157,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var relation;
 
-        if !fetch relation, this->_aliases[strtolower(modelName . "$" . alias)] {
+        if !fetch relation, this->aliases[strtolower(modelName . "$" . alias)] {
             return false;
         }
 
@@ -1439,7 +1440,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function getReusableRecords(string! modelName, string! key)
     {
         var records;
-        if fetch records, this->_reusable[key] {
+        if fetch records, this->reusable[key] {
             return records;
         }
         return null;
@@ -1448,17 +1449,17 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Stores a reusable record in the internal list
      */
-    public function setReusableRecords(string! modelName, string! key, var records)
+    public function setReusableRecords(string! modelName, string! key, var records) -> void
     {
-        let this->_reusable[key] = records;
+        let this->reusable[key] = records;
     }
 
     /**
      * Clears the internal reusable list
      */
-    public function clearReusableObjects()
+    public function clearReusableObjects() -> void
     {
-        let this->_reusable = [];
+        let this->reusable = [];
     }
 
     /**
@@ -1473,7 +1474,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check if there is a relation between them
          */
         let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
-        if !fetch relations, this->_hasMany[keyRelation] {
+        if !fetch relations, this->hasMany[keyRelation] {
             return false;
         }
 
@@ -1501,7 +1502,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check if there is a relation between them
          */
         let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
-        if !fetch relations, this->_hasMany[keyRelation] {
+        if !fetch relations, this->hasMany[keyRelation] {
             return false;
         }
 
@@ -1529,7 +1530,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check if there is a relation between them
          */
         let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
-        if !fetch relations, this->_hasOne[keyRelation] {
+        if !fetch relations, this->hasOne[keyRelation] {
             return false;
         }
 
@@ -1558,7 +1559,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var relations;
 
-        if !fetch relations, this->_belongsToSingle[get_class_lower(model)] {
+        if !fetch relations, this->belongsToSingle[get_class_lower(model)] {
             return [];
         }
 
@@ -1572,7 +1573,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var relations;
 
-        if !fetch relations, this->_hasManySingle[get_class_lower(model)] {
+        if !fetch relations, this->hasManySingle[get_class_lower(model)] {
             return [];
         }
 
@@ -1586,7 +1587,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var relations;
 
-        if !fetch relations, this->_hasOneSingle[get_class_lower(model)] {
+        if !fetch relations, this->hasOneSingle[get_class_lower(model)] {
             return [];
         }
 
@@ -1600,7 +1601,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var relations;
 
-        if !fetch relations, this->_hasManyToManySingle[get_class_lower(model)] {
+        if !fetch relations, this->hasManyToManySingle[get_class_lower(model)] {
             return [];
         }
 
@@ -1628,7 +1629,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Get belongs-to relations
          */
-        if fetch relations, this->_belongsToSingle[entityName] {
+        if fetch relations, this->belongsToSingle[entityName] {
             for relation in relations {
                 let allRelations[] = relation;
             }
@@ -1637,7 +1638,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Get has-many relations
          */
-        if fetch relations, this->_hasManySingle[entityName] {
+        if fetch relations, this->hasManySingle[entityName] {
             for relation in relations {
                 let allRelations[] = relation;
             }
@@ -1646,7 +1647,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Get has-one relations
          */
-        if fetch relations, this->_hasOneSingle[entityName] {
+        if fetch relations, this->hasOneSingle[entityName] {
             for relation in relations {
                 let allRelations[] = relation;
             }
@@ -1667,21 +1668,21 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Check if it's a belongs-to relationship
          */
-        if fetch relations, this->_belongsTo[keyRelation] {
+        if fetch relations, this->belongsTo[keyRelation] {
             return relations;
         }
 
         /**
          * Check if it's a has-many relationship
          */
-        if fetch relations, this->_hasMany[keyRelation] {
+        if fetch relations, this->hasMany[keyRelation] {
             return relations;
         }
 
         /**
          * Check whether it's a has-one relationship
          */
-        if fetch relations, this->_hasOne[keyRelation] {
+        if fetch relations, this->hasOne[keyRelation] {
             return relations;
         }
 
@@ -1712,7 +1713,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
             [phql, container]
         );
 
-        let this->_lastQuery = query;
+        let this->lastQuery = query;
 
         return query;
     }
@@ -1773,7 +1774,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getLastQuery() -> <QueryInterface>
     {
-        return this->_lastQuery;
+        return this->lastQuery;
     }
 
     /**
@@ -1781,7 +1782,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function registerNamespaceAlias(string alias, string namespaceName) -> void
     {
-        let this->_namespaceAliases[alias] = namespaceName;
+        let this->namespaceAliases[alias] = namespaceName;
     }
 
     /**
@@ -1791,7 +1792,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var namespaceName;
 
-        if fetch namespaceName, this->_namespaceAliases[alias] {
+        if fetch namespaceName, this->namespaceAliases[alias] {
             return namespaceName;
         }
 
@@ -1805,7 +1806,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getNamespaceAliases() -> array
     {
-        return this->_namespaceAliases;
+        return this->namespaceAliases;
     }
 
     /**

@@ -35,11 +35,8 @@ class RobotsExtended extends Robots
         return parent::findFirst($parameters);
     }
 
-    /**
-     * @return string
-     */
-    public function getSource(): string
+    public function initialize()
     {
-        return 'robots';
+        $this->setSource("robots");
     }
 }

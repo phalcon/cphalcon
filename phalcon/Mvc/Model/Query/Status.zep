@@ -50,7 +50,7 @@ class Status implements StatusInterface
     /**
      * Phalcon\Mvc\Model\Query\Status
      */
-    public function __construct(bool success, <ModelInterface> model = null)
+    public function __construct(bool success, <ModelInterface> model = null) -> void
     {
         let this->success = success,
             this->model = model;

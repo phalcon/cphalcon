@@ -18,7 +18,6 @@ use Phalcon\DiInterface;
 use Phalcon\Di;
 use Phalcon\Cache\FrontendInterface;
 
-
 /**
  * Phalcon\Mvc\Model\Resultset\Simple
  *
@@ -40,7 +39,7 @@ class Simple extends Resultset
      * @param array columnMap
      * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row model
      */
-    public function __construct(var columnMap, var model, result, <BackendInterface> cache = null, bool keepSnapshots = null)
+    public function __construct(var columnMap, var model, result, <BackendInterface> cache = null, bool keepSnapshots = null) -> void
     {
         let this->model = model,
             this->columnMap = columnMap;

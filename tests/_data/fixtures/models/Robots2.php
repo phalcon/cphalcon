@@ -17,9 +17,9 @@ class Robots2 extends Model
 {
     protected $myname;
 
-    public function getSource(): string
+    public function initialize()
     {
-        return 'robots';
+        $this->setSource("robots");
     }
 
     public function getName()

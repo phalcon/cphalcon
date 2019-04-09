@@ -17,14 +17,10 @@ use Phalcon\Mvc\Model\Behavior\Timestampable;
 
 class Subscribers extends PhalconModel
 {
-
-    public function getSource(): string
-    {
-        return 'subscriptores';
-    }
-
     public function initialize()
     {
+        $this->setSource("subscriptores");
+
         $this->addBehavior(new Timestampable([
             'beforeCreate' => [
                 'field'  => 'created_at',
@@ -37,5 +33,4 @@ class Subscribers extends PhalconModel
             'value' => 'D',
         ]));
     }
-
 }

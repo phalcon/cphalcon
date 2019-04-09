@@ -15,10 +15,9 @@ use Phalcon\Mvc\Model;
 
 class Personers extends Model
 {
-
-    public function getSource(): string
+    public function initialize()
     {
-        return 'personas';
+        $this->setSource("personas");
     }
 
     public function columnMap()

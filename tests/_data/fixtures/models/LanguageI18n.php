@@ -23,13 +23,10 @@ use Phalcon\Mvc\Model;
  */
 class LanguageI18n extends Model
 {
-    public function getSource(): string
-    {
-        return 'languagei18n';
-    }
-
     public function initialize()
     {
+        $this->setSource("languagei18n");
+
         $this->belongsTo(
             ['from_lang', 'from_lang'],
             Language::class,

@@ -23,13 +23,10 @@ use Phalcon\Mvc\Model\Behavior\Timestampable;
  */
 class Subscribers extends Model
 {
-    public function getSource(): string
-    {
-        return 'subscriptores';
-    }
-
     public function initialize()
     {
+        $this->setSource("subscriptores");
+
         $this->keepSnapshots(true);
 
         $this->addBehavior(new Timestampable([

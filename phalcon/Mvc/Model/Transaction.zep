@@ -78,7 +78,7 @@ class Transaction implements TransactionInterface
     /**
      * Phalcon\Mvc\Model\Transaction constructor
      */
-    public function __construct(<DiInterface> container, bool autoBegin = false, string service = null)
+    public function __construct(<DiInterface> container, bool autoBegin = false, string service = null) -> void
     {
         var connection;
 
@@ -141,14 +141,6 @@ class Transaction implements TransactionInterface
     }
 
     /**
-     * Sets object which generates rollback action
-     */
-    public function setRollbackedRecord(<ModelInterface> record)
-    {
-        let this->rollbackRecord = record;
-    }
-
-    /**
      * Checks whether transaction is managed by a transaction manager
      */
     public function isManaged() -> bool
@@ -193,7 +185,7 @@ class Transaction implements TransactionInterface
     /**
      * Sets if is a reused transaction or new once
      */
-    public function setIsNewTransaction(bool isNew)
+    public function setIsNewTransaction(bool isNew) -> void
     {
         let this->isNewTransaction = isNew;
     }
@@ -201,15 +193,23 @@ class Transaction implements TransactionInterface
     /**
      * Sets flag to rollback on abort the HTTP connection
      */
-    public function setRollbackOnAbort(bool rollbackOnAbort)
+    public function setRollbackOnAbort(bool rollbackOnAbort) -> void
     {
         let this->rollbackOnAbort = rollbackOnAbort;
     }
 
     /**
+     * Sets object which generates rollback action
+     */
+    public function setRollbackedRecord(<ModelInterface> record) -> void
+    {
+        let this->rollbackRecord = record;
+    }
+
+    /**
      * Sets transaction manager related to the transaction
      */
-    public function setTransactionManager(<ManagerInterface> manager)
+    public function setTransactionManager(<ManagerInterface> manager) -> void
     {
         let this->manager = manager;
     }
