@@ -197,6 +197,11 @@ interface BuilderInterface
     public function limit(int limit, offset = null) -> <BuilderInterface>;
 
     /**
+     * Returns the models involved in the query
+     */
+    public function getModels() -> string | array | null;
+
+    /**
      * Appends a NOT BETWEEN condition to the current conditions
      *
      * @param mixed minimum
