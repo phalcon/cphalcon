@@ -101,11 +101,34 @@ class Gd extends Adapter
 
     public static function check() -> bool
     {
-        var version, info, matches;
+        var version;
 
         if self::checked {
             return true;
         }
+
+        if !function_exists("gd_info") {
+            throw new Exception(
+                "GD is either not installed or not enabled, check your configuration"
+            );
+        }
+
+        let version = self::getVersion();
+
+        if !version_compare(version, "2.0.1", ">=") {
+            throw new Exception(
+                "Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version
+            );
+        }
+
+        let self::checked = true;
+
+        return self::checked;
+    }
+
+    public static function getVersion() -> string
+    {
+        var version, info, matches;
 
         if !function_exists("gd_info") {
             throw new Exception(
@@ -125,15 +148,7 @@ class Gd extends Adapter
             }
         }
 
-        if !version_compare(version, "2.0.1", ">=") {
-            throw new Exception(
-                "Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version
-            );
-        }
-
-        let self::checked = true;
-
-        return self::checked;
+        return version;
     }
 
     protected function processBackground(int r, int g, int b, int opacity)
