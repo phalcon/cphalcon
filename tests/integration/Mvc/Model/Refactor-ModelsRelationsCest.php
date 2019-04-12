@@ -28,6 +28,7 @@ class ModelsRelationsCest
         $this->executeTestsRenamed($I);
         $this->testIssue938($I);
         $this->testIssue11042($I);
+        $this->testIssue13964($I);
     }
 
     private function executeTestsNormal(IntegrationTester $I)
@@ -297,6 +298,21 @@ class ModelsRelationsCest
 //        $I->assertInstanceOf('RelationsRobotsParts', $robotsParts->getFirst());
     }
 
+    protected function testIssue13964(IntegrationTester $I)
+    {
+        $robot = RelationsRobots::findFirst();
+        $I->assertNotEquals($robot, false);
+        $I->assertEquals($robot->getDirtyState(), $robot::DIRTY_STATE_PERSISTENT);
+
+        $robot->getRobotsParts();
+
+        $I->assertTrue($robot->save());
+
+        $robot->robotsParts;
+
+        $I->assertTrue($robot->save());
+    }
+
     public function testModelsPostgresql(IntegrationTester $I)
     {
         $this->setDiPostgresql();
@@ -304,6 +320,7 @@ class ModelsRelationsCest
         $this->executeTestsNormal($I);
         $this->executeTestsRenamed($I);
         $this->testIssue11042($I);
+        $this->testIssue13964($I);
     }
 
     public function testModelsSqlite(IntegrationTester $I)
@@ -314,5 +331,6 @@ class ModelsRelationsCest
         $this->executeTestsRenamed($I);
         $this->testIssue938($I);
         $this->testIssue11042($I);
+        $this->testIssue13964($I);
     }
 }
