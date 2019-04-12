@@ -23,6 +23,7 @@ class ModelsRelationsMagicCest
         $this->setDiMysql();
 
         $this->executeQueryRelated($I);
+        $this->executeSaveAfterQueryRelated($I);
         $this->executeSaveRelatedBelongsTo($I);
     }
 
@@ -76,6 +77,28 @@ class ModelsRelationsMagicCest
 
         $originalAlbum = $album->artist->albums[0];
         $I->assertEquals($originalAlbum->id, $album->id);
+    }
+
+    /**
+     * Test for issue: #13964
+     * See: https://github.com/phalcon/cphalcon/issues/13964
+     *
+     * @param IntegrationTester $I
+     */
+    private function executeSaveAfterQueryRelated(IntegrationTester $I) {
+        $album = Albums::findFirst();
+
+        $artist = $album->artist;
+
+        $I->assertTrue($album->save());
+
+        $artist->albums;
+
+        $I->assertTrue($artist->save());
+
+        $album->songs;
+
+        $I->assertTrue($album->save());
     }
 
     private function executeSaveRelatedBelongsTo(IntegrationTester $I)
