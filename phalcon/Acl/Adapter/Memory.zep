@@ -525,7 +525,7 @@ class Memory extends Adapter
             }
         } else {
             if typeof accessList == "string" {
-                let accessKey = componentName . "!" . accessName;
+                let accessKey = componentName . "!" . accessList;
                 if isset this->accessList[accessKey] {
                     unset this->accessList[accessKey];
                 }
