@@ -304,11 +304,11 @@ class ModelsRelationsCest
         $I->assertNotEquals($robot, false);
         $I->assertEquals($robot->getDirtyState(), $robot::DIRTY_STATE_PERSISTENT);
 
-        $robot->getRobotsParts();
+        $robot->getRelationsRobotsParts();
 
         $I->assertTrue($robot->save());
 
-        $robot->robotsParts;
+        $robot->relationsRobotsParts;
 
         $I->assertTrue($robot->save());
     }
