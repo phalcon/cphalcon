@@ -86,8 +86,6 @@ interface CriteriaInterface
 
     /**
      * Returns the conditions parameter in the criteria
-     *
-     * @return string|null
      */
     public function getConditions() -> string | null;
 
@@ -102,12 +100,9 @@ interface CriteriaInterface
     public function getHaving();
 
     /**
-     * Returns the limit parameter in the criteria, which will be
-     * an integer if limit was set without an offset,
-     * an array with 'number' and 'offset' keys if an offset was set with the limit,
-     * or null if limit has not been set.
-     *
-     * @return string|null
+     * Returns the limit parameter in the criteria, which will be an integer if
+     * limit was set without an offset, an array with 'number' and 'offset' keys
+     * if an offset was set with the limit, or null if limit has not been set.
      */
     public function getLimit() -> string | null;
 
@@ -118,8 +113,6 @@ interface CriteriaInterface
 
     /**
      * Returns the order parameter in the criteria
-     *
-     * @return string|null
      */
     public function getOrderBy() -> string | null;
 
@@ -130,8 +123,6 @@ interface CriteriaInterface
 
     /**
      * Returns the conditions parameter in the criteria
-     *
-     * @return string|null
      */
     public function getWhere() -> string | null;
 
