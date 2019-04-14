@@ -26,10 +26,8 @@ interface ServiceInterface
 
     /**
      * Returns the service definition
-     *
-     * @return mixed
      */
-    public function getDefinition();
+    public function getDefinition() -> var;
 
     /**
      * Returns a parameter in a specific position
@@ -52,16 +50,13 @@ interface ServiceInterface
      * Resolves the service
      *
      * @param array parameters
-     * @return mixed
      */
-    public function resolve(parameters = null, <DiInterface> container = null);
+    public function resolve(parameters = null, <DiInterface> container = null) -> var;
 
     /**
      * Set the service definition
-     *
-     * @param mixed definition
      */
-    public function setDefinition(definition);
+    public function setDefinition(var definition);
 
     /**
      * Changes a parameter in the definition without resolve the service
