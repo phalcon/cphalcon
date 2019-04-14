@@ -70,6 +70,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function setModelName(string! modelName) -> <CriteriaInterface>
     {
         let this->model = modelName;
+
         return this;
     }
 
@@ -114,6 +115,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function bindTypes(array! bindTypes) -> <CriteriaInterface>
     {
         let this->params["bindTypes"] = bindTypes;
+
         return this;
     }
 
@@ -123,6 +125,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      public function distinct(var distinct) -> <CriteriaInterface>
      {
          let this->params["distinct"] = distinct;
+
          return this;
      }
 
@@ -143,6 +146,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function columns(var columns) -> <CriteriaInterface>
     {
         let this->params["columns"] = columns;
+
         return this;
     }
 
@@ -161,6 +165,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         var join, mergedJoins, currentJoins;
 
         let join = [model, conditions, alias, type];
+
         if fetch currentJoins, this->params["joins"] {
             if typeof currentJoins == "array" {
                 let mergedJoins = array_merge(currentJoins, [join]);
@@ -287,7 +292,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     {
         var hiddenParam, minimumKey, nextHiddenParam, maximumKey;
 
-        let hiddenParam = this->hiddenParamNumber, nextHiddenParam = hiddenParam + 1;
+        let hiddenParam = this->hiddenParamNumber,
+            nextHiddenParam = hiddenParam + 1;
 
         /**
          * Minimum key with auto bind-params
@@ -305,7 +311,10 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
          */
         this->andWhere(
             expr . " BETWEEN :" . minimumKey . ": AND :" . maximumKey . ":",
-            [minimumKey: minimum, maximumKey: maximum]
+            [
+                minimumKey: minimum,
+                maximumKey: maximum
+            ]
         );
 
         let nextHiddenParam++, this->hiddenParamNumber = nextHiddenParam;
@@ -344,7 +353,10 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
          */
         this->andWhere(
             expr . " NOT BETWEEN :" . minimumKey . ": AND :"  . maximumKey . ":",
-            [minimumKey: minimum, maximumKey: maximum]
+            [
+                minimumKey: minimum,
+                maximumKey: maximum
+            ]
         );
 
         let nextHiddenParam++;
@@ -363,18 +375,22 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function inWhere(string! expr, array! values) -> <CriteriaInterface>
     {
-        var hiddenParam, bindParams, bindKeys, value, key, queryKey;
+        var hiddenParam, value;
+        array bindParams, bindKeys;
+        string key, queryKey;
 
         if !count(values) {
             this->andWhere(expr . " != " . expr);
+
             return this;
         }
 
         let hiddenParam = this->hiddenParamNumber;
 
-        let bindParams = [], bindKeys = [];
-        for value in values {
+        let bindParams = [],
+            bindKeys = [];
 
+        for value in values {
             /**
              * Key with auto bind-params
              */
@@ -382,7 +398,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
             let queryKey = ":" . key . ":";
 
-            let bindKeys[] = queryKey, bindParams[key] = value;
+            let bindKeys[] = queryKey,
+                bindParams[key] = value;
 
             let hiddenParam++;
         }
@@ -407,13 +424,16 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function notInWhere(string! expr, array! values) -> <CriteriaInterface>
     {
-        var hiddenParam, bindParams, bindKeys, value, key;
+        var hiddenParam, value;
+        array bindParams, bindKeys;
+        string key;
 
         let hiddenParam = this->hiddenParamNumber;
 
-        let bindParams = [], bindKeys = [];
-        for value in values {
+        let bindParams = [],
+            bindKeys = [];
 
+        for value in values {
             /**
              * Key with auto bind-params
              */
@@ -428,7 +448,11 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
          * Create a standard IN condition with bind params
          * Append the IN to the current conditions using and "and"
          */
-        this->andWhere(expr . " NOT IN (" . join(", ", bindKeys) . ")", bindParams);
+        this->andWhere(
+            expr . " NOT IN (" . join(", ", bindKeys) . ")",
+            bindParams
+        );
+
         let this->hiddenParamNumber = hiddenParam;
 
         return this;
@@ -440,6 +464,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function conditions(string! conditions) -> <CriteriaInterface>
     {
         let this->params["conditions"] = conditions;
+
         return this;
     }
 
@@ -449,6 +474,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function orderBy(string! orderColumns) -> <CriteriaInterface>
     {
         let this->params["order"] = orderColumns;
+
         return this;
     }
 
@@ -458,6 +484,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function groupBy(var group) -> <CriteriaInterface>
     {
         let this->params["group"] = group;
+
         return this;
     }
 
@@ -467,6 +494,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function having(var having) -> <CriteriaInterface>
     {
         let this->params["having"] = having;
+
         return this;
     }
 
@@ -489,7 +517,11 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
         if is_numeric(offset) {
             let offset = abs((int) offset);
-            let this->params["limit"] = ["number": limit, "offset": offset];
+
+            let this->params["limit"] = [
+                "number": limit,
+                "offset": offset
+            ];
         } else {
             let this->params["limit"] = limit;
         }
@@ -503,6 +535,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function forUpdate(bool forUpdate = true) -> <CriteriaInterface>
     {
         let this->params["for_update"] = forUpdate;
+
         return this;
     }
 
@@ -512,6 +545,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function sharedLock(bool sharedLock = true) -> <CriteriaInterface>
     {
         let this->params["shared_lock"] = sharedLock;
+
         return this;
     }
 
@@ -522,6 +556,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function cache(array! cache) -> <CriteriaInterface>
     {
         let this->params["cache"] = cache;
+
         return this;
     }
 
@@ -531,10 +566,12 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function getWhere() -> string | null
     {
         var conditions;
-        if fetch conditions, this->params["conditions"] {
-            return conditions;
+
+        if !fetch conditions, this->params["conditions"] {
+            return null;
         }
-        return null;
+
+        return conditions;
     }
 
     /**
@@ -545,10 +582,12 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function getColumns() -> string | null
     {
         var columns;
-        if fetch columns, this->params["columns"] {
-            return columns;
+
+        if !fetch columns, this->params["columns"] {
+            return null;
         }
-        return null;
+
+        return columns;
     }
 
     /**
@@ -557,27 +596,30 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function getConditions() -> string | null
     {
         var conditions;
-        if fetch conditions, this->params["conditions"] {
-            return conditions;
+
+        if !fetch conditions, this->params["conditions"] {
+            return null;
         }
-        return null;
+
+        return conditions;
     }
 
     /**
-     * Returns the limit parameter in the criteria, which will be
-     * an integer if limit was set without an offset,
-     * an array with 'number' and 'offset' keys if an offset was set with the limit,
-     * or null if limit has not been set.
+     * Returns the limit parameter in the criteria, which will be an integer if
+     * limit was set without an offset, an array with 'number' and 'offset' keys
+     * if an offset was set with the limit, or null if limit has not been set.
      *
      * @return int|array|null
      */
     public function getLimit() -> string | null
     {
         var limit;
-        if fetch limit, this->params["limit"] {
-            return limit;
+
+        if !fetch limit, this->params["limit"] {
+            return null;
         }
-        return null;
+
+        return limit;
     }
 
     /**
@@ -586,10 +628,12 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function getOrderBy() -> string | null
     {
         var order;
-        if fetch order, this->params["order"] {
-            return order;
+
+        if !fetch order, this->params["order"] {
+            return null;
         }
-        return null;
+
+        return order;
     }
 
     /**
@@ -598,10 +642,12 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function getGroupBy()
     {
         var group;
-        if fetch group, this->params["group"] {
-            return group;
+
+        if !fetch group, this->params["group"] {
+            return null;
         }
-        return null;
+
+        return group;
     }
 
     /**
@@ -610,10 +656,12 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     public function getHaving()
     {
         var having;
-        if fetch having, this->params["having"] {
-            return having;
+
+        if !fetch having, this->params["having"] {
+            return null;
         }
-        return null;
+
+        return having;
     }
 
     /**
@@ -629,8 +677,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public static function fromInput(<DiInterface> container, string! modelName, array! data, string! operator = "AND") -> <CriteriaInterface>
     {
-        var attribute, conditions, field, value, type, metaData,
-            model, dataTypes, bind, criteria, columnMap;
+        var attribute, field, value, type, metaData, model, dataTypes, criteria,
+            columnMap;
+        array conditions, bind;
 
         let conditions = [];
         if count(data) {
@@ -683,6 +732,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         }
 
         criteria->setModelName(modelName);
+
         return criteria;
     }
 
@@ -701,8 +751,10 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         var container, manager, builder;
 
         let container = this->getDI();
+
         if typeof container != "object" {
             let container = Di::getDefault();
+
             this->setDI(container);
         }
 
@@ -725,10 +777,13 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         var model;
 
         let model = this->getModelName();
+
         if typeof model != "string" {
             throw new Exception("Model name must be string");
         }
 
-        return {model}::find(this->getParams());
+        return {model}::find(
+            this->getParams()
+        );
     }
 }
