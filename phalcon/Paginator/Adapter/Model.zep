@@ -31,7 +31,7 @@ use Phalcon\Paginator\RepositoryInterface;
  *     ]
  * );
  *
- * $paginate = $paginator->getPaginate();
+ * $paginate = $paginator->paginate();
  *</code>
  */
 class Model extends Adapter
