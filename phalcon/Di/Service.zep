@@ -10,6 +10,7 @@
 
 namespace Phalcon\Di;
 
+use Closure;
 use Phalcon\DiInterface;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Exception\ServiceResolutionException;
@@ -24,7 +25,7 @@ use Phalcon\Di\Service\Builder;
  *<code>
  * $service = new \Phalcon\Di\Service(
  *     "request",
- *     "Phalcon\\Http\\Request"
+ *     \Phalcon\Http\Request::class
  * );
  *
  * $request = service->resolve();
@@ -43,14 +44,13 @@ class Service implements ServiceInterface
      * @var bool
      */
     protected shared = false;
+
     protected sharedInstance;
 
     /**
      * Phalcon\Di\Service
-     *
-     * @param mixed definition
      */
-    final public function __construct(definition, bool shared = false) -> void
+    final public function __construct(var definition, bool shared = false) -> void
     {
         let this->definition = definition,
             this->shared = shared;
@@ -76,10 +76,8 @@ class Service implements ServiceInterface
 
     /**
      * Returns the service definition
-     *
-     * @return mixed
      */
-    public function getDefinition()
+    public function getDefinition() -> var
     {
         return this->definition;
     }
@@ -132,9 +130,8 @@ class Service implements ServiceInterface
      * Resolves the service
      *
      * @param array parameters
-     * @return mixed
      */
-    public function resolve(parameters = null, <DiInterface> container = null)
+    public function resolve(parameters = null, <DiInterface> container = null) -> var
     {
         bool found;
         var shared, definition, sharedInstance, instance, builder;
@@ -161,15 +158,11 @@ class Service implements ServiceInterface
              * String definitions can be class names without implicit parameters
              */
             if class_exists(definition) {
-                if typeof parameters == "array" {
-                    if count(parameters) {
-                        let instance = create_instance_params(
-                            definition,
-                            parameters
-                        );
-                    } else {
-                        let instance = create_instance(definition);
-                    }
+                if typeof parameters == "array" && count(parameters) {
+                    let instance = create_instance_params(
+                        definition,
+                        parameters
+                    );
                 } else {
                     let instance = create_instance(definition);
                 }
@@ -183,13 +176,13 @@ class Service implements ServiceInterface
              * instance
              */
             if typeof definition == "object" {
-                if definition instanceof \Closure {
+                if definition instanceof Closure {
 
                     /**
                      * Bounds the closure to the current DI
                      */
                     if typeof container == "object" {
-                        let definition = \Closure::bind(definition, container);
+                        let definition = Closure::bind(definition, container);
                     }
 
                     if typeof parameters == "array" {
@@ -241,10 +234,8 @@ class Service implements ServiceInterface
 
     /**
      * Set the service definition
-     *
-     * @param mixed definition
      */
-    public function setDefinition(definition) -> void
+    public function setDefinition(var definition) -> void
     {
         let this->definition = definition;
     }
@@ -295,10 +286,8 @@ class Service implements ServiceInterface
 
     /**
      * Sets/Resets the shared instance related to the service
-     *
-     * @param mixed sharedInstance
      */
-    public function setSharedInstance(sharedInstance) -> void
+    public function setSharedInstance(var sharedInstance) -> void
     {
         let this->sharedInstance = sharedInstance;
     }

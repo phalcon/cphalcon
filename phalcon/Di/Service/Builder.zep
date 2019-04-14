@@ -243,11 +243,13 @@ class Builder
                         "Service 'name' is required in parameter on position " . position
                     );
                 }
+
                 if typeof container != "object" {
                     throw new Exception(
                         "The dependency injector container is not valid"
                     );
                 }
+
                 return container->get(name);
 
             /**
@@ -259,6 +261,7 @@ class Builder
                         "Service 'value' is required in parameter on position " . position
                     );
                 }
+
                 return value;
 
             /**
@@ -306,9 +309,11 @@ class Builder
      */
     private function buildParameters(<DiInterface> container, array! arguments) -> array
     {
-        var position, argument, buildArguments;
+        var position, argument;
+        array buildArguments;
 
         let buildArguments = [];
+
         for position, argument in arguments {
             let buildArguments[] = this->buildParameter(
                 container,
@@ -316,6 +321,7 @@ class Builder
                 argument
             );
         }
+
         return buildArguments;
     }
 }
