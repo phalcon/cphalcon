@@ -62,7 +62,12 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     protected container;
     protected distinct;
     protected forUpdate;
+
+    /**
+     * @var array
+     */
     protected group;
+
     protected having;
     protected hiddenParamNumber = 0;
     protected joins;
@@ -178,7 +183,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
              * Assign GROUP clause
              */
             if fetch groupClause, params["group"] {
-                let this->group = groupClause;
+                this->groupBy(groupClause);
             }
 
             /**
@@ -524,7 +529,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Returns the GROUP BY clause
      */
-    public function getGroupBy() -> string
+    public function getGroupBy() -> array
     {
         return this->group;
     }
@@ -833,14 +838,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
          */
         let group = this->group;
         if group !== null {
-            if typeof group == "string" {
-                if memstr(group, ",") {
-                    let group = str_replace(" ", "", group);
-                }
-
-                let group = explode(",", group);
-            }
-
             let groupItems = [];
             for groupItem in group {
                 let groupItems[] = this->autoescape(groupItem);
@@ -1015,7 +1012,16 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function groupBy(var group) -> <BuilderInterface>
     {
+        if typeof group == "string" {
+            if memstr(group, ",") {
+                let group = str_replace(" ", "", group);
+            }
+
+            let group = explode(",", group);
+        }
+
         let this->group = group;
+
         return this;
     }
 
