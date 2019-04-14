@@ -516,15 +516,12 @@ class Memory extends Adapter
     {
         var accessName, accessKey;
 
+        if typeof accessList == "string" {
+            let accessList = [accessList];
+        }
+
         if typeof accessList == "array" {
             for accessName in accessList {
-                let accessKey = componentName . "!" . accessName;
-                if isset this->accessList[accessKey] {
-                    unset this->accessList[accessKey];
-                }
-            }
-        } else {
-            if typeof accessList == "string" {
                 let accessKey = componentName . "!" . accessName;
                 if isset this->accessList[accessKey] {
                     unset this->accessList[accessKey];
