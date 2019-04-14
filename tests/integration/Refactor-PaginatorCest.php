@@ -42,7 +42,7 @@ class PaginatorCest
         );
 
         //First Page
-        $page = $paginator->getPaginate();
+        $page = $paginator->paginate();
         $I->assertInstanceOf('stdClass', $page);
 
         $I->assertCount(10, $page->items);
@@ -58,7 +58,7 @@ class PaginatorCest
         //Middle Page
         $paginator->setCurrentPage(50);
 
-        $page = $paginator->getPaginate();
+        $page = $paginator->paginate();
         $I->assertInstanceOf('stdClass', $page);
 
         $I->assertCount(10, $page->items);
@@ -73,7 +73,7 @@ class PaginatorCest
         //Last Page
         $paginator->setCurrentPage(218);
 
-        $page = $paginator->getPaginate();
+        $page = $paginator->paginate();
         $I->assertInstanceOf('stdClass', $page);
 
         $I->assertCount(10, $page->items);
@@ -105,7 +105,7 @@ class PaginatorCest
         );
 
         //First Page
-        $page = $paginator->getPaginate();
+        $page = $paginator->paginate();
         $I->assertInstanceOf('stdClass', $page);
 
         $I->assertCount(10, $page->items);
@@ -137,7 +137,7 @@ class PaginatorCest
             ]
         );
 
-        $page = $paginator->getPaginate();
+        $page = $paginator->paginate();
 
         $I->assertInstanceOf('stdClass', $page);
 
@@ -158,7 +158,7 @@ class PaginatorCest
         //Middle page
         $paginator->setCurrentPage(100);
 
-        $page = $paginator->getPaginate();
+        $page = $paginator->paginate();
 
         $I->assertInstanceOf('stdClass', $page);
 
@@ -177,7 +177,7 @@ class PaginatorCest
         //Last page
         $paginator->setCurrentPage(218);
 
-        $page = $paginator->getPaginate();
+        $page = $paginator->paginate();
 
         $I->assertInstanceOf('stdClass', $page);
 
@@ -301,7 +301,7 @@ class PaginatorCest
             "page"    => 1,
         ]);
 
-        $page = $paginator->getPaginate();
+        $page = $paginator->paginate();
 
         $I->assertInstanceOf('stdClass', $page);
 
@@ -322,7 +322,7 @@ class PaginatorCest
         //Middle page
         $paginator->setCurrentPage(10);
 
-        $page = $paginator->getPaginate();
+        $page = $paginator->paginate();
 
         $I->assertInstanceOf('stdClass', $page);
 
@@ -341,7 +341,7 @@ class PaginatorCest
         //Last page
         $paginator->setCurrentPage(18);
 
-        $page = $paginator->getPaginate();
+        $page = $paginator->paginate();
 
         $I->assertInstanceOf('stdClass', $page);
 

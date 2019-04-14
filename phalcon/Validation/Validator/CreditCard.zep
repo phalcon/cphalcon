@@ -68,7 +68,9 @@ class CreditCard extends Validator
                 message = this->prepareMessage(validation, field, "CreditCard"),
                 code = this->prepareCode(field);
 
-            let replacePairs = [":field": label];
+            let replacePairs = [
+                ":field": label
+            ];
 
             validation->appendMessage(
                 new Message(
@@ -91,16 +93,15 @@ class CreditCard extends Validator
      */
     private function verifyByLuhnAlgorithm(string number) -> bool
     {
+        var digit, position, hash = "", result;
         array digits;
-        let digits = (array) str_split(number);
 
-        var digit, position, hash = "";
+        let digits = (array) str_split(number);
 
         for position, digit in digits->reversed() {
             let hash .= (position % 2 ? digit * 2 : digit);
         }
 
-        var result;
         let result = array_sum(str_split(hash));
 
         return (result % 10 == 0);

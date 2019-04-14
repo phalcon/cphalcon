@@ -94,7 +94,10 @@ class Confirmation extends Validator
                 let labelWith = validation->getLabel(fieldWith);
             }
 
-            let replacePairs = [":field": label, ":with":  labelWith];
+            let replacePairs = [
+                ":field": label,
+                ":with":  labelWith
+            ];
 
             validation->appendMessage(
                 new Message(
@@ -117,7 +120,6 @@ class Confirmation extends Validator
     final protected function compare(string a, string b) -> bool
     {
         if this->getOption("ignoreCase", false) {
-
             /**
              * mbstring is required here
              */

@@ -76,6 +76,7 @@ class Callback extends Validator
             if empty data {
                 let data = validation->getData();
             }
+
             let returnedValue = call_user_func(callback, data);
             if typeof returnedValue == "boolean" {
                 if !returnedValue {
@@ -89,7 +90,9 @@ class Callback extends Validator
 
                     let code = this->prepareCode(field);
 
-                    let replacePairs = [":field": label];
+                    let replacePairs = [
+                        ":field": label
+                    ];
 
                     validation->appendMessage(
                         new Message(

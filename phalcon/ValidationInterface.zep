@@ -49,15 +49,11 @@ interface ValidationInterface
 
     /**
      * Returns the bound entity
-     *
-     * @return object
      */
     public function getEntity() -> object;
 
     /**
      * Returns all the filters or a specific one
-     *
-     * @return mixed
      */
     public function getFilters(string field = null) -> var | null;
 

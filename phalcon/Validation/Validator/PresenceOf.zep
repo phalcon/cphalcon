@@ -65,7 +65,9 @@ class PresenceOf extends Validator
                 message = this->prepareMessage(validation, field, "PresenceOf"),
                 code = this->prepareCode(field);
 
-            let replacePairs = [":field": label];
+            let replacePairs = [
+                ":field": label
+            ];
 
             validation->appendMessage(
                 new Message(

@@ -14,7 +14,7 @@ namespace Phalcon\Paginator;
  * Phalcon\Paginator\RepositoryInterface
  *
  * Interface for the repository of current state
- * Phalcon\Paginator\AdapterInterface::getPaginate()
+ * Phalcon\Paginator\AdapterInterface::paginate()
  */
 interface RepositoryInterface
 {

@@ -17,7 +17,7 @@ use Phalcon\Messages\Message;
 /**
  * Phalcon\Validation\Validator\ip
  *
- * Check for ip addresses
+ * Check for IP addresses
  *
  * <code>
  * use Phalcon\Validation\Validator\Ip as IpValidator;
@@ -26,11 +26,11 @@ use Phalcon\Messages\Message;
  *     "ip_address",
  *     new IpValidator(
  *         [
- *             "message" => ":field must contain only ip addresses",
- *             "version" => IP::VERSION_4 | IP::VERSION_6, // v6 and v4. The same if not specified
+ *             "message"       => ":field must contain only ip addresses",
+ *             "version"       => IP::VERSION_4 | IP::VERSION_6, // v6 and v4. The same if not specified
  *             "allowReserved" => false,   // False if not specified. Ignored for v6
- *             "allowPrivate" => false,   // False if not specified
- *             "allowEmpty" => false,
+ *             "allowPrivate"  => false,   // False if not specified
+ *             "allowEmpty"    => false,
  *         ]
  *     )
  * );
@@ -43,23 +43,23 @@ use Phalcon\Messages\Message;
  *     new IpValidator(
  *         [
  *             "message" => [
- *                 "source_address" => "source_address must contain only ip addresses",
- *                 "destination_address" => "destination_address must contain only ip addresses",
+ *                 "source_address"      => "source_address must be a valid IP address",
+ *                 "destination_address" => "destination_address must be a valid IP address",
  *             ],
  *             "version" => [
- *                  "source_address" => Ip::VERSION_4 | IP::VERSION_6,
+ *                  "source_address"      => Ip::VERSION_4 | IP::VERSION_6,
  *                  "destination_address" => Ip::VERSION_4,
  *             ],
  *             "allowReserved" => [
- *                  "source_address" => false,
+ *                  "source_address"      => false,
  *                  "destination_address" => true,
  *             ],
  *             "allowPrivate" => [
- *                  "source_address" => false,
+ *                  "source_address"      => false,
  *                  "destination_address" => true,
  *             ],
  *             "allowEmpty" => [
- *                  "source_address" => false,
+ *                  "source_address"      => false,
  *                  "destination_address" => true,
  *             ],
  *         ]
@@ -123,14 +123,16 @@ class Ip extends Validator
         }
 
         let options = [
-           "options": [
-             "default": false
-           ],
-           "flags": version | allowPrivate | allowReserved
+            "options": [
+                "default": false
+            ],
+            "flags": version | allowPrivate | allowReserved
         ];
 
         if !filter_var(value, FILTER_VALIDATE_IP, options) {
-            let replacePairs = [":field": label];
+            let replacePairs = [
+                ":field": label
+            ];
 
             validation->appendMessage(
                 new Message(

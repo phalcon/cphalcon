@@ -26,36 +26,34 @@ use Phalcon\Service\LocatorInterface;
  */
 class Validation extends Injectable implements ValidationInterface
 {
-    protected combinedFieldsValidators = [];
+    protected combinedFieldsValidators;
     protected data { get };
     protected defaultMessages;
     protected entity;
     protected filters = [];
     protected labels = [];
     protected messages;
-    protected validators = [] { set };
+    protected validators { set };
     protected values;
 
     /**
      * Phalcon\Validation constructor
      */
-    public function __construct(array validators = null) -> void
+    public function __construct(array validators = []) -> void
     {
-        if count(validators) {
-            let this->validators = array_filter(
-                validators,
-                function(var element) {
-                    return typeof element[0] != "array" || !(element[1] instanceof CombinedFieldsValidator);
-                }
-            );
+        let this->validators = array_filter(
+            validators,
+            function(var element) {
+                return typeof element[0] != "array" || !(element[1] instanceof CombinedFieldsValidator);
+            }
+        );
 
-            let this->combinedFieldsValidators = array_filter(
-                validators,
-                function(var element) {
-                    return typeof element[0] == "array" && element[1] instanceof CombinedFieldsValidator;
-                }
-            );
-        }
+        let this->combinedFieldsValidators = array_filter(
+            validators,
+            function(var element) {
+                return typeof element[0] == "array" && element[1] instanceof CombinedFieldsValidator;
+            }
+        );
 
         this->setDefaultMessages();
 
@@ -73,21 +71,19 @@ class Validation extends Injectable implements ValidationInterface
     public function add(var field, <ValidatorInterface> validator) -> <ValidationInterface>
     {
         var singleField;
+
         if typeof field == "array" {
             // Uniqueness validator for combination of fields is handled differently
             if validator instanceof CombinedFieldsValidator {
                 let this->combinedFieldsValidators[] = [field, validator];
-            }
-            else {
+            } else {
                 for singleField in field {
                     let this->validators[] = [singleField, validator];
                 }
             }
-        }
-        elseif typeof field == "string" {
+        } elseif typeof field == "string" {
             let this->validators[] = [field, validator];
-        }
-        else {
+        } else {
             throw new Exception(
                 "Field must be passed as array of fields or string"
             );
@@ -153,8 +149,6 @@ class Validation extends Injectable implements ValidationInterface
 
     /**
      * Returns the bound entity
-     *
-     * @return object
      */
     public function getEntity() -> object
     {
@@ -163,15 +157,14 @@ class Validation extends Injectable implements ValidationInterface
 
     /**
      * Returns all the filters or a specific one
-     *
-     * @return mixed
      */
     public function getFilters(string field = null) -> var | null
     {
         var filters, fieldFilters;
+
         let filters = this->filters;
 
-        if field === null || field === "" {
+        if !field {
             return filters;
         }
 
@@ -225,9 +218,8 @@ class Validation extends Injectable implements ValidationInterface
      */
     public function getValue(string field) -> var | null
     {
-        var entity, method, value, data, values,
-            filters, fieldFilters, container,
-            filterService, camelizedField;
+        var entity, method, value, data, values, filters, fieldFilters,
+            container, filterService, camelizedField;
 
         let entity = this->entity;
 
@@ -235,21 +227,17 @@ class Validation extends Injectable implements ValidationInterface
         if typeof entity == "object" {
             let camelizedField = camelize(field);
             let method = "get" . camelizedField;
+
             if method_exists(entity, method) {
                 let value = entity->{method}();
+            } elseif method_exists(entity, "readAttribute") {
+                let value = entity->readAttribute(field);
+            } elseif isset entity->{field} {
+                let value = entity->{field};
             } else {
-                if method_exists(entity, "readAttribute") {
-                    let value = entity->readAttribute(field);
-                } else {
-                    if isset entity->{field} {
-                        let value = entity->{field};
-                    } else {
-                        let value = null;
-                    }
-                }
+                let value = null;
             }
-        }
-        else {
+        } else {
             let data = this->data;
 
             if typeof data != "array" && typeof data != "object" {
@@ -267,11 +255,9 @@ class Validation extends Injectable implements ValidationInterface
                 if isset data[field] {
                     let value = data[field];
                 }
-            } else {
-                if typeof data == "object" {
-                    if isset data->{field} {
-                        let value = data->{field};
-                    }
+            } elseif typeof data == "object" {
+                if isset data->{field} {
+                    let value = data->{field};
                 }
             }
         }
@@ -311,16 +297,13 @@ class Validation extends Injectable implements ValidationInterface
                  */
                 if typeof entity == "object" {
                     let method = "set" . camelizedField;
+
                     if method_exists(entity, method) {
                         entity->{method}(value);
-                    } else {
-                        if method_exists(entity, "writeAttribute") {
-                            entity->writeAttribute(field, value);
-                        } else {
-                            if property_exists(entity, field) {
-                                let entity->{field} = value;
-                            }
-                        }
+                    } elseif method_exists(entity, "writeAttribute") {
+                        entity->writeAttribute(field, value);
+                    } elseif property_exists(entity, field) {
+                        let entity->{field} = value;
                     }
                 }
 
@@ -368,31 +351,31 @@ class Validation extends Injectable implements ValidationInterface
         var defaultMessages;
 
         let defaultMessages = [
-            "Alnum": "Field :field must contain only letters and numbers",
-            "Alpha": "Field :field must contain only letters",
-            "Between": "Field :field must be within the range of :min to :max",
-            "Confirmation": "Field :field must be the same as :with",
-            "Digit": "Field :field must be numeric",
-            "Email": "Field :field must be an email address",
-            "ExclusionIn": "Field :field must not be a part of list: :domain",
-            "FileEmpty": "Field :field must not be empty",
-            "FileIniSize": "File :field exceeds the maximum file size",
+            "Alnum":             "Field :field must contain only letters and numbers",
+            "Alpha":             "Field :field must contain only letters",
+            "Between":           "Field :field must be within the range of :min to :max",
+            "Confirmation":      "Field :field must be the same as :with",
+            "Digit":             "Field :field must be numeric",
+            "Email":             "Field :field must be an email address",
+            "ExclusionIn":       "Field :field must not be a part of list: :domain",
+            "FileEmpty":         "Field :field must not be empty",
+            "FileIniSize":       "File :field exceeds the maximum file size",
             "FileMaxResolution": "File :field must not exceed :max resolution",
             "FileMinResolution": "File :field must be at least :min resolution",
-            "FileSize": "File :field exceeds the size of :max",
-            "FileType": "File :field must be of type: :types",
-            "FileValid": "Field :field is not valid",
-            "Identical": "Field :field does not have the expected value",
-            "InclusionIn": "Field :field must be a part of list: :domain",
-            "Numericality": "Field :field does not have a valid numeric format",
-            "PresenceOf": "Field :field is required",
-            "Regex": "Field :field does not match the required format",
-            "TooLong": "Field :field must not exceed :max characters long",
-            "TooShort": "Field :field must be at least :min characters long",
-            "Uniqueness": "Field :field must be unique",
-            "Url": "Field :field must be a url",
-            "CreditCard": "Field :field is not valid for a credit card number",
-            "Date": "Field :field is not a valid date"
+            "FileSize":          "File :field exceeds the size of :max",
+            "FileType":          "File :field must be of type: :types",
+            "FileValid":         "Field :field is not valid",
+            "Identical":         "Field :field does not have the expected value",
+            "InclusionIn":       "Field :field must be a part of list: :domain",
+            "Numericality":      "Field :field does not have a valid numeric format",
+            "PresenceOf":        "Field :field is required",
+            "Regex":             "Field :field does not match the required format",
+            "TooLong":           "Field :field must not exceed :max characters long",
+            "TooShort":          "Field :field must be at least :min characters long",
+            "Uniqueness":        "Field :field must be unique",
+            "Url":               "Field :field must be a url",
+            "CreditCard":        "Field :field is not valid for a credit card number",
+            "Date":              "Field :field is not a valid date"
         ];
 
         let this->defaultMessages = array_merge(defaultMessages, messages);
@@ -410,6 +393,7 @@ class Validation extends Injectable implements ValidationInterface
         if typeof entity != "object" {
             throw new Exception("Entity must be an object");
         }
+
         let this->entity = entity;
     }
 
@@ -422,15 +406,14 @@ class Validation extends Injectable implements ValidationInterface
     public function setFilters(var field, filters) -> <ValidationInterface>
     {
         var singleField;
+
         if typeof field == "array" {
             for singleField in field {
                 let this->filters[singleField] = filters;
             }
-        }
-        elseif typeof field == "string" {
+        } elseif typeof field == "string" {
             let this->filters[field] = filters;
-        }
-        else {
+        } else {
             throw new Exception(
                 "Field must be passed as array of fields or string."
             );
@@ -575,6 +558,7 @@ class Validation extends Injectable implements ValidationInterface
     protected function preChecking(var field, <ValidatorInterface> validator) -> bool
     {
         var singleField, allowEmpty, emptyValue, value, result;
+
         if typeof field == "array" {
             for singleField in field {
                 let result = this->preChecking(singleField, validator);
@@ -582,13 +566,13 @@ class Validation extends Injectable implements ValidationInterface
                     return result;
                 }
             }
-        }
-        else {
+        } else {
             let allowEmpty = validator->getOption("allowEmpty", false);
             if allowEmpty {
                 if method_exists(validator, "isAllowEmpty") {
                     return validator->isAllowEmpty(this, field);
                 }
+
                 let value = this->getValue(field);
                 if typeof allowEmpty == "array" {
                     for emptyValue in allowEmpty {
@@ -596,8 +580,10 @@ class Validation extends Injectable implements ValidationInterface
                             return true;
                         }
                     }
+
                     return false;
                 }
+
                 return empty value;
             }
         }
