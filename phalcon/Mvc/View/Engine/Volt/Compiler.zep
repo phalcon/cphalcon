@@ -270,7 +270,7 @@ class Compiler implements InjectionAwareInterface
                         E_USER_DEPRECATED
                     );
                 }
-                let compiledPath = options[optionKey];
+                let compiledSeparator = options[optionKey];
                 if typeof compiledSeparator != "string" {
                     throw new Exception("'" . optionKey . "' must be a string");
                 }
@@ -290,7 +290,7 @@ class Compiler implements InjectionAwareInterface
                         E_USER_DEPRECATED
                     );
                 }
-                let compiledPath = options[optionKey];
+                let compiledExtension = options[optionKey];
                 if typeof compiledExtension != "string" {
                     throw new Exception("'" . optionKey . "' must be a string");
                 }
