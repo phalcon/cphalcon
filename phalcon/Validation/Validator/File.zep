@@ -119,7 +119,9 @@ class File extends Validator
                 "messageIniSize"
             );
 
-            let replacePairs = [":field": label];
+            let replacePairs = [
+                ":field": label
+            ];
 
             validation->appendMessage(
                 new Message(
@@ -163,7 +165,9 @@ class File extends Validator
                 "messageValid"
             );
 
-            let replacePairs = [":field": label];
+            let replacePairs = [
+                ":field": label
+            ];
 
             validation->appendMessage(
                 new Message(
@@ -219,7 +223,10 @@ class File extends Validator
                     "messageSize"
                 );
 
-                let replacePairs = [":field": label, ":max": maxSize];
+                let replacePairs = [
+                    ":field": label,
+                    ":max":   maxSize
+                ];
 
                 validation->appendMessage(
                     new Message(
@@ -293,6 +300,7 @@ class File extends Validator
                 if typeof minResolution == "array" {
                     let minResolution = minResolution[field];
                 }
+
                 let minResolutionArray = explode("x", minResolution),
                     minWidth = minResolutionArray[0],
                     minHeight = minResolutionArray[1];
@@ -309,7 +317,10 @@ class File extends Validator
                     "messageMinResolution"
                 );
 
-                let replacePairs = [":field": label, ":min": minResolution];
+                let replacePairs = [
+                    ":field": label,
+                    ":min":   minResolution
+                ];
 
                 validation->appendMessage(
                     new Message(
@@ -329,6 +340,7 @@ class File extends Validator
                 if typeof maxResolution == "array" {
                     let maxResolution = maxResolution[field];
                 }
+
                 let maxResolutionArray = explode("x", maxResolution),
                     maxWidth = maxResolutionArray[0],
                     maxHeight = maxResolutionArray[1];
@@ -341,7 +353,10 @@ class File extends Validator
                         "messageMaxResolution"
                     );
 
-                    let replacePairs = [":field": label, ":max": maxResolution];
+                    let replacePairs = [
+                        ":field": label,
+                        ":max":   maxResolution
+                    ];
 
                     validation->appendMessage(
                         new Message(

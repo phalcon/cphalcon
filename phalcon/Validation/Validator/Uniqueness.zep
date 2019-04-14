@@ -228,11 +228,7 @@ class Uniqueness extends CombinedFieldsValidator
 
             let except = this->getOption("except");
 
-            if value != null {
-                let params["conditions"][singleField] = value;
-            } else {
-                let params["conditions"][singleField] = null;
-            }
+            let params["conditions"][singleField] = value;
 
             if except {
                 if typeof except == "array" && count(field) > 1 {
@@ -246,28 +242,35 @@ class Uniqueness extends CombinedFieldsValidator
                         for singleExcept in fieldExcept {
                             let notInValues[] = singleExcept;
                         }
-                        array arrayValue = ["$nin": notInValues];
-                        let exceptConditions[singleField] = arrayValue;
+
+                        let exceptConditions[singleField] = [
+                            "$nin": notInValues
+                        ];
                     } else {
-                        array arrayValue = ["$ne": fieldExcept];
-                        let exceptConditions[singleField] = arrayValue;
+                        let exceptConditions[singleField] = [
+                            "$ne": fieldExcept
+                        ];
                     }
                 } elseif typeof except == "array" && count(field) == 1 {
                     for singleExcept in except {
                         let notInValues[] = singleExcept;
                     }
-                    array arrayValue = ["$nin": notInValues];
-                    let params["conditions"][singleField] = arrayValue;
+
+                    let params["conditions"][singleField] = [
+                        "$nin": notInValues
+                    ];
                 } elseif count(field) == 1 {
-                    array arrayValue = ["$ne": except];
-                    let params["conditions"][singleField] = arrayValue;
+                    let params["conditions"][singleField] = [
+                        "$ne": except
+                    ];
                 }
             }
         }
 
         if record->getDirtyState() == Collection::DIRTY_STATE_PERSISTENT {
-            array arrayValue = ["$ne": record->getId()];
-            let params["conditions"]["_id"] = arrayValue;
+            let params["conditions"]["_id"] = [
+                "$ne": record->getId()
+            ];
         }
 
         if !empty exceptConditions {
@@ -324,6 +327,7 @@ class Uniqueness extends CombinedFieldsValidator
                                 let params["bind"][] = singleExcept;
                                 let index++;
                             }
+
                             let exceptConditions[] = attribute . " NOT IN (" . join(",", notInValues) . ")";
                         } else {
                             let exceptConditions[] = attribute . " <> ?" . index;
@@ -343,6 +347,7 @@ class Uniqueness extends CombinedFieldsValidator
                             let params["bind"][] = singleExcept;
                             let index++;
                         }
+
                         let exceptConditions[] = attribute . " NOT IN (" . join(",", notInValues) . ")";
                     } else {
                         let params["conditions"][] = attribute . " <> ?" . index;
@@ -362,6 +367,7 @@ class Uniqueness extends CombinedFieldsValidator
                                 let params["bind"][] = singleExcept;
                                 let index++;
                             }
+
                             let exceptConditions[] = attribute . " NOT IN (" . join(",", notInValues) . ")";
                         } else {
                             let params["conditions"][] = attribute . " <> ?" . index;
@@ -394,7 +400,10 @@ class Uniqueness extends CombinedFieldsValidator
             let params["conditions"][] = "(" . join(" OR ", exceptConditions) . ")";
         }
 
-        let params["conditions"] = join(" AND ", params["conditions"]);
+        let params["conditions"] = join(
+            " AND ",
+            params["conditions"]
+        );
 
         return params;
     }

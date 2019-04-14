@@ -13,7 +13,7 @@ namespace Phalcon\Paginator;
 /**
  * Phalcon\Paginator\Repository
  *
- * Repository of current state Phalcon\Paginator\AdapterInterface::getPaginate()
+ * Repository of current state Phalcon\Paginator\AdapterInterface::paginate()
  */
 class Repository implements RepositoryInterface
 {

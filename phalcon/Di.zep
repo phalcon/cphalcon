@@ -91,9 +91,7 @@ class Di implements DiInterface
      */
     public function __construct() -> void
     {
-        var di;
-        let di = self::_default;
-        if !di {
+        if !self::_default {
             let self::_default = this;
         }
     }
@@ -103,17 +101,16 @@ class Di implements DiInterface
      */
     public function __call(string! method, array arguments = []) -> var | null
     {
-        var instance, possibleService, services, definition;
+        var instance, possibleService, definition;
 
         /**
          * If the magic method starts with "get" we try to get a service with
          * that name
          */
         if starts_with(method, "get") {
-            let services = this->services,
-                possibleService = lcfirst(substr(method, 3));
+            let possibleService = lcfirst(substr(method, 3));
 
-            if isset services[possibleService] {
+            if isset this->services[possibleService] {
                 let instance = this->get(possibleService, arguments);
 
                 return instance;
@@ -146,12 +143,10 @@ class Di implements DiInterface
      */
     public function attempt(string! name, definition, bool shared = false) -> <ServiceInterface> | bool
     {
-        var service;
-
         if !isset this->services[name] {
-            let service = new Service(definition, shared),
-                this->services[name] = service;
-            return service;
+            let this->services[name] = new Service(definition, shared);
+
+            return this->services[name];
         }
 
         return false;
@@ -280,13 +275,13 @@ class Di implements DiInterface
     {
         var service;
 
-        if fetch service, this->services[name] {
-            return service->getDefinition();
+        if !fetch service, this->services[name] {
+            throw new Exception(
+                "Service '" . name . "' wasn't found in the dependency injection container"
+            );
         }
 
-        throw new Exception(
-            "Service '" . name . "' wasn't found in the dependency injection container"
-        );
+        return service->getDefinition();
     }
 
     /**
@@ -296,13 +291,13 @@ class Di implements DiInterface
     {
         var service;
 
-        if fetch service, this->services[name] {
-            return service;
+        if !fetch service, this->services[name] {
+            throw new Exception(
+                "Service '" . name . "' wasn't found in the dependency injection container"
+            );
         }
 
-        throw new Exception(
-            "Service '" . name . "' wasn't found in the dependency injection container"
-        );
+        return service;
     }
 
     /**
@@ -531,10 +526,9 @@ class Di implements DiInterface
      */
     public function set(string! name, var definition, bool shared = false) -> <ServiceInterface>
     {
-        var service;
-        let service = new Service(definition, shared),
-            this->services[name] = service;
-        return service;
+        let this->services[name] = new Service(definition, shared);
+
+        return this->services[name];
     }
 
     /**

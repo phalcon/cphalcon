@@ -72,6 +72,7 @@ class Identical extends Validator
             if typeof accepted == "array" {
                 let accepted = accepted[field];
             }
+
             let valid = value == accepted;
         } else {
             if this->hasOption("value") {
@@ -79,6 +80,7 @@ class Identical extends Validator
                 if typeof valueOption == "array" {
                     let valueOption = valueOption[field];
                 }
+
                 let valid = value == valueOption;
             }
         }
@@ -88,7 +90,9 @@ class Identical extends Validator
                 message = this->prepareMessage(validation, field, "Identical"),
                 code = this->prepareCode(field);
 
-            let replacePairs = [":field": label];
+            let replacePairs = [
+                ":field": label
+            ];
 
             validation->appendMessage(
                 new Message(
