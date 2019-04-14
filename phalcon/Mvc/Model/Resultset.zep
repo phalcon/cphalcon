@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Closure;
 use Phalcon\Db;
 use Phalcon\Cache\BackendInterface;
 use Phalcon\Messages\MessageInterface;
@@ -89,7 +90,7 @@ abstract class Resultset
     /**
      * Phalcon\Db\ResultInterface or false for empty resultset
      */
-    protected result = false;
+    protected result;
 
     /**
      * Phalcon\Mvc\Model\Resultset constructor
@@ -106,6 +107,7 @@ abstract class Resultset
         if typeof result != "object" {
             let this->count = 0;
             let this->rows = [];
+
             return;
         }
 
@@ -137,6 +139,7 @@ abstract class Resultset
          */
         if rowCount == 0 {
             let this->rows = [];
+
             return;
         }
 
@@ -148,6 +151,7 @@ abstract class Resultset
              * Fetch ALL rows from database
              */
             let rows = result->fetchAll();
+
             if typeof rows == "array" {
                 let this->rows = rows;
             } else {
@@ -167,7 +171,7 @@ abstract class Resultset
     /**
      * Deletes every record in the resultset
      */
-    public function delete(<\Closure> conditionCallback = null) -> bool
+    public function delete(<Closure> conditionCallback = null) -> bool
     {
         bool result, transaction;
         var record, connection = null;
@@ -178,11 +182,9 @@ abstract class Resultset
         this->rewind();
 
         while this->valid() {
-
             let record = this->current();
 
             if transaction === false {
-
                 /**
                  * We only can delete resultsets if every element is a complete object
                  */
@@ -202,6 +204,7 @@ abstract class Resultset
             if typeof conditionCallback == "object" {
                 if call_user_func_array(conditionCallback, [record]) === false {
                     this->next();
+
                     continue;
                 }
             }
@@ -210,7 +213,6 @@ abstract class Resultset
              * Try to delete the record
              */
             if !record->delete() {
-
                 /**
                  * Get the messages from the record that produce the error
                  */
@@ -220,8 +222,10 @@ abstract class Resultset
                  * Rollback the transaction
                  */
                 connection->rollback();
+
                 let result = false;
                 let transaction = false;
+
                 break;
             }
 
@@ -250,24 +254,25 @@ abstract class Resultset
      *     }
      * );
      *</code>
-     *
-     * @return \Phalcon\Mvc\Model[]
      */
-    public function filter(callable filter) -> array
+    public function filter(callable filter) -> <ModelInterface[]>
     {
-        var records, record, parameters, processedRecord;
+        var record, processedRecord;
+        array records;
 
-        let records = [],
-            parameters = [];
+        let records = [];
 
         this->rewind();
 
         while this->valid() {
-
             let record = this->current();
 
-            let parameters[0] = record,
-                processedRecord = call_user_func_array(filter, parameters);
+            let processedRecord = call_user_func_array(
+                filter,
+                [
+                    record
+                ]
+            );
 
             /**
              * Only add processed records to 'records' if the returned value is an array/object
@@ -278,6 +283,7 @@ abstract class Resultset
             }
 
             let records[] = processedRecord;
+
             this->next();
         }
 
@@ -302,6 +308,7 @@ abstract class Resultset
         }
 
         this->seek(0);
+
         return this->{"current"}();
     }
 
@@ -319,12 +326,15 @@ abstract class Resultset
     public function getLast() -> <ModelInterface> | bool
     {
         var count;
+
         let count = this->count;
+
         if count == 0 {
             return false;
         }
 
         this->seek(count - 1);
+
         return this->{"current"}();
     }
 
@@ -358,12 +368,15 @@ abstract class Resultset
      *
      *<code>
      * $robots = Robots::find();
+     *
      * echo json_encode($robots);
      *</code>
      */
     public function jsonSerialize() -> array
     {
-        var records, current;
+        var current;
+        array records;
+
         let records = [];
 
         this->rewind();
@@ -388,7 +401,7 @@ abstract class Resultset
      */
     public function key() -> int | null
     {
-        if this->pointer >= this->count {
+        if !this->valid() {
             return null;
         }
 
@@ -401,7 +414,9 @@ abstract class Resultset
     public function next() -> void
     {
         // Seek to the next position
-        this->seek(this->pointer + 1);
+        this->seek(
+            this->pointer + 1
+        );
     }
 
     /**
@@ -409,16 +424,16 @@ abstract class Resultset
      */
     public function offsetGet(var index) -> <ModelInterface> | bool
     {
-        if index < this->count {
-               /**
-                * Move the cursor to the specific position
-                */
-            this->seek(index);
-
-            return this->{"current"}();
-
+        if index >= this->count {
+            throw new Exception("The index does not exist in the cursor");
         }
-        throw new Exception("The index does not exist in the cursor");
+
+        /**
+         * Move the cursor to the specific position
+         */
+        this->seek(index);
+
+        return this->{"current"}();
     }
 
     /**
@@ -467,8 +482,8 @@ abstract class Resultset
         if this->pointer != position || this->row === null {
             if typeof this->rows == "array" {
                 /**
-                * All rows are in memory
-                */
+                 * All rows are in memory
+                 */
                 if fetch row, this->rows[position] {
                     let this->row = row;
                 }
@@ -479,12 +494,13 @@ abstract class Resultset
             }
 
             /**
-            * Fetch from PDO one-by-one.
-            */
+             * Fetch from PDO one-by-one.
+             */
             let result = this->result;
             if this->row === null && this->pointer === 0 {
                 /**
-                 * Fresh result-set: Query was already executed in model\query::_executeSelect()
+                 * Fresh result-set: Query was already executed in
+                 * `Model\Query::executeSelect()`
                  * The first row is available with fetch
                  */
                 let this->row = result->$fetch();
@@ -492,20 +508,22 @@ abstract class Resultset
 
             if this->pointer > position {
                 /**
-                * Current pointer is ahead requested position: e.g. request a previous row
-                * It is not possible to rewind. Re-execute query with dataSeek
-                */
+                 * Current pointer is ahead requested position: e.g. request a
+                 * previous row. It is not possible to rewind. Re-execute query
+                 * with dataSeek.
+                 */
                 result->dataSeek(position);
+
                 let this->row = result->$fetch();
                 let this->pointer = position;
             }
 
             while this->pointer < position {
                 /**
-                * Requested position is greater than current pointer,
-                * seek forward until the requested position is reached.
-                * We do not need to re-execute the query!
-                */
+                 * Requested position is greater than current pointer, seek
+                 * forward until the requested position is reached. We do not
+                 * need to re-execute the query!
+                 */
                 let this->row = result->$fetch();
                 let this->pointer++;
             }
@@ -521,6 +539,7 @@ abstract class Resultset
     public function setHydrateMode(int hydrateMode) -> <ResultsetInterface>
     {
         let this->hydrateMode = hydrateMode;
+
         return this;
     }
 
@@ -530,6 +549,7 @@ abstract class Resultset
     public function setIsFresh(bool isFresh) -> <ResultsetInterface>
     {
         let this->isFresh = isFresh;
+
         return this;
     }
 
@@ -538,7 +558,7 @@ abstract class Resultset
      *
      * @param array data
      */
-    public function update(var data, <\Closure> conditionCallback = null) -> bool
+    public function update(var data, <Closure> conditionCallback = null) -> bool
     {
         bool transaction;
         var record, connection = null;
@@ -572,6 +592,7 @@ abstract class Resultset
             if typeof conditionCallback == "object" {
                 if call_user_func_array(conditionCallback, [record]) === false {
                     this->next();
+
                     continue;
                 }
             }

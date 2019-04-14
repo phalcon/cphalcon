@@ -12,6 +12,7 @@ namespace Phalcon\Mvc\Model;
 
 use Phalcon\Cache\BackendInterface;
 use Phalcon\Messages\MessageInterface;
+use Phalcon\Mvc\ModelInterface;
 
 /**
  * Phalcon\Mvc\Model\ResultsetInterface
@@ -37,10 +38,8 @@ interface ResultsetInterface
      *     }
      * );
      *</code>
-     *
-     * @return \Phalcon\Mvc\Model[]
      */
-    public function filter(callable filter) -> array;
+    public function filter(callable filter) -> <ModelInterface[]>;
 
     /**
      * Returns the associated cache for the resultset
