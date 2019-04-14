@@ -16,6 +16,7 @@
 - Refactored `Phalcon\Mvc\Collection\Behavior\SoftDelete` and `Phalcon\Mvc\Model\Behavior\SoftDelete`. [#13930](https://github.com/phalcon/cphalcon/pull/13930)
 - Model methods that extend Model Manager functionality are now `final`. [#13950](https://github.com/phalcon/cphalcon/pull/13950)
 - Changed `Phalcon\Text` to call methods from `Phalcon\Helper\Str` [#13954](https://github.com/phalcon/cphalcon/pull/13954)
+- Setting the views directory no longer requires a trailing slash when using Simple View.
 
 ## Fixed
 - Fixed `Mvc\Collection::isInitialized()` now works as intended. [#13931](https://github.com/phalcon/cphalcon/pull/13931)
