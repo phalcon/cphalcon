@@ -17,6 +17,8 @@
 - Model methods that extend Model Manager functionality are now `final`. [#13950](https://github.com/phalcon/cphalcon/pull/13950)
 - Changed `Phalcon\Text` to call methods from `Phalcon\Helper\Str` [#13954](https://github.com/phalcon/cphalcon/pull/13954)
 - Setting the views directory no longer requires a trailing slash when using Simple View.
+- `Phalcon\Mvc\View\Simple::viewParams` is now always an array.
+- `Phalcon\Mvc\View\Simple::render()` `params` property is now always an array.
 - `Phalcon\Mvc\Model\CriteriaInterface::limit()` now takes `offset` as an integer. [#13977](https://github.com/phalcon/cphalcon/pull/13977)
 
 ## Fixed
