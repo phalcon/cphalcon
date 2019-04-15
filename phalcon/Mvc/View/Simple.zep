@@ -450,7 +450,7 @@ class Simple extends Injectable implements ViewBaseInterface
     public function setViewsDir(string! viewsDir)
     {
         if substr(viewsDir, -1) != DIRECTORY_SEPARATOR {
-            let viewsDir = viewsDir . DIRECTORY_SEPARATOR;
+            let viewsDir .= DIRECTORY_SEPARATOR;
         }
 
         let this->viewsDir = viewsDir;
