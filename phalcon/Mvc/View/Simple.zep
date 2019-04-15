@@ -290,10 +290,8 @@ class Simple extends Injectable implements ViewBaseInterface
 
     /**
      * Renders a view
-     *
-     * @param  array  params
      */
-    public function render(string! path, params = null) -> string
+    public function render(string! path, array params = []) -> string
     {
         var cache, key, lifetime, cacheOptions, content, viewParams, mergedParams;
 
@@ -353,11 +351,7 @@ class Simple extends Injectable implements ViewBaseInterface
         /**
          * Merge parameters
          */
-        if typeof params == "array" {
-            let mergedParams = array_merge(viewParams, params);
-        } else {
-            let mergedParams = viewParams;
-        }
+        let mergedParams = array_merge(viewParams, params);
 
         /**
          * internalRender is also reused by partials
