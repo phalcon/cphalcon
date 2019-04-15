@@ -27,7 +27,7 @@ class Route
 
     protected delimiter;
 
-    protected static delimiterPath;
+    protected static delimiterPath = self::DEFAULT_DELIMITER;
 
     protected description;
 
@@ -44,18 +44,14 @@ class Route
     /**
      * Phalcon\Cli\Router\Route constructor
      *
-     * @param array paths
+     * @param array|string paths
      */
     public function __construct(string! pattern, paths = null) -> void
     {
-        var routeId, uniqueId, delimiter;
+        var routeId, uniqueId;
 
         // Get the delimiter from the static member delimiterPath
-        let delimiter = self::delimiterPath;
-        if !delimiter {
-            let delimiter = self::DEFAULT_DELIMITER;
-        }
-        let this->delimiter = delimiter;
+        let this->delimiter = self::delimiterPath;
 
         // Configure the route (extract parameters, paths, etc)
         this->reConfigure(pattern, paths);
@@ -191,8 +187,6 @@ class Route
 
     /**
      * Extracts parameters from a string
-     *
-     * @return array|bool
      */
     public function extractNamedParams(string! pattern) -> array | bool
     {
@@ -354,14 +348,7 @@ class Route
      */
     public static function getDelimiter() -> string
     {
-        var delimiter;
-
-        let delimiter = self::delimiterPath;
-        if !delimiter {
-            let delimiter = self::DEFAULT_DELIMITER;
-        }
-
-        return delimiter;
+        return self::delimiterPath;
     }
 
     /**
@@ -421,7 +408,7 @@ class Route
     /**
      * Reconfigure the route adding a new pattern and a set of paths
      *
-     * @param array paths
+     * @param array|string paths
      */
     public function reConfigure(string! pattern, paths = null) -> void
     {
