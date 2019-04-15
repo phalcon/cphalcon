@@ -495,8 +495,8 @@ class Simple extends Injectable implements ViewBaseInterface
      */
     protected function loadTemplateEngines() -> array
     {
-        var engines, di, registeredEngines, extension,
-            engineService, engineObject;
+        var engines, di, registeredEngines, extension, engineService,
+            engineObject;
 
         /**
          * If the engines aren't initialized 'engines' is false
@@ -575,8 +575,9 @@ class Simple extends Injectable implements ViewBaseInterface
      */
     final protected function internalRender(string! path, params)
     {
-        var eventsManager, engines, extension, engine, mustClean, viewEnginePath, viewsDirPath;
-        bool notExists;
+        var eventsManager, engines, extension, engine;
+        bool notExists, mustClean;
+        string viewEnginePath, viewsDirPath;
 
         let eventsManager = this->eventsManager;
 
