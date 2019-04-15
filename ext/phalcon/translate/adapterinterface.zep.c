@@ -34,21 +34,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_AdapterInterface) {
 }
 
 /**
- * Returns the translation string of the given key
- *
- * @param	array placeholders
+ * Check whether is defined a translation key in the internal array
  */
-ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, t);
+ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, exists);
 
 /**
  * Returns the translation related to the given key
  *
- * @param	array placeholders
+ * @param    array placeholders
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, query);
 
 /**
- * Check whether is defined a translation key in the internal array
+ * Returns the translation string of the given key
+ *
+ * @param    array placeholders
  */
-ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, exists);
+ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, t);
 

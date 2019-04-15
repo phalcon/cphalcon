@@ -76,55 +76,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_GroupInterface) {
 }
 
 /**
- * Set a hostname restriction for all the routes in the group
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, setHostname);
-
-/**
- * Returns the hostname restriction
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getHostname);
-
-/**
- * Set a common uri prefix for all the routes in this group
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, setPrefix);
-
-/**
- * Returns the common prefix for all the routes
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getPrefix);
-
-/**
- * Sets a callback that is called if the route is matched.
- * The developer can implement any arbitrary conditions here
- * If the callback returns false the route is treated as not matched
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, beforeMatch);
-
-/**
- * Returns the 'before match' callback if any
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getBeforeMatch);
-
-/**
- * Set common paths for all the routes in the group
- *
- * @param array paths
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, setPaths);
-
-/**
- * Returns the common paths defined for this group
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getPaths);
-
-/**
- * Returns the routes added to the group
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getRoutes);
-
-/**
  * Adds a route to the router on any HTTP method
  *
  *<code>
@@ -139,6 +90,26 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, add);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addGet);
 
 /**
+ * Adds a route to the router that only match if the HTTP method is DELETE
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addDelete);
+
+/**
+ * Adds a route to the router that only match if the HTTP method is HEAD
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addHead);
+
+/**
+ * Add a route to the router that only match if the HTTP method is OPTIONS
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addOptions);
+
+/**
+ * Adds a route to the router that only match if the HTTP method is PATCH
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addPatch);
+
+/**
  * Adds a route to the router that only match if the HTTP method is POST
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addPost);
@@ -149,27 +120,56 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addPost);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addPut);
 
 /**
- * Adds a route to the router that only match if the HTTP method is PATCH
+ * Sets a callback that is called if the route is matched.
+ * The developer can implement any arbitrary conditions here
+ * If the callback returns false the route is treated as not matched
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addPatch);
-
-/**
- * Adds a route to the router that only match if the HTTP method is DELETE
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addDelete);
-
-/**
- * Add a route to the router that only match if the HTTP method is OPTIONS
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addOptions);
-
-/**
- * Adds a route to the router that only match if the HTTP method is HEAD
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addHead);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, beforeMatch);
 
 /**
  * Removes all the pre-defined routes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, clear);
+
+/**
+ * Returns the 'before match' callback if any
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getBeforeMatch);
+
+/**
+ * Returns the hostname restriction
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getHostname);
+
+/**
+ * Returns the common paths defined for this group
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getPaths);
+
+/**
+ * Returns the common prefix for all the routes
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getPrefix);
+
+/**
+ * Returns the routes added to the group
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, getRoutes);
+
+/**
+ * Set a hostname restriction for all the routes in the group
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, setHostname);
+
+/**
+ * Set common paths for all the routes in the group
+ *
+ * @param array paths
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, setPaths);
+
+/**
+ * Set a common uri prefix for all the routes in this group
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, setPrefix);
 

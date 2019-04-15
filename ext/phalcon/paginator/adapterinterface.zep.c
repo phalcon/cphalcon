@@ -34,9 +34,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_AdapterInterface) {
 }
 
 /**
- * Set the current page number
+ * Get current rows limit
  */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, setCurrentPage);
+ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, getLimit);
 
 /**
  * Returns a slice of the resultset to show in the pagination
@@ -44,12 +44,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, setCurrentPage);
 ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, paginate);
 
 /**
+ * Set the current page number
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, setCurrentPage);
+
+/**
  * Set current rows limit
  */
 ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, setLimit);
-
-/**
- * Get current rows limit
- */
-ZEPHIR_DOC_METHOD(Phalcon_Paginator_AdapterInterface, getLimit);
 

@@ -34,8 +34,8 @@ class OffsetUnsetCest
         $I->wantToTest('Messages\Messages - offsetUnset()');
         $messages = new Messages(
             [
-                0 => new Message('This is a message #1', 'MyField1', 'MyType1', 111),
-                1 => new Message('This is a message #2', 'MyField2', 'MyType2', 222),
+                0 => new Message('This is a message #1', 'MyField1', 'MyType1', 111, ['My1' => 'Metadata1']),
+                1 => new Message('This is a message #2', 'MyField2', 'MyType2', 222, ['My2' => 'Metadata2']),
             ]
         );
 
@@ -56,10 +56,11 @@ class OffsetUnsetCest
 
         $expected = Message::__set_state(
             [
-                '_message' => 'This is a message #2',
-                '_field'   => 'MyField2',
-                '_type'    => 'MyType2',
-                '_code'    => 222,
+                '_message'  => 'This is a message #2',
+                '_field'    => 'MyField2',
+                '_type'     => 'MyType2',
+                '_code'     => 222,
+                '_metaData' => ['My2' => 'Metadata2']
             ]
         );
         $actual   = $message;

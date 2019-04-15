@@ -4,7 +4,6 @@
 $files = [
     'phalcon/annotations/scanner.h',
     'phalcon/annotations/annot.h',
-    'phalcon/mvc/url/utils.h',
     'phalcon/mvc/model/orm.h',
     'phalcon/mvc/model/query/scanner.h',
     'phalcon/mvc/model/query/phql.h',
@@ -16,6 +15,7 @@ $files = [
     'phalcon/mvc/view/engine/volt/parser.php' . PHP_MAJOR_VERSION . '.inc.h',
     'phalcon/annotations/parser.php' . PHP_MAJOR_VERSION . '.h',
     'phalcon/annotations/parser.php' . PHP_MAJOR_VERSION . '.inc.h',
+    'phalcon/url/utils.h',
     'kernel/main.h',
     'kernel/memory.h',
     'kernel/exception.h',
@@ -60,8 +60,6 @@ $files = [
     'kernel/iterator.c',
     'kernel/time.c',
     'kernel/exit.c',
-    'phalcon/assets/filters/jsminifier.h',
-    'phalcon/assets/filters/cssminifier.h',
 ];
 
 return $files;

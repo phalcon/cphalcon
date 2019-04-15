@@ -38,7 +38,7 @@ class IsNotNullCest
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['_notNull'], $column->isNotNull());
+            $I->assertEquals($columns[$index]['notNull'], $column->isNotNull());
         }
     }
 }

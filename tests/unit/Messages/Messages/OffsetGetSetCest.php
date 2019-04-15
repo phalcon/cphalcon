@@ -34,14 +34,14 @@ class OffsetGetSetCest
         $I->wantToTest('Messages\Messages - offsetGet()/offsetSet()');
         $messages = new Messages(
             [
-                0 => new Message('This is a message #1', 'MyField1', 'MyType1', 111),
-                1 => new Message('This is a message #2', 'MyField2', 'MyType2', 222),
+                0 => new Message('This is a message #1', 'MyField1', 'MyType1', 111, ['My1' => 'Metadata1']),
+                1 => new Message('This is a message #2', 'MyField2', 'MyType2', 222, ['My2' => 'Metadata2']),
             ]
         );
 
         $messages->offsetSet(
             2,
-            new Message('This is a message #3', 'MyField3', 'MyType3', 777)
+            new Message('This is a message #3', 'MyField3', 'MyType3', 777, ['My3' => 'Metadata3'])
         );
 
         $expected = 3;
@@ -54,10 +54,11 @@ class OffsetGetSetCest
 
         $expected = Message::__set_state(
             [
-                '_message' => 'This is a message #3',
-                '_field'   => 'MyField3',
-                '_type'    => 'MyType3',
-                '_code'    => 777,
+                '_message'  => 'This is a message #3',
+                '_field'    => 'MyField3',
+                '_type'     => 'MyType3',
+                '_code'     => 777,
+                '_metaData' => ['My3' => 'Metadata3']
             ]
         );
         $actual   = $message;

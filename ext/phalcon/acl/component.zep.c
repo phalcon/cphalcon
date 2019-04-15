@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Acl_Component, __construct) {
 
 
 	if (ZEPHIR_IS_STRING(&name, "*")) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Component name cannot be '*'", "phalcon/acl/component.zep", 41);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Component name cannot be '*'", "phalcon/Acl/Component.zep", 41);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("name"), &name);

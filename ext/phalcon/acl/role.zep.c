@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Acl_Role, __construct) {
 
 
 	if (ZEPHIR_IS_STRING(&name, "*")) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Role name cannot be '*'", "phalcon/acl/role.zep", 40);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Role name cannot be '*'", "phalcon/Acl/Role.zep", 40);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("name"), &name);

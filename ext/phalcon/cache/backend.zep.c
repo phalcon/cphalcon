@@ -30,7 +30,8 @@
 /**
  * Phalcon\Cache\Backend
  *
- * This class implements common functionality for backend adapters. A backend cache adapter may extend this class
+ * This class implements common functionality for backend adapters. A backend
+ * cache adapter may extend this class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Backend) {
 
@@ -273,7 +274,7 @@ PHP_METHOD(Phalcon_Cache_Backend, stop) {
 	}
 
 
-	if (stopBuffer == 1) {
+	if (stopBuffer) {
 		zephir_read_property(&_0$$3, this_ptr, SL("_frontend"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "stop", NULL, 0);
 		zephir_check_call_status();

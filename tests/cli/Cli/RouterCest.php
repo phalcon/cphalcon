@@ -275,11 +275,6 @@ class RouterCest
             'task' => 'posts',
             'action' => 'show',
         ]);
-        $route = $router->add("route3", "MyApp\\Tasks\\::show");
-        $I->assertEquals($route->getPaths(), [
-            'task' => '',
-            'action' => 'show',
-        ]);
         $route = $router->add("route3", "News::MyApp\\Tasks\\Posts::show");
         $I->assertEquals($route->getPaths(), [
             'module' => 'News',
@@ -292,6 +287,20 @@ class RouterCest
             'task' => 'posts',
             'action' => 'show',
         ]);
+    }
+
+    public function testShortPaths2(CliTester $I)
+    {
+        $I->expectThrowable(
+            new \Phalcon\Cli\Router\Exception("The route contains invalid paths"),
+            function () {
+                Route::reset();
+
+                $router = new Router(false);
+
+                $route = $router->add("route3", "MyApp\\Tasks\\::show");
+            }
+        );
     }
 
     public function testBeforeMatch(CliTester $I)

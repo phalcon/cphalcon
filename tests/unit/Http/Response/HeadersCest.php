@@ -88,7 +88,7 @@ class HeadersCest extends HttpBase
             $headers = new Headers();
             $headers->set('Status', $code);
 
-            $headers = $I->getProtectedProperty($headers, '_headers');
+            $headers = $I->getProtectedProperty($headers, 'headers');
 
             $expected = 1;
             $actual   = count($headers);
@@ -124,7 +124,7 @@ class HeadersCest extends HttpBase
 
         foreach ($examples as $message => $code) {
             $headers = new Headers();
-            $I->setProtectedProperty($headers, '_headers', ['Status' => $code]);
+            $I->setProtectedProperty($headers, 'headers', ['Status' => $code]);
 
             $expected = $code;
             $actual   = $headers->get('Status');

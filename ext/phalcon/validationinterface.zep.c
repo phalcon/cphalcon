@@ -34,78 +34,9 @@ ZEPHIR_INIT_CLASS(Phalcon_ValidationInterface) {
 }
 
 /**
- * Validate a set of data according to a set of rules
- *
- * @param array|object data
- * @param object entity
- */
-ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, validate);
-
-/**
  * Adds a validator to a field
  */
 ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, add);
-
-/**
- * Alias of `add` method
- */
-ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, rule);
-
-/**
- * Adds the validators to a field
- */
-ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, rules);
-
-/**
- * Adds filters to the field
- *
- * @param array|string filters
- */
-ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, setFilters);
-
-/**
- * Returns all the filters or a specific one
- *
- * @return mixed
- */
-ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getFilters);
-
-/**
- * Returns the validators added to the validation
- */
-ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getValidators);
-
-/**
- * Returns the bound entity
- *
- * @return object
- */
-ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getEntity);
-
-/**
- * Adds default messages to validators
- */
-ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, setDefaultMessages);
-
-/**
- * Get default message for validator type
- */
-ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getDefaultMessage);
-
-/**
- * Returns the registered validators
- */
-ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getMessages);
-
-/**
- * Adds labels for fields
- */
-ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, setLabels);
-
-/**
- * Get label for field
- */
-ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getLabel);
 
 /**
  * Appends a message to the messages list
@@ -122,7 +53,76 @@ ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, appendMessage);
 ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, bind);
 
 /**
+ * Get default message for validator type
+ */
+ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getDefaultMessage);
+
+/**
+ * Returns the bound entity
+ *
+ * @return object
+ */
+ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getEntity);
+
+/**
+ * Returns all the filters or a specific one
+ *
+ * @return mixed
+ */
+ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getFilters);
+
+/**
+ * Get label for field
+ */
+ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getLabel);
+
+/**
+ * Returns the registered validators
+ */
+ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getMessages);
+
+/**
+ * Returns the validators added to the validation
+ */
+ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getValidators);
+
+/**
  * Gets the a value to validate in the array/object data source
  */
 ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getValue);
+
+/**
+ * Alias of `add` method
+ */
+ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, rule);
+
+/**
+ * Adds the validators to a field
+ */
+ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, rules);
+
+/**
+ * Adds default messages to validators
+ */
+ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, setDefaultMessages);
+
+/**
+ * Adds filters to the field
+ *
+ * @param array|string filters
+ */
+ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, setFilters);
+
+/**
+ * Adds labels for fields
+ */
+ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, setLabels);
+
+/**
+ * Validate a set of data according to a set of rules
+ *
+ * @param array|object data
+ * @param object entity
+ */
+ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, validate);
 

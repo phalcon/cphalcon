@@ -49,29 +49,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, begin);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, commit);
 
 /**
- * Rollbacks the transaction
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, rollback);
-
-/**
  * Returns connection related to transaction
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, getConnection);
-
-/**
- * Sets if is a reused transaction or new once
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setIsNewTransaction);
-
-/**
- * Sets flag to rollback on abort the HTTP connection
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setRollbackOnAbort);
-
-/**
- * Checks whether transaction is managed by a transaction manager
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, isManaged);
 
 /**
  * Returns validations messages from last save try
@@ -79,12 +59,32 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, isManaged);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, getMessages);
 
 /**
+ * Checks whether transaction is managed by a transaction manager
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, isManaged);
+
+/**
  * Checks whether internal connection is under an active transaction
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, isValid);
 
 /**
+ * Rollbacks the transaction
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, rollback);
+
+/**
+ * Sets if is a reused transaction or new once
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setIsNewTransaction);
+
+/**
  * Sets object which generates rollback action
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setRollbackedRecord);
+
+/**
+ * Sets flag to rollback on abort the HTTP connection
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setRollbackOnAbort);
 

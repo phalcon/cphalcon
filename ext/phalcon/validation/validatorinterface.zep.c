@@ -34,15 +34,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidatorInterface) {
 }
 
 /**
- * Checks if an option is defined
- */
-ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, hasOption);
-
-/**
  * Returns an option in the validator's options
  * Returns null if the option hasn't set
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, getOption);
+
+/**
+ * Checks if an option is defined
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, hasOption);
 
 /**
  * Executes the validation

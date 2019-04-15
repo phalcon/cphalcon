@@ -15,14 +15,10 @@ use Phalcon\Mvc\Model;
 
 class Parts extends Model
 {
-
-    public function getSource(): string
-    {
-        return 'parts';
-    }
-
     public function initialize()
     {
+        $this->setSource("parts");
+
         $this->hasMany('id', RobotsParts::class, 'parts_id', [
             'foreignKey' => [
                 'message' => 'Parts cannot be deleted because is referenced by a Robot',

@@ -39,7 +39,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_AdapterInterface) {
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addInherit);
 
 /**
- * Adds a role to the ACL list. Second parameter lets to inherit access data from other existing role
+ * Adds a role to the ACL list. Second parameter lets to inherit access data
+ * from other existing role
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, addRole);
 
@@ -77,12 +78,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, dropComponentAccess);
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveAccess);
 
 /**
- * Returns the role which the list is checking if it's allowed to certain component/access
+ * Returns the role which the list is checking if it's allowed to certain
+ * component/access
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveRole);
 
 /**
- * Returns the component which the list is checking if some role can access it
+ * Returns the component which the list is checking if some role can access
+ * it
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getActiveComponent);
 
@@ -129,7 +132,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, setDefaultAction);
 
 /**
  * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
- * for no arguments provided in isAllowed action if there exists func for accessKey
+ * for no arguments provided in isAllowed action if there exists func for
+ * accessKey
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, setNoArgumentsDefaultAction);
 

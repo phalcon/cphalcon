@@ -38,7 +38,7 @@ class IsUnsignedCest
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['_unsigned'], $column->isUnsigned());
+            $I->assertEquals($columns[$index]['unsigned'], $column->isUnsigned());
         }
     }
 }

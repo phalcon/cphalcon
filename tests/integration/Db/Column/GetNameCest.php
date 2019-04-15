@@ -38,7 +38,7 @@ class GetNameCest
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['_columnName'], $column->getName());
+            $I->assertEquals($columns[$index]['columnName'], $column->getName());
         }
     }
 }

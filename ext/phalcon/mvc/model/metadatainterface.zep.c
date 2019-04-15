@@ -34,59 +34,34 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaDataInterface) {
 }
 
 /**
- * Set the meta-data extraction strategy
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setStrategy);
-
-/**
- * Return the strategy to obtain the meta-data
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getStrategy);
-
-/**
- * Reads meta-data for certain model
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaData);
-
-/**
- * Reads meta-data for certain model using a MODEL_* constant
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaDataIndex);
-
-/**
- * Writes meta-data for certain model using a MODEL_* constant
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, writeMetaDataIndex);
-
-/**
- * Reads the ordered/reversed column map for certain model
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readColumnMap);
-
-/**
- * Reads column-map information for certain model using a MODEL_* constant
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readColumnMapIndex);
-
-/**
  * Returns table attributes names (fields)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAttributes);
 
 /**
- * Returns an array of fields which are part of the primary key
+ * Returns attributes that must be ignored from the INSERT SQL generation
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getPrimaryKeyAttributes);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticCreateAttributes);
 
 /**
- * Returns an array of fields which are not part of the primary key
+ * Returns attributes that must be ignored from the UPDATE SQL generation
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNonPrimaryKeyAttributes);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticUpdateAttributes);
 
 /**
- * Returns an array of not null attributes
+ * Returns attributes and their bind data types
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNotNullAttributes);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getBindTypes);
+
+/**
+ * Returns the column map if any
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getColumnMap);
+
+/**
+ * Returns attributes (which have default values) and their default values
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDefaultValues);
 
 /**
  * Returns attributes and their data types
@@ -99,24 +74,79 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypes);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDataTypesNumeric);
 
 /**
+ * Returns attributes allow empty strings
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getEmptyStringAttributes);
+
+/**
  * Returns the name of identity field (if one is present)
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getIdentityField);
 
 /**
- * Returns attributes and their bind data types
+ * Returns an array of fields which are not part of the primary key
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getBindTypes);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNonPrimaryKeyAttributes);
 
 /**
- * Returns attributes that must be ignored from the INSERT SQL generation
+ * Returns an array of not null attributes
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticCreateAttributes);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getNotNullAttributes);
 
 /**
- * Returns attributes that must be ignored from the UPDATE SQL generation
+ * Returns an array of fields which are part of the primary key
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getAutomaticUpdateAttributes);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getPrimaryKeyAttributes);
+
+/**
+ * Returns the reverse column map if any
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getReverseColumnMap);
+
+/**
+ * Return the strategy to obtain the meta-data
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getStrategy);
+
+/**
+ * Check if a model has certain attribute
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, hasAttribute);
+
+/**
+ * Checks if the internal meta-data container is empty
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, isEmpty);
+
+/**
+ * Reads meta-data from the adapter
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, read);
+
+/**
+ * Reads the ordered/reversed column map for certain model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readColumnMap);
+
+/**
+ * Reads column-map information for certain model using a MODEL_* constant
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readColumnMapIndex);
+
+/**
+ * Reads meta-data for certain model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaData);
+
+/**
+ * Reads meta-data for certain model using a MODEL_* constant
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, readMetaDataIndex);
+
+/**
+ * Resets internal meta-data in order to regenerate it
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, reset);
 
 /**
  * Set the attributes that must be ignored from the INSERT SQL generation
@@ -134,44 +164,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setAutomaticUpdateAttribu
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setEmptyStringAttributes);
 
 /**
- * Returns attributes allow empty strings
+ * Writes meta-data for certain model using a MODEL_* constant
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getEmptyStringAttributes);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, writeMetaDataIndex);
 
 /**
- * Returns attributes (which have default values) and their default values
+ * Set the meta-data extraction strategy
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getDefaultValues);
-
-/**
- * Returns the column map if any
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getColumnMap);
-
-/**
- * Returns the reverse column map if any
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, getReverseColumnMap);
-
-/**
- * Check if a model has certain attribute
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, hasAttribute);
-
-/**
- * Checks if the internal meta-data container is empty
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, isEmpty);
-
-/**
- * Resets internal meta-data in order to regenerate it
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, reset);
-
-/**
- * Reads meta-data from the adapter
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, read);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaDataInterface, setStrategy);
 
 /**
  * Writes meta-data to the adapter

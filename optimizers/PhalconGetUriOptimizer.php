@@ -55,7 +55,7 @@ class PhalconGetUriOptimizer extends OptimizerAbstract
             $symbolVariable->initVariant($context);
         }
 
-        $context->headersManager->add('phalcon/mvc/url/utils', HeadersManager::POSITION_LAST);
+        $context->headersManager->add('phalcon/url/utils', HeadersManager::POSITION_LAST);
 
         $resolvedParams = $call->getResolvedParams($expression['parameters'], $context, $expression);
 

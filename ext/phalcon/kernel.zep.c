@@ -70,13 +70,13 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey) {
 
 	
 
-		{
+        {
 
-		RETURN_MM_NULL();
+        RETURN_MM_NULL();
 
-		}
+        }
 
-		
+        
 	ZEPHIR_MM_RESTORE();
 
 }

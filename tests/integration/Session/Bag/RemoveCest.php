@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Bag;
 
-use IntegrationTester;
 use Phalcon\Session\Bag;
+use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
@@ -35,13 +35,51 @@ class RemoveCest
      */
     public function sessionBagRemove(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Bag - remove()");
-        $session = new Bag("RemoveTest");
+        $I->wantToTest('Session\Bag - remove()');
+        $data       = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+        $collection = new Bag('BagTest');
+        $collection->init($data);
 
-        $testValue = "TestValue";
-        $session->set("test", $testValue);
-        $session->remove("test");
+        $expected = $data;
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
 
-        $I->assertFalse($session->has("test"));
+        $collection->remove('five');
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
+
+        $collection->remove('FIVE');
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
+
+        $collection->init($data);
+        unset($collection['five']);
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
+
+        $collection->init($data);
+        $collection->offsetUnset('five');
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
     }
 }

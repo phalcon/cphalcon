@@ -45,7 +45,7 @@ class ConstructCest
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: __construct() - Exception
+     * Tests Phalcon\Translate\Adapter\Csv :: __construct() - Exception
      *
      * @param UnitTester $I
      *

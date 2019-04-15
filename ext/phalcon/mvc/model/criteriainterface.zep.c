@@ -34,74 +34,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_CriteriaInterface) {
 }
 
 /**
- * Set a model on which the query will be executed
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, setModelName);
-
-/**
- * Returns an internal model name on which the criteria will be applied
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getModelName);
-
-/**
- * Sets the bound parameters in the criteria
- * This method replaces all previously set bound parameters
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, bind);
-
-/**
- * Sets the bind types in the criteria
- * This method replaces all previously set bound parameters
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, bindTypes);
-
-/**
- * Sets the conditions parameter in the criteria
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, where);
-
-/**
- * Adds the conditions parameter to the criteria
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, conditions);
-
-/**
- * Adds the order-by parameter to the criteria
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orderBy);
-
-/**
- * Sets the limit parameter to the criteria
- *
- * @param int offset
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, limit);
-
-/**
- * Sets the "for_update" parameter to the criteria
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, forUpdate);
-
-/**
- * Sets the "shared_lock" parameter to the criteria
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, sharedLock);
-
-/**
  * Appends a condition to the current conditions using an AND operator
  *
  * @param array bindParams
  * @param array bindTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, andWhere);
-
-/**
- * Appends a condition to the current conditions using an OR operator
- *
- * @param array bindParams
- * @param array bindTypes
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
 
 /**
  * Appends a BETWEEN condition to the current conditions
@@ -116,41 +54,49 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, betweenWhere);
 
 /**
- * Appends a NOT BETWEEN condition to the current conditions
- *
- *<code>
- * $criteria->notBetweenWhere("price", 100.25, 200.50);
- *</code>
- *
- * @param mixed minimum
- * @param mixed maximum
+ * Sets the bound parameters in the criteria
+ * This method replaces all previously set bound parameters
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, bind);
 
 /**
- * Appends an IN condition to the current conditions
- *
- *<code>
- * $criteria->inWhere("id", [1, 2, 3]);
- *</code>
+ * Sets the bind types in the criteria
+ * This method replaces all previously set bound parameters
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, inWhere);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, bindTypes);
 
 /**
- * Appends a NOT IN condition to the current conditions
- *
- *<code>
- * $criteria->notInWhere("id", [1, 2, 3]);
- *</code>
+ * Sets the cache options in the criteria
+ * This method replaces all previously set cache options
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notInWhere);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, cache);
 
 /**
- * Returns the conditions parameter in the criteria
- *
- * @return string|null
+ * Adds the conditions parameter to the criteria
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getWhere);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, conditions);
+
+/**
+ * Sets SELECT DISTINCT / SELECT ALL flag
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, distinct);
+
+/**
+ * Executes a find using the parameters built with the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, execute);
+
+/**
+ * Sets the "for_update" parameter to the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, forUpdate);
+
+/**
+ * Returns the columns to be queried
+ *
+ * @return string|array|null
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getColumns);
 
 /**
  * Returns the conditions parameter in the criteria
@@ -158,6 +104,16 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getWhere);
  * @return string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getConditions);
+
+/**
+ * Returns the group clause in the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getGroupBy);
+
+/**
+ * Returns the having clause in the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getHaving);
 
 /**
  * Returns the limit parameter in the criteria, which will be
@@ -168,6 +124,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getConditions);
  * @return int|array|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getLimit);
+
+/**
+ * Returns an internal model name on which the criteria will be applied
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getModelName);
 
 /**
  * Returns the order parameter in the criteria
@@ -182,14 +143,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getOrderBy);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getParams);
 
 /**
- * Executes a find using the parameters built with the criteria
+ * Returns the conditions parameter in the criteria
+ *
+ * @return string|null
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, execute);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getWhere);
 
 /**
- * Sets SELECT DISTINCT / SELECT ALL flag
+ * Adds the group-by clause to the criteria
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, distinct);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, groupBy);
+
+/**
+ * Adds the having clause to the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, having);
 
 /**
  * Adds an INNER join to the query
@@ -203,6 +171,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, distinct);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, innerJoin);
 
 /**
+ * Appends an IN condition to the current conditions
+ *
+ *<code>
+ * $criteria->inWhere("id", [1, 2, 3]);
+ *</code>
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, inWhere);
+
+/**
  * Adds a LEFT join to the query
  *
  *<code>
@@ -210,6 +187,47 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, innerJoin);
  *</code>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, leftJoin);
+
+/**
+ * Sets the limit parameter to the criteria
+ *
+ * @param int offset
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, limit);
+
+/**
+ * Appends a NOT BETWEEN condition to the current conditions
+ *
+ *<code>
+ * $criteria->notBetweenWhere("price", 100.25, 200.50);
+ *</code>
+ *
+ * @param mixed minimum
+ * @param mixed maximum
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere);
+
+/**
+ * Appends a NOT IN condition to the current conditions
+ *
+ *<code>
+ * $criteria->notInWhere("id", [1, 2, 3]);
+ *</code>
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notInWhere);
+
+/**
+ * Adds the order-by parameter to the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orderBy);
+
+/**
+ * Appends a condition to the current conditions using an OR operator
+ *
+ * @param array bindParams
+ * @param array bindTypes
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
 
 /**
  * Adds a RIGHT join to the query
@@ -221,35 +239,17 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, leftJoin);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, rightJoin);
 
 /**
- * Adds the group-by clause to the criteria
+ * Set a model on which the query will be executed
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, groupBy);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, setModelName);
 
 /**
- * Adds the having clause to the criteria
+ * Sets the "shared_lock" parameter to the criteria
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, having);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, sharedLock);
 
 /**
- * Sets the cache options in the criteria
- * This method replaces all previously set cache options
+ * Sets the conditions parameter in the criteria
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, cache);
-
-/**
- * Returns the columns to be queried
- *
- * @return string|array|null
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getColumns);
-
-/**
- * Returns the group clause in the criteria
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getGroupBy);
-
-/**
- * Returns the having clause in the criteria
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getHaving);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, where);
 

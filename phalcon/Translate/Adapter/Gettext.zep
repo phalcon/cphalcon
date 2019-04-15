@@ -1,0 +1,235 @@
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Translate\Adapter;
+
+use Phalcon\Translate\Exception;
+use Phalcon\Translate\Adapter;
+
+/**
+ * Phalcon\Translate\Adapter\Gettext
+ *
+ * <code>
+ * use Phalcon\Translate\Adapter\Gettext;
+ *
+ * $adapter = new Gettext(
+ *     [
+ *         "locale"        => "de_DE.UTF-8",
+ *         "defaultDomain" => "translations",
+ *         "directory"     => "/path/to/application/locales",
+ *         "category"      => LC_MESSAGES,
+ *     ]
+ * );
+ * </code>
+ *
+ * Allows translate using gettext
+ */
+class Gettext extends Adapter implements \ArrayAccess
+{
+    /**
+     * @var int
+     */
+    protected category { get };
+    
+    /**
+     * @var string
+     */
+    protected defaultDomain { get };
+
+    /**
+     * @var string|array
+     */
+    protected directory { get };
+
+    /**
+     * @var string
+     */
+    protected locale { get };
+
+    /**
+     * Phalcon\Translate\Adapter\Gettext constructor
+     */
+    public function __construct(array! options) -> void
+    {
+        if (!function_exists("gettext")) {
+            throw new Exception(
+                "This class requires the gettext extension for PHP"
+            );
+        }
+
+        parent::__construct(options);
+        this->prepareOptions(options);
+    }
+
+    /**
+     * Check whether is defined a translation key in the internal array
+     */
+    public function exists(string! index) -> bool
+    {
+        var result;
+
+        let result = this->query(index);
+
+        return result !== index;
+    }
+
+    /**
+     * The plural version of gettext().
+     * Some languages have more than one form for plural messages dependent on
+     * the count.
+     */
+    public function nquery(string! msgid1, string! msgid2, int! count, placeholders = null, string! domain = null) -> string
+    {
+        var translation;
+
+        if !domain {
+            let translation = ngettext(msgid1, msgid2, count);
+        } else {
+            let translation = dngettext(domain, msgid1, msgid2, count);
+        }
+
+        return this->replacePlaceholders(translation, placeholders);
+    }
+
+    /**
+     * Returns the translation related to the given key.
+     *
+     * <code>
+     * $translator->query("你好 %name%！", ["name" => "Phalcon"]);
+     * </code>
+     *
+     * @param array   placeholders
+     */
+    public function query(string! index, placeholders = null) -> string
+    {
+        var translation;
+
+        let translation = gettext(index);
+
+        return this->replacePlaceholders(translation, placeholders);
+    }
+
+    /**
+     * Sets the default domain
+     */
+    public function resetDomain() -> string
+    {
+        return textdomain(this->getDefaultDomain());
+    }
+
+    /**
+     * Sets the domain default to search within when calls are made to gettext()
+     */
+    public function setDefaultDomain(string! domain) -> void
+    {
+        let this->defaultDomain = domain;
+    }
+
+    /**
+     * Sets the path for a domain
+     *
+     * <code>
+     * // Set the directory path
+     * $gettext->setDirectory("/path/to/the/messages");
+     *
+     * // Set the domains and directories path
+     * $gettext->setDirectory(
+     *     [
+     *         "messages" => "/path/to/the/messages",
+     *         "another"  => "/path/to/the/another",
+     *     ]
+     * );
+     * </code>
+     *
+     * @param string|array directory The directory path or an array of directories and domains
+     */
+    public function setDirectory(var directory) -> void
+    {
+        var key, value;
+
+        if (empty(directory)) {
+            return;
+        }
+
+        let this->directory = directory;
+
+        if typeof directory === "array" {
+            for key, value in directory {
+                bindtextdomain(key, value);
+            }
+        } else {
+            bindtextdomain(this->getDefaultDomain(), directory);
+        }
+    }
+
+    /**
+     * Changes the current domain (i.e. the translation file)
+     */
+    public function setDomain(var domain) -> string
+    {
+        return textdomain(domain);
+    }
+
+    /**
+     * Sets locale information
+     *
+     * <code>
+     * // Set locale to Dutch
+     * $gettext->setLocale(LC_ALL, "nl_NL");
+     *
+     * // Try different possible locale names for german
+     * $gettext->setLocale(LC_ALL, "de_DE@euro", "de_DE", "de", "ge");
+     * </code>
+     */
+    public function setLocale(int! category, string! locale) -> string | bool
+    {
+        let this->locale   = call_user_func_array("setlocale", func_get_args());
+        let this->category = category;
+
+        putenv("LC_ALL=" . this->locale);
+        putenv("LANG=" . this->locale);
+        putenv("LANGUAGE=" . this->locale);
+        setlocale(LC_ALL, this->locale);
+
+        return this->locale;
+    }
+
+    /**
+     * Gets default options
+     */
+    protected function getOptionsDefault() -> array
+    {
+        return [
+            "category": LC_ALL,
+            "defaultDomain": "messages"
+        ];
+    }
+
+    /**
+     * Validator for constructor
+     */
+    protected function prepareOptions(array! options) -> void
+    {
+        if !isset options["locale"] {
+            throw new Exception("Parameter 'locale' is required");
+        }
+
+        if !isset options["directory"] {
+            throw new Exception("Parameter 'directory' is required");
+        }
+
+        let options = array_merge(this->getOptionsDefault(), options);
+
+        this->setLocale(options["category"], options["locale"]);
+        this->setDefaultDomain(options["defaultDomain"]);
+        this->setDirectory(options["directory"]);
+        this->setDomain(options["defaultDomain"]);
+    }
+}

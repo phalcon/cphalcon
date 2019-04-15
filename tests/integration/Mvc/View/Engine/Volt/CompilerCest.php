@@ -23,7 +23,7 @@ use Phalcon\Di;
 use Phalcon\Escaper;
 use Phalcon\Forms\Element\Password;
 use Phalcon\Forms\Form;
-use Phalcon\Mvc\Url;
+use Phalcon\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
@@ -62,7 +62,7 @@ class CompilerCest
         $view->setViewsDir(dataFolder('fixtures/views/'));
 
         $view->registerEngines([
-            '.volt' => 'Phalcon\Mvc\View\Engine\Volt',
+            '.volt' => Volt::class,
         ]);
 
         $view->setParamToView('song', 'Rock n roll');
@@ -166,8 +166,8 @@ class CompilerCest
         $view->setViewsDir(dataFolder('fixtures/views/'));
 
         $view->registerEngines([
-            '.volt' => function ($view, $di) {
-                $volt     = new Volt($view, $di);
+            '.volt' => function ($view) {
+                $volt     = new Volt($view, $this);
                 $compiler = $volt->getCompiler();
                 $compiler->addFunction('strtotime', 'strtotime');
                 return $volt;
@@ -278,8 +278,8 @@ class CompilerCest
         $view->setDI($di);
         $view->setViewsDir(dataFolder('fixtures/views/'));
         $view->registerEngines([
-            '.volt' => function ($view, $di) {
-                return new Volt($view, $di);
+            '.volt' => function ($view) {
+                return new Volt($view, $this);
             },
         ]);
         $object      = new \stdClass();

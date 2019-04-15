@@ -46,234 +46,234 @@ use Phalcon\Cache\Backend;
 class Apcu extends Backend
 {
 
-	/**
-	 * Returns a cached content
-	 */
-	public function get(string keyName, var lifetime = null) -> var | null
-	{
-		var prefixedKey, cachedContent;
+    /**
+     * Returns a cached content
+     */
+    public function get(string keyName, var lifetime = null) -> var | null
+    {
+        var prefixedKey, cachedContent;
 
-		let prefixedKey = "_PHCA" . this->_prefix . keyName,
-			this->_lastKey = prefixedKey;
+        let prefixedKey = "_PHCA" . this->_prefix . keyName,
+            this->_lastKey = prefixedKey;
 
-		let cachedContent = apcu_fetch(prefixedKey);
-		if cachedContent === false {
-			return null;
-		}
+        let cachedContent = apcu_fetch(prefixedKey);
+        if cachedContent === false {
+            return null;
+        }
 
-		return this->_frontend->afterRetrieve(cachedContent);
-	}
+        return this->_frontend->afterRetrieve(cachedContent);
+    }
 
-	/**
-	 * Stores cached content into the APCu backend and stops the frontend
-	 *
-	 * @param string|int keyName
-	 * @param string content
-	 * @param int lifetime
-	 * @param bool stopBuffer
-	 */
-	public function save(var keyName = null, var content = null, var lifetime = null, bool stopBuffer = true) -> bool
-	{
-		var lastKey, frontend, cachedContent, preparedContent, ttl, isBuffering, success;
+    /**
+     * Stores cached content into the APCu backend and stops the frontend
+     *
+     * @param string|int keyName
+     * @param string content
+     * @param int lifetime
+     * @param bool stopBuffer
+     */
+    public function save(var keyName = null, var content = null, var lifetime = null, bool stopBuffer = true) -> bool
+    {
+        var lastKey, frontend, cachedContent, preparedContent, ttl, isBuffering, success;
 
-		if keyName === null {
-			let lastKey = this->_lastKey;
-		} else {
-			let lastKey = "_PHCA" . this->_prefix . keyName;
-		}
+        if keyName === null {
+            let lastKey = this->_lastKey;
+        } else {
+            let lastKey = "_PHCA" . this->_prefix . keyName;
+        }
 
-		if !lastKey {
-			throw new Exception("Cache must be started first");
-		}
+        if !lastKey {
+            throw new Exception("Cache must be started first");
+        }
 
-		let frontend = this->_frontend;
-		if content === null {
-			let cachedContent = frontend->getContent();
-		} else {
-			let cachedContent = content;
-		}
+        let frontend = this->_frontend;
+        if content === null {
+            let cachedContent = frontend->getContent();
+        } else {
+            let cachedContent = content;
+        }
 
-		if !is_numeric(cachedContent) {
-			let preparedContent = frontend->beforeStore(cachedContent);
-		} else {
-			let preparedContent = cachedContent;
-		}
+        if !is_numeric(cachedContent) {
+            let preparedContent = frontend->beforeStore(cachedContent);
+        } else {
+            let preparedContent = cachedContent;
+        }
 
-		/**
-		 * Take the lifetime from the frontend or read it from the set in start()
-		 */
-		if lifetime === null {
-			let lifetime = this->_lastLifetime;
-			if lifetime === null {
-				let ttl = frontend->getLifetime();
-			} else {
-				let ttl = lifetime,
-					this->_lastKey = lastKey;
-			}
-		} else {
-			let ttl = lifetime;
-		}
+        /**
+         * Take the lifetime from the frontend or read it from the set in start()
+         */
+        if lifetime === null {
+            let lifetime = this->_lastLifetime;
+            if lifetime === null {
+                let ttl = frontend->getLifetime();
+            } else {
+                let ttl = lifetime,
+                    this->_lastKey = lastKey;
+            }
+        } else {
+            let ttl = lifetime;
+        }
 
-		/**
-		 * Call apc_store in the PHP userland since most of the time it isn't available at compile time
-		 */
-		let success = apcu_store(lastKey, preparedContent, ttl);
+        /**
+         * Call apc_store in the PHP userland since most of the time it isn't available at compile time
+         */
+        let success = apcu_store(lastKey, preparedContent, ttl);
 
-		if !success {
-			throw new Exception("Failed storing data in APCu");
-		}
+        if !success {
+            throw new Exception("Failed storing data in APCu");
+        }
 
-		let isBuffering = frontend->isBuffering();
+        let isBuffering = frontend->isBuffering();
 
-		if stopBuffer === true {
-			frontend->stop();
-		}
+        if stopBuffer {
+            frontend->stop();
+        }
 
-		if isBuffering === true {
-			echo cachedContent;
-		}
+        if isBuffering === true {
+            echo cachedContent;
+        }
 
-		let this->_started = false;
+        let this->_started = false;
 
-		return success;
-	}
+        return success;
+    }
 
-	/**
-	 * Increment of a given key, by number $value
-	 *
-	 * @param string keyName
-	 */
-	public function increment(keyName = null, int value = 1) -> int | bool
-	{
-		var prefixedKey;
+    /**
+     * Increment of a given key, by number $value
+     *
+     * @param string keyName
+     */
+    public function increment(keyName = null, int value = 1) -> int | bool
+    {
+        var prefixedKey;
 
-		let prefixedKey = "_PHCA" . this->_prefix . keyName;
-		let this->_lastKey = prefixedKey;
+        let prefixedKey = "_PHCA" . this->_prefix . keyName;
+        let this->_lastKey = prefixedKey;
 
-		return apcu_inc(prefixedKey, value);
-	}
+        return apcu_inc(prefixedKey, value);
+    }
 
-	/**
-	 * Decrement of a given key, by number $value
-	 *
-	 * @param string keyName
-	 */
-	public function decrement(keyName = null, int value = 1) -> int | bool
-	{
-		var lastKey;
+    /**
+     * Decrement of a given key, by number $value
+     *
+     * @param string keyName
+     */
+    public function decrement(keyName = null, int value = 1) -> int | bool
+    {
+        var lastKey;
 
-		let lastKey = "_PHCA" . this->_prefix . keyName,
-			this->_lastKey = lastKey;
+        let lastKey = "_PHCA" . this->_prefix . keyName,
+            this->_lastKey = lastKey;
 
-		return apcu_dec(lastKey, value);
-	}
+        return apcu_dec(lastKey, value);
+    }
 
-	/**
-	 * Deletes a value from the cache by its key
-	 */
-	public function delete(var keyName) -> bool
-	{
-		return apcu_delete("_PHCA" . this->_prefix . keyName);
-	}
+    /**
+     * Deletes a value from the cache by its key
+     */
+    public function delete(var keyName) -> bool
+    {
+        return apcu_delete("_PHCA" . this->_prefix . keyName);
+    }
 
-	/**
-	 * Query the existing cached keys.
-	 *
-	 * <code>
-	 * $cache->save("users-ids", [1, 2, 3]);
-	 * $cache->save("projects-ids", [4, 5, 6]);
-	 *
-	 * var_dump($cache->queryKeys("users")); // ["users-ids"]
-	 * </code>
-	 */
-	public function queryKeys(string prefix = null) -> array
-	{
-		var prefixPattern, apc, keys, key;
+    /**
+     * Query the existing cached keys.
+     *
+     * <code>
+     * $cache->save("users-ids", [1, 2, 3]);
+     * $cache->save("projects-ids", [4, 5, 6]);
+     *
+     * var_dump($cache->queryKeys("users")); // ["users-ids"]
+     * </code>
+     */
+    public function queryKeys(string prefix = null) -> array
+    {
+        var prefixPattern, apc, keys, key;
 
-		if empty prefix {
-			let prefixPattern = "/^_PHCA/";
-		} else {
-			let prefixPattern = "/^_PHCA" . prefix . "/";
-		}
+        if empty prefix {
+            let prefixPattern = "/^_PHCA/";
+        } else {
+            let prefixPattern = "/^_PHCA" . prefix . "/";
+        }
 
-		let keys = [];
+        let keys = [];
 
-		// The APCu 4.x only has APCIterator, not the newer APCUIterator
-		if class_exists("APCUIterator") {
-			let apc = new \APCUIterator(prefixPattern);
-		} elseif class_exists("APCIterator") {
-			let apc = new \APCIterator("user", prefixPattern);
-		}
+        // The APCu 4.x only has APCIterator, not the newer APCUIterator
+        if class_exists("APCUIterator") {
+            let apc = new \APCUIterator(prefixPattern);
+        } elseif class_exists("APCIterator") {
+            let apc = new \APCIterator("user", prefixPattern);
+        }
 
-		if typeof apc != "object" {
-			return [];
-		}
+        if typeof apc != "object" {
+            return [];
+        }
 
-		for key, _ in iterator(apc) {
-			let keys[] = substr(key, 5);
-		}
+        for key, _ in iterator(apc) {
+            let keys[] = substr(key, 5);
+        }
 
-		return keys;
-	}
+        return keys;
+    }
 
-	/**
-	 * Checks if cache exists and it hasn't expired
-	 *
-	 * @param  string|int keyName
-	 * @param  int lifetime
-	 */
-	public function exists(var keyName = null, int lifetime = null) -> bool
-	{
-		var lastKey;
+    /**
+     * Checks if cache exists and it hasn't expired
+     *
+     * @param  string|int keyName
+     * @param  int lifetime
+     */
+    public function exists(var keyName = null, int lifetime = null) -> bool
+    {
+        var lastKey;
 
-		if keyName === null {
-			let lastKey = (string) this->_lastKey;
-		} else {
-			let lastKey = "_PHCA" . this->_prefix . keyName;
-		}
+        if keyName === null {
+            let lastKey = (string) this->_lastKey;
+        } else {
+            let lastKey = "_PHCA" . this->_prefix . keyName;
+        }
 
-		if empty(lastKey) {
-			return false;
-		}
+        if empty(lastKey) {
+            return false;
+        }
 
-		return apcu_exists(lastKey);
-	}
+        return apcu_exists(lastKey);
+    }
 
-	/**
-	 * Immediately invalidates all existing items.
-	 *
-	 * <code>
-	 * use Phalcon\Cache\Backend\Apcu;
-	 *
-	 * $cache = new Apcu($frontCache, ["prefix" => "app-data"]);
-	 *
-	 * $cache->save("my-data", [1, 2, 3, 4, 5]);
-	 *
-	 * // 'my-data' and all other used keys are deleted
-	 * $cache->flush();
-	 * </code>
-	 */
-	public function flush() -> bool
-	{
-		var item, prefixPattern, apc = null;
+    /**
+     * Immediately invalidates all existing items.
+     *
+     * <code>
+     * use Phalcon\Cache\Backend\Apcu;
+     *
+     * $cache = new Apcu($frontCache, ["prefix" => "app-data"]);
+     *
+     * $cache->save("my-data", [1, 2, 3, 4, 5]);
+     *
+     * // 'my-data' and all other used keys are deleted
+     * $cache->flush();
+     * </code>
+     */
+    public function flush() -> bool
+    {
+        var item, prefixPattern, apc = null;
 
-		let prefixPattern = "/^_PHCA" . this->_prefix . "/";
+        let prefixPattern = "/^_PHCA" . this->_prefix . "/";
 
-		// The APCu 4.x only has APCIterator, not the newer APCUIterator
-		if class_exists("APCUIterator") {
-			let apc = new \APCUIterator(prefixPattern);
-		} elseif class_exists("APCIterator") {
-			let apc = new \APCIterator("user", prefixPattern);
-		}
+        // The APCu 4.x only has APCIterator, not the newer APCUIterator
+        if class_exists("APCUIterator") {
+            let apc = new \APCUIterator(prefixPattern);
+        } elseif class_exists("APCIterator") {
+            let apc = new \APCIterator("user", prefixPattern);
+        }
 
-		if typeof apc != "object" {
-			return false;
-		}
+        if typeof apc != "object" {
+            return false;
+        }
 
-		for item in iterator(apc) {
-			apcu_delete(item["key"]);
-		}
+        for item in iterator(apc) {
+            apcu_delete(item["key"]);
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

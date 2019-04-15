@@ -16,9 +16,9 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_factory_loadclass, 0, 0, 2)
 #if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, namespace, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, namespaceClass, IS_STRING, 0)
 #else
-	ZEND_ARG_INFO(0, namespace)
+	ZEND_ARG_INFO(0, namespaceClass)
 #endif
 	ZEND_ARG_INFO(0, config)
 ZEND_END_ARG_INFO()

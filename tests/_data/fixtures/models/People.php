@@ -15,8 +15,8 @@ use Phalcon\Mvc\Model;
 
 class People extends Model
 {
-    public function getSource(): string
+    public function initialize()
     {
-        return 'personas';
+        $this->setSource("personas");
     }
 }

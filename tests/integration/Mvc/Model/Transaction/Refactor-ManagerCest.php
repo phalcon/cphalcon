@@ -132,13 +132,13 @@ class ManagerCest
         $select->assign(['name' => 'Crack of Dawn']);
         $select->create();
 
-        $I->assertEquals(1, $I->getProtectedProperty($tm, '_number'));
-        $I->assertCount(1, $I->getProtectedProperty($tm, '_transactions'));
+        $I->assertEquals(1, $I->getProtectedProperty($tm, 'number'));
+        $I->assertCount(1, $I->getProtectedProperty($tm, 'transactions'));
 
         $transaction->commit();
 
-        $I->assertEquals(0, $I->getProtectedProperty($tm, '_number'));
-        $I->assertCount(0, $I->getProtectedProperty($tm, '_transactions'));
+        $I->assertEquals(0, $I->getProtectedProperty($tm, 'number'));
+        $I->assertCount(0, $I->getProtectedProperty($tm, 'transactions'));
     }
 
     private function testTransactionRemovedOnRollback(IntegrationTester $I)
@@ -152,8 +152,8 @@ class ManagerCest
         $select->create();
 
 
-        $I->assertEquals(1, $I->getProtectedProperty($tm, '_number'));
-        $I->assertCount(1, $I->getProtectedProperty($tm, '_transactions'));
+        $I->assertEquals(1, $I->getProtectedProperty($tm, 'number'));
+        $I->assertCount(1, $I->getProtectedProperty($tm, 'transactions'));
 
         try {
             $transaction->rollback();
@@ -161,8 +161,8 @@ class ManagerCest
             // do nothing
         }
 
-        $I->assertEquals(0, $I->getProtectedProperty($tm, '_number'));
-        $I->assertCount(0, $I->getProtectedProperty($tm, '_transactions'));
+        $I->assertEquals(0, $I->getProtectedProperty($tm, 'number'));
+        $I->assertCount(0, $I->getProtectedProperty($tm, 'transactions'));
     }
 
     /**

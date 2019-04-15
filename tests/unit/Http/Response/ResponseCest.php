@@ -11,6 +11,8 @@
 
 namespace Phalcon\Test\Unit\Http;
 
+use DateTime;
+use DateTimeZone;
 use Phalcon\Http\Response;
 use Phalcon\Http\Response\Headers;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
@@ -45,7 +47,7 @@ class ResponseCest extends HttpBase
         $response->setHeader('Content-Type', 'text/html');
         $expected = Headers::__set_state(
             [
-                '_headers' => ['Content-Type' => 'text/html'],
+                'headers' => ['Content-Type' => 'text/html'],
             ]
         );
         $actual   = $response->getHeaders();
@@ -54,7 +56,7 @@ class ResponseCest extends HttpBase
         $response->setHeader('Content-Length', '1234');
         $expected = Headers::__set_state(
             [
-                '_headers' => [
+                'headers' => [
                     'Content-Type'   => 'text/html',
                     'Content-Length' => '1234',
                 ],
@@ -96,7 +98,7 @@ class ResponseCest extends HttpBase
         $response->setStatusCode(404, "Not Found");
         $expected = Headers::__set_state(
             [
-                '_headers' => [
+                'headers' => [
                     'HTTP/1.1 404 Not Found' => '',
                     'Status'                 => '404 Not Found',
                 ],
@@ -123,7 +125,7 @@ class ResponseCest extends HttpBase
 
         $expected = Headers::__set_state(
             [
-                '_headers' => [
+                'headers' => [
                     'HTTP/1.1 409 Conflict' => '',
                     'Status'                => '409 Conflict',
                 ],
@@ -141,7 +143,7 @@ class ResponseCest extends HttpBase
         $response->setStatusCode(103);
         $expected = Headers::__set_state(
             [
-                '_headers' => [
+                'headers' => [
                     'HTTP/1.1 103 Early Hints' => '',
                     'Status'                   => '103 Early Hints',
                 ],
@@ -153,7 +155,7 @@ class ResponseCest extends HttpBase
         $response->setStatusCode(200);
         $expected = Headers::__set_state(
             [
-                '_headers' => [
+                'headers' => [
                     'HTTP/1.1 200 OK' => '',
                     'Status'          => '200 OK',
                 ],
@@ -165,7 +167,7 @@ class ResponseCest extends HttpBase
         $response->setStatusCode(418);
         $expected = Headers::__set_state(
             [
-                '_headers' => [
+                'headers' => [
                     "HTTP/1.1 418 I'm a teapot" => '',
                     'Status'                    => "418 I'm a teapot",
                 ],
@@ -177,7 +179,7 @@ class ResponseCest extends HttpBase
         $response->setStatusCode(418, 'My own message');
         $expected = Headers::__set_state(
             [
-                '_headers' => [
+                'headers' => [
                     "HTTP/1.1 418 My own message" => '',
                     'Status'                      => "418 My own message",
                 ],
@@ -201,7 +203,7 @@ class ResponseCest extends HttpBase
 
         $expected = Headers::__set_state(
             [
-                '_headers' => ['HTTP/1.1 404 Not Found' => ''],
+                'headers' => ['HTTP/1.1 404 Not Found' => ''],
             ]
         );
         $actual   = $response->getHeaders();
@@ -248,7 +250,7 @@ class ResponseCest extends HttpBase
 
         $expected = Headers::__set_state(
             [
-                '_headers' => ['Content-Type' => 'application/json'],
+                'headers' => ['Content-Type' => 'application/json'],
             ]
         );
         $actual   = $response->getHeaders();
@@ -269,7 +271,7 @@ class ResponseCest extends HttpBase
 
         $expected = Headers::__set_state(
             [
-                '_headers' => ['Content-Length' => 100],
+                'headers' => ['Content-Length' => 100],
             ]
         );
         $actual   = $response->getHeaders();
@@ -290,7 +292,7 @@ class ResponseCest extends HttpBase
 
         $expected = Headers::__set_state(
             [
-                '_headers' => [
+                'headers' => [
                     'Content-Type' => 'application/json; charset=utf-8',
                 ],
             ]
@@ -313,7 +315,7 @@ class ResponseCest extends HttpBase
 
         $expected = Headers::__set_state(
             [
-                '_headers' => [
+                'headers' => [
                     'HTTP/1.1 304 Not modified' => false,
                     'Status'                    => '304 Not modified',
                 ],
@@ -337,7 +339,7 @@ class ResponseCest extends HttpBase
 
         $expected = Headers::__set_state(
             [
-                '_headers' => [
+                'headers' => [
                     'Status'             => '302 Found',
                     'Location'           => '/some/local/uri',
                     'HTTP/1.1 302 Found' => null,
@@ -362,7 +364,7 @@ class ResponseCest extends HttpBase
 
         $expected = Headers::__set_state(
             [
-                '_headers' => [
+                'headers' => [
                     'Status'             => '302 Found',
                     'Location'           => 'http://google.com',
                     'HTTP/1.1 302 Found' => null,
@@ -388,7 +390,7 @@ class ResponseCest extends HttpBase
 
         $expected = Headers::__set_state(
             [
-                '_headers' => [
+                'headers' => [
                     'Status'             => '302 Found',
                     'Location'           => '/new/place/',
                     'HTTP/1.1 302 Found' => null,
@@ -414,7 +416,7 @@ class ResponseCest extends HttpBase
 
         $expected = Headers::__set_state(
             [
-                '_headers' => [
+                'headers' => [
                     'Status'                         => '301 Moved Permanently',
                     'Location'                       => 'http://google.com',
                     'HTTP/1.1 301 Moved Permanently' => null,
@@ -492,15 +494,15 @@ class ResponseCest extends HttpBase
     {
         $response = $this->getResponseObject();
 
-        $expiry = new \DateTime();
-        $expiry->setTimezone(new \DateTimeZone("UTC"));
+        $expiry = new DateTime();
+        $expiry->setTimezone(new DateTimeZone("UTC"));
         $expiry->modify("+60 minutes");
 
         $response->setCache(60);
 
         $expected = Headers::__set_state(
             [
-                '_headers' => [
+                'headers' => [
                     "Expires"       => $expiry->format("D, d M Y H:i:s") . " GMT",
                     "Cache-Control" => "max-age=3600",
                 ],

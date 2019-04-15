@@ -34,6 +34,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_MessageInterface) {
 }
 
 /**
+ * Magic __toString method returns verbose message
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, __toString);
+
+/**
  * Returns the message code related to this message
  *
  * @return int
@@ -51,6 +56,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getField);
  * Returns verbose message
  */
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getMessage);
+
+/**
+ * Returns message metadata
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, getMetaData);
 
 /**
  * Returns message type
@@ -73,12 +83,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setField);
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setMessage);
 
 /**
+ * Sets message metadata
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setMetaData);
+
+/**
  * Sets message type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, setType);
-
-/**
- * Magic __toString method returns verbose message
- */
-ZEPHIR_DOC_METHOD(Phalcon_Messages_MessageInterface, __toString);
 

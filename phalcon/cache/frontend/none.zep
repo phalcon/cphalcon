@@ -59,61 +59,61 @@ use Phalcon\Cache\FrontendInterface;
 class None implements FrontendInterface
 {
 
-	/**
-	 * Returns cache lifetime, always one second expiring content
-	 */
-	public function getLifetime() -> int
-	{
-		return 1;
-	}
+    /**
+     * Returns cache lifetime, always one second expiring content
+     */
+    public function getLifetime() -> int
+    {
+        return 1;
+    }
 
-	/**
-	 * Check whether if frontend is buffering output, always false
-	 */
-	public function isBuffering() -> bool
-	{
-		return false;
-	}
+    /**
+     * Check whether if frontend is buffering output, always false
+     */
+    public function isBuffering() -> bool
+    {
+        return false;
+    }
 
-	/**
-	 * Starts output frontend
-	 */
-	public function start()
-	{
+    /**
+     * Starts output frontend
+     */
+    public function start()
+    {
 
-	}
+    }
 
-	/**
-	 * Returns output cached content
-	 *
-	 * @return string
-	 */
-	public function getContent()
-	{
+    /**
+     * Returns output cached content
+     *
+     * @return string
+     */
+    public function getContent()
+    {
 
-	}
+    }
 
-	/**
-	 * Stops output frontend
-	 */
-	public function stop()
-	{
+    /**
+     * Stops output frontend
+     */
+    public function stop()
+    {
 
-	}
+    }
 
-	/**
-	 * Prepare data to be stored
-	 */
-	public function beforeStore(var data)
-	{
-		return data;
-	}
+    /**
+     * Prepare data to be stored
+     */
+    public function beforeStore(var data)
+    {
+        return data;
+    }
 
-	/**
-	 * Prepares data to be retrieved to user
-	 */
-	public function afterRetrieve(var data) -> var
-	{
-		return data;
-	}
+    /**
+     * Prepares data to be retrieved to user
+     */
+    public function afterRetrieve(var data) -> var
+    {
+        return data;
+    }
 }

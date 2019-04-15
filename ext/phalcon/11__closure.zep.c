@@ -37,8 +37,8 @@ PHP_METHOD(phalcon_11__closure, __invoke) {
 
 
 
-	object_init_ex(return_value, phalcon_html_helper_form_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 468, escaper);
+	object_init_ex(return_value, phalcon_html_helper_element_ce);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, escaper);
 	zephir_check_call_status();
 	RETURN_MM();
 

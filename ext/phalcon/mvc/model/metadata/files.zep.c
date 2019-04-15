@@ -49,9 +49,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Files) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Files, phalcon, mvc_model_metadata_files, phalcon_mvc_model_metadata_ce, phalcon_mvc_model_metadata_files_method_entry, 0);
 
-	zend_declare_property_string(phalcon_mvc_model_metadata_files_ce, SL("_metaDataDir"), "./", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_metadata_files_ce, SL("metaData"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_declare_property_null(phalcon_mvc_model_metadata_files_ce, SL("_metaData"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_model_metadata_files_ce, SL("metaDataDir"), "./", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	phalcon_mvc_model_metadata_files_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_MetaData_Files;
 	return SUCCESS;
@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct) {
 
 
 	if (zephir_array_isset_string_fetch(&metaDataDir, options, SL("metaDataDir"), 1)) {
-		zephir_update_property_zval(this_ptr, SL("_metaDataDir"), &metaDataDir);
+		zephir_update_property_zval(this_ptr, SL("metaDataDir"), &metaDataDir);
 	}
 
 }
@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("_metaDataDir"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("metaDataDir"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "_");
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 	zephir_get_arrval(&data, data_param);
 
 
-	zephir_read_property(&_0, this_ptr, SL("_metaDataDir"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("metaDataDir"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "_");
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 	ZEPHIR_CONCAT_SVS(&_5, "<?php return ", &_4, "; ");
 	zephir_file_put_contents(&_3, &path, &_5 TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_3)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/mvc/model/metadata/files.zep", 72);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/Mvc/Model/Metadata/Files.zep", 71);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();
@@ -204,11 +204,11 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData_Files(zend_class_
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("_metaData"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0, this_ptr, SL("metaData"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("_metaData"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("metaData"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

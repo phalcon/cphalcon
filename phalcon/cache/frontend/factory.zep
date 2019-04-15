@@ -30,37 +30,37 @@ use Phalcon\Config;
  */
 class Factory extends BaseFactory
 {
-	/**
-	 * @param \Phalcon\Config|array config
-	 */
-	public static function load(var config) -> object
-	{
-		return self::loadClass("Phalcon\\Cache\\Frontend", config);
-	}
+    /**
+     * @param \Phalcon\Config|array config
+     */
+    public static function load(var config) -> object
+    {
+        return self::loadClass("Phalcon\\Cache\\Frontend", config);
+    }
 
-	protected static function loadClass(string $namespace, var config)
-	{
-		var adapter, className;
+    protected static function loadClass(string $namespace, var config)
+    {
+        var adapter, className;
 
-		if typeof config == "object" && config instanceof Config {
-			let config = config->toArray();
-		}
+        if typeof config == "object" && config instanceof Config {
+            let config = config->toArray();
+        }
 
-		if typeof config != "array" {
-			throw new Exception("Config must be array or Phalcon\\Config object");
-		}
+        if typeof config != "array" {
+            throw new Exception("Config must be array or Phalcon\\Config object");
+        }
 
-		if fetch adapter, config["adapter"] {
-			unset config["adapter"];
-			let className = $namespace."\\".camelize(adapter);
+        if fetch adapter, config["adapter"] {
+            unset config["adapter"];
+            let className = $namespace."\\".camelize(adapter);
 
-			if className == "Phalcon\\Cache\\Frontend\\None" {
-				return new {className}();
-			} else {
-				return new {className}(config);
-			}
-		}
+            if className == "Phalcon\\Cache\\Frontend\\None" {
+                return new {className}();
+            } else {
+                return new {className}(config);
+            }
+        }
 
-		throw new Exception("You must provide 'adapter' option in factory config parameter.");
-	}
+        throw new Exception("You must provide 'adapter' option in factory config parameter.");
+    }
 }
