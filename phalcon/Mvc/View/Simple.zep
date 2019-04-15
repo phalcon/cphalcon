@@ -624,40 +624,37 @@ class Simple extends Injectable implements ViewBaseInterface
 
             if file_exists(viewsDirPath . extension) {
                 let viewEnginePath = viewsDirPath . extension;
-            } else {
-
+            } elseif substr(viewsDirPath, -strlen(extension)) == extension && file_exists(viewsDirPath) {
                 /**
                  * if passed filename with engine extension
                  */
-                if extension && substr(viewsDirPath, -strlen(extension)) == extension && file_exists(viewsDirPath) {
-                    let viewEnginePath = viewsDirPath;
-                } else {
-                    let viewEnginePath = "";
+
+                let viewEnginePath = viewsDirPath;
+            } else {
+                continue;
+            }
+
+            /**
+             * Call beforeRenderView if there is an events manager available
+             */
+            if typeof eventsManager == "object" {
+                if eventsManager->fire("view:beforeRenderView", this, viewEnginePath) === false {
+                    continue;
                 }
             }
 
-            if viewEnginePath {
+            engine->render(viewEnginePath, params, mustClean);
 
-                /**
-                 * Call beforeRenderView if there is an events manager available
-                 */
-                if typeof eventsManager == "object" {
-                    if eventsManager->fire("view:beforeRenderView", this, viewEnginePath) === false {
-                        continue;
-                    }
-                }
+            let notExists = false;
 
-                engine->render(viewEnginePath, params, mustClean);
-
-                /**
-                 * Call afterRenderView if there is an events manager available
-                 */
-                let notExists = false;
-                if typeof eventsManager == "object" {
-                    eventsManager->fire("view:afterRenderView", this);
-                }
-                break;
+            /**
+             * Call afterRenderView if there is an events manager available
+             */
+            if typeof eventsManager == "object" {
+                eventsManager->fire("view:afterRenderView", this);
             }
+
+            break;
         }
 
         /**
@@ -675,6 +672,5 @@ class Simple extends Injectable implements ViewBaseInterface
         if typeof eventsManager == "object" {
             eventsManager->fire("view:afterRender", this);
         }
-
     }
 }
