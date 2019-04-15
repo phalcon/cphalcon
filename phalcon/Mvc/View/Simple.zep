@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\View;
 
+use Closure;
 use Phalcon\Di\Injectable;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Mvc\ViewBaseInterface;
@@ -546,8 +547,9 @@ class Simple extends Injectable implements ViewBaseInterface
                         /**
                          * Engine can be a closure
                          */
-                        if engineService instanceof \Closure {
-                            let engineService = \Closure::bind(engineService, di);
+                        if engineService instanceof Closure {
+                            let engineService = Closure::bind(engineService, di);
+
                             let engineObject = call_user_func(engineService, this);
                         } else {
                             let engineObject = engineService;
