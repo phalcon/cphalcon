@@ -85,7 +85,8 @@ class ModelsRelationsMagicCest
         $I->assertEquals($originalAlbum->id, $album->id);
     }
 
-    private function executeSaveAfterQueryRelated(IntegrationTester $I) {
+    private function executeSaveAfterQueryRelated(IntegrationTester $I)
+    {
         $album = Albums::findFirst();
         $artist = $album->artist;
 
