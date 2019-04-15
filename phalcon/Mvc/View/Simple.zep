@@ -554,17 +554,20 @@ class Simple extends Injectable implements ViewBaseInterface
                         } else {
                             let engineObject = engineService;
                         }
-                    } else {
+                    } elseif typeof engineService == "string" {
                         /**
                          * Engine can be a string representing a service in the DI
                          */
-                        if typeof engineService == "string" {
-                            let engineObject = di->getShared(engineService, [this]);
-                        } else {
-                            throw new Exception(
-                                "Invalid template engine registration for extension: " . extension
-                            );
-                        }
+                        let engineObject = di->getShared(
+                            engineService,
+                            [
+                                this
+                            ]
+                        );
+                    } else {
+                        throw new Exception(
+                            "Invalid template engine registration for extension: " . extension
+                        );
                     }
 
                     let engines[extension] = engineObject;
