@@ -390,7 +390,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let entityName = get_class_lower(model);
 
         if !isset this->sources[entityName] {
-            let this->sources[entityName] = uncamelize(get_class_ns(model));
+            this->setModelSource(model, uncamelize(get_class_ns(model)));
         }
 
         return this->prefix . this->sources[entityName];
