@@ -68,7 +68,7 @@ class Simple extends Injectable implements ViewBaseInterface
 
     protected viewsDir;
 
-    protected viewParams;
+    protected viewParams = [];
 
     /**
      * Phalcon\Mvc\View\Simple constructor
@@ -236,11 +236,7 @@ class Simple extends Injectable implements ViewBaseInterface
             /**
              * Merge or assign the new params as parameters
              */
-            if typeof viewParams == "array" {
-                let mergedParams = array_merge(viewParams, params);
-            } else {
-                let mergedParams = params;
-            }
+            let mergedParams = array_merge(viewParams, params);
 
             /**
              * Create a virtual symbol table
@@ -358,11 +354,7 @@ class Simple extends Injectable implements ViewBaseInterface
          * Merge parameters
          */
         if typeof params == "array" {
-            if typeof viewParams == "array" {
-                let mergedParams = array_merge(viewParams, params);
-            } else {
-                let mergedParams = params;
-            }
+            let mergedParams = array_merge(viewParams, params);
         } else {
             let mergedParams = viewParams;
         }
@@ -449,11 +441,11 @@ class Simple extends Injectable implements ViewBaseInterface
      */
     public function setVars(array! params, bool merge = true) -> <Simple>
     {
-        if merge && typeof this->viewParams == "array" {
-            let this->viewParams = array_merge(this->viewParams, params);
-        } else {
-            let this->viewParams = params;
+        if merge {
+            let params = array_merge(this->viewParams, params);
         }
+
+        let this->viewParams = params;
 
         return this;
     }

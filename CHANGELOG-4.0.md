@@ -17,6 +17,7 @@
 - Model methods that extend Model Manager functionality are now `final`. [#13950](https://github.com/phalcon/cphalcon/pull/13950)
 - Changed `Phalcon\Text` to call methods from `Phalcon\Helper\Str` [#13954](https://github.com/phalcon/cphalcon/pull/13954)
 - Setting the views directory no longer requires a trailing slash when using Simple View.
+- `Phalcon\Mvc\View\Simple::viewParams` is now always an array.
 
 ## Fixed
 - Fixed `Mvc\Collection::isInitialized()` now works as intended. [#13931](https://github.com/phalcon/cphalcon/pull/13931)
