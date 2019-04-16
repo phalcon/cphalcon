@@ -507,7 +507,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * $criteria->limit("100", "200");
      * </code>
      */
-    public function limit(int limit, var offset = null) -> <CriteriaInterface>
+    public function limit(int limit, int offset = null) -> <CriteriaInterface>
     {
         let limit = abs(limit);
 
@@ -516,7 +516,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         }
 
         if is_numeric(offset) {
-            let offset = abs((int) offset);
+            let offset = abs(offset);
 
             let this->params["limit"] = [
                 "number": limit,

@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\View;
 
+use Closure;
 use Phalcon\Di\Injectable;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Mvc\ViewBaseInterface;
@@ -67,7 +68,7 @@ class Simple extends Injectable implements ViewBaseInterface
 
     protected viewsDir;
 
-    protected viewParams;
+    protected viewParams = [];
 
     /**
      * Phalcon\Mvc\View\Simple constructor
@@ -235,11 +236,7 @@ class Simple extends Injectable implements ViewBaseInterface
             /**
              * Merge or assign the new params as parameters
              */
-            if typeof viewParams == "array" {
-                let mergedParams = array_merge(viewParams, params);
-            } else {
-                let mergedParams = params;
-            }
+            let mergedParams = array_merge(viewParams, params);
 
             /**
              * Create a virtual symbol table
@@ -293,10 +290,8 @@ class Simple extends Injectable implements ViewBaseInterface
 
     /**
      * Renders a view
-     *
-     * @param  array  params
      */
-    public function render(string! path, params = null) -> string
+    public function render(string! path, array params = []) -> string
     {
         var cache, key, lifetime, cacheOptions, content, viewParams, mergedParams;
 
@@ -356,15 +351,7 @@ class Simple extends Injectable implements ViewBaseInterface
         /**
          * Merge parameters
          */
-        if typeof params == "array" {
-            if typeof viewParams == "array" {
-                let mergedParams = array_merge(viewParams, params);
-            } else {
-                let mergedParams = params;
-            }
-        } else {
-            let mergedParams = viewParams;
-        }
+        let mergedParams = array_merge(viewParams, params);
 
         /**
          * internalRender is also reused by partials
@@ -448,11 +435,11 @@ class Simple extends Injectable implements ViewBaseInterface
      */
     public function setVars(array! params, bool merge = true) -> <Simple>
     {
-        if merge && typeof this->viewParams == "array" {
-            let this->viewParams = array_merge(this->viewParams, params);
-        } else {
-            let this->viewParams = params;
+        if merge {
+            let params = array_merge(this->viewParams, params);
         }
+
+        let this->viewParams = params;
 
         return this;
     }
@@ -463,7 +450,7 @@ class Simple extends Injectable implements ViewBaseInterface
     public function setViewsDir(string! viewsDir)
     {
         if substr(viewsDir, -1) != DIRECTORY_SEPARATOR {
-            let viewsDir = viewsDir . DIRECTORY_SEPARATOR;
+            let viewsDir .= DIRECTORY_SEPARATOR;
         }
 
         let this->viewsDir = viewsDir;
@@ -508,8 +495,8 @@ class Simple extends Injectable implements ViewBaseInterface
      */
     protected function loadTemplateEngines() -> array
     {
-        var engines, di, registeredEngines, extension,
-            engineService, engineObject;
+        var engines, di, registeredEngines, extension, engineService,
+            engineObject;
 
         /**
          * If the engines aren't initialized 'engines' is false
@@ -546,23 +533,27 @@ class Simple extends Injectable implements ViewBaseInterface
                         /**
                          * Engine can be a closure
                          */
-                        if engineService instanceof \Closure {
-                            let engineService = \Closure::bind(engineService, di);
+                        if engineService instanceof Closure {
+                            let engineService = Closure::bind(engineService, di);
+
                             let engineObject = call_user_func(engineService, this);
                         } else {
                             let engineObject = engineService;
                         }
-                    } else {
+                    } elseif typeof engineService == "string" {
                         /**
                          * Engine can be a string representing a service in the DI
                          */
-                        if typeof engineService == "string" {
-                            let engineObject = di->getShared(engineService, [this]);
-                        } else {
-                            throw new Exception(
-                                "Invalid template engine registration for extension: " . extension
-                            );
-                        }
+                        let engineObject = di->getShared(
+                            engineService,
+                            [
+                                this
+                            ]
+                        );
+                    } else {
+                        throw new Exception(
+                            "Invalid template engine registration for extension: " . extension
+                        );
                     }
 
                     let engines[extension] = engineObject;
@@ -584,8 +575,9 @@ class Simple extends Injectable implements ViewBaseInterface
      */
     final protected function internalRender(string! path, params)
     {
-        var eventsManager, engines, extension, engine, mustClean, viewEnginePath, viewsDirPath;
-        bool notExists;
+        var eventsManager, engines, extension, engine;
+        bool notExists, mustClean;
+        string viewEnginePath, viewsDirPath;
 
         let eventsManager = this->eventsManager;
 
@@ -619,40 +611,37 @@ class Simple extends Injectable implements ViewBaseInterface
 
             if file_exists(viewsDirPath . extension) {
                 let viewEnginePath = viewsDirPath . extension;
-            } else {
-
+            } elseif substr(viewsDirPath, -strlen(extension)) == extension && file_exists(viewsDirPath) {
                 /**
                  * if passed filename with engine extension
                  */
-                if extension && substr(viewsDirPath, -strlen(extension)) == extension && file_exists(viewsDirPath) {
-                    let viewEnginePath = viewsDirPath;
-                } else {
-                    let viewEnginePath = "";
+
+                let viewEnginePath = viewsDirPath;
+            } else {
+                continue;
+            }
+
+            /**
+             * Call beforeRenderView if there is an events manager available
+             */
+            if typeof eventsManager == "object" {
+                if eventsManager->fire("view:beforeRenderView", this, viewEnginePath) === false {
+                    continue;
                 }
             }
 
-            if viewEnginePath {
+            engine->render(viewEnginePath, params, mustClean);
 
-                /**
-                 * Call beforeRenderView if there is an events manager available
-                 */
-                if typeof eventsManager == "object" {
-                    if eventsManager->fire("view:beforeRenderView", this, viewEnginePath) === false {
-                        continue;
-                    }
-                }
+            let notExists = false;
 
-                engine->render(viewEnginePath, params, mustClean);
-
-                /**
-                 * Call afterRenderView if there is an events manager available
-                 */
-                let notExists = false;
-                if typeof eventsManager == "object" {
-                    eventsManager->fire("view:afterRenderView", this);
-                }
-                break;
+            /**
+             * Call afterRenderView if there is an events manager available
+             */
+            if typeof eventsManager == "object" {
+                eventsManager->fire("view:afterRenderView", this);
             }
+
+            break;
         }
 
         /**
@@ -670,6 +659,5 @@ class Simple extends Injectable implements ViewBaseInterface
         if typeof eventsManager == "object" {
             eventsManager->fire("view:afterRender", this);
         }
-
     }
 }

@@ -55,7 +55,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
      */
     protected implicitFlush = true;
 
-    protected messages;
+    protected messages = [];
 
     /**
      * Phalcon\Flash constructor
@@ -64,12 +64,13 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     {
         if typeof cssClasses != "array" {
             let cssClasses = [
-                "error": "errorMessage",
-                "notice": "noticeMessage",
+                "error":   "errorMessage",
+                "notice":  "noticeMessage",
                 "success": "successMessage",
                 "warning": "warningMessage"
             ];
         }
+
         let this->cssClasses = cssClasses;
     }
 
@@ -345,12 +346,13 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 
         let autoEscape = (bool) this->autoescape;
 
-        if autoEscape {
-            let escaper = this->getEscaperService();
-            return escaper->escapeHtml(message);
-        } else {
+        if !autoEscape {
             return message;
         }
+
+        let escaper = this->getEscaperService();
+
+        return escaper->escapeHtml(message);
     }
 
     /**
@@ -363,31 +365,31 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 
         let automaticHtml = (bool) this->automaticHtml;
 
-        if automaticHtml {
-            let classes = this->cssClasses;
-            if fetch typeClasses, classes[type] {
-                if typeof typeClasses == "array" {
-                    let cssClasses = join(" ", typeClasses);
-                } else {
-                    let cssClasses = typeClasses;
-                }
-            } else {
-                let cssClasses = "";
-            }
-
-            return str_replace(
-                [
-                    "%cssClass%",
-                    "%message%"
-                ],
-                [
-                    cssClasses,
-                    message
-                ],
-                this->getTemplate(cssClasses)
-            );
-        } else {
+        if !automaticHtml {
             return message;
         }
+
+        let classes = this->cssClasses;
+        if fetch typeClasses, classes[type] {
+            if typeof typeClasses == "array" {
+                let cssClasses = join(" ", typeClasses);
+            } else {
+                let cssClasses = typeClasses;
+            }
+        } else {
+            let cssClasses = "";
+        }
+
+        return str_replace(
+            [
+                "%cssClass%",
+                "%message%"
+            ],
+            [
+                cssClasses,
+                message
+            ],
+            this->getTemplate(cssClasses)
+        );
     }
 }

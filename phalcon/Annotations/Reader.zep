@@ -25,9 +25,8 @@ class Reader implements ReaderInterface
      */
     public function parse(string className) -> array
     {
-        var annotations, reflection, comment,
-            properties, methods, property, method,
-            classAnnotations, line, annotationsProperties,
+        var annotations, reflection, comment, properties, methods, property,
+            method, classAnnotations, line, annotationsProperties,
             propertyAnnotations, annotationsMethods, methodAnnotations;
 
         let annotations = [];
@@ -145,6 +144,7 @@ class Reader implements ReaderInterface
         if typeof file != "string" {
             let file = "eval code";
         }
+
         return phannot_parse_annotations(docBlock, file, line);
     }
 }

@@ -77,9 +77,11 @@ class Collection implements \Iterator, \Countable
     public function current() -> <Annotation> | bool
     {
         var annotation;
+
         if fetch annotation, this->annotations[this->position] {
             return annotation;
         }
+
         return false;
     }
 
@@ -89,12 +91,12 @@ class Collection implements \Iterator, \Countable
     public function get(string name) -> <Annotation>
     {
         var annotation, annotations;
+
         let annotations = this->annotations;
-        if typeof annotations == "array" {
-            for annotation in annotations {
-                if name == annotation->getName() {
-                    return annotation;
-                }
+
+        for annotation in annotations {
+            if name == annotation->getName() {
+                return annotation;
             }
         }
 
@@ -112,11 +114,10 @@ class Collection implements \Iterator, \Countable
 
         let found = [],
             annotations = this->annotations;
-        if typeof annotations == "array" {
-            for annotation in annotations {
-                if name == annotation->getName() {
-                    let found[] = annotation;
-                }
+
+        for annotation in annotations {
+            if name == annotation->getName() {
+                let found[] = annotation;
             }
         }
 
@@ -139,13 +140,13 @@ class Collection implements \Iterator, \Countable
         var annotations, annotation;
 
         let annotations = this->annotations;
-        if typeof annotations == "array" {
-            for annotation in annotations {
-                if name == annotation->getName() {
-                    return true;
-                }
+
+        for annotation in annotations {
+            if name == annotation->getName() {
+                return true;
             }
         }
+
         return false;
     }
     /**

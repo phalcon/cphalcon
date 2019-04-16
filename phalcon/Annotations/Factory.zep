@@ -33,6 +33,9 @@ class Factory extends BaseFactory
      */
     public static function load(var config) -> object
     {
-        return self::loadClass("Phalcon\\Annotations\\Adapter", config);
+        return self::loadClass(
+            "Phalcon\\Annotations\\Adapter",
+            config
+        );
     }
 }

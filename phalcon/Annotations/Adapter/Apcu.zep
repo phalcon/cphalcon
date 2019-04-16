@@ -38,20 +38,17 @@ class Apcu extends Adapter
 
     /**
      * Phalcon\Annotations\Adapter\Apcu constructor
-     *
-     * @param array options
      */
-    public function __construct(options = null) -> void
+    public function __construct(array options = []) -> void
     {
         var prefix, ttl;
 
-        if typeof options == "array" {
-            if fetch prefix, options["prefix"] {
-                let this->prefix = prefix;
-            }
-            if fetch ttl, options["lifetime"] {
-                let this->ttl = ttl;
-            }
+        if fetch prefix, options["prefix"] {
+            let this->prefix = prefix;
+        }
+
+        if fetch ttl, options["lifetime"] {
+            let this->ttl = ttl;
         }
     }
 
@@ -60,7 +57,11 @@ class Apcu extends Adapter
      */
     public function read(string! key) -> <Reflection> | bool
     {
-        return apcu_fetch(strtolower("_PHAN" . this->prefix . key));
+        return apcu_fetch(
+            strtolower(
+                "_PHAN" . this->prefix . key
+            )
+        );
     }
 
     /**
@@ -68,6 +69,12 @@ class Apcu extends Adapter
      */
     public function write(string! key, <Reflection> data) -> bool
     {
-        return apcu_store(strtolower("_PHAN" . this->prefix . key), data, this->ttl);
+        return apcu_store(
+            strtolower(
+                "_PHAN" . this->prefix . key
+            ),
+            data,
+            this->ttl
+        );
     }
 }
