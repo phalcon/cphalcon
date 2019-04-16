@@ -187,8 +187,19 @@ class Random
     {
         var s;
 
-        let s = strtr(base64_encode(this->base64(len)), "+/", "-_");
-        let s = preg_replace("#[^a-z0-9_=-]+#i", "", s);
+        let s = strtr(
+            base64_encode(
+                this->base64(len)
+            ),
+            "+/",
+            "-_"
+        );
+
+        let s = preg_replace(
+            "#[^a-z0-9_=-]+#i",
+            "",
+            s
+        );
 
         if !padding {
             return rtrim(s, "=");
@@ -236,25 +247,29 @@ class Random
             return openssl_random_pseudo_bytes(len);
         }
 
+        let handle = false;
+
         if file_exists("/dev/urandom") {
             let handle = fopen("/dev/urandom", "rb");
-
-            if handle !== false {
-                stream_set_read_buffer(handle, 0);
-                let ret = fread(handle, len);
-                fclose(handle);
-
-                if strlen(ret) != len {
-                    throw new Exception(
-                        "Unexpected partial read from random device"
-                    );
-                }
-
-                return ret;
-            }
         }
 
-        throw new Exception("No random device available");
+        if handle === false {
+            throw new Exception("No random device available");
+        }
+
+        stream_set_read_buffer(handle, 0);
+
+        let ret = fread(handle, len);
+
+        fclose(handle);
+
+        if strlen(ret) != len {
+            throw new Exception(
+                "Unexpected partial read from random device"
+            );
+        }
+
+        return ret;
     }
 
     /**
@@ -273,7 +288,12 @@ class Random
      */
     public function hex(int len = null) -> string
     {
-        return array_shift(unpack("H*", this->bytes(len)));
+        return array_shift(
+            unpack(
+                "H*",
+                this->bytes(len)
+            )
+        );
     }
 
     /**
@@ -378,7 +398,10 @@ class Random
         let ary[2] = (ary[2] & 0x0fff) | 0x4000,
             ary[3] = (ary[3] & 0x3fff) | 0x8000;
 
-        array_unshift(ary, "%08x-%04x-%04x-%04x-%04x%08x");
+        array_unshift(
+            ary,
+            "%08x-%04x-%04x-%04x-%04x%08x"
+        );
 
         return call_user_func_array("sprintf", ary);
     }
@@ -397,7 +420,10 @@ class Random
         var bytes, idx;
         string byteString = "";
 
-        let bytes = unpack("C*", this->bytes(n));
+        let bytes = unpack(
+            "C*",
+            this->bytes(n)
+        );
 
         for idx in bytes {
             let idx = idx % 64;
