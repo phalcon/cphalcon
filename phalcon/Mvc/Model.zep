@@ -288,11 +288,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
                 /**
                  * We store relationship objects in the related bag
-                 *
-                 * Removed temporarily.
-                 * See https://github.com/phalcon/cphalcon/issues/13964
                  */
-                // let this->related[lowerProperty] = result;
+                let this->related[lowerProperty] = result;
             }
 
             return result;
