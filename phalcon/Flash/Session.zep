@@ -48,13 +48,12 @@ class Session extends FlashBase
         var messages;
 
         let messages = this->getSessionMessages(false);
-        if typeof messages == "array" {
-            if typeof type == "string" {
-                return isset messages[type];
-            }
+
+        if typeof type != "string" {
             return true;
         }
-        return false;
+
+        return isset messages[type];
     }
 
     /**
@@ -65,12 +64,11 @@ class Session extends FlashBase
         var messages;
 
         let messages = this->getSessionMessages(false);
-        if typeof messages != "array" {
-            let messages = [];
-        }
+
         if !isset messages[type] {
             let messages[type] = [];
         }
+
         let messages[type][] = message;
 
         this->setSessionMessages(messages);
@@ -84,10 +82,9 @@ class Session extends FlashBase
         var type, message, messages;
 
         let messages = this->getSessionMessages(remove);
-        if typeof messages == "array" {
-            for type, message in messages {
-                this->outputMessage(type, message);
-            }
+
+        for type, message in messages {
+            this->outputMessage(type, message);
         }
 
         parent::clear();
