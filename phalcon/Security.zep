@@ -278,11 +278,9 @@ class Security implements InjectionAwareInterface
         loop {
             let safeBytes = this->random->base64Safe(numberBytes);
 
-            if !safeBytes || strlen(safeBytes) < numberBytes {
-                continue;
+            if safeBytes && strlen(safeBytes) >= numberBytes {
+                break;
             }
-
-            break;
         }
 
         return safeBytes;
@@ -466,10 +464,8 @@ class Security implements InjectionAwareInterface
 
                 if workFactor < 4 {
                     let workFactor = 4;
-                } else {
-                    if workFactor > 31 {
-                        let workFactor = 31;
-                    }
+                } elseif workFactor > 31 {
+                    let workFactor = 31;
                 }
 
                 return crypt(
