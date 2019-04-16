@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\User\Plugin;
+namespace Phalcon\Test\Integration\Plugin;
 
 use IntegrationTester;
 
@@ -20,16 +20,16 @@ use IntegrationTester;
 class UnderscoreGetCest
 {
     /**
-     * Tests Phalcon\Mvc\User\Plugin :: __get()
+     * Tests Phalcon\Plugin :: __get()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcUserPluginUnderscoreGet(IntegrationTester $I)
+    public function pluginUnderscoreGet(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\User\Plugin - __get()');
+        $I->wantToTest('Plugin - __get()');
         $I->skipTest('Need implementation');
     }
 }

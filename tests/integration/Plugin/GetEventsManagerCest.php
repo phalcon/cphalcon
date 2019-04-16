@@ -10,26 +10,26 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\User\Plugin;
+namespace Phalcon\Test\Integration\Plugin;
 
 use IntegrationTester;
 
 /**
- * Class SetEventsManagerCest
+ * Class GetEventsManagerCest
  */
-class SetEventsManagerCest
+class GetEventsManagerCest
 {
     /**
-     * Tests Phalcon\Mvc\User\Plugin :: setEventsManager()
+     * Tests Phalcon\Plugin :: getEventsManager()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcUserPluginSetEventsManager(IntegrationTester $I)
+    public function pluginGetEventsManager(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\User\Plugin - setEventsManager()');
+        $I->wantToTest('Plugin - getEventsManager()');
         $I->skipTest('Need implementation');
     }
 }

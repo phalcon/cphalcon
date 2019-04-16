@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\User\Plugin;
+namespace Phalcon\Test\Integration\Plugin;
 
 use IntegrationTester;
 
@@ -20,16 +20,16 @@ use IntegrationTester;
 class GetDICest
 {
     /**
-     * Tests Phalcon\Mvc\User\Plugin :: getDI()
+     * Tests Phalcon\Plugin :: getDI()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcUserPluginGetDI(IntegrationTester $I)
+    public function pluginGetDI(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\User\Plugin - getDI()');
+        $I->wantToTest('Plugin - getDI()');
         $I->skipTest('Need implementation');
     }
 }
