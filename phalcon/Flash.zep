@@ -55,7 +55,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
      */
     protected implicitFlush = true;
 
-    protected messages;
+    protected messages = [];
 
     /**
      * Phalcon\Flash constructor

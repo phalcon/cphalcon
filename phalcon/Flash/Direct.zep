@@ -33,13 +33,10 @@ class Direct extends FlashBase
      */
     public function output(bool remove = true) -> void
     {
-        var message, messages;
+        var message;
 
-        let messages = this->messages;
-        if typeof messages == "array" {
-            for message in messages {
-                echo message;
-            }
+        for message in this->messages {
+            echo message;
         }
 
         if remove {
