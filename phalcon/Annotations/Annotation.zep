@@ -22,18 +22,21 @@ class Annotation
 {
     /**
      * Annotation Arguments
+     *
      * @var string
      */
     protected arguments;
 
     /**
      * Annotation ExprArguments
+     *
      * @var string
      */
     protected exprArguments;
 
     /**
      * Annotation Name
+     *
      * @var string
      */
     protected name;
@@ -52,14 +55,19 @@ class Annotation
          */
         if fetch exprArguments, reflectionData["arguments"] {
             let arguments = [];
+
             for argument in exprArguments {
-                let resolvedArgument =  this->getExpression(argument["expr"]);
+                let resolvedArgument =  this->getExpression(
+                    argument["expr"]
+                );
+
                 if fetch name, argument["name"] {
                     let arguments[name] = resolvedArgument;
                 } else {
                     let arguments[] = resolvedArgument;
                 }
             }
+
             let this->arguments = arguments;
             let this->exprArguments = exprArguments;
         }
@@ -82,8 +90,6 @@ class Annotation
 
     /**
      * Returns the expression arguments
-     *
-     * @return array
      */
     public function getArguments() -> array
     {
@@ -92,8 +98,6 @@ class Annotation
 
     /**
      * Returns the expression arguments without resolving
-     *
-     * @return array
      */
     public function getExprArguments() -> array
     {
@@ -133,14 +137,19 @@ class Annotation
 
             case PHANNOT_T_ARRAY:
                 let arrayValue = [];
+
                 for item in expr["items"] {
-                    let resolvedItem = this->getExpression(item["expr"]);
+                    let resolvedItem = this->getExpression(
+                        item["expr"]
+                    );
+
                     if fetch name, item["name"] {
                         let arrayValue[name] = resolvedItem;
                     } else {
                         let arrayValue[] = resolvedItem;
                     }
                 }
+
                 return arrayValue;
 
             case PHANNOT_T_ANNOTATION:
@@ -169,6 +178,7 @@ class Annotation
     public function getNamedArgument(string! name)
     {
         var argument;
+
         if fetch argument, this->arguments[name] {
             return argument;
         }

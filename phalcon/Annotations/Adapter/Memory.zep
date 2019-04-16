@@ -22,6 +22,7 @@ class Memory extends Adapter
 {
     /**
      * Data
+     *
      * @var mixed
      */
     protected data;
