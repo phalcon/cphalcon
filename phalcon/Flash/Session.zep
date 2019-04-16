@@ -48,13 +48,16 @@ class Session extends FlashBase
         var messages;
 
         let messages = this->getSessionMessages(false);
-        if typeof messages == "array" {
-            if typeof type == "string" {
-                return isset messages[type];
-            }
+
+        if typeof messages != "array" {
+            return false;
+        }
+
+        if typeof type != "string" {
             return true;
         }
-        return false;
+
+        return isset messages[type];
     }
 
     /**
