@@ -613,7 +613,7 @@ class Form extends Injectable implements \Countable, \Iterator
         for element in this->elements {
 
             let validators = element->getValidators();
-            if typeof validators != "array" || count(validators) == 0 {
+            if count(validators) == 0 {
                 continue;
             }
 
@@ -750,11 +750,8 @@ class Form extends Injectable implements \Countable, \Iterator
     public function rewind() -> void
     {
         let this->position = 0;
-        if typeof this->elements == "array" {
-            let this->elementsIndexed = array_values(this->elements);
-        } else {
-            let this->elementsIndexed = [];
-        }
+
+        let this->elementsIndexed = array_values(this->elements);
     }
 
     /**
