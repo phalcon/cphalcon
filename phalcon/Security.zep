@@ -160,8 +160,14 @@ class Security implements InjectionAwareInterface
         var hmac;
 
         let hmac = hash_hmac(algo, data, key, raw);
+
         if !hmac {
-            throw new Exception("Unknown hashing algorithm: %s" . algo);
+            throw new Exception(
+                sprintf(
+                    "Unknown hashing algorithm: %s",
+                    algo
+                )
+            );
         }
 
         return hmac;
