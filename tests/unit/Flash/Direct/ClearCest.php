@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Flash\Direct;
 
+use Phalcon\Flash\Direct;
 use UnitTester;
 
 /**
@@ -30,6 +31,22 @@ class ClearCest
     public function flashDirectClear(UnitTester $I)
     {
         $I->wantToTest('Flash\Direct - clear()');
-        $I->skipTest('Need implementation');
+
+        $flash = new Direct();
+
+        $flash->notice('Hello.');
+        $flash->debug('Don\'t worry. This is a just a debug message.');
+        $flash->error('Now you should worry. This is an error!');
+
+        $flash->clear();
+
+        ob_start();
+        $flash->output(false);
+        $output = ob_end_clean();
+
+        $this->assertEquals(
+            '',
+            $output
+        );
     }
 }
