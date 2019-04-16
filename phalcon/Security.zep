@@ -303,7 +303,11 @@ class Security implements InjectionAwareInterface
             }
 
             let session = <SessionInterface> container->getShared("session");
-            session->set(this->tokenValueSessionId, this->token);
+
+            session->set(
+                this->tokenValueSessionId,
+                this->token
+            );
         }
 
         return this->token;
@@ -326,8 +330,13 @@ class Security implements InjectionAwareInterface
             }
 
             let this->tokenKey = this->random->base64Safe(this->numberBytes);
+
             let session = <SessionInterface> container->getShared("session");
-            session->set(this->tokenKeySessionId, this->tokenKey);
+
+            session->set(
+                this->tokenKeySessionId,
+                this->tokenKey
+            );
         }
 
         return this->tokenKey;
@@ -391,7 +400,7 @@ class Security implements InjectionAwareInterface
                  */
 
                 if (hash == self::CRYPT_EXT_DES) {
-                    let saltBytes = "_".this->getSaltBytes(8);
+                    let saltBytes = "_" . this->getSaltBytes(8);
                 } else {
                     let saltBytes = this->getSaltBytes(2);
                 }
@@ -421,7 +430,9 @@ class Security implements InjectionAwareInterface
                     );
                 }
 
-                return crypt(password, "$" . variant . "$"  . saltBytes . "$");
+                return crypt(
+                    password, "$" . variant . "$"  . saltBytes . "$"
+                );
 
             case self::CRYPT_DEFAULT:
             case self::CRYPT_BLOWFISH:
