@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Http\Response;
 use UnitTester;
 
 /**
@@ -24,12 +25,26 @@ class SetEtagCest
      *
      * @param UnitTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-17
      */
     public function httpResponseSetEtag(UnitTester $I)
     {
         $I->wantToTest('Http\Response - setEtag()');
-        $I->skipTest('Need implementation');
+
+        $response = new Response();
+
+        $etag = md5(
+            (string) time()
+        );
+
+        $response->setEtag($etag);
+
+        $headers = $response->getHeaders();
+
+        $I->assertEquals(
+            $etag,
+            $headers->get('Etag')
+        );
     }
 }
