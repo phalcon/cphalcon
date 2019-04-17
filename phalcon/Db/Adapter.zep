@@ -119,10 +119,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
          */
         if typeof dialectClass == "string" {
             let this->dialect = new {dialectClass}();
-        } else {
-            if typeof dialectClass == "object" {
-                let this->dialect = dialectClass;
-            }
+        } elseif typeof dialectClass == "object" {
+            let this->dialect = dialectClass;
         }
 
         let this->descriptor = descriptor;
@@ -270,10 +268,10 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
         let escapedTable = this->escapeIdentifier(table);
 
+        let sql = "DELETE FROM " . escapedTable;
+
         if !empty whereCondition {
-            let sql = "DELETE FROM " . escapedTable . " WHERE " . whereCondition;
-        } else {
-            let sql = "DELETE FROM " . escapedTable;
+            let sql .= " WHERE " . whereCondition;
         }
 
         /**
@@ -587,13 +585,16 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         var result;
 
         let result = this->{"query"}(sqlQuery, bindParams, bindTypes);
-        if typeof result == "object" {
-            if typeof fetchMode !== "null" {
-                result->setFetchMode(fetchMode);
-            }
-            return result->$fetch();
+
+        if typeof result != "object" {
+            return [];
         }
-        return [];
+
+        if typeof fetchMode !== "null" {
+            result->setFetchMode(fetchMode);
+        }
+
+        return result->$fetch();
     }
 
     /**

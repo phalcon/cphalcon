@@ -28,7 +28,6 @@ namespace Phalcon\Db;
  */
 class RawValue
 {
-
     /**
      * Raw value without quoting or formatting
      *
@@ -41,16 +40,12 @@ class RawValue
      */
     public function __construct(var value) -> void
     {
-        if typeof value == "string" && value == "" {
+        if value === "" {
             let this->value = "''";
-            return;
-        }
-
-        if value === null {
+        } elseif value === null {
             let this->value = "NULL";
-            return;
+        } else {
+            let this->value = (string) value;
         }
-
-        let this->value = (string) value;
     }
 }
