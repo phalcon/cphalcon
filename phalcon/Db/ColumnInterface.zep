@@ -43,29 +43,21 @@ interface ColumnInterface
 
     /**
      * Returns column name
-     *
-     * @return string
      */
     public function getName() -> string;
 
     /**
      * Returns column scale
-     *
-     * @return int
      */
     public function getScale() -> int;
 
     /**
      * Returns schema's table related to column
-     *
-     * @return string
      */
     public function getSchemaName() -> string;
 
     /**
      * Returns column size
-     *
-     * @return int
      */
     public function getSize() -> int;
 
@@ -78,8 +70,6 @@ interface ColumnInterface
 
     /**
      * Returns column type reference
-     *
-     * @return int
      */
     public function getTypeReference() -> int;
 

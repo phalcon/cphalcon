@@ -72,19 +72,12 @@ class Pdo implements ResultInterface
     public function __construct(<Db\AdapterInterface> connection, <\PDOStatement> result,
         sqlStatement = null, bindParams = null, bindTypes = null) -> void
     {
-
         let this->connection = connection,
             this->pdoStatement = result;
 
-        if sqlStatement !== null {
-            let this->sqlStatement = sqlStatement;
-        }
-        if bindParams !== null {
-            let this->bindParams = bindParams;
-        }
-        if bindTypes !== null {
-            let this->bindTypes = bindTypes;
-        }
+        let this->sqlStatement = sqlStatement;
+        let this->bindParams = bindParams;
+        let this->bindTypes = bindTypes;
     }
 
     /**
@@ -204,11 +197,7 @@ class Pdo implements ResultInterface
                 );
             }
 
-            if fetchStyle == Db::FETCH_COLUMN {
-                return pdoStatement->fetchAll(fetchStyle, fetchArgument);
-            }
-
-            if fetchStyle == Db::FETCH_FUNC {
+            if fetchStyle == Db::FETCH_COLUMN || fetchStyle == Db::FETCH_FUNC {
                 return pdoStatement->fetchAll(fetchStyle, fetchArgument);
             }
 
@@ -351,34 +340,22 @@ class Pdo implements ResultInterface
 
         let pdoStatement = this->pdoStatement;
 
-        if fetchMode == Db::FETCH_CLASS {
-            if pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject, ctorargs) {
-                let this->fetchMode = fetchMode;
-                return true;
+        if fetchMode == Db::FETCH_CLASS || fetchMode == Db::FETCH_INTO {
+            if !pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject, ctorargs) {
+                return false;
             }
-            return false;
+        } elseif fetchMode == Db::FETCH_COLUMN {
+            if !pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject) {
+                return false;
+            }
+        } else {
+            if !pdoStatement->setFetchMode(fetchMode) {
+                return false;
+            }
         }
 
-        if fetchMode == Db::FETCH_INTO {
-            if pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject) {
-                let this->fetchMode = fetchMode;
-                return true;
-            }
-            return false;
-        }
+        let this->fetchMode = fetchMode;
 
-        if fetchMode == Db::FETCH_COLUMN {
-            if pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject) {
-                let this->fetchMode = fetchMode;
-                return true;
-            }
-            return false;
-        }
-
-        if pdoStatement->setFetchMode(fetchMode) {
-            let this->fetchMode = fetchMode;
-            return true;
-        }
-        return false;
+        return true;
     }
 }

@@ -25,7 +25,6 @@ use Phalcon\Db\DialectInterface;
  */
 class Postgresql extends Dialect
 {
-
     protected escapeChar = "\"";
 
     /**
@@ -56,27 +55,27 @@ class Postgresql extends Dialect
      */
     public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
     {
-            var sql, onDelete, onUpdate;
+        var sql, onDelete, onUpdate;
 
-            let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD";
-            if reference->getName() {
-                let sql .= " CONSTRAINT \"" . reference->getName() . "\"";
-            }
-            let sql .= " FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
-                     . " REFERENCES \"" . reference->getReferencedTable() . "\" (" . this->getColumnList(reference->getReferencedColumns()) . ")";
-
-            let onDelete = reference->getOnDelete();
-            if !empty onDelete {
-                let sql .= " ON DELETE " . onDelete;
-            }
-
-            let onUpdate = reference->getOnUpdate();
-            if !empty onUpdate {
-                let sql .= " ON UPDATE " . onUpdate;
-            }
-
-            return sql;
+        let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD";
+        if reference->getName() {
+            let sql .= " CONSTRAINT \"" . reference->getName() . "\"";
         }
+        let sql .= " FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
+                 . " REFERENCES \"" . reference->getReferencedTable() . "\" (" . this->getColumnList(reference->getReferencedColumns()) . ")";
+
+        let onDelete = reference->getOnDelete();
+        if !empty onDelete {
+            let sql .= " ON DELETE " . onDelete;
+        }
+
+        let onUpdate = reference->getOnUpdate();
+        if !empty onUpdate {
+            let sql .= " ON UPDATE " . onUpdate;
+        }
+
+        return sql;
+    }
 
     /**
      * Generates SQL to add an index to a table
@@ -273,10 +272,11 @@ class Postgresql extends Dialect
      */
     public function describeColumns(string! table, string schema = null) -> string
     {
-        if schema {
-            return "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='" . schema . "' AND c.table_name='" . table . "' ORDER BY c.ordinal_position";
+        if schema === null {
+            let schema = "public";
         }
-        return "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='public' AND c.table_name='" . table . "' ORDER BY c.ordinal_position";
+
+        return "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, c.numeric_scale AS NumericScale, c.is_nullable AS Null, CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, c.column_default FROM information_schema.columns c LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema FROM information_schema.table_constraints tc INNER JOIN information_schema.key_column_usage kcu on (kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND c.table_name=pkc.table_name) WHERE c.table_schema='" . schema . "' AND c.table_name='" . table . "' ORDER BY c.ordinal_position";
     }
 
     /**
@@ -292,15 +292,11 @@ class Postgresql extends Dialect
      */
     public function describeReferences(string! table, string schema = null) -> string
     {
-        var sql = "SELECT DISTINCT tc.table_name AS TABLE_NAME, kcu.column_name AS COLUMN_NAME, tc.constraint_name AS CONSTRAINT_NAME, tc.table_catalog AS REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME, rc.update_rule AS UPDATE_RULE, rc.delete_rule AS DELETE_RULE FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name JOIN information_schema.referential_constraints rc ON tc.constraint_catalog = rc.constraint_catalog AND tc.constraint_schema = rc.constraint_schema AND tc.constraint_name = rc.constraint_name AND tc.constraint_type = 'FOREIGN KEY' WHERE constraint_type = 'FOREIGN KEY' AND ";
-
-        if schema {
-            let sql .= "tc.table_schema = '" . schema . "' AND tc.table_name='" . table . "'";
-        } else {
-            let sql .= "tc.table_schema = 'public' AND tc.table_name='" . table . "'";
+        if schema === null {
+            let schema = "public";
         }
 
-        return sql;
+        return "SELECT DISTINCT tc.table_name AS TABLE_NAME, kcu.column_name AS COLUMN_NAME, tc.constraint_name AS CONSTRAINT_NAME, tc.table_catalog AS REFERENCED_TABLE_SCHEMA, ccu.table_name AS REFERENCED_TABLE_NAME, ccu.column_name AS REFERENCED_COLUMN_NAME, rc.update_rule AS UPDATE_RULE, rc.delete_rule AS DELETE_RULE FROM information_schema.table_constraints AS tc JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name JOIN information_schema.referential_constraints rc ON tc.constraint_catalog = rc.constraint_catalog AND tc.constraint_schema = rc.constraint_schema AND tc.constraint_name = rc.constraint_name AND tc.constraint_type = 'FOREIGN KEY' WHERE constraint_type = 'FOREIGN KEY' AND tc.table_schema = '" . schema . "' AND tc.table_name='" . table . "'";
     }
 
     /**
@@ -509,10 +505,11 @@ class Postgresql extends Dialect
      */
     public function listTables(string schemaName = null) -> string
     {
-        if schemaName {
-            return "SELECT table_name FROM information_schema.tables WHERE table_schema = '" . schemaName . "' ORDER BY table_name";
+        if schemaName === null {
+            let schemaName = "public";
         }
-        return "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name";
+
+        return "SELECT table_name FROM information_schema.tables WHERE table_schema = '" . schemaName . "' ORDER BY table_name";
     }
 
     /**
@@ -520,10 +517,11 @@ class Postgresql extends Dialect
      */
     public function listViews(string schemaName = null) -> string
     {
-        if schemaName {
-            return "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '" . schemaName . "' ORDER BY view_name";
+        if schemaName === null {
+            let schemaName = "public";
         }
-        return "SELECT viewname AS view_name FROM pg_views WHERE schemaname = 'public' ORDER BY view_name";
+
+        return "SELECT viewname AS view_name FROM pg_views WHERE schemaname = '" . schemaName . "' ORDER BY view_name";
     }
 
     /**
@@ -599,10 +597,11 @@ class Postgresql extends Dialect
      */
     public function tableExists(string! tableName, string schemaName = null) -> string
     {
-        if schemaName {
-            return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = '" . schemaName . "' AND table_name='" . tableName . "'";
+        if schemaName === null {
+            let schemaName = "public";
         }
-        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = 'public' AND table_name='" . tableName . "'";
+
+        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM information_schema.tables WHERE table_schema = '" . schemaName . "' AND table_name='" . tableName . "'";
     }
 
     /**
@@ -636,10 +635,11 @@ class Postgresql extends Dialect
      */
     public function viewExists(string! viewName, string schemaName = null) -> string
     {
-        if schemaName {
-            return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "' AND schemaname='" . schemaName . "'";
+        if schemaName === null {
+            let schemaName = "public";
         }
-        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "' AND schemaname='public'";
+
+        return "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM pg_views WHERE viewname='" . viewName . "' AND schemaname='" . schemaName . "'";
     }
 
     protected function castDefault(<ColumnInterface> column) -> string

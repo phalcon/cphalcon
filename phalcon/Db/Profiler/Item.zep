@@ -53,7 +53,6 @@ class Item
      */
     protected sqlVariables { set, get };
 
-
     /**
      * Returns the total time in seconds spent by the profile
      */

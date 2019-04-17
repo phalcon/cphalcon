@@ -40,7 +40,6 @@ use Phalcon\Db\ColumnInterface;
  */
 class Column implements ColumnInterface
 {
-
     /**
      * Bind Type Blob
      */
@@ -329,11 +328,11 @@ class Column implements ColumnInterface
         /**
          * Get the column type, one of the TYPE_* constants
          */
-        if fetch type, definition["type"] {
-            let this->type = type;
-        } else {
+        if !fetch type, definition["type"] {
             throw new Exception("Column type is required");
         }
+
+        let this->type = type;
 
         if fetch typeReference, definition["typeReference"] {
             let this->typeReference = typeReference;
@@ -445,7 +444,6 @@ class Column implements ColumnInterface
         if fetch bindType, definition["bindType"] {
             let this->bindType = bindType;
         }
-
     }
 
     /**
