@@ -79,6 +79,10 @@ before_install:
     export PHP_VERNUM="$(php-config --vernum)"
     export PHP_PEAR_PHP_BIN=$(phpenv which php)
 
+    # Install libsodium
+    git clone -b stable https://github.com/jedisct1/libsodium.git
+    cd libsodium && sudo ./configure && sudo make check && sudo make install && cd ..
+
 install:
   - .ci/install-mysql-5.7.sh
   - tests/_ci/setup-dbs.sh
@@ -88,6 +92,7 @@ install:
   - travis_retry composer install $DEFAULT_COMPOSER_FLAGS
   - wget --no-clobber -O $HOME/bin/zephir https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar
   - chmod +x $HOME/bin/zephir
+  - pecl install libsodium && echo "extension=sodium.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 before_script:
   - |
