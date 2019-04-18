@@ -13,12 +13,25 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Profiler;
 
 use IntegrationTester;
+use Phalcon\Db\Profiler\Item;
+use Phalcon\Events\Manager;
+use Phalcon\Test\Fixtures\Db\ProfilerListener;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
  * Class ResetCest
  */
 class ResetCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newDi();
+    }
+
+
+
     /**
      * Tests Phalcon\Db\Profiler :: reset()
      *
@@ -31,5 +44,86 @@ class ResetCest
     {
         $I->wantToTest('Db\Profiler - reset()');
         $I->skipTest('Need implementation');
+    }
+
+
+
+    public function testDbMysql(IntegrationTester $I)
+    {
+        $this->setDiMysql();
+
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
+    }
+
+    public function testDbPostgresql(IntegrationTester $I)
+    {
+        $this->setDiPostgresql();
+
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
+    }
+
+    public function testDbSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
+    }
+
+
+
+    private function executeTests(IntegrationTester $I, $connection)
+    {
+        $eventsManager = new Manager();
+        $listener      = new ProfilerListener();
+
+        $eventsManager->attach('db', $listener);
+
+        $connection->setEventsManager($eventsManager);
+
+        $profiler = $listener->getProfiler();
+
+        $connection->query("SELECT * FROM personas LIMIT 3");
+        $connection->query("SELECT * FROM personas LIMIT 100");
+        $connection->query("SELECT * FROM personas LIMIT 5");
+        $connection->query("SELECT * FROM personas LIMIT 10");
+        $connection->query("SELECT * FROM personas LIMIT 15");
+
+        $I->assertCount(
+            5,
+            $profiler->getProfiles()
+        );
+
+        $I->assertEquals(
+            5,
+            $profiler->getNumberTotalStatements()
+        );
+
+        $I->assertInternalType(
+            'double',
+            $profiler->getTotalElapsedSeconds()
+        );
+
+        $I->assertEquals(
+            0,
+            $profiler->getPoints()
+        );
+
+        $profiler->reset();
+
+        $I->assertCount(
+            0,
+            $profiler->getProfiles()
+        );
+
+        $I->assertEquals(
+            0,
+            $profiler->getNumberTotalStatements()
+        );
     }
 }
