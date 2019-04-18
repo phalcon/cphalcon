@@ -39,10 +39,8 @@ class Role implements RoleInterface
         if name == "*" {
             throw new Exception("Role name cannot be '*'");
         }
-        let this->name = name;
 
-        if description {
-            let this->description = description;
-        }
+        let this->name = name,
+            this->description = description;
     }
 }
