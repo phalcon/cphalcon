@@ -13,23 +13,106 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Form;
 
 use IntegrationTester;
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Form;
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Validation\Validator\Regex;
 
 /**
  * Class GetMessagesCest
  */
 class GetMessagesCest
 {
-    /**
-     * Tests Phalcon\Forms\Form :: getMessages()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function formsFormGetMessages(IntegrationTester $I)
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
     {
-        $I->wantToTest('Forms\Form - getMessages()');
-        $I->skipTest('Need implementation');
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+    }
+
+    /**
+     * executed after each test
+     */
+    public function _after(IntegrationTester $I)
+    {
+        // Setting the doctype to XHTML5 for other tests to run smoothly
+        Tag::setDocType(Tag::XHTML5);
+    }
+
+    /**
+     * Tests Form::getMessages(true)
+     *
+     * @author Mohamad Rostami <rostami@outlook.com>
+     * @issue  https://github.com/phalcon/cphalcon/issues/13294
+     *
+     * This should be removed in next major version
+     * We should not return multiple type of result in a single method!
+     * (form->getMessages(true) vs form->getMessages())
+     */
+    public function testGetElementMessagesFromForm(IntegrationTester $I)
+    {
+        // First element
+        $telephone = new Text('telephone');
+        $telephone->addValidators(
+            [
+                new PresenceOf(
+                    [
+                        'message' => 'The telephone is required',
+                    ]
+                ),
+            ]
+        );
+        $customValidation = new Validation();
+        $customValidation->add(
+            'telephone',
+            new Regex(
+                [
+                    'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                    'message' => 'The telephone has an invalid format',
+                ]
+            )
+        );
+        $form    = new Form();
+        $address = new Text('address');
+        $form->add($telephone);
+        $form->add($address);
+        $form->setValidation($customValidation);
+
+        $actual = $form->isValid(['address' => 'hello']);
+        $I->assertFalse($actual);
+
+        $expected = [
+            'telephone' => [
+                new Messages(
+                    [
+                        new Message(
+                            'The telephone has an invalid format',
+                            'telephone',
+                            'Regex',
+                            0
+                        ),
+                    ]
+                ),
+                new Messages(
+                    [
+                        new Message(
+                            'The telephone is required',
+                            'telephone',
+                            'PresenceOf',
+                            0
+                        ),
+                    ]
+                ),
+            ],
+        ];
+        $actual   = $form->getMessages(true);
+        $I->assertEquals($expected, $actual);
     }
 }
