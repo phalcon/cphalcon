@@ -90,7 +90,7 @@ class Reflection
      */
     public function getMethodsAnnotations() -> <Collection[]> | bool
     {
-        var reflectionMethods, collections, methodName, reflectionMethod;
+        var reflectionMethods, methodName, reflectionMethod;
 
         if this->methodAnnotations === null {
             if fetch reflectionMethods, this->reflectionData["methods"] {

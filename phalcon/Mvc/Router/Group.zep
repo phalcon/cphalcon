@@ -93,6 +93,16 @@ class Group implements GroupInterface
     }
 
     /**
+     * Adds a route to the router that only match if the HTTP method is CONNECT
+     *
+     * @param string|array paths
+     */
+    public function addConnect(string! pattern, var paths = null) -> <RouteInterface>
+    {
+        return this->addRoute(pattern, paths, "CONNECT");
+    }
+
+    /**
      * Adds a route to the router that only match if the HTTP method is DELETE
      *
      * @param string|array paths
@@ -153,6 +163,16 @@ class Group implements GroupInterface
     }
 
     /**
+     * Adds a route to the router that only match if the HTTP method is PURGE
+     *
+     * @param string|array paths
+     */
+    public function addPurge(string! pattern, var paths = null) -> <RouteInterface>
+    {
+        return this->addRoute(pattern, paths, "PURGE");
+    }
+
+    /**
      * Adds a route to the router that only match if the HTTP method is PUT
      *
      * @param string|array paths
@@ -160,6 +180,16 @@ class Group implements GroupInterface
     public function addPut(string! pattern, var paths = null) -> <RouteInterface>
     {
         return this->addRoute(pattern, paths, "PUT");
+    }
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is TRACE
+     *
+     * @param string|array paths
+     */
+    public function addTrace(string! pattern, var paths = null) -> <RouteInterface>
+    {
+        return this->addRoute(pattern, paths, "TRACE");
     }
 
     /**

@@ -71,14 +71,19 @@ interface GroupInterface
     public function add(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>;
 
     /**
-     * Adds a route to the router that only match if the HTTP method is GET
+     * Adds a route to the router that only match if the HTTP method is CONNECT
      */
-    public function addGet(string! pattern, var paths = null) -> <RouteInterface>;
+    public function addConnect(string! pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is DELETE
      */
     public function addDelete(string! pattern, var paths = null) -> <RouteInterface>;
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is GET
+     */
+    public function addGet(string! pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is HEAD
@@ -101,9 +106,19 @@ interface GroupInterface
     public function addPost(string! pattern, var paths = null) -> <RouteInterface>;
 
     /**
+     * Adds a route to the router that only match if the HTTP method is PURGE
+     */
+    public function addPurge(string! pattern, var paths = null) -> <RouteInterface>;
+
+    /**
      * Adds a route to the router that only match if the HTTP method is PUT
      */
     public function addPut(string! pattern, var paths = null) -> <RouteInterface>;
+
+    /**
+     * Adds a route to the router that only match if the HTTP method is TRACE
+     */
+    public function addTrace(string! pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Sets a callback that is called if the route is matched.
