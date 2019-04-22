@@ -133,6 +133,7 @@ class Session extends FlashBase
             session = <SessionInterface> container->getShared("session");
 
         session->set("_flashMessages", messages);
+
         return messages;
     }
 }

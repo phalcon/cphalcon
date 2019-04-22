@@ -65,7 +65,11 @@ class Manager implements InjectionAwareInterface
         /**
          * Adds the asset by its type
          */
-        this->addAssetByType(asset->getType(), asset);
+        this->addAssetByType(
+            asset->getType(),
+            asset
+        );
+
         return this;
     }
 
@@ -99,8 +103,8 @@ class Manager implements InjectionAwareInterface
     * Adds a Css asset to the 'css' collection
     *
     *<code>
-    *    assets->addCss("css/bootstrap.css");
-    *    assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
+    * $assets->addCss("css/bootstrap.css");
+    * $assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
     *</code>
     */
     public function addCss(string! path, local = true, filter = true, var attributes = null) -> <Manager>
@@ -122,6 +126,7 @@ class Manager implements InjectionAwareInterface
          * Adds the inline code by its type
          */
         this->addInlineCodeByType(code->getType(), code);
+
         return this;
     }
 
@@ -210,6 +215,7 @@ class Manager implements InjectionAwareInterface
     public function collectionAssetsByType(array assets, string type) -> array
     {
         var $filtered = [], asset;
+
         for asset in assets {
             if asset->getType() == type {
                 let $filtered[] = asset;
@@ -758,8 +764,10 @@ class Manager implements InjectionAwareInterface
         let callback = ["Phalcon\\Tag", "stylesheetLink"];
 
         let container = this->container;
+
         if typeof container == "object" && container->has("tag") {
             let tag = container->getShared("tag");
+
             let callback = [tag, "stylesheetLink"];
         }
 
@@ -894,6 +902,7 @@ class Manager implements InjectionAwareInterface
     public function set(string! id, <Collection> collection) -> <Manager>
     {
         let this->collections[id] = collection;
+
         return this;
     }
 
@@ -911,6 +920,7 @@ class Manager implements InjectionAwareInterface
     public function setOptions(array! options) -> <Manager>
     {
         let this->options = options;
+
         return this;
     }
 
@@ -920,6 +930,7 @@ class Manager implements InjectionAwareInterface
     public function useImplicitOutput(bool implicitOutput) -> <Manager>
     {
         let this->implicitOutput = implicitOutput;
+
         return this;
     }
 }

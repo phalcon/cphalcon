@@ -21,12 +21,14 @@ class Role implements RoleInterface
 {
     /**
      * Role name
+     *
      * @var string
      */
     private name { get, __toString };
 
     /**
      * Role description
+     *
      * @var string
      */
     private description { get };

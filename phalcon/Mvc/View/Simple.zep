@@ -47,7 +47,6 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  */
 class Simple extends Injectable implements ViewBaseInterface
 {
-
     protected activeRenderPath;
     protected cache = false;
     protected cacheOptions;
@@ -131,6 +130,7 @@ class Simple extends Injectable implements ViewBaseInterface
                 let this->cache = false;
             }
         }
+
         return this;
     }
 
@@ -230,7 +230,6 @@ class Simple extends Injectable implements ViewBaseInterface
          * symbol table
          */
         if typeof params == "array" {
-
             let viewParams = this->viewParams;
 
             /**
@@ -242,7 +241,6 @@ class Simple extends Injectable implements ViewBaseInterface
              * Create a virtual symbol table
              */
             create_symbol_table();
-
         } else {
             let mergedParams = params;
         }
@@ -293,7 +291,8 @@ class Simple extends Injectable implements ViewBaseInterface
      */
     public function render(string! path, array params = []) -> string
     {
-        var cache, key, lifetime, cacheOptions, content, viewParams, mergedParams;
+        var cache, key, lifetime, cacheOptions, content, viewParams,
+            mergedParams;
 
         /**
          * Create/Get a cache
@@ -301,20 +300,20 @@ class Simple extends Injectable implements ViewBaseInterface
         let cache = this->getCache();
 
         if typeof cache == "object" {
-
             /**
              * Check if the cache is started, the first time a cache is started
              * we start the cache
              */
             if !cache->isStarted() {
-
-                let key = null, lifetime = null;
+                let key = null,
+                    lifetime = null;
 
                 /**
                  * Check if the user has defined a different options to the
                  * default
                  */
                 let cacheOptions = this->cacheOptions;
+
                 if typeof cacheOptions == "array" {
                     fetch key, cacheOptions["key"];
                     fetch lifetime, cacheOptions["lifetime"];
@@ -331,12 +330,13 @@ class Simple extends Injectable implements ViewBaseInterface
                  * We start the cache using the key set
                  */
                 let content = cache->start(key, lifetime);
+
                 if content !== null {
                     let this->content = content;
+
                     return content;
                 }
             }
-
         }
 
         /**
@@ -380,6 +380,7 @@ class Simple extends Injectable implements ViewBaseInterface
     public function setCacheOptions(array options) -> <Simple>
     {
         let this->cacheOptions = options;
+
         return this;
     }
 
@@ -393,6 +394,7 @@ class Simple extends Injectable implements ViewBaseInterface
     public function setContent(string! content) -> <Simple>
     {
         let this->content = content;
+
         return this;
     }
 
@@ -406,6 +408,7 @@ class Simple extends Injectable implements ViewBaseInterface
     public function setParamToView(string! key, var value) -> <Simple>
     {
         let this->viewParams[key] = value;
+
         return this;
     }
 
@@ -419,6 +422,7 @@ class Simple extends Injectable implements ViewBaseInterface
     public function setVar(string! key, var value) -> <Simple>
     {
         let this->viewParams[key] = value;
+
         return this;
     }
 
@@ -464,6 +468,7 @@ class Simple extends Injectable implements ViewBaseInterface
         var container, cacheService, cacheOptions, viewCache;
 
         let container = this->container;
+
         if typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("the view cache services")
@@ -473,6 +478,7 @@ class Simple extends Injectable implements ViewBaseInterface
         let cacheService = "viewCache";
 
         let cacheOptions = this->cacheOptions;
+
         if typeof cacheOptions == "array" {
             if isset cacheOptions["service"] {
                 fetch cacheService, cacheOptions["service"];
@@ -483,6 +489,7 @@ class Simple extends Injectable implements ViewBaseInterface
          * The injected service must be an object
          */
         let viewCache = <BackendInterface> container->getShared(cacheService);
+
         if typeof viewCache != "object" {
             throw new Exception("The injected caching service is invalid");
         }
@@ -502,23 +509,21 @@ class Simple extends Injectable implements ViewBaseInterface
          * If the engines aren't initialized 'engines' is false
          */
         let engines = this->engines;
-        if engines === false {
 
+        if engines === false {
             let di = this->container;
 
             let engines = [];
 
             let registeredEngines = this->registeredEngines;
-            if typeof registeredEngines != "array" {
 
+            if typeof registeredEngines != "array" {
                 /**
                  * We use Phalcon\Mvc\View\Engine\Php as default
                  * Use .phtml as extension for the PHP engine
                  */
                 let engines[".phtml"] = new PhpEngine(this, di);
-
             } else {
-
                 if typeof di != "object" {
                     throw new Exception(
                         Exception::containerServiceNotFound(
@@ -528,7 +533,6 @@ class Simple extends Injectable implements ViewBaseInterface
                 }
 
                 for extension, engineService in registeredEngines {
-
                     if typeof engineService == "object" {
                         /**
                          * Engine can be a closure
@@ -608,7 +612,6 @@ class Simple extends Injectable implements ViewBaseInterface
          * Views are rendered in each engine
          */
         for extension, engine in engines {
-
             if file_exists(viewsDirPath . extension) {
                 let viewEnginePath = viewsDirPath . extension;
             } elseif substr(viewsDirPath, -strlen(extension)) == extension && file_exists(viewsDirPath) {

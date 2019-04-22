@@ -101,11 +101,12 @@ class StringLength extends Validator
          * Maximum length
          */
         if isSetMax {
-
             let maximum = this->getOption("max");
+
             if typeof maximum == "array" {
                 let maximum = maximum[field];
             }
+
             if length > maximum {
                 let message = this->prepareMessage(
                     validation,
@@ -136,11 +137,12 @@ class StringLength extends Validator
          * Minimum length
          */
         if isSetMin {
-
             let minimum = this->getOption("min");
+
             if typeof minimum == "array" {
                 let minimum = minimum[field];
             }
+
             if length < minimum {
                 let message = this->prepareMessage(
                     validation,

@@ -59,8 +59,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Adds a message to the queue
-      */
+     * Adds a message to the queue
+     */
     public function add(<Item> item) -> <AdapterInterface>
     {
         let this->queue[] = item;
@@ -69,8 +69,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Starts a transaction
-      */
+     * Starts a transaction
+     */
     public function begin() -> <AdapterInterface>
     {
         let this->inTransaction = true;
@@ -79,8 +79,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Commits the internal transaction
-      */
+     * Commits the internal transaction
+     */
     public function commit() -> <AdapterInterface>
     {
         var inTransaction, item, queue;
@@ -113,6 +113,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
         if typeof this->formatter !== "object" {
             let className = "Phalcon\\Logger\\Formatter\\" . this->defaultFormatter;
+
             let this->formatter = new {className}();
         }
 
@@ -132,12 +133,14 @@ abstract class AbstractAdapter implements AdapterInterface
       */
     public function process(<Item> item) -> void
     {
-        throw new Exception("This method cannot be called directly in the adapter");
+        throw new Exception(
+            "This method cannot be called directly in the adapter"
+        );
     }
 
     /**
-      * Rollbacks the internal transaction
-      */
+     * Rollbacks the internal transaction
+     */
     public function rollback() -> <AdapterInterface>
     {
         var inTransaction;

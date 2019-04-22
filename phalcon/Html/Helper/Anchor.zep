@@ -28,7 +28,9 @@ class Anchor extends AbstractHelper
     {
         var escapedText, overrides;
 
-        let overrides = ["href" : href];
+        let overrides = [
+            "href": href
+        ];
 
         /**
          * Avoid duplicate "href" and ignore it if it is passed in the attributes

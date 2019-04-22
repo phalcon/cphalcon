@@ -250,5 +250,4 @@ interface BuilderInterface
      * Sets conditions for the query
      */
     public function where(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>;
-
 }

@@ -41,7 +41,6 @@ use Phalcon\Db\ReferenceInterface;
  */
 class Mysql extends PdoAdapter
 {
-
     protected dialectType = "mysql";
 
     protected type = "mysql";
@@ -102,7 +101,9 @@ class Mysql extends PdoAdapter
             /**
              * By default the bind types is two
              */
-            let definition = ["bindType": Column::BIND_PARAM_STR];
+            let definition = [
+                "bindType": Column::BIND_PARAM_STR
+            ];
 
             /**
              * By checking every column type we convert it to a
@@ -133,6 +134,7 @@ class Mysql extends PdoAdapter
                     let definition["type"] = Column::TYPE_BOOLEAN,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_BOOL;
+
                     break;
 
                 /**
@@ -142,6 +144,7 @@ class Mysql extends PdoAdapter
                     let definition["type"] = Column::TYPE_BIGINTEGER,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_INT;
+
                     break;
 
                 /**
@@ -151,6 +154,7 @@ class Mysql extends PdoAdapter
                     let definition["type"] = Column::TYPE_MEDIUMINTEGER,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_INT;
+
                     break;
 
                 /**
@@ -160,6 +164,7 @@ class Mysql extends PdoAdapter
                     let definition["type"] = Column::TYPE_SMALLINTEGER,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_INT;
+
                     break;
 
                 /**
@@ -172,6 +177,7 @@ class Mysql extends PdoAdapter
                     let definition["type"] = Column::TYPE_TINYINTEGER,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_INT;
+
                     break;
 
                 /**
@@ -190,6 +196,7 @@ class Mysql extends PdoAdapter
                 case memstr(columnType, "bit"):
                     let definition["type"] = Column::TYPE_BIT,
                         definition["bindType"] = Column::BIND_PARAM_INT;
+
                     break;
 
                 /**
@@ -197,14 +204,15 @@ class Mysql extends PdoAdapter
                  */
                 case memstr(columnType, "enum"):
                     let definition["type"] = Column::TYPE_ENUM;
-                    break;
 
+                    break;
 
                 /**
                  * DATE
                  */
                 case memstr(columnType, "datetime"):
                     let definition["type"] = Column::TYPE_DATETIME;
+
                     break;
 
                 /**
@@ -212,6 +220,7 @@ class Mysql extends PdoAdapter
                  */
                 case memstr(columnType, "date"):
                     let definition["type"] = Column::TYPE_DATE;
+
                     break;
 
                 /**
@@ -221,6 +230,7 @@ class Mysql extends PdoAdapter
                 case memstr(columnType, "decimal"):
                     let definition["type"] = Column::TYPE_DECIMAL,
                         definition["isNumeric"] = true;
+
                     break;
 
                 /**
@@ -230,6 +240,7 @@ class Mysql extends PdoAdapter
                     let definition["type"] = Column::TYPE_DOUBLE,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+
                     break;
 
                 /**
@@ -239,6 +250,7 @@ class Mysql extends PdoAdapter
                     let definition["type"] = Column::TYPE_FLOAT,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+
                     break;
 
                 /**
@@ -246,6 +258,7 @@ class Mysql extends PdoAdapter
                  */
                 case memstr(columnType, "mediumblob"):
                     let definition["type"] = Column::TYPE_MEDIUMBLOB;
+
                     break;
 
                 /**
@@ -253,6 +266,7 @@ class Mysql extends PdoAdapter
                  */
                 case memstr(columnType, "longblob"):
                     let definition["type"] = Column::TYPE_LONGBLOB;
+
                     break;
 
                 /**
@@ -260,6 +274,7 @@ class Mysql extends PdoAdapter
                  */
                 case memstr(columnType, "tinyblob"):
                     let definition["type"] = Column::TYPE_TINYBLOB;
+
                     break;
 
                 /**
@@ -267,6 +282,7 @@ class Mysql extends PdoAdapter
                  */
                 case memstr(columnType, "blob"):
                     let definition["type"] = Column::TYPE_BLOB;
+
                     break;
 
                 /**
@@ -274,6 +290,7 @@ class Mysql extends PdoAdapter
                  */
                 case memstr(columnType, "timestamp"):
                     let definition["type"] = Column::TYPE_TIMESTAMP;
+
                     break;
 
                 /**
@@ -281,6 +298,7 @@ class Mysql extends PdoAdapter
                  */
                 case memstr(columnType, "time"):
                     let definition["type"] = Column::TYPE_TIME;
+
                     break;
 
                 /**
@@ -288,6 +306,7 @@ class Mysql extends PdoAdapter
                  */
                 case memstr(columnType, "json"):
                     let definition["type"] = Column::TYPE_JSON;
+
                     break;
 
                 /**
@@ -295,6 +314,7 @@ class Mysql extends PdoAdapter
                  */
                 case memstr(columnType, "longtext"):
                     let definition["type"] = Column::TYPE_LONGTEXT;
+
                     break;
 
                 /**
@@ -302,6 +322,7 @@ class Mysql extends PdoAdapter
                  */
                 case memstr(columnType, "mediumtext"):
                     let definition["type"] = Column::TYPE_MEDIUMTEXT;
+
                     break;
 
                 /**
@@ -309,6 +330,7 @@ class Mysql extends PdoAdapter
                  */
                 case memstr(columnType, "tinytext"):
                     let definition["type"] = Column::TYPE_TINYTEXT;
+
                     break;
 
                 /**
@@ -316,6 +338,7 @@ class Mysql extends PdoAdapter
                  */
                 case memstr(columnType, "text"):
                     let definition["type"] = Column::TYPE_TEXT;
+
                     break;
 
                 /**
@@ -323,6 +346,7 @@ class Mysql extends PdoAdapter
                  */
                 case memstr(columnType, "varchar"):
                     let definition["type"] = Column::TYPE_VARCHAR;
+
                     break;
 
                 /**
@@ -330,6 +354,7 @@ class Mysql extends PdoAdapter
                  */
                 case memstr(columnType, "char"):
                     let definition["type"] = Column::TYPE_CHAR;
+
                     break;
 
                 /**
@@ -337,6 +362,7 @@ class Mysql extends PdoAdapter
                  */
                 default:
                     let definition["type"] = Column::TYPE_VARCHAR;
+
                     break;
             }
 
@@ -346,12 +372,14 @@ class Mysql extends PdoAdapter
              */
             if memstr(columnType, "(") {
                 let matches = null;
+
                 if definition["type"] == Column::TYPE_ENUM {
                     let definition["size"] = substr(columnType, 5, -1);
                 } elseif preg_match(sizePattern, columnType, matches) {
                     if fetch matchOne, matches[1] {
                         let definition["size"] = (int) matchOne;
                     }
+
                     if fetch matchTwo, matches[2] {
                         let definition["scale"] = (int) matchTwo;
                     }
@@ -427,6 +455,7 @@ class Mysql extends PdoAdapter
         var indexes, index, keyName, indexType, indexObjects, columns, name;
 
         let indexes = [];
+
         for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
             let keyName = index["Key_name"];
             let indexType = index["Index_type"];
@@ -456,6 +485,7 @@ class Mysql extends PdoAdapter
         }
 
         let indexObjects = [];
+
         for name, index in indexes {
             let indexObjects[name] = new Index(
                 name,
@@ -478,16 +508,16 @@ class Mysql extends PdoAdapter
      */
     public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
     {
-        var references, reference,
-            arrayReference, constraintName, referenceObjects, name,
-            referencedSchema, referencedTable, columns, referencedColumns,
-            referenceUpdate, referenceDelete;
+        var references, reference, arrayReference, constraintName,
+            referenceObjects, name, referencedSchema, referencedTable, columns,
+            referencedColumns, referenceUpdate, referenceDelete;
 
         let references = [];
 
         for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Db::FETCH_NUM) {
 
             let constraintName = reference[2];
+
             if !isset references[constraintName] {
                 let referencedSchema  = reference[3];
                 let referencedTable   = reference[4];
@@ -495,7 +525,6 @@ class Mysql extends PdoAdapter
                 let referenceDelete   = reference[7];
                 let columns           = [];
                 let referencedColumns = [];
-
             } else {
                 let referencedSchema  = references[constraintName]["referencedSchema"];
                 let referencedTable   = references[constraintName]["referencedTable"];

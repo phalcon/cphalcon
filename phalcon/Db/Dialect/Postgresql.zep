@@ -97,6 +97,7 @@ class Postgresql extends Dialect
         let sql .= " INDEX \"" . index->getName() . "\" ON " . this->prepareTable(tableName, schemaName);
 
         let sql .= " (" . this->getColumnList(index->getColumns()) . ")";
+
         return sql;
     }
 
@@ -113,11 +114,10 @@ class Postgresql extends Dialect
      */
     public function createTable(string! tableName, string! schemaName, array! definition) -> string
     {
-        var temporary, options, table, createLines, columns,
-            column, indexes, index, reference, references, indexName,
-            indexSql, indexSqlAfterCreate, sql, columnLine, indexType,
-            referenceSql, onDelete, onUpdate, primaryColumns,
-            columnDefinition;
+        var temporary, options, table, createLines, columns, column, indexes,
+            index, reference, references, indexName, indexSql,
+            indexSqlAfterCreate, sql, columnLine, indexType, referenceSql,
+            onDelete, onUpdate, primaryColumns, columnDefinition;
 
         if !fetch columns, definition["columns"] {
             throw new Exception(
@@ -171,6 +171,7 @@ class Postgresql extends Dialect
 
             let createLines[] = columnLine;
         }
+
         if !empty primaryColumns {
             let createLines[] = "PRIMARY KEY (" . this->getColumnList(primaryColumns) . ")";
         }
@@ -196,17 +197,18 @@ class Postgresql extends Dialect
                     if !empty indexType {
                         let indexSql = "CONSTRAINT \"" . indexName . "\" " . indexType . " (" . this->getColumnList(index->getColumns()) . ")";
                     } else {
-
                         let indexSqlAfterCreate .= "CREATE INDEX \"" . index->getName() . "\" ON " . this->prepareTable(tableName, schemaName);
 
                         let indexSqlAfterCreate .= " (" . this->getColumnList(index->getColumns()) . ");";
                     }
                 }
+
                 if !empty indexSql {
                     let createLines[] = indexSql;
                 }
             }
         }
+
         /**
          * Create related references
          */
@@ -387,25 +389,30 @@ class Postgresql extends Dialect
                         let columnSql .= "BIGINT";
                     }
                 }
+
                 break;
 
             case Column::TYPE_BOOLEAN:
                 if empty columnSql {
                     let columnSql .= "BOOLEAN";
                 }
+
                 break;
 
             case Column::TYPE_CHAR:
                 if empty columnSql {
                     let columnSql .= "CHARACTER";
                 }
+
                 let columnSql .= this->getColumnSize(column);
+
                 break;
 
             case Column::TYPE_DATE:
                 if empty columnSql {
                     let columnSql .= "DATE";
                 }
+
                 break;
 
             case Column::TYPE_DATETIME:
@@ -418,13 +425,16 @@ class Postgresql extends Dialect
                 if empty columnSql {
                     let columnSql .= "NUMERIC";
                 }
+
                 let columnSql .= this->getColumnSizeAndScale(column);
+
                 break;
 
             case Column::TYPE_FLOAT:
                 if empty columnSql {
                     let columnSql .= "FLOAT";
                 }
+
                 break;
 
             case Column::TYPE_INTEGER:
@@ -435,39 +445,45 @@ class Postgresql extends Dialect
                         let columnSql .= "INT";
                     }
                 }
+
                 break;
 
             case Column::TYPE_JSON:
                 if empty columnSql {
                     let columnSql .= "JSON";
                 }
+
                 break;
 
             case Column::TYPE_JSONB:
                 if empty columnSql {
                     let columnSql .= "JSONB";
                 }
+
                 break;
 
             case Column::TYPE_TIMESTAMP:
                 if empty columnSql {
                     let columnSql .= "TIMESTAMP";
                 }
+
                 break;
 
             case Column::TYPE_TEXT:
                 if empty columnSql {
                     let columnSql .= "TEXT";
                 }
+
                 break;
 
             case Column::TYPE_VARCHAR:
                 if empty columnSql {
                     let columnSql .= "CHARACTER VARYING";
                 }
-                let columnSql .= this->getColumnSize(column);
-                break;
 
+                let columnSql .= this->getColumnSize(column);
+
+                break;
 
             default:
                 if empty columnSql {
@@ -480,10 +496,13 @@ class Postgresql extends Dialect
                 if !empty typeValues {
                     if typeof typeValues == "array" {
                         var value, valueSql;
+
                         let valueSql = "";
+
                         for value in typeValues {
                             let valueSql .= "'" . addcslashes(value, "\'") . "', ";
                         }
+
                         let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
                     } else {
                         let columnSql .= "('" . addcslashes(typeValues, "\'") . "')";
@@ -565,6 +584,7 @@ class Postgresql extends Dialect
 
             if column->hasDefault() {
                 let defaultValue = this->castDefault(column);
+
                 if memstr(strtoupper(columnDefinition), "BOOLEAN") {
                     let sql .= " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . defaultValue;
                 } else {
@@ -575,7 +595,6 @@ class Postgresql extends Dialect
 
         return sql;
     }
-
 
     /**
      * Returns a SQL modified a shared lock statement. For now this method

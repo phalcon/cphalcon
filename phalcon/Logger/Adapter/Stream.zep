@@ -112,8 +112,13 @@ class Stream extends AbstractAdapter
 
             if !is_resource(this->handler) {
                 let $this->handler = null;
+
                 throw new \UnexpectedValueException(
-                    sprintf("The file '%s' cannot be opened with mode '%s'", this->name, this->mode)
+                    sprintf(
+                        "The file '%s' cannot be opened with mode '%s'",
+                        this->name,
+                        this->mode
+                    )
                 );
             }
         }

@@ -20,12 +20,13 @@ use Phalcon\Forms\Element;
  */
 class Hidden extends Element
 {
-
     /**
      * Renders the element widget returning html
      */
     public function render(array attributes = []) -> string
     {
-        return Tag::hiddenField(this->prepareAttributes(attributes));
+        return Tag::hiddenField(
+            this->prepareAttributes(attributes)
+        );
     }
 }

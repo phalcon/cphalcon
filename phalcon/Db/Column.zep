@@ -319,9 +319,9 @@ class Column implements ColumnInterface
      */
     public function __construct(string! name, array! definition) -> void
     {
-        var type, notNull, primary, size, scale, dunsigned, first,
-            after, bindType, isNumeric, autoIncrement, defaultValue,
-            typeReference, typeValues;
+        var type, notNull, primary, size, scale, dunsigned, first, after,
+            bindType, isNumeric, autoIncrement, defaultValue, typeReference,
+            typeValues;
 
         let this->name = name;
 
@@ -451,10 +451,9 @@ class Column implements ColumnInterface
      */
     public static function __set_state(array! data) -> <ColumnInterface>
     {
-        var definition, columnType, notNull, size, dunsigned, after,
-            isNumeric, first, bindType, primary, columnName, scale,
-            defaultValue, autoIncrement,
-            columnTypeReference, columnTypeValues;
+        var definition, columnType, notNull, size, dunsigned, after, isNumeric,
+            first, bindType, primary, columnName, scale, defaultValue,
+            autoIncrement, columnTypeReference, columnTypeValues;
 
         if !fetch columnName, data["columnName"] {
             if !fetch columnName, data["name"] {

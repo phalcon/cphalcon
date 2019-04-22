@@ -112,6 +112,7 @@ class Pdo implements ResultInterface
          */
         if typeof bindParams == "array" {
             let statement = pdo->prepare(sqlStatement);
+
             if typeof statement == "object" {
                 let statement = connection->executePrepared(
                     statement,
@@ -125,9 +126,12 @@ class Pdo implements ResultInterface
 
         let this->pdoStatement = statement;
 
-        let n = -1, number--;
+        let n = -1,
+            number--;
+
         while n != number {
             statement->$fetch();
+
             let n++;
         }
     }
@@ -250,12 +254,12 @@ class Pdo implements ResultInterface
      */
     public function numRows() -> int
     {
-        var sqlStatement, rowCount, connection, type,
-            pdoStatement, matches, result, row;
+        var sqlStatement, rowCount, connection, type, pdoStatement, matches,
+            result, row;
 
         let rowCount = this->rowCount;
-        if rowCount === false {
 
+        if rowCount === false {
             let connection = this->connection,
                 type = connection->getType();
 
@@ -271,7 +275,6 @@ class Pdo implements ResultInterface
              * We should get the count using a new statement :(
              */
             if rowCount === false {
-
                 /**
                  * SQLite/SQLServer returns resultsets that to the client eyes
                  * (PDO) has an arbitrary number of rows, so we need to perform
@@ -284,8 +287,8 @@ class Pdo implements ResultInterface
                  * make the count
                  */
                 if !starts_with(sqlStatement, "SELECT COUNT(*) ") {
-
                     let matches = null;
+
                     if preg_match("/^SELECT\\s+(.*)/i", sqlStatement, matches) {
                         let result = connection->query(
                             "SELECT COUNT(*) \"numrows\" FROM (SELECT " . matches[1] . ")",
@@ -306,6 +309,7 @@ class Pdo implements ResultInterface
              */
             let this->rowCount = rowCount;
         }
+
         return rowCount;
     }
 

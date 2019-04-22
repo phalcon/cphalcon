@@ -53,7 +53,6 @@ class Manager implements ManagerInterface
         }
 
         if !fetch priorityQueue, this->events[eventType] {
-
             // Create a SplPriorityQueue to store the events with priorities
             let priorityQueue = new SplPriorityQueue();
 
@@ -103,12 +102,12 @@ class Manager implements ManagerInterface
         }
 
         if fetch priorityQueue, this->events[eventType] {
-
             /**
              * SplPriorityQueue doesn't have a method for element deletion so we
              * need to rebuild queue
              */
             let newPriorityQueue = new SplPriorityQueue();
+
             newPriorityQueue->setExtractFlags(SplPriorityQueue::EXTR_DATA);
 
             priorityQueue->setExtractFlags(SplPriorityQueue::EXTR_BOTH);
@@ -116,9 +115,14 @@ class Manager implements ManagerInterface
 
             while priorityQueue->valid() {
                 let data = priorityQueue->current();
+
                 priorityQueue->next();
+
                 if data["data"] !== handler {
-                    newPriorityQueue->insert(data["data"], data["priority"]);
+                    newPriorityQueue->insert(
+                        data["data"],
+                        data["priority"]
+                    );
                 }
             }
 
@@ -189,9 +193,7 @@ class Manager implements ManagerInterface
 
         // Check if events are grouped by type
         if fetch fireEvents, events[type] {
-
             if typeof fireEvents == "object" {
-
                 // Create the event context
                 let event = new Event(eventName, source, data, cancelable);
 
@@ -202,9 +204,7 @@ class Manager implements ManagerInterface
 
         // Check if there are listeners for the event type itself
         if fetch fireEvents, events[eventType] {
-
             if typeof fireEvents == "object" {
-
                 // Create the event if it wasn't created before
                 if event === null {
                     let event = new Event(eventName, source, data, cancelable);
@@ -258,14 +258,13 @@ class Manager implements ManagerInterface
 
             // Get the current data
             let handler = iterator->current();
+
             iterator->next();
 
             // Only handler objects are valid
             if typeof handler == "object" {
-
                 // Check if the event is a closure
                 if handler instanceof \Closure {
-
                     // Create the closure arguments
                     if arguments === null {
                         let arguments = [event, source, data];
@@ -280,18 +279,14 @@ class Manager implements ManagerInterface
                     }
 
                     if cancelable {
-
                         // Check if the event was stopped by the user
                         if event->isStopped() {
                             break;
                         }
                     }
-
                 } else {
-
                     // Check if the listener has implemented an event with the same name
                     if method_exists(handler, eventName) {
-
                         // Call the function in the PHP userland
                         let status = handler->{eventName}(event, source, data);
 
@@ -301,7 +296,6 @@ class Manager implements ManagerInterface
                         }
 
                         if cancelable {
-
                             // Check if the event was stopped by the user
                             if event->isStopped() {
                                 break;

@@ -113,7 +113,6 @@ class Libmemcached extends MetaData
         let meta = this->metaData;
 
         if typeof meta == "array" {
-
             for key, _ in meta {
                 let realKey = "meta-" . key;
 

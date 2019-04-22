@@ -386,6 +386,7 @@ class Response implements ResponseInterface
         var newInstance;
 
         let newInstance = clone this;
+
         if element !== this->{property} {
             let newInstance->{property} = element;
         }
@@ -414,6 +415,7 @@ class Response implements ResponseInterface
         let valueData = [];
         for value in values {
             this->checkHeaderValue(value);
+
             let valueData[] = (string) value;
         }
 
@@ -530,7 +532,9 @@ class Response implements ResponseInterface
         }
 
         if typeof body !== "string" && typeof body !== "resource" {
-            throw new \InvalidArgumentException("Invalid stream passed as a parameter");
+            throw new \InvalidArgumentException(
+                "Invalid stream passed as a parameter"
+            );
         }
 
         return new Stream(body, mode);
@@ -574,8 +578,8 @@ class Response implements ResponseInterface
         var collection, name, value;
 
         let collection = new Collection();
-        for name, value in headers {
 
+        for name, value in headers {
             this->checkHeaderName(name);
 
             let name  = (string) name,
@@ -606,7 +610,9 @@ class Response implements ResponseInterface
         }
 
         if !isset protocols[protocol] {
-            throw new \InvalidArgumentException("Unsupported protocol " . protocol);
+            throw new \InvalidArgumentException(
+                "Unsupported protocol " . protocol
+            );
         }
 
         return protocol;

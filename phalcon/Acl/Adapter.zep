@@ -29,6 +29,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Access Granted
+     *
      * @var bool
      */
     protected accessGranted = false;
@@ -50,6 +51,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Default access
+     *
      * @var bool
      */
     protected defaultAccess = false;

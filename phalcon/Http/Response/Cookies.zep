@@ -204,6 +204,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
     public function reset() -> <CookiesInterface>
     {
         let this->cookies = [];
+
         return this;
     }
 
@@ -282,7 +283,6 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
             }
 
             let this->cookies[name] = cookie;
-
         } else {
             /**
              * Override any settings in the cookie
@@ -300,8 +300,8 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
          * Register the cookies bag in the response
          */
         if this->registered === false {
-
             let container = this->container;
+
             if typeof container != "object" {
                 throw new Exception(
                     Exception::containerServiceNotFound(
@@ -355,6 +355,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
     public function useEncryption(bool useEncryption) -> <CookiesInterface>
     {
         let this->useEncryption = useEncryption;
+
         return this;
     }
 }

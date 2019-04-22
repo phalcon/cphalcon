@@ -127,7 +127,6 @@ class Builder
                     }
 
                     if count(arguments) {
-
                         /**
                          * Call the method on the instance
                          */

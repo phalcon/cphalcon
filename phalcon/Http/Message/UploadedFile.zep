@@ -210,7 +210,9 @@ class UploadedFile implements UploadedFileInterface
         }
 
         if constant("UPLOAD_ERR_OK") !== this->error {
-            throw new Exception(this->getErrorDescription(this->error));
+            throw new Exception(
+                this->getErrorDescription(this->error)
+            );
         }
 
         let dirname = dirname(targetPath);
@@ -285,21 +287,21 @@ class UploadedFile implements UploadedFileInterface
     {
         switch error {
             case constant("UPLOAD_ERR_OK"):
-                return  "There is no error, the file uploaded with success.";
+                return "There is no error, the file uploaded with success.";
             case constant("UPLOAD_ERR_INI_SIZE"):
-                return  "The uploaded file exceeds the upload_max_filesize directive in php.ini.";
+                return "The uploaded file exceeds the upload_max_filesize directive in php.ini.";
             case constant("UPLOAD_ERR_FORM_SIZE"):
-                return  "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.";
+                return "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.";
             case constant("UPLOAD_ERR_PARTIAL"):
-                return  "The uploaded file was only partially uploaded.";
+                return "The uploaded file was only partially uploaded.";
             case constant("UPLOAD_ERR_NO_FILE"):
-                return  "No file was uploaded.";
+                return "No file was uploaded.";
             case constant("UPLOAD_ERR_NO_TMP_DIR"):
-                return  "Missing a temporary folder.";
+                return "Missing a temporary folder.";
             case constant("UPLOAD_ERR_CANT_WRITE"):
-                return  "Failed to write file to disk.";
+                return "Failed to write file to disk.";
             case constant("UPLOAD_ERR_EXTENSION"):
-                return  "A PHP extension stopped the file upload.";
+                return "A PHP extension stopped the file upload.";
         }
 
         return "Unknown upload error";
@@ -316,8 +318,10 @@ class UploadedFile implements UploadedFileInterface
             stream = this->getStream();
 
         stream->rewind();
+
         while (true !== stream->eof()) {
             let data = stream->read(2048);
+
             fwrite(handle, data);
         }
 

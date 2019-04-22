@@ -59,6 +59,7 @@ class Escaper implements EscaperInterface
         * Check if charset is ASCII or ISO-8859-1
         */
         let charset = phalcon_is_basic_charset(str);
+
         if typeof charset == "string" {
             return charset;
         }
@@ -96,7 +97,9 @@ class Escaper implements EscaperInterface
          * Normalize encoding to UTF-32
          * Escape the string
          */
-        return phalcon_escape_css(this->normalizeEncoding(css));
+        return phalcon_escape_css(
+            this->normalizeEncoding(css)
+        );
     }
 
     /**
@@ -109,7 +112,9 @@ class Escaper implements EscaperInterface
          * Normalize encoding to UTF-32
          * Escape the string
          */
-        return phalcon_escape_js(this->normalizeEncoding(js));
+        return phalcon_escape_js(
+            this->normalizeEncoding(js)
+        );
     }
 
     /**

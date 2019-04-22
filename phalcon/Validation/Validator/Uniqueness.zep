@@ -103,7 +103,6 @@ class Uniqueness extends CombinedFieldsValidator
         var message, label;
 
         if !this->isUniqueness(validation, field) {
-
             let label   = this->getOption("label"),
                 message = this->getOption("message");
 
@@ -128,6 +127,7 @@ class Uniqueness extends CombinedFieldsValidator
                     this->getOption("code")
                 )
             );
+
             return false;
         }
 
@@ -185,6 +185,7 @@ class Uniqueness extends CombinedFieldsValidator
         if empty record || typeof record != "object" {
             // check validation getEntity() method
             let record = validation->getEntity();
+
             if empty record {
                 throw new Exception(
                     "Model of record must be set to property \"model\""
@@ -219,9 +220,11 @@ class Uniqueness extends CombinedFieldsValidator
             params, except, singleExcept;
 
         let exceptConditions = [];
-        let params = ["conditions" : []];
+        let params = [
+            "conditions" : []
+        ];
 
-         for singleField in field {
+        for singleField in field {
             let fieldExcept = null;
             let notInValues = [];
             let value = values[singleField];

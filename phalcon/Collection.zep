@@ -203,7 +203,6 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
     {
         var data, lowerKeys, value;
 
-
         let data      = this->data,
             lowerKeys = this->lowerKeys;
 

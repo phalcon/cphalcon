@@ -21,6 +21,7 @@ class IndexedArray implements InterpolatorInterface
     {
         if count(placeholders) {
             array_unshift(placeholders, translation);
+
             return call_user_func_array("sprintf", placeholders);
         }
 

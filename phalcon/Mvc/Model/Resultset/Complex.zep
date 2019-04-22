@@ -56,12 +56,12 @@ class Complex extends Resultset implements ResultsetInterface
      */
     final public function current() -> <ModelInterface> | bool
     {
-        var row, hydrateMode, eager,
-            dirtyState, alias, activeRow, type, column, columnValue,
-            value, attribute, source, attributes,
-            columnMap, rowModel, keepSnapshots, sqlAlias, modelName;
+        var row, hydrateMode, eager, dirtyState, alias, activeRow, type, column,
+            columnValue, value, attribute, source, attributes, columnMap,
+            rowModel, keepSnapshots, sqlAlias, modelName;
 
         let activeRow = this->activeRow;
+
         if activeRow !== null {
             return activeRow;
         }
@@ -76,6 +76,7 @@ class Complex extends Resultset implements ResultsetInterface
          */
         if this->disableHydration {
             let this->activeRow = row;
+
             return row;
         }
 
@@ -84,6 +85,7 @@ class Complex extends Resultset implements ResultsetInterface
          */
         if typeof row != "array" {
             let this->activeRow = false;
+
             return false;
         }
 
@@ -96,7 +98,6 @@ class Complex extends Resultset implements ResultsetInterface
          * Each row in a complex result is a Phalcon\Mvc\Model\Row instance
          */
         switch hydrateMode {
-
             case Resultset::HYDRATE_RECORDS:
                 let activeRow = new Row();
                 break;
@@ -120,14 +121,13 @@ class Complex extends Resultset implements ResultsetInterface
          * Create every record according to the column types
          */
         for alias, column in this->columnTypes {
-
             if typeof column != "array" {
                 throw new Exception("Column type is corrupt");
             }
 
             let type = column["type"];
-            if type == "object" {
 
+            if type == "object" {
                 /**
                  * Object columns are assigned column by column
                  */
@@ -139,8 +139,8 @@ class Complex extends Resultset implements ResultsetInterface
                  * Assign the values from the _source_attribute notation to its real column name
                  */
                 let rowModel = [];
-                for attribute in attributes {
 
+                for attribute in attributes {
                     /**
                      * Columns are supposed to be in the form _table_field
                      */
@@ -154,7 +154,6 @@ class Complex extends Resultset implements ResultsetInterface
                 switch hydrateMode {
 
                     case Resultset::HYDRATE_RECORDS:
-
                         // Check if the resultset must keep snapshots
                         if !fetch keepSnapshots, column["keepSnapshots"] {
                             let keepSnapshots = false;
@@ -182,6 +181,7 @@ class Complex extends Resultset implements ResultsetInterface
                                 column["instance"], rowModel, columnMap, dirtyState, keepSnapshots
                             );
                         }
+
                         break;
 
                     default:
@@ -238,6 +238,7 @@ class Complex extends Resultset implements ResultsetInterface
          * Store the generated row in this_ptr->activeRow to be retrieved by 'current'
          */
         let this->activeRow = activeRow;
+
         return activeRow;
     }
 
@@ -255,6 +256,7 @@ class Complex extends Resultset implements ResultsetInterface
         while this->valid() {
             let current = this->current();
             let records[] = current;
+
             this->next();
         }
 
@@ -267,6 +269,7 @@ class Complex extends Resultset implements ResultsetInterface
     public function serialize() -> string
     {
         var records, cache, columnTypes, hydrateMode, container, serializer;
+
         /**
          * Obtain the records as an array
          */
@@ -275,26 +278,34 @@ class Complex extends Resultset implements ResultsetInterface
         let cache = this->cache,
             columnTypes = this->columnTypes,
             hydrateMode = this->hydrateMode;
+
         let container = Di::getDefault();
+
         if typeof container != "object" {
             throw new Exception("The dependency injector container is not valid");
         }
+
         if container->has("serializer") {
             let serializer = <FrontendInterface> container->getShared("serializer");
-            return serializer->beforeStore([
-                "cache"          : cache,
-                "rows"          : records,
-                "columnTypes" : columnTypes,
-                "hydrateMode" : hydrateMode
-            ]);
+
+            return serializer->beforeStore(
+                [
+                    "cache"       : cache,
+                    "rows"        : records,
+                    "columnTypes" : columnTypes,
+                    "hydrateMode" : hydrateMode
+                ]
+            );
         }
 
-        return serialize([
-            "cache"          : cache,
-            "rows"          : records,
-            "columnTypes" : columnTypes,
-            "hydrateMode" : hydrateMode
-        ]);
+        return serialize(
+            [
+                "cache"       : cache,
+                "rows"        : records,
+                "columnTypes" : columnTypes,
+                "hydrateMode" : hydrateMode
+            ]
+        );
     }
 
     /**
@@ -303,20 +314,27 @@ class Complex extends Resultset implements ResultsetInterface
     public function unserialize(var data) -> void
     {
         var resultset, container, serializer;
+
         /**
-        * Rows are already hydrated
-        */
+         * Rows are already hydrated
+         */
         let this->disableHydration = true;
+
         let container = Di::getDefault();
+
         if typeof container != "object" {
-            throw new Exception("The dependency injector container is not valid");
+            throw new Exception(
+                "The dependency injector container is not valid"
+            );
         }
+
         if container->has("serializer") {
             let serializer = <FrontendInterface> container->getShared("serializer");
             let resultset = serializer->afterRetrieve(data);
         } else {
             let resultset = unserialize(data);
         }
+
         if typeof resultset != "array" {
             throw new Exception("Invalid serialization data");
         }

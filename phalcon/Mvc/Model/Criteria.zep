@@ -23,8 +23,8 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
  * Phalcon\Mvc\Model\Criteria
  *
  * This class is used to build the array parameter required by
- * Phalcon\Mvc\Model::find() and Phalcon\Mvc\Model::findFirst()
- * using an object-oriented interface.
+ * Phalcon\Mvc\Model::find() and Phalcon\Mvc\Model::findFirst() using an
+ * object-oriented interface.
  *
  * <code>
  * $robots = Robots::query()
@@ -96,6 +96,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
             } else {
                 let bind = null;
             }
+
             if typeof bind == "array" {
                 let this->params["bind"] = bind + bindParams;
             } else {
@@ -317,7 +318,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
             ]
         );
 
-        let nextHiddenParam++, this->hiddenParamNumber = nextHiddenParam;
+        let nextHiddenParam++,
+            this->hiddenParamNumber = nextHiddenParam;
 
         return this;
     }
@@ -682,8 +684,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         array conditions, bind;
 
         let conditions = [];
-        if count(data) {
 
+        if count(data) {
             let metaData = container->getShared("modelsMetadata");
 
             let model = new {modelName}(null, container),
@@ -694,8 +696,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
              * We look for attributes in the array passed as data
              */
             let bind = [];
-            for field, value in data {
 
+            for field, value in data {
                 if typeof columnMap == "array" && count(columnMap) {
                     let attribute = columnMap[field];
                 } else {
@@ -704,19 +706,21 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
                 if fetch type, dataTypes[attribute] {
                     if value !== null && value !== "" {
-
                         if type == Column::TYPE_VARCHAR {
                             /**
                              * For varchar types we use LIKE operator
                              */
-                            let conditions[] = "[" . field . "] LIKE :" . field . ":", bind[field] = "%" . value . "%";
+                            let conditions[] = "[" . field . "] LIKE :" . field . ":",
+                                bind[field] = "%" . value . "%";
+
                             continue;
                         }
 
                         /**
                          * For the rest of data types we use a plain = operator
                          */
-                        let conditions[] = "[" . field . "] = :" . field . ":", bind[field] = value;
+                        let conditions[] = "[" . field . "] = :" . field . ":",
+                            bind[field] = value;
                     }
                 }
             }
@@ -726,8 +730,15 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
          * Create an object instance and pass the parameters to it
          */
         let criteria = new self();
+
         if count(conditions) {
-            criteria->where(join(" " . operator . " ", conditions));
+            criteria->where(
+                join(
+                    " " . operator . " ",
+                    conditions
+                )
+            );
+
             criteria->bind(bind);
         }
 
@@ -764,6 +775,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
          * Builds a query with the passed parameters
          */
         let builder = manager->createBuilder(this->params);
+
         builder->from(this->model);
 
         return builder;

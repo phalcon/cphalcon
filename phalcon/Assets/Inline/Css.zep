@@ -27,7 +27,9 @@ class Css extends InlineBase
     public function __construct(string content, bool filter = true, attributes = null) -> void
     {
         if attributes == null {
-            let attributes = ["type": "text/css"];
+            let attributes = [
+                "type": "text/css"
+            ];
         }
 
         parent::__construct("css", content, filter, attributes);

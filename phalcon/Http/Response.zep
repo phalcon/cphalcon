@@ -80,6 +80,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function appendContent(content) -> <ResponseInterface>
     {
         let this->content = this->getContent() . content;
+
         return this;
     }
 
@@ -105,16 +106,21 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function getDI() -> <DiInterface>
     {
         var container;
+
         let container = <DiInterface> this->container;
+
         if typeof container != "object" {
             let container = \Phalcon\Di::getDefault();
+
             if typeof container != "object" {
                 throw new Exception(
                     Exception::containerServiceNotFound("the 'url' service")
                 );
             }
+
             let this->container = container;
         }
+
         return container;
     }
 
@@ -144,7 +150,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function getReasonPhrase() -> string | null
     {
         var statusReasonPhrase;
+
         let statusReasonPhrase = substr(this->getHeaders()->get("Status"), 4);
+
         return statusReasonPhrase ? statusReasonPhrase : null;
     }
 
@@ -158,7 +166,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function getStatusCode() -> int | null
     {
         var statusCode;
+
         let statusCode = substr(this->getHeaders()->get("Status"), 0, 3);
+
         return statusCode ? (int) statusCode : null;
     }
 
@@ -172,6 +182,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function hasHeader(string name) -> bool
     {
         var headers;
+
         let headers = this->getHeaders();
 
         return headers->has(name);
@@ -217,6 +228,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         } else {
             if typeof location == "string" && strstr(location, "://") {
                 let matched = preg_match("/^[^:\\/?#]++:/", location);
+
                 if matched {
                     let header = location;
                 } else {
@@ -268,8 +280,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function removeHeader(string name) -> <ResponseInterface>
     {
         var headers;
+
         let headers = this->getHeaders();
+
         headers->remove(name);
+
         return this;
     }
     /**
@@ -278,8 +293,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function resetHeaders() -> <ResponseInterface>
     {
         var headers;
+
         let headers = this->getHeaders();
+
         headers->reset();
+
         return this;
     }
 
@@ -302,6 +320,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          * Output the response body
          */
         let content = this->content;
+
         if content != null {
             echo content;
         } else {
@@ -313,6 +332,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         }
 
         let this->sent = true;
+
         return this;
     }
 
@@ -322,10 +342,13 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function sendCookies() -> <ResponseInterface>
     {
         var cookies;
+
         let cookies = this->cookies;
+
         if typeof cookies == "object" {
             cookies->send();
         }
+
         return this;
     }
 
@@ -367,10 +390,17 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         var date;
 
         let date = new \DateTime();
-        date->modify("+" . minutes . " minutes");
+
+        date->modify(
+            "+" . minutes . " minutes"
+        );
 
         this->setExpires(date);
-        this->setHeader("Cache-Control", "max-age=" . (minutes * 60));
+
+        this->setHeader(
+            "Cache-Control",
+            "max-age=" . (minutes * 60)
+        );
 
         return this;
     }
@@ -385,6 +415,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function setContent(string content) -> <ResponseInterface>
     {
         let this->content = content;
+
         return this;
     }
 
@@ -430,6 +461,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function setCookies(<CookiesInterface> cookies) -> <ResponseInterface>
     {
         let this->cookies = cookies;
+
         return this;
     }
 
@@ -445,7 +477,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      * Set a custom ETag
      *
      *<code>
-     * $response->setEtag(md5(time()));
+     * $response->setEtag(
+     *     md5(
+     *         time()
+     *     )
+     * );
      *</code>
      */
     public function setEtag(string etag) -> <ResponseInterface>
@@ -474,12 +510,18 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          * All the expiration times are sent in UTC
          * Change the timezone to utc
          */
-        date->setTimezone(new \DateTimeZone("UTC"));
+        date->setTimezone(
+            new \DateTimeZone("UTC")
+        );
 
         /**
          * The 'Expires' header set this info
          */
-        this->setHeader("Expires", date->format("D, d M Y H:i:s") . " GMT");
+        this->setHeader(
+            "Expires",
+            date->format("D, d M Y H:i:s") . " GMT"
+        );
+
         return this;
     }
 
@@ -526,8 +568,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function setHeader(string name, value) -> <ResponseInterface>
     {
         var headers;
+
         let headers = this->getHeaders();
+
         headers->set(name, value);
+
         return this;
     }
 
@@ -565,7 +610,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function setJsonContent(var content, int jsonOptions = 0, int depth = 512) -> <ResponseInterface>
     {
         this->setContentType("application/json", "UTF-8");
-        this->setContent(json_encode(content, jsonOptions, depth));
+
+        this->setContent(
+            json_encode(content, jsonOptions, depth)
+        );
+
         return this;
     }
 
@@ -588,7 +637,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          * All the Last-Modified times are sent in UTC
          * Change the timezone to utc
          */
-        date->setTimezone(new \DateTimeZone("UTC"));
+        date->setTimezone(
+            new \DateTimeZone("UTC")
+        );
 
         /**
          * The 'Last-Modified' header sets this info
@@ -607,6 +658,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function setNotModified() -> <ResponseInterface>
     {
         this->setStatusCode(304, "Not modified");
+
         return this;
     }
 
@@ -743,8 +795,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function setRawHeader(string header) -> <ResponseInterface>
     {
         var headers;
+
         let headers = this->getHeaders();
+
         headers->setRaw(header);
+
         return this;
     }
 }

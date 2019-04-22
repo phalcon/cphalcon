@@ -181,8 +181,8 @@ class Request implements RequestInterface
      * clients), as it appeared at request (for servers), or as it was
      * specified for the instance (see withRequestTarget()).
      *
-     * In most cases, this will be the origin-form of the composed URI,
-     * unless a value was provided to the concrete implementation (see
+     * In most cases, this will be the origin-form of the composed URI, unless a
+     * value was provided to the concrete implementation (see
      * withRequestTarget() below).
      */
     public function getRequestTarget() -> string
@@ -193,6 +193,7 @@ class Request implements RequestInterface
 
         if null === requestTarget {
             let requestTarget = this->uri->getPath();
+
             if true === this->uri->getQuery() {
                 let requestTarget .= this->uri->getQuery();
             }
@@ -498,6 +499,7 @@ class Request implements RequestInterface
         var newInstance;
 
         let newInstance = clone this;
+
         if element !== this->{property} {
             let newInstance->{property} = element;
         }
@@ -524,8 +526,10 @@ class Request implements RequestInterface
         }
 
         let valueData = [];
+
         for value in values {
             this->checkHeaderValue(value);
+
             let valueData[] = (string) value;
         }
 
@@ -540,6 +544,7 @@ class Request implements RequestInterface
         var host;
 
         let host = uri->getHost();
+
         if null !== uri->getPort() {
             let host .= ":" . uri->getPort();
         }
@@ -557,7 +562,9 @@ class Request implements RequestInterface
         }
 
         if typeof body !== "string" && typeof body !== "resource" {
-            throw new \InvalidArgumentException("Invalid stream passed as a parameter");
+            throw new \InvalidArgumentException(
+                "Invalid stream passed as a parameter"
+            );
         }
 
         return new Stream(body, mode);
@@ -572,8 +579,8 @@ class Request implements RequestInterface
 
         if typeof headers === "array" {
             let collection = new Collection();
-            for name, value in headers {
 
+            for name, value in headers {
                 this->checkHeaderName(name);
 
                 let name  = (string) name,
@@ -620,7 +627,9 @@ class Request implements RequestInterface
         ];
 
         if !(!empty(method) && typeof method === "string" && isset methods[method]) {
-            throw new \InvalidArgumentException("Invalid or unsupported method " . method);
+            throw new \InvalidArgumentException(
+                "Invalid or unsupported method " . method
+            );
         }
 
         return method;
@@ -645,7 +654,9 @@ class Request implements RequestInterface
         }
 
         if !isset protocols[protocol] {
-            throw new \InvalidArgumentException("Unsupported protocol " . protocol);
+            throw new \InvalidArgumentException(
+                "Unsupported protocol " . protocol
+            );
         }
 
         return protocol;
@@ -663,7 +674,9 @@ class Request implements RequestInterface
         } elseif typeof uri === "string" || null === uri {
             let localUri = new Uri(uri);
         } else {
-            throw new \InvalidArgumentException("Invalid uri passed as a parameter");
+            throw new \InvalidArgumentException(
+                "Invalid uri passed as a parameter"
+            );
         }
 
         return localUri;

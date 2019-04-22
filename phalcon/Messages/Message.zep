@@ -79,8 +79,8 @@ class Message implements MessageInterface, \JsonSerializable
     }
 
     /**
-    * Serializes the object for json_encode
-    */
+     * Serializes the object for json_encode
+     */
     public function jsonSerialize() -> array
     {
         return [
@@ -98,6 +98,7 @@ class Message implements MessageInterface, \JsonSerializable
     public function setCode(int code) -> <MessageInterface>
     {
         let this->code = code;
+
         return this;
     }
 
@@ -107,6 +108,7 @@ class Message implements MessageInterface, \JsonSerializable
     public function setField(var field) -> <MessageInterface>
     {
         let this->field = field;
+
         return this;
     }
 
@@ -116,6 +118,7 @@ class Message implements MessageInterface, \JsonSerializable
     public function setMessage(string! message) -> <MessageInterface>
     {
         let this->message = message;
+
         return this;
     }
 
@@ -125,6 +128,7 @@ class Message implements MessageInterface, \JsonSerializable
     public function setMetaData(array! metaData) -> <MessageInterface>
     {
         let this->metaData = metaData;
+
         return this;
     }
 
@@ -134,6 +138,7 @@ class Message implements MessageInterface, \JsonSerializable
     public function setType(string! type) -> <MessageInterface>
     {
         let this->type = type;
+
         return this;
     }
 }

@@ -81,7 +81,6 @@ interface RouterInterface
      */
     public function setDefaultAction(string! actionName) -> void;
 
-
     /**
      * Sets the name of the default module
      */

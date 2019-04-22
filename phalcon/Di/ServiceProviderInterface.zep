@@ -28,9 +28,12 @@ use Phalcon\DiInterface;
  * {
  *     public function register(DiInterface $di)
  *     {
- *         $di->setShared('service', function () {
- *             // ...
- *         });
+ *         $di->setShared(
+ *             'service',
+ *             function () {
+ *                 // ...
+ *             }
+ *         );
  *     }
  * }
  * </code>

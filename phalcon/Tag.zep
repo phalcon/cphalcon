@@ -292,12 +292,12 @@ class Tag
         }
 
         if replace {
-
             if typeof replace != "array" && typeof replace != "string"{
                 throw new Exception(
                     "Parameter replace must be an array or a string"
                 );
             }
+
             if typeof replace == "array" {
                 for search in replace {
                     let text = str_replace(search, " ", text);
@@ -307,7 +307,12 @@ class Tag
             }
         }
 
-        let friendly = preg_replace("/[^a-zA-Z0-9\\/_|+ -]/", "", text);
+        let friendly = preg_replace(
+            "/[^a-zA-Z0-9\\/_|+ -]/",
+            "",
+            text
+        );
+
         if lowercase {
             let friendly = strtolower(friendly);
         }
@@ -390,10 +395,13 @@ class Tag
     public static function getDI() -> <DiInterface>
     {
         var di;
+
         let di = self::container;
+
         if typeof di != "object" {
             let di = Di::getDefault();
         }
+
         return di;
     }
 
@@ -405,8 +413,8 @@ class Tag
         var escaper, container;
 
         let escaper = self::escaperService;
-        if typeof escaper != "object" {
 
+        if typeof escaper != "object" {
             let container = self::getDI();
 
             if typeof container != "object" {
@@ -418,6 +426,7 @@ class Tag
             let escaper = <EscaperInterface> container->getShared("escaper"),
                 self::escaperService = escaper;
         }
+
         return escaper;
     }
 
@@ -463,6 +472,7 @@ class Tag
 
             if !empty documentPrependTitle {
                 var tmp = array_reverse(documentPrependTitle);
+
                 for title in tmp {
                     let items[] = escaper->escapeHtml(title);
                 }
@@ -522,8 +532,8 @@ class Tag
         var url, container;
 
         let url = self::urlService;
-        if typeof url != "object" {
 
+        if typeof url != "object" {
             let container = self::getDI();
 
             if typeof container != "object" {
@@ -535,6 +545,7 @@ class Tag
             let url = <UrlInterface> container->getShared("url"),
                 self::urlService = url;
         }
+
         return url;
     }
 
@@ -630,6 +641,7 @@ class Tag
             let params = [parameters];
         } else {
             let params = parameters;
+
             if isset params[1] {
                 let local = (bool) params[1];
             }
@@ -722,6 +734,7 @@ class Tag
         } else {
             if isset params["local"] {
                 let local = (bool) params["local"];
+
                 unset params["local"];
             }
         }
@@ -974,6 +987,7 @@ class Tag
         ];
 
         let attrs = [];
+
         for key, value in order {
             if fetch attribute, attributes[key] {
                 let attrs[key] = attribute;
@@ -991,6 +1005,7 @@ class Tag
         unset attrs["escape"];
 
         let newCode = code;
+
         for key, value in attrs {
             if typeof key == "string" && value !== null {
                 if typeof value == "array" || typeof value == "resource" {
@@ -998,11 +1013,13 @@ class Tag
                         "Value at index: '" . key . "' type: '" . gettype(value) . "' cannot be rendered"
                     );
                 }
+
                 if escaper {
                     let escaped = escaper->escapeHtmlAttr(value);
                 } else {
                     let escaped = value;
                 }
+
                 let newCode .= " " . key . "=\"" . escaped . "\"";
             }
         }
@@ -1135,6 +1152,7 @@ class Tag
                 );
             }
         }
+
         let self::displayValues[id] = value;
     }
 
@@ -1241,6 +1259,7 @@ class Tag
         } else {
             if isset params["local"] {
                 let local = (bool) params["local"];
+
                 unset params["local"];
             }
         }
@@ -1360,6 +1379,7 @@ class Tag
         if useEol {
             return "</" . tagName . ">" . PHP_EOL;
         }
+
         return "</" . tagName . ">";
     }
 
@@ -1410,10 +1430,12 @@ class Tag
         }
 
         let id = params[0];
+
         if !isset params["name"] {
             let params["name"] = id;
         } else {
             let name = params["name"];
+
             if empty name {
                 let params["name"] = id;
             }
@@ -1425,6 +1447,7 @@ class Tag
 
         if isset params["value"] {
             let content = params["value"];
+
             unset params["value"];
         } else {
             let content = self::getValue(id, params);
@@ -1503,7 +1526,6 @@ class Tag
         }
 
         if asValue == false {
-
             if !fetch id, params[0] {
                 let params[0] = params["id"];
             }
@@ -1526,7 +1548,6 @@ class Tag
             }
 
             let params["value"] = self::getValue(id, params);
-
         } else {
             /**
              * Use the "id" as value if the user hadn't set it
@@ -1573,10 +1594,12 @@ class Tag
         }
 
         let id = params[0];
+
         if !isset params["name"] {
             let params["name"] = id;
         } else {
             let name = params["name"];
+
             if empty name {
                 let params["name"] = id;
             }
@@ -1602,6 +1625,7 @@ class Tag
             if value != null && currentValue == value {
                 let params["checked"] = "checked";
             }
+
             let params["value"] = currentValue;
         } else {
             let value = self::getValue(id, params);

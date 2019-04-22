@@ -60,7 +60,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         this->setOptions(options);
     }
 
-
     /**
      * Alias: Gets a session variable from an application context
      */
@@ -100,6 +99,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     {
         if (true === this->exists()) {
             session_destroy();
+
             let _SESSION = [];
         }
     }
@@ -316,6 +316,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         }
 
         let this->name = name;
+
         session_name(name);
 
         return this;

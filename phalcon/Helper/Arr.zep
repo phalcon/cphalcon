@@ -233,6 +233,7 @@ class Arr
         array sorted;
 
         let sorted = [];
+
         for item in collection {
             if typeof item === "object" {
                 let key = item->{attribute};
@@ -266,6 +267,7 @@ class Arr
         array filtered;
 
         let filtered = [];
+
         for item in collection {
             if typeof item === "object" && isset item->{element} {
                 let filtered[] = item->{element};

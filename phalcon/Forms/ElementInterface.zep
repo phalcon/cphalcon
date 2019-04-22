@@ -156,7 +156,6 @@ interface ElementInterface
      */
     public function setFilters(filters) -> <ElementInterface>;
 
-
     /**
      * Sets the parent form to the element
      */

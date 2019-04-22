@@ -48,8 +48,10 @@ class Bag extends Collection implements InjectionAwareInterface
 
         if typeof session != "object" {
             let container = this->container;
+
             if typeof container != "object" {
                 let container = Di::getDefault();
+
                 if typeof container != "object" {
                     throw new Exception(
                         Exception::containerServiceNotFound(
@@ -64,6 +66,7 @@ class Bag extends Collection implements InjectionAwareInterface
         }
 
         let data = session->get(this->name);
+
         if typeof data != "array" {
             let data = [];
         }
@@ -77,6 +80,7 @@ class Bag extends Collection implements InjectionAwareInterface
     public function clear() -> void
     {
         parent::clear();
+
         this->session->remove(this->name);
     }
 
@@ -102,6 +106,7 @@ class Bag extends Collection implements InjectionAwareInterface
     public function remove(string! element, bool insensitive = true) -> void
     {
         parent::remove(element, insensitive);
+
         this->session->set(this->name, this->data);
     }
 
@@ -111,6 +116,7 @@ class Bag extends Collection implements InjectionAwareInterface
     public function set(string! element, var value)
     {
         parent::set(element, value);
+
         this->session->set(this->name, this->data);
     }
 

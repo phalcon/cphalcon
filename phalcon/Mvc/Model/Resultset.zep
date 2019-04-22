@@ -132,6 +132,7 @@ abstract class Resultset
          * Update the row-count
          */
         let rowCount = result->numRows();
+
         let this->count = rowCount;
 
         /**
@@ -279,6 +280,7 @@ abstract class Resultset
              */
             if typeof processedRecord != "object" && typeof processedRecord != "array" {
                 this->next();
+
                 continue;
             }
 
@@ -490,6 +492,7 @@ abstract class Resultset
 
                 let this->pointer = position;
                 let this->activeRow = null;
+
                 return;
             }
 
@@ -497,6 +500,7 @@ abstract class Resultset
              * Fetch from PDO one-by-one.
              */
             let result = this->result;
+
             if this->row === null && this->pointer === 0 {
                 /**
                  * Fresh result-set: Query was already executed in
@@ -568,11 +572,9 @@ abstract class Resultset
         this->rewind();
 
         while this->valid() {
-
             let record = this->current();
 
             if transaction === false {
-
                 /**
                  * We only can update resultsets if every element is a complete object
                  */
@@ -603,7 +605,6 @@ abstract class Resultset
              * Try to update the record
              */
             if !record->save() {
-
                 /**
                  * Get the messages from the record that produce the error
                  */
@@ -613,7 +614,9 @@ abstract class Resultset
                  * Rollback the transaction
                  */
                 connection->rollback();
+
                 let transaction = false;
+
                 break;
             }
 

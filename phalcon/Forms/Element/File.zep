@@ -20,12 +20,13 @@ use Phalcon\Forms\Element;
  */
 class File extends Element
 {
-
     /**
      * Renders the element widget returning html
      */
     public function render(array attributes = []) -> string
     {
-        return Tag::fileField(this->prepareAttributes(attributes));
+        return Tag::fileField(
+            this->prepareAttributes(attributes)
+        );
     }
 }

@@ -77,6 +77,7 @@ class Annotation
      * Returns an argument in a specific position
      *
      * @param int|string position
+     *
      * @return mixed
      */
     public function getArgument(var position)

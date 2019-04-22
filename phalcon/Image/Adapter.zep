@@ -71,9 +71,13 @@ abstract class Adapter implements AdapterInterface
             let color = preg_replace("/./", "$0$0", color);
         }
 
-        let colors = array_map("hexdec", str_split(color, 2));
+        let colors = array_map(
+            "hexdec",
+            str_split(color, 2)
+        );
 
         this->{"processBackground"}(colors[0], colors[1], colors[2], opacity);
+
         return this;
     }
 
@@ -89,6 +93,7 @@ abstract class Adapter implements AdapterInterface
         }
 
         this->{"processBlur"}(radius);
+
         return this;
     }
 
@@ -144,6 +149,7 @@ abstract class Adapter implements AdapterInterface
         }
 
         this->{"processFlip"}(direction);
+
         return this;
     }
 
@@ -160,6 +166,7 @@ abstract class Adapter implements AdapterInterface
     public function liquidRescale(int width, int height, int deltaX = 0, int rigidity = 0) -> <Adapter>
     {
         this->{"processLiquidRescale"}(width, height, deltaX, rigidity);
+
         return this;
     }
 
@@ -169,6 +176,7 @@ abstract class Adapter implements AdapterInterface
     public function mask(<Adapter> watermark) -> <Adapter>
     {
         this->{"processMask"}(watermark);
+
         return this;
     }
 
@@ -182,6 +190,7 @@ abstract class Adapter implements AdapterInterface
         }
 
         this->{"processPixelate"}(amount);
+
         return this;
     }
 
@@ -266,14 +275,18 @@ abstract class Adapter implements AdapterInterface
                     if !width {
                         throw new Exception("width must be specified");
                     }
+
                     let height = this->height * width / this->width;
+
                     break;
 
                 case Image::HEIGHT:
                     if !height {
                         throw new Exception("height must be specified");
                     }
+
                     let width = this->width * height / this->height;
+
                     break;
 
                 case Image::PRECISE:
@@ -282,6 +295,7 @@ abstract class Adapter implements AdapterInterface
                             "width and height must be specified"
                         );
                     }
+
                     let ratio = this->width / this->height;
 
                     if (width / height) > ratio {
@@ -289,6 +303,7 @@ abstract class Adapter implements AdapterInterface
                     } else {
                         let width = this->width * height / this->height;
                     }
+
                     break;
 
                 case Image::NONE:
@@ -299,6 +314,7 @@ abstract class Adapter implements AdapterInterface
                     if !height {
                         let width = (int) this->height;
                     }
+
                     break;
             }
         }
@@ -319,6 +335,7 @@ abstract class Adapter implements AdapterInterface
         if degrees > 180 {
             // FIXME: Fix Zephir Parser to allow use  let degrees %= 360
             let degrees = degrees % 360;
+
             if degrees > 180 {
                 let degrees -= 360;
             }
@@ -329,6 +346,7 @@ abstract class Adapter implements AdapterInterface
         }
 
         this->{"processRotate"}(degrees);
+
         return this;
     }
 
@@ -342,6 +360,7 @@ abstract class Adapter implements AdapterInterface
         }
 
         this->{"processSave"}(file, quality);
+
         return this;
     }
 
@@ -357,6 +376,7 @@ abstract class Adapter implements AdapterInterface
         }
 
         this->{"processSharpen"}(amount);
+
         return this;
     }
 
@@ -383,9 +403,22 @@ abstract class Adapter implements AdapterInterface
             let color = preg_replace("/./", "$0$0", color);
         }
 
-        let colors = array_map("hexdec", str_split(color, 2));
+        let colors = array_map(
+            "hexdec",
+            str_split(color, 2)
+        );
 
-        this->{"processText"}(text, offsetX, offsetY, opacity, colors[0], colors[1], colors[2], size, fontfile);
+        this->{"processText"}(
+            text,
+            offsetX,
+            offsetY,
+            opacity,
+            colors[0],
+            colors[1],
+            colors[2],
+            size,
+            fontfile
+        );
 
         return this;
     }

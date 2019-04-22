@@ -17,7 +17,6 @@ namespace Phalcon;
  */
 class Version
 {
-
     /**
      * The constant referencing the major version. Returns 0
      *
@@ -119,10 +118,10 @@ class Version
      */
     public static function get() -> string
     {
-        var version, major, medium, minor,
-            special, specialNumber, result, suffix;
+        var version, major, medium, minor, special, specialNumber, result,
+            suffix;
 
-        let version       = static::_getVersion();
+        let version = static::_getVersion();
 
         let major         = version[self::VERSION_MAJOR],
             medium        = version[self::VERSION_MEDIUM],
@@ -140,6 +139,7 @@ class Version
              * patch version.
              */
             let result .= "-". suffix;
+
             if specialNumber != 0 {
                 let result .= "." . specialNumber;
             }
@@ -157,10 +157,9 @@ class Version
      */
     public static function getId() -> string
     {
-        var version, major, medium, minor,
-            special, specialNumber;
+        var version, major, medium, minor, special, specialNumber;
 
-        let version       = static::_getVersion();
+        let version = static::_getVersion();
 
         let major         = version[self::VERSION_MAJOR],
             medium        = version[self::VERSION_MEDIUM],

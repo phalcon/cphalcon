@@ -44,7 +44,6 @@ use Phalcon\Events\EventsAwareInterface;
  */
 class Loader implements EventsAwareInterface
 {
-
     protected checkedPath = null;
 
     /**
@@ -62,6 +61,7 @@ class Loader implements EventsAwareInterface
      * @var array
      */
     protected extensions = ["php"];
+
     protected fileCheckingCallback = "is_file";
 
     /**
@@ -90,10 +90,11 @@ class Loader implements EventsAwareInterface
     public function autoLoad(string! className) -> bool
     {
         var eventsManager, classes, extensions, filePath, ds, fixedDirectory,
-            directories, ns, namespaces, nsPrefix,
-            directory, fileName, extension, nsClassName, fileCheckingCallback;
+            directories, ns, namespaces, nsPrefix, directory, fileName,
+            extension, nsClassName, fileCheckingCallback;
 
         let eventsManager = this->eventsManager;
+
         if typeof eventsManager == "object" {
             eventsManager->fire("loader:beforeCheckClass", this, className);
         }
@@ -102,12 +103,15 @@ class Loader implements EventsAwareInterface
          * First we check for static paths for classes
          */
         let classes = this->classes;
+
         if fetch filePath, classes[className] {
             if typeof eventsManager == "object" {
                 let this->foundPath = filePath;
                 eventsManager->fire("loader:pathFound", this, filePath);
             }
+
             require filePath;
+
             return true;
         }
 
@@ -124,7 +128,6 @@ class Loader implements EventsAwareInterface
         let fileCheckingCallback = this->fileCheckingCallback;
 
         for nsPrefix, directories in namespaces {
-
             /**
              * The class name must start with the current namespace
              */
@@ -151,7 +154,6 @@ class Loader implements EventsAwareInterface
                 let fixedDirectory = rtrim(directory, ds) . ds;
 
                 for extension in extensions {
-
                     let filePath = fixedDirectory . fileName . "." . extension;
 
                     /**
@@ -159,6 +161,7 @@ class Loader implements EventsAwareInterface
                      */
                     if typeof eventsManager == "object" {
                         let this->checkedPath = filePath;
+
                         eventsManager->fire("loader:beforeCheckPath", this);
                     }
 
@@ -167,9 +170,9 @@ class Loader implements EventsAwareInterface
                      * exists
                      */
                     if call_user_func(fileCheckingCallback, filePath) {
-
                         if typeof eventsManager == "object" {
                             let this->foundPath = filePath;
+
                             eventsManager->fire("loader:pathFound", this, filePath);
                         }
 
@@ -198,14 +201,12 @@ class Loader implements EventsAwareInterface
         let directories = this->directories;
 
         for directory in directories {
-
             /**
              * Add a trailing directory separator if the user forgot to do that
              */
             let fixedDirectory = rtrim(directory, ds) . ds;
 
             for extension in extensions {
-
                 /**
                  * Create a possible path for the file
                  */
@@ -213,19 +214,24 @@ class Loader implements EventsAwareInterface
 
                 if typeof eventsManager == "object" {
                     let this->checkedPath = filePath;
-                    eventsManager->fire("loader:beforeCheckPath", this, filePath);
+
+                    eventsManager->fire(
+                        "loader:beforeCheckPath",
+                        this,
+                        filePath
+                    );
                 }
 
                 /**
                  * Check in every directory if the class exists here
                  */
                 if call_user_func(fileCheckingCallback, filePath) {
-
                     /**
                      * Call 'pathFound' event
                      */
                     if typeof eventsManager == "object" {
                         let this->foundPath = filePath;
+
                         eventsManager->fire("loader:pathFound", this, filePath);
                     }
 
@@ -337,13 +343,17 @@ class Loader implements EventsAwareInterface
              * Check if the file specified even exists
              */
             if call_user_func(fileCheckingCallback, filePath) {
-
                 /**
                  * Call 'pathFound' event
                  */
                 if typeof this->eventsManager == "object" {
                     let this->foundPath = filePath;
-                    this->eventsManager->fire("loader:pathFound", this, filePath);
+
+                    this->eventsManager->fire(
+                        "loader:pathFound",
+                        this,
+                        filePath
+                    );
                 }
 
                 /**
@@ -368,10 +378,15 @@ class Loader implements EventsAwareInterface
             /**
              * Registers directories & namespaces to PHP's autoload
              */
-            spl_autoload_register([this, "autoLoad"], true, prepend);
+            spl_autoload_register(
+                [this, "autoLoad"],
+                true,
+                prepend
+            );
 
             let this->registered = true;
         }
+
         return this;
     }
 
@@ -460,6 +475,7 @@ class Loader implements EventsAwareInterface
     public function setExtensions(array! extensions) -> <Loader>
     {
         let this->extensions = extensions;
+
         return this;
     }
 
@@ -501,9 +517,16 @@ class Loader implements EventsAwareInterface
     public function unregister() -> <Loader>
     {
         if this->registered === true {
-            spl_autoload_unregister([this, "autoLoad"]);
+            spl_autoload_unregister(
+                [
+                    this,
+                    "autoLoad"
+                ]
+            );
+
             let this->registered = false;
         }
+
         return this;
     }
 
@@ -512,6 +535,7 @@ class Loader implements EventsAwareInterface
         var localPaths, name, paths, prepared;
 
         let prepared = [];
+
         for name, paths in $namespace {
             if typeof paths != "array" {
                 let localPaths = [paths];

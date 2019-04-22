@@ -87,9 +87,11 @@ class Confirmation extends Validator
             let code = this->prepareCode(field);
 
             let labelWith = this->getOption("labelWith");
+
             if typeof labelWith == "array" {
                 let labelWith = labelWith[fieldWith];
             }
+
             if empty labelWith {
                 let labelWith = validation->getLabel(fieldWith);
             }

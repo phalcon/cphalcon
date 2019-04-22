@@ -33,6 +33,7 @@ class Repository implements RepositoryInterface
     public function __get(string property) -> var | null
     {
         var method;
+
         let method = "get" . camelize(this->getRealNameProperty(property));
 
         if method_exists(this, method) {
@@ -127,6 +128,7 @@ class Repository implements RepositoryInterface
     public function setAliases(array aliases) -> <RepositoryInterface>
     {
         let this->aliases = aliases;
+
         return this;
     }
 
@@ -136,6 +138,7 @@ class Repository implements RepositoryInterface
     public function setProperties(array properties) -> <RepositoryInterface>
     {
         let this->properties = properties;
+
         return this;
     }
 
