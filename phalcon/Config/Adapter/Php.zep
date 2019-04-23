@@ -20,7 +20,7 @@ use Phalcon\Config;
  * Given the next configuration file:
  *
  *<code>
- *<?php
+ * <?php
  *
  * return [
  *     "database" => [
@@ -54,6 +54,8 @@ class Php extends Config
      */
     public function __construct(string! filePath) -> void
     {
-        parent::__construct(require filePath);
+        parent::__construct(
+            require filePath
+        );
     }
 }

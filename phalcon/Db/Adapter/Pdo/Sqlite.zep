@@ -38,7 +38,6 @@ use Phalcon\Db\ReferenceInterface;
  */
 class Sqlite extends PdoAdapter
 {
-
     protected dialectType = "sqlite";
 
     protected type = "sqlite";
@@ -71,6 +70,7 @@ class Sqlite extends PdoAdapter
 
         if fetch dbname, descriptor["dbname"] {
             let descriptor["dsn"] = dbname;
+
             unset descriptor["dbname"];
         } elseif !isset descriptor["dsn"] {
             throw new Exception(
@@ -92,8 +92,8 @@ class Sqlite extends PdoAdapter
      */
     public function describeColumns(string! table, string! schema = null) -> <ColumnInterface[]>
     {
-        var columns, columnType, fields, field, definition,
-            oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;
+        var columns, columnType, fields, field, definition, oldColumn,
+            sizePattern, matches, matchOne, matchTwo, columnName;
 
         let oldColumn = null,
             sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";
@@ -113,7 +113,9 @@ class Sqlite extends PdoAdapter
             /**
              * By default the bind types is two
              */
-            let definition = ["bindType": Column::BIND_PARAM_STR];
+            let definition = [
+                "bindType": Column::BIND_PARAM_STR
+            ];
 
             /**
              * By checking every column type we convert it to a
@@ -242,6 +244,7 @@ class Sqlite extends PdoAdapter
              */
             if memstr(columnType, "(") {
                 let matches = null;
+
                 if preg_match(sizePattern, columnType, matches) {
                     if fetch matchOne, matches[1] {
                         let definition["size"] = (int) matchOne;
@@ -320,6 +323,7 @@ class Sqlite extends PdoAdapter
             describeIndexes, describeIndex, indexSql;
 
         let indexes = [];
+
         for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
             let keyName = index["name"];
 
@@ -360,6 +364,7 @@ class Sqlite extends PdoAdapter
         }
 
         let indexObjects = [];
+
         for name, index in indexes {
             let indexObjects[name] = new Index(
                 name,
@@ -376,16 +381,15 @@ class Sqlite extends PdoAdapter
      */
     public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
     {
-        var references, reference,
-            arrayReference, constraintName, referenceObjects, name,
-            referencedSchema, referencedTable, columns, referencedColumns,
-            number;
+        var references, reference, arrayReference, constraintName,
+            referenceObjects, name, referencedSchema, referencedTable, columns,
+            referencedColumns, number;
 
         let references = [];
 
         for number, reference in this->fetchAll(this->dialect->describeReferences(table, schema), Db::FETCH_NUM) {
-
             let constraintName = "foreign_key_" . number;
+
             if !isset references[constraintName] {
                 let referencedSchema = null;
                 let referencedTable = reference[2];
@@ -410,6 +414,7 @@ class Sqlite extends PdoAdapter
         }
 
         let referenceObjects = [];
+
         for name, arrayReference in references {
             let referenceObjects[name] = new Reference(
                 name,

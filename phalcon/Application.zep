@@ -127,6 +127,7 @@ abstract class Application extends Injectable implements EventsAwareInterface
     public function setDefaultModule(string! defaultModule) -> <Application>
     {
         let this->defaultModule = defaultModule;
+
         return this;
     }
 

@@ -42,8 +42,8 @@ class Model extends Adapter
     public function paginate() -> <RepositoryInterface>
     {
         var config, items, pageItems;
-        int pageNumber, show, n, start, lastShowPage,
-            i, next, totalPages, previous;
+        int pageNumber, show, n, start, lastShowPage, i, next, totalPages,
+            previous;
 
         let show       = (int) this->limitRows,
             config     = this->config,
@@ -64,10 +64,10 @@ class Model extends Adapter
             throw new Exception("The start page number is zero or less");
         }
 
-        let n                 = count(items),
-            lastShowPage     = pageNumber - 1,
-            start             = show * lastShowPage,
-            pageItems         = [];
+        let n            = count(items),
+            lastShowPage = pageNumber - 1,
+            start        = show * lastShowPage,
+            pageItems    = [];
 
         if n % show != 0 {
             let totalPages = (int) (n / show + 1);
@@ -76,29 +76,34 @@ class Model extends Adapter
         }
 
         if n > 0 {
-
             //Seek to the desired position
             if start <= n {
                 items->seek(start);
             } else {
                 items->seek(0);
+
                 let pageNumber = 1;
             }
 
             //The record must be iterable
             let i = 1;
+
             while items->valid() {
                 let pageItems[] = items->current();
+
                 if i >= show {
                     break;
                 }
+
                 let i++;
+
                 items->next();
             }
         }
 
         //Fix next
         let next = pageNumber + 1;
+
         if next > totalPages {
             let next = totalPages;
         }
@@ -109,15 +114,17 @@ class Model extends Adapter
             let previous = 1;
         }
 
-        return this->getRepository([
-            RepositoryInterface::PROPERTY_ITEMS         : pageItems,
-            RepositoryInterface::PROPERTY_TOTAL_ITEMS     : n,
-            RepositoryInterface::PROPERTY_LIMIT         : this->limitRows,
-            RepositoryInterface::PROPERTY_FIRST_PAGE     : 1,
-            RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
-            RepositoryInterface::PROPERTY_CURRENT_PAGE     : pageNumber,
-            RepositoryInterface::PROPERTY_NEXT_PAGE     : next,
-            RepositoryInterface::PROPERTY_LAST_PAGE     : totalPages
-        ]);
+        return this->getRepository(
+            [
+                RepositoryInterface::PROPERTY_ITEMS         : pageItems,
+                RepositoryInterface::PROPERTY_TOTAL_ITEMS   : n,
+                RepositoryInterface::PROPERTY_LIMIT         : this->limitRows,
+                RepositoryInterface::PROPERTY_FIRST_PAGE    : 1,
+                RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
+                RepositoryInterface::PROPERTY_CURRENT_PAGE  : pageNumber,
+                RepositoryInterface::PROPERTY_NEXT_PAGE     : next,
+                RepositoryInterface::PROPERTY_LAST_PAGE     : totalPages
+            ]
+        );
     }
 }

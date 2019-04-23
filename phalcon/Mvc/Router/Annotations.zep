@@ -90,6 +90,7 @@ class Annotations extends Router
             method, collection;
 
         let container = <DiInterface> this->container;
+
         if typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("the 'annotations' service")
@@ -103,7 +104,6 @@ class Annotations extends Router
         let controllerSuffix = this->controllerSuffix;
 
         for scope in handlers {
-
             if typeof scope != "array" {
                 continue;
             }
@@ -123,7 +123,6 @@ class Annotations extends Router
             let handler = scope[1];
 
             if memstr(handler, "\\") {
-
                 /**
                  * Extract the real class name from the namespaced class
                  * The lowercased class name is used as controller
@@ -133,6 +132,7 @@ class Annotations extends Router
                     namespaceName = get_ns_class(handler);
             } else {
                 let controllerName = handler;
+
                 fetch namespaceName, this->defaultNamespace;
             }
 
@@ -165,8 +165,10 @@ class Annotations extends Router
              * Process class annotations
              */
             let classAnnotations = handlerAnnotations->getClassAnnotations();
+
             if typeof classAnnotations == "object" {
                 let annotations = classAnnotations->getAnnotations();
+
                 if typeof annotations == "array" {
                     for annotation in annotations {
                         this->processControllerAnnotation(
@@ -181,6 +183,7 @@ class Annotations extends Router
              * Process method annotations
              */
             let methodAnnotations = handlerAnnotations->getMethodsAnnotations();
+
             if typeof methodAnnotations == "array" {
                 let lowerControllerName = uncamelize(controllerName);
 
@@ -212,9 +215,8 @@ class Annotations extends Router
     public function processActionAnnotation(string! module, string! namespaceName, string! controller, string! action,
         <Annotation> annotation)
     {
-        var name, actionName, routePrefix, paths, value, uri,
-            route, methods, converts, param, convert, conversorParam, routeName,
-            beforeMatch;
+        var name, actionName, routePrefix, paths, value, uri, route, methods,
+            converts, param, convert, conversorParam, routeName, beforeMatch;
         bool isRoute;
 
         let isRoute = false,
@@ -225,7 +227,6 @@ class Annotations extends Router
          * Find if the route is for adding routes
          */
         switch name {
-
             case "Route":
                 let isRoute = true;
                 break;
@@ -256,7 +257,6 @@ class Annotations extends Router
         }
 
         if isRoute {
-
             let actionName = strtolower(str_replace(this->actionSuffix, "", action)),
                 routePrefix = this->routePrefix;
 
@@ -264,6 +264,7 @@ class Annotations extends Router
              * Check for existing paths in the annotation
              */
             let paths = annotation->getNamedArgument("paths");
+
             if typeof paths != "array" {
                 let paths = [];
             }
@@ -316,6 +317,7 @@ class Annotations extends Router
                 route->via(methods);
             } else {
                 let methods = annotation->getNamedArgument("methods");
+
                 if typeof methods == "array" || typeof methods == "string" {
                     route->via(methods);
                 }
@@ -325,6 +327,7 @@ class Annotations extends Router
              * Add the converters
              */
             let converts = annotation->getNamedArgument("converts");
+
             if typeof converts == "array" {
                 for param, convert in converts {
                     route->convert(param, convert);
@@ -335,6 +338,7 @@ class Annotations extends Router
              * Add the conversors
              */
             let converts = annotation->getNamedArgument("conversors");
+
             if typeof converts == "array" {
                 for conversorParam, convert in converts {
                     route->convert(conversorParam, convert);
@@ -345,11 +349,13 @@ class Annotations extends Router
              * Add the conversors
              */
             let beforeMatch = annotation->getNamedArgument("beforeMatch");
+
             if typeof beforeMatch == "array" || typeof beforeMatch == "string" {
                 route->beforeMatch(beforeMatch);
             }
 
             let routeName = annotation->getNamedArgument("name");
+
             if typeof routeName == "string" {
                 route->setName(routeName);
             }

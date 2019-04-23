@@ -73,6 +73,7 @@ abstract class AbstractHelper
         var key, result, value;
 
         let result = "";
+
         for key, value in attributes {
             if typeof key == "string" && value !== null {
                 if typeof value == "array" || typeof value == "resource" || typeof value == "object" {
@@ -82,7 +83,6 @@ abstract class AbstractHelper
                 }
 
                 let result .= key . "=\"" . this->escaper->escapeHtmlAttr(value) . "\" ";
-
             }
         }
 

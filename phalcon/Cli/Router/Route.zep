@@ -78,6 +78,7 @@ class Route
     public function beforeMatch(var callback) -> <RouteInterface>
     {
         let this->beforeMatch = callback;
+
         return this;
     }
 
@@ -174,6 +175,7 @@ class Route
     public function convert(string! name, converter) -> <RouteInterface>
     {
         let this->converters[name] = converter;
+
         return this;
     }
 
@@ -289,6 +291,7 @@ class Route
                                         route .= item,
                                         route .= '}';
                                 }
+
                                 continue;
                             }
                         }
@@ -391,9 +394,11 @@ class Route
         var reversed, path, position;
 
         let reversed = [];
+
         for path, position in this->paths {
             let reversed[position] = path;
         }
+
         return reversed;
     }
 
@@ -559,6 +564,7 @@ class Route
     public function setDescription(string! description) -> <RouteInterface>
     {
         let this->description = description;
+
         return this;
     }
 
@@ -577,6 +583,7 @@ class Route
     public function setName(string! name) -> <RouteInterface>
     {
         let this->name = name;
+
         return this;
     }
 }

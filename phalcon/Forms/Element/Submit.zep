@@ -20,7 +20,6 @@ use Phalcon\Forms\Element;
  */
 class Submit extends Element
 {
-
     /**
      * Renders the element widget
      */
@@ -29,6 +28,8 @@ class Submit extends Element
         /**
          * Merged passed attributes with previously defined ones
          */
-        return Tag::submitButton(this->prepareAttributes(attributes));
+        return Tag::submitButton(
+            this->prepareAttributes(attributes)
+        );
     }
 }

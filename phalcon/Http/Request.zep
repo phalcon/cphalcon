@@ -96,7 +96,6 @@ class Request implements RequestInterface, InjectionAwareInterface
         );
     }
 
-
     /**
      * Gets an array with mime/types and their quality accepted by the
      * browser/client from _SERVER["HTTP_ACCEPT"]
@@ -165,6 +164,7 @@ class Request implements RequestInterface, InjectionAwareInterface
          */
         if trustForwardedHeader {
             fetch address, _SERVER["HTTP_X_FORWARDED_FOR"];
+
             if address === null {
                 fetch address, _SERVER["HTTP_CLIENT_IP"];
             }
@@ -237,11 +237,14 @@ class Request implements RequestInterface, InjectionAwareInterface
         array auth;
 
         let auth = [];
+
         if fetch digest, _SERVER["PHP_AUTH_DIGEST"] {
             let matches = [];
+
             if !preg_match_all("#(\\w+)=(['\"]?)([^'\" ,]+)\\2#", digest, matches, 2) {
                 return auth;
             }
+
             if typeof matches == "array" {
                 for match in matches {
                     let auth[match[1]] = match[3];
@@ -319,7 +322,9 @@ class Request implements RequestInterface, InjectionAwareInterface
     {
         var value, name;
 
-        let name = strtoupper(strtr(header, "-", "_"));
+        let name = strtoupper(
+            strtr(header, "-", "_")
+        );
 
         if fetch value, _SERVER[name] {
             return value;
@@ -380,6 +385,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 
             // The "CONTENT_" headers are not prefixed with "HTTP_".
             let name = strtoupper(name);
+
             if isset contentHeaders[name] {
                 let name = ucwords(
                     strtolower(
@@ -447,8 +453,8 @@ class Request implements RequestInterface, InjectionAwareInterface
          * Get the server name from $_SERVER["HTTP_HOST"]
          */
         let host = this->getServer("HTTP_HOST");
-        if !host {
 
+        if !host {
             /**
              * Get the server name from $_SERVER["SERVER_NAME"]
              */
@@ -465,7 +471,10 @@ class Request implements RequestInterface, InjectionAwareInterface
             /**
              * Cleanup. Force lowercase as per RFC 952/2181
              */
-            let host = strtolower(trim(host));
+            let host = strtolower(
+                trim(host)
+            );
+
             if memstr(host, ":") {
                 let host = preg_replace("/:[[:digit:]]+$/", "", host);
             }
@@ -503,6 +512,7 @@ class Request implements RequestInterface, InjectionAwareInterface
         var rawBody;
 
         let rawBody = this->getRawBody();
+
         if typeof rawBody != "string" {
             return false;
         }
@@ -543,6 +553,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 
         if "POST" === returnMethod {
             let overridedMethod = this->getHeader("X-HTTP-METHOD-OVERRIDE");
+
             if !empty overridedMethod {
                 let returnMethod = strtoupper(overridedMethod);
             } elseif this->httpMethodParameterOverride {
@@ -628,13 +639,16 @@ class Request implements RequestInterface, InjectionAwareInterface
 
         if typeof put != "array" {
             let contentType = this->getContentType();
+
             if typeof contentType == "string" && stripos(contentType, "json") != false {
                 let put = this->getJsonRawBody(true);
-                if (typeof put != "array") {
+
+                if typeof put != "array" {
                     let put = [];
                 }
             } else {
                 let put = [];
+
                 parse_str(this->getRawBody(), put);
             }
 
@@ -686,16 +700,18 @@ class Request implements RequestInterface, InjectionAwareInterface
         var rawBody, contents;
 
         let rawBody = this->rawBody;
-        if empty rawBody {
 
+        if empty rawBody {
             let contents = file_get_contents("php://input");
 
             /**
              * We need store the read raw body because it can't be read again
              */
             let this->rawBody = contents;
+
             return contents;
         }
+
         return rawBody;
     }
 
@@ -742,6 +758,7 @@ class Request implements RequestInterface, InjectionAwareInterface
         if fetch serverAddr, _SERVER["SERVER_ADDR"] {
             return serverAddr;
         }
+
         return gethostbyname("localhost");
     }
 
@@ -770,7 +787,6 @@ class Request implements RequestInterface, InjectionAwareInterface
         let superFiles = _FILES;
 
         if count(superFiles) > 0 {
-
             for prefix, input in superFiles {
                 if typeof input["name"] == "array" {
                     let smoothInput = this->smoothFiles(
@@ -873,7 +889,6 @@ class Request implements RequestInterface, InjectionAwareInterface
 
         for file in files {
             if fetch error, file["error"] {
-
                 if typeof error != "array" {
                     if !error || !onlySuccessful {
                         let numberFiles++;
@@ -1006,6 +1021,7 @@ class Request implements RequestInterface, InjectionAwareInterface
             if strict && !this->isValidHttpMethod(methods) {
                 throw new Exception("Invalid HTTP method: " . methods);
             }
+
             return methods == httpMethod;
         }
 
@@ -1212,13 +1228,16 @@ class Request implements RequestInterface, InjectionAwareInterface
                     selectedName = accept[name];
             } else {
                 let acceptQuality = (double) accept["quality"];
+
                 if acceptQuality > quality {
                     let quality = acceptQuality,
                         selectedName = accept[name];
                 }
             }
+
             let i++;
         }
+
         return selectedName;
     }
 
@@ -1237,10 +1256,12 @@ class Request implements RequestInterface, InjectionAwareInterface
         if !fetch value, source[name] {
             return defaultValue;
         }
+
         if filters !== null {
             let filter = this->filterLocator;
             if typeof filter != "object" {
                 let container = <DiInterface> this->container;
+
                 if typeof container != "object" {
                     throw new Exception(
                         Exception::containerServiceNotFound(
@@ -1248,6 +1269,7 @@ class Request implements RequestInterface, InjectionAwareInterface
                         )
                     );
                 }
+
                 let filter = <LocatorInterface> container->getShared("filter");
 //                let filter = <FilterInterface> container->getShared("filter");
                 let this->filterLocator = filter;
@@ -1307,11 +1329,12 @@ class Request implements RequestInterface, InjectionAwareInterface
         );
 
         for part in parts {
-
             let headerParts = [];
+
             for headerPart in preg_split("/\s*;\s*/", trim(part), -1, PREG_SPLIT_NO_EMPTY) {
                 if strpos(headerPart, "=") !== false {
                     let split = explode("=", headerPart, 2);
+
                     if split[0] === "q" {
                         let headerParts["quality"] = (double) split[1];
                     } else {
@@ -1343,6 +1366,7 @@ class Request implements RequestInterface, InjectionAwareInterface
         // TODO: Make Request implements EventsAwareInterface for v4.0.0
         if typeof container === "object" {
             let hasEventsManager = (bool) container->has("eventsManager");
+
             if hasEventsManager {
                 let eventsManager = <ManagerInterface> container->getShared("eventsManager");
             }
@@ -1404,7 +1428,10 @@ class Request implements RequestInterface, InjectionAwareInterface
             let resolved = eventsManager->fire(
                 "request:afterAuthorizationResolve",
                 this,
-                ["headers": headers, "server": _SERVER]
+                [
+                    "headers": headers,
+                    "server":  _SERVER
+                ]
             );
 
             if typeof resolved === "array" {
@@ -1429,14 +1456,13 @@ class Request implements RequestInterface, InjectionAwareInterface
             let p = prefix . "." . idx;
 
             if typeof name == "string" {
-
                 let files[] = [
-                    "name": name,
-                    "type": types[idx],
+                    "name":     name,
+                    "type":     types[idx],
                     "tmp_name": tmp_names[idx],
-                    "size": sizes[idx],
-                    "error": errors[idx],
-                    "key": p
+                    "size":     sizes[idx],
+                    "error":    errors[idx],
+                    "key":      p
                 ];
             }
 
@@ -1467,13 +1493,16 @@ class Request implements RequestInterface, InjectionAwareInterface
         var container, locator;
 
         let locator = this->filterLocator;
+
         if typeof locator != "object" {
             let container = <DiInterface> this->container;
+
             if typeof container != "object" {
                 throw new Exception(
                     Exception::containerServiceNotFound("the 'filter' service")
                 );
             }
+
             let locator = <LocatorInterface> container->getShared("filter"),
                 this->filterLocator = locator;
         }

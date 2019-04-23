@@ -18,7 +18,8 @@ namespace Phalcon\Mvc\Model\Binder;
 interface BindableInterface
 {
     /**
-     * Return the model name or models names and parameters keys associated with this class
+     * Return the model name or models names and parameters keys associated with
+     * this class
      */
     public function getModelName() -> string | array;
 }

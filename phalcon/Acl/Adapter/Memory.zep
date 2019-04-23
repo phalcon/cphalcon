@@ -192,7 +192,8 @@ class Memory extends Adapter
      * $acl->addRole("administrator", ["consultant", "consultant2"]);
      * </code>
      *
-     * @param  array|string accessInherits
+     * @param  array|string               accessInherits
+     * @param  RoleInterface|string|array role
      */
     public function addInherit(string roleName, var roleToInherits) -> bool
     {
@@ -201,6 +202,7 @@ class Memory extends Adapter
             usedRoleToInherit;
 
         let rolesNames = this->rolesNames;
+
         if !isset rolesNames[roleName] {
             throw new Exception(
                 "Role '" . roleName . "' does not exist in the role list"
@@ -308,7 +310,7 @@ class Memory extends Adapter
      * $acl->addRole("administrator", ["consultant", "consultant2"]);
      * </code>
      *
-     * @param  array|string         accessInherits
+     * @param  array|string               accessInherits
      * @param  RoleInterface|string|array role
      */
     public function addRole(role, accessInherits = null) -> bool
@@ -376,7 +378,7 @@ class Memory extends Adapter
      * </code>
      *
      * @param   Phalcon\Acl\Component|string componentValue
-     * @param   array|string accessList
+     * @param   array|string                 accessList
      */
     public function addComponent(var componentValue, var accessList) -> bool
     {
@@ -420,15 +422,18 @@ class Memory extends Adapter
         }
 
         let exists = true;
+
         if typeof accessList == "array" {
             for accessName in accessList {
                 let accessKey = componentName . "!" . accessName;
+
                 if !isset this->accessList[accessKey] {
                     let this->accessList[accessKey] = exists;
                 }
             }
         } else {
             let accessKey = componentName . "!" . accessList;
+
             if !isset this->accessList[accessKey] {
                 let this->accessList[accessKey] = exists;
             }
@@ -640,6 +645,7 @@ class Memory extends Adapter
          * Check if the role exists
          */
         let rolesNames = this->rolesNames;
+
         if !isset rolesNames[roleName] {
             return (this->defaultAccess == Acl::ALLOW);
         }
@@ -651,6 +657,7 @@ class Memory extends Adapter
 
         if accessKey != false && isset accessList[accessKey] {
             let haveAccess = accessList[accessKey];
+
             fetch funcAccess, funcList[accessKey];
         }
 
@@ -658,6 +665,7 @@ class Memory extends Adapter
          * Check in the inherits roles
          */
         let this->accessGranted = haveAccess;
+
         if typeof eventsManager == "object" {
             eventsManager->fire("acl:afterCheckAccess", this);
         }
@@ -864,6 +872,7 @@ class Memory extends Adapter
              * Define the access action for the specified accessKey
              */
             let this->access[accessKey] = action;
+
             if func != null {
                 let this->func[accessKey] = func;
             }
@@ -893,6 +902,7 @@ class Memory extends Adapter
          * Check if there is a direct combination for role-*-*
          */
         let accessKey = roleName . "!" . componentName . "!*";
+
         if isset accessList[accessKey] {
             return accessKey;
         }
@@ -901,6 +911,7 @@ class Memory extends Adapter
          * Check if there is a direct combination for role-*-*
          */
         let accessKey = roleName . "!*!*";
+
         if isset accessList[accessKey] {
             return accessKey;
         }
@@ -940,6 +951,7 @@ class Memory extends Adapter
                  * Check if there is a direct combination for role-*-*
                  */
                 let accessKey = checkRoleToInherit . "!" . componentName . "!*";
+
                 if isset accessList[accessKey] {
                     return accessKey;
                 }
@@ -948,6 +960,7 @@ class Memory extends Adapter
                  * Check if there is a direct combination for role-*-*
                  */
                 let accessKey = checkRoleToInherit . "!*!*";
+
                 if isset accessList[accessKey] {
                     return accessKey;
                 }

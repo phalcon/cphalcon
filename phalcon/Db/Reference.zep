@@ -149,9 +149,8 @@ class Reference implements ReferenceInterface
      */
     public static function __set_state(array! data) -> <ReferenceInterface>
     {
-        var referencedSchema, referencedTable, columns,
-            referencedColumns, constraintName,
-            onDelete, onUpdate;
+        var referencedSchema, referencedTable, columns, referencedColumns,
+            constraintName, onDelete, onUpdate;
 
         if !fetch constraintName, data["referenceName"] {
             if !fetch constraintName, data["name"] {

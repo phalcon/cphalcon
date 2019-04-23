@@ -40,8 +40,8 @@ abstract class Element implements ElementInterface
     /**
      * Phalcon\Forms\Element constructor
      *
-     * @param string name Attribute name (value of 'name' attribute of HTML element)
-     * @param array attributes Additional HTML element attributes
+     * @param string name       Attribute name (value of 'name' attribute of HTML element)
+     * @param array  attributes Additional HTML element attributes
      */
     public function __construct(string name, array attributes = []) -> void
     {

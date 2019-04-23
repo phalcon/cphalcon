@@ -444,11 +444,13 @@ class Uri implements UriInterface
         var newInstance;
 
         this->checkStringParameter(user, "user");
+
         if null !== password {
             this->checkStringParameter(user, "pass");
         }
 
         let user = rawurlencode(user);
+
         if null !== password {
             let password = rawurlencode(password);
         }
@@ -496,6 +498,7 @@ class Uri implements UriInterface
         var newInstance;
 
         let newInstance = clone this;
+
         if element !== this->{property} {
             let newInstance->{property} = element;
         }
@@ -625,12 +628,14 @@ class Uri implements UriInterface
 
         for key, value in parts {
             let split = explode("=", value);
+
             if !isset split[1] {
                 let split[] = null;
             }
 
             if null === split[1] {
-                 let parts[key] = rawurlencode(split[0]);
+                let parts[key] = rawurlencode(split[0]);
+
                 continue;
             } else {
                 let parts[key] = rawurlencode(split[0]) . "=" . rawurlencode(split[1]);

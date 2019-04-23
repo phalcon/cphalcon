@@ -38,7 +38,6 @@ use Phalcon\Di\InjectionAwareInterface;
  */
 class Url implements UrlInterface, InjectionAwareInterface
 {
-
     /**
      * @var null | string
      */
@@ -116,7 +115,6 @@ class Url implements UrlInterface, InjectionAwareInterface
         }
 
         if typeof uri == "array" {
-
             if !fetch routeName, uri["for"] {
                 throw new Exception(
                     "It's necessary to define the route name with the parameter 'for'"
@@ -129,8 +127,8 @@ class Url implements UrlInterface, InjectionAwareInterface
              * Check if the router has not previously set
              */
             if typeof router != "object" {
-
                 let container = <DiInterface> this->container;
+
                 if typeof container != "object" {
                     throw new Exception(
                         Exception::containerServiceNotFound(
@@ -147,6 +145,7 @@ class Url implements UrlInterface, InjectionAwareInterface
              * Every route is uniquely differenced by a name
              */
             let route = <RouteInterface> router->getRouteByName(routeName);
+
             if typeof route != "object" {
                 throw new Exception(
                     "Cannot obtain a route using the name '" . routeName . "'"
@@ -165,6 +164,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 
         if local {
             let strUri = (string) uri;
+
             if substr(baseUri, -1) == "/" && strlen(strUri) > 2 && strUri[0] == '/' && strUri[1] != '/' {
                 let uri = baseUri . substr(strUri, 1);
             } else {
@@ -178,6 +178,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 
         if args {
             let queryString = http_build_query(args);
+
             if typeof queryString == "string" && strlen(queryString) {
                 if strpos(uri, "?") !== false {
                     let uri .= "&" . queryString;
@@ -206,8 +207,8 @@ class Url implements UrlInterface, InjectionAwareInterface
         var baseUri, phpSelf, uri;
 
         let baseUri = this->baseUri;
-        if baseUri === null {
 
+        if baseUri === null {
             if fetch phpSelf, _SERVER["PHP_SELF"] {
                 let uri = phalcon_get_uri(phpSelf);
             } else {
@@ -222,6 +223,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 
             let this->baseUri = baseUri;
         }
+
         return baseUri;
     }
 
@@ -250,7 +252,12 @@ class Url implements UrlInterface, InjectionAwareInterface
      */
     public function getStatic(var uri = null) -> string
     {
-        return this->get(uri, null, null, this->getStaticBaseUri());
+        return this->get(
+            uri,
+            null,
+            null,
+            this->getStaticBaseUri()
+        );
     }
 
     /**
@@ -259,10 +266,13 @@ class Url implements UrlInterface, InjectionAwareInterface
     public function getStaticBaseUri() -> string
     {
         var staticBaseUri;
+
         let staticBaseUri = this->staticBaseUri;
+
         if staticBaseUri !== null {
             return staticBaseUri;
         }
+
         return this->getBaseUri();
     }
 
@@ -276,6 +286,7 @@ class Url implements UrlInterface, InjectionAwareInterface
     public function setBasePath(string! basePath) -> <UrlInterface>
     {
         let this->basePath = basePath;
+
         return this;
     }
 
@@ -291,9 +302,11 @@ class Url implements UrlInterface, InjectionAwareInterface
     public function setBaseUri(string! baseUri) -> <UrlInterface>
     {
         let this->baseUri = baseUri;
+
         if this->staticBaseUri === null {
             let this->staticBaseUri = baseUri;
         }
+
         return this;
     }
 
@@ -315,6 +328,7 @@ class Url implements UrlInterface, InjectionAwareInterface
     public function setStaticBaseUri(string! staticBaseUri) -> <UrlInterface>
     {
         let this->staticBaseUri = staticBaseUri;
+
         return this;
     }
 

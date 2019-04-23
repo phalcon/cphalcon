@@ -71,8 +71,8 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
         }
 
         let currentMessages = this->messages;
-        if typeof messages == "array" {
 
+        if typeof messages == "array" {
             /**
              * An array of messages is simply merged into the current one
              */
@@ -81,10 +81,9 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
             } else {
                 let finalMessages = messages;
             }
+
             let this->messages = finalMessages;
-
         } else {
-
             /**
              * A collection of messages is iterated and appended one-by-one to
              * the current list
@@ -94,6 +93,7 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
             //}
 
             messages->rewind();
+
             while messages->valid() {
                 let message = messages->current();
                 this->appendMessage(message);
@@ -127,14 +127,13 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
 
         let filtered = [],
             messages = this->messages;
-        if typeof messages == "array" {
 
+        if typeof messages == "array" {
             /**
              * A collection of messages is iterated and appended one-by-one to
              * the current list
              */
             for message in messages {
-
                 /**
                  * Get the field name
                  */
@@ -240,6 +239,7 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
         if typeof message != "object" {
             throw new Exception("The message must be an object");
         }
+
         let this->messages[index] = message;
     }
 

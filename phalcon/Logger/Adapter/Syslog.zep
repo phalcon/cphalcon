@@ -130,9 +130,9 @@ class Syslog extends AbstractAdapter
             );
         }
 
-        let opened          = true,
+        let opened       = true,
             this->opened = opened,
-            level          = this->logLevelToSyslog(message[1]);
+            level        = this->logLevelToSyslog(message[1]);
 
         syslog(level, message[1]);
     }

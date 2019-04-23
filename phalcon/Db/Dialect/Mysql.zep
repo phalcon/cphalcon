@@ -38,6 +38,7 @@ class Mysql extends Dialect
 
         if column->hasDefault() {
             let defaultValue = column->getDefault();
+
             if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
                 let sql .= " DEFAULT CURRENT_TIMESTAMP";
             } else {
@@ -75,6 +76,7 @@ class Mysql extends Dialect
         if reference->getName() {
             let sql .= " CONSTRAINT `" . $reference->getName() . "`";
         }
+
         let sql .= " FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ") REFERENCES " . this->prepareTable(reference->getReferencedTable(), reference->getReferencedSchema()) . "(" . this->getColumnList(reference->getReferencedColumns()) . ")";
 
         let onDelete = reference->getOnDelete();
@@ -107,6 +109,7 @@ class Mysql extends Dialect
         }
 
         let sql .= "`" . index->getName() . "` (" . this->getColumnList(index->getColumns()) . ")";
+
         return sql;
     }
 
@@ -123,10 +126,9 @@ class Mysql extends Dialect
      */
     public function createTable(string! tableName, string! schemaName, array! definition) -> string
     {
-        var temporary, options, table, createLines, columns,
-            column, indexes, index, reference, references, indexName,
-            indexSql, sql, columnLine, indexType,
-            referenceSql, onDelete, onUpdate, defaultValue;
+        var temporary, options, table, createLines, columns, column, indexes,
+            index, reference, references, indexName, indexSql, sql, columnLine,
+            indexType, referenceSql, onDelete, onUpdate, defaultValue;
 
         if !fetch columns, definition["columns"] {
             throw new Exception(
@@ -160,6 +162,7 @@ class Mysql extends Dialect
              */
             if column->hasDefault() {
                 let defaultValue = column->getDefault();
+
                 if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
                     let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
                 } else {
@@ -292,11 +295,13 @@ class Mysql extends Dialect
     public function describeReferences(string! table, string schema = null) -> string
     {
         var sql = "SELECT DISTINCT KCU.TABLE_NAME, KCU.COLUMN_NAME, KCU.CONSTRAINT_NAME, KCU.REFERENCED_TABLE_SCHEMA, KCU.REFERENCED_TABLE_NAME, KCU.REFERENCED_COLUMN_NAME, RC.UPDATE_RULE, RC.DELETE_RULE FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KCU LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS RC ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME AND RC.CONSTRAINT_SCHEMA = KCU.CONSTRAINT_SCHEMA WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND ";
+
         if schema {
             let sql .= "KCU.CONSTRAINT_SCHEMA = '" . schema . "' AND KCU.TABLE_NAME = '" . table . "'";
         } else {
             let sql .= "KCU.CONSTRAINT_SCHEMA = DATABASE() AND KCU.TABLE_NAME = '" . table . "'";
         }
+
         return sql;
     }
 
@@ -384,168 +389,206 @@ class Mysql extends Dialect
                 if empty columnSql {
                     let columnSql .= "BIGINT";
                 }
+
                 let columnSql .= this->getColumnSize(column) . this->checkColumnUnsigned(column);
+
                 break;
 
             case Column::TYPE_BIT:
                 if empty columnSql {
                     let columnSql .= "BIT";
                 }
+
                 let columnSql .= this->getColumnSize(column);
+
                 break;
 
             case Column::TYPE_BLOB:
                 if empty columnSql {
                     let columnSql .= "BLOB";
                 }
+
                 break;
 
             case Column::TYPE_BOOLEAN:
                 if empty columnSql {
                     let columnSql .= "TINYINT(1)";
                 }
+
                 break;
 
             case Column::TYPE_CHAR:
                 if empty columnSql {
                     let columnSql .= "CHAR";
                 }
+
                 let columnSql .= this->getColumnSize(column);
+
                 break;
 
             case Column::TYPE_DATE:
                 if empty columnSql {
                     let columnSql .= "DATE";
                 }
+
                 break;
 
             case Column::TYPE_DATETIME:
                 if empty columnSql {
                     let columnSql .= "DATETIME";
                 }
+
                 break;
 
             case Column::TYPE_DECIMAL:
                 if empty columnSql {
                     let columnSql .= "DECIMAL";
                 }
+
                 let columnSql .= this->getColumnSizeAndScale(column) . this->checkColumnUnsigned(column);
+
                 break;
 
             case Column::TYPE_DOUBLE:
                 if empty columnSql {
                     let columnSql .= "DOUBLE";
                 }
+
                 let columnSql .= this->checkColumnSizeAndScale(column) . this->checkColumnUnsigned(column);
+
                 break;
 
             case Column::TYPE_ENUM:
                 if empty columnSql {
                     let columnSql .= "ENUM";
                 }
+
                 let columnSql .= this->getColumnSize(column);
+
                 break;
 
             case Column::TYPE_FLOAT:
                 if empty columnSql {
                     let columnSql .= "FLOAT";
                 }
+
                 let columnSql .= this->checkColumnSizeAndScale(column) . this->checkColumnUnsigned(column);
+
                 break;
 
             case Column::TYPE_INTEGER:
                 if empty columnSql {
                     let columnSql .= "INT";
                 }
+
                 let columnSql .= this->getColumnSize(column) . this->checkColumnUnsigned(column);
+
                 break;
 
             case Column::TYPE_JSON:
                 if empty columnSql {
                     let columnSql .= "JSON";
                 }
+
                 break;
 
             case Column::TYPE_LONGBLOB:
                 if empty columnSql {
                     let columnSql .= "LONGBLOB";
                 }
+
                 break;
 
             case Column::TYPE_LONGTEXT:
                 if empty columnSql {
                     let columnSql .= "LONGTEXT";
                 }
+
                 break;
 
             case Column::TYPE_MEDIUMBLOB:
                 if empty columnSql {
                     let columnSql .= "MEDIUMBLOB";
                 }
+
                 break;
 
             case Column::TYPE_MEDIUMINTEGER:
                 if empty columnSql {
                     let columnSql .= "MEDIUMINT";
                 }
+
                 let columnSql .= this->getColumnSize(column) . this->checkColumnUnsigned(column);
+
                 break;
 
             case Column::TYPE_MEDIUMTEXT:
                 if empty columnSql {
                     let columnSql .= "MEDIUMTEXT";
                 }
+
                 break;
 
             case Column::TYPE_SMALLINTEGER:
                 if empty columnSql {
                     let columnSql .= "SMALLINT";
                 }
+
                 let columnSql .= this->getColumnSize(column) . this->checkColumnUnsigned(column);
+
                 break;
 
             case Column::TYPE_TEXT:
                 if empty columnSql {
                     let columnSql .= "TEXT";
                 }
+
                 break;
 
             case Column::TYPE_TIME:
                 if empty columnSql {
                     let columnSql .= "TIME";
                 }
+
                 break;
 
             case Column::TYPE_TIMESTAMP:
                 if empty columnSql {
                     let columnSql .= "TIMESTAMP";
                 }
+
                 break;
 
             case Column::TYPE_TINYBLOB:
                 if empty columnSql {
                     let columnSql .= "TINYBLOB";
                 }
+
                 break;
 
             case Column::TYPE_TINYINTEGER:
                 if empty columnSql {
                     let columnSql .= "TINYINT";
                 }
+
                 let columnSql .= this->getColumnSize(column) . this->checkColumnUnsigned(column);
+
                 break;
 
             case Column::TYPE_TINYTEXT:
                 if empty columnSql {
                     let columnSql .= "TINYTEXT";
                 }
+
                 break;
 
             case Column::TYPE_VARCHAR:
                 if empty columnSql {
                     let columnSql .= "VARCHAR";
                 }
+
                 let columnSql .= this->getColumnSize(column);
+
                 break;
 
             default:
@@ -559,10 +602,13 @@ class Mysql extends Dialect
                 if !empty typeValues {
                     if typeof typeValues == "array" {
                         var value, valueSql;
+
                         let valueSql = "";
+
                         for value in typeValues {
                             let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
                         }
+
                         let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
                     } else {
                         let columnSql .= "(\"" . addcslashes(typeValues, "\"") . "\")";
@@ -595,6 +641,7 @@ class Mysql extends Dialect
         if schemaName {
             return "SHOW TABLES FROM `" . schemaName . "`";
         }
+
         return "SHOW TABLES";
     }
 
@@ -606,6 +653,7 @@ class Mysql extends Dialect
         if schemaName {
             return "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = '" . schemaName . "' ORDER BY view_name";
         }
+
         return "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = DATABASE() ORDER BY view_name";
     }
 
@@ -631,6 +679,7 @@ class Mysql extends Dialect
 
         if column->hasDefault() {
             let defaultValue = column->getDefault();
+
             if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
                 let sql .= " DEFAULT CURRENT_TIMESTAMP";
             } else {
@@ -650,10 +699,12 @@ class Mysql extends Dialect
             let sql .= " FIRST";
         } else {
             let afterPosition = column->getAfterPosition();
+
             if afterPosition {
                 let sql .=  " AFTER `" . afterPosition . "`";
             }
         }
+
         return sql;
     }
 
@@ -662,6 +713,7 @@ class Mysql extends Dialect
      *
      *<code>
      * $sql = $dialect->sharedLock("SELECT * FROM robots");
+     *
      * echo $sql; // SELECT * FROM robots LOCK IN SHARE MODE
      *</code>
      */
@@ -684,6 +736,7 @@ class Mysql extends Dialect
         if schemaName {
             return "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME`= '" . tableName . "' AND `TABLE_SCHEMA` = '" . schemaName . "'";
         }
+
         return "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` WHERE `TABLE_NAME` = '" . tableName . "' AND `TABLE_SCHEMA` = DATABASE()";
     }
 
@@ -693,9 +746,11 @@ class Mysql extends Dialect
     public function tableOptions(string! table, string schema = null) -> string
     {
         var sql = "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation FROM INFORMATION_SCHEMA.TABLES WHERE ";
+
         if schema {
             return sql . "TABLES.TABLE_SCHEMA = '" . schema . "' AND TABLES.TABLE_NAME = '" . table . "'";
         }
+
         return sql . "TABLES.TABLE_SCHEMA = DATABASE() AND TABLES.TABLE_NAME = '" . table . "'";
     }
 
@@ -725,6 +780,7 @@ class Mysql extends Dialect
         if schemaName {
             return "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`= '" . viewName . "' AND `TABLE_SCHEMA`='" . schemaName . "'";
         }
+
         return "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_NAME`='" . viewName . "' AND `TABLE_SCHEMA` = DATABASE()";
     }
 
@@ -733,8 +789,8 @@ class Mysql extends Dialect
      */
     protected function getTableOptions(array! definition) -> string
     {
-        var options, engine, autoIncrement, tableCollation,
-            collationParts, tableOptions;
+        var options, engine, autoIncrement, tableCollation, collationParts,
+            tableOptions;
 
         if fetch options, definition["options"] {
 
@@ -787,6 +843,7 @@ class Mysql extends Dialect
 
         if column->getSize() {
             let columnSql .= "(" . column->getSize();
+
             if column->getScale() {
                 let columnSql .= "," . column->getScale() . ")";
             } else {

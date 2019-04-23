@@ -36,6 +36,7 @@ class Exception extends BaseException
         var statement;
 
         let statement = this->statement;
+
         if typeof statement !== "array" {
             let statement = [];
         }

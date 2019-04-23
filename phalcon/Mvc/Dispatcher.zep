@@ -41,7 +41,6 @@ use Phalcon\Dispatcher as BaseDispatcher;
  */
 class Dispatcher extends BaseDispatcher implements DispatcherInterface
 {
-
     protected defaultAction = "index";
 
     protected defaultHandler = "index";
@@ -107,6 +106,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
         var eventsManager;
 
         let eventsManager = <ManagerInterface> this->eventsManager;
+
         if typeof eventsManager == "object" {
             eventsManager->fire("dispatch:beforeForward", this, forward);
         }
@@ -201,7 +201,9 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     protected function handleException(<\Exception> exception)
     {
         var eventsManager;
+
         let eventsManager = <ManagerInterface> this->eventsManager;
+
         if typeof eventsManager == "object" {
             if eventsManager->fire("dispatch:beforeException", this, exception) === false {
                 return false;
@@ -217,6 +219,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
         var container, response, exception;
 
         let container = this->container;
+
         if typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("the 'response' service"),

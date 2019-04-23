@@ -66,7 +66,11 @@ class Redis extends MetaData
         }
 
         let this->redis = new Redis(
-            new FrontendData(["lifetime": this->ttl]),
+            new FrontendData(
+                [
+                    "lifetime": this->ttl
+                ]
+            ),
             options
         );
     }
@@ -103,7 +107,6 @@ class Redis extends MetaData
         let meta = this->metaData;
 
         if typeof meta == "array" {
-
             for key, _ in meta {
                 let realKey = "meta-" . key;
 

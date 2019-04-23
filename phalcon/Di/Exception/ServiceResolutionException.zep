@@ -14,7 +14,6 @@
  
  /**
   * Phalcon\Di\Exception\ServiceResolutionException
-  *
   */
  class ServiceResolutionException extends \Phalcon\Di\Exception
  {

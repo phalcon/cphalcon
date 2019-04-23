@@ -35,6 +35,7 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
      * Gets a record in a specific position of the row
      *
      * @param string|int index
+     *
      * @return string|Phalcon\Mvc\ModelInterface
      */
     public function offsetGet(var index) -> var

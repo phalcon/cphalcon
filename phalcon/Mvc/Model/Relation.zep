@@ -225,7 +225,7 @@ class Relation implements RelationInterface
      * Sets the intermediate model data for has-*-through relations
      *
      * @param string|array intermediateFields
-     * @param string intermediateReferencedFields
+     * @param string       intermediateReferencedFields
      */
     public function setIntermediateRelation(var intermediateFields, string! intermediateModel, var intermediateReferencedFields)
     {

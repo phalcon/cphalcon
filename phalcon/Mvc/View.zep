@@ -172,8 +172,8 @@ class View extends Injectable implements ViewInterface
         var viewOptions, cacheOptions, key, value, cacheLevel;
 
         if typeof options == "array" {
-
             let viewOptions = this->options;
+
             if typeof viewOptions != "array" {
                 let viewOptions = [];
             }
@@ -202,7 +202,6 @@ class View extends Injectable implements ViewInterface
             let viewOptions["cache"] = cacheOptions;
             let this->options = viewOptions;
         } else {
-
             /**
              * If 'options' isn't an array we enable the cache with default
              * options
@@ -223,6 +222,7 @@ class View extends Injectable implements ViewInterface
     public function cleanTemplateAfter() -> <View>
     {
         let this->templatesAfter = [];
+
         return this;
     }
 
@@ -232,6 +232,7 @@ class View extends Injectable implements ViewInterface
     public function cleanTemplateBefore() -> <View>
     {
         let this->templatesBefore = [];
+
         return this;
     }
 
@@ -252,6 +253,7 @@ class View extends Injectable implements ViewInterface
         } else {
             let this->disabledLevels[level] = true;
         }
+
         return this;
     }
 
@@ -261,6 +263,7 @@ class View extends Injectable implements ViewInterface
     public function disable() -> <View>
     {
         let this->disabled = true;
+
         return this;
     }
 
@@ -270,6 +273,7 @@ class View extends Injectable implements ViewInterface
     public function enable() -> <View>
     {
         let this->disabled = false;
+
         return this;
     }
 
@@ -308,6 +312,7 @@ class View extends Injectable implements ViewInterface
     public function finish() -> <View>
     {
         ob_end_clean();
+
         return this;
     }
 
@@ -436,7 +441,9 @@ class View extends Injectable implements ViewInterface
         // not liking the ob_* functions here, but it will greatly reduce the
         // amount of double code.
         ob_start();
+
         this->partial(partialPath, params);
+
         return ob_get_clean();
     }
 
@@ -589,7 +596,6 @@ class View extends Injectable implements ViewInterface
          * symbol table
          */
         if typeof params == "array" {
-
             /**
              * Merge the new params as parameters
              */
@@ -652,19 +658,22 @@ class View extends Injectable implements ViewInterface
         if typeof renderView == "array" {
             let pickView = renderView;
         } else {
-
             let layout = null;
+
             if memstr(renderView, "/") {
-                let parts = explode("/", renderView), layout = parts[0];
+                let parts = explode("/", renderView),
+                    layout = parts[0];
             }
 
             let pickView = [renderView];
+
             if layout !== null {
                 let pickView[] = layout;
             }
         }
 
         let this->pickView = pickView;
+
         return this;
     }
 
@@ -684,6 +693,7 @@ class View extends Injectable implements ViewInterface
     public function registerEngines(array! engines) -> <View>
     {
         let this->registeredEngines = engines;
+
         return this;
     }
 
@@ -699,10 +709,9 @@ class View extends Injectable implements ViewInterface
     {
         bool silence, mustClean;
         int renderLevel;
-        var layoutsDir, layout, pickView, layoutName,
-            engines, renderView, pickViewAction, eventsManager,
-            disabledLevels, templatesBefore, templatesAfter,
-            templateBefore, templateAfter, cache;
+        var layoutsDir, layout, pickView, layoutName, engines, renderView,
+            pickViewAction, eventsManager, disabledLevels, templatesBefore,
+            templatesAfter, templateBefore, templateAfter, cache;
 
         let this->currentRenderLevel = 0;
 
@@ -712,6 +721,7 @@ class View extends Injectable implements ViewInterface
          */
         if this->disabled !== false {
             let this->content = ob_get_contents();
+
             return false;
         }
 
@@ -726,6 +736,7 @@ class View extends Injectable implements ViewInterface
          * Check if there is a layouts directory set
          */
         let layoutsDir = this->layoutsDir;
+
         if !layoutsDir {
             let layoutsDir = "layouts/";
         }
@@ -734,6 +745,7 @@ class View extends Injectable implements ViewInterface
          * Check if the user has defined a custom layout
          */
         let layout = this->layout;
+
         if layout {
             let layoutName = layout;
         } else {
@@ -753,12 +765,12 @@ class View extends Injectable implements ViewInterface
         if pickView === null {
             let renderView = controllerName . "/" . actionName;
         } else {
-
             /**
              * The 'picked' view is an array, where the first element is
              * controller and the second the action
              */
             let renderView = pickView[0];
+
             if layoutName === null {
                 if fetch pickViewAction, pickView[1] {
                     let layoutName = pickViewAction;
@@ -810,8 +822,8 @@ class View extends Injectable implements ViewInterface
          * Render level will tell use when to stop
          */
         let renderLevel = (int) this->renderLevel;
-        if renderLevel {
 
+        if renderLevel {
             /**
              * Inserts view related to action
              */
@@ -839,6 +851,7 @@ class View extends Injectable implements ViewInterface
                     let templatesBefore = this->templatesBefore;
 
                     let silence = false;
+
                     for templateBefore in templatesBefore {
                         this->engineRender(
                             engines,
@@ -848,6 +861,7 @@ class View extends Injectable implements ViewInterface
                             cache
                         );
                     }
+
                     let silence = true;
                 }
             }
@@ -858,6 +872,7 @@ class View extends Injectable implements ViewInterface
             if renderLevel >= self::LEVEL_LAYOUT {
                 if !isset disabledLevels[self::LEVEL_LAYOUT] {
                     let this->currentRenderLevel = self::LEVEL_LAYOUT;
+
                     this->engineRender(
                         engines,
                         layoutsDir . layoutName,
@@ -878,6 +893,7 @@ class View extends Injectable implements ViewInterface
                     let templatesAfter = this->templatesAfter;
 
                     let silence = false;
+
                     for templateAfter in templatesAfter {
                         this->engineRender(
                             engines,
@@ -887,6 +903,7 @@ class View extends Injectable implements ViewInterface
                             cache
                         );
                     }
+
                     let silence = true;
                 }
             }
@@ -945,6 +962,7 @@ class View extends Injectable implements ViewInterface
             this->content = null,
             this->templatesBefore = [],
             this->templatesAfter = [];
+
         return this;
     }
 
@@ -953,12 +971,13 @@ class View extends Injectable implements ViewInterface
      * or backslash
      *
      * <code>
-     *     $view->setBasePath(__DIR__ . "/");
+     * $view->setBasePath(__DIR__ . "/");
      * </code>
      */
     public function setBasePath(string basePath) -> <View>
     {
         let this->basePath = basePath;
+
         return this;
     }
 
@@ -972,6 +991,7 @@ class View extends Injectable implements ViewInterface
     public function setContent(string content) -> <View>
     {
         let this->content = content;
+
         return this;
     }
 
@@ -986,6 +1006,7 @@ class View extends Injectable implements ViewInterface
     public function setLayout(string layout) -> <View>
     {
         let this->layout = layout;
+
         return this;
     }
 
@@ -1001,6 +1022,7 @@ class View extends Injectable implements ViewInterface
     public function setLayoutsDir(string layoutsDir) -> <View>
     {
         let this->layoutsDir = layoutsDir;
+
         return this;
     }
 
@@ -1016,6 +1038,7 @@ class View extends Injectable implements ViewInterface
     public function setMainView(string viewPath) -> <View>
     {
         let this->mainView = viewPath;
+
         return this;
     }
 
@@ -1031,6 +1054,7 @@ class View extends Injectable implements ViewInterface
     public function setPartialsDir(string partialsDir) -> <View>
     {
         let this->partialsDir = partialsDir;
+
         return this;
     }
 
@@ -1044,6 +1068,7 @@ class View extends Injectable implements ViewInterface
     public function setParamToView(string! key, var value) -> <View>
     {
         let this->viewParams[key] = value;
+
         return this;
     }
 
@@ -1060,6 +1085,7 @@ class View extends Injectable implements ViewInterface
     public function setRenderLevel(int level) -> <ViewInterface>
     {
         let this->renderLevel = level;
+
         return this;
     }
 
@@ -1073,6 +1099,7 @@ class View extends Injectable implements ViewInterface
         } else {
             let this->templatesAfter = templateAfter;
         }
+
         return this;
     }
 
@@ -1086,6 +1113,7 @@ class View extends Injectable implements ViewInterface
         } else {
             let this->templatesBefore = templateBefore;
         }
+
         return this;
     }
 
@@ -1099,6 +1127,7 @@ class View extends Injectable implements ViewInterface
     public function setVar(string! key, var value) -> <View>
     {
         let this->viewParams[key] = value;
+
         return this;
     }
 
@@ -1137,18 +1166,17 @@ class View extends Injectable implements ViewInterface
         }
 
         let directorySeparator = DIRECTORY_SEPARATOR;
-        if typeof viewsDir == "string" {
 
+        if typeof viewsDir == "string" {
             if substr(viewsDir, -1) != directorySeparator {
                 let viewsDir = viewsDir . directorySeparator;
             }
 
             let this->viewsDirs = viewsDir;
         } else {
-
             let newViewsDir = [];
-            for position, directory in viewsDir {
 
+            for position, directory in viewsDir {
                 if typeof directory != "string" {
                     throw new Exception(
                         "Views directory item must be a string"
@@ -1174,7 +1202,9 @@ class View extends Injectable implements ViewInterface
     public function start() -> <View>
     {
         ob_start();
+
         let this->content = null;
+
         return this;
     }
 
@@ -1183,10 +1213,10 @@ class View extends Injectable implements ViewInterface
      */
     protected function createCache() -> <BackendInterface>
     {
-        var container, cacheService, viewCache,
-            viewOptions, cacheOptions;
+        var container, cacheService, viewCache, viewOptions, cacheOptions;
 
         let container = <DiInterface> this->container;
+
         if typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("the view cache services")
@@ -1207,6 +1237,7 @@ class View extends Injectable implements ViewInterface
          * The injected service must be an object
          */
         let viewCache = <BackendInterface> container->getShared(cacheService);
+
         if typeof viewCache != "object" {
             throw new Exception("The injected caching service is invalid");
         }
@@ -1221,9 +1252,9 @@ class View extends Injectable implements ViewInterface
     {
         bool notExists;
         int renderLevel, cacheLevel;
-        var key, lifetime, viewsDir, basePath, viewsDirPath,
-            viewOptions, cacheOptions, cachedView, viewParams, eventsManager,
-            extension, engine, viewEnginePath, viewEnginePaths;
+        var key, lifetime, viewsDir, basePath, viewsDirPath, viewOptions,
+            cacheOptions, cachedView, viewParams, eventsManager, extension,
+            engine, viewEnginePath, viewEnginePaths;
 
         let notExists = true,
             basePath = this->basePath,
@@ -1232,7 +1263,6 @@ class View extends Injectable implements ViewInterface
             viewEnginePaths = [];
 
         for viewsDir in this->getViewsDirs() {
-
             if !this->isAbsolutePath(viewPath) {
                 let viewsDirPath = basePath . viewsDir . viewPath;
             } else {
@@ -1240,18 +1270,15 @@ class View extends Injectable implements ViewInterface
             }
 
             if typeof cache == "object" {
-
                 let renderLevel = (int) this->renderLevel,
                     cacheLevel = (int) this->cacheLevel;
 
                 if renderLevel >= cacheLevel {
-
                     /**
                      * Check if the cache is started, the first time a cache is
                      * started we start the cache
                      */
                     if !cache->isStarted() {
-
                         let key = null,
                             lifetime = null;
 
@@ -1279,6 +1306,7 @@ class View extends Injectable implements ViewInterface
                          * We start the cache using the key set
                          */
                         let cachedView = cache->start(key, lifetime);
+
                         if cachedView !== null {
                             let this->content = cachedView;
                             return null;
@@ -1299,16 +1327,16 @@ class View extends Injectable implements ViewInterface
              * Views are rendered in each engine
              */
             for extension, engine in engines {
-
                 let viewEnginePath = viewsDirPath . extension;
-                if file_exists(viewEnginePath) {
 
+                if file_exists(viewEnginePath) {
                     /**
                      * Call beforeRenderView if there is an events manager
                      * available
                      */
                     if typeof eventsManager == "object" {
                         let this->activeRenderPaths = [viewEnginePath];
+
                         if eventsManager->fire("view:beforeRenderView", this, viewEnginePath) === false {
                             continue;
                         }
@@ -1321,6 +1349,7 @@ class View extends Injectable implements ViewInterface
                      * available
                      */
                     let notExists = false;
+
                     if typeof eventsManager == "object" {
                         eventsManager->fire("view:afterRenderView", this);
                     }
@@ -1337,6 +1366,7 @@ class View extends Injectable implements ViewInterface
              */
             if typeof eventsManager == "object" {
                 let this->activeRenderPaths = viewEnginePaths;
+
                 eventsManager->fire("view:notFoundView", this, viewEnginePath);
             }
 
@@ -1373,19 +1403,17 @@ class View extends Injectable implements ViewInterface
          * If the engines aren't initialized 'engines' is false
          */
         if engines === false {
-
             let di = <DiInterface> this->container;
 
             let engines = [];
             let registeredEngines = this->registeredEngines;
-            if empty registeredEngines {
 
+            if empty registeredEngines {
                 /**
                  * We use Phalcon\Mvc\View\Engine\Php as default
                  */
                 let engines[".phtml"] = new PhpEngine(this, di);
             } else {
-
                 if typeof di != "object" {
                     throw new Exception(
                         Exception::containerServiceNotFound(
@@ -1395,9 +1423,7 @@ class View extends Injectable implements ViewInterface
                 }
 
                 for extension, engineService in registeredEngines {
-
                     if typeof engineService == "object" {
-
                         /**
                          * Engine can be a closure
                          */
@@ -1414,9 +1440,7 @@ class View extends Injectable implements ViewInterface
                         } else {
                             let engines[extension] = engineService;
                         }
-
                     } else {
-
                         /**
                          * Engine can be a string representing a service in the DI
                          */

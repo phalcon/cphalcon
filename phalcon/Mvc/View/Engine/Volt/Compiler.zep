@@ -52,7 +52,6 @@ class Compiler implements InjectionAwareInterface
     protected prefix;
     protected view;
 
-
     /**
      * Phalcon\Mvc\View\Engine\Volt\Compiler
      */
@@ -80,6 +79,7 @@ class Compiler implements InjectionAwareInterface
         }
 
         let this->extensions[] = extension;
+
         return this;
     }
 
@@ -89,6 +89,7 @@ class Compiler implements InjectionAwareInterface
     public function addFilter(string! name, var definition) -> <Compiler>
     {
         let this->filters[name] = definition;
+
         return this;
     }
 
@@ -98,6 +99,7 @@ class Compiler implements InjectionAwareInterface
     public function addFunction(string! name, var definition) -> <Compiler>
     {
         let this->functions[name] = definition;
+
         return this;
     }
 
@@ -113,7 +115,6 @@ class Compiler implements InjectionAwareInterface
         let left = expr["left"];
 
         if left["type"] == PHVOLT_T_IDENTIFIER {
-
             let variable = left["value"];
 
             /**
@@ -124,7 +125,6 @@ class Compiler implements InjectionAwareInterface
                     exprCode .= "$" . this->getUniquePrefix() . level . "loop",
                     this->loopPointers[level] = level;
             } else {
-
                 /**
                  * Services registered in the dependency injector container are
                  * available always
@@ -135,9 +135,9 @@ class Compiler implements InjectionAwareInterface
                     let exprCode .= "$" . variable;
                 }
             }
-
         } else {
             let leftCode = this->expression(left), leftType = left["type"];
+
             if leftType != PHVOLT_T_DOT && leftType != PHVOLT_T_FCALL {
                 let exprCode .= leftCode;
             } else {
@@ -195,8 +195,8 @@ class Compiler implements InjectionAwareInterface
         let compilation = null;
 
         let options = this->options;
-        if typeof options == "array" {
 
+        if typeof options == "array" {
             /**
              * This makes that templates will be compiled always
              */
@@ -226,6 +226,7 @@ class Compiler implements InjectionAwareInterface
              */
             if isset options["prefix"] {
                 let prefix = options["prefix"];
+
                 if typeof prefix != "string" {
                     throw new Exception("'prefix' must be a string");
                 }
@@ -246,7 +247,9 @@ class Compiler implements InjectionAwareInterface
                         E_USER_DEPRECATED
                     );
                 }
+
                 let compiledPath = options[optionKey];
+
                 if typeof compiledPath != "string" {
                     if typeof compiledPath != "object" {
                         throw new Exception(
@@ -270,7 +273,9 @@ class Compiler implements InjectionAwareInterface
                         E_USER_DEPRECATED
                     );
                 }
+
                 let compiledSeparator = options[optionKey];
+
                 if typeof compiledSeparator != "string" {
                     throw new Exception("'" . optionKey . "' must be a string");
                 }
@@ -290,7 +295,9 @@ class Compiler implements InjectionAwareInterface
                         E_USER_DEPRECATED
                     );
                 }
+
                 let compiledExtension = options[optionKey];
+
                 if typeof compiledExtension != "string" {
                     throw new Exception("'" . optionKey . "' must be a string");
                 }
@@ -308,7 +315,6 @@ class Compiler implements InjectionAwareInterface
          * Check if there is a compiled path
          */
         if typeof compiledPath == "string" {
-
             /**
              * Calculate the template realpath's
              */
@@ -333,16 +339,12 @@ class Compiler implements InjectionAwareInterface
             } else {
                 let compiledTemplatePath = compiledPath . prefix . templateSepPath . compiledExtension;
             }
-
         } else {
-
             /**
              * A closure can dynamically compile the path
              */
             if typeof compiledPath == "object" {
-
                 if compiledPath instanceof \Closure {
-
                     let compiledTemplatePath = call_user_func_array(
                         compiledPath,
                         [templatePath, options, extendsMode]
@@ -474,9 +476,12 @@ class Compiler implements InjectionAwareInterface
          * Cache statement
          */
         let exprCode = this->expression(expr);
+
         let compilation = "<?php $_cache[" . this->expression(expr) . "] = $this->di->get('viewCache'); ";
+
         if fetch lifetime, statement["lifetime"] {
             let compilation .= "$_cacheKey[" . exprCode . "]";
+
             if lifetime["type"] == PHVOLT_T_IDENTIFIER {
                 let compilation .= " = $_cache[" . exprCode . "]->start(" . exprCode . ", $" . lifetime["value"] . "); ";
             } else {
@@ -485,6 +490,7 @@ class Compiler implements InjectionAwareInterface
         } else {
             let compilation .= "$_cacheKey[" . exprCode . "] = $_cache[" . exprCode."]->start(" . exprCode . "); ";
         }
+
         let compilation .= "if ($_cacheKey[" . exprCode . "] === null) { ?>";
 
         /**
@@ -504,6 +510,7 @@ class Compiler implements InjectionAwareInterface
             } else {
                 let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . ", null, " . lifetime["value"] . "); ";
             }
+
             let compilation .= "} else { echo $_cacheKey[" . exprCode . "]; } ?>";
         } else {
             let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . "); } else { echo $_cacheKey[" . exprCode . "]; } ?>";
@@ -587,11 +594,9 @@ class Compiler implements InjectionAwareInterface
         let exprCode = this->expression(expr);
 
         if expr["type"] == PHVOLT_T_FCALL  {
-
             let name = expr["name"];
 
             if name["type"] == PHVOLT_T_IDENTIFIER {
-
                 /**
                  * super() is a function however the return of this function
                  * must be output as it is
@@ -666,6 +671,7 @@ class Compiler implements InjectionAwareInterface
          * respect the open_basedir directive
          */
         let viewCode = file_get_contents(path);
+
         if viewCode === false {
             throw new Exception(
                 "Template file " . path . " could not be opened"
@@ -673,6 +679,7 @@ class Compiler implements InjectionAwareInterface
         }
 
         let this->currentPath = path;
+
         let compilation = this->compileSource(viewCode, extendsMode);
 
         /**
@@ -700,9 +707,9 @@ class Compiler implements InjectionAwareInterface
      */
     public function compileForeach(array! statement, bool extendsMode = false) -> string
     {
-        var compilation, prefix, level, prefixLevel, expr,
-            exprCode, bstatement, type, blockStatements, forElse, code,
-            loopContext, iterator, key, ifExpr, variable;
+        var compilation, prefix, level, prefixLevel, expr, exprCode, bstatement,
+            type, blockStatements, forElse, code, loopContext, iterator, key,
+            ifExpr, variable;
 
         /**
          * A valid expression is required
@@ -711,11 +718,13 @@ class Compiler implements InjectionAwareInterface
             throw new Exception("Corrupted statement");
         }
 
-        let compilation = "", forElse = null;
+        let compilation = "",
+            forElse = null;
 
         let this->foreachLevel++;
 
         let prefix = this->getUniquePrefix();
+
         let level = this->foreachLevel;
 
         /**
@@ -727,6 +736,7 @@ class Compiler implements InjectionAwareInterface
          * Evaluate common expressions
          */
         let expr = statement["expr"];
+
         let exprCode = this->expression(expr);
 
         /**
@@ -735,10 +745,9 @@ class Compiler implements InjectionAwareInterface
         let blockStatements = statement["block_statements"];
 
         let forElse = false;
+
         if typeof blockStatements == "array" {
-
             for bstatement in blockStatements {
-
                 if typeof bstatement != "array" {
                     break;
                 }
@@ -754,9 +763,9 @@ class Compiler implements InjectionAwareInterface
                     let compilation .= "<?php $" . prefixLevel . "iterated = false; ?>";
                     let forElse = prefixLevel;
                     let this->forElsePointers[level] = forElse;
+
                     break;
                 }
-
             }
         }
 
@@ -891,7 +900,6 @@ class Compiler implements InjectionAwareInterface
          * Check for a "else"/"elseif" block
          */
         if fetch blockStatements, statement["false_statements"] {
-
             /**
              * Process statements in the "false" block
              */
@@ -923,13 +931,11 @@ class Compiler implements InjectionAwareInterface
          * If the path is an string try to make an static compilation
          */
         if pathExpr["type"] == 260 {
-
             /**
              * Static compilation cannot be performed if the user passed extra
              * parameters
              */
             if !isset statement["params"]  {
-
                 /**
                  * Get the static path
                  */
@@ -944,8 +950,8 @@ class Compiler implements InjectionAwareInterface
                  */
                 let subCompiler = clone this;
                 let compilation = subCompiler->compile(finalPath, false);
-                if typeof compilation == "null" {
 
+                if typeof compilation == "null" {
                     /**
                      * Use file-get-contents to respect the openbase_dir
                      * directive
@@ -957,7 +963,6 @@ class Compiler implements InjectionAwareInterface
 
                 return compilation;
             }
-
         }
 
         /**
@@ -1005,16 +1010,16 @@ class Compiler implements InjectionAwareInterface
         let macroName = "$this->macros['" . name . "']";
 
         let code = "<?php ";
+
         if !fetch parameters, statement["parameters"] {
             let code .= macroName . " = function() { ?>";
         } else {
-
             /**
              * Parameters are always received as an array
              */
             let code .= macroName . " = function($__p = null) { ";
-            for position, parameter in parameters {
 
+            for position, parameter in parameters {
                 let variableName = parameter["variable"];
 
                 let code .= "if (isset($__p[" . position . "])) { ";
@@ -1023,11 +1028,13 @@ class Compiler implements InjectionAwareInterface
                 let code .= "if (array_key_exists(\"" . variableName . "\", $__p)) { ";
                 let code .= "$" . variableName . " = $__p[\"" . variableName ."\"];";
                 let code .= " } else { ";
+
                 if fetch defaultValue, parameter["default"] {
                     let code .= "$" . variableName . " = " . this->expression(defaultValue) . ";";
                 } else {
                     let code .= " throw new \\Phalcon\\Mvc\\View\\Exception(\"Macro '" . name . "' was called without parameter: " . variableName . "\"); ";
                 }
+
                 let code .= " } } ";
             }
 
@@ -1038,7 +1045,6 @@ class Compiler implements InjectionAwareInterface
          * Block statements are allowed
          */
         if fetch blockStatements, statement["block_statements"] {
-
             /**
              * Process statements block
              */
@@ -1095,7 +1101,6 @@ class Compiler implements InjectionAwareInterface
          * A single set can have several assignments
          */
         for assignment in assignments {
-
             let exprCode = this->expression(assignment["expr"]);
 
             /**
@@ -1133,6 +1138,7 @@ class Compiler implements InjectionAwareInterface
         }
 
         let compilation .= " ?>";
+
         return compilation;
     }
 
@@ -1146,6 +1152,7 @@ class Compiler implements InjectionAwareInterface
     public function compileString(string! viewCode, bool extendsMode = false) -> string
     {
         let this->currentPath = "eval code";
+
         return this->compileSource(viewCode, extendsMode);
     }
 
@@ -1224,13 +1231,15 @@ class Compiler implements InjectionAwareInterface
         let extensions = this->extensions;
 
         loop {
-
             if typeof extensions == "array" {
-
                 /**
                  * Notify the extensions about being resolving an expression
                  */
-                let exprCode = this->fireExtensionEvent("resolveExpression", [expr]);
+                let exprCode = this->fireExtensionEvent(
+                    "resolveExpression",
+                    [expr]
+                );
+
                 if typeof exprCode == "string" {
                     break;
                 }
@@ -1238,15 +1247,21 @@ class Compiler implements InjectionAwareInterface
 
             if !fetch type, expr["type"] {
                 let items = [];
+
                 for singleExpr in expr {
-                    let singleExprCode = this->expression(singleExpr["expr"]);
+                    let singleExprCode = this->expression(
+                        singleExpr["expr"]
+                    );
+
                     if fetch name, singleExpr["name"] {
                         let items[] = "'" . name . "' => " . singleExprCode;
                     } else {
                         let items[] = singleExprCode;
                     }
                 }
+
                 let exprCode = join(", ", items);
+
                 break;
             }
 
@@ -1255,6 +1270,7 @@ class Compiler implements InjectionAwareInterface
              */
             if type == PHVOLT_T_DOT {
                 let exprCode = this->attributeReader(expr);
+
                 break;
             }
 
@@ -1269,7 +1285,11 @@ class Compiler implements InjectionAwareInterface
              * Operator "is" also needs special handling
              */
             if type == PHVOLT_T_IS {
-                let exprCode = this->resolveTest(expr["right"], leftCode);
+                let exprCode = this->resolveTest(
+                    expr["right"],
+                    leftCode
+                );
+
                 break;
             }
 
@@ -1277,7 +1297,11 @@ class Compiler implements InjectionAwareInterface
              * We don't resolve the right expression for filters
              */
             if type == 124 {
-                let exprCode = this->resolveFilter(expr["right"], leftCode);
+                let exprCode = this->resolveFilter(
+                    expr["right"],
+                    leftCode
+                );
+
                 break;
             }
 
@@ -1289,8 +1313,8 @@ class Compiler implements InjectionAwareInterface
             }
 
             let exprCode = null;
-            switch type {
 
+            switch type {
                 case PHVOLT_T_NOT:
                     let exprCode = "!" . rightCode;
                     break;
@@ -1341,6 +1365,7 @@ class Compiler implements InjectionAwareInterface
                     } else {
                         let exprCode = "[]";
                     }
+
                     break;
 
                 case 258:
@@ -1547,14 +1572,13 @@ class Compiler implements InjectionAwareInterface
         var extensions, extension, status;
 
         let extensions = this->extensions;
+
         if typeof extensions == "array" {
             for extension in extensions {
-
                 /**
                  * Check if the extension implements the required event name
                  */
                 if method_exists(extension, name) {
-
                     if typeof arguments == "array" {
                         let status = call_user_func_array(
                             [extension, name],
@@ -1581,27 +1605,27 @@ class Compiler implements InjectionAwareInterface
      */
     public function functionCall(array! expr) -> string
     {
-        var code, funcArguments, arguments, nameExpr,
-            nameType, name, extensions, functions, definition,
-            extendedBlocks, block, currentBlock, exprLevel, escapedCode,
-            method, arrayHelpers;
+        var code, funcArguments, arguments, nameExpr, nameType, name,
+            extensions, functions, definition, extendedBlocks, block,
+            currentBlock, exprLevel, escapedCode, method, arrayHelpers;
 
         let code = null;
 
         let funcArguments = null;
+
         if fetch funcArguments, expr["arguments"] {
             let arguments = this->expression(funcArguments);
         } else {
             let arguments = "";
         }
 
-        let nameExpr = expr["name"], nameType = nameExpr["type"];
+        let nameExpr = expr["name"],
+            nameType = nameExpr["type"];
 
         /**
          * Check if it's a single function
          */
         if nameType == PHVOLT_T_IDENTIFIER {
-
             let name = nameExpr["value"];
 
             /**
@@ -1609,12 +1633,16 @@ class Compiler implements InjectionAwareInterface
              * this function
              */
             let extensions = this->extensions;
-            if typeof extensions == "array" {
 
+            if typeof extensions == "array" {
                 /**
                  * Notify the extensions about being compiling a function
                  */
-                let code = this->fireExtensionEvent("compileFunction", [name, arguments, funcArguments]);
+                let code = this->fireExtensionEvent(
+                    "compileFunction",
+                    [name, arguments, funcArguments]
+                );
+
                 if typeof code == "string" {
                     return code;
                 }
@@ -1624,9 +1652,9 @@ class Compiler implements InjectionAwareInterface
              * Check if it's a user defined function
              */
             let functions = this->functions;
+
             if typeof functions == "array" {
                 if fetch definition, functions[name] {
-
                     /**
                      * Use the string as function
                      */
@@ -1639,7 +1667,6 @@ class Compiler implements InjectionAwareInterface
                      * definition
                      */
                     if typeof definition == "object" {
-
                         if definition instanceof \Closure {
                             return call_user_func_array(
                                 definition,
@@ -1674,14 +1701,16 @@ class Compiler implements InjectionAwareInterface
              */
             if name == "super" {
                 let extendedBlocks = this->extendedBlocks;
+
                 if typeof extendedBlocks == "array" {
-
                     let currentBlock = this->currentBlock;
-                    if fetch block, extendedBlocks[currentBlock] {
 
+                    if fetch block, extendedBlocks[currentBlock] {
                         let exprLevel = this->exprLevel;
+
                         if typeof block == "array" {
                             let code = this->statementListOrExtends(block);
+
                             if exprLevel == 1 {
                                 let escapedCode = code;
                             } else {
@@ -1701,31 +1730,34 @@ class Compiler implements InjectionAwareInterface
                         if exprLevel == 1 {
                             return escapedCode;
                         }
+
                         return "'" . escapedCode . "'";
                     }
                 }
                 return "''";
             }
 
-            let method = lcfirst(camelize(name));
+            let method = lcfirst(
+                camelize(name)
+            );
 
             let arrayHelpers = [
-                "link_to": true,
-                "image": true,
-                "form": true,
-                "submit_button": true,
-                "radio_field": true,
-                "check_field": true,
-                "file_field": true,
-                "hidden_field": true,
+                "link_to":        true,
+                "image":          true,
+                "form":           true,
+                "submit_button":  true,
+                "radio_field":    true,
+                "check_field":    true,
+                "file_field":     true,
+                "hidden_field":   true,
                 "password_field": true,
-                "text_area": true,
-                "text_field": true,
-                "email_field": true,
-                "date_field": true,
-                "tel_field": true,
-                "numeric_field": true,
-                "image_input": true
+                "text_area":      true,
+                "text_field":     true,
+                "email_field":    true,
+                "date_field":     true,
+                "tel_field":      true,
+                "numeric_field":  true,
+                "image_input":    true
             ];
 
             /**
@@ -1963,6 +1995,7 @@ class Compiler implements InjectionAwareInterface
     public function parse(string! viewCode)
     {
         var currentPath = "eval code";
+
         return phvolt_parse_view(viewCode, currentPath);
     }
 
@@ -1979,7 +2012,6 @@ class Compiler implements InjectionAwareInterface
          * Check if right part is a single identifier
          */
         if type == PHVOLT_T_IDENTIFIER {
-
             let name = test["value"];
 
             /**
@@ -2030,10 +2062,9 @@ class Compiler implements InjectionAwareInterface
          * Check if right part is a function call
          */
         if type == PHVOLT_T_FCALL {
-
             let testName = test["name"];
-            if fetch name, testName["value"] {
 
+            if fetch name, testName["value"] {
                 if name == "divisibleby" {
                     return "(((" . left . ") % (" . this->expression(test["arguments"]) . ")) == 0)";
                 }
@@ -2092,6 +2123,7 @@ class Compiler implements InjectionAwareInterface
     public function setUniquePrefix(string! prefix) -> <Compiler>
     {
         let this->prefix = prefix;
+
         return this;
     }
 
@@ -2101,9 +2133,9 @@ class Compiler implements InjectionAwareInterface
      */
     protected function compileSource(string! viewCode, bool extendsMode = false) -> string
     {
-        var currentPath, intermediate, extended,
-            finalCompilation, blocks, extendedBlocks, name, block,
-            blockCompilation, localBlock, compilation, options, autoescape;
+        var currentPath, intermediate, extended, finalCompilation, blocks,
+            extendedBlocks, name, block, blockCompilation, localBlock,
+            compilation, options, autoescape;
 
         let currentPath = this->currentPath;
 
@@ -2111,8 +2143,8 @@ class Compiler implements InjectionAwareInterface
          * Check for compilation options
          */
         let options = this->options;
-        if typeof options == "array" {
 
+        if typeof options == "array" {
             /**
              * Enable autoescape globally
              */
@@ -2120,6 +2152,7 @@ class Compiler implements InjectionAwareInterface
                 if typeof autoescape != "boolean" {
                     throw new Exception("'autoescape' must be bool");
                 }
+
                 let this->autoescape = autoescape;
             }
         }
@@ -2139,8 +2172,8 @@ class Compiler implements InjectionAwareInterface
          * Check if the template is extending another
          */
         let extended = this->extended;
-        if extended === true {
 
+        if extended === true {
             /**
              * Multiple-Inheritance is allowed
              */
@@ -2154,12 +2187,10 @@ class Compiler implements InjectionAwareInterface
             let extendedBlocks = this->extendedBlocks;
 
             for name, block in extendedBlocks {
-
                 /**
                  * If name is a string then is a block name
                  */
                 if typeof name == "string" {
-
                     if isset blocks[name] {
                         /**
                          * The block is set in the local template
@@ -2185,7 +2216,6 @@ class Compiler implements InjectionAwareInterface
                         let finalCompilation .= blockCompilation;
                     }
                 } else {
-
                     /**
                      * Here the block is an already compiled text
                      */
@@ -2207,6 +2237,7 @@ class Compiler implements InjectionAwareInterface
              */
             return this->blocks;
         }
+
         return compilation;
     }
 
@@ -2216,6 +2247,7 @@ class Compiler implements InjectionAwareInterface
     protected function getFinalPath(string path)
     {
         var view, viewsDirs, viewsDir;
+
         let view = this->view;
 
         if typeof view == "object" {
@@ -2230,7 +2262,6 @@ class Compiler implements InjectionAwareInterface
 
                 // Otherwise, take the last viewsDir
                 return viewsDir . path;
-
             } else {
                 return viewsDirs . path;
             }
@@ -2244,10 +2275,11 @@ class Compiler implements InjectionAwareInterface
      */
     final protected function resolveFilter(array! filter, string left) -> string
     {
-        var code, type, functionName, name, file, line,
-            extensions, filters, funcArguments, arguments, definition;
+        var code, type, functionName, name, file, line, extensions, filters,
+            funcArguments, arguments, definition;
 
-        let code = null, type = filter["type"];
+        let code = null,
+            type = filter["type"];
 
         /**
          * Check if the filter is a single identifier
@@ -2255,9 +2287,7 @@ class Compiler implements InjectionAwareInterface
         if type == PHVOLT_T_IDENTIFIER {
             let name = filter["value"];
         } else {
-
             if type != PHVOLT_T_FCALL {
-
                 /**
                  * Unknown filter throw an exception
                  */
@@ -2270,33 +2300,36 @@ class Compiler implements InjectionAwareInterface
                 name = functionName["value"];
         }
 
-        let funcArguments = null, arguments = null;
+        let funcArguments = null,
+            arguments = null;
 
         /**
          * Resolve arguments
          */
         if fetch funcArguments, filter["arguments"] {
-
             /**
              * "default" filter is not the first argument, improve this!
              */
             if name != "default" {
-
-                let file = filter["file"], line = filter["line"];
+                let file = filter["file"],
+                    line = filter["line"];
 
                 /**
                  * TODO: Implement this function directly
                  */
-                array_unshift(funcArguments, [
-                    "expr": [
-                        "type":  364,
-                        "value": left,
+                array_unshift(
+                    funcArguments,
+                    [
+                        "expr": [
+                            "type":  364,
+                            "value": left,
+                            "file":  file,
+                            "line":  line
+                        ],
                         "file": file,
                         "line": line
-                    ],
-                    "file": file,
-                    "line": line
-                ]);
+                    ]
+                );
             }
 
             let arguments = this->expression(funcArguments);
@@ -2309,12 +2342,16 @@ class Compiler implements InjectionAwareInterface
          * this filter
          */
         let extensions = this->extensions;
-        if typeof extensions == "array" {
 
+        if typeof extensions == "array" {
             /**
              * Notify the extensions about being compiling a function
              */
-            let code = this->fireExtensionEvent("compileFilter", [name, arguments, funcArguments]);
+            let code = this->fireExtensionEvent(
+                "compileFilter",
+                [name, arguments, funcArguments]
+            );
+
             if typeof code == "string" {
                 return code;
             }
@@ -2554,9 +2591,9 @@ class Compiler implements InjectionAwareInterface
      */
     final protected function statementList(array! statements, bool extendsMode = false) -> string
     {
-        var extended, blockMode, compilation, extensions,
-            statement, tempCompilation, type, blockName, blockStatements,
-            blocks, path, finalPath, subCompiler, level;
+        var extended, blockMode, compilation, extensions, statement,
+            tempCompilation, type, blockName, blockStatements, blocks, path,
+            finalPath, subCompiler, level;
 
         /**
          * Nothing to compile
@@ -2570,6 +2607,7 @@ class Compiler implements InjectionAwareInterface
          */
         let extended = this->extended;
         let blockMode = extended || extendsMode;
+
         if blockMode === true {
             let this->blockLevel++;
         }
@@ -2579,8 +2617,8 @@ class Compiler implements InjectionAwareInterface
         let compilation = null;
 
         let extensions = this->extensions;
-        for statement in statements {
 
+        for statement in statements {
             /**
              * All statements must be arrays
              */
@@ -2603,13 +2641,17 @@ class Compiler implements InjectionAwareInterface
              * statement
              */
             if typeof extensions == "array" {
-
                 /**
                  * Notify the extensions about being resolving a statement
                  */
-                let tempCompilation = this->fireExtensionEvent("compileStatement", [statement]);
+                let tempCompilation = this->fireExtensionEvent(
+                    "compileStatement",
+                    [statement]
+                );
+
                 if typeof tempCompilation == "string" {
                     let compilation .= tempCompilation;
+
                     continue;
                 }
             }
@@ -2678,8 +2720,8 @@ class Compiler implements InjectionAwareInterface
                     fetch blockStatements, statement["block_statements"];
 
                     let blocks = this->blocks;
-                    if blockMode {
 
+                    if blockMode {
                         if typeof blocks != "array" {
                             let blocks = [];
                         }
@@ -2698,7 +2740,6 @@ class Compiler implements InjectionAwareInterface
                          */
                         let blocks[blockName] = blockStatements;
                         let this->blocks = blocks;
-
                     } else {
                         if typeof blockStatements == "array" {
                             let compilation .= this->statementList(
@@ -2707,6 +2748,7 @@ class Compiler implements InjectionAwareInterface
                             );
                         }
                     }
+
                     break;
 
                 case PHVOLT_T_EXTENDS:
@@ -2716,7 +2758,9 @@ class Compiler implements InjectionAwareInterface
                      */
                     let path = statement["path"];
 
-                    let finalPath = this->getFinalPath(path["value"]);
+                    let finalPath = this->getFinalPath(
+                        path["value"]
+                    );
 
                     let extended = true;
 
@@ -2743,10 +2787,12 @@ class Compiler implements InjectionAwareInterface
                     let this->extended = true;
                     let this->extendedBlocks = tempCompilation;
                     let blockMode = extended;
+
                     break;
 
                 case PHVOLT_T_INCLUDE:
                     let compilation .= this->compileInclude(statement);
+
                     break;
 
                 case PHVOLT_T_CACHE:
@@ -2835,11 +2881,13 @@ class Compiler implements InjectionAwareInterface
          */
         if blockMode === true {
             let level = this->blockLevel;
+
             if level == 1 {
                 if typeof compilation != "null" {
                     let this->blocks[] = compilation;
                 }
             }
+
             let this->blockLevel--;
         }
 
@@ -2871,10 +2919,12 @@ class Compiler implements InjectionAwareInterface
          * statementList
          */
         let isStatementList = true;
+
         if !isset statements["type"] {
             for statement in statements {
                 if typeof statement != "array" {
                     let isStatementList = false;
+
                     break;
                 }
             }

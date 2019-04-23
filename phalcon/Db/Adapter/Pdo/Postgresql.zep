@@ -85,8 +85,9 @@ class Postgresql extends PdoAdapter
 
         let status = parent::connect(descriptor);
 
-        if ! empty schema {
+        if !empty schema {
             let sql = "SET search_path TO '" . schema . "'";
+
             this->execute(sql);
         }
 
@@ -98,7 +99,7 @@ class Postgresql extends PdoAdapter
      */
     public function createTable(string! tableName, string! schemaName, array! definition) -> bool
     {
-        var sql,queries,query,exception,columns;
+        var sql, queries, query, exception, columns;
 
         if !fetch columns, definition["columns"] {
             throw new Exception("The table must contain at least one column");
@@ -115,21 +116,24 @@ class Postgresql extends PdoAdapter
         if count(queries) > 1 {
             try {
                 this->{"begin"}();
+
                 for query in queries {
                     if empty query {
                         continue;
                     }
                     this->{"query"}(query . ";");
                 }
+
                 return this->{"commit"}();
             } catch \Throwable, exception {
-
                 this->{"rollback"}();
-                 throw exception;
-             }
+
+                throw exception;
+            }
         } else {
             return this->{"execute"}(queries[0] . ";");
         }
+
         return true;
     }
 
@@ -144,8 +148,8 @@ class Postgresql extends PdoAdapter
      */
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
-        var columns, columnType, fields, field, definition,
-            oldColumn, columnName, charSize, numericSize, numericScale;
+        var columns, columnType, fields, field, definition, oldColumn,
+            columnName, charSize, numericSize, numericScale;
 
         let oldColumn = null, columns = [];
 
@@ -164,7 +168,9 @@ class Postgresql extends PdoAdapter
             /**
              * By default the bind types is two
              */
-            let definition = ["bindType": Column::BIND_PARAM_STR];
+            let definition = [
+                "bindType": Column::BIND_PARAM_STR
+            ];
 
             /**
              * By checking every column type we convert it to a
@@ -198,6 +204,7 @@ class Postgresql extends PdoAdapter
                     let definition["type"] = Column::TYPE_BOOLEAN,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_BOOL;
+
                     break;
 
                 /**
@@ -207,6 +214,7 @@ class Postgresql extends PdoAdapter
                     let definition["type"] = Column::TYPE_BIGINTEGER,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_INT;
+
                     break;
 
                 /**
@@ -216,6 +224,7 @@ class Postgresql extends PdoAdapter
                     let definition["type"] = Column::TYPE_MEDIUMINTEGER,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_INT;
+
                     break;
 
                 /**
@@ -225,6 +234,7 @@ class Postgresql extends PdoAdapter
                     let definition["type"] = Column::TYPE_SMALLINTEGER,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_INT;
+
                     break;
 
                 /**
@@ -237,6 +247,7 @@ class Postgresql extends PdoAdapter
                     let definition["type"] = Column::TYPE_TINYINTEGER,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_INT;
+
                     break;
 
                 /**
@@ -255,6 +266,7 @@ class Postgresql extends PdoAdapter
                 case memstr(columnType, "bit"):
                     let definition["type"] = Column::TYPE_BIT,
                         definition["size"] = numericSize;
+
                     break;
 
                 /**
@@ -262,8 +274,8 @@ class Postgresql extends PdoAdapter
                  */
                 case memstr(columnType, "enum"):
                     let definition["type"] = Column::TYPE_ENUM;
-                    break;
 
+                    break;
 
                 /**
                  * DATE
@@ -271,6 +283,7 @@ class Postgresql extends PdoAdapter
                 case memstr(columnType, "datetime"):
                     let definition["type"] = Column::TYPE_DATETIME,
                         definition["size"] = 0;
+
                     break;
 
                 /**
@@ -279,6 +292,7 @@ class Postgresql extends PdoAdapter
                 case memstr(columnType, "date"):
                     let definition["type"] = Column::TYPE_DATE,
                         definition["size"] = 0;
+
                     break;
 
                 /**
@@ -291,6 +305,7 @@ class Postgresql extends PdoAdapter
                         definition["size"] = numericSize,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+
                     break;
 
                 /**
@@ -301,6 +316,7 @@ class Postgresql extends PdoAdapter
                         definition["isNumeric"] = true,
                         definition["size"] = numericSize,
                         definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+
                     break;
 
                 /**
@@ -312,6 +328,7 @@ class Postgresql extends PdoAdapter
                         definition["isNumeric"] = true,
                         definition["size"] = numericSize,
                         definition["bindType"] = Column::BIND_PARAM_DECIMAL;
+
                     break;
 
                 /**
@@ -319,6 +336,7 @@ class Postgresql extends PdoAdapter
                  */
                 case memstr(columnType, "mediumblob"):
                     let definition["type"] = Column::TYPE_TEXT;
+
                     break;
 
                 /**
@@ -326,6 +344,7 @@ class Postgresql extends PdoAdapter
                  */
                 case memstr(columnType, "longblob"):
                     let definition["type"] = Column::TYPE_LONGBLOB;
+
                     break;
 
                 /**
@@ -333,6 +352,7 @@ class Postgresql extends PdoAdapter
                  */
                 case memstr(columnType, "tinyblob"):
                     let definition["type"] = Column::TYPE_TINYBLOB;
+
                     break;
 
                 /**
@@ -340,6 +360,7 @@ class Postgresql extends PdoAdapter
                  */
                 case memstr(columnType, "blob"):
                     let definition["type"] = Column::TYPE_BLOB;
+
                     break;
 
                 /**
@@ -347,6 +368,7 @@ class Postgresql extends PdoAdapter
                  */
                 case memstr(columnType, "timestamp"):
                     let definition["type"] = Column::TYPE_TIMESTAMP;
+
                     break;
 
                 /**
@@ -354,6 +376,7 @@ class Postgresql extends PdoAdapter
                  */
                 case memstr(columnType, "time"):
                     let definition["type"] = Column::TYPE_TIME;
+
                     break;
 
                 /**
@@ -361,6 +384,7 @@ class Postgresql extends PdoAdapter
                  */
                 case memstr(columnType, "jsonb"):
                     let definition["type"] = Column::TYPE_JSONB;
+
                     break;
 
                 /**
@@ -368,6 +392,7 @@ class Postgresql extends PdoAdapter
                  */
                 case memstr(columnType, "json"):
                     let definition["type"] = Column::TYPE_JSON;
+
                     break;
 
                 /**
@@ -375,6 +400,7 @@ class Postgresql extends PdoAdapter
                  */
                 case memstr(columnType, "longtext"):
                     let definition["type"] = Column::TYPE_LONGTEXT;
+
                     break;
 
                 /**
@@ -382,6 +408,7 @@ class Postgresql extends PdoAdapter
                  */
                 case memstr(columnType, "mediumtext"):
                     let definition["type"] = Column::TYPE_MEDIUMTEXT;
+
                     break;
 
                 /**
@@ -389,6 +416,7 @@ class Postgresql extends PdoAdapter
                  */
                 case memstr(columnType, "tinytext"):
                     let definition["type"] = Column::TYPE_TINYTEXT;
+
                     break;
 
                 /**
@@ -396,6 +424,7 @@ class Postgresql extends PdoAdapter
                  */
                 case memstr(columnType, "text"):
                     let definition["type"] = Column::TYPE_TEXT;
+
                     break;
 
                 /**
@@ -405,6 +434,7 @@ class Postgresql extends PdoAdapter
                 case memstr(columnType, "varchar"):
                     let definition["type"] = Column::TYPE_VARCHAR,
                         definition["size"] = charSize;
+
                     break;
 
                 /**
@@ -413,6 +443,7 @@ class Postgresql extends PdoAdapter
                 case memstr(columnType, "char"):
                     let definition["type"] = Column::TYPE_CHAR,
                         definition["size"] = charSize;
+
                     break;
 
                 /**
@@ -421,6 +452,7 @@ class Postgresql extends PdoAdapter
                 case memstr(columnType, "uuid"):
                     let definition["type"] = Column::TYPE_CHAR,
                         definition["size"] = 36;
+
                     break;
 
                 /**
@@ -428,6 +460,7 @@ class Postgresql extends PdoAdapter
                  */
                 default:
                     let definition["type"] = Column::TYPE_VARCHAR;
+
                     break;
             }
 
@@ -498,16 +531,15 @@ class Postgresql extends PdoAdapter
      */
     public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
     {
-        var references, reference,
-            arrayReference, constraintName, referenceObjects, name,
-            referencedSchema, referencedTable, columns, referencedColumns,
-            referenceUpdate, referenceDelete;
+        var references, reference, arrayReference, constraintName,
+            referenceObjects, name, referencedSchema, referencedTable, columns,
+            referencedColumns, referenceUpdate, referenceDelete;
 
         let references = [];
 
         for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Db::FETCH_NUM) {
-
             let constraintName = reference[2];
+
             if !isset references[constraintName] {
                 let referencedSchema  = reference[3];
                 let referencedTable   = reference[4];
@@ -515,7 +547,6 @@ class Postgresql extends PdoAdapter
                 let referenceDelete   = reference[7];
                 let columns           = [];
                 let referencedColumns = [];
-
             } else {
                 let referencedSchema  = references[constraintName]["referencedSchema"];
                 let referencedTable   = references[constraintName]["referencedTable"];
@@ -539,6 +570,7 @@ class Postgresql extends PdoAdapter
         }
 
         let referenceObjects = [];
+
         for name, arrayReference in references {
             let referenceObjects[name] = new Reference(
                 name,
@@ -586,7 +618,7 @@ class Postgresql extends PdoAdapter
      */
     public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> bool
     {
-        var sql,queries,query,exception;
+        var sql, queries, query, exception;
 
         let sql = this->dialect->modifyColumn(
             tableName,
@@ -599,25 +631,26 @@ class Postgresql extends PdoAdapter
 
         if count(queries) > 1 {
             try {
-
                 this->{"begin"}();
+
                 for query in queries {
                     if empty query {
                         continue;
                     }
+
                     this->{"query"}(query . ";");
                 }
+
                 return this->{"commit"}();
-
             } catch \Throwable, exception {
-
                 this->{"rollback"}();
-                 throw exception;
-             }
 
+                throw exception;
+            }
         } else {
             return !empty sql ? this->{"execute"}(queries[0] . ";") : true;
         }
+
         return true;
     }
 

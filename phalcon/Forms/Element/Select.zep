@@ -26,11 +26,12 @@ class Select extends Element
      * Phalcon\Forms\Element constructor
      *
      * @param object|array options
-     * @param array attributes
+     * @param array        attributes
      */
     public function __construct(string name, options = null, attributes = null) -> void
     {
         let this->optionsValues = options;
+
         parent::__construct(name, attributes);
     }
 
@@ -86,6 +87,7 @@ class Select extends Element
     public function setOptions(var options) -> <Element>
     {
         let this->optionsValues = options;
+
         return this;
     }
 }

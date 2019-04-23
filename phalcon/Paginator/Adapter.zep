@@ -32,6 +32,7 @@ abstract class Adapter implements AdapterInterface
 
     /**
      * Repository for pagination
+     *
      * @var RepositoryInterface
      */
     protected repository;
@@ -44,15 +45,21 @@ abstract class Adapter implements AdapterInterface
         let this->config = config;
 
         if isset config["limit"] {
-            this->setLimit(config["limit"]);
+            this->setLimit(
+                config["limit"]
+            );
         }
 
         if isset config["page"] {
-            this->setCurrentPage(config["page"]);
+            this->setCurrentPage(
+                config["page"]
+            );
         }
 
         if isset config["repository"] {
-            this->setRepository(config["repository"]);
+            this->setRepository(
+                config["repository"]
+            );
         }
     }
 
@@ -70,6 +77,7 @@ abstract class Adapter implements AdapterInterface
     public function setCurrentPage(int page) -> <Adapter>
     {
         let this->page = page;
+
         return this;
     }
 
@@ -79,6 +87,7 @@ abstract class Adapter implements AdapterInterface
     public function setLimit(int limitRows) -> <Adapter>
     {
         let this->limitRows = limitRows;
+
         return this;
     }
 
@@ -88,6 +97,7 @@ abstract class Adapter implements AdapterInterface
     public function setRepository(<RepositoryInterface> repository) -> <Adapter>
     {
         let this->repository = repository;
+
         return this;
     }
 

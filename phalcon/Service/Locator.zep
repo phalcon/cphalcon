@@ -46,6 +46,7 @@ class Locator implements LocatorInterface
         var service;
 
         let service = this->get(name);
+
         return call_user_func_array(service, parameters);
     }
 

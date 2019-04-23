@@ -89,6 +89,7 @@ class Logger implements LoggerInterface
     public function __construct(string! name, array! adapters = []) -> void
     {
         let this->name = name;
+
         this->setAdapters(adapters);
     }
 
@@ -265,7 +266,7 @@ class Logger implements LoggerInterface
     /**
      * Logs with an arbitrary level.
      *
-     * @param mixed  $level
+     * @param mixed  level
      * @param string message
      * @param array  context
      *
@@ -370,6 +371,7 @@ class Logger implements LoggerInterface
         }
 
         let levels = this->getLevels();
+
         if !fetch levelName, levels[level] {
             let levelName = levels[self::CUSTOM];
         }
@@ -382,10 +384,14 @@ class Logger implements LoggerInterface
          * this message to. By default `excluded` is empty so the message will
          * be loggged to all registered adapters
          */
-         let keys = array_diff(array_keys(registered), excluded);
+        let keys = array_diff(
+            array_keys(registered),
+            excluded
+        );
 
         for key in keys {
             let adapter = registered[key];
+
             adapter->process(item);
         }
 
@@ -443,6 +449,6 @@ class Logger implements LoggerInterface
             }
         }
 
-         return self::CUSTOM;
+        return self::CUSTOM;
     }
 }

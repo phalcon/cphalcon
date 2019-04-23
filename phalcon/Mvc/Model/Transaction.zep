@@ -19,9 +19,10 @@ use Phalcon\Mvc\Model\TransactionInterface;
 /**
  * Phalcon\Mvc\Model\Transaction
  *
- * Transactions are protective blocks where SQL statements are only permanent if they can
- * all succeed as one atomic action. Phalcon\Transaction is intended to be used with Phalcon_Model_Base.
- * Phalcon Transactions should be created using Phalcon\Transaction\Manager.
+ * Transactions are protective blocks where SQL statements are only permanent if
+ * they can all succeed as one atomic action. Phalcon\Transaction is intended to
+ * be used with Phalcon_Model_Base. Phalcon Transactions should be created using
+ * Phalcon\Transaction\Manager.
  *
  * <code>
  * use Phalcon\Mvc\Model\Transaction\Failed;
@@ -112,6 +113,7 @@ class Transaction implements TransactionInterface
         var manager;
 
         let manager = this->manager;
+
         if typeof manager == "object" {
             manager->notifyCommit(this);
         }
@@ -129,6 +131,7 @@ class Transaction implements TransactionInterface
                 this->rollback("The request was aborted");
             }
         }
+
         return this->connection;
     }
 
@@ -164,18 +167,22 @@ class Transaction implements TransactionInterface
         var manager, connection;
 
         let manager = this->manager;
+
         if typeof manager == "object" {
             manager->notifyRollback(this);
         }
 
         let connection = this->connection;
+
         if connection->rollback() {
             if !rollbackMessage {
                 let rollbackMessage = "Transaction aborted";
             }
+
             if typeof rollbackRecord == "object" {
                 let this->rollbackRecord = rollbackRecord;
             }
+
             throw new TxFailed(rollbackMessage, this->rollbackRecord);
         }
 

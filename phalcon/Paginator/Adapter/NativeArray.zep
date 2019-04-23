@@ -58,7 +58,7 @@ class NativeArray extends Adapter
             throw new Exception("Invalid data for paginator");
         }
 
-        let show    = (int) this->limitRows,
+        let show       = (int) this->limitRows,
             pageNumber = (int) this->page;
 
         if pageNumber <= 0 {
@@ -91,15 +91,17 @@ class NativeArray extends Adapter
             let previous = 1;
         }
 
-        return this->getRepository([
-            RepositoryInterface::PROPERTY_ITEMS         : items,
-            RepositoryInterface::PROPERTY_TOTAL_ITEMS     : number,
-            RepositoryInterface::PROPERTY_LIMIT         : this->limitRows,
-            RepositoryInterface::PROPERTY_FIRST_PAGE     : 1,
-            RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
-            RepositoryInterface::PROPERTY_CURRENT_PAGE     : pageNumber,
-            RepositoryInterface::PROPERTY_NEXT_PAGE     : next,
-            RepositoryInterface::PROPERTY_LAST_PAGE     : totalPages
-        ]);
+        return this->getRepository(
+            [
+                RepositoryInterface::PROPERTY_ITEMS         : items,
+                RepositoryInterface::PROPERTY_TOTAL_ITEMS   : number,
+                RepositoryInterface::PROPERTY_LIMIT         : this->limitRows,
+                RepositoryInterface::PROPERTY_FIRST_PAGE    : 1,
+                RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
+                RepositoryInterface::PROPERTY_CURRENT_PAGE  : pageNumber,
+                RepositoryInterface::PROPERTY_NEXT_PAGE     : next,
+                RepositoryInterface::PROPERTY_LAST_PAGE     : totalPages
+            ]
+        );
     }
 }

@@ -200,6 +200,7 @@ class Group implements GroupInterface
      public function beforeMatch(callable beforeMatch) -> <GroupInterface>
     {
         let this->beforeMatch = beforeMatch;
+
         return this;
     }
 
@@ -257,6 +258,7 @@ class Group implements GroupInterface
     public function setHostname(string hostname) -> <GroupInterface>
     {
         let this->hostname = hostname;
+
         return this;
     }
 
@@ -266,6 +268,7 @@ class Group implements GroupInterface
     public function setPaths(var paths) -> <GroupInterface>
     {
         let this->paths = paths;
+
         return this;
     }
 
@@ -275,6 +278,7 @@ class Group implements GroupInterface
     public function setPrefix(string prefix) -> <GroupInterface>
     {
         let this->prefix = prefix;
+
         return this;
     }
 
@@ -291,7 +295,6 @@ class Group implements GroupInterface
         let defaultPaths = this->paths;
 
         if typeof defaultPaths == "array" {
-
             if typeof paths == "string" {
                 let processedPaths = Route::getRoutePaths(paths);
             } else {
@@ -317,6 +320,7 @@ class Group implements GroupInterface
             this->routes[] = route;
 
         route->setGroup(this);
+
         return route;
     }
 }

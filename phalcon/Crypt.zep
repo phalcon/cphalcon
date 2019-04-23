@@ -84,7 +84,6 @@ class Crypt implements CryptInterface
      */
     protected useSigning = true;
 
-
     /**
      * Phalcon\Crypt constructor.
      */
@@ -129,6 +128,7 @@ class Crypt implements CryptInterface
         this->assertCipherIsAvailable(cipher);
 
         let ivLength = this->ivLength;
+
         if likely ivLength > 0 {
             let blockSize = ivLength;
         } else {
@@ -232,6 +232,7 @@ class Crypt implements CryptInterface
         this->assertCipherIsAvailable(cipher);
 
         let ivLength = this->ivLength;
+
         if likely ivLength > 0 {
             let blockSize = ivLength;
         } else {
@@ -253,7 +254,13 @@ class Crypt implements CryptInterface
             let padded = text;
         }
 
-        let encrypted = openssl_encrypt(padded, cipher, encryptKey, OPENSSL_RAW_DATA, iv);
+        let encrypted = openssl_encrypt(
+            padded,
+            cipher,
+            encryptKey,
+            OPENSSL_RAW_DATA,
+            iv
+        );
 
         if this->useSigning {
             var digest, hashAlgo;
@@ -273,9 +280,21 @@ class Crypt implements CryptInterface
     public function encryptBase64(string! text, key = null, bool! safe = false) -> string
     {
         if safe == true {
-            return rtrim(strtr(base64_encode(this->encrypt(text, key)), "+/", "-_"), "=");
+            return rtrim(
+                strtr(
+                    base64_encode(
+                        this->encrypt(text, key)
+                    ),
+                    "+/",
+                    "-_"
+                ),
+                "="
+            );
         }
-        return base64_encode(this->encrypt(text, key));
+
+        return base64_encode(
+            this->encrypt(text, key)
+        );
     }
 
     /**
@@ -286,8 +305,10 @@ class Crypt implements CryptInterface
         var availableCiphers;
 
         let availableCiphers = this->availableCiphers;
+
         if unlikely typeof availableCiphers !== "array" {
             this->initializeAvailableCiphers();
+
             let availableCiphers = this->availableCiphers;
         }
 
@@ -387,6 +408,7 @@ class Crypt implements CryptInterface
     public function setKey(string! key) -> <CryptInterface>
     {
         let this->key = key;
+
         return this;
     }
 
@@ -396,6 +418,7 @@ class Crypt implements CryptInterface
     public function setPadding(int! scheme) -> <CryptInterface>
     {
         let this->padding = scheme;
+
         return this;
     }
 
@@ -490,8 +513,8 @@ class Crypt implements CryptInterface
         var paddingSize = 0, padding = null;
 
         if mode == "cbc" || mode == "ecb" {
-
             let paddingSize = blockSize - (strlen(text) % blockSize);
+
             if paddingSize >= 256 {
                 throw new Exception("Block size is bigger than 256");
             }
@@ -508,10 +531,13 @@ class Crypt implements CryptInterface
 
                 case self::PADDING_ISO_10126:
                     let padding = "";
+
                     for i in range(0, paddingSize - 2) {
                         let padding .= chr(rand());
                     }
+
                     let padding .= chr(paddingSize);
+
                     break;
 
                 case self::PADDING_ISO_IEC_7816_4:
@@ -561,32 +587,38 @@ class Crypt implements CryptInterface
         int i, paddingSize = 0, ord;
 
         let length = strlen(text);
-        if length > 0 && (length % blockSize == 0) && (mode == "cbc" || mode == "ecb") {
 
+        if length > 0 && (length % blockSize == 0) && (mode == "cbc" || mode == "ecb") {
             switch paddingType {
 
                 case self::PADDING_ANSI_X_923:
                     let last = substr(text, length - 1, 1);
                     let ord = (int) ord(last);
+
                     if ord <= blockSize {
                         let paddingSize = ord;
                         let padding = str_repeat(chr(0), paddingSize - 1) . last;
+
                         if substr(text, length - paddingSize) != padding {
                             let paddingSize = 0;
                         }
                     }
+
                     break;
 
                 case self::PADDING_PKCS7:
                     let last = substr(text, length - 1, 1);
                     let ord = (int) ord(last);
+
                     if ord <= blockSize {
                         let paddingSize = ord;
                         let padding = str_repeat(chr(paddingSize), paddingSize);
+
                         if substr(text, length - paddingSize) != padding {
                             let paddingSize = 0;
                         }
                     }
+
                     break;
 
                 case self::PADDING_ISO_10126:
@@ -596,28 +628,35 @@ class Crypt implements CryptInterface
 
                 case self::PADDING_ISO_IEC_7816_4:
                     let i = length - 1;
+
                     while i > 0 && text[i] == 0x00 && paddingSize < blockSize {
                         let paddingSize++, i--;
                     }
+
                     if text[i] == 0x80 {
                         let paddingSize++;
                     } else {
                         let paddingSize = 0;
                     }
+
                     break;
 
                 case self::PADDING_ZERO:
                     let i = length - 1;
+
                     while i >= 0 && text[i] == 0x00 && paddingSize <= blockSize {
                         let paddingSize++, i--;
                     }
+
                     break;
 
                 case self::PADDING_SPACE:
                     let i = length - 1;
+
                     while i >= 0 && text[i] == 0x20 && paddingSize <= blockSize {
                         let paddingSize++, i--;
                     }
+
                     break;
 
                 default:
@@ -625,12 +664,11 @@ class Crypt implements CryptInterface
             }
 
             if paddingSize && paddingSize <= blockSize {
-
                 if paddingSize < length {
                     return substr(text, 0, length - paddingSize);
                 }
-                return "";
 
+                return "";
             } else {
                 let paddingSize = 0;
             }

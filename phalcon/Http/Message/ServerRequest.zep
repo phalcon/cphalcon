@@ -336,6 +336,7 @@ class ServerRequest implements ServerRequestInterface
 
         if null === requestTarget {
             let requestTarget = this->uri->getPath();
+
             if true === this->uri->getQuery() {
                 let requestTarget .= this->uri->getQuery();
             }
@@ -791,6 +792,7 @@ class ServerRequest implements ServerRequestInterface
         var newInstance;
 
         let newInstance = clone this;
+
         if element !== this->{property} {
             let newInstance->{property} = element;
         }
@@ -817,8 +819,10 @@ class ServerRequest implements ServerRequestInterface
         }
 
         let valueData = [];
+
         for value in values {
             this->checkHeaderValue(value);
+
             let valueData[] = (string) value;
         }
 
@@ -833,6 +837,7 @@ class ServerRequest implements ServerRequestInterface
         var host;
 
         let host = uri->getHost();
+
         if null !== uri->getPort() {
             let host .= ":" . uri->getPort();
         }
@@ -867,8 +872,8 @@ class ServerRequest implements ServerRequestInterface
 
         if typeof headers === "array" {
             let collection = new Collection();
-            for name, value in headers {
 
+            for name, value in headers {
                 this->checkHeaderName(name);
 
                 let name  = (string) name,

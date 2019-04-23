@@ -95,6 +95,7 @@ class Micro extends Injectable implements \ArrayAccess
     public function after(handler) -> <Micro>
     {
         let this->afterHandlers[] = handler;
+
         return this;
     }
 
@@ -107,6 +108,7 @@ class Micro extends Injectable implements \ArrayAccess
     public function afterBinding(handler) -> <Micro>
     {
         let this->afterBindingHandlers[] = handler;
+
         return this;
     }
 
@@ -118,6 +120,7 @@ class Micro extends Injectable implements \ArrayAccess
     public function before(handler) -> <Micro>
     {
         let this->beforeHandlers[] = handler;
+
         return this;
     }
 
@@ -160,6 +163,7 @@ class Micro extends Injectable implements \ArrayAccess
     public function error(var handler) -> <Micro>
     {
         let this->errorHandler = handler;
+
         return this;
     }
 
@@ -171,6 +175,7 @@ class Micro extends Injectable implements \ArrayAccess
     public function finish(handler) -> <Micro>
     {
         let this->finishHandlers[] = handler;
+
         return this;
     }
 
@@ -264,8 +269,8 @@ class Micro extends Injectable implements \ArrayAccess
         var router;
 
         let router = this->router;
-        if typeof router != "object" {
 
+        if typeof router != "object" {
             let router = this->getSharedService("router");
 
             /**
@@ -297,8 +302,10 @@ class Micro extends Injectable implements \ArrayAccess
         var container;
 
         let container = this->container;
+
         if typeof container != "object" {
             let container = new FactoryDefault();
+
             let this->container = container;
         }
 
@@ -315,8 +322,10 @@ class Micro extends Injectable implements \ArrayAccess
         var container;
 
         let container = this->container;
+
         if typeof container != "object" {
             let container = new FactoryDefault();
+
             let this->container = container;
         }
 
@@ -339,6 +348,7 @@ class Micro extends Injectable implements \ArrayAccess
             afterBinding;
 
         let container = this->container;
+
         if typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("micro services")
@@ -346,13 +356,13 @@ class Micro extends Injectable implements \ArrayAccess
         }
 
         try {
-
             let returnedValue = null;
 
             /**
              * Calling beforeHandle routing
              */
             let eventsManager = this->eventsManager;
+
             if typeof eventsManager == "object" {
                 if eventsManager->fire("micro:beforeHandleRoute", this) === false {
                     return false;
@@ -373,8 +383,8 @@ class Micro extends Injectable implements \ArrayAccess
              * Check if one route was matched
              */
             let matchedRoute = router->getMatchedRoute();
-            if typeof matchedRoute == "object" {
 
+            if typeof matchedRoute == "object" {
                 if !fetch handler, this->handlers[matchedRoute->getRouteId()] {
                     throw new Exception(
                         "Matched route doesn't have an associated handler"
@@ -398,18 +408,16 @@ class Micro extends Injectable implements \ArrayAccess
                 }
 
                 let beforeHandlers = this->beforeHandlers;
-                if typeof beforeHandlers == "array" {
 
+                if typeof beforeHandlers == "array" {
                     let this->stopped = false;
 
                     /**
                      * Calls the before handlers
                      */
                     for before in beforeHandlers {
-
                         if typeof before == "object" {
                             if before instanceof MiddlewareInterface {
-
                                 /**
                                  * Call the middleware
                                  */
@@ -441,7 +449,7 @@ class Micro extends Injectable implements \ArrayAccess
                         /**
                          * break the execution if the middleware was stopped
                          */
-                        if  this->stopped {
+                        if this->stopped {
                             break;
                         }
                     }
@@ -462,8 +470,10 @@ class Micro extends Injectable implements \ArrayAccess
                  */
                 if typeof handler == "object" && handler instanceof \Closure {
                     let handler = \Closure::bind(handler, this);
+
                     if modelBinder != null {
                         let routeName = matchedRoute->getName();
+
                         if routeName != null {
                             let bindCacheKey = "_PHMB_" . routeName;
                         } else {
@@ -481,9 +491,7 @@ class Micro extends Injectable implements \ArrayAccess
                 /**
                  * Calling the Handler in the PHP userland
                  */
-
-                 if typeof handler == "array" {
-
+                if typeof handler == "array" {
                     let realHandler = handler[0];
 
                     if realHandler instanceof Controller && modelBinder != null {
@@ -531,6 +539,7 @@ class Micro extends Injectable implements \ArrayAccess
                 }
 
                 let afterBindingHandlers = this->afterBindingHandlers;
+
                 if typeof afterBindingHandlers == "array" {
                     let this->stopped = false;
 
@@ -538,9 +547,7 @@ class Micro extends Injectable implements \ArrayAccess
                      * Calls the after binding handlers
                      */
                     for afterBinding in afterBindingHandlers {
-
                         if typeof afterBinding == "object" && afterBinding instanceof MiddlewareInterface {
-
                             /**
                              * Call the middleware
                              */
@@ -575,8 +582,9 @@ class Micro extends Injectable implements \ArrayAccess
                             break;
                         }
                     }
+
                     /**
-                    * Reload the 'stopped' status
+                     * Reload the 'stopped' status
                      */
                     if this->stopped {
                         return status;
@@ -596,18 +604,16 @@ class Micro extends Injectable implements \ArrayAccess
                 }
 
                 let afterHandlers = this->afterHandlers;
-                if typeof afterHandlers == "array" {
 
+                if typeof afterHandlers == "array" {
                     let this->stopped = false;
 
                     /**
                      * Calls the after handlers
                      */
                     for after in afterHandlers {
-
                         if typeof after == "object" {
                             if after instanceof MiddlewareInterface {
-
                                 /**
                                  * Call the middleware
                                  */
@@ -642,11 +648,11 @@ class Micro extends Injectable implements \ArrayAccess
                 }
 
             } else {
-
                 /**
                  * Calling beforeNotFound event
                  */
                 let eventsManager = this->eventsManager;
+
                 if typeof eventsManager == "object" {
                     if eventsManager->fire("micro:beforeNotFound", this) === false {
                         return false;
@@ -657,6 +663,7 @@ class Micro extends Injectable implements \ArrayAccess
                  * Check if a notfoundhandler is defined and it's callable
                  */
                 let notFoundHandler = this->notFoundHandler;
+
                 if !is_callable(notFoundHandler) {
                     throw new Exception(
                         "Not-Found handler is not callable or is not defined"
@@ -677,8 +684,8 @@ class Micro extends Injectable implements \ArrayAccess
             }
 
             let finishHandlers = this->finishHandlers;
-            if typeof finishHandlers == "array" {
 
+            if typeof finishHandlers == "array" {
                 let this->stopped = false;
 
                 let params = null;
@@ -687,14 +694,11 @@ class Micro extends Injectable implements \ArrayAccess
                  * Calls the finish handlers
                  */
                 for finish in finishHandlers {
-
                     /**
                      * Try to execute middleware as plugins
                      */
                     if typeof finish == "object" {
-
                         if finish instanceof MiddlewareInterface {
-
                             /**
                              * Call the middleware
                              */
@@ -734,23 +738,26 @@ class Micro extends Injectable implements \ArrayAccess
                     }
                 }
             }
-
         } catch \Throwable, e {
-
             /**
              * Calling beforeNotFound event
              */
             let eventsManager = this->eventsManager;
+
             if typeof eventsManager == "object" {
-                let returnedValue = eventsManager->fire("micro:beforeException", this, e);
+                let returnedValue = eventsManager->fire(
+                    "micro:beforeException",
+                    this,
+                    e
+                );
             }
 
             /**
              * Check if an errorhandler is defined and it's callable
              */
             let errorHandler = this->errorHandler;
-            if errorHandler {
 
+            if errorHandler {
                 if !is_callable(errorHandler) {
                     throw new Exception("Error handler is not callable");
                 }
@@ -758,7 +765,11 @@ class Micro extends Injectable implements \ArrayAccess
                 /**
                  * Call the Error handler
                  */
-                let returnedValue = call_user_func_array(errorHandler, [e]);
+                let returnedValue = call_user_func_array(
+                    errorHandler,
+                    [e]
+                );
+
                 if typeof returnedValue == "object" {
                     if !(returnedValue instanceof ResponseInterface) {
                         throw e;
@@ -768,7 +779,6 @@ class Micro extends Injectable implements \ArrayAccess
                         throw e;
                     }
                 }
-
             } else {
                 if returnedValue !== false {
                     throw e;
@@ -776,13 +786,11 @@ class Micro extends Injectable implements \ArrayAccess
             }
         }
 
-
         /**
          * Check if a response handler is defined, else use default response
          * handler
          */
         if this->responseHandler {
-
             if !is_callable(this->responseHandler) {
                 throw new Exception(
                     "Response handler is not callable or is not defined"
@@ -790,15 +798,14 @@ class Micro extends Injectable implements \ArrayAccess
             }
 
             let returnedValue = call_user_func(this->responseHandler);
-
         } else {
-
             /**
              * Check if the returned value is a string and take it as response
              * body
              */
             if typeof returnedValue == "string" {
                 let response = <ResponseInterface> container->getShared("response");
+
                 if !response->isSent() {
                     response->setContent(returnedValue);
                     response->send();
@@ -828,8 +835,10 @@ class Micro extends Injectable implements \ArrayAccess
         var container;
 
         let container = this->container;
+
         if typeof container != "object" {
             let container = new FactoryDefault();
+
             let this->container = container;
         }
 
@@ -908,17 +917,18 @@ class Micro extends Injectable implements \ArrayAccess
          * Get the main handler
          */
         let mainHandler = collection->getHandler();
+
         if empty mainHandler {
             throw new Exception("Collection requires a main handler");
         }
 
         let handlers = collection->getHandlers();
+
         if !count(handlers) {
             throw new Exception("There are no handlers to mount");
         }
 
         if typeof handlers == "array" {
-
             /**
              * Check if handler is lazy
              */
@@ -934,7 +944,6 @@ class Micro extends Injectable implements \ArrayAccess
             let prefix = collection->getPrefix();
 
             for handler in handlers {
-
                 if typeof handler != "array" {
                     throw new Exception(
                         "One of the registered handlers is invalid"
@@ -988,6 +997,7 @@ class Micro extends Injectable implements \ArrayAccess
     public function notFound(var handler) -> <Micro>
     {
         let this->notFoundHandler = handler;
+
         return this;
     }
 
@@ -1039,8 +1049,10 @@ class Micro extends Injectable implements \ArrayAccess
         var container;
 
         let container = this->container;
+
         if typeof container != "object" {
             let container = new FactoryDefault();
+
             let this->container = container;
         }
 
@@ -1206,6 +1218,7 @@ class Micro extends Injectable implements \ArrayAccess
 
         if typeof cache == "string" {
             let container = this->container;
+
             let cache = container->get(cache);
         }
 
@@ -1227,6 +1240,7 @@ class Micro extends Injectable implements \ArrayAccess
     public function setResponseHandler(handler) -> <Micro>
     {
         let this->responseHandler = handler;
+
         return this;
     }
 
@@ -1238,8 +1252,10 @@ class Micro extends Injectable implements \ArrayAccess
         var container;
 
         let container = this->container;
+
         if typeof container != "object" {
             let container = new FactoryDefault();
+
             let this->container = container;
         }
 

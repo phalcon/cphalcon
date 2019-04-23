@@ -77,9 +77,9 @@ class FilterLocator extends Locator
          * The above should produce "-had-a-little-lamb"
          */
 
-         /**
-          * Filter is an array
-          */
+        /**
+         * Filter is an array
+         */
         if typeof sanitizers == "array" {
             /**
              * Null value - return immediately
@@ -146,6 +146,7 @@ class FilterLocator extends Locator
         var arrayValue, itemKey, itemValue;
 
         let arrayValue = [];
+
         for itemKey, itemValue in values {
             let arrayValue[itemKey] = this->sanitizer(
                 itemValue,

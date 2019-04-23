@@ -39,13 +39,15 @@ class Introspection implements StrategyInterface
          * Check for a columnMap() method on the model
          */
         if method_exists(model, "columnMap") {
-
             let userColumnMap = model->{"columnMap"}();
+
             if typeof userColumnMap != "array" {
                 throw new Exception("columnMap() not returned an array");
             }
 
-            let reversedColumnMap = [], orderedColumnMap = userColumnMap;
+            let reversedColumnMap = [],
+                orderedColumnMap = userColumnMap;
+
             for name, userName in userColumnMap {
                 let reversedColumnMap[userName] = name;
             }
@@ -62,13 +64,13 @@ class Introspection implements StrategyInterface
      */
     final public function getMetaData(<ModelInterface> model, <DiInterface> container) -> array
     {
-        var schema, table, readConnection, columns, attributes,
-            primaryKeys, nonPrimaryKeys, completeTable, numericTyped, notNull,
-            fieldTypes, automaticDefault, identityField, fieldBindTypes,
-            defaultValues, column, fieldName, defaultValue, emptyStringValues;
+        var schema, table, readConnection, columns, attributes, primaryKeys,
+            nonPrimaryKeys, completeTable, numericTyped, notNull, fieldTypes,
+            automaticDefault, identityField, fieldBindTypes, defaultValues,
+            column, fieldName, defaultValue, emptyStringValues;
 
-        let schema    = model->getSchema(),
-            table     = model->getSource();
+        let schema = model->getSchema(),
+            table  = model->getSource();
 
         /**
          * Check if the mapped table exists on the database
@@ -76,7 +78,6 @@ class Introspection implements StrategyInterface
         let readConnection = model->getReadConnection();
 
         if !readConnection->tableExists(table, schema) {
-
             if schema {
                 let completeTable = schema . "'.'" . table;
             } else {
@@ -95,8 +96,8 @@ class Introspection implements StrategyInterface
          * Try to describe the table
          */
         let columns = readConnection->describeColumns(table, schema);
-        if !count(columns) {
 
+        if !count(columns) {
             if schema {
                 let completeTable = schema . "'.'" . table;
             } else {
@@ -127,7 +128,6 @@ class Introspection implements StrategyInterface
         let emptyStringValues = [];
 
         for column in columns {
-
             let fieldName = column->getName(),
                 attributes[] = fieldName;
 
@@ -175,6 +175,7 @@ class Introspection implements StrategyInterface
              * If column has default value or column is nullable and default value is null
              */
             let defaultValue = column->getDefault();
+
             if defaultValue !== null || !column->isNotNull() {
                 if !column->isAutoIncrement() {
                     let defaultValues[fieldName] = defaultValue;

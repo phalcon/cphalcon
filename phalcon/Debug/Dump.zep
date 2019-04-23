@@ -108,6 +108,7 @@ class Dump
         ];
 
         let this->styles = array_merge(defaultStyles, styles);
+
         return this->styles;
     }
 
@@ -144,10 +145,13 @@ class Dump
      */
     public function variable(var variable, string name = null) -> string
     {
-        return strtr("<pre style=':style'>:output</pre>", [
-            ":style": this->getStyle("pre"),
-            ":output": this->output(variable, name)
-        ]);
+        return strtr(
+            "<pre style=':style'>:output</pre>",
+            [
+                ":style":  this->getStyle("pre"),
+                ":output": this->output(variable, name)
+            ]
+        );
     }
 
     /**
@@ -170,8 +174,12 @@ class Dump
         var key, value, output;
 
         let output = "";
+
         for key, value in func_get_args() {
-            let output .= this->one(value, "var " . key);
+            let output .= this->one(
+                value,
+                "var " . key
+            );
         }
 
         return output;
@@ -197,6 +205,7 @@ class Dump
     protected function output(var variable, string name = null, int tab = 1) -> string
     {
         var key, value, output, space, type, attr;
+
         let space = "  ",
             output = "";
 
@@ -222,6 +231,7 @@ class Dump
                     let output .= this->output(value, "", tab + 1) . "\n";
                 }
             }
+
             return output . str_repeat(space, tab - 1) . ")";
         }
 
@@ -297,6 +307,7 @@ class Dump
                         let output .= str_repeat(space, tab + 1) . strtr("-><span style=':style'>:method</span>();\n", [":style": this->getStyle("obj"), ":method": value]);
                     }
                 }
+
                 let output .= str_repeat(space, tab) . ")\n";
             }
 

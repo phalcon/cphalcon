@@ -117,7 +117,10 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
     public function callActionMethod(handler, string actionMethod, array! params = [])
     {
-        return call_user_func_array([handler, actionMethod], params);
+        return call_user_func_array(
+            [handler, actionMethod],
+            params
+        );
     }
 
     /**
@@ -134,13 +137,12 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     {
         bool hasService, hasEventsManager;
         int numberDispatches;
-        var value, handler, container, namespaceName, handlerName,
-            actionName, params, eventsManager,
-            handlerClass, status, actionMethod,
-            modelBinder, bindCacheKey,
-            isNewHandler, handlerHash, e;
+        var value, handler, container, namespaceName, handlerName, actionName,
+            params, eventsManager, handlerClass, status, actionMethod,
+            modelBinder, bindCacheKey, isNewHandler, handlerHash, e;
 
         let container = <DiInterface> this->container;
+
         if typeof container != "object" {
             this->{"throwDispatchException"}(
                 PhalconException::containerServiceNotFound(
@@ -148,6 +150,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 ),
                 self::EXCEPTION_NO_DI
             );
+
             return false;
         }
 
@@ -180,6 +183,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                  */
 
                 let status = this->{"handleException"}(e);
+
                 if this->finished !== false {
                     // No forwarding
                     if status === false {
@@ -214,6 +218,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             }
 
             let this->finished = true;
+
             this->resolveEmptyProperties();
 
             if hasEventsManager {
@@ -238,6 +243,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
              * Container
              */
             let hasService = (bool) container->has(handlerClass);
+
             if !hasService {
                 /**
                  * DI doesn't have a service with that name, try to load it
@@ -256,6 +262,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 if status === false && this->finished === false {
                     continue;
                 }
+
                 break;
             }
 
@@ -271,12 +278,15 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 if status === false && this->finished === false {
                     continue;
                 }
+
                 break;
             }
 
             // Check if the handler is new (hasn't been initialized).
             let handlerHash = spl_object_hash(handler);
+
             let isNewHandler = !(isset this->handlerHashes[handlerHash]);
+
             if isNewHandler {
                 let this->handlerHashes[handlerHash] = true;
             }
@@ -303,6 +313,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 if status === false && this->finished === false {
                     continue;
                 }
+
                 break;
             }
 
@@ -358,6 +369,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 } catch Exception, e {
                     if this->{"handleException"}(e) === false || this->finished === false {
                         container->remove(handlerClass);
+
                         continue;
                     }
 
@@ -370,11 +382,13 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                     // Calling "beforeExecuteRoute" as direct method
                     if handler->beforeExecuteRoute(this) === false || this->finished === false {
                         container->remove(handlerClass);
+
                         continue;
                     }
                 } catch Exception, e {
                     if this->{"handleException"}(e) === false || this->finished === false {
                         container->remove(handlerClass);
+
                         continue;
                     }
 
@@ -384,7 +398,6 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
             /**
              * Call the "initialize" method just once per request
-             *
              *
              * Note: The `dispatch:afterInitialize` event is called regardless
              *       of the presence of an `initialize()` method. The naming is
@@ -404,8 +417,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 if method_exists(handler, "initialize") {
                     try {
                         let this->isControllerInitialize = true;
-                        handler->initialize();
 
+                        handler->initialize();
                     } catch Exception, e {
                         let this->isControllerInitialize = false;
 
@@ -782,6 +795,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
         var params, filter, paramValue, container;
 
         let params = this->params;
+
         if !fetch paramValue, params[param] {
             return defaultValue;
         }
@@ -791,6 +805,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
         }
 
         let container = this->container;
+
         if typeof container != "object" {
             this->{"throwDispatchException"}(
                 PhalconException::containerServiceNotFound(
@@ -799,8 +814,10 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
                 self::EXCEPTION_NO_DI
             );
         }
+
         let filter = <LocatorInterface> container->getShared("filter");
 //        let filter = <FilterInterface> container->getShared("filter");
+
         return filter->sanitize(paramValue, filters);
     }
 
@@ -867,8 +884,8 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
      */
     public function getHandlerClass() -> string
     {
-        var handlerSuffix, handlerName, namespaceName,
-            camelizedClass, handlerClass;
+        var handlerSuffix, handlerName, namespaceName, camelizedClass,
+            handlerClass;
 
         this->resolveEmptyProperties();
 
@@ -954,7 +971,10 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
      *     function() {
      *         $dispatcher = new Dispatcher();
      *
-     *         $dispatcher->setModelBinder(new Binder(), 'cache');
+     *         $dispatcher->setModelBinder(
+     *             new Binder(),
+     *             'cache'
+     *         );
      *
      *         return $dispatcher;
      *     }
@@ -967,6 +987,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
         if typeof cache == "string" {
             let container = this->container;
+
             let cache = container->get(cache);
         }
 

@@ -80,7 +80,7 @@ class Libmemcached extends Noop
             ),
             [
                 "servers"       : servers,
-                "client"         : client,
+                "client"        : client,
                 "prefix"        : prefix,
                 "statsKey"      : statsKey,
                 "persistent_id" : persistentId
@@ -91,6 +91,7 @@ class Libmemcached extends Noop
     public function destroy(var id) -> bool
     {
         var name = this->getPrefixedName(id);
+
         if (true !== empty(name) && this->connection->exists(name)) {
             return (bool) this->connection->delete(name);
         }

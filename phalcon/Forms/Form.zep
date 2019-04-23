@@ -57,6 +57,7 @@ class Form extends Injectable implements \Countable, \Iterator
             if typeof entity != "object" {
                 throw new Exception("The base entity is not valid");
             }
+
             let this->entity = entity;
         }
 
@@ -106,12 +107,14 @@ class Form extends Injectable implements \Countable, \Iterator
                         /**
                          * Add the element before position
                          */
-                        let elements[name] = element, elements[key] = value;
+                        let elements[name] = element,
+                            elements[key] = value;
                     } else {
                         /**
                          * Add the element after position
                          */
-                        let elements[key] = value, elements[name] = element;
+                        let elements[key] = value,
+                            elements[name] = element;
                     }
                 } else {
                     /**
@@ -120,8 +123,10 @@ class Form extends Injectable implements \Countable, \Iterator
                     let elements[key] = value;
                 }
             }
+
             let this->elements = elements;
         }
+
         return this;
     }
 
@@ -165,7 +170,6 @@ class Form extends Injectable implements \Countable, \Iterator
             let filters = element->getFilters();
 
             if filters {
-
                 if typeof filter != "object" {
                     let container = this->getDI(),
                         filter = <LocatorInterface> container->getShared("filter");
@@ -186,6 +190,7 @@ class Form extends Injectable implements \Countable, \Iterator
             let method = "set" . camelize(key);
             if method_exists(entity, method) {
                 entity->{method}(filteredValue);
+
                 continue;
             }
 
@@ -210,6 +215,7 @@ class Form extends Injectable implements \Countable, \Iterator
         var elements, element, data, field;
 
         let data = this->data;
+
         if fields === null {
             let data = [];
         } else {
@@ -389,6 +395,7 @@ class Form extends Injectable implements \Countable, \Iterator
              */
             if unlikely byItemName {
                 let messagesByItem = [];
+
                 messages->rewind();
 
                 while messages->valid() {
@@ -407,8 +414,10 @@ class Form extends Injectable implements \Countable, \Iterator
 
                         messages->next();
                 }
+
                 return messagesByItem;
             }
+
             return messages;
         }
 
@@ -423,6 +432,7 @@ class Form extends Injectable implements \Countable, \Iterator
         if this->has(name) {
             return this->get(name)->getMessages();
         }
+
         return new Messages();
     }
 
@@ -464,7 +474,6 @@ class Form extends Injectable implements \Countable, \Iterator
         }
 
         if typeof entity == "object" {
-
             /**
              * Check if the entity has a getter
              */
@@ -482,7 +491,6 @@ class Form extends Injectable implements \Countable, \Iterator
         }
 
         if typeof data == "array" {
-
             /**
              * Check if the data is in the data array
              */
@@ -492,18 +500,18 @@ class Form extends Injectable implements \Countable, \Iterator
         }
 
         let forbidden = [
-            "validation" : true,
-            "action" : true,
-            "useroption" : true,
-            "useroptions" : true,
-            "entity" : true,
-            "elements" : true,
-            "messages" : true,
-            "messagesfor" : true,
-            "label" : true,
-            "value" : true,
-            "di" : true,
-            "eventsmanager" : true
+            "validation":    true,
+            "action":        true,
+            "useroption":    true,
+            "useroptions":   true,
+            "entity":        true,
+            "elements":      true,
+            "messages":      true,
+            "messagesfor":   true,
+            "label":         true,
+            "value":         true,
+            "di":            true,
+            "eventsmanager": true
         ];
 
         /**
@@ -611,8 +619,8 @@ class Form extends Injectable implements \Countable, \Iterator
         }
 
         for element in this->elements {
-
             let validators = element->getValidators();
+
             if count(validators) == 0 {
                 continue;
             }
@@ -651,7 +659,9 @@ class Form extends Injectable implements \Countable, \Iterator
             for elementMessage in iterator(messages) {
                 this->get(elementMessage->getField())->appendMessage(elementMessage);
             }
+
             messages->rewind();
+
             let validationStatus = false;
         }
 
@@ -733,6 +743,7 @@ class Form extends Injectable implements \Countable, \Iterator
          */
         if isset this->elements[name] {
             unset this->elements[name];
+
             return true;
         }
 
@@ -760,6 +771,7 @@ class Form extends Injectable implements \Countable, \Iterator
     public function setAction(string! action) -> <Form>
     {
         let this->action = action;
+
         return this;
     }
 
@@ -771,6 +783,7 @@ class Form extends Injectable implements \Countable, \Iterator
     public function setEntity(var entity) -> <Form>
     {
         let this->entity = entity;
+
         return this;
     }
 
@@ -780,6 +793,7 @@ class Form extends Injectable implements \Countable, \Iterator
     public function setUserOption(string option, var value) -> <Form>
     {
         let this->options[option] = value;
+
         return this;
     }
 
@@ -789,6 +803,7 @@ class Form extends Injectable implements \Countable, \Iterator
     public function setUserOptions(array! options) -> <Form>
     {
         let this->options = options;
+
         return this;
     }
 

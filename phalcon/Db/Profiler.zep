@@ -126,6 +126,7 @@ class Profiler
     public function reset() -> <Profiler>
     {
         let this->allProfiles = [];
+
         return this;
     }
 

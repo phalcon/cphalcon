@@ -25,8 +25,8 @@ use Phalcon\Mvc\Model\TransactionInterface;
  * them.
  *
  * This class manages the objects that compose a transaction.
- * A transaction produces a unique connection that is passed to every
- * object part of the transaction.
+ * A transaction produces a unique connection that is passed to every object
+ * part of the transaction.
  *
  * <code>
  * use Phalcon\Mvc\Model\Transaction\Failed;
@@ -66,7 +66,6 @@ use Phalcon\Mvc\Model\TransactionInterface;
  */
 class Manager implements ManagerInterface, InjectionAwareInterface
 {
-
     protected container;
 
     protected initialized = false;
@@ -107,10 +106,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         var transactions;
 
         let transactions = this->transactions;
+
         if count(transactions) {
             for _ in transactions {
                 let this->number--;
             }
+
             let this->transactions = null;
         }
     }
@@ -121,10 +122,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     public function commit()
     {
         var transactions, transaction, connection;
+
         let transactions = this->transactions;
+
         if typeof transactions == "array" {
             for transaction in transactions {
                 let connection = transaction->getConnection();
+
                 if connection->isUnderTransaction() {
                     connection->commit();
                 }
@@ -140,10 +144,17 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     {
         if !this->initialized {
             if this->rollbackPendent {
-                register_shutdown_function([this, "rollbackPendent"]);
+                register_shutdown_function(
+                    [
+                        this,
+                        "rollbackPendent"
+                    ]
+                );
             }
+
             let this->initialized = true;
         }
+
         return this->getOrCreateTransaction(autoBegin);
     }
 
@@ -171,6 +182,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         var container, transaction, transactions;
 
         let container = <DiInterface> this->container;
+
         if typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
@@ -181,10 +193,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
         if this->number {
             let transactions = this->transactions;
+
             if typeof transactions == "array" {
                 for transaction in reverse transactions {
                     if typeof transaction == "object" {
                         transaction->setIsNewTransaction(false);
+
                         return transaction;
                     }
                 }
@@ -241,13 +255,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         var transactions, transaction, connection;
 
         let transactions = this->transactions;
+
         if typeof transactions == "array" {
             for transaction in transactions {
                 let connection = transaction->getConnection();
+
                 if connection->isUnderTransaction() {
                     connection->rollback();
                     connection->close();
                 }
+
                 if collect {
                     this->collectTransaction(transaction);
                 }
@@ -269,6 +286,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     public function setDbService(string! service) -> <ManagerInterface>
     {
         let this->service = service;
+
         return this;
     }
 
@@ -287,6 +305,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     public function setRollbackPendent(bool rollbackPendent) -> <ManagerInterface>
     {
         let this->rollbackPendent = rollbackPendent;
+
         return this;
     }
 
@@ -298,16 +317,18 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         var transactions, newTransactions, managedTransaction;
 
         let transactions = this->transactions;
+
         if count(transactions) {
             let newTransactions = [];
+
             for managedTransaction in transactions {
                 if managedTransaction != transaction {
                     let newTransactions[] = transaction;
-                }
-                else {
+                } else {
                     let this->number--;
                 }
             }
+
             let this->transactions = newTransactions;
         }
     }

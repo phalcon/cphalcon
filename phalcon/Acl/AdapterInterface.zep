@@ -80,7 +80,7 @@ interface AdapterInterface
 
     /**
      * Returns the default ACL access level for no arguments provided in
-      *isAllowed action if there exists func for accessKey
+     * isAllowed action if there exists func for accessKey
      */
     public function getNoArgumentsDefaultAction() -> int;
 

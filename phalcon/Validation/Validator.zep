@@ -84,6 +84,7 @@ abstract class Validator implements ValidatorInterface
         var code;
 
         let code = this->getOption("code");
+
         if typeof code == "array" {
             let code = code[field];
         }
@@ -99,6 +100,7 @@ abstract class Validator implements ValidatorInterface
         var label;
 
         let label = this->getOption("label");
+
         if typeof label == "array" {
             let label = label[field];
         }
@@ -118,6 +120,7 @@ abstract class Validator implements ValidatorInterface
         var message;
 
         let message = this->getOption(option);
+
         if typeof message == "array" {
             let message = message[field];
         }

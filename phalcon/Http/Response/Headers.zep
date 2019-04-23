@@ -27,12 +27,15 @@ class Headers implements HeadersInterface
     public static function __set_state(array! data) -> <HeadersInterface>
     {
         var headers, key, value, dataHeaders;
+
         let headers = new self();
+
         if fetch dataHeaders, data["headers"] {
             for key, value in dataHeaders {
                 headers->set(key, value);
             }
         }
+
         return headers;
     }
 
@@ -42,6 +45,7 @@ class Headers implements HeadersInterface
     public function get(string name) -> string | bool
     {
         var headers, headerValue;
+
         let headers = this->headers;
 
         if fetch headerValue, headers[name] {

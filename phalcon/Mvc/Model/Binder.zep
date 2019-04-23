@@ -81,7 +81,12 @@ class Binder implements BinderInterface
             return params;
         }
 
-        return this->getParamsFromReflection(handler, params, cacheKey, methodName);
+        return this->getParamsFromReflection(
+            handler,
+            params,
+            cacheKey,
+            methodName
+        );
     }
 
     /**
@@ -128,8 +133,9 @@ class Binder implements BinderInterface
      */
     protected function getParamsFromReflection(object handler, array params, string cacheKey, string! methodName) -> array
     {
-        var methodParams, reflection, paramKey, methodParam, paramsCache, className, realClasses = null,
-            boundModel, cache, handlerClass, reflectionClass, paramsKeys, paramValue;
+        var methodParams, reflection, paramKey, methodParam, paramsCache,
+            className, realClasses = null, boundModel, cache, handlerClass,
+            reflectionClass, paramsKeys, paramValue;
 
         let paramsCache = [];
 
@@ -220,5 +226,4 @@ class Binder implements BinderInterface
 
         return this;
     }
-
 }

@@ -77,6 +77,10 @@ class Apcu extends MetaData
      */
     public function write(string! key, array data) -> void
     {
-        apcu_store("$PMM$" . this->prefix . key, data, this->ttl);
+        apcu_store(
+            "$PMM$" . this->prefix . key,
+            data,
+            this->ttl
+        );
     }
 }

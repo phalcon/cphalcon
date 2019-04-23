@@ -194,7 +194,9 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
     protected function handleException(<\Exception> exception)
     {
         var eventsManager;
+
         let eventsManager = <ManagerInterface> this->eventsManager;
+
         if typeof eventsManager == "object" {
             if eventsManager->fire("dispatch:beforeException", this, exception) === false {
                 return false;

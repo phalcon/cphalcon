@@ -31,6 +31,7 @@ abstract class Factory implements FactoryInterface
 
         if fetch adapter, config["adapter"] {
             unset config["adapter"];
+
             let className = namespaceClass . "\\" . adapter;
 
             return new {className}(config);

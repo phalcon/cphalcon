@@ -69,6 +69,7 @@ class Identical extends Validator
 
         if this->hasOption("accepted") {
             let accepted = this->getOption("accepted");
+
             if typeof accepted == "array" {
                 let accepted = accepted[field];
             }
@@ -77,6 +78,7 @@ class Identical extends Validator
         } else {
             if this->hasOption("value") {
                 let valueOption = this->getOption("value");
+
                 if typeof valueOption == "array" {
                     let valueOption = valueOption[field];
                 }

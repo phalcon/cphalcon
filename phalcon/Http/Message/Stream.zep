@@ -87,6 +87,7 @@ class Stream implements StreamInterface
 
         if null !== this->handle {
             let handle = this->detach();
+
             fclose(handle);
         }
     }
@@ -170,6 +171,7 @@ class Stream implements StreamInterface
 
         if null !== this->handle {
             let stats = fstat(this->handle);
+
             if false !== stats {
                 return Arr::get(stats, "size", null);
             }
@@ -278,7 +280,9 @@ class Stream implements StreamInterface
                     let this->warning = true;
                 }
             );
+
             let handle = fopen(stream, mode);
+
             restore_error_handler();
         }
 
@@ -300,6 +304,7 @@ class Stream implements StreamInterface
         var position;
 
         this->checkHandle();
+
         let position = ftell(this->handle);
 
         if typeof position !== "int" {

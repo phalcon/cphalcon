@@ -89,6 +89,7 @@ class Security implements InjectionAwareInterface
         let cryptedHash .= passwordHash;
 
         let sum = cryptedLength - passwordLength;
+
         for i, ch in passwordHash {
             let sum = sum | (cryptedHash[i] ^ ch);
         }
@@ -115,7 +116,9 @@ class Security implements InjectionAwareInterface
         let session = <SessionInterface> container->getShared("session");
 
         if !tokenKey {
-            let tokenKey = session->get(this->tokenKeySessionId);
+            let tokenKey = session->get(
+                this->tokenKeySessionId
+            );
         }
 
         /**
@@ -140,6 +143,7 @@ class Security implements InjectionAwareInterface
          * The value is the same?
          */
         let knownToken = this->getRequestToken();
+
         let equals = hash_equals(knownToken, userToken);
 
         /**
@@ -207,6 +211,7 @@ class Security implements InjectionAwareInterface
     {
         return this->defaultHash;
     }
+
     /**
      * Returns the internal dependency injector
      */
@@ -240,6 +245,7 @@ class Security implements InjectionAwareInterface
         if empty this->requestToken {
             return this->getSessionToken();
         }
+
         return this->requestToken;
     }
 
@@ -327,6 +333,7 @@ class Security implements InjectionAwareInterface
 
         if null === this->tokenKey {
             let container = <DiInterface> this->container;
+
             if typeof container != "object" {
                 throw new Exception(
                     Exception::containerServiceNotFound("the 'session' service")
@@ -456,6 +463,7 @@ class Security implements InjectionAwareInterface
                  */
 
                 let saltBytes = this->getSaltBytes(22);
+
                 if typeof saltBytes != "string" {
                     throw new Exception(
                         "Unable to get random bytes for the salt"

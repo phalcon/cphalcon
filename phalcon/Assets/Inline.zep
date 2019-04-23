@@ -67,6 +67,7 @@ class $Inline implements AssetInterface
     public function setAttributes(array attributes) -> <AssetInterface>
     {
         let this->attributes = attributes;
+
         return this;
     }
 
@@ -76,6 +77,7 @@ class $Inline implements AssetInterface
     public function setFilter(bool filter) -> <AssetInterface>
     {
         let this->filter = filter;
+
         return this;
     }
 
@@ -85,6 +87,7 @@ class $Inline implements AssetInterface
     public function setType(string type) -> <AssetInterface>
     {
         let this->type = type;
+
         return this;
     }
 }

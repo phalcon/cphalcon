@@ -78,18 +78,20 @@ class ExclusionIn extends Validator
          * A domain is an array with a list of valid values
          */
         let domain = this->getOption("domain");
+
         if fetch fieldDomain, domain[field] {
             if typeof fieldDomain == "array" {
                 let domain = fieldDomain;
             }
         }
+
         if typeof domain != "array" {
             throw new Exception("Option 'domain' must be an array");
         }
 
         let strict = false;
-        if this->hasOption("strict") {
 
+        if this->hasOption("strict") {
             let strict = this->getOption("strict");
 
             if typeof strict == "array" {

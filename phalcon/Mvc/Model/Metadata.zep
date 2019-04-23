@@ -77,10 +77,13 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     public function getAttributes(<ModelInterface> model) -> array
     {
         var data;
+
         let data = this->readMetaDataIndex(model, self::MODELS_ATTRIBUTES);
+
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
+
         return data;
     }
 
@@ -98,10 +101,13 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     public function getAutomaticCreateAttributes(<ModelInterface> model) -> array
     {
         var data;
+
         let data = this->readMetaDataIndex(model, self::MODELS_AUTOMATIC_DEFAULT_INSERT);
+
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
+
         return data;
     }
 
@@ -119,10 +125,13 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     public function getAutomaticUpdateAttributes(<ModelInterface> model) -> array
     {
         var data;
+
         let data = this->readMetaDataIndex(model, self::MODELS_AUTOMATIC_DEFAULT_UPDATE);
+
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
+
         return data;
     }
 
@@ -140,10 +149,13 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     public function getBindTypes(<ModelInterface> model) -> array
     {
         var data;
+
         let data = this->readMetaDataIndex(model, self::MODELS_DATA_TYPES_BIND);
+
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
+
         return data;
     }
 
@@ -163,9 +175,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         var data;
 
         let data = this->readColumnMapIndex(model, self::MODELS_COLUMN_MAP);
+
         if typeof data != "null" && typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
+
         return data;
     }
 
@@ -183,10 +197,13 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     public function getDefaultValues(<ModelInterface> model) -> array
     {
         var data;
+
         let data = this->readMetaDataIndex(model, self::MODELS_DEFAULT_VALUES);
+
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
+
         return data;
     }
 
@@ -204,10 +221,13 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     public function getDataTypes(<ModelInterface> model) -> array
     {
         var data;
+
         let data = this->readMetaDataIndex(model, self::MODELS_DATA_TYPES);
+
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
+
         return data;
     }
 
@@ -225,10 +245,13 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     public function getDataTypesNumeric(<ModelInterface> model) -> array
     {
         var data;
+
         let data = this->readMetaDataIndex(model, self::MODELS_DATA_TYPES_NUMERIC);
+
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
+
         return data;
     }
 
@@ -254,10 +277,13 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     public function getEmptyStringAttributes(<ModelInterface> model) -> array
     {
         var data;
+
         let data = this->readMetaDataIndex(model, self::MODELS_EMPTY_STRING_VALUES);
+
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
+
         return data;
     }
 
@@ -294,10 +320,13 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     public function getNonPrimaryKeyAttributes(<ModelInterface> model) -> array
     {
         var data;
+
         let data = this->readMetaDataIndex(model, self::MODELS_NON_PRIMARY_KEY);
+
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
+
         return data;
     }
 
@@ -315,10 +344,13 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     public function getNotNullAttributes(<ModelInterface> model) -> array
     {
         var data;
+
         let data = this->readMetaDataIndex(model, self::MODELS_NOT_NULL);
+
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
+
         return data;
     }
 
@@ -336,10 +368,13 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     public function getPrimaryKeyAttributes(<ModelInterface> model) -> array
     {
         var data;
+
         let data = this->readMetaDataIndex(model, self::MODELS_PRIMARY_KEY);
+
         if typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
+
         return data;
     }
 
@@ -359,9 +394,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         var data;
 
         let data = this->readColumnMapIndex(model, self::MODELS_REVERSE_COLUMN_MAP);
+
         if typeof data != "null" && typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
+
         return data;
     }
 
@@ -394,6 +431,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         var columnMap;
 
         let columnMap = this->getReverseColumnMap(model);
+
         if typeof columnMap == "array" {
             return isset columnMap[attribute];
         }
@@ -435,8 +473,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         }
 
         let keyName = get_class_lower(model);
+
         if !fetch data, this->columnMap[keyName] {
             this->initialize(model, null, null, null);
+
             let data = this->columnMap[keyName];
         }
 
@@ -467,6 +507,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         if !fetch columnMapModel, this->columnMap[keyName] {
             this->initialize(model, null, null, null);
+
             let columnMapModel = this->columnMap[keyName];
         }
 
@@ -497,6 +538,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
          * Unique key for meta-data is created using class-name-schema-source
          */
         let key = get_class_lower(model) . "-" . schema . source;
+
         if !isset this->metaData[key] {
             this->initialize(model, key, source, schema);
         }
@@ -562,7 +604,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     public function setAutomaticCreateAttributes(<ModelInterface> model, array attributes) -> void
     {
-        this->writeMetaDataIndex(model, self::MODELS_AUTOMATIC_DEFAULT_INSERT, attributes);
+        this->writeMetaDataIndex(
+            model,
+            self::MODELS_AUTOMATIC_DEFAULT_INSERT,
+            attributes
+        );
     }
 
     /**
@@ -579,7 +625,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     public function setAutomaticUpdateAttributes(<ModelInterface> model, array attributes) -> void
     {
-        this->writeMetaDataIndex(model, self::MODELS_AUTOMATIC_DEFAULT_UPDATE, attributes);
+        this->writeMetaDataIndex(
+            model,
+            self::MODELS_AUTOMATIC_DEFAULT_UPDATE,
+            attributes
+        );
     }
 
     /**
@@ -596,7 +646,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     public function setEmptyStringAttributes(<ModelInterface> model, array attributes) -> void
     {
-        this->writeMetaDataIndex(model, self::MODELS_EMPTY_STRING_VALUES, attributes);
+        this->writeMetaDataIndex(
+            model,
+            self::MODELS_EMPTY_STRING_VALUES,
+            attributes
+        );
     }
 
     /**
@@ -665,31 +719,30 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
             className = get_class(model);
 
         if key !== null {
-
             let metaData = this->metaData;
-            if !isset metaData[key] {
 
+            if !isset metaData[key] {
                 /**
                  * The meta-data is read from the adapter always if not available in _metaData property
                  */
                 let prefixKey = "meta-" . key,
                     data = this->{"read"}(prefixKey);
+
                 if data !== null {
                     let this->metaData[key] = data;
                 } else {
-
                     /**
                      * Check if there is a method 'metaData' in the model to retrieve meta-data from it
                      */
                     if method_exists(model, "metaData") {
                         let modelMetadata = model->{"metaData"}();
+
                         if typeof modelMetadata != "array" {
                             throw new Exception(
                                 "Invalid meta-data for model " . className
                             );
                         }
                     } else {
-
                         /**
                          * Get the meta-data extraction strategy
                          */
@@ -719,6 +772,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         }
 
         let keyName = strtolower(className);
+
         if isset this->columnMap[keyName] {
             return null;
         }
@@ -732,6 +786,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         if data !== null {
             let this->columnMap[keyName] = data;
+
             return null;
         }
 
