@@ -130,10 +130,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Processes the message in the adapter
       */
-    public function process(<Item> item) -> void
-    {
-        throw new Exception("This method cannot be called directly in the adapter");
-    }
+    abstract public function process(<Item> item) -> void;
 
     /**
       * Rollbacks the internal transaction
