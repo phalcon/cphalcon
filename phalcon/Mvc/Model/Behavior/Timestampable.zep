@@ -75,7 +75,7 @@ class Timestampable extends Behavior
             }
 
             /**
-             * Assign the value to the field, use writeattribute if the property is protected
+             * Assign the value to the field, use writeAttribute() if the property is protected
              */
             if typeof field == "array" {
                 for singleField in field {

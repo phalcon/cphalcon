@@ -102,7 +102,6 @@ class Micro extends Injectable implements \ArrayAccess
      * Appends a afterBinding middleware to be called after model binding
      *
      * @param callable handler
-     * @return \Phalcon\Mvc\Micro
      */
     public function afterBinding(handler) -> <Micro>
     {
@@ -1009,8 +1008,6 @@ class Micro extends Injectable implements \ArrayAccess
      *     $app["request"]
      * );
      *</code>
-     *
-     * @return mixed
      */
     public function offsetGet(var alias) -> var
     {

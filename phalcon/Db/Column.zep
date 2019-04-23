@@ -537,8 +537,6 @@ class Column implements ColumnInterface
 
     /**
      * Check whether field absolute to position in table
-     *
-     * @return string
      */
     public function getAfterPosition() -> string
     {

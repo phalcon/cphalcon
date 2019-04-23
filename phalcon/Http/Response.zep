@@ -51,6 +51,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 
     protected headers;
 
+    /**
+     * @var bool
+     */
     protected sent = false;
 
     protected statusCodes;
@@ -472,7 +475,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 
         /**
          * All the expiration times are sent in UTC
-         * Change the timezone to utc
+         * Change the timezone to UTC
          */
         date->setTimezone(new \DateTimeZone("UTC"));
 
@@ -586,7 +589,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 
         /**
          * All the Last-Modified times are sent in UTC
-         * Change the timezone to utc
+         * Change the timezone to UTC
          */
         date->setTimezone(new \DateTimeZone("UTC"));
 

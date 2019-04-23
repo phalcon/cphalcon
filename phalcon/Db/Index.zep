@@ -23,7 +23,7 @@ namespace Phalcon\Db;
  *     'column_UNIQUE',
  *     [
  *         'column',
- *         'column'
+ *         'column',
  *     ],
  *     'UNIQUE'
  * );
@@ -32,7 +32,7 @@ namespace Phalcon\Db;
  * $index_primary = new \Phalcon\Db\Index(
  *     'PRIMARY',
  *     [
- *         'column'
+ *         'column',
  *     ]
  * );
  * 

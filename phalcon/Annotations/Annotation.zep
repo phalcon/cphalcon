@@ -106,8 +106,6 @@ class Annotation
 
     /**
      * Resolves an annotation expression
-     *
-     * @return mixed
      */
     public function getExpression(array! expr) -> var
     {
@@ -186,8 +184,6 @@ class Annotation
 
     /**
      * Returns a named parameter
-     *
-     * @return mixed
      */
     public function getNamedParameter(string! name) -> var
     {

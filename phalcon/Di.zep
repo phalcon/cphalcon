@@ -313,7 +313,6 @@ class Di implements DiInterface
      * requests for this service will return the same instance
      *
      * @param array parameters
-     * @return mixed
      */
     public function getShared(string! name, parameters = null) -> var
     {

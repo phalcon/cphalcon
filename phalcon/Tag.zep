@@ -156,7 +156,7 @@ class Tag
     }
 
     /**
-     * Alias of Phalcon\Tag::setDefault
+     * Alias of Phalcon\Tag::setDefault()
      *
      * @param string value
      */

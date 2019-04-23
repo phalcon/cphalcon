@@ -1921,7 +1921,7 @@ class Compiler implements InjectionAwareInterface
     {
         /**
          * If the unique prefix is not set we use a hash using the modified
-         * Berstein algotithm
+         * Berstein algorithm
          */
         if !this->prefix {
             let this->prefix = unique_path_key(this->currentPath);

@@ -55,7 +55,7 @@ class Manager implements InjectionAwareInterface
      * Adds a raw asset to the manager
      *
      *<code>
-     * assets->addAsset(
+     * $assets->addAsset(
      *     new Phalcon\Assets\Asset("css", "css/style.css")
      * );
      *</code>
@@ -73,7 +73,8 @@ class Manager implements InjectionAwareInterface
      * Adds a asset by its type
      *
      *<code>
-     * assets->addAssetByType("css",
+     * $assets->addAssetByType(
+     *     "css",
      *     new \Phalcon\Assets\Asset\Css("css/style.css")
      * );
      *</code>
@@ -175,8 +176,8 @@ class Manager implements InjectionAwareInterface
      * Adds a javascript asset to the 'js' collection
      *
      *<code>
-     * assets->addJs("scripts/jquery.js");
-     * assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
+     * $assets->addJs("scripts/jquery.js");
+     * $assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
      *</code>
      */
     public function addJs(string! path, local = true, filter = true, attributes = null) -> <Manager>
@@ -223,9 +224,9 @@ class Manager implements InjectionAwareInterface
      * Returns true or false if collection exists.
      *
      * <code>
-     * if (assets->exists("jsHeader")) {
+     * if ($assets->exists("jsHeader")) {
      *     // \Phalcon\Assets\Collection
-     *     $collection = assets->get("jsHeader");
+     *     $collection = $assets->get("jsHeader");
      * }
      * </code>
      */
@@ -238,7 +239,7 @@ class Manager implements InjectionAwareInterface
      * Returns a collection by its id.
      *
      * <code>
-     * $scripts = assets->get("js");
+     * $scripts = $assets->get("js");
      * </code>
      */
     public function get(string! id) -> <Collection>
@@ -888,7 +889,7 @@ class Manager implements InjectionAwareInterface
      * Sets a collection in the Assets Manager
      *
      *<code>
-     * assets->set("js", $collection);
+     * $assets->set("js", $collection);
      *</code>
      */
     public function set(string! id, <Collection> collection) -> <Manager>

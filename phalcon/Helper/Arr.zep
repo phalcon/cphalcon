@@ -21,12 +21,6 @@ class Arr
 {
     /**
      * Chunks an array into smaller arrays of a specified size.
-     *
-     * @param array $collection
-     * @param int   $size
-     * @param bool  $preserveKeys
-     *
-     * @return array
      */
     final public static function chunk(array! collection, int size, bool preserveKeys = false) -> array
     {
@@ -37,10 +31,7 @@ class Arr
      * Returns the first element of the collection. If a callable is passed, the
      * element returned is the first that validates true
      *
-     * @param array    $collection
      * @param callable $method
-     *
-     * @return mixed
      */
     final public static function first(array! collection, var method = null) -> var
     {
@@ -55,10 +46,7 @@ class Arr
      * Returns the key of the first element of the collection. If a callable
      * is passed, the element returned is the first that validates true
      *
-     * @param array    $collection
      * @param callable $method
-     *
-     * @return mixed
      */
     final public static function firstKey(array! collection, var method = null) -> var
     {
@@ -77,11 +65,6 @@ class Arr
 
     /**
      * Flattens an array up to the one level depth, unless `$deep` is set to `true`
-     *
-     * @param array $collection
-     * @param bool  $deep
-     *
-     * @return array
      */
     final public static function flatten(array! collection, bool deep = false) -> array
     {
@@ -120,10 +103,7 @@ class Arr
     /**
      * Groups the elements of an array based on the passed callable
      *
-     * @param array    $collection
      * @param callable $method
-     *
-     * @return array
      */
     final public static function group(array! collection, var method) -> array
     {
@@ -148,11 +128,6 @@ class Arr
 
     /**
      * Helper method to get an array element or a default
-     *
-     * @param array $collection
-     * @param mixed $index
-     *
-     * return bool
      */
     final public static function has(array! collection, var index) -> bool
     {
@@ -162,10 +137,6 @@ class Arr
     /**
      * Checks a flat list for duplicate values. Returns true if duplicate
      * values exist and false if values are all unique.
-     *
-     * @param array $collection
-     *
-     * @return bool
      */
     final public static function isUnique(array! collection) -> bool
     {
@@ -176,10 +147,7 @@ class Arr
      * Returns the last element of the collection. If a callable is passed, the
      * element returned is the first that validates true
      *
-     * @param array    $collection
      * @param callable $method
-     *
-     * return mixed
      */
     final public static function last(array! collection, var method = null) -> var
     {
@@ -198,10 +166,7 @@ class Arr
      * Returns the key of the last element of the collection. If a callable is
      * passed, the element returned is the first that validates true
      *
-     * @param array    $collection
      * @param callable $method
-     *
-     * @return mixed
      */
     final public static function lastKey(array! collection, var method = null) -> var
     {
@@ -220,12 +185,6 @@ class Arr
 
     /**
      * Sorts a collection of arrays or objects by key
-     *
-     * @param array  $collection
-     * @param mixed  $attr
-     * @param string $order
-     *
-     * @return array
      */
     final public static function order(array! collection, var attribute, string order = "asc") -> array
     {
@@ -253,12 +212,7 @@ class Arr
     }
 
     /**
-     * Retrieves all of the values for a given key:
-     *
-     * @param array  $collection
-     * @param string $element
-     *
-     * @return array
+     * Retrieves all of the values for a given key.
      */
     final public static function pluck(array! collection, string element) -> array
     {
@@ -279,12 +233,6 @@ class Arr
 
     /**
      * Helper method to set an array element
-     *
-     * @param array $collection
-     * @param mixed $value
-     * @param mixed $index
-     *
-     * @return array
      */
     final public static function set(array! collection, var value, var index = null) -> array
     {
@@ -299,11 +247,6 @@ class Arr
 
     /**
      * Returns a new array with n elements removed from the right.
-     *
-     * @param array $collection
-     * @param int   $elements
-     *
-     * @return array
      */
     final public static function sliceLeft(array! collection, int elements = 1) -> array
     {
@@ -312,11 +255,6 @@ class Arr
 
     /**
      * Returns a new array with the X elements from the right
-     *
-     * @param array $collection
-     * @param int   $elements
-     *
-     * @return array
      */
     final public static function sliceRight(array! collection, int elements = 1) -> array
     {
@@ -326,10 +264,6 @@ class Arr
     /**
      * Returns a new array with keys of the passed array as one element and
      * values as another
-     *
-     * @param array $collection
-     *
-     * @return array
      */
     final public static function split(array! collection) -> array
     {
@@ -340,10 +274,7 @@ class Arr
      * Returns true if the provided function returns true for all elements of
      * the collection, false otherwise.
      *
-     * @param array    $collection
      * @param callable $method
-     *
-     * @return bool
      */
     final public static function validateAll(array! collection, var method) -> bool
     {
@@ -354,10 +285,7 @@ class Arr
      * Returns true if the provided function returns true for at least one
      * element fo the collection, false otherwise.
      *
-     * @param array    $collection
      * @param callable $method
-     *
-     * @return bool
      */
     final public static function validateAny(array! collection, var method) -> bool
     {

@@ -277,8 +277,6 @@ interface ManagerInterface
     /**
      * Receives events generated in the models and dispatches them to an events-manager if available
      * Notify the behaviors that are listening in the model
-     *
-     * @param string $eventName
      */
     public function notifyEvent(string! eventName, <ModelInterface> model);
 
