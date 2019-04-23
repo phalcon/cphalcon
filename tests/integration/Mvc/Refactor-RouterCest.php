@@ -140,62 +140,6 @@ class RouterCest
     }
 
     /**
-     * Tests removing extra slashes
-     *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
-     * @since  2012-12-16
-     */
-    public function testRemovingExtraSlashes(IntegrationTester $I)
-    {
-        $examples = $this->getMatchingWithExtraSlashes();
-        foreach ($examples as $item) {
-            $route  = $item[0];
-            $params = $item[1];
-
-            $router = $this->getRouter();
-            $router->removeExtraSlashes(true);
-            $router->handle($route);
-
-            $actual = $router->wasMatched();
-            $I->assertTrue($actual);
-
-            $expected = $params['controller'];
-            $actual   = $router->getControllerName();
-            $I->assertEquals($expected, $actual);
-            $expected = $params['action'];
-            $actual   = $router->getActionName();
-            $I->assertEquals($expected, $actual);
-        }
-    }
-
-    private function getMatchingWithExtraSlashes(): array
-    {
-        return [
-            [
-                '/index/',
-                [
-                    'controller' => 'index',
-                    'action'     => '',
-                ],
-            ],
-            [
-                '/session/start/',
-                [
-                    'controller' => 'session',
-                    'action'     => 'start',
-                ],
-            ],
-            [
-                '/users/edit/100/',
-                [
-                    'controller' => 'users',
-                    'action'     => 'edit',
-                ],
-            ],
-        ];
-    }
-
-    /**
      * Tests router
      *
      * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
@@ -552,69 +496,6 @@ class RouterCest
                 'action'     => 'index',
                 'params'     => ['hello'],
             ],
-            [
-                'method'     => 'POST',
-                'uri'        => '/docs/index',
-                'controller' => 'documentation3',
-                'action'     => 'index',
-                'params'     => [],
-            ],
-            [
-                'method'     => 'GET',
-                'uri'        => '/docs/index',
-                'controller' => 'documentation4',
-                'action'     => 'index',
-                'params'     => [],
-            ],
-            [
-                'method'     => 'PUT',
-                'uri'        => '/docs/index',
-                'controller' => 'documentation5',
-                'action'     => 'index',
-                'params'     => [],
-            ],
-            [
-                'method'     => 'DELETE',
-                'uri'        => '/docs/index',
-                'controller' => 'documentation6',
-                'action'     => 'index',
-                'params'     => [],
-            ],
-            [
-                'method'     => 'OPTIONS',
-                'uri'        => '/docs/index',
-                'controller' => 'documentation7',
-                'action'     => 'index',
-                'params'     => [],
-            ],
-            [
-                'method'     => 'HEAD',
-                'uri'        => '/docs/index',
-                'controller' => 'documentation8',
-                'action'     => 'index',
-                'params'     => [],
-            ],
-            [
-                'method'     => 'PURGE',
-                'uri'        => '/docs/index',
-                'controller' => 'documentation9',
-                'action'     => 'index',
-                'params'     => [],
-            ],
-            [
-                'method'     => 'TRACE',
-                'uri'        => '/docs/index',
-                'controller' => 'documentation10',
-                'action'     => 'index',
-                'params'     => [],
-            ],
-            [
-                'method'     => 'CONNECT',
-                'uri'        => '/docs/index',
-                'controller' => 'documentation11',
-                'action'     => 'index',
-                'params'     => [],
-            ],
         ];
     }
 
@@ -770,26 +651,6 @@ class RouterCest
                 ],
             ],
         ];
-    }
-
-    /**
-     * @issue  https://github.com/phalcon/cphalcon/issues/13326
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-03-24
-     */
-    public function shouldAttachRoute(IntegrationTester $I)
-    {
-        $router = $this->getRouter(false);
-        $actual = $router->getRoutes();
-        $I->assertCount(0, $actual);
-
-        $router->attach(
-            new Route("/about", "About::index", ["GET", "HEAD"]),
-            Router::POSITION_FIRST
-        );
-
-        $actual = $router->getRoutes();
-        $I->assertCount(1, $actual);
     }
 
     /**
@@ -1086,94 +947,6 @@ class RouterCest
                 'posts2',
             ],
         ];
-    }
-
-    /**
-     * Tests setting notFound handler
-     *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
-     * @since  2013-03-01
-     */
-    public function testSettingNotFoundPaths(IntegrationTester $I)
-    {
-        $router = $this->getRouter(false);
-
-        $router->notFound(
-            [
-                'module'     => 'module',
-                'namespace'  => 'namespace',
-                'controller' => 'controller',
-                'action'     => 'action',
-            ]
-        );
-
-        $router->handle("/");
-
-        $expected = 'controller';
-        $actual   = $router->getControllerName();
-        $I->assertEquals($expected, $actual);
-        $expected = 'action';
-        $actual   = $router->getActionName();
-        $I->assertEquals($expected, $actual);
-        $expected = 'module';
-        $actual   = $router->getModuleName();
-        $I->assertEquals($expected, $actual);
-        $expected = 'namespace';
-        $actual   = $router->getNamespaceName();
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests get route by name method
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2018-06-28
-     */
-    public function testGetRouteByName(IntegrationTester $I)
-    {
-        $router = $this->getRouter(false);
-        $router->add('/test', ['controller' => 'test', 'action' => 'test'])->setName('test');
-        $router->add('/test2', ['controller' => 'test', 'action' => 'test'])->setName('test2');
-        $router->add('/test3', ['controller' => 'test', 'action' => 'test'])->setName('test3');
-        /**
-         * We reverse routes so we first check last added route
-         */
-        foreach (array_reverse($router->getRoutes()) as $route) {
-            $expected = $router->getRouteByName($route->getName())->getName();
-            $actual   = $route->getName();
-            $I->assertEquals($expected, $actual);
-
-            $expected = $router->getRouteByName($route->getName());
-            $actual   = $route;
-            $I->assertEquals($expected, $actual);
-        }
-    }
-
-    /**
-     * Tests ge route by id method
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2018-06-28
-     */
-    public function testGetRouteById(IntegrationTester $I)
-    {
-        $router = $this->getRouter(false);
-        $router->add('/test', ['controller' => 'test', 'action' => 'test']);
-        $router->add('/test2', ['controller' => 'test', 'action' => 'test']);
-        $router->add('/test3', ['controller' => 'test', 'action' => 'test']);
-
-        /**
-         * We reverse routes so we first check last added route
-         */
-        foreach (array_reverse($router->getRoutes()) as $route) {
-            $expected = $router->getRoutebyId($route->getId())->getId();
-            $actual   = $route->getId();
-            $I->assertEquals($expected, $actual);
-
-            $expected = $router->getRoutebyId($route->getId());
-            $actual   = $route;
-            $I->assertEquals($expected, $actual);
-        }
     }
 
     /**

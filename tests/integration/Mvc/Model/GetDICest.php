@@ -13,23 +13,53 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
+use Phalcon\Di;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Users;
 
 /**
  * Class GetDICest
  */
 class GetDICest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model :: getDI()
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-18
      */
     public function mvcModelGetDI(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model - getDI()');
-        $I->skipTest('Need implementation');
+
+        $container = new Di();
+
+        $user = new Users(
+            [],
+            $container,
+            $this->container->get('modelsManager')
+        );
+
+        $actual = $user->getDI();
+
+        $I->assertInstanceOf(
+            Di::class,
+            $actual
+        );
+
+        $I->assertEquals(
+            $container,
+            $actual
+        );
     }
 }

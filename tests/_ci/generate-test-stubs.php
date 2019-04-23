@@ -44,6 +44,7 @@ class %m%Cest
     public function %nn%%m%(UnitTester $I)
     {
         $I->wantToTest(\'%n% - %sm%()\');
+
         $I->skipTest(\'Need implementation\');
     }
 }
@@ -91,6 +92,15 @@ foreach ($phalconClasses as $class) {
             case '__get':
                 $method = 'underscoreGet';
                 break;
+            case '__set':
+                $method = 'underscoreSet';
+                break;
+            case '__isset':
+                $method = 'underscoreIsSet';
+                break;
+            case '__unset':
+                $method = 'underscoreUnset';
+                break;
             case '__wakeup':
                 $method = 'wakeup';
                 break;
@@ -98,7 +108,6 @@ foreach ($phalconClasses as $class) {
                 $method = 'setState';
                 break;
         }
-
 
         $placeholders['%m%']  = ucfirst($method);
 

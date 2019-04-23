@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Form;
 
 use IntegrationTester;
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Form;
 
 /**
  * Class CountCest
@@ -25,11 +27,28 @@ class CountCest
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-04-18
      */
     public function formsFormCount(IntegrationTester $I)
     {
         $I->wantToTest('Forms\Form - count()');
-        $I->skipTest('Need implementation');
+
+        $form = new Form();
+
+        $expected = 0;
+        $actual   = count($form);
+        $I->assertEquals($expected, $actual);
+
+        $form->add(
+            new Text("name")
+        );
+
+        $form->add(
+            new Text("telephone")
+        );
+
+        $expected = 2;
+        $actual   = count($form);
+        $I->assertEquals($expected, $actual);
     }
 }

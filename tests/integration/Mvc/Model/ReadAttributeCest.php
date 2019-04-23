@@ -13,23 +13,51 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Users;
 
 /**
  * Class ReadAttributeCest
  */
 class ReadAttributeCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model :: readAttribute()
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-18
      */
     public function mvcModelReadAttribute(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model - readAttribute()');
-        $I->skipTest('Need implementation');
+
+        $user = new Users();
+
+        $user->assign(
+            [
+                'id'   => 123,
+                'name' => 'Sid',
+            ]
+        );
+
+        $I->assertEquals(
+            123,
+            $user->readAttribute('id')
+        );
+
+        $I->assertEquals(
+            'Sid',
+            $user->readAttribute('name')
+        );
     }
 }
