@@ -15,7 +15,7 @@ use Phalcon\Assets\Inline as InlineBase;
 /**
  * Phalcon\Assets\Inline\Js
  *
- * Represents an inline Javascript
+ * Represents an inline JavaScript
  */
 class Js extends InlineBase
 {

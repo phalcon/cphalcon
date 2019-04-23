@@ -98,8 +98,6 @@ class Logger implements LoggerInterface
      *
      * @param string             name    The name of the adapter
      * @param <AdapterInterface> adapter The adapter to add to the stack
-     *
-     * @return <Logger>
      */
     public function addAdapter(string name, <AdapterInterface> adapter) -> <Logger>
     {
@@ -115,9 +113,6 @@ class Logger implements LoggerInterface
      * trigger the SMS alerts and wake you up.
      *
      * @param string message
-     * @param array  context
-     *
-     * @return void
      */
     public function alert(message, array context = []) -> void
     {
@@ -130,9 +125,6 @@ class Logger implements LoggerInterface
      * Example: Application component unavailable, unexpected exception.
      *
      * @param string message
-     * @param array  context
-     *
-     * @return void
      */
     public function critical(message, array context = []) -> void
     {
@@ -143,9 +135,6 @@ class Logger implements LoggerInterface
      * Detailed debug information.
      *
      * @param string message
-     * @param array  context
-     *
-     * @return void
      */
     public function debug(message, array context = []) -> void
     {
@@ -157,9 +146,6 @@ class Logger implements LoggerInterface
      * be logged and monitored.
      *
      * @param string message
-     * @param array  context
-     *
-     * @return void
      */
     public function error(message, array context = []) -> void
     {
@@ -170,9 +156,6 @@ class Logger implements LoggerInterface
      * System is unusable.
      *
      * @param string message
-     * @param array  context
-     *
-     * @return void
      */
     public function emergency(message, array context = []) -> void
     {
@@ -180,12 +163,7 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * System is unusable.
-     *
-     * @param string message
-     * @param array  context
-     *
-     * @return void
+     * Exclude certain adapters.
      */
     public function excludeAdapters(array adapters = []) -> <Logger>
     {
@@ -212,7 +190,6 @@ class Logger implements LoggerInterface
      *
      * @param string name The name of the adapter
      *
-     * @return <AdapterInterface>
      * @throws <Exception>
      */
     public function getAdapter(string name) -> <AdapterInterface>
@@ -240,8 +217,6 @@ class Logger implements LoggerInterface
 
     /**
      * Returns the name of the logger
-     *
-     * @return string
      */
     public function getName() -> string
     {
@@ -254,9 +229,6 @@ class Logger implements LoggerInterface
      * Example: User logs in, SQL logs.
      *
      * @param string message
-     * @param array  context
-     *
-     * @return void
      */
     public function info(message, array context = []) -> void
     {
@@ -268,9 +240,6 @@ class Logger implements LoggerInterface
      *
      * @param mixed  level
      * @param string message
-     * @param array  context
-     *
-     * @return void
      */
     public function log(level, message, array context = []) -> void
     {
@@ -285,9 +254,6 @@ class Logger implements LoggerInterface
      * Normal but significant events.
      *
      * @param string message
-     * @param array  context
-     *
-     * @return void
      */
     public function notice(message, array context = []) -> void
     {
@@ -299,7 +265,6 @@ class Logger implements LoggerInterface
      *
      * @param string name The name of the adapter
      *
-     * @return <Logger>
      * @throws <Logger\Exception>
      */
     public function removeAdapter(string name) -> <Logger>
@@ -323,8 +288,6 @@ class Logger implements LoggerInterface
      * Sets the adapters stack overriding what is already there
      *
      * @param array adapters An array of adapters
-     *
-     * @return <Logger>
      */
     public function setAdapters(array! adapters) -> <Logger>
     {
@@ -340,9 +303,6 @@ class Logger implements LoggerInterface
      * that are not necessarily wrong.
      *
      * @param string message
-     * @param array  context
-     *
-     * @return void
      */
     public function warning(message, array context = []) -> void
     {
@@ -354,9 +314,7 @@ class Logger implements LoggerInterface
      *
      * @param int    level
      * @param string message
-     * @param array  context
      *
-     * @return bool
      * @throws <Logger\Exception>
      */
     protected function addMessage(int level, string message, array context = []) -> bool
@@ -382,7 +340,7 @@ class Logger implements LoggerInterface
          * Compare the actual adapters array with the excluded one. Whatever
          * the difference is, that is the array of adapters that we will log
          * this message to. By default `excluded` is empty so the message will
-         * be loggged to all registered adapters
+         * be logged to all registered adapters
          */
         let keys = array_diff(
             array_keys(registered),
@@ -405,8 +363,6 @@ class Logger implements LoggerInterface
 
     /**
      * Returns an array of log levels with integer to string conversion
-     *
-     * @return array
      */
     protected function getLevels() -> array
     {
@@ -427,8 +383,6 @@ class Logger implements LoggerInterface
      * Converts the level from string/word to an integer
      *
      * @param string|int level
-     *
-     * @return int
      */
     private function getLevelNumber(level) -> int
     {

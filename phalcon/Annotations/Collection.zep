@@ -46,8 +46,6 @@ class Collection implements \Iterator, \Countable
 
     /**
      * Phalcon\Annotations\Collection constructor
-     *
-     * @param array reflectionData
      */
     public function __construct(array reflectionData = []) -> void
     {

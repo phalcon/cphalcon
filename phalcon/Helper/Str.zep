@@ -16,7 +16,7 @@ use Phalcon\Helper\Exception;
 /**
  * Phalcon\Helper\Str
  *
- * This class offers quick string functions throught the framework
+ * This class offers quick string functions throughout the framework
  */
 class Str
 {
@@ -37,11 +37,6 @@ class Str
      * echo Str::camelize("co_co-bon_go", "-");     // Co_coBon_go
      * echo Str::camelize("co_co-bon_go", "_-");    // CoCoBonGo
      * </code>
-     *
-     * @param string $text
-     * @param mixed  $delimiter
-     *
-     * @return string
      */
     final public static function camelize(string! text, var delimiter = null) -> string
     {
@@ -68,8 +63,6 @@ class Str
      * @param string a
      * @param string b
      * @param string ...N
-     *
-     * @return string
      */
     final public static function concat() -> string
     {
@@ -108,10 +101,6 @@ class Str
     /**
      * Retuns number of vowels in provided string. Uses a regular expression
      * to count the number of vowels (A, E, I, O, U) in a string.
-     *
-     * @param string $string
-     *
-     * @return int
      */
     final public static function countVowels(string! text) -> int
     {
@@ -126,12 +115,6 @@ class Str
      * Decapitalizes the first letter of the sring and then adds it with rest
      * of the string. Omit the upperRest parameter to keep the rest of the
      * string intact, or set it to true to convert to uppercase.
-     *
-     * @param string $string
-     * @param bool   $upperRest
-     * @param string $encoding
-     *
-     * @return string
      */
     final public static function decapitalize(
         string! text,
@@ -186,13 +169,6 @@ class Str
      *     "/"
      * );
      * </code>
-     *
-     * @param string $text
-     * @param string $leftDelimiter
-     * @param string $rightDelimiter
-     * @param string $separator
-     *
-     * @return string
      */
     final public static function dynamic(
         string! text,
@@ -244,12 +220,6 @@ class Str
      * echo Str::endsWith("Hello", "LLO", false);   // false
      * echo Str::endsWith("Hello", "LLO");          // true
      * </code>
-     *
-     * @param string $text
-     * @param string $end
-     * @param bool   $ignoreCase
-     *
-     * @return bool
      */
     final public static function endsWith(string text, string end, bool ignoreCase = true) -> bool
     {
@@ -259,12 +229,6 @@ class Str
     /**
      * Returns the first string there is between the strings from the
      * parameter start and end.
-     *
-     * @param string $text
-     * @param string $start
-     * @param string $end
-     *
-     * @return string
      */
     final public static function firstBetween(
         string! text,
@@ -288,10 +252,6 @@ class Str
      * echo Str::humanize("start-a-horse"); // "start a horse"
      * echo Str::humanize("five_cats");     // "five cats"
      * </code>
-     *
-     * @param string $text
-     *
-     * @return string
      */
     final public static function humanize(string! text) -> string
     {
@@ -300,11 +260,6 @@ class Str
 
     /**
      * Lets you determine whether or not a string includes another string.
-     *
-     * @param string $needle
-     * @param string $haystack
-     *
-     * @return bool
      */
     final public static function includes(string! needle, string! haystack) -> bool
     {
@@ -325,11 +280,6 @@ class Str
      * echo Str::increment("a");    // "a_1"
      * echo Str::increment("a_1");  // "a_2"
      * </code>
-     *
-     * @param string $text
-     * @param string $separator
-     *
-     * @return string
      */
     final public static function increment(string text, string separator = "_") -> string
     {
@@ -349,11 +299,6 @@ class Str
     /**
      * Compare two strings and returns true if both strings are anagram,
      * false otherwise.
-     *
-     * @param string $first
-     * @param string $second
-     *
-     * @return bool
      */
     final public static function isAnagram(string! first, string! second) -> bool
     {
@@ -362,11 +307,6 @@ class Str
 
     /**
      * Returns true if the given string is lower case, false otherwise.
-     *
-     * @param string $text
-     * @param string $encoding
-     *
-     * @return bool
      */
     final public static function isLower(string! text, string! encoding = "UTF-8") ->  bool
     {
@@ -379,10 +319,6 @@ class Str
 
     /**
      * Returns true if the given string is a palindrome, false otherwise.
-     *
-     * @param string $text
-     *
-     * @return bool
      */
     final public static function isPalindrome(string! text) -> bool
     {
@@ -391,11 +327,6 @@ class Str
 
     /**
      * Returns true if the given string is upper case, false otherwise.
-     *
-     * @param string text
-     * @param string encoding
-     *
-     * @return bool
      */
     final public static function isUpper(string! text, string! encoding = "UTF-8") -> bool
     {
@@ -413,11 +344,6 @@ class Str
      * <code>
      * echo Phalcon\Helper\Str::lower("HELLO"); // hello
      * </code>
-     *
-     * @param string $text
-     * @param string $encoding
-     *
-     * @return string
      */
     final public static function lower(string! text, string! encoding = "UTF-8") -> string
     {
@@ -441,11 +367,6 @@ class Str
      *
      * echo Str::random(Str::RANDOM_ALNUM); // "aloiwkqz"
      * </code>
-     *
-     * @param int $type
-     * @param int $length
-     *
-     * @return string
      */
     final public static function random(int type = 0, long length = 8) -> string
     {
@@ -501,10 +422,6 @@ class Str
      * echo Phalcon\Helper\Str::reduceSlashes("foo//bar/baz");              // foo/bar/baz
      * echo Phalcon\Helper\Str::reduceSlashes("http://foo.bar///baz/buz");  // http://foo.bar/baz/buz
      * </code>
-     *
-     * @param string $text
-     *
-     * @return string
      */
     final public static function reduceSlashes(string! text) -> string
     {
@@ -521,12 +438,6 @@ class Str
      * echo Str::startsWith("Hello", "he", false);  // false
      * echo Str::startsWith("Hello", "he");         // true
      * </code>
-     *
-     * @param string $text
-     * @param string $start
-     * @param bool   $ignoreCase
-     *
-     * @return bool
      */
     final public static function startsWith(string! text, string! start, bool ignoreCase = true) -> bool
     {
@@ -542,11 +453,6 @@ class Str
      * echo Str::uncamelize("CocoBongo");       // coco_bongo
      * echo Str::uncamelize("CocoBongo", "-");  // coco-bongo
      * </code>
-     *
-     * @param string $text
-     * @param mixed  $delimiter
-     *
-     * @return string
      */
     final public static function uncamelize(string! text, var delimiter = null) -> string
     {
@@ -562,10 +468,6 @@ class Str
      * echo Str::underscore("look behind");     // "look_behind"
      * echo Str::underscore("Awesome Phalcon"); // "Awesome_Phalcon"
      * </code>
-     *
-     * @param string $text
-     *
-     * @return string
      */
     final public static function underscore(string! text) -> string
     {
@@ -579,11 +481,6 @@ class Str
      * <code>
      * echo Phalcon\Helper\Str::upper("hello"); // HELLO
      * </code>
-     *
-     * @param string $text
-     * @param string $encoding
-     *
-     * @return string
      */
     final public static function upper(string! text, string! encoding = "UTF-8") -> string
     {

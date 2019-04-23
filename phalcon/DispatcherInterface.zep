@@ -19,8 +19,6 @@ interface DispatcherInterface
 {
     /**
      * Dispatches a handle action taking into account the routing parameters
-     *
-     * @return object
      */
     public function dispatch()  -> object | bool;
 
@@ -48,7 +46,6 @@ interface DispatcherInterface
      * Gets a param by its name or numeric index
      *
      * @param  string|array filters
-     * @return mixed
      */
     public function getParam(var param, filters = null) -> var;
 

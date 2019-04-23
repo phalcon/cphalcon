@@ -55,7 +55,6 @@ class Input extends Stream
      * string casting operations.
      *
      * @see http://php.net/manual/en/language.oop5.magic.php#object.tostring
-     * @return string
      */
     public function __toString() -> string
     {
@@ -71,7 +70,6 @@ class Input extends Stream
     /**
      * Returns the remaining contents in a string
      *
-     * @return string
      * @throws \RuntimeException if unable to read.
      * @throws \RuntimeException if error occurs while reading.
      */
@@ -94,9 +92,7 @@ class Input extends Stream
     }
 
     /**
-     * Returns whether or not the stream is writable.
-     *
-     * @return bool
+     * Returns whether or not the stream is writeable.
      */
     public function isWritable() -> bool
     {

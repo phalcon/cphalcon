@@ -288,8 +288,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *     $connection->describeIndexes("robots_parts")
      * );
      *</code>
-     *
-     * @param    string schema
      */
     public function describeIndexes(string! table, string schema = null) -> <IndexInterface[]>
     {

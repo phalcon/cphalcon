@@ -52,8 +52,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     /**
      * Manager constructor.
-     *
-     * @param array options
      */
     public function __construct(array options = []) -> void
     {
@@ -324,8 +322,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     /**
      * Sets session's options
-     *
-     * @param array options
      */
     public function setOptions(array options) -> void
     {
@@ -372,8 +368,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     /**
      * Returns the status of the current session.
-     *
-     * @return int
      */
     public function status() -> int
     {
