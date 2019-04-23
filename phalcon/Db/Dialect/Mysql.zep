@@ -25,7 +25,6 @@ use Phalcon\Db\DialectInterface;
  */
 class Mysql extends Dialect
 {
-
     protected escapeChar = "`";
 
     /**
@@ -579,11 +578,7 @@ class Mysql extends Dialect
      */
     public function getForeignKeyChecks() -> string
     {
-        var sql;
-
-        let sql = "SELECT @@foreign_key_checks";
-
-        return sql;
+        return "SELECT @@foreign_key_checks";
     }
 
     /**

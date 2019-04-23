@@ -25,7 +25,6 @@ use Phalcon\Db\ReferenceInterface;
  */
 class Sqlite extends Dialect
 {
-
     protected escapeChar = "\"";
 
     /**

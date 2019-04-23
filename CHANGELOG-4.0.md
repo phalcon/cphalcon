@@ -7,6 +7,7 @@
 - Added `chunk()`, `first()`, `firstKey()`, `flatten()`, `group()`, `isUnique()`, `last()`, `lastKey()`, `order()`, `pluck()`, `sliceLeft()`, `sliceRight()`, `split()`, `tail()`, `validateAll()`, `validateAny()` to `Phalcon\Helper\Arr` [#13954](https://github.com/phalcon/cphalcon/pull/13954)
 - Added `camelize()`, `concat()`, `countVowels()`, `decapitalize()`, `dynamic()`, `endsWith()`, `firstStringBetween()`, `includes()`, `increment()`, `isAnagram()`, `isLower()`, `isPalindrome()`, `isUpper()`, `lower()`, `random()`, `reduceSlashes()`, `startsWith()`, `uncamelize()`, `underscore()`, `upper()` to `Phalcon\Helper\Str` [#13954](https://github.com/phalcon/cphalcon/pull/13954) 
 - Added `Phalcon\Mvc\Model\Query\BuilderInterface::getModels()` returns the models involved in the query
+- Added `addConnect()`, `addPurge()` and `addTrace()` to `Phalcon\Mvc\Router\Group` and its interface. [#14001](https://github.com/phalcon/cphalcon/pull/14001)
 
 ## Changed
 - Refactored `Phalcon\Events\Manager` to only use `SplPriorityQueue` to store events. [#13924](https://github.com/phalcon/cphalcon/pull/13924)
@@ -31,6 +32,7 @@
 - Query Builder's `GROUP BY` field is now always an array. [#13962](https://github.com/phalcon/cphalcon/pull/13962)
 - Renamed `Phalcon\Paginator\Adapter::getPaginate()` to `paginate()` in documentation/tests (originally renamed in 4.0.0-alpha.1). [#13973](https://github.com/phalcon/cphalcon/pull/13973)
 - Fixed the exception message in `Phalcon\Security::computeHmac()` by removing `"%s"` from output.
+- `Phalcon\Mvc\Model\Relation::isForeignKey()` now returns false if the `foreignKey` option is set to `false`.
 
 ## Removed
 - Removed `arrayHelpers` property from the Volt compiler. [#13925](https://github.com/phalcon/cphalcon/pull/13925)

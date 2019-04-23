@@ -184,7 +184,13 @@ class Relation implements RelationInterface
      */
     public function isForeignKey() -> bool
     {
-        return isset this->options["foreignKey"];
+        var foreignKey;
+
+        if !fetch foreignKey, this->options["foreignKey"] {
+            return false;
+        }
+
+        return (bool) foreignKey;
     }
 
     /**

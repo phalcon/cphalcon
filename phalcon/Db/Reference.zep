@@ -77,7 +77,6 @@ class Reference implements ReferenceInterface
      */
     protected schemaName { get };
 
-
     /**
      * ON DELETE
      *
@@ -97,31 +96,30 @@ class Reference implements ReferenceInterface
      */
     public function __construct(string! name, array! definition) -> void
     {
-        var columns, schema, referencedTable,
-            referencedSchema, referencedColumns,
-            onDelete, onUpdate;
+        var columns, schema, referencedTable, referencedSchema,
+            referencedColumns, onDelete, onUpdate;
 
         let this->name = name;
 
-        if fetch referencedTable, definition["referencedTable"] {
-            let this->referencedTable = referencedTable;
-        } else {
+        if !fetch referencedTable, definition["referencedTable"] {
             throw new Exception("Referenced table is required");
         }
 
-        if fetch columns, definition["columns"] {
-            let this->columns = columns;
-        } else {
+        let this->referencedTable = referencedTable;
+
+        if !fetch columns, definition["columns"] {
             throw new Exception("Foreign key columns are required");
         }
 
-        if fetch referencedColumns, definition["referencedColumns"] {
-            let this->referencedColumns = referencedColumns;
-        } else {
+        let this->columns = columns;
+
+        if !fetch referencedColumns, definition["referencedColumns"] {
             throw new Exception(
                 "Referenced columns of the foreign key are required"
             );
         }
+
+        let this->referencedColumns = referencedColumns;
 
         if fetch schema, definition["schema"] {
             let this->schemaName = schema;
@@ -168,13 +166,16 @@ class Reference implements ReferenceInterface
         fetch onDelete, data["onDelete"];
         fetch onUpdate, data["onUpdate"];
 
-        return new Reference(constraintName, [
-            "referencedSchema"  : referencedSchema,
-            "referencedTable"   : referencedTable,
-            "columns"           : columns,
-            "referencedColumns" : referencedColumns,
-            "onDelete"          : onDelete,
-            "onUpdate"          : onUpdate
-        ]);
+        return new Reference(
+            constraintName,
+            [
+                "referencedSchema":  referencedSchema,
+                "referencedTable":   referencedTable,
+                "columns":           columns,
+                "referencedColumns": referencedColumns,
+                "onDelete":          onDelete,
+                "onUpdate":          onUpdate
+            ]
+        );
     }
 }

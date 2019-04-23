@@ -425,5 +425,4 @@ interface AdapterInterface
      * Generates SQL checking for the existence of a schema.view
      */
     public function viewExists(string! viewName, string! schemaName = null) -> bool;
-
 }

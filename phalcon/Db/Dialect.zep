@@ -18,7 +18,6 @@ namespace Phalcon\Db;
  */
 abstract class Dialect implements DialectInterface
 {
-
     protected escapeChar;
 
     protected customFunctions;
