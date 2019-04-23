@@ -192,11 +192,11 @@ class Dump
     {
         var style;
 
-        if fetch style, this->styles[type] {
-            return style;
-        } else {
+        if !fetch style, this->styles[type] {
             return "color:gray";
         }
+
+        return style;
     }
 
     /**
@@ -227,9 +227,9 @@ class Dump
 
                 if tab == 1 && name != "" && !is_int(key) && name == key {
                     continue;
-                } else {
-                    let output .= this->output(value, "", tab + 1) . "\n";
                 }
+
+                let output .= this->output(value, "", tab + 1) . "\n";
             }
 
             return output . str_repeat(space, tab - 1) . ")";

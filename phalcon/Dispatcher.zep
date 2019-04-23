@@ -719,11 +719,11 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
 
         let modelBinder = this->modelBinder;
 
-        if modelBinder != null {
-            return modelBinder->getBoundModels();
+        if modelBinder == null {
+            return [];
         }
 
-        return [];
+        return modelBinder->getBoundModels();
     }
 
     /**

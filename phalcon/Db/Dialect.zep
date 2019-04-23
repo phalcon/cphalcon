@@ -603,11 +603,11 @@ abstract class Dialect implements DialectInterface
      */
     protected function checkColumnTypeSql(<ColumnInterface> column) -> string
     {
-        if typeof column->getType() == "string" {
-            return column->getType();
+        if typeof column->getType() != "string" {
+            return "";
         }
 
-        return "";
+        return column->getType();
     }
 
     /**

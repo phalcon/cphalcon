@@ -149,13 +149,13 @@ class Di implements DiInterface
      */
     public function attempt(string! name, definition, bool shared = false) -> <ServiceInterface> | bool
     {
-        if !isset this->services[name] {
-            let this->services[name] = new Service(definition, shared);
-
-            return this->services[name];
+        if isset this->services[name] {
+            return false;
         }
 
-        return false;
+        let this->services[name] = new Service(definition, shared);
+
+        return this->services[name];
     }
 
     /**

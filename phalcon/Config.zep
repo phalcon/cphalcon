@@ -98,11 +98,11 @@ class Config implements \ArrayAccess, \Countable
     {
         let index = strval(index);
 
-        if isset this->{index} {
-            return this->{index};
+        if !isset this->{index} {
+            return defaultValue;
         }
 
-        return defaultValue;
+        return this->{index};
     }
 
     /**

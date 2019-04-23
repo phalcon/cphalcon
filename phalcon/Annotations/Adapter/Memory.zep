@@ -34,11 +34,11 @@ class Memory extends Adapter
     {
         var data;
 
-        if fetch data, this->data[strtolower(key)] {
-            return data;
+        if !fetch data, this->data[strtolower(key)] {
+            return false;
         }
 
-        return false;
+        return data;
     }
 
     /**

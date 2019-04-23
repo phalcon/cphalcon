@@ -180,7 +180,7 @@ class Crypt implements CryptInterface
      */
     public function decryptBase64(string! text, key = null, bool! safe = false) -> string
     {
-        if safe == true {
+        if safe {
             return this->decrypt(
                 base64_decode(
                     strtr(text, "-_", "+/") . substr("===", (strlen(text) + 3) % 4)
