@@ -182,7 +182,7 @@ class Version
      */
     public static function getPart(int part) -> string
     {
-        var version, result;
+        var version;
 
         let version = static::_getVersion();
 
@@ -191,21 +191,14 @@ class Version
             case self::VERSION_MEDIUM:
             case self::VERSION_MINOR:
             case self::VERSION_SPECIAL_NUMBER:
-                let result = version[part];
-                break;
+                return version[part];
 
             case self::VERSION_SPECIAL:
-                let result = static::_getSpecial(
+                return static::_getSpecial(
                     version[self::VERSION_SPECIAL]
                 );
-
-                break;
-
-            default:
-                let result = static::get();
-                break;
         }
 
-        return result;
+        return static::get();
     }
 }

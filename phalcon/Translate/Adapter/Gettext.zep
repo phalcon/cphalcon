@@ -58,7 +58,7 @@ class Gettext extends Adapter implements \ArrayAccess
      */
     public function __construct(array! options) -> void
     {
-        if (!function_exists("gettext")) {
+        if !function_exists("gettext") {
             throw new Exception(
                 "This class requires the gettext extension for PHP"
             );
@@ -157,7 +157,7 @@ class Gettext extends Adapter implements \ArrayAccess
     {
         var key, value;
 
-        if (empty(directory)) {
+        if empty(directory) {
             return;
         }
 

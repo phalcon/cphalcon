@@ -286,11 +286,11 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var element;
 
-        if fetch element, this->elementsIndexed[this->position] {
-            return element;
+        if !fetch element, this->elementsIndexed[this->position] {
+            return false;
         }
 
-        return false;
+        return element;
     }
 
     /**
@@ -300,13 +300,13 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var element;
 
-        if fetch element, this->elements[name] {
-            return element;
+        if !fetch element, this->elements[name] {
+            throw new Exception(
+                "Element with ID=" . name . " is not part of the form"
+            );
         }
 
-        throw new Exception(
-            "Element with ID=" . name . " is not part of the form"
-        );
+        return element;
     }
 
     /**
@@ -442,10 +442,12 @@ class Form extends Injectable implements \Countable, \Iterator
     public function getUserOption(string option, var defaultValue = null) -> var
     {
         var value;
-        if fetch value, this->options[option] {
-            return value;
+
+        if !fetch value, this->options[option] {
+            return defaultValue;
         }
-        return defaultValue;
+
+        return value;
     }
 
     /**
@@ -700,13 +702,13 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var element;
 
-        if fetch element, this->elements[name] {
-            return element->label(attributes);
+        if !fetch element, this->elements[name] {
+            throw new Exception(
+                "Element with ID=" . name . " is not part of the form"
+            );
         }
 
-        throw new Exception(
-            "Element with ID=" . name . " is not part of the form"
-        );
+        return element->label(attributes);
     }
 
     /**
