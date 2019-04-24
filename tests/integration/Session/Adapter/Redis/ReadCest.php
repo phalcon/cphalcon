@@ -44,21 +44,14 @@ class ReadCest
     public function sessionAdapterRedisRead(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Redis - write()');
-
         $adapter = $this->getSessionRedis();
         $value   = uniqid();
 
-        $I->haveInRedis(
-            'string',
-            'test1',
-            $value
-        );
+        $I->haveInRedis('string', 'sess-reds-test1', $value);
 
-        $I->assertEquals(
-            $value,
-            $adapter->read('test1')
-        );
-
-        $I->sendCommandToRedis('del', 'test1');
+        $expected = $value;
+        $actual   = $adapter->read('test1');
+        $I->assertEquals($expected, $actual);
+        $I->sendCommandToRedis('del', 'sess-reds-test1');
     }
 }

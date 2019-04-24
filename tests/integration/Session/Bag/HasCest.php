@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Bag;
 
-use Phalcon\Session\Bag;
 use IntegrationTester;
+use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
@@ -36,7 +36,6 @@ class HasCest
     public function sessionBagHas(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - has()');
-
         $data = [
             'one'   => 'two',
             'three' => 'four',
@@ -44,39 +43,30 @@ class HasCest
         ];
 
         $collection = new Bag('BagTest');
-
         $collection->init($data);
 
-        $I->assertTrue(
-            $collection->has('three')
-        );
+        $actual = $collection->has('three');
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $collection->has('THREE')
-        );
+        $actual = $collection->has('THREE');
+        $I->assertTrue($actual);
 
-        $I->assertFalse(
-            $collection->has('THREE', false)
-        );
+        $actual = $collection->has('THREE', false);
+        $I->assertFalse($actual);
 
-        $I->assertFalse(
-            $collection->has('unknown')
-        );
+        $actual = $collection->has('unknown');
+        $I->assertFalse($actual);
 
-        $I->assertTrue(
-            isset($collection['three'])
-        );
+        $actual = isset($collection['three']);
+        $I->assertTrue($actual);
 
-        $I->assertFalse(
-            isset($collection['unknown'])
-        );
+        $actual = isset($collection['unknown']);
+        $I->assertFalse($actual);
 
-        $I->assertTrue(
-            $collection->offsetExists('three')
-        );
+        $actual = $collection->offsetExists('three');
+        $I->assertTrue($actual);
 
-        $I->assertFalse(
-            $collection->offsetExists('unknown')
-        );
+        $actual = $collection->offsetExists('unknown');
+        $I->assertFalse($actual);
     }
 }

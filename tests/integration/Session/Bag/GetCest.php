@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Bag;
 
-use Phalcon\Session\Bag;
 use IntegrationTester;
+use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
@@ -36,40 +36,28 @@ class GetCest
     public function sessionBagGet(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - get()');
-
-        $data = [
+        $data       = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
-
         $collection = new Bag('BagTest');
-
         $collection->init($data);
 
-        $I->assertEquals(
-            'four',
-            $collection->get('three')
-        );
+        $expected = 'four';
+        $actual   = $collection->get('three');
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            'four',
-            $collection->get('THREE')
-        );
+        $actual = $collection->get('THREE');
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            'four',
-            $collection['three']
-        );
+        $actual = $collection['three'];
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            'four',
-            $collection->three
-        );
+        $actual = $collection->three;
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            'four',
-            $collection->offsetGet('three')
-        );
+        $actual = $collection->offsetGet('three');
+        $I->assertEquals($expected, $actual);
     }
 }
