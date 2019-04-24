@@ -52,27 +52,27 @@ class AnchorCest
                 '<a href="/myurl">click&lt;&gt;me</a>',
                 [],
             ],
-//            [
-//                '<a href="/myurl">click&lt;&gt;me</a>',
-//                [
-//                    'href' => '/somethingelse',
-//                ],
-//            ],
-//            [
-//                '<a href="/myurl" id="my-id" name="my-name">click&lt;&gt;me</a>',
-//                [
-//                    'id'   => 'my-id',
-//                    'name' => 'my-name',
-//                ],
-//            ],
-//            [
-//                '<a href="/myurl" id="my-id" name="my-name" class="my-class">click&lt;&gt;me</a>',
-//                [
-//                    'class' => 'my-class',
-//                    'name'  => 'my-name',
-//                    'id'    => 'my-id',
-//                ],
-//            ],
+            [
+                '<a href="/myurl">click&lt;&gt;me</a>',
+                [
+                    'href' => '/somethingelse',
+                ],
+            ],
+            [
+                '<a href="/myurl" id="my-id" name="my-name">click&lt;&gt;me</a>',
+                [
+                    'id'   => 'my-id',
+                    'name' => 'my-name',
+                ],
+            ],
+            [
+                '<a href="/myurl" id="my-id" name="my-name" class="my-class">click&lt;&gt;me</a>',
+                [
+                    'class' => 'my-class',
+                    'name'  => 'my-name',
+                    'id'    => 'my-id',
+                ],
+            ],
         ];
     }
 }
