@@ -22,7 +22,7 @@ use UnitTester;
 class TrimCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\Trim :: __invoke()
      *
      * @dataProvider getData
      *

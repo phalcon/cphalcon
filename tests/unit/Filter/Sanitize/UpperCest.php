@@ -22,7 +22,7 @@ use UnitTester;
 class UpperCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\Upper :: __invoke()
      *
      * @dataProvider getData
      *

@@ -22,7 +22,7 @@ use UnitTester;
 class StriptagsCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\Striptags :: __invoke()
      *
      * @dataProvider getData
      *
