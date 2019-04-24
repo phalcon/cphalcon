@@ -3104,15 +3104,11 @@ class Query implements QueryInterface, InjectionAwareInterface
              * If the user didn't define a column list we assume all the model's
              * attributes as columns
              */
-            if automaticFields {
-                if typeof columnMap == "array" {
-                    if !fetch attributeName, columnMap[fieldName] {
-                        throw new Exception(
-                            "Column '" . fieldName . "' isn't part of the column map"
-                        );
-                    }
-                } else {
-                    let attributeName = fieldName;
+            if automaticFields && typeof columnMap == "array" {
+                if !fetch attributeName, columnMap[fieldName] {
+                    throw new Exception(
+                        "Column '" . fieldName . "' isn't part of the column map"
+                    );
                 }
             } else {
                 let attributeName = fieldName;

@@ -1395,7 +1395,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let params = [];
         } elseif typeof parameters === "array" {
             let params = parameters;
-        } elseif (typeof parameters === "string" || is_numeric(parameters)) {
+        } elseif typeof parameters === "string" || is_numeric(parameters) {
             let params   = [];
             let params[] = parameters;
         } else {
@@ -4183,11 +4183,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         var possibleSetter;
 
         let possibleSetter = "set" . camelize(property);
-        if method_exists(this, possibleSetter) {
-            this->{possibleSetter}(value);
-            return true;
+
+        if !method_exists(this, possibleSetter) {
+            return false;
         }
-        return false;
+
+        this->{possibleSetter}(value);
+
+        return true;
     }
 
     /**

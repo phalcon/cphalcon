@@ -27,10 +27,12 @@ class Document implements EntityInterface, \ArrayAccess
     public function offsetGet(var index) -> var
     {
         var value;
-        if fetch value, this->{index} {
-            return value;
+
+        if !fetch value, this->{index} {
+            throw new Exception("The index does not exist in the row");
         }
-        throw new Exception("The index does not exist in the row");
+
+        return value;
     }
 
     /**
@@ -67,10 +69,12 @@ class Document implements EntityInterface, \ArrayAccess
     public function readAttribute(string! attribute) -> var | null
     {
         var value;
-        if fetch value, this->{attribute} {
-            return value;
+
+        if !fetch value, this->{attribute} {
+            return null;
         }
-        return null;
+
+        return value;
     }
 
     /**

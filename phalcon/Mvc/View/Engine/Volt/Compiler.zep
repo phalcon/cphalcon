@@ -868,13 +868,16 @@ class Compiler implements InjectionAwareInterface
         var level, prefix;
 
         let level = this->foreachLevel;
-        if fetch prefix, this->forElsePointers[level] {
-            if isset this->loopPointers[level] {
-                return "<?php $" . prefix . "incr++; } if (!$" . prefix . "iterated) { ?>";
-            }
-            return "<?php } if (!$" . prefix . "iterated) { ?>";
+
+        if !fetch prefix, this->forElsePointers[level] {
+            return "";
         }
-        return "";
+
+        if isset this->loopPointers[level] {
+            return "<?php $" . prefix . "incr++; } if (!$" . prefix . "iterated) { ?>";
+        }
+
+        return "<?php } if (!$" . prefix . "iterated) { ?>";
     }
 
     /**
@@ -1923,10 +1926,12 @@ class Compiler implements InjectionAwareInterface
     public function getOption(string! option)
     {
         var value;
-        if fetch value, this->options[option] {
-            return value;
+
+        if !fetch value, this->options[option] {
+            return null;
         }
-        return null;
+
+        return value;
     }
 
     /**

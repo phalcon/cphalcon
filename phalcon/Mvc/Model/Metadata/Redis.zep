@@ -83,10 +83,12 @@ class Redis extends MetaData
         var data;
 
         let data = this->redis->get(key);
-        if typeof data == "array" {
-            return data;
+
+        if typeof data != "array" {
+            return null;
         }
-        return null;
+
+        return data;
     }
 
     /**

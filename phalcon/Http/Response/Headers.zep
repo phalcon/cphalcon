@@ -48,11 +48,11 @@ class Headers implements HeadersInterface
 
         let headers = this->headers;
 
-        if fetch headerValue, headers[name] {
-            return headerValue;
+        if !fetch headerValue, headers[name] {
+            return false;
         }
 
-        return false;
+        return headerValue;
     }
 
     /**
@@ -60,7 +60,7 @@ class Headers implements HeadersInterface
      */
     public function has(string name) -> bool
     {
-        return isset(this->headers[name]);
+        return isset this->headers[name];
     }
 
     /**

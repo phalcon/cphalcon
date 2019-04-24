@@ -1530,7 +1530,7 @@ class Tag implements InjectionAwareInterface
                 );
             }
 
-            if ("escaper" === name) {
+            if "escaper" === name {
                 let service       = <EscaperInterface> container->getShared(name),
                     this->escaper = service;
             } else {

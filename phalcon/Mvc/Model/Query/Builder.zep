@@ -1461,7 +1461,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     {
         var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
-        if (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
+        if operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR {
             throw new Exception(sprintf("Operator % is not available.", operator));
         }
 

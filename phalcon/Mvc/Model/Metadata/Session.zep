@@ -60,11 +60,11 @@ class Session extends MetaData
             return null;
         }
 
-        if fetch metaData, _SESSION["$PMM$" . this->prefix][key] {
-            return metaData;
+        if !fetch metaData, _SESSION["$PMM$" . this->prefix][key] {
+            return null;
         }
 
-        return null;
+        return metaData;
     }
 
     /**

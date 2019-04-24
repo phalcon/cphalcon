@@ -100,12 +100,13 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
         /**
          * Check the internal bag
          */
-        if fetch cookie, this->cookies[name] {
-            cookie->delete();
-            return true;
+        if !fetch cookie, this->cookies[name] {
+            return false;
         }
 
-        return false;
+        cookie->delete();
+
+        return true;
     }
 
     /**
@@ -173,21 +174,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
      */
     public function has(string! name) -> bool
     {
-        /**
-         * Check the internal bag
-         */
-        if isset this->cookies[name] {
-            return true;
-        }
-
-        /**
-         * Check the superglobal
-         */
-        if isset _COOKIE[name] {
-            return true;
-        }
-
-        return false;
+        return isset this->cookies[name] || isset _COOKIE[name];
     }
 
     /**
@@ -216,15 +203,15 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
     {
         var cookie;
 
-        if !headers_sent() {
-            for cookie in this->cookies {
-                cookie->send();
-            }
-
-            return true;
+        if headers_sent() {
+            return false;
         }
 
-        return false;
+        for cookie in this->cookies {
+            cookie->send();
+        }
+
+        return true;
     }
 
     /**

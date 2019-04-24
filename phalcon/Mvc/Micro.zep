@@ -227,11 +227,11 @@ class Micro extends Injectable implements \ArrayAccess
 
         let modelBinder = this->modelBinder;
 
-        if modelBinder != null {
-            return modelBinder->getBoundModels();
+        if modelBinder == null {
+            return [];
         }
 
-        return [];
+        return modelBinder->getBoundModels();
     }
 
     /**

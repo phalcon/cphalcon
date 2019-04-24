@@ -64,12 +64,11 @@ class Gd extends Adapter
                         throw new Exception(
                             "Installed GD does not support " . this->mime . " images"
                         );
-                    } else {
-                        throw new Exception(
-                            "Installed GD does not support such images"
-                        );
                     }
-                    break;
+
+                    throw new Exception(
+                        "Installed GD does not support such images"
+                    );
             }
 
             imagesavealpha(this->image, true);
