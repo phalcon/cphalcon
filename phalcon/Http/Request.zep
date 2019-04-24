@@ -111,16 +111,14 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getBasicAuth() -> array | null
     {
-        var auth;
-
-        if isset _SERVER["PHP_AUTH_USER"] && isset _SERVER["PHP_AUTH_PW"] {
-            let auth = [];
-            let auth["username"] = _SERVER["PHP_AUTH_USER"];
-            let auth["password"] = _SERVER["PHP_AUTH_PW"];
-            return auth;
+        if !isset _SERVER["PHP_AUTH_USER"] || !isset _SERVER["PHP_AUTH_PW"] {
+            return null;
         }
 
-        return null;
+        return [
+            "username": _SERVER["PHP_AUTH_USER"],
+            "password": _SERVER["PHP_AUTH_PW"]
+        ];
     }
 
     /**
@@ -174,18 +172,19 @@ class Request implements RequestInterface, InjectionAwareInterface
             fetch address, _SERVER["REMOTE_ADDR"];
         }
 
-        if typeof address == "string" {
-            if memstr(address, ",") {
-                /**
-                 * The client address has multiples parts, only return the first
-                 * part
-                 */
-                return explode(",", address)[0];
-            }
-            return address;
+        if typeof address != "string" {
+            return false;
         }
 
-        return false;
+        if memstr(address, ",") {
+            /**
+             * The client address has multiples parts, only return the first
+             * part
+             */
+            return explode(",", address)[0];
+        }
+
+        return address;
     }
 
     /**
@@ -583,19 +582,20 @@ class Request implements RequestInterface, InjectionAwareInterface
          * Get the server name from $_SERVER["HTTP_HOST"]
          */
         let host = this->getServer("HTTP_HOST");
-        if host {
-            if memstr(host, ":") {
-                let pos = strrpos(host, ":");
 
-                if false !== pos {
-                    return (int) substr(host, pos + 1);
-                }
-            }
-
-            return "https" === $this->getScheme() ? 443 : 80;
+        if !host {
+            return (int) this->getServer("SERVER_PORT");
         }
 
-        return (int) this->getServer("SERVER_PORT");
+        if memstr(host, ":") {
+            let pos = strrpos(host, ":");
+
+            if false !== pos {
+                return (int) substr(host, pos + 1);
+            }
+        }
+
+        return "https" === $this->getScheme() ? 443 : 80;
     }
 
     /**

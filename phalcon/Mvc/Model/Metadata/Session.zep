@@ -55,6 +55,7 @@ class Session extends MetaData
         var metaData, status;
 
         let status = session_status();
+
         if status !== PHP_SESSION_ACTIVE {
             // To use $_SESSION variable we need to start session first
             return null;

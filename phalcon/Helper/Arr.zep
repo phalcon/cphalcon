@@ -269,7 +269,10 @@ class Arr
      */
     final public static function split(array! collection) -> array
     {
-        return [array_keys(collection), array_values(collection)];
+        return [
+            array_keys(collection),
+            array_values(collection)
+        ];
     }
 
     /**

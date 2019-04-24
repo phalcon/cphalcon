@@ -1881,7 +1881,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          */
         if typeof fieldName == "string" {
             return in_array(fieldName, changedFields);
-        } elseif typeof fieldName == "array" {
+        }
+
+        if typeof fieldName == "array" {
             if allFields {
                 return array_intersect(fieldName, changedFields) == fieldName;
             }
@@ -1921,7 +1923,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          */
         if typeof fieldName == "string" {
             return in_array(fieldName, updatedFields);
-        } elseif typeof fieldName == "array" {
+        }
+
+        if typeof fieldName == "array" {
             if allFields {
                 return array_intersect(fieldName, updatedFields) == fieldName;
             }
