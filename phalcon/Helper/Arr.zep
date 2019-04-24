@@ -25,6 +25,8 @@ class Arr
      * @param array $collection
      * @param int   $size
      * @param bool  $preserveKeys
+     *
+     * @return array
      */
     final public static function chunk(array! collection, int size, bool preserveKeys = false) -> array
     {
@@ -37,6 +39,8 @@ class Arr
      *
      * @param array    $collection
      * @param callable $method
+     *
+     * @return mixed
      */
     final public static function first(array! collection, var method = null) -> var
     {
@@ -53,6 +57,8 @@ class Arr
      *
      * @param array    $collection
      * @param callable $method
+     *
+     * @return mixed
      */
     final public static function firstKey(array! collection, var method = null) -> var
     {
@@ -74,6 +80,8 @@ class Arr
      *
      * @param array $collection
      * @param bool  $deep
+     *
+     * @return array
      */
     final public static function flatten(array! collection, bool deep = false) -> array
     {
@@ -114,6 +122,8 @@ class Arr
      *
      * @param array    $collection
      * @param callable $method
+     *
+     * @return array
      */
     final public static function group(array! collection, var method) -> array
     {
@@ -139,6 +149,11 @@ class Arr
 
     /**
      * Helper method to get an array element or a default
+     *
+     * @param array $collection
+     * @param mixed $index
+     *
+     * return bool
      */
     final public static function has(array! collection, var index) -> bool
     {
@@ -164,6 +179,8 @@ class Arr
      *
      * @param array    $collection
      * @param callable $method
+     *
+     * return mixed
      */
     final public static function last(array! collection, var method = null) -> var
     {
@@ -184,6 +201,8 @@ class Arr
      *
      * @param array    $collection
      * @param callable $method
+     *
+     * @return mixed
      */
     final public static function lastKey(array! collection, var method = null) -> var
     {
@@ -203,9 +222,9 @@ class Arr
     /**
      * Sorts a collection of arrays or objects by key
      *
-     * @param array $collection
-     * @param [type] $attr
-     * @param [type] $order
+     * @param array  $collection
+     * @param mixed  $attr
+     * @param string $order
      *
      * @return array
      */
@@ -239,6 +258,8 @@ class Arr
      *
      * @param array  $collection
      * @param string $element
+     *
+     * @return array
      */
     final public static function pluck(array! collection, string element) -> array
     {
@@ -259,6 +280,12 @@ class Arr
 
     /**
      * Helper method to set an array element
+     *
+     * @param array $collection
+     * @param mixed $value
+     * @param mixed $index
+     *
+     * @return array
      */
     final public static function set(array! collection, var value, var index = null) -> array
     {
@@ -276,6 +303,8 @@ class Arr
      *
      * @param array $collection
      * @param int   $elements
+     *
+     * @return array
      */
     final public static function sliceLeft(array! collection, int elements = 1) -> array
     {
@@ -287,6 +316,8 @@ class Arr
      *
      * @param array $collection
      * @param int   $elements
+     *
+     * @return array
      */
     final public static function sliceRight(array! collection, int elements = 1) -> array
     {
@@ -298,6 +329,8 @@ class Arr
      * values as another
      *
      * @param array $collection
+     *
+     * @return array
      */
     final public static function split(array! collection) -> array
     {
@@ -310,6 +343,8 @@ class Arr
      *
      * @param array    $collection
      * @param callable $method
+     *
+     * @return bool
      */
     final public static function validateAll(array! collection, var method) -> bool
     {
@@ -322,6 +357,8 @@ class Arr
      *
      * @param array    $collection
      * @param callable $method
+     *
+     * @return bool
      */
     final public static function validateAny(array! collection, var method) -> bool
     {
