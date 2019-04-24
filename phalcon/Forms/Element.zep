@@ -154,11 +154,11 @@ abstract class Element implements ElementInterface
 
         let attributes = this->attributes;
 
-        if fetch value, attributes[attribute] {
-            return value;
+        if !fetch value, attributes[attribute] {
+            return defaultValue;
         }
 
-        return defaultValue;
+        return value;
     }
 
     /**
@@ -235,11 +235,11 @@ abstract class Element implements ElementInterface
     {
         var value;
 
-        if fetch value, this->options[option] {
-            return value;
+        if !fetch value, this->options[option] {
+            return defaultValue;
         }
 
-        return defaultValue;
+        return value;
     }
 
     /**

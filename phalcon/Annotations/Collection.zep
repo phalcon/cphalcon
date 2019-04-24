@@ -75,11 +75,11 @@ class Collection implements \Iterator, \Countable
     {
         var annotation;
 
-        if fetch annotation, this->annotations[this->position] {
-            return annotation;
+        if !fetch annotation, this->annotations[this->position] {
+            return false;
         }
 
-        return false;
+        return annotation;
     }
 
     /**

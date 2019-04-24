@@ -560,11 +560,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
         let row = this->fetchOne(sqlQuery, Db::FETCH_BOTH, placeholders);
 
-        if !empty row && fetch columnValue, row[column] {
-            return columnValue;
+        if !fetch columnValue, row[column] {
+            return false;
         }
 
-        return false;
+        return columnValue;
     }
 
     /**
@@ -1089,10 +1089,12 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         var sql;
 
         let sql = this->dialect->tableOptions(tableName, schemaName);
-        if sql {
-            return this->fetchAll(sql, Db::FETCH_ASSOC)[0];
+
+        if !sql {
+            return [];
         }
-        return [];
+
+        return this->fetchAll(sql, Db::FETCH_ASSOC)[0];
     }
 
     /**

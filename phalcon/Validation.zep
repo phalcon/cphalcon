@@ -121,16 +121,13 @@ class Validation extends Injectable implements ValidationInterface
      */
     public function bind(entity, data) -> <ValidationInterface>
     {
-        if typeof entity != "object" {
-            throw new Exception("Entity must be an object");
-        }
+        this->setEntity(entity);
 
         if typeof data != "array" && typeof data != "object" {
             throw new Exception("Data to validate must be an array or object");
         }
 
-        let this->entity = entity,
-            this->data = data;
+        let this->data = data;
 
         return this;
     }
@@ -142,11 +139,11 @@ class Validation extends Injectable implements ValidationInterface
     {
         var defaultMessage;
 
-        if fetch defaultMessage, this->defaultMessages[type] {
-            return defaultMessage;
+        if !fetch defaultMessage, this->defaultMessages[type] {
+            return "";
         }
 
-        return "";
+        return defaultMessage;
     }
 
     /**

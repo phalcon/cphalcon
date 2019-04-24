@@ -1193,7 +1193,7 @@ class Tag
      */
     public static function setDocType(int doctype) -> void
     {
-        if (doctype < self::HTML32 || doctype > self::XHTML5) {
+        if doctype < self::HTML32 || doctype > self::XHTML5 {
             let self::documentType = self::HTML5;
         } else {
             let self::documentType = doctype;

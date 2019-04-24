@@ -107,11 +107,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      */
     public function exists() -> bool
     {
-        if (session_status() === self::SESSION_ACTIVE) {
-            return true;
-        }
-
-        return false;
+        return (session_status() === self::SESSION_ACTIVE);
     }
 
     /**
@@ -301,7 +297,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      */
     public function setName(string name) -> <ManagerInterface>
     {
-        if (this->exists()) {
+        if this->exists() {
             throw new InvalidArgumentException(
                 "Cannot set session name after a session has started"
             );
