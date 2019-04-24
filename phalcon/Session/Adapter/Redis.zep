@@ -10,9 +10,10 @@
 
 namespace Phalcon\Session\Adapter;
 
-use Phalcon\Cache\Backend\Redis as CacheRedis;
-use Phalcon\Cache\Frontend\None as FrontendNone;
+use Phalcon\Storage\Adapter\Redis as StorageRedis;
 use Phalcon\Helper\Arr;
+use Phalcon\Session\Exception;
+use SessionHandlerInterface;
 
 /**
  * Phalcon\Session\Adapter\Noop
@@ -40,55 +41,64 @@ use Phalcon\Helper\Arr;
  * $session->setHandler($adapter);
  * </code>
  */
- class Redis extends Noop
+ class Redis extends StorageRedis implements SessionHandlerInterface
 {
     public function __construct(array! options = []) -> void
     {
-        var options, params;
+        let options["prefix"] = "sess-reds-";
 
         parent::__construct(options);
-
-        let options              = this->options,
-            params               = [],
-            params["host"]       = Arr::get(options, "host", "127.0.0.1"),
-            params["port"]       = Arr::get(options, "port", 6379),
-            params["index"]      = Arr::get(options, "index", 0),
-            params["persistent"] = Arr::get(options, "persistent", false),
-            this->ttl            = Arr::get(options, "ttl", this->ttl);
-
-        let this->connection = new CacheRedis(
-            new FrontendNone(
-                [
-                    "lifetime" : this->ttl
-                ]
-            ),
-            params
-        );
     }
 
+    /**
+     * Close
+     */
+    public function close() -> bool
+    {
+        return true;
+    }
+
+    /**
+     * Destroy
+     */
     public function destroy(var id) -> bool
     {
-        var name = this->getPrefixedName(id);
-
-        if (true !== empty(name) && this->connection->exists(name)) {
-            return (bool) this->connection->delete(name);
+        if !empty(id) && this->has(id) {
+            return this->delete(id);
         }
 
         return true;
     }
 
-    public function read(var id) -> string
+    /**
+     * Garbage Collector
+     */
+    public function gc(var maxlifetime) -> bool
     {
-        var name = this->getPrefixedName(id),
-            data = this->connection->get(name, this->ttl);
-
-        return data;
+        return true;
     }
 
+    /**
+     * Read
+     */
+    public function read(var id) -> string
+    {
+        return this->get(id);
+    }
+
+    /**
+     * Open
+     */
+    public function open(var savePath, var sessionName) -> bool
+    {
+        return true;
+    }
+
+    /**
+     * Write
+     */
     public function write(var id, var data) -> bool
     {
-        var name = this->getPrefixedName(id);
-
-        return this->connection->save(name, data, this->ttl);
+        return this->set(id, data);
     }
 }

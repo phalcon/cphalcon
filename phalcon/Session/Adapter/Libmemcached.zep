@@ -10,13 +10,11 @@
 
 namespace Phalcon\Session\Adapter;
 
-use Phalcon\Cache\Backend\Libmemcached as CacheLibmemcached;
-use Phalcon\Cache\Frontend\Data as FrontendData;
-use Phalcon\Helper\Arr;
-use Phalcon\Session\Exception;
+use Phalcon\Storage\Adapter\Libmemcached as StorageLibmemcached;
+use SessionHandlerInterface;
 
 /**
- * Phalcon\Session\Adapter\Noop
+ * Phalcon\Session\Adapter\Libmemcached
  *
  * This is an "empty" or null adapter. It can be used for testing or any
  * other purpose that no session needs to be invoked
@@ -49,68 +47,67 @@ use Phalcon\Session\Exception;
  * $session->setHandler($adapter);
  * </code>
  */
-class Libmemcached extends Noop
+class Libmemcached extends StorageLibmemcached implements SessionHandlerInterface
 {
+    /**
+     * Constructor
+     */
     public function __construct(array! options = []) -> void
     {
-        var client, options, persistentId, prefix, servers, statsKey, ttl;
+        let options["prefix"] = "sess-memc-";
 
         parent::__construct(options);
-
-        let options = this->options;
-
-        if unlikely !fetch servers, options["servers"] {
-            throw new Exception("No 'servers' specified in the options");
-        }
-
-        let client       = Arr::get(options, "client", []),
-            ttl          = Arr::get(options, "ttl", this->ttl),
-            statsKey     = Arr::get(options, "statsKey", ""),
-            persistentId = Arr::get(options, "persistent_id", "phalcon-session");
-
-
-        // Memcached has an internal max lifetime of 30 days
-        let this->ttl = min(ttl, 2592000);
-
-        let this->connection = new CacheLibmemcached(
-            new FrontendData(
-                [
-                    "lifetime" : this->ttl
-                ]
-            ),
-            [
-                "servers"       : servers,
-                "client"        : client,
-                "prefix"        : prefix,
-                "statsKey"      : statsKey,
-                "persistent_id" : persistentId
-            ]
-        );
     }
 
+    /**
+     * Close
+     */
+    public function close() -> bool
+    {
+        return true;
+    }
+
+    /**
+     * Destroy
+     */
     public function destroy(var id) -> bool
     {
-        var name = this->getPrefixedName(id);
-
-        if (true !== empty(name) && this->connection->exists(name)) {
-            return (bool) this->connection->delete(name);
+        if !empty(id) && this->has(id) {
+            return this->delete(id);
         }
 
         return true;
     }
 
-    public function read(var id) -> string
+    /**
+     * Garbage Collector
+     */
+    public function gc(var maxlifetime) -> bool
     {
-        var name = this->getPrefixedName(id),
-            data = this->connection->get(name, this->ttl);
-
-        return data;
+        return true;
     }
 
+    /**
+     * Read
+     */
+    public function read(var id) -> string
+    {
+        return this->get(id);
+    }
+
+    /**
+     * Open
+     */
+    public function open(var savePath, var sessionName) -> bool
+    {
+        return true;
+    }
+
+    /**
+     * Write
+     */
     public function write(var id, var data) -> bool
     {
-        var name = this->getPrefixedName(id);
-
-        return this->connection->save(name, data, this->ttl);
+        return this->set(id, data);
     }
 }
