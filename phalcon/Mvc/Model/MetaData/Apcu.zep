@@ -12,6 +12,7 @@ namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Storage\Adapter\Apcu as StorageApcu;
 
 /**
  * Phalcon\Mvc\Model\MetaData\Apcu
@@ -23,10 +24,10 @@ use Phalcon\Mvc\Model\Exception;
  * You can query the meta-data by printing apcu_fetch('$PMM$') or apcu_fetch('$PMM$my-app-id')
  *
  *<code>
- * $metaData = new \Phalcon\Mvc\Model\Metadata\Apcu(
+ * $metaData = new \Phalcon\Mvc\Model\MetaData\Apcu(
  *     [
- *         "prefix"   => "my-app-id",
- *         "lifetime" => 86400,
+ *         "prefix"     => "my-app-id",
+ *         "defaultTtl" => 86400,
  *     ]
  * );
  *</code>
@@ -35,10 +36,6 @@ class Apcu extends MetaData
 {
     protected metaData = [];
 
-    protected prefix = "";
-
-    protected ttl = 172800;
-
     /**
      * Phalcon\Mvc\Model\MetaData\Apcu constructor
      *
@@ -46,42 +43,8 @@ class Apcu extends MetaData
      */
     public function __construct(options = null) -> void
     {
-        var prefix, ttl;
-
-        if fetch prefix, options["prefix"] {
-            let this->prefix = prefix;
-        }
-
-        if fetch ttl, options["lifetime"] {
-            let this->ttl = ttl;
-        }
-    }
-
-    /**
-     * Reads meta-data from APCu
-     */
-    public function read(string! key) -> array | null
-    {
-        var data;
-
-        let data = apcu_fetch("$PMM$" . this->prefix . key);
-
-        if typeof data != "array" {
-            return null;
-        }
-
-        return data;
-    }
-
-    /**
-     * Writes the meta-data to APCu
-     */
-    public function write(string! key, array data) -> void
-    {
-        apcu_store(
-            "$PMM$" . this->prefix . key,
-            data,
-            this->ttl
-        );
+        let options["prefix"]     = "ph-mm-apcu-",
+            options["defaultTtl"] = 172800,
+            this->adapter         = new StorageApcu(options);
     }
 }

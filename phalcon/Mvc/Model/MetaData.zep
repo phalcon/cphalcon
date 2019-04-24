@@ -16,6 +16,7 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
 use Phalcon\Mvc\Model\MetaData\StrategyInterface;
+use Phalcon\Storage\Adapter\AdapterInterface as StorageAdapterInterface;
 
 /**
  * Phalcon\Mvc\Model\MetaData
@@ -54,6 +55,11 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     const MODELS_NOT_NULL = 3;
     const MODELS_PRIMARY_KEY = 1;
     const MODELS_REVERSE_COLUMN_MAP = 1;
+
+    /**
+     * @var StorageAdapterInterface
+     */
+    protected adapter;
 
     protected columnMap;
 
@@ -454,6 +460,14 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     }
 
     /**
+     * Reads metadata from the adapter
+     */
+    public function read(string! key) -> array | null
+    {
+        return this->adapter->get(key);
+    }
+
+    /**
      * Reads the ordered/reversed column map for certain model
      *
      *<code>
@@ -669,6 +683,14 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     public function setStrategy(<StrategyInterface> strategy) -> void
     {
         let this->strategy = strategy;
+    }
+
+    /**
+     * Writes the metadata to adapter
+     */
+    public function write(string! key, array data) -> void
+    {
+        this->adapter->set(key, data);
     }
 
     /**
