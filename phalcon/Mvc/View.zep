@@ -336,10 +336,8 @@ class View extends Injectable implements ViewInterface
             activeRenderPath = this->activeRenderPaths;
 
         if viewsDirsCount === 1 {
-            if typeof activeRenderPath == "array" {
-                if count(activeRenderPath) {
-                    let activeRenderPath = activeRenderPath[0];
-                }
+            if typeof activeRenderPath == "array" && count(activeRenderPath) {
+                let activeRenderPath = activeRenderPath[0];
             }
         }
 

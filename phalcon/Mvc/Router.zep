@@ -781,6 +781,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     {
         return true;
     }
+
     /**
      * Mounts a group of routes in the router
      */
@@ -824,11 +825,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
         let routes = this->routes;
 
-        if typeof routes == "array" {
-            let this->routes = array_merge(routes, groupRoutes);
-        } else {
-            let this->routes = groupRoutes;
-        }
+        let this->routes = array_merge(routes, groupRoutes);
 
         return this;
     }

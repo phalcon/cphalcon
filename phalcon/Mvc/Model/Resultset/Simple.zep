@@ -232,6 +232,7 @@ class Simple extends Resultset
     public function serialize() -> string
     {
         var container, serializer;
+        array data;
 
         let container = Di::getDefault();
 
@@ -241,28 +242,25 @@ class Simple extends Resultset
             );
         }
 
-        if container->has("serializer") {
-            let serializer = <FrontendInterface> container->getShared("serializer");
-            return serializer->beforeStore([
-                "model"         : this->model,
-                "cache"         : this->cache,
-                "rows"          : this->toArray(false),
-                "columnMap"     : this->columnMap,
-                "hydrateMode"   : this->hydrateMode,
-                "keepSnapshots" : this->keepSnapshots
-            ]);
-        }
-        /**
-         * Serialize the cache using the serialize function
-         */
-        return serialize([
+        let data = [
             "model"         : this->model,
             "cache"         : this->cache,
             "rows"          : this->toArray(false),
             "columnMap"     : this->columnMap,
             "hydrateMode"   : this->hydrateMode,
             "keepSnapshots" : this->keepSnapshots
-        ]);
+        ];
+
+        if container->has("serializer") {
+            let serializer = <FrontendInterface> container->getShared("serializer");
+
+            return serializer->beforeStore(data);
+        }
+
+        /**
+         * Serialize the cache using the serialize function
+         */
+        return serialize(data);
     }
 
     /**

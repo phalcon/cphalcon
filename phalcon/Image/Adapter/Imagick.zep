@@ -700,19 +700,7 @@ class Imagick extends Adapter
                 let offsetX = 0,
                     offsetY = 0;
 
-                if offsetX && offsetY {
-                    let gravity = constant("Imagick::GRAVITY_SOUTHEAST");
-                } else {
-                    if offsetX {
-                        let gravity = constant("Imagick::GRAVITY_EAST");
-                    } else {
-                        if offsetY {
-                            let gravity = constant("Imagick::GRAVITY_SOUTH");
-                        } else {
-                            let gravity = constant("Imagick::GRAVITY_CENTER");
-                        }
-                    }
-                }
+                let gravity = constant("Imagick::GRAVITY_CENTER");
             } else {
                 if typeof offsetY == "int" {
                     let y = (int) offsetY;

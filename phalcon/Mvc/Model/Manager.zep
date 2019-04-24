@@ -1482,10 +1482,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function getReusableRecords(string! modelName, string! key)
     {
         var records;
-        if fetch records, this->reusable[key] {
-            return records;
+
+        if !fetch records, this->reusable[key] {
+            return null;
         }
-        return null;
+
+        return records;
     }
 
     /**
@@ -1839,13 +1841,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var namespaceName;
 
-        if fetch namespaceName, this->namespaceAliases[alias] {
-            return namespaceName;
+        if !fetch namespaceName, this->namespaceAliases[alias] {
+            throw new Exception(
+                "Namespace alias '" . alias . "' is not registered"
+            );
         }
 
-        throw new Exception(
-            "Namespace alias '" . alias . "' is not registered"
-        );
+        return namespaceName;
     }
 
     /**

@@ -111,16 +111,14 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getBasicAuth() -> array | null
     {
-        var auth;
-
-        if isset _SERVER["PHP_AUTH_USER"] && isset _SERVER["PHP_AUTH_PW"] {
-            let auth = [];
-            let auth["username"] = _SERVER["PHP_AUTH_USER"];
-            let auth["password"] = _SERVER["PHP_AUTH_PW"];
-            return auth;
+        if !isset _SERVER["PHP_AUTH_USER"] || !isset _SERVER["PHP_AUTH_PW"] {
+            return null;
         }
 
-        return null;
+        return [
+            "username": _SERVER["PHP_AUTH_USER"],
+            "password": _SERVER["PHP_AUTH_PW"]
+        ];
     }
 
     /**
@@ -174,18 +172,19 @@ class Request implements RequestInterface, InjectionAwareInterface
             fetch address, _SERVER["REMOTE_ADDR"];
         }
 
-        if typeof address == "string" {
-            if memstr(address, ",") {
-                /**
-                 * The client address has multiples parts, only return the first
-                 * part
-                 */
-                return explode(",", address)[0];
-            }
-            return address;
+        if typeof address != "string" {
+            return false;
         }
 
-        return false;
+        if memstr(address, ",") {
+            /**
+             * The client address has multiples parts, only return the first
+             * part
+             */
+            return explode(",", address)[0];
+        }
+
+        return address;
     }
 
     /**
@@ -204,18 +203,11 @@ class Request implements RequestInterface, InjectionAwareInterface
     {
         var contentType;
 
-        if fetch contentType, _SERVER["CONTENT_TYPE"] {
-            return contentType;
-        } else {
-            /**
-             * @see https://bugs.php.net/bug.php?id=66606
-             */
-            if fetch contentType, _SERVER["HTTP_CONTENT_TYPE"] {
-                return contentType;
-            }
+        if !fetch contentType, _SERVER["CONTENT_TYPE"] {
+            return null;
         }
 
-        return null;
+        return contentType;
     }
 
 
@@ -498,10 +490,12 @@ class Request implements RequestInterface, InjectionAwareInterface
     public function getHTTPReferer() -> string
     {
         var httpReferer;
-        if fetch httpReferer, _SERVER["HTTP_REFERER"] {
-            return httpReferer;
+
+        if !fetch httpReferer, _SERVER["HTTP_REFERER"] {
+            return "";
         }
-        return "";
+
+        return httpReferer;
     }
 
     /**
@@ -581,19 +575,20 @@ class Request implements RequestInterface, InjectionAwareInterface
          * Get the server name from $_SERVER["HTTP_HOST"]
          */
         let host = this->getServer("HTTP_HOST");
-        if host {
-            if memstr(host, ":") {
-                let pos = strrpos(host, ":");
 
-                if false !== pos {
-                    return (int) substr(host, pos + 1);
-                }
-            }
-
-            return "https" === $this->getScheme() ? 443 : 80;
+        if !host {
+            return (int) this->getServer("SERVER_PORT");
         }
 
-        return (int) this->getServer("SERVER_PORT");
+        if memstr(host, ":") {
+            let pos = strrpos(host, ":");
+
+            if false !== pos {
+                return (int) substr(host, pos + 1);
+            }
+        }
+
+        return "https" === $this->getScheme() ? 443 : 80;
     }
 
     /**
@@ -720,19 +715,15 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getScheme() -> string
     {
-        var https, scheme;
+        var https;
 
         let https = this->getServer("HTTPS");
-        if https {
-            if https == "off" {
-                let scheme = "http";
-            } else {
-                let scheme = "https";
-            }
-        } else {
-            let scheme = "http";
+
+        if https && https != "off" {
+            return "https";
         }
-        return scheme;
+
+        return "http";
     }
 
     /**
@@ -742,10 +733,11 @@ class Request implements RequestInterface, InjectionAwareInterface
     {
         var serverValue;
 
-        if fetch serverValue, _SERVER[name] {
-            return serverValue;
+        if !fetch serverValue, _SERVER[name] {
+            return null;
         }
-        return null;
+
+        return serverValue;
     }
 
     /**
@@ -755,11 +747,11 @@ class Request implements RequestInterface, InjectionAwareInterface
     {
         var serverAddr;
 
-        if fetch serverAddr, _SERVER["SERVER_ADDR"] {
-            return serverAddr;
+        if !fetch serverAddr, _SERVER["SERVER_ADDR"] {
+            return gethostbyname("localhost");
         }
 
-        return gethostbyname("localhost");
+        return serverAddr;
     }
 
     /**
@@ -769,11 +761,11 @@ class Request implements RequestInterface, InjectionAwareInterface
     {
         var serverName;
 
-        if fetch serverName, _SERVER["SERVER_NAME"] {
-            return serverName;
+        if !fetch serverName, _SERVER["SERVER_NAME"] {
+            return "localhost";
         }
 
-        return "localhost";
+        return serverName;
     }
 
     /**
@@ -843,11 +835,11 @@ class Request implements RequestInterface, InjectionAwareInterface
     {
         var requestURI;
 
-        if fetch requestURI, _SERVER["REQUEST_URI"] {
-            return requestURI;
+        if !fetch requestURI, _SERVER["REQUEST_URI"] {
+            return "";
         }
 
-        return "";
+        return requestURI;
     }
 
     /**
@@ -857,10 +849,11 @@ class Request implements RequestInterface, InjectionAwareInterface
     {
         var userAgent;
 
-        if fetch userAgent, _SERVER["HTTP_USER_AGENT"] {
-            return userAgent;
+        if !fetch userAgent, _SERVER["HTTP_USER_AGENT"] {
+            return "";
         }
-        return "";
+
+        return userAgent;
     }
 
     /**
@@ -916,15 +909,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 
         let name = strtoupper(strtr(header, "-", "_"));
 
-        if isset _SERVER[name] {
-            return true;
-        }
-
-        if isset _SERVER["HTTP_" . name] {
-            return true;
-        }
-
-        return false;
+        return isset _SERVER[name] || isset _SERVER["HTTP_" . name];
     }
 
     /**
@@ -1113,13 +1098,15 @@ class Request implements RequestInterface, InjectionAwareInterface
 
         if isset _SERVER["HTTP_SOAPACTION"] {
             return true;
-        } else {
-            let contentType = this->getContentType();
-            if !empty contentType {
-                return memstr(contentType, "application/soap+xml");
-            }
         }
-        return false;
+
+        let contentType = this->getContentType();
+
+        if empty contentType {
+            return false;
+        }
+
+        return memstr(contentType, "application/soap+xml");
     }
 
     /**

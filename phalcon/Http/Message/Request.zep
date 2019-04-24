@@ -141,11 +141,7 @@ class Request implements RequestInterface
 
         let header = this->getHeader(name);
 
-        if count(header) > 0 {
-            return implode(",", header);
-        }
-
-        return "";
+        return implode(",", header);
     }
 
     /**

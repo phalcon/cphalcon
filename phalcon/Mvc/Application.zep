@@ -149,13 +149,11 @@ class Application extends BaseApplication
                  * If the returned string is a ResponseInterface use it as
                  * response
                  */
-                if typeof possibleResponse == "object" {
-                    if possibleResponse instanceof ResponseInterface {
-                        possibleResponse->sendHeaders();
-                        possibleResponse->sendCookies();
+                if typeof possibleResponse == "object" && possibleResponse instanceof ResponseInterface {
+                    possibleResponse->sendHeaders();
+                    possibleResponse->sendCookies();
 
-                        return possibleResponse;
-                    }
+                    return possibleResponse;
                 }
             }
         }
@@ -302,7 +300,7 @@ class Application extends BaseApplication
         /**
          * Returning false from an action cancels the view
          */
-        if typeof possibleResponse == "boolean" && possibleResponse === false {
+        if possibleResponse === false {
             let response = <ResponseInterface> container->getShared("response");
         } else {
             /**

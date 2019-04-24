@@ -48,11 +48,11 @@ class Headers implements HeadersInterface
 
         let headers = this->headers;
 
-        if fetch headerValue, headers[name] {
-            return headerValue;
+        if !fetch headerValue, headers[name] {
+            return false;
         }
 
-        return false;
+        return headerValue;
     }
 
     /**
@@ -60,7 +60,7 @@ class Headers implements HeadersInterface
      */
     public function has(string name) -> bool
     {
-        return isset(this->headers[name]);
+        return isset this->headers[name];
     }
 
     /**
@@ -89,21 +89,33 @@ class Headers implements HeadersInterface
     public function send() -> bool
     {
         var header, value;
-        if !headers_sent() {
-            for header, value in this->headers {
-                if value !== null {
-                    header(header . ": " . value, true);
+
+        if headers_sent() {
+            return false;
+        }
+
+        for header, value in this->headers {
+            if value !== null {
+                header(
+                    header . ": " . value,
+                    true
+                );
+            } else {
+                if memstr(header, ":") || substr(header, 0, 5) == "HTTP/" {
+                    header(
+                        header,
+                        true
+                    );
                 } else {
-                    if memstr(header, ":") || substr(header, 0, 5) == "HTTP/" {
-                        header(header, true);
-                    } else {
-                        header(header . ": ", true);
-                    }
+                    header(
+                        header . ": ",
+                        true
+                    );
                 }
             }
-            return true;
         }
-        return false;
+
+        return true;
     }
 
     /**

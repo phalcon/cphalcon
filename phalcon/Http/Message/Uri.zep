@@ -637,9 +637,9 @@ class Uri implements UriInterface
                 let parts[key] = rawurlencode(split[0]);
 
                 continue;
-            } else {
-                let parts[key] = rawurlencode(split[0]) . "=" . rawurlencode(split[1]);
             }
+
+            let parts[key] = rawurlencode(split[0]) . "=" . rawurlencode(split[1]);
         }
 
         return implode("&", parts);

@@ -868,13 +868,16 @@ class Compiler implements InjectionAwareInterface
         var level, prefix;
 
         let level = this->foreachLevel;
-        if fetch prefix, this->forElsePointers[level] {
-            if isset this->loopPointers[level] {
-                return "<?php $" . prefix . "incr++; } if (!$" . prefix . "iterated) { ?>";
-            }
-            return "<?php } if (!$" . prefix . "iterated) { ?>";
+
+        if !fetch prefix, this->forElsePointers[level] {
+            return "";
         }
-        return "";
+
+        if isset this->loopPointers[level] {
+            return "<?php $" . prefix . "incr++; } if (!$" . prefix . "iterated) { ?>";
+        }
+
+        return "<?php } if (!$" . prefix . "iterated) { ?>";
     }
 
     /**
@@ -1923,10 +1926,12 @@ class Compiler implements InjectionAwareInterface
     public function getOption(string! option)
     {
         var value;
-        if fetch value, this->options[option] {
-            return value;
+
+        if !fetch value, this->options[option] {
+            return null;
         }
-        return null;
+
+        return value;
     }
 
     /**
@@ -2361,35 +2366,33 @@ class Compiler implements InjectionAwareInterface
          * Check if it's a user defined filter
          */
         let filters = this->filters;
-        if typeof filters == "array" {
-            if fetch definition, filters[name] {
 
-                /**
-                 * The definition is a string
-                 */
-                if typeof definition == "string" {
-                    return definition . "(" . arguments . ")";
-                }
-
-                /**
-                 * The definition is a closure
-                 */
-                if typeof definition == "object" {
-                    if definition instanceof \Closure {
-                        return call_user_func_array(
-                            definition,
-                            [arguments, funcArguments]
-                        );
-                    }
-                }
-
-                /**
-                 * Invalid filter definition throw an exception
-                 */
-                throw new Exception(
-                    "Invalid definition for user filter '" . name . "' in " . filter["file"] . " on line " . filter["line"]
-                );
+        if fetch definition, filters[name] {
+            /**
+             * The definition is a string
+             */
+            if typeof definition == "string" {
+                return definition . "(" . arguments . ")";
             }
+
+            /**
+             * The definition is a closure
+             */
+            if typeof definition == "object" {
+                if definition instanceof \Closure {
+                    return call_user_func_array(
+                        definition,
+                        [arguments, funcArguments]
+                    );
+                }
+            }
+
+            /**
+             * Invalid filter definition throw an exception
+             */
+            throw new Exception(
+                "Invalid definition for user filter '" . name . "' in " . filter["file"] . " on line " . filter["line"]
+            );
         }
 
         /**

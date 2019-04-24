@@ -52,11 +52,14 @@ class Files extends MetaData
     public function read(string! key) -> array | null
     {
         var path;
+
         let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
-        if file_exists(path) {
-            return require path;
+
+        if !file_exists(path) {
+            return null;
         }
-        return null;
+
+        return require path;
     }
 
     /**

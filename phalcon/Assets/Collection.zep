@@ -411,18 +411,18 @@ class Collection implements \Countable, \Iterator
      */
     final protected function addAsset(<AssetInterface> asset) -> bool
     {
-        if !this->has(asset) {
-            if asset instanceof Asset {
-                let this->assets[] = asset;
-            } else {
-                let this->codes[] = asset;
-            }
-
-            let this->includedAssets[] = asset->getAssetKey();
-
-            return true;
+        if this->has(asset) {
+            return false;
         }
 
-        return false;
+        if asset instanceof Asset {
+            let this->assets[] = asset;
+        } else {
+            let this->codes[] = asset;
+        }
+
+        let this->includedAssets[] = asset->getAssetKey();
+
+        return true;
     }
 }

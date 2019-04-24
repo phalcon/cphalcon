@@ -87,11 +87,12 @@ class Simple extends Injectable implements ViewBaseInterface
     public function __get(string! key) -> var | null
     {
         var value;
-        if fetch value, this->viewParams[key] {
-            return value;
+
+        if !fetch value, this->viewParams[key] {
+            return null;
         }
 
-        return null;
+        return value;
     }
 
     /**
@@ -183,11 +184,13 @@ class Simple extends Injectable implements ViewBaseInterface
      */
     public function getVar(string! key) -> var | null
     {
-        var    value;
-        if fetch value, this->viewParams[key] {
-            return value;
+        var value;
+
+        if !fetch value, this->viewParams[key] {
+            return null;
         }
-        return null;
+
+        return value;
     }
 
     /**

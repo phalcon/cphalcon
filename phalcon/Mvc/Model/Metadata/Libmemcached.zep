@@ -89,10 +89,12 @@ class Libmemcached extends MetaData
         var data;
 
         let data = this->memcache->get(key);
-        if typeof data == "array" {
-            return data;
+
+        if typeof data != "array" {
+            return null;
         }
-        return null;
+
+        return data;
     }
 
     /**

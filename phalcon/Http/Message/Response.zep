@@ -130,11 +130,7 @@ class Response implements ResponseInterface
 
         let header = this->getHeader(name);
 
-        if count(header) > 0 {
-            return implode(",", header);
-        }
-
-        return "";
+        return implode(",", header);
     }
 
     /**
@@ -413,6 +409,7 @@ class Response implements ResponseInterface
         }
 
         let valueData = [];
+
         for value in values {
             this->checkHeaderValue(value);
 
@@ -605,7 +602,7 @@ class Response implements ResponseInterface
             "3.0" : 1
         ];
 
-        if (empty(protocol)) || typeof protocol !== "string" {
+        if empty(protocol) || typeof protocol !== "string" {
             throw new \InvalidArgumentException("Invalid protocol value");
         }
 
