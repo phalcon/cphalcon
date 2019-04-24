@@ -287,7 +287,9 @@ class Gd extends Adapter
 
                 let index = imagecolorat(this->image, x, y),
                     color = imagecolorsforindex(this->image, index),
-                    r = color["red"], g = color["green"], b = color["blue"],
+                    r = color["red"],
+                    g = color["green"],
+                    b = color["blue"],
                     color = imagecolorallocatealpha(newimage, r, g, b, alpha);
 
                 imagesetpixel(newimage, x, y, color);

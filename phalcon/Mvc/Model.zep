@@ -353,21 +353,19 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Values are probably relationships if they are objects
          */
-        if typeof value == "object" {
-            if value instanceof ModelInterface {
-                let dirtyState = this->dirtyState;
+        if typeof value == "object" && value instanceof ModelInterface {
+            let dirtyState = this->dirtyState;
 
-                if (value->getDirtyState() != dirtyState) {
-                    let dirtyState = self::DIRTY_STATE_TRANSIENT;
-                }
-
-                let lowerProperty = strtolower(property),
-                    this->{lowerProperty} = value,
-                    this->related[lowerProperty] = value,
-                    this->dirtyState = dirtyState;
-
-                return value;
+            if value->getDirtyState() != dirtyState {
+                let dirtyState = self::DIRTY_STATE_TRANSIENT;
             }
+
+            let lowerProperty = strtolower(property),
+                this->{lowerProperty} = value,
+                this->related[lowerProperty] = value,
+                this->dirtyState = dirtyState;
+
+            return value;
         }
 
         /**
@@ -599,9 +597,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         throw new Exception(
                             "Column '" . attribute. "' doesn't make part of the column map"
                         );
-                    } else {
-                        continue;
                     }
+
+                    continue;
                 }
             } else {
                 let attributeField = attribute;
@@ -748,9 +746,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         throw new Exception(
                             "Column '" . key . "' doesn't make part of the column map"
                         );
-                    } else {
-                        continue;
                     }
+
+                    continue;
                 }
 
                 if typeof attribute != "array" {
@@ -1099,7 +1097,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         }
 
         if globals_get("orm.events") {
-
             let this->skipped = false;
 
             /**
@@ -1285,18 +1282,50 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * $secondNewRobot->save();
      *
      * // this transaction will find the robot.
-     * $resultInFirstTransaction = Robot::find(['name' => 'first-transaction-robot', Model::TRANSACTION_INDEX => $myTransaction1]);
-     * // this transaction won't find the robot.
-     * $resultInSecondTransaction = Robot::find(['name' => 'first-transaction-robot', Model::TRANSACTION_INDEX => $myTransaction2]);
-     * // this transaction won't find the robot.
-     * $resultOutsideAnyExplicitTransaction = Robot::find(['name' => 'first-transaction-robot']);
+     * $resultInFirstTransaction = Robot::find(
+     *     [
+     *         'name'                   => 'first-transaction-robot',
+     *         Model::TRANSACTION_INDEX => $myTransaction1,
+     *     ]
+     * );
      *
      * // this transaction won't find the robot.
-     * $resultInFirstTransaction = Robot::find(['name' => 'second-transaction-robot', Model::TRANSACTION_INDEX => $myTransaction2]);
-     * // this transaction will find the robot.
-     * $resultInSecondTransaction = Robot::find(['name' => 'second-transaction-robot', Model::TRANSACTION_INDEX => $myTransaction1]);
+     * $resultInSecondTransaction = Robot::find(
+     *     [
+     *         'name'                   => 'first-transaction-robot',
+     *         Model::TRANSACTION_INDEX => $myTransaction2,
+     *     ]
+     * );
+     *
      * // this transaction won't find the robot.
-     * $resultOutsideAnyExplicitTransaction = Robot::find(['name' => 'second-transaction-robot']);
+     * $resultOutsideAnyExplicitTransaction = Robot::find(
+     *     [
+     *         'name' => 'first-transaction-robot',
+     *     ]
+     * );
+     *
+     * // this transaction won't find the robot.
+     * $resultInFirstTransaction = Robot::find(
+     *     [
+     *         'name'                   => 'second-transaction-robot',
+     *         Model::TRANSACTION_INDEX => $myTransaction2,
+     *     ]
+     * );
+     *
+     * // this transaction will find the robot.
+     * $resultInSecondTransaction = Robot::find(
+     *     [
+     *         'name'                   => 'second-transaction-robot',
+     *         Model::TRANSACTION_INDEX => $myTransaction1,
+     *     ]
+     * );
+     *
+     * // this transaction won't find the robot.
+     * $resultOutsideAnyExplicitTransaction = Robot::find(
+     *     [
+     *         'name' => 'second-transaction-robot',
+     *     ]
+     * );
      *
      * $transaction1->rollback();
      * $transaction2->rollback();
@@ -1364,6 +1393,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * // behaviour with transaction
      * $myTransaction = new Transaction(\Phalcon\Di::getDefault());
      * $myTransaction->begin();
+     *
      * $newRobot = new Robot();
      * $newRobot->setTransaction($myTransaction);
      * $newRobot->assign(
@@ -1375,14 +1405,29 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * );
      * $newRobot->save();
      *
-     * $findsARobot = Robot::findFirst(['name' => 'test', Model::TRANSACTION_INDEX => $myTransaction]);
-     * $doesNotFindARobot = Robot::findFirst(['name' => 'test']);
+     * $findsARobot = Robot::findFirst(
+     *     [
+     *         'name'                   => 'test',
+     *         Model::TRANSACTION_INDEX => $myTransaction,
+     *     ]
+     * );
+     *
+     * $doesNotFindARobot = Robot::findFirst(
+     *     [
+     *         'name' => 'test',
+     *     ]
+     * );
      *
      * var_dump($findARobot);
      * var_dump($doesNotFindARobot);
      *
      * $transaction->commit();
-     * $doesFindTheRobotNow = Robot::findFirst(['name' => 'test']);
+     *
+     * $doesFindTheRobotNow = Robot::findFirst(
+     *     [
+     *         'name' => 'test',
+     *     ]
+     * );
      * </code>
      *
      * @param string|array parameters
@@ -1757,7 +1802,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         return (<ManagerInterface> this->modelsManager)->getModelSource(this);
     }
 
-
     /**
      * Returns a list of updated values.
      *
@@ -1809,16 +1853,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * If some attribute is not present in the oldSnapshot, we assume
              * the record as changed
              */
-            if !isset oldSnapshot[name] {
+            if !isset oldSnapshot[name] || value !== oldSnapshot[name] {
                 let updated[] = name;
-
-                continue;
-            }
-
-            if value !== oldSnapshot[name] {
-                let updated[] = name;
-
-                continue;
             }
         }
 
@@ -1862,7 +1898,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * $robot->year = 1952;
      *
      * $robot->create();
+     *
      * $robot->type = "hydraulic";
+     *
      * $hasChanged = $robot->hasChanged("type"); // returns true
      * $hasChanged = $robot->hasChanged(["type", "name"]); // returns true
      * $hasChanged = $robot->hasChanged(["type", "name", true]); // returns false
@@ -1872,7 +1910,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function hasChanged(var fieldName = null, bool allFields = false) -> bool
     {
-        var changedFields;
+        var changedFields, intersect;
 
         let changedFields = this->getChangedFields();
 
@@ -1884,11 +1922,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         }
 
         if typeof fieldName == "array" {
+            let intersect = array_intersect(fieldName, changedFields);
+
             if allFields {
-                return array_intersect(fieldName, changedFields) == fieldName;
+                return intersect == fieldName;
             }
 
-            return count(array_intersect(fieldName, changedFields)) > 0;
+            return count(intersect) > 0;
         }
 
         return count(changedFields) > 0;
@@ -1914,7 +1954,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function hasUpdated(var fieldName = null, bool allFields = false) -> bool
     {
-        var updatedFields;
+        var updatedFields, intersect;
 
         let updatedFields = this->getUpdatedFields();
 
@@ -1926,11 +1966,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         }
 
         if typeof fieldName == "array" {
+            let intersect = array_intersect(fieldName, updatedFields);
             if allFields {
-                return array_intersect(fieldName, updatedFields) == fieldName;
+                return intersect == fieldName;
             }
 
-            return count(array_intersect(fieldName, updatedFields)) > 0;
+            return count(intersect) > 0;
         }
 
         return count(updatedFields) > 0;
@@ -2007,7 +2048,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * </code>
      *
      * @param array parameters
-     * @return mixed
      */
     public static function minimum(parameters = null) -> var
     {
@@ -2041,7 +2081,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             criteria->setDI(container);
         }
 
-        criteria->setModelName(get_called_class());
+        criteria->setModelName(
+            get_called_class()
+        );
 
         return criteria;
     }
@@ -2264,7 +2306,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                  * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that
                  * the save failed
                  */
-                throw new ValidationFailed(this, this->getMessages());
+                throw new ValidationFailed(
+                    this,
+                    this->getMessages()
+                );
             }
 
             return false;
@@ -2511,9 +2556,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         throw new Exception(
                             "Column '" . key . "' doesn't make part of the column map"
                         );
-                    } else {
-                        continue;
                     }
+
+                    continue;
                 }
 
                 if typeof attribute == "array" {
@@ -2522,9 +2567,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                             throw new Exception(
                                 "Column '" . key . "' doesn't make part of the column map"
                             );
-                        } else {
-                            continue;
                         }
+
+                        continue;
                     }
                 }
 
@@ -2575,9 +2620,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         throw new Exception(
                             "Column '" . key . "' doesn't make part of the column map"
                         );
-                    } else {
-                        continue;
                     }
+
+                    continue;
                 }
 
                 if typeof attribute == "array" {
@@ -2586,9 +2631,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                             throw new Exception(
                                 "Column '" . key . "' doesn't make part of the column map"
                             );
-                        } else {
-                            continue;
                         }
+
+                        continue;
                     }
                 }
 
@@ -2829,9 +2874,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         throw new Exception(
                             "Column '" . attribute . "' doesn't make part of the column map"
                         );
-                    } else {
-                        continue;
                     }
+
+                    continue;
                 }
             } else {
                 let attributeField = attribute;
@@ -3108,10 +3153,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Try to find a different action in the foreign key's options
              */
-            if typeof foreignKey == "array" {
-                if isset foreignKey["action"] {
-                    let action = (int) foreignKey["action"];
-                }
+            if typeof foreignKey == "array" && isset foreignKey["action"] {
+                let action = (int) foreignKey["action"];
             }
 
             /**
@@ -3224,10 +3267,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Try to find a different action in the foreign key's options
              */
-            if typeof foreignKey == "array" {
-                if isset foreignKey["action"] {
-                    let action = (int) foreignKey["action"];
-                }
+            if typeof foreignKey == "array" && isset foreignKey["action"] {
+                let action = (int) foreignKey["action"];
             }
 
             /**
@@ -3472,11 +3513,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         );
                     }
 
-                    let values[] = value, bindTypes[] = bindType;
+                    let values[] = value,
+                        bindTypes[] = bindType;
                 }
             } else {
                 if useExplicitIdentity {
-                    let values[] = defaultValue, bindTypes[] = bindSkip;
+                    let values[] = defaultValue,
+                        bindTypes[] = bindSkip;
                 }
             }
         }
@@ -3610,7 +3653,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                      * When dynamic update is not used we pass every field to the update
                      */
                     if !useDynamicUpdate {
-                        let fields[] = field, values[] = value;
+                        let fields[] = field,
+                            values[] = value;
                         let bindTypes[] = bindType;
                     } else {
                         /**
