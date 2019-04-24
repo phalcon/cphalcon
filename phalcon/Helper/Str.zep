@@ -37,6 +37,11 @@ class Str
      * echo Str::camelize("co_co-bon_go", "-");     // Co_coBon_go
      * echo Str::camelize("co_co-bon_go", "_-");    // CoCoBonGo
      * </code>
+     *
+     * @param string $text
+     * @param mixed  $delimiter
+     *
+     * @return string
      */
     final public static function camelize(string! text, var delimiter = null) -> string
     {
@@ -57,13 +62,14 @@ class Str
      * );
      *
      * echo $str;   // /tmp/folder_1/folder_2/folder_3/
-     * echo $str;
      * </code>
      *
      * @param string separator
      * @param string a
      * @param string b
      * @param string ...N
+     *
+     * @return string
      */
     final public static function concat() -> string
     {
@@ -123,6 +129,7 @@ class Str
      *
      * @param string $string
      * @param bool   $upperRest
+     * @param string $encoding
      *
      * @return string
      */
@@ -179,6 +186,13 @@ class Str
      *     "/"
      * );
      * </code>
+     *
+     * @param string $text
+     * @param string $leftDelimiter
+     * @param string $rightDelimiter
+     * @param string $separator
+     *
+     * @return string
      */
     final public static function dynamic(
         string! text,
@@ -231,6 +245,12 @@ class Str
      * echo Str::endsWith("Hello", "LLO", false);   // false
      * echo Str::endsWith("Hello", "LLO");          // true
      * </code>
+     *
+     * @param string $text
+     * @param string $end
+     * @param bool   $ignoreCase
+     *
+     * @return bool
      */
     final public static function endsWith(string text, string end, bool ignoreCase = true) -> bool
     {
@@ -261,6 +281,34 @@ class Str
     }
 
     /**
+     * Accepts a file name (without extension) and returns a calculated folder structure with the
+     * filename in the end
+     *
+     * <code>
+     * use Phalcon\Helper\Str;
+     *
+     * echo Str::folderFromFile("file1234.jpg"); // /fi/le/12/file1234.jpg
+     * </code>
+     *
+     * @param string $file
+     *
+     * @return string
+     */
+    final public static function folderFromFile(string! file) -> string
+    {
+        var name, start;
+
+        let name  = pathinfo(file, PATHINFO_FILENAME),
+            start = substr(name, 0, -2);
+
+        if !start {
+            let start = substr(name, 0, 1);
+        }
+
+        return implode("/", str_split(start, 2)) . "/";
+    }
+
+    /**
      * Makes an underscored or dashed phrase human-readable
      *
      * <code>
@@ -269,6 +317,10 @@ class Str
      * echo Str::humanize("start-a-horse"); // "start a horse"
      * echo Str::humanize("five_cats");     // "five cats"
      * </code>
+     *
+     * @param string $text
+     *
+     * @return string
      */
     final public static function humanize(string! text) -> string
     {
@@ -302,6 +354,11 @@ class Str
      * echo Str::increment("a");    // "a_1"
      * echo Str::increment("a_1");  // "a_2"
      * </code>
+     *
+     * @param string $text
+     * @param string $separator
+     *
+     * @return string
      */
     final public static function increment(string text, string separator = "_") -> string
     {
@@ -335,7 +392,8 @@ class Str
     /**
      * Returns true if the given string is lower case, false otherwise.
      *
-     * @param string text
+     * @param string $text
+     * @param string $encoding
      *
      * @return bool
      */
@@ -364,6 +422,7 @@ class Str
      * Returns true if the given string is upper case, false otherwise.
      *
      * @param string text
+     * @param string encoding
      *
      * @return bool
      */
@@ -383,6 +442,11 @@ class Str
      * <code>
      * echo Phalcon\Helper\Str::lower("HELLO"); // hello
      * </code>
+     *
+     * @param string $text
+     * @param string $encoding
+     *
+     * @return string
      */
     final public static function lower(string! text, string! encoding = "UTF-8") -> string
     {
@@ -406,6 +470,11 @@ class Str
      *
      * echo Str::random(Str::RANDOM_ALNUM); // "aloiwkqz"
      * </code>
+     *
+     * @param int $type
+     * @param int $length
+     *
+     * @return string
      */
     final public static function random(int type = 0, long length = 8) -> string
     {
@@ -462,6 +531,10 @@ class Str
      * echo Phalcon\Helper\Str::reduceSlashes("foo//bar/baz");              // foo/bar/baz
      * echo Phalcon\Helper\Str::reduceSlashes("http://foo.bar///baz/buz");  // http://foo.bar/baz/buz
      * </code>
+     *
+     * @param string $text
+     *
+     * @return string
      */
     final public static function reduceSlashes(string! text) -> string
     {
@@ -478,6 +551,12 @@ class Str
      * echo Str::startsWith("Hello", "he", false);  // false
      * echo Str::startsWith("Hello", "he");         // true
      * </code>
+     *
+     * @param string $text
+     * @param string $start
+     * @param bool   $ignoreCase
+     *
+     * @return bool
      */
     final public static function startsWith(string! text, string! start, bool ignoreCase = true) -> bool
     {
@@ -493,6 +572,11 @@ class Str
      * echo Str::uncamelize("CocoBongo");       // coco_bongo
      * echo Str::uncamelize("CocoBongo", "-");  // coco-bongo
      * </code>
+     *
+     * @param string $text
+     * @param mixed  $delimiter
+     *
+     * @return string
      */
     final public static function uncamelize(string! text, var delimiter = null) -> string
     {
@@ -508,6 +592,10 @@ class Str
      * echo Str::underscore("look behind");     // "look_behind"
      * echo Str::underscore("Awesome Phalcon"); // "Awesome_Phalcon"
      * </code>
+     *
+     * @param string $text
+     *
+     * @return string
      */
     final public static function underscore(string! text) -> string
     {
@@ -521,6 +609,11 @@ class Str
      * <code>
      * echo Phalcon\Helper\Str::upper("hello"); // HELLO
      * </code>
+     *
+     * @param string $text
+     * @param string $encoding
+     *
+     * @return string
      */
     final public static function upper(string! text, string! encoding = "UTF-8") -> string
     {
