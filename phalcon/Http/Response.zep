@@ -154,7 +154,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var statusReasonPhrase;
 
-        let statusReasonPhrase = substr(this->getHeaders()->get("Status"), 4);
+        let statusReasonPhrase = substr(
+            this->getHeaders()->get("Status"),
+            4
+        );
 
         return statusReasonPhrase ? statusReasonPhrase : null;
     }
@@ -170,7 +173,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var statusCode;
 
-        let statusCode = substr(this->getHeaders()->get("Status"), 0, 3);
+        let statusCode = substr(
+            this->getHeaders()->get("Status"),
+            0,
+            3
+        );
 
         return statusCode ? (int) statusCode : null;
     }
@@ -251,6 +258,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
 
         if container->has("view") {
             let view = container->getShared("view");
+
             if view instanceof ViewInterface {
                 view->disable();
             }
@@ -446,14 +454,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function setContentType(string contentType, charset = null) -> <ResponseInterface>
     {
-        if charset === null {
-            this->setHeader("Content-Type", contentType);
-        } else {
-            this->setHeader(
-                "Content-Type",
-                contentType . "; charset=" . charset
-            );
+        if charset !== null {
+            let contentType .= "; charset=" . charset;
         }
+
+        this->setHeader("Content-Type", contentType);
 
         return this;
     }
@@ -684,11 +689,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          *
          * Before that we would like to unset any existing HTTP/x.y headers
          */
-        if typeof currentHeadersRaw == "array" {
-            for key, _ in currentHeadersRaw {
-                if typeof key == "string" && strstr(key, "HTTP/") {
-                    headers->remove(key);
-                }
+        for key, _ in currentHeadersRaw {
+            if typeof key == "string" && strstr(key, "HTTP/") {
+                headers->remove(key);
             }
         }
 
@@ -783,7 +786,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         /**
          * We also define a 'Status' header with the HTTP status
          */
-        headers->set("Status", code . " " . message);
+        headers->set(
+            "Status",
+            code . " " . message
+        );
 
         return this;
     }

@@ -225,85 +225,85 @@ class Cookie implements CookieInterface, InjectionAwareInterface
             name = this->name;
 
         if this->read === false {
-            if fetch value, _COOKIE[name] {
-                if this->useEncryption {
-                    let container = <DiInterface> this->container;
-
-                    if typeof container != "object" {
-                        throw new Exception(
-                            Exception::containerServiceNotFound(
-                                "the 'filter' and 'crypt' services"
-                            )
-                        );
-                    }
-
-                    let crypt = <CryptInterface> container->getShared("crypt");
-
-                    if typeof crypt != "object" {
-                        throw new Exception(
-                            "A dependency which implements CryptInterface is required to use encryption"
-                        );
-                    }
-
-                    /**
-                     * Verify the cookie's value if the sign key was set
-                     */
-                    let signKey = this->signKey;
-
-                    if typeof signKey === "string" {
-                        /**
-                         * Decrypt the value also decoding it with base64
-                         */
-                        let decryptedValue = crypt->decryptBase64(
-                            value,
-                            signKey
-                        );
-                    } else {
-                        /**
-                         * Decrypt the value also decoding it with base64
-                         */
-                        let decryptedValue = crypt->decryptBase64(value);
-                    }
-                } else {
-                    let decryptedValue = value;
-                }
-
-                /**
-                 * Update the decrypted value
-                 */
-                let this->value = decryptedValue;
-
-                if filters !== null {
-                    let filter = this->filter;
-
-                    if typeof filter != "object" {
-                        if container === null {
-                            let container = <DiInterface> this->container;
-
-                            if typeof container != "object" {
-                                throw new Exception(
-                                    Exception::containerServiceNotFound(
-                                        "the 'filter' service"
-                                    )
-                                );
-                            }
-                        }
-
-//                        let filter = container->getShared("filter"),
-                        let filter = <LocatorInterface> container->getShared("filter"),
-                            this->filter = filter;
-                    }
-
-                    return filter->sanitize(decryptedValue, filters);
-                }
-
-                /**
-                 * Return the value without filtering
-                 */
-                return decryptedValue;
+            if !fetch value, _COOKIE[name] {
+                return defaultValue;
             }
 
-            return defaultValue;
+            if this->useEncryption {
+                let container = <DiInterface> this->container;
+
+                if typeof container != "object" {
+                    throw new Exception(
+                        Exception::containerServiceNotFound(
+                            "the 'filter' and 'crypt' services"
+                        )
+                    );
+                }
+
+                let crypt = <CryptInterface> container->getShared("crypt");
+
+                if typeof crypt != "object" {
+                    throw new Exception(
+                        "A dependency which implements CryptInterface is required to use encryption"
+                    );
+                }
+
+                /**
+                 * Verify the cookie's value if the sign key was set
+                 */
+                let signKey = this->signKey;
+
+                if typeof signKey === "string" {
+                    /**
+                     * Decrypt the value also decoding it with base64
+                     */
+                    let decryptedValue = crypt->decryptBase64(
+                        value,
+                        signKey
+                    );
+                } else {
+                    /**
+                     * Decrypt the value also decoding it with base64
+                     */
+                    let decryptedValue = crypt->decryptBase64(value);
+                }
+            } else {
+                let decryptedValue = value;
+            }
+
+            /**
+             * Update the decrypted value
+             */
+            let this->value = decryptedValue;
+
+            if filters !== null {
+                let filter = this->filter;
+
+                if typeof filter != "object" {
+                    if container === null {
+                        let container = <DiInterface> this->container;
+
+                        if typeof container != "object" {
+                            throw new Exception(
+                                Exception::containerServiceNotFound(
+                                    "the 'filter' service"
+                                )
+                            );
+                        }
+                    }
+
+//                        let filter = container->getShared("filter"),
+                    let filter = <LocatorInterface> container->getShared("filter"),
+                        this->filter = filter;
+                }
+
+                return filter->sanitize(decryptedValue, filters);
+            }
+
+            /**
+             * Return the value without filtering
+             */
+            return decryptedValue;
         }
 
         return this->value;
@@ -326,40 +326,38 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function restore() -> <CookieInterface>
     {
-        var container, expire, domain, path, secure,
-            httpOnly, session, definition;
+        var container, expire, domain, path, secure, httpOnly, session,
+            definition;
 
         if !this->restored {
             let container = this->container;
 
             if typeof container == "object" {
-
                 let session = container->getShared("session");
 
                 if session->exists() {
-                    let definition = session->get("_PHCOOKIE_" . this->name);
+                    let definition = session->get(
+                        "_PHCOOKIE_" . this->name
+                    );
 
-                    if typeof definition == "array" {
+                    if fetch expire, definition["expire"] {
+                        let this->expire = expire;
+                    }
 
-                        if fetch expire, definition["expire"] {
-                            let this->expire = expire;
-                        }
+                    if fetch domain, definition["domain"] {
+                        let this->domain = domain;
+                    }
 
-                        if fetch domain, definition["domain"] {
-                            let this->domain = domain;
-                        }
+                    if fetch path, definition["path"] {
+                        let this->path = path;
+                    }
 
-                        if fetch path, definition["path"] {
-                            let this->path = path;
-                        }
+                    if fetch secure, definition["secure"] {
+                        let this->secure = secure;
+                    }
 
-                        if fetch secure, definition["secure"] {
-                            let this->secure = secure;
-                        }
-
-                        if fetch httpOnly, definition["httpOnly"] {
-                            let this->httpOnly = httpOnly;
-                        }
+                    if fetch httpOnly, definition["httpOnly"] {
+                        let this->httpOnly = httpOnly;
                     }
                 }
             }
@@ -377,8 +375,8 @@ class Cookie implements CookieInterface, InjectionAwareInterface
      */
     public function send() -> <CookieInterface>
     {
-        var name, value, expire, domain, path, secure, httpOnly,
-            container, definition, session, crypt, encryptValue, signKey;
+        var name, value, expire, domain, path, secure, httpOnly, container,
+            definition, session, crypt, encryptValue, signKey;
 
         let name = this->name,
             value = this->value,
@@ -425,46 +423,45 @@ class Cookie implements CookieInterface, InjectionAwareInterface
             let session = <SessionManagerInterface> container->getShared("session");
 
             if session->exists() {
-                session->set("_PHCOOKIE_" . name, definition);
+                session->set(
+                    "_PHCOOKIE_" . name,
+                    definition
+                );
             }
         }
 
-        if this->useEncryption {
-            if !empty value {
-                if typeof container != "object" {
-                    throw new Exception(
-                        Exception::containerServiceNotFound(
-                            "the 'filter' service"
-                        )
-                    );
-                }
+        if this->useEncryption && !empty value {
+            if typeof container != "object" {
+                throw new Exception(
+                    Exception::containerServiceNotFound(
+                        "the 'filter' service"
+                    )
+                );
+            }
 
-                let crypt = <CryptInterface> container->getShared("crypt");
+            let crypt = <CryptInterface> container->getShared("crypt");
 
-                if typeof crypt != "object" {
-                    throw new Exception(
-                        "A dependency which implements CryptInterface is required to use encryption"
-                    );
-                }
+            if typeof crypt != "object" {
+                throw new Exception(
+                    "A dependency which implements CryptInterface is required to use encryption"
+                );
+            }
 
-                /**
-                 * Encrypt the value also coding it with base64.
-                 * Sign the cookie's value if the sign key was set
-                 */
-                let signKey = this->signKey;
+            /**
+             * Encrypt the value also coding it with base64.
+             * Sign the cookie's value if the sign key was set
+             */
+            let signKey = this->signKey;
 
-                if typeof signKey === "string" {
-                    let encryptValue = crypt->encryptBase64(
-                        (string) value,
-                        signKey
-                    );
-                } else {
-                    let encryptValue = crypt->encryptBase64(
-                        (string) value
-                    );
-                }
+            if typeof signKey === "string" {
+                let encryptValue = crypt->encryptBase64(
+                    (string) value,
+                    signKey
+                );
             } else {
-                let encryptValue = value;
+                let encryptValue = crypt->encryptBase64(
+                    (string) value
+                );
             }
         } else {
             let encryptValue = value;

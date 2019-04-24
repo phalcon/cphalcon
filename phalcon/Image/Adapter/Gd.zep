@@ -236,7 +236,10 @@ class Gd extends Adapter
         var maskImage, newimage, tempImage, color, index, r, g, b;
         int mask_width, mask_height, x, y, alpha;
 
-        let maskImage   = imagecreatefromstring(mask->render());
+        let maskImage = imagecreatefromstring(
+            mask->render()
+        );
+
         let mask_width  = (int) imagesx(maskImage);
         let mask_height = (int) imagesy(maskImage);
         let alpha = 127;
@@ -430,28 +433,21 @@ class Gd extends Adapter
 
         if strcmp(ext, "gif") == 0 {
             imagegif(this->image);
-            return ob_get_clean();
-        }
-        if strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
+        } elseif strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
             imagejpeg(this->image, null, quality);
-            return ob_get_clean();
-        }
-        if strcmp(ext, "png") == 0 {
+        } elseif strcmp(ext, "png") == 0 {
             imagepng(this->image);
-            return ob_get_clean();
-        }
-        if strcmp(ext, "wbmp") == 0 {
+        } elseif strcmp(ext, "wbmp") == 0 {
             imagewbmp(this->image);
-            return ob_get_clean();
-        }
-        if strcmp(ext, "xbm") == 0 {
+        } elseif strcmp(ext, "xbm") == 0 {
             imagexbm(this->image, null);
-            return ob_get_clean();
+        } else {
+            throw new Exception(
+                "Installed GD does not support '" . ext . "' images"
+            );
         }
 
-        throw new Exception(
-            "Installed GD does not support '" . ext . "' images"
-        );
+        return ob_get_clean();
     }
 
     protected function processResize(int width, int height)
@@ -525,7 +521,6 @@ class Gd extends Adapter
         if strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
             let this->type = 2;
             let this->mime = image_type_to_mime_type(this->type);
-
 
             if quality >= 0 {
                 if quality < 1 {

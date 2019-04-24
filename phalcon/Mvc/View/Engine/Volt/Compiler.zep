@@ -2366,35 +2366,33 @@ class Compiler implements InjectionAwareInterface
          * Check if it's a user defined filter
          */
         let filters = this->filters;
-        if typeof filters == "array" {
-            if fetch definition, filters[name] {
 
-                /**
-                 * The definition is a string
-                 */
-                if typeof definition == "string" {
-                    return definition . "(" . arguments . ")";
-                }
-
-                /**
-                 * The definition is a closure
-                 */
-                if typeof definition == "object" {
-                    if definition instanceof \Closure {
-                        return call_user_func_array(
-                            definition,
-                            [arguments, funcArguments]
-                        );
-                    }
-                }
-
-                /**
-                 * Invalid filter definition throw an exception
-                 */
-                throw new Exception(
-                    "Invalid definition for user filter '" . name . "' in " . filter["file"] . " on line " . filter["line"]
-                );
+        if fetch definition, filters[name] {
+            /**
+             * The definition is a string
+             */
+            if typeof definition == "string" {
+                return definition . "(" . arguments . ")";
             }
+
+            /**
+             * The definition is a closure
+             */
+            if typeof definition == "object" {
+                if definition instanceof \Closure {
+                    return call_user_func_array(
+                        definition,
+                        [arguments, funcArguments]
+                    );
+                }
+            }
+
+            /**
+             * Invalid filter definition throw an exception
+             */
+            throw new Exception(
+                "Invalid definition for user filter '" . name . "' in " . filter["file"] . " on line " . filter["line"]
+            );
         }
 
         /**

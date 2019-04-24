@@ -515,29 +515,25 @@ class Debug
     {
         var className, dumpedObject;
 
+        if variable == true {
+            return "true";
+        }
+
+        if variable === false {
+            return "false";
+        }
+
+        /**
+         * String variables are escaped to avoid XSS injections
+         */
+        if typeof variable == "string" {
+            return this->escapeString(variable);
+        }
+
+        /**
+         * Scalar variables are just converted to strings
+         */
         if is_scalar(variable) {
-
-            /**
-             * Boolean variables are represented as "true"/"false"
-             */
-            if typeof variable == "boolean" {
-                if variable {
-                    return "true";
-                } else {
-                    return "false";
-                }
-            }
-
-            /**
-             * String variables are escaped to avoid XSS injections
-             */
-            if typeof variable == "string" {
-                return this->escapeString(variable);
-            }
-
-            /**
-             * Other scalar variables are just converted to strings
-             */
             return variable;
         }
 

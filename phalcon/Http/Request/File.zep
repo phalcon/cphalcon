@@ -30,7 +30,7 @@ use Phalcon\Http\Request\FileInterface;
  *             foreach ($this->request->getUploadedFiles() as $file) {
  *                 echo $file->getName(), " ", $file->getSize(), "\n";
  *             }
- *           }
+ *         }
  *     }
  * }
  *</code>

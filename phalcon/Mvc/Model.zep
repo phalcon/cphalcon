@@ -222,7 +222,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Handles method calls when a static method is not implemented
      *
-     * @return    mixed
+     * @return mixed
      */
     public static function __callStatic(string method, array arguments)
     {

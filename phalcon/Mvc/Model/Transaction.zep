@@ -92,6 +92,7 @@ class Transaction implements TransactionInterface
         }
 
         let this->connection = connection;
+
         if autoBegin {
             connection->begin();
         }

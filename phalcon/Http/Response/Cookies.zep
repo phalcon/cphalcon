@@ -41,12 +41,12 @@ use Phalcon\Http\Cookie\Exception;
  *
  *         // The `$key' should have been previously generated in a cryptographically safe way.
  *         $key = "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3";
+ *
  *         $crypt->setKey($key);
  *
  *         return $crypt;
  *     }
  * );
- *
  *
  * $di->set(
  *     'cookies',
@@ -56,6 +56,7 @@ use Phalcon\Http\Cookie\Exception;
  *         // The `$key' MUST be at least 32 characters long and generated using a
  *         // cryptographically secure pseudo random generator.
  *         $key = "#1dj8$=dp?.ak//j1V$~%*0XaK\xb1\x8d\xa9\x98\x054t7w!z%C*F-Jk\x98\x05\\\x5c";
+ *
  *         $cookies->setSignKey($key);
  *
  *         return $cookies;
@@ -132,7 +133,6 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
             container = this->container;
 
         if typeof container == "object" {
-
             /**
              * Pass the DI to created cookies
              */
@@ -266,6 +266,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
              */
             if encryption {
                 cookie->useEncryption(encryption);
+
                 cookie->setSignKey(this->signKey);
             }
 
