@@ -10,10 +10,6 @@
 
 namespace Phalcon\Html;
 
-use Phalcon\Di;
-use Phalcon\DiInterface;
-use Phalcon\Escaper;
-use Phalcon\EscaperInterface;
 use Phalcon\Service\Locator;
 use Phalcon\Service\LocatorInterface;
 use Phalcon\Service\LocatorFactoryInterface;
@@ -26,75 +22,46 @@ use Phalcon\Service\LocatorFactoryInterface;
 class TagLocatorFactory implements LocatorFactoryInterface
 {
     /**
-     * @var EscaperInterface
-     */
-    private escaper;
-
-    /**
      * Returns a Locator object with all the helpers defined in anonynous
      * functions
      */
     public function newInstance() -> <LocatorInterface>
     {
-        var escaper, factory, helpers;
-
-        /**
-         * The escaper service
-         */
-        let escaper = this->getEscaper();
+        var helpers, locator;
 
         /**
          * Available helpers
          */
         let helpers = [
-            "a"          : function (escaper) { return new \Phalcon\Html\Helper\Anchor(escaper); },
-            "base"       : function (escaper) { return null; },
-            "blockquote" : function (escaper) { return null; },
-            "body"       : function (escaper) { return null; },
-            "button"     : function (escaper) { return null; },
-            "code"       : function (escaper) { return null; },
-            "comment"    : function (escaper) { return null; },
-            "data"       : function (escaper) { return null; },
-            "datalist"   : function (escaper) { return null; },
-            "doctype"    : function (escaper) { return null; },
-            "element"    : function (escaper) { return new \Phalcon\Html\Helper\Element(escaper); },
-            "form"       : function (escaper) { return new \Phalcon\Html\Helper\Form(escaper); },
-            "formClose"  : function (escaper) { return new \Phalcon\Html\Helper\FormClose(escaper); },
-            "head"       : function (escaper) { return null; },
-            "header"     : function (escaper) { return null; },
-            "hr"         : function (escaper) { return null; },
-            "img"        : function (escaper) { return null; },
-            "input"      : function (escaper) { return null; },
-            "label"      : function (escaper) { return null; },
-            "link"       : function (escaper) { return null; },
-            "script"     : function (escaper) { return null; },
-            "span"       : function (escaper) { return null; },
-            "style"      : function (escaper) { return null; },
-            "textarea"   : function (escaper) { return new \Phalcon\Html\Helper\TextArea(escaper); },
-            "title"      : function (escaper) { return null; }
+            "a"          : function () { return new \Phalcon\Html\Helper\Anchor(); },
+            "base"       : function () { return null; },
+            "blockquote" : function () { return null; },
+            "body"       : function () { return null; },
+            "button"     : function () { return null; },
+            "code"       : function () { return null; },
+            "comment"    : function () { return null; },
+            "data"       : function () { return null; },
+            "datalist"   : function () { return null; },
+            "doctype"    : function () { return null; },
+            "element"    : function () { return new \Phalcon\Html\Helper\Element(); },
+            "form"       : function () { return new \Phalcon\Html\Helper\Form(); },
+            "formClose"  : function () { return new \Phalcon\Html\Helper\FormClose(); },
+            "head"       : function () { return null; },
+            "header"     : function () { return null; },
+            "hr"         : function () { return null; },
+            "img"        : function () { return null; },
+            "input"      : function () { return null; },
+            "label"      : function () { return null; },
+            "link"       : function () { return null; },
+            "script"     : function () { return null; },
+            "span"       : function () { return null; },
+            "style"      : function () { return null; },
+            "textarea"   : function () { return new \Phalcon\Html\Helper\TextArea(); },
+            "title"      : function () { return null; }
         ];
 
-        let factory = new Locator(helpers);
+        let locator = new Locator(helpers);
 
-        return factory;
-    }
-
-    /**
-     * Get the escaper service
-     *
-     * I really don't like this here but it has to be here this way because there
-     * is a lot more groundwork to be done to refactor the whole DI implementation
-     */
-    private function getEscaper() -> <EscaperInterface>
-    {
-        var container;
-
-        let container = Di::getDefault();
-
-        if !container->has("escaper") {
-            container->setShared("escaper", new Escaper());
-        }
-
-        return container->getService("escaper");
+        return locator;
     }
 }
