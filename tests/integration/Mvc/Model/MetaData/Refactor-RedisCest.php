@@ -12,7 +12,7 @@
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData;
 
 use IntegrationTester;
-use Phalcon\Mvc\Model\Metadata\Redis;
+use Phalcon\Mvc\Model\MetaData\Redis;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 
