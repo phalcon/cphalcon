@@ -203,18 +203,11 @@ class Request implements RequestInterface, InjectionAwareInterface
     {
         var contentType;
 
-        if fetch contentType, _SERVER["CONTENT_TYPE"] {
-            return contentType;
+        if !fetch contentType, _SERVER["CONTENT_TYPE"] {
+            return null;
         }
 
-        /**
-         * @see https://bugs.php.net/bug.php?id=66606
-         */
-        if fetch contentType, _SERVER["HTTP_CONTENT_TYPE"] {
-            return contentType;
-        }
-
-        return null;
+        return contentType;
     }
 
 
