@@ -13,30 +13,27 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Filter\Sanitize;
 
 use Codeception\Example;
-use Phalcon\Filter\Sanitize\Url;
+use Phalcon\Filter\Sanitize\SpecialFull;
 use UnitTester;
 
 /**
- * Class UrlCest
+ * Class SpecialFullCest
  */
-class UrlCest
+class SpecialFullCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Url :: __invoke()
+     * Tests PhalconNG\Filter\Sanitize\SpecialFull :: __invoke()
      *
      * @dataProvider getData
      *
      * @param UnitTester $I
      * @param Example    $example
-     *
-     * @author       Phalcon Team <team@phalconphp.com>
-     * @since        2018-11-13
      */
-    public function filterSanitizeUrlInvoke(UnitTester $I, Example $example)
+    public function filterSanitizeSpecialFullInvoke(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Filter\Sanitize\Url - __invoke()');
+        $I->wantToTest('Filter\Sanitize\SpecialFull - __invoke()');
 
-        $sanitizer = new Url();
+        $sanitizer = new SpecialFull();
 
         $actual = $sanitizer($example[0]);
         $I->assertEquals($example[1], $actual);
@@ -48,7 +45,7 @@ class UrlCest
     private function getData(): array
     {
         return [
-            ['http://juhara��.co�m', 'http://juhara.com'],
+            ['This is <html> tags', 'This is &lt;html&gt; tags'],
         ];
     }
 }

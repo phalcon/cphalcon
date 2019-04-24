@@ -22,7 +22,7 @@ use UnitTester;
 class UpperWordsCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\UpperWords :: __invoke()
      *
      * @dataProvider getData
      *
