@@ -142,7 +142,7 @@ abstract class AbstractAdapter implements AdapterInterface
             return this->defaultTtl;
         }
 
-        if ttl instanceof \DateInterval {
+        if typeof ttl === "object" && ttl instanceof \DateInterval {
             let dateTime = new \DateTime("@0");
             return dateTime->add(ttl)->getTimestamp();
         }
