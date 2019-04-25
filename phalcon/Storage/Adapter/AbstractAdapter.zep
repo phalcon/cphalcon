@@ -59,8 +59,11 @@ abstract class AbstractAdapter implements AdapterInterface
          */
         let this->defaultSerializer = Arr::get(options, "defaultSerializer", "Php"),
             this->defaultTtl        = Arr::get(options, "defaultTtl", 3600),
-            this->prefix            = Arr::get(options, "prefix", "ph-memc-"),
             this->serializer        = Arr::get(options, "serializer", null);
+
+        if isset options["prefix"] {
+            let this->prefix = options["prefix"];
+        }
     }
 
     /**

@@ -46,14 +46,14 @@ class Stream extends AbstractAdapter
             throw new Exception("The 'cacheDir' must be specified in the options");
         }
 
-        parent::__construct(options);
-
         /**
          * Lets set some defaults and options here
          */
         let this->cacheDir = rtrim(cacheDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR,
             this->prefix   = "phstrm-",
             this->options  = options;
+
+        parent::__construct(options);
 
         let className = "Phalcon\\Storage\\Serializer\\" . this->defaultSerializer;
         let this->serializer = new {className}();
@@ -104,7 +104,7 @@ class Stream extends AbstractAdapter
     {
         var exists;
 
-        let key    = this->getKey(key),
+        let key    = this->getKey(key) . key,
             exists = file_exists(this->cacheDir . key);
 
         if !exists {
@@ -167,7 +167,7 @@ class Stream extends AbstractAdapter
     {
         var exists, payload;
 
-        let key    = this->getKey(key),
+        let key    = this->getKey(key) . key,
             exists = file_exists(this->cacheDir . key);
 
         if !exists {

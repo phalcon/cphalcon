@@ -54,7 +54,7 @@ class GetPrefixCest
         $I->wantToTest('Storage\Adapter\Apcu - getPrefix() - default');
         $adapter = new Apcu();
 
-        $expected = 'ph-memc-';
+        $expected = 'ph-apcu-';
         $actual   = $adapter->getPrefix();
         $I->assertEquals($expected, $actual);
     }
