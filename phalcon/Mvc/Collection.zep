@@ -19,8 +19,8 @@ use Phalcon\Mvc\Collection\Document;
 use Phalcon\Mvc\Collection\Exception;
 use Phalcon\Mvc\Collection\ManagerInterface;
 use Phalcon\Messages\Message as Message;
+use Phalcon\Storage\Serializer\SerializerInterface;
 use Phalcon\ValidationInterface;
-use Phalcon\Cache\FrontendInterface;
 
 
 /**
@@ -914,8 +914,10 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         }
 
         if container->has("serializer") {
-            let serializer = <FrontendInterface> this->container->getShared("serializer");
-            return serializer->beforeStore(this->toArray());
+            let serializer = <SerializerInterface> this->container->getShared("serializer");
+            serializer->setData(this->toArray());
+
+            return serializer->serialize();
         }
 
         /**
@@ -1108,8 +1110,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          */
         let this->container = container;
         if container->has("serializer") {
-            let serializer = <FrontendInterface> container->getShared("serializer");
-            let attributes = serializer->afterRetrieve(data);
+            let serializer = <SerializerInterface> container->getShared("serializer"),
+                attributes = serializer->unserialize(data);
         } else {
             let attributes = unserialize(data);
         }
