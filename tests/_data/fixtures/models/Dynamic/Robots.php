@@ -32,7 +32,11 @@ class Robots extends PhalconModel
 
     public function initialize()
     {
-        $this->hasMany('id', RobotsParts::class, 'robots_id');
+        $this->hasMany(
+            'id',
+            RobotsParts::class,
+            'robots_id'
+        );
 
         $this->useDynamicUpdate(true);
     }

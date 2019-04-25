@@ -43,9 +43,11 @@ class GcCest
     public function sessionAdapterRedisGc(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Redis - gc()');
+
         $adapter = $this->getSessionRedis();
 
-        $actual = $adapter->gc(1);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->gc(1)
+        );
     }
 }

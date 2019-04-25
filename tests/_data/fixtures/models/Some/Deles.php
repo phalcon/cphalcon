@@ -27,11 +27,15 @@ class Deles extends Model
     {
         $this->setSource("parts");
 
-        $this->hasMany('code', RobottersDeles::class, 'delesCode', [
-            'foreignKey' => [
-                'message' => 'Deles cannot be deleted because is referenced by a Robotter',
-            ],
-        ]);
+        $this->hasMany(
+            'code',
+            RobottersDeles::class,
+            'delesCode',
+            [
+                'foreignKey' => [
+                    'message' => 'Deles cannot be deleted because is referenced by a Robotter',
+                ],
+            ]
+        );
     }
-
 }

@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorFileConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\File - __construct()');
+
         $validator = new File();
+
         $this->checkConstruct($I, $validator);
     }
 }

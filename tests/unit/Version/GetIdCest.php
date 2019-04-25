@@ -34,8 +34,11 @@ class GetIdCest
     public function versionGetId(UnitTester $I)
     {
         $I->wantToTest('Version - getId()');
-        $actual = is_string(Version::getId());
-        $I->assertTrue($actual);
+
+        $I->assertInternalType(
+            'string',
+            Version::getId()
+        );
     }
 
     /**
@@ -47,6 +50,7 @@ class GetIdCest
     public function versionGetToGetId(UnitTester $I)
     {
         $I->wantToTest('Version - get() to getId()');
+
         $version = Version::get();
         $chunks  = explode('-', $version);
 
@@ -56,10 +60,25 @@ class GetIdCest
         // There are pre-release version parts (eg. 4.0.0-alpha.2)
         if (count($chunks) > 1) {
             if (false === strpos($chunks[1], '.')) { // 4.0.0-alpha
-                $special = $this->specialToNumber($chunks[1]);
+                $special = $this->specialToNumber(
+                    $chunks[1]
+                );
             } else { // 4.0.0-alpha.2
-                $specialNo = substr($chunks[1], strpos($chunks[1], '.') + 1);
-                $special   = $this->specialToNumber(substr($chunks[1], 0, strpos($chunks[1], '.')));
+                $specialNo = substr(
+                    $chunks[1],
+                    strpos($chunks[1], '.') + 1
+                );
+
+                $special   = $this->specialToNumber(
+                    substr(
+                        $chunks[1],
+                        0,
+                        strpos(
+                            $chunks[1],
+                            '.'
+                        )
+                    )
+                );
             }
         }
 
@@ -69,8 +88,9 @@ class GetIdCest
         $med       = substr("00" . intval($verChunks[1]), -2);
         $min       = substr("00" . intval($verChunks[2]), -2);
 
-        $expected = "{$major}{$med}{$min}{$special}{$specialNo}";
-        $actual   = Version::getId();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "{$major}{$med}{$min}{$special}{$specialNo}",
+            Version::getId()
+        );
     }
 }

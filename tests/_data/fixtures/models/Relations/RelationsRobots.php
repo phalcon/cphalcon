@@ -19,9 +19,15 @@ class RelationsRobots extends Model
     {
         $this->setSource("robots");
 
-        $this->hasMany('id', RelationsRobotsParts::class, 'robots_id', [
-            'foreignKey' => true,
-        ]);
+        $this->hasMany(
+            'id',
+            RelationsRobotsParts::class,
+            'robots_id',
+            [
+                'foreignKey' => true,
+            ]
+        );
+
         $this->hasManyToMany(
             'id',
             RelationsRobotsParts::class,

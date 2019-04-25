@@ -43,8 +43,11 @@ class CloseCest
     public function sessionAdapterRedisClose(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Redis - close()');
+
         $adapter = $this->getSessionRedis();
-        $actual  = $adapter->close();
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->close()
+        );
     }
 }

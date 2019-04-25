@@ -237,14 +237,53 @@ class PostgresqlCest extends DialectBase
     protected function getAddIndexFixtures()
     {
         return [
-            ['', 'index1', 'CREATE INDEX "index1" ON "table" ("column1")'],
-            ['schema', 'index1', 'CREATE INDEX "index1" ON "schema"."table" ("column1")'],
-            ['', 'index2', 'CREATE INDEX "index2" ON "table" ("column1", "column2")'],
-            ['schema', 'index2', 'CREATE INDEX "index2" ON "schema"."table" ("column1", "column2")'],
-            ['', 'PRIMARY', 'ALTER TABLE "table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
-            ['schema', 'PRIMARY', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
-            ['', 'index4', 'CREATE UNIQUE INDEX "index4" ON "table" ("column4")'],
-            ['schema', 'index4', 'CREATE UNIQUE INDEX "index4" ON "schema"."table" ("column4")'],
+            [
+                '',
+                'index1',
+                'CREATE INDEX "index1" ON "table" ("column1")',
+            ],
+
+            [
+                'schema',
+                'index1',
+                'CREATE INDEX "index1" ON "schema"."table" ("column1")',
+            ],
+
+            [
+                '',
+                'index2',
+                'CREATE INDEX "index2" ON "table" ("column1", "column2")',
+            ],
+
+            [
+                'schema',
+                'index2',
+                'CREATE INDEX "index2" ON "schema"."table" ("column1", "column2")',
+            ],
+
+            [
+                '',
+                'PRIMARY',
+                'ALTER TABLE "table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")',
+            ],
+
+            [
+                'schema',
+                'PRIMARY',
+                'ALTER TABLE "schema"."table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")',
+            ],
+
+            [
+                '',
+                'index4',
+                'CREATE UNIQUE INDEX "index4" ON "table" ("column4")',
+            ],
+
+            [
+                'schema',
+                'index4',
+                'CREATE UNIQUE INDEX "index4" ON "schema"."table" ("column4")',
+            ],
         ];
     }
 
@@ -254,8 +293,17 @@ class PostgresqlCest extends DialectBase
     protected function getAddPrimaryKeyFixtures(): array
     {
         return [
-            ['', 'PRIMARY', 'ALTER TABLE "table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
-            ['schema', 'PRIMARY', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
+            [
+                '',
+                'PRIMARY',
+                'ALTER TABLE "table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")',
+            ],
+
+            [
+                'schema',
+                'PRIMARY',
+                'ALTER TABLE "schema"."table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")',
+            ],
         ];
     }
 
@@ -311,167 +359,254 @@ class PostgresqlCest extends DialectBase
                 '',
                 [
                     'columns' => [
-                        new Column('column1', [
-                            'type' => Column::TYPE_VARCHAR,
-                            'size' => 10,
-                        ]),
-                        new Column('column2', [
-                            'type'     => Column::TYPE_INTEGER,
-                            'size'     => 18,
-                            'unsigned' => true,
-                            'notNull'  => false,
-                        ]),
+                        new Column(
+                            'column1',
+                            [
+                                'type' => Column::TYPE_VARCHAR,
+                                'size' => 10,
+                            ]
+                        ),
+                        new Column(
+                            'column2',
+                            [
+                                'type'     => Column::TYPE_INTEGER,
+                                'size'     => 18,
+                                'unsigned' => true,
+                                'notNull'  => false,
+                            ]
+                        ),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example1.sql'))),
+                rtrim(
+                    file_get_contents(
+                        dataFolder('fixtures/Db/postgresql/example1.sql')
+                    )
+                ),
             ],
             'example2' => [
                 '',
                 [
                     'columns' => [
-                        new Column('column2', [
-                            'type'     => Column::TYPE_INTEGER,
-                            'size'     => 18,
-                            'unsigned' => true,
-                            'notNull'  => false,
-                        ]),
-                        new Column('column3', [
-                            'type'     => Column::TYPE_DECIMAL,
-                            'size'     => 10,
-                            'scale'    => 2,
-                            'unsigned' => false,
-                            'notNull'  => true,
-                        ]),
-                        new Column('column1', [
-                            'type' => Column::TYPE_VARCHAR,
-                            'size' => 10,
-                        ]),
+                        new Column(
+                            'column2',
+                            [
+                                'type'     => Column::TYPE_INTEGER,
+                                'size'     => 18,
+                                'unsigned' => true,
+                                'notNull'  => false,
+                            ]
+                        ),
+                        new Column(
+                            'column3',
+                            [
+                                'type'     => Column::TYPE_DECIMAL,
+                                'size'     => 10,
+                                'scale'    => 2,
+                                'unsigned' => false,
+                                'notNull'  => true,
+                            ]
+                        ),
+                        new Column(
+                            'column1',
+                            [
+                                'type' => Column::TYPE_VARCHAR,
+                                'size' => 10,
+                            ]
+                        ),
                     ],
                     'indexes' => [
-                        new Index('PRIMARY', ['column3']),
+                        new Index(
+                            'PRIMARY',
+                            ['column3']
+                        ),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example2.sql'))),
+                rtrim(
+                    file_get_contents(
+                        dataFolder('fixtures/Db/postgresql/example2.sql')
+                    )
+                ),
             ],
             'example3' => [
                 '',
                 [
                     'columns'    => [
-                        new Column('column2', [
-                            'type'     => Column::TYPE_INTEGER,
-                            'size'     => 18,
-                            'unsigned' => true,
-                            'notNull'  => false,
-                        ]),
-                        new Column('column3', [
-                            'type'     => Column::TYPE_DECIMAL,
-                            'size'     => 10,
-                            'scale'    => 2,
-                            'unsigned' => false,
-                            'notNull'  => true,
-                        ]),
-                        new Column('column1', [
-                            'type' => Column::TYPE_VARCHAR,
-                            'size' => 10,
-                        ]),
+                        new Column(
+                            'column2',
+                            [
+                                'type'     => Column::TYPE_INTEGER,
+                                'size'     => 18,
+                                'unsigned' => true,
+                                'notNull'  => false,
+                            ]
+                        ),
+                        new Column(
+                            'column3',
+                            [
+                                'type'     => Column::TYPE_DECIMAL,
+                                'size'     => 10,
+                                'scale'    => 2,
+                                'unsigned' => false,
+                                'notNull'  => true,
+                            ]
+                        ),
+                        new Column(
+                            'column1',
+                            [
+                                'type' => Column::TYPE_VARCHAR,
+                                'size' => 10,
+                            ]
+                        ),
                     ],
                     'indexes'    => [
-                        new Index('PRIMARY', ['column3']),
+                        new Index(
+                            'PRIMARY',
+                            ['column3']
+                        ),
                     ],
                     'references' => [
-                        new Reference('fk3', [
-                            'referencedTable'   => 'ref_table',
-                            'columns'           => ['column1'],
-                            'referencedColumns' => ['column2'],
-                            'onDelete'          => 'CASCADE',
-                        ]),
+                        new Reference(
+                            'fk3',
+                            [
+                                'referencedTable'   => 'ref_table',
+                                'columns'           => ['column1'],
+                                'referencedColumns' => ['column2'],
+                                'onDelete'          => 'CASCADE',
+                            ]
+                        ),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example3.sql'))),
+                rtrim(
+                    file_get_contents(
+                        dataFolder('fixtures/Db/postgresql/example3.sql')
+                    )
+                ),
             ],
             'example4' => [
                 '',
                 [
                     'columns' => [
-                        new Column('column9', [
-                            'type'    => Column::TYPE_VARCHAR,
-                            'size'    => 10,
-                            'default' => 'column9',
-                        ]),
-                        new Column('column10', [
-                            'type'     => Column::TYPE_INTEGER,
-                            'size'     => 18,
-                            'unsigned' => true,
-                            'notNull'  => false,
-                            'default'  => 10,
-                        ]),
+                        new Column(
+                            'column9',
+                            [
+                                'type'    => Column::TYPE_VARCHAR,
+                                'size'    => 10,
+                                'default' => 'column9',
+                            ]
+                        ),
+                        new Column(
+                            'column10',
+                            [
+                                'type'     => Column::TYPE_INTEGER,
+                                'size'     => 18,
+                                'unsigned' => true,
+                                'notNull'  => false,
+                                'default'  => 10,
+                            ]
+                        ),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example4.sql'))),
+                rtrim(
+                    file_get_contents(
+                        dataFolder('fixtures/Db/postgresql/example4.sql')
+                    )
+                ),
             ],
             'example5' => [
                 '',
                 [
                     'columns' => [
-                        new Column('column11', [
-                            'type'          => 'BIGINT',
-                            'typeReference' => Column::TYPE_INTEGER,
-                            'size'          => 20,
-                            'unsigned'      => true,
-                            'notNull'       => false,
-                        ]),
-                        new Column('column12', [
-                            'type'       => 'ENUM',
-                            'typeValues' => ['A', 'B', 'C'],
-                            'notNull'    => true,
-                            'default'    => 'A',
-                            'after'      => 'column11',
-                        ]),
-                        new Column('column13', [
-                            'type'    => Column::TYPE_TIMESTAMP,
-                            'notNull' => true,
-                            'default' => 'CURRENT_TIMESTAMP',
-                        ]),
+                        new Column(
+                            'column11',
+                            [
+                                'type'          => 'BIGINT',
+                                'typeReference' => Column::TYPE_INTEGER,
+                                'size'          => 20,
+                                'unsigned'      => true,
+                                'notNull'       => false,
+                            ]
+                        ),
+                        new Column(
+                            'column12',
+                            [
+                                'type'       => 'ENUM',
+                                'typeValues' => ['A', 'B', 'C'],
+                                'notNull'    => true,
+                                'default'    => 'A',
+                                'after'      => 'column11',
+                            ]
+                        ),
+                        new Column(
+                            'column13',
+                            [
+                                'type'    => Column::TYPE_TIMESTAMP,
+                                'notNull' => true,
+                                'default' => 'CURRENT_TIMESTAMP',
+                            ]
+                        ),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example5.sql'))),
+                rtrim(
+                    file_get_contents(
+                        dataFolder('fixtures/Db/postgresql/example5.sql')
+                    )
+                ),
             ],
             'example6' => [
                 '',
                 [
                     'columns' => [
-                        new Column('column14', [
-                            'type'          => Column::TYPE_INTEGER,
-                            'notNull'       => true,
-                            'autoIncrement' => true,
-                            'first'         => true,
-                        ]),
-                        new Column('column15', [
-                            'type'    => Column::TYPE_INTEGER,
-                            'default' => 5,
-                            'notNull' => true,
-                            'after'   => 'user_id',
-                        ]),
-                        new Column('column16', [
-                            'type'    => Column::TYPE_VARCHAR,
-                            'size'    => 10,
-                            'default' => 'column16',
-                        ]),
-                        new Column('column17', [
-                            'type'    => Column::TYPE_BOOLEAN,
-                            'default' => "false",
-                            'notNull' => true,
-                            'after'   => 'track_id',
-                        ]),
-                        new Column('column18', [
-                            'type'    => Column::TYPE_BOOLEAN,
-                            'default' => "true",
-                            'notNull' => true,
-                            'after'   => 'like',
-                        ]),
+                        new Column(
+                            'column14',
+                            [
+                                'type'          => Column::TYPE_INTEGER,
+                                'notNull'       => true,
+                                'autoIncrement' => true,
+                                'first'         => true,
+                            ]
+                        ),
+                        new Column(
+                            'column15',
+                            [
+                                'type'    => Column::TYPE_INTEGER,
+                                'default' => 5,
+                                'notNull' => true,
+                                'after'   => 'user_id',
+                            ]
+                        ),
+                        new Column(
+                            'column16',
+                            [
+                                'type'    => Column::TYPE_VARCHAR,
+                                'size'    => 10,
+                                'default' => 'column16',
+                            ]
+                        ),
+                        new Column(
+                            'column17',
+                            [
+                                'type'    => Column::TYPE_BOOLEAN,
+                                'default' => "false",
+                                'notNull' => true,
+                                'after'   => 'track_id',
+                            ]
+                        ),
+                        new Column(
+                            'column18',
+                            [
+                                'type'    => Column::TYPE_BOOLEAN,
+                                'default' => "true",
+                                'notNull' => true,
+                                'after'   => 'like',
+                            ]
+                        ),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example6.sql'))),
+                rtrim(
+                    file_get_contents(
+                        dataFolder('fixtures/Db/postgresql/example6.sql')
+                    )
+                ),
             ],
         ];
     }
@@ -490,8 +625,21 @@ class PostgresqlCest extends DialectBase
     protected function getCreateViewFixtures(): array
     {
         return [
-            [['sql' => 'SELECT 1'], null, 'CREATE VIEW "test_view" AS SELECT 1'],
-            [['sql' => 'SELECT 1'], 'schema', 'CREATE VIEW "schema"."test_view" AS SELECT 1'],
+            [
+                [
+                    'sql' => 'SELECT 1',
+                ],
+                null,
+                'CREATE VIEW "test_view" AS SELECT 1',
+            ],
+
+            [
+                [
+                    'sql' => 'SELECT 1',
+                ],
+                'schema',
+                'CREATE VIEW "schema"."test_view" AS SELECT 1',
+            ],
         ];
     }
 
@@ -566,11 +714,20 @@ class PostgresqlCest extends DialectBase
         return [
             [
                 null,
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example7.sql'))),
+                rtrim(
+                    file_get_contents(
+                        dataFolder('fixtures/Db/postgresql/example7.sql')
+                    )
+                ),
             ],
+
             [
                 'schema',
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example8.sql'))),
+                rtrim(
+                    file_get_contents(
+                        dataFolder('fixtures/Db/postgresql/example8.sql')
+                    )
+                ),
             ],
         ];
     }

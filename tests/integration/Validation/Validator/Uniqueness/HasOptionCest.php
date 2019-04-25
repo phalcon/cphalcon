@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorUniquenessHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Uniqueness - hasOption()');
-        $validator = new Uniqueness(['message' => 'This is a message']);
+
+        $validator = new Uniqueness(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

@@ -35,10 +35,15 @@ class GetAfterPositionCest
     public function dbColumnGetAfterPosition(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - getAfterPosition()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['after'], $column->getAfterPosition());
+            $I->assertEquals(
+                $columns[$index]['after'],
+                $column->getAfterPosition()
+            );
         }
     }
 }

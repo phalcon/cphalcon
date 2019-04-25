@@ -36,15 +36,27 @@ class RegenerateIdCest
     public function sessionManagerRegenerateId(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - regenerateId()');
+
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+
+        $files = $this->getSessionFiles();
+
         $manager->setHandler($files);
+
         $manager->start();
 
         $current = $manager->getId();
+
         $manager->regenerateId(true);
+
+
+
         $actual = $manager->getId();
+
         $I->assertNotEquals($current, $actual);
+
+
+
         $manager->destroy();
     }
 }

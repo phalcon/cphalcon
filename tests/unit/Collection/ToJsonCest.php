@@ -31,19 +31,23 @@ class ToJsonCest
     public function collectionToJson(UnitTester $I)
     {
         $I->wantToTest('Collection - toJson()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Collection($data);
 
-        $expected = json_encode($data);
-        $actual   = $collection->toJson();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            json_encode($data),
+            $collection->toJson()
+        );
 
-        $expected = json_encode($data, JSON_PRETTY_PRINT);
-        $actual   = $collection->toJson(JSON_PRETTY_PRINT);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            json_encode($data, JSON_PRETTY_PRINT),
+            $collection->toJson(JSON_PRETTY_PRINT)
+        );
     }
 }

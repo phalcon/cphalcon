@@ -32,7 +32,10 @@ class ManagerCest
         $I->wantToTest('Manager - start() on CLI mode w/o session_start');
 
         $session = new Manager();
-        $session->setHandler(new Noop());
+
+        $session->setHandler(
+            new Noop()
+        );
 
         if (PHP_SESSION_ACTIVE === \session_status()) {
             // Please note: further tests may need $_SESSION variable
@@ -40,6 +43,8 @@ class ManagerCest
             unset($_SESSION);
         }
 
-        $I->assertTrue($session->start());
+        $I->assertTrue(
+            $session->start()
+        );
     }
 }

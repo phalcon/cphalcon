@@ -33,6 +33,7 @@ class ToArrayCest
     public function configToArray(UnitTester $I)
     {
         $I->wantToTest("Config - toArray()");
+
         $this->checkToArray($I);
     }
 }

@@ -33,14 +33,17 @@ class GetSetStaticBaseUriCest
     public function urlGetSetStaticBaseUri(IntegrationTester $I)
     {
         $I->wantToTest("Url - getStaticBaseUri()/setStaticBaseUri()");
+
         $url = new Url();
 
         $path = 'https://phalconphp.com';
+
         $url->setStaticBaseUri($path);
 
-        $expected = $path;
-        $actual   = $url->getStaticBaseUri();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $path,
+            $url->getStaticBaseUri()
+        );
     }
 
     /**
@@ -55,11 +58,15 @@ class GetSetStaticBaseUriCest
     public function urlGetSetStaticBaseUriGetBaseUri(IntegrationTester $I)
     {
         $I->wantToTest("Url - getStaticBaseUri()/setStaticBaseUri() - getBaseUri()");
+
         $url = new Url();
 
         $expected = 'https://phalconphp.com';
+
         $url->setBaseUri($expected);
+
         $actual = $url->getStaticBaseUri();
+
         $I->assertEquals($expected, $actual);
     }
 }

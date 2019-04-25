@@ -39,6 +39,7 @@ class FriendlyTitleCest
     public function htmlTagFriendlyTitle(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - friendlyTitle()');
+
         $tag = new Tag();
 
         $text     = 'This is a Test';
@@ -58,12 +59,14 @@ class FriendlyTitleCest
     public function htmlTagFriendlyTitleSeparator(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - friendlyTitle() - separator');
+
         $tag = new Tag();
 
         $text     = 'This is a Test';
         $options  = [
             'separator' => '_',
         ];
+
         $expected = 'this_is_a_test';
         $actual   = $tag->friendlyTitle($text, $options);
         $I->assertEquals($expected, $actual);
@@ -80,12 +83,14 @@ class FriendlyTitleCest
     public function htmlTagFriendlyTitleLowercase(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - friendlyTitle() - lowercase');
+
         $tag = new Tag();
 
         $text     = 'This is a Test';
         $options  = [
             'lowercase' => false,
         ];
+
         $expected = 'This-is-a-Test';
         $actual   = $tag->friendlyTitle($text, $options);
         $I->assertEquals($expected, $actual);
@@ -102,6 +107,7 @@ class FriendlyTitleCest
     public function htmlTagFriendlyTitleReplaceString(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - friendlyTitle() - replace string');
+
         $tag = new Tag();
 
         $text     = 'This is a Test';
@@ -124,6 +130,7 @@ class FriendlyTitleCest
     public function htmlTagFriendlyTitleReplaceArray(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - friendlyTitle() - replace array');
+
         $tag = new Tag();
 
         $text     = 'This is a Test';
@@ -147,6 +154,7 @@ class FriendlyTitleCest
     public function htmlTagFriendlyTitleSpecialCharacters(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - friendlyTitle() - special characters and escaping');
+
         $tag = new Tag();
 
         $text     = "Mess'd up --text-- just (to) stress /test/ ?our! "
@@ -168,6 +176,7 @@ class FriendlyTitleCest
     public function htmlTagFriendlyTitleAccentedCharactersReplace(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - friendlyTitle() - accented characters replace');
+
         $tag = new Tag();
 
         $text     = "Perché l'erba è verde?";
@@ -191,6 +200,7 @@ class FriendlyTitleCest
     public function htmlTagFriendlyTitleAccentedCharactersReplaceArray(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - friendlyTitle() - accented characters replace array');
+
         $tag = new Tag();
 
         $text     = "Perché l'erba è verde?";
@@ -213,11 +223,16 @@ class FriendlyTitleCest
     public function htmlTagFriendlyTitleReplaceException(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - friendlyTitle() - replace exception');
+
         $I->expectThrowable(
             new Exception('Parameter replace must be an array or a string'),
             function () {
-                $tag     = new Tag();
-                $options = ['replace' => true];
+                $tag = new Tag();
+
+                $options = [
+                    'replace' => true,
+                ];
+
                 $tag->friendlyTitle('test', $options);
             }
         );

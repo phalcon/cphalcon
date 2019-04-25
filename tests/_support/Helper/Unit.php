@@ -28,6 +28,7 @@ class Unit extends \Codeception\Module
         $reflectionClass = new ReflectionClass($obj);
 
         $reflectionMethod = $reflectionClass->getMethod($method);
+
         $reflectionMethod->setAccessible(true);
 
         if (!is_object($obj)) {
@@ -36,9 +37,13 @@ class Unit extends \Codeception\Module
 
         // $obj, $method
         $args = array_slice(func_get_args(), 2);
+
         array_unshift($args, $obj);
 
-        return call_user_func_array([$reflectionMethod, 'invoke'], $args);
+        return call_user_func_array(
+            [$reflectionMethod, 'invoke'],
+            $args
+        );
     }
 
     /**
@@ -104,6 +109,7 @@ class Unit extends \Codeception\Module
         $reflection = new ReflectionClass($obj);
 
         $property = $reflection->getProperty($prop);
+
         $property->setAccessible(true);
 
         return $property->getValue($obj);
@@ -121,9 +127,13 @@ class Unit extends \Codeception\Module
         $reflection = new ReflectionClass($obj);
 
         $property = $reflection->getProperty($prop);
+
         $property->setAccessible(true);
         $property->setValue($obj, $value);
 
-        $this->assertEquals($value, $property->getValue($obj));
+        $this->assertEquals(
+            $value,
+            $property->getValue($obj)
+        );
     }
 }

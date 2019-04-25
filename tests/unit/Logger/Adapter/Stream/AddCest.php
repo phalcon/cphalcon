@@ -35,14 +35,34 @@ class AddCest
     public function loggerAdapterStreamAdd(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - add()');
-        $fileName   = $I->getNewFileName('log', 'log');
+
+        $fileName = $I->getNewFileName('log', 'log');
+
         $outputPath = outputFolder('tests/logs/');
-        $adapter    = new Stream($outputPath . $fileName);
+
+        $adapter = new Stream(
+            $outputPath . $fileName
+        );
 
         $adapter->begin();
-        $item1 = new Item('Message 1', 'debug', Logger::DEBUG);
-        $item2 = new Item('Message 2', 'debug', Logger::DEBUG);
-        $item3 = new Item('Message 3', 'debug', Logger::DEBUG);
+
+        $item1 = new Item(
+            'Message 1',
+            'debug',
+            Logger::DEBUG
+        );
+
+        $item2 = new Item(
+            'Message 2',
+            'debug',
+            Logger::DEBUG
+        );
+
+        $item3 = new Item(
+            'Message 3',
+            'debug',
+            Logger::DEBUG
+        );
 
         $adapter
             ->add($item1)
@@ -51,17 +71,23 @@ class AddCest
         ;
 
         $I->amInPath($outputPath);
+
         $I->dontSeeFileFound($fileName);
 
         $adapter->commit();
 
         $I->amInPath($outputPath);
+
         $I->seeFileFound($fileName);
+
         $I->openFile($fileName);
+
         $I->seeInThisFile('Message 1');
         $I->seeInThisFile('Message 2');
         $I->seeInThisFile('Message 3');
 
-        $I->safeDeleteFile($outputPath . $fileName);
+        $I->safeDeleteFile(
+            $outputPath . $fileName
+        );
     }
 }

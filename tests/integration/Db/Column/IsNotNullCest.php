@@ -35,10 +35,15 @@ class IsNotNullCest
     public function dbColumnIsNotNull(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - isNotNull()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['notNull'], $column->isNotNull());
+            $I->assertEquals(
+                $columns[$index]['notNull'],
+                $column->isNotNull()
+            );
         }
     }
 }

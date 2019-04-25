@@ -32,22 +32,39 @@ class JsonSerializeCest
     public function messagesMessagesJsonSerialize(UnitTester $I)
     {
         $I->wantToTest('Messages\Messages - jsonSerialize()');
+
         $messages = new Messages(
             [
-                new Message('This is a message #1', 'MyField1', 'MyType1', 111, ['My1' => 'Metadata1']),
-                new Message('This is a message #2', 'MyField2', 'MyType2', 222, ['My2' => 'Metadata2']),
+                new Message(
+                    'This is a message #1',
+                    'MyField1',
+                    'MyType1',
+                    111,
+                    [
+                        'My1' => 'Metadata1',
+                    ]
+                ),
+                new Message(
+                    'This is a message #2',
+                    'MyField2',
+                    'MyType2',
+                    222,
+                    [
+                        'My2' => 'Metadata2',
+                    ]
+                ),
             ]
         );
-        $expected = '\JsonSerializable';
-        $actual   = $messages;
-        $I->assertInstanceOf($expected, $actual);
+
+        $I->assertInstanceOf(
+            \JsonSerializable::class,
+            $messages
+        );
 
         $data      = $messages->jsonSerialize();
         $condition = is_array($data);
         $I->assertTrue($condition);
 
-        $expected = 2;
-        $actual   = count($data);
-        $I->assertEquals($expected, $actual);
+        $I->assertCount(2, $data);
     }
 }

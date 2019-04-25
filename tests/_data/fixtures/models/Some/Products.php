@@ -58,5 +58,4 @@ class Products extends Model
             MetaData::MODELS_AUTOMATIC_DEFAULT_UPDATE => [],
         ];
     }
-
 }

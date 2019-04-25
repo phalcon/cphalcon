@@ -35,16 +35,19 @@ class InterpolateCest
     public function loggerFormatterSyslogInterpolate(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Syslog - interpolate()');
+
         $formatter = new Syslog();
 
         $message = 'The sky is {color}';
+
         $context = [
             'color' => 'blue',
         ];
 
-        $expected = 'The sky is blue';
-        $actual   = $formatter->interpolate($message, $context);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'The sky is blue',
+            $formatter->interpolate($message, $context)
+        );
     }
 
     /**
@@ -58,18 +61,31 @@ class InterpolateCest
     public function loggerFormatterSyslogInterpolateFormat(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Syslog - interpolate() - format()');
+
         $formatter = new Syslog();
 
         $message = 'The sky is {color}';
+
         $context = [
             'color' => 'blue',
         ];
 
         $time = time();
-        $item = new Item($message, 'debug', Logger::DEBUG, $time, $context);
 
-        $expected = [Logger::DEBUG, 'The sky is blue'];
-        $actual   = $formatter->format($item);
-        $I->assertEquals($expected, $actual);
+        $item = new Item(
+            $message,
+            'debug',
+            Logger::DEBUG,
+            $time,
+            $context
+        );
+
+        $I->assertEquals(
+            [
+                Logger::DEBUG,
+                'The sky is blue',
+            ],
+            $formatter->format($item)
+        );
     }
 }

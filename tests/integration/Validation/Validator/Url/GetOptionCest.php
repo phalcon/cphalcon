@@ -34,7 +34,9 @@ class GetOptionCest
     public function validationValidatorUrlGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url - getOption()');
+
         $validator = new Url();
+
         $this->checkGetOption($I, $validator);
     }
 }

@@ -36,12 +36,15 @@ class RemoveCest
     public function sessionBagRemove(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - remove()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Bag('BagTest');
+
         $collection->init($data);
 
         $expected = $data;
@@ -75,6 +78,7 @@ class RemoveCest
 
         $collection->init($data);
         $collection->offsetUnset('five');
+
         $expected = [
             'one'   => 'two',
             'three' => 'four',

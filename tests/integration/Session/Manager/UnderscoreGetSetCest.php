@@ -36,21 +36,31 @@ class UnderscoreGetSetCest
     public function sessionManagerUnderscoreGetSet(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - __get()/__set()');
+
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+
+        $files = $this->getSessionFiles();
+
         $manager->setHandler($files);
 
-        $actual = $manager->start();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $manager->start()
+        );
+
+
 
         $expected      = 'myval';
         $manager->test = $expected;
         $actual        = $manager->test;
+
         $I->assertEquals($expected, $actual);
+
+
 
         $manager->destroy();
 
-        $actual = $manager->exists();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $manager->exists()
+        );
     }
 }

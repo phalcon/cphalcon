@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorCallbackHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Callback - hasOption()');
-        $validator = new Callback(['message' => 'This is a message']);
+
+        $validator = new Callback(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

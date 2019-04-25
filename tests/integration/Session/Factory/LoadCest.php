@@ -27,6 +27,7 @@ class LoadCest
     public function _before(IntegrationTester $I)
     {
         $I->skipTest('CHECKME');
+
         $this->init();
     }
 
@@ -41,6 +42,7 @@ class LoadCest
     public function sessionFactoryLoadConfig(IntegrationTester $I)
     {
         $I->wantToTest("Session\Factory - load() - Config");
+
         $options = $this->config->session;
         $data    = $options->toArray();
 
@@ -51,10 +53,18 @@ class LoadCest
     {
         /** @var Memcache $session */
         $session = Factory::load($options);
+
         $I->assertInstanceOf(Files::class, $session);
 
+
+
         $expected = $session->getOptions();
-        $actual   = array_intersect_assoc($session->getOptions(), $data);
+
+        $actual = array_intersect_assoc(
+            $session->getOptions(),
+            $data
+        );
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -69,6 +79,7 @@ class LoadCest
     public function sessionFactoryLoadArray(IntegrationTester $I)
     {
         $I->wantToTest("Session\Factory - load() - array");
+
         $options = $this->arrayConfig['session'];
         $data    = $options;
 

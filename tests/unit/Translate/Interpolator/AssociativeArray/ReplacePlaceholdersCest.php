@@ -32,12 +32,12 @@ class ReplacePlaceholdersCest
     public function translateInterpolatorAssociativearrayReplacePlaceholders(UnitTester $I)
     {
         $I->wantToTest('Translate\Interpolator\AssociativeArray - replacePlaceholders()');
+
         $interpolator = new AssociativeArray();
 
-        $expected = 'Hello, John D. Doe!';
-
         $stringFrom = 'Hello, %fname% %mname% %lname%!';
-        $actual     = $interpolator->replacePlaceholders(
+
+        $actual = $interpolator->replacePlaceholders(
             $stringFrom,
             [
                 'fname' => 'John',
@@ -46,6 +46,9 @@ class ReplacePlaceholdersCest
             ]
         );
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Hello, John D. Doe!',
+            $actual
+        );
     }
 }

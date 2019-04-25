@@ -35,6 +35,7 @@ class EmergencyCest
     public function loggerEmergency(UnitTester $I)
     {
         $I->wantToTest('Logger - emergency()');
+
         $this->runLoggerFile($I, 'emergency');
     }
 }

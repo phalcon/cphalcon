@@ -35,10 +35,15 @@ class GetBindTypeCest
     public function dbColumnGetBindType(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - getBindType()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['bindType'], $column->getBindType());
+            $I->assertEquals(
+                $columns[$index]['bindType'],
+                $column->getBindType()
+            );
         }
     }
 }

@@ -31,16 +31,23 @@ class CountCest
     public function collectionCount(UnitTester $I)
     {
         $I->wantToTest('Registry - count()');
-        $data     = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $registry = new Registry($data);
 
-        $I->assertCount(3, $registry->toArray());
+        $I->assertCount(
+            3,
+            $registry->toArray()
+        );
 
-        $actual = $registry->count();
-        $I->assertEquals(3, $actual);
+        $I->assertEquals(
+            3,
+            $registry->count()
+        );
     }
 }

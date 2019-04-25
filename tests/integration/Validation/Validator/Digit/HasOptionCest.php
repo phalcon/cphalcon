@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorDigitHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Digit - hasOption()');
-        $validator = new Digit(['message' => 'This is a message']);
+
+        $validator = new Digit(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

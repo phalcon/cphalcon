@@ -31,25 +31,36 @@ class SetCest
     public function collectionSet(UnitTester $I)
     {
         $I->wantToTest('Collection - set()');
+
         $collection = new Collection();
 
         $collection->set('three', 'two');
-        $expected = 'two';
-        $actual   = $collection->get('three');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            'two',
+            $collection->get('three')
+        );
 
         $collection->three = 'Phalcon';
-        $expected          = 'Phalcon';
-        $actual            = $collection->get('three');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            'Phalcon',
+            $collection->get('three')
+        );
 
         $collection->offsetSet('three', 123);
-        $expected = 123;
-        $actual   = $collection->get('three');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            123,
+            $collection->get('three')
+        );
+
+
 
         $collection['three'] = true;
-        $actual              = $collection->get('three');
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $collection->get('three')
+        );
     }
 }

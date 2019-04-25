@@ -33,13 +33,16 @@ class SetDateFormatCest
     public function loggerFormatterLineSetDateFormat(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Line - setDateFormat()');
+
         $formatter = new Line();
 
         $format = 'YmdHis';
+
         $formatter->setDateFormat($format);
 
-        $expected = $format;
-        $actual   = $formatter->getDateFormat();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $format,
+            $formatter->getDateFormat()
+        );
     }
 }

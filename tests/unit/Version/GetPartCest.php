@@ -34,11 +34,12 @@ class GetPartCest
     public function versionGetPart(UnitTester $I)
     {
         $I->wantToTest('Version - getPart()');
+
         /*
          * Note: getId() returns a version string in the format ABBCCDE
          * where A is the major version, BB is the medium version (2 digits)
-         * CC is the minor version (2 digits), D is the release type (see Phalcon\Version)
-         * and E is the release number (for example 2 for RC2)
+         * CC is the minor version (2 digits), D is the release type (see
+         * Phalcon\Version) and E is the release number (for example 2 for RC2)
          */
 
         $id       = Version::getId();

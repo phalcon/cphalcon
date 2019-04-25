@@ -44,8 +44,12 @@ class ConstructCest
     public function sessionAdapterNoopConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Noop - __construct()');
+
         $adapter = $this->getSessionNoop();
-        $class   = SessionHandlerInterface::class;
-        $I->assertInstanceOf($class, $adapter);
+
+        $I->assertInstanceOf(
+            SessionHandlerInterface::class,
+            $adapter
+        );
     }
 }

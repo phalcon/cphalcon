@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Forms\Element;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Tag;
@@ -41,54 +42,75 @@ class TextCest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10398
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2016-07-17
+     * @since  2016-07-17name
+     *
+     * @dataProvider testCreatingTextElementWithNameSimilarToTheFormMethodsProvider
      */
-    public function testCreatingTextElementWithNameSimilarToTheFormMethods(IntegrationTester $I)
+    public function testCreatingTextElementWithNameSimilarToTheFormMethods(IntegrationTester $I, Example $example)
     {
-        $examples = [
-            'validation',
-            'action',
-            'useroption',
-            'useroptions',
-            'entity',
-            'elements',
-            'messages',
-            'messagesfor',
-            'label',
-            'value',
-            'di',
-            'eventsmanager',
+        $name = $example[0];
+
+        $element = new Text($name);
+
+
+
+        $I->assertEquals(
+            $name,
+            $element->getName()
+        );
+
+
+
+        $expected = sprintf(
+            '<input type="text" id="%s" name="%s" />',
+            $name,
+            $name
+        );
+
+        $I->assertEquals(
+            $expected,
+            $element->render()
+        );
+
+        $I->assertNull(
+            $element->getValue()
+        );
+    }
+
+    private function testCreatingTextElementWithNameSimilarToTheFormMethodsProvider(): array
+    {
+        return [
+            ['validation'],
+            ['action'],
+            ['useroption'],
+            ['useroptions'],
+            ['entity'],
+            ['elements'],
+            ['messages'],
+            ['messagesfor'],
+            ['label'],
+            ['value'],
+            ['di'],
+            ['eventsmanager'],
         ];
-
-        foreach ($examples as $name) {
-            $element = new Text($name);
-
-            $expected = $name;
-            $actual   = $element->getName();
-            $I->assertEquals($expected, $actual);
-
-            $expected = sprintf('<input type="text" id="%s" name="%s" />', $name, $name);
-            $actual   = $element->render();
-            $I->assertEquals($expected, $actual);
-
-            $actual = $element->getValue();
-            $I->assertNull($actual);
-        };
     }
 
     public function testIssue1210(IntegrationTester $I)
     {
         $element = new Text("test");
+
         $element->setLabel("Test");
 
-        $actual   = $element->label();
-        $expected = '<label for="test">Test</label>';
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '<label for="test">Test</label>',
+            $element->label()
+        );
     }
 
     public function testIssue2045(IntegrationTester $I)
     {
         $element = new Text("name");
+
         $element->setAttributes(
             [
                 "class" => "big-input",
@@ -97,25 +119,29 @@ class TextCest
 
         $element->setAttribute("id", null);
 
-        $expected = '<input type="text" name="name" class="big-input" />';
-        $actual   = $element->render();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '<input type="text" name="name" class="big-input" />',
+            $element->render()
+        );
     }
 
     public function testPrepareAttributesNoDefault(IntegrationTester $I)
     {
         $element1 = new Text("name");
+
         $element1->setLabel("name");
 
-        $actual   = $element1->prepareAttributes(
-            [
-                "class" => "big-input",
-            ]
-        );
         $expected = [
             "name",
             "class" => "big-input",
         ];
+
+        $actual = $element1->prepareAttributes(
+            [
+                "class" => "big-input",
+            ]
+        );
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -123,12 +149,14 @@ class TextCest
     {
         $element = new Text("name");
 
-        $actual = $element->getLabel();
-        $I->assertNull($actual);
+        $I->assertNull(
+            $element->getLabel()
+        );
 
-        $expected = [];
-        $actual   = $element->getAttributes();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [],
+            $element->getAttributes()
+        );
     }
 
     public function testFormElement(IntegrationTester $I)
@@ -136,36 +164,61 @@ class TextCest
         $element = new Text("name");
 
         $element->setLabel('name');
-        $element->setAttributes(['class' => 'big-input']);
+
+        $element->setAttributes(
+            [
+                'class' => 'big-input',
+            ]
+        );
+
         $element->setAttribute('placeholder', 'Type the name');
 
-        $expected = 'name';
-        $actual   = $element->getLabel();
-        $I->assertEquals($expected, $actual);
+
+
+
+        $I->assertEquals(
+            'name',
+            $element->getLabel()
+        );
+
+
 
         $expected = [
             'class'       => 'big-input',
             'placeholder' => 'Type the name',
         ];
-        $actual   = $element->getAttributes();
+
+        $actual = $element->getAttributes();
+
         $I->assertEquals($expected, $actual);
 
-        $expected = 'big-input';
-        $actual   = $element->getAttribute('class');
-        $I->assertEquals($expected, $actual);
 
-        $expected = 'Type the name';
-        $actual   = $element->getAttribute('placeholder', 'the name');
-        $I->assertEquals($expected, $actual);
 
-        $expected = 'en';
-        $actual   = $element->getAttribute('lang', 'en');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            'big-input',
+            $element->getAttribute('class')
+        );
+
+        $I->assertEquals(
+            'Type the name',
+            $element->getAttribute('placeholder', 'the name')
+        );
+
+        $I->assertEquals(
+            'en',
+            $element->getAttribute('lang', 'en')
+        );
+
+
 
         $element->setLabel(0);
-        $expected = '<label for="name">0</label>';
-        $actual   = $element->label();
-        $I->assertEquals($expected, $actual);
+
+
+        $I->assertEquals(
+            '<label for="name">0</label>',
+            $element->label()
+        );
     }
 
     public function testFormPrepareAttributes(IntegrationTester $I)
@@ -176,6 +229,7 @@ class TextCest
 
         $expected = ['name'];
         $actual   = $element1->prepareAttributes();
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -184,10 +238,16 @@ class TextCest
         $element1 = new Text("name");
 
         $element1->setLabel('name');
-        $element1->setAttributes(['class' => 'big-input']);
+
+        $element1->setAttributes(
+            [
+                'class' => 'big-input',
+            ]
+        );
 
         $expected = ['name', 'class' => 'big-input'];
         $actual   = $element1->prepareAttributes();
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -195,22 +255,37 @@ class TextCest
     {
         $element1 = new Text("name");
 
-        $element1->setAttributes(['class' => 'big-input']);
-        $element1->setUserOptions(['some' => 'value']);
+        $element1->setAttributes(
+            [
+                'class' => 'big-input',
+            ]
+        );
+
+        $element1->setUserOptions(
+            [
+                'some' => 'value',
+            ]
+        );
 
         $expected = ['some' => 'value'];
         $actual   = $element1->getUserOptions();
+
         $I->assertEquals($expected, $actual);
 
-        $expected = 'value';
-        $actual   = $element1->getUserOption('some');
-        $I->assertEquals($expected, $actual);
 
-        $actual = $element1->getUserOption('some-non');
-        $I->assertNull($actual);
 
-        $expected = 'default';
-        $actual   = $element1->getUserOption('some-non', 'default');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'value',
+            $element1->getUserOption('some')
+        );
+
+        $I->assertNull(
+            $element1->getUserOption('some-non')
+        );
+
+        $I->assertEquals(
+            'default',
+            $element1->getUserOption('some-non', 'default')
+        );
     }
 }

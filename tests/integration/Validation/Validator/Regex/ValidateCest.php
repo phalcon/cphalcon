@@ -30,6 +30,7 @@ class ValidateCest
     public function validationValidatorRegexValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Regex - validate()');
+
         $I->skipTest('Need implementation');
     }
 }

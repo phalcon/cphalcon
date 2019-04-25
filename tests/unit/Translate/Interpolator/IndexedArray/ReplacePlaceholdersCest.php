@@ -32,14 +32,21 @@ class ReplacePlaceholdersCest
     public function translateInterpolatorIndexedarrayReplacePlaceholders(UnitTester $I)
     {
         $I->wantToTest('Translate\Interpolator\IndexedArray - replacePlaceholders()');
+
         $interpolator = new IndexedArray();
 
-        $expected = 'Hello, John D. Doe!';
+        $actual = $interpolator->replacePlaceholders(
+            'Hello, %s %s %s!',
+            [
+                'John',
+                'D.',
+                'Doe',
+            ]
+        );
 
-        $stringFrom = 'Hello, %s %s %s!';
-        $actual     = $interpolator->replacePlaceholders($stringFrom, ['John', 'D.', 'Doe']);
-
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Hello, John D. Doe!',
+            $actual
+        );
     }
 }

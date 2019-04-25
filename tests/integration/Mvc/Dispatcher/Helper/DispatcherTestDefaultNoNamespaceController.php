@@ -58,26 +58,39 @@ class DispatcherTestDefaultNoNamespaceController extends Controller
     public function forwardLocalAction()
     {
         $this->trace('forwardLocalAction');
-        $this->getDI()->getShared('dispatcher')->forward([
-            'action' => 'index2',
-        ])
-        ;
+
+        $di = $this->getDI();
+
+        $dispatcher = $di->getShared('dispatcher');
+
+        $dispatcher->forward(
+            [
+                'action' => 'index2',
+            ]
+        );
     }
 
     public function forwardExternalAction()
     {
         $this->trace('forwardExternalAction');
-        $this->getDI()->getShared('dispatcher')->forward([
-            'namespace'  => 'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
-            'controller' => 'dispatcher-test-default',
-            'action'     => 'index',
-        ])
-        ;
+
+        $di = $this->getDI();
+
+        $dispatcher = $di->getShared('dispatcher');
+
+        $dispatcher->forward(
+            [
+                'namespace'  => 'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+                'controller' => 'dispatcher-test-default',
+                'action'     => 'index',
+            ]
+        );
     }
 
     public function exceptionAction()
     {
         $this->trace('exceptionAction');
+
         throw new Exception('An exception occurred.');
     }
 

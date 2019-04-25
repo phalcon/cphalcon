@@ -41,10 +41,25 @@ class LoaderCest
 
         $loader->register();
 
-        $I->assertInstanceOf('Example\Namespaces\Adapter\Mongo', new \Example\Namespaces\Adapter\Mongo());
-        $I->assertInstanceOf('Example\Namespaces\Adapter\Redis', new \Example\Namespaces\Adapter\Redis());
-        $I->assertInstanceOf('Example\Namespaces\Engines\Gasoline', new \Example\Namespaces\Engines\Gasoline());
-        $I->assertInstanceOf('Example\Namespaces\Example\Example', new \Example\Namespaces\Example\Example());
+        $I->assertInstanceOf(
+            \Example\Namespaces\Adapter\Mongo::class,
+            new \Example\Namespaces\Adapter\Mongo()
+        );
+
+        $I->assertInstanceOf(
+            \Example\Namespaces\Adapter\Redis::class,
+            new \Example\Namespaces\Adapter\Redis()
+        );
+
+        $I->assertInstanceOf(
+            \Example\Namespaces\Engines\Gasoline::class,
+            new \Example\Namespaces\Engines\Gasoline()
+        );
+
+        $I->assertInstanceOf(
+            \Example\Namespaces\Example\Example::class,
+            new \Example\Namespaces\Example\Example()
+        );
 
         $loader->unregister();
     }
@@ -53,7 +68,13 @@ class LoaderCest
     {
         $loader = new Loader();
 
-        $loader->setExtensions(['inc', 'php']);
+        $loader->setExtensions(
+            [
+                'inc',
+                'php',
+            ]
+        );
+
         $loader->registerNamespaces(
             [
                 'Example\Namespaces\Base' => dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
@@ -70,7 +91,10 @@ class LoaderCest
 
         $loader->register();
 
-        $I->assertInstanceOf('Example\Namespaces\Engines\Alcohol', new \Example\Namespaces\Engines\Alcohol());
+        $I->assertInstanceOf(
+            \Example\Namespaces\Engines\Alcohol::class,
+            new \Example\Namespaces\Engines\Alcohol()
+        );
 
         $loader->unregister();
     }
@@ -95,8 +119,15 @@ class LoaderCest
 
         $loader->register();
 
-        $I->assertInstanceOf('Sqlite', new \Sqlite());
-        $I->assertInstanceOf('Integer', new \Integer());
+        $I->assertInstanceOf(
+            \Sqlite::class,
+            new \Sqlite()
+        );
+
+        $I->assertInstanceOf(
+            \Integer::class,
+            new \Integer()
+        );
 
         $loader->unregister();
     }
@@ -104,14 +135,33 @@ class LoaderCest
     public function testFiles(UnitTester $I)
     {
         // TEST CASE : Register the file and check if functions in the file is accessible
-        $I->assertFalse(function_exists('noClassFoo'));
-        $I->assertFalse(function_exists('noClassBar'));
-        $I->assertFalse(function_exists('noClass1Foo'));
-        $I->assertFalse(function_exists('noClass1Bar'));
-        $I->assertFalse(function_exists('noClass2Foo'));
-        $I->assertFalse(function_exists('noClass2Bar'));
+
+        $I->assertFalse(
+            function_exists('noClassFoo')
+        );
+
+        $I->assertFalse(
+            function_exists('noClassBar')
+        );
+
+        $I->assertFalse(
+            function_exists('noClass1Foo')
+        );
+
+        $I->assertFalse(
+            function_exists('noClass1Bar')
+        );
+
+        $I->assertFalse(
+            function_exists('noClass2Foo')
+        );
+
+        $I->assertFalse(
+            function_exists('noClass2Bar')
+        );
 
         $loader = new Loader();
+
         $loader->registerFiles(
             [
                 dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClass.php'),
@@ -126,22 +176,56 @@ class LoaderCest
         );
         $loader->register();
 
-        $I->assertTrue(function_exists('noClassFoo'));
-        $I->assertTrue(function_exists('noClassBar'));
-        $I->assertTrue(function_exists('noClass1Foo'));
-        $I->assertTrue(function_exists('noClass1Bar'));
-        $I->assertTrue(function_exists('noClass2Foo'));
-        $I->assertTrue(function_exists('noClass2Bar'));
+        $I->assertTrue(
+            function_exists('noClassFoo')
+        );
+
+        $I->assertTrue(
+            function_exists('noClassBar')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass1Foo')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass1Bar')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass2Foo')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass2Bar')
+        );
 
         // TEST CASE : We are going to un-register it, but the functions should still be accessible
         $loader->unregister();
 
-        $I->assertTrue(function_exists('noClassFoo'));
-        $I->assertTrue(function_exists('noClassBar'));
-        $I->assertTrue(function_exists('noClass1Foo'));
-        $I->assertTrue(function_exists('noClass1Bar'));
-        $I->assertTrue(function_exists('noClass2Foo'));
-        $I->assertTrue(function_exists('noClass2Bar'));
+        $I->assertTrue(
+            function_exists('noClassFoo')
+        );
+
+        $I->assertTrue(
+            function_exists('noClassBar')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass1Foo')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass1Bar')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass2Foo')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass2Bar')
+        );
     }
 
     public function testNamespacesForMultipleDirectories(UnitTester $I)
@@ -159,8 +243,11 @@ class LoaderCest
                 dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
             ],
         ];
-        $actual   = $loader->getNamespaces();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $loader->getNamespaces()
+        );
 
         $loader->registerNamespaces(
             [
@@ -181,14 +268,28 @@ class LoaderCest
                 dataFolder('fixtures/Loader/Example/Namespaces/Plugin/'),
             ],
         ];
-        $actual   = $loader->getNamespaces();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $loader->getNamespaces()
+        );
 
         $loader->register();
 
-        $I->assertInstanceOf('Example\Namespaces\Adapter\Mongo', new \Example\Namespaces\Adapter\Mongo());
-        $I->assertInstanceOf('Example\Namespaces\Adapter\Another', new \Example\Namespaces\Adapter\Another());
-        $I->assertInstanceOf('Example\Namespaces\Adapter\Redis', new \Example\Namespaces\Adapter\Redis());
+        $I->assertInstanceOf(
+            \Example\Namespaces\Adapter\Mongo::class,
+            new \Example\Namespaces\Adapter\Mongo()
+        );
+
+        $I->assertInstanceOf(
+            \Example\Namespaces\Adapter\Another::class,
+            new \Example\Namespaces\Adapter\Another()
+        );
+
+        $I->assertInstanceOf(
+            \Example\Namespaces\Adapter\Redis::class,
+            new \Example\Namespaces\Adapter\Redis()
+        );
 
         $loader->unregister();
     }
@@ -199,6 +300,7 @@ class LoaderCest
          * @TODO: Check Extensions for this test
          */
         $I->skipTest('TODO: Check Extensions for this test');
+
         $loader = new Loader();
 
         $loader->setExtensions(
@@ -217,7 +319,10 @@ class LoaderCest
 
         $loader->register();
 
-        $I->assertInstanceOf('Example\Namespaces\Adapter\File', new \Example\Namespaces\Adapter\File());
+        $I->assertInstanceOf(
+            \Example\Namespaces\Adapter\File::class,
+            new \Example\Namespaces\Adapter\File()
+        );
 
         $loader->unregister();
     }
@@ -237,10 +342,18 @@ class LoaderCest
             ],
             true
         );
+
         $loader->register();
 
-        $I->assertInstanceOf('One', new \One());
-        $I->assertInstanceOf('Two', new \Two());
+        $I->assertInstanceOf(
+            \One::class,
+            new \One()
+        );
+
+        $I->assertInstanceOf(
+            \Two::class,
+            new \Two()
+        );
 
         $loader->unregister();
     }
@@ -268,17 +381,21 @@ class LoaderCest
         );
 
         $eventsManager = new Manager();
-        $trace         = [];
+
+        $trace = [];
 
         $eventsManager->attach(
             'loader',
             function ($event, $loader) use (&$trace) {
+                $type = $event->getType();
+
                 /** @var \Phalcon\Events\Event $event */
                 /** @var Loader $loader */
-                if (!isset($trace[$event->getType()])) {
-                    $trace[$event->getType()] = [];
+                if (!isset($trace[$type])) {
+                    $trace[$type] = [];
                 }
-                $trace[$event->getType()][] = $loader->getCheckedPath();
+
+                $trace[$type][] = $loader->getCheckedPath();
             }
         );
 
@@ -292,8 +409,8 @@ class LoaderCest
             'beforeCheckPath'  => [0 => dataFolder('fixtures/Loader/Example/Events/LoaderEvent.php')],
             'pathFound'        => [0 => dataFolder('fixtures/Loader/Example/Events/LoaderEvent.php')],
         ];
-        $actual   = $trace;
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals($expected, $trace);
 
         $loader->unregister();
     }
@@ -309,6 +426,7 @@ class LoaderCest
     public function shouldNotFindFilesWithFalseCallback(UnitTester $I)
     {
         $loader = new Loader();
+
         $loader->setFileCheckingCallback(
             function ($file) {
                 return false;
@@ -330,8 +448,13 @@ class LoaderCest
 
         $loader->register();
 
-        $I->assertFalse(function_exists('noClass3Foo'));
-        $I->assertFalse(function_exists('noClass3Bar'));
+        $I->assertFalse(
+            function_exists('noClass3Foo')
+        );
+
+        $I->assertFalse(
+            function_exists('noClass3Bar')
+        );
     }
 
     /**
@@ -345,6 +468,7 @@ class LoaderCest
     public function shouldWorkWithCustomFileCheckCallback(UnitTester $I)
     {
         $loader = new Loader();
+
         $loader->setFileCheckingCallback('stream_resolve_include_path');
 
         $loader->registerFiles(
@@ -362,9 +486,17 @@ class LoaderCest
 
         $loader->register();
 
-        $I->assertTrue(function_exists('noClass3Foo'));
-        $I->assertTrue(function_exists('noClass3Bar'));
-        $I->assertTrue(class_exists('\Example\Namespaces\Engines\Diesel'));
+        $I->assertTrue(
+            function_exists('noClass3Foo')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass3Bar')
+        );
+
+        $I->assertTrue(
+            class_exists('\Example\Namespaces\Engines\Diesel')
+        );
     }
 
     /**
@@ -373,6 +505,7 @@ class LoaderCest
     protected function _before(UnitTester $I)
     {
         $this->loaders = spl_autoload_functions();
+
         if (!is_array($this->loaders)) {
             $this->loaders = [];
         }
@@ -386,6 +519,7 @@ class LoaderCest
     protected function _after(UnitTester $I)
     {
         $loaders = spl_autoload_functions();
+
         if (is_array($loaders)) {
             foreach ($loaders as $loader) {
                 spl_autoload_unregister($loader);
@@ -396,6 +530,8 @@ class LoaderCest
             spl_autoload_register($loader);
         }
 
-        set_include_path($this->includePath);
+        set_include_path(
+            $this->includePath
+        );
     }
 }

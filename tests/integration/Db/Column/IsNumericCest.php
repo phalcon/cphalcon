@@ -35,10 +35,15 @@ class IsNumericCest
     public function dbColumnIsNumeric(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - isNumeric()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['isNumeric'], $column->isNumeric());
+            $I->assertEquals(
+                $columns[$index]['isNumeric'],
+                $column->isNumeric()
+            );
         }
     }
 }

@@ -33,6 +33,7 @@ class PathCest
     public function configPath(UnitTester $I)
     {
         $I->wantToTest('Config - path()');
+
         $this->checkPath($I);
     }
 
@@ -45,6 +46,7 @@ class PathCest
     public function configPathDefault(UnitTester $I)
     {
         $I->wantToTest('Config - path() - default');
+
         $this->checkPathDefault($I);
     }
 }

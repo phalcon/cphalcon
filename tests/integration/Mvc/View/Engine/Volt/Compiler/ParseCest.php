@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt\Compiler;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
@@ -28,20 +29,24 @@ class ParseCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-01-15
+     *
+     * @dataProvider getVoltParse
      */
-    public function mvcViewEngineVoltCompilerParse(IntegrationTester $I)
+    public function mvcViewEngineVoltCompilerParse(IntegrationTester $I, Example $example)
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - parse()");
-        $examples = $this->getVoltParse();
-        foreach ($examples as $item) {
-            $param  = $item[0];
-            $count  = $item[1];
-            $volt   = new Compiler();
-            $actual = $volt->parse($param);
 
-            $I->assertTrue(is_array($actual));
-            $I->assertCount($count, $actual);
-        }
+        $param  = $example[0];
+        $count  = $example[1];
+
+        $volt   = new Compiler();
+        $actual = $volt->parse($param);
+
+        $I->assertTrue(
+            is_array($actual)
+        );
+
+        $I->assertCount($count, $actual);
     }
 
     private function getVoltParse(): array
@@ -192,22 +197,24 @@ class ParseCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-01-15
+     *
+     * @dataProvider getVoltSyntaxErrors
      */
-    public function mvcViewEngineVoltCompilerParseSyntaxError(IntegrationTester $I)
+    public function mvcViewEngineVoltCompilerParseSyntaxError(IntegrationTester $I, Example $example)
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - parse() - syntax error");
-        $examples = $this->getVoltSyntaxErrors();
-        foreach ($examples as $item) {
-            $code    = $item[0];
-            $message = $item[1];
-            $volt    = new Compiler();
-            $I->expectThrowable(
-                new Exception($message),
-                function () use ($volt, $code) {
-                    $volt->parse($code);
-                }
-            );
-        }
+
+        $code    = $example[0];
+        $message = $example[1];
+
+        $volt = new Compiler();
+
+        $I->expectThrowable(
+            new Exception($message),
+            function () use ($volt, $code) {
+                $volt->parse($code);
+            }
+        );
     }
 
     /**
@@ -278,22 +285,24 @@ class ParseCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-01-15
+     *
+     * @dataProvider getVoltExtendsError
      */
-    public function mvcViewEngineVoltCompilerParseExtendsWithError(IntegrationTester $I)
+    public function mvcViewEngineVoltCompilerParseExtendsWithError(IntegrationTester $I, Example $example)
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - parse() - extends with error");
-        $examples = $this->getVoltExtendsError();
-        foreach ($examples as $item) {
-            $code    = $item[0];
-            $message = $item[1];
-            $volt    = new Compiler();
-            $I->expectThrowable(
-                new Exception($message),
-                function () use ($volt, $code) {
-                    $volt->parse($code);
-                }
-            );
-        }
+
+        $code    = $example[0];
+        $message = $example[1];
+
+        $volt = new Compiler();
+
+        $I->expectThrowable(
+            new Exception($message),
+            function () use ($volt, $code) {
+                $volt->parse($code);
+            }
+        );
     }
 
     /**

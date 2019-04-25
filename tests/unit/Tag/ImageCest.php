@@ -29,6 +29,7 @@ class ImageCest extends TagSetup
     public function tagImageStringParameter(UnitTester $I)
     {
         $I->wantToTest("Tag :: image() - string as a parameter");
+
         $options  = 'img/hello.gif';
         $expected = '<img src="/img/hello.gif"';
 
@@ -47,6 +48,7 @@ class ImageCest extends TagSetup
     public function tagImageArrayParameter(UnitTester $I)
     {
         $I->wantToTest("Tag :: image() - array as a parameter");
+
         $options  = [
             'img/hello.gif',
             'class' => 'x_class',
@@ -68,6 +70,7 @@ class ImageCest extends TagSetup
     public function tagImageArrayParameterWithSrc(UnitTester $I)
     {
         $I->wantToTest("Tag :: image() - array as a parameters and src in it");
+
         $options  = [
             'img/hello.gif',
             'src'   => 'img/goodbye.gif',
@@ -90,6 +93,7 @@ class ImageCest extends TagSetup
     public function tagImageArrayParameterWithNameNoSrc(UnitTester $I)
     {
         $I->wantToTest("Tag :: image() - name and no src in parameter");
+
         $options  = [
             'img/hello.gif',
             'class' => 'x_class',
@@ -111,6 +115,7 @@ class ImageCest extends TagSetup
     public function tagImageWithSetDefault(UnitTester $I)
     {
         $I->wantToTest("Tag :: image() - setDefault()");
+
         $options  = [
             'img/hello.gif',
             'class' => 'x_class',
@@ -132,6 +137,7 @@ class ImageCest extends TagSetup
     public function tagImageWithDisplayTo(UnitTester $I)
     {
         $I->wantToTest("Tag :: image() - displayTo()");
+
         $options  = [
             'img/hello.gif',
             'class' => 'x_class',
@@ -153,6 +159,7 @@ class ImageCest extends TagSetup
     public function tagImageWithSetDefaultElementNotPresent(UnitTester $I)
     {
         $I->wantToTest("Tag :: image() - setDefault() and element not present");
+
         $options  = [
             'img/hello.gif',
             'class' => 'x_class',
@@ -174,6 +181,7 @@ class ImageCest extends TagSetup
     public function tagImageWithDisplayToElementNotPresent(UnitTester $I)
     {
         $I->wantToTest("Tag :: image() - displayTo() and element not present");
+
         $options  = [
             'img/hello.gif',
             'class' => 'x_class',
@@ -195,6 +203,7 @@ class ImageCest extends TagSetup
     public function tagImageStringParameterLocalLink(UnitTester $I)
     {
         $I->wantToTest("Tag :: image() - string parameter and local link");
+
         $options  = 'img/hello.gif';
         $expected = '<img src="/img/hello.gif" />';
 
@@ -223,6 +232,7 @@ class ImageCest extends TagSetup
     public function tagImageStringParameterRemoteLink(UnitTester $I)
     {
         $I->wantToTest("Tag :: image() - string parameter and remote link");
+
         $options  = 'http://phalconphp.com/img/hello.gif';
         $expected = '<img src="http://phalconphp.com/img/hello.gif" />';
 
@@ -251,6 +261,7 @@ class ImageCest extends TagSetup
     public function tagImageArrayParameterLocalLink(UnitTester $I)
     {
         $I->wantToTest("Tag :: image() - array parameter and local link");
+
         $options  = [
             'img/hello.gif',
             'alt' => 'Hello',
@@ -285,28 +296,33 @@ class ImageCest extends TagSetup
     public function tagImageArrayParameterRemoteLink(UnitTester $I)
     {
         $I->wantToTest("Tag :: image() - array parameter and remote link");
-        $options  = [
-            'http://phalconphp.com/img/hello.gif',
-            'alt' => 'Hello',
-        ];
-        $expected = '<img src="http://phalconphp.com/img/hello.gif" '
-            . 'alt="Hello" />';
-
-        Tag::setDocType(Tag::XHTML10_STRICT);
-        $actual = Tag::image($options, false);
-
-        $I->assertEquals($expected, $actual);
 
         $options  = [
             'http://phalconphp.com/img/hello.gif',
             'alt' => 'Hello',
         ];
-        $expected = '<img src="http://phalconphp.com/img/hello.gif" '
-            . 'alt="Hello">';
 
-        Tag::setDocType(Tag::HTML5);
-        $actual = Tag::image($options, false);
+        Tag::setDocType(
+            Tag::XHTML10_STRICT
+        );
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '<img src="http://phalconphp.com/img/hello.gif" alt="Hello" />',
+            Tag::image($options, false)
+        );
+
+        $options = [
+            'http://phalconphp.com/img/hello.gif',
+            'alt' => 'Hello',
+        ];
+
+        Tag::setDocType(
+            Tag::HTML5
+        );
+
+        $I->assertEquals(
+            '<img src="http://phalconphp.com/img/hello.gif" alt="Hello">',
+            Tag::image($options, false)
+        );
     }
 }

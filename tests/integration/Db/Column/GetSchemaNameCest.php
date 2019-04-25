@@ -35,10 +35,15 @@ class GetSchemaNameCest
     public function dbColumnGetSchemaName(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - getSchemaName()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['schemaName'], $column->getSchemaName());
+            $I->assertEquals(
+                $columns[$index]['schemaName'],
+                $column->getSchemaName()
+            );
         }
     }
 }

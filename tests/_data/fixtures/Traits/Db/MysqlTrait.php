@@ -73,7 +73,9 @@ trait MysqlTrait
     protected function getExpectedColumns(): array
     {
         $result  = [];
+
         $columns = $this->getColumns();
+
         foreach ($columns as $index => $array) {
             $result[$index] = Column::__set_state($array);
         }

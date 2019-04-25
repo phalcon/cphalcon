@@ -37,8 +37,11 @@ class GetSetNameCest
     public function sessionManagerGetSetName(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - getName()/setName()');
+
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+
+        $files = $this->getSessionFiles();
+
         $manager->setHandler($files);
 
         if (false !== $manager->exists()) {
@@ -46,9 +49,11 @@ class GetSetNameCest
         }
 
         $manager->setName('myname');
-        $expected = 'myname';
-        $actual   = $manager->getName();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            'myname',
+            $manager->getName()
+        );
     }
 
     /**
@@ -62,11 +67,14 @@ class GetSetNameCest
     public function sessionManagerGetNameNotValidName(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - getName()/setName() - not valid name');
+
         $I->expectThrowable(
             new InvalidArgumentException('The name contains non alphanum characters'),
             function () {
                 $manager = new Manager();
-                $files   = $this->getSessionFiles();
+
+                $files = $this->getSessionFiles();
+
                 $manager->setHandler($files);
 
                 $manager->setName('%-gga34');
@@ -85,21 +93,22 @@ class GetSetNameCest
     public function sessionManagerGetNameSessionStarted(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - getName()/setName() - session started');
-        $valid   = false;
-        $manager = new Manager();
-        $files   = $this->getSessionFiles();
-        $manager->setHandler($files);
-        try {
-            $manager->start();
-            $manager->setName('%-gga34');
-        } catch (InvalidArgumentException $ex) {
-            $manager->destroy();
-            $valid    = true;
-            $expected = 'Cannot set session name after a session has started';
-            $actual   = $ex->getMessage();
-            $I->assertEquals($expected, $actual);
-        }
 
-        $I->assertTrue($valid);
+        $manager = new Manager();
+
+        $files = $this->getSessionFiles();
+
+        $manager->setHandler($files);
+
+        $manager->start();
+
+        $I->expectThrowable(
+            new InvalidArgumentException('Cannot set session name after a session has started'),
+            function () use ($manager) {
+                $manager->setName('%-gga34');
+            }
+        );
+
+        $manager->destroy();
     }
 }

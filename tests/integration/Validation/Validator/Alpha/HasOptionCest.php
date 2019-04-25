@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorAlphaHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Alpha - hasOption()');
-        $validator = new Alpha(['message' => 'This is a message']);
+
+        $validator = new Alpha(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

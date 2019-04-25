@@ -35,6 +35,7 @@ class ErrorCest
     public function loggerError(UnitTester $I)
     {
         $I->wantToTest('Logger - error()');
+
         $this->runLoggerFile($I, 'error');
     }
 }

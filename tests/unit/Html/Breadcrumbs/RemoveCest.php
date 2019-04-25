@@ -31,27 +31,32 @@ class RemoveCest
     public function htmlBreadcrumbsRemove(UnitTester $I)
     {
         $I->wantToTest('Html\Breadcrumbs - remove()');
+
         $breadcrumbs = new Breadcrumbs();
+
         $breadcrumbs
             ->add('Home', '/')
             ->add('Users', '/users')
             ->add('Phalcon Team')
         ;
 
-        $expected = [
-            '/'      => 'Home',
-            '/users' => 'Users',
-            ''       => 'Phalcon Team',
-        ];
-        $actual   = $breadcrumbs->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [
+                '/'      => 'Home',
+                '/users' => 'Users',
+                ''       => 'Phalcon Team',
+            ],
+            $breadcrumbs->toArray()
+        );
 
         $breadcrumbs->remove('/');
-        $expected = [
-            '/users' => 'Users',
-            ''       => 'Phalcon Team',
-        ];
-        $actual   = $breadcrumbs->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            [
+                '/users' => 'Users',
+                ''       => 'Phalcon Team',
+            ],
+            $breadcrumbs->toArray()
+        );
     }
 }

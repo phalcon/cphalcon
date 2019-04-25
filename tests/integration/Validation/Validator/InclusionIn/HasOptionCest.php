@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorInclusionInHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\InclusionIn - hasOption()');
-        $validator = new InclusionIn(['message' => 'This is a message']);
+
+        $validator = new InclusionIn(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

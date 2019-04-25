@@ -34,10 +34,13 @@ class SetLocalCest
     public function assetsAssetSetLocalCssLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setLocal() - css local');
+
         $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
 
         $expected = true;
+
         $asset->setLocal($expected);
+
         $this->assetGetLocal($I, $asset, $expected);
     }
 
@@ -53,10 +56,13 @@ class SetLocalCest
     {
         $I->wantToTest('Assets\Asset - setLocal() - css remote');
         $I->skipTest('TODO - Need checking');
+
         $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
 
         $expected = false;
+
         $asset->setLocal($expected);
+
         $this->assetGetLocal($I, $asset, $expected);
     }
 
@@ -71,10 +77,13 @@ class SetLocalCest
     public function assetsAssetSetLocalJsLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setLocal() - js local');
+
         $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
 
         $expected = true;
+
         $asset->setLocal($expected);
+
         $this->assetGetLocal($I, $asset, $expected);
     }
 
@@ -90,10 +99,13 @@ class SetLocalCest
     {
         $I->wantToTest('Assets\Asset - setLocal() - js remote');
         $I->skipTest('TODO - Need checking');
+
         $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
 
         $expected = false;
+
         $asset->setLocal($expected);
+
         $this->assetGetLocal($I, $asset, $expected);
     }
 }

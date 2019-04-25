@@ -31,6 +31,7 @@ class IncrementCest
     public function textIncrementSimpleString(UnitTester $I)
     {
         $I->wantToTest('Text - increment() - string');
+
         $source   = 'file';
         $expected = 'file_1';
         $actual   = Text::increment($source);
@@ -48,6 +49,7 @@ class IncrementCest
     public function textIncrementAlreadyIncremented(UnitTester $I)
     {
         $I->wantToTest('Text - increment() - already incremented string');
+
         $source   = 'file_1';
         $expected = 'file_2';
         $actual   = Text::increment($source);
@@ -65,6 +67,7 @@ class IncrementCest
     public function textIncrementAlreadyIncrementedTwice(UnitTester $I)
     {
         $I->wantToTest('Text - increment() - already incremented string twice');
+
         $source   = 'file_2';
         $expected = 'file_3';
         $actual   = Text::increment($source);
@@ -82,6 +85,7 @@ class IncrementCest
     public function textIncrementStringWithUnderscore(UnitTester $I)
     {
         $I->wantToTest('Text - increment() - string with underscore');
+
         $source   = 'file_';
         $expected = 'file_1';
         $actual   = Text::increment($source);
@@ -99,6 +103,7 @@ class IncrementCest
     public function textIncrementStringWithSpace(UnitTester $I)
     {
         $I->wantToTest('Text - increment() - string with a space at the end');
+
         $source   = 'file ';
         $expected = 'file _1';
         $actual   = Text::increment($source);
@@ -116,6 +121,7 @@ class IncrementCest
     public function textIncrementStringWithDifferentSeparator(UnitTester $I)
     {
         $I->wantToTest('Text - increment() - string with different separator');
+
         $source   = 'file';
         $expected = 'file-1';
         $actual   = Text::increment($source, '-');

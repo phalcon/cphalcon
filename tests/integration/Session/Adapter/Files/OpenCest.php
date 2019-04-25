@@ -43,8 +43,14 @@ class OpenCest
     public function sessionAdapterFilesOpen(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Files - open()');
+
         $adapter = $this->getSessionFiles();
-        $actual  = $adapter->open(cacheFolder(), 'test1');
+
+        $actual  = $adapter->open(
+            cacheFolder(),
+            'test1'
+        );
+
         $I->assertTrue($actual);
     }
 }

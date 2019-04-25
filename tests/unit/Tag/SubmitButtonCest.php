@@ -31,6 +31,7 @@ class SubmitButtonCest extends TagSetup
     public function tagSubmitButtonStringParameter(UnitTester $I)
     {
         $I->wantToTest("Tag - submitButton() - string as parameter");
+
         $options  = 'x_name';
         $expected = '<input type="submit" value="x_name"';
 
@@ -49,11 +50,14 @@ class SubmitButtonCest extends TagSetup
     public function tagSubmitButtonArrayParameter(UnitTester $I)
     {
         $I->wantToTest("Tag - submitButton() - array as parameter");
+
         $options  = [
             'x_name',
             'class' => 'x_class',
         ];
+
         $expected = '<input type="submit" value="x_name" class="x_class"';
+
         $this->testFieldParameter($I, 'submitButton', $options, $expected);
         $this->testFieldParameter($I, 'submitButton', $options, $expected, true);
     }
@@ -69,14 +73,16 @@ class SubmitButtonCest extends TagSetup
     public function tagSubmitButtonArrayParameterWithId(UnitTester $I)
     {
         $I->wantToTest("Tag - submitButton() - array as parameter with id");
-        $options  = [
+
+        $options = [
             'x_name',
             'id'    => 'x_id',
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="submit" id="x_id" value="x_name" '
-            . 'class="x_class" size="10"';
+
+        $expected = '<input type="submit" id="x_id" value="x_name" class="x_class" size="10"';
+
         $this->testFieldParameter($I, 'submitButton', $options, $expected);
         $this->testFieldParameter($I, 'submitButton', $options, $expected, true);
     }
@@ -92,14 +98,16 @@ class SubmitButtonCest extends TagSetup
     public function tagSubmitButtonArrayParameterWithNameNoId(UnitTester $I)
     {
         $I->wantToTest("Tag - submitButton() - name and no id in parameters");
-        $options  = [
+
+        $options = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="submit" name="x_other" '
-            . 'value="x_name" class="x_class" size="10"';
+
+        $expected = '<input type="submit" name="x_other" value="x_name" class="x_class" size="10"';
+
         $this->testFieldParameter($I, 'submitButton', $options, $expected);
         $this->testFieldParameter($I, 'submitButton', $options, $expected, true);
     }
@@ -115,14 +123,16 @@ class SubmitButtonCest extends TagSetup
     public function tagSubmitButtonWithSetDefault(UnitTester $I)
     {
         $I->wantToTest("Tag - submitButton() - setDefault()");
-        $options  = [
+
+        $options = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="submit" name="x_other" '
-            . 'value="x_name" class="x_class" size="10"';
+
+        $expected = '<input type="submit" name="x_other" value="x_name" class="x_class" size="10"';
+
         $this->testFieldParameter($I, 'submitButton', $options, $expected, false, 'setDefault');
         $this->testFieldParameter($I, 'submitButton', $options, $expected, true, 'setDefault');
     }
@@ -138,14 +148,16 @@ class SubmitButtonCest extends TagSetup
     public function tagSubmitButtonWithDisplayTo(UnitTester $I)
     {
         $I->wantToTest("Tag - submitButton() - displayTo()");
-        $options  = [
+
+        $options = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="submit" name="x_other" '
-            . 'value="x_name" class="x_class" size="10"';
+
+        $expected = '<input type="submit" name="x_other" value="x_name" class="x_class" size="10"';
+
         $this->testFieldParameter($I, 'submitButton', $options, $expected, false, 'displayTo');
         $this->testFieldParameter($I, 'submitButton', $options, $expected, true, 'displayTo');
     }
@@ -161,14 +173,16 @@ class SubmitButtonCest extends TagSetup
     public function tagSubmitButtonWithSetDefaultElementNotPresent(UnitTester $I)
     {
         $I->wantToTest("Tag - submitButton() - setDefault() and element not present");
-        $options  = [
+
+        $options = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="submit" name="x_other" '
-            . 'value="x_name" class="x_class" size="10"';
+
+        $expected = '<input type="submit" name="x_other" value="x_name" class="x_class" size="10"';
+
         $this->testFieldParameter($I, 'submitButton', $options, $expected, false, 'setDefault');
         $this->testFieldParameter($I, 'submitButton', $options, $expected, true, 'setDefault');
     }
@@ -184,14 +198,16 @@ class SubmitButtonCest extends TagSetup
     public function tagSubmitButtonWithDisplayToElementNotPresent(UnitTester $I)
     {
         $I->wantToTest("Tag - submitButton() - displayTo() and element not present");
-        $options  = [
+
+        $options = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="submit" name="x_other" '
-            . 'value="x_name" class="x_class" size="10"';
+
+        $expected = '<input type="submit" name="x_other" value="x_name" class="x_class" size="10"';
+
         $this->testFieldParameter($I, 'submitButton', $options, $expected, false, 'displayTo');
         $this->testFieldParameter($I, 'submitButton', $options, $expected, true, 'displayTo');
     }

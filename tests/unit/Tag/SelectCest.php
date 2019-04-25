@@ -60,8 +60,13 @@ class SelectCest extends TagSetup
     {
         $I->wantToTest('Tag - select() with no options');
 
-        $this->testFieldParameter($I, 'select', [
-            'potato',
-        ], "<select id=\"potato\" name=\"potato\">\n</select");
+        $this->testFieldParameter(
+            $I,
+            'select',
+            [
+                'potato',
+            ],
+            "<select id=\"potato\" name=\"potato\">\n</select"
+        );
     }
 }

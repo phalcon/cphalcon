@@ -32,9 +32,15 @@ class GetSetDICest
     public function sessionManagerGetSetDI(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - getDI()/setDI()');
+
         $session   = new Manager();
         $container = new FactoryDefault();
+
         $session->setDI($container);
-        $I->assertEquals($container, $session->getDI());
+
+        $I->assertEquals(
+            $container,
+            $session->getDI()
+        );
     }
 }

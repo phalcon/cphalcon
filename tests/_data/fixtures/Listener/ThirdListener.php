@@ -43,18 +43,40 @@ class ThirdListener
 
     public function beforeAction($event, $component, $data)
     {
-        $this->tester->assertInstanceOf(Event::class, $event);
-        $this->tester->assertInstanceOf(ComponentX::class, $component);
-        $this->tester->assertEquals($data, 'extra data');
+        $this->tester->assertInstanceOf(
+            Event::class,
+            $event
+        );
+
+        $this->tester->assertInstanceOf(
+            ComponentX::class,
+            $component
+        );
+
+        $this->tester->assertEquals(
+            'extra data',
+            $data
+        );
 
         $this->before++;
     }
 
     public function afterAction($event, $component)
     {
-        $this->tester->assertInstanceOf(Event::class, $event);
-        $this->tester->assertInstanceOf(ComponentX::class, $component);
-        $this->tester->assertEquals($event->getData(), ['extra', 'data']);
+        $this->tester->assertInstanceOf(
+            Event::class,
+            $event
+        );
+
+        $this->tester->assertInstanceOf(
+            ComponentX::class,
+            $component
+        );
+
+        $this->tester->assertEquals(
+            ['extra', 'data'],
+            $event->getData()
+        );
 
         $this->after++;
 

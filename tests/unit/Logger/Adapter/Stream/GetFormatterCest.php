@@ -38,14 +38,22 @@ class GetFormatterCest
         $I->wantToTest('Logger\Adapter\Stream - getFormatter()');
 
         $fileName = $I->getNewFileName('log', 'log');
-        $fileName = outputFolder('tests/logs/' . $fileName);
+
+        $fileName = outputFolder(
+            'tests/logs/' . $fileName
+        );
 
         $adapter = new Stream($fileName);
-        $adapter->getFormatter(new Line());
 
-        $class  = FormatterInterface::class;
-        $actual = $adapter->getFormatter();
-        $I->assertInstanceOf($class, $actual);
+        $adapter->getFormatter(
+            new Line()
+        );
+
+        $I->assertInstanceOf(
+            FormatterInterface::class,
+            $adapter->getFormatter()
+        );
+
         $I->safeDeleteFile($fileName);
     }
 }

@@ -38,24 +38,30 @@ class AppendTitleCest
     public function htmlTagAppendTitle(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - appendTitle()');
+
         $tag = new Tag();
+
         $tag->setDI($this->container);
+
         $tag
             ->setTitle('Title')
             ->appendTitle(['Class'])
         ;
 
-        $expected = "Title";
-        $actual   = $tag->getTitle(false, false);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "Title",
+            $tag->getTitle(false, false)
+        );
 
-        $expected = "TitleClass";
-        $actual   = $tag->getTitle(false, true);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "TitleClass",
+            $tag->getTitle(false, true)
+        );
 
-        $expected = "<title>TitleClass</title>" . PHP_EOL;
-        $actual   = $tag->renderTitle();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "<title>TitleClass</title>" . PHP_EOL,
+            $tag->renderTitle()
+        );
     }
 
     /**
@@ -69,25 +75,31 @@ class AppendTitleCest
     public function htmlTagAppendTitleSeparator(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - appendTitle() - separator');
+
         $tag = new Tag();
+
         $tag->setDI($this->container);
+
         $tag
             ->setTitle('Title')
             ->setTitleSeparator('|')
             ->appendTitle(['Class'])
         ;
 
-        $expected = "Title";
-        $actual   = $tag->getTitle(false, false);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "Title",
+            $tag->getTitle(false, false)
+        );
 
-        $expected = "Title|Class";
-        $actual   = $tag->getTitle(false, true);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "Title|Class",
+            $tag->getTitle(false, true)
+        );
 
-        $expected = "<title>Title|Class</title>" . PHP_EOL;
-        $actual   = $tag->renderTitle();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "<title>Title|Class</title>" . PHP_EOL,
+            $tag->renderTitle()
+        );
     }
 
     /**

@@ -43,8 +43,11 @@ class CloseCest
     public function sessionAdapterLibmemcachedClose(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - close()');
+
         $adapter = $this->getSessionLibmemcached();
-        $actual  = $adapter->close();
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->close()
+        );
     }
 }

@@ -40,11 +40,16 @@ class DispatcherTestBeforeExecuteRouteForwardController extends Controller
     {
         $this->trace('beforeExecuteRoute-method');
 
-        $this->getDI()->getShared('dispatcher')->forward([
-            'controller' => 'dispatcher-test-default',
-            'action'     => 'index',
-        ])
-        ;
+        $di = $this->getDI();
+
+        $dispatcher = $di->getShared('dispatcher');
+
+        $dispatcher->forward(
+            [
+                'controller' => 'dispatcher-test-default',
+                'action'     => 'index',
+            ]
+        );
     }
 
     public function indexAction()

@@ -30,6 +30,7 @@ class ExistsCest
     public function translateAdapterCsvExists(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Csv - exists()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -33,6 +33,7 @@ class ConstantsCest
     public function htmlTagConstants(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - constants()');
+
         $I->assertEquals(1, Tag::HTML32);
         $I->assertEquals(2, Tag::HTML401_STRICT);
         $I->assertEquals(3, Tag::HTML401_TRANSITIONAL);

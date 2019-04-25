@@ -33,16 +33,19 @@ class RollbackCest
     public function loggerAdapterNoopRollback(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Noop - rollback()');
+
         $adapter = new Noop();
 
         $adapter->begin();
 
-        $actual = $adapter->inTransaction();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->inTransaction()
+        );
 
         $adapter->rollback();
 
-        $actual = $adapter->inTransaction();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->inTransaction()
+        );
     }
 }

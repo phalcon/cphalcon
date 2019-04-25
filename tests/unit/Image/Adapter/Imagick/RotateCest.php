@@ -36,19 +36,29 @@ class RotateCest
     public function imageAdapterImagickRotate(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - rotate()');
-        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
+
+        $image = new Imagick(
+            dataFolder('assets/images/phalconphp.jpg')
+        );
+
         $image->setResourceLimit(6, 1);
 
         // Rotate 45 degrees clockwise
         $image->rotate(45)->save(outputFolder('tests/image/imagick/rotate.jpg'));
 
-        $I->amInPath(outputFolder('tests/image/imagick/'));
+        $I->amInPath(
+            outputFolder('tests/image/imagick/')
+        );
+
         $I->seeFileFound('rotate.jpg');
 
-        $actual = $image->getWidth() > 200;
-        $I->assertTrue($actual);
-        $actual = $image->getHeight() > 200;
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $image->getWidth() > 200
+        );
+
+        $I->assertTrue(
+            $image->getHeight() > 200
+        );
 
         $I->safeDeleteFile('rotate.jpg');
     }

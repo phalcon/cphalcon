@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorBetweenHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Between - hasOption()');
-        $validator = new Between(['message' => 'This is a message']);
+
+        $validator = new Between(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

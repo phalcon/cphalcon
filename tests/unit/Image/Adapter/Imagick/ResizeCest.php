@@ -36,19 +36,27 @@ class ResizeCest
     public function imageAdapterImagickResize(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - resize()');
+
         $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
+
         $image->setResourceLimit(6, 1);
 
         // Resize to 200 pixels on the shortest side
         $image->resize(200, 200)->save(outputFolder('tests/image/imagick/resize.jpg'));
 
-        $I->amInPath(outputFolder('tests/image/imagick/'));
+        $I->amInPath(
+            outputFolder('tests/image/imagick/')
+        );
+
         $I->seeFileFound('resize.jpg');
 
-        $actual = $image->getWidth() <= 200;
-        $I->assertTrue($actual);
-        $actual = $image->getHeight() <= 200;
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $image->getWidth() <= 200
+        );
+
+        $I->assertTrue(
+            $image->getHeight() <= 200
+        );
 
         $I->safeDeleteFile('resize.jpg');
     }

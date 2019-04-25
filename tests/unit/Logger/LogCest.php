@@ -35,11 +35,21 @@ class LogCest
     public function loggerLog(UnitTester $I)
     {
         $I->wantToTest('Logger - log()');
-        $logPath  = outputFolder('tests/logs/');
-        $fileName = $I->getNewFileName('log', 'log');
-        $adapter  = new Stream($logPath . $fileName);
 
-        $logger = new Logger('my-logger', ['one' => $adapter]);
+        $logPath = outputFolder('tests/logs/');
+
+        $fileName = $I->getNewFileName('log', 'log');
+
+        $adapter = new Stream(
+            $logPath . $fileName
+        );
+
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter,
+            ]
+        );
 
         $levels = [
             Logger::ALERT     => 'alert',
@@ -54,7 +64,10 @@ class LogCest
         ];
 
         foreach ($levels as $level => $levelName) {
-            $logger->log($level, 'Message ' . $levelName);
+            $logger->log(
+                $level,
+                'Message ' . $levelName
+            );
         }
 
         $I->amInPath($logPath);
@@ -70,6 +83,7 @@ class LogCest
 
             $I->seeInThisFile($expected);
         }
+
         $I->safeDeleteFile($fileName);
     }
 }

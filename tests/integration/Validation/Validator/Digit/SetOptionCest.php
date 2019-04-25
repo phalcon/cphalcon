@@ -34,7 +34,9 @@ class SetOptionCest
     public function validationValidatorDigitSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Digit - setOption()');
+
         $validator = new Digit();
+
         $this->checkSetOption($I, $validator);
     }
 }

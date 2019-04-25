@@ -54,18 +54,24 @@ class OutputJsCest
     public function assetsManagerOutputJsImplicit(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - outputJs() - implicit');
+
         $assets = new Manager();
 
         $assets->addJs('js/script1.js');
         $assets->addJs('js/script2.js');
-        $assets->addAsset(new Js('/js/script3.js', false));
+
+        $assets->addAsset(
+            new Js('/js/script3.js', false)
+        );
 
         $expected = '<script src="/js/script1.js"></script>' . PHP_EOL
             . '<script src="/js/script2.js"></script>' . PHP_EOL
             . '<script src="/js/script3.js"></script>' . PHP_EOL;
 
         $assets->useImplicitOutput(false);
+
         $actual = $assets->outputJs();
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -80,19 +86,25 @@ class OutputJsCest
     public function assetsManagerOutputJsNotImplicit(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - outputJs() - not implicit');
+
         $assets = new Manager();
 
         $assets->addJs('js/script1.js');
         $assets->addJs('js/script2.js');
-        $assets->addAsset(new Js('/js/script3.js', false));
 
-        $expected = '<script src="/js/script1.js"></script>' . PHP_EOL
-            . '<script src="/js/script2.js"></script>' . PHP_EOL
-            . '<script src="/js/script3.js"></script>' . PHP_EOL;
+        $assets->addAsset(
+            new Js(
+                '/js/script3.js',
+                false
+            )
+        );
+
+        $expected = '<script src="/js/script1.js"></script>' . PHP_EOL . '<script src="/js/script2.js"></script>' . PHP_EOL . '<script src="/js/script3.js"></script>' . PHP_EOL;
 
         ob_start();
         $assets->outputJs();
         $actual = ob_get_clean();
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -106,14 +118,22 @@ class OutputJsCest
         $I->wantToTest('Asset/Manager - outputJs() - custom tag component');
 
         $di = $this->getDi();
-        $di->setShared('tag', CustomTag::class);
+
+        $di->setShared(
+            'tag',
+            CustomTag::class
+        );
 
         $assets = new Manager();
+
         $assets->setDI($di);
 
         $assets->addJs('js/script1.js');
         $assets->addJs('/js/script2.js');
-        $assets->addAsset(new Js('/js/script3.js'));
+
+        $assets->addAsset(
+            new Js('/js/script3.js')
+        );
 
         $expected = '<script src="js/script1.js" type="application/javascript"></script>' . PHP_EOL
             . '<script src="/js/script2.js" type="application/javascript"></script>' . PHP_EOL
@@ -122,6 +142,7 @@ class OutputJsCest
         ob_start();
         $assets->outputJs();
         $actual = ob_get_clean();
+
         $I->assertEquals($expected, $actual);
     }
 }

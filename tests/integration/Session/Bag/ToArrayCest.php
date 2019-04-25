@@ -36,16 +36,22 @@ class ToArrayCest
     public function sessionBagToArray(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - toArray()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Bag('BagTest');
+
         $collection->init($data);
+
+
 
         $expected = $data;
         $actual   = $collection->toArray();
+
         $I->assertEquals($expected, $actual);
     }
 }

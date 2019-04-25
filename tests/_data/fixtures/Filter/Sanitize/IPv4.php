@@ -30,6 +30,10 @@ class IPv4 implements SanitizerInterface
         $arguments = func_get_args();
         $value     = $arguments[0] ?? '';
 
-        return filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+        return filter_var(
+            $value,
+            FILTER_VALIDATE_IP,
+            FILTER_FLAG_IPV4
+        );
     }
 }

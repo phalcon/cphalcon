@@ -36,19 +36,29 @@ class ReflectionCest
     public function imageAdapterImagickReflection(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - reflection()');
-        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
+
+        $image = new Imagick(
+            dataFolder('assets/images/phalconphp.jpg')
+        );
+
         $image->setResourceLimit(6, 1);
 
         // Create a 50 pixel reflection that fades from 0-100% opacity
         $image->reflection(50)->save(outputFolder('tests/image/imagick/reflection.jpg'));
 
-        $I->amInPath(outputFolder('tests/image/imagick/'));
+        $I->amInPath(
+            outputFolder('tests/image/imagick/')
+        );
+
         $I->seeFileFound('reflection.jpg');
 
-        $actual = $image->getWidth() > 200;
-        $I->assertTrue($actual);
-        $actual = $image->getHeight() > 200;
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $image->getWidth() > 200
+        );
+
+        $I->assertTrue(
+            $image->getHeight() > 200
+        );
 
         $I->safeDeleteFile('reflection.jpg');
     }

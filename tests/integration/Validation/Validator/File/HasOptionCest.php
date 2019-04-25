@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorFileHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\File - hasOption()');
-        $validator = new File(['message' => 'This is a message']);
+
+        $validator = new File(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

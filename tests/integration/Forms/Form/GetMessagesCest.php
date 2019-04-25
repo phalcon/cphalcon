@@ -60,6 +60,7 @@ class GetMessagesCest
     {
         // First element
         $telephone = new Text('telephone');
+
         $telephone->addValidators(
             [
                 new PresenceOf(
@@ -69,7 +70,9 @@ class GetMessagesCest
                 ),
             ]
         );
+
         $customValidation = new Validation();
+
         $customValidation->add(
             'telephone',
             new Regex(
@@ -79,13 +82,20 @@ class GetMessagesCest
                 ]
             )
         );
+
         $form    = new Form();
         $address = new Text('address');
+
         $form->add($telephone);
         $form->add($address);
         $form->setValidation($customValidation);
 
-        $actual = $form->isValid(['address' => 'hello']);
+        $actual = $form->isValid(
+            [
+                'address' => 'hello',
+            ]
+        );
+
         $I->assertFalse($actual);
 
         $expected = [
@@ -112,7 +122,9 @@ class GetMessagesCest
                 ),
             ],
         ];
-        $actual   = $form->getMessages(true);
+
+        $actual = $form->getMessages(true);
+
         $I->assertEquals($expected, $actual);
     }
 }

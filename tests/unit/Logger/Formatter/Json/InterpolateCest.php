@@ -35,6 +35,7 @@ class InterpolateCest
     public function loggerFormatterJsonInterpolate(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Json - interpolate()');
+
         $formatter = new Json();
 
         $message = 'The sky is {color}';
@@ -42,9 +43,10 @@ class InterpolateCest
             'color' => 'blue',
         ];
 
-        $expected = 'The sky is blue';
-        $actual   = $formatter->interpolate($message, $context);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'The sky is blue',
+            $formatter->interpolate($message, $context)
+        );
     }
 
     /**
@@ -58,6 +60,7 @@ class InterpolateCest
     public function loggerFormatterJsonInterpolateFormat(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Json - interpolate() - format()');
+
         $formatter = new Json();
 
         $message = 'The sky is {color}';
@@ -66,14 +69,23 @@ class InterpolateCest
         ];
 
         $time = time();
-        $item = new Item($message, 'debug', Logger::DEBUG, $time, $context);
+
+        $item = new Item(
+            $message,
+            'debug',
+            Logger::DEBUG,
+            $time,
+            $context
+        );
 
         $expected = sprintf(
             '{"type":"debug","message":"The sky is blue","timestamp":"%s"}%s',
             date('D, d M y H:i:s O', $time),
             PHP_EOL
         );
-        $actual   = $formatter->format($item);
+
+        $actual = $formatter->format($item);
+
         $I->assertEquals($expected, $actual);
     }
 }

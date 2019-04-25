@@ -55,7 +55,7 @@ class SetFilterCest
     public function assetsAssetSetFilterCssRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setFilter() - css remote');
-        $I->skipTest('TODO - Need checking');
+
         $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
 
         $expected = true;

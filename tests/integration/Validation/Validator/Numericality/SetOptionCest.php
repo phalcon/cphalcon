@@ -34,7 +34,9 @@ class SetOptionCest
     public function validationValidatorNumericalitySetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Numericality - setOption()');
+
         $validator = new Numericality();
+
         $this->checkSetOption($I, $validator);
     }
 }

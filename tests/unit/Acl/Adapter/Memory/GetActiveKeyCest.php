@@ -33,15 +33,27 @@ class GetActiveKeyCest
     public function aclAdapterMemoryGetActiveKey(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveKey()');
+
         $acl = new Memory();
-        $acl->addRole(new Role('Guests'));
-        $acl->addComponent(new Component('Post'), ['index', 'update', 'create']);
+
+        $acl->addRole(
+            new Role('Guests')
+        );
+
+        $acl->addComponent(
+            new Component('Post'),
+            ['index', 'update', 'create']
+        );
 
         $acl->allow('Guests', 'Post', 'create');
-        $I->assertTrue($acl->isAllowed('Guests', 'Post', 'create'));
 
-        $expected = 'Guests!Post!create';
-        $actual   = $acl->getActiveKey();
-        $I->assertEquals($expected, $actual);
+        $I->assertTrue(
+            $acl->isAllowed('Guests', 'Post', 'create')
+        );
+
+        $I->assertEquals(
+            'Guests!Post!create',
+            $acl->getActiveKey()
+        );
     }
 }

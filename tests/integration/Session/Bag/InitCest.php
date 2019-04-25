@@ -36,6 +36,7 @@ class InitCest
     public function sessionBagInit(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - init()');
+
         $data = [
             'one'   => 'two',
             'three' => 'four',
@@ -44,13 +45,16 @@ class InitCest
 
         $collection = new Bag('BagTest');
 
-        $expected = 0;
-        $actual   = $collection->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $collection->count()
+        );
 
         $collection->init($data);
-        $expected = $data;
-        $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $data,
+            $collection->toArray()
+        );
     }
 }

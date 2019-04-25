@@ -36,17 +36,25 @@ class CountCest
     public function sessionBagCount(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - count()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Bag('BagTest');
+
         $collection->init($data);
 
-        $I->assertCount(3, $collection->toArray());
+        $I->assertCount(
+            3,
+            $collection->toArray()
+        );
 
-        $actual = $collection->count();
-        $I->assertEquals(3, $actual);
+        $I->assertEquals(
+            3,
+            $collection->count()
+        );
     }
 }

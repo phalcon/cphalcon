@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorUrlConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url - __construct()');
+
         $validator = new Url();
+
         $this->checkConstruct($I, $validator);
     }
 }

@@ -44,13 +44,22 @@ class DestroyCest
     public function sessionAdapterRedisDestroy(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Redis - destroy()');
+
         $adapter = $this->getSessionRedis();
 
         $value      = uniqid();
         $serialized = serialize($value);
-        $I->haveInRedis('string', 'test1', $serialized);
-        $actual = $adapter->destroy('test1');
-        $I->assertTrue($actual);
+
+        $I->haveInRedis(
+            'string',
+            'test1',
+            $serialized
+        );
+
+        $I->assertTrue(
+            $adapter->destroy('test1')
+        );
+
         $I->dontSeeInRedis('test1');
     }
 }

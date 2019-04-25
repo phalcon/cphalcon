@@ -87,12 +87,23 @@ class IsAllowedCest
     public function aclAdapterMemoryIsAllowedSameClass(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - isAllowed() - same class');
+
         $acl = new Memory();
-        $acl->setDefaultAction(Acl::DENY);
+
+        $acl->setDefaultAction(
+            Acl::DENY
+        );
+
         $role = new TestRoleComponentAware(1, 'User', 'Admin');
-        $component   = new TestRoleComponentAware(2, 'User', 'Admin');
+        $component = new TestRoleComponentAware(2, 'User', 'Admin');
+
         $acl->addRole('Admin');
-        $acl->addComponent('User', ['update']);
+
+        $acl->addComponent(
+            'User',
+            ['update']
+        );
+
         $acl->allow(
             'Admin',
             'User',
@@ -102,11 +113,16 @@ class IsAllowedCest
             }
         );
 
-        $actual = $acl->isAllowed($role, $component, 'update');
-        $I->assertFalse($actual);
-        $actual = $acl->isAllowed($role, $role, 'update');
-        $I->assertTrue($actual);
-        $actual = $acl->isAllowed($component, $component, 'update');
-        $I->assertTrue($actual);
+        $I->assertFalse(
+            $acl->isAllowed($role, $component, 'update')
+        );
+
+        $I->assertTrue(
+            $acl->isAllowed($role, $role, 'update')
+        );
+
+        $I->assertTrue(
+            $acl->isAllowed($component, $component, 'update')
+        );
     }
 }

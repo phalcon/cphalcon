@@ -34,7 +34,9 @@ class GetOptionCest
     public function validationValidatorDigitGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Digit - getOption()');
+
         $validator = new Digit();
+
         $this->checkGetOption($I, $validator);
     }
 }

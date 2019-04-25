@@ -37,11 +37,15 @@ class ResetInputCest
     public function tagResetInputShouldNotClearPOST(UnitTester $I)
     {
         $I->wantToTest("Tag - resetInput() - should not clear POST data");
+
         $_POST = ['a' => '1', 'b' => '2'];
+
         Tag::resetInput();
-        $expected = ['a' => '1', 'b' => '2'];
-        $actual   = $_POST;
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            ['a' => '1', 'b' => '2'],
+            $_POST
+        );
     }
 
     /**
@@ -56,24 +60,42 @@ class ResetInputCest
     public function tagResetInputSetDefault(UnitTester $I)
     {
         $I->wantToTest("Tag - resetInput() - setDefault()");
-        Tag::setDocType(Tag::XHTML10_STRICT);
+
+        Tag::setDocType(
+            Tag::XHTML10_STRICT
+        );
+
         $options  = 'x_name';
         $expected = '<input type="text" id="x_name" name="x_name" value="x_other" />';
+
         Tag::setDefault('x_name', 'x_other');
+
         $actual = Tag::textField($options);
+
         Tag::resetInput();
+
         $I->assertEquals($expected, $actual);
+
         $expected = '<input type="text" id="x_name" name="x_name" />';
         $actual   = Tag::textField($options);
         $I->assertEquals($expected, $actual);
-        Tag::setDocType(Tag::HTML5);
+
+        Tag::setDocType(
+            Tag::HTML5
+        );
+
         $options  = 'x_name';
         $expected = '<input type="text" id="x_name" '
             . 'name="x_name" value="x_other">';
+
         Tag::setDefault('x_name', 'x_other');
+
         $actual = Tag::textField($options);
+
         Tag::resetInput();
+
         $I->assertEquals($expected, $actual);
+
         $expected = '<input type="text" id="x_name" name="x_name">';
         $actual   = Tag::textField($options);
         $I->assertEquals($expected, $actual);

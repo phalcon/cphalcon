@@ -35,10 +35,15 @@ class GetTypeCest
     public function dbColumnGetType(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - getType()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['type'], $column->getType());
+            $I->assertEquals(
+                $columns[$index]['type'],
+                $column->getType()
+            );
         }
     }
 }

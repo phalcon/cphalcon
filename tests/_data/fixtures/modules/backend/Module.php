@@ -32,11 +32,17 @@ class Module implements ModuleDefinitionInterface
 
     public function registerServices(DiInterface $di)
     {
-        $di->set('view', function () {
-            $view = new View();
-            $view->setViewsDir(dataFolder('fixtures/modules/backend/views/'));
+        $di->set(
+            'view',
+            function () {
+                $view = new View();
 
-            return $view;
-        });
+                $view->setViewsDir(
+                    dataFolder('fixtures/modules/backend/views/')
+                );
+
+                return $view;
+            }
+        );
     }
 }

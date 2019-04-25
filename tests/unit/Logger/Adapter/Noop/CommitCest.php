@@ -34,17 +34,20 @@ class CommitCest
     public function loggerAdapterNoopCommit(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Noop - commit()');
+
         $adapter = new Noop();
 
         $adapter->begin();
 
-        $actual = $adapter->inTransaction();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->inTransaction()
+        );
 
         $adapter->commit();
 
-        $actual = $adapter->inTransaction();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->inTransaction()
+        );
     }
 
     /**
@@ -59,17 +62,17 @@ class CommitCest
     {
         $I->wantToTest('Logger\Adapter\Noop - commit() - no transaction');
 
-        try {
-            $adapter = new Noop();
+        $adapter = new Noop();
 
-            $actual = $adapter->inTransaction();
-            $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->inTransaction()
+        );
 
-            $adapter->commit();
-        } catch (Exception $ex) {
-            $expected = 'There is no active transaction';
-            $actual   = $ex->getMessage();
-            $I->assertEquals($expected, $actual);
-        }
+        $I->expectThrowable(
+            new Exception('There is no active transaction'),
+            function () use ($adapter) {
+                $adapter->commit();
+            }
+        );
     }
 }
