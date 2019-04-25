@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Element;
 
 use IntegrationTester;
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Form;
 
 /**
  * Class GetFormCest
@@ -24,12 +26,46 @@ class GetFormCest
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-25
      */
     public function formsElementGetForm(IntegrationTester $I)
     {
         $I->wantToTest('Forms\Element - getForm()');
-        $I->skipTest('Need implementation');
+
+        $address = new Text('address');
+
+        $form = new Form();
+
+        $address->setForm($form);
+
+        $I->assertSame(
+            $form,
+            $address->getForm()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Forms\Element :: getForm()
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-25
+     */
+    public function formsElementGetFormViaForm(IntegrationTester $I)
+    {
+        $I->wantToTest('Forms\Element - getForm()');
+
+        $address = new Text('address');
+
+        $form = new Form();
+
+        $form->add($address);
+
+        $I->assertSame(
+            $form,
+            $address->getForm()
+        );
     }
 }
