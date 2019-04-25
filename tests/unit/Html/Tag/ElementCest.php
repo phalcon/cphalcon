@@ -167,26 +167,38 @@ class ElementCest
     public function htmlTagElementEol(UnitTester $I)
     {
         $I->wantToTest("Tag - tagHtml() - name parameter EOL");
+
         $tag = new Tag();
+
         $tag->setDI($this->container);
-        $name       = 'aside';
+
+        $name = 'aside';
+
         $parameters = [
             'useEol' => true,
 
         ];
-        $expected   = '<aside>' . PHP_EOL;
 
-        $actual = $tag
-            ->setDocType(Tag::XHTML10_STRICT)
-            ->element($name, $parameters)
-        ;
-        $I->assertEquals($expected, $actual);
 
-        $expected = '<aside></aside>' . PHP_EOL;
-        $actual   = $tag
-            ->setDocType(Tag::HTML5)
-            ->element($name, $parameters)
-        ;
-        $I->assertEquals($expected, $actual);
+
+        $tag->setDocType(
+            Tag::XHTML10_STRICT
+        );
+
+        $I->assertEquals(
+            '<aside>' . PHP_EOL,
+            $tag->element($name, $parameters)
+        );
+
+
+
+        $tag->setDocType(
+            Tag::HTML5
+        );
+
+        $I->assertEquals(
+            '<aside></aside>' . PHP_EOL,
+            $tag->element($name, $parameters)
+        );
     }
 }

@@ -31,6 +31,7 @@ class GetLimitCest
     public function paginatorAdapterNativearrayGetLimit(IntegrationTester $I)
     {
         $I->wantToTest('Paginator\Adapter\NativeArray - getLimit()');
+
         $paginator = new NativeArray(
             [
                 'data'  => array_fill(0, 30, 'banana'),
@@ -39,8 +40,9 @@ class GetLimitCest
             ]
         );
 
-        $expected = 25;
-        $actual   = $paginator->getLimit();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            25,
+            $paginator->getLimit()
+        );
     }
 }

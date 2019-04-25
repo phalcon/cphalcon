@@ -35,16 +35,16 @@ class CamelizeCest
     public function textCamelize(UnitTester $I, Example $item)
     {
         $I->wantToTest('Text - camelize()');
+
         $value     = $item[0];
         $expected  = $item[1];
         $delimiter = $item[2];
-        $actual    = Text::camelize($value, $delimiter);
+
+        $actual = Text::camelize($value, $delimiter);
+
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getSources(): array
     {
         return [

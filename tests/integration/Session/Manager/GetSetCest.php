@@ -36,21 +36,37 @@ class GetSetCest
     public function sessionManagerGetSet(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - get()/set()');
+
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+
+        $files = $this->getSessionFiles();
+
         $manager->setHandler($files);
 
-        $actual = $manager->start();
-        $I->assertTrue($actual);
+
+
+        $I->assertTrue(
+            $manager->start()
+        );
+
+
 
         $expected = 'myval';
+
         $manager->set('test', $expected);
+
         $actual = $manager->get('test');
+
         $I->assertEquals($expected, $actual);
+
+
 
         $manager->destroy();
 
-        $actual = $manager->exists();
-        $I->assertFalse($actual);
+
+
+        $I->assertFalse(
+            $manager->exists()
+        );
     }
 }

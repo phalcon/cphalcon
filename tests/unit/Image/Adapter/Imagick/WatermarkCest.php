@@ -36,20 +36,33 @@ class WatermarkCest
     public function imageAdapterImagickWatermark(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - watermark()');
-        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
+
+        $image = new Imagick(
+            dataFolder('assets/images/phalconphp.jpg')
+        );
+
         $image->setResourceLimit(6, 1);
-        $mark = new Imagick(dataFolder('assets/images/logo.png'));
+
+        $mark = new Imagick(
+            dataFolder('assets/images/logo.png')
+        );
 
         // Add a watermark to the bottom right of the image
         $image->watermark($mark, 10, 10)->save(outputFolder('tests/image/imagick/watermark.jpg'));
 
-        $I->amInPath(outputFolder('tests/image/imagick/'));
+        $I->amInPath(
+            outputFolder('tests/image/imagick/')
+        );
+
         $I->seeFileFound('watermark.jpg');
 
-        $actual = $image->getWidth() > 200;
-        $I->assertTrue($actual);
-        $actual = $image->getHeight() > 200;
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $image->getWidth() > 200
+        );
+
+        $I->assertTrue(
+            $image->getHeight() > 200
+        );
 
         $I->safeDeleteFile('watermark.jpg');
     }

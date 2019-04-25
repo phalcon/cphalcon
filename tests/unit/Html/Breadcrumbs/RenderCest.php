@@ -31,7 +31,9 @@ class RenderCest
     public function htmlBreadcrumbsRender(UnitTester $I)
     {
         $I->wantToTest('Html\Breadcrumbs - render()');
+
         $breadcrumbs = new Breadcrumbs();
+
         $breadcrumbs
             ->add('Home', '/')
             ->add('Phalcon Team')
@@ -42,7 +44,10 @@ class RenderCest
             . '<dt> / </dt>'
             . '<dt>Phalcon Team</dt>'
             . '</dl>';
-        $actual   = $breadcrumbs->render();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $breadcrumbs->render()
+        );
     }
 }

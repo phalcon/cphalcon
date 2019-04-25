@@ -27,6 +27,15 @@ class TrimFilter implements FilterInterface
      */
     public function filter(string $content): string
     {
-        return str_replace(["\n", "\r", " ", "\t"], '', $content);
+        return str_replace(
+            [
+                "\n",
+                "\r",
+                " ",
+                "\t",
+            ],
+            '',
+            $content
+        );
     }
 }

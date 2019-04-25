@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorAlnumHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Alnum - hasOption()');
-        $validator = new Alnum(['message' => 'This is a message']);
+
+        $validator = new Alnum(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

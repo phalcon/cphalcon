@@ -45,14 +45,23 @@ class LoadCest
     public function imageFactoryLoadConfig(UnitTester $I)
     {
         $options = $this->config->image;
-        /** @var Imagick $image */
-        $image  = Factory::load($options);
-        $class  = Imagick::class;
-        $actual = $image;
-        $I->assertInstanceOf($class, $actual);
 
-        $expected = realpath($options->file);
-        $actual   = $image->getRealpath();
+        /** @var Imagick $image */
+        $image = Factory::load($options);
+
+        $I->assertInstanceOf(
+            Imagick::class,
+            $image
+        );
+
+
+
+        $expected = realpath(
+            $options->file
+        );
+
+        $actual = $image->getRealpath();
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -67,14 +76,23 @@ class LoadCest
     public function imageFactoryLoadArray(UnitTester $I)
     {
         $options = $this->arrayConfig["image"];
-        /** @var Imagick $image */
-        $image  = Factory::load($options);
-        $class  = Imagick::class;
-        $actual = $image;
-        $I->assertInstanceOf($class, $actual);
 
-        $expected = realpath($options["file"]);
-        $actual   = $image->getRealpath();
+        /** @var Imagick $image */
+        $image = Factory::load($options);
+
+        $I->assertInstanceOf(
+            Imagick::class,
+            $image
+        );
+
+
+
+        $expected = realpath(
+            $options["file"]
+        );
+
+        $actual = $image->getRealpath();
+
         $I->assertEquals($expected, $actual);
     }
 }

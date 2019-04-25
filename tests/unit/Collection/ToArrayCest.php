@@ -31,15 +31,18 @@ class ToArrayCest
     public function collectionToArray(UnitTester $I)
     {
         $I->wantToTest('Collection - toArray()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Collection($data);
 
-        $expected = $data;
-        $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $data,
+            $collection->toArray()
+        );
     }
 }

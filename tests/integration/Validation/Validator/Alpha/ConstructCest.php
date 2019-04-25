@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorAlphaConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Alpha - __construct()');
+
         $validator = new Alpha();
+
         $this->checkConstruct($I, $validator);
     }
 }

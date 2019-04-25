@@ -34,11 +34,14 @@ class FormCloseCest
     public function htmlHelperFormcloseConstruct(UnitTester $I)
     {
         $I->wantToTest('Html\Helper\FormClose - __construct()');
+
         $escaper = $this->newEscaper();
+
         $helper  = new FormClose($escaper);
 
-        $expected = '</form>';
-        $actual   = $helper();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '</form>',
+            $helper()
+        );
     }
 }

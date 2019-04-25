@@ -43,8 +43,11 @@ class OpenCest
     public function sessionAdapterRedisOpen(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Redis - open()');
+
         $adapter = $this->getSessionRedis();
-        $actual  = $adapter->open('test', 'test1');
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->open('test', 'test1')
+        );
     }
 }

@@ -27,8 +27,6 @@ trait CollectionTrait
 {
     /**
      * Executed before each test
-     *
-     * @param Actor $I
      */
     protected function setupMongo(Actor $I)
     {
@@ -38,20 +36,32 @@ trait CollectionTrait
             );
         }
 
-        $I->haveServiceInDi('mongo', function () {
-            $dsn = sprintf('mongodb://%s:%s', DATA_MONGODB_HOST, DATA_MONGODB_PORT);
+        $I->haveServiceInDi(
+            'mongo',
+            function () {
+                $dsn = sprintf(
+                    'mongodb://%s:%s',
+                    DATA_MONGODB_HOST,
+                    DATA_MONGODB_PORT
+                );
 
-            if (class_exists('MongoClient')) {
-                $mongo = new MongoClient($dsn);
-            } else {
-                $mongo = new Mongo($dsn);
-            }
+                if (class_exists('MongoClient')) {
+                    $mongo = new MongoClient($dsn);
+                } else {
+                    $mongo = new Mongo($dsn);
+                }
 
-            return $mongo->selectDB(DATA_MONGODB_NAME);
-        }, true);
+                return $mongo->selectDB(DATA_MONGODB_NAME);
+            },
+            true
+        );
 
-        $I->haveServiceInDi('collectionManager', function () {
-            return new Manager();
-        }, true);
+        $I->haveServiceInDi(
+            'collectionManager',
+            function () {
+                return new Manager();
+            },
+            true
+        );
     }
 }

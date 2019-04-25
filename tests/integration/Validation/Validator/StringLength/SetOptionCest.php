@@ -34,7 +34,9 @@ class SetOptionCest
     public function validationValidatorStringLengthSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength - setOption()');
+
         $validator = new StringLength();
+
         $this->checkSetOption($I, $validator);
     }
 }

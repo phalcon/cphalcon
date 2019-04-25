@@ -36,21 +36,27 @@ class ClearCest
     public function sessionBagClear(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - clear()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Bag('BagTest');
+
         $collection->init($data);
 
-        $expected = $data;
-        $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $data,
+            $collection->toArray()
+        );
 
         $collection->clear();
-        $expected = 0;
-        $actual   = $collection->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $collection->count()
+        );
     }
 }

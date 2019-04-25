@@ -31,9 +31,12 @@ class ConstructCest
     public function collectionConstruct(UnitTester $I)
     {
         $I->wantToTest('Registry - __construct()');
+
         $registry = new Registry();
 
-        $class = Registry::class;
-        $I->assertInstanceOf($class, $registry);
+        $I->assertInstanceOf(
+            Registry::class,
+            $registry
+        );
     }
 }

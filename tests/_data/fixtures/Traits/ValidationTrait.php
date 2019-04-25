@@ -33,8 +33,14 @@ trait ValidationTrait
      */
     private function checkConstruct(IntegrationTester $I, ValidatorInterface $validator)
     {
-        $I->wantToTest($this->getMessage($validator, '__construct()'));
-        $I->assertInstanceOf(ValidatorInterface::class, $validator);
+        $I->wantToTest(
+            $this->getMessage($validator, '__construct()')
+        );
+
+        $I->assertInstanceOf(
+            ValidatorInterface::class,
+            $validator
+        );
     }
 
     /**
@@ -49,7 +55,10 @@ trait ValidationTrait
     {
         $class = get_class($validator);
 
-        return sprintf(str_replace('Phalcon\\', '', $class) . ' - %s', $method);
+        return sprintf(
+            str_replace('Phalcon\\', '', $class) . ' - %s',
+            $method
+        );
     }
 
     /**
@@ -63,12 +72,19 @@ trait ValidationTrait
      */
     private function checkGetOption(IntegrationTester $I, ValidatorInterface $validator)
     {
-        $I->wantToTest($this->getMessage($validator, 'getOption()'));
+        $I->wantToTest(
+            $this->getMessage(
+                $validator,
+                'getOption()'
+            )
+        );
+
         $validator->setOption('option', 'value');
 
-        $expected = 'value';
-        $actual   = $validator->getOption('option');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'value',
+            $validator->getOption('option')
+        );
     }
 
     /**
@@ -82,12 +98,21 @@ trait ValidationTrait
      */
     private function checkHasOption(IntegrationTester $I, ValidatorInterface $validator)
     {
-        $I->wantToTest($this->getMessage($validator, 'hasOption()'));
-        $actual = $validator->hasOption('option');
-        $I->assertFalse($actual);
+        $I->wantToTest(
+            $this->getMessage(
+                $validator,
+                'hasOption()'
+            )
+        );
 
-        $actual = $validator->hasOption('message');
-        $I->assertTrue($actual);
+        $I->assertFalse(
+            $validator->hasOption('option')
+        );
+
+
+        $I->assertTrue(
+            $validator->hasOption('message')
+        );
     }
 
     /**
@@ -101,11 +126,18 @@ trait ValidationTrait
      */
     private function checkSetOption(IntegrationTester $I, ValidatorInterface $validator)
     {
-        $I->wantToTest($this->getMessage($validator, 'setOption()'));
+        $I->wantToTest(
+            $this->getMessage(
+                $validator,
+                'setOption()'
+            )
+        );
+
         $validator->setOption('option', 'value');
 
-        $expected = 'value';
-        $actual   = $validator->getOption('option');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'value',
+            $validator->getOption('option')
+        );
     }
 }

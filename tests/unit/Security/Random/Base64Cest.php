@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security\Random;
 
+use Codeception\Example;
 use UnitTester;
 
 /**
@@ -26,27 +27,36 @@ class Base64Cest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider securityRandomBase64Provider
      */
-    public function securityRandomBase64(UnitTester $I)
+    public function securityRandomBase64(UnitTester $I, Example $example)
     {
         $I->wantToTest("Security\Random - base64()");
-        $examples = [null, 2, 12, 16, 24, 48, 100];
 
-        foreach ($examples as $len) {
-            $random = new \Phalcon\Security\Random();
+        $len = $example[0];
 
-            $isValid = function ($base64) {
-                return (preg_match("#[^a-z0-9+_=/-]+#i", $base64) === 0);
-            };
+        $random = new \Phalcon\Security\Random();
 
-            $base64 = $random->base64($len);
-            $I->assertTrue(is_string($base64));
+        $isValid = function ($base64) {
+            return (preg_match("#[^a-z0-9+_=/-]+#i", $base64) === 0);
+        };
 
-            $expected = ($len === null) ? 16 : $len;
-            $actual   = strlen($base64);
-            $I->assertTrue($this->checkSize($base64, $expected));
-            $I->assertTrue($isValid($base64));
-        }
+        $base64 = $random->base64($len);
+
+        $I->assertTrue(
+            is_string($base64)
+        );
+
+        $expected = ($len === null) ? 16 : $len;
+
+        $I->assertTrue(
+            $this->checkSize($base64, $expected)
+        );
+
+        $I->assertTrue(
+            $isValid($base64)
+        );
     }
 
     /**
@@ -67,5 +77,18 @@ class Base64Cest
         }
 
         return strlen($string) == $len;
+    }
+
+    private function securityRandomBase64Provider(): array
+    {
+        return [
+            [null],
+            [2],
+            [12],
+            [16],
+            [24],
+            [48],
+            [100],
+        ];
     }
 }

@@ -46,15 +46,24 @@ class DestroyCest
     public function sessionAdapterFilesDestroy(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Files - destroy()');
+
         $adapter = $this->getSessionFiles();
 
         /**
          * Create a file in the session folder
          */
-        file_put_contents(cacheFolder('test1'), uniqid());
-        $actual = $adapter->destroy('test1');
-        $I->assertTrue($actual);
+        file_put_contents(
+            cacheFolder('test1'),
+            uniqid()
+        );
 
-        $I->dontSeeFileFound('test1', cacheFolder());
+        $I->assertTrue(
+            $adapter->destroy('test1')
+        );
+
+        $I->dontSeeFileFound(
+            'test1',
+            cacheFolder()
+        );
     }
 }

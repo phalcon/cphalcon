@@ -35,10 +35,13 @@ class UncamelizeCest
     public function textUncamelize(UnitTester $I, Example $item)
     {
         $I->wantToTest('Text - uncamelize()');
+
         $value     = $item[0];
         $expected  = $item[1];
         $delimiter = $item[2];
-        $actual    = Text::uncamelize($value, $delimiter);
+
+        $actual = Text::uncamelize($value, $delimiter);
+
         $I->assertEquals($expected, $actual);
     }
 

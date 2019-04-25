@@ -34,11 +34,19 @@ class GetMessageCest
     public function loggerItemGetMessage(UnitTester $I)
     {
         $I->wantToTest('Logger\Item - getMessage()');
-        $time = time();
-        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
-        $expected = 'log message';
-        $actual   = $item->getMessage();
-        $I->assertEquals($expected, $actual);
+        $time = time();
+
+        $item = new Item(
+            'log message',
+            'debug',
+            Logger::DEBUG,
+            $time
+        );
+
+        $I->assertEquals(
+            'log message',
+            $item->getMessage()
+        );
     }
 }

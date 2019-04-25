@@ -65,15 +65,23 @@ if (!function_exists('loadFolders')) {
             'session',
             'stream',
         ];
+
         foreach ($folders as $folder) {
-            $item = outputFolder('tests/' . $folder);
+            $item = outputFolder(
+                'tests/' . $folder
+            );
+
             if (true !== file_exists($item)) {
                 mkdir($item, 0777, true);
             }
         }
 
         if (true !== file_exists(cacheFolder())) {
-            mkdir(cacheFolder(), 0777, true);
+            mkdir(
+                cacheFolder(),
+                0777,
+                true
+            );
         }
     }
 }

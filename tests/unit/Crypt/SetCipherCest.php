@@ -34,9 +34,15 @@ class SetCipherCest
         $I->wantToTest('Crypt - setCipher()');
 
         $cipher = "aes-256-cfb";
+
         $crypt  = new Crypt();
+
         $crypt->setCipher($cipher);
-        $I->assertEquals($cipher, $crypt->getCipher());
+
+        $I->assertEquals(
+            $cipher,
+            $crypt->getCipher()
+        );
     }
 
     /**
@@ -55,6 +61,7 @@ class SetCipherCest
             Exception::class,
             function () {
                 $crypt = new Crypt();
+
                 $crypt->setCipher('xxx-yyy-zzz');
             }
         );

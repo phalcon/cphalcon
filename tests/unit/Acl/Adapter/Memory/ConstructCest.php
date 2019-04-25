@@ -30,6 +30,7 @@ class ConstructCest
     public function aclAdapterMemoryConstructConstants(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - __construct() - constants');
+
         $I->assertEquals(1, Acl::ALLOW);
         $I->assertEquals(0, Acl::DENY);
     }
@@ -45,9 +46,12 @@ class ConstructCest
     public function aclAdapterMemoryConstruct(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - __construct()');
+
         $acl = new Memory();
 
-        $class = Memory::class;
-        $I->assertInstanceOf($class, $acl);
+        $I->assertInstanceOf(
+            Memory::class,
+            $acl
+        );
     }
 }

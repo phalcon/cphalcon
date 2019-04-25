@@ -28,6 +28,7 @@ class ConstantsCest
     public function checkClassConstants(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column :: constants");
+
         $I->assertEquals(3, Column::BIND_PARAM_BLOB);
         $I->assertEquals(5, Column::BIND_PARAM_BOOL);
         $I->assertEquals(32, Column::BIND_PARAM_DECIMAL);

@@ -36,25 +36,32 @@ class StatusCest
     public function sessionManagerStatus(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - status()');
+
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+
+        $files = $this->getSessionFiles();
+
         $manager->setHandler($files);
 
-        $expected = $manager::SESSION_NONE;
-        $actual   = $manager->status();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $manager::SESSION_NONE,
+            $manager->status()
+        );
 
-        $actual = $manager->start();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $manager->start()
+        );
 
-        $expected = $manager::SESSION_ACTIVE;
-        $actual   = $manager->status();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $manager::SESSION_ACTIVE,
+            $manager->status()
+        );
 
         $manager->destroy();
 
-        $expected = $manager::SESSION_NONE;
-        $actual   = $manager->status();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $manager::SESSION_NONE,
+            $manager->status()
+        );
     }
 }

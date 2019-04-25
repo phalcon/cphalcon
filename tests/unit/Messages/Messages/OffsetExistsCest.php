@@ -32,20 +32,34 @@ class OffsetExistsCest
     public function messagesMessagesOffsetExists(UnitTester $I)
     {
         $I->wantToTest('Messages\Messages - offsetExists()');
+
         $messages = new Messages(
             [
-                1 => new Message('This is a message #1', 'MyField1', 'MyType1', 111),
-                2 => new Message('This is a message #2', 'MyField2', 'MyType2', 222),
+                1 => new Message(
+                    'This is a message #1',
+                    'MyField1',
+                    'MyType1',
+                    111
+                ),
+                2 => new Message(
+                    'This is a message #2',
+                    'MyField2',
+                    'MyType2',
+                    222
+                ),
             ]
         );
 
-        $actual = $messages->offsetExists(0);
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $messages->offsetExists(0)
+        );
 
-        $actual = $messages->offsetExists(1);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $messages->offsetExists(1)
+        );
 
-        $actual = $messages->offsetExists(2);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $messages->offsetExists(2)
+        );
     }
 }

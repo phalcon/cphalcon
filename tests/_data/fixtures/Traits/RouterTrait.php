@@ -56,9 +56,13 @@ trait RouterTrait
         $router = new Router($defaultRoutes);
 
         $di = new Di;
-        $di->setShared('request', function () {
-            return new Request;
-        });
+
+        $di->setShared(
+            'request',
+            function () {
+                return new Request;
+            }
+        );
 
         $router->setDI($di);
 
@@ -78,10 +82,15 @@ trait RouterTrait
         $methodName = $data['methodName'];
 
         if (isset($data[1])) {
-            return $router->$methodName($data[0], $data[1]);
+            return $router->$methodName(
+                $data[0],
+                $data[1]
+            );
         }
 
-        return $router->$methodName($data[0]);
+        return $router->$methodName(
+            $data[0]
+        );
     }
 
     /**
@@ -100,7 +109,9 @@ trait RouterTrait
             $route = $this->getRouteAndSetRouteMethod($router, $data);
 
             if (isset($data['hostname'])) {
-                $route->setHostname($data['hostname']);
+                $route->setHostname(
+                    $data['hostname']
+                );
             }
         }
 

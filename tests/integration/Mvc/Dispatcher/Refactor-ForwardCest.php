@@ -35,35 +35,57 @@ class RefactorForwardCest
     public function handlingException(IntegrationTester $I)
     {
         $di = new FactoryDefault();
-        $di->set('view', function () {
-            $view = new View();
-            $view->setViewsDir(dataFolder('fixtures/views/'));
 
-            return $view;
-        }, true);
+        $di->set(
+            'view',
+            function () {
+                $view = new View();
+
+                $view->setViewsDir(
+                    dataFolder('fixtures/views/')
+                );
+
+                return $view;
+            },
+            true
+        );
 
         $eventsManager = new Manager();
 
-        $eventsManager->attach('dispatch:beforeException', function ($event, $dispatcher, $exception) {
-            $dispatcher->forward([
-                'controller' => 'exception',
-                'action'     => 'second',
-            ]);
+        $eventsManager->attach(
+            'dispatch:beforeException',
+            function ($event, $dispatcher, $exception) {
+                $dispatcher->forward(
+                    [
+                        'controller' => 'exception',
+                        'action'     => 'second',
+                    ]
+                );
 
-            // Prevent the exception from bubbling
-            return false;
-        });
+                // Prevent the exception from bubbling
+                return false;
+            }
+        );
 
         $dispatcher = new Dispatcher();
+
         $dispatcher->setEventsManager($eventsManager);
 
         $di->setShared('dispatcher', $dispatcher);
 
         $application = new Application();
-        $application->setEventsManager(new Manager());
+
+        $application->setEventsManager(
+            new Manager()
+        );
+
         $application->setDI($di);
 
         $response = $application->handle("/exception");
-        $I->assertSame("I should be displayed", $response->getContent());
+
+        $I->assertSame(
+            "I should be displayed",
+            $response->getContent()
+        );
     }
 }

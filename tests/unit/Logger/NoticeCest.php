@@ -35,6 +35,7 @@ class NoticeCest
     public function loggerNotice(UnitTester $I)
     {
         $I->wantToTest('Logger - notice()');
+
         $this->runLoggerFile($I, 'notice');
     }
 }

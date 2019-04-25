@@ -31,14 +31,20 @@ class GetSetNoArgumentsDefaultActionCest
      */
     public function aclAdapterMemoryGetSetNoArgumentsDefaultAction(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction()');
+        $I->wantToTest(
+            'Acl\Adapter\Memory - getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction()'
+        );
+
         $acl = new Memory();
 
-        $acl->setNoArgumentsDefaultAction(Acl::ALLOW);
+        $acl->setNoArgumentsDefaultAction(
+            Acl::ALLOW
+        );
 
-        $expected = Acl::ALLOW;
-        $actual   = $acl->getNoArgumentsDefaultAction();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            Acl::ALLOW,
+            $acl->getNoArgumentsDefaultAction()
+        );
     }
 
     /**
@@ -51,11 +57,15 @@ class GetSetNoArgumentsDefaultActionCest
      */
     public function aclAdapterMemoryGetSetNoArgumentsDefaultActionDefault(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction() - default');
+        $I->wantToTest(
+            'Acl\Adapter\Memory - getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction() - default'
+        );
+
         $acl = new Memory();
 
-        $expected = Acl::DENY;
-        $actual   = $acl->getNoArgumentsDefaultAction();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            Acl::DENY,
+            $acl->getNoArgumentsDefaultAction()
+        );
     }
 }

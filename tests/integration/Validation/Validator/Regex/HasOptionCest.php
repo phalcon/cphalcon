@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorRegexHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Regex - hasOption()');
-        $validator = new Regex(['message' => 'This is a message']);
+
+        $validator = new Regex(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

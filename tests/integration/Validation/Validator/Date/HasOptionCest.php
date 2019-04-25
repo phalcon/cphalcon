@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorDateHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Date - hasOption()');
-        $validator = new Date(['message' => 'This is a message']);
+
+        $validator = new Date(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

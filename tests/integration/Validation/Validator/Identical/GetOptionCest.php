@@ -34,7 +34,9 @@ class GetOptionCest
     public function validationValidatorIdenticalGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Identical - getOption()');
+
         $validator = new Identical();
+
         $this->checkGetOption($I, $validator);
     }
 }

@@ -31,17 +31,21 @@ class UpperCest
     public function textUpper(UnitTester $I)
     {
         $I->wantToTest('Text - upper()');
-        $expected = 'HELLO';
-        $actual   = Text::upper('hello');
-        $I->assertEquals($expected, $actual);
 
-        $expected = 'HELLO';
-        $actual   = Text::upper('HELLO');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'HELLO',
+            Text::upper('hello')
+        );
 
-        $expected = '1234';
-        $actual   = Text::upper('1234');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'HELLO',
+            Text::upper('HELLO')
+        );
+
+        $I->assertEquals(
+            '1234',
+            Text::upper('1234')
+        );
     }
 
     /**
@@ -55,28 +59,35 @@ class UpperCest
     public function textUpperMultiBytesEncoding(UnitTester $I)
     {
         $I->wantToTest('Text - upper() - multi byte encoding');
-        $expected = 'ПРИВЕТ МИР!';
-        $actual   = Text::upper('ПРИВЕТ МИР!');
-        $I->assertEquals($expected, $actual);
 
-        $expected = 'ПРИВЕТ МИР!';
-        $actual   = Text::upper('ПриВЕт Мир!');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'ПРИВЕТ МИР!',
+            Text::upper('ПРИВЕТ МИР!')
+        );
 
-        $expected = 'ПРИВЕТ МИР!';
-        $actual   = Text::upper('привет мир!');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'ПРИВЕТ МИР!',
+            Text::upper('ПриВЕт Мир!')
+        );
 
-        $expected = 'MÄNNER';
-        $actual   = Text::upper('MÄNNER');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'ПРИВЕТ МИР!',
+            Text::upper('привет мир!')
+        );
 
-        $expected = 'MÄNNER';
-        $actual   = Text::upper('mÄnnER');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'MÄNNER',
+            Text::upper('MÄNNER')
+        );
 
-        $expected = 'MÄNNER';
-        $actual   = Text::upper('männer');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'MÄNNER',
+            Text::upper('mÄnnER')
+        );
+
+        $I->assertEquals(
+            'MÄNNER',
+            Text::upper('männer')
+        );
     }
 }

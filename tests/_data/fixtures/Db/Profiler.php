@@ -15,7 +15,6 @@ use Phalcon\Db\Profiler as PhalconProfiler;
 
 class Profiler extends PhalconProfiler
 {
-
     private $points = 0;
 
     public function beforeStartProfile($profile)

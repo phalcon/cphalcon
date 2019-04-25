@@ -34,7 +34,9 @@ class SetOptionCest
     public function validationValidatorUniquenessSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Uniqueness - setOption()');
+
         $validator = new Uniqueness();
+
         $this->checkSetOption($I, $validator);
     }
 }

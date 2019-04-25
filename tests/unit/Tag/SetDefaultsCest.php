@@ -32,6 +32,7 @@ class SetDefaultsCest extends TagSetup
     public function tagSetDefaults(UnitTester $I)
     {
         $I->wantToTest("Tag - setDefaults()");
+
         $data = [
             'property1' => 'testVal1',
             'property2' => 'testVal2',
@@ -40,13 +41,35 @@ class SetDefaultsCest extends TagSetup
 
         Tag::setDefaults($data);
 
-        $I->assertTrue(Tag::hasValue('property1'));
-        $I->assertTrue(Tag::hasValue('property2'));
-        $I->assertTrue(Tag::hasValue('property3'));
-        $I->assertFalse(Tag::hasValue('property4'));
+        $I->assertTrue(
+            Tag::hasValue('property1')
+        );
 
-        $I->assertEquals('testVal1', Tag::getValue('property1'));
-        $I->assertEquals('testVal2', Tag::getValue('property2'));
-        $I->assertEquals('testVal3', Tag::getValue('property3'));
+        $I->assertTrue(
+            Tag::hasValue('property2')
+        );
+
+        $I->assertTrue(
+            Tag::hasValue('property3')
+        );
+
+        $I->assertFalse(
+            Tag::hasValue('property4')
+        );
+
+        $I->assertEquals(
+            'testVal1',
+            Tag::getValue('property1')
+        );
+
+        $I->assertEquals(
+            'testVal2',
+            Tag::getValue('property2')
+        );
+
+        $I->assertEquals(
+            'testVal3',
+            Tag::getValue('property3')
+        );
     }
 }

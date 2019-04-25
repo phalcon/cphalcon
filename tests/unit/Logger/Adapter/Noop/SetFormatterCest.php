@@ -37,10 +37,14 @@ class SetFormatterCest
         $I->wantToTest('Logger\Adapter\Noop - setFormatter()');
 
         $adapter = new Noop();
-        $adapter->setFormatter(new Line());
 
-        $class  = FormatterInterface::class;
-        $actual = $adapter->getFormatter();
-        $I->assertInstanceOf($class, $actual);
+        $adapter->setFormatter(
+            new Line()
+        );
+
+        $I->assertInstanceOf(
+            FormatterInterface::class,
+            $adapter->getFormatter()
+        );
     }
 }

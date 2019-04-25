@@ -78,6 +78,7 @@ trait DiTrait
                 'cacheDir' => cacheFolder(),
             ]
         );
+
         $this->container->set('modelsCache', $cache);
 
         return $cache;
@@ -98,7 +99,15 @@ trait DiTrait
             ],
         ];
 
-        $cache = new Libmemcached(new Data(['lifetime' => 3600]), $config);
+        $cache = new Libmemcached(
+            new Data(
+                [
+                    'lifetime' => 3600,
+                ]
+            ),
+            $config
+        );
+
         $this->container->set('modelsCache', $cache);
 
         return $cache;
@@ -110,7 +119,9 @@ trait DiTrait
     protected function newDi()
     {
         Di::reset();
+
         $this->container = new Di();
+
         Di::setDefault($this->container);
     }
 
@@ -120,7 +131,9 @@ trait DiTrait
     protected function setNewCliFactoryDefault()
     {
         Di::reset();
+
         $this->container = $this->newCliFactoryDefault();
+
         Di::setDefault($this->container);
     }
 
@@ -185,7 +198,10 @@ trait DiTrait
      */
     protected function setDiAnnotations()
     {
-        $this->container->set('annotations', new AnnotationsMemory());
+        $this->container->set(
+            'annotations',
+            new AnnotationsMemory()
+        );
     }
 
     /**
@@ -197,6 +213,7 @@ trait DiTrait
             'crypt',
             function () {
                 $crypt = new Crypt();
+
                 $crypt->setKey('cryptkeycryptkey');
 
                 return $crypt;
@@ -209,7 +226,10 @@ trait DiTrait
      */
     protected function setDiEscaper()
     {
-        $this->container->set('escaper', Escaper::class);
+        $this->container->set(
+            'escaper',
+            Escaper::class
+        );
     }
 
     /**
@@ -217,7 +237,10 @@ trait DiTrait
      */
     protected function setDiEventsManager()
     {
-        $this->container->set('eventsManager', EventsManager::class);
+        $this->container->set(
+            'eventsManager',
+            EventsManager::class
+        );
     }
 
     /**
@@ -240,7 +263,10 @@ trait DiTrait
      */
     protected function setDiModelsManager()
     {
-        $this->container->setShared('modelsManager', ModelsManager::class);
+        $this->container->setShared(
+            'modelsManager',
+            ModelsManager::class
+        );
     }
 
     /**
@@ -248,7 +274,10 @@ trait DiTrait
      */
     protected function setDiModelsMetadata()
     {
-        $this->container->setShared('modelsMetadata', MetadataMemory::class);
+        $this->container->setShared(
+            'modelsMetadata',
+            MetadataMemory::class
+        );
     }
 
     /**
@@ -256,7 +285,10 @@ trait DiTrait
      */
     protected function setDiMysql()
     {
-        $this->container->setShared('db', $this->newDiMysql());
+        $this->container->setShared(
+            'db',
+            $this->newDiMysql()
+        );
     }
 
     /**
@@ -280,7 +312,10 @@ trait DiTrait
      */
     protected function setDiResponse()
     {
-        $this->container->set('response', Response::class);
+        $this->container->set(
+            'response',
+            Response::class
+        );
     }
 
     /**
@@ -288,7 +323,10 @@ trait DiTrait
      */
     protected function setDiRequest()
     {
-        $this->container->set('request', Request::class);
+        $this->container->set(
+            'request',
+            Request::class
+        );
     }
 
     /**
@@ -300,6 +338,7 @@ trait DiTrait
             'session',
             function () {
                 $manager = new SessionManager();
+
                 $manager->setHandler(
                     new SessionFiles(
                         [
@@ -322,6 +361,7 @@ trait DiTrait
             'session',
             function () {
                 $manager = new SessionManager();
+
                 $manager->setHandler(
                     new SessionLibmemcached(
                         [
@@ -350,7 +390,10 @@ trait DiTrait
             'session',
             function () {
                 $manager = new SessionManager();
-                $manager->setHandler(new SessionNoop());
+
+                $manager->setHandler(
+                    new SessionNoop()
+                );
 
                 return $manager;
             }
@@ -366,7 +409,10 @@ trait DiTrait
             'session',
             function () {
                 $manager = new SessionManager();
-                $manager->setHandler(new SessionRedis());
+
+                $manager->setHandler(
+                    new SessionRedis()
+                );
 
                 return $manager;
             }
@@ -378,7 +424,10 @@ trait DiTrait
      */
     protected function setDiSqlite()
     {
-        $this->container->set('db', $this->newDiSqlite());
+        $this->container->set(
+            'db',
+            $this->newDiSqlite()
+        );
     }
 
     /**
@@ -402,6 +451,7 @@ trait DiTrait
             'url',
             function () {
                 $url = new Url();
+
                 $url->setBaseUri('/');
 
                 return $url;
@@ -418,7 +468,10 @@ trait DiTrait
             'view',
             function () {
                 $view = new View();
-                $view->setViewsDir(dataFolder('fixtures/views'));
+
+                $view->setViewsDir(
+                    dataFolder('fixtures/views')
+                );
 
                 return $view;
             }
@@ -434,6 +487,7 @@ trait DiTrait
             'viewSimple',
             function () {
                 $view = new Simple();
+
                 $view->setViewsDir(dataFolder('fixtures/views/'));
 
                 return $view;
@@ -458,7 +512,9 @@ trait DiTrait
     protected function setNewFactoryDefault()
     {
         Di::reset();
+
         $this->container = $this->newFactoryDefault();
+
         Di::setDefault($this->container);
     }
 
@@ -475,7 +531,10 @@ trait DiTrait
      */
     protected function setDiPostgresql()
     {
-        $this->container->set('db', $this->newDiPostgresql());
+        $this->container->set(
+            'db',
+            $this->newDiPostgresql()
+        );
     }
 
     /**

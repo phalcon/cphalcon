@@ -44,8 +44,10 @@ class LoadCest
     public function dbAdapterPdoFactoryLoadConfig(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Factory - load() - Config");
+
         $options = $this->config->database;
         $data    = $options->toArray();
+
         $this->runTests($I, $options, $data);
     }
 
@@ -59,13 +61,20 @@ class LoadCest
         /** @var Mysql $database */
         $database = Factory::load($options);
 
-        $class  = Mysql::class;
-        $actual = $database;
-        $I->assertInstanceOf($class, $actual);
+        $I->assertInstanceOf(
+            Mysql::class,
+            $database
+        );
 
-        $expected = array_intersect_assoc($database->getDescriptor(), $data);
-        $actual   = $database->getDescriptor();
-        $I->assertEquals($expected, $actual);
+        $expected = array_intersect_assoc(
+            $database->getDescriptor(),
+            $data
+        );
+
+        $I->assertEquals(
+            $expected,
+            $database->getDescriptor()
+        );
     }
 
     /**
@@ -79,8 +88,10 @@ class LoadCest
     public function dbAdapterPdoFactoryLoadArray(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Factory - load() - array");
+
         $options = $this->arrayConfig["database"];
         $data    = $options;
+
         $this->runTests($I, $options, $data);
     }
 }

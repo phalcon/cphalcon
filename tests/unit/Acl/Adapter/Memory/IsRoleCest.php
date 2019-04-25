@@ -32,13 +32,15 @@ class IsRoleCest
     public function aclAdapterMemoryIsRole(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - isRole()');
-        $acl          = new Memory();
+
+        $acl     = new Memory();
         $aclRole = new Role('Administrators', 'Super User access');
 
         $acl->addRole($aclRole);
 
-        $actual = $acl->isRole('Administrators');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $acl->isRole('Administrators')
+        );
     }
 
     /**
@@ -52,12 +54,14 @@ class IsRoleCest
     public function aclAdapterMemoryIsRoleUnknown(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - isRole() - unknown');
-        $acl          = new Memory();
+
+        $acl     = new Memory();
         $aclRole = new Role('Administrators', 'Super User access');
 
         $acl->addRole($aclRole);
 
-        $actual = $acl->isRole('unknown');
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $acl->isRole('unknown')
+        );
     }
 }

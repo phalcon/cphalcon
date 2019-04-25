@@ -30,6 +30,7 @@ class ValidateCest
     public function validationValidatorEmailValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Email - validate()');
+
         $I->skipTest('Need implementation');
     }
 }

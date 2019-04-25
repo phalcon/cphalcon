@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorDateConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Date - __construct()');
+
         $validator = new Date();
+
         $this->checkConstruct($I, $validator);
     }
 }

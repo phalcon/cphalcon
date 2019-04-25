@@ -35,10 +35,15 @@ class GetNameCest
     public function dbColumnGetName(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - getName()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['columnName'], $column->getName());
+            $I->assertEquals(
+                $columns[$index]['columnName'],
+                $column->getName()
+            );
         }
     }
 }

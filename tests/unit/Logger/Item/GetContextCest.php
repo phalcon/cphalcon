@@ -34,12 +34,22 @@ class GetContextCest
     public function loggerItemGetContext(UnitTester $I)
     {
         $I->wantToTest('Logger\Item - getContext()');
-        $time    = time();
-        $context = ['context'];
-        $item    = new Item('log message', 'debug', Logger::DEBUG, $time, $context);
 
-        $expected = $context;
-        $actual   = $item->getContext();
-        $I->assertEquals($expected, $actual);
+        $time = time();
+
+        $context = ['context'];
+
+        $item = new Item(
+            'log message',
+            'debug',
+            Logger::DEBUG,
+            $time,
+            $context
+        );
+
+        $I->assertEquals(
+            $context,
+            $item->getContext()
+        );
     }
 }

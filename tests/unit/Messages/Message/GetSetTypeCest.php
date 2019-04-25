@@ -31,6 +31,7 @@ class GetSetTypeCest
     public function messagesMessageGetSetType(UnitTester $I)
     {
         $I->wantToTest('Messages\Message - getType()/setType()');
+
         $message = new Message(
             'This is a message #1',
             'MyField',
@@ -38,8 +39,9 @@ class GetSetTypeCest
             111
         );
 
-        $expected = 'MyType';
-        $actual   = $message->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'MyType',
+            $message->getType()
+        );
     }
 }

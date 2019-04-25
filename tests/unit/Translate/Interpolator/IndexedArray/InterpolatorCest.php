@@ -26,15 +26,20 @@ class InterpolatorCest
     public function translateInterpolatorIndexedArrayInterpolator(UnitTester $I)
     {
         $I->wantToTest('Translate\Interpolator\IndexedArray - interpolator');
-        $language   = [
+
+        $language = [
             'Hello!'          => 'Привет!',
             'Hello %s %s %s!' => 'Привет, %s %s %s!',
         ];
-        $params     = ['content' => $language, 'interpolator' => new IndexedArray()];
+
+        $params = [
+            'content'      => $language,
+            'interpolator' => new IndexedArray(),
+        ];
+
         $translator = new NativeArray($params);
 
-        $expected = 'Привет, John D. Doe!';
-        $actual   = $translator->_(
+        $actual = $translator->_(
             'Hello %s %s %s!',
             [
                 'John',
@@ -43,6 +48,9 @@ class InterpolatorCest
             ]
         );
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Привет, John D. Doe!',
+            $actual
+        );
     }
 }

@@ -36,20 +36,26 @@ class ExistsDestroyCest
     public function sessionManagerExistsDestroy(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - exists()/destroy()');
+
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+
+        $files = $this->getSessionFiles();
+
         $manager->setHandler($files);
 
-        $actual = $manager->start();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $manager->start()
+        );
 
-        $actual = $manager->exists();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $manager->exists()
+        );
 
         $manager->destroy();
 
-        $actual = $manager->exists();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $manager->exists()
+        );
     }
 
     /**
@@ -66,24 +72,41 @@ class ExistsDestroyCest
     public function sessionManagerDestroySuperGlobal(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - destroy() - clean $_SESSION');
+
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+
+        $files = $this->getSessionFiles();
+
         $manager->setHandler($files);
 
-        $actual = $manager->start();
-        $I->assertTrue($actual);
 
-        $actual = $manager->exists();
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $manager->start()
+        );
+
+
+
+        $I->assertTrue(
+            $manager->exists()
+        );
+
+
 
         $manager->set('test1', __METHOD__);
+
         $I->assertArrayHasKey('#test1', $_SESSION);
+
         $I->assertContains(__METHOD__, $_SESSION['#test1']);
 
+
+
         $manager->destroy();
+
         $I->assertArrayNotHasKey('#test1', $_SESSION);
 
-        $actual = $manager->exists();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $manager->exists()
+        );
     }
 }

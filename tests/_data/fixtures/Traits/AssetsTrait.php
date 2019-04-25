@@ -29,8 +29,10 @@ trait AssetsTrait
      */
     private function assetGetAssetKey(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getAssetKey();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getAssetKey()
+        );
     }
 
     /**
@@ -40,8 +42,10 @@ trait AssetsTrait
      */
     private function assetGetAttributes(UnitTester $I, AssetInterface $asset, array $expected)
     {
-        $actual = $asset->getAttributes();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getAttributes()
+        );
     }
 
     /**
@@ -51,8 +55,10 @@ trait AssetsTrait
      */
     private function assetGetContent(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getContent();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getContent()
+        );
     }
 
     /**
@@ -62,8 +68,10 @@ trait AssetsTrait
      */
     private function assetGetFilter(UnitTester $I, AssetInterface $asset, bool $expected)
     {
-        $actual = $asset->getFilter();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -72,8 +80,9 @@ trait AssetsTrait
      */
     private function assetGetLocal(UnitTester $I, AssetInterface $asset)
     {
-        $actual = $asset->getLocal();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $asset->getLocal()
+        );
     }
 
     /**
@@ -83,8 +92,10 @@ trait AssetsTrait
      */
     private function assetGetPath(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getPath();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getPath()
+        );
     }
 
     /**
@@ -94,8 +105,10 @@ trait AssetsTrait
      */
     private function assetGetRealSourcePath(UnitTester $I, AssetInterface $asset, $expected)
     {
-        $actual = $asset->getRealSourcePath();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getRealSourcePath()
+        );
     }
 
     /**
@@ -105,8 +118,10 @@ trait AssetsTrait
      */
     private function assetGetRealTargetPath(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getRealTargetPath();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getRealTargetPath()
+        );
     }
 
     /**
@@ -116,8 +131,10 @@ trait AssetsTrait
      */
     private function assetGetRealTargetUri(UnitTester $I, AssetInterface $asset, $expected)
     {
-        $actual = $asset->getRealTargetUri();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getRealTargetUri()
+        );
     }
 
     /**
@@ -127,8 +144,10 @@ trait AssetsTrait
      */
     private function assetGetSourcePath(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getSourcePath();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getSourcePath()
+        );
     }
 
     /**
@@ -138,8 +157,10 @@ trait AssetsTrait
      */
     private function assetGetTargetPath(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getTargetPath();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetPath()
+        );
     }
 
     /**
@@ -149,8 +170,10 @@ trait AssetsTrait
      */
     private function assetGetTargetUri(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getTargetUri();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetUri()
+        );
     }
 
     /**
@@ -160,7 +183,9 @@ trait AssetsTrait
      */
     private function assetGetType(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getType()
+        );
     }
 }

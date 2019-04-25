@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorIpConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Ip - __construct()');
+
         $validator = new Ip();
+
         $this->checkConstruct($I, $validator);
     }
 }

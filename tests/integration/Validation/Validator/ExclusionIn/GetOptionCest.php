@@ -34,7 +34,9 @@ class GetOptionCest
     public function validationValidatorExclusionInGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\ExclusionIn - getOption()');
+
         $validator = new ExclusionIn();
+
         $this->checkGetOption($I, $validator);
     }
 }

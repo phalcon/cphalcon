@@ -19,11 +19,22 @@ class RobotsParts extends Model
     {
         $this->setConnectionService('dbOne');
 
-        $this->belongsTo('parts_id', Parts::class, 'id', [
-            'alias' => 'Part',
-        ]);
-        $this->belongsTo('robots_id', Robots::class, 'id', [
-            'alias' => 'Robot',
-        ]);
+        $this->belongsTo(
+            'parts_id',
+            Parts::class,
+            'id',
+            [
+                'alias' => 'Part',
+            ]
+        );
+
+        $this->belongsTo(
+            'robots_id',
+            Robots::class,
+            'id',
+            [
+                'alias' => 'Robot',
+            ]
+        );
     }
 }

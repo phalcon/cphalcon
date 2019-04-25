@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo;
 
+use Codeception\Example;
 use Helper\Dialect\MysqlTrait;
 use IntegrationTester;
 use Phalcon\Db\Adapter\Pdo\Mysql;
@@ -41,7 +42,9 @@ class MysqlCest extends MysqlHelper
                 ]
             );
         } catch (\PDOException $e) {
-            $I->skipTest("Unable to connect to the database: " . $e->getMessage());
+            $I->skipTest(
+                "Unable to connect to the database: " . $e->getMessage()
+            );
         }
     }
 
@@ -90,11 +93,18 @@ class MysqlCest extends MysqlHelper
             'users',
         ];
 
-        $actual = $this->connection->listTables();
-        $I->assertEquals($expected, $actual);
+
+
+        $I->assertEquals(
+            $expected,
+            $this->connection->listTables()
+        );
+
+
 
         $dbName = env('DATA_MYSQL_NAME', 'phalcon_test');
         $actual = $this->connection->listTables($dbName);
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -106,21 +116,30 @@ class MysqlCest extends MysqlHelper
      */
     public function testDescribeReferencesColumnsCount(IntegrationTester $I)
     {
+        $actual = $this->connection->describeReferences(
+            'robots_parts',
+            env('DATA_MYSQL_NAME')
+        );
 
-        $expected = 2;
-        $actual   = $this->connection->describeReferences('robots_parts', env('DATA_MYSQL_NAME'));
-        $I->assertCount($expected, $actual);
+        $I->assertCount(2, $actual);
 
-        $expected = 2;
-        $actual   = $this->connection->describeReferences('robots_parts', null);
-        $I->assertCount($expected, $actual);
+
+
+        $I->assertCount(
+            2,
+            $this->connection->describeReferences('robots_parts', null)
+        );
+
+
 
         $references = $actual;
+
         /** @var Reference $reference */
         foreach ($references as $reference) {
-            $expected = 1;
-            $actual   = count($reference->getColumns());
-            $I->assertEquals($expected, $actual);
+            $I->assertCount(
+                1,
+                $reference->getColumns()
+            );
         }
     }
 
@@ -129,35 +148,43 @@ class MysqlCest extends MysqlHelper
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2016-11-19
+     *
+     * @dataProvider testEscapeIdentifierProvider
      */
-    public function testEscapeIdentifier(IntegrationTester $I)
+    public function testEscapeIdentifier(IntegrationTester $I, Example $example)
     {
-        $examples = [
+        $identifier = $example['identifier'];
+        $expected   = $example['expected'];
+
+        $I->assertEquals(
+            $expected,
+            $this->connection->escapeIdentifier($identifier)
+        );
+    }
+
+    private function testEscapeIdentifierProvider(): array
+    {
+        return [
             [
                 "identifier" => "robots",
                 "expected"   => "`robots`",
             ],
+
             [
                 "identifier" => ["schema", "robots"],
                 "expected"   => "`schema`.`robots`",
             ],
+
             [
                 "identifier" => "`robots`",
                 "expected"   => "```robots```",
             ],
+
             [
                 "identifier" => ["`schema`", "rob`ots"],
                 "expected"   => "```schema```.`rob``ots`",
             ],
         ];
-
-        foreach ($examples as $item) {
-            $identifier = $item['identifier'];
-            $expected   = $item['expected'];
-
-            $actual = $this->connection->escapeIdentifier($identifier);
-            $I->assertEquals($expected, $actual);
-        }
     }
 
     /**
@@ -166,20 +193,32 @@ class MysqlCest extends MysqlHelper
      * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
+     *
+     * @dataProvider shouldAddForeignKeyProvider
      */
-    public function shouldAddForeignKey(IntegrationTester $I)
+    public function shouldAddForeignKey(IntegrationTester $I, Example $example)
     {
-        $examples = [
-            [$this->addForeignKeySql('test_name_key', 'CASCADE', 'RESTRICT'), true],
-            [$this->addForeignKeySql('', 'CASCADE', 'RESTRICT'), true],
-        ];
+        $I->assertEquals(
+            $example['expected'],
+            $this->connection->execute(
+                $example['sql']
+            )
+        );
+    }
 
-        foreach ($examples as $item) {
-            $sql      = $item[0];
-            $expected = $item[1];
-            $actual   = $this->connection->execute($sql);
-            $I->assertEquals($expected, $actual);
-        }
+    private function shouldAddForeignKeyProvider(): array
+    {
+        return [
+            [
+                'sql'      => $this->addForeignKeySql('test_name_key', 'CASCADE', 'RESTRICT'),
+                'expected' => true,
+            ],
+
+            [
+                'sql'      => $this->addForeignKeySql('', 'CASCADE', 'RESTRICT'),
+                'expected' => true,
+            ],
+        ];
     }
 
     /**
@@ -189,20 +228,37 @@ class MysqlCest extends MysqlHelper
      * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
+     *
+     * @dataProvider shouldCheckAddedForeignKeyProvider
      */
-    public function shouldCheckAddedForeignKey(IntegrationTester $I)
+    public function shouldCheckAddedForeignKey(IntegrationTester $I, Example $example)
     {
-        $examples = [
-            [$this->getForeignKeySql('test_name_key'), true],
-            [$this->getForeignKeySql('foreign_key_child_ibfk_1'), true],
-        ];
+        $actual = $this->connection->execute(
+            $example['sql'],
+            [
+                'MYSQL_ATTR_USE_BUFFERED_QUERY',
+            ]
+        );
 
-        foreach ($examples as $item) {
-            $sql      = $item[0];
-            $expected = $item[1];
-            $actual   = $this->connection->execute($sql, ['MYSQL_ATTR_USE_BUFFERED_QUERY']);
-            $I->assertEquals($expected, $actual);
-        }
+        $I->assertEquals(
+            $example['expected'],
+            $actual
+        );
+    }
+
+    private function shouldCheckAddedForeignKeyProvider(): array
+    {
+        return [
+            [
+                'sql'      => $this->getForeignKeySql('test_name_key'),
+                'expected' => true,
+            ],
+
+            [
+                'sql'      => $this->getForeignKeySql('foreign_key_child_ibfk_1'),
+                'expected' => true,
+            ],
+        ];
     }
 
     /**
@@ -212,19 +268,31 @@ class MysqlCest extends MysqlHelper
      * @issue  https://github.com/phalcon/cphalcon/issues/556
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-07-03
+     *
+     * @dataProvider shouldDropForeignKeyProvider
      */
-    public function shouldDropForeignKey(IntegrationTester $I)
+    public function shouldDropForeignKey(IntegrationTester $I, Example $example)
     {
-        $examples = [
-            [$this->dropForeignKeySql('test_name_key'), true],
-            [$this->dropForeignKeySql('foreign_key_child_ibfk_1'), true],
-        ];
+        $I->assertEquals(
+            $example['expected'],
+            $this->connection->execute(
+                $example['sql']
+            )
+        );
+    }
 
-        foreach ($examples as $item) {
-            $sql      = $item[0];
-            $expected = $item[1];
-            $actual   = $this->connection->execute($sql);
-            $I->assertEquals($expected, $actual);
-        }
+    private function shouldDropForeignKeyProvider(): array
+    {
+        return [
+            [
+                'sql'      => $this->dropForeignKeySql('test_name_key'),
+                'expected' => true,
+            ],
+
+            [
+                'sql'      => $this->dropForeignKeySql('foreign_key_child_ibfk_1'),
+                'expected' => true,
+            ],
+        ];
     }
 }

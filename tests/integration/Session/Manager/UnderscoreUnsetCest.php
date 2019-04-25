@@ -38,27 +38,37 @@ class UnderscoreUnsetCest
     public function sessionManagerUnderscoreUnset(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - __unset()');
+
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+
+        $files = $this->getSessionFiles();
+
         $manager->setHandler($files);
 
-        $actual = $manager->start();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $manager->start()
+        );
 
-        $actual = $manager->has('test');
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $manager->has('test')
+        );
 
         $manager->set('test', 'myval');
-        $actual = $manager->has('test');
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $manager->has('test')
+        );
 
         unset($manager->test);
-        $actual = $manager->has('test');
-        $I->assertFalse($actual);
+
+        $I->assertFalse(
+            $manager->has('test')
+        );
 
         $manager->destroy();
 
-        $actual = $manager->exists();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $manager->exists()
+        );
     }
 }

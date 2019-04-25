@@ -31,13 +31,24 @@ class ConstructCest
     public function cryptConstruct(UnitTester $I)
     {
         $I->wantToTest('Crypt - __construct()');
-        $actual = new Crypt();
-        $class  = Crypt::class;
-        $I->assertInstanceOf($class, $actual);
 
-        $actual = new Crypt("aes-256-cfb", true);
-        $class  = Crypt::class;
-        $I->assertInstanceOf($class, $actual);
+
+
+        $crypt = new Crypt();
+
+        $I->assertInstanceOf(
+            Crypt::class,
+            $crypt
+        );
+
+
+
+        $crypt = new Crypt("aes-256-cfb", true);
+
+        $I->assertInstanceOf(
+            Crypt::class,
+            $crypt
+        );
     }
 
     /**

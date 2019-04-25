@@ -92,6 +92,8 @@ class DispatcherListener
 
     public function beforeException(Event $event, DispatcherInterface $dispatcher, Exception $exception)
     {
-        $this->trace('beforeException: ' . $exception->getMessage());
+        $this->trace(
+            'beforeException: ' . $exception->getMessage()
+        );
     }
 }

@@ -34,7 +34,9 @@ class GetOptionCest
     public function validationValidatorRegexGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Regex - getOption()');
+
         $validator = new Regex();
+
         $this->checkGetOption($I, $validator);
     }
 }

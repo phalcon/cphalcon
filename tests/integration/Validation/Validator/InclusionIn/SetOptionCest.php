@@ -34,7 +34,9 @@ class SetOptionCest
     public function validationValidatorInclusionInSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\InclusionIn - setOption()');
+
         $validator = new InclusionIn();
+
         $this->checkSetOption($I, $validator);
     }
 }

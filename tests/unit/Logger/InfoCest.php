@@ -35,6 +35,7 @@ class InfoCest
     public function loggerInfo(UnitTester $I)
     {
         $I->wantToTest('Logger - info()');
+
         $this->runLoggerFile($I, 'info');
     }
 }

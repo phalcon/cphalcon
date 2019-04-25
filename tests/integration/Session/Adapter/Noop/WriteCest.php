@@ -44,7 +44,12 @@ class WriteCest
     public function sessionAdapterNoopWrite(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Noop - write()');
+
         $adapter = $this->getSessionNoop();
-        $adapter->write('test1', uniqid());
+
+        $adapter->write(
+            'test1',
+            uniqid()
+        );
     }
 }

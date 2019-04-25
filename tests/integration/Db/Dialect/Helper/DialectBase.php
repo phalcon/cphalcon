@@ -12,7 +12,6 @@ class DialectBase
 
     protected $adapter = 'Mysql';
 
-
     /**
      * Tests Dialect::createView
      *
@@ -24,14 +23,24 @@ class DialectBase
     public function testCreateView(IntegrationTester $I)
     {
         $data = $this->getCreateViewFixtures();
+
         foreach ($data as $item) {
             $definition = $item[0];
             $schema     = $item[1];
             $expected   = $item[2];
-            $dialect    = $this->getDialectObject();
-            $actual     = $dialect->createView('test_view', $definition, $schema);
 
-            $I->assertTrue(is_string($actual));
+            $dialect = $this->getDialectObject();
+
+            $actual = $dialect->createView(
+                'test_view',
+                $definition,
+                $schema
+            );
+
+            $I->assertTrue(
+                is_string($actual)
+            );
+
             $I->assertEquals($expected, $actual);
         }
     }
@@ -43,7 +52,10 @@ class DialectBase
      */
     protected function getDialectObject(): DialectInterface
     {
-        $class = sprintf('Phalcon\Db\Dialect\%s', $this->adapter);
+        $class = sprintf(
+            'Phalcon\Db\Dialect\%s',
+            $this->adapter
+        );
 
         return new $class();
     }
@@ -61,12 +73,17 @@ class DialectBase
     public function testDescribeColumns(IntegrationTester $I)
     {
         $data = $this->getDescribeColumnsFixtures();
+
         foreach ($data as $item) {
             $schema   = $item[0];
             $expected = $item[1];
 
             $dialect = $this->getDialectObject();
-            $actual  = $dialect->describeColumns('table', $schema);
+
+            $actual = $dialect->describeColumns(
+                'table',
+                $schema
+            );
 
             $I->assertEquals($expected, $actual);
         }
@@ -91,12 +108,17 @@ class DialectBase
     public function testDescribeReferences(IntegrationTester $I)
     {
         $data = $this->getDescribeReferencesFixtures();
+
         foreach ($data as $item) {
             $schema   = $item[0];
             $expected = $item[1];
 
             $dialect = $this->getDialectObject();
-            $actual  = $dialect->describeReferences('table', $schema);
+
+            $actual = $dialect->describeReferences(
+                'table',
+                $schema
+            );
 
             $I->assertEquals($expected, $actual);
         }
@@ -113,12 +135,19 @@ class DialectBase
     public function testDropColumn(IntegrationTester $I)
     {
         $data = $this->getDropColumnFixtures();
+
         foreach ($data as $item) {
             $schema   = $item[0];
             $column   = $item[1];
             $expected = $item[2];
-            $dialect  = $this->getDialectObject();
-            $actual   = $dialect->dropColumn('table', $schema, $column);
+
+            $dialect = $this->getDialectObject();
+
+            $actual = $dialect->dropColumn(
+                'table',
+                $schema,
+                $column
+            );
 
             $I->assertEquals($expected, $actual);
         }
@@ -135,12 +164,19 @@ class DialectBase
     public function testDropForeignKey(IntegrationTester $I)
     {
         $data = $this->getDropForeignKeyFixtures();
+
         foreach ($data as $item) {
             $schema   = $item[0];
             $key      = $item[1];
             $expected = $item[2];
+
             $dialect  = $this->getDialectObject();
-            $actual   = $dialect->dropForeignKey('table', $schema, $key);
+
+            $actual = $dialect->dropForeignKey(
+                'table',
+                $schema,
+                $key
+            );
 
             $I->assertEquals($expected, $actual);
         }
@@ -157,12 +193,19 @@ class DialectBase
     public function testDropIndex(IntegrationTester $I)
     {
         $data = $this->getDropIndexFixtures();
+
         foreach ($data as $item) {
             $schema   = $item[0];
             $index    = $item[1];
             $expected = $item[2];
-            $dialect  = $this->getDialectObject();
-            $actual   = $dialect->dropIndex('table', $schema, $index);
+
+            $dialect = $this->getDialectObject();
+
+            $actual = $dialect->dropIndex(
+                'table',
+                $schema,
+                $index
+            );
 
             $I->assertEquals($expected, $actual);
         }
@@ -179,11 +222,17 @@ class DialectBase
     public function testDropPrimaryKey(IntegrationTester $I)
     {
         $data = $this->getDropPrimaryKeyFixtures();
+
         foreach ($data as $item) {
             $schema   = $item[0];
             $expected = $item[1];
-            $dialect  = $this->getDialectObject();
-            $actual   = $dialect->dropPrimaryKey('table', $schema);
+
+            $dialect = $this->getDialectObject();
+
+            $actual = $dialect->dropPrimaryKey(
+                'table',
+                $schema
+            );
 
             $I->assertEquals($expected, $actual);
         }
@@ -200,12 +249,19 @@ class DialectBase
     public function testDropTable(IntegrationTester $I)
     {
         $data = $this->getDropTableFixtures();
+
         foreach ($data as $item) {
             $schema   = $item[0];
             $ifExists = $item[1];
             $expected = $item[2];
-            $dialect  = $this->getDialectObject();
-            $actual   = $dialect->dropTable('table', $schema, $ifExists);
+
+            $dialect = $this->getDialectObject();
+
+            $actual = $dialect->dropTable(
+                'table',
+                $schema,
+                $ifExists
+            );
 
             $I->assertEquals($expected, $actual);
         }
@@ -222,14 +278,24 @@ class DialectBase
     public function testDropView(IntegrationTester $I)
     {
         $data = $this->getDropViewFixtures();
+
         foreach ($data as $item) {
             $schema   = $item[0];
             $ifExists = $item[1];
             $expected = $item[2];
-            $dialect  = $this->getDialectObject();
-            $actual   = $dialect->dropView('test_view', $schema, $ifExists);
 
-            $I->assertTrue(is_string($actual));
+            $dialect = $this->getDialectObject();
+
+            $actual = $dialect->dropView(
+                'test_view',
+                $schema,
+                $ifExists
+            );
+
+            $I->assertTrue(
+                is_string($actual)
+            );
+
             $I->assertEquals($expected, $actual);
         }
     }
@@ -253,12 +319,17 @@ class DialectBase
     public function testGetColumnDefinition(IntegrationTester $I)
     {
         $data = $this->getColumnDefinitionFixtures();
+
         foreach ($data as $item) {
             $column   = $item[0];
             $expected = $item[1];
-            $columns  = $this->getColumns();
-            $dialect  = $this->getDialectObject();
-            $actual   = $dialect->getColumnDefinition($columns[$column]);
+
+            $columns = $this->getColumns();
+            $dialect = $this->getDialectObject();
+
+            $actual = $dialect->getColumnDefinition(
+                $columns[$column]
+            );
 
             $I->assertEquals($expected, $actual);
         }
@@ -275,13 +346,19 @@ class DialectBase
     public function testGetColumnList(IntegrationTester $I)
     {
         $data = $this->getColumnListFixtures();
+
         foreach ($data as $item) {
             $columns  = $item[0];
             $expected = $item[1];
-            $dialect  = $this->getDialectObject();
-            $actual   = $dialect->getColumnList($columns);
 
-            $I->assertTrue(is_string($actual));
+            $dialect = $this->getDialectObject();
+
+            $actual = $dialect->getColumnList($columns);
+
+            $I->assertTrue(
+                is_string($actual)
+            );
+
             $I->assertEquals($expected, $actual);
         }
     }
@@ -313,11 +390,14 @@ class DialectBase
     public function testListViews(IntegrationTester $I)
     {
         $data = $this->getListViewFixtures();
+
         foreach ($data as $item) {
             $schema   = $item[0];
             $expected = $item[1];
-            $dialect  = $this->getDialectObject();
-            $actual   = $dialect->listViews($schema);
+
+            $dialect = $this->getDialectObject();
+
+            $actual = $dialect->listViews($schema);
 
             $I->assertEquals($expected, $actual);
         }
@@ -334,6 +414,7 @@ class DialectBase
     public function testModifyColumn(IntegrationTester $I)
     {
         $data = $this->getModifyColumnFixtures();
+
         foreach ($data as $item) {
             $columns  = $this->getColumns();
             $schema   = $item[0];
@@ -341,7 +422,13 @@ class DialectBase
             $from     = $columns[$item[2]] ?? null;
             $expected = $item[3];
             $dialect  = $this->getDialectObject();
-            $actual   = $dialect->modifyColumn('table', $schema, $to, $from);
+
+            $actual = $dialect->modifyColumn(
+                'table',
+                $schema,
+                $to,
+                $from
+            );
 
             $I->assertEquals($expected, $actual);
         }
@@ -361,8 +448,18 @@ class DialectBase
         list($oldColumn, $newColumn) = $this->getModifyColumnFixtures13012();
 
         $dialect  = $this->getDialectObject();
+
+
+
         $expected = $this->getModifyColumnSql();
-        $actual   = $dialect->modifyColumn('table', 'database', $newColumn, $oldColumn);
+
+        $actual = $dialect->modifyColumn(
+            'table',
+            'database',
+            $newColumn,
+            $oldColumn
+        );
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -376,9 +473,11 @@ class DialectBase
      */
     public function testReleaseSavepoint(IntegrationTester $I)
     {
-        $dialect  = $this->getDialectObject();
+        $dialect = $this->getDialectObject();
+
         $expected = $this->getReleaseSavepointSql();
-        $actual   = $dialect->releaseSavepoint('PH_SAVEPOINT_1');
+
+        $actual = $dialect->releaseSavepoint('PH_SAVEPOINT_1');
 
         $I->assertEquals($expected, $actual);
     }
@@ -393,9 +492,11 @@ class DialectBase
      */
     public function testRollbackSavepoint(IntegrationTester $I)
     {
-        $dialect  = $this->getDialectObject();
+        $dialect = $this->getDialectObject();
+
         $expected = $this->getRollbackSavepointSql();
-        $actual   = $dialect->rollbackSavepoint('PH_SAVEPOINT_1');
+
+        $actual = $dialect->rollbackSavepoint('PH_SAVEPOINT_1');
 
         $I->assertEquals($expected, $actual);
     }
@@ -427,7 +528,8 @@ class DialectBase
     public function testSupportsReleaseSavepoints(IntegrationTester $I)
     {
         $dialect = $this->getDialectObject();
-        $actual  = $dialect->supportsReleaseSavepoints();
+
+        $actual = $dialect->supportsReleaseSavepoints();
 
         $I->assertTrue($actual);
     }
@@ -443,7 +545,8 @@ class DialectBase
     public function testSupportsSavepoints(IntegrationTester $I)
     {
         $dialect = $this->getDialectObject();
-        $actual  = $dialect->supportsSavepoints();
+
+        $actual = $dialect->supportsSavepoints();
 
         $I->assertTrue($actual);
     }
@@ -456,13 +559,22 @@ class DialectBase
     public function testTableExists(IntegrationTester $I)
     {
         $data = $this->getTableExistsFixtures();
+
         foreach ($data as $item) {
             $schema   = $item[0];
             $expected = $item[1];
-            $dialect  = $this->getDialectObject();
-            $actual   = $dialect->tableExists('table', $schema);
 
-            $I->assertTrue(is_string($actual));
+            $dialect = $this->getDialectObject();
+
+            $actual = $dialect->tableExists(
+                'table',
+                $schema
+            );
+
+            $I->assertTrue(
+                is_string($actual)
+            );
+
             $I->assertEquals($expected, $actual);
         }
     }
@@ -486,11 +598,16 @@ class DialectBase
     public function testTruncateTable(IntegrationTester $I)
     {
         $data = $this->getTruncateTableFixtures();
+
         foreach ($data as $item) {
             $schema   = $item[0];
             $expected = $item[1];
             $dialect  = $this->getDialectObject();
-            $actual   = $dialect->truncateTable('table', $schema);
+
+            $actual = $dialect->truncateTable(
+                'table',
+                $schema
+            );
 
             $I->assertEquals($expected, $actual);
         }
@@ -507,13 +624,22 @@ class DialectBase
     public function testViewExists(IntegrationTester $I)
     {
         $data = $this->getViewExistsFixtures();
+
         foreach ($data as $item) {
             $schema   = $item[0];
             $expected = $item[1];
-            $dialect  = $this->getDialectObject();
-            $actual   = $dialect->viewExists('view', $schema);
 
-            $I->assertTrue(is_string($actual));
+            $dialect = $this->getDialectObject();
+
+            $actual = $dialect->viewExists(
+                'view',
+                $schema
+            );
+
+            $I->assertTrue(
+                is_string($actual)
+            );
+
             $I->assertEquals($expected, $actual);
         }
     }

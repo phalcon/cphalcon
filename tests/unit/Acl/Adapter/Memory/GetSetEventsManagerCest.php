@@ -32,14 +32,19 @@ class GetSetEventsManagerCest
     public function aclAdapterMemoryGetSetEventsManager(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getEventsManager()/setEventsManager()');
+
         $acl     = new Memory();
         $manager = new Manager();
 
         $acl->setEventsManager($manager);
 
         $actual = $acl->getEventsManager();
-        $class  = Manager::class;
-        $I->assertInstanceOf($class, $actual);
+
+        $I->assertInstanceOf(
+            Manager::class,
+            $actual
+        );
+
         $I->assertEquals($manager, $actual);
     }
 }

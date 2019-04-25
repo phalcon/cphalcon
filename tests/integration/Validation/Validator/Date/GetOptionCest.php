@@ -34,7 +34,9 @@ class GetOptionCest
     public function validationValidatorDateGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Date - getOption()');
+
         $validator = new Date();
+
         $this->checkGetOption($I, $validator);
     }
 }

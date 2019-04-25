@@ -41,8 +41,12 @@ class GetSetDefaultModuleCest
         $I->wantToTest("Cli\Console - setDefaultModule()");
 
         $console = $this->newCliConsole();
+
         $console->setDefaultModule("moduleName");
 
-        $I->assertEquals("moduleName", $console->getDefaultModule());
+        $I->assertEquals(
+            "moduleName",
+            $console->getDefaultModule()
+        );
     }
 }

@@ -38,11 +38,14 @@ class FormCest
     public function htmlHelperFormConstruct(UnitTester $I, Example $example)
     {
         $I->wantToTest('Html\Helper\Form - __construct()');
+
         $escaper = $this->newEscaper();
+
         $helper  = new Form($escaper);
 
         $expected = $example[0];
         $actual   = $helper($example[1]);
+
         $I->assertEquals($expected, $actual);
     }
 

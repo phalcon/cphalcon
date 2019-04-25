@@ -34,7 +34,9 @@ class SetOptionCest
     public function validationValidatorIpSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Ip - setOption()');
+
         $validator = new Ip();
+
         $this->checkSetOption($I, $validator);
     }
 }

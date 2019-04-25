@@ -31,16 +31,21 @@ class SetTitleCest
     public function tagSetTitle(UnitTester $I)
     {
         $I->wantToTest("Tag - setTitle()");
+
         Tag::resetInput();
+
         $value = 'This is my title';
+
         Tag::setTitle($value);
 
-        $expected = "<title>{$value}</title>" . PHP_EOL;
-        $actual   = Tag::renderTitle();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "<title>{$value}</title>" . PHP_EOL,
+            Tag::renderTitle()
+        );
 
-        $expected = "{$value}";
-        $actual   = Tag::getTitle();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "{$value}",
+            Tag::getTitle()
+        );
     }
 }

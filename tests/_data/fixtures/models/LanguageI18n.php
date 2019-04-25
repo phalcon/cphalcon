@@ -31,14 +31,18 @@ class LanguageI18n extends Model
             ['from_lang', 'from_lang'],
             Language::class,
             ['lang', 'locale'],
-            ['alias' => 'Origin']
+            [
+                'alias' => 'Origin',
+            ]
         );
 
         $this->belongsTo(
             ['lang', 'locale'],
             Language::class,
             ['lang', 'locale'],
-            ['alias' => 'Target']
+            [
+                'alias' => 'Target',
+            ]
         );
     }
 }

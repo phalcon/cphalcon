@@ -30,6 +30,7 @@ class ConstructCest
     public function validationCombinedfieldsvalidatorConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\CombinedFieldsValidator - __construct()');
+
         $I->skipTest('Need implementation');
     }
 }

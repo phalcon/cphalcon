@@ -34,11 +34,21 @@ class IsAutoIncrementCest
      */
     public function dbColumnIsAutoIncrement(IntegrationTester $I, Example $data)
     {
-        $I->wantToTest(sprintf('Db\Column - isAutoIncrement() - %s', $data['name']));
+        $I->wantToTest(
+            sprintf(
+                'Db\Column - isAutoIncrement() - %s',
+                $data['name']
+            )
+        );
+
         $columns  = $data['data'];
         $expected = $data['expected'];
+
         foreach ($columns as $index => $column) {
-            $I->assertEquals($expected[$index], $column->isAutoIncrement());
+            $I->assertEquals(
+                $expected[$index],
+                $column->isAutoIncrement()
+            );
         }
     }
 

@@ -35,6 +35,7 @@ class WarningCest
     public function loggerWarning(UnitTester $I)
     {
         $I->wantToTest('Logger - warning()');
+
         $this->runLoggerFile($I, 'warning');
     }
 }

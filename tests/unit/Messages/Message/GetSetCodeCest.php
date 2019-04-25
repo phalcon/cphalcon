@@ -31,6 +31,7 @@ class GetSetCodeCest
     public function messagesMessageGetSetCode(UnitTester $I)
     {
         $I->wantToTest('Messages\Message - getCode()/setCode()');
+
         $message = new Message(
             'This is a message #1',
             'MyField',
@@ -38,8 +39,9 @@ class GetSetCodeCest
             111
         );
 
-        $expected = 111;
-        $actual   = $message->getCode();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            111,
+            $message->getCode()
+        );
     }
 }

@@ -33,16 +33,19 @@ class InTransactionCest
     public function loggerAdapterNoopInTransaction(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Noop - inTransaction()');
+
         $adapter = new Noop();
 
         $adapter->begin();
 
-        $actual = $adapter->inTransaction();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->inTransaction()
+        );
 
         $adapter->commit();
 
-        $actual = $adapter->inTransaction();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->inTransaction()
+        );
     }
 }

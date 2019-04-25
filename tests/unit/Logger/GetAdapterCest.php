@@ -35,9 +35,14 @@ class GetAdapterCest
     public function loggerGetAdapter(UnitTester $I)
     {
         $I->wantToTest('Logger - getAdapter()');
-        $fileName1  = $I->getNewFileName('log', 'log');
+
+        $fileName1 = $I->getNewFileName('log', 'log');
+
         $outputPath = outputFolder('tests/logs/');
-        $adapter1   = new Stream($outputPath . $fileName1);
+
+        $adapter1 = new Stream(
+            $outputPath . $fileName1
+        );
 
         $logger = new Logger(
             'my-logger',
@@ -46,12 +51,14 @@ class GetAdapterCest
             ]
         );
 
+        $I->assertInstanceOf(
+            Stream::class,
+            $logger->getAdapter('one')
+        );
 
-        $class  = Stream::class;
-        $actual = $logger->getAdapter('one');
-        $I->assertInstanceOf($class, $actual);
-
-        $I->safeDeleteFile($outputPath . $fileName1);
+        $I->safeDeleteFile(
+            $outputPath . $fileName1
+        );
     }
 
     /**
@@ -70,6 +77,7 @@ class GetAdapterCest
             new Exception('Adapter does not exist for this logger'),
             function () {
                 $logger = new Logger('my-logger');
+
                 $logger->getAdapter('unknown');
             }
         );

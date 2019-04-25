@@ -39,10 +39,14 @@ class GetFormatterCest
         $streamName = $I->getNewFileName('log', 'log');
 
         $adapter = new Syslog($streamName);
-        $adapter->getFormatter(new Line());
 
-        $class  = FormatterInterface::class;
-        $actual = $adapter->getFormatter();
-        $I->assertInstanceOf($class, $actual);
+        $adapter->getFormatter(
+            new Line()
+        );
+
+        $I->assertInstanceOf(
+            FormatterInterface::class,
+            $adapter->getFormatter()
+        );
     }
 }

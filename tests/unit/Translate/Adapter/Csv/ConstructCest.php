@@ -34,14 +34,22 @@ class ConstructCest
     public function translateAdapterCsvConstruct(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Csv - constructor');
-        $params     = ['content' => dataFolder('assets/translation/csv/ru_RU.csv')];
-        $translator = new Csv($params);
 
-        $class = ArrayAccess::class;
-        $I->assertInstanceOf($class, $translator);
+        $translator = new Csv(
+            [
+                'content' => dataFolder('assets/translation/csv/ru_RU.csv'),
+            ]
+        );
 
-        $class = AdapterInterface::class;
-        $I->assertInstanceOf($class, $translator);
+        $I->assertInstanceOf(
+            ArrayAccess::class,
+            $translator
+        );
+
+        $I->assertInstanceOf(
+            AdapterInterface::class,
+            $translator
+        );
     }
 
     /**
@@ -58,7 +66,9 @@ class ConstructCest
         $I->expectThrowable(
             new Exception("Parameter 'content' is required"),
             function () {
-                new Csv([]);
+                new Csv(
+                    []
+                );
             }
         );
     }

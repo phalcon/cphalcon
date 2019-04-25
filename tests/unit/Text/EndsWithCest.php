@@ -83,14 +83,18 @@ class EndsWithCest
     public function textEndsWithCaseInsensitive(UnitTester $I)
     {
         $I->wantToTest('Text - endsWith() - case insensitive flag');
-        $actual = Text::endsWith("Hello", "O");
-        $I->assertTrue($actual);
 
-        $actual = Text::endsWith("Hello", "LO");
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            Text::endsWith("Hello", "O")
+        );
 
-        $actual = Text::endsWith("Hello", "hello");
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            Text::endsWith("Hello", "LO")
+        );
+
+        $I->assertTrue(
+            Text::endsWith("Hello", "hello")
+        );
     }
 
     /**
@@ -104,13 +108,17 @@ class EndsWithCest
     public function textEndsWithCaseSensitive(UnitTester $I)
     {
         $I->wantToTest('Text - endsWith() - case sensitive flag');
-        $actual = Text::endsWith("Hello", "hello", true);
-        $I->assertTrue($actual);
 
-        $actual = Text::endsWith("Hello", "hello", false);
-        $I->assertFalse($actual);
+        $I->assertTrue(
+            Text::endsWith("Hello", "hello", true)
+        );
 
-        $actual = Text::endsWith("Hello", "O", false);
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            Text::endsWith("Hello", "hello", false)
+        );
+
+        $I->assertFalse(
+            Text::endsWith("Hello", "O", false)
+        );
     }
 }

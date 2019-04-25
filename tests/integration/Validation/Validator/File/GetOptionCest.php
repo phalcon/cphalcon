@@ -34,7 +34,9 @@ class GetOptionCest
     public function validationValidatorFileGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\File - getOption()');
+
         $validator = new File();
+
         $this->checkGetOption($I, $validator);
     }
 }

@@ -34,21 +34,28 @@ class CommitCest
     public function loggerAdapterStreamCommit(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - commit()');
+
         $fileName   = $I->getNewFileName('log', 'log');
+
         $outputPath = outputFolder('tests/logs/');
-        $adapter    = new Stream($outputPath . $fileName);
+
+        $adapter = new Stream($outputPath . $fileName);
 
         $adapter->begin();
 
-        $actual = $adapter->inTransaction();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->inTransaction()
+        );
 
         $adapter->commit();
 
-        $actual = $adapter->inTransaction();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->inTransaction()
+        );
 
-        $I->safeDeleteFile($outputPath . $fileName);
+        $I->safeDeleteFile(
+            $outputPath . $fileName
+        );
     }
 
     /**
@@ -62,22 +69,26 @@ class CommitCest
     public function loggerAdapterStreamCommitNoTransaction(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - commit() - no transaction');
-        $fileName   = $I->getNewFileName('log', 'log');
+
+        $fileName = $I->getNewFileName('log', 'log');
+
         $outputPath = outputFolder('tests/logs/');
 
-        try {
-            $adapter = new Stream($outputPath . $fileName);
+        $adapter = new Stream($outputPath . $fileName);
 
-            $actual = $adapter->inTransaction();
-            $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->inTransaction()
+        );
 
-            $adapter->commit();
-        } catch (Exception $ex) {
-            $expected = 'There is no active transaction';
-            $actual   = $ex->getMessage();
-            $I->assertEquals($expected, $actual);
-        }
+        $I->expectThrowable(
+            new Exception('There is no active transaction'),
+            function () use ($adapter) {
+                $adapter->commit();
+            }
+        );
 
-        $I->safeDeleteFile($outputPath . $fileName);
+        $I->safeDeleteFile(
+            $outputPath . $fileName
+        );
     }
 }

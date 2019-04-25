@@ -35,12 +35,23 @@ class SaveCest
     public function imageAdapterImagickSave(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - save()');
-        $image = new Imagick(outputFolder('tests/image/imagick/new.jpg'), 100, 100);
+
+        $image = new Imagick(
+            outputFolder('tests/image/imagick/new.jpg'),
+            100,
+            100
+        );
+
         $image->setResourceLimit(6, 1);
+
         $image->save();
 
-        $I->amInPath(outputFolder('tests/image/imagick/'));
+        $I->amInPath(
+            outputFolder('tests/image/imagick/')
+        );
+
         $I->seeFileFound('new.jpg');
+
         $I->safeDeleteFile('new.jpg');
     }
 }

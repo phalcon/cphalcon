@@ -33,15 +33,19 @@ class ClearCest
     public function htmlTagClear(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - clear()');
+
         $tag = new Tag();
 
         $tag->setAttribute('name', 'Phalcon');
-        $actual = $tag->hasValue('name');
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $tag->hasValue('name')
+        );
 
         $tag->clear();
 
-        $actual = $tag->hasValue('name');
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $tag->hasValue('name')
+        );
     }
 }

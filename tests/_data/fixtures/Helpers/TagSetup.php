@@ -29,8 +29,12 @@ class TagSetup
         $this->newDi();
         $this->setDiEscaper();
         $this->setDiUrl();
+
         Tag::resetInput();
-        $this->doctype = $this->docTypeStringToConstant(Tag::getDocType());
+
+        $this->doctype = $this->docTypeStringToConstant(
+            Tag::getDocType()
+        );
     }
 
     /**
@@ -50,18 +54,21 @@ class TagSetup
         switch ($doctype) {
             case '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">' . PHP_EOL:
                 return Tag::HTML32;
+
             case '<!DOCTYPE html ' .
                 'PUBLIC "-//W3C//DTD HTML 4.01//EN"' .
                 PHP_EOL .
                 $tab .
                 '"http://www.w3.org/TR/html4/strict.dtd">' . PHP_EOL:
                 return Tag::HTML401_STRICT;
+
             case '<!DOCTYPE html ' .
                 'PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"' .
                 PHP_EOL .
                 $tab .
                 '"http://www.w3.org/TR/html4/loose.dtd">' . PHP_EOL:
                 return Tag::HTML401_TRANSITIONAL;
+
             case '<!DOCTYPE html ' .
                 'PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"' .
                 PHP_EOL .
@@ -69,6 +76,7 @@ class TagSetup
                 '"http://www.w3.org/TR/html4/frameset.dtd">' .
                 PHP_EOL:
                 return Tag::HTML401_FRAMESET;
+
             case '<!DOCTYPE html ' .
                 'PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' .
                 PHP_EOL .
@@ -76,6 +84,7 @@ class TagSetup
                 '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' .
                 PHP_EOL:
                 return Tag::XHTML10_STRICT;
+
             case '<!DOCTYPE html ' .
                 'PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"' .
                 PHP_EOL .
@@ -83,6 +92,7 @@ class TagSetup
                 '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' .
                 PHP_EOL:
                 return Tag::XHTML10_TRANSITIONAL;
+
             case '<!DOCTYPE html ' .
                 'PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"' .
                 PHP_EOL .
@@ -90,6 +100,7 @@ class TagSetup
                 '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">' .
                 PHP_EOL:
                 return Tag::XHTML10_FRAMESET;
+
             case '<!DOCTYPE html ' .
                 'PUBLIC "-//W3C//DTD XHTML 1.1//EN"' .
                 PHP_EOL .
@@ -97,6 +108,7 @@ class TagSetup
                 '"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">' .
                 PHP_EOL:
                 return Tag::XHTML11;
+
             case '<!DOCTYPE html ' .
                 'PUBLIC "-//W3C//DTD XHTML 2.0//EN"' .
                 PHP_EOL .
@@ -104,6 +116,7 @@ class TagSetup
                 '"http://www.w3.org/MarkUp/DTD/xhtml2.dtd">' .
                 PHP_EOL:
                 return Tag::XHTML20;
+
             default:
                 return Tag::HTML5;
         }
@@ -115,6 +128,7 @@ class TagSetup
     public function _after(UnitTester $I)
     {
         Tag::setDocType($this->doctype);
+
         Tag::resetInput();
     }
 
@@ -127,6 +141,7 @@ class TagSetup
     protected function runDoctypeTest(UnitTester $I, int $doctype)
     {
         Tag::resetInput();
+
         Tag::setDocType($doctype);
 
         $expected = $this->docTypeToString($doctype);
@@ -150,62 +165,53 @@ class TagSetup
 
         switch ($doctype) {
             case 1:
-                return '<!DOCTYPE html ' .
-                    'PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">' . PHP_EOL;
+                return '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">' . PHP_EOL;
+
             case 2:
-                return '<!DOCTYPE html ' .
-                    'PUBLIC "-//W3C//DTD HTML 4.01//EN"' .
-                    PHP_EOL .
+                return '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"' . PHP_EOL .
                     $tab .
                     '"http://www.w3.org/TR/html4/strict.dtd">' . PHP_EOL;
+
             case 3:
                 return '<!DOCTYPE html ' .
-                    'PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"' .
-                    PHP_EOL .
+                    'PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"' . PHP_EOL .
                     $tab .
                     '"http://www.w3.org/TR/html4/loose.dtd">' . PHP_EOL;
+
             case 4:
                 return '<!DOCTYPE html ' .
-                    'PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"' .
-                    PHP_EOL .
+                    'PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"' . PHP_EOL .
                     $tab .
-                    '"http://www.w3.org/TR/html4/frameset.dtd">' .
-                    PHP_EOL;
+                    '"http://www.w3.org/TR/html4/frameset.dtd">' . PHP_EOL;
+
             case 6:
                 return '<!DOCTYPE html ' .
-                    'PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' .
-                    PHP_EOL .
+                    'PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' . PHP_EOL .
                     $tab .
-                    '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' .
-                    PHP_EOL;
+                    '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . PHP_EOL;
+
             case 7:
                 return '<!DOCTYPE html ' .
-                    'PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"' .
-                    PHP_EOL .
+                    'PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"' . PHP_EOL .
                     $tab .
-                    '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' .
-                    PHP_EOL;
+                    '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . PHP_EOL;
+
             case 8:
-                return '<!DOCTYPE html ' .
-                    'PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"' .
-                    PHP_EOL .
+                return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"' . PHP_EOL .
                     $tab .
-                    '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">' .
-                    PHP_EOL;
+                    '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">' . PHP_EOL;
+
             case 9:
                 return '<!DOCTYPE html ' .
-                    'PUBLIC "-//W3C//DTD XHTML 1.1//EN"' .
-                    PHP_EOL .
+                    'PUBLIC "-//W3C//DTD XHTML 1.1//EN"' . PHP_EOL .
                     $tab .
-                    '"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">' .
-                    PHP_EOL;
+                    '"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">' . PHP_EOL;
+
             case 10:
-                return '<!DOCTYPE html ' .
-                    'PUBLIC "-//W3C//DTD XHTML 2.0//EN"' .
-                    PHP_EOL .
+                return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 2.0//EN"' . PHP_EOL .
                     $tab .
-                    '"http://www.w3.org/MarkUp/DTD/xhtml2.dtd">' .
-                    PHP_EOL;
+                    '"http://www.w3.org/MarkUp/DTD/xhtml2.dtd">' . PHP_EOL;
+
             default:
                 return '<!DOCTYPE html>' . PHP_EOL;
         }
@@ -224,10 +230,16 @@ class TagSetup
     protected function testFieldParameter(UnitTester $I, $function, $options, $expected, $xhtml = false, $set = '')
     {
         if ($xhtml) {
-            Tag::setDocType(Tag::XHTML10_STRICT);
+            Tag::setDocType(
+                Tag::XHTML10_STRICT
+            );
+
             $expected .= ' />';
         } else {
-            Tag::setDocType(Tag::HTML5);
+            Tag::setDocType(
+                Tag::HTML5
+            );
+
             $expected .= '>';
         }
 

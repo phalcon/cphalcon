@@ -33,10 +33,12 @@ class GetNameCest
     public function loggerGetName(UnitTester $I)
     {
         $I->wantToTest('Logger - getName()');
+
         $logger = new Logger('my-name');
 
-        $expected = 'my-name';
-        $actual   = $logger->getName();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'my-name',
+            $logger->getName()
+        );
     }
 }

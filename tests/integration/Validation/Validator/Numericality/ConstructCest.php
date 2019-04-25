@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorNumericalityConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Numericality - __construct()');
+
         $validator = new Numericality();
+
         $this->checkConstruct($I, $validator);
     }
 }
