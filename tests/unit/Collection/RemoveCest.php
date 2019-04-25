@@ -31,49 +31,64 @@ class RemoveCest
     public function collectionRemove(UnitTester $I)
     {
         $I->wantToTest('Collection - remove()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Collection($data);
 
-        $expected = $data;
-        $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $data,
+            $collection->toArray()
+        );
 
         $collection->remove('five');
-        $expected = [
-            'one'   => 'two',
-            'three' => 'four',
-        ];
-        $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            [
+                'one'   => 'two',
+                'three' => 'four',
+            ],
+            $collection->toArray()
+        );
 
         $collection->remove('FIVE');
-        $expected = [
-            'one'   => 'two',
-            'three' => 'four',
-        ];
-        $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            [
+                'one'   => 'two',
+                'three' => 'four',
+            ],
+            $collection->toArray()
+        );
 
         $collection->init($data);
-        unset($collection['five']);
-        $expected = [
-            'one'   => 'two',
-            'three' => 'four',
-        ];
-        $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+
+        unset(
+            $collection['five']
+        );
+
+        $I->assertEquals(
+            [
+                'one'   => 'two',
+                'three' => 'four',
+            ],
+            $collection->toArray()
+        );
 
         $collection->init($data);
+
         $collection->offsetUnset('five');
-        $expected = [
-            'one'   => 'two',
-            'three' => 'four',
-        ];
-        $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            [
+                'one'   => 'two',
+                'three' => 'four',
+            ],
+            $collection->toArray()
+        );
     }
 }

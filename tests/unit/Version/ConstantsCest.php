@@ -31,6 +31,7 @@ class ConstantsCest
     public function versionConstants(UnitTester $I)
     {
         $I->wantToTest('Version - constants');
+
         $I->assertEquals(0, Version::VERSION_MAJOR);
         $I->assertEquals(1, Version::VERSION_MEDIUM);
         $I->assertEquals(2, Version::VERSION_MINOR);

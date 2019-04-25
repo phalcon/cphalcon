@@ -30,6 +30,7 @@ class ValidateCest
     public function validationValidatorUniquenessValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Uniqueness - validate()');
+
         $I->skipTest('Need implementation');
     }
 }

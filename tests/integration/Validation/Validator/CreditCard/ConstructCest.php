@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorCreditCardConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\CreditCard - __construct()');
+
         $validator = new CreditCard();
+
         $this->checkConstruct($I, $validator);
     }
 }

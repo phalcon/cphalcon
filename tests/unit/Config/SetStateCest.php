@@ -34,11 +34,13 @@ class SetStateCest
     public function configSetState(UnitTester $I)
     {
         $I->wantToTest("Config - __set_state()");
+
         $config = $this->getConfig();
 
-        $expected = $this->getSetState();
-        $actual   = $config;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $this->getSetState(),
+            $config
+        );
     }
 
     /**

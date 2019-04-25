@@ -45,12 +45,23 @@ class WriteCest
     public function sessionAdapterFilesWrite(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Files - write()');
+
         $adapter = $this->getSessionFiles();
-        $value   = uniqid();
+
+        $value = uniqid();
+
         $adapter->write('test1', $value);
-        $I->amInPath(cacheFolder());
+
+        $I->amInPath(
+            cacheFolder()
+        );
+
         $I->seeFileFound('test1');
+
         $I->seeInThisFile($value);
-        $I->safeDeleteFile(cacheFolder('test1'));
+
+        $I->safeDeleteFile(
+            cacheFolder('test1')
+        );
     }
 }

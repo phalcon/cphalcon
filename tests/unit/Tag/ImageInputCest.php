@@ -345,15 +345,15 @@ class ImageInputCest extends TagSetup
     public function tagImageInputWithDisplayToElementNotPresent(UnitTester $I)
     {
         $I->wantToTest("Tag :: imageInput() - displayTo() and element not present");
-        $options  = [
+
+        $options = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="image" '
-            . 'name="x_other" value="x_name" class="x_class" '
-            . 'size="10"';
+
+        $expected = '<input type="image" name="x_other" value="x_name" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,
@@ -364,15 +364,14 @@ class ImageInputCest extends TagSetup
             'displayTo'
         );
 
-        $options  = [
+        $options = [
             'x_name',
             'name'  => 'x_other',
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="image" '
-            . 'name="x_other" value="x_name" class="x_class" '
-            . 'size="10"';
+
+        $expected = '<input type="image" name="x_other" value="x_name" class="x_class" size="10"';
 
         $this->testFieldParameter(
             $I,

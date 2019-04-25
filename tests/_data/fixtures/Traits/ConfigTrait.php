@@ -80,8 +80,15 @@ trait ConfigTrait
      */
     private function checkConstruct(UnitTester $I, string $adapter = '')
     {
-        $I->wantToTest(sprintf($this->getMessage($adapter), 'construct'));
+        $I->wantToTest(
+            sprintf(
+                $this->getMessage($adapter),
+                'construct'
+            )
+        );
+
         $config = $this->getConfig($adapter);
+
         $this->compareConfig($I, $this->config, $config);
     }
 
@@ -136,10 +143,15 @@ trait ConfigTrait
      */
     private function compareConfig(UnitTester $I, array $actual, Config $expected)
     {
-        $I->assertEquals($actual, $expected->toArray());
+        $I->assertEquals(
+            $expected->toArray(),
+            $actual
+        );
 
         foreach ($actual as $key => $value) {
-            $I->assertTrue(isset($expected->$key));
+            $I->assertTrue(
+                isset($expected->$key)
+            );
 
             if (is_array($value)) {
                 $this->compareConfig($I, $value, $expected->$key);
@@ -160,12 +172,19 @@ trait ConfigTrait
      */
     private function checkCount(UnitTester $I, string $adapter = '')
     {
-        $I->wantToTest(sprintf($this->getMessage($adapter), 'count()'));
+        $I->wantToTest(
+            sprintf(
+                $this->getMessage($adapter),
+                'count()'
+            )
+        );
+
         $config = $this->getConfig($adapter);
 
-        $expected = 5;
-        $actual   = $config->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            5,
+            $config->count()
+        );
     }
 
     /**
@@ -179,12 +198,19 @@ trait ConfigTrait
      */
     private function checkGet(UnitTester $I, string $adapter = '')
     {
-        $I->wantToTest(sprintf($this->getMessage($adapter), 'get()'));
+        $I->wantToTest(
+            sprintf(
+                $this->getMessage($adapter),
+                'get()'
+            )
+        );
+
         $config = $this->getConfig($adapter);
 
-        $expected = 'memory';
-        $actual   = $config->get('models')->get('metadata');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'memory',
+            $config->get('models')->get('metadata')
+        );
     }
 
     /**
@@ -198,20 +224,34 @@ trait ConfigTrait
      */
     private function checkGetPathDelimiter(UnitTester $I, string $adapter = '')
     {
-        $I->wantToTest(sprintf($this->getMessage($adapter), 'getPathDelimiter()'));
+        $I->wantToTest(
+            sprintf(
+                $this->getMessage($adapter),
+                'getPathDelimiter()'
+            )
+        );
+
         $config = $this->getConfig($adapter);
 
         $existing = $config->getPathDelimiter();
 
-        $expected = '.';
-        $actual   = $config->getPathDelimiter();
-        $I->assertEquals($expected, $actual);
+
+
+        $I->assertEquals(
+            '.',
+            $config->getPathDelimiter()
+        );
+
+
 
         $config->setPathDelimiter('/');
 
-        $expected = '/';
-        $actual   = $config->getPathDelimiter();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '/',
+            $config->getPathDelimiter()
+        );
+
+
 
         $config->setPathDelimiter($existing);
     }
@@ -227,11 +267,18 @@ trait ConfigTrait
      */
     private function checkOffsetExists(UnitTester $I, string $adapter = '')
     {
-        $I->wantToTest(sprintf($this->getMessage($adapter), 'offsetExists()'));
+        $I->wantToTest(
+            sprintf(
+                $this->getMessage($adapter),
+                'offsetExists()'
+            )
+        );
+
         $config = $this->getConfig($adapter);
 
-        $actual = $config->offsetExists('models');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $config->offsetExists('models')
+        );
     }
 
     /**
@@ -245,12 +292,19 @@ trait ConfigTrait
      */
     private function checkOffsetGet(UnitTester $I, string $adapter = '')
     {
-        $I->wantToTest(sprintf($this->getMessage($adapter), 'offsetGet()'));
+        $I->wantToTest(
+            sprintf(
+                $this->getMessage($adapter),
+                'offsetGet()'
+            )
+        );
+
         $config = $this->getConfig($adapter);
 
-        $expected = 'memory';
-        $actual   = $config->offsetGet('models')->offsetGet('metadata');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'memory',
+            $config->offsetGet('models')->offsetGet('metadata')
+        );
     }
 
     /**
@@ -264,14 +318,21 @@ trait ConfigTrait
      */
     private function checkOffsetSet(UnitTester $I, string $adapter = '')
     {
-        $I->wantToTest(sprintf($this->getMessage($adapter), 'offsetSet()'));
+        $I->wantToTest(
+            sprintf(
+                $this->getMessage($adapter),
+                'offsetSet()'
+            )
+        );
+
         $config = $this->getConfig($adapter);
 
         $config->offsetSet('models', 'something-else');
 
-        $expected = 'something-else';
-        $actual   = $config->offsetGet('models');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'something-else',
+            $config->offsetGet('models')
+        );
     }
 
     /**
@@ -285,15 +346,24 @@ trait ConfigTrait
      */
     private function checkOffsetUnset(UnitTester $I, string $adapter = '')
     {
-        $I->wantToTest(sprintf($this->getMessage($adapter), 'offsetUnset()'));
+        $I->wantToTest(
+            sprintf(
+                $this->getMessage($adapter),
+                'offsetUnset()'
+            )
+        );
+
         $config = $this->getConfig($adapter);
 
-        $actual = $config->offsetExists('database');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $config->offsetExists('database')
+        );
 
         $config->offsetUnset('database');
-        $actual = $config->offsetGet('database');
-        $I->assertNull($actual);
+
+        $I->assertNull(
+            $config->offsetGet('database')
+        );
     }
 
     /**
@@ -309,12 +379,19 @@ trait ConfigTrait
      */
     private function checkPath(UnitTester $I, string $adapter = '')
     {
-        $I->wantToTest(sprintf($this->getMessage($adapter), 'path()'));
+        $I->wantToTest(
+            sprintf(
+                $this->getMessage($adapter),
+                'path()'
+            )
+        );
+
         $config = $this->getConfig($adapter);
 
-        $expected = 'yeah';
-        $actual   = $config->path('test.parent.property2');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'yeah',
+            $config->path('test.parent.property2')
+        );
     }
 
     /**
@@ -328,12 +405,19 @@ trait ConfigTrait
      */
     private function checkPathDefault(UnitTester $I, string $adapter = '')
     {
-        $I->wantToTest(sprintf($this->getMessage($adapter), 'path() - default'));
+        $I->wantToTest(
+            sprintf(
+                $this->getMessage($adapter),
+                'path() - default'
+            )
+        );
+
         $config = $this->getConfig($adapter);
 
-        $expected = 'Unknown';
-        $actual   = $config->path('test.parent.property3', 'Unknown');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Unknown',
+            $config->path('test.parent.property3', 'Unknown')
+        );
     }
 
     /**
@@ -347,24 +431,33 @@ trait ConfigTrait
      */
     private function checkSetPathDelimiter(UnitTester $I, string $adapter = '')
     {
-        $I->wantToTest(sprintf($this->getMessage($adapter), 'setPathDelimiter()'));
+        $I->wantToTest(
+            sprintf(
+                $this->getMessage($adapter),
+                'setPathDelimiter()'
+            )
+        );
+
         $config = $this->getConfig($adapter);
 
         $existing = $config->getPathDelimiter();
 
-        $expected = 'yeah';
-        $actual   = $config->path('test.parent.property2', 'Unknown');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'yeah',
+            $config->path('test.parent.property2', 'Unknown')
+        );
 
         $config->setPathDelimiter('/');
 
-        $expected = 'Unknown';
-        $actual   = $config->path('test.parent.property2', 'Unknown');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Unknown',
+            $config->path('test.parent.property2', 'Unknown')
+        );
 
-        $expected = 'yeah';
-        $actual   = $config->path('test/parent/property2', 'Unknown');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'yeah',
+            $config->path('test/parent/property2', 'Unknown')
+        );
 
         $config->setPathDelimiter($existing);
     }
@@ -380,11 +473,18 @@ trait ConfigTrait
      */
     private function checkToArray(UnitTester $I, string $adapter = '')
     {
-        $I->wantToTest(sprintf($this->getMessage($adapter), 'toArray()'));
+        $I->wantToTest(
+            sprintf(
+                $this->getMessage($adapter),
+                'toArray()'
+            )
+        );
+
         $config = $this->getConfig($adapter);
 
-        $expected = $this->config;
-        $actual   = $config->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $this->config,
+            $config->toArray()
+        );
     }
 }

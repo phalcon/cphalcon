@@ -32,7 +32,12 @@ class Robotters extends Model
     {
         $this->setSource("robots");
 
-        $this->hasMany('code', RobottersDeles::class, 'robottersCode');
+        $this->hasMany(
+            'code',
+            RobottersDeles::class,
+            'robottersCode'
+        );
+
         $this->keepSnapshots(true);
     }
 }

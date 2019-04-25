@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorIdenticalConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Identical - __construct()');
+
         $validator = new Identical();
+
         $this->checkConstruct($I, $validator);
     }
 }

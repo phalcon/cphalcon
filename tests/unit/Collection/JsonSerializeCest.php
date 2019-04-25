@@ -31,15 +31,18 @@ class JsonSerializeCest
     public function collectionJsonSerialize(UnitTester $I)
     {
         $I->wantToTest('Collection - jsonSerialize()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Collection($data);
 
-        $expected = $data;
-        $actual   = $collection->jsonSerialize();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $data,
+            $collection->jsonSerialize()
+        );
     }
 }

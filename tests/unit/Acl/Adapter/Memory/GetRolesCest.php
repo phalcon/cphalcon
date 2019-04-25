@@ -32,6 +32,7 @@ class GetRolesCest
     public function aclAdapterMemoryGetRoles(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getRoles()');
+
         $acl = new Memory();
 
         $role1 = new Role('Admin');
@@ -42,6 +43,7 @@ class GetRolesCest
 
         $expected = [$role1, $role2];
         $actual   = $acl->getRoles();
+
         $I->assertEquals($expected, $actual);
     }
 }

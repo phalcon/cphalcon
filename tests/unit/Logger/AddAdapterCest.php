@@ -36,22 +36,37 @@ class AddAdapterCest
     {
         $I->wantToTest('Logger - addAdapter()');
 
-        $fileName1  = $I->getNewFileName('log', 'log');
-        $fileName2  = $I->getNewFileName('log', 'log');
+        $fileName1 = $I->getNewFileName('log', 'log');
+        $fileName2 = $I->getNewFileName('log', 'log');
+
         $outputPath = outputFolder('tests/logs/');
-        $adapter1   = new Stream($outputPath . $fileName1);
-        $adapter2   = new Stream($outputPath . $fileName2);
 
-        $logger = new Logger('my-logger', ['one' => $adapter1]);
+        $adapter1 = new Stream(
+            $outputPath . $fileName1
+        );
 
-        $expected = 1;
-        $actual   = $logger->getAdapters();
-        $I->assertCount($expected, $actual);
+        $adapter2 = new Stream(
+            $outputPath . $fileName2
+        );
+
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter1,
+            ]
+        );
+
+        $I->assertCount(
+            1,
+            $logger->getAdapters()
+        );
 
         $logger->addAdapter('two', $adapter2);
-        $expected = 2;
-        $actual   = $logger->getAdapters();
-        $I->assertCount($expected, $actual);
+
+        $I->assertCount(
+            2,
+            $logger->getAdapters()
+        );
 
         $logger->debug('Hello');
 

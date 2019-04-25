@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorPresenceOfHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\PresenceOf - hasOption()');
-        $validator = new PresenceOf(['message' => 'This is a message']);
+
+        $validator = new PresenceOf(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

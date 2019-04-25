@@ -33,17 +33,21 @@ class InTransactionCest
     public function loggerAdapterSyslogInTransaction(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Syslog - inTransaction()');
+
         $streamName = $I->getNewFileName('log', 'log');
-        $adapter    = new Syslog($streamName);
+
+        $adapter = new Syslog($streamName);
 
         $adapter->begin();
 
-        $actual = $adapter->inTransaction();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->inTransaction()
+        );
 
         $adapter->commit();
 
-        $actual = $adapter->inTransaction();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->inTransaction()
+        );
     }
 }

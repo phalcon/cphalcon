@@ -32,18 +32,40 @@ class NextCest
     public function messagesMessagesNext(UnitTester $I)
     {
         $I->wantToTest('Messages\Messages - next()');
+
         $messages = new Messages(
             [
-                new Message('This is a message #1', 'MyField1', 'MyType1', 111, ['My1' => 'Metadata1']),
-                new Message('This is a message #2', 'MyField2', 'MyType2', 222, ['My2' => 'Metadata2']),
+                new Message(
+                    'This is a message #1',
+                    'MyField1',
+                    'MyType1',
+                    111,
+                    [
+                        'My1' => 'Metadata1',
+                    ]
+                ),
+                new Message(
+                    'This is a message #2',
+                    'MyField2',
+                    'MyType2',
+                    222,
+                    [
+                        'My2' => 'Metadata2',
+                    ]
+                ),
             ]
         );
 
         $messages->next();
 
-        $class  = Message::class;
-        $actual = $messages->current();
-        $I->assertInstanceOf($class, $actual);
+        $message = $messages->current();
+
+        $I->assertInstanceOf(
+            Message::class,
+            $message
+        );
+
+
 
         $expected = Message::__set_state(
             [
@@ -51,9 +73,12 @@ class NextCest
                 '_field'    => 'MyField2',
                 '_type'     => 'MyType2',
                 '_code'     => 222,
-                '_metaData' => ['My2' => 'Metadata2']
+                '_metaData' => [
+                    'My2' => 'Metadata2',
+                ]
             ]
         );
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals($expected, $message);
     }
 }

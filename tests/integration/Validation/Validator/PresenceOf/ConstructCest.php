@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorPresenceOfConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\PresenceOf - __construct()');
+
         $validator = new PresenceOf();
+
         $this->checkConstruct($I, $validator);
     }
 }

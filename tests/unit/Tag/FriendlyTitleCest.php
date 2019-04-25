@@ -33,6 +33,7 @@ class FriendlyTitleCest extends TagSetup
         $options  = 'This is a Test';
         $expected = 'this-is-a-test';
         $actual   = Tag::friendlyTitle($options);
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -139,13 +140,13 @@ class FriendlyTitleCest extends TagSetup
      */
     public function testFriendlyTitleWithSpecialCharactersAndEscaping(UnitTester $I)
     {
-        $options  = "Mess'd up --text-- just (to) stress /test/ ?our! "
+        $options = "Mess'd up --text-- just (to) stress /test/ ?our! "
             . "`little` \\clean\\ url fun.ction!?-->";
-        $expected = 'messd-up-text-just-to-stress-test-our-little-'
-            . 'clean-url-function';
-        $actual   = Tag::friendlyTitle($options);
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'messd-up-text-just-to-stress-test-our-little-clean-url-function',
+            Tag::friendlyTitle($options)
+        );
     }
 
     /**
@@ -159,11 +160,17 @@ class FriendlyTitleCest extends TagSetup
      */
     public function testFriendlyTitleWithAccentedCharactersAndReplaceString(UnitTester $I)
     {
-        $options  = "Perché l'erba è verde?";
-        $expected = 'perche-l-erba-e-verde';
-        $actual   = Tag::friendlyTitle($options, "-", true, "'");
+        $options = "Perché l'erba è verde?";
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'perche-l-erba-e-verde',
+            Tag::friendlyTitle(
+                $options,
+                "-",
+                true,
+                "'"
+            )
+        );
     }
 
     /**
@@ -177,16 +184,17 @@ class FriendlyTitleCest extends TagSetup
      */
     public function testFriendlyTitleWithAccentedCharactersAndReplaceArray(UnitTester $I)
     {
-        $options  = "Perché l'erba è verde?";
-        $expected = 'P_rch_l_rb_v_rd';
-        $actual   = Tag::friendlyTitle(
-            $options,
-            "_",
-            false,
-            ['e', 'a']
-        );
+        $options = "Perché l'erba è verde?";
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'P_rch_l_rb_v_rd',
+            Tag::friendlyTitle(
+                $options,
+                "_",
+                false,
+                ['e', 'a']
+            )
+        );
     }
 
     /**
@@ -204,8 +212,10 @@ class FriendlyTitleCest extends TagSetup
             new Exception('Parameter replace must be an array or a string'),
             function () {
                 Tag::resetInput();
+
                 $options  = 'This is a Test';
                 $expected = 't_s_s_a_test';
+
                 $actual   = Tag::friendlyTitle($options, '_', true, true);
             }
         );

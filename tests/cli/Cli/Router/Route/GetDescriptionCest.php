@@ -29,12 +29,16 @@ class GetDescriptionCest
         $routes = $this->getExampleRoutes();
 
         $router = new \Phalcon\Cli\Router(false);
+
         foreach ($routes as $pattern => $description) {
             $router->add($pattern)->setDescription($description);
         }
 
         foreach ($router->getRoutes() as $route) {
-            $I->assertEquals($routes[$route->getPattern()], $route->getDescription());
+            $I->assertEquals(
+                $routes[$route->getPattern()],
+                $route->getDescription()
+            );
         }
     }
 

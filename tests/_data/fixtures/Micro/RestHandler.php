@@ -13,37 +13,42 @@ namespace Phalcon\Test\Fixtures\Micro;
 
 class RestHandler
 {
-    protected $_access = 0;
+    protected $access = 0;
 
-    protected $_trace = [];
+    protected $trace = [];
 
 
 
     public function find()
     {
-        $this->_access++;
-        $this->_trace[] = "find";
+        $this->access++;
+
+        $this->trace[] = "find";
     }
 
     public function save()
     {
-        $this->_access++;
-        $this->_trace[] = "save";
+        $this->access++;
+
+        $this->trace[] = "save";
     }
 
     public function delete()
     {
-        $this->_access++;
-        $this->_trace[] = "delete";
+        $this->access++;
+
+        $this->trace[] = "delete";
     }
+
+
 
     public function getNumberAccess()
     {
-        return $this->_access;
+        return $this->access;
     }
 
     public function getTrace()
     {
-        return $this->_trace;
+        return $this->trace;
     }
 }

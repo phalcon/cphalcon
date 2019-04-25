@@ -36,11 +36,18 @@ class RemoveAdapterCest
     {
         $I->wantToTest('Logger - removeAdapter()');
 
-        $fileName1  = $I->getNewFileName('log', 'log');
-        $fileName2  = $I->getNewFileName('log', 'log');
+        $fileName1 = $I->getNewFileName('log', 'log');
+        $fileName2 = $I->getNewFileName('log', 'log');
+
         $outputPath = outputFolder('tests/logs/');
-        $adapter1   = new Stream($outputPath . $fileName1);
-        $adapter2   = new Stream($outputPath . $fileName2);
+
+        $adapter1 = new Stream(
+            $outputPath . $fileName1
+        );
+
+        $adapter2 = new Stream(
+            $outputPath . $fileName2
+        );
 
         $logger = new Logger(
             'my-logger',
@@ -50,17 +57,25 @@ class RemoveAdapterCest
             ]
         );
 
-        $expected = 2;
-        $adapters = $logger->getAdapters();
-        $I->assertCount($expected, $adapters);
+        $I->assertCount(
+            2,
+            $logger->getAdapters()
+        );
 
         $logger->removeAdapter('one');
-        $expected = 1;
-        $adapters = $logger->getAdapters();
-        $I->assertCount($expected, $adapters);
 
-        $I->safeDeleteFile($outputPath . $fileName1);
-        $I->safeDeleteFile($outputPath . $fileName2);
+        $I->assertCount(
+            1,
+            $logger->getAdapters()
+        );
+
+        $I->safeDeleteFile(
+            $outputPath . $fileName1
+        );
+
+        $I->safeDeleteFile(
+            $outputPath . $fileName2
+        );
     }
 
     /**
@@ -75,30 +90,30 @@ class RemoveAdapterCest
     {
         $I->wantToTest('Logger - removeAdapter() - unknown');
 
-        $fileName1  = $I->getNewFileName('log', 'log');
+        $fileName1 = $I->getNewFileName('log', 'log');
+
         $outputPath = outputFolder('tests/logs/');
 
-        try {
-            $adapter1 = new Stream($outputPath . $fileName1);
+        $adapter1 = new Stream(
+            $outputPath . $fileName1
+        );
 
-            $logger = new Logger(
-                'my-logger',
-                [
-                    'one' => $adapter1,
-                ]
-            );
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter1,
+            ]
+        );
 
-            $expected = 1;
-            $adapters = $logger->getAdapters();
-            $I->assertCount($expected, $adapters);
+        $I->expectThrowable(
+            new Exception('Adapter does not exist for this logger'),
+            function () use ($logger) {
+                $logger->removeAdapter('unknown');
+            }
+        );
 
-            $logger->removeAdapter('unknown');
-        } catch (Exception $ex) {
-            $expected = 'Adapter does not exist for this logger';
-            $actual   = $ex->getMessage();
-            $I->assertEquals($expected, $actual);
-        }
-
-        $I->safeDeleteFile($outputPath . $fileName1);
+        $I->safeDeleteFile(
+            $outputPath . $fileName1
+        );
     }
 }

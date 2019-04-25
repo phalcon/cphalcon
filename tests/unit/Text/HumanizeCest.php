@@ -31,20 +31,25 @@ class HumanizeCest
     public function textHumanize(UnitTester $I)
     {
         $I->wantToTest('Text - humanize()');
-        $expected = 'start a horse';
-        $actual   = Text::humanize('start_a_horse');
-        $I->assertEquals($expected, $actual);
 
-        $expected = 'five cats';
-        $actual   = Text::humanize('five-cats');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'start a horse',
+            Text::humanize('start_a_horse')
+        );
 
-        $expected = 'kittens are cats';
-        $actual   = Text::humanize('kittens-are_cats');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'five cats',
+            Text::humanize('five-cats')
+        );
 
-        $expected = 'Awesome Phalcon';
-        $actual   = Text::humanize(" \t Awesome-Phalcon \t ");
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'kittens are cats',
+            Text::humanize('kittens-are_cats')
+        );
+
+        $I->assertEquals(
+            'Awesome Phalcon',
+            Text::humanize(" \t Awesome-Phalcon \t ")
+        );
     }
 }

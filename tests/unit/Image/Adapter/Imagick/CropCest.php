@@ -36,19 +36,28 @@ class CropCest
     public function imageAdapterImagickCrop(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - crop()');
-        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
+
+        $image = new Imagick(
+            dataFolder('assets/images/phalconphp.jpg')
+        );
+
         $image->setResourceLimit(6, 1);
 
         // Crop the image to 200x200 pixels, from the center
         $image->crop(200, 200)->save(outputFolder('tests/image/imagick/crop.jpg'));
 
-        $I->amInPath(outputFolder('tests/image/imagick/'));
+        $I->amInPath(
+            outputFolder('tests/image/imagick/')
+        );
+
         $I->seeFileFound('crop.jpg');
 
-        $actual = $image->getWidth() == 200;
-        $I->assertTrue($actual);
-        $actual = $image->getHeight() == 200;
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $image->getWidth() == 200
+        );
+        $I->assertTrue(
+            $image->getHeight() == 200
+        );
 
         $I->safeDeleteFile('crop.jpg');
     }

@@ -31,17 +31,22 @@ class UnserializeCest
     public function collectionSerialize(UnitTester $I)
     {
         $I->wantToTest('Collection - serialize()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $serialized = serialize($data);
+
         $collection = new Collection();
 
         $collection->unserialize($serialized);
-        $expected = $data;
-        $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $data,
+            $collection->toArray()
+        );
     }
 }

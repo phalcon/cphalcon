@@ -33,19 +33,26 @@ class InTransactionCest
     public function loggerAdapterStreamInTransaction(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - inTransaction()');
-        $fileName   = $I->getNewFileName('log', 'log');
+
+        $fileName = $I->getNewFileName('log', 'log');
+
         $outputPath = outputFolder('tests/logs/');
-        $adapter    = new Stream($outputPath . $fileName);
+
+        $adapter = new Stream(
+            $outputPath . $fileName
+        );
 
         $adapter->begin();
 
-        $actual = $adapter->inTransaction();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->inTransaction()
+        );
 
         $adapter->commit();
 
-        $actual = $adapter->inTransaction();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->inTransaction()
+        );
 
         $I->safeDeleteFile($outputPath . $fileName);
     }

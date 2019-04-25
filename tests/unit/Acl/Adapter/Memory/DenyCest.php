@@ -32,16 +32,26 @@ class DenyCest
     public function aclAdapterMemoryDeny(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - deny()');
+
         $acl = new Memory();
-        $acl->setDefaultAction(Acl::ALLOW);
+
+        $acl->setDefaultAction(
+            Acl::ALLOW
+        );
+
         $acl->addRole('Guests');
         $acl->addRole('Member');
-        $acl->addComponent('Post', ['update']);
+
+        $acl->addComponent(
+            'Post',
+            ['update']
+        );
 
         $acl->deny('Member', 'Post', 'update');
 
         $actual = $acl->isAllowed('Guest', 'Post', 'update');
         $I->assertTrue($actual);
+
         $actual = $acl->isAllowed('Member', 'Post', 'update');
         $I->assertFalse($actual);
     }

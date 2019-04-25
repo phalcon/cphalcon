@@ -17,6 +17,7 @@
 
 namespace Phalcon\Test\Integration\Mvc;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
@@ -39,6 +40,7 @@ class ViewEnginesCest
     {
         $this->newDi();
         $this->setDiView();
+
         $this->level = ob_get_level();
     }
 
@@ -54,26 +56,44 @@ class ViewEnginesCest
      *
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-29
+     *
+     * @dataProvider getViewBuiltinFunction
      */
-    public function shouldRenderVoltEngineBuiltInFunctions(IntegrationTester $I)
+    public function shouldRenderVoltEngineBuiltInFunctions(IntegrationTester $I, Example $example)
     {
-        $examples = $this->getViewBuiltinFunction();
-        foreach ($examples as $item) {
-            $params   = $item[0];
-            $expected = $item[1];
-            $view     = $this->getService('view');
-            $view->registerEngines($params['engines']);
-            foreach ($params['setVar'] as $var) {
-                $view->setVar($var[0], $var[1]);
-            }
-            $view->start();
-            $view->render($params['render'][0], $params['render'][1]);
-            $view->finish();
+        $params   = $example[0];
+        $expected = $example[1];
 
-            $actual = $view->getContent();
-            $I->assertEquals($expected, $actual);
-            $I->safeDeleteFile(dataFolder('fixtures/views/builtinfunction/index.volt.php'));
+        $view = $this->getService('view');
+
+        $view->registerEngines(
+            $params['engines']
+        );
+
+        foreach ($params['setVar'] as $var) {
+            $view->setVar(
+                $var[0],
+                $var[1]
+            );
         }
+
+        $view->start();
+
+        $view->render(
+            $params['render'][0],
+            $params['render'][1]
+        );
+
+        $view->finish();
+
+        $I->assertEquals(
+            $expected,
+            $view->getContent()
+        );
+
+        $I->safeDeleteFile(
+            dataFolder('fixtures/views/builtinfunction/index.volt.php')
+        );
     }
 
     private function getViewBuiltinFunction(): array

@@ -31,21 +31,39 @@ class GetSetMetaDataCest
     public function messagesMessageGetSetMetaData(UnitTester $I)
     {
         $I->wantToTest('Messages\Message - getMetaData()/setMetaData()');
+
         $message = new Message(
             'This is a message #1',
             'MyField',
             'MyType',
             111,
-            ['My1' => 'Metadata1']
+            [
+                'My1' => 'Metadata1',
+            ]
         );
 
-        $expected = ['My1' => 'Metadata1'];
-        $actual   = $message->getMetaData();
-        $I->assertEquals($expected, $actual);
 
-        $expected = ['My2' => 'Metadata2'];
+
+        $expected = [
+            'My1' => 'Metadata1',
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $message->getMetaData()
+        );
+
+
+
+        $expected = [
+            'My2' => 'Metadata2',
+        ];
+
         $message->setMetaData($expected);
-        $actual   = $message->getMetaData();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $message->getMetaData()
+        );
     }
 }

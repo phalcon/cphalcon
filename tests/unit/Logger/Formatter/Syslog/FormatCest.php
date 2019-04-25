@@ -35,13 +35,24 @@ class FormatCest
     public function loggerFormatterSyslogFormat(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Syslog - format()');
+
         $formatter = new Syslog();
 
         $time = time();
-        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
-        $expected = [Logger::DEBUG, 'log message'];
-        $actual   = $formatter->format($item);
-        $I->assertEquals($expected, $actual);
+        $item = new Item(
+            'log message',
+            'debug',
+            Logger::DEBUG,
+            $time
+        );
+
+        $I->assertEquals(
+            [
+                Logger::DEBUG,
+                'log message',
+            ],
+            $formatter->format($item)
+        );
     }
 }

@@ -62,29 +62,39 @@ class ManagerCest
         $collectionCss = $assets->get('css');
         $collectionJs  = $assets->get('js');
 
+
+
         $CSSnumber = 0;
-        $expected  = 'css';
+
         foreach ($collectionCss as $resource) {
             $actual = $resource->getType();
-            $I->assertEquals($expected, $actual);
+
+            $I->assertEquals('css', $actual);
+
             $CSSnumber++;
         }
 
-        $expected = 2;
-        $actual   = $CSSnumber;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            2,
+            $CSSnumber
+        );
+
+
 
         $JSnumber = 0;
-        $expected = 'js';
+
         foreach ($collectionJs as $resource) {
             $actual = $resource->getType();
-            $I->assertEquals($expected, $actual);
+
+            $I->assertEquals('js', $actual);
+
             $JSnumber++;
         }
 
-        $expected = 2;
-        $actual   = $JSnumber;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            2,
+            $JSnumber
+        );
     }
 
     /**
@@ -96,9 +106,11 @@ class ManagerCest
     public function testAssetsManagerOutputCssWithoutImplicitOutputFromCollection(UnitTester $I)
     {
         $assets = new Manager();
+
         $assets->collection('footer')->addCss('css/style1.css');
 
         $footer = $assets->collection('footer');
+
         $footer->addCss('css/style2.css');
 
         $expected = sprintf(
@@ -108,8 +120,11 @@ class ManagerCest
         );
 
         $assets->useImplicitOutput(false);
-        $actual = $assets->outputCss('footer');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $assets->outputCss('footer')
+        );
     }
 
     /**
@@ -131,14 +146,17 @@ class ManagerCest
         ;
 
         $assets->useImplicitOutput(false);
-        $actual = $assets->outputJs('header');
 
         $expected = sprintf(
             "%s\n%s\n",
             '<script src="http:://cdn.example.com/js/script1.js"></script>',
             '<script src="http:://cdn.example.com/js/script2.js"></script>'
         );
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $assets->outputJs('header')
+        );
     }
 
     /**
@@ -160,23 +178,34 @@ class ManagerCest
             ->addCss('css/styles1.css')
             ->addCss('css/styles2.css')
         ;
+
         $assets->useImplicitOutput(false);
 
-        $actualJS   = $assets->outputJs('header');
+
+
         $expectedJS = sprintf(
             "%s\n%s\n",
             '<script src="http:://cdn.example.com/js/script1.js"></script>',
             '<script src="http:://cdn.example.com/js/script2.js"></script>'
         );
-        $I->assertEquals($expectedJS, $actualJS);
 
-        $actualCSS   = $assets->outputCss('header');
+        $I->assertEquals(
+            $expectedJS,
+            $assets->outputJs('header')
+        );
+
+
+
         $expectedCSS = sprintf(
             "%s\n%s\n",
             '<link rel="stylesheet" type="text/css" href="http:://cdn.example.com/css/styles1.css" />',
             '<link rel="stylesheet" type="text/css" href="http:://cdn.example.com/css/styles2.css" />'
         );
-        $I->assertEquals($expectedCSS, $actualCSS);
+
+        $I->assertEquals(
+            $expectedCSS,
+            $assets->outputCss('header')
+        );
     }
 
     /**
@@ -189,11 +218,14 @@ class ManagerCest
      */
     public function testTargetLocal(UnitTester $I)
     {
-        $file   = uniqid() . '.js';
+        $file = uniqid() . '.js';
+
         $assets = new Manager();
+
         $jsFile = dataFolder('assets/assets/jquery.js');
 
         $assets->useImplicitOutput(false);
+
         $assets->collection('js')
                ->addJs($jsFile)
                ->join(true)
@@ -204,12 +236,18 @@ class ManagerCest
                ->setTargetUri('js/jquery.js')
         ;
 
-        $expected = '<script src="//phalconphp.com/js/jquery.js"></script>' . PHP_EOL;
-        $actual   = $assets->outputJs('js');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '<script src="//phalconphp.com/js/jquery.js"></script>' . PHP_EOL,
+            $assets->outputJs('js')
+        );
 
-        $I->seeFileFound(outputFolder("tests/assets/{$file}"));
-        $I->safeDeleteFile(outputFolder("tests/assets/{$file}"));
+        $I->seeFileFound(
+            outputFolder("tests/assets/{$file}")
+        );
+
+        $I->safeDeleteFile(
+            outputFolder("tests/assets/{$file}")
+        );
     }
 
     /**
@@ -223,6 +261,7 @@ class ManagerCest
         $assets = new Manager();
 
         $assets->useImplicitOutput(false);
+
         $assets->collection('js')
                ->addJs(dataFolder('assets/assets/jquery.js'), false, false)
                ->setTargetPath(outputFolder("tests/assets/combined.js"))
@@ -234,8 +273,11 @@ class ManagerCest
             dataFolder('assets/assets/jquery.js'),
             PHP_EOL
         );
-        $actual   = $assets->outputJs('js');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $assets->outputJs('js')
+        );
     }
 
     /**
@@ -249,6 +291,7 @@ class ManagerCest
         $assets = new Manager();
 
         $assets->useImplicitOutput(false);
+
         $assets->collection('js')
                ->addJs(dataFolder('assets/assets/jquery.js'), false, false)
                ->setTargetPath(outputFolder("tests/assets/combined.js"))
@@ -261,8 +304,11 @@ class ManagerCest
             dataFolder('assets/assets/jquery.js'),
             PHP_EOL
         );
-        $actual   = $assets->outputJs('js');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $assets->outputJs('js')
+        );
     }
 
     /**
@@ -276,6 +322,7 @@ class ManagerCest
         $assets = new Manager();
 
         $assets->useImplicitOutput(false);
+
         $assets->collection('js')
                ->addJs(dataFolder('assets/assets/jquery.js'), false, false)
                ->setTargetPath(outputFolder("assets/combined.js"))
@@ -288,8 +335,11 @@ class ManagerCest
             dataFolder('assets/assets/jquery.js'),
             PHP_EOL
         );
-        $actual   = $assets->outputJs('js');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $assets->outputJs('js')
+        );
     }
 
     /**
@@ -301,8 +351,11 @@ class ManagerCest
     public function testOutputWithJoinAndFilter(UnitTester $I)
     {
         $assets = new Manager();
+
         $jsFile = dataFolder('assets/assets/jquery.js');
+
         $assets->useImplicitOutput(false);
+
         $assets->collection('js')
                ->addJs($jsFile, false, false)
                ->setTargetPath(outputFolder("assets/combined.js"))
@@ -316,8 +369,11 @@ class ManagerCest
             dataFolder('assets/assets/jquery.js'),
             PHP_EOL
         );
-        $actual   = $assets->outputJs('js');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $assets->outputJs('js')
+        );
     }
 
     /**
@@ -329,14 +385,17 @@ class ManagerCest
         $manager = new Manager();
         $jsFile  = dataFolder('assets/assets/signup.js');
         $js      = file_get_contents($jsFile);
+
         $manager->addInlineJs($js);
-        $expected = "<script type=\"text/javascript\">{$js}</script>\n";
 
         ob_start();
         $manager->outputInlineJs();
         $actual = ob_get_contents();
         ob_end_clean();
 
-        $I->assertSame($expected, $actual);
+        $I->assertEquals(
+            "<script type=\"text/javascript\">{$js}</script>\n",
+            $actual
+        );
     }
 }

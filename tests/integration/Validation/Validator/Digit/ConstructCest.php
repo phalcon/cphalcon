@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorDigitConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Digit - __construct()');
+
         $validator = new Digit();
+
         $this->checkConstruct($I, $validator);
     }
 }

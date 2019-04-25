@@ -34,20 +34,42 @@ class TaskCest
         
         $this->container["registry"] = function () {
             $registry = new Registry();
+
             $registry->data = "data";
 
             return $registry;
         };
 
         $task = new \MainTask();
-        $task->setDI($this->container);
 
-        $I->assertEquals($task->requestRegistryAction(), "data");
-        $I->assertEquals($task->helloAction(), "Hello !");
-        $I->assertEquals($task->helloAction("World"), "Hello World!");
+        $task->setDI(
+            $this->container
+        );
+
+        $I->assertEquals(
+            "data",
+            $task->requestRegistryAction()
+        );
+
+        $I->assertEquals(
+            "Hello !",
+            $task->helloAction()
+        );
+
+        $I->assertEquals(
+            "Hello World!",
+            $task->helloAction("World")
+        );
 
         $task2 = new \EchoTask();
-        $task2->setDI($this->container);
-        $I->assertEquals($task2->mainAction(), "echoMainAction");
+
+        $task2->setDI(
+            $this->container
+        );
+
+        $I->assertEquals(
+            "echoMainAction",
+            $task2->mainAction()
+        );
     }
 }

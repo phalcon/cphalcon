@@ -56,6 +56,7 @@ class IsValidCest
     {
         // First element
         $telephone = new Text('telephone');
+
         $telephone->addValidators(
             [
                 new PresenceOf(
@@ -65,7 +66,9 @@ class IsValidCest
                 ),
             ]
         );
+
         $customValidation = new Validation();
+
         $customValidation->add(
             'telephone',
             new Regex(
@@ -75,20 +78,39 @@ class IsValidCest
                 ]
             )
         );
-        $form    = new Form();
+
+        $form = new Form();
+
         $address = new Text('address');
+
         $form->add($telephone);
         $form->add($address);
+
         $form->setValidation($customValidation);
 
-        $actual = $form->isValid(['address' => 'hello']);
+
+
+        $actual = $form->isValid(
+            [
+                'address' => 'hello',
+            ]
+        );
+
         $I->assertFalse($actual);
+
+
 
         $actual = $form->get('telephone')->hasMessages();
+
         $I->assertTrue($actual);
 
+
+
         $actual = $form->get('address')->hasMessages();
+
         $I->assertFalse($actual);
+
+
 
         $expected = new Messages(
             [
@@ -106,15 +128,23 @@ class IsValidCest
                 ),
             ]
         );
-        $actual   = $form->get('telephone')->getMessages();
+
+        $actual = $form->get('telephone')->getMessages();
+
         $I->assertEquals($expected, $actual);
+
+
 
         $expected = $form->getMessages();
         $actual   = $form->get('telephone')->getMessages();
+
         $I->assertEquals($expected, $actual);
+
+
 
         $expected = new Messages();
         $actual   = $form->get('address')->getMessages();
+
         $I->assertEquals($expected, $actual);
     }
 }

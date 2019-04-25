@@ -1,5 +1,6 @@
 <?php
 
+use Codeception\Actor;
 
 /**
  * Inherited Methods
@@ -16,7 +17,7 @@
  *
  * @SuppressWarnings(PHPMD)
  */
-class CliTester extends \Codeception\Actor
+class CliTester extends Actor
 {
     use _generated\CliTesterActions;
 

@@ -32,6 +32,7 @@ class ConstructCest
     public function messagesMessagesConstruct(UnitTester $I)
     {
         $I->wantToTest('Messages\Messages - __construct()');
+
         $messages = new Messages(
             [
                 new Message('This is a message #1', 'MyField1', 'MyType1', 111),

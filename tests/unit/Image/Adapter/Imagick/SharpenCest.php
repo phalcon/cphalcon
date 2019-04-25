@@ -36,19 +36,28 @@ class SharpenCest
     public function imageAdapterImagickSharpen(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - sharpen()');
-        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
+
+        $image = new Imagick(
+            dataFolder('assets/images/phalconphp.jpg')
+        );
+
         $image->setResourceLimit(6, 1);
 
         // Sharpen the image by 20%
         $image->sharpen(20)->save(outputFolder('tests/image/imagick/sharpen.jpg'));
 
-        $I->amInPath(outputFolder('tests/image/imagick/'));
+        $I->amInPath(
+            outputFolder('tests/image/imagick/')
+        );
+
         $I->seeFileFound('sharpen.jpg');
 
-        $actual = $image->getWidth() > 200;
-        $I->assertTrue($actual);
-        $actual = $image->getHeight() > 200;
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $image->getWidth() > 200
+        );
+        $I->assertTrue(
+            $image->getHeight() > 200
+        );
 
         $I->safeDeleteFile('sharpen.jpg');
     }

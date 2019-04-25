@@ -35,17 +35,31 @@ class AllowCest
     public function aclAdapterMemoryAllow(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - allow()');
+
         $acl = new Memory();
+
         $acl->setDefaultAction(Acl::DENY);
+
         $acl->addRole('Guests');
         $acl->addRole('Member');
-        $acl->addComponent('Post', ['update']);
+
+        $acl->addComponent(
+            'Post',
+            ['update']
+        );
 
         $acl->allow('Member', 'Post', 'update');
 
+
+
         $actual = $acl->isAllowed('Guest', 'Post', 'update');
+
         $I->assertFalse($actual);
+
+
+
         $actual = $acl->isAllowed('Member', 'Post', 'update');
+
         $I->assertTrue($actual);
     }
 
@@ -62,12 +76,19 @@ class AllowCest
     public function aclAdapterMemoryAllowFunction(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - allow() - function');
+
         $acl = new Memory();
+
         $acl->setDefaultAction(Acl::DENY);
+
         $acl->addRole('Guests');
         $acl->addRole('Members', 'Guests');
         $acl->addRole('Admins', 'Members');
-        $acl->addComponent('Post', ['update']);
+
+        $acl->addComponent(
+            'Post',
+            ['update']
+        );
 
         $guest         = new TestRoleAware(1, 'Guests');
         $member        = new TestRoleAware(2, 'Members');
@@ -76,6 +97,7 @@ class AllowCest
         $model         = new TestComponentAware(2, 'Post');
 
         $acl->deny('Guests', 'Post', 'update');
+
         $acl->allow(
             'Members',
             'Post',
@@ -84,18 +106,31 @@ class AllowCest
                 return $user->getId() == $model->getUser();
             }
         );
+
         $acl->allow('Admins', 'Post', 'update');
 
+
+
         $actual = $acl->isAllowed($guest, $model, 'update');
+
         $I->assertFalse($actual);
+
+
 
         $actual = $acl->isAllowed($member, $model, 'update');
+
         $I->assertTrue($actual);
 
+
+
         $actual = $acl->isAllowed($anotherMember, $model, 'update');
+
         $I->assertFalse($actual);
 
+
+
         $actual = $acl->isAllowed($admin, $model, 'update');
+
         $I->assertTrue($actual);
     }
 

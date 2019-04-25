@@ -45,15 +45,21 @@ class WriteCest
     public function sessionAdapterLibmemcachedWrite(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - write()');
+
         $adapter = $this->getSessionLibmemcached();
         $value   = uniqid();
+
         $adapter->write('test1', $value);
+
+
 
         /**
          * Serialize the value because the adapter does not have a serializer
          */
         $value = serialize($value);
+
         $I->seeInLibmemcached('test1', $value);
+
         $I->removeFromLibmemcached('test1');
     }
 }

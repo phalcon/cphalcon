@@ -36,17 +36,24 @@ class UnserializeCest
     public function sessionBagSerialize(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - serialize()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $serialized = serialize($data);
+
         $collection = new Bag('BagTest');
 
+
+
         $collection->unserialize($serialized);
+
         $expected = $data;
         $actual   = $collection->toArray();
+
         $I->assertEquals($expected, $actual);
     }
 }

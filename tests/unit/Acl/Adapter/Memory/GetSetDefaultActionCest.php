@@ -32,13 +32,17 @@ class GetSetDefaultActionCest
     public function aclAdapterMemoryGetSetDefaultAction(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getDefaultAction()/setDefaultAction()');
+
         $acl = new Memory();
 
-        $acl->setDefaultAction(Acl::ALLOW);
+        $acl->setDefaultAction(
+            Acl::ALLOW
+        );
 
-        $expected = Acl::ALLOW;
-        $actual   = $acl->getDefaultAction();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            Acl::ALLOW,
+            $acl->getDefaultAction()
+        );
     }
 
     /**
@@ -52,10 +56,12 @@ class GetSetDefaultActionCest
     public function aclAdapterMemoryGetSetDefaultActionDefault(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getDefaultAction()/setDefaultAction() - default');
+
         $acl = new Memory();
 
-        $expected = Acl::DENY;
-        $actual   = $acl->getDefaultAction();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            Acl::DENY,
+            $acl->getDefaultAction()
+        );
     }
 }

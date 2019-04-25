@@ -31,6 +31,7 @@ class InitCest
     public function collectionInit(UnitTester $I)
     {
         $I->wantToTest('Collection - init()');
+
         $data = [
             'one'   => 'two',
             'three' => 'four',
@@ -39,13 +40,16 @@ class InitCest
 
         $collection = new Collection();
 
-        $expected = 0;
-        $actual   = $collection->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $collection->count()
+        );
 
         $collection->init($data);
-        $expected = $data;
-        $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $data,
+            $collection->toArray()
+        );
     }
 }

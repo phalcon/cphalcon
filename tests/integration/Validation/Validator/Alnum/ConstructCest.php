@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorAlnumConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Alnum - __construct()');
+
         $validator = new Alnum();
+
         $this->checkConstruct($I, $validator);
     }
 }

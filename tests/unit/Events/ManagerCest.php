@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Events;
 
+use Codeception\Example;
 use ComponentX;
 use ComponentY;
 use Phalcon\Events\Event;
@@ -49,21 +50,41 @@ class ManagerCest
         $component = new ComponentX();
 
         $eventsManager = new Manager();
+
         $eventsManager->attach('log', $first);
 
         $component->setEventsManager($eventsManager);
 
         $logListeners = $component->getEventsManager()->getListeners('log');
 
-        $I->assertCount(1, $logListeners);
-        $I->assertInstanceOf(FirstListener::class, $logListeners[0]);
+        $I->assertCount(
+            1,
+            $logListeners
+        );
+
+        $I->assertInstanceOf(
+            FirstListener::class,
+            $logListeners[0]
+        );
 
         $component->getEventsManager()->attach('log', $second);
+
         $logListeners = $component->getEventsManager()->getListeners('log');
 
-        $I->assertCount(2, $logListeners);
-        $I->assertInstanceOf(FirstListener::class, $logListeners[0]);
-        $I->assertInstanceOf(SecondListener::class, $logListeners[1]);
+        $I->assertCount(
+            2,
+            $logListeners
+        );
+
+        $I->assertInstanceOf(
+            FirstListener::class,
+            $logListeners[0]
+        );
+
+        $I->assertInstanceOf(
+            SecondListener::class,
+            $logListeners[1]
+        );
 
         $component->getEventsManager()->detachAll('log');
         $logListeners = $component->getEventsManager()->getListeners('log');
@@ -73,8 +94,15 @@ class ManagerCest
         $component->getEventsManager()->attach('log', $second);
         $logListeners = $component->getEventsManager()->getListeners('log');
 
-        $I->assertCount(1, $logListeners);
-        $I->assertInstanceOf(SecondListener::class, $logListeners[0]);
+        $I->assertCount(
+            1,
+            $logListeners
+        );
+
+        $I->assertInstanceOf(
+            SecondListener::class,
+            $logListeners[0]
+        );
     }
 
     /**
@@ -209,6 +237,7 @@ class ManagerCest
 
         $propagationListener = function (Event $event, $component, $data) use (&$number) {
             $number++;
+
             $event->stop();
         };
 
@@ -227,33 +256,42 @@ class ManagerCest
      * @issue  https://github.com/phalcon/cphalcon/issues/12882
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-06
+     *
+     * @dataProvider booleanProvider
      */
-    public function detachClosureListener(UnitTester $I)
+    public function detachClosureListener(UnitTester $I, Example $example)
     {
-        $examples = [true, false];
-        foreach ($examples as $enablePriorities) {
-            $manager = new Manager();
-            $manager->enablePriorities($enablePriorities);
+        $enablePriorities = $example[0];
 
-            $handler = function () {
-                echo __METHOD__;
-            };
+        $manager = new Manager();
+        $manager->enablePriorities($enablePriorities);
 
-            $manager->attach('test:detachable', $handler);
-            $events = $I->getProtectedProperty($manager, 'events');
+        $handler = function () {
+            echo __METHOD__;
+        };
 
-            $I->assertCount(1, $events);
-            $I->assertTrue(array_key_exists('test:detachable', $events));
-            $I->assertCount(1, $events['test:detachable']);
+        $manager->attach('test:detachable', $handler);
+        $events = $I->getProtectedProperty($manager, 'events');
 
-            $manager->detach('test:detachable', $handler);
+        $I->assertCount(1, $events);
+        $I->assertTrue(array_key_exists('test:detachable', $events));
+        $I->assertCount(1, $events['test:detachable']);
 
-            $events = $I->getProtectedProperty($manager, 'events');
+        $manager->detach('test:detachable', $handler);
 
-            $I->assertCount(1, $events);
-            $I->assertTrue(array_key_exists('test:detachable', $events));
-            $I->assertCount(0, $events['test:detachable']);
-        }
+        $events = $I->getProtectedProperty($manager, 'events');
+
+        $I->assertCount(1, $events);
+        $I->assertTrue(array_key_exists('test:detachable', $events));
+        $I->assertCount(0, $events['test:detachable']);
+    }
+
+    private function booleanProvider(): array
+    {
+        return [
+            [true],
+            [false],
+        ];
     }
 
     /**
@@ -263,30 +301,44 @@ class ManagerCest
      * @issue  https://github.com/phalcon/cphalcon/issues/12882
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-06
+     *
+     * @dataProvider booleanProvider
      */
-    public function detachObjectListener(UnitTester $I)
+    public function detachObjectListener(UnitTester $I, Example $example)
     {
-        $examples = [true, false];
-        foreach ($examples as $enablePriorities) {
-            $manager = new Manager();
-            $manager->enablePriorities($enablePriorities);
+        $enablePriorities = $example[0];
 
-            $handler = new \stdClass();
-            $manager->attach('test:detachable', $handler);
-            $events = $I->getProtectedProperty($manager, 'events');
 
-            $I->assertCount(1, $events);
-            $I->assertTrue(array_key_exists('test:detachable', $events));
-            $I->assertCount(1, $events['test:detachable']);
 
-            $manager->detach('test:detachable', $handler);
+        $manager = new Manager();
 
-            $events = $I->getProtectedProperty($manager, 'events');
+        $manager->enablePriorities($enablePriorities);
 
-            $I->assertCount(1, $events);
-            $I->assertTrue(array_key_exists('test:detachable', $events));
-            $I->assertCount(0, $events['test:detachable']);
-        }
+        $handler = new \stdClass();
+
+        $manager->attach('test:detachable', $handler);
+
+        $events = $I->getProtectedProperty($manager, 'events');
+
+        $I->assertCount(1, $events);
+
+        $I->assertTrue(
+            array_key_exists('test:detachable', $events)
+        );
+
+        $I->assertCount(1, $events['test:detachable']);
+
+        $manager->detach('test:detachable', $handler);
+
+        $events = $I->getProtectedProperty($manager, 'events');
+
+        $I->assertCount(1, $events);
+
+        $I->assertTrue(
+            array_key_exists('test:detachable', $events)
+        );
+
+        $I->assertCount(0, $events['test:detachable']);
     }
 
     public function setLastListener($listener)

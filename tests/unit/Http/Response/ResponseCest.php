@@ -471,6 +471,7 @@ class ResponseCest extends HttpBase
         $response = $this->getResponseObject();
 
         $filename = __FILE__;
+
         $response->setFileToSend($filename);
 
         ob_start();
@@ -480,8 +481,9 @@ class ResponseCest extends HttpBase
         $actual   = ob_get_clean();
         $I->assertEquals($expected, $actual);
 
-        $actual = $response->isSent();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $response->isSent()
+        );
     }
 
     /**
@@ -495,10 +497,16 @@ class ResponseCest extends HttpBase
         $response = $this->getResponseObject();
 
         $expiry = new DateTime();
-        $expiry->setTimezone(new DateTimeZone("UTC"));
+
+        $expiry->setTimezone(
+            new DateTimeZone("UTC")
+        );
+
         $expiry->modify("+60 minutes");
 
         $response->setCache(60);
+
+
 
         $expected = Headers::__set_state(
             [
@@ -508,7 +516,9 @@ class ResponseCest extends HttpBase
                 ],
             ]
         );
-        $actual   = $response->getHeaders();
+
+        $actual = $response->getHeaders();
+
         $I->assertEquals($expected, $actual);
     }
 

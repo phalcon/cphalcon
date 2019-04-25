@@ -35,9 +35,7 @@ class CountCest
 
         $form = new Form();
 
-        $expected = 0;
-        $actual   = count($form);
-        $I->assertEquals($expected, $actual);
+        $I->assertCount(0, $form);
 
         $form->add(
             new Text("name")
@@ -47,8 +45,6 @@ class CountCest
             new Text("telephone")
         );
 
-        $expected = 2;
-        $actual   = count($form);
-        $I->assertEquals($expected, $actual);
+        $I->assertCount(2, $form);
     }
 }

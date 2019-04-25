@@ -1,5 +1,6 @@
 <?php
 
+use Codeception\Actor;
 
 /**
  * Inherited Methods
@@ -16,7 +17,7 @@
  *
  * @SuppressWarnings(PHPMD)
  */
-class AcceptanceTester extends \Codeception\Actor
+class AcceptanceTester extends Actor
 {
     use _generated\AcceptanceTesterActions;
 

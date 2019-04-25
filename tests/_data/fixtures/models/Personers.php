@@ -36,5 +36,4 @@ class Personers extends Model
             'estado'            => 'status',
         ];
     }
-
 }

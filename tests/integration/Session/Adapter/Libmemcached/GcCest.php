@@ -45,20 +45,37 @@ class GcCest
     public function sessionAdapterLibmemcachedGc(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - gc()');
+
         $adapter = $this->getSessionLibmemcached();
 
         /**
          * Add two session keys
          */
-        $I->haveInLibmemcached('gc_1', uniqid(), 1);
-        $I->haveInLibmemcached('gc_2', uniqid(), 1);
+        $I->haveInLibmemcached(
+            'gc_1',
+            uniqid(),
+            1
+        );
+
+        $I->haveInLibmemcached(
+            'gc_2',
+            uniqid(),
+            1
+        );
+
+
+
         /**
          * Sleep to make sure that the time expired
          */
         sleep(2);
-        $actual = $adapter->gc(1);
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->gc(1)
+        );
+
         $I->dontSeeInLibmemcached('gc_1');
+
         $I->dontSeeInLibmemcached('gc_2');
     }
 }

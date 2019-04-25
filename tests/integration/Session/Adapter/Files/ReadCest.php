@@ -45,14 +45,20 @@ class ReadCest
     public function sessionAdapterFilesRead(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Files - write()');
+
         $adapter = $this->getSessionFiles();
 
         $value = uniqid();
+
         $adapter->write('test1', $value);
 
         $expected = $value;
         $actual   = $adapter->read('test1');
+
         $I->assertEquals($expected, $actual);
-        $I->safeDeleteFile(cacheFolder('test1'));
+
+        $I->safeDeleteFile(
+            cacheFolder('test1')
+        );
     }
 }

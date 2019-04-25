@@ -47,21 +47,40 @@ class GcCest
     public function sessionAdapterFilesGc(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Files - gc()');
+
         $adapter = $this->getSessionFiles();
+
+
 
         /**
          * Add two session files
          */
-        file_put_contents(cacheFolder('gc_1'), uniqid());
-        file_put_contents(cacheFolder('gc_2'), uniqid());
+        file_put_contents(
+            cacheFolder('gc_1'),
+            uniqid()
+        );
+
+        file_put_contents(
+            cacheFolder('gc_2'),
+            uniqid()
+        );
+
+
         /**
          * Sleep to make sure that the time expired
          */
         sleep(2);
-        $actual = $adapter->gc(1);
-        $I->assertTrue($actual);
-        $I->amInPath(cacheFolder());
+
+        $I->assertTrue(
+            $adapter->gc(1)
+        );
+
+        $I->amInPath(
+            cacheFolder()
+        );
+
         $I->dontSeeFileFound('gc_1');
+
         $I->dontSeeFileFound('gc_2');
     }
 }

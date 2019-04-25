@@ -17,6 +17,7 @@ $container = new FactoryDefault();
  * Load environment
  */
 $root = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR;
+
 loadEnvironment($root);
 
 /**
@@ -51,6 +52,7 @@ $configFile = [
 ];
 
 $config = new Config($configFile);
+
 $container->setShared('config', $config);
 
 /**
@@ -60,7 +62,10 @@ $container->setShared(
     'view',
     function () use ($configFile) {
         $view = new View();
-        $view->setViewsDir($configFile['application']['viewsDir']);
+
+        $view->setViewsDir(
+            $configFile['application']['viewsDir']
+        );
 
         return $view;
     }
@@ -87,11 +92,12 @@ $namespaces = [
 ];
 
 $loader->registerNamespaces($namespaces);
+
 $loader->registerDirs(
     [
         $configFile['application']['tasksDir'],
         $configFile['application']['controllersDir'],
-//        $configFile['application']['microDir'],
+    //        $configFile['application']['microDir'],
     ]
 );
 
@@ -108,8 +114,13 @@ $container->setShared(
     function () use ($configFile) {
         $url = new Url();
 
-        $url->setStaticBaseUri($configFile['application']['staticUri']);
-        $url->setBaseUri($configFile['application']['baseUri']);
+        $url->setStaticBaseUri(
+            $configFile['application']['staticUri']
+        );
+
+        $url->setBaseUri(
+            $configFile['application']['baseUri']
+        );
 
         return $url;
     }
@@ -133,9 +144,13 @@ $container->set('dispatcher', Dispatcher::class);
 /**
  * Session
  */
-$container->set(CodeceptionMemorySession::class, PhalconMemorySession::class);
+$container->set(
+    CodeceptionMemorySession::class,
+    PhalconMemorySession::class
+);
 
 $application = new Application();
+
 $application->setDI($container);
 
 FactoryDefault::setDefault($container);

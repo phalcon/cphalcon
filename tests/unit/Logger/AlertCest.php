@@ -35,6 +35,7 @@ class AlertCest
     public function loggerAlert(UnitTester $I)
     {
         $I->wantToTest('Logger - alert()');
+
         $this->runLoggerFile($I, 'alert');
     }
 }

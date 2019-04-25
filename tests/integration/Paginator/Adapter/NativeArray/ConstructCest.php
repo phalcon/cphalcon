@@ -32,6 +32,7 @@ class ConstructCest
     public function paginatorAdapterNativearrayConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Paginator\Adapter\NativeArray - __construct()');
+
         $I->expectThrowable(
             new BadMethodCallException('Wrong number of parameters'),
             function () {

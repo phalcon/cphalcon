@@ -38,6 +38,7 @@ class DescribeColumnsCest
     public function dbAdapterPdoPostgresqlDescribeColumns(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Postgresql - describeColumns()");
+
         $expected = [
             Column::__set_state(
                 [
@@ -81,10 +82,19 @@ class DescribeColumnsCest
             ),
         ];
 
+
+
         $actual = $this->connection->describeColumns('images');
+
         $I->assertEquals($expected, $actual);
 
-        $actual = $this->connection->describeColumns('images', env('DATA_POSTGRES_SCHEMA'));
+
+
+        $actual = $this->connection->describeColumns(
+            'images',
+            env('DATA_POSTGRES_SCHEMA')
+        );
+
         $I->assertEquals($expected, $actual);
     }
 }

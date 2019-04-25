@@ -75,10 +75,16 @@ trait TagSetupTrait
         string $set = ''
     ) {
         if ($xhtml && 'textArea' !== $function) {
-            $tag->setDocType(Tag::XHTML10_STRICT);
+            $tag->setDocType(
+                Tag::XHTML10_STRICT
+            );
+
             $expected .= ' />';
         } else {
-            $tag->setDocType(Tag::HTML5);
+            $tag->setDocType(
+                Tag::HTML5
+            );
+
             $expected .= '>';
         }
 

@@ -36,20 +36,33 @@ class MaskCest
     public function imageAdapterImagickMask(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - mask()');
-        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
+
+        $image = new Imagick(
+            dataFolder('assets/images/phalconphp.jpg')
+        );
+
         $image->setResourceLimit(6, 1);
-        $mask = new Imagick(dataFolder('assets/images/logo.png'));
+
+        $mask = new Imagick(
+            dataFolder('assets/images/logo.png')
+        );
 
         // Add a watermark to the bottom right of the image
         $image->mask($mask)->save(outputFolder('tests/image/imagick/mask.jpg'));
 
-        $I->amInPath(outputFolder('tests/image/imagick/'));
+        $I->amInPath(
+            outputFolder('tests/image/imagick/')
+        );
+
         $I->seeFileFound('mask.jpg');
 
-        $actual = $image->getWidth() > 200;
-        $I->assertTrue($actual);
-        $actual = $image->getHeight() > 200;
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $image->getWidth() > 200
+        );
+
+        $I->assertTrue(
+            $image->getHeight() > 200
+        );
 
         $I->safeDeleteFile('mask.jpg');
     }

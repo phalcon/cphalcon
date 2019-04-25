@@ -44,8 +44,12 @@ class ConstructCest
     public function sessionAdapterFilesConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Files - __construct()');
+
         $adapter = $this->getSessionFiles();
-        $class   = SessionHandlerInterface::class;
-        $I->assertInstanceOf($class, $adapter);
+
+        $I->assertInstanceOf(
+            SessionHandlerInterface::class,
+            $adapter
+        );
     }
 }

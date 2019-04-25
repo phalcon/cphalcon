@@ -34,17 +34,26 @@ class SetAdaptersCest
     public function loggerSetAdapters(UnitTester $I)
     {
         $I->wantToTest('Logger - setAdapters()');
-        $fileName1  = $I->getNewFileName('log', 'log');
-        $fileName2  = $I->getNewFileName('log', 'log');
+
+        $fileName1 = $I->getNewFileName('log', 'log');
+        $fileName2 = $I->getNewFileName('log', 'log');
+
         $outputPath = outputFolder('tests/logs/');
-        $adapter1   = new Stream($outputPath . $fileName1);
-        $adapter2   = new Stream($outputPath . $fileName2);
+
+        $adapter1 = new Stream(
+            $outputPath . $fileName1
+        );
+
+        $adapter2 = new Stream(
+            $outputPath . $fileName2
+        );
 
         $logger = new Logger('my-logger');
 
-        $expected = 0;
-        $adapters = $logger->getAdapters();
-        $I->assertCount($expected, $adapters);
+        $I->assertCount(
+            0,
+            $logger->getAdapters()
+        );
 
         $logger->setAdapters(
             [
@@ -53,16 +62,27 @@ class SetAdaptersCest
             ]
         );
 
-        $expected = 2;
         $adapters = $logger->getAdapters();
-        $I->assertCount($expected, $adapters);
 
-        $class = Stream::class;
-        $I->assertInstanceOf($class, $adapters['one']);
-        $I->assertInstanceOf($class, $adapters['two']);
+        $I->assertCount(2, $adapters);
 
-        $I->safeDeleteFile($outputPath . $fileName1);
-        $I->safeDeleteFile($outputPath . $fileName2);
+        $I->assertInstanceOf(
+            Stream::class,
+            $adapters['one']
+        );
+
+        $I->assertInstanceOf(
+            Stream::class,
+            $adapters['two']
+        );
+
+        $I->safeDeleteFile(
+            $outputPath . $fileName1
+        );
+
+        $I->safeDeleteFile(
+            $outputPath . $fileName2
+        );
     }
 
     /**
@@ -76,11 +96,19 @@ class SetAdaptersCest
     public function loggerSetAdaptersConstructor(UnitTester $I)
     {
         $I->wantToTest('Logger :: setAdapters() - constructor');
-        $fileName1  = $I->getNewFileName('log', 'log');
-        $fileName2  = $I->getNewFileName('log', 'log');
+
+        $fileName1 = $I->getNewFileName('log', 'log');
+        $fileName2 = $I->getNewFileName('log', 'log');
+
         $outputPath = outputFolder('tests/logs/');
-        $adapter1   = new Stream($outputPath . $fileName1);
-        $adapter2   = new Stream($outputPath . $fileName2);
+
+        $adapter1 = new Stream(
+            $outputPath . $fileName1
+        );
+
+        $adapter2 = new Stream(
+            $outputPath . $fileName2
+        );
 
         $logger = new Logger(
             'my-logger',
@@ -90,15 +118,26 @@ class SetAdaptersCest
             ]
         );
 
-        $expected = 2;
         $adapters = $logger->getAdapters();
-        $I->assertCount($expected, $adapters);
 
-        $class = Stream::class;
-        $I->assertInstanceOf($class, $adapters['one']);
-        $I->assertInstanceOf($class, $adapters['two']);
+        $I->assertCount(2, $adapters);
 
-        $I->safeDeleteFile($outputPath . $fileName1);
-        $I->safeDeleteFile($outputPath . $fileName2);
+        $I->assertInstanceOf(
+            Stream::class,
+            $adapters['one']
+        );
+
+        $I->assertInstanceOf(
+            Stream::class,
+            $adapters['two']
+        );
+
+        $I->safeDeleteFile(
+            $outputPath . $fileName1
+        );
+
+        $I->safeDeleteFile(
+            $outputPath . $fileName2
+        );
     }
 }

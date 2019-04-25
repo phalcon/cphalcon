@@ -35,10 +35,22 @@ class DescribeReferencesCest
     public function dbAdapterPdoMysqlDescribeReferences(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Mysql - describeReferences()");
+
         $table    = 'dialect_table_intermediate';
         $expected = $this->getExpectedReferences();
-        $I->assertEquals($expected, $this->connection->describeReferences($table));
-        $I->assertEquals($expected, $this->connection->describeReferences($table, $this->getSchemaName()));
+
+        $I->assertEquals(
+            $expected,
+            $this->connection->describeReferences($table)
+        );
+
+        $I->assertEquals(
+            $expected,
+            $this->connection->describeReferences(
+                $table,
+                $this->getSchemaName()
+            )
+        );
     }
 
     /**
@@ -52,16 +64,27 @@ class DescribeReferencesCest
     public function dbAdapterPdoMysqlDescribeReferencesCount(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Mysql - describeReferences() - count");
-        $table            = 'dialect_table_intermediate';
+
+        $table = 'dialect_table_intermediate';
+
         $directReferences = $this->connection->describeReferences($table);
-        $schemaReferences = $this->connection->describeReferences($table, $this->getSchemaName());
+
+        $schemaReferences = $this->connection->describeReferences(
+            $table,
+            $this->getSchemaName()
+        );
+
         $I->assertEquals($directReferences, $schemaReferences);
-        $I->assertEquals(2, count($directReferences));
-        $I->assertEquals(2, count($schemaReferences));
+
+        $I->assertCount(2, $directReferences);
+        $I->assertCount(2, $schemaReferences);
 
         /** @var Reference $reference */
         foreach ($directReferences as $reference) {
-            $I->assertEquals(1, count($reference->getColumns()));
+            $I->assertCount(
+                1,
+                $reference->getColumns()
+            );
         }
     }
 }

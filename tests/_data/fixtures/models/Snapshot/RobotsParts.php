@@ -15,10 +15,18 @@ use Phalcon\Mvc\Model;
 
 class RobotsParts extends Model
 {
-
     public function initialize()
     {
-        $this->belongsTo('robots_id', Robots::class, 'id');
-        $this->belongsTo('parts_id', Parts::class, 'id');
+        $this->belongsTo(
+            'robots_id',
+            Robots::class,
+            'id'
+        );
+
+        $this->belongsTo(
+            'parts_id',
+            Parts::class,
+            'id'
+        );
     }
 }

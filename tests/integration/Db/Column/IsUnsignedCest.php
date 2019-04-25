@@ -35,10 +35,15 @@ class IsUnsignedCest
     public function dbColumnIsUnsigned(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - isUnsigned()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['unsigned'], $column->isUnsigned());
+            $I->assertEquals(
+                $columns[$index]['unsigned'],
+                $column->isUnsigned()
+            );
         }
     }
 }

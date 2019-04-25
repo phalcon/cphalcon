@@ -31,23 +31,29 @@ class GetCest
     public function urlGet(IntegrationTester $I)
     {
         $I->wantToTest("Url - get()");
+
         $url = new Url();
 
         $url->setBaseUri('https://phalconphp.com');
 
-        $expected = 'https://phalconphp.com';
-        $actual   = $url->get();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'https://phalconphp.com',
+            $url->get()
+        );
 
-        $actual = $url->get('');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'https://phalconphp.com',
+            $url->get('')
+        );
 
-        $expected = 'https://phalconphp.com/';
-        $actual   = $url->get('/');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'https://phalconphp.com/',
+            $url->get('/')
+        );
 
-        $expected = 'https://phalconphp.com/en/team';
-        $actual   = $url->get('/en/team');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'https://phalconphp.com/en/team',
+            $url->get('/en/team')
+        );
     }
 }

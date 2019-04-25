@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorInclusionInConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\InclusionIn - __construct()');
+
         $validator = new InclusionIn();
+
         $this->checkConstruct($I, $validator);
     }
 }

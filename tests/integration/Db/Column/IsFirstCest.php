@@ -35,10 +35,15 @@ class IsFirstCest
     public function dbColumnIsFirst(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - isFirst()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['first'], $column->isFirst());
+            $I->assertEquals(
+                $columns[$index]['first'],
+                $column->isFirst()
+            );
         }
     }
 }

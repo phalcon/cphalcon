@@ -17,11 +17,15 @@ class Robots extends Model
 {
     public function initialize()
     {
-
         $this->setConnectionService('dbOne');
 
-        $this->hasMany('id', RobotsParts::class, 'robots_id', [
-            'alias' => 'RobotParts',
-        ]);
+        $this->hasMany(
+            'id',
+            RobotsParts::class,
+            'robots_id',
+            [
+                'alias' => 'RobotParts',
+            ]
+        );
     }
 }

@@ -34,18 +34,22 @@ class CommitCest
     public function loggerAdapterSyslogCommit(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Syslog - commit()');
+
         $streamName = $I->getNewFileName('log', 'log');
-        $adapter    = new Syslog($streamName);
+
+        $adapter = new Syslog($streamName);
 
         $adapter->begin();
 
-        $actual = $adapter->inTransaction();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->inTransaction()
+        );
 
         $adapter->commit();
 
-        $actual = $adapter->inTransaction();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->inTransaction()
+        );
     }
 
     /**
@@ -59,19 +63,20 @@ class CommitCest
     public function loggerAdapterSyslogCommitNoTransaction(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Syslog - commit() - no transaction');
+
         $streamName = $I->getNewFileName('log', 'log');
 
-        try {
-            $adapter = new Syslog($streamName);
+        $adapter = new Syslog($streamName);
 
-            $actual = $adapter->inTransaction();
-            $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->inTransaction()
+        );
 
-            $adapter->commit();
-        } catch (Exception $ex) {
-            $expected = 'There is no active transaction';
-            $actual   = $ex->getMessage();
-            $I->assertEquals($expected, $actual);
-        }
+        $I->expectThrowable(
+            new Exception('There is no active transaction'),
+            function () use ($adapter) {
+                $adapter->commit();
+            }
+        );
     }
 }

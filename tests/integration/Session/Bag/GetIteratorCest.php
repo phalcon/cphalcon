@@ -36,16 +36,22 @@ class GetIteratorCest
     public function sessionBagGetIterator(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - getIterator()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Bag('BagTest');
+
         $collection->init($data);
 
         foreach ($collection as $key => $value) {
-            $I->assertEquals($data[$key], $collection[$key]);
+            $I->assertEquals(
+                $data[$key],
+                $collection[$key]
+            );
         }
     }
 }

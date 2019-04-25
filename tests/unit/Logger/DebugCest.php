@@ -35,6 +35,7 @@ class DebugCest
     public function loggerDebug(UnitTester $I)
     {
         $I->wantToTest('Logger - debug()');
+
         $this->runLoggerFile($I, 'debug');
     }
 }

@@ -35,16 +35,19 @@ class InterpolateCest
     public function loggerFormatterLineInterpolate(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Line - interpolate()');
+
         $formatter = new Line();
 
         $message = 'The sky is {color}';
+
         $context = [
             'color' => 'blue',
         ];
 
-        $expected = 'The sky is blue';
-        $actual   = $formatter->interpolate($message, $context);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'The sky is blue',
+            $formatter->interpolate($message, $context)
+        );
     }
 
     /**
@@ -58,15 +61,24 @@ class InterpolateCest
     public function loggerFormatterLineInterpolateFormat(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Line - interpolate() - format()');
+
         $formatter = new Line();
 
         $message = 'The sky is {color}';
+
         $context = [
             'color' => 'blue',
         ];
 
         $time = time();
-        $item = new Item($message, 'debug', Logger::DEBUG, $time, $context);
+
+        $item = new Item(
+            $message,
+            'debug',
+            Logger::DEBUG,
+            $time,
+            $context
+        );
 
         $expected = sprintf('[%s][debug] The sky is blue', date('D, d M y H:i:s O', $time)) . PHP_EOL;
         $actual   = $formatter->format($item);

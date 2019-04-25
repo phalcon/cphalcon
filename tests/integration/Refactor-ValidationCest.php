@@ -54,6 +54,10 @@ class ValidationCest
                 ),
             ]
         );
-        $I->assertEquals($expectedMessages, $validation->getMessages());
+
+        $I->assertEquals(
+            $expectedMessages,
+            $validation->getMessages()
+        );
     }
 }

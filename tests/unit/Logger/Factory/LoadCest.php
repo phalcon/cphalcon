@@ -43,7 +43,9 @@ class LoadCest
     public function loggerFactoryLoadConfig(UnitTester $I)
     {
         $I->wantToTest('Logger\Factory - load() - Config');
+
         $options = $this->config->logger;
+
         $this->runTests($I, $options);
     }
 
@@ -58,26 +60,35 @@ class LoadCest
         /** @var Logger $logger */
         $logger = Factory::load($options);
 
-        $class  = Logger::class;
-        $actual = $logger;
-        $I->assertInstanceOf($class, $actual);
+        $I->assertInstanceOf(
+            Logger::class,
+            $logger
+        );
 
-        $expected = $options['name'];
-        $actual   = $logger->getName();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $options['name'],
+            $logger->getName()
+        );
 
         $adapters = $logger->getAdapters();
         $expected = count($options['adapters']);
         $I->assertCount($expected, $adapters);
 
         $counter = 0;
+
         foreach ($adapters as $adapter) {
-            $class = sprintf('Phalcon\Logger\Adapter\%s', $options['adapters'][$counter]['adapter']);
+            $class = sprintf(
+                'Phalcon\Logger\Adapter\%s',
+                $options['adapters'][$counter]['adapter']
+            );
+
             $I->assertInstanceOf($class, $adapter);
 
             $expected = $options['adapters'][$counter]['name'];
             $actual   = $adapter->getName();
+
             $I->assertEquals($expected, $actual);
+
             $counter++;
         }
     }
@@ -93,7 +104,9 @@ class LoadCest
     public function loggerFactoryLoadArray(UnitTester $I)
     {
         $I->wantToTest('Logger\Factory - load() - array');
+
         $options = $this->arrayConfig['logger'];
+
         $this->runTests($I, $options);
     }
 }

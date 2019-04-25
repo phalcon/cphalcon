@@ -37,7 +37,19 @@ class ComponentX
 
     public function leAction()
     {
-        $this->eventsManager->fire('dummy:beforeAction', $this, 'extra data');
-        $this->eventsManager->fire('dummy:afterAction', $this, ['extra', 'data']);
+        $this->eventsManager->fire(
+            'dummy:beforeAction',
+            $this,
+            'extra data'
+        );
+
+        $this->eventsManager->fire(
+            'dummy:afterAction',
+            $this,
+            [
+                'extra',
+                'data',
+            ]
+        );
     }
 }

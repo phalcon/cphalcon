@@ -34,7 +34,9 @@ class SetOptionCest
     public function validationValidatorPresenceOfSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\PresenceOf - setOption()');
+
         $validator = new PresenceOf();
+
         $this->checkSetOption($I, $validator);
     }
 }

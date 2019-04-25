@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Mvc\View\Engine\Volt\Compiler;
 
+use Codeception\Example;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
 use UnitTester;
@@ -28,19 +29,21 @@ class CompileStringCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-01-17
+     *
+     * @dataProvider getVoltCompileString
      */
-    public function mvcViewEngineVoltCompilerCompileString(UnitTester $I)
+    public function mvcViewEngineVoltCompilerCompileString(UnitTester $I, Example $example)
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compileString()");
-        $examples = $this->getVoltCompileString();
-        foreach ($examples as $item) {
-            $param    = $item[0];
-            $expected = $item[1];
-            $volt     = new Compiler();
 
-            $actual = $volt->compileString($param);
-            $I->assertEquals($expected, $actual);
-        };
+        $param    = $example[0];
+        $expected = $example[1];
+
+        $volt = new Compiler();
+
+        $actual = $volt->compileString($param);
+
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -257,22 +260,24 @@ class CompileStringCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-01-17
+     *
+     * @dataProvider getVoltCompileStringErrors
      */
-    public function mvcViewEngineVoltCompilerCompileStringSyntaxError(UnitTester $I)
+    public function mvcViewEngineVoltCompilerCompileStringSyntaxError(UnitTester $I, Example $example)
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compileString() - syntax error");
-        $examples = $this->getVoltCompileStringErrors();
-        foreach ($examples as $item) {
-            $code    = $item[0];
-            $message = $item[1];
-            $volt    = new Compiler();
-            $I->expectThrowable(
-                new Exception($message),
-                function () use ($volt, $code) {
-                    $volt->compileString($code);
-                }
-            );
-        }
+
+        $code    = $example[0];
+        $message = $example[1];
+
+        $volt = new Compiler();
+
+        $I->expectThrowable(
+            new Exception($message),
+            function () use ($volt, $code) {
+                $volt->compileString($code);
+            }
+        );
     }
 
     /**

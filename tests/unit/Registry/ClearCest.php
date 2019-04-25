@@ -31,20 +31,25 @@ class ClearCest
     public function collectionClear(UnitTester $I)
     {
         $I->wantToTest('Registry - clear()');
-        $data     = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $registry = new Registry($data);
 
-        $expected = $data;
-        $actual   = $registry->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $data,
+            $registry->toArray()
+        );
 
         $registry->clear();
-        $expected = 0;
-        $actual   = $registry->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $registry->count()
+        );
     }
 }

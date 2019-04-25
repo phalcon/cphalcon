@@ -32,8 +32,12 @@ class ConstructCest
     public function sessionManagerConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - __construct()');
+
         $manager = new Manager();
-        $class   = ManagerInterface::class;
-        $I->assertInstanceOf($class, $manager);
+
+        $I->assertInstanceOf(
+            ManagerInterface::class,
+            $manager
+        );
     }
 }

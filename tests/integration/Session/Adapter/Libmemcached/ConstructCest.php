@@ -44,8 +44,12 @@ class ConstructCest
     public function sessionAdapterLibmemcachedConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - __construct()');
+
         $adapter = $this->getSessionLibmemcached();
-        $class   = SessionHandlerInterface::class;
-        $I->assertInstanceOf($class, $adapter);
+
+        $I->assertInstanceOf(
+            SessionHandlerInterface::class,
+            $adapter
+        );
     }
 }

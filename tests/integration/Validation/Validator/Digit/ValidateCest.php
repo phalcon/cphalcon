@@ -30,6 +30,7 @@ class ValidateCest
     public function validationValidatorDigitValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Digit - validate()');
+
         $I->skipTest('Need implementation');
     }
 }

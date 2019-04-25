@@ -33,15 +33,23 @@ class BeginCest
     public function loggerAdapterStreamBegin(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - begin()');
-        $fileName   = $I->getNewFileName('log', 'log');
+
+        $fileName = $I->getNewFileName('log', 'log');
+
         $outputPath = outputFolder('tests/logs/');
-        $adapter    = new Stream($outputPath . $fileName);
+
+        $adapter = new Stream(
+            $outputPath . $fileName
+        );
 
         $adapter->begin();
 
-        $actual = $adapter->inTransaction();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->inTransaction()
+        );
 
-        $I->safeDeleteFile($outputPath . $fileName);
+        $I->safeDeleteFile(
+            $outputPath . $fileName
+        );
     }
 }

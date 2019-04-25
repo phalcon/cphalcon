@@ -29,12 +29,17 @@ class JavascriptIncludeCest extends TagSetup
     public function tagJavascriptIncludeLocal(UnitTester $I)
     {
         $I->wantToTest("Tag - javascriptInclude() - string as a parameter local");
-        $options  = 'js/phalcon.js';
-        $expected = '<script src="/js/phalcon.js"></script>' . PHP_EOL;
-        Tag::setDocType(Tag::HTML5);
-        $actual = Tag::javascriptInclude($options);
 
-        $I->assertEquals($expected, $actual);
+        $options = 'js/phalcon.js';
+
+        Tag::setDocType(
+            Tag::HTML5
+        );
+
+        $I->assertEquals(
+            '<script src="/js/phalcon.js"></script>' . PHP_EOL,
+            Tag::javascriptInclude($options)
+        );
     }
 
     /**
@@ -48,12 +53,17 @@ class JavascriptIncludeCest extends TagSetup
     public function tagJavascriptIncludeWithArrayLocal(UnitTester $I)
     {
         $I->wantToTest("Tag - javascriptInclude()");
-        $options  = ['js/phalcon.js'];
-        $expected = '<script src="/js/phalcon.js"></script>' . PHP_EOL;
-        Tag::setDocType(Tag::HTML5);
-        $actual = Tag::javascriptInclude($options);
 
-        $I->assertEquals($expected, $actual);
+        $options = ['js/phalcon.js'];
+
+        Tag::setDocType(
+            Tag::HTML5
+        );
+
+        $I->assertEquals(
+            '<script src="/js/phalcon.js"></script>' . PHP_EOL,
+            Tag::javascriptInclude($options)
+        );
     }
 
     /**
@@ -67,12 +77,17 @@ class JavascriptIncludeCest extends TagSetup
     public function tagJavascriptIncludeRemote(UnitTester $I)
     {
         $I->wantToTest("Tag - javascriptInclude() - remote link");
-        $options  = 'http://my.local.com/js/phalcon.js';
-        $expected = '<script src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
-        Tag::setDocType(Tag::HTML5);
-        $actual = Tag::javascriptInclude($options, false);
 
-        $I->assertEquals($expected, $actual);
+        $options = 'http://my.local.com/js/phalcon.js';
+
+        Tag::setDocType(
+            Tag::HTML5
+        );
+
+        $I->assertEquals(
+            '<script src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL,
+            Tag::javascriptInclude($options, false)
+        );
     }
 
     /**
@@ -87,12 +102,15 @@ class JavascriptIncludeCest extends TagSetup
     public function tagJavascriptIncludeWithArrayRemote(UnitTester $I)
     {
         $I->wantToTest("Tag - javascriptInclude() - array parameter for a remote");
-        $options  = ['http://my.local.com/js/phalcon.js'];
-        $expected = '<script src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL;
-        Tag::setDocType(Tag::HTML5);
-        $actual = Tag::javascriptInclude($options, false);
 
-        $I->assertEquals($expected, $actual);
+        $options = ['http://my.local.com/js/phalcon.js'];
+
+        Tag::setDocType(Tag::HTML5);
+
+        $I->assertEquals(
+            '<script src="http://my.local.com/js/phalcon.js"></script>' . PHP_EOL,
+            Tag::javascriptInclude($options, false)
+        );
     }
 
     /**
@@ -109,10 +127,15 @@ class JavascriptIncludeCest extends TagSetup
     {
         $I->wantToTest("Tag - javascript() - HTML5");
 
-        $url      = 'js/phalcon.js';
-        $expected = '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL;
-        Tag::setDocType(Tag::HTML32);
-        $actual = Tag::javascriptInclude($url);
-        $I->assertEquals($expected, $actual);
+        $url = 'js/phalcon.js';
+
+        Tag::setDocType(
+            Tag::HTML32
+        );
+
+        $I->assertEquals(
+            '<script type="text/javascript" src="/js/phalcon.js"></script>' . PHP_EOL,
+            Tag::javascriptInclude($url)
+        );
     }
 }

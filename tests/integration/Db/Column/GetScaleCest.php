@@ -35,10 +35,15 @@ class GetScaleCest
     public function dbColumnGetScale(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - getScale()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['scale'], $column->getScale());
+            $I->assertEquals(
+                $columns[$index]['scale'],
+                $column->getScale()
+            );
         }
     }
 }

@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Codeception\Example;
 use Phalcon\Test\Fixtures\Listener\CustomAuthorizationListener;
 use Phalcon\Test\Fixtures\Listener\NegotiateAuthorizationListener;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
@@ -25,25 +26,24 @@ class AuthHeaderCest extends HttpBase
      * @issue  https://github.com/phalcon/cphalcon/issues/12480
      * @author Serghei Iakovelv <serghei@phalconphp.com>
      * @since  2016-12-18
+     *
+     * @dataProvider basicAuthProvider
      */
-    public function shouldCorrectHandleAuth(UnitTester $I)
+    public function shouldCorrectHandleAuth(UnitTester $I, Example $example)
     {
-        $examples = $this->basicAuthProvider();
+        $_SERVER  = $example[0];
+        $expected = $example[1];
 
-        foreach ($examples as $item) {
-            $_SERVER  = $item[0];
-            $expected = $item[1];
-            $request  = $this->getRequestObject();
-            $actual   = $request->getHeaders();
+        $request  = $this->getRequestObject();
+        $actual   = $request->getHeaders();
 
-            ksort($actual);
-            ksort($expected);
+        ksort($actual);
+        ksort($expected);
 
-            $I->assertEquals($expected, $actual);
-        }
+        $I->assertEquals($expected, $actual);
     }
 
-    protected function basicAuthProvider()
+    private function basicAuthProvider(): array
     {
         return [
             // Basic Auth
@@ -58,6 +58,7 @@ class AuthHeaderCest extends HttpBase
                     'Authorization' => 'Basic cGhhbGNvbjpzZWNyZXQ=',
                 ],
             ],
+
             // Basic Auth without name
             [
                 [
@@ -66,6 +67,7 @@ class AuthHeaderCest extends HttpBase
                 [
                 ],
             ],
+
             // Basic Auth without password
             [
                 [
@@ -74,6 +76,7 @@ class AuthHeaderCest extends HttpBase
                 [
                 ],
             ],
+
             // Workaround for missing Authorization header under CGI/FastCGI Apache (.htaccess):
             // RewriteEngine on
             // RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization},last]
@@ -87,6 +90,7 @@ class AuthHeaderCest extends HttpBase
                     'Authorization' => 'Basic cGhhbGNvbjpzZWNyZXQ=',
                 ],
             ],
+
             // Invalid Basic Auth by using CGI/FastCGI
             [
                 [
@@ -96,6 +100,7 @@ class AuthHeaderCest extends HttpBase
                     'Authorization' => 'Basic 12345678',
                 ],
             ],
+
             // Digest Auth
             [
                 [
@@ -116,6 +121,7 @@ class AuthHeaderCest extends HttpBase
                         'opaque="opaque", response="response"',
                 ],
             ],
+
             // Digest Auth with REDIRECT_HTTP_AUTHORIZATION
             [
                 [
@@ -135,6 +141,7 @@ class AuthHeaderCest extends HttpBase
                         'opaque="opaque", response="response"',
                 ],
             ],
+
             // Bearer Auth
             [
                 [
@@ -144,6 +151,7 @@ class AuthHeaderCest extends HttpBase
                     'Authorization' => 'Bearer some-secret-token-here',
                 ],
             ],
+
             // Bearer Auth with REDIRECT_HTTP_AUTHORIZATION
             [
                 [
@@ -156,24 +164,26 @@ class AuthHeaderCest extends HttpBase
         ];
     }
 
-    /** @test */
-    public function shouldGetAuthFromHeaders(UnitTester $I)
+    /**
+     * @dataProvider authProvider
+     */
+    public function shouldGetAuthFromHeaders(UnitTester $I, Example $example)
     {
-        $examples = $this->authProvider();
-        foreach ($examples as $item) {
-            $request  = $this->getRequestObject();
-            $server   = $item[0];
-            $function = $item[1];
-            $expected = $item[2];
+        $request = $this->getRequestObject();
 
-            $_SERVER = $server;
+        $server   = $example[0];
+        $function = $example[1];
+        $expected = $example[2];
 
-            $actual = $request->$function();
-            $I->assertEquals($expected, $actual);
-        }
+        $_SERVER = $server;
+
+        $I->assertEquals(
+            $expected,
+            $request->$function()
+        );
     }
 
-    protected function authProvider()
+    private function authProvider(): array
     {
         return [
             [
@@ -186,6 +196,7 @@ class AuthHeaderCest extends HttpBase
                     'username' => 'myleft', 'password' => '123456',
                 ],
             ],
+
             [
                 [
                     'PHP_AUTH_DIGEST' => 'Digest username="myleft", realm="myleft", qop="auth", algorithm="MD5", uri="http://localhost:81/", nonce="nonce", nc=nc, cnonce="cnonce", opaque="opaque", response="response"',
@@ -204,6 +215,7 @@ class AuthHeaderCest extends HttpBase
                     'response'  => 'response',
                 ],
             ],
+
             [
                 [
                     'PHP_AUTH_DIGEST' => 'Digest username=myleft, realm=myleft, qop=auth, algorithm=MD5, uri=http://localhost:81/, nonce=nonce, nc=nc, cnonce=cnonce, opaque=opaque, response=response',
@@ -222,6 +234,7 @@ class AuthHeaderCest extends HttpBase
                     'response'  => 'response',
                 ],
             ],
+
             [
                 [
                     'PHP_AUTH_DIGEST' => 'Digest username=myleft realm=myleft qop=auth algorithm=MD5 uri=http://localhost:81/ nonce=nonce nc=nc cnonce=cnonce opaque=opaque response=response',

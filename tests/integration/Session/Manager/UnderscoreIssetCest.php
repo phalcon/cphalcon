@@ -37,23 +37,31 @@ class UnderscoreIssetCest
     {
         $I->wantToTest('Session\Manager - __isset()');
         $I->wantToTest('Session\Manager - has()');
+
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+
+        $files = $this->getSessionFiles();
+
         $manager->setHandler($files);
 
-        $actual = $manager->start();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $manager->start()
+        );
 
-        $actual = isset($manager->test);
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            isset($manager->test)
+        );
 
         $manager->set('test', 'myval');
-        $actual = isset($manager->test);
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            isset($manager->test)
+        );
 
         $manager->destroy();
 
-        $actual = $manager->exists();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $manager->exists()
+        );
     }
 }

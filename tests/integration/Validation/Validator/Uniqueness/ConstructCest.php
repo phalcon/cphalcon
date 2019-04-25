@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorUniquenessConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Uniqueness - __construct()');
+
         $validator = new Uniqueness();
+
         $this->checkConstruct($I, $validator);
     }
 }
