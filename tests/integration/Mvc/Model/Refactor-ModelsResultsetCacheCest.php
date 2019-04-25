@@ -3,8 +3,7 @@
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Cache\Backend\File;
-use Phalcon\Cache\Frontend\Data;
+use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 use function cacheFolder;
@@ -31,9 +30,7 @@ class ModelsResultsetCacheCest
         $this->container->set(
             'modelsCache',
             function () {
-                $frontCache = new Data();
-                return new File(
-                    $frontCache,
+                return new Stream(
                     [
                         'cacheDir' => cacheFolder(),
                     ]
@@ -121,9 +118,7 @@ class ModelsResultsetCacheCest
         $this->container->set(
             'modelsCache',
             function () {
-                $frontCache = new Data();
-                return new File(
-                    $frontCache,
+                return new Stream(
                     [
                         'cacheDir' => cacheFolder(),
                     ]
@@ -178,9 +173,7 @@ class ModelsResultsetCacheCest
         $this->container->set(
             'otherCache',
             function () {
-                $frontCache = new Data();
-                return new File(
-                    $frontCache,
+                return new Stream(
                     [
                         'cacheDir' => cacheFolder(),
                     ]

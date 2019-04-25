@@ -12,7 +12,7 @@
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData;
 
 use IntegrationTester;
-use Phalcon\Mvc\Model\MetaData\Files;
+use Phalcon\Mvc\Model\MetaData\Stream;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 
@@ -29,7 +29,7 @@ class FilesCest
         $this->container->setShared(
             'modelsMetadata',
             function () {
-                return new Files(
+                return new Stream(
                     [
                         'metaDataDir' => cacheFolder(),
                     ]
