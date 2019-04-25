@@ -60,22 +60,22 @@ class Reader implements ReaderInterface
          * Get the class properties
          */
         let properties = reflection->getProperties();
-        if count(properties) {
 
+        if count(properties) {
             /**
              * Line declaration for properties isn't available
              */
             let line = 1;
 
             let annotationsProperties = [];
-            for property in properties {
 
+            for property in properties {
                 /**
                  * Read comment from method
                  */
                 let comment = property->getDocComment();
-                if typeof comment == "string" {
 
+                if typeof comment == "string" {
                     /**
                      * Read annotations from the docblock
                      */
@@ -100,17 +100,17 @@ class Reader implements ReaderInterface
          * Get the class methods
          */
         let methods = reflection->getMethods();
+
         if count(methods) {
-
             let annotationsMethods = [];
-            for method in methods {
 
+            for method in methods {
                 /**
                  * Read comment from method
                  */
                 let comment = method->getDocComment();
-                if typeof comment == "string" {
 
+                if typeof comment == "string" {
                     /**
                      * Read annotations from class
                      */

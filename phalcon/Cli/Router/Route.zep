@@ -207,7 +207,6 @@ class Route
         route = "";
 
         for cursor, ch in pattern {
-
             if parenthesesCount == 0 {
                 if ch == '{' {
                     if bracketCount == 0 {
@@ -215,26 +214,27 @@ class Route
                             intermediate = 0,
                             notValid = false;
                     }
+
                     let bracketCount++;
                 } else {
                     if ch == '}' {
                         let bracketCount--;
+
                         if intermediate > 0 {
                             if bracketCount == 0 {
-
                                 let numberMatches++,
                                     variable = null,
                                     regexp = null,
                                     item = (string) substr(pattern, marker, cursor - marker);
 
                                 for cursorVar, ch in item {
-
                                     if ch == '\0' {
                                         break;
                                     }
 
                                     if cursorVar == 0 && !((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
                                         let notValid = true;
+
                                         break;
                                     }
 
@@ -242,17 +242,18 @@ class Route
                                         if ch == ':' {
                                             let variable = (string) substr(item, 0, cursorVar),
                                                 regexp = (string) substr(item, cursorVar + 1);
+
                                             break;
                                         }
                                     } else {
                                         let notValid = true;
+
                                         break;
                                     }
 
                                 }
 
                                 if !notValid {
-
                                     let tmp = numberMatches;
 
                                     if variable && regexp {
@@ -262,6 +263,7 @@ class Route
                                             if ch == '\0' {
                                                 break;
                                             }
+
                                             if !foundPattern {
                                                 if ch == '(' {
                                                     let foundPattern = 1;
@@ -269,6 +271,7 @@ class Route
                                             } else {
                                                 if ch == ')' {
                                                     let foundPattern = 2;
+
                                                     break;
                                                 }
                                             }
@@ -281,6 +284,7 @@ class Route
                                         } else {
                                             let route .= regexp;
                                         }
+
                                         let matches[variable] = tmp;
                                     } else {
                                         let route .= "([^" . this->delimiter . "]*)",
@@ -305,6 +309,7 @@ class Route
                 } else {
                     if ch == ')' {
                         let parenthesesCount--;
+
                         if parenthesesCount == 0 {
                             let numberMatches++;
                         }
@@ -423,7 +428,6 @@ class Route
 
         if paths !== null {
             if typeof paths == "string" {
-
                 let moduleName = null,
                     taskName = null,
                     actionName = null;
@@ -459,10 +463,8 @@ class Route
 
                 // Process task name
                 if taskName !== null {
-
                     // Check if we need to obtain the namespace
                     if memstr(taskName, "\\") {
-
                         // Extract the real class name from the namespaced class
                         let realClassName = get_class_ns(taskName);
 
@@ -470,7 +472,9 @@ class Route
                         let namespaceName = get_ns_class(taskName);
 
                         if namespaceName === null || realClassName === null {
-                            throw new Exception("The route contains invalid paths");
+                            throw new Exception(
+                                "The route contains invalid paths"
+                            );
                         }
 
                         // Update the namespace
@@ -505,7 +509,6 @@ class Route
          * expression
          */
         if !starts_with(pattern, "#") {
-
             if memstr(pattern, "{") {
                 /**
                  * The route has named parameters so we need to extract them

@@ -54,8 +54,8 @@ abstract class Adapter implements AdapterInterface
          * Try to read the annotations from the adapter
          */
         let classAnnotations = this->{"read"}(realClassName);
-        if classAnnotations === null || classAnnotations === false {
 
+        if classAnnotations === null || classAnnotations === false {
             /**
              * Get the annotations reader
              */

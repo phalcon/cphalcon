@@ -792,6 +792,7 @@ class Compiler implements InjectionAwareInterface
             let compilation .= "$" . prefixLevel . "loop->index0 = 1; ";
             let compilation .= "$" . prefixLevel . "loop->revindex = $" . prefixLevel . "loop->length; ";
             let compilation .= "$" . prefixLevel . "loop->revindex0 = $" . prefixLevel . "loop->length - 1; ?>";
+
             let iterator = "$" . prefixLevel . "iterator";
         } else {
             let iterator = exprCode;
@@ -1110,12 +1111,16 @@ class Compiler implements InjectionAwareInterface
          * A single set can have several assignments
          */
         for assignment in assignments {
-            let exprCode = this->expression(assignment["expr"]);
+            let exprCode = this->expression(
+                assignment["expr"]
+            );
 
             /**
              * Resolve the expression assigned
              */
-            let target = this->expression(assignment["variable"]);
+            let target = this->expression(
+                assignment["variable"]
+            );
 
             /**
              * Assignment operator

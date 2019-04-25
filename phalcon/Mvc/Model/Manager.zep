@@ -1315,7 +1315,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check if the relation is direct or through an intermediate model
          */
         if relation->isThrough() {
-
             let conditions = [];
 
             let intermediateModel = relation->getIntermediateModel(),

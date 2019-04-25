@@ -235,7 +235,8 @@ class Volt extends Engine
                 let end = count(value) - 1;
             }
 
-            let position = 0, slice = [];
+            let position = 0,
+                slice = [];
 
             value->rewind();
 
