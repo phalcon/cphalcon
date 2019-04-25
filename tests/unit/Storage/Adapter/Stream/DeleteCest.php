@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
+use Phalcon\Storage\Adapter\Stream;
 use UnitTester;
+use function outputFolder;
 
 /**
  * Class DeleteCest
@@ -30,7 +32,60 @@ class DeleteCest
     public function storageAdapterStreamDelete(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - delete()');
+        $adapter = new Stream(['cacheDir' => outputFolder()]);
 
-        $I->skipTest('Need implementation');
+        $key = 'cache-data';
+        $adapter->set($key, 'test');
+        $actual = $adapter->has($key);
+        $I->assertTrue($actual);
+
+        $actual = $adapter->delete($key);
+        $I->assertTrue($actual);
+
+        $actual = $adapter->has($key);
+        $I->assertFalse($actual);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Stream :: delete() - twice
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-04-24
+     */
+    public function storageAdapterStreamDeleteTwice(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Stream - delete() - twice');
+        $adapter = new Stream(['cacheDir' => outputFolder()]);
+
+        $key = 'cache-data';
+        $adapter->set($key, 'test');
+        $actual = $adapter->has($key);
+        $I->assertTrue($actual);
+
+        $actual = $adapter->delete($key);
+        $I->assertTrue($actual);
+
+        $actual = $adapter->delete($key);
+        $I->assertFalse($actual);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Stream :: delete() - unknown
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-04-24
+     */
+    public function storageAdapterStreamDeleteUnknown(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Stream - delete() - unknown');
+        $adapter = new Stream(['cacheDir' => outputFolder()]);
+
+        $key    = 'cache-data';
+        $actual = $adapter->delete($key);
+        $I->assertFalse($actual);
     }
 }

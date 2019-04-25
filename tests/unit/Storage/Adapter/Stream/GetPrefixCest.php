@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
+use function array_merge;
+use function outputFolder;
+use Phalcon\Storage\Adapter\Stream;
 use UnitTester;
 
 /**
@@ -27,10 +30,36 @@ class GetPrefixCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
-    public function storageAdapterStreamGetPrefix(UnitTester $I)
+    public function storageAdapterStreamGetSetPrefix(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - getPrefix()');
+        $adapter = new Stream(
+            [
+                'cacheDir' => outputFolder(),
+                'prefix'   => 'my-prefix',
+            ]
+        );
 
-        $I->skipTest('Need implementation');
+        $expected = 'my-prefix';
+        $actual   = $adapter->getPrefix();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Stream :: getPrefix() - default
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-04-24
+     */
+    public function storageAdapterStreamGetSetPrefixDefault(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Stream - getPrefix() - default');
+        $adapter = new Stream(['cacheDir' => outputFolder()]);
+
+        $expected = 'phstrm-';
+        $actual   = $adapter->getPrefix();
+        $I->assertEquals($expected, $actual);
     }
 }

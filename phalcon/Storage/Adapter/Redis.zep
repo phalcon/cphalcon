@@ -41,7 +41,7 @@ class Redis extends AbstractAdapter
             options["persistent"] = Arr::get(options, "persistent", false),
             options["auth"]       = Arr::get(options, "auth", ""),
             options["socket"]     = Arr::get(options, "socket", ""),
-            this->prefix          = "ph-memc-",
+            this->prefix          = "ph-reds-",
             this->options         = options;
 
         parent::__construct(options);
