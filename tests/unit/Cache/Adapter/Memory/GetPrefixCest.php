@@ -51,7 +51,7 @@ class GetPrefixCest
         $I->wantToTest('Cache\Adapter\Memory - getPrefix() - default');
         $adapter = new Memory();
 
-        $expected = 'ph-memc-';
+        $expected = 'ph-memo-';
         $actual   = $adapter->getPrefix();
         $I->assertEquals($expected, $actual);
     }
