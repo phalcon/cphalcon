@@ -240,7 +240,7 @@ class CompileStringCest
             ['{# some comment #}{{ "hello" }}{# other comment }}', "<?= 'hello' ?>"],
             // Select
             ['{{ select_static(["name": "kek"], ["Y": "Yes", "N": "No"]) }}', "<?= \$this->tag->selectStatic(['name' => 'kek'], ['Y' => 'Yes', 'N' => 'No']) ?>"],
-            ['{{ select(["name": "kek"], ["Y": "Yes", "N": "No"]) }}', "<?= \$this->tag->select(['name' => 'kek'], ['Y' => 'Yes', 'N' => 'No']) ?>"]
+            ['{{ select(["name": "kek"], ["Y": "Yes", "N": "No"]) }}', "<?= \$this->tag->select(['name' => 'kek'], ['Y' => 'Yes', 'N' => 'No']) ?>"],
         ];
     }
 

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Backend\File;
 
+use Exception;
 use Phalcon\Test\Fixtures\Traits\Cache\FileTrait;
 use UnitTester;
 
@@ -43,7 +44,7 @@ class SaveCest
     {
         $I->wantToTest("Cache\Backend\File - save() - exception negative lifetime");
         $I->expectThrowable(
-            new \Exception('A non-numeric value encountered', 2),
+            new Exception('A non-numeric value encountered', 2),
             function () {
                 $this->cache->save('foo', "a" - 1);
             }

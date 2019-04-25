@@ -15,8 +15,8 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 use Exception;
 use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Test\Fixtures\Acl\TestRoleAware;
 use Phalcon\Test\Fixtures\Acl\TestComponentAware;
+use Phalcon\Test\Fixtures\Acl\TestRoleAware;
 use UnitTester;
 
 class AllowCest

@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Helper\Arr;
 
 use Phalcon\Helper\Arr;
-use Phalcon\Helper\Exception;
 use UnitTester;
 
 class GetCest

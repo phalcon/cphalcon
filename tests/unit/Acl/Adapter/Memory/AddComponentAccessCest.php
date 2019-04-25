@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Exception;
 use Phalcon\Acl\Component;
+use Phalcon\Acl\Exception;
 use UnitTester;
 
 /**
