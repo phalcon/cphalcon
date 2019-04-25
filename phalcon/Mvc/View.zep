@@ -10,11 +10,11 @@
 
 namespace Phalcon\Mvc;
 
+use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Mvc\ViewInterface;
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 
@@ -359,7 +359,7 @@ class View extends Injectable implements ViewInterface
     /**
      * Returns the cache instance used to cache
      */
-    public function getCache() -> <BackendInterface>
+    public function getCache() -> <AdapterInterface>
     {
         if !this->cache || typeof this->cache != "object" {
             let this->cache = this->createCache();
@@ -1209,7 +1209,7 @@ class View extends Injectable implements ViewInterface
     /**
      * Create a Phalcon\Cache based on the internal cache options
      */
-    protected function createCache() -> <BackendInterface>
+    protected function createCache() -> <AdapterInterface>
     {
         var container, cacheService, viewCache, viewOptions, cacheOptions;
 
@@ -1234,7 +1234,7 @@ class View extends Injectable implements ViewInterface
         /**
          * The injected service must be an object
          */
-        let viewCache = <BackendInterface> container->getShared(cacheService);
+        let viewCache = <AdapterInterface> container->getShared(cacheService);
 
         if unlikely typeof viewCache != "object" {
             throw new Exception("The injected caching service is invalid");
@@ -1246,7 +1246,7 @@ class View extends Injectable implements ViewInterface
     /**
      * Checks whether view exists on registered extensions and render it
      */
-    protected function engineRender(array engines, string viewPath, bool silence, bool mustClean, <BackendInterface> cache = null)
+    protected function engineRender(array engines, string viewPath, bool silence, bool mustClean, <AdapterInterface> cache = null)
     {
         bool notExists;
         int renderLevel, cacheLevel;
@@ -1289,7 +1289,7 @@ class View extends Injectable implements ViewInterface
                         if fetch cacheOptions, viewOptions["cache"] {
                             if typeof cacheOptions == "array" {
                                 fetch key, cacheOptions["key"];
-                                fetch lifetime, cacheOptions["lifetime"];
+                                fetch lifetime, cacheOptions["defaultTtl"];
                             }
                         }
 

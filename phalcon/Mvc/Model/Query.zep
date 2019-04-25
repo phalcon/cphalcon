@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\ResultInterface;
@@ -20,7 +21,6 @@ use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\QueryInterface;
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\Model\Query\Status;
 use Phalcon\Mvc\Model\Resultset\Complex;
 use Phalcon\Mvc\Model\Query\StatusInterface;
@@ -2606,7 +2606,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Returns the current cache backend instance
      */
-    public function getCache() -> <BackendInterface>
+    public function getCache() -> <AdapterInterface>
     {
         return this->cache;
     }
@@ -3487,7 +3487,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             /**
              * By default use use 3600 seconds (1 hour) as cache lifetime
              */
-            if !fetch lifetime, cacheOptions["lifetime"] {
+            if !fetch lifetime, cacheOptions["defaultTtl"] {
                 let lifetime = 3600;
             }
 
@@ -3504,7 +3504,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 throw new Exception("Cache service must be an object");
             }
 
-            let result = cache->get(key, lifetime);
+            let result = cache->get(key);
 
             if !empty result {
                 if unlikely typeof result != "object" {
@@ -3631,7 +3631,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 );
             }
 
-            cache->save(key, result, lifetime);
+            cache->set(key, result, lifetime);
         }
 
         /**

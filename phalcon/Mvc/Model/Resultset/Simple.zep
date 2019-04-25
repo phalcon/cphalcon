@@ -10,10 +10,10 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
+use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Exception;
-use Phalcon\Cache\BackendInterface;
 use Phalcon\DiInterface;
 use Phalcon\Di;
 use Phalcon\Cache\FrontendInterface;
@@ -39,7 +39,7 @@ class Simple extends Resultset
      * @param array                                             columnMap
      * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row model
      */
-    public function __construct(var columnMap, var model, result, <BackendInterface> cache = null, bool keepSnapshots = null) -> void
+    public function __construct(var columnMap, var model, result, <AdapterInterface> cache = null, bool keepSnapshots = null) -> void
     {
         let this->model = model,
             this->columnMap = columnMap;
