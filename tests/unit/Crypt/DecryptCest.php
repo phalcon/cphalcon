@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Crypt;
 
 use Phalcon\Crypt;
 use Phalcon\Crypt\Exception;
+use Phalcon\Crypt\Mismatch;
 use UnitTester;
 
 class DecryptCest
@@ -46,7 +47,7 @@ class DecryptCest
      * @author                   <k@yejune.com>
      * @since                    2018-05-16
      *
-     * @expectedException        \Phalcon\Crypt\Mismatch
+     * @expectedException        Mismatch
      * @expectedExceptionMessage Hash does not match.
      */
     public function shouldThrowExceptionIfHashMismatch(UnitTester $I)

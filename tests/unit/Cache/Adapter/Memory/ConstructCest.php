@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Cache\Adapter\Memory;
 
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\Adapter\AdapterInterface;
-
 use UnitTester;
 
 /**

@@ -55,7 +55,8 @@ class IncrementCest
     }
 
     /**
-     * Tests Phalcon\Helper\Str :: increment() - already incremented string twice
+     * Tests Phalcon\Helper\Str :: increment() - already incremented string
+     * twice
      *
      * @param UnitTester $I
      *
