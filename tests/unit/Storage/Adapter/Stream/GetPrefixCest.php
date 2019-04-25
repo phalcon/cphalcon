@@ -12,10 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
-use function array_merge;
-use function outputFolder;
 use Phalcon\Storage\Adapter\Stream;
 use UnitTester;
+use function outputFolder;
 
 /**
  * Class GetPrefixCest

@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
+use function outputFolder;
+use Phalcon\Storage\Adapter\Stream;
 use UnitTester;
 
 /**
@@ -30,7 +32,24 @@ class IncrementCest
     public function storageAdapterStreamIncrement(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - increment()');
+        $adapter = new Stream(['cacheDir' => outputFolder()]);
 
-        $I->skipTest('Need implementation');
+        $key    = 'cache-data';
+        $result = $adapter->set($key, 1);
+        $I->assertTrue($result);
+
+        $expected = 2;
+        $actual   = $adapter->increment($key);
+        $I->assertEquals($expected, $actual);
+
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 10;
+        $actual   = $adapter->increment($key, 8);
+        $I->assertEquals($expected, $actual);
+
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
     }
 }
