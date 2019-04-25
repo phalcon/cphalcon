@@ -721,8 +721,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function addHasOne(<ModelInterface> model, var fields, string! referencedModel,
         var referencedFields, var options = null) -> <RelationInterface>
     {
-        var entityName, referencedEntity, relation, keyRelation, relations,
-            alias, lowerAlias, singleRelations;
+        var entityName, referencedEntity, relation, relations, alias,
+            lowerAlias, singleRelations;
+        string keyRelation;
 
         let entityName = get_class_lower(model),
             referencedEntity = strtolower(referencedModel);
@@ -805,8 +806,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function addBelongsTo(<ModelInterface> model, var fields, string! referencedModel,
         var referencedFields, var options = null) -> <RelationInterface>
     {
-        var entityName, referencedEntity, relation, keyRelation, relations,
-            alias, lowerAlias, singleRelations;
+        var entityName, referencedEntity, relation, relations, alias,
+            lowerAlias, singleRelations;
+        string keyRelation;
 
         let entityName = get_class_lower(model),
             referencedEntity = strtolower(referencedModel);
@@ -890,8 +892,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function addHasMany(<ModelInterface> model, var fields, string! referencedModel,
         var referencedFields, var options = null) -> <RelationInterface>
     {
-        var entityName, referencedEntity, hasMany, relation, keyRelation,
-            relations, alias, lowerAlias, singleRelations;
+        var entityName, referencedEntity, hasMany, relation, relations, alias,
+            lowerAlias, singleRelations;
+        string keyRelation;
 
         let entityName = get_class_lower(model),
             referencedEntity = strtolower(referencedModel),
@@ -979,8 +982,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function addHasManyToMany(<ModelInterface> model, var fields, string! intermediateModel,
         var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <RelationInterface>
     {
-        var entityName, referencedEntity, hasManyToMany, relation, keyRelation,
-            relations, alias, lowerAlias, singleRelations, intermediateEntity;
+        var entityName, referencedEntity, hasManyToMany, relation, relations,
+            alias, lowerAlias, singleRelations, intermediateEntity;
+        string keyRelation;
 
         let entityName = get_class_lower(model),
             intermediateEntity = strtolower(intermediateModel),
@@ -1090,7 +1094,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function existsBelongsTo(string! modelName, string! modelRelation) -> bool
     {
-        var entityName, keyRelation;
+        var entityName;
+        string keyRelation;
 
         let entityName = strtolower(modelName);
 
@@ -1114,7 +1119,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function existsHasMany(string! modelName, string! modelRelation) -> bool
     {
-        var entityName, keyRelation;
+        var entityName;
+        string keyRelation;
 
         let entityName = strtolower(modelName);
 
@@ -1138,7 +1144,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function existsHasOne(string! modelName, string! modelRelation) -> bool
     {
-        var entityName, keyRelation;
+        var entityName;
+        string keyRelation;
 
         let entityName = strtolower(modelName);
 
@@ -1162,7 +1169,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function existsHasManyToMany(string! modelName, string! modelRelation) -> bool
     {
-        var entityName, keyRelation;
+        var entityName;
+        string keyRelation;
 
         let entityName = strtolower(modelName);
 
@@ -1200,7 +1208,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     final protected function _mergeFindParameters(var findParamsOne, var findParamsTwo) -> array
     {
-        var key, value, findParams;
+        var key, value;
+        array findParams;
 
         if typeof findParamsOne == "string" && typeof findParamsTwo == "string" {
             return ["(" . findParamsOne . ") AND (" . findParamsTwo . ")"];
@@ -1278,12 +1287,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters = null)
     {
-        var placeholders, referencedModel, intermediateModel,
-            intermediateFields, joinConditions, fields, builder, extraParameters,
-            conditions, refPosition, field, referencedFields, findParams,
-            findArguments, retrieveMethod, uniqueKey, records, arguments, rows,
+        var referencedModel, intermediateModel, intermediateFields, fields,
+            builder, extraParameters, refPosition, field, referencedFields,
+            findParams, findArguments, uniqueKey, records, arguments, rows,
             firstRow;
+        array placeholders, conditions, joinConditions;
         bool reusable;
+        string retrieveMethod;
 
         /**
          * Re-use bound parameters
@@ -1512,7 +1522,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function getBelongsToRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
         -> <ResultsetInterface> | bool
     {
-        var keyRelation, relations;
+        var relations;
+        string keyRelation;
 
         /**
          * Check if there is a relation between them
@@ -1541,7 +1552,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function getHasManyRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
         -> <ResultsetInterface> | bool
     {
-        var keyRelation, relations;
+        var relations;
+        string keyRelation;
 
         /**
          * Check if there is a relation between them
@@ -1570,7 +1582,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function getHasOneRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
         -> <ModelInterface> | bool
     {
-        var keyRelation, relations;
+        var relations;
+        string keyRelation;
 
         /**
          * Check if there is a relation between them
@@ -1668,7 +1681,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getRelations(string! modelName) -> <RelationInterface[]>
     {
-        var entityName, allRelations, relations, relation;
+        var entityName, relations, relation;
+        array allRelations;
 
         let entityName = strtolower(modelName),
             allRelations = [];
@@ -1708,7 +1722,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getRelationsBetween(string! first, string! second) -> <RelationInterface[]> | bool
     {
-        var keyRelation, relations;
+        var relations;
+        string keyRelation;
 
         let keyRelation = strtolower(first) . "$" . strtolower(second);
 

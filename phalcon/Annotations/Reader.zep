@@ -24,9 +24,10 @@ class Reader implements ReaderInterface
      */
     public function parse(string className) -> array
     {
-        var annotations, reflection, comment, properties, methods, property,
-            method, classAnnotations, line, annotationsProperties,
-            propertyAnnotations, annotationsMethods, methodAnnotations;
+        var reflection, comment, properties, methods, property, method,
+            classAnnotations, line, annotationsProperties, propertyAnnotations,
+            annotationsMethods, methodAnnotations;
+        array annotations;
 
         let annotations = [];
 

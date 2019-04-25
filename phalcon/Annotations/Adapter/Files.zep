@@ -53,7 +53,7 @@ class Files extends Adapter
      */
     public function read(string key) -> <Reflection> | bool | int
     {
-        var path;
+        string path;
 
         /**
          * Paths must be normalized before be used as keys

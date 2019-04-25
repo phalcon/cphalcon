@@ -112,7 +112,9 @@ abstract class Dialect implements DialectInterface
      */
     final public function getColumnList(array! columnList, string escapeChar = null, bindCounts = null) -> string
     {
-        var columns, column;
+        var column;
+        array columns;
+
         let columns = [];
 
         for column in columnList {

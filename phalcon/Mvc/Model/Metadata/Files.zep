@@ -51,7 +51,7 @@ class Files extends MetaData
      */
     public function read(string! key) -> array | null
     {
-        var path;
+        string path;
 
         let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
 
@@ -67,7 +67,7 @@ class Files extends MetaData
      */
     public function write(string! key, array data) -> void
     {
-        var path;
+        string path;
 
         let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
 

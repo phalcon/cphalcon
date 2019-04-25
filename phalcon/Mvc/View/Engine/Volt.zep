@@ -223,7 +223,8 @@ class Volt extends Engine
      */
     public function slice(var value, int start = 0, var end = null)
     {
-        var length, slice;
+        var length;
+        array slice;
         int position;
 
         /**

@@ -342,9 +342,9 @@ class Micro extends Injectable implements \ArrayAccess
         var container, eventsManager, status = null, router, matchedRoute,
             handler, beforeHandlers, params, returnedValue, e, errorHandler,
             afterHandlers, notFoundHandler, finishHandlers, finish, before,
-            after, response, modelBinder, bindCacheKey, routeName,
-            realHandler = null, methodName, lazyReturned, afterBindingHandlers,
-            afterBinding;
+            after, response, modelBinder, routeName, realHandler = null,
+            methodName, lazyReturned, afterBindingHandlers, afterBinding;
+        string bindCacheKey;
 
         let container = this->container;
 

@@ -417,7 +417,9 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function _getFunctionCall(array! expr) -> array
     {
-        var arguments, distinct, argument, functionArgs;
+        var arguments, argument;
+        array functionArgs;
+        int distinct;
 
         if fetch arguments, expr["arguments"] {
             if isset expr["distinct"] {
@@ -823,9 +825,10 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function _getSelectColumn(array! column) -> array
     {
-        var sqlColumns, columnType, sqlAliases, modelName, source,
-            columnDomain, sqlColumnAlias, preparedAlias, sqlExprColumn,
-            sqlAliasesModels, sqlColumn, columnData, balias, eager;
+        var columnType, sqlAliases, modelName, source, columnDomain,
+            sqlColumnAlias, preparedAlias, sqlExprColumn, sqlAliasesModels,
+            columnData, balias, eager;
+        array sqlColumns, sqlColumn;
 
         if !fetch columnType, column["type"] {
             throw new Exception("Corrupted SELECT AST");

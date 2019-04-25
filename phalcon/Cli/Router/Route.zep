@@ -391,7 +391,8 @@ class Route
      */
     public function getReversedPaths() -> array
     {
-        var reversed, path, position;
+        var path, position;
+        array reversed;
 
         let reversed = [];
 
@@ -417,9 +418,8 @@ class Route
      */
     public function reConfigure(string! pattern, paths = null) -> void
     {
-        var moduleName, taskName, actionName,
-            parts, routePaths, realClassName, namespaceName,
-            pcrePattern, compiledPattern, extracted;
+        var moduleName, taskName, actionName, parts, routePaths, realClassName,
+            namespaceName, pcrePattern, compiledPattern, extracted;
 
         if paths !== null {
             if typeof paths == "string" {

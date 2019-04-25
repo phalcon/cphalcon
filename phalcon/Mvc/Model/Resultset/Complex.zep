@@ -248,7 +248,9 @@ class Complex extends Resultset implements ResultsetInterface
      */
     public function toArray() -> array
     {
-        var records, current;
+        var current;
+        array records;
+
         let records = [];
 
         this->rewind();

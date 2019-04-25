@@ -82,8 +82,9 @@ class Mysql extends PdoAdapter
      */
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
-        var columns, columnType, field, definition,
-            oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;
+        var columns, columnType, field, oldColumn, sizePattern, matches,
+            matchOne, matchTwo, columnName;
+        array definition;
 
         let oldColumn = null,
             sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";

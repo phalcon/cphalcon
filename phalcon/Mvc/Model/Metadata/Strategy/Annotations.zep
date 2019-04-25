@@ -25,8 +25,9 @@ class Annotations implements StrategyInterface
     final public function getColumnMaps(<ModelInterface> model, <DiInterface> container) -> array
     {
         var annotations, className, reflection, propertiesAnnotations, property,
-            propAnnotations, columnAnnotation, columnName, orderedColumnMap,
-            reversedColumnMap, hasReversedColumn;
+            propAnnotations, columnAnnotation, columnName;
+        array orderedColumnMap, reversedColumnMap;
+        bool hasReversedColumn;
 
         if typeof container != "object" {
             throw new Exception("The dependency injector is invalid");

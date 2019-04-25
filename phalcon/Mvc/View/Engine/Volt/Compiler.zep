@@ -108,9 +108,10 @@ class Compiler implements InjectionAwareInterface
      */
     public function attributeReader(array! expr) -> string
     {
-        var exprCode, left, leftType, variable, level, leftCode, right;
+        var left, leftType, variable, level, leftCode, right;
+        string exprCode;
 
-        let exprCode = null;
+        let exprCode = "";
 
         let left = expr["left"];
 
@@ -463,7 +464,8 @@ class Compiler implements InjectionAwareInterface
      */
     public function compileCache(array! statement, bool extendsMode = false) -> string
     {
-        var compilation, expr, exprCode, lifetime;
+        var expr, exprCode, lifetime;
+        string compilation;
 
         /**
          * A valid expression is required
@@ -707,9 +709,10 @@ class Compiler implements InjectionAwareInterface
      */
     public function compileForeach(array! statement, bool extendsMode = false) -> string
     {
-        var compilation, prefix, level, prefixLevel, expr, exprCode, bstatement,
-            type, blockStatements, forElse, code, loopContext, iterator, key,
-            ifExpr, variable;
+        var prefix, level, prefixLevel, expr, exprCode, bstatement, type,
+            blockStatements, forElse, code, loopContext, iterator, key, ifExpr,
+            variable;
+        string compilation;
 
         /**
          * A valid expression is required
@@ -885,7 +888,8 @@ class Compiler implements InjectionAwareInterface
      */
     public function compileIf(array! statement, bool extendsMode = false) -> string
     {
-        var compilation, blockStatements, expr;
+        var blockStatements, expr;
+        string compilation;
 
         /**
          * A valid expression is required
@@ -988,8 +992,9 @@ class Compiler implements InjectionAwareInterface
      */
     public function compileMacro(array! statement, bool extendsMode) -> string
     {
-        var code, name, defaultValue, macroName, parameters, position,
-            parameter, variableName, blockStatements;
+        var name, defaultValue, parameters, position, parameter, variableName,
+            blockStatements;
+        string code, macroName;
 
         /**
          * A valid name is required
@@ -1089,7 +1094,8 @@ class Compiler implements InjectionAwareInterface
      */
     public function compileSet(array! statement) -> string
     {
-        var assignments, assignment, exprCode, target, compilation;
+        var assignments, assignment, exprCode, target;
+        string compilation;
 
         /**
          * A valid assignment list is required

@@ -75,7 +75,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
      */
     public function __construct(bool defaultRoutes = true) -> void
     {
-        var routes;
+        array routes;
 
         let routes = [];
 
