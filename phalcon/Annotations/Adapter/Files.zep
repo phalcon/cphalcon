@@ -60,11 +60,11 @@ class Files extends Adapter
          */
         let path = this->annotationsDir . prepare_virtual_path(key, "_") . ".php";
 
-        if file_exists(path) {
-            return require path;
+        if !file_exists(path) {
+            return false;
         }
 
-        return false;
+        return require path;
     }
 
     /**
@@ -72,14 +72,16 @@ class Files extends Adapter
      */
     public function write(string! key, <Reflection> data) -> void
     {
-        var path;
+        string path, code;
 
         /**
          * Paths must be normalized before be used as keys
          */
         let path = this->annotationsDir . prepare_virtual_path(key, "_") . ".php";
 
-        if (file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false) {
+        let code = "<?php return " . var_export(data, true) . "; ";
+
+        if file_put_contents(path, code) === false {
               throw new Exception("Annotations directory cannot be written");
         }
     }

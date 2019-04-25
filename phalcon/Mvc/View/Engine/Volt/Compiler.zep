@@ -751,10 +751,6 @@ class Compiler implements InjectionAwareInterface
 
         if typeof blockStatements == "array" {
             for bstatement in blockStatements {
-                if typeof bstatement != "array" {
-                    break;
-                }
-
                 /**
                  * Check if the statement is valid
                  */

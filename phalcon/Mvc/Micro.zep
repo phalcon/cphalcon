@@ -80,10 +80,8 @@ class Micro extends Injectable implements \ArrayAccess
      */
     public function __construct(<DiInterface> container = null)
     {
-        if typeof container == "object" {
-            if container instanceof DiInterface {
-                this->setDi(container);
-            }
+        if container !== null {
+            this->setDi(container);
         }
     }
 
