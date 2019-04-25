@@ -19,7 +19,7 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\DiInterface;
 use Phalcon\Di;
-use Phalcon\Cache\FrontendInterface;
+use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Complex
@@ -288,9 +288,8 @@ class Complex extends Resultset implements ResultsetInterface
         }
 
         if container->has("serializer") {
-            let serializer = <FrontendInterface> container->getShared("serializer");
-
-            return serializer->beforeStore(
+            let serializer = <SerializerInterface> container->getShared("serializer");
+            serializer->setData(
                 [
                     "cache"       : cache,
                     "rows"        : records,
@@ -298,6 +297,8 @@ class Complex extends Resultset implements ResultsetInterface
                     "hydrateMode" : hydrateMode
                 ]
             );
+
+            return serializer->serialize();
         }
 
         return serialize(
@@ -331,8 +332,8 @@ class Complex extends Resultset implements ResultsetInterface
         }
 
         if container->has("serializer") {
-            let serializer = <FrontendInterface> container->getShared("serializer");
-            let resultset = serializer->afterRetrieve(data);
+            let serializer = <SerializerInterface> container->getShared("serializer");
+            let resultset = serializer->unserialize(data);
         } else {
             let resultset = unserialize(data);
         }
