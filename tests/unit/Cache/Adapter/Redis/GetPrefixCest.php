@@ -61,7 +61,7 @@ class GetPrefixCest
         $I->wantToTest('Cache\Adapter\Redis - getPrefix() - default');
         $adapter = new Redis($this->getOptions());
 
-        $expected = 'ph-memc-';
+        $expected = 'ph-reds-';
         $actual   = $adapter->getPrefix();
         $I->assertEquals($expected, $actual);
     }

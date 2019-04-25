@@ -49,8 +49,8 @@ class GetKeysCest
         $I->assertTrue($actual);
 
         $expected = [
-            'ph-memc-key-1',
-            'ph-memc-key-2',
+            'ph-reds-key-1',
+            'ph-reds-key-2',
         ];
         $actual   = $adapter->getKeys();
         sort($actual);
