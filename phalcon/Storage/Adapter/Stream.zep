@@ -64,21 +64,15 @@ class Stream extends AbstractAdapter
      */
     public function clear() -> bool
     {
-        var dirIterator, iterator, file, mask, result;
+        var directory, iterator, file, result;
 
         let result      = true,
-            mask        =  Str::folderFromFile(this->prefix),
-            dirIterator = new \RecursiveDirectoryIterator(this->cacheDir),
-            iterator    = new \RecursiveIteratorIterator(
-                dirIterator,
-                \RecursiveIteratorIterator::CHILD_FIRST
-            );
+            directory = rtrim(this->cacheDir . this->prefix, DIRECTORY_SEPARATOR),
+            iterator  = this->rglob(directory . "/*");
 
         for file in iterator {
-            if file->isDir && Str::startsWith(file->getPathname(), this->cacheDir . this->prefix) {
-                if !unlink(file->getPathname()) {
-                    let result = false;
-                }
+            if !is_dir(file) && !unlink(file) {
+                let result = false;
             }
         }
 
@@ -90,11 +84,16 @@ class Stream extends AbstractAdapter
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
-        var prefixedKey;
+        var data;
 
-        let prefixedKey = this->getPrefixedKey(key);
+        if !this->has(key) {
+            return false;
+        }
 
-        return value;
+        let data = this->get(key),
+            data = (int) data - value;
+
+        return this->set(key, data);
     }
 
     /**
@@ -102,16 +101,15 @@ class Stream extends AbstractAdapter
      */
     public function delete(string! key) -> bool
     {
-        var exists;
+        var directory;
 
-        let key    = this->getKey(key) . key,
-            exists = file_exists(this->cacheDir . key);
-
-        if !exists {
+        if !this->has(key) {
             return false;
         }
 
-        return unlink(this->cacheDir . key);
+        let directory = this->getDir(key);
+
+        return unlink(directory . key);
     }
 
     /**
@@ -119,10 +117,10 @@ class Stream extends AbstractAdapter
      */
     public function get(string! key, var defaultValue = null) -> var
     {
-        var content, payload;
+        var content, directory, payload;
 
-        let key     = this->getKey(key) . key,
-            payload = file_get_contents(this->cacheDir . key);
+        let directory = this->getDir(key),
+            payload   = file_get_contents(directory . key);
 
         if typeof payload !== "string" {
             return defaultValue;
@@ -157,7 +155,20 @@ class Stream extends AbstractAdapter
      */
     public function getKeys() -> array
     {
-        return [];
+        var directory, iterator, file, split, results;
+
+        let results   = [],
+            directory = rtrim(this->cacheDir . this->prefix, DIRECTORY_SEPARATOR),
+            iterator  = this->rglob(directory . "/*");
+
+        for file in iterator {
+            if !is_dir(file) {
+                let split     = explode("/", file),
+                    results[] = this->prefix . Arr::last(split);
+            }
+        }
+
+        return results;
     }
 
     /**
@@ -165,16 +176,16 @@ class Stream extends AbstractAdapter
      */
     public function has(string! key) -> bool
     {
-        var exists, payload;
+        var directory, exists, payload;
 
-        let key    = this->getKey(key) . key,
-            exists = file_exists(this->cacheDir . key);
+        let directory = this->getDir(key),
+            exists    = file_exists(directory . key);
 
         if !exists {
             return false;
         }
 
-        let payload = file_get_contents(this->cacheDir . key),
+        let payload = file_get_contents(directory . key),
             payload = json_decode(payload);
 
         return !this->isExpired(payload);
@@ -185,11 +196,16 @@ class Stream extends AbstractAdapter
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        var prefixedKey;
+        var data;
 
-        let prefixedKey = this->getPrefixedKey(key);
+        if !this->has(key) {
+            return false;
+        }
 
-        return apcu_inc(prefixedKey, value);
+        let data = this->get(key),
+            data = (int) data + value;
+
+        return this->set(key, data);
     }
 
     /**
@@ -197,31 +213,35 @@ class Stream extends AbstractAdapter
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {
-        var folder;
+        var directory;
         array payload;
 
-        let payload = [
+        let payload   = [
                 "created" : time(),
                 "ttl"     : this->getTtl(ttl),
                 "content" : this->getSerializedData(value)
             ],
-            payload = json_encode(payload),
-            folder  = this->getKey(key),
-            key     = folder . key;
+            payload   = json_encode(payload),
+            directory = this->getDir(key);
 
-        if !is_dir(this->cacheDir . folder) {
-            mkdir(this->cacheDir . folder, 0777, true);
+        if !is_dir(directory) {
+            mkdir(directory, 0777, true);
         }
 
-        return false !== file_put_contents(this->cacheDir . key, payload);
+        return false !== file_put_contents(directory . key, payload);
     }
 
     /**
-     * Returns the calculated folder with the key
+     * Returns the folder based on the cacheDir and the prefix
      */
-    private function getKey(string! key) -> string
+    private function getDir(string! key = "") -> string
     {
-         return Str::folderFromFile(this->prefix . key);
+        var directory, fileDirectory;
+
+        let directory     = rtrim(this->cacheDir . this->prefix, DIRECTORY_SEPARATOR),
+            fileDirectory = rtrim(Str::folderFromFile(key), DIRECTORY_SEPARATOR);
+
+        return directory . DIRECTORY_SEPARATOR . fileDirectory . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -235,5 +255,22 @@ class Stream extends AbstractAdapter
             ttl     = Arr::get(payload, "ttl", 3600);
 
         return (created + ttl) < time();
+    }
+
+    private function rglob(string! pattern) -> array
+    {
+        var dir, dirName, files, flags, recurse;
+
+        let dirName = dirname(pattern) . "/*",
+            files   = glob(pattern),
+            flags   = GLOB_ONLYDIR | GLOB_NOSORT;
+
+        for dir in glob(dirName, flags) {
+            let dir     = dir . "/" . basename(pattern),
+                recurse = this->rglob(dir),
+                files   = array_merge(files, recurse);
+        }
+
+        return files;
     }
 }

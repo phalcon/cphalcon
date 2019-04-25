@@ -12,7 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
+use Phalcon\Storage\Adapter\Stream;
 use UnitTester;
+use function outputFolder;
+use function uniqid;
 
 /**
  * Class ClearCest
@@ -25,12 +28,60 @@ class ClearCest
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-24
+     * @since  2019-03-31
      */
     public function storageAdapterStreamClear(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - clear()');
+        $adapter = new Stream(['cacheDir' => outputFolder()]);
 
-        $I->skipTest('Need implementation');
+        $key1 = uniqid();
+        $key2 = uniqid();
+        $adapter->set($key1, 'test');
+        $actual = $adapter->has($key1);
+        $I->assertTrue($actual);
+
+        $adapter->set($key2, 'test');
+        $actual = $adapter->has($key2);
+        $I->assertTrue($actual);
+
+        $actual = $adapter->clear();
+        $I->assertTrue($actual);
+
+        $actual = $adapter->has($key1);
+        $I->assertFalse($actual);
+
+        $actual = $adapter->has($key2);
+        $I->assertFalse($actual);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Stream :: clear() - twice
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-03-31
+     */
+    public function storageAdapterStreamClearTwice(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Stream - clear() - twice');
+        $adapter = new Stream(['cacheDir' => outputFolder()]);
+
+        $key1 = uniqid();
+        $key2 = uniqid();
+        $adapter->set($key1, 'test');
+        $actual = $adapter->has($key1);
+        $I->assertTrue($actual);
+
+        $adapter->set($key2, 'test');
+        $actual = $adapter->has($key2);
+        $I->assertTrue($actual);
+
+        $actual = $adapter->clear();
+        $I->assertTrue($actual);
+
+        $actual = $adapter->clear();
+        $I->assertTrue($actual);
     }
 }

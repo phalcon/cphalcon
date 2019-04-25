@@ -12,7 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
+use Phalcon\Storage\Adapter\Stream;
 use UnitTester;
+use function outputFolder;
+use function sort;
 
 /**
  * Class GetKeysCest
@@ -31,6 +34,26 @@ class GetKeysCest
     {
         $I->wantToTest('Storage\Adapter\Stream - getKeys()');
 
-        $I->skipTest('Need implementation');
+        $adapter = new Stream(['cacheDir' => outputFolder()]);
+
+        $adapter->clear();
+
+        $key = 'key-1';
+        $adapter->set($key, 'test');
+        $actual = $adapter->has($key);
+        $I->assertTrue($actual);
+
+        $key = 'key-2';
+        $adapter->set($key, 'test');
+        $actual = $adapter->has($key);
+        $I->assertTrue($actual);
+
+        $expected = [
+            'phstrm-key-1',
+            'phstrm-key-2',
+        ];
+        $actual   = $adapter->getKeys();
+        sort($actual);
+        $I->assertEquals($expected, $actual);
     }
 }

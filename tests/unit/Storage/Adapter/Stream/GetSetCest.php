@@ -39,7 +39,7 @@ class GetSetCest
         $result = $adapter->set('test-key', $data);
         $I->assertTrue($result);
 
-        $target = outputFolder() . 'ph/st/rm/-t/es/t-/k/';
+        $target = outputFolder() . 'phstrm-/te/st/-k/';
         $I->amInPath($target);
         $I->openFile('test-key');
         $expected = '"ttl":3600,"content":"s:17:\"Phalcon Framework\";';
@@ -61,14 +61,10 @@ class GetSetCest
 
         $adapter = new Stream(['cacheDir' => outputFolder()]);
 
-        $target = outputFolder() . 'ph/st/rm/-t/es/t-/k/';
+        $target = outputFolder() . 'phstrm-/te/st/-k/';
         $data   = 'Phalcon Framework';
         $result = $adapter->set('test-key', $data);
         $I->assertTrue($result);
-
-//        $contents = '{"created":1556068288,"ttl":3600,"content":"s:17:\"Phalcon Framework\";}';
-//        $actual = file_put_contents($target . 'test-key', $contents);
-//        $I->assertNotFalse($actual);
 
         $expected = 'Phalcon Framework';
         $actual   = $adapter->get('test-key');
