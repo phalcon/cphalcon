@@ -52,19 +52,11 @@ class Redis extends AbstractAdapter
      */
     public function clear() -> bool
     {
-        var key, keys, result;
+        var connection;
 
-        let result = true,
-            keys   = this->getKeys();
+        let connection = this->getAdapter();
 
-        for key in keys {
-            let key = str_replace(this->prefix, "", key);
-            if !this->delete(key) {
-                let result = false;
-            }
-        }
-
-        return result;
+        return connection->flushDB();
     }
 
     /**
