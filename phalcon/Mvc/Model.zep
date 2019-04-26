@@ -99,7 +99,31 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
     protected modelsMetaData;
 
-    protected related;
+    /*
+     * We use different related storages, because a rollbacked transaction could corrupt them
+     *
+     * Stores every fetched and set related records.
+     * Updated also after the related records have been successfully saved.
+     *
+     * @var array
+     */
+    protected related = [];
+
+    /*
+     * Stores only set related records.
+     * Cleared upon successful save.
+     *
+     * @var array
+     */
+    protected relatedBeforeSave = [];
+
+    /*
+     * Updated continously during the save process.
+     * Cleared upon successful save.
+     *
+     * @var array
+     */
+    protected relatedAfterSave = [];
 
     protected operationMade = 0;
 
@@ -343,6 +367,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
                 let this->{lowerProperty} = value,
                     this->related[lowerProperty] = value,
+                    this->relatedBeforeSave[lowerProperty] = value,
                     this->dirtyState = dirtyState;
 
                 return value;
@@ -373,14 +398,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         */
                         if(this->isRelationshipLoaded(lowerProperty)) {
                             let referencedModel = this->related[lowerProperty];
-                        }
-
-                        else {
+                        } else {
                             let referencedModel = manager->load(
                                 relation->getReferencedModel()
                             );
-
-                            let this->{lowerProperty} = referencedModel;
                         }
 
                         if typeof referencedModel == "object" {
@@ -389,7 +410,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                             referencedModel->writeAttribute(lowerKey, item);
 
                             let haveRelation = true,
-                                this->dirtyState = self::DIRTY_STATE_TRANSIENT;
+                                this->{lowerProperty} = referencedModel,
+                                this->related[lowerProperty] = referencedModel,
+                                this->dirtyState = self::DIRTY_STATE_TRANSIENT,
+                                this->relatedBeforeSave[lowerProperty] = referencedModel;
                         }
 
                         break;
@@ -409,6 +433,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
                         if count(related) > 0 {
                             let this->related[lowerProperty] = related,
+                                this->relatedBeforeSave[lowerProperty] = related,
                                 this->dirtyState = self::DIRTY_STATE_TRANSIENT;
                         }
 
@@ -2261,12 +2286,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         this->fireEvent("prepareSave");
 
         /**
+         * Store the original records as a base for the updated ones
+         */
+        let this->relatedAfterSave = this->related;
+
+        /**
          * Save related records in belongsTo relationships
          */
-        let related = this->related;
+        let relatedBeforeSave = this->relatedBeforeSave;
 
-        if typeof related == "array" {
-            if this->_preSaveRelatedRecords(writeConnection, related) === false {
+        if typeof relatedBeforeSave == "array" {
+            if this->_preSaveRelatedRecords(writeConnection, relatedBeforeSave) === false {
                 return false;
             }
         }
@@ -2382,6 +2412,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         if success === false {
             this->_cancelOperation();
         } else {
+            /**
+            * Update and clear related caches
+            */
+            let this->related = this->relatedAfterSave,
+                this->relatedBeforeSave = [],
+                this->relatedAfterSave = [];
+
             this->fireEvent("afterSave");
         }
 
@@ -4599,6 +4636,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     }
 
                     /**
+                     * Update the cache with the saved record
+                     */
+                    let this->relatedAfterSave[name] = record;
+
+                    /**
                      * Read the attribute from the referenced model and assign
                      * it to the current model
                      */
@@ -4823,6 +4865,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         }
                     }
 
+                }
+
+
+                /**
+                 * Has-many-to-many records are intact, so we do not neet an update there
+                 */
+                if !isThrough {
+                    /**
+                     * Update the cache with the saved records
+                     */
+                    let this->relatedAfterSave[name] = relatedRecords;
                 }
             } else {
                 if typeof record != "array" {
