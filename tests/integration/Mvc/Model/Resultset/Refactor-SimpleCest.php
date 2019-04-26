@@ -159,7 +159,7 @@ class SimpleCest
         $I->assertCount(3, $robots);
         $I->assertEquals($robots->count(), 3);
 
-        $cache->save('test-resultset', $robots);
+        $cache->set('test-resultset', $robots);
 
         $I->amInPath(cacheFolder());
         $I->seeFileFound('test-resultset');
