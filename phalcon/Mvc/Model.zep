@@ -2271,7 +2271,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     public function save() -> bool
     {
         var metaData, related, schema, writeConnection, readConnection, source,
-            table, identityField, exists, success;
+            table, identityField, exists, success, relatedBeforeSave;
 
         let metaData = this->getModelsMetaData();
 
