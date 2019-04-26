@@ -1799,20 +1799,29 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         }
 
         /**
-         * Call the 'getRelationRecords' in the models manager
+         * If the related records are already in cache and the relation is reusable,
+         * we return the cached records.
          */
-        let result = manager->getRelationRecords(relation, null, this, arguments);
+        if relation->isReusable() && this->isRelationshipLoaded(lowerAlias) {
+            let result = this->related[lowerAlias];
+        } else {
+            /**
+             * Call the 'getRelationRecords' in the models manager
+             *
+             * The manager also checks and stores reusable records.
+             */
+            let result = manager->getRelationRecords(relation, null, this, arguments);
 
+            /**
+             * We store relationship objects in the related bag
+             */
+            let this->related[lowerAlias] = result;
 
-        /**
-         * We store relationship objects in the related bag
-         */
-        let this->related[lowerAlias] = result;
-
-        /**
-         * We assign the result to the instance avoiding future queries
-         */
-        let this->{lowerAlias} = result;
+            /**
+             * We assign the result to the instance avoiding future queries
+             */
+            let this->{lowerAlias} = result;
+        }
 
         return result;
     }
@@ -2270,7 +2279,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function save() -> bool
     {
-        var metaData, schema, writeConnection, readConnection, source,
+        var metaData, schema, writeConnection, readConnection, source, lowerProperty,
             table, identityField, exists, success, relatedUnsaved, hasRelatedUnsaved;
 
         let metaData = this->getModelsMetaData();
@@ -2413,12 +2422,21 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         if success === false {
             this->_cancelOperation();
         } else {
-            /**
-            * Update and clear related caches
-            */
-            let this->related = this->relatedSaved,
-                this->relatedUnsaved = [],
-                this->relatedSaved = [];
+            if(hasRelatedUnsaved) {
+                /**
+                 * Update and clear related caches
+                 */
+                let this->related = this->relatedSaved,
+                    this->relatedUnsaved = [],
+                    this->relatedSaved = [];
+
+                /**
+                 * Update the properties of the object
+                 */
+                for lowerProperty, records in this->related {
+                    let this->{lowerProperty} = records;
+                }
+            }
 
             this->fireEvent("afterSave");
         }
@@ -4076,28 +4094,30 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Calling count if the method starts with "count"
          */
-        elseif starts_with(method, "count") {
+        if starts_with(method, "count") {
             let queryMethod = "count";
 
             let relation = <RelationInterface> manager->getRelationByAlias(
                     modelName,
                     substr(method, 5)
                 );
+
+            /**
+             * If the relation was found perform the query via the models manager
+             */
+            if typeof relation != "object" {
+                return null;
+            }
+
+            return manager->getRelationRecords(
+                relation,
+                queryMethod,
+                this,
+                extraArgs
+            );
         }
 
-        /**
-         * If the relation was found perform the query via the models manager
-         */
-        if typeof relation != "object" {
-            return null;
-        }
-
-        return manager->getRelationRecords(
-            relation,
-            queryMethod,
-            this,
-            extraArgs
-        );
+        return null;
     }
 
     /**
