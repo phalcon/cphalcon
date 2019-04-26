@@ -24,19 +24,19 @@ use Phalcon\Storage\Adapter\Libmemcached as StorageLibmemcached;
  *<code>
  * $metaData = new Phalcon\Mvc\Model\MetaData\Libmemcached(
  *     [
- *         "servers"    => [
+ *         "servers"  => [
  *             [
  *                 "host"   => "localhost",
  *                 "port"   => 11211,
  *                 "weight" => 1,
  *             ],
  *         ],
- *         "client"     => [
+ *         "client"   => [
  *             Memcached::OPT_HASH       => Memcached::HASH_MD5,
  *             Memcached::OPT_PREFIX_KEY => "prefix.",
  *         ],
- *         "defaultTtl" => 3600,
- *         "prefix"     => "my_",
+ *         "lifetime" => 3600,
+ *         "prefix"   => "my_",
  *     ]
  * );
  *</code>
@@ -52,9 +52,9 @@ class Libmemcached extends MetaData
      */
     public function __construct(array! options = []) -> void
     {
-        let options["prefix"]     = "ph-mm-memc-",
-            options["defaultTtl"] = 172800,
-            this->adapter         = new StorageLibmemcached(options);
+        let options["prefix"]   = "ph-mm-memc-",
+            options["lifetime"] = 172800,
+            this->adapter       = new StorageLibmemcached(options);
     }
 
     /**
