@@ -32,16 +32,45 @@ class Stream extends MetaData
 {
     protected metaData = [];
 
+    protected metaDataDir = "./";
+
     /**
      * Phalcon\Mvc\Model\MetaData\Files constructor
      *
      * @param array options
      */
-    public function __construct(options = null) -> void
+    public function __construct(options = null)
     {
-        let options["prefix"]     = "ph-mm-strm-",
-            options["defaultTtl"] = 172800,
-            options["cacheDir"]   = Arr::get(options, "metaDataDir", "./"),
-            this->adapter         = new StorageStream(options);
+        var metaDataDir;
+
+        if fetch metaDataDir, options["metaDataDir"] {
+            let this->metaDataDir = metaDataDir;
+        }
+    }
+
+    /**
+     * Reads meta-data from files
+     */
+    public function read(string! key) -> array | null
+    {
+        var path;
+        let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
+        if file_exists(path) {
+            return require path;
+        }
+        return null;
+    }
+
+    /**
+     * Writes the meta-data to files
+     */
+    public function write(string! key, array data) -> void
+    {
+        var path;
+
+        let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
+        if file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false {
+            throw new Exception("Meta-Data directory cannot be written");
+        }
     }
 }
