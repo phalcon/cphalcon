@@ -55,9 +55,11 @@ class Stream extends MetaData
     {
         var path;
         let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
+
         if file_exists(path) {
             return require path;
         }
+
         return null;
     }
 
@@ -69,6 +71,7 @@ class Stream extends MetaData
         var path;
 
         let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
+
         if file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false {
             throw new Exception("Meta-Data directory cannot be written");
         }
