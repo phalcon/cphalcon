@@ -115,7 +115,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *
      * @var array
      */
-    protected relatedBeforeSave = [];
+    protected relatedUnsaved = [];
 
     /*
      * Updated continously during the save process.
@@ -123,7 +123,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *
      * @var array
      */
-    protected relatedAfterSave = [];
+    protected relatedSaved = [];
 
     protected operationMade = 0;
 
@@ -367,7 +367,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
                 let this->{lowerProperty} = value,
                     this->related[lowerProperty] = value,
-                    this->relatedBeforeSave[lowerProperty] = value,
+                    this->relatedUnsaved[lowerProperty] = value,
                     this->dirtyState = dirtyState;
 
                 return value;
@@ -413,7 +413,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                                 this->{lowerProperty} = referencedModel,
                                 this->related[lowerProperty] = referencedModel,
                                 this->dirtyState = self::DIRTY_STATE_TRANSIENT,
-                                this->relatedBeforeSave[lowerProperty] = referencedModel;
+                                this->relatedUnsaved[lowerProperty] = referencedModel;
                         }
 
                         break;
@@ -433,7 +433,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
                         if count(related) > 0 {
                             let this->related[lowerProperty] = related,
-                                this->relatedBeforeSave[lowerProperty] = related,
+                                this->relatedUnsaved[lowerProperty] = related,
                                 this->dirtyState = self::DIRTY_STATE_TRANSIENT;
                         }
 
@@ -2271,7 +2271,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     public function save() -> bool
     {
         var metaData, schema, writeConnection, readConnection, source,
-            table, identityField, exists, success, relatedBeforeSave;
+            table, identityField, exists, success, relatedUnsaved, hasRelatedUnsaved;
 
         let metaData = this->getModelsMetaData();
 
@@ -2288,15 +2288,16 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Store the original records as a base for the updated ones
          */
-        let this->relatedAfterSave = this->related;
+        let this->relatedSaved = this->related;
 
         /**
          * Save related records in belongsTo relationships
          */
-        let relatedBeforeSave = this->relatedBeforeSave;
+        let relatedUnsaved = this->relatedUnsaved,
+            hasRelatedUnsaved = count(relatedUnsaved) > 0;
 
-        if typeof relatedBeforeSave == "array" && count(relatedBeforeSave) {
-            if this->_preSaveRelatedRecords(writeConnection, relatedBeforeSave) === false {
+        if hasRelatedUnsaved {
+            if this->_preSaveRelatedRecords(writeConnection, relatedUnsaved) === false {
                 return false;
             }
         }
@@ -2343,7 +2344,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Rollback the current transaction if there was validation errors
              */
-            if typeof related == "array" {
+            if hasRelatedUnsaved {
                 writeConnection->rollback(false);
             }
 
@@ -2385,7 +2386,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
         }
 
-        if typeof relatedBeforeSave == "array" && count(relatedBeforeSave) {
+        if hasRelatedUnsaved {
             /**
              * Rollbacks the implicit transaction if the master save has failed
              */
@@ -2397,7 +2398,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                  */
                 let success = this->_postSaveRelatedRecords(
                     writeConnection,
-                    relatedBeforeSave
+                    relatedUnsaved
                 );
             }
         }
@@ -2415,9 +2416,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
             * Update and clear related caches
             */
-            let this->related = this->relatedAfterSave,
-                this->relatedBeforeSave = [],
-                this->relatedAfterSave = [];
+            let this->related = this->relatedSaved,
+                this->relatedUnsaved = [],
+                this->relatedSaved = [];
 
             this->fireEvent("afterSave");
         }
@@ -4638,7 +4639,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     /**
                      * Update the cache with the saved record
                      */
-                    let this->relatedAfterSave[name] = record;
+                    let this->relatedSaved[name] = record;
 
                     /**
                      * Read the attribute from the referenced model and assign
@@ -4875,7 +4876,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     /**
                      * Update the cache with the saved records
                      */
-                    let this->relatedAfterSave[name] = relatedRecords;
+                    let this->relatedSaved[name] = relatedRecords;
                 }
             } else {
                 if typeof record != "array" {
