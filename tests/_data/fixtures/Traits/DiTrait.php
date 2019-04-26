@@ -13,8 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Traits;
 
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
-use Phalcon\Cache\Adapter\Stream;
-use Phalcon\Cache\Adapter\Libmemcached;
+use Phalcon\Cache\Backend\File;
+use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Crypt;
 use Phalcon\Db\Adapter\Pdo\Mysql;
@@ -62,10 +63,14 @@ trait DiTrait
 
     protected function getAndSetModelsCacheFile(): File
     {
-        $cache = new Stream(
+        $cache = new File(
+            new Data(
+                [
+                    'lifetime' => 3600,
+                ]
+            ),
             [
                 'cacheDir' => cacheFolder(),
-                'lifetime' => 3600,
             ]
         );
         $this->container->set('modelsCache', $cache);
@@ -76,17 +81,16 @@ trait DiTrait
     protected function getAndSetModelsCacheFileLibmemcached(): Libmemcached
     {
         $config = [
-            'servers'  => [
+            'servers' => [
                 [
                     'host'   => env('DATA_MEMCACHED_HOST'),
                     'port'   => env('DATA_MEMCACHED_PORT'),
                     'weight' => env('DATA_MEMCACHED_WEIGHT'),
                 ],
             ],
-            'lifetime' => 3600
         ];
 
-        $cache = new Libmemcached($config);
+        $cache = new Libmemcached(new Data(['lifetime' => 3600]), $config);
         $this->container->set('modelsCache', $cache);
 
         return $cache;
