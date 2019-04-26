@@ -169,6 +169,8 @@ class Libmemcached extends Backend
      * @param int|string keyName
      * @param string content
      * @param int lifetime
+     * @param boolean stopBuffer
+     * return @bool
      */
     public function save(keyName = null, content = null, lifetime = null, bool stopBuffer = true) -> bool
     {
