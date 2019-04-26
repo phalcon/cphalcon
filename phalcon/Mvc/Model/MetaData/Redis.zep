@@ -28,7 +28,7 @@ use Phalcon\Storage\Adapter\Redis as StorageRedis;
  *         "host"       => "127.0.0.1",
  *         "port"       => 6379,
  *         "persistent" => 0,
- *         "defaultTtl" => 172800,
+ *         "lifetime"   => 172800,
  *         "index"      => 2,
  *     ]
  * );
@@ -45,9 +45,9 @@ class Redis extends MetaData
      */
     public function __construct(array! options = []) -> void
     {
-        let options["prefix"]     = "ph-mm-reds-",
-            options["defaultTtl"] = 172800,
-            this->adapter         = new StorageRedis(options);
+        let options["prefix"]   = "ph-mm-reds-",
+            options["lifetime"] = 172800,
+            this->adapter       = new StorageRedis(options);
     }
 
     /**
