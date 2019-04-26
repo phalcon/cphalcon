@@ -46,7 +46,7 @@ class SetCipherCest
      * @author                   Phalcon Team <team@phalconphp.com>
      * @since                    2018-05-06
      *
-     * @expectedException        Exception
+     * @expectedException        \Phalcon\Crypt\Exception
      * @expectedExceptionMessage The cipher algorithm "xxx-yyy-zzz" is not
      *                           supported on this system.
      */

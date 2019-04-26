@@ -35,7 +35,7 @@ class AnchorCest
     public function htmlHelperAnchorConstruct(UnitTester $I, Example $example)
     {
         $I->wantToTest('Html\Helper\Anchor - __construct()');
-        $anchor = new Anchor();
+        $anchor  = new Anchor();
 
         $expected = $example[0];
         $actual   = $anchor('/myurl', 'click<>me', $example[1]);

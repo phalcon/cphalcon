@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Html\TagLocatorFactory;
 
 use Codeception\Example;
+use Phalcon\Html\Helper\Anchor;
 use Phalcon\Html\TagLocatorFactory;
 use Phalcon\Service\LocatorInterface;
 use UnitTester;

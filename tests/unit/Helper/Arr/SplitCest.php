@@ -38,7 +38,7 @@ class SplitCest
 
         $expected = [
             [1, 3],
-            ['Phalcon', 'Framework'],
+            ['Phalcon', 'Framework']
         ];
         $actual   = Arr::split($collection);
         $I->assertEquals($expected, $actual);

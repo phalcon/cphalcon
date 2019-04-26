@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Debug\Dump;
 
 use Phalcon\Debug\Dump;
-use ReflectionException;
 use UnitTester;
 
 /**
@@ -26,10 +25,10 @@ class SetStylesCest
      *
      * @param UnitTester $I
      *
-     * @throws ReflectionException
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws \ReflectionException
      */
     public function debugDumpSetStyles(UnitTester $I)
     {
@@ -51,10 +50,10 @@ class SetStylesCest
      *
      * @param UnitTester $I
      *
-     * @throws ReflectionException
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws \ReflectionException
      */
     public function debugDumpGetStyle(UnitTester $I)
     {

@@ -11,7 +11,6 @@
 
 namespace Phalcon\Test\Unit\Annotations;
 
-use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Reader;
 use Phalcon\Annotations\Reflection;
 use UnitTester;
@@ -88,7 +87,7 @@ class ReflectionCest
 
         $I->assertEquals(14, $total);
 
-        /** @var Collection $annotations */
+        /** @var \Phalcon\Annotations\Collection $annotations */
         $annotations = $methodsAnnotations['testMethod1'];
 
         $I->assertTrue($annotations->has('Simple'));
