@@ -15,6 +15,7 @@ use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\ElementInterface;
+use Phalcon\Html\Interfaces\AttributesInterface;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Validation;
@@ -26,9 +27,9 @@ use Phalcon\Service\LocatorInterface;
  *
  * This component allows to build forms using an object-oriented interface
  */
-class Form extends Injectable implements \Countable, \Iterator
+class Form extends Injectable implements \Countable, \Iterator, AttributesInterface
 {
-    protected action;
+    protected attributes = [];
 
     protected data;
 
@@ -314,7 +315,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function getAction() -> string
     {
-        return this->action;
+        return this->getAttribute("action");
     }
 
     /**
@@ -769,10 +770,13 @@ class Form extends Injectable implements \Countable, \Iterator
 
     /**
      * Sets the form's action
+     *
+     * @return Form
+     * @throw \InvalidArgumentException
      */
     public function setAction(string! action) -> <Form>
     {
-        let this->action = action;
+        this->setAttribute("action", action);
 
         return this;
     }
@@ -815,5 +819,110 @@ class Form extends Injectable implements \Countable, \Iterator
     public function valid() -> bool
     {
         return isset this->elementsIndexed[this->position];
+    }
+    
+    /**
+    * Get the value of an attribute
+    *
+    * @throw \InvalidArgumentException  if the attribute does not exists
+    * @return mixed value of attribute
+    */
+    public function getAttribute(string name)
+    {
+        var attribute;
+
+        if fetch attribute, this->attributes[name] {
+            return attribute;
+        }
+
+        throw new \InvalidArgumentException ("The attribute " . name . " does not existe");
+    }
+
+    /**
+    * Get all defined attributes
+    *
+    * @return array attribute => value
+    */
+    public function getAttributes() -> array
+    {
+        return this->attributes;
+    }
+
+    /**
+    * Attribute exists
+    *
+    * @return bool attribute exists or not
+    */
+    public function hasAttribute(string name) -> boolean
+    {
+        return (bool) isset this->attributes[name];
+    }
+
+    /**
+    * Remove an attribute
+    *
+    * @return bool attribute removed or not
+    */
+    public function removeAttribute(string name) -> boolean
+    {
+        if this->hasAttribute(name) === true {
+            unset this->attributes[name];
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+    * Render form attributes
+    *
+    * @return void
+    */
+    public function renderAttributes() -> string
+    {
+        return Tag::renderAttributes("", this->getAttributes());
+    }
+
+    /**
+    * Reset attributes
+    *
+    * @return AttributesInterface|Form
+    */
+    public function resetAttributes() -> <AttributesInterface>
+    {
+        let this->attributes = [];
+
+        return this;
+    }
+
+    /**
+    * Set an form attribute
+    *
+    * @param string name attribute name
+    * @param string value attribute value
+    * @return AttributesInterface|Form
+    */
+    public function setAttribute(string name, string value) -> <AttributesInterface>
+    {
+        let this->attributes[name] = value;
+
+        return this;
+    }
+
+    /**
+    * Set all form attribute
+    *
+    * @return AttributesInterface|Form
+    */
+    public function setAttributes(array attributes) -> <AttributesInterface>
+    {
+        var name, value;
+
+        for name, value in attributes {
+            this->setAttribute(name, value);
+        }
+
+        return this;
     }
 }

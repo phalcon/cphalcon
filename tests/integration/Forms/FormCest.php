@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Forms;
 use IntegrationTester;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
+use Phalcon\Html\Interfaces\AttributesInterface;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
@@ -41,6 +42,98 @@ class FormCest
     {
         // Setting the doctype to XHTML5 for other tests to run smoothly
         Tag::setDocType(Tag::XHTML5);
+    }
+
+    public function testAttributes(IntegrationTester $I)
+    {
+        $form = new Form();
+
+        // Form implements AttributeInterface
+        $I->assertInstanceOf(AttributesInterface::class, $form);
+
+        // Empty attributes
+        $I->assertTrue(is_array($form->getAttributes()));
+        $I->assertCount(0, $form->getAttributes());
+
+        // Set an attribute
+        $form->setAttribute('attr', 'value');
+        $I->assertCount(1, $form->getAttributes());
+
+        // Check has attribute
+        $I->assertTrue($form->hasAttribute('attr'));
+        $I->assertFalse($form->hasAttribute('fake-attr'));
+        $I->assertFalse($form->hasAttribute('non exists attr'));
+
+        // Render an attribute
+        $result   = $form->renderAttributes();
+        $expected = ' attr="value"';
+        $I->assertEquals($expected, $result);
+
+        // Reset attributes
+        $form->resetAttributes();
+        $I->assertCount(0, $form->getAttributes());
+
+        // Set multi attributes
+        $form->setAttributes([
+            'attr1' => 'value1',
+            'attr2' => 'value2',
+            'attr3' => 'value3',
+        ]);
+
+        $I->assertCount(3, $form->getAttributes());
+
+        // Render multi attributes
+        $result   = $form->renderAttributes();
+        $expected = ' attr1="value1" attr2="value2" attr3="value3"';
+        $I->assertEquals($expected, $result);
+
+        // Get an attribute
+        $result   = $form->getAttribute('attr2');
+        $expected = 'value2';
+        $I->assertEquals($expected, $result);
+
+        // Test action attribute
+        $form->setAction('/some-url');
+        $actual   = $form->getAction();
+        $expected = '/some-url';
+        $I->assertEquals($expected, $actual);
+
+        $actual   = $form->getAttribute('action');
+        $expected = '/some-url';
+        $I->assertEquals($expected, $actual);
+
+        $result   = $form->renderAttributes();
+        $expected = ' action="/some-url" attr1="value1" attr2="value2" attr3="value3"';
+        $I->assertEquals($expected, $result);
+
+        // Remove an attribute
+        $result = $form->removeAttribute('attr2');
+        $I->assertTrue($result, 'Remove an attribute');
+        $I->assertCount(3, $form->getAttributes());
+        $I->assertFalse($form->hasAttribute('attr2'), 'Check again the attribute is gone');
+
+        // Delete a nonexistent attribute
+        $result = $form->removeAttribute('attr2');
+        codecept_debug($result);
+        codecept_debug($form->getAttributes());
+        $I->assertFalse($result, 'Delete a nonexistent attribute');
+
+        // Render multi attributes again
+        $result   = $form->renderAttributes();
+        $expected = ' action="/some-url" attr1="value1" attr3="value3"';
+        $I->assertEquals($expected, $result);
+
+        // Reset attributes
+        $form->resetAttributes();
+        $I->assertCount(0, $form->getAttributes());
+
+        // Exception on non exists attribute
+        $I->expectThrowable(
+            \InvalidArgumentException::class,
+            function () use ($form) {
+                return $form->getAttribute('non exists');
+            }
+        );
     }
 
     public function testIterator(IntegrationTester $I)
