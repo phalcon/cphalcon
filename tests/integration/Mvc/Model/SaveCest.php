@@ -75,7 +75,7 @@ class SaveCest
      */
     public function mvcModelSaveAfterUsingRelatedGetters(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Model - save() after fetching related');
+        $I->wantToTest('Mvc\Model - save() after using related records getters');
 
         /**
          * @var AlbumORama\Albums $album
