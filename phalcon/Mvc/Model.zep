@@ -394,8 +394,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     case Relation::HAS_ONE:
 
                         /**
-                        * Load referenced model from local cache if its possible
-                        */
+                         * Load referenced model from local cache if its possible
+                         */
                         if(this->isRelationshipLoaded(lowerProperty)) {
                             let referencedModel = this->related[lowerProperty];
                         } else {
