@@ -12,7 +12,7 @@ namespace Phalcon\Mvc\Model;
 
 use Phalcon\Mvc\Controller\BindModelInterface;
 use Phalcon\Mvc\Model\Binder\BindableInterface;
-use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\Cache\BackendInterface;
 
 /**
  * Phalcon\Mvc\Model\Binding
@@ -46,7 +46,7 @@ class Binder implements BinderInterface
     /**
      * Phalcon\Mvc\Model\Binder constructor
      */
-    public function __construct(<AdapterInterface> cache = null) -> void
+    public function __construct(<BackendInterface> cache = null) -> void
     {
         let this->cache = cache;
     }
@@ -71,11 +71,11 @@ class Binder implements BinderInterface
 
         if typeof paramsCache == "array" {
             for paramKey, className in paramsCache {
-                let paramValue                     = params[paramKey],
-                    boundModel                     = this->findBoundModel(paramValue, className),
-                    this->originalValues[paramKey] = paramValue,
-                    params[paramKey]               = boundModel,
-                    this->boundModels[paramKey]    = boundModel;
+                let paramValue = params[paramKey];
+                let boundModel = this->findBoundModel(paramValue, className);
+                let this->originalValues[paramKey] = paramValue;
+                let params[paramKey] = boundModel;
+                let this->boundModels[paramKey] = boundModel;
             }
 
             return params;
@@ -100,7 +100,7 @@ class Binder implements BinderInterface
     /**
      * Sets cache instance
      */
-    public function getCache() -> <AdapterInterface>
+    public function getCache() -> <BackendInterface>
     {
         return this->cache;
     }
@@ -118,7 +118,7 @@ class Binder implements BinderInterface
 
         let cache = this->cache;
 
-        if cache === null || !cache->has(cacheKey) {
+        if cache === null || !cache->exists(cacheKey) {
             return null;
         }
 
@@ -209,7 +209,7 @@ class Binder implements BinderInterface
         }
 
         if cache != null {
-            cache->set(cacheKey, paramsCache);
+            cache->save(cacheKey, paramsCache);
         }
 
         let this->internalCache[cacheKey] = paramsCache;
@@ -220,7 +220,7 @@ class Binder implements BinderInterface
     /**
      * Gets cache instance
      */
-    public function setCache(<AdapterInterface> cache) -> <BinderInterface>
+    public function setCache(<BackendInterface> cache) -> <BinderInterface>
     {
         let this->cache = cache;
 

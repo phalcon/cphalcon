@@ -11,10 +11,10 @@
 namespace Phalcon\Mvc\View;
 
 use Closure;
-use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Mvc\ViewBaseInterface;
+use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\View\EngineInterface;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 
@@ -146,7 +146,7 @@ class Simple extends Injectable implements ViewBaseInterface
     /**
      * Returns the cache instance used to cache
      */
-    public function getCache() -> <AdapterInterface>
+    public function getCache() -> <BackendInterface>
     {
         if this->cache && typeof this->cache != "object" {
             let this->cache = this->createCache();
@@ -466,7 +466,7 @@ class Simple extends Injectable implements ViewBaseInterface
     /**
      * Create a Phalcon\Cache based on the internal cache options
      */
-    protected function createCache() -> <AdapterInterface>
+    protected function createCache() -> <BackendInterface>
     {
         var container, cacheService, cacheOptions, viewCache;
 
@@ -491,7 +491,7 @@ class Simple extends Injectable implements ViewBaseInterface
         /**
          * The injected service must be an object
          */
-        let viewCache = <AdapterInterface> container->getShared(cacheService);
+        let viewCache = <BackendInterface> container->getShared(cacheService);
 
         if unlikely typeof viewCache != "object" {
             throw new Exception("The injected caching service is invalid");
