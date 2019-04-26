@@ -16,7 +16,7 @@ use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\DiInterface;
 use Phalcon\Di;
-use Phalcon\Storage\Serializer\SerializerInterface;
+use Phalcon\Cache\FrontendInterface;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Simple
@@ -252,10 +252,9 @@ class Simple extends Resultset
         ];
 
         if container->has("serializer") {
-            let serializer = <SerializerInterface> container->getShared("serializer");
-            serializer->setData(data);
+            let serializer = <FrontendInterface> container->getShared("serializer");
 
-            return serializer->serialize();
+            return serializer->beforeStore(data);
         }
 
         /**
@@ -281,8 +280,8 @@ class Simple extends Resultset
         }
 
         if container->has("serializer") {
-            let serializer = <SerializerInterface> container->getShared("serializer");
-            let resultset = serializer->unserialize(data);
+            let serializer = <FrontendInterface> container->getShared("serializer");
+            let resultset = serializer->afterRetrieve(data);
         } else {
             let resultset = unserialize(data);
         }
@@ -291,11 +290,11 @@ class Simple extends Resultset
             throw new Exception("Invalid serialization data");
         }
 
-        let this->model       = resultset["model"],
-            this->rows        = resultset["rows"],
-            this->count       = count(resultset["rows"]),
-            this->cache       = resultset["cache"],
-            this->columnMap   = resultset["columnMap"],
+        let this->model = resultset["model"],
+            this->rows = resultset["rows"],
+            this->count = count(resultset["rows"]),
+            this->cache = resultset["cache"],
+            this->columnMap = resultset["columnMap"],
             this->hydrateMode = resultset["hydrateMode"];
 
         if fetch keepSnapshots, resultset["keepSnapshots"] {
