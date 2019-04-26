@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Debug\Dump;
 
 use Phalcon\Debug\Dump;
 use Phalcon\Test\Fixtures\Dump\ClassProperties;
-use ReflectionException;
 use UnitTester;
 
 class ConstructCest
@@ -24,10 +23,10 @@ class ConstructCest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/13315
      *
-     * @throws ReflectionException
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-23
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws \ReflectionException
      */
     public function debugDumpConstructDump(UnitTester $I)
     {

@@ -13,7 +13,6 @@ namespace Phalcon\Test\Unit\Annotations;
 
 use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Reader;
-use ReflectionException;
 use UnitTester;
 use function dataFolder;
 use function file_exists;
@@ -29,7 +28,7 @@ class ReaderCest
     public function testParseWithNonExistentClass(UnitTester $I)
     {
         $I->expectThrowable(
-            new ReflectionException('Class TestClass1 does not exist', -1),
+            new \ReflectionException('Class TestClass1 does not exist', -1),
             function () {
                 $reader = new Reader();
                 $reader->parse('TestClass1');

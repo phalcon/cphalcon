@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Stream;
 
+use function outputFolder;
 use Phalcon\Cache\Adapter\Stream;
 use UnitTester;
-use function outputFolder;
 
 /**
  * Class IncrementCest

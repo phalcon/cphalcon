@@ -13,10 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Filter\FilterLocator;
 
 use Codeception\Example;
+use function func_get_args;
 use Phalcon\Filter\FilterLocator;
 use Phalcon\Test\Fixtures\Filter\Sanitize\IPv4;
 use UnitTester;
-use function func_get_args;
 
 /**
  * Class CustomCest

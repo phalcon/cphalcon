@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Filter\Sanitize;
 
 use Codeception\Example;
+use function number_format;
 use Phalcon\Filter\Sanitize\FloatVal;
 use UnitTester;
-use function number_format;
 
 /**
  * Class FloatValCest

@@ -20,8 +20,6 @@
 
 namespace Phalcon\Test\Unit\Cache\Backend;
 
-use Exception;
-use MongoClient;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Backend\Memory;
 use Phalcon\Cache\Backend\Mongo;
@@ -68,12 +66,12 @@ class CacheCest
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testDataFileCacheUnsafeKey(UnitTester $I)
     {
         $I->expectThrowable(
-            Exception::class,
+            \Exception::class,
             function () {
                 $frontCache = new Data();
 
@@ -186,7 +184,7 @@ class CacheCest
 
         //remove existing
         if (class_exists('MongoClient', false)) {
-            $mongo = new MongoClient();
+            $mongo = new \MongoClient();
         } else {
             $mongo = new \Mongo();
         }

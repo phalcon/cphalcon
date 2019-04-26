@@ -12,12 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use Phalcon\Security;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function session_destroy;
-use function session_start;
-use function session_status;
 use UnitTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Security;
 
 /**
  * Class GetTokenCest
@@ -45,8 +42,21 @@ class GetTokenAndKeyCest
     public function _after(UnitTester $I)
     {
         if (true === $this->shouldStopSession) {
-            @session_destroy();
+            @\session_destroy();
         }
+    }
+
+    private function startSession(): void
+    {
+        if (PHP_SESSION_ACTIVE !== \session_status()) {
+            @\session_start();
+        }
+
+        if (!isset($_SESSION)) {
+            $_SESSION = [];
+        }
+
+        $this->shouldStopSession = true;
     }
 
     /**
@@ -108,18 +118,5 @@ class GetTokenAndKeyCest
 
 
         $security->destroyToken();
-    }
-
-    private function startSession(): void
-    {
-        if (PHP_SESSION_ACTIVE !== session_status()) {
-            @session_start();
-        }
-
-        if (!isset($_SESSION)) {
-            $_SESSION = [];
-        }
-
-        $this->shouldStopSession = true;
     }
 }

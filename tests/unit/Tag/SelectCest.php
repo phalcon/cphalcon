@@ -31,7 +31,7 @@ class SelectCest extends TagSetup
     public function tagSelect(UnitTester $I)
     {
         $I->wantToTest('Tag - select()');
-
+        
         $this->testFieldParameter(
             $I,
             'select',
@@ -39,8 +39,8 @@ class SelectCest extends TagSetup
                 'potato',
                 [
                     'Phalcon',
-                    'PHP',
-                ],
+                    'PHP'
+                ]
             ],
             "<select id=\"potato\" name=\"potato\">\n\t<option value=\"0\">Phalcon</option>\n\t<option value=\"1\">PHP</option>\n</select"
         );

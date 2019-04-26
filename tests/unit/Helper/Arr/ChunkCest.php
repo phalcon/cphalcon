@@ -27,7 +27,7 @@ class ChunkCest
     {
         $I->wantToTest('Helper\Arr - chunk()');
 
-        $source = [
+        $source   = [
             'k1' => 1,
             'k2' => 2,
             'k3' => 3,
@@ -58,7 +58,7 @@ class ChunkCest
     {
         $I->wantToTest('Helper\Arr - chunk() - preserve');
 
-        $source = [
+        $source   = [
             'k1' => 1,
             'k2' => 2,
             'k3' => 3,

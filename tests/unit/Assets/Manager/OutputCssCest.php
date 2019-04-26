@@ -14,10 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use Phalcon\Assets\Asset\Css;
 use Phalcon\Assets\Manager;
-use Phalcon\Test\Fixtures\Assets\CustomTag;
 use Phalcon\Test\Fixtures\Assets\TrimFilter;
 use Phalcon\Test\Fixtures\Assets\UppercaseFilter;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Assets\CustomTag;
 use UnitTester;
 
 class OutputCssCest
