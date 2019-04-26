@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\Cache\BackendInterface;
 
 /**
  * Phalcon\Mvc\ViewInterface
@@ -27,7 +27,7 @@ interface ViewBaseInterface
     /**
      * Returns the cache instance used to cache
      */
-    public function getCache() -> <AdapterInterface>;
+    public function getCache() -> <BackendInterface>;
 
     /**
      * Returns cached output from another view stage

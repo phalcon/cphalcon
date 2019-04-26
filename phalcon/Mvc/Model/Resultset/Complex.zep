@@ -10,12 +10,12 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
-use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\DiInterface;
 use Phalcon\Di;
@@ -41,7 +41,7 @@ class Complex extends Resultset implements ResultsetInterface
      *
      * @param array columnTypes
      */
-    public function __construct(var columnTypes, <ResultInterface> result = null, <AdapterInterface> cache = null) -> void
+    public function __construct(var columnTypes, <ResultInterface> result = null, <BackendInterface> cache = null) -> void
     {
         /**
          * Column types, tell the resultset how to build the result

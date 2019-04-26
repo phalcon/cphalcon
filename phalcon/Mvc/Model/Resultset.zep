@@ -12,7 +12,7 @@ namespace Phalcon\Mvc\Model;
 
 use Closure;
 use Phalcon\Db;
-use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\Cache\BackendInterface;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\ModelInterface;
@@ -97,7 +97,7 @@ abstract class Resultset
      *
      * @param \Phalcon\Db\ResultInterface|false result
      */
-    public function __construct(result, <AdapterInterface> cache = null) -> void
+    public function __construct(result, <BackendInterface> cache = null) -> void
     {
         var rowCount, rows;
 
@@ -295,7 +295,7 @@ abstract class Resultset
     /**
      * Returns the associated cache for the resultset
      */
-    public function getCache() -> <AdapterInterface>
+    public function getCache() -> <BackendInterface>
     {
         return this->cache;
     }
