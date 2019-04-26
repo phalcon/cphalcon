@@ -3487,7 +3487,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             /**
              * By default use use 3600 seconds (1 hour) as cache lifetime
              */
-            if !fetch lifetime, cacheOptions["lifetime"] {
+            if !fetch lifetime, cacheOptions["defaultTtl"] {
                 let lifetime = 3600;
             }
 

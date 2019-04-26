@@ -123,9 +123,9 @@ class Redis extends AbstractAdapter
                 }
             } else {
                 if persistent {
-                    let result = connection->pconnect(host, port, this->lifetime);
+                    let result = connection->pconnect(host, port, this->defaultTtl);
                 } else {
-                    let result = connection->connect(host, port, this->lifetime);
+                    let result = connection->connect(host, port, this->defaultTtl);
                 }
             }
 

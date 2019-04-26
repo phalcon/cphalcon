@@ -1289,7 +1289,7 @@ class View extends Injectable implements ViewInterface
                         if fetch cacheOptions, viewOptions["cache"] {
                             if typeof cacheOptions == "array" {
                                 fetch key, cacheOptions["key"];
-                                fetch lifetime, cacheOptions["lifetime"];
+                                fetch lifetime, cacheOptions["defaultTtl"];
                             }
                         }
 
