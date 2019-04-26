@@ -35,7 +35,7 @@ use Phalcon\Storage\Adapter\Libmemcached as StorageLibmemcached;
  *             Memcached::OPT_HASH       => Memcached::HASH_MD5,
  *             Memcached::OPT_PREFIX_KEY => "prefix.",
  *         ],
- *         "defaultTtl" => 3600,
+ *         "lifetime" => 3600,
  *         "prefix"     => "my_",
  *     ]
  * );
@@ -52,9 +52,9 @@ class Libmemcached extends MetaData
      */
     public function __construct(array! options = []) -> void
     {
-        let options["prefix"]     = "ph-mm-memc-",
-            options["defaultTtl"] = 172800,
-            this->adapter         = new StorageLibmemcached(options);
+        let options["prefix"]   = "ph-mm-memc-",
+            options["lifetime"] = 172800,
+            this->adapter       = new StorageLibmemcached(options);
     }
 
     /**

@@ -26,8 +26,8 @@ use Phalcon\Storage\Adapter\Apcu as StorageApcu;
  *<code>
  * $metaData = new \Phalcon\Mvc\Model\MetaData\Apcu(
  *     [
- *         "prefix"     => "my-app-id",
- *         "defaultTtl" => 86400,
+ *         "prefix"   => "my-app-id",
+ *         "lifetime" => 86400,
  *     ]
  * );
  *</code>
@@ -43,8 +43,8 @@ class Apcu extends MetaData
      */
     public function __construct(options = null) -> void
     {
-        let options["prefix"]     = "ph-mm-apcu-",
-            options["defaultTtl"] = 172800,
-            this->adapter         = new StorageApcu(options);
+        let options["prefix"]   = "ph-mm-apcu-",
+            options["lifetime"] = 172800,
+            this->adapter       = new StorageApcu(options);
     }
 }
