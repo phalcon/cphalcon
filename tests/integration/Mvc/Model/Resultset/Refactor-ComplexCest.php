@@ -47,7 +47,7 @@ class ComplexCest
         $I->assertCount(3, $robots);
         $I->assertEquals(3, $robots->count());
 
-        $cache->set('test-resultset', $robots);
+        $cache->save('test-resultset', $robots);
 
         $I->amInPath(cacheFolder());
         $I->seeFileFound('test-resultset');
@@ -76,7 +76,7 @@ class ComplexCest
         $I->assertCount(3, $robots);
         $I->assertEquals(3, $robots->count());
 
-        $cache->set('test-resultset', $robots);
+        $cache->save('test-resultset', $robots);
 
         $robots = $cache->get('test-resultset');
 
