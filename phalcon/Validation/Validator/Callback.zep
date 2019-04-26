@@ -73,11 +73,13 @@ class Callback extends Validator
 
         if is_callable(callback) {
             let data = validation->getEntity();
+
             if empty data {
                 let data = validation->getData();
             }
 
             let returnedValue = call_user_func(callback, data);
+
             if typeof returnedValue == "boolean" {
                 if !returnedValue {
                     let label = this->prepareLabel(validation, field);

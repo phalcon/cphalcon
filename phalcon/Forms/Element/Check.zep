@@ -20,12 +20,13 @@ use Phalcon\Forms\Element;
  */
 class Check extends Element
 {
-
     /**
      * Renders the element widget returning html
      */
     public function render(array attributes = []) -> string
     {
-        return Tag::checkField(this->prepareAttributes(attributes, true));
+        return Tag::checkField(
+            this->prepareAttributes(attributes, true)
+        );
     }
 }

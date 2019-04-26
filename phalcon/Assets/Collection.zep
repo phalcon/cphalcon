@@ -84,7 +84,6 @@ class Collection implements \Countable, \Iterator
      */
     protected targetUri { get };
 
-
     /**
      * Phalcon\Assets\Collection constructor
      */
@@ -135,6 +134,7 @@ class Collection implements \Countable, \Iterator
     public function addFilter(<FilterInterface> filter) -> <Collection>
     {
         let this->filters[] = filter;
+
         return this;
     }
 
@@ -266,7 +266,9 @@ class Collection implements \Countable, \Iterator
      * use Phalcon\Assets\Collection;
      *
      * $collection = new Collection();
+     *
      * $asset = new Asset("js", "js/jquery.js");
+     *
      * $collection->add($asset);
      * $collection->has($asset); // true
      * </code>
@@ -288,6 +290,7 @@ class Collection implements \Countable, \Iterator
     public function join(bool join) -> <Collection>
     {
         let this->join = join;
+
         return this;
     }
 
@@ -321,6 +324,7 @@ class Collection implements \Countable, \Iterator
     public function setAttributes(array! attributes) -> <Collection>
     {
         let this->attributes = attributes;
+
         return this;
     }
 
@@ -330,6 +334,7 @@ class Collection implements \Countable, \Iterator
     public function setFilters(array! filters) -> <Collection>
     {
         let this->filters = filters;
+
         return this;
     }
 
@@ -339,6 +344,7 @@ class Collection implements \Countable, \Iterator
     public function setLocal(bool! local) -> <Collection>
     {
         let this->local = local;
+
         return this;
     }
 
@@ -348,6 +354,7 @@ class Collection implements \Countable, \Iterator
     public function setPrefix(string! prefix) -> <Collection>
     {
         let this->prefix = prefix;
+
         return this;
     }
 
@@ -357,6 +364,7 @@ class Collection implements \Countable, \Iterator
     public function setTargetLocal(bool! targetLocal) -> <Collection>
     {
         let this->targetLocal = targetLocal;
+
         return this;
     }
 
@@ -366,6 +374,7 @@ class Collection implements \Countable, \Iterator
     public function setTargetPath(string! targetPath) -> <Collection>
     {
         let this->targetPath = targetPath;
+
         return this;
     }
 
@@ -375,6 +384,7 @@ class Collection implements \Countable, \Iterator
     public function setTargetUri(string! targetUri) -> <Collection>
     {
         let this->targetUri = targetUri;
+
         return this;
     }
 
@@ -384,6 +394,7 @@ class Collection implements \Countable, \Iterator
     public function setSourcePath(string! sourcePath) -> <Collection>
     {
         let this->sourcePath = sourcePath;
+
         return this;
     }
 
@@ -400,18 +411,18 @@ class Collection implements \Countable, \Iterator
      */
     final protected function addAsset(<AssetInterface> asset) -> bool
     {
-        if !this->has(asset) {
-            if asset instanceof Asset {
-                let this->assets[] = asset;
-            } else {
-                let this->codes[] = asset;
-            }
-
-            let this->includedAssets[] = asset->getAssetKey();
-
-            return true;
+        if this->has(asset) {
+            return false;
         }
 
-        return false;
+        if asset instanceof Asset {
+            let this->assets[] = asset;
+        } else {
+            let this->codes[] = asset;
+        }
+
+        let this->includedAssets[] = asset->getAssetKey();
+
+        return true;
     }
 }

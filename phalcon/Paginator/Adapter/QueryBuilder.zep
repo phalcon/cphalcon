@@ -94,10 +94,10 @@ class QueryBuilder extends Adapter
      */
     public function paginate() -> <RepositoryInterface>
     {
-        var originalBuilder, builder, totalBuilder, totalPages,
-            limit, numberPage, number, query, previous, items, totalQuery,
-            result, row, rowcount, next, sql, columns, db, hasHaving, hasGroup,
-            model, modelClass, dbService, groups, groupColumn;
+        var originalBuilder, builder, totalBuilder, totalPages, limit,
+            numberPage, number, query, previous, items, totalQuery, result, row,
+            rowcount, next, sql, columns, db, hasHaving, hasGroup, model,
+            modelClass, dbService, groups, groupColumn;
 
         let originalBuilder = this->builder;
         let columns = this->columns;
@@ -160,6 +160,7 @@ class QueryBuilder extends Adapter
                     "option provided for which calculate row count"
                 );
             }
+
             totalBuilder->columns(columns);
         } else {
             totalBuilder->columns("COUNT(*) [rowcount]");
@@ -202,7 +203,7 @@ class QueryBuilder extends Adapter
          */
         if hasHaving {
             let sql = totalQuery->getSql(),
-             modelClass = builder->getModels();
+                modelClass = builder->getModels();
 
             if typeof modelClass == "null" {
                 throw new Exception("Model not defined in builder");
@@ -237,16 +238,18 @@ class QueryBuilder extends Adapter
             let next = totalPages;
         }
 
-        return this->getRepository([
-            RepositoryInterface::PROPERTY_ITEMS         : items,
-            RepositoryInterface::PROPERTY_TOTAL_ITEMS   : rowcount,
-            RepositoryInterface::PROPERTY_LIMIT         : this->limitRows,
-            RepositoryInterface::PROPERTY_FIRST_PAGE    : 1,
-            RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
-            RepositoryInterface::PROPERTY_CURRENT_PAGE  : numberPage,
-            RepositoryInterface::PROPERTY_NEXT_PAGE     : next,
-            RepositoryInterface::PROPERTY_LAST_PAGE     : totalPages
-        ]);
+        return this->getRepository(
+            [
+                RepositoryInterface::PROPERTY_ITEMS         : items,
+                RepositoryInterface::PROPERTY_TOTAL_ITEMS   : rowcount,
+                RepositoryInterface::PROPERTY_LIMIT         : this->limitRows,
+                RepositoryInterface::PROPERTY_FIRST_PAGE    : 1,
+                RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
+                RepositoryInterface::PROPERTY_CURRENT_PAGE  : numberPage,
+                RepositoryInterface::PROPERTY_NEXT_PAGE     : next,
+                RepositoryInterface::PROPERTY_LAST_PAGE     : totalPages
+            ]
+        );
     }
 
     /**

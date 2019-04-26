@@ -76,7 +76,9 @@ class Volt extends Engine
         /**
          * There are no enough extensions available
          */
-        throw new Exception("Any of 'mbstring' or 'iconv' is required to perform the charset conversion");
+        throw new Exception(
+            "Any of 'mbstring' or 'iconv' is required to perform the charset conversion"
+        );
     }
 
     /**
@@ -87,14 +89,15 @@ class Volt extends Engine
         var compiler, container, options;
 
         let compiler = this->compiler;
-        if typeof compiler != "object" {
 
+        if typeof compiler != "object" {
             let compiler = new Compiler(this->view);
 
             /**
              * Pass the IoC to the compiler only of it's an object
              */
             let container = <DiInterface> this->container;
+
             if typeof container == "object" {
                 compiler->setDi(container);
             }
@@ -103,12 +106,14 @@ class Volt extends Engine
              * Pass the options to the compiler only if they're an array
              */
             let options = this->options;
+
             if typeof options == "array" {
                 compiler->setOptions(options);
             }
 
             let this->compiler = compiler;
         }
+
         return compiler;
     }
 
@@ -225,7 +230,6 @@ class Volt extends Engine
          * Objects must implement a Traversable interface
          */
         if typeof value == "object" {
-
             if end === null {
                 let end = count(value) - 1;
             }
@@ -240,6 +244,7 @@ class Volt extends Engine
                 }
 
                 value->next();
+
                 let position++;
             }
 
@@ -289,6 +294,7 @@ class Volt extends Engine
     public function sort(array value) -> array
     {
         asort(value);
+
         return value;
     }
 }

@@ -167,6 +167,7 @@ class Ini extends Config
     protected function parseIniString(string! path, var value) -> array
     {
         var pos, key;
+
         let value = this->cast(value);
         let pos = strpos(path, ".");
 
@@ -183,5 +184,4 @@ class Ini extends Config
             key: this->parseIniString(path, value)
         ];
     }
-    
 }

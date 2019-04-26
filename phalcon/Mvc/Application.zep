@@ -69,7 +69,6 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
  */
 class Application extends BaseApplication
 {
-
     protected implicitView = true;
 
     protected sendCookies = true;
@@ -82,11 +81,12 @@ class Application extends BaseApplication
     public function handle(string! uri) -> <ResponseInterface> | bool
     {
         var container, eventsManager, router, dispatcher, response, view,
-            module, moduleObject, moduleName, className, path,
-            implicitView, returnedResponse, controller, possibleResponse,
-            renderStatus, matchedRoute, match;
+            module, moduleObject, moduleName, className, path, implicitView,
+            returnedResponse, controller, possibleResponse, renderStatus,
+            matchedRoute, match;
 
         let container = this->container;
+
         if typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("internal services")
@@ -117,10 +117,11 @@ class Application extends BaseApplication
          * The whole dispatcher+view behavior can be overridden by the developer
          */
         let matchedRoute = router->getMatchedRoute();
+
         if typeof matchedRoute == "object" {
             let match = matchedRoute->getMatch();
-            if match !== null {
 
+            if match !== null {
                 if match instanceof \Closure {
                     let match = \Closure::bind(match, container);
                 }
@@ -138,7 +139,9 @@ class Application extends BaseApplication
                  */
                 if typeof possibleResponse == "string" {
                     let response = <ResponseInterface> container->getShared("response");
+
                     response->setContent(possibleResponse);
+
                     return response;
                 }
 
@@ -146,12 +149,11 @@ class Application extends BaseApplication
                  * If the returned string is a ResponseInterface use it as
                  * response
                  */
-                if typeof possibleResponse == "object" {
-                    if possibleResponse instanceof ResponseInterface {
-                        possibleResponse->sendHeaders();
-                        possibleResponse->sendCookies();
-                        return possibleResponse;
-                    }
+                if typeof possibleResponse == "object" && possibleResponse instanceof ResponseInterface {
+                    possibleResponse->sendHeaders();
+                    possibleResponse->sendCookies();
+
+                    return possibleResponse;
                 }
             }
         }
@@ -160,6 +162,7 @@ class Application extends BaseApplication
          * If the router doesn't return a valid module we use the default module
          */
         let moduleName = router->getModuleName();
+
         if !moduleName {
             let moduleName = this->defaultModule;
         }
@@ -170,7 +173,6 @@ class Application extends BaseApplication
          * Process the module definition
          */
         if moduleName {
-
             if typeof eventsManager == "object" {
                 if eventsManager->fire("application:beforeStartModule", this, moduleName) === false {
                     return false;
@@ -194,7 +196,6 @@ class Application extends BaseApplication
              * class
              */
             if typeof module == "array" {
-
                 /**
                  * Class name used to load the module definition
                  */
@@ -225,9 +226,7 @@ class Application extends BaseApplication
                  */
                 moduleObject->registerAutoloaders(container);
                 moduleObject->registerServices(container);
-
             } else {
-
                 /**
                  * A module definition object, can be a Closure instance
                  */
@@ -265,6 +264,7 @@ class Application extends BaseApplication
          * Assign the values passed from the router
          */
         let dispatcher = <DispatcherInterface> container->getShared("dispatcher");
+
         dispatcher->setModuleName(router->getModuleName());
         dispatcher->setNamespaceName(router->getNamespaceName());
         dispatcher->setControllerName(router->getControllerName());
@@ -300,18 +300,17 @@ class Application extends BaseApplication
         /**
          * Returning false from an action cancels the view
          */
-        if typeof possibleResponse == "boolean" && possibleResponse === false {
+        if possibleResponse === false {
             let response = <ResponseInterface> container->getShared("response");
         } else {
-
             /**
              * Returning a string makes use it as the body of the response
              */
             if typeof possibleResponse == "string" {
                 let response = <ResponseInterface> container->getShared("response");
+
                 response->setContent(possibleResponse);
             } else {
-
                 /**
                  * Check if the returned object is already a response
                  */
@@ -330,7 +329,6 @@ class Application extends BaseApplication
                  */
                 if returnedResponse === false && implicitView === true {
                     if typeof controller == "object" {
-
                         let renderStatus = true;
 
                         /**
@@ -366,22 +364,22 @@ class Application extends BaseApplication
                 }
 
                 if returnedResponse === true {
-
                     /**
                      * We don't need to create a response because there is one
                      * already created
                      */
                     let response = possibleResponse;
                 } else {
-
                     let response = <ResponseInterface> container->getShared("response");
-                    if implicitView === true {
 
+                    if implicitView === true {
                         /**
                          * The content returned by the view is passed to the
                          * response service
                          */
-                        response->setContent(view->getContent());
+                        response->setContent(
+                            view->getContent()
+                        );
                     }
                 }
             }
@@ -420,6 +418,7 @@ class Application extends BaseApplication
     public function sendCookiesOnHandleRequest(bool sendCookies) -> <Application>
     {
         let this->sendCookies = sendCookies;
+
         return this;
     }
 
@@ -430,6 +429,7 @@ class Application extends BaseApplication
     public function sendHeadersOnHandleRequest(bool sendHeaders) -> <Application>
     {
         let this->sendHeaders = sendHeaders;
+
         return this;
     }
 
@@ -440,6 +440,7 @@ class Application extends BaseApplication
     public function useImplicitView(bool implicitView) -> <Application>
     {
         let this->implicitView = implicitView;
+
         return this;
     }
 }

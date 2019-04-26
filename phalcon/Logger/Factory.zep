@@ -19,16 +19,16 @@ use Phalcon\Logger;
  * Loads Logger Adapter class using 'adapter' option
  *
  *<code>
- *  use Phalcon\Logger\Factory;
+ * use Phalcon\Logger\Factory;
  *
- *  $options = [
- *      'adapters' => [
- *          'type' => 'stream',
- *          'name' => 'log.txt',
- *      ]
- *  ];
+ * $options = [
+ *     'adapters' => [
+ *         'type' => 'stream',
+ *         'name' => 'log.txt',
+ *     ]
+ * ];
  *
- *  $logger = Factory::load($options);
+ * $logger = Factory::load($options);
  *</code>
  */
 class Factory extends BaseFactory

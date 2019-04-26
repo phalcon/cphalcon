@@ -61,7 +61,7 @@ class Breadcrumbs
     }
 
     /**
-     * Clears the crumbx
+     * Clears the crumbs
      *
      * <code>
      * $breadcrumbs->clear()
@@ -97,7 +97,7 @@ class Breadcrumbs
      * Renders and outputs breadcrumbs based on previously set template.
      *
      * <code>
-     * // Php Engine
+     * // PHP Engine
      * echo $breadcrumbs->render();
      * </code>
      */

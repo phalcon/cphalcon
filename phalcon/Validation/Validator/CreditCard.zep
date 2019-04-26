@@ -102,7 +102,9 @@ class CreditCard extends Validator
             let hash .= (position % 2 ? digit * 2 : digit);
         }
 
-        let result = array_sum(str_split(hash));
+        let result = array_sum(
+            str_split(hash)
+        );
 
         return (result % 10 == 0);
     }

@@ -110,10 +110,6 @@ class Date extends Validator
         let date = \DateTime::createFromFormat(format, value);
         let errors = \DateTime::getLastErrors();
 
-        if errors["warning_count"] > 0 || errors["error_count"] > 0 {
-            return false;
-        }
-
-        return true;
+        return errors["warning_count"] == 0 && errors["error_count"] == 0;
     }
 }

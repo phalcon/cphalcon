@@ -36,7 +36,7 @@ class Simple extends Resultset
     /**
      * Phalcon\Mvc\Model\Resultset\Simple constructor
      *
-     * @param array columnMap
+     * @param array                                             columnMap
      * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row model
      */
     public function __construct(var columnMap, var model, result, <BackendInterface> cache = null, bool keepSnapshots = null) -> void
@@ -60,6 +60,7 @@ class Simple extends Resultset
         var row, hydrateMode, columnMap, activeRow, modelName;
 
         let activeRow = this->activeRow;
+
         if activeRow !== null {
             return activeRow;
         }
@@ -74,6 +75,7 @@ class Simple extends Resultset
          */
         if typeof row != "array" {
             let this->activeRow = false;
+
             return false;
         }
 
@@ -91,15 +93,12 @@ class Simple extends Resultset
          * Hydrate based on the current hydration
          */
         switch hydrateMode {
-
             case Resultset::HYDRATE_RECORDS:
-
                 /**
                  * Set records as dirty state PERSISTENT by default
                  * Performs the standard hydration based on objects
                  */
                 if globals_get("orm.late_state_binding") {
-
                     if this->model instanceof \Phalcon\Mvc\Model {
                         let modelName = get_class(this->model);
                     } else {
@@ -122,6 +121,7 @@ class Simple extends Resultset
                         this->keepSnapshots
                     );
                 }
+
                 break;
 
             default:
@@ -138,6 +138,7 @@ class Simple extends Resultset
         }
 
         let this->activeRow = activeRow;
+
         return activeRow;
     }
 
@@ -149,21 +150,25 @@ class Simple extends Resultset
      */
     public function toArray(bool renameColumns = true) -> array
     {
-        var result, records, record, renamed, renamedKey,
-            key, value, renamedRecords, columnMap;
+        var result, records, record, renamed, renamedKey, key, value,
+            renamedRecords, columnMap;
 
         /**
          * If _rows is not present, fetchAll from database
          * and keep them in memory for further operations
          */
         let records = this->rows;
+
         if typeof records != "array" {
             let result = this->result;
+
             if this->row !== null {
                 // re-execute query if required and fetchAll rows
                 result->execute();
             }
+
             let records = result->fetchAll();
+
             let this->row = null;
             let this->rows = records; // keep result-set in memory
         }
@@ -172,23 +177,22 @@ class Simple extends Resultset
          * We need to rename the whole set here, this could be slow
          */
         if renameColumns {
-
             /**
              * Get the resultset column map
              */
             let columnMap = this->columnMap;
+
             if typeof columnMap != "array" {
                 return records;
             }
 
             let renamedRecords = [];
+
             if typeof records == "array" {
-
                 for record in records {
-
                     let renamed = [];
-                    for key, value in record {
 
+                    for key, value in record {
                         /**
                          * Check if the key is part of the column map
                          */
@@ -199,7 +203,6 @@ class Simple extends Resultset
                         }
 
                         if typeof renamedKey == "array" {
-
                             if !fetch renamedKey, renamedKey[0] {
                                 throw new Exception(
                                     "Column '" . key . "' is not part of the column map"
@@ -229,34 +232,35 @@ class Simple extends Resultset
     public function serialize() -> string
     {
         var container, serializer;
+        array data;
+
         let container = Di::getDefault();
+
         if typeof container != "object" {
             throw new Exception(
                 "The dependency injector container is not valid"
             );
         }
-        if container->has("serializer") {
-            let serializer = <FrontendInterface> container->getShared("serializer");
-            return serializer->beforeStore([
-                "model"         : this->model,
-                "cache"         : this->cache,
-                "rows"          : this->toArray(false),
-                "columnMap"     : this->columnMap,
-                "hydrateMode"   : this->hydrateMode,
-                "keepSnapshots" : this->keepSnapshots
-            ]);
-        }
-        /**
-         * Serialize the cache using the serialize function
-         */
-        return serialize([
+
+        let data = [
             "model"         : this->model,
             "cache"         : this->cache,
             "rows"          : this->toArray(false),
             "columnMap"     : this->columnMap,
             "hydrateMode"   : this->hydrateMode,
             "keepSnapshots" : this->keepSnapshots
-        ]);
+        ];
+
+        if container->has("serializer") {
+            let serializer = <FrontendInterface> container->getShared("serializer");
+
+            return serializer->beforeStore(data);
+        }
+
+        /**
+         * Serialize the cache using the serialize function
+         */
+        return serialize(data);
     }
 
     /**
@@ -266,18 +270,22 @@ class Simple extends Resultset
     public function unserialize(var data) -> void
     {
         var resultset, keepSnapshots, container, serializer;
+
         let container = Di::getDefault();
+
         if typeof container != "object" {
             throw new Exception(
                 "The dependency injector container is not valid"
             );
         }
+
         if container->has("serializer") {
             let serializer = <FrontendInterface> container->getShared("serializer");
             let resultset = serializer->afterRetrieve(data);
         } else {
             let resultset = unserialize(data);
         }
+
         if typeof resultset != "array" {
             throw new Exception("Invalid serialization data");
         }

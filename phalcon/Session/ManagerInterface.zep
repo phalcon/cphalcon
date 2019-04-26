@@ -109,18 +109,12 @@ interface ManagerInterface
      * Set the session name. Throw exception if the session has started
      * and do not allow poop names
      *
-     * @param  string name
-     *
      * @throws InvalidArgumentException
-     *
-     * @return Manager
      */
     public function setName(string name) -> <ManagerInterface>;
 
     /**
      * Sets session's options
-     *
-     * @param array options
      */
     public function setOptions(array options) -> void;
 

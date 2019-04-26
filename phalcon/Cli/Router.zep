@@ -93,7 +93,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
             let routes[] = new Route(
                 "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)*$#",
                 [
-                    "task": 1,
+                    "task":   1,
                     "action": 2,
                     "params": 3
                 ]
@@ -118,6 +118,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
 
         let route = new Route(pattern, paths),
             this->routes[] = route;
+
         return route;
     }
 
@@ -183,6 +184,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                 return route;
             }
         }
+
         return false;
     }
 
@@ -198,6 +200,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                 return route;
             }
         }
+
         return false;
     }
 
@@ -224,10 +227,9 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
      */
     public function handle(arguments = null)
     {
-        var moduleName, taskName, actionName,
-            params, route, parts, pattern, routeFound, matches, paths,
-            beforeMatch, converters, converter, part, position, matchPosition,
-            strParams;
+        var moduleName, taskName, actionName, params, route, parts, pattern,
+            routeFound, matches, paths, beforeMatch, converters, converter,
+            part, position, matchPosition, strParams;
 
         let routeFound = false,
             parts = [],
@@ -348,6 +350,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                     }
 
                     let this->matchedRoute = route;
+
                     break;
                 }
             }
@@ -368,6 +371,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                     this->task = this->defaultTask,
                     this->action = this->defaultAction,
                     this->params = this->defaultParams;
+
                 return this;
             }
         } else {
@@ -417,8 +421,10 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                     let params = [];
                 }
             }
+
             unset parts["params"];
         }
+
         if count(params) {
             let params = array_merge(params, parts);
         } else {

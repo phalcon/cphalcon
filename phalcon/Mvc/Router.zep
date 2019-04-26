@@ -83,7 +83,6 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
         array routes = [];
 
         if defaultRoutes {
-
             /**
              * Two routes are added by default to match /:controller/:action and
              * /:controller/:action/:params
@@ -360,6 +359,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                 return route;
             }
         }
+
         return false;
     }
 
@@ -376,6 +376,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
         for key, route in this->routes {
             let routeName = route->getName();
+
             if !empty routeName {
                 let this->keyRouteNames[routeName] = key;
 
@@ -384,6 +385,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                 }
             }
         }
+
         return false;
     }
 
@@ -446,14 +448,14 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
              * Look for HTTP method constraints
              */
             let methods = route->getHttpMethods();
-            if methods !== null {
 
+            if methods !== null {
                 /**
                  * Retrieve the request service from the container
                  */
                 if request === null {
-
                     let container = <DiInterface> this->container;
+
                     if typeof container != "object" {
                         throw new Exception(
                             Exception::containerServiceNotFound(
@@ -477,14 +479,14 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
              * Look for hostname constraints
              */
             let hostname = route->getHostName();
-            if hostname !== null {
 
+            if hostname !== null {
                 /**
                  * Retrieve the request service from the container
                  */
                 if request === null {
-
                     let container = <DiInterface> this->container;
+
                     if typeof container != "object" {
                         throw new Exception(
                             Exception::containerServiceNotFound(
@@ -517,13 +519,16 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                 if memstr(hostname, "(") {
                     if !memstr(hostname, "#") {
                         let regexHostName = "#^" . hostname;
+
                         if !memstr(hostname, ":") {
                             let regexHostName .= "(:[[:digit:]]+)?";
                         }
+
                         let regexHostName .= "$#i";
                     } else {
                         let regexHostName = hostname;
                     }
+
                     let matched = preg_match(regexHostName, currentHostName);
                 } else {
                     let matched = currentHostName == hostname;
@@ -553,14 +558,13 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
              * Check for beforeMatch conditions
              */
             if routeFound {
-
                 if typeof eventsManager == "object" {
                     eventsManager->fire("router:matchedRoute", this, route);
                 }
 
                 let beforeMatch = route->getBeforeMatch();
-                if beforeMatch !== null {
 
+                if beforeMatch !== null {
                     /**
                      * Check first if the callback is callable
                      */
@@ -590,7 +594,6 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
             }
 
             if routeFound {
-
                 /**
                  * Start from the default paths
                  */
@@ -601,14 +604,12 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                  * Check if the matches has variables
                  */
                 if typeof matches == "array" {
-
                     /**
                      * Get the route converters if any
                      */
                     let converters = route->getConverters();
 
                     for part, position in paths {
-
                         if typeof part != "string" {
                             throw new Exception("Wrong key in paths: " . part);
                         }
@@ -618,7 +619,6 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                         }
 
                         if fetch matchPosition, matches[position] {
-
                             /**
                              * Check if the part has a converter
                              */
@@ -638,7 +638,6 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                              */
                             let parts[part] = matchPosition;
                         } else {
-
                             /**
                              * Apply the converters anyway
                              */
@@ -650,7 +649,6 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                                     );
                                 }
                             } else {
-
                                 /**
                                  * Remove the path if the parameter was not
                                  * matched
@@ -669,6 +667,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                 }
 
                 let this->matchedRoute = route;
+
                 break;
             }
         }
@@ -687,6 +686,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
          */
         if !routeFound {
             let notFoundPaths = this->notFoundPaths;
+
             if notFoundPaths !== null {
                 let parts = Route::getRoutePaths(notFoundPaths),
                     routeFound = true;
@@ -703,7 +703,6 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
             this->params = this->defaultParams;
 
         if routeFound {
-
             /**
              * Check for a namespace
              */
@@ -711,6 +710,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                 if !is_numeric(vnamespace) {
                     let this->namespaceName = vnamespace;
                 }
+
                 unset parts["namespace"];
             }
 
@@ -721,6 +721,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                 if !is_numeric(module) {
                     let this->module = module;
                 }
+
                 unset parts["module"];
             }
 
@@ -731,6 +732,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                 if !is_numeric(controller) {
                     let this->controller = controller;
                 }
+
                 unset parts["controller"];
             }
 
@@ -741,6 +743,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                 if !is_numeric(action) {
                     let this->action = action;
                 }
+
                 unset parts["action"];
             }
 
@@ -750,6 +753,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
             if fetch paramsStr, parts["params"] {
                 if typeof paramsStr == "string" {
                     let strParams = trim(paramsStr, "/");
+
                     if strParams !== "" {
                         let params = explode("/", strParams);
                     }
@@ -777,6 +781,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     {
         return true;
     }
+
     /**
      * Mounts a group of routes in the router
      */
@@ -791,6 +796,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
         }
 
         let groupRoutes = group->getRoutes();
+
         if !count(groupRoutes) {
             throw new Exception(
                 "The group of routes does not contain any routes"
@@ -819,11 +825,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
         let routes = this->routes;
 
-        if typeof routes == "array" {
-            let this->routes = array_merge(routes, groupRoutes);
-        } else {
-            let this->routes = groupRoutes;
-        }
+        let this->routes = array_merge(routes, groupRoutes);
 
         return this;
     }
@@ -839,7 +841,9 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                 "The not-found paths must be an array or string"
             );
         }
+
         let this->notFoundPaths = paths;
+
         return this;
     }
 
@@ -849,6 +853,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     public function removeExtraSlashes(bool! remove) -> <RouterInterface>
     {
         let this->removeExtraSlashes = remove;
+
         return this;
     }
 
@@ -858,6 +863,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     public function setDefaultAction(string! actionName) -> <RouterInterface>
     {
         let this->defaultAction = actionName;
+
         return this;
     }
 
@@ -867,6 +873,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     public function setDefaultController(string! controllerName) -> <RouterInterface>
     {
         let this->defaultController = controllerName;
+
         return this;
     }
 
@@ -876,6 +883,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     public function setDefaultModule(string! moduleName) -> <RouterInterface>
     {
         let this->defaultModule = moduleName;
+
         return this;
     }
 
@@ -885,6 +893,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     public function setDefaultNamespace(string! namespaceName) -> <RouterInterface>
     {
         let this->defaultNamespace = namespaceName;
+
         return this;
     }
 

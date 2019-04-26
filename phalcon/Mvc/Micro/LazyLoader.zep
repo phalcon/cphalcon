@@ -34,7 +34,6 @@ class LazyLoader
     /**
      * Calling __call method
      *
-     * @param  string method
      * @param  array arguments
      * @return mixed
      */
@@ -47,17 +46,27 @@ class LazyLoader
 
         if typeof handler != "object" {
             let handler = new {definition}();
+
             let this->handler = handler;
         }
 
         if modelBinder != null {
             let bindCacheKey = "_PHMB_" . definition . "_" . method;
-            let arguments = modelBinder->bindToHandler(handler, arguments, bindCacheKey, method);
+
+            let arguments = modelBinder->bindToHandler(
+                handler,
+                arguments,
+                bindCacheKey,
+                method
+            );
         }
 
         /**
          * Call the handler
          */
-        return call_user_func_array([handler, method], arguments);
+        return call_user_func_array(
+            [handler, method],
+            arguments
+        );
     }
 }

@@ -22,10 +22,6 @@ class Syslog extends AbstractFormatter
 {
     /**
      * Applies a format to a message before sent it to the internal log
-     *
-     * @param <Item> item
-     *
-     * @return array
      */
     public function format(<Item> item) -> array
     {

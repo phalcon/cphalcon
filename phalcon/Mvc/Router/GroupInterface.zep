@@ -15,7 +15,6 @@ use Phalcon\Mvc\Router\RouteInterface;
 /**
  * Phalcon\Mvc\Router\GroupInterface
  *
- *
  *<code>
  * $router = new \Phalcon\Mvc\Router();
  *
@@ -156,7 +155,6 @@ interface GroupInterface
      * Returns the routes added to the group
      */
     public function getRoutes() -> <RouteInterface[]>;
-
 
     /**
      * Set a hostname restriction for all the routes in the group

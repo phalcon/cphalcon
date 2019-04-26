@@ -30,7 +30,7 @@ use Phalcon\Http\Request\FileInterface;
  *             foreach ($this->request->getUploadedFiles() as $file) {
  *                 echo $file->getName(), " ", $file->getSize(), "\n";
  *             }
- *           }
+ *         }
  *     }
  * }
  *</code>
@@ -114,11 +114,13 @@ class File implements FileInterface
         var finfo, mime;
 
         let finfo = finfo_open(FILEINFO_MIME_TYPE);
+
         if typeof finfo != "resource" {
             return "";
         }
 
         let mime = finfo_file(finfo, this->tmp);
+
         finfo_close(finfo);
 
         return mime;
@@ -157,6 +159,7 @@ class File implements FileInterface
         var tmp;
 
         let tmp = this->getTempName();
+
         return typeof tmp == "string" && is_uploaded_file(tmp);
     }
 

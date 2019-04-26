@@ -19,15 +19,16 @@ use Phalcon\Acl\Exception;
  */
 class Component implements ComponentInterface
 {
-
     /**
      * Component description
+     *
      * @var string
      */
     private description { get };
 
     /**
      * Component name
+     *
      * @var string
      */
     private name { get, __toString };
@@ -41,9 +42,7 @@ class Component implements ComponentInterface
             throw new Exception("Component name cannot be '*'");
         }
 
-        let this->name = name;
-        if description {
-            let this->description = description;
-        }
+        let this->name = name,
+            this->description = description;
     }
 }

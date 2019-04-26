@@ -20,12 +20,13 @@ use Phalcon\Forms\Element;
  */
 class Text extends Element
 {
-
     /**
      * Renders the element widget
      */
     public function render(array attributes = []) -> string
     {
-        return Tag::textField(this->prepareAttributes(attributes));
+        return Tag::textField(
+            this->prepareAttributes(attributes)
+        );
     }
 }

@@ -53,7 +53,7 @@ class Factory extends BaseFactory
             }
 
             let config = [
-                "adapter": extension,
+                "adapter":  extension,
                 "filePath": oldConfig
             ];
         }

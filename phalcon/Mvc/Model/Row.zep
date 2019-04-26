@@ -35,15 +35,18 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
      * Gets a record in a specific position of the row
      *
      * @param string|int index
+     *
      * @return string|Phalcon\Mvc\ModelInterface
      */
     public function offsetGet(var index) -> var
     {
         var value;
-        if fetch value, this->{index} {
-            return value;
+
+        if !fetch value, this->{index} {
+            throw new Exception("The index does not exist in the row");
         }
-        throw new Exception("The index does not exist in the row");
+
+        return value;
     }
 
     /**
@@ -89,10 +92,12 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
     public function readAttribute(string! attribute)
     {
         var value;
-        if fetch value, this->{attribute} {
-            return value;
+
+        if !fetch value, this->{attribute} {
+            return null;
         }
-        return null;
+
+        return value;
     }
 
     /**

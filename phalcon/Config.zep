@@ -80,7 +80,9 @@ class Config implements \ArrayAccess, \Countable
      */
     public function count() -> int
     {
-        return count(get_object_vars(this));
+        return count(
+            get_object_vars(this)
+        );
     }
 
     /**
@@ -96,11 +98,11 @@ class Config implements \ArrayAccess, \Countable
     {
         let index = strval(index);
 
-        if isset this->{index} {
-            return this->{index};
+        if !isset this->{index} {
+            return defaultValue;
         }
 
-        return defaultValue;
+        return this->{index};
     }
 
     /**
@@ -111,6 +113,7 @@ class Config implements \ArrayAccess, \Countable
         var delimiter;
 
         let delimiter = self::pathDelimiter;
+
         if !delimiter {
             let delimiter = self::DEFAULT_PATH_DELIMITER;
         }
@@ -310,8 +313,8 @@ class Config implements \ArrayAccess, \Countable
         let number = instance->count();
 
         for key, value in get_object_vars(config) {
-
             let property = strval(key);
+
             if fetch localObject, instance->{property} {
                 if typeof localObject === "object" && typeof value === "object" {
                     if localObject instanceof Config && value instanceof Config {
@@ -323,6 +326,7 @@ class Config implements \ArrayAccess, \Countable
 
             if is_numeric(key) {
                 let key = strval(key);
+
                 while instance->offsetExists(key) {
                     /**
                      * Increment the number afterwards, because "number" starts
@@ -331,7 +335,8 @@ class Config implements \ArrayAccess, \Countable
                     let key = strval(number);
                     let number++;
                 }
-             }
+            }
+
             let instance->{key} = value;
         }
 

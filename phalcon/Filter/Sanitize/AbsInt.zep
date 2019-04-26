@@ -22,6 +22,10 @@ class AbsInt
      */
     public function __invoke(var input)
     {
-        return abs(intval(filter_var(input, FILTER_SANITIZE_NUMBER_INT)));
+        return abs(
+            intval(
+                filter_var(input, FILTER_SANITIZE_NUMBER_INT)
+            )
+        );
     }
 }

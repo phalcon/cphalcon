@@ -288,17 +288,16 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *     $connection->describeIndexes("robots_parts")
      * );
      *</code>
-     *
-     * @param    string schema
      */
     public function describeIndexes(string! table, string schema = null) -> <IndexInterface[]>
     {
         var indexes, index, keyName, indexObjects, name, indexColumns, columns;
 
         let indexes = [];
-        for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Db::FETCH_NUM) {
 
+        for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Db::FETCH_NUM) {
             let keyName = index[2];
+
             if !isset indexes[keyName] {
                 let columns = [];
             } else {
@@ -310,8 +309,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         }
 
         let indexObjects = [];
-        for name, indexColumns in indexes {
 
+        for name, indexColumns in indexes {
             /**
              * Every index is abstracted using a Phalcon\Db\Index instance
              */
@@ -332,15 +331,15 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
     {
-        var references, reference,
-            arrayReference, constraintName, referenceObjects, name,
-            referencedSchema, referencedTable, columns, referencedColumns;
+        var references, reference, arrayReference, constraintName,
+            referenceObjects, name, referencedSchema, referencedTable, columns,
+            referencedColumns;
 
         let references = [];
 
         for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Db::FETCH_NUM) {
-
             let constraintName = reference[2];
+
             if !isset references[constraintName] {
                 let referencedSchema = reference[3];
                 let referencedTable = reference[4];
@@ -365,6 +364,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         }
 
         let referenceObjects = [];
+
         for name, arrayReference in references {
             let referenceObjects[name] = new Reference(
                 name,
@@ -522,18 +522,17 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function fetchAll(string sqlQuery, int fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
     {
-        var results, result;
+        var result;
 
-        let results = [],
-            result = this->{"query"}(sqlQuery, bindParams, bindTypes);
-        if typeof result == "object" {
+        let result = this->{"query"}(sqlQuery, bindParams, bindTypes);
 
-            result->setFetchMode(fetchMode);
-
-            let results = result->fetchAll();
+        if typeof result != "object" {
+            return [];
         }
 
-        return results;
+        result->setFetchMode(fetchMode);
+
+        return result->fetchAll();
     }
 
     /**
@@ -560,11 +559,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
         let row = this->fetchOne(sqlQuery, Db::FETCH_BOTH, placeholders);
 
-        if !empty row && fetch columnValue, row[column] {
-            return columnValue;
+        if !fetch columnValue, row[column] {
+            return false;
         }
 
-        return false;
+        return columnValue;
     }
 
     /**
@@ -576,7 +575,10 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      * print_r($robot);
      *
      * // Getting first robot with associative indexes only
-     * $robot = $connection->fetchOne("SELECT * FROM robots", \Phalcon\Db::FETCH_ASSOC);
+     * $robot = $connection->fetchOne(
+     *     "SELECT * FROM robots",
+     *     \Phalcon\Db::FETCH_ASSOC
+     * );
      * print_r($robot);
      *</code>
      */
@@ -756,9 +758,8 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function insert(string table, array! values, var fields = null, var dataTypes = null) -> bool
     {
-        var placeholders, insertValues, bindDataTypes, bindType,
-            position, value, escapedTable, joinedValues, escapedFields,
-            field, insertSql;
+        var placeholders, insertValues, bindDataTypes, bindType, position,
+            value, escapedTable, joinedValues, escapedFields, field, insertSql;
 
         /**
          * A valid array with more than one element is required
@@ -791,6 +792,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
                 } else {
                     let placeholders[] = "?";
                     let insertValues[] = value;
+
                     if typeof dataTypes == "array" {
                         if !fetch bindType, dataTypes[position] {
                             throw new Exception(
@@ -810,8 +812,10 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
          * Build the final SQL INSERT statement
          */
         let joinedValues = join(", ", placeholders);
+
         if typeof fields == "array" {
             let escapedFields = [];
+
             for field in fields {
                 let escapedFields[] = this->escapeIdentifier(field);
             }
@@ -1022,7 +1026,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function setNestedTransactionsWithSavepoints(bool nestedTransactionsWithSavepoints) -> <AdapterInterface>
     {
-
         if this->transactionLevel > 0 {
             throw new Exception(
                 "Nested transaction with savepoints behavior cannot be changed while a transaction is open"
@@ -1036,6 +1039,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         }
 
         let this->transactionsWithSavepoints = nestedTransactionsWithSavepoints;
+
         return this;
     }
 
@@ -1084,10 +1088,12 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         var sql;
 
         let sql = this->dialect->tableOptions(tableName, schemaName);
-        if sql {
-            return this->fetchAll(sql, Db::FETCH_ASSOC)[0];
+
+        if !sql {
+            return [];
         }
-        return [];
+
+        return this->fetchAll(sql, Db::FETCH_ASSOC)[0];
     }
 
     /**
@@ -1124,16 +1130,16 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *
      * Warning! If $whereCondition is string it not escaped.
      *
-     * @param     array fields
-     * @param     array values
-     * @param     string|array whereCondition
-     * @param     array dataTypes
+     * @param array fields
+     * @param array values
+     * @param string|array whereCondition
+     * @param array dataTypes
      */
     public function update(string table, var fields, var values, var whereCondition = null, var dataTypes = null) -> bool
     {
-        var placeholders, updateValues, position, value,
-            field, bindDataTypes, escapedField, bindType, escapedTable,
-            setClause, updateSql, conditions, whereBind, whereTypes;
+        var placeholders, updateValues, position, value, field, bindDataTypes,
+            escapedField, bindType, escapedTable, setClause, updateSql,
+            conditions, whereBind, whereTypes;
 
         let placeholders = [],
             updateValues = [];
@@ -1153,6 +1159,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
             }
 
             let escapedField = this->escapeIdentifier(field);
+
             if typeof value == "object" && value instanceof RawValue {
                 let placeholders[] = escapedField . " = " . (string) value;
             } else {
@@ -1164,6 +1171,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
                     let placeholders[] = escapedField . " = null";
                 } else {
                     let updateValues[] = value;
+
                     if typeof dataTypes == "array" {
                         if !fetch bindType, dataTypes[position] {
                             throw new Exception(
@@ -1173,6 +1181,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
                         let bindDataTypes[] = bindType;
                     }
+
                     let placeholders[] = escapedField . " = ?";
                 }
             }
@@ -1183,7 +1192,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         let setClause = join(", ", placeholders);
 
         if whereCondition !== null {
-
             let updateSql = "UPDATE " . escapedTable . " SET " . setClause . " WHERE ";
 
             /**
@@ -1256,9 +1264,9 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
      * </code>
      *
-     * @param     array data
-     * @param     string whereCondition
-     * @param     array dataTypes
+     * @param array data
+     * @param string whereCondition
+     * @param array dataTypes
      */
     public function updateAsDict(string table, var data, var whereCondition = null, var dataTypes = null) -> bool
     {

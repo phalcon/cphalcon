@@ -20,15 +20,15 @@ use Phalcon\Annotations\Exception;
  * of annotations easily
  *
  *<code>
- * //Traverse annotations
+ * // Traverse annotations
  * foreach ($classAnnotations as $annotation) {
  *     echo "Name=", $annotation->getName(), PHP_EOL;
  * }
  *
- * //Check if the annotations has a specific
+ * // Check if the annotations has a specific
  * var_dump($classAnnotations->has("Cacheable"));
  *
- * //Get an specific annotation in the collection
+ * // Get an specific annotation in the collection
  * $annotation = $classAnnotations->get("Cacheable");
  *</code>
  */
@@ -44,11 +44,8 @@ class Collection implements \Iterator, \Countable
      */
     protected position = 0;
 
-
     /**
      * Phalcon\Annotations\Collection constructor
-     *
-     * @param array reflectionData
      */
     public function __construct(array reflectionData = []) -> void
     {
@@ -78,11 +75,11 @@ class Collection implements \Iterator, \Countable
     {
         var annotation;
 
-        if fetch annotation, this->annotations[this->position] {
-            return annotation;
+        if !fetch annotation, this->annotations[this->position] {
+            return false;
         }
 
-        return false;
+        return annotation;
     }
 
     /**
@@ -149,6 +146,7 @@ class Collection implements \Iterator, \Countable
 
         return false;
     }
+
     /**
      * Returns the current position/key in the iterator
      */

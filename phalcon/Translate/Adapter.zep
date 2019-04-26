@@ -33,6 +33,7 @@ abstract class Adapter implements AdapterInterface
         if !fetch interpolator, options["interpolator"] {
             let interpolator = new AssociativeArray();
         }
+
         this->setInterpolator(interpolator);
     }
 
@@ -83,6 +84,7 @@ abstract class Adapter implements AdapterInterface
     public function setInterpolator(<InterpolatorInterface> interpolator) -> <Adapter>
     {
         let this->interpolator = interpolator;
+
         return this;
     }
 

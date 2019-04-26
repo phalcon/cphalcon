@@ -46,6 +46,7 @@ class Locator implements LocatorInterface
         var service;
 
         let service = this->get(name);
+
         return call_user_func_array(service, parameters);
     }
 
@@ -57,13 +58,13 @@ class Locator implements LocatorInterface
     {
         var definition, service;
 
-        if (true !== this->has(name)) {
+        if !this->has(name) {
             throw new Exception(
                 "The service " . name . " has not been found in the locator"
             );
         }
 
-        if (true !== isset(this->services[name])) {
+        if !isset(this->services[name]) {
             let definition = this->mapper[name];
 
             if typeof definition == "string" {

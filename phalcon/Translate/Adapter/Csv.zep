@@ -91,8 +91,8 @@ class Csv extends Adapter implements \ArrayAccess
         }
 
         loop {
-
             let data = fgetcsv(fileHandler, length, delimiter, enclosure);
+
             if data === false {
                 break;
             }

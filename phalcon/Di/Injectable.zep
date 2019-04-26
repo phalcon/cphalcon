@@ -73,8 +73,10 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
         var container, service, persistent;
 
         let container = <DiInterface> this->container;
+
         if typeof container != "object" {
             let container = \Phalcon\Di::getDefault();
+
             if typeof container != "object" {
                 throw new Exception(
                     Exception::containerServiceNotFound("internal services")
@@ -88,11 +90,13 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
         if container->has(propertyName) {
             let service = container->getShared(propertyName);
             let this->{propertyName} = service;
+
             return service;
         }
 
         if propertyName == "di" {
             let this->{"di"} = container;
+
             return container;
         }
 
@@ -102,6 +106,7 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
         if propertyName == "persistent" {
             let persistent = <BagInterface> container->get("sessionBag", [get_class(this)]),
                 this->{"persistent"} = persistent;
+
             return persistent;
         }
 
@@ -109,6 +114,7 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
          * A notice is shown if the property is not defined and isn't a valid service
          */
         trigger_error("Access to undefined property " . propertyName);
+
         return null;
     }
     
@@ -120,9 +126,11 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
         var container;
 
         let container = this->container;
+
         if typeof container != "object" {
             let container = Di::getDefault();
         }
+
         return container;
     }
 

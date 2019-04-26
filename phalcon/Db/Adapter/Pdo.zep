@@ -39,7 +39,6 @@ use Phalcon\Events\ManagerInterface;
  */
 abstract class Pdo extends Adapter
 {
-
     /**
      * Last affected rows
      */
@@ -58,6 +57,7 @@ abstract class Pdo extends Adapter
     public function __construct(array! descriptor) -> void
     {
         this->connect(descriptor);
+
         parent::__construct(descriptor);
     }
 
@@ -101,7 +101,6 @@ abstract class Pdo extends Adapter
         let transactionLevel = (int) this->transactionLevel;
 
         if transactionLevel == 1 {
-
             /**
              * Notify the events manager about the started transaction
              */
@@ -112,7 +111,6 @@ abstract class Pdo extends Adapter
 
             return pdo->beginTransaction();
         } else {
-
             /**
              * Check if the current database system supports nested transactions
              */
@@ -130,7 +128,6 @@ abstract class Pdo extends Adapter
 
                 return this->createSavepoint(savepointName);
             }
-
         }
 
         return false;
@@ -157,7 +154,6 @@ abstract class Pdo extends Adapter
         }
 
         if transactionLevel == 1 {
-
             /**
              * Notify the events manager about the committed transaction
              */
@@ -173,12 +169,10 @@ abstract class Pdo extends Adapter
 
             return pdo->commit();
         } else {
-
             /**
              * Check if the current database system supports nested transactions
              */
             if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
-
                 /**
                  * Notify the events manager about the committed savepoint
                  */
@@ -195,7 +189,6 @@ abstract class Pdo extends Adapter
 
                 return this->releaseSavepoint(savepointName);
             }
-
         }
 
         /**
@@ -215,10 +208,13 @@ abstract class Pdo extends Adapter
     public function close() -> bool
     {
         var pdo;
+
         let pdo = this->pdo;
+
         if typeof pdo == "object" {
             let this->pdo = null;
         }
+
         return true;
     }
 
@@ -289,6 +285,7 @@ abstract class Pdo extends Adapter
         // the form of key=value with semicolons delineating sections.
         if fetch dsnAttributesCustomRaw, descriptor["dsn"] {
             let dsnParts[] = dsnAttributesCustomRaw;
+
             unset descriptor["dsn"];
         }
 
@@ -297,7 +294,10 @@ abstract class Pdo extends Adapter
          * descriptor. At this point the descriptor should be a valid DSN
          * key-value map due to all other values having been removed.
          */
-        let dsnAttributesMap = array_merge(this->getDsnDefaults(), descriptor);
+        let dsnAttributesMap = array_merge(
+            this->getDsnDefaults(),
+            descriptor
+        );
 
         for key, value in dsnAttributesMap {
             let dsnParts[] = key . "=" . value;
@@ -333,16 +333,16 @@ abstract class Pdo extends Adapter
      */
     public function convertBoundParams(string! sql, array params = []) -> array
     {
-        var boundSql, placeHolders, bindPattern, matches,
-            setOrder, placeMatch, value;
+        var boundSql, placeHolders, bindPattern, matches, setOrder, placeMatch,
+            value;
 
         let placeHolders = [],
             bindPattern = "/\\?([0-9]+)|:([a-zA-Z0-9_]+):/",
-            matches = null, setOrder = 2;
+            matches = null,
+            setOrder = 2;
 
         if preg_match_all(bindPattern, sql, matches, setOrder) {
             for placeMatch in matches {
-
                 if !fetch value, params[placeMatch[1]] {
                     if isset placeMatch[2] {
                         if !fetch value, params[placeMatch[2]] {
@@ -416,6 +416,7 @@ abstract class Pdo extends Adapter
             let this->sqlStatement = sqlStatement,
                 this->sqlVariables = bindParams,
                 this->sqlBindTypes = bindTypes;
+
             if eventsManager->fire("db:beforeQuery", this) === false {
                 return false;
             }
@@ -427,8 +428,10 @@ abstract class Pdo extends Adapter
         let affectedRows = 0;
 
         let pdo = <\Pdo> this->pdo;
+
         if typeof bindParams == "array" {
             let statement = pdo->prepare(sqlStatement);
+
             if typeof statement == "object" {
                 let newStatement = this->executePrepared(
                     statement,
@@ -447,6 +450,7 @@ abstract class Pdo extends Adapter
          */
         if typeof affectedRows == "integer" {
             let this->affectedRows = affectedRows;
+
             if typeof eventsManager == "object" {
                 eventsManager->fire("db:afterQuery", this);
             }
@@ -481,11 +485,9 @@ abstract class Pdo extends Adapter
      */
     public function executePrepared(<\PDOStatement> statement, array! placeholders, dataTypes) -> <\PDOStatement>
     {
-        var wildcard, value, type, castValue,
-            parameter, position, itemValue;
+        var wildcard, value, type, castValue, parameter, position, itemValue;
 
         for wildcard, value in placeholders {
-
             if typeof wildcard == "integer" {
                 let parameter = wildcard + 1;
             } elseif typeof wildcard == "string" {
@@ -495,7 +497,6 @@ abstract class Pdo extends Adapter
             }
 
             if typeof dataTypes == "array" && fetch type, dataTypes[wildcard] {
-
                 /**
                  * The bind type needs to be string because the precision
                  * is lost if it is casted as a double
@@ -617,10 +618,13 @@ abstract class Pdo extends Adapter
     public function isUnderTransaction() -> bool
     {
         var pdo;
+
         let pdo = this->pdo;
+
         if typeof pdo == "object" {
             return pdo->inTransaction();
         }
+
         return false;
     }
 
@@ -651,10 +655,13 @@ abstract class Pdo extends Adapter
     public function lastInsertId(sequenceName = null) -> int | bool
     {
         var pdo;
+
         let pdo = this->pdo;
+
         if typeof pdo != "object" {
             return false;
         }
+
         return pdo->lastInsertId(sequenceName);
     }
 
@@ -716,6 +723,7 @@ abstract class Pdo extends Adapter
             let this->sqlStatement = sqlStatement,
                 this->sqlVariables = bindParams,
                 this->sqlBindTypes = bindTypes;
+
             if eventsManager->fire("db:beforeQuery", this) === false {
                 return false;
             }
@@ -778,7 +786,6 @@ abstract class Pdo extends Adapter
         }
 
         if transactionLevel == 1 {
-
             /**
              * Notify the events manager about the rollbacked transaction
              */
@@ -793,9 +800,7 @@ abstract class Pdo extends Adapter
             let this->transactionLevel--;
 
             return pdo->rollback();
-
         } else {
-
             /**
              * Check if the current database system supports nested transactions
              */

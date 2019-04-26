@@ -31,5 +31,4 @@ interface RoleInterface
      * Magic method __toString
      */
     public function __toString() -> string;
-
 }

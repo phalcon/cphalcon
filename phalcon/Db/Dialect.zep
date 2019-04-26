@@ -46,7 +46,6 @@ abstract class Dialect implements DialectInterface
         }
 
         if !memstr(str, ".") {
-
             if escapeChar != "" && str != "*" {
                 return escapeChar . str_replace(escapeChar, escapeChar . escapeChar, str) . escapeChar;
             }
@@ -57,8 +56,8 @@ abstract class Dialect implements DialectInterface
         let parts = (array) explode(".", trim(str, escapeChar));
 
         let newParts = parts;
-        for key, part in parts {
 
+        for key, part in parts {
             if escapeChar == "" || part == "" || part == "*" {
                 continue;
             }
@@ -90,6 +89,7 @@ abstract class Dialect implements DialectInterface
      *
      *<code>
      * $sql = $dialect->forUpdate("SELECT * FROM robots");
+     *
      * echo $sql; // SELECT * FROM robots FOR UPDATE
      *</code>
      */
@@ -142,7 +142,6 @@ abstract class Dialect implements DialectInterface
         }
 
         if !isset column["type"] {
-
             /**
              * The index "0" is the column field
              */
@@ -153,12 +152,10 @@ abstract class Dialect implements DialectInterface
                     "type": "scalar",
                     "value": columnField
                 ];
-
             } elseif columnField == "*" {
                 let columnExpression = [
                     "type": "all"
                 ];
-
             } else {
                 let columnExpression = [
                     "type": "qualified",
@@ -265,6 +262,7 @@ abstract class Dialect implements DialectInterface
 
                     return join(", ", placeholders);
                 }
+
                 return expression["value"];
 
             /**
@@ -399,17 +397,22 @@ abstract class Dialect implements DialectInterface
      * Generates the SQL for LIMIT clause
      *
      * <code>
-     * $sql = $dialect->limit("SELECT * FROM robots", 10);
-     * echo $sql; // SELECT * FROM robots LIMIT 10
+     * // SELECT * FROM robots LIMIT 10
+     * echo $dialect->limit(
+     *     "SELECT * FROM robots",
+     *     10
+     * );
      *
-     * $sql = $dialect->limit("SELECT * FROM robots", [10, 50]);
-     * echo $sql; // SELECT * FROM robots LIMIT 10 OFFSET 50
+     * // SELECT * FROM robots LIMIT 10 OFFSET 50
+     * echo $dialect->limit(
+     *     "SELECT * FROM robots",
+     *     [10, 50]
+     * );
      * </code>
      */
     public function limit(string! sqlQuery, var number) -> string
     {
         if typeof number == "array" {
-
             let sqlQuery .= " LIMIT " . number[0];
 
             if isset number[1] && strlen(number[1]) {
@@ -428,6 +431,7 @@ abstract class Dialect implements DialectInterface
     public function registerCustomFunction(string name, callable customFunction) -> <Dialect>
     {
         let this->customFunctions[name] = customFunction;
+
         return this;
     }
 
@@ -468,13 +472,11 @@ abstract class Dialect implements DialectInterface
         }
 
         if fetch distinct, definition["distinct"] {
-
             if distinct {
                 let sql = "SELECT DISTINCT";
             } else {
                 let sql = "SELECT ALL";
             }
-
         } else {
             let sql = "SELECT";
         }
@@ -601,11 +603,11 @@ abstract class Dialect implements DialectInterface
      */
     protected function checkColumnTypeSql(<ColumnInterface> column) -> string
     {
-        if typeof column->getType() == "string" {
-            return column->getType();
+        if typeof column->getType() != "string" {
+            return "";
         }
 
-        return "";
+        return column->getType();
     }
 
     /**
@@ -717,7 +719,6 @@ abstract class Dialect implements DialectInterface
         var table, tables;
 
         if typeof expression == "array" {
-
             let tables = [];
 
             for table in expression {
@@ -725,7 +726,6 @@ abstract class Dialect implements DialectInterface
             }
 
             let tables = join(", ", tables);
-
         } else {
             let tables = expression;
         }
@@ -748,11 +748,15 @@ abstract class Dialect implements DialectInterface
 
         if fetch arguments, expression["arguments"] && typeof arguments == "array" {
 
-            let arguments = this->getSqlExpression([
-                "type": "list",
-                "parentheses": false,
-                "value": arguments
-            ], escapeChar, bindCounts);
+            let arguments = this->getSqlExpression(
+                [
+                    "type":        "list",
+                    "parentheses": false,
+                    "value":       arguments
+                ],
+                escapeChar,
+                bindCounts
+            );
 
             if isset expression["distinct"] && expression["distinct"] {
                 return name . "(DISTINCT " . arguments . ")";
@@ -772,7 +776,6 @@ abstract class Dialect implements DialectInterface
         var field, fields;
 
         if typeof expression == "array" {
-
             let fields = [];
 
             for field in expression {
@@ -788,7 +791,6 @@ abstract class Dialect implements DialectInterface
             }
 
             let fields = join(", ", fields);
-
         } else {
             let fields = expression;
         }
@@ -818,7 +820,6 @@ abstract class Dialect implements DialectInterface
              * Check if the join has conditions
              */
             if fetch joinConditionsArray, join["conditions"] && !empty joinConditionsArray {
-
                 if !isset joinConditionsArray[0] {
                     let joinCondition = this->getSqlExpression(
                         joinConditionsArray,
@@ -826,7 +827,6 @@ abstract class Dialect implements DialectInterface
                         bindCounts
                     );
                 } else {
-
                     let joinCondition = [];
 
                     for condition in joinConditionsArray {
@@ -861,6 +861,7 @@ abstract class Dialect implements DialectInterface
     final protected function getSqlExpressionLimit(var expression, string escapeChar = null, bindCounts = null) -> string
     {
         var sql = "", value, limit, offset = null;
+
         let value = expression["value"];
 
         if isset expression["sql"] {
@@ -868,9 +869,12 @@ abstract class Dialect implements DialectInterface
         }
 
         if typeof value == "array" {
-
             if typeof value["number"] == "array" {
-                let limit = this->getSqlExpression(value["number"], escapeChar, bindCounts);
+                let limit = this->getSqlExpression(
+                    value["number"],
+                    escapeChar,
+                    bindCounts
+                );
             } else {
                 let limit = value["number"];
             }
@@ -879,7 +883,11 @@ abstract class Dialect implements DialectInterface
              * Check for an OFFSET condition
              */
             if fetch offset, value["offset"] && typeof offset == "array" {
-                let offset = this->getSqlExpression(offset, escapeChar, bindCounts);
+                let offset = this->getSqlExpression(
+                    offset,
+                    escapeChar,
+                    bindCounts
+                );
             }
 
         } else {
@@ -945,7 +953,6 @@ abstract class Dialect implements DialectInterface
         var field, fields, type, fieldSql = null;
 
         if typeof expression == "array" {
-
             let fields = [];
 
             for field in expression {
@@ -971,7 +978,6 @@ abstract class Dialect implements DialectInterface
             }
 
             let fields = join(", ", fields);
-
         } else {
             let fields = expression;
         }
@@ -985,6 +991,7 @@ abstract class Dialect implements DialectInterface
     final protected function getSqlExpressionQualified(array! expression, string escapeChar = null) -> string
     {
         var column, domain;
+
         let column = expression["name"];
 
         /**
@@ -1067,6 +1074,7 @@ abstract class Dialect implements DialectInterface
         if alias != "" {
             return qualified . " AS " . this->escape(alias, escapeChar);
         }
+
         return qualified;
     }
 

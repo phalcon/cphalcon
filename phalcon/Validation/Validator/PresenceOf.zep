@@ -60,6 +60,7 @@ class PresenceOf extends Validator
         var value, message, label, replacePairs, code;
 
         let value = validation->getValue(field);
+
         if value === null || value === "" {
             let label = this->prepareLabel(validation, field),
                 message = this->prepareMessage(validation, field, "PresenceOf"),

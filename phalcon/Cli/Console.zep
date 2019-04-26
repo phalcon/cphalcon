@@ -32,9 +32,8 @@ class Console extends BaseApplication
      */
     public function handle(array arguments = null)
     {
-        var container, router, eventsManager,
-            moduleName, modules, module, path, className,
-            moduleObject, dispatcher, task;
+        var container, router, eventsManager, moduleName, modules, module, path,
+            className, moduleObject, dispatcher, task;
 
         let container = this->container;
         if typeof container != "object" {
@@ -188,12 +187,15 @@ class Console extends BaseApplication
             if count(args) {
                 let handleArgs["task"] = array_shift(args);
             }
+
             if count(args) {
                 let handleArgs["action"] = array_shift(args);
             }
+
             if count(args) {
                 let handleArgs = array_merge(handleArgs, args);
             }
+
             let this->arguments = handleArgs;
         }
 

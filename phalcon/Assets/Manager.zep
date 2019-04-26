@@ -55,7 +55,7 @@ class Manager implements InjectionAwareInterface
      * Adds a raw asset to the manager
      *
      *<code>
-     * assets->addAsset(
+     * $assets->addAsset(
      *     new Phalcon\Assets\Asset("css", "css/style.css")
      * );
      *</code>
@@ -65,7 +65,11 @@ class Manager implements InjectionAwareInterface
         /**
          * Adds the asset by its type
          */
-        this->addAssetByType(asset->getType(), asset);
+        this->addAssetByType(
+            asset->getType(),
+            asset
+        );
+
         return this;
     }
 
@@ -73,7 +77,8 @@ class Manager implements InjectionAwareInterface
      * Adds a asset by its type
      *
      *<code>
-     * assets->addAssetByType("css",
+     * $assets->addAssetByType(
+     *     "css",
      *     new \Phalcon\Assets\Asset\Css("css/style.css")
      * );
      *</code>
@@ -99,8 +104,8 @@ class Manager implements InjectionAwareInterface
     * Adds a Css asset to the 'css' collection
     *
     *<code>
-    *    assets->addCss("css/bootstrap.css");
-    *    assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
+    * $assets->addCss("css/bootstrap.css");
+    * $assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
     *</code>
     */
     public function addCss(string! path, local = true, filter = true, var attributes = null) -> <Manager>
@@ -122,6 +127,7 @@ class Manager implements InjectionAwareInterface
          * Adds the inline code by its type
          */
         this->addInlineCodeByType(code->getType(), code);
+
         return this;
     }
 
@@ -175,8 +181,8 @@ class Manager implements InjectionAwareInterface
      * Adds a javascript asset to the 'js' collection
      *
      *<code>
-     * assets->addJs("scripts/jquery.js");
-     * assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
+     * $assets->addJs("scripts/jquery.js");
+     * $assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
      *</code>
      */
     public function addJs(string! path, local = true, filter = true, attributes = null) -> <Manager>
@@ -210,6 +216,7 @@ class Manager implements InjectionAwareInterface
     public function collectionAssetsByType(array assets, string type) -> array
     {
         var $filtered = [], asset;
+
         for asset in assets {
             if asset->getType() == type {
                 let $filtered[] = asset;
@@ -223,9 +230,9 @@ class Manager implements InjectionAwareInterface
      * Returns true or false if collection exists.
      *
      * <code>
-     * if (assets->exists("jsHeader")) {
+     * if ($assets->exists("jsHeader")) {
      *     // \Phalcon\Assets\Collection
-     *     $collection = assets->get("jsHeader");
+     *     $collection = $assets->get("jsHeader");
      * }
      * </code>
      */
@@ -238,7 +245,7 @@ class Manager implements InjectionAwareInterface
      * Returns a collection by its id.
      *
      * <code>
-     * $scripts = assets->get("js");
+     * $scripts = $assets->get("js");
      * </code>
      */
     public function get(string! id) -> <Collection>
@@ -758,8 +765,10 @@ class Manager implements InjectionAwareInterface
         let callback = ["Phalcon\\Tag", "stylesheetLink"];
 
         let container = this->container;
+
         if typeof container == "object" && container->has("tag") {
             let tag = container->getShared("tag");
+
             let callback = [tag, "stylesheetLink"];
         }
 
@@ -888,12 +897,13 @@ class Manager implements InjectionAwareInterface
      * Sets a collection in the Assets Manager
      *
      *<code>
-     * assets->set("js", $collection);
+     * $assets->set("js", $collection);
      *</code>
      */
     public function set(string! id, <Collection> collection) -> <Manager>
     {
         let this->collections[id] = collection;
+
         return this;
     }
 
@@ -911,6 +921,7 @@ class Manager implements InjectionAwareInterface
     public function setOptions(array! options) -> <Manager>
     {
         let this->options = options;
+
         return this;
     }
 
@@ -920,6 +931,7 @@ class Manager implements InjectionAwareInterface
     public function useImplicitOutput(bool implicitOutput) -> <Manager>
     {
         let this->implicitOutput = implicitOutput;
+
         return this;
     }
 }

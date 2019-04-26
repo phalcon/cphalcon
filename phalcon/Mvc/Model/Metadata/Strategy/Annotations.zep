@@ -24,9 +24,9 @@ class Annotations implements StrategyInterface
      */
     final public function getColumnMaps(<ModelInterface> model, <DiInterface> container) -> array
     {
-        var annotations, className, reflection, propertiesAnnotations;
-        var property, propAnnotations, columnAnnotation, columnName;
-        var orderedColumnMap, reversedColumnMap, hasReversedColumn;
+        var annotations, className, reflection, propertiesAnnotations, property,
+            propAnnotations, columnAnnotation, columnName, orderedColumnMap,
+            reversedColumnMap, hasReversedColumn;
 
         if typeof container != "object" {
             throw new Exception("The dependency injector is invalid");
@@ -34,7 +34,9 @@ class Annotations implements StrategyInterface
 
         let annotations = container->get("annotations");
 
-        let className = get_class(model), reflection = annotations->get(className);
+        let className = get_class(model),
+            reflection = annotations->get(className);
+
         if typeof reflection != "object" {
             throw new Exception(
                 "No annotations were found in class " . className
@@ -45,6 +47,7 @@ class Annotations implements StrategyInterface
          * Get the properties defined in
          */
         let propertiesAnnotations = reflection->getPropertiesAnnotations();
+
         if !count(propertiesAnnotations) {
             throw new Exception(
                 "No properties with annotations were found in class " . className
@@ -56,7 +59,6 @@ class Annotations implements StrategyInterface
             hasReversedColumn = false;
 
         for property, propAnnotations in propertiesAnnotations {
-
             /**
              * All columns marked with the 'Column' annotation are considered columns
              */
@@ -150,7 +152,6 @@ class Annotations implements StrategyInterface
             emptyStringValues = [];
 
         for property, propAnnotations in propertiesAnnotations {
-
             /**
              * All columns marked with the 'Column' annotation are considered
              * columns

@@ -47,6 +47,7 @@ class Route implements RouteInterface
 
         // Get the unique Id from the static member _uniqueId
         let uniqueId = self::uniqueId;
+
         if uniqueId === null {
             let uniqueId = 0;
         }
@@ -84,6 +85,7 @@ class Route implements RouteInterface
     public function beforeMatch(var callback) -> <RouteInterface>
     {
         let this->beforeMatch = callback;
+
         return this;
     }
 
@@ -96,7 +98,6 @@ class Route implements RouteInterface
 
         // If a pattern contains ':', maybe there are placeholders to replace
         if memstr(pattern, ":") {
-
             // This is a pattern for valid identifiers
             let idPattern = "/([\\w0-9\\_\\-]+)";
 
@@ -171,10 +172,9 @@ class Route implements RouteInterface
         }
 
         let matches = [],
-        route = "";
+            route = "";
 
         for cursor, ch in pattern {
-
             if parenthesesCount == 0 {
                 if ch == '{' {
                     if bracketCount == 0 {
@@ -182,26 +182,27 @@ class Route implements RouteInterface
                             intermediate = 0,
                             notValid = false;
                     }
+
                     let bracketCount++;
                 } else {
                     if ch == '}' {
                         let bracketCount--;
+
                         if intermediate > 0 {
                             if bracketCount == 0 {
-
                                 let numberMatches++,
                                     variable = null,
                                     regexp = null,
                                     item = (string) substr(pattern, marker, cursor - marker);
 
                                 for cursorVar, ch in item {
-
                                     if ch == '\0' {
                                         break;
                                     }
 
                                     if cursorVar == 0 && !((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
                                         let notValid = true;
+
                                         break;
                                     }
 
@@ -209,26 +210,27 @@ class Route implements RouteInterface
                                         if ch == ':' {
                                             let variable = (string) substr(item, 0, cursorVar),
                                                 regexp = (string) substr(item, cursorVar + 1);
+
                                             break;
                                         }
                                     } else {
                                         let notValid = true;
+
                                         break;
                                     }
-
                                 }
 
                                 if !notValid {
-
                                     let tmp = numberMatches;
 
                                     if variable && regexp {
-
                                         let foundPattern = 0;
+
                                         for ch in regexp {
                                             if ch == '\0' {
                                                 break;
                                             }
+
                                             if !foundPattern {
                                                 if ch == '(' {
                                                     let foundPattern = 1;
@@ -236,6 +238,7 @@ class Route implements RouteInterface
                                             } else {
                                                 if ch == ')' {
                                                     let foundPattern = 2;
+
                                                     break;
                                                 }
                                             }
@@ -246,6 +249,7 @@ class Route implements RouteInterface
                                         } else {
                                             let route .= regexp;
                                         }
+
                                         let matches[variable] = tmp;
                                     } else {
                                         let route .= "([^/]*)",
@@ -254,6 +258,7 @@ class Route implements RouteInterface
                                 } else {
                                     let route .= "{" . item . "}";
                                 }
+
                                 continue;
                             }
                         }
@@ -267,6 +272,7 @@ class Route implements RouteInterface
                 } else {
                     if ch == ')' {
                         let parenthesesCount--;
+
                         if parenthesesCount == 0 {
                             let numberMatches++;
                         }
@@ -282,6 +288,7 @@ class Route implements RouteInterface
                         let route .= '\\';
                     }
                 }
+
                 let route .= ch,
                     prevCh = ch;
             }
@@ -378,9 +385,11 @@ class Route implements RouteInterface
         var reversed, path, position;
 
         let reversed = [];
+
         for path, position in this->paths {
             let reversed[position] = path;
         }
+
         return reversed;
     }
 
@@ -397,13 +406,11 @@ class Route implements RouteInterface
      */
     public static function getRoutePaths(var paths = null) -> array
     {
-        var moduleName, controllerName, actionName,
-            parts, routePaths, realClassName,
-            namespaceName;
+        var moduleName, controllerName, actionName, parts, routePaths,
+            realClassName, namespaceName;
 
         if paths !== null {
             if typeof paths == "string" {
-
                 let moduleName = null,
                     controllerName = null,
                     actionName = null;
@@ -439,10 +446,8 @@ class Route implements RouteInterface
 
                 // Process controller name
                 if controllerName !== null {
-
                     // Check if we need to obtain the namespace
                     if memstr(controllerName, "\\") {
-
                         // Extract the real class name from the namespaced class
                         let realClassName = get_class_ns(controllerName);
 
@@ -496,6 +501,7 @@ class Route implements RouteInterface
     public function match(var callback) -> <RouteInterface>
     {
         let this->match = callback;
+
         return this;
     }
 
@@ -504,8 +510,7 @@ class Route implements RouteInterface
      */
     public function reConfigure(string! pattern, var paths = null) -> void
     {
-        var routePaths, pcrePattern, compiledPattern,
-            extracted;
+        var routePaths, pcrePattern, compiledPattern, extracted;
 
         let routePaths = self::getRoutePaths(paths);
 
@@ -513,7 +518,6 @@ class Route implements RouteInterface
          * If the route starts with '#' we assume that it is a regular expression
          */
         if !starts_with(pattern, "#") {
-
             if memstr(pattern, "{") {
                 /**
                  * The route has named parameters so we need to extract them
@@ -563,6 +567,7 @@ class Route implements RouteInterface
     public function setGroup(<GroupInterface> group) -> <RouteInterface>
     {
         let this->group = group;
+
         return this;
     }
 
@@ -571,12 +576,19 @@ class Route implements RouteInterface
      *
      *<code>
      * $route->setHttpMethods("GET");
-     * $route->setHttpMethods(["GET", "POST"]);
+     *
+     * $route->setHttpMethods(
+     *     [
+     *         "GET",
+     *         "POST",
+     *     ]
+     * );
      *</code>
      */
     public function setHttpMethods(var httpMethods) -> <RouteInterface>
     {
         let this->methods = httpMethods;
+
         return this;
     }
 
@@ -590,6 +602,7 @@ class Route implements RouteInterface
     public function setHostname(string! hostname) -> <RouteInterface>
     {
         let this->hostname = hostname;
+
         return this;
     }
 
@@ -608,6 +621,7 @@ class Route implements RouteInterface
     public function setName(string name) -> <RouteInterface>
     {
         let this->name = name;
+
         return this;
     }
 
@@ -628,6 +642,7 @@ class Route implements RouteInterface
     public function via(var httpMethods) -> <RouteInterface>
     {
         let this->methods = httpMethods;
+
         return this;
     }
 }

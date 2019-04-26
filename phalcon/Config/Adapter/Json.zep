@@ -39,6 +39,11 @@ class Json extends Config
      */
     public function __construct(string! filePath) -> void
     {
-        parent::__construct(json_decode(file_get_contents(filePath), true));
+        parent::__construct(
+            json_decode(
+                file_get_contents(filePath),
+                true
+            )
+        );
     }
 }

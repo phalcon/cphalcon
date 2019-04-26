@@ -38,9 +38,11 @@ class Manager
     public function get(string name) -> <Form>
     {
         var form;
+
         if !fetch form, this->forms[name] {
             throw new Exception("There is no form with name='" . name . "'");
         }
+
         return form;
     }
 
@@ -58,6 +60,7 @@ class Manager
     public function set(string name, <Form> form) -> <FormManager>
     {
         let this->forms[name] = form;
+
         return this;
     }
 

@@ -19,7 +19,6 @@ use Phalcon\Annotations\ReaderInterface;
  */
 class Reader implements ReaderInterface
 {
-
     /**
      * Reads annotations from the class docblocks, its methods and/or properties
      */
@@ -88,7 +87,6 @@ class Reader implements ReaderInterface
                     if typeof propertyAnnotations == "array" {
                         let annotationsProperties[property->name] = propertyAnnotations;
                     }
-
                 }
             }
 
@@ -130,7 +128,6 @@ class Reader implements ReaderInterface
             if count(annotationsMethods) {
                 let annotations["methods"] = annotationsMethods;
             }
-
         }
 
         return annotations;

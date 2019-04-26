@@ -28,7 +28,6 @@ class Gd extends Adapter
         let this->file = file;
 
         if file_exists(this->file) {
-
             let this->realpath = realpath(this->file);
             let imageinfo = getimagesize(this->file);
 
@@ -43,29 +42,33 @@ class Gd extends Adapter
                 case 1:
                     let this->image = imagecreatefromgif(this->file);
                     break;
+
                 case 2:
                     let this->image = imagecreatefromjpeg(this->file);
                     break;
+
                 case 3:
                     let this->image = imagecreatefrompng(this->file);
                     break;
+
                 case 15:
                     let this->image = imagecreatefromwbmp(this->file);
                     break;
+
                 case 16:
                     let this->image = imagecreatefromxbm(this->file);
                     break;
+
                 default:
                     if this->mime {
                         throw new Exception(
                             "Installed GD does not support " . this->mime . " images"
                         );
-                    } else {
-                        throw new Exception(
-                            "Installed GD does not support such images"
-                        );
                     }
-                    break;
+
+                    throw new Exception(
+                        "Installed GD does not support such images"
+                    );
             }
 
             imagesavealpha(this->image, true);
@@ -78,6 +81,7 @@ class Gd extends Adapter
             }
 
             let this->image = imagecreatetruecolor(width, height);
+
             imagealphablending(this->image, true);
             imagesavealpha(this->image, true);
 
@@ -94,6 +98,7 @@ class Gd extends Adapter
         var image;
 
         let image = this->image;
+
         if typeof image  == "resource" {
             imagedestroy(image);
         }
@@ -137,6 +142,7 @@ class Gd extends Adapter
         }
 
         let version = null;
+
         if defined("GD_VERSION") {
             let version = GD_VERSION;
         } else {
@@ -160,10 +166,12 @@ class Gd extends Adapter
         let background = this->processCreate(this->width, this->height);
 
         let color = imagecolorallocatealpha(background, r, g, b, opacity);
+
         imagealphablending(background, true);
 
         if imagecopy(background, this->image, 0, 0, 0, 0, this->width, this->height) {
             imagedestroy(this->image);
+
             let this->image = background;
         }
     }
@@ -171,9 +179,12 @@ class Gd extends Adapter
     protected function processBlur(int radius)
     {
         int i;
+
         let i = 0;
+
         while i < radius {
             imagefilter(this->image, IMG_FILTER_GAUSSIAN_BLUR);
+
             let i++;
         }
     }
@@ -225,7 +236,10 @@ class Gd extends Adapter
         var maskImage, newimage, tempImage, color, index, r, g, b;
         int mask_width, mask_height, x, y, alpha;
 
-        let maskImage   = imagecreatefromstring(mask->render());
+        let maskImage = imagecreatefromstring(
+            mask->render()
+        );
+
         let mask_width  = (int) imagesx(maskImage);
         let mask_height = (int) imagesy(maskImage);
         let alpha = 127;
@@ -233,6 +247,7 @@ class Gd extends Adapter
         imagesavealpha(maskImage, true);
 
         let newimage = this->processCreate(this->width, this->height);
+
         imagesavealpha(newimage, true);
 
         let color = imagecolorallocatealpha(newimage, 0, 0, 0, alpha);
@@ -261,11 +276,11 @@ class Gd extends Adapter
         }
 
         let x = 0;
+
         while x < this->width {
-
             let y = 0;
-            while y < this->height {
 
+            while y < this->height {
                 let index = imagecolorat(maskImage, x, y),
                     color = imagecolorsforindex(maskImage, index);
 
@@ -275,17 +290,22 @@ class Gd extends Adapter
 
                 let index = imagecolorat(this->image, x, y),
                     color = imagecolorsforindex(this->image, index),
-                    r = color["red"], g = color["green"], b = color["blue"],
+                    r = color["red"],
+                    g = color["green"],
+                    b = color["blue"],
                     color = imagecolorallocatealpha(newimage, r, g, b, alpha);
 
                 imagesetpixel(newimage, x, y, color);
+
                 let y++;
             }
+
             let x++;
         }
 
         imagedestroy(this->image);
         imagedestroy(maskImage);
+
         let this->image = newimage;
     }
 
@@ -295,19 +315,24 @@ class Gd extends Adapter
         int x, y, x1, y1, x2, y2;
 
         let x = 0;
+
         while x < this->width {
             let y = 0;
+
             while y < this->height {
                 let x1 = x + amount/2;
                 let y1 = y + amount/2;
+
                 let color = imagecolorat(this->image, x1, y1);
 
                 let x2 = x + amount;
                 let y2 = y + amount;
+
                 imagefilledrectangle(this->image, x, y, x2, y2, color);
 
                 let y += amount;
             }
+
             let x += amount;
         }
     }
@@ -342,8 +367,8 @@ class Gd extends Adapter
         );
 
         let offset = 0;
-        while height >= offset {
 
+        while height >= offset {
             let src_y = this->height - offset - 1;
             let dst_y = this->height + offset;
 
@@ -359,13 +384,42 @@ class Gd extends Adapter
 
             let line = this->processCreate(this->width, 1);
 
-            imagecopy(line, this->image, 0, 0, 0, src_y, this->width, 1);
-            imagefilter(line, IMG_FILTER_COLORIZE, 0, 0, 0, dst_opacity);
-            imagecopy(reflection, line, 0, dst_y, 0, 0, this->width, 1);
+            imagecopy(
+                line,
+                this->image,
+                0,
+                0,
+                0,
+                src_y,
+                this->width,
+                1
+            );
+
+            imagefilter(
+                line,
+                IMG_FILTER_COLORIZE,
+                0,
+                0,
+                0,
+                dst_opacity
+            );
+
+            imagecopy(
+                reflection,
+                line,
+                0,
+                dst_y,
+                0,
+                0,
+                this->width,
+                1
+            );
+
             let offset++;
         }
 
         imagedestroy(this->image);
+
         let this->image = reflection;
         let this->width  = imagesx(reflection);
         let this->height = imagesy(reflection);
@@ -374,31 +428,26 @@ class Gd extends Adapter
     protected function processRender(string ext, int quality)
     {
         let ext = strtolower(ext);
+
         ob_start();
+
         if strcmp(ext, "gif") == 0 {
             imagegif(this->image);
-            return ob_get_clean();
-        }
-        if strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
+        } elseif strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
             imagejpeg(this->image, null, quality);
-            return ob_get_clean();
-        }
-        if strcmp(ext, "png") == 0 {
+        } elseif strcmp(ext, "png") == 0 {
             imagepng(this->image);
-            return ob_get_clean();
-        }
-        if strcmp(ext, "wbmp") == 0 {
+        } elseif strcmp(ext, "wbmp") == 0 {
             imagewbmp(this->image);
-            return ob_get_clean();
-        }
-        if strcmp(ext, "xbm") == 0 {
+        } elseif strcmp(ext, "xbm") == 0 {
             imagexbm(this->image, null);
-            return ob_get_clean();
+        } else {
+            throw new Exception(
+                "Installed GD does not support '" . ext . "' images"
+            );
         }
 
-        throw new Exception(
-            "Installed GD does not support '" . ext . "' images"
-        );
+        return ob_get_clean();
     }
 
     protected function processResize(int width, int height)
@@ -406,7 +455,9 @@ class Gd extends Adapter
         var image;
 
         let image = imagescale(this->image, width, height);
+
         imagedestroy(this->image);
+
         let this->image = image;
         let this->width  = imagesx(image);
         let this->height = imagesy(image);
@@ -416,8 +467,20 @@ class Gd extends Adapter
     {
         var image, transparent, width, height;
 
-        let transparent = imagecolorallocatealpha(this->image, 0, 0, 0, 127);
-        let image = imagerotate(this->image, 360 - degrees, transparent, 1);
+        let transparent = imagecolorallocatealpha(
+            this->image,
+            0,
+            0,
+            0,
+            127
+        );
+
+        let image = imagerotate(
+            this->image,
+            360 - degrees,
+            transparent,
+            1
+        );
 
         imagesavealpha(image, TRUE);
 
@@ -426,6 +489,7 @@ class Gd extends Adapter
 
         if imagecopymerge(this->image, image, 0, 0, 0, 0, width, height, 100) {
             imagedestroy(this->image);
+
             let this->image = image;
             let this->width  = width;
             let this->height = height;
@@ -448,13 +512,15 @@ class Gd extends Adapter
         if strcmp(ext, "gif") == 0 {
             let this->type = 1;
             let this->mime = image_type_to_mime_type(this->type);
+
             imagegif(this->image, file);
+
             return true;
         }
+
         if strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0 {
             let this->type = 2;
             let this->mime = image_type_to_mime_type(this->type);
-
 
             if quality >= 0 {
                 if quality < 1 {
@@ -462,28 +528,39 @@ class Gd extends Adapter
                 } elseif quality > 100 {
                     let quality = 100;
                 }
+
                 imagejpeg(this->image, file, quality);
             } else {
                 imagejpeg(this->image, file);
             }
+
             return true;
         }
+
         if strcmp(ext, "png") == 0 {
             let this->type = 3;
             let this->mime = image_type_to_mime_type(this->type);
+
             imagepng(this->image, file);
+
             return true;
         }
+
         if strcmp(ext, "wbmp") == 0 {
             let this->type = 15;
             let this->mime = image_type_to_mime_type(this->type);
+
             imagewbmp(this->image, file);
+
             return true;
         }
+
         if strcmp(ext, "xbm") == 0 {
             let this->type = 16;
             let this->mime = image_type_to_mime_type(this->type);
+
             imagexbm(this->image, file);
+
             return true;
         }
 
@@ -518,7 +595,6 @@ class Gd extends Adapter
         let opacity = (int) round(abs((opacity * 127 / 100) - 127));
 
         if fontfile {
-
             let space = imagettfbbox(size, 0, fontfile, text);
 
             if isset space[0] {
@@ -544,6 +620,7 @@ class Gd extends Adapter
             }
 
             let color = imagecolorallocatealpha(this->image, r, g, b, opacity);
+
             let angle = 0;
 
             imagettftext(
@@ -569,6 +646,7 @@ class Gd extends Adapter
             }
 
             let color = imagecolorallocatealpha(this->image, r, g, b, opacity);
+
             imagestring(this->image, size, offsetX, offsetY, text, color);
         }
     }
@@ -578,7 +656,9 @@ class Gd extends Adapter
         var overlay, color;
         int width, height;
 
-        let overlay = imagecreatefromstring(watermark->render());
+        let overlay = imagecreatefromstring(
+            watermark->render()
+        );
 
         imagesavealpha(overlay, true);
 

@@ -29,6 +29,7 @@ class Failed extends Exception
     public function __construct(string! message, <ModelInterface> record = null) -> void
     {
         let this->record = record;
+
         parent::__construct(message);
     }
 
@@ -48,6 +49,7 @@ class Failed extends Exception
         var record;
 
         let record = this->record;
+
         if record !== null {
             return record->getMessages();
         }

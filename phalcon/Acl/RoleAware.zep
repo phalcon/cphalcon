@@ -19,6 +19,6 @@ interface RoleAware
 {
     /**
      * Returns role name
-    */
+     */
     public function getRoleName() -> string;
 }

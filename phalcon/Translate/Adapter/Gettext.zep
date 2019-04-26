@@ -58,13 +58,14 @@ class Gettext extends Adapter implements \ArrayAccess
      */
     public function __construct(array! options) -> void
     {
-        if (!function_exists("gettext")) {
+        if !function_exists("gettext") {
             throw new Exception(
                 "This class requires the gettext extension for PHP"
             );
         }
 
         parent::__construct(options);
+
         this->prepareOptions(options);
     }
 
@@ -121,7 +122,9 @@ class Gettext extends Adapter implements \ArrayAccess
      */
     public function resetDomain() -> string
     {
-        return textdomain(this->getDefaultDomain());
+        return textdomain(
+            this->getDefaultDomain()
+        );
     }
 
     /**
@@ -154,7 +157,7 @@ class Gettext extends Adapter implements \ArrayAccess
     {
         var key, value;
 
-        if (empty(directory)) {
+        if empty(directory) {
             return;
         }
 
@@ -165,7 +168,10 @@ class Gettext extends Adapter implements \ArrayAccess
                 bindtextdomain(key, value);
             }
         } else {
-            bindtextdomain(this->getDefaultDomain(), directory);
+            bindtextdomain(
+                this->getDefaultDomain(),
+                directory
+            );
         }
     }
 
@@ -190,7 +196,11 @@ class Gettext extends Adapter implements \ArrayAccess
      */
     public function setLocale(int! category, string! locale) -> string | bool
     {
-        let this->locale   = call_user_func_array("setlocale", func_get_args());
+        let this->locale = call_user_func_array(
+            "setlocale",
+            func_get_args()
+        );
+
         let this->category = category;
 
         putenv("LC_ALL=" . this->locale);
@@ -207,7 +217,7 @@ class Gettext extends Adapter implements \ArrayAccess
     protected function getOptionsDefault() -> array
     {
         return [
-            "category": LC_ALL,
+            "category":      LC_ALL,
             "defaultDomain": "messages"
         ];
     }
@@ -227,9 +237,21 @@ class Gettext extends Adapter implements \ArrayAccess
 
         let options = array_merge(this->getOptionsDefault(), options);
 
-        this->setLocale(options["category"], options["locale"]);
-        this->setDefaultDomain(options["defaultDomain"]);
-        this->setDirectory(options["directory"]);
-        this->setDomain(options["defaultDomain"]);
+        this->setLocale(
+            options["category"],
+            options["locale"]
+        );
+
+        this->setDefaultDomain(
+            options["defaultDomain"]
+        );
+
+        this->setDirectory(
+            options["directory"]
+        );
+
+        this->setDomain(
+            options["defaultDomain"]
+        );
     }
 }

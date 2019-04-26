@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\RawValue;
 
 use IntegrationTester;
+use Phalcon\Db\RawValue;
 
 /**
  * Class ToStringCest
@@ -24,12 +25,18 @@ class ToStringCest
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-17
      */
     public function dbRawvalueToString(IntegrationTester $I)
     {
         $I->wantToTest('Db\RawValue - __toString()');
-        $I->skipTest('Need implementation');
+
+        $rawValue = new RawValue('example string');
+
+        $I->assertEquals(
+            'example string',
+            (string) $rawValue
+        );
     }
 }

@@ -40,12 +40,10 @@ class Relation implements RelationInterface
     /**
      * Phalcon\Mvc\Model\Relation constructor
      *
-     * @param int type
      * @param string|array fields
      * @param string|array referencedFields
-     * @param array options
      */
-    public function __construct(int type, string! referencedModel, var fields, var referencedFields, var options = null) -> void
+    public function __construct(int type, string! referencedModel, var fields, var referencedFields, array options = []) -> void
     {
         let this->type = type,
             this->referencedModel = referencedModel,
@@ -72,14 +70,15 @@ class Relation implements RelationInterface
     public function getForeignKey()
     {
         var options, foreignKey;
+
         let options = this->options;
-        if typeof options == "array" {
-            if fetch foreignKey, options["foreignKey"] {
-                if foreignKey {
-                    return foreignKey;
-                }
+
+        if fetch foreignKey, options["foreignKey"] {
+            if foreignKey {
+                return foreignKey;
             }
         }
+
         return false;
     }
 
@@ -118,18 +117,18 @@ class Relation implements RelationInterface
     public function getOption(string! name)
     {
         var option;
-        if fetch option, this->options[name] {
-            return option;
+
+        if !fetch option, this->options[name] {
+            return null;
         }
-        return null;
+
+        return option;
     }
 
     /**
      * Returns the options
-     *
-     * @return string|array
      */
-    public function getOptions()
+    public function getOptions() -> array
     {
         return this->options;
     }
@@ -142,14 +141,15 @@ class Relation implements RelationInterface
     public function getParams()
     {
         var options, params;
+
         let options = this->options;
-        if typeof options == "array" {
-            if fetch params, options["params"] {
-                if params {
-                    return params;
-                }
+
+        if fetch params, options["params"] {
+            if params {
+                return params;
             }
         }
+
         return false;
     }
 
@@ -199,7 +199,9 @@ class Relation implements RelationInterface
     public function isThrough() -> bool
     {
         var type;
+
         let type = this->type;
+
         return type == self::HAS_ONE_THROUGH || type == self::HAS_MANY_THROUGH;
     }
 
@@ -209,20 +211,21 @@ class Relation implements RelationInterface
     public function isReusable() -> bool
     {
         var options, reusable;
+
         let options = this->options;
-        if typeof options == "array" {
-            if fetch reusable, options["reusable"] {
-                return reusable;
-            }
+
+        if !fetch reusable, options["reusable"] {
+            return false;
         }
-        return false;
+
+        return reusable;
     }
 
     /**
      * Sets the intermediate model data for has-*-through relations
      *
      * @param string|array intermediateFields
-     * @param string intermediateReferencedFields
+     * @param string       intermediateReferencedFields
      */
     public function setIntermediateRelation(var intermediateFields, string! intermediateModel, var intermediateReferencedFields)
     {

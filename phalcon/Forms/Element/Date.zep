@@ -20,12 +20,13 @@ use Phalcon\Forms\Element;
  */
 class Date extends Element
 {
-
     /**
      * Renders the element widget returning html
      */
     public function render(array attributes = []) -> string
     {
-        return Tag::dateField(this->prepareAttributes(attributes));
+        return Tag::dateField(
+            this->prepareAttributes(attributes)
+        );
     }
 }

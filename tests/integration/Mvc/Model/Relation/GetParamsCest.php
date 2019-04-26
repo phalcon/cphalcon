@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Relation;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Relation;
 
 /**
  * Class GetParamsCest
@@ -24,12 +25,65 @@ class GetParamsCest
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-18
      */
     public function mvcModelRelationGetParams(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Relation - getParams()');
-        $I->skipTest('Need implementation');
+
+        $options = [
+            'reusable' => true, // cache related data
+            'alias'    => 'mechanicalParts',
+            'params'   => [
+                'conditions' => 'robotTypeId = :type:',
+                'bind'       => [
+                    'type' => 4,
+                ],
+            ],
+        ];
+
+        $relation = new Relation(
+            Relation::HAS_MANY,
+            'RobotsParts',
+            'id',
+            'robots_id',
+            $options
+        );
+
+        $I->assertEquals(
+            $options['params'],
+            $relation->getParams()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Relation :: getParams() when none are set
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-18
+     */
+    public function mvcModelRelationGetParamsWhenNoneSet(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model\Relation - getParams() when none are set');
+
+        $options = [
+            'reusable' => true, // cache related data
+            'alias'    => 'mechanicalParts',
+        ];
+
+        $relation = new Relation(
+            Relation::HAS_MANY,
+            'RobotsParts',
+            'id',
+            'robots_id',
+            $options
+        );
+
+        $I->assertFalse(
+            $relation->getParams()
+        );
     }
 }

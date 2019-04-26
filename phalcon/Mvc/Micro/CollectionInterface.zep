@@ -87,7 +87,6 @@ interface CollectionInterface
      */
     public function setLazy(bool! lazy) -> <CollectionInterface>;
 
-
     /**
      * Sets a prefix for all routes added to the collection
      */

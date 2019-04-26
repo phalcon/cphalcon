@@ -15,7 +15,7 @@ use Phalcon\Assets\Inline as InlineBase;
 /**
  * Phalcon\Assets\Inline\Js
  *
- * Represents an inline Javascript
+ * Represents an inline JavaScript
  */
 class Js extends InlineBase
 {
@@ -27,7 +27,9 @@ class Js extends InlineBase
     public function __construct(string content, bool filter = true, var attributes = null) -> void
     {
         if attributes == null {
-            let attributes = ["type": "text/javascript"];
+            let attributes = [
+                "type": "text/javascript"
+            ];
         }
 
         parent::__construct("js", content, filter, attributes);

@@ -123,7 +123,13 @@ class Di implements DiInterface
          */
         if starts_with(method, "set") {
             if fetch definition, arguments[0] {
-                this->set(lcfirst(substr(method, 3)), definition);
+                this->set(
+                    lcfirst(
+                        substr(method, 3)
+                    ),
+                    definition
+                );
+
                 return null;
             }
         }
@@ -143,13 +149,13 @@ class Di implements DiInterface
      */
     public function attempt(string! name, definition, bool shared = false) -> <ServiceInterface> | bool
     {
-        if !isset this->services[name] {
-            let this->services[name] = new Service(definition, shared);
-
-            return this->services[name];
+        if isset this->services[name] {
+            return false;
         }
 
-        return false;
+        let this->services[name] = new Service(definition, shared);
+
+        return this->services[name];
     }
 
     /**
@@ -165,6 +171,7 @@ class Di implements DiInterface
          */
         if fetch service, this->services[name] {
             let isShared = service->isShared();
+
             if isShared && isset this->sharedInstances[name] {
                 return this->sharedInstances[name];
             }
@@ -181,7 +188,7 @@ class Di implements DiInterface
                 "di:beforeServiceResolve",
                 this,
                 [
-                    "name": name,
+                    "name":       name,
                     "parameters": parameters
                 ]
             );
@@ -189,7 +196,6 @@ class Di implements DiInterface
 
         if typeof instance != "object" {
             if service !== null {
-
                 // The service is registered in the DI.
                 try {
                     let instance = service->resolve(parameters, this);
@@ -204,7 +210,6 @@ class Di implements DiInterface
                     let this->sharedInstances[name] = instance;
                 }
             } else {
-
                 /**
                  * The DI also acts as builder for any class even if it isn't
                  * defined in the DI
@@ -242,9 +247,9 @@ class Di implements DiInterface
                 "di:afterServiceResolve",
                 this,
                 [
-                    "name": name,
+                    "name":       name,
                     "parameters": parameters,
-                    "instance": instance
+                    "instance":   instance
                 ]
             );
         }
@@ -313,7 +318,6 @@ class Di implements DiInterface
      * requests for this service will return the same instance
      *
      * @param array parameters
-     * @return mixed
      */
     public function getShared(string! name, parameters = null) -> var
     {
@@ -491,9 +495,12 @@ class Di implements DiInterface
      * {
      *     public function register(DiInterface $di)
      *     {
-     *         $di->setShared('service', function () {
-     *             // ...
-     *         });
+     *         $di->setShared(
+     *             'service',
+     *             function () {
+     *                 // ...
+     *             }
+     *         );
      *     }
      * }
      * </code>
@@ -554,6 +561,7 @@ class Di implements DiInterface
     public function setRaw(string! name, <ServiceInterface> rawDefinition) -> <ServiceInterface>
     {
         let this->services[name] = rawDefinition;
+
         return rawDefinition;
     }
 

@@ -714,13 +714,6 @@ class RequestCest extends HttpBase
         $I->assertEquals($expected, $actual);
 
         $this->unsetServerVar('CONTENT_TYPE');
-
-        $this->setServerVar('HTTP_CONTENT_TYPE', 'application/xhtml+xml');
-
-        $expected = 'application/xhtml+xml';
-        $actual   = $request->getContentType();
-        $I->assertEquals($expected, $actual);
-        $this->unsetServerVar('HTTP_CONTENT_TYPE');
     }
 
     public function testHttpRequestAcceptableContent(UnitTester $I)

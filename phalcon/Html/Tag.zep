@@ -211,6 +211,7 @@ class Tag implements InjectionAwareInterface
         if useEol {
             return "</" . tag . ">" . PHP_EOL;
         }
+
         return "</" . tag . ">";
 
     }
@@ -265,6 +266,7 @@ class Tag implements InjectionAwareInterface
          */
         if fetch params, parameters["parameters"] {
             let parameters["action"] .= "?" . params;
+
             unset parameters["parameters"];
         }
 
@@ -1203,7 +1205,12 @@ class Tag implements InjectionAwareInterface
          * For the ResultsetInterface we need the 'using' parameter
          */
         if typeof data === "object" {
-            let using = Arr::get(parameters, "using", []);
+            let using = Arr::get(
+                parameters,
+                "using",
+                []
+            );
+
             if typeof using === "array" && count(using) === 2 {
                 unset parameters["using"];
             } else {
@@ -1486,6 +1493,7 @@ class Tag implements InjectionAwareInterface
 
         if isset parameters["value"] {
             let content = parameters["value"];
+
             unset parameters["value"];
         } else {
             let content = this->getValue(parameters["id"], parameters);
@@ -1522,7 +1530,7 @@ class Tag implements InjectionAwareInterface
                 );
             }
 
-            if ("escaper" === name) {
+            if "escaper" === name {
                 let service       = <EscaperInterface> container->getShared(name),
                     this->escaper = service;
             } else {
@@ -1561,6 +1569,7 @@ class Tag implements InjectionAwareInterface
         unset attrs["escape"];
 
         let newCode = code;
+
         for key, value in attrs {
             if typeof key == "string" && value !== null {
                 if typeof value == "array" || typeof value == "resource" {
@@ -1568,11 +1577,13 @@ class Tag implements InjectionAwareInterface
                         "Value at index: '" . key . "' type: '" . gettype(value) . "' cannot be rendered"
                     );
                 }
+
                 if escaper {
                     let escaped = escaper->escapeHtmlAttr(value);
                 } else {
                     let escaped = value;
                 }
+
                 let newCode .= " " . key . "=\"" . escaped . "\"";
             }
         }
@@ -1639,6 +1650,7 @@ class Tag implements InjectionAwareInterface
             if value !== null && currentValue === value {
                 let parameters["checked"] = "checked";
             }
+
             let parameters["value"] = currentValue;
         } else {
             let value = this->getValue(id, parameters);
@@ -1681,9 +1693,10 @@ class Tag implements InjectionAwareInterface
              * Check if this is an option group
              */
              if typeof optionText === "array" {
-                 let output .= "\t<optgroup label=\"" . label . "\">" . PHP_EOL
-                             . this->renderSelectArray(optionText, value, closeOption) . "\t</optgroup>" . PHP_EOL;
-                 continue;
+                let output .= "\t<optgroup label=\"" . label . "\">" . PHP_EOL
+                            . this->renderSelectArray(optionText, value, closeOption) . "\t</optgroup>" . PHP_EOL;
+
+                continue;
              }
 
              if typeof value === "array" {

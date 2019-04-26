@@ -83,7 +83,7 @@ class TagLocatorFactory implements LocatorFactoryInterface
      * Get the escaper service
      *
      * I really don't like this here but it has to be here this way because there
-     * is a lot mroe groundwork to be done to refactor the whole DI implementation
+     * is a lot more groundwork to be done to refactor the whole DI implementation
      */
     private function getEscaper() -> <EscaperInterface>
     {

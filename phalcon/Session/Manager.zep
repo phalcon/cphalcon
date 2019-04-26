@@ -52,14 +52,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     /**
      * Manager constructor.
-     *
-     * @param array options
      */
     public function __construct(array options = []) -> void
     {
         this->setOptions(options);
     }
-
 
     /**
      * Alias: Gets a session variable from an application context
@@ -100,6 +97,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     {
         if (true === this->exists()) {
             session_destroy();
+
             let _SESSION = [];
         }
     }
@@ -109,11 +107,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      */
     public function exists() -> bool
     {
-        if (session_status() === self::SESSION_ACTIVE) {
-            return true;
-        }
-
-        return false;
+        return (session_status() === self::SESSION_ACTIVE);
     }
 
     /**
@@ -303,7 +297,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      */
     public function setName(string name) -> <ManagerInterface>
     {
-        if (this->exists()) {
+        if this->exists() {
             throw new InvalidArgumentException(
                 "Cannot set session name after a session has started"
             );
@@ -316,6 +310,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         }
 
         let this->name = name;
+
         session_name(name);
 
         return this;
@@ -323,8 +318,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     /**
      * Sets session's options
-     *
-     * @param array options
      */
     public function setOptions(array options) -> void
     {
@@ -371,8 +364,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     /**
      * Returns the status of the current session.
-     *
-     * @return int
      */
     public function status() -> int
     {

@@ -65,6 +65,7 @@ class Imagick extends Adapter
 
             if this->type == 1 {
                 let image = this->image->coalesceImages();
+
                 this->image->clear();
                 this->image->destroy();
 
@@ -162,15 +163,18 @@ class Imagick extends Adapter
         let pixel2 = new \ImagickPixel("transparent");
 
         let background = new \Imagick();
+
         this->image->setIteratorIndex(0);
 
         loop {
             background->newImage(this->width, this->height, pixel1);
+
             if !background->getImageAlphaChannel() {
                 background->setImageAlphaChannel(
                     constant("Imagick::ALPHACHANNEL_SET")
                 );
             }
+
             background->setImageBackgroundColor(pixel2);
 
             background->evaluateImage(
@@ -216,6 +220,7 @@ class Imagick extends Adapter
 
         loop {
             this->image->blurImage(radius, 100);
+
             if this->image->nextImage() === false {
                 break;
             }
@@ -228,12 +233,12 @@ class Imagick extends Adapter
     protected function processCrop(int width, int height, int offsetX, int offsetY)
     {
         var image;
+
         let image = this->image;
 
         image->setIteratorIndex(0);
 
         loop {
-
             image->cropImage(width, height, offsetX, offsetY);
             image->setImagePage(width, height, 0, 0);
 
@@ -254,6 +259,7 @@ class Imagick extends Adapter
         var func;
 
         let func = "flipImage";
+
         if direction == \Phalcon\Image::HORIZONTAL {
            let func = "flopImage";
         }
@@ -262,6 +268,7 @@ class Imagick extends Adapter
 
         loop {
             this->image->{func}();
+
             if this->image->nextImage() === false {
                 break;
             }
@@ -280,6 +287,7 @@ class Imagick extends Adapter
     protected function processLiquidRescale(int width, int height, int deltaX, int rigidity)
     {
         var ret, image;
+
         let image = this->image;
 
         image->setIteratorIndex(0);
@@ -314,7 +322,10 @@ class Imagick extends Adapter
 
         let mask = new \Imagick();
 
-        mask->readImageBlob(image->render());
+        mask->readImageBlob(
+            image->render()
+        );
+
         this->image->setIteratorIndex(0);
 
         loop {
@@ -357,6 +368,7 @@ class Imagick extends Adapter
         loop {
             this->image->scaleImage(width, height);
             this->image->scaleImage(this->width, this->height);
+
             if this->image->nextImage() === false{
                 break;
             }
@@ -380,8 +392,21 @@ class Imagick extends Adapter
 
         loop {
             reflection->flipImage();
-            reflection->cropImage(reflection->getImageWidth(), height, 0, 0);
-            reflection->setImagePage(reflection->getImageWidth(), height, 0, 0);
+
+            reflection->cropImage(
+                reflection->getImageWidth(),
+                height,
+                0,
+                0
+            );
+
+            reflection->setImagePage(
+                reflection->getImageWidth(),
+                height,
+                0,
+                0
+            );
+
             if reflection->nextImage() === false {
                 break;
             }
@@ -433,9 +458,18 @@ class Imagick extends Adapter
 
         loop {
             image->newImage(this->width, height, pixel);
-            image->setImageAlphaChannel(constant("Imagick::ALPHACHANNEL_SET"));
-            image->setColorspace(this->image->getColorspace());
-            image->setImageDelay(this->image->getImageDelay());
+
+            image->setImageAlphaChannel(
+                constant("Imagick::ALPHACHANNEL_SET")
+            );
+
+            image->setColorspace(
+                this->image->getColorspace()
+            );
+
+            image->setImageDelay(
+                this->image->getImageDelay()
+            );
 
             let ret = image->compositeImage(
                 this->image,
@@ -507,6 +541,7 @@ class Imagick extends Adapter
                     constant("Imagick::COMPRESSION_JPEG")
                 );
             }
+
             image->setImageCompressionQuality(quality);
         }
 
@@ -519,12 +554,14 @@ class Imagick extends Adapter
     protected function processResize(int width, int height)
     {
         var image;
+
         let image = this->image;
 
         image->setIteratorIndex(0);
 
         loop {
             image->scaleImage(width, height);
+
             if image->nextImage() === false {
                 break;
             }
@@ -547,7 +584,14 @@ class Imagick extends Adapter
 
         loop {
             this->image->rotateImage(pixel, degrees);
-            this->image->setImagePage(this->width, this->height, 0, 0);
+
+            this->image->setImagePage(
+                this->width,
+                this->height,
+                0,
+                0
+            );
+
             if this->image->nextImage() === false {
                 break;
             }
@@ -574,9 +618,13 @@ class Imagick extends Adapter
 
         if strcasecmp(ext, "gif") == 0 {
             this->image->optimizeImageLayers();
-            let fp= fopen(file, "w");
+
+            let fp = fopen(file, "w");
+
             this->image->writeImagesFile(fp);
+
             fclose(fp);
+
             return;
         } else {
             if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
@@ -591,8 +639,10 @@ class Imagick extends Adapter
                 } elseif quality > 100 {
                     let quality = 100;
                 }
+
                 this->image->setImageCompressionQuality(quality);
             }
+
             this->image->writeImage(file);
         }
     }
@@ -609,6 +659,7 @@ class Imagick extends Adapter
 
         loop {
             this->image->sharpenImage(0, amount);
+
             if this->image->nextImage() === false {
                 break;
             }
@@ -626,7 +677,9 @@ class Imagick extends Adapter
             draw = new \ImagickDraw(),
             color = sprintf("rgb(%d, %d, %d)", r, g, b);
 
-        draw->setFillColor(new \ImagickPixel(color));
+        draw->setFillColor(
+            new \ImagickPixel(color)
+        );
 
         if fontfile {
             draw->setFont(fontfile);
@@ -644,24 +697,14 @@ class Imagick extends Adapter
 
         if typeof offsetX == "boolean" {
             if typeof offsetY == "boolean" {
-                let offsetX    = 0,
+                let offsetX = 0,
                     offsetY = 0;
-                if offsetX && offsetY {
-                    let gravity = constant("Imagick::GRAVITY_SOUTHEAST");
-                } else {
-                    if offsetX {
-                        let gravity = constant("Imagick::GRAVITY_EAST");
-                    } else {
-                        if offsetY {
-                            let gravity = constant("Imagick::GRAVITY_SOUTH");
-                        } else {
-                            let gravity = constant("Imagick::GRAVITY_CENTER");
-                        }
-                    }
-                }
+
+                let gravity = constant("Imagick::GRAVITY_CENTER");
             } else {
                 if typeof offsetY == "int" {
                     let y = (int) offsetY;
+
                     if offsetX {
                         if y < 0 {
                             let offsetX = 0,
@@ -686,6 +729,7 @@ class Imagick extends Adapter
         } else {
             if typeof offsetX == "int" {
                 let x = (int) offsetX;
+
                 if offsetX {
                     if typeof offsetY == "boolean" {
                         if offsetY {
@@ -743,6 +787,7 @@ class Imagick extends Adapter
 
         loop {
             this->image->annotateImage(draw, offsetX, offsetY, 0, text);
+
             if this->image->nextImage() === false {
                 break;
             }
@@ -761,7 +806,9 @@ class Imagick extends Adapter
         let opacity = opacity / 100,
             watermark = new \Imagick();
 
-        watermark->readImageBlob(image->render());
+        watermark->readImageBlob(
+            image->render()
+        );
 
         watermark->evaluateImage(
             constant("Imagick::EVALUATE_MULTIPLY"),

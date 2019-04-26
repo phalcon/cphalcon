@@ -58,10 +58,8 @@ interface RelationInterface
 
     /**
      * Returns the options
-     *
-     * @return string|array
      */
-    public function getOptions();
+    public function getOptions() -> array;
 
     /**
      * Returns parameters that must be always used when the related records are obtained

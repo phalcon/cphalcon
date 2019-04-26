@@ -71,6 +71,7 @@ class Regex extends Validator
         let value = validation->getValue(field);
 
         let pattern = this->getOption("pattern");
+
         if typeof pattern == "array" {
             let pattern = pattern[field];
         }

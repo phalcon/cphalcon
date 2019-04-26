@@ -126,7 +126,7 @@ interface ElementInterface
      * Returns an array of prepared attributes for Phalcon\Tag helpers
      * according to the element's parameters
      */
-    public function prepareAttributes(array attributes = null, bool useChecked = false) -> array;
+    public function prepareAttributes(array attributes = [], bool useChecked = false) -> array;
 
     /**
      * Renders the element widget
@@ -155,7 +155,6 @@ interface ElementInterface
      * @param array|string filters
      */
     public function setFilters(filters) -> <ElementInterface>;
-
 
     /**
      * Sets the parent form to the element

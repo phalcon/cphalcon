@@ -88,6 +88,7 @@ class Validation extends Injectable implements ValidationInterface
                 "Field must be passed as array of fields or string"
             );
         }
+
         return this;
     }
 
@@ -99,6 +100,7 @@ class Validation extends Injectable implements ValidationInterface
         var messages;
 
         let messages = this->messages;
+
         if typeof messages != "object" {
             let messages = new Messages();
         }
@@ -119,16 +121,13 @@ class Validation extends Injectable implements ValidationInterface
      */
     public function bind(entity, data) -> <ValidationInterface>
     {
-        if typeof entity != "object" {
-            throw new Exception("Entity must be an object");
-        }
+        this->setEntity(entity);
 
         if typeof data != "array" && typeof data != "object" {
             throw new Exception("Data to validate must be an array or object");
         }
 
-        let this->entity = entity,
-            this->data = data;
+        let this->data = data;
 
         return this;
     }
@@ -140,11 +139,11 @@ class Validation extends Injectable implements ValidationInterface
     {
         var defaultMessage;
 
-        if fetch defaultMessage, this->defaultMessages[type] {
-            return defaultMessage;
+        if !fetch defaultMessage, this->defaultMessages[type] {
+            return "";
         }
 
-        return "";
+        return defaultMessage;
     }
 
     /**
@@ -246,11 +245,13 @@ class Validation extends Injectable implements ValidationInterface
 
             // Check if there is a calculated value
             let values = this->values;
+
             if fetch value, values[field] {
                 return value;
             }
 
             let value = null;
+
             if typeof data == "array" {
                 if isset data[field] {
                     let value = data[field];
@@ -269,12 +270,12 @@ class Validation extends Injectable implements ValidationInterface
         let filters = this->filters;
 
         if fetch fieldFilters, filters[field] {
-
             if fieldFilters {
-
                 let container = this->getDI();
+
                 if typeof container != "object" {
                     let container = Di::getDefault();
+
                     if typeof container != "object" {
                         throw new Exception(
                             Exception::containerServiceNotFound(
@@ -286,6 +287,7 @@ class Validation extends Injectable implements ValidationInterface
 
                 let filterService = <LocatorInterface> container->getShared("filter");
 //                let filterService = container->getShared("filter");
+
                 if typeof filterService != "object" {
                     throw new Exception("Returned 'filter' service is invalid");
                 }
@@ -418,6 +420,7 @@ class Validation extends Injectable implements ValidationInterface
                 "Field must be passed as array of fields or string."
             );
         }
+
         return this;
     }
 
@@ -466,6 +469,7 @@ class Validation extends Injectable implements ValidationInterface
          */
         if method_exists(this, "beforeValidation") {
             let status = this->{"beforeValidation"}(data, entity, messages);
+
             if status === false {
                 return status;
             }
@@ -482,7 +486,6 @@ class Validation extends Injectable implements ValidationInterface
         }
 
         for scope in validators {
-
             if typeof scope != "array" {
                 throw new Exception("The validator scope is not valid");
             }
@@ -562,18 +565,21 @@ class Validation extends Injectable implements ValidationInterface
         if typeof field == "array" {
             for singleField in field {
                 let result = this->preChecking(singleField, validator);
+
                 if result {
                     return result;
                 }
             }
         } else {
             let allowEmpty = validator->getOption("allowEmpty", false);
+
             if allowEmpty {
                 if method_exists(validator, "isAllowEmpty") {
                     return validator->isAllowEmpty(this, field);
                 }
 
                 let value = this->getValue(field);
+
                 if typeof allowEmpty == "array" {
                     for emptyValue in allowEmpty {
                         if emptyValue === value {

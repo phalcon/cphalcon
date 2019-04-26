@@ -40,8 +40,8 @@ abstract class Element implements ElementInterface
     /**
      * Phalcon\Forms\Element constructor
      *
-     * @param string name Attribute name (value of 'name' attribute of HTML element)
-     * @param array attributes Additional HTML element attributes
+     * @param string name       Attribute name (value of 'name' attribute of HTML element)
+     * @param array  attributes Additional HTML element attributes
      */
     public function __construct(string name, array attributes = []) -> void
     {
@@ -154,11 +154,11 @@ abstract class Element implements ElementInterface
 
         let attributes = this->attributes;
 
-        if fetch value, attributes[attribute] {
-            return value;
+        if !fetch value, attributes[attribute] {
+            return defaultValue;
         }
 
-        return defaultValue;
+        return value;
     }
 
     /**
@@ -169,10 +169,6 @@ abstract class Element implements ElementInterface
         var attributes;
 
         let attributes = this->attributes;
-
-        if typeof attributes != "array" {
-            return [];
-        }
 
         return attributes;
     }
@@ -235,11 +231,11 @@ abstract class Element implements ElementInterface
     {
         var value;
 
-        if fetch value, this->options[option] {
-            return value;
+        if !fetch value, this->options[option] {
+            return defaultValue;
         }
 
-        return defaultValue;
+        return value;
     }
 
     /**
@@ -316,12 +312,8 @@ abstract class Element implements ElementInterface
             let name = this->name;
         }
 
-        if typeof attributes == "array" {
-            if !isset attributes["for"] {
-                let attributes["for"] = name;
-            }
-        } else {
-            let attributes = ["for": name];
+        if !isset attributes["for"] {
+            let attributes["for"] = name;
         }
 
         let code = Tag::renderAttributes("<label", attributes);
@@ -330,6 +322,7 @@ abstract class Element implements ElementInterface
          * Use the default label or leave the same name as label
          */
         let label = this->label;
+
         if label || is_numeric(label) {
             let code .= ">" . label . "</label>";
         } else {
@@ -343,36 +336,23 @@ abstract class Element implements ElementInterface
      * Returns an array of prepared attributes for Phalcon\Tag helpers
      * according to the element parameters
      */
-    public function prepareAttributes(array attributes = null, bool useChecked = false) -> array
+    public function prepareAttributes(array attributes = [], bool useChecked = false) -> array
     {
-        var value, name, widgetAttributes, mergedAttributes,
-            defaultAttributes, currentValue;
+        var value, name, mergedAttributes, defaultAttributes, currentValue;
 
         let name = this->name;
 
-        /**
-         * Create an array of parameters
-         */
-        if typeof attributes != "array" {
-            let widgetAttributes = [];
-        } else {
-            let widgetAttributes = attributes;
-        }
-
-        let widgetAttributes[0] = name;
+        let attributes[0] = name;
 
         /**
          * Merge passed parameters with default ones
          */
         let defaultAttributes = this->attributes;
-        if typeof defaultAttributes == "array" {
-            let mergedAttributes = array_merge(
-                defaultAttributes,
-                widgetAttributes
-            );
-        } else {
-            let mergedAttributes = widgetAttributes;
-        }
+
+        let mergedAttributes = array_merge(
+            defaultAttributes,
+            attributes
+        );
 
         /**
          * Get the current element value

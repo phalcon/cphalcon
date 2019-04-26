@@ -116,6 +116,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     public function getDI() -> <DiInterface>
     {
         var di;
+
         let di = this->container;
 
         if typeof di != "object" {
@@ -133,6 +134,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
         var escaper, container;
 
         let escaper = this->escaperService;
+
         if typeof escaper != "object" {
             let container = <DiInterface> this->getDI();
 
@@ -160,6 +162,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     public function setAutoescape(bool autoescape) -> <Flash>
     {
         let this->autoescape = autoescape;
+
         return this;
     }
 
@@ -169,6 +172,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     public function setAutomaticHtml(bool automaticHtml) -> <FlashInterface>
     {
         let this->automaticHtml = automaticHtml;
+
         return this;
     }
 
@@ -178,6 +182,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     public function setCssClasses(array! cssClasses) -> <FlashInterface>
     {
         let this->cssClasses = cssClasses;
+
         return this;
     }
 
@@ -187,6 +192,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     public function setCustomTemplate(string! customTemplate) -> <FlashInterface>
     {
         let this->customTemplate = customTemplate;
+
         return this;
     }
 
@@ -196,6 +202,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     public function setDI(<DiInterface> container) -> <Flash>
     {
         let this->container = container;
+
         return this;
     }
 
@@ -205,6 +212,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     public function setEscaperService(<EscaperInterface> escaperService) -> <Flash>
     {
         let this->escaperService = escaperService;
+
         return this;
     }
 
@@ -215,6 +223,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     public function setImplicitFlush(bool implicitFlush) -> <FlashInterface>
     {
         let this->implicitFlush = implicitFlush;
+
         return this;
     }
 
@@ -243,12 +252,11 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     public function outputMessage(string type, var message)
     {
         bool implicitFlush;
-        var content, msg,
-            htmlMessage, preparedMsg;
+        var content, msg, htmlMessage, preparedMsg;
 
         let implicitFlush = (bool) this->implicitFlush;
-        if typeof message == "array" {
 
+        if typeof message == "array" {
             /**
              * We create the message with implicit flush or other
              */
@@ -285,7 +293,6 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
             if !implicitFlush {
                 return content;
             }
-
         } else {
             /**
              * Check if the message needs to be escaped
@@ -305,6 +312,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
                 echo htmlMessage;
             } else {
                 let this->messages[] = htmlMessage;
+
                 return htmlMessage;
             }
         }
@@ -325,8 +333,8 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
 
     private function getTemplate(string cssClassses) -> string
     {
-        if ("" === this->customTemplate) {
-            if ("" === cssClassses) {
+        if "" === this->customTemplate {
+            if "" === cssClassses {
                 return "<div>%message%</div>" . PHP_EOL;
             } else {
                 return "<div class=\"%cssClass%\">%message%</div>" . PHP_EOL;
@@ -370,6 +378,7 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
         }
 
         let classes = this->cssClasses;
+
         if fetch typeClasses, classes[type] {
             if typeof typeClasses == "array" {
                 let cssClasses = join(" ", typeClasses);

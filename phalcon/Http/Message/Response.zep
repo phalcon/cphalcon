@@ -130,11 +130,7 @@ class Response implements ResponseInterface
 
         let header = this->getHeader(name);
 
-        if count(header) > 0 {
-            return implode(",", header);
-        }
-
-        return "";
+        return implode(",", header);
     }
 
     /**
@@ -386,6 +382,7 @@ class Response implements ResponseInterface
         var newInstance;
 
         let newInstance = clone this;
+
         if element !== this->{property} {
             let newInstance->{property} = element;
         }
@@ -412,8 +409,10 @@ class Response implements ResponseInterface
         }
 
         let valueData = [];
+
         for value in values {
             this->checkHeaderValue(value);
+
             let valueData[] = (string) value;
         }
 
@@ -530,7 +529,9 @@ class Response implements ResponseInterface
         }
 
         if typeof body !== "string" && typeof body !== "resource" {
-            throw new \InvalidArgumentException("Invalid stream passed as a parameter");
+            throw new \InvalidArgumentException(
+                "Invalid stream passed as a parameter"
+            );
         }
 
         return new Stream(body, mode);
@@ -574,8 +575,8 @@ class Response implements ResponseInterface
         var collection, name, value;
 
         let collection = new Collection();
-        for name, value in headers {
 
+        for name, value in headers {
             this->checkHeaderName(name);
 
             let name  = (string) name,
@@ -601,12 +602,14 @@ class Response implements ResponseInterface
             "3.0" : 1
         ];
 
-        if (empty(protocol)) || typeof protocol !== "string" {
+        if empty(protocol) || typeof protocol !== "string" {
             throw new \InvalidArgumentException("Invalid protocol value");
         }
 
         if !isset protocols[protocol] {
-            throw new \InvalidArgumentException("Unsupported protocol " . protocol);
+            throw new \InvalidArgumentException(
+                "Unsupported protocol " . protocol
+            );
         }
 
         return protocol;

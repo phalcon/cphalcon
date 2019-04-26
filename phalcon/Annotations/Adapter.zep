@@ -62,7 +62,6 @@ abstract class Adapter implements AdapterInterface
             let reader = this->getReader(),
                 parsedAnnotations = reader->parse(realClassName);
 
-
             let classAnnotations = new Reflection(parsedAnnotations),
                 this->annotations[realClassName] = classAnnotations;
                 this->{"write"}(realClassName, classAnnotations);

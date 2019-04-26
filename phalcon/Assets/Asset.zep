@@ -85,6 +85,7 @@ class Asset implements AssetInterface
     public function setType(string type) -> <AssetInterface>
     {
         let this->type = type;
+
         return this;
     }
 
@@ -94,6 +95,7 @@ class Asset implements AssetInterface
     public function setPath(string path) -> <AssetInterface>
     {
         let this->path = path;
+
         return this;
     }
 
@@ -103,6 +105,7 @@ class Asset implements AssetInterface
     public function setLocal(bool local) -> <AssetInterface>
     {
         let this->local = local;
+
         return this;
     }
 
@@ -112,6 +115,7 @@ class Asset implements AssetInterface
     public function setFilter(bool filter) -> <AssetInterface>
     {
         let this->filter = filter;
+
         return this;
     }
 
@@ -121,6 +125,7 @@ class Asset implements AssetInterface
     public function setAttributes(array attributes) -> <AssetInterface>
     {
         let this->attributes = attributes;
+
         return this;
     }
 
@@ -130,6 +135,7 @@ class Asset implements AssetInterface
     public function setTargetUri(string targetUri) -> <AssetInterface>
     {
         let this->targetUri = targetUri;
+
         return this;
     }
 
@@ -139,6 +145,7 @@ class Asset implements AssetInterface
     public function setSourcePath(string sourcePath) -> <AssetInterface>
     {
         let this->sourcePath = sourcePath;
+
         return this;
     }
 
@@ -148,6 +155,7 @@ class Asset implements AssetInterface
     public function setTargetPath(string targetPath) -> <AssetInterface>
     {
         let this->targetPath = targetPath;
+
         return this;
     }
 
@@ -206,9 +214,11 @@ class Asset implements AssetInterface
         var targetUri;
 
         let targetUri = this->targetUri;
+
         if empty targetUri {
             let targetUri = this->path;
         }
+
         return targetUri;
     }
 
@@ -247,7 +257,6 @@ class Asset implements AssetInterface
         }
 
         if this->local {
-
             /**
              * A base path for assets can be set in the assets manager
              */

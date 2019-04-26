@@ -40,6 +40,7 @@ class Sqlite extends Dialect
 
         if column->hasDefault() {
             let defaultValue = column->getDefault();
+
             if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
                 let sql .= " DEFAULT CURRENT_TIMESTAMP";
             } else {
@@ -90,6 +91,7 @@ class Sqlite extends Dialect
         }
 
         let sql .= this->getColumnList(index->getColumns()) . ")";
+
         return sql;
     }
 
@@ -160,6 +162,7 @@ class Sqlite extends Dialect
              */
             if column->hasDefault() {
                 let defaultValue = column->getDefault();
+
                 if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
                     let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
                 } else {
@@ -305,6 +308,7 @@ class Sqlite extends Dialect
         if schemaName {
             return "DROP INDEX \"" . schemaName . "\".\"" . indexName . "\"";
         }
+
         return "DROP INDEX \"" . indexName . "\"";
     }
 
@@ -348,6 +352,7 @@ class Sqlite extends Dialect
         if ifExists {
             return "DROP VIEW IF EXISTS " . view;
         }
+
         return "DROP VIEW " . view;
     }
 
@@ -379,105 +384,126 @@ class Sqlite extends Dialect
                 if empty columnSql {
                     let columnSql .= "BIGINT";
                 }
+
                 if column->isUnsigned() {
                     let columnSql .= " UNSIGNED";
                 }
+
                 break;
 
             case Column::TYPE_BLOB:
                 if empty columnSql {
                     let columnSql .= "BLOB";
                 }
+
                 break;
 
             case Column::TYPE_BOOLEAN:
                 if empty columnSql {
                     let columnSql .= "TINYINT";
                 }
+
                 break;
 
             case Column::TYPE_CHAR:
                 if empty columnSql {
                     let columnSql .= "CHARACTER";
                 }
+
                 let columnSql .= this->getColumnSize(column);
+
                 break;
 
             case Column::TYPE_DATE:
                 if empty columnSql {
                     let columnSql .= "DATE";
                 }
+
                 break;
 
             case Column::TYPE_DATETIME:
                 if empty columnSql {
                     let columnSql .= "DATETIME";
                 }
+
                 break;
 
             case Column::TYPE_DECIMAL:
                 if empty columnSql {
                     let columnSql .= "NUMERIC";
                 }
+
                 let columnSql .= this->getColumnSizeAndScale(column);
+
                 break;
 
             case Column::TYPE_DOUBLE:
                 if empty columnSql {
                     let columnSql .= "DOUBLE";
                 }
+
                 if column->isUnsigned() {
                     let columnSql .= " UNSIGNED";
                 }
+
                 break;
 
             case Column::TYPE_FLOAT:
                 if empty columnSql {
                     let columnSql .= "FLOAT";
                 }
+
                 break;
 
             case Column::TYPE_INTEGER:
                 if empty columnSql {
                     let columnSql .= "INTEGER";
                 }
+
                 break;
 
             case Column::TYPE_LONGBLOB:
                 if empty columnSql {
                     let columnSql .= "LONGBLOB";
                 }
+
                 break;
 
             case Column::TYPE_MEDIUMBLOB:
                 if empty columnSql {
                     let columnSql .= "MEDIUMBLOB";
                 }
+
                 break;
 
             case Column::TYPE_TEXT:
                 if empty columnSql {
                     let columnSql .= "TEXT";
                 }
+
                 break;
 
             case Column::TYPE_TIMESTAMP:
                 if empty columnSql {
                     let columnSql .= "TIMESTAMP";
                 }
+
                 break;
 
             case Column::TYPE_TINYBLOB:
                 if empty columnSql {
                     let columnSql .= "TINYBLOB";
                 }
+
                 break;
 
             case Column::TYPE_VARCHAR:
                 if empty columnSql {
                     let columnSql .= "VARCHAR";
                 }
+
                 let columnSql .= this->getColumnSize(column);
+
                 break;
 
             default:
@@ -491,10 +517,13 @@ class Sqlite extends Dialect
                 if !empty typeValues {
                     if typeof typeValues == "array" {
                         var value, valueSql;
+
                         let valueSql = "";
+
                         for value in typeValues {
                             let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
                         }
+
                         let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
                     } else {
                         let columnSql .= "(\"" . addcslashes(typeValues, "\"") . "\")";

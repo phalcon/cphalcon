@@ -39,20 +39,21 @@ abstract class Validator implements ValidatorInterface
     {
         var value, fieldValue;
 
-        if fetch value, this->options[key] {
-            /*
-             * If we have attribute it means it's Uniqueness validator, we
-             * can have here multiple fields, so we need to check it
-             */
-            if key == "attribute" && typeof value == "array" {
-                if fetch fieldValue, value[key] {
-                    return fieldValue;
-                }
-            }
-            return value;
+        if !fetch value, this->options[key] {
+            return defaultValue;
         }
 
-        return defaultValue;
+        /*
+         * If we have attribute it means it's Uniqueness validator, we
+         * can have here multiple fields, so we need to check it
+         */
+        if key == "attribute" && typeof value == "array" {
+            if fetch fieldValue, value[key] {
+                return fieldValue;
+            }
+        }
+
+        return value;
     }
 
     /**
@@ -84,6 +85,7 @@ abstract class Validator implements ValidatorInterface
         var code;
 
         let code = this->getOption("code");
+
         if typeof code == "array" {
             let code = code[field];
         }
@@ -99,6 +101,7 @@ abstract class Validator implements ValidatorInterface
         var label;
 
         let label = this->getOption("label");
+
         if typeof label == "array" {
             let label = label[field];
         }
@@ -118,6 +121,7 @@ abstract class Validator implements ValidatorInterface
         var message;
 
         let message = this->getOption(option);
+
         if typeof message == "array" {
             let message = message[field];
         }

@@ -192,15 +192,17 @@ class Memory extends Adapter
      * $acl->addRole("administrator", ["consultant", "consultant2"]);
      * </code>
      *
-     * @param  array|string         accessInherits
+     * @param  array|string               accessInherits
      * @param  RoleInterface|string|array role
      */
     public function addInherit(string roleName, var roleToInherits) -> bool
     {
         var roleInheritName, rolesNames, roleToInherit, checkRoleToInherit,
-         checkRoleToInherits, usedRoleToInherits, roleToInheritList, usedRoleToInherit;
+            checkRoleToInherits, usedRoleToInherits, roleToInheritList,
+            usedRoleToInherit;
 
         let rolesNames = this->rolesNames;
+
         if !isset rolesNames[roleName] {
             throw new Exception(
                 "Role '" . roleName . "' does not exist in the role list"
@@ -210,14 +212,16 @@ class Memory extends Adapter
         if !isset this->roleInherits[roleName] {
             let this->roleInherits[roleName] = [];
         }
+
         /**
          * Type conversion
          */
         if typeof roleToInherits != "array" {
             let roleToInheritList = [roleToInherits];
-        }else{
+        } else {
             let roleToInheritList = roleToInherits;
         }
+
         /**
          * inherits
          */
@@ -227,12 +231,14 @@ class Memory extends Adapter
             } else {
                 let roleInheritName = roleToInherit;
             }
+
             /**
              * Check if the role to inherit is repeat
              */
             if in_array(roleInheritName, this->roleInherits[roleName]) {
                 continue;
             }
+
             /**
              * Check if the role to inherit is valid
              */
@@ -245,33 +251,40 @@ class Memory extends Adapter
             if roleName == roleInheritName {
                 return false;
             }
+
             /**
              * Deep check if the role to inherit is valid
              */
             if isset this->roleInherits[roleInheritName] {
                 let checkRoleToInherits = [];
+
                 for usedRoleToInherit in this->roleInherits[roleInheritName] {
-                    array_push(checkRoleToInherits,usedRoleToInherit);
+                    array_push(checkRoleToInherits, usedRoleToInherit);
                 }
+
                 let usedRoleToInherits = [];
+
                 while !empty checkRoleToInherits {
                     let checkRoleToInherit = array_shift(checkRoleToInherits);
                     
                     if isset usedRoleToInherits[checkRoleToInherit] {
                         continue;
                     }
-                    let usedRoleToInherits[checkRoleToInherit]=true;
+
+                    let usedRoleToInherits[checkRoleToInherit] = true;
+
                     if roleName == checkRoleToInherit {
                         throw new Exception(
                             "Role '" . roleInheritName . "' (to inherit) is infinite loop "
                         );
                     }
+
                     /**
                      * Push inherited roles
                      */
                     if isset this->roleInherits[checkRoleToInherit] {
                         for usedRoleToInherit in this->roleInherits[checkRoleToInherit] {
-                            array_push(checkRoleToInherits,usedRoleToInherit);
+                            array_push(checkRoleToInherits, usedRoleToInherit);
                         }
                     }
                 }
@@ -279,6 +292,7 @@ class Memory extends Adapter
 
             let this->roleInherits[roleName][] = roleInheritName;
         }
+
         return true;
     }
 
@@ -296,7 +310,7 @@ class Memory extends Adapter
      * $acl->addRole("administrator", ["consultant", "consultant2"]);
      * </code>
      *
-     * @param  array|string         accessInherits
+     * @param  array|string               accessInherits
      * @param  RoleInterface|string|array role
      */
     public function addRole(role, accessInherits = null) -> bool
@@ -304,16 +318,16 @@ class Memory extends Adapter
         var roleName, roleObject;
 
         if typeof role == "object" && role instanceof RoleInterface {
-            let roleName = role->getName();
             let roleObject = role;
         } elseif is_string(role) {
-            let roleName = role;
             let roleObject = new Role(role);
         } else {
             throw new Exception(
                 "Role must be either an string or implement RoleInterface"
             );
         }
+
+        let roleName = roleObject->getName();
 
         if isset this->rolesNames[roleName] {
             return false;
@@ -364,26 +378,26 @@ class Memory extends Adapter
      * </code>
      *
      * @param   Phalcon\Acl\Component|string componentValue
-     * @param   array|string accessList
+     * @param   array|string                 accessList
      */
     public function addComponent(var componentValue, var accessList) -> bool
     {
         var componentName, componentObject;
 
         if typeof componentValue == "object" && componentValue instanceof ComponentInterface {
-            let componentName   = componentValue->getName();
             let componentObject = componentValue;
-         } else {
-            let componentName   = componentValue;
-            let componentObject = new Component(componentName);
-         }
+        } else {
+            let componentObject = new Component(componentValue);
+        }
 
-         if !isset this->componentsNames[componentName] {
+        let componentName = componentObject->getName();
+
+        if !isset this->componentsNames[componentName] {
             let this->components[] = componentObject;
             let this->componentsNames[componentName] = true;
-         }
+        }
 
-         return this->addComponentAccess(componentName, accessList);
+        return this->addComponentAccess(componentName, accessList);
     }
 
     /**
@@ -393,7 +407,9 @@ class Memory extends Adapter
      */
     public function addComponentAccess(string componentName, var accessList) -> bool
     {
-        var accessName, accessKey, exists;
+        var accessName;
+        string accessKey;
+        bool exists;
 
         if !isset this->componentsNames[componentName] {
             throw new Exception(
@@ -406,15 +422,18 @@ class Memory extends Adapter
         }
 
         let exists = true;
+
         if typeof accessList == "array" {
             for accessName in accessList {
                 let accessKey = componentName . "!" . accessName;
+
                 if !isset this->accessList[accessKey] {
                     let this->accessList[accessKey] = exists;
                 }
             }
         } else {
             let accessKey = componentName . "!" . accessList;
+
             if !isset this->accessList[accessKey] {
                 let this->accessList[accessKey] = exists;
             }
@@ -523,6 +542,7 @@ class Memory extends Adapter
         if typeof accessList == "array" {
             for accessName in accessList {
                 let accessKey = componentName . "!" . accessName;
+
                 if isset this->accessList[accessKey] {
                     unset this->accessList[accessKey];
                 }
@@ -625,6 +645,7 @@ class Memory extends Adapter
          * Check if the role exists
          */
         let rolesNames = this->rolesNames;
+
         if !isset rolesNames[roleName] {
             return (this->defaultAccess == Acl::ALLOW);
         }
@@ -636,6 +657,7 @@ class Memory extends Adapter
 
         if accessKey != false && isset accessList[accessKey] {
             let haveAccess = accessList[accessKey];
+
             fetch funcAccess, funcList[accessKey];
         }
 
@@ -643,6 +665,7 @@ class Memory extends Adapter
          * Check in the inherits roles
          */
         let this->accessGranted = haveAccess;
+
         if typeof eventsManager == "object" {
             eventsManager->fire("acl:afterCheckAccess", this);
         }
@@ -814,9 +837,9 @@ class Memory extends Adapter
         let accessList = this->accessList;
 
         if typeof access == "array" {
-
             for accessName in access {
                 let accessKey = componentName . "!" . accessName;
+
                 if !isset accessList[accessKey] {
                     throw new Exception(
                         "Access '" . accessName . "' does not exist in component '" . componentName . "'"
@@ -825,18 +848,17 @@ class Memory extends Adapter
             }
 
             for accessName in access {
-
                 let accessKey = roleName . "!" .componentName . "!" . accessName;
                 let this->access[accessKey] = action;
+
                 if func != null {
                     let this->func[accessKey] = func;
                 }
             }
-
         } else {
-
             if access != "*" {
                 let accessKey = componentName . "!" . access;
+
                 if !isset accessList[accessKey] {
                     throw new Exception(
                         "Access '" . access . "' does not exist in component '" . componentName . "'"
@@ -850,6 +872,7 @@ class Memory extends Adapter
              * Define the access action for the specified accessKey
              */
             let this->access[accessKey] = action;
+
             if func != null {
                 let this->func[accessKey] = func;
             }
@@ -861,9 +884,8 @@ class Memory extends Adapter
      */
     private function canAccess(string roleName, string componentName, string access) -> string | bool
     {
-        var accessList, accessKey,checkRoleToInherit,
-            checkRoleToInherits, usedRoleToInherits,
-            usedRoleToInherit;
+        var accessList, accessKey,checkRoleToInherit, checkRoleToInherits,
+            usedRoleToInherits, usedRoleToInherit;
 
         let accessList = this->access;
 
@@ -875,38 +897,48 @@ class Memory extends Adapter
         if isset accessList[accessKey] {
             return accessKey;
         }
+
         /**
          * Check if there is a direct combination for role-*-*
          */
         let accessKey = roleName . "!" . componentName . "!*";
+
         if isset accessList[accessKey] {
             return accessKey;
         }
+
         /**
          * Check if there is a direct combination for role-*-*
          */
         let accessKey = roleName . "!*!*";
+
         if isset accessList[accessKey] {
             return accessKey;
         }
+
         /**
          * Deep check if the role to inherit is valid
          */
         if isset this->roleInherits[roleName] {
             let checkRoleToInherits = [];
+
             for usedRoleToInherit in this->roleInherits[roleName] {
-                array_push(checkRoleToInherits,usedRoleToInherit);
+                array_push(checkRoleToInherits, usedRoleToInherit);
             }
+
             let usedRoleToInherits = [];
+
             while !empty checkRoleToInherits {
                 let checkRoleToInherit = array_shift(checkRoleToInherits);
 
                 if isset usedRoleToInherits[checkRoleToInherit] {
                     continue;
                 }
-                let usedRoleToInherits[checkRoleToInherit]=true;
+
+                let usedRoleToInherits[checkRoleToInherit] = true;
 
                 let accessKey = checkRoleToInherit . "!" . componentName . "!" . access;
+
                 /**
                  * Check if there is a direct combination in one of the
                  * inherited roles
@@ -914,30 +946,36 @@ class Memory extends Adapter
                 if isset accessList[accessKey] {
                     return accessKey;
                 }
+
                 /**
                  * Check if there is a direct combination for role-*-*
                  */
                 let accessKey = checkRoleToInherit . "!" . componentName . "!*";
+
                 if isset accessList[accessKey] {
                     return accessKey;
                 }
+
                 /**
                  * Check if there is a direct combination for role-*-*
                  */
                 let accessKey = checkRoleToInherit . "!*!*";
+
                 if isset accessList[accessKey] {
                     return accessKey;
                 }
+
                 /**
                  * Push inherited roles
                  */
                 if isset this->roleInherits[checkRoleToInherit] {
                     for usedRoleToInherit in this->roleInherits[checkRoleToInherit] {
-                        array_push(checkRoleToInherits,usedRoleToInherit);
+                        array_push(checkRoleToInherits, usedRoleToInherit);
                     }
                 }
             }
         }
+
         return false;
     }
 }

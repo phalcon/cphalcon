@@ -91,6 +91,7 @@ class File extends Validator
     public function isAllowEmpty(<Validation> validation, string! field) -> bool
     {
         var value;
+
         let value = validation->getValue(field);
 
         return empty value || isset value["error"] && value["error"] === UPLOAD_ERR_NO_FILE;
@@ -182,7 +183,6 @@ class File extends Validator
         }
 
         if this->hasOption("maxSize") {
-
             let byteUnits = [
                 "B": 0,
                 "K": 10,
@@ -242,7 +242,6 @@ class File extends Validator
         }
 
         if this->hasOption("allowedTypes") {
-
             let types = this->getOption("allowedTypes");
 
             if fetch fieldTypes, types[field] {
@@ -297,6 +296,7 @@ class File extends Validator
 
             if this->hasOption("minResolution") {
                 let minResolution = this->getOption("minResolution");
+
                 if typeof minResolution == "array" {
                     let minResolution = minResolution[field];
                 }
@@ -335,8 +335,8 @@ class File extends Validator
             }
 
             if this->hasOption("maxResolution") {
-
                 let maxResolution = this->getOption("maxResolution");
+
                 if typeof maxResolution == "array" {
                     let maxResolution = maxResolution[field];
                 }

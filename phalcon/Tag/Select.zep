@@ -68,7 +68,6 @@ abstract class Select
         }
 
         if fetch useEmpty, params["useEmpty"] {
-
             if !fetch emptyValue, params["emptyValue"] {
                 let emptyValue = "";
             } else {
@@ -89,7 +88,6 @@ abstract class Select
         }
 
         if typeof options == "object" {
-
             /**
              * The options is a resultset
              */
@@ -116,7 +114,6 @@ abstract class Select
         }
 
         if typeof options == "object" {
-
             /**
              * Create the SELECT's option from a resultset
              */
@@ -128,7 +125,6 @@ abstract class Select
             );
         } else {
             if typeof options == "array" {
-
                 /**
                  * Create the SELECT's option from an array
                  */
@@ -155,11 +151,11 @@ abstract class Select
         let code = "";
 
         for optionValue, optionText in data {
-
             let escaped = htmlspecialchars(optionValue);
 
             if typeof optionText == "array" {
                 let code .= "\t<optgroup label=\"" . escaped . "\">" . PHP_EOL . self::optionsFromArray(optionText, value, closeOption) . "\t</optgroup>" . PHP_EOL;
+
                 continue;
             }
 
@@ -170,7 +166,6 @@ abstract class Select
                     let code .= "\t<option value=\"" . escaped . "\">" . optionText . closeOption;
                 }
             } else {
-
                 let strOptionValue = (string) optionValue,
                     strValue = (string) value;
 
@@ -197,8 +192,8 @@ abstract class Select
         string closeOption
     ) -> string
     {
-        var code, params, option, usingZero, usingOne, escaper,
-            optionValue, optionText, strValue, strOptionValue;
+        var code, params, option, usingZero, usingOne, escaper, optionValue,
+            optionText, strValue, strOptionValue;
 
         let code = "";
         let params = null;
@@ -207,15 +202,15 @@ abstract class Select
             if count(using) != 2 {
                 throw new Exception("Parameter 'using' requires two values");
             }
-            let usingZero = using[0], usingOne = using[1];
+
+            let usingZero = using[0],
+                usingOne = using[1];
         }
 
         let escaper = <EscaperInterface> BaseTag::getEscaperService();
 
         for option in iterator(resultset) {
-
             if typeof using == "array" {
-
                 if typeof option == "object" {
                     if method_exists(option, "readAttribute") {
                         let optionValue = option->readAttribute(usingZero);
@@ -251,6 +246,7 @@ abstract class Select
                 } else {
                     let strOptionValue = (string) optionValue,
                         strValue = (string) value;
+
                     if strOptionValue === strValue {
                         let code .= "\t<option selected=\"selected\" value=\"" . strOptionValue . "\">" . optionText . closeOption;
                     } else {
@@ -266,6 +262,7 @@ abstract class Select
                     if params === null {
                         let params = [];
                     }
+
                     let params[0] = option;
                     let code .= call_user_func_array(using, params);
                 }

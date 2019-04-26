@@ -48,13 +48,12 @@ class Apcu extends MetaData
     {
         var prefix, ttl;
 
-        if typeof options == "array" {
-            if fetch prefix, options["prefix"] {
-                let this->prefix = prefix;
-            }
-            if fetch ttl, options["lifetime"] {
-                let this->ttl = ttl;
-            }
+        if fetch prefix, options["prefix"] {
+            let this->prefix = prefix;
+        }
+
+        if fetch ttl, options["lifetime"] {
+            let this->ttl = ttl;
         }
     }
 
@@ -66,10 +65,12 @@ class Apcu extends MetaData
         var data;
 
         let data = apcu_fetch("$PMM$" . this->prefix . key);
-        if typeof data == "array" {
-            return data;
+
+        if typeof data != "array" {
+            return null;
         }
-        return null;
+
+        return data;
     }
 
     /**
@@ -77,6 +78,10 @@ class Apcu extends MetaData
      */
     public function write(string! key, array data) -> void
     {
-        apcu_store("$PMM$" . this->prefix . key, data, this->ttl);
+        apcu_store(
+            "$PMM$" . this->prefix . key,
+            data,
+            this->ttl
+        );
     }
 }

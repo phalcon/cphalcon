@@ -17,8 +17,8 @@ use Phalcon\Mvc\Model\Exception;
 /**
  * Phalcon\Mvc\Model\Behavior\Timestampable
  *
- * Allows to automatically update a model’s attribute saving the
- * datetime when a record is created or updated
+ * Allows to automatically update a model’s attribute saving the datetime when a
+ * record is created or updated
  */
 class Timestampable extends Behavior
 {
@@ -37,8 +37,8 @@ class Timestampable extends Behavior
         }
 
         let options = this->getOptions(type);
-        if typeof options == "array" {
 
+        if typeof options == "array" {
             /**
              * The field name is required in this behavior
              */
@@ -75,7 +75,7 @@ class Timestampable extends Behavior
             }
 
             /**
-             * Assign the value to the field, use writeattribute if the property is protected
+             * Assign the value to the field, use writeAttribute() if the property is protected
              */
             if typeof field == "array" {
                 for singleField in field {

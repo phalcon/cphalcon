@@ -45,9 +45,9 @@ use Phalcon\Collection;
  *
  * In addition to ArrayAccess, Phalcon\Registry also implements Countable
  * (count($registry) will return the number of elements in the registry),
- * Serializable and Iterator (you can iterate over the registry
- * using a foreach loop) interfaces. For PHP 5.4 and higher, JsonSerializable
- * interface is implemented.
+ * Serializable and Iterator (you can iterate over the registry using a foreach
+ * loop) interfaces. For PHP 5.4 and higher, JsonSerializable interface is
+ * implemented.
  *
  * Phalcon\Registry is very fast (it is typically faster than any userspace
  * implementation of the registry); however, this comes at a price:
@@ -59,8 +59,8 @@ use Phalcon\Collection;
  * is several times slower than $registry->property.
  *
  * Internally all the magic methods (and interfaces except JsonSerializable)
- * are implemented using object handlers or similar techniques: this allows
- * to bypass relatively slow method calls.
+ * are implemented using object handlers or similar techniques: this allows to
+ * bypass relatively slow method calls.
  */
 final class Registry extends Collection
 {

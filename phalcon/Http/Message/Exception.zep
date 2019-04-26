@@ -14,7 +14,6 @@ namespace Phalcon\Http\Message;
  * Phalcon\Http\Message\Exception
  *
  * Exceptions thrown in Phalcon\Http\Message/* will use this class
- *
  */
 class Exception extends \Phalcon\Exception
 {

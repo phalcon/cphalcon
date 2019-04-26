@@ -17,8 +17,8 @@ use Phalcon\Mvc\Model\Exception;
 /**
  * Phalcon\Mvc\Model\Behavior\SoftDelete
  *
- * Instead of permanently delete a record it marks the record as
- * deleted changing the value of a flag column
+ * Instead of permanently delete a record it marks the record as deleted
+ * changing the value of a flag column
  */
 class SoftDelete extends Behavior
 {
@@ -91,8 +91,14 @@ class SoftDelete extends Behavior
 
         if modelsManager->isKeepingSnapshots(model) && globals_get("orm.update_snapshot_on_save") {
             let metaData = model->getModelsMetaData();
-            model->setSnapshotData(updateModel->getSnapshotData());
-            model->setOldSnapshotData(updateModel->getOldSnapshotData());
+
+            model->setSnapshotData(
+                updateModel->getSnapshotData()
+            );
+
+            model->setOldSnapshotData(
+                updateModel->getOldSnapshotData()
+            );
         }
     }
 }

@@ -62,6 +62,7 @@ class Debug
     public function clearVars() -> <Debug>
     {
         let this->data = null;
+
         return this;
     }
 
@@ -70,7 +71,12 @@ class Debug
      */
     public function debugVar(varz, string key = null) -> <Debug>
     {
-        let this->data[] = [varz, debug_backtrace(), time()];
+        let this->data[] = [
+            varz,
+            debug_backtrace(),
+            time()
+        ];
+
         return this;
     }
 
@@ -82,9 +88,11 @@ class Debug
         var uri, sources;
 
         let uri = this->uri;
+
         let sources  = "<link rel='stylesheet' type='text/css' href='" . uri . "bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css' />";
         let sources .= "<link rel='stylesheet' type='text/css' href='" . uri . "bower_components/jquery-ui/themes/ui-lightness/theme.css' />";
         let sources .= "<link rel='stylesheet' type='text/css' href='" . uri . "themes/default/style.css' />";
+
         return sources;
     }
 
@@ -96,11 +104,13 @@ class Debug
         var uri, sources;
 
         let uri = this->uri;
+
         let sources  = "<script type='text/javascript' src='" . uri . "bower_components/jquery/dist/jquery.min.js'></script>";
         let sources .= "<script type='text/javascript' src='" . uri . "bower_components/jquery-ui/jquery-ui.min.js'></script>";
         let sources .= "<script type='text/javascript' src='" . uri . "bower_components/jquery.scrollTo/jquery.scrollTo.min.js'></script>";
         let sources .= "<script type='text/javascript' src='" . uri . "prettify/prettify.js'></script>";
         let sources .= "<script type='text/javascript' src='" . uri . "pretty.js'></script>";
+
         return sources;
     }
 
@@ -137,9 +147,11 @@ class Debug
         if exceptions {
             this->listenExceptions();
         }
+
         if lowSeverity {
             this->listenLowSeverity();
         }
+
         return this;
     }
 
@@ -148,7 +160,10 @@ class Debug
      */
     public function listenExceptions() -> <Debug>
     {
-        set_exception_handler([this, "onUncaughtException"]);
+        set_exception_handler(
+            [this, "onUncaughtException"]
+        );
+
         return this;
     }
 
@@ -157,8 +172,14 @@ class Debug
      */
     public function listenLowSeverity() -> <Debug>
     {
-        set_error_handler([this, "onUncaughtLowSeverity"]);
-        set_exception_handler([this, "onUncaughtException"]);
+        set_error_handler(
+            [this, "onUncaughtLowSeverity"]
+        );
+
+        set_exception_handler(
+            [this, "onUncaughtException"]
+        );
+
         return this;
     }
 
@@ -185,6 +206,7 @@ class Debug
          */
         if self::isActive {
             echo exception->getMessage();
+
             return;
         }
 
@@ -228,7 +250,6 @@ class Debug
          * Check if the developer wants to show the backtrace or not
          */
         if showBackTrace {
-
             let dataVars = this->data;
 
             /**
@@ -240,21 +261,25 @@ class Debug
             let html .= "<li><a href='#error-tabs-3'>Server</a></li>";
             let html .= "<li><a href='#error-tabs-4'>Included Files</a></li>";
             let html .= "<li><a href='#error-tabs-5'>Memory</a></li>";
+
             if typeof dataVars == "array" {
                 let html .= "<li><a href='#error-tabs-6'>Variables</a></li>";
             }
+
             let html .= "</ul>";
 
             /**
              * Print backtrace
              */
             let html .= "<div id='error-tabs-1'><table cellspacing='0' align='center' width='100%'>";
+
             for n, traceItem in exception->getTrace()  {
                 /**
                  * Every line in the trace is rendered using "showTraceItem"
                  */
                 let html .= this->showTraceItem(n, traceItem);
             }
+
             let html .= "</table></div>";
 
             /**
@@ -263,6 +288,7 @@ class Debug
             let html .= "<div id='error-tabs-2'><table cellspacing='0' align='center' class='superglobal-detail'>";
             let html .= "<tr><th>Key</th><th>Value</th></tr>";
             let blacklist = Arr::get(this->blacklist, "request", []);
+
             for keyRequest, value in _REQUEST {
                 if true !== isset(blacklist[strtolower(keyRequest)]) {
                     if typeof value != "array" {
@@ -272,6 +298,7 @@ class Debug
                     }
                 }
             }
+
             let html .= "</table></div>";
 
             /**
@@ -280,11 +307,13 @@ class Debug
             let html .= "<div id='error-tabs-3'><table cellspacing='0' align='center' class='superglobal-detail'>";
             let html .= "<tr><th>Key</th><th>Value</th></tr>";
             let blacklist = Arr::get(this->blacklist, "server", []);
+
             for keyServer, value in _SERVER {
                 if true !== isset(blacklist[strtolower(keyServer)]) {
                     let html .= "<tr><td class='key'>" . keyServer . "</td><td>" . this->getVarDump(value) . "</td></tr>";
                 }
             }
+
             let html .= "</table></div>";
 
             /**
@@ -292,9 +321,11 @@ class Debug
              */
             let html .= "<div id='error-tabs-4'><table cellspacing='0' align='center' class='superglobal-detail'>";
             let html .= "<tr><th>#</th><th>Path</th></tr>";
+
             for keyFile, value in get_included_files() {
                 let html .= "<tr><td>" . keyFile . "</th><td>" . value . "</td></tr>";
             }
+
             let html .= "</table></div>";
 
             /**
@@ -310,9 +341,11 @@ class Debug
             if typeof dataVars == "array" {
                 let html .= "<div id='error-tabs-6'><table cellspacing='0' align='center' class='superglobal-detail'>";
                 let html .= "<tr><th>Key</th><th>Value</th></tr>";
+
                 for keyVar, dataVar in dataVars {
                     let html .= "<tr><td class='key'>" . keyVar . "</td><td>" . this->getVarDump(dataVar[0]) . "</td></tr>";
                 }
+
                 let html .= "</table></div>";
             }
 
@@ -384,6 +417,7 @@ class Debug
     public function setShowBackTrace(bool showBackTrace) -> <Debug>
     {
         let this->showBackTrace = showBackTrace;
+
         return this;
     }
 
@@ -394,6 +428,7 @@ class Debug
     public function setShowFileFragment(bool showFileFragment) -> <Debug>
     {
         let this->showFileFragment = showFileFragment;
+
         return this;
     }
 
@@ -403,6 +438,7 @@ class Debug
     public function setShowFiles(bool showFiles) -> <Debug>
     {
         let this->showFiles = showFiles;
+
         return this;
     }
 
@@ -412,6 +448,7 @@ class Debug
     public function setUri(string! uri) -> <Debug>
     {
         let this->uri = uri;
+
         return this;
     }
 
@@ -449,8 +486,8 @@ class Debug
         }
 
         let dump = [];
-        for k, v in argument {
 
+        for k, v in argument {
             if v == "" {
                 let varDump = "(empty string)";
             } elseif is_scalar(v) {
@@ -478,29 +515,25 @@ class Debug
     {
         var className, dumpedObject;
 
+        if variable == true {
+            return "true";
+        }
+
+        if variable === false {
+            return "false";
+        }
+
+        /**
+         * String variables are escaped to avoid XSS injections
+         */
+        if typeof variable == "string" {
+            return this->escapeString(variable);
+        }
+
+        /**
+         * Scalar variables are just converted to strings
+         */
         if is_scalar(variable) {
-
-            /**
-             * Boolean variables are represented as "true"/"false"
-             */
-            if typeof variable == "boolean" {
-                if variable {
-                    return "true";
-                } else {
-                    return "false";
-                }
-            }
-
-            /**
-             * String variables are escaped to avoid XSS injections
-             */
-            if typeof variable == "string" {
-                return this->escapeString(variable);
-            }
-
-            /**
-             * Other scalar variables are just converted to strings
-             */
             return variable;
         }
 
@@ -569,13 +602,11 @@ class Debug
         let html = "<tr><td align='right' valign='top' class='error-number'>#" . n . "</td><td>";
 
         if fetch className, trace["class"] {
-
             /**
              * We assume that classes starting by Phalcon are framework's
              * classes
              */
             if preg_match("/^Phalcon/", className) {
-
                 /**
                  * Prepare the class name according to the Phalcon's conventions
                  */
@@ -586,14 +617,12 @@ class Debug
                  */
                 let classNameWithLink = "<a target='_new' href='https://docs.phalconphp.com/4.0/en/api/" . prepareUriClass . "'>" . className . "</a>";
             } else {
-
                 let classReflection = new \ReflectionClass(className);
 
                 /**
                  * Check if classes are PHP's classes
                  */
                 if classReflection->isInternal() {
-
                     let prepareInternalClass = str_replace(
                         "_",
                         "-",
@@ -621,15 +650,14 @@ class Debug
          * Normally the backtrace contains only classes
          */
         let functionName = trace["function"];
+
         if isset trace["class"] {
             let functionNameWithLink = functionName;
         } else {
-
             /**
              * Check if the function exists
              */
             if function_exists(functionName) {
-
                 let functionReflection = new \ReflectionFunction(functionName);
 
                 /**
@@ -660,10 +688,9 @@ class Debug
          * Check for arguments in the function
          */
         if fetch traceArgs, trace["args"] {
-
             let arguments = [];
-            for argument in traceArgs {
 
+            for argument in traceArgs {
                 /**
                  * Every argument is generated using getVarDump
                  * Append the HTML generated to the argument's list
@@ -682,7 +709,6 @@ class Debug
          * the user
          */
         if fetch filez, trace["file"] {
-
             let line = (string) trace["line"];
 
             /**
@@ -696,7 +722,6 @@ class Debug
              * The developer can change if the files must be opened or not
              */
             if showFiles {
-
                 /**
                  * Open the file to an array using "file", this respects the
                  * openbase-dir directive
@@ -747,8 +772,8 @@ class Debug
                 }
 
                 let i = firstLine;
-                while i <= lastLine {
 
+                while i <= lastLine {
                     /**
                      * Current line in the file
                      */
@@ -794,6 +819,7 @@ class Debug
 
                     let i++;
                 }
+
                 let html .= "</pre>";
             }
         }
