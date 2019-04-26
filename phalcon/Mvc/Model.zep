@@ -2423,7 +2423,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         if success === false {
             this->_cancelOperation();
         } else {
-            if(hasRelatedUnsaved) {
+            if hasRelatedUnsaved {
                 /**
                  * Update and clear related caches
                  */
