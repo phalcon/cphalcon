@@ -2270,7 +2270,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function save() -> bool
     {
-        var metaData, related, schema, writeConnection, readConnection, source,
+        var metaData, schema, writeConnection, readConnection, source,
             table, identityField, exists, success, relatedBeforeSave;
 
         let metaData = this->getModelsMetaData();
@@ -2295,7 +2295,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          */
         let relatedBeforeSave = this->relatedBeforeSave;
 
-        if typeof relatedBeforeSave == "array" {
+        if typeof relatedBeforeSave == "array" && count(relatedBeforeSave) {
             if this->_preSaveRelatedRecords(writeConnection, relatedBeforeSave) === false {
                 return false;
             }
@@ -2385,7 +2385,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
         }
 
-        if typeof related == "array" {
+        if typeof relatedBeforeSave == "array" && count(relatedBeforeSave) {
             /**
              * Rollbacks the implicit transaction if the master save has failed
              */
@@ -2397,7 +2397,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                  */
                 let success = this->_postSaveRelatedRecords(
                     writeConnection,
-                    related
+                    relatedBeforeSave
                 );
             }
         }
