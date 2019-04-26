@@ -35,7 +35,7 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @var int
      */
-    protected defaultTtl = 3600;
+    protected lifetime = 3600;
 
     /**
      * @var string
@@ -58,7 +58,7 @@ abstract class AbstractAdapter implements AdapterInterface
          * Lets set some defaults and options here
          */
         let this->defaultSerializer = Arr::get(options, "defaultSerializer", "Php"),
-            this->defaultTtl        = Arr::get(options, "defaultTtl", 3600),
+            this->lifetime          = Arr::get(options, "lifetime", 3600),
             this->serializer        = Arr::get(options, "serializer", null);
 
         if isset options["prefix"] {
@@ -142,7 +142,7 @@ abstract class AbstractAdapter implements AdapterInterface
         var dateTime;
 
         if ttl === null {
-            return this->defaultTtl;
+            return this->lifetime;
         }
 
         if typeof ttl === "object" && ttl instanceof \DateInterval {
