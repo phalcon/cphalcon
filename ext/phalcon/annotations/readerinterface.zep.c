@@ -34,8 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_ReaderInterface) {
 }
 
 /**
- * Reads annotations from the class docblocks, its methods and/or
- * properties
+ * Reads annotations from the class docblocks, its methods and/or properties
  */
 ZEPHIR_DOC_METHOD(Phalcon_Annotations_ReaderInterface, parse);
 

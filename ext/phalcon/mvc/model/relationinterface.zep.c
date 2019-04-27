@@ -74,8 +74,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getOption);
 
 /**
  * Returns the options
- *
- * @return string|array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, getOptions);
 

@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 	} else {
 		ZEPHIR_OBS_VAR(&arguments);
 		if (zephir_array_isset_string_fetch(&arguments, &definition, SL("arguments"), 0)) {
-			ZEPHIR_CALL_METHOD(&_0$$8, this_ptr, "buildparameters", NULL, 169, container, &arguments);
+			ZEPHIR_CALL_METHOD(&_0$$8, this_ptr, "buildparameters", NULL, 171, container, &arguments);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&instance);
 			ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&instance, &className, &_0$$8 TSRMLS_CC);
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Setter injection parameters must be an array", "phalcon/Di/Service/Builder.zep", 90);
 			return;
 		}
-		zephir_is_iterable(&paramCalls, 0, "phalcon/Di/Service/Builder.zep", 151);
+		zephir_is_iterable(&paramCalls, 0, "phalcon/Di/Service/Builder.zep", 150);
 		if (Z_TYPE_P(&paramCalls) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&paramCalls), _3$$10, _4$$10, _1$$10)
 			{
@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 					}
 					if (zephir_fast_count_int(&arguments TSRMLS_CC)) {
 						ZEPHIR_INIT_NVAR(&_12$$18);
-						ZEPHIR_CALL_METHOD(&_13$$18, this_ptr, "buildparameters", NULL, 169, container, &arguments);
+						ZEPHIR_CALL_METHOD(&_13$$18, this_ptr, "buildparameters", NULL, 171, container, &arguments);
 						zephir_check_call_status();
 						ZEPHIR_CALL_USER_FUNC_ARRAY(&_12$$18, &methodCall, &_13$$18);
 						zephir_check_call_status();
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 						}
 						if (zephir_fast_count_int(&arguments TSRMLS_CC)) {
 							ZEPHIR_INIT_NVAR(&_22$$24);
-							ZEPHIR_CALL_METHOD(&_23$$24, this_ptr, "buildparameters", NULL, 169, container, &arguments);
+							ZEPHIR_CALL_METHOD(&_23$$24, this_ptr, "buildparameters", NULL, 171, container, &arguments);
 							zephir_check_call_status();
 							ZEPHIR_CALL_USER_FUNC_ARRAY(&_22$$24, &methodCall, &_23$$24);
 							zephir_check_call_status();
@@ -302,14 +302,14 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 	ZEPHIR_OBS_NVAR(&paramCalls);
 	if (zephir_array_isset_string_fetch(&paramCalls, &definition, SL("properties"), 0)) {
 		if (Z_TYPE_P(&instance) != IS_OBJECT) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The definition has properties injection parameters but the constructor didn't return an instance", "phalcon/Di/Service/Builder.zep", 161);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The definition has properties injection parameters but the constructor didn't return an instance", "phalcon/Di/Service/Builder.zep", 160);
 			return;
 		}
 		if (Z_TYPE_P(&paramCalls) != IS_ARRAY) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Setter injection parameters must be an array", "phalcon/Di/Service/Builder.zep", 167);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Setter injection parameters must be an array", "phalcon/Di/Service/Builder.zep", 166);
 			return;
 		}
-		zephir_is_iterable(&paramCalls, 0, "phalcon/Di/Service/Builder.zep", 211);
+		zephir_is_iterable(&paramCalls, 0, "phalcon/Di/Service/Builder.zep", 210);
 		if (Z_TYPE_P(&paramCalls) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&paramCalls), _27$$25, _28$$25, _25$$25)
 			{
@@ -328,7 +328,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 					ZEPHIR_CONCAT_SV(&_30$$29, "Property must be an array on position ", &propertyPosition);
 					ZEPHIR_CALL_METHOD(NULL, &_29$$29, "__construct", &_7, 1, &_30$$29);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_29$$29, "phalcon/Di/Service/Builder.zep", 181 TSRMLS_CC);
+					zephir_throw_exception_debug(&_29$$29, "phalcon/Di/Service/Builder.zep", 180 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -340,7 +340,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 					ZEPHIR_CONCAT_SV(&_32$$30, "The property name is required on position ", &propertyPosition);
 					ZEPHIR_CALL_METHOD(NULL, &_31$$30, "__construct", &_7, 1, &_32$$30);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_31$$30, "phalcon/Di/Service/Builder.zep", 190 TSRMLS_CC);
+					zephir_throw_exception_debug(&_31$$30, "phalcon/Di/Service/Builder.zep", 189 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -352,11 +352,11 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 					ZEPHIR_CONCAT_SV(&_34$$31, "The property value is required on position ", &propertyPosition);
 					ZEPHIR_CALL_METHOD(NULL, &_33$$31, "__construct", &_7, 1, &_34$$31);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_33$$31, "phalcon/Di/Service/Builder.zep", 199 TSRMLS_CC);
+					zephir_throw_exception_debug(&_33$$31, "phalcon/Di/Service/Builder.zep", 198 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				ZEPHIR_CALL_METHOD(&_35$$28, this_ptr, "buildparameter", &_36, 170, container, &propertyPosition, &propertyValue);
+				ZEPHIR_CALL_METHOD(&_35$$28, this_ptr, "buildparameter", &_36, 172, container, &propertyPosition, &propertyValue);
 				zephir_check_call_status();
 				zephir_update_property_zval_zval(&instance, &propertyName, &_35$$28 TSRMLS_CC);
 			} ZEND_HASH_FOREACH_END();
@@ -380,7 +380,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 						ZEPHIR_CONCAT_SV(&_38$$33, "Property must be an array on position ", &propertyPosition);
 						ZEPHIR_CALL_METHOD(NULL, &_37$$33, "__construct", &_7, 1, &_38$$33);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(&_37$$33, "phalcon/Di/Service/Builder.zep", 181 TSRMLS_CC);
+						zephir_throw_exception_debug(&_37$$33, "phalcon/Di/Service/Builder.zep", 180 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -392,7 +392,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 						ZEPHIR_CONCAT_SV(&_40$$34, "The property name is required on position ", &propertyPosition);
 						ZEPHIR_CALL_METHOD(NULL, &_39$$34, "__construct", &_7, 1, &_40$$34);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(&_39$$34, "phalcon/Di/Service/Builder.zep", 190 TSRMLS_CC);
+						zephir_throw_exception_debug(&_39$$34, "phalcon/Di/Service/Builder.zep", 189 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -404,11 +404,11 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 						ZEPHIR_CONCAT_SV(&_42$$35, "The property value is required on position ", &propertyPosition);
 						ZEPHIR_CALL_METHOD(NULL, &_41$$35, "__construct", &_7, 1, &_42$$35);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(&_41$$35, "phalcon/Di/Service/Builder.zep", 199 TSRMLS_CC);
+						zephir_throw_exception_debug(&_41$$35, "phalcon/Di/Service/Builder.zep", 198 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
-					ZEPHIR_CALL_METHOD(&_43$$32, this_ptr, "buildparameter", &_36, 170, container, &propertyPosition, &propertyValue);
+					ZEPHIR_CALL_METHOD(&_43$$32, this_ptr, "buildparameter", &_36, 172, container, &propertyPosition, &propertyValue);
 					zephir_check_call_status();
 					zephir_update_property_zval_zval(&instance, &propertyName, &_43$$32 TSRMLS_CC);
 				ZEPHIR_CALL_METHOD(NULL, &paramCalls, "next", NULL, 0);
@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameter) {
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Argument at position ", &_1$$3, " must have a type");
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 1, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Di/Service/Builder.zep", 231 TSRMLS_CC);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Di/Service/Builder.zep", 230 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -490,7 +490,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameter) {
 				ZEPHIR_CONCAT_SV(&_5$$5, "Service 'name' is required in parameter on position ", &_4$$5);
 				ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 1, &_5$$5);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_3$$5, "phalcon/Di/Service/Builder.zep", 244 TSRMLS_CC);
+				zephir_throw_exception_debug(&_3$$5, "phalcon/Di/Service/Builder.zep", 243 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -513,7 +513,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameter) {
 				ZEPHIR_CONCAT_SV(&_8$$8, "Service 'value' is required in parameter on position ", &_7$$8);
 				ZEPHIR_CALL_METHOD(NULL, &_6$$8, "__construct", NULL, 1, &_8$$8);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_6$$8, "phalcon/Di/Service/Builder.zep", 260 TSRMLS_CC);
+				zephir_throw_exception_debug(&_6$$8, "phalcon/Di/Service/Builder.zep", 261 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -530,12 +530,12 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameter) {
 				ZEPHIR_CONCAT_SV(&_11$$10, "Service 'className' is required in parameter on position ", &_10$$10);
 				ZEPHIR_CALL_METHOD(NULL, &_9$$10, "__construct", NULL, 1, &_11$$10);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_9$$10, "phalcon/Di/Service/Builder.zep", 272 TSRMLS_CC);
+				zephir_throw_exception_debug(&_9$$10, "phalcon/Di/Service/Builder.zep", 274 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
 			if (Z_TYPE_P(container) != IS_OBJECT) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The dependency injector container is not valid", "phalcon/Di/Service/Builder.zep", 278);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "The dependency injector container is not valid", "phalcon/Di/Service/Builder.zep", 280);
 				return;
 			}
 			ZEPHIR_OBS_VAR(&instanceArguments);
@@ -556,7 +556,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameter) {
 		ZEPHIR_CONCAT_SV(&_14$$13, "Unknown service type in parameter on position ", &_13$$13);
 		ZEPHIR_CALL_METHOD(NULL, &_12$$13, "__construct", NULL, 1, &_14$$13);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_12$$13, "phalcon/Di/Service/Builder.zep", 300 TSRMLS_CC);
+		zephir_throw_exception_debug(&_12$$13, "phalcon/Di/Service/Builder.zep", 302 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} while(0);
@@ -574,18 +574,18 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameters) {
 	zend_ulong _2;
 	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval arguments;
-	zval *container, container_sub, *arguments_param = NULL, position, argument, buildArguments, *_0, _1, _4$$3, _6$$4;
+	zval arguments, buildArguments;
+	zval *container, container_sub, *arguments_param = NULL, position, argument, *_0, _1, _4$$3, _6$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_UNDEF(&position);
 	ZVAL_UNDEF(&argument);
-	ZVAL_UNDEF(&buildArguments);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&arguments);
+	ZVAL_UNDEF(&buildArguments);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &container, &arguments_param);
@@ -595,7 +595,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameters) {
 
 	ZEPHIR_INIT_VAR(&buildArguments);
 	array_init(&buildArguments);
-	zephir_is_iterable(&arguments, 0, "phalcon/Di/Service/Builder.zep", 319);
+	zephir_is_iterable(&arguments, 0, "phalcon/Di/Service/Builder.zep", 324);
 	if (Z_TYPE_P(&arguments) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&arguments), _2, _3, _0)
 		{
@@ -607,9 +607,9 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameters) {
 			}
 			ZEPHIR_INIT_NVAR(&argument);
 			ZVAL_COPY(&argument, _0);
-			ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "buildparameter", &_5, 170, container, &position, &argument);
+			ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "buildparameter", &_5, 172, container, &position, &argument);
 			zephir_check_call_status();
-			zephir_array_append(&buildArguments, &_4$$3, PH_SEPARATE, "phalcon/Di/Service/Builder.zep", 317);
+			zephir_array_append(&buildArguments, &_4$$3, PH_SEPARATE, "phalcon/Di/Service/Builder.zep", 321);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &arguments, "rewind", NULL, 0);
@@ -624,16 +624,16 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameters) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&argument, &arguments, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "buildparameter", &_5, 170, container, &position, &argument);
+				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "buildparameter", &_5, 172, container, &position, &argument);
 				zephir_check_call_status();
-				zephir_array_append(&buildArguments, &_6$$4, PH_SEPARATE, "phalcon/Di/Service/Builder.zep", 317);
+				zephir_array_append(&buildArguments, &_6$$4, PH_SEPARATE, "phalcon/Di/Service/Builder.zep", 321);
 			ZEPHIR_CALL_METHOD(NULL, &arguments, "next", NULL, 0);
 			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&argument);
 	ZEPHIR_INIT_NVAR(&position);
-	RETURN_CCTOR(&buildArguments);
+	RETURN_CTOR(&buildArguments);
 
 }
 

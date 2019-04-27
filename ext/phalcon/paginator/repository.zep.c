@@ -32,7 +32,7 @@
 /**
  * Phalcon\Paginator\Repository
  *
- * Repository of current state Phalcon\Paginator\AdapterInterface::getPaginate()
+ * Repository of current state Phalcon\Paginator\AdapterInterface::paginate()
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Repository) {
 
@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getRealNameProperty) {
 	ZEPHIR_CALL_METHOD(&aliases, this_ptr, "getaliases", NULL, 0);
 	zephir_check_call_status();
 	if (zephir_array_isset(&aliases, &property)) {
-		zephir_array_fetch(&_0$$3, &aliases, &property, PH_NOISY | PH_READONLY, "phalcon/Paginator/Repository.zep", 165 TSRMLS_CC);
+		zephir_array_fetch(&_0$$3, &aliases, &property, PH_NOISY | PH_READONLY, "phalcon/Paginator/Repository.zep", 168 TSRMLS_CC);
 		RETURN_CTOR(&_0$$3);
 	}
 	RETURN_CTOR(&property);

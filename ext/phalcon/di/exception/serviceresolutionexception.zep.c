@@ -24,7 +24,6 @@
  */
 /**
   * Phalcon\Di\Exception\ServiceResolutionException
-  *
   */
 ZEPHIR_INIT_CLASS(Phalcon_Di_Exception_ServiceResolutionException) {
 

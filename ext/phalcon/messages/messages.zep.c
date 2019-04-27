@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Messages_Messages, filter) {
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&messages, &_0);
 	if (Z_TYPE_P(&messages) == IS_ARRAY) {
-		zephir_is_iterable(&messages, 0, "phalcon/Messages/Messages.zep", 147);
+		zephir_is_iterable(&messages, 0, "phalcon/Messages/Messages.zep", 146);
 		if (Z_TYPE_P(&messages) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&messages), _1$$3)
 			{
@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Messages_Messages, filter) {
 					ZEPHIR_CALL_METHOD(&_3$$5, &message, "getfield", NULL, 0);
 					zephir_check_call_status();
 					if (ZEPHIR_IS_EQUAL(&fieldName, &_3$$5)) {
-						zephir_array_append(&filtered, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 143);
+						zephir_array_append(&filtered, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 142);
 					}
 				}
 			} ZEND_HASH_FOREACH_END();
@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Messages_Messages, filter) {
 						ZEPHIR_CALL_METHOD(&_4$$8, &message, "getfield", NULL, 0);
 						zephir_check_call_status();
 						if (ZEPHIR_IS_EQUAL(&fieldName, &_4$$8)) {
-							zephir_array_append(&filtered, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 143);
+							zephir_array_append(&filtered, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 142);
 						}
 					}
 				ZEPHIR_CALL_METHOD(NULL, &messages, "next", NULL, 0);
@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize) {
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Messages/Messages.zep", 174);
+	zephir_is_iterable(&_0, 0, "phalcon/Messages/Messages.zep", 173);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 		{
@@ -335,9 +335,9 @@ PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize) {
 			if (_3$$3) {
 				ZEPHIR_CALL_METHOD(&_4$$4, &message, "jsonserialize", NULL, 0);
 				zephir_check_call_status();
-				zephir_array_append(&records, &_4$$4, PH_SEPARATE, "phalcon/Messages/Messages.zep", 168);
+				zephir_array_append(&records, &_4$$4, PH_SEPARATE, "phalcon/Messages/Messages.zep", 167);
 			} else {
-				zephir_array_append(&records, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 170);
+				zephir_array_append(&records, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 169);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -358,9 +358,9 @@ PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize) {
 				if (_5$$6) {
 					ZEPHIR_CALL_METHOD(&_6$$7, &message, "jsonserialize", NULL, 0);
 					zephir_check_call_status();
-					zephir_array_append(&records, &_6$$7, PH_SEPARATE, "phalcon/Messages/Messages.zep", 168);
+					zephir_array_append(&records, &_6$$7, PH_SEPARATE, "phalcon/Messages/Messages.zep", 167);
 				} else {
-					zephir_array_append(&records, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 170);
+					zephir_array_append(&records, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 169);
 				}
 			ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
 			zephir_check_call_status();
@@ -479,7 +479,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetSet) {
 
 
 	if (Z_TYPE_P(message) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_messages_exception_ce, "The message must be an object", "phalcon/Messages/Messages.zep", 241);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_messages_exception_ce, "The message must be an object", "phalcon/Messages/Messages.zep", 240);
 		return;
 	}
 	zephir_update_property_array(this_ptr, SL("messages"), index, message);
@@ -514,7 +514,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetUnset) {
 		zephir_read_property(&_1$$3, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_2$$3, 1);
 		ZEPHIR_MAKE_REF(&_1$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 359, &_1$$3, index, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 387, &_1$$3, index, &_2$$3);
 		ZEPHIR_UNREF(&_1$$3);
 		zephir_check_call_status();
 	}

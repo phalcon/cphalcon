@@ -45,7 +45,7 @@
  *     ]
  * );
  *
- * $paginate = $paginator->getPaginate();
+ * $paginate = $paginator->paginate();
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_Model) {
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate) {
 			}
 			ZEPHIR_CALL_METHOD(&_6$$11, &items, "current", &_7, 0);
 			zephir_check_call_status();
-			zephir_array_append(&pageItems, &_6$$11, PH_SEPARATE, "phalcon/Paginator/Adapter/Model.zep", 91);
+			zephir_array_append(&pageItems, &_6$$11, PH_SEPARATE, "phalcon/Paginator/Adapter/Model.zep", 92);
 			if (i >= show) {
 				break;
 			}

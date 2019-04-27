@@ -29,7 +29,7 @@
 /**
  * Phalcon\Assets\Inline\Js
  *
- * Represents an inline Javascript
+ * Represents an inline JavaScript
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Js) {
 

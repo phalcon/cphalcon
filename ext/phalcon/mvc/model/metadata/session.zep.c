@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&status, "session_status", NULL, 394);
+	ZEPHIR_CALL_FUNCTION(&status, "session_status", NULL, 426);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_LONG_IDENTICAL(&status, 2)) {
 		RETURN_MM_NULL();
@@ -127,10 +127,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, read) {
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SV(&_2, "$PMM$", &_1);
 	zephir_array_fetch(&_0, &_SESSION, &_2, PH_READONLY, "phalcon/Mvc/Model/Metadata/Session.zep", 64 TSRMLS_CC);
-	if (zephir_array_isset_fetch(&metaData, &_0, &key, 1 TSRMLS_CC)) {
-		RETURN_CTOR(&metaData);
+	if (!(zephir_array_isset_fetch(&metaData, &_0, &key, 1 TSRMLS_CC))) {
+		RETURN_MM_NULL();
 	}
-	RETURN_MM_NULL();
+	RETURN_CTOR(&metaData);
 
 }
 
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Session, write) {
 	zephir_get_arrval(&data, data_param);
 
 
-	ZEPHIR_CALL_FUNCTION(&status, "session_status", NULL, 394);
+	ZEPHIR_CALL_FUNCTION(&status, "session_status", NULL, 426);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_LONG_IDENTICAL(&status, 2)) {
 		RETURN_MM_NULL();

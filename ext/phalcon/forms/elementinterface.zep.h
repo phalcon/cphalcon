@@ -137,7 +137,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_elementinterface_p
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_elementinterface_prepareattributes, 0, 0, IS_ARRAY, NULL, 0)
 #endif
-	ZEND_ARG_ARRAY_INFO(0, attributes, 1)
+	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, useChecked, _IS_BOOL, 0)
 #else

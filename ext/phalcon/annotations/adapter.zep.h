@@ -10,6 +10,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter, getProperty);
 PHP_METHOD(Phalcon_Annotations_Adapter, getProperties);
 PHP_METHOD(Phalcon_Annotations_Adapter, getReader);
 PHP_METHOD(Phalcon_Annotations_Adapter, setReader);
+zend_object *zephir_init_properties_Phalcon_Annotations_Adapter(zend_class_entry *class_type TSRMLS_DC);
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_annotations_adapter_get, 0, 1, Phalcon\\Annotations\\Reflection, 0)

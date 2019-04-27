@@ -40,8 +40,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, __set_state);
 
 /**
  * Returns the service definition
- *
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, getDefinition);
 
@@ -66,14 +64,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, isShared);
  * Resolves the service
  *
  * @param array parameters
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, resolve);
 
 /**
  * Set the service definition
- *
- * @param mixed definition
  */
 ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, setDefinition);
 

@@ -633,7 +633,7 @@ PHP_METHOD(Phalcon_Collection, remove) {
 			zephir_fast_strtolower(&_2$$4, &element);
 			zephir_get_strval(&element, &_2$$4);
 		}
-		zephir_array_fetch(&value, &lowerKeys, &element, PH_NOISY | PH_READONLY, "phalcon/Collection.zep", 215 TSRMLS_CC);
+		zephir_array_fetch(&value, &lowerKeys, &element, PH_NOISY | PH_READONLY, "phalcon/Collection.zep", 214 TSRMLS_CC);
 		zephir_array_unset(&lowerKeys, &element, PH_SEPARATE);
 		zephir_array_unset(&data, &value, PH_SEPARATE);
 	}

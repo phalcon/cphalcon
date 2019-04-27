@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes) {
 					ZEPHIR_CONCAT_SVSVS(&_9$$5, "Value at index: '", &key, "' type: '", &_8$$5, "' cannot be rendered");
 					ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", &_10, 1, &_9$$5);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_7$$5, "phalcon/Html/Helper/AbstractHelper.zep", 81 TSRMLS_CC);
+					zephir_throw_exception_debug(&_7$$5, "phalcon/Html/Helper/AbstractHelper.zep", 82 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes) {
 						ZEPHIR_CONCAT_SVSVS(&_19$$8, "Value at index: '", &key, "' type: '", &_18$$8, "' cannot be rendered");
 						ZEPHIR_CALL_METHOD(NULL, &_17$$8, "__construct", &_10, 1, &_19$$8);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(&_17$$8, "phalcon/Html/Helper/AbstractHelper.zep", 81 TSRMLS_CC);
+						zephir_throw_exception_debug(&_17$$8, "phalcon/Html/Helper/AbstractHelper.zep", 82 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}

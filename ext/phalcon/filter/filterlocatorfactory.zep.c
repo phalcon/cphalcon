@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Filter_FilterLocatorFactory, newInstance) {
 	add_assoc_stringl_ex(&helpers, SL("url"), SL("Phalcon\\Filter\\Sanitize\\Url"));
 	ZEPHIR_INIT_VAR(&factory);
 	object_init_ex(&factory, phalcon_filter_filterlocator_ce);
-	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 183, &helpers);
+	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 185, &helpers);
 	zephir_check_call_status();
 	RETURN_CCTOR(&factory);
 

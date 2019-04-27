@@ -161,8 +161,6 @@ PHP_METHOD(Phalcon_Logger, __construct) {
  *
  * @param string             name    The name of the adapter
  * @param <AdapterInterface> adapter The adapter to add to the stack
- *
- * @return <Logger>
  */
 PHP_METHOD(Phalcon_Logger, addAdapter) {
 
@@ -191,9 +189,6 @@ PHP_METHOD(Phalcon_Logger, addAdapter) {
  * trigger the SMS alerts and wake you up.
  *
  * @param string message
- * @param array  context
- *
- * @return void
  */
 PHP_METHOD(Phalcon_Logger, alert) {
 
@@ -233,9 +228,6 @@ PHP_METHOD(Phalcon_Logger, alert) {
  * Example: Application component unavailable, unexpected exception.
  *
  * @param string message
- * @param array  context
- *
- * @return void
  */
 PHP_METHOD(Phalcon_Logger, critical) {
 
@@ -273,9 +265,6 @@ PHP_METHOD(Phalcon_Logger, critical) {
  * Detailed debug information.
  *
  * @param string message
- * @param array  context
- *
- * @return void
  */
 PHP_METHOD(Phalcon_Logger, debug) {
 
@@ -314,9 +303,6 @@ PHP_METHOD(Phalcon_Logger, debug) {
  * be logged and monitored.
  *
  * @param string message
- * @param array  context
- *
- * @return void
  */
 PHP_METHOD(Phalcon_Logger, error) {
 
@@ -354,9 +340,6 @@ PHP_METHOD(Phalcon_Logger, error) {
  * System is unusable.
  *
  * @param string message
- * @param array  context
- *
- * @return void
  */
 PHP_METHOD(Phalcon_Logger, emergency) {
 
@@ -391,12 +374,7 @@ PHP_METHOD(Phalcon_Logger, emergency) {
 }
 
 /**
- * System is unusable.
- *
- * @param string message
- * @param array  context
- *
- * @return void
+ * Exclude certain adapters.
  */
 PHP_METHOD(Phalcon_Logger, excludeAdapters) {
 
@@ -427,7 +405,7 @@ PHP_METHOD(Phalcon_Logger, excludeAdapters) {
 	ZEPHIR_CALL_METHOD(&registered, this_ptr, "getadapters", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_is_iterable(&adapters, 0, "phalcon/Logger.zep", 206);
+	zephir_is_iterable(&adapters, 0, "phalcon/Logger.zep", 185);
 	if (Z_TYPE_P(&adapters) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&adapters), _3, _4, _1)
 		{
@@ -474,7 +452,6 @@ PHP_METHOD(Phalcon_Logger, excludeAdapters) {
  *
  * @param string name The name of the adapter
  *
- * @return <AdapterInterface>
  * @throws <Exception>
  */
 PHP_METHOD(Phalcon_Logger, getAdapter) {
@@ -498,7 +475,7 @@ PHP_METHOD(Phalcon_Logger, getAdapter) {
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&adapter);
 	if (!(zephir_array_isset_fetch(&adapter, &adapters, &name, 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Adapter does not exist for this logger", "phalcon/Logger.zep", 224);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Adapter does not exist for this logger", "phalcon/Logger.zep", 202);
 		return;
 	}
 	RETURN_CCTOR(&adapter);
@@ -521,8 +498,6 @@ PHP_METHOD(Phalcon_Logger, getAdapters) {
 
 /**
  * Returns the name of the logger
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Logger, getName) {
 
@@ -539,9 +514,6 @@ PHP_METHOD(Phalcon_Logger, getName) {
  * Example: User logs in, SQL logs.
  *
  * @param string message
- * @param array  context
- *
- * @return void
  */
 PHP_METHOD(Phalcon_Logger, info) {
 
@@ -578,11 +550,8 @@ PHP_METHOD(Phalcon_Logger, info) {
 /**
  * Logs with an arbitrary level.
  *
- * @param mixed  $level
+ * @param mixed  level
  * @param string message
- * @param array  context
- *
- * @return void
  */
 PHP_METHOD(Phalcon_Logger, log) {
 
@@ -609,7 +578,7 @@ PHP_METHOD(Phalcon_Logger, log) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&intLevel, this_ptr, "getlevelnumber", NULL, 346, level);
+	ZEPHIR_CALL_METHOD(&intLevel, this_ptr, "getlevelnumber", NULL, 374, level);
 	zephir_check_call_status();
 	zephir_get_strval(&_0, message);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, level, &_0, &context);
@@ -622,9 +591,6 @@ PHP_METHOD(Phalcon_Logger, log) {
  * Normal but significant events.
  *
  * @param string message
- * @param array  context
- *
- * @return void
  */
 PHP_METHOD(Phalcon_Logger, notice) {
 
@@ -663,7 +629,6 @@ PHP_METHOD(Phalcon_Logger, notice) {
  *
  * @param string name The name of the adapter
  *
- * @return <Logger>
  * @throws <Logger\Exception>
  */
 PHP_METHOD(Phalcon_Logger, removeAdapter) {
@@ -685,7 +650,7 @@ PHP_METHOD(Phalcon_Logger, removeAdapter) {
 	zephir_read_property(&_0, this_ptr, SL("adapters"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&adapters, &_0);
 	if (1 != zephir_array_isset(&adapters, &name)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Adapter does not exist for this logger", "phalcon/Logger.zep", 311);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Adapter does not exist for this logger", "phalcon/Logger.zep", 277);
 		return;
 	}
 	zephir_array_unset(&adapters, &name, PH_SEPARATE);
@@ -698,8 +663,6 @@ PHP_METHOD(Phalcon_Logger, removeAdapter) {
  * Sets the adapters stack overriding what is already there
  *
  * @param array adapters An array of adapters
- *
- * @return <Logger>
  */
 PHP_METHOD(Phalcon_Logger, setAdapters) {
 
@@ -727,9 +690,6 @@ PHP_METHOD(Phalcon_Logger, setAdapters) {
  * that are not necessarily wrong.
  *
  * @param string message
- * @param array  context
- *
- * @return void
  */
 PHP_METHOD(Phalcon_Logger, warning) {
 
@@ -768,9 +728,7 @@ PHP_METHOD(Phalcon_Logger, warning) {
  *
  * @param int    level
  * @param string message
- * @param array  context
  *
- * @return bool
  * @throws <Logger\Exception>
  */
 PHP_METHOD(Phalcon_Logger, addMessage) {
@@ -815,7 +773,7 @@ PHP_METHOD(Phalcon_Logger, addMessage) {
 	zephir_read_property(&_0, this_ptr, SL("excluded"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&excluded, &_0);
 	if (zephir_fast_count_int(&registered TSRMLS_CC) == 0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "No adapters specified", "phalcon/Logger.zep", 369);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "No adapters specified", "phalcon/Logger.zep", 328);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&levels, this_ptr, "getlevels", NULL, 0);
@@ -823,27 +781,27 @@ PHP_METHOD(Phalcon_Logger, addMessage) {
 	ZEPHIR_OBS_VAR(&levelName);
 	if (!(zephir_array_isset_long_fetch(&levelName, &levels, level, 0 TSRMLS_CC))) {
 		ZEPHIR_OBS_NVAR(&levelName);
-		zephir_array_fetch_long(&levelName, &levels, 8, PH_NOISY, "phalcon/Logger.zep", 374 TSRMLS_CC);
+		zephir_array_fetch_long(&levelName, &levels, 8, PH_NOISY, "phalcon/Logger.zep", 334 TSRMLS_CC);
 	}
 	ZEPHIR_INIT_VAR(&item);
 	object_init_ex(&item, phalcon_logger_item_ce);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_time(&_1);
 	ZVAL_LONG(&_0, level);
-	ZEPHIR_CALL_METHOD(NULL, &item, "__construct", NULL, 347, &message, &levelName, &_0, &_1, &context);
+	ZEPHIR_CALL_METHOD(NULL, &item, "__construct", NULL, 375, &message, &levelName, &_0, &_1, &context);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_array_keys(&_2, &registered TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&keys, "array_diff", NULL, 348, &_2, &excluded);
+	ZEPHIR_CALL_FUNCTION(&keys, "array_diff", NULL, 376, &_2, &excluded);
 	zephir_check_call_status();
-	zephir_is_iterable(&keys, 0, "phalcon/Logger.zep", 395);
+	zephir_is_iterable(&keys, 0, "phalcon/Logger.zep", 359);
 	if (Z_TYPE_P(&keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&keys), _3)
 		{
 			ZEPHIR_INIT_NVAR(&key);
 			ZVAL_COPY(&key, _3);
 			ZEPHIR_OBS_NVAR(&adapter);
-			zephir_array_fetch(&adapter, &registered, &key, PH_NOISY, "phalcon/Logger.zep", 388 TSRMLS_CC);
+			zephir_array_fetch(&adapter, &registered, &key, PH_NOISY, "phalcon/Logger.zep", 351 TSRMLS_CC);
 			ZEPHIR_CALL_METHOD(NULL, &adapter, "process", NULL, 0, &item);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
@@ -859,7 +817,7 @@ PHP_METHOD(Phalcon_Logger, addMessage) {
 			ZEPHIR_CALL_METHOD(&key, &keys, "current", NULL, 0);
 			zephir_check_call_status();
 				ZEPHIR_OBS_NVAR(&adapter);
-				zephir_array_fetch(&adapter, &registered, &key, PH_NOISY, "phalcon/Logger.zep", 388 TSRMLS_CC);
+				zephir_array_fetch(&adapter, &registered, &key, PH_NOISY, "phalcon/Logger.zep", 351 TSRMLS_CC);
 				ZEPHIR_CALL_METHOD(NULL, &adapter, "process", NULL, 0, &item);
 				zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &keys, "next", NULL, 0);
@@ -876,8 +834,6 @@ PHP_METHOD(Phalcon_Logger, addMessage) {
 
 /**
  * Returns an array of log levels with integer to string conversion
- *
- * @return array
  */
 PHP_METHOD(Phalcon_Logger, getLevels) {
 
@@ -902,8 +858,6 @@ PHP_METHOD(Phalcon_Logger, getLevels) {
  * Converts the level from string/word to an integer
  *
  * @param string|int level
- *
- * @return int
  */
 PHP_METHOD(Phalcon_Logger, getLevelNumber) {
 
@@ -927,7 +881,7 @@ PHP_METHOD(Phalcon_Logger, getLevelNumber) {
 		zephir_fast_strtolower(&levelName, level);
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getlevels", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 349, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 377, &_0$$3);
 		zephir_check_call_status();
 		if (zephir_array_isset_fetch(&numberLevel, &levels, &levelName, 1 TSRMLS_CC)) {
 			RETURN_CTOR(&numberLevel);

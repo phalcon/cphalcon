@@ -92,7 +92,6 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, __construct) {
  * string casting operations.
  *
  * @see http://php.net/manual/en/language.oop5.magic.php#object.tostring
- * @return string
  */
 PHP_METHOD(Phalcon_Http_Message_Stream_Input, __toString) {
 
@@ -117,7 +116,6 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, __toString) {
 /**
  * Returns the remaining contents in a string
  *
- * @return string
  * @throws \RuntimeException if unable to read.
  * @throws \RuntimeException if error occurs while reading.
  */
@@ -173,9 +171,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, getContents) {
 }
 
 /**
- * Returns whether or not the stream is writable.
- *
- * @return bool
+ * Returns whether or not the stream is writeable.
  */
 PHP_METHOD(Phalcon_Http_Message_Stream_Input, isWritable) {
 

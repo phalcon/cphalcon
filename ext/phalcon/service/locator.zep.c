@@ -155,21 +155,21 @@ PHP_METHOD(Phalcon_Service_Locator, get) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "has", NULL, 0, &name);
 	zephir_check_call_status();
-	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
+	if (!(zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_service_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "The service ", &name, " has not been found in the locator");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 1, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Service/Locator.zep", 63 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Service/Locator.zep", 64 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_read_property(&_3, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	if (1 != zephir_array_isset(&_3, &name)) {
+	if (!(zephir_array_isset(&_3, &name))) {
 		zephir_read_property(&_4$$4, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&definition, &_4$$4, &name, PH_NOISY | PH_READONLY, "phalcon/Service/Locator.zep", 67 TSRMLS_CC);
+		zephir_array_fetch(&definition, &_4$$4, &name, PH_NOISY | PH_READONLY, "phalcon/Service/Locator.zep", 68 TSRMLS_CC);
 		if (Z_TYPE_P(&definition) == IS_STRING) {
 			ZEPHIR_INIT_VAR(&service);
 			zephir_fetch_safe_class(&_5$$5, &definition);
@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Service_Locator, get) {
 		zephir_update_property_array(this_ptr, SL("services"), &name, &service);
 	}
 	zephir_read_property(&_7, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_8, &_7, &name, PH_NOISY | PH_READONLY, "phalcon/Service/Locator.zep", 78 TSRMLS_CC);
+	zephir_array_fetch(&_8, &_7, &name, PH_NOISY | PH_READONLY, "phalcon/Service/Locator.zep", 79 TSRMLS_CC);
 	RETURN_CTOR(&_8);
 
 }

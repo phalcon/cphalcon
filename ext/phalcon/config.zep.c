@@ -207,14 +207,14 @@ PHP_METHOD(Phalcon_Config, count) {
 PHP_METHOD(Phalcon_Config, get) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *index = NULL, index_sub, *defaultValue = NULL, defaultValue_sub, __$null, _0, _1$$3;
+	zval *index = NULL, index_sub, *defaultValue = NULL, defaultValue_sub, __$null, _0, _1;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &index, &defaultValue);
@@ -229,13 +229,13 @@ PHP_METHOD(Phalcon_Config, get) {
 	ZEPHIR_CALL_FUNCTION(&_0, "strval", NULL, 12, index);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(index, &_0);
-	if (zephir_isset_property_zval(this_ptr, index TSRMLS_CC)) {
-		ZEPHIR_OBS_VAR(&_1$$3);
-		zephir_read_property_zval(&_1$$3, this_ptr, index, PH_NOISY_CC);
-		RETURN_CCTOR(&_1$$3);
+	if (!(zephir_isset_property_zval(this_ptr, index TSRMLS_CC))) {
+		RETVAL_ZVAL(defaultValue, 1, 0);
+		RETURN_MM();
 	}
-	RETVAL_ZVAL(defaultValue, 1, 0);
-	RETURN_MM();
+	ZEPHIR_OBS_VAR(&_1);
+	zephir_read_property_zval(&_1, this_ptr, index, PH_NOISY_CC);
+	RETURN_CCTOR(&_1);
 
 }
 
@@ -305,7 +305,7 @@ PHP_METHOD(Phalcon_Config, merge) {
 			ZEPHIR_CPY_WRT(&config, configParam);
 			break;
 		}
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Invalid data type for merge.", "phalcon/Config.zep", 148);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Invalid data type for merge.", "phalcon/Config.zep", 151);
 		return;
 	} while(0);
 
@@ -612,7 +612,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 	array_init(&arrayConfig);
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 11, this_ptr);
 	zephir_check_call_status();
-	zephir_is_iterable(&_0, 0, "phalcon/Config.zep", 296);
+	zephir_is_iterable(&_0, 0, "phalcon/Config.zep", 299);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _3, _4, _1)
 		{
@@ -712,7 +712,7 @@ PHP_METHOD(Phalcon_Config, internalMerge) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_0, "get_object_vars", NULL, 11, config);
 	zephir_check_call_status();
-	zephir_is_iterable(&_0, 0, "phalcon/Config.zep", 338);
+	zephir_is_iterable(&_0, 0, "phalcon/Config.zep", 343);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _3, _4, _1)
 		{
