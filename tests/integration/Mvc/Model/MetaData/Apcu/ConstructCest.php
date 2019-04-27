@@ -85,6 +85,5 @@ class ConstructCest
 
         $md->reset();
         $I->assertTrue($md->isEmpty());
-
     }
 }
