@@ -12,7 +12,7 @@ PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../../")
 
 echo -e "Populate MySQL database..."
 cat "${PROJECT_ROOT}/_data/assets/db/schemas/mysql_schema.sql" | \
-	mysql --username="${DATA_MYSQL_USER}" --host="${DATA_MYSQL_HOST}" --password="${DATA_MYSQL_PASS}" gonano
+	mysql --user="${DATA_MYSQL_USER}" --host="${DATA_MYSQL_HOST}" --password="${DATA_MYSQL_PASS}" gonano
 echo -e "Done\n"
 
 echo -e "Create PostgreSQL database..."

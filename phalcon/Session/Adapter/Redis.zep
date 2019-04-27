@@ -16,10 +16,7 @@ use Phalcon\Session\Exception;
 use SessionHandlerInterface;
 
 /**
- * Phalcon\Session\Adapter\Noop
- *
- * This is an "empty" or null adapter. It can be used for testing or any
- * other purpose that no session needs to be invoked
+ * Phalcon\Session\Adapter\Redis
  *
  * <code>
  * <?php

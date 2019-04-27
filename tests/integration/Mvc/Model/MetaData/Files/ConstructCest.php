@@ -12,13 +12,40 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Files;
 
+use function cacheFolder;
+use function dataFolder;
 use IntegrationTester;
+use Phalcon\Mvc\Model\MetaData\Files;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Robots;
 
 /**
  * Class ConstructCest
  */
 class ConstructCest
 {
+    use DiTrait;
+
+    private $data;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+        $this->container->setShared(
+            'modelsMetadata',
+            function () {
+                return new Files(
+                    [
+                        'metaDataDir' => cacheFolder(),
+                    ]
+                );
+            }
+        );
+
+        $this->data = require dataFolder('fixtures/metadata/robots.php');
+    }
+
     /**
      * Tests Phalcon\Mvc\Model\MetaData\Files :: __construct()
      *
@@ -30,6 +57,38 @@ class ConstructCest
     public function mvcModelMetadataFilesConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\MetaData\Files - __construct()');
-        $I->skipTest('Need implementation');
+
+
+        /** @var \Phalcon\Mvc\Model\MetaDataInterface $md */
+        $md = $this->container->getShared('modelsMetadata');
+
+        $md->reset();
+        $I->assertTrue($md->isEmpty());
+
+        Robots::findFirst();
+
+        $I->amInPath(cacheFolder());
+
+        $I->seeFileFound('meta-phalcon_test_models_robots-robots.php');
+
+        $I->assertEquals(
+            $this->data['meta-robots-robots'],
+            require cacheFolder('meta-phalcon_test_models_robots-robots.php')
+        );
+
+        $I->seeFileFound('map-phalcon_test_models_robots.php');
+
+        $I->assertEquals(
+            $this->data['map-robots'],
+            require cacheFolder('map-phalcon_test_models_robots.php')
+        );
+
+        $I->assertFalse($md->isEmpty());
+
+        $md->reset();
+        $I->assertTrue($md->isEmpty());
+
+        $I->safeDeleteFile('meta-phalcon_test_models_robots-robots.php');
+        $I->safeDeleteFile('map-phalcon_test_models_robots.php');
     }
 }
