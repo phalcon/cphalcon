@@ -38,6 +38,7 @@
  *     "password" => "secret",
  *     "adapter"  => "mysql",
  * ];
+ *
  * $db = Factory::load($options);
  *</code>
  */

@@ -23,7 +23,6 @@
 /**
  * Phalcon\Mvc\Router\GroupInterface
  *
- *
  *<code>
  * $router = new \Phalcon\Mvc\Router();
  *
@@ -85,14 +84,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_GroupInterface) {
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, add);
 
 /**
- * Adds a route to the router that only match if the HTTP method is GET
+ * Adds a route to the router that only match if the HTTP method is CONNECT
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addGet);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addConnect);
 
 /**
  * Adds a route to the router that only match if the HTTP method is DELETE
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addDelete);
+
+/**
+ * Adds a route to the router that only match if the HTTP method is GET
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addGet);
 
 /**
  * Adds a route to the router that only match if the HTTP method is HEAD
@@ -115,9 +119,19 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addPatch);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addPost);
 
 /**
+ * Adds a route to the router that only match if the HTTP method is PURGE
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addPurge);
+
+/**
  * Adds a route to the router that only match if the HTTP method is PUT
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addPut);
+
+/**
+ * Adds a route to the router that only match if the HTTP method is TRACE
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addTrace);
 
 /**
  * Sets a callback that is called if the route is matched.

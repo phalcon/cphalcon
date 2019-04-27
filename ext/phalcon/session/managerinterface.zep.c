@@ -123,18 +123,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, setId);
  * Set the session name. Throw exception if the session has started
  * and do not allow poop names
  *
- * @param  string name
- *
  * @throws InvalidArgumentException
- *
- * @return Manager
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, setName);
 
 /**
  * Sets session's options
- *
- * @param array options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, setOptions);
 

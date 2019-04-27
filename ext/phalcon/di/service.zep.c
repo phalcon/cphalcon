@@ -38,7 +38,7 @@
  *<code>
  * $service = new \Phalcon\Di\Service(
  *     "request",
- *     "Phalcon\\Http\\Request"
+ *     \Phalcon\Http\Request::class
  * );
  *
  * $request = service->resolve();
@@ -69,8 +69,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Service) {
 
 /**
  * Phalcon\Di\Service
- *
- * @param mixed definition
  */
 PHP_METHOD(Phalcon_Di_Service, __construct) {
 
@@ -139,8 +137,6 @@ PHP_METHOD(Phalcon_Di_Service, __set_state) {
 
 /**
  * Returns the service definition
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Di_Service, getDefinition) {
 
@@ -176,7 +172,7 @@ PHP_METHOD(Phalcon_Di_Service, getParameter) {
 	zephir_read_property(&_0, this_ptr, SL("definition"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&definition, &_0);
 	if (Z_TYPE_P(&definition) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters", "phalcon/Di/Service.zep", 100);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters", "phalcon/Di/Service.zep", 98);
 		return;
 	}
 	if (zephir_array_isset_string_fetch(&arguments, &definition, SL("arguments"), 1)) {
@@ -216,14 +212,13 @@ PHP_METHOD(Phalcon_Di_Service, isShared) {
  * Resolves the service
  *
  * @param array parameters
- * @return mixed
  */
 PHP_METHOD(Phalcon_Di_Service, resolve) {
 
-	zend_class_entry *_3$$15;
-	zend_bool found = 0;
+	zend_class_entry *_4$$13;
+	zend_bool found = 0, _2$$6;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *parameters = NULL, parameters_sub, *container = NULL, container_sub, __$true, __$false, __$null, shared, definition, sharedInstance, instance, builder, _0, _1$$3, _2$$15, _4$$22;
+	zval *parameters = NULL, parameters_sub, *container = NULL, container_sub, __$true, __$false, __$null, shared, definition, sharedInstance, instance, builder, _0, _1$$3, _3$$13, _5$$20;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&parameters_sub);
@@ -238,8 +233,8 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	ZVAL_UNDEF(&builder);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$15);
-	ZVAL_UNDEF(&_4$$22);
+	ZVAL_UNDEF(&_3$$13);
+	ZVAL_UNDEF(&_5$$20);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &parameters, &container);
@@ -270,16 +265,14 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	ZEPHIR_CPY_WRT(&definition, &_0);
 	if (Z_TYPE_P(&definition) == IS_STRING) {
 		if (zephir_class_exists(&definition, 1 TSRMLS_CC)) {
-			if (Z_TYPE_P(parameters) == IS_ARRAY) {
-				if (zephir_fast_count_int(parameters TSRMLS_CC)) {
-					ZEPHIR_INIT_NVAR(&instance);
-					ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&instance, &definition, parameters TSRMLS_CC);
-					zephir_check_call_status();
-				} else {
-					ZEPHIR_INIT_NVAR(&instance);
-					ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&instance, &definition TSRMLS_CC);
-					zephir_check_call_status();
-				}
+			_2$$6 = Z_TYPE_P(parameters) == IS_ARRAY;
+			if (_2$$6) {
+				_2$$6 = ((zephir_fast_count_int(parameters TSRMLS_CC)) ? 1 : 0);
+			}
+			if (_2$$6) {
+				ZEPHIR_INIT_NVAR(&instance);
+				ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&instance, &definition, parameters TSRMLS_CC);
+				zephir_check_call_status();
 			} else {
 				ZEPHIR_INIT_NVAR(&instance);
 				ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&instance, &definition TSRMLS_CC);
@@ -292,10 +285,10 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 		if (Z_TYPE_P(&definition) == IS_OBJECT) {
 			if (zephir_instance_of_ev(&definition, zend_ce_closure TSRMLS_CC)) {
 				if (Z_TYPE_P(container) == IS_OBJECT) {
-					_3$$15 = zephir_fetch_class_str_ex(SL("Closure"), ZEND_FETCH_CLASS_AUTO);
-					ZEPHIR_CALL_CE_STATIC(&_2$$15, _3$$15, "bind", NULL, 0, &definition, container);
+					_4$$13 = zephir_fetch_class_str_ex(SL("Closure"), ZEND_FETCH_CLASS_AUTO);
+					ZEPHIR_CALL_CE_STATIC(&_3$$13, _4$$13, "bind", NULL, 0, &definition, container);
 					zephir_check_call_status();
-					ZEPHIR_CPY_WRT(&definition, &_2$$15);
+					ZEPHIR_CPY_WRT(&definition, &_3$$13);
 				}
 				if (Z_TYPE_P(parameters) == IS_ARRAY) {
 					ZEPHIR_INIT_NVAR(&instance);
@@ -317,7 +310,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 					ZEPHIR_CALL_METHOD(NULL, &builder, "__construct", NULL, 0);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(&instance, &builder, "build", NULL, 168, container, &definition, parameters);
+				ZEPHIR_CALL_METHOD(&instance, &builder, "build", NULL, 170, container, &definition, parameters);
 				zephir_check_call_status();
 			} else {
 				found = 0;
@@ -325,11 +318,11 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 		}
 	}
 	if (found == 0) {
-		ZEPHIR_INIT_VAR(&_4$$22);
-		object_init_ex(&_4$$22, phalcon_di_exception_serviceresolutionexception_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_4$$22, "__construct", NULL, 1);
+		ZEPHIR_INIT_VAR(&_5$$20);
+		object_init_ex(&_5$$20, phalcon_di_exception_serviceresolutionexception_ce);
+		ZEPHIR_CALL_METHOD(NULL, &_5$$20, "__construct", NULL, 1);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$22, "phalcon/Di/Service.zep", 227 TSRMLS_CC);
+		zephir_throw_exception_debug(&_5$$20, "phalcon/Di/Service.zep", 220 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -347,8 +340,6 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 
 /**
  * Set the service definition
- *
- * @param mixed definition
  */
 PHP_METHOD(Phalcon_Di_Service, setDefinition) {
 
@@ -391,7 +382,7 @@ PHP_METHOD(Phalcon_Di_Service, setParameter) {
 	zephir_read_property(&_0, this_ptr, SL("definition"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&definition, &_0);
 	if (Z_TYPE_P(&definition) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters", "phalcon/Di/Service.zep", 263);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters", "phalcon/Di/Service.zep", 254);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&arguments);
@@ -436,8 +427,6 @@ PHP_METHOD(Phalcon_Di_Service, setShared) {
 
 /**
  * Sets/Resets the shared instance related to the service
- *
- * @param mixed sharedInstance
  */
 PHP_METHOD(Phalcon_Di_Service, setSharedInstance) {
 

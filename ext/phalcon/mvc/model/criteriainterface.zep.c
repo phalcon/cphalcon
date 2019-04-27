@@ -100,8 +100,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getColumns);
 
 /**
  * Returns the conditions parameter in the criteria
- *
- * @return string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getConditions);
 
@@ -116,12 +114,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getGroupBy);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getHaving);
 
 /**
- * Returns the limit parameter in the criteria, which will be
- * an integer if limit was set without an offset,
- * an array with 'number' and 'offset' keys if an offset was set with the limit,
- * or null if limit has not been set.
- *
- * @return int|array|null
+ * Returns the limit parameter in the criteria, which will be an integer if
+ * limit was set without an offset, an array with 'number' and 'offset' keys
+ * if an offset was set with the limit, or null if limit has not been set.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getLimit);
 
@@ -132,8 +127,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getModelName);
 
 /**
  * Returns the order parameter in the criteria
- *
- * @return string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getOrderBy);
 
@@ -144,8 +137,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getParams);
 
 /**
  * Returns the conditions parameter in the criteria
- *
- * @return string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getWhere);
 
@@ -190,8 +181,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, leftJoin);
 
 /**
  * Sets the limit parameter to the criteria
- *
- * @param int offset
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, limit);
 

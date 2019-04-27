@@ -129,9 +129,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct) {
 	ZEPHIR_OBS_VAR(&_4);
 	zephir_read_property(&_4, this_ptr, SL("ttl"), PH_NOISY_CC);
 	zephir_array_update_string(&_3, SL("lifetime"), &_4, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 391, &_3);
+	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 423, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 392, &_2, options);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 424, &_2, options);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("memcache"), &_1);
 	ZEPHIR_MM_RESTORE();
@@ -170,10 +170,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, read) {
 	zephir_read_property(&_0, this_ptr, SL("memcache"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&data, &_0, "get", NULL, 0, &key);
 	zephir_check_call_status();
-	if (Z_TYPE_P(&data) == IS_ARRAY) {
-		RETURN_CCTOR(&data);
+	if (Z_TYPE_P(&data) != IS_ARRAY) {
+		RETURN_MM_NULL();
 	}
-	RETURN_MM_NULL();
+	RETURN_CCTOR(&data);
 
 }
 
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, reset) {
 	zephir_read_property(&meta, this_ptr, SL("metaData"), PH_NOISY_CC);
 	if (Z_TYPE_P(&meta) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&_0$$3);
-		zephir_is_iterable(&meta, 0, "phalcon/Mvc/Model/Metadata/Libmemcached.zep", 122);
+		zephir_is_iterable(&meta, 0, "phalcon/Mvc/Model/Metadata/Libmemcached.zep", 123);
 		if (Z_TYPE_P(&meta) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&meta), _3$$3, _4$$3, _1$$3)
 			{

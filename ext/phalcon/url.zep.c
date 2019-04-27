@@ -191,9 +191,9 @@ PHP_METHOD(Phalcon_Url, get) {
 	if (local == 0) {
 		_0$$3 = Z_TYPE_P(uri) == IS_STRING;
 		if (_0$$3) {
-			_1$$3 = zephir_memnstr_str(uri, SL("//"), "phalcon/Url.zep", 103);
+			_1$$3 = zephir_memnstr_str(uri, SL("//"), "phalcon/Url.zep", 102);
 			if (!(_1$$3)) {
-				_1$$3 = zephir_memnstr_str(uri, SL(":"), "phalcon/Url.zep", 103);
+				_1$$3 = zephir_memnstr_str(uri, SL(":"), "phalcon/Url.zep", 102);
 			}
 			_0$$3 = _1$$3;
 		}
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Url, get) {
 	if (Z_TYPE_P(uri) == IS_ARRAY) {
 		ZEPHIR_OBS_VAR(&routeName);
 		if (!(zephir_array_isset_string_fetch(&routeName, uri, SL("for"), 0))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_url_exception_ce, "It's necessary to define the route name with the parameter 'for'", "phalcon/Url.zep", 123);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_url_exception_ce, "It's necessary to define the route name with the parameter 'for'", "phalcon/Url.zep", 121);
 			return;
 		}
 		zephir_read_property(&_6$$9, this_ptr, SL("router"), PH_NOISY_CC | PH_READONLY);
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Url, get) {
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, &_8$$12, "__construct", NULL, 1, &_9$$12);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_8$$12, "phalcon/Url.zep", 139 TSRMLS_CC);
+				zephir_throw_exception_debug(&_8$$12, "phalcon/Url.zep", 137 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Url, get) {
 			ZEPHIR_CONCAT_SVS(&_16$$13, "Cannot obtain a route using the name '", &routeName, "'");
 			ZEPHIR_CALL_METHOD(NULL, &_15$$13, "__construct", NULL, 1, &_16$$13);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_15$$13, "phalcon/Url.zep", 153 TSRMLS_CC);
+			zephir_throw_exception_debug(&_15$$13, "phalcon/Url.zep", 152 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -316,7 +316,7 @@ PHP_METHOD(Phalcon_Url, get) {
 		}
 	}
 	if (zephir_is_true(args)) {
-		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 493, args);
+		ZEPHIR_CALL_FUNCTION(&queryString, "http_build_query", NULL, 0, args);
 		zephir_check_call_status();
 		_32$$19 = Z_TYPE_P(&queryString) == IS_STRING;
 		if (_32$$19) {

@@ -34,16 +34,16 @@
  * Loads Logger Adapter class using 'adapter' option
  *
  *<code>
- *  use Phalcon\Logger\Factory;
+ * use Phalcon\Logger\Factory;
  *
- *  $options = [
- *      'adapters' => [
- *          'type' => 'stream',
- *          'name' => 'log.txt',
- *      ]
- *  ];
+ * $options = [
+ *     'adapters' => [
+ *         'type' => 'stream',
+ *         'name' => 'log.txt',
+ *     ]
+ * ];
  *
- *  $logger = Factory::load($options);
+ * $logger = Factory::load($options);
  *</code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Factory) {
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Logger_Factory, loadClass) {
 	ZEPHIR_INIT_NVAR(&adapter);
 	ZEPHIR_INIT_VAR(&logger);
 	object_init_ex(&logger, phalcon_logger_ce);
-	ZEPHIR_CALL_METHOD(NULL, &logger, "__construct", NULL, 355, &loggerName);
+	ZEPHIR_CALL_METHOD(NULL, &logger, "__construct", NULL, 383, &loggerName);
 	zephir_check_call_status();
 	zephir_is_iterable(&adapters, 0, "phalcon/Logger/Factory.zep", 103);
 	if (Z_TYPE_P(&adapters) == IS_ARRAY) {
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Logger_Factory, loadClass) {
 				ZEPHIR_CALL_METHOD(NULL, &adapter, "__construct", NULL, 0, &name);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(NULL, &logger, "addadapter", &_11, 356, &adapterName, &adapter);
+			ZEPHIR_CALL_METHOD(NULL, &logger, "addadapter", &_11, 384, &adapterName, &adapter);
 			zephir_check_call_status();
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Logger_Factory, loadClass) {
 					ZEPHIR_CALL_METHOD(NULL, &adapter, "__construct", NULL, 0, &name);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(NULL, &logger, "addadapter", &_11, 356, &adapterName, &adapter);
+				ZEPHIR_CALL_METHOD(NULL, &logger, "addadapter", &_11, 384, &adapterName, &adapter);
 				zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &adapters, "next", NULL, 0);
 			zephir_check_call_status();

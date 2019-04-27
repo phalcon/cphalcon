@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 		ZEPHIR_INIT_NVAR(&reversedColumnMap);
 		array_init(&reversedColumnMap);
 		ZEPHIR_CPY_WRT(&orderedColumnMap, &userColumnMap);
-		zephir_is_iterable(&userColumnMap, 0, "phalcon/Mvc/Model/Metadata/Strategy/Introspection.zep", 52);
+		zephir_is_iterable(&userColumnMap, 0, "phalcon/Mvc/Model/Metadata/Strategy/Introspection.zep", 54);
 		if (Z_TYPE_P(&userColumnMap) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&userColumnMap), _2$$3, _3$$3, _0$$3)
 			{
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		ZEPHIR_CONCAT_SVSV(&_3$$3, "Table '", &completeTable, "' doesn't exist in database when dumping meta-data for ", &_2$$3);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 1, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Metadata/Strategy/Introspection.zep", 91 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Metadata/Strategy/Introspection.zep", 92 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		ZEPHIR_CONCAT_SVSV(&_6$$6, "Cannot obtain table columns for the mapped source '", &completeTable, "' used in model ", &_5$$6);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", NULL, 1, &_6$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$6, "phalcon/Mvc/Model/Metadata/Strategy/Introspection.zep", 111 TSRMLS_CC);
+		zephir_throw_exception_debug(&_4$$6, "phalcon/Mvc/Model/Metadata/Strategy/Introspection.zep", 112 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 	array_init(&defaultValues);
 	ZEPHIR_INIT_VAR(&emptyStringValues);
 	array_init(&emptyStringValues);
-	zephir_is_iterable(&columns, 0, "phalcon/Mvc/Model/Metadata/Strategy/Introspection.zep", 188);
+	zephir_is_iterable(&columns, 0, "phalcon/Mvc/Model/Metadata/Strategy/Introspection.zep", 189);
 	if (Z_TYPE_P(&columns) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&columns), _7)
 		{

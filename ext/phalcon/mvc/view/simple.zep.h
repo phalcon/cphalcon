@@ -27,6 +27,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setViewsDir);
 PHP_METHOD(Phalcon_Mvc_View_Simple, createCache);
 PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines);
 PHP_METHOD(Phalcon_Mvc_View_Simple, internalRender);
+zend_object *zephir_init_properties_Phalcon_Mvc_View_Simple(zend_class_entry *class_type TSRMLS_DC);
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_getregisteredengines, 0, 0, IS_ARRAY, 1)
@@ -137,7 +138,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_render, 
 #else
 	ZEND_ARG_INFO(0, path)
 #endif
-	ZEND_ARG_INFO(0, params)
+	ZEND_ARG_ARRAY_INFO(0, params, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200

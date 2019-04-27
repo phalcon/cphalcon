@@ -244,6 +244,7 @@
 #include "phalcon/helper/arr.zep.h"
 #include "phalcon/helper/exception.zep.h"
 #include "phalcon/helper/number.zep.h"
+#include "phalcon/helper/str.zep.h"
 #include "phalcon/html/breadcrumbs.zep.h"
 #include "phalcon/html/exception.zep.h"
 #include "phalcon/html/helper/anchor.zep.h"

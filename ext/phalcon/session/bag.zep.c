@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 1, &_4$$5);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_3$$5, "phalcon/Session/Bag.zep", 58 TSRMLS_CC);
+				zephir_throw_exception_debug(&_3$$5, "phalcon/Session/Bag.zep", 60 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}

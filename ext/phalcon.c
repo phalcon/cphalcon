@@ -315,6 +315,7 @@ zend_class_entry *phalcon_forms_manager_ce;
 zend_class_entry *phalcon_helper_arr_ce;
 zend_class_entry *phalcon_helper_exception_ce;
 zend_class_entry *phalcon_helper_number_ce;
+zend_class_entry *phalcon_helper_str_ce;
 zend_class_entry *phalcon_html_breadcrumbs_ce;
 zend_class_entry *phalcon_html_exception_ce;
 zend_class_entry *phalcon_html_helper_anchor_ce;
@@ -771,6 +772,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Helper_Arr);
 	ZEPHIR_INIT(Phalcon_Helper_Exception);
 	ZEPHIR_INIT(Phalcon_Helper_Number);
+	ZEPHIR_INIT(Phalcon_Helper_Str);
 	ZEPHIR_INIT(Phalcon_Html_Breadcrumbs);
 	ZEPHIR_INIT(Phalcon_Html_Exception);
 	ZEPHIR_INIT(Phalcon_Html_Helper_Anchor);

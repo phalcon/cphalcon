@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 1, &_3$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_2$$4, "phalcon/Di/Injectable.zep", 81 TSRMLS_CC);
+			zephir_throw_exception_debug(&_2$$4, "phalcon/Di/Injectable.zep", 83 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

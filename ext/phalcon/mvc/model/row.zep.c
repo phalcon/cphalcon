@@ -68,6 +68,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, jsonSerialize) {
  * Gets a record in a specific position of the row
  *
  * @param string|int index
+ *
  * @return string|Phalcon\Mvc\ModelInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
@@ -84,11 +85,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
 
 
 	ZEPHIR_OBS_VAR(&value);
-	if (zephir_fetch_property_zval(&value, this_ptr, index, PH_SILENT_CC)) {
-		RETURN_CCTOR(&value);
+	if (!(zephir_fetch_property_zval(&value, this_ptr, index, PH_SILENT_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the row", "phalcon/Mvc/Model/Row.zep", 46);
+		return;
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the row", "phalcon/Mvc/Model/Row.zep", 46);
-	return;
+	RETURN_CCTOR(&value);
 
 }
 
@@ -130,7 +131,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/Mvc/Model/Row.zep", 67);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/Mvc/Model/Row.zep", 70);
 	return;
 
 }
@@ -151,7 +152,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/Mvc/Model/Row.zep", 77);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/Mvc/Model/Row.zep", 80);
 	return;
 
 }
@@ -190,10 +191,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute) {
 
 
 	ZEPHIR_OBS_VAR(&value);
-	if (zephir_fetch_property_zval(&value, this_ptr, &attribute, PH_SILENT_CC)) {
-		RETURN_CTOR(&value);
+	if (!(zephir_fetch_property_zval(&value, this_ptr, &attribute, PH_SILENT_CC))) {
+		RETURN_MM_NULL();
 	}
-	RETURN_MM_NULL();
+	RETURN_CTOR(&value);
 
 }
 

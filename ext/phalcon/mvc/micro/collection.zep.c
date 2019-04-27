@@ -627,7 +627,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix) {
 /**
  * Internal function to add a handler to the group.
  *
- * @param string|array method
+ * @param string|array    method
  * @param callable|string handler
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, addMap) {

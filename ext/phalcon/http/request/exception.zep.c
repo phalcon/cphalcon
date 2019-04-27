@@ -26,7 +26,6 @@
  * Phalcon\Http\Request\Exception
  *
  * Exceptions thrown in Phalcon\Http\Request will use this class
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Request_Exception) {
 
