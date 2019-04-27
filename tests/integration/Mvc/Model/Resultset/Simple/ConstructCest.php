@@ -37,15 +37,17 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Mvc\Model\Resultset\Simple :: __construct()
+     * Work with Simple Resultset by load data from the file cache (complete
+     * PHQL option).
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcModelResultsetSimpleConstruct(IntegrationTester $I)
+    public function mvcModelResultsetSimpleConstructCompletePhql(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Model\Resultset\Simple - __construct()');
+        $I->wantToTest('Mvc\Model\Resultset\Simple - __construct() - complete PHQL');
 
         $cache   = $this->getAndSetModelsCacheStream();
         $manager = $this->getService('modelsManager');
@@ -69,6 +71,43 @@ class ConstructCest
         $I->assertEquals($robots->count(), 3);
         $cache->delete('test-resultset');
 
+        $I->amInPath(cacheFolder());
+        $I->dontSeeFileFound('test-resultset');
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Resultset\Simple :: __construct()
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function mvcModelResultsetSimpleConstructIncompletePhql(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model\Resultset\Simple - __construct() - incomplete PHQL');
+
+        $cache   = $this->getAndSetModelsCacheStream();
+        $manager = $this->getService('modelsManager');
+
+        $robots = $manager->executeQuery('SELECT id FROM ' . Robots::class);
+
+        $I->assertInstanceOf(Simple::class, $robots);
+        $I->assertCount(3, $robots);
+        $I->assertEquals($robots->count(), 3);
+
+        $cache->save('test-resultset', $robots);
+
+        $I->amInPath(cacheFolder());
+        $I->seeFileFound('test-resultset');
+
+        $robots = $cache->get('test-resultset');
+
+        $I->assertInstanceOf(Simple::class, $robots);
+        $I->assertCount(3, $robots);
+        $I->assertEquals($robots->count(), 3);
+
+        $cache->delete('test-resultset');
         $I->amInPath(cacheFolder());
         $I->dontSeeFileFound('test-resultset');
     }
