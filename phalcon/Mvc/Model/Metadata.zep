@@ -529,7 +529,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     final public function readMetaData(<ModelInterface> model) -> array
     {
-        var source, schema, key;
+        var source, schema;
+        string key;
 
         let source = model->getSource(),
             schema = model->getSchema();
@@ -560,7 +561,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     final public function readMetaDataIndex(<ModelInterface> model, int index)
     {
-        var source, schema, key;
+        var source, schema;
+        string key;
 
         let source = model->getSource(),
             schema = model->getSchema();
@@ -686,7 +688,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     final public function writeMetaDataIndex(<ModelInterface> model, int index, var data) -> void
     {
-        var source, schema, key;
+        var source, schema;
+        string key;
 
         if typeof data != "array" && typeof data != "string" && typeof data != "boolean" {
             throw new Exception("Invalid data for index");
@@ -713,7 +716,8 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     final protected function initialize(<ModelInterface> model, var key, var table, var schema)
     {
         var strategy, className, metaData, data, modelMetadata, modelColumnMap,
-            container, keyName, prefixKey;
+            container, keyName;
+        string prefixKey;
 
         let strategy = null,
             className = get_class(model);

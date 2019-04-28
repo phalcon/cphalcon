@@ -223,7 +223,8 @@ class Volt extends Engine
      */
     public function slice(var value, int start = 0, var end = null)
     {
-        var length, slice;
+        var length;
+        array slice;
         int position;
 
         /**
@@ -234,7 +235,8 @@ class Volt extends Engine
                 let end = count(value) - 1;
             }
 
-            let position = 0, slice = [];
+            let position = 0,
+                slice = [];
 
             value->rewind();
 

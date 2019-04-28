@@ -72,7 +72,10 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
         let params = array_values(params);
         let params = array_merge(params, this->options);
 
-        return call_user_func_array([handler, actionMethod], params);
+        return call_user_func_array(
+            [handler, actionMethod],
+            params
+        );
     }
 
     /**
@@ -103,6 +106,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
         var options, filter, optionValue, container;
 
         let options = this->options;
+
         if !fetch optionValue, options[option] {
             return defaultValue;
         }
@@ -112,12 +116,14 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
         }
 
         let container = this->container;
+
         if typeof container != "object" {
             this->{"throwDispatchException"}(
                 Exception::containerServiceNotFound("the 'filter' service"),
                 CliDispatcher::EXCEPTION_NO_DI
             );
         }
+
         let filter = <LocatorInterface> container->getShared("filter");
 //        let filter = <FilterInterface> container->getShared("filter");
 

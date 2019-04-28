@@ -62,7 +62,8 @@ class Ini extends Config
      */
     public function __construct(string! filePath, mode = null) -> void
     {
-        var iniConfig;
+        var iniConfig, section, sections, directives, path, lastValue;
+        array config;
 
         // Default to INI_SCANNER_RAW if not specified
         if null === mode {
@@ -70,13 +71,12 @@ class Ini extends Config
         }
 
         let iniConfig = parse_ini_file(filePath, true, mode);
+
         if iniConfig === false {
             throw new Exception(
                 "Configuration file " . basename(filePath) . " can't be loaded"
             );
         }
-
-        var config, section, sections, directives, path, lastValue;
 
         let config = [];
 

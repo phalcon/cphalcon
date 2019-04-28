@@ -65,9 +65,10 @@ class Introspection implements StrategyInterface
     final public function getMetaData(<ModelInterface> model, <DiInterface> container) -> array
     {
         var schema, table, readConnection, columns, attributes, primaryKeys,
-            nonPrimaryKeys, completeTable, numericTyped, notNull, fieldTypes,
-            automaticDefault, identityField, fieldBindTypes, defaultValues,
-            column, fieldName, defaultValue, emptyStringValues;
+            nonPrimaryKeys, numericTyped, notNull, fieldTypes, automaticDefault,
+            identityField, fieldBindTypes, defaultValues, column, fieldName,
+            defaultValue, emptyStringValues;
+        string completeTable;
 
         let schema = model->getSchema(),
             table  = model->getSource();

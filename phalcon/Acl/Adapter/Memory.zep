@@ -198,8 +198,8 @@ class Memory extends Adapter
     public function addInherit(string roleName, var roleToInherits) -> bool
     {
         var roleInheritName, rolesNames, roleToInherit, checkRoleToInherit,
-            checkRoleToInherits, usedRoleToInherits, roleToInheritList,
-            usedRoleToInherit;
+            roleToInheritList, usedRoleToInherit;
+        array checkRoleToInherits, usedRoleToInherits;
 
         let rolesNames = this->rolesNames;
 
@@ -533,7 +533,8 @@ class Memory extends Adapter
      */
     public function dropComponentAccess(string componentName, var accessList) -> void
     {
-        var accessName, accessKey;
+        var accessName;
+        string accessKey;
 
         if typeof accessList == "string" {
             let accessList = [accessList];
@@ -596,7 +597,8 @@ class Memory extends Adapter
             funcList, reflectionFunction, reflectionParameters, parameterNumber,
             parametersForFunction, numberOfRequiredParameters,
             userParametersSizeShouldBe, reflectionClass, parameterToCheck,
-            reflectionParameter, hasRole = false, hasComponent = false;
+            reflectionParameter;
+        bool hasRole = false, hasComponent = false;
 
         if typeof roleName == "object" {
             if roleName instanceof RoleAware {
@@ -884,8 +886,9 @@ class Memory extends Adapter
      */
     private function canAccess(string roleName, string componentName, string access) -> string | bool
     {
-        var accessList, accessKey,checkRoleToInherit, checkRoleToInherits,
-            usedRoleToInherits, usedRoleToInherit;
+        var accessList, checkRoleToInherit, usedRoleToInherit;
+        array usedRoleToInherits, checkRoleToInherits;
+        string accessKey;
 
         let accessList = this->access;
 

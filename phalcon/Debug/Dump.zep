@@ -171,7 +171,8 @@ class Dump
      */
     public function variables() -> string
     {
-        var key, value, output;
+        var key, value;
+        string output;
 
         let output = "";
 

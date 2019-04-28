@@ -150,8 +150,8 @@ class Simple extends Resultset
      */
     public function toArray(bool renameColumns = true) -> array
     {
-        var result, records, record, renamed, renamedKey, key, value,
-            renamedRecords, columnMap;
+        var result, records, record, renamedKey, key, value, columnMap;
+        array renamedRecords, renamed;
 
         /**
          * If _rows is not present, fetchAll from database

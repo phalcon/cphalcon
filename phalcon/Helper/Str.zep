@@ -177,7 +177,8 @@ class Str
         string! separator = "|"
     ) -> string
     {
-        var ldS, rdS, pattern, matches, match, words, word, sub;
+        var ldS, rdS, matches, match, words, word, sub;
+        string pattern;
 
         if substr_count(text, leftDelimiter) !== substr_count(text, rightDelimiter) {
             throw new \RuntimeException(
@@ -370,8 +371,9 @@ class Str
      */
     final public static function random(int type = 0, long length = 8) -> string
     {
-        var pool, text = "";
+        var pool;
         int end;
+        string text = "";
 
         switch type {
 
