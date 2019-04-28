@@ -690,7 +690,13 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     public function write(string! key, array data) -> void
     {
-        this->adapter->set(key, data);
+        var result;
+
+        let result = this->adapter->set(key, data);
+
+        if !result {
+            throw new Exception("Failed to store metaData to the cache adapter.");
+        }
     }
 
     /**
