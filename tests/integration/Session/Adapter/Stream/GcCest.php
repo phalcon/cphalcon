@@ -52,8 +52,10 @@ class GcCest
         /**
          * Add two session files
          */
-        file_put_contents(cacheFolder('sessions/gc_1'), uniqid());
-        file_put_contents(cacheFolder('sessions/gc_2'), uniqid());
+        $actual = file_put_contents(cacheFolder('sessions/gc_1'), uniqid());
+        $I->assertNotFalse($actual);
+        $actual = file_put_contents(cacheFolder('sessions/gc_2'), uniqid());
+        $I->assertNotFalse($actual);
         /**
          * Sleep to make sure that the time expired
          */
