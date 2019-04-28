@@ -10,17 +10,19 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Session\Adapter\Files;
+namespace Phalcon\Test\Integration\Session\Adapter\Stream;
 
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
-use SessionHandlerInterface;
+use function cacheFolder;
+use function file_put_contents;
+use function uniqid;
 
 /**
- * Class ConstructCest
+ * Class DestroyCest
  */
-class ConstructCest
+class DestroyCest
 {
     use DiTrait;
     use SessionTrait;
@@ -34,22 +36,25 @@ class ConstructCest
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Files :: __construct()
+     * Tests Phalcon\Session\Adapter\Stream :: destroy()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterFilesConstruct(IntegrationTester $I)
+    public function sessionAdapterStreamDestroy(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Adapter\Files - __construct()');
+        $I->wantToTest('Session\Adapter\Stream - destroy()');
+        $adapter = $this->getSessionStream();
 
-        $adapter = $this->getSessionFiles();
+        /**
+         * Create a file in the session folder
+         */
+        file_put_contents(cacheFolder('test1'), uniqid());
+        $actual = $adapter->destroy('test1');
+        $I->assertTrue($actual);
 
-        $I->assertInstanceOf(
-            SessionHandlerInterface::class,
-            $adapter
-        );
+        $I->dontSeeFileFound('test1', cacheFolder());
     }
 }

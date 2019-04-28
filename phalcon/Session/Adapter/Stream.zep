@@ -13,7 +13,7 @@ namespace Phalcon\Session\Adapter;
 use Phalcon\Session\Exception;
 
 /**
- * Phalcon\Session\Adapter\Noop
+ * Phalcon\Session\Adapter\Stream
  *
  * This is the file based adapter. It stores sessions in a file based system
  *
@@ -21,10 +21,10 @@ use Phalcon\Session\Exception;
  * <?php
  *
  * use Phalcon\Session\Manager;
- * use Phalcon\Session\Adapter\Files;
+ * use Phalcon\Session\Adapter\Stream;
  *
  * $session = new Manager();
- * $files = new Files(
+ * $files = new Stream(
  *     [
  *         'savePath' => '/tmp',
  *     ]
@@ -32,7 +32,7 @@ use Phalcon\Session\Exception;
  * $session->setHandler($files);
  * </code>
  */
-class Files extends Noop
+class Stream extends Noop
 {
     /**
      * @var string
@@ -51,7 +51,7 @@ class Files extends Noop
          * Get the save_path from the passed options. If not defined
          * get it from php.ini
          */
-        if !fetch path, options["save_path"] {
+        if !fetch path, options["savePath"] {
             let path = ini_get("session.save_path");
         }
 
@@ -68,7 +68,7 @@ class Files extends Noop
 
         let name = this->path . this->getPrefixedName(id);
 
-        if file_exists(name) {
+        if is_file(name) && file_exists(name) {
             unlink(name);
         }
 
