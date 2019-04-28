@@ -81,6 +81,7 @@ class Factory extends BaseFactory
         }
 
         let className = namespaceClass . "\\" . camelize(adapter);
+
         if !strpos(filePath, ".") {
             let filePath = filePath . "." . lcfirst(adapter);
         }

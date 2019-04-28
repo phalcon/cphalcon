@@ -107,7 +107,8 @@ class Arr
      */
     final public static function group(array! collection, var method) -> array
     {
-        var element, key, filtered;
+        var element, key;
+        array filtered;
 
         let filtered = [];
         for element in collection {

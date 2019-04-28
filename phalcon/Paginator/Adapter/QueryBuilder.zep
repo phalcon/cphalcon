@@ -95,9 +95,11 @@ class QueryBuilder extends Adapter
     public function paginate() -> <RepositoryInterface>
     {
         var originalBuilder, builder, totalBuilder, totalPages, limit,
-            numberPage, number, query, previous, items, totalQuery, result, row,
-            rowcount, next, sql, columns, db, hasHaving, hasGroup, model,
-            modelClass, dbService, groups, groupColumn;
+            number, query, previous, items, totalQuery, result, row, rowcount,
+            next, sql, columns, db, model, modelClass, dbService, groups,
+            groupColumn;
+        bool hasHaving, hasGroup;
+        int numberPage;
 
         let originalBuilder = this->builder;
         let columns = this->columns;

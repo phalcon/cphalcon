@@ -38,7 +38,8 @@ abstract class AbstractHelper
      */
     protected function orderAttributes(array overrides, array attributes) -> array
     {
-        var order, intersect, results;
+        var intersect, results;
+        array order;
 
         let order = [
             "rel"    : null,
@@ -70,7 +71,8 @@ abstract class AbstractHelper
      */
     protected function renderAttributes(array attributes) -> string
     {
-        var key, result, value;
+        var key, value;
+        string result;
 
         let result = "";
 
@@ -94,7 +96,8 @@ abstract class AbstractHelper
      */
     protected function renderElement(string tag, string text, array attributes = [])
     {
-        var attrs, escapedAttrs, escapedText;
+        var attrs, escapedText;
+        string escapedAttrs;
 
         let escapedAttrs = "",
             escapedText  = this->escaper->escapeHtml(text);
@@ -112,7 +115,8 @@ abstract class AbstractHelper
      */
     protected function selfClose(string tag, array attributes = [])
     {
-        var attrs, escapedAttrs;
+        var attrs;
+        string escapedAttrs;
 
         let escapedAttrs = "";
 

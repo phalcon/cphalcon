@@ -444,7 +444,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Setups a behavior in a model
      *
      *<code>
-     *
      * use Phalcon\Mvc\Model;
      * use Phalcon\Mvc\Model\Behavior\Timestampable;
      *
@@ -3019,7 +3018,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * Since relations can have multiple columns or a single one, we
              * need to build a condition for each of these cases
              */
-            let conditions = [], bindParams = [];
+            let conditions = [],
+                bindParams = [];
 
             let numberNull = 0,
                 fields = relation->getFields(),

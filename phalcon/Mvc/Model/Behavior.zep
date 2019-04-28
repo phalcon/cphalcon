@@ -42,11 +42,11 @@ abstract class Behavior implements BehaviorInterface
         let options = this->options;
 
         if eventName !== null {
-            if fetch eventOptions, options[eventName] {
-                return eventOptions;
+            if !fetch eventOptions, options[eventName] {
+                return null;
             }
 
-            return null;
+            return eventOptions;
         }
 
         return options;
