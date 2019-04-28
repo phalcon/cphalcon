@@ -7,7 +7,7 @@ use Phalcon\Http\Cookie;
 use Phalcon\Http\CookieInterface;
 use Phalcon\Http\Response;
 use Phalcon\Http\Response\Cookies;
-use Phalcon\Session\Adapter\Files as SessionFiles;
+use Phalcon\Session\Adapter\Stream as SessionFiles;
 use Phalcon\Session\Manager as SessionManager;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
