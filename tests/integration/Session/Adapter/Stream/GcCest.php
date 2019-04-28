@@ -52,8 +52,8 @@ class GcCest
         /**
          * Add two session files
          */
-        file_put_contents(cacheFolder('gc_1'), uniqid());
-        file_put_contents(cacheFolder('gc_2'), uniqid());
+        file_put_contents(cacheFolder('session/gc_1'), uniqid());
+        file_put_contents(cacheFolder('session/gc_2'), uniqid());
         /**
          * Sleep to make sure that the time expired
          */
