@@ -52,15 +52,15 @@ class GcCest
         /**
          * Add two session files
          */
-        file_put_contents(cacheFolder('session/gc_1'), uniqid());
-        file_put_contents(cacheFolder('session/gc_2'), uniqid());
+        file_put_contents(cacheFolder('sessions/gc_1'), uniqid());
+        file_put_contents(cacheFolder('sessions/gc_2'), uniqid());
         /**
          * Sleep to make sure that the time expired
          */
         sleep(2);
         $actual = $adapter->gc(1);
         $I->assertTrue($actual);
-        $I->amInPath(cacheFolder('session'));
+        $I->amInPath(cacheFolder('sessions'));
         $I->dontSeeFileFound('gc_1');
         $I->dontSeeFileFound('gc_2');
     }
