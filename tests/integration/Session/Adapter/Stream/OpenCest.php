@@ -10,16 +10,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Session\Adapter\Files;
+namespace Phalcon\Test\Integration\Session\Adapter\Stream;
 
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
 /**
- * Class CloseCest
+ * Class OpenCest
  */
-class CloseCest
+class OpenCest
 {
     use DiTrait;
     use SessionTrait;
@@ -33,21 +33,18 @@ class CloseCest
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Files :: close()
+     * Tests Phalcon\Session\Adapter\Stream :: open()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterFilesClose(IntegrationTester $I)
+    public function sessionAdapterStreamOpen(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Adapter\Files - close()');
-
-        $adapter = $this->getSessionFiles();
-
-        $I->assertTrue(
-            $adapter->close()
-        );
+        $I->wantToTest('Session\Adapter\Stream - open()');
+        $adapter = $this->getSessionStream();
+        $actual  = $adapter->open(cacheFolder(), 'test1');
+        $I->assertTrue($actual);
     }
 }

@@ -10,18 +10,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Session\Adapter\Files;
+namespace Phalcon\Test\Integration\Session\Adapter\Stream;
 
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
-use function cacheFolder;
-use function uniqid;
 
 /**
- * Class WriteCest
+ * Class CloseCest
  */
-class WriteCest
+class CloseCest
 {
     use DiTrait;
     use SessionTrait;
@@ -35,33 +33,18 @@ class WriteCest
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Files :: write()
+     * Tests Phalcon\Session\Adapter\Stream :: close()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterFilesWrite(IntegrationTester $I)
+    public function sessionAdapterStreamClose(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Adapter\Files - write()');
-
-        $adapter = $this->getSessionFiles();
-
-        $value = uniqid();
-
-        $adapter->write('test1', $value);
-
-        $I->amInPath(
-            cacheFolder()
-        );
-
-        $I->seeFileFound('test1');
-
-        $I->seeInThisFile($value);
-
-        $I->safeDeleteFile(
-            cacheFolder('test1')
-        );
+        $I->wantToTest('Session\Adapter\Stream - close()');
+        $adapter = $this->getSessionStream();
+        $actual  = $adapter->close();
+        $I->assertTrue($actual);
     }
 }

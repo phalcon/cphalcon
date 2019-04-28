@@ -10,19 +10,20 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Session\Adapter\Files;
+namespace Phalcon\Test\Integration\Session\Adapter\Stream;
 
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 use function cacheFolder;
 use function file_put_contents;
+use function sleep;
 use function uniqid;
 
 /**
- * Class DestroyCest
+ * Class GcCest
  */
-class DestroyCest
+class GcCest
 {
     use DiTrait;
     use SessionTrait;
@@ -36,34 +37,31 @@ class DestroyCest
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Files :: destroy()
+     * Tests Phalcon\Session\Adapter\Stream :: gc()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterFilesDestroy(IntegrationTester $I)
+    public function sessionAdapterStreamGc(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Adapter\Files - destroy()');
-
-        $adapter = $this->getSessionFiles();
+        $I->wantToTest('Session\Adapter\Stream - gc()');
+        $adapter = $this->getSessionStream();
 
         /**
-         * Create a file in the session folder
+         * Add two session files
          */
-        file_put_contents(
-            cacheFolder('test1'),
-            uniqid()
-        );
-
-        $I->assertTrue(
-            $adapter->destroy('test1')
-        );
-
-        $I->dontSeeFileFound(
-            'test1',
-            cacheFolder()
-        );
+        file_put_contents(cacheFolder('gc_1'), uniqid());
+        file_put_contents(cacheFolder('gc_2'), uniqid());
+        /**
+         * Sleep to make sure that the time expired
+         */
+        sleep(2);
+        $actual = $adapter->gc(1);
+        $I->assertTrue($actual);
+        $I->amInPath(cacheFolder());
+        $I->dontSeeFileFound('gc_1');
+        $I->dontSeeFileFound('gc_2');
     }
 }

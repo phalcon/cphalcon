@@ -12,25 +12,33 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use Phalcon\Session\Adapter\Files;
+use Phalcon\Session\Adapter\Stream;
 use Phalcon\Session\Adapter\Libmemcached;
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Adapter\Redis;
 
 /**
+ * Trait SessionTrait
+ *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait SessionTrait
 {
-    protected function getSessionFiles(): Files
+    /**
+     * @return Stream
+     */
+    protected function getSessionStream(): Stream
     {
-        return new Files(
+        return new Stream(
             [
                 'save_path' => cacheFolder(),
             ]
         );
     }
 
+    /**
+     * @return Libmemcached
+     */
     protected function getSessionLibmemcached(): Libmemcached
     {
         return new Libmemcached(
@@ -45,11 +53,17 @@ trait SessionTrait
         );
     }
 
+    /**
+     * @return Noop
+     */
     protected function getSessionNoop(): Noop
     {
         return new Noop();
     }
 
+    /**
+     * @return Redis
+     */
     protected function getSessionRedis(): Redis
     {
         return new Redis(

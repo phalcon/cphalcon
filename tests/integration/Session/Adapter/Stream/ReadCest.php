@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Session\Adapter\Files;
+namespace Phalcon\Test\Integration\Session\Adapter\Stream;
 
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -35,30 +35,24 @@ class ReadCest
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Files :: write()
+     * Tests Phalcon\Session\Adapter\Stream :: write()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function sessionAdapterFilesRead(IntegrationTester $I)
+    public function sessionAdapterStreamRead(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Adapter\Files - write()');
-
-        $adapter = $this->getSessionFiles();
+        $I->wantToTest('Session\Adapter\Stream - write()');
+        $adapter = $this->getSessionStream();
 
         $value = uniqid();
-
         $adapter->write('test1', $value);
 
         $expected = $value;
         $actual   = $adapter->read('test1');
-
         $I->assertEquals($expected, $actual);
-
-        $I->safeDeleteFile(
-            cacheFolder('test1')
-        );
+        $I->safeDeleteFile(cacheFolder('test1'));
     }
 }
