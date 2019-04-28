@@ -35,7 +35,7 @@ use Phalcon\Mvc\Models\Metadata\Memory as MetadataMemory;
 use Phalcon\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Simple;
-use Phalcon\Session\Adapter\Files as SessionFiles;
+use Phalcon\Session\Adapter\Stream as SessionFiles;
 use Phalcon\Session\Adapter\Libmemcached as SessionLibmemcached;
 use Phalcon\Session\Adapter\Noop as SessionNoop;
 use Phalcon\Session\Adapter\Redis as SessionRedis;
@@ -315,7 +315,7 @@ trait DiTrait
                 $manager->setHandler(
                     new SessionFiles(
                         [
-                            'save_path' => cacheFolder(),
+                            'savePath' => cacheFolder(),
                         ]
                     )
                 );

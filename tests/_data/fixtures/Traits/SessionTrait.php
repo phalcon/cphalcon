@@ -31,7 +31,7 @@ trait SessionTrait
     {
         return new Stream(
             [
-                'save_path' => cacheFolder(),
+                'savePath' => cacheFolder(),
             ]
         );
     }
