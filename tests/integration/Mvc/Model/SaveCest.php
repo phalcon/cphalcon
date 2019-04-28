@@ -334,4 +334,31 @@ class SaveCest
             $robot->delete()
         );
     }
+
+    public function mvcModelSaveCircularRelation(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model::save() with circular unsaved relations');
+
+        $album = new Albums([
+            'name' => 'Loopback'
+        ]);
+        $artist = new Artists([
+            'name' => 'Evil Robot'
+        ]);
+
+        // Assign relationship in both directions on unsaved models
+        $album->artist = $artist;
+        $artist->albums = [
+            $album
+        ];
+
+        // Save should handle the circular relation without issue
+        $I->assertTrue(
+            $artist->save()
+        );
+
+        // Both should have an ID now
+        $I->assertNotEquals(null, $album->id);
+        $I->assertNotEquals(null, $artist->id);
+    }
 }
