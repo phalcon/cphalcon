@@ -97,7 +97,7 @@ class ConstructCest
         $I->assertCount(6, $robots);
         $I->assertEquals($robots->count(), 6);
 
-        $cache->save('test-resultset', $robots);
+        $cache->set('test-resultset', $robots);
 
         $I->amInPath(cacheFolder());
         $I->seeFileFound('test-resultset');
