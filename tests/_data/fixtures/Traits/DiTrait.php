@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use function is_dir;
+use function mkdir;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Backend\Libmemcached;
@@ -307,6 +309,10 @@ trait DiTrait
      */
     protected function setDiSessionFiles()
     {
+        if (!is_dir(cacheFolder('sessions'))) {
+            mkdir(cacheFolder('sessions'));
+        }
+
         $this->container->set(
             'session',
             function () {
@@ -315,7 +321,7 @@ trait DiTrait
                 $manager->setHandler(
                     new SessionFiles(
                         [
-                            'savePath' => cacheFolder(),
+                            'savePath' => cacheFolder('sessions'),
                         ]
                     )
                 );
