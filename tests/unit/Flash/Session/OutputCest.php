@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Flash\Session;
 
+use Phalcon\Flash\Session;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 /**
@@ -19,6 +21,15 @@ use UnitTester;
  */
 class OutputCest
 {
+    use DiTrait;
+
+    public function _before(UnitTester $I)
+    {
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiSessionFiles();
+    }
+
     /**
      * Tests Phalcon\Flash\Session :: output()
      *
@@ -31,5 +42,40 @@ class OutputCest
     {
         $I->wantToTest('Flash\Session - output()');
         $I->skipTest('Need implementation');
+    }
+
+    /**
+     * Tests Phalcon\Flash\Session :: output() in case the session is empty
+     *
+     * @param UnitTester $I
+     *
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since 2019-04-29
+     */
+    public function emptyFlashSessionOutput(UnitTester $I)
+    {
+        $I->wantToTest('Flash\Session - output() when session is empty');
+
+        $flash = $this->getFlash();
+        $flash->clear();
+
+        ob_start();
+        $flash->output();
+        $result = ob_get_contents();
+        ob_end_clean();
+
+        $I->assertEmpty($result);
+    }
+
+    /**
+     * Return flash instance
+     */
+    protected function getFlash()
+    {
+        $container = $this->getDi();
+        $flash     = new Session($this->classes);
+        $flash->setDI($container);
+
+        return $flash;
     }
 }
