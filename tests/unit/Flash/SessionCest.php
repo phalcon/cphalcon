@@ -43,14 +43,13 @@ class SessionCest
      * @since 2019-04-29
      * @param UnitTester $I
      */
-    public function testEmptySession(UnitTester $I) {
+    public function testEmptySession(UnitTester $I)
+    {
         $flash = $this->getFlash();
         $flash->clear();
 
         ob_start();
-
         $flash->output();
-
         $result = ob_get_contents();
         ob_end_clean();
 
