@@ -102,6 +102,13 @@ class Session extends FlashBase
         let session = <SessionInterface> container->getShared("session"),
             messages = session->get("_flashMessages");
 
+        /**
+         * Session might be empty
+         */
+        if typeof messages != "array" {
+            let messages = [];
+        }
+
         if typeof type == "string" {
             if fetch returnMessages, messages[type] {
                 if remove {
