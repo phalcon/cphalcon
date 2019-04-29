@@ -23,6 +23,16 @@ class OutputCest
 {
     use DiTrait;
 
+    /**
+     * @var array
+     */
+    protected $classes = [
+        'success' => 'successMessage',
+        'notice'  => 'noticeMessage',
+        'warning' => 'warningMessage',
+        'error'   => 'errorMessage',
+    ];
+
     public function _before(UnitTester $I)
     {
         $this->newDi();
