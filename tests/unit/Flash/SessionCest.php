@@ -36,6 +36,27 @@ class SessionCest
         $this->setDiSessionFiles();
     }
 
+    /**
+     * Tests output of flash session in case the session is empty
+     *
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since 2019-04-29
+     * @param UnitTester $I
+     */
+    public function testEmptySession(UnitTester $I) {
+        $flash = $this->getFlash();
+        $flash->clear();
+
+        ob_start();
+
+        $flash->output();
+
+        $result = ob_get_contents();
+        ob_end_clean();
+
+        $I->assertEmpty($result);
+    }
+
 
     /**
      * Tests auto escaping
