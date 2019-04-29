@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use function cacheFolder;
+use function is_dir;
+use function mkdir;
 use Phalcon\Session\Adapter\Stream;
 use Phalcon\Session\Adapter\Libmemcached;
 use Phalcon\Session\Adapter\Noop;
@@ -29,9 +32,13 @@ trait SessionTrait
      */
     protected function getSessionStream(): Stream
     {
+        if (!is_dir(cacheFolder('sessions'))) {
+            mkdir(cacheFolder('sessions'));
+        }
+
         return new Stream(
             [
-                'savePath' => cacheFolder(),
+                'savePath' => cacheFolder('sessions'),
             ]
         );
     }
