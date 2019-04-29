@@ -12,13 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use function cacheFolder;
-use function is_dir;
-use function mkdir;
-use Phalcon\Session\Adapter\Stream;
 use Phalcon\Session\Adapter\Libmemcached;
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Adapter\Redis;
+use Phalcon\Session\Adapter\Stream;
 
 /**
  * Trait SessionTrait
@@ -27,20 +24,14 @@ use Phalcon\Session\Adapter\Redis;
  */
 trait SessionTrait
 {
+    use OptionsTrait;
+
     /**
      * @return Stream
      */
     protected function getSessionStream(): Stream
     {
-        if (!is_dir(cacheFolder('sessions'))) {
-            mkdir(cacheFolder('sessions'));
-        }
-
-        return new Stream(
-            [
-                'savePath' => cacheFolder('sessions'),
-            ]
-        );
+        return new Stream($this->getOptionsSessionStream());
     }
 
     /**
@@ -48,16 +39,7 @@ trait SessionTrait
      */
     protected function getSessionLibmemcached(): Libmemcached
     {
-        return new Libmemcached(
-            [
-                'servers' => [
-                    [
-                        'host' => env('DATA_MEMCACHED_HOST'),
-                        'port' => env('DATA_MEMCACHED_PORT'),
-                    ],
-                ],
-            ]
-        );
+        return new Libmemcached($this->getOptionsLibmemcached());
     }
 
     /**
@@ -73,12 +55,6 @@ trait SessionTrait
      */
     protected function getSessionRedis(): Redis
     {
-        return new Redis(
-            [
-                'host'  => env('DATA_REDIS_HOST'),
-                'port'  => env('DATA_REDIS_PORT'),
-                'index' => env('DATA_REDIS_NAME'),
-            ]
-        );
+        return new Redis($this->getOptionsRedis());
     }
 }
