@@ -63,7 +63,12 @@ class ConstructCest
                     'property'  => 'foo',
                     'property2' => 'foohello',
                 ],
+                'testArray' => [
+                    'value1',
+                    'value2'
+                ]
             ],
+
         ];
         $actual   = $config->toArray();
         $I->assertEquals($expected, $actual);
