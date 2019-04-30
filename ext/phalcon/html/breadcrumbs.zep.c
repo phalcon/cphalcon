@@ -138,7 +138,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, add) {
 }
 
 /**
- * Clears the crumbx
+ * Clears the crumbs
  *
  * <code>
  * $breadcrumbs->clear()
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, remove) {
  * Renders and outputs breadcrumbs based on previously set template.
  *
  * <code>
- * // Php Engine
+ * // PHP Engine
  * echo $breadcrumbs->render();
  * </code>
  */
@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render) {
 	ZEPHIR_INIT_VAR(&urls);
 	zephir_array_keys(&urls, &elements TSRMLS_CC);
 	ZEPHIR_MAKE_REF(&urls);
-	ZEPHIR_CALL_FUNCTION(&lastUrl, "end", NULL, 195, &urls);
+	ZEPHIR_CALL_FUNCTION(&lastUrl, "end", NULL, 205, &urls);
 	ZEPHIR_UNREF(&urls);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&lastLabel);

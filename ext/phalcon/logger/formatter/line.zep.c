@@ -167,10 +167,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct) {
 
 /**
  * Applies a format to a message before sent it to the internal log
- *
- * @param <Item> item
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 
@@ -204,19 +200,19 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 
 	zephir_read_property(&_0, this_ptr, SL("format"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&format, &_0);
-	if (zephir_memnstr_str(&format, SL("%date%"), "phalcon/Logger/Formatter/Line.zep", 69)) {
+	if (zephir_memnstr_str(&format, SL("%date%"), "phalcon/Logger/Formatter/Line.zep", 65)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_read_property(&_2$$3, this_ptr, SL("dateFormat"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_3$$3, item, "gettime", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "date", NULL, 357, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "date", NULL, 385, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "%date%");
 		zephir_fast_str_replace(&_1$$3, &_5$$3, &_4$$3, &format TSRMLS_CC);
 		ZEPHIR_CPY_WRT(&format, &_1$$3);
 	}
-	if (zephir_memnstr_str(&format, SL("%type%"), "phalcon/Logger/Formatter/Line.zep", 83)) {
+	if (zephir_memnstr_str(&format, SL("%type%"), "phalcon/Logger/Formatter/Line.zep", 79)) {
 		ZEPHIR_INIT_VAR(&_6$$4);
 		ZEPHIR_CALL_METHOD(&_7$$4, item, "getname", NULL, 0);
 		zephir_check_call_status();

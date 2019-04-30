@@ -90,7 +90,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
 /**
  * Calling __call method
  *
- * @param  string method
  * @param  array arguments
  * @return mixed
  */

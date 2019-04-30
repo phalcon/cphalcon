@@ -56,8 +56,10 @@ class Manager implements ManagerInterface
             // Create a SplPriorityQueue to store the events with priorities
             let priorityQueue = new SplPriorityQueue();
 
-            // Extract only the Data // Set extraction flags
-            priorityQueue->setExtractFlags(SplPriorityQueue::EXTR_DATA);
+            // Set extraction flags to extract only the Data
+            priorityQueue->setExtractFlags(
+                SplPriorityQueue::EXTR_DATA
+            );
 
             // Append the events to the queue
             let this->events[eventType] = priorityQueue;
@@ -108,9 +110,14 @@ class Manager implements ManagerInterface
              */
             let newPriorityQueue = new SplPriorityQueue();
 
-            newPriorityQueue->setExtractFlags(SplPriorityQueue::EXTR_DATA);
+            newPriorityQueue->setExtractFlags(
+                SplPriorityQueue::EXTR_DATA
+            );
 
-            priorityQueue->setExtractFlags(SplPriorityQueue::EXTR_BOTH);
+            priorityQueue->setExtractFlags(
+                SplPriorityQueue::EXTR_BOTH
+            );
+
             priorityQueue->top();
 
             while priorityQueue->valid() {
@@ -169,6 +176,7 @@ class Manager implements ManagerInterface
         var events, eventParts, type, eventName, event, status, fireEvents;
 
         let events = this->events;
+
         if typeof events != "array" {
             return null;
         }
@@ -228,10 +236,12 @@ class Manager implements ManagerInterface
         var status, arguments, eventName, data, iterator, source, handler;
         bool collect, cancelable;
 
-        let status = null, arguments = null;
+        let status = null,
+            arguments = null;
 
         // Get the event type
         let eventName = event->getType();
+
         if typeof eventName != "string" {
             throw new Exception("The event type not valid");
         }
@@ -255,7 +265,6 @@ class Manager implements ManagerInterface
         iterator->top();
 
         while iterator->valid() {
-
             // Get the current data
             let handler = iterator->current();
 

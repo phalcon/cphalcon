@@ -79,7 +79,8 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function add(<ElementInterface> element, string position = null, bool type = null) -> <Form>
     {
-        var name, key, value, elements;
+        var name, key, value;
+        array elements;
 
         /**
          * Gets the element's name
@@ -138,8 +139,8 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function bind(array! data, var entity, var whitelist = null) -> <Form>
     {
-        var filter, key, value, element, filters,
-            container, filteredValue, method;
+        var filter, key, value, element, filters, container, filteredValue;
+        string method;
 
         if empty this->elements {
             throw new Exception("There are no elements in the form");
@@ -385,7 +386,8 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function getMessages(bool byItemName = false) -> <Messages> | array
     {
-        var messages, messagesByItem, elementMessage, fieldName;
+        var messages, elementMessage, fieldName;
+        array messagesByItem;
 
         let messages = this->messages;
 
@@ -463,7 +465,9 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function getValue(string! name) -> var | null
     {
-        var entity, method, value, data, $internal, forbidden, element;
+        var entity, value, data, $internal, element;
+        array forbidden;
+        string method;
 
         let entity = this->entity;
         let data = this->data;
@@ -576,9 +580,9 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function isValid(var data = null, var entity = null) -> bool
     {
-        var validationStatus, messages, element,
-            validators, name, filters,
-            validator, validation, elementMessage;
+        var messages, element, validators, name, filters, validator, validation,
+            elementMessage;
+        bool validationStatus;
 
         if empty this->elements {
             return true;

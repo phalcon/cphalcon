@@ -59,15 +59,11 @@ ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getDefaultMessage);
 
 /**
  * Returns the bound entity
- *
- * @return object
  */
 ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getEntity);
 
 /**
  * Returns all the filters or a specific one
- *
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_ValidationInterface, getFilters);
 

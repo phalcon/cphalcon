@@ -26,7 +26,6 @@
  * Phalcon\Loader\Exception
  *
  * Exceptions thrown in Phalcon\Loader will use this class
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Loader_Exception) {
 

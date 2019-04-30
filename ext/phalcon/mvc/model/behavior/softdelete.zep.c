@@ -32,8 +32,8 @@
 /**
  * Phalcon\Mvc\Model\Behavior\SoftDelete
  *
- * Instead of permanently delete a record it marks the record as
- * deleted changing the value of a flag column
+ * Instead of permanently delete a record it marks the record as deleted
+ * changing the value of a flag column
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete) {
 

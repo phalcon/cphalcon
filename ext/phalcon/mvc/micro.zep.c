@@ -147,7 +147,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, after) {
  * Appends a afterBinding middleware to be called after model binding
  *
  * @param callable handler
- * @return \Phalcon\Mvc\Micro
  */
 PHP_METHOD(Phalcon_Mvc_Micro, afterBinding) {
 
@@ -347,12 +346,12 @@ PHP_METHOD(Phalcon_Mvc_Micro, getBoundModels) {
 
 	zephir_read_property(&_0, this_ptr, SL("modelBinder"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&modelBinder, &_0);
-	if (Z_TYPE_P(&modelBinder) != IS_NULL) {
-		ZEPHIR_RETURN_CALL_METHOD(&modelBinder, "getboundmodels", NULL, 0);
-		zephir_check_call_status();
+	if (Z_TYPE_P(&modelBinder) == IS_NULL) {
+		array_init(return_value);
 		RETURN_MM();
 	}
-	array_init(return_value);
+	ZEPHIR_RETURN_CALL_METHOD(&modelBinder, "getboundmodels", NULL, 0);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
@@ -465,11 +464,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService) {
 	if (Z_TYPE_P(&container) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&container);
 		object_init_ex(&container, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 364);
+		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 392);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("container"), &container);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&container, "get", NULL, 365, &serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(&container, "get", NULL, 393, &serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -511,11 +510,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService) {
 	if (Z_TYPE_P(&container) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&container);
 		object_init_ex(&container, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 364);
+		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 392);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("container"), &container);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&container, "getshared", NULL, 366, &serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(&container, "getshared", NULL, 394, &serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -677,7 +676,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 1, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Micro.zep", 345 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Micro.zep", 354 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -718,7 +717,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 				ZVAL_STRING(&_13$$8, "Matched route doesn't have an associated handler");
 				ZEPHIR_CALL_METHOD(NULL, &_12$$8, "__construct", NULL, 1, &_13$$8);
 				zephir_check_call_status_or_jump(try_end_1);
-				zephir_throw_exception_debug(&_12$$8, "phalcon/Mvc/Micro.zep", 381 TSRMLS_CC);
+				zephir_throw_exception_debug(&_12$$8, "phalcon/Mvc/Micro.zep", 390 TSRMLS_CC);
 				goto try_end_1;
 
 			}
@@ -743,7 +742,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 				} else {
 					zephir_update_property_zval(this_ptr, SL("stopped"), &__$false);
 				}
-				zephir_is_iterable(&beforeHandlers, 0, "phalcon/Mvc/Micro.zep", 451);
+				zephir_is_iterable(&beforeHandlers, 0, "phalcon/Mvc/Micro.zep", 458);
 				if (Z_TYPE_P(&beforeHandlers) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&beforeHandlers), _17$$12)
 					{
@@ -767,7 +766,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 							ZVAL_STRING(&_21$$17, "'before' handler is not callable");
 							ZEPHIR_CALL_METHOD(NULL, &_20$$17, "__construct", NULL, 1, &_21$$17);
 							zephir_check_call_status_or_jump(try_end_1);
-							zephir_throw_exception_debug(&_20$$17, "phalcon/Mvc/Micro.zep", 433 TSRMLS_CC);
+							zephir_throw_exception_debug(&_20$$17, "phalcon/Mvc/Micro.zep", 440 TSRMLS_CC);
 							goto try_end_1;
 
 						}
@@ -808,7 +807,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 								ZVAL_STRING(&_25$$23, "'before' handler is not callable");
 								ZEPHIR_CALL_METHOD(NULL, &_24$$23, "__construct", NULL, 1, &_25$$23);
 								zephir_check_call_status_or_jump(try_end_1);
-								zephir_throw_exception_debug(&_24$$23, "phalcon/Mvc/Micro.zep", 433 TSRMLS_CC);
+								zephir_throw_exception_debug(&_24$$23, "phalcon/Mvc/Micro.zep", 440 TSRMLS_CC);
 								goto try_end_1;
 
 							}
@@ -860,14 +859,14 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 			}
 			if (Z_TYPE_P(&handler) == IS_ARRAY) {
 				ZEPHIR_OBS_NVAR(&realHandler);
-				zephir_array_fetch_long(&realHandler, &handler, 0, PH_NOISY, "phalcon/Mvc/Micro.zep", 487 TSRMLS_CC);
+				zephir_array_fetch_long(&realHandler, &handler, 0, PH_NOISY, "phalcon/Mvc/Micro.zep", 494 TSRMLS_CC);
 				_33$$30 = zephir_instance_of_ev(&realHandler, phalcon_mvc_controller_ce TSRMLS_CC);
 				if (_33$$30) {
 					_33$$30 = Z_TYPE_P(&modelBinder) != IS_NULL;
 				}
 				if (_33$$30) {
 					ZEPHIR_OBS_VAR(&methodName);
-					zephir_array_fetch_long(&methodName, &handler, 1, PH_NOISY, "phalcon/Mvc/Micro.zep", 490 TSRMLS_CC);
+					zephir_array_fetch_long(&methodName, &handler, 1, PH_NOISY, "phalcon/Mvc/Micro.zep", 497 TSRMLS_CC);
 					ZEPHIR_INIT_VAR(&_34$$31);
 					zephir_get_class(&_34$$31, &realHandler, 0 TSRMLS_CC);
 					ZEPHIR_INIT_NVAR(&bindCacheKey);
@@ -883,7 +882,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 			}
 			if (_36$$7) {
 				ZEPHIR_OBS_NVAR(&methodName);
-				zephir_array_fetch_long(&methodName, &handler, 1, PH_NOISY, "phalcon/Mvc/Micro.zep", 507 TSRMLS_CC);
+				zephir_array_fetch_long(&methodName, &handler, 1, PH_NOISY, "phalcon/Mvc/Micro.zep", 514 TSRMLS_CC);
 				ZEPHIR_CALL_METHOD(&lazyReturned, &realHandler, "callmethod", NULL, 0, &methodName, &params, &modelBinder);
 				zephir_check_call_status_or_jump(try_end_1);
 				ZEPHIR_CPY_WRT(&returnedValue, &lazyReturned);
@@ -909,7 +908,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 				} else {
 					zephir_update_property_zval(this_ptr, SL("stopped"), &__$false);
 				}
-				zephir_is_iterable(&afterBindingHandlers, 0, "phalcon/Mvc/Micro.zep", 581);
+				zephir_is_iterable(&afterBindingHandlers, 0, "phalcon/Mvc/Micro.zep", 588);
 				if (Z_TYPE_P(&afterBindingHandlers) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&afterBindingHandlers), _39$$36)
 					{
@@ -935,7 +934,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 							ZVAL_STRING(&_44$$40, "'afterBinding' handler is not callable");
 							ZEPHIR_CALL_METHOD(NULL, &_43$$40, "__construct", NULL, 1, &_44$$40);
 							zephir_check_call_status_or_jump(try_end_1);
-							zephir_throw_exception_debug(&_43$$40, "phalcon/Mvc/Micro.zep", 563 TSRMLS_CC);
+							zephir_throw_exception_debug(&_43$$40, "phalcon/Mvc/Micro.zep", 569 TSRMLS_CC);
 							goto try_end_1;
 
 						}
@@ -978,7 +977,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 								ZVAL_STRING(&_49$$45, "'afterBinding' handler is not callable");
 								ZEPHIR_CALL_METHOD(NULL, &_48$$45, "__construct", NULL, 1, &_49$$45);
 								zephir_check_call_status_or_jump(try_end_1);
-								zephir_throw_exception_debug(&_48$$45, "phalcon/Mvc/Micro.zep", 563 TSRMLS_CC);
+								zephir_throw_exception_debug(&_48$$45, "phalcon/Mvc/Micro.zep", 569 TSRMLS_CC);
 								goto try_end_1;
 
 							}
@@ -1014,7 +1013,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 				} else {
 					zephir_update_property_zval(this_ptr, SL("stopped"), &__$false);
 				}
-				zephir_is_iterable(&afterHandlers, 0, "phalcon/Mvc/Micro.zep", 642);
+				zephir_is_iterable(&afterHandlers, 0, "phalcon/Mvc/Micro.zep", 647);
 				if (Z_TYPE_P(&afterHandlers) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&afterHandlers), _53$$49)
 					{
@@ -1038,7 +1037,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 							ZVAL_STRING(&_57$$54, "One of the 'after' handlers is not callable");
 							ZEPHIR_CALL_METHOD(NULL, &_56$$54, "__construct", NULL, 1, &_57$$54);
 							zephir_check_call_status_or_jump(try_end_1);
-							zephir_throw_exception_debug(&_56$$54, "phalcon/Mvc/Micro.zep", 630 TSRMLS_CC);
+							zephir_throw_exception_debug(&_56$$54, "phalcon/Mvc/Micro.zep", 635 TSRMLS_CC);
 							goto try_end_1;
 
 						}
@@ -1079,7 +1078,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 								ZVAL_STRING(&_61$$60, "One of the 'after' handlers is not callable");
 								ZEPHIR_CALL_METHOD(NULL, &_60$$60, "__construct", NULL, 1, &_61$$60);
 								zephir_check_call_status_or_jump(try_end_1);
-								zephir_throw_exception_debug(&_60$$60, "phalcon/Mvc/Micro.zep", 630 TSRMLS_CC);
+								zephir_throw_exception_debug(&_60$$60, "phalcon/Mvc/Micro.zep", 635 TSRMLS_CC);
 								goto try_end_1;
 
 							}
@@ -1117,7 +1116,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 				ZVAL_STRING(&_67$$65, "Not-Found handler is not callable or is not defined");
 				ZEPHIR_CALL_METHOD(NULL, &_66$$65, "__construct", NULL, 1, &_67$$65);
 				zephir_check_call_status_or_jump(try_end_1);
-				zephir_throw_exception_debug(&_66$$65, "phalcon/Mvc/Micro.zep", 663 TSRMLS_CC);
+				zephir_throw_exception_debug(&_66$$65, "phalcon/Mvc/Micro.zep", 669 TSRMLS_CC);
 				goto try_end_1;
 
 			}
@@ -1141,7 +1140,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 			}
 			ZEPHIR_INIT_NVAR(&params);
 			ZVAL_NULL(&params);
-			zephir_is_iterable(&finishHandlers, 0, "phalcon/Mvc/Micro.zep", 736);
+			zephir_is_iterable(&finishHandlers, 0, "phalcon/Mvc/Micro.zep", 739);
 			if (Z_TYPE_P(&finishHandlers) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&finishHandlers), _69$$67)
 				{
@@ -1165,7 +1164,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 						ZVAL_STRING(&_73$$72, "One of the 'finish' handlers is not callable");
 						ZEPHIR_CALL_METHOD(NULL, &_72$$72, "__construct", NULL, 1, &_73$$72);
 						zephir_check_call_status_or_jump(try_end_1);
-						zephir_throw_exception_debug(&_72$$72, "phalcon/Mvc/Micro.zep", 717 TSRMLS_CC);
+						zephir_throw_exception_debug(&_72$$72, "phalcon/Mvc/Micro.zep", 720 TSRMLS_CC);
 						goto try_end_1;
 
 					}
@@ -1212,7 +1211,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 							ZVAL_STRING(&_78$$79, "One of the 'finish' handlers is not callable");
 							ZEPHIR_CALL_METHOD(NULL, &_77$$79, "__construct", NULL, 1, &_78$$79);
 							zephir_check_call_status_or_jump(try_end_1);
-							zephir_throw_exception_debug(&_77$$79, "phalcon/Mvc/Micro.zep", 717 TSRMLS_CC);
+							zephir_throw_exception_debug(&_77$$79, "phalcon/Mvc/Micro.zep", 720 TSRMLS_CC);
 							goto try_end_1;
 
 						}
@@ -1257,7 +1256,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 			ZEPHIR_CPY_WRT(&errorHandler, &_82$$82);
 			if (zephir_is_true(&errorHandler)) {
 				if (!(zephir_is_callable(&errorHandler TSRMLS_CC))) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "Error handler is not callable", "phalcon/Mvc/Micro.zep", 755);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "Error handler is not callable", "phalcon/Mvc/Micro.zep", 761);
 					return;
 				}
 				ZEPHIR_INIT_VAR(&_84$$84);
@@ -1268,20 +1267,20 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 				zephir_check_call_status();
 				if (Z_TYPE_P(&returnedValue) == IS_OBJECT) {
 					if (!(zephir_instance_of_ev(&returnedValue, phalcon_http_responseinterface_ce TSRMLS_CC))) {
-						zephir_throw_exception_debug(&e, "phalcon/Mvc/Micro.zep", 764 TSRMLS_CC);
+						zephir_throw_exception_debug(&e, "phalcon/Mvc/Micro.zep", 774 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
 				} else {
 					if (!ZEPHIR_IS_FALSE_IDENTICAL(&returnedValue)) {
-						zephir_throw_exception_debug(&e, "phalcon/Mvc/Micro.zep", 768 TSRMLS_CC);
+						zephir_throw_exception_debug(&e, "phalcon/Mvc/Micro.zep", 778 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
 				}
 			} else {
 				if (!ZEPHIR_IS_FALSE_IDENTICAL(&returnedValue)) {
-					zephir_throw_exception_debug(&e, "phalcon/Mvc/Micro.zep", 774 TSRMLS_CC);
+					zephir_throw_exception_debug(&e, "phalcon/Mvc/Micro.zep", 783 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -1292,7 +1291,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 	if (zephir_is_true(&_0)) {
 		zephir_read_property(&_85$$92, this_ptr, SL("responseHandler"), PH_NOISY_CC | PH_READONLY);
 		if (!(zephir_is_callable(&_85$$92 TSRMLS_CC))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "Response handler is not callable or is not defined", "phalcon/Mvc/Micro.zep", 789);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "Response handler is not callable or is not defined", "phalcon/Mvc/Micro.zep", 796);
 			return;
 		}
 		zephir_read_property(&_86$$92, this_ptr, SL("responseHandler"), PH_NOISY_CC | PH_READONLY);
@@ -1364,11 +1363,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService) {
 	if (Z_TYPE_P(&container) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&container);
 		object_init_ex(&container, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 364);
+		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 392);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("container"), &container);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&container, "has", NULL, 367, &serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(&container, "has", NULL, 395, &serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1498,13 +1497,13 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 	ZEPHIR_CALL_METHOD(&mainHandler, collection, "gethandler", NULL, 0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&mainHandler)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "Collection requires a main handler", "phalcon/Mvc/Micro.zep", 912);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "Collection requires a main handler", "phalcon/Mvc/Micro.zep", 921);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&handlers, collection, "gethandlers", NULL, 0);
 	zephir_check_call_status();
 	if (!(zephir_fast_count_int(&handlers TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "There are no handlers to mount", "phalcon/Mvc/Micro.zep", 917);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "There are no handlers to mount", "phalcon/Mvc/Micro.zep", 927);
 		return;
 	}
 	if (Z_TYPE_P(&handlers) == IS_ARRAY) {
@@ -1513,31 +1512,31 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 		if (zephir_is_true(&_0$$5)) {
 			ZEPHIR_INIT_VAR(&lazyHandler);
 			object_init_ex(&lazyHandler, phalcon_mvc_micro_lazyloader_ce);
-			ZEPHIR_CALL_METHOD(NULL, &lazyHandler, "__construct", NULL, 368, &mainHandler);
+			ZEPHIR_CALL_METHOD(NULL, &lazyHandler, "__construct", NULL, 396, &mainHandler);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_CPY_WRT(&lazyHandler, &mainHandler);
 		}
 		ZEPHIR_CALL_METHOD(&prefix, collection, "getprefix", NULL, 0);
 		zephir_check_call_status();
-		zephir_is_iterable(&handlers, 0, "phalcon/Mvc/Micro.zep", 977);
+		zephir_is_iterable(&handlers, 0, "phalcon/Mvc/Micro.zep", 985);
 		if (Z_TYPE_P(&handlers) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&handlers), _1$$5)
 			{
 				ZEPHIR_INIT_NVAR(&handler);
 				ZVAL_COPY(&handler, _1$$5);
 				if (Z_TYPE_P(&handler) != IS_ARRAY) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "One of the registered handlers is invalid", "phalcon/Mvc/Micro.zep", 941);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "One of the registered handlers is invalid", "phalcon/Mvc/Micro.zep", 949);
 					return;
 				}
 				ZEPHIR_OBS_NVAR(&methods);
-				zephir_array_fetch_long(&methods, &handler, 0, PH_NOISY, "phalcon/Mvc/Micro.zep", 944 TSRMLS_CC);
+				zephir_array_fetch_long(&methods, &handler, 0, PH_NOISY, "phalcon/Mvc/Micro.zep", 952 TSRMLS_CC);
 				ZEPHIR_OBS_NVAR(&pattern);
-				zephir_array_fetch_long(&pattern, &handler, 1, PH_NOISY, "phalcon/Mvc/Micro.zep", 945 TSRMLS_CC);
+				zephir_array_fetch_long(&pattern, &handler, 1, PH_NOISY, "phalcon/Mvc/Micro.zep", 953 TSRMLS_CC);
 				ZEPHIR_OBS_NVAR(&subHandler);
-				zephir_array_fetch_long(&subHandler, &handler, 2, PH_NOISY, "phalcon/Mvc/Micro.zep", 946 TSRMLS_CC);
+				zephir_array_fetch_long(&subHandler, &handler, 2, PH_NOISY, "phalcon/Mvc/Micro.zep", 954 TSRMLS_CC);
 				ZEPHIR_OBS_NVAR(&name);
-				zephir_array_fetch_long(&name, &handler, 3, PH_NOISY, "phalcon/Mvc/Micro.zep", 947 TSRMLS_CC);
+				zephir_array_fetch_long(&name, &handler, 3, PH_NOISY, "phalcon/Mvc/Micro.zep", 955 TSRMLS_CC);
 				ZEPHIR_INIT_NVAR(&realHandler);
 				zephir_create_array(&realHandler, 2, 0 TSRMLS_CC);
 				zephir_array_fast_append(&realHandler, &lazyHandler);
@@ -1583,17 +1582,17 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 				ZEPHIR_CALL_METHOD(&handler, &handlers, "current", NULL, 0);
 				zephir_check_call_status();
 					if (Z_TYPE_P(&handler) != IS_ARRAY) {
-						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "One of the registered handlers is invalid", "phalcon/Mvc/Micro.zep", 941);
+						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_micro_exception_ce, "One of the registered handlers is invalid", "phalcon/Mvc/Micro.zep", 949);
 						return;
 					}
 					ZEPHIR_OBS_NVAR(&methods);
-					zephir_array_fetch_long(&methods, &handler, 0, PH_NOISY, "phalcon/Mvc/Micro.zep", 944 TSRMLS_CC);
+					zephir_array_fetch_long(&methods, &handler, 0, PH_NOISY, "phalcon/Mvc/Micro.zep", 952 TSRMLS_CC);
 					ZEPHIR_OBS_NVAR(&pattern);
-					zephir_array_fetch_long(&pattern, &handler, 1, PH_NOISY, "phalcon/Mvc/Micro.zep", 945 TSRMLS_CC);
+					zephir_array_fetch_long(&pattern, &handler, 1, PH_NOISY, "phalcon/Mvc/Micro.zep", 953 TSRMLS_CC);
 					ZEPHIR_OBS_NVAR(&subHandler);
-					zephir_array_fetch_long(&subHandler, &handler, 2, PH_NOISY, "phalcon/Mvc/Micro.zep", 946 TSRMLS_CC);
+					zephir_array_fetch_long(&subHandler, &handler, 2, PH_NOISY, "phalcon/Mvc/Micro.zep", 954 TSRMLS_CC);
 					ZEPHIR_OBS_NVAR(&name);
-					zephir_array_fetch_long(&name, &handler, 3, PH_NOISY, "phalcon/Mvc/Micro.zep", 947 TSRMLS_CC);
+					zephir_array_fetch_long(&name, &handler, 3, PH_NOISY, "phalcon/Mvc/Micro.zep", 955 TSRMLS_CC);
 					ZEPHIR_INIT_NVAR(&_6$$16);
 					zephir_create_array(&_6$$16, 2, 0 TSRMLS_CC);
 					zephir_array_fast_append(&_6$$16, &lazyHandler);
@@ -1691,8 +1690,6 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetExists) {
  *     $app["request"]
  * );
  *</code>
- *
- * @return mixed
  */
 PHP_METHOD(Phalcon_Mvc_Micro, offsetGet) {
 
@@ -1765,11 +1762,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetUnset) {
 	if (Z_TYPE_P(&container) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&container);
 		object_init_ex(&container, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 364);
+		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 392);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("container"), &container);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &container, "remove", NULL, 369, alias);
+	ZEPHIR_CALL_METHOD(NULL, &container, "remove", NULL, 397, alias);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -2116,7 +2113,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService) {
 	if (Z_TYPE_P(&container) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&container);
 		object_init_ex(&container, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 364);
+		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 392);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("container"), &container);
 	}
@@ -2125,7 +2122,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService) {
 	} else {
 		ZVAL_BOOL(&_0, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&container, "set", NULL, 370, &serviceName, definition, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(&container, "set", NULL, 398, &serviceName, definition, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 

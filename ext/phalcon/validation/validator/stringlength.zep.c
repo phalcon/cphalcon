@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 	ZEPHIR_CALL_METHOD(&code, this_ptr, "preparecode", NULL, 0, field);
 	zephir_check_call_status();
 	if ((zephir_function_exists_ex(SL("mb_strlen") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 209, &value);
+		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 240, &value);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(&length);
@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_5$$8);
 			ZVAL_STRING(&_5$$8, "TooLong");
-			ZEPHIR_CALL_METHOD(NULL, &_4$$8, "__construct", NULL, 358, &_6$$8, field, &_5$$8, &code);
+			ZEPHIR_CALL_METHOD(NULL, &_4$$8, "__construct", NULL, 386, &_6$$8, field, &_5$$8, &code);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_4$$8);
 			zephir_check_call_status();
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 		ZEPHIR_CALL_METHOD(&minimum, this_ptr, "getoption", NULL, 0, &_7$$9);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&minimum) == IS_ARRAY) {
-			zephir_array_fetch(&_8$$10, &minimum, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/StringLength.zep", 142 TSRMLS_CC);
+			zephir_array_fetch(&_8$$10, &minimum, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/StringLength.zep", 143 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(&minimum, &_8$$10);
 		}
 		if (ZEPHIR_LT(&length, &minimum)) {
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, validate) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_10$$11);
 			ZVAL_STRING(&_10$$11, "TooShort");
-			ZEPHIR_CALL_METHOD(NULL, &_9$$11, "__construct", NULL, 358, &_12$$11, field, &_10$$11, &code);
+			ZEPHIR_CALL_METHOD(NULL, &_9$$11, "__construct", NULL, 386, &_12$$11, field, &_10$$11, &code);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_9$$11);
 			zephir_check_call_status();

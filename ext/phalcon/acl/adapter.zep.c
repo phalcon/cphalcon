@@ -43,6 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 
 	/**
 	 * Access Granted
+	 *
 	 * @var bool
 	 */
 	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("accessGranted"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -64,6 +65,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 
 	/**
 	 * Default access
+	 *
 	 * @var bool
 	 */
 	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("defaultAccess"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);

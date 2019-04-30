@@ -42,7 +42,7 @@
  *     'column_UNIQUE',
  *     [
  *         'column',
- *         'column'
+ *         'column',
  *     ],
  *     'UNIQUE'
  * );
@@ -51,7 +51,7 @@
  * $index_primary = new \Phalcon\Db\Index(
  *     'PRIMARY',
  *     [
- *         'column'
+ *         'column',
  *     ]
  * );
  * 

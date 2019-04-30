@@ -249,6 +249,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/helper/arr.zep.c
 	phalcon/helper/exception.zep.c
 	phalcon/helper/number.zep.c
+	phalcon/helper/str.zep.c
 	phalcon/html/breadcrumbs.zep.c
 	phalcon/html/exception.zep.c
 	phalcon/html/helper/anchor.zep.c

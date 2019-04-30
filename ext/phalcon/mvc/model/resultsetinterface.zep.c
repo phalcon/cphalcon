@@ -50,8 +50,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, delete);
  *     }
  * );
  *</code>
- *
- * @return \Phalcon\Mvc\Model[]
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, filter);
 

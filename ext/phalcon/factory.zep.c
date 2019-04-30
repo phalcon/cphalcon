@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Factory, loadClass) {
 		}
 		RETURN_MM();
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Factory.zep", 41);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Factory.zep", 42);
 	return;
 
 }

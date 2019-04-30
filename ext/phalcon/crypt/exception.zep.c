@@ -26,7 +26,6 @@
  * Phalcon\Crypt\Exception
  *
  * Exceptions thrown in Phalcon\Crypt use this class
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Crypt_Exception) {
 

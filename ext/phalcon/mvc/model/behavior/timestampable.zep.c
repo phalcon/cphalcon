@@ -34,8 +34,8 @@
 /**
  * Phalcon\Mvc\Model\Behavior\Timestampable
  *
- * Allows to automatically update a model’s attribute saving the
- * datetime when a record is created or updated
+ * Allows to automatically update a model’s attribute saving the datetime when a
+ * record is created or updated
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable) {
 
@@ -92,14 +92,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 	if (Z_TYPE_P(&options) == IS_ARRAY) {
 		ZEPHIR_OBS_VAR(&field);
 		if (!(zephir_array_isset_string_fetch(&field, &options, SL("field"), 0))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The option 'field' is required", "phalcon/Mvc/Model/Behavior/Timestampable.zep", 47);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The option 'field' is required", "phalcon/Mvc/Model/Behavior/Timestampable.zep", 46);
 			return;
 		}
 		ZEPHIR_INIT_VAR(&timestamp);
 		ZVAL_NULL(&timestamp);
 		ZEPHIR_OBS_VAR(&format);
 		if (zephir_array_isset_string_fetch(&format, &options, SL("format"), 0)) {
-			ZEPHIR_CALL_FUNCTION(&timestamp, "date", NULL, 357, &format);
+			ZEPHIR_CALL_FUNCTION(&timestamp, "date", NULL, 385, &format);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_OBS_VAR(&generator);
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 			zephir_time(&timestamp);
 		}
 		if (Z_TYPE_P(&field) == IS_ARRAY) {
-			zephir_is_iterable(&field, 0, "phalcon/Mvc/Model/Behavior/Timestampable.zep", 85);
+			zephir_is_iterable(&field, 0, "phalcon/Mvc/Model/Behavior/Timestampable.zep", 84);
 			if (Z_TYPE_P(&field) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&field), _1$$12)
 				{

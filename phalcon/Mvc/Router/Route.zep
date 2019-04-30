@@ -382,7 +382,8 @@ class Route implements RouteInterface
      */
     public function getReversedPaths() -> array
     {
-        var reversed, path, position;
+        var path, position;
+        array reversed;
 
         let reversed = [];
 

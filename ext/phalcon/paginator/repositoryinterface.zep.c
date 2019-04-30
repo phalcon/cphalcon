@@ -24,7 +24,7 @@
  * Phalcon\Paginator\RepositoryInterface
  *
  * Interface for the repository of current state
- * Phalcon\Paginator\AdapterInterface::getPaginate()
+ * Phalcon\Paginator\AdapterInterface::paginate()
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_RepositoryInterface) {
 

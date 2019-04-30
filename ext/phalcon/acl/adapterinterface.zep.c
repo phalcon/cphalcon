@@ -96,7 +96,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getDefaultAction);
 
 /**
  * Returns the default ACL access level for no arguments provided in
- *isAllowed action if there exists func for accessKey
+ * isAllowed action if there exists func for accessKey
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_AdapterInterface, getNoArgumentsDefaultAction);
 

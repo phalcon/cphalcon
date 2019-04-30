@@ -26,7 +26,6 @@
  * Phalcon\Flash\Exception
  *
  * Exceptions thrown in Phalcon\Flash will use this class
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Flash_Exception) {
 
