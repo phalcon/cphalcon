@@ -20,6 +20,7 @@ use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\QueryInterface;
+use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\Model\Query\Status;
 use Phalcon\Mvc\Model\Resultset\Complex;
 use Phalcon\Mvc\Model\Query\StatusInterface;
@@ -29,7 +30,6 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Db\DialectInterface;
-use Phalcon\Storage\Adapter\AdapterInterface;
 
 /**
  * Phalcon\Mvc\Model\Query
@@ -2606,7 +2606,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Returns the current cache backend instance
      */
-    public function getCache() -> <AdapterInterface>
+    public function getCache() -> <BackendInterface>
     {
         return this->cache;
     }
@@ -3631,7 +3631,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 );
             }
 
-            cache->set(key, result, lifetime);
+            cache->save(key, result, lifetime);
         }
 
         /**

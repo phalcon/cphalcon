@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Storage\Adapter\AdapterInterface;
+use Phalcon\Cache\BackendInterface;
 
 /**
  * Phalcon\Mvc\Model\BinderInterface
@@ -32,10 +32,10 @@ interface BinderInterface
     /**
      * Gets cache instance
      */
-    public function getCache() -> <AdapterInterface>;
+    public function getCache() -> <BackendInterface>;
 
     /**
      * Sets cache instance
      */
-    public function setCache(<AdapterInterface> cache) -> <BinderInterface>;
+    public function setCache(<BackendInterface> cache) -> <BinderInterface>;
 }

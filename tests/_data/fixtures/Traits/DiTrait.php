@@ -51,6 +51,8 @@ use function dataDir;
  */
 trait DiTrait
 {
+    use OptionsTrait;
+
     /**
      * @var null|DiInterface
      */
