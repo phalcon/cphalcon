@@ -412,7 +412,7 @@ class CriteriaCest
     public function freshCache(IntegrationTester $I, Example $example)
     {
         $this->container->setShared('db', $example['adapter']);
-        $this->getAndSetModelsCacheFile();
+        $this->getAndSetModelsCacheStream();
 
         $personas = Personas::query()
                             ->where("estado='I'")
@@ -430,7 +430,7 @@ class CriteriaCest
 
         $I->assertFalse($personas->isFresh());
 
-        $I->amInPath(cacheDir());
+        $I->amInPath(cacheDir('models'));
         $I->safeDeleteFile('cache-for-issue-2131');
         $I->dontSeeFileFound('cache-for-issue-2131');
     }
