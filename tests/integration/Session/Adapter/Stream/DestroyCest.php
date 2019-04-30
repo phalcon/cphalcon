@@ -51,10 +51,11 @@ class DestroyCest
         /**
          * Create a file in the session folder
          */
-        file_put_contents(cacheDir('test1'), uniqid());
+        file_put_contents(cacheDir('sessions/test1'), uniqid());
         $actual = $adapter->destroy('test1');
         $I->assertTrue($actual);
 
-        $I->dontSeeFileFound('test1', cacheDir());
+        $I->amInPath(cacheDir('sessions'));
+        $I->dontSeeFileFound('test1');
     }
 }

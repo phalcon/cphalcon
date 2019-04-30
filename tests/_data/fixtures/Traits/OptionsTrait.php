@@ -25,22 +25,6 @@ use function mkdir;
 trait OptionsTrait
 {
     /**
-     * Get Libmemcached options
-     */
-    protected function getOptionsLibmemcached(): array
-    {
-        return [
-            'servers' => [
-                [
-                    'host'   => env('DATA_MEMCACHED_HOST'),
-                    'port'   => env('DATA_MEMCACHED_PORT'),
-                    'weight' => env('DATA_MEMCACHED_WEIGHT'),
-                ],
-            ],
-        ];
-    }
-
-    /**
      * Get Model cache options - Stream
      */
     protected function getOptionsModelCacheStream(): array

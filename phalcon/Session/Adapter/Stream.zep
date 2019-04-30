@@ -59,17 +59,17 @@ class Stream extends Noop
             throw new Exception("The save_path [" . path . "]is not writeable");
         }
 
-        let this->path = path;
+        let this->path = rtrim(path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 
     public function destroy(var id) -> bool
     {
-        var name;
+        var file;
 
-        let name = this->path . this->getPrefixedName(id);
+        let file = this->path . this->getPrefixedName(id);
 
-        if is_file(name) && file_exists(name) {
-            unlink(name);
+        if file_exists(file) && is_file(file) {
+            unlink(file);
         }
 
         return true;
@@ -77,12 +77,15 @@ class Stream extends Noop
 
     public function gc(var maxlifetime) -> bool
     {
-        var file, pattern;
+        var file, pattern, time;
 
-        let pattern = this->path . this->prefix . "*";
+        let pattern = this->path . this->prefix . "*",
+            time    = time() - maxlifetime;
 
         for file in glob(pattern) {
-            if file_exists(file) && (filemtime(file) + maxlifetime < time()) {
+            if file_exists(file) &&
+               is_file(file)     &&
+               (filemtime(file) < time) {
                 unlink(file);
             }
         }
