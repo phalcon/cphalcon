@@ -373,7 +373,7 @@ trait DiTrait
      */
     protected function newDiSqlite()
     {
-        return new Sqlite(getOptionsSqlite());
+        return new Sqlite($this->getOptionsSqlite());
     }
 
     /**
