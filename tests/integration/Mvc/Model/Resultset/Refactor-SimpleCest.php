@@ -39,7 +39,7 @@ class SimpleCest
     public function shouldLoadResultsetFromCache(IntegrationTester $I)
     {
         $I->skipTest('TODO = Check the numbers');
-        $cache = $this->getAndSetModelsCacheStream();
+        $cache = $this->getAndSetModelsCacheFile();
 
         $robots = Robots::find(['order' => 'id']);
 
@@ -72,7 +72,7 @@ class SimpleCest
      */
     public function shouldLoadResultsetWithBindingFromCache(IntegrationTester $I)
     {
-        $cache   = $this->getAndSetModelsCacheStream();
+        $cache   = $this->getAndSetModelsCacheFile();
         $manager = $this->getService('modelsManager');
 
         $initialId = 0;
@@ -113,7 +113,7 @@ class SimpleCest
      */
     public function shouldLoadResultsetFromLibmemcached(IntegrationTester $I)
     {
-        $cache = $this->getAndSetModelsCacheLibmemcached();
+        $cache = $this->getAndSetModelsCacheFileLibmemcached();
 
         $key = 'test-resultset-' . mt_rand(0, 9999);
         // Single

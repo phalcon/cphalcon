@@ -12,10 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use function env;
-use function getOptionsLibmemcached;
 use function getOptionsPostgresql;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
+use Phalcon\Cache\Backend\File;
+use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Crypt;
 use Phalcon\Db\Adapter\Pdo\Mysql;
@@ -40,7 +41,6 @@ use Phalcon\Session\Adapter\Redis as SessionRedis;
 use Phalcon\Session\Adapter\Stream as SessionFiles;
 use Phalcon\Session\Manager as SessionManager;
 use Phalcon\Storage\Adapter\Stream;
-use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Url;
 use function cacheDir;
 use function dataDir;
@@ -77,11 +77,41 @@ trait DiTrait
     }
 
     /**
+     * @return File
+     */
+    protected function getAndSetModelsCacheFile()
+    {
+        $cache = new File(
+            new Data(
+                [
+                    'lifetime' => 3600,
+                ]
+            ),
+            [
+                'cacheDir' => cacheDir(),
+            ]
+        );
+        $this->container->set('modelsCache', $cache);
+
+        return $cache;
+    }
+
+    /**
      * @return Libmemcached
      */
-    protected function getAndSetModelsCacheLibmemcached()
+    protected function getAndSetModelsCacheFileLibmemcached()
     {
-        $cache = new Libmemcached(getOptionsLibmemcached());
+        $config = [
+            'servers' => [
+                [
+                    'host'   => env('DATA_MEMCACHED_HOST'),
+                    'port'   => env('DATA_MEMCACHED_PORT'),
+                    'weight' => env('DATA_MEMCACHED_WEIGHT'),
+                ],
+            ],
+        ];
+
+        $cache = new Libmemcached(new Data(['lifetime' => 3600]), $config);
         $this->container->set('modelsCache', $cache);
 
         return $cache;
