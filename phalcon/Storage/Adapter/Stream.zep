@@ -34,7 +34,11 @@ class Stream extends AbstractAdapter
     protected options = [];
 
     /**
-     * Constructor
+     * Stream constructor.
+     *
+     * @param array $options
+     *
+     * @throws Exception
      */
     public function __construct(array! options = [])
     {
@@ -81,6 +85,12 @@ class Stream extends AbstractAdapter
 
     /**
      * Decrements a stored number
+     *
+     * @param string $key
+     * @param int    $value
+     *
+     * @return bool|int
+     * @throws \Exception
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
@@ -98,6 +108,10 @@ class Stream extends AbstractAdapter
 
     /**
      * Reads data from the adapter
+     *
+     * @param string $key
+     *
+     * @return bool
      */
     public function delete(string! key) -> bool
     {
@@ -114,19 +128,24 @@ class Stream extends AbstractAdapter
 
     /**
      * Reads data from the adapter
+     *
+     * @param string $key
+     * @param null   $defaultValue
+     *
+     * @return mixed|null
      */
     public function get(string! key, var defaultValue = null) -> var
     {
         var content, directory, payload;
 
-        let directory = this->getDir(key),
-            payload   = file_get_contents(directory . key);
-
-        if typeof payload !== "string" {
+        let directory = this->getDir(key);
+	
+        if !file_exists(directory . key) {
             return defaultValue;
         }
-
-        let payload = json_decode(payload, true);
+	
+        let payload   = file_get_contents(directory . key),
+            payload = json_decode(payload, true);
 
         if json_last_error() !== JSON_ERROR_NONE {
             return defaultValue;
@@ -173,6 +192,10 @@ class Stream extends AbstractAdapter
 
     /**
      * Checks if an element exists in the cache and is not expired
+     *
+     * @param string $key
+     *
+     * @return bool
      */
     public function has(string! key) -> bool
     {
@@ -193,6 +216,12 @@ class Stream extends AbstractAdapter
 
     /**
      * Increments a stored number
+     *
+     * @param string $key
+     * @param int    $value
+     *
+     * @return bool|int
+     * @throws \Exception
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
@@ -210,6 +239,13 @@ class Stream extends AbstractAdapter
 
     /**
      * Stores data in the adapter
+     *
+     * @param string $key
+     * @param mixed  $value
+     * @param null   $ttl
+     *
+     * @return bool
+     * @throws \Exception
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {
@@ -233,6 +269,10 @@ class Stream extends AbstractAdapter
 
     /**
      * Returns the folder based on the cacheDir and the prefix
+     *
+     * @param string $key
+     *
+     * @return string
      */
     private function getDir(string! key = "") -> string
     {
@@ -246,6 +286,10 @@ class Stream extends AbstractAdapter
 
     /**
      * Returns if the cache has expired for this item or not
+     *
+     * @param array $payload
+     *
+     * @return bool
      */
     private function isExpired(array! payload) -> bool
     {
@@ -257,6 +301,11 @@ class Stream extends AbstractAdapter
         return (created + ttl) < time();
     }
 
+    /**
+     * @param string $pattern
+     *
+     * @return array
+     */
     private function rglob(string! pattern) -> array
     {
         var dir, dirName, files, flags, recurse;

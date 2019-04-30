@@ -73,37 +73,42 @@ class Apcu extends AbstractAdapter
 
     /**
      * Decrements a stored number
+     *
+     * @param string $key
+     * @param int    $value
+     *
+     * @return bool|int
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
-        var prefixedKey;
-
-        let prefixedKey = this->getPrefixedKey(key);
-
-        return apcu_dec(prefixedKey, value);
+        return apcu_dec(this->getPrefixedKey(key), value);
     }
 
     /**
      * Reads data from the adapter
+     *
+     * @param string $key
+     *
+     * @return bool
      */
     public function delete(string! key) -> bool
     {
-        var prefixedKey;
-
-        let prefixedKey = this->getPrefixedKey(key);
-
-        return apcu_delete(prefixedKey);
+        return apcu_delete(this->getPrefixedKey(key));
     }
 
     /**
      * Reads data from the adapter
+     *
+     * @param string $key
+     * @param null   $defaultValue
+     *
+     * @return mixed
      */
     public function get(string! key, var defaultValue = null) -> var
     {
-        var content, prefixedKey;
-
-        let prefixedKey = this->getPrefixedKey(key),
-            content     = apcu_fetch(prefixedKey);
+    	var content;
+	
+        let content = apcu_fetch(this->getPrefixedKey(key));
 
         return this->getUnserializedData(content, defaultValue);
     }
@@ -111,6 +116,8 @@ class Apcu extends AbstractAdapter
     /**
      * Returns the already connected adapter or connects to the Memcached
      * server(s)
+     *
+     * @return mixed
      */
     public function getAdapter() -> var
     {
@@ -119,6 +126,8 @@ class Apcu extends AbstractAdapter
 
     /**
      * Stores data in the adapter
+     *
+     * @return array
      */
     public function getKeys() -> array
     {
@@ -142,40 +151,45 @@ class Apcu extends AbstractAdapter
 
     /**
      * Checks if an element exists in the cache
+     *
+     * @param string $key
+     *
+     * @return bool
      */
     public function has(string! key) -> bool
     {
-        var prefixedKey;
-
-        let prefixedKey = this->getPrefixedKey(key);
-
-        return apcu_exists(prefixedKey);
+        return apcu_exists(this->getPrefixedKey(key));
     }
 
     /**
      * Increments a stored number
+     *
+     * @param string $key
+     * @param int    $value
+     *
+     * @return bool|int
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        var prefixedKey;
-
-        let prefixedKey = this->getPrefixedKey(key);
-
-        return apcu_inc(prefixedKey, value);
+        return apcu_inc(this->getPrefixedKey(key), value);
     }
 
     /**
      * Stores data in the adapter
+     *
+     * @param string $key
+     * @param mixed  $value
+     * @param null   $ttl
+     *
+     * @return bool
+     * @throws \Exception
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {
-        var connection, content, lifetime, prefixedKey;
-
-        let connection  = this->getAdapter(),
-            content     = this->getSerializedData(value),
-            lifetime    = this->getTtl(ttl),
-            prefixedKey = this->getPrefixedKey(key);
-
-        return apcu_store(prefixedKey, content, lifetime);
+        return apcu_store(
+            this->getPrefixedKey(key),
+            this->getSerializedData(value),
+            this->getTtl(ttl)
+        );
     }
 }

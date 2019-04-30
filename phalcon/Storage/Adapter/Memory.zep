@@ -65,6 +65,11 @@ class Memory extends AbstractAdapter
 
     /**
      * Decrements a stored number
+     *
+     * @param string $key
+     * @param int    $value
+     *
+     * @return bool|int
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
@@ -86,6 +91,10 @@ class Memory extends AbstractAdapter
 
     /**
      * Reads data from the adapter
+     *
+     * @param string $key
+     *
+     * @return bool
      */
     public function delete(string! key) -> bool
     {
@@ -101,6 +110,11 @@ class Memory extends AbstractAdapter
 
     /**
      * Reads data from the adapter
+     *
+     * @param string     $key
+     * @param mixed|null $defaultValue
+     *
+     * @return mixed
      */
     public function get(string! key, var defaultValue = null) -> var
     {
@@ -115,6 +129,8 @@ class Memory extends AbstractAdapter
     /**
      * Returns the already connected adapter or connects to the Memcached
      * server(s)
+     *
+     * @return mixed
      */
     public function getAdapter() -> var
     {
@@ -123,6 +139,8 @@ class Memory extends AbstractAdapter
 
     /**
      * Stores data in the adapter
+     *
+     * @return array
      */
     public function getKeys() -> array
     {
@@ -131,6 +149,10 @@ class Memory extends AbstractAdapter
 
     /**
      * Checks if an element exists in the cache
+     *
+     * @param string $key
+     *
+     * @return bool
      */
     public function has(string! key) -> bool
     {
@@ -143,6 +165,11 @@ class Memory extends AbstractAdapter
 
     /**
      * Increments a stored number
+     *
+     * @param string $key
+     * @param int    $value
+     *
+     * @return bool|int
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
@@ -164,6 +191,12 @@ class Memory extends AbstractAdapter
 
     /**
      * Stores data in the adapter
+     *
+     * @param string $key
+     * @param mixed  $value
+     * @param null   $ttl
+     *
+     * @return bool
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {

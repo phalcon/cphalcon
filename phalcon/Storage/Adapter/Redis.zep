@@ -36,7 +36,7 @@ class Redis extends AbstractAdapter
          * Lets set some defaults and options here
          */
         let options["host"]       = Arr::get(options, "host", "127.0.0.1"),
-            options["port"]       = Arr::get(options, "port", 6379),
+            options["port"]       = (int) Arr::get(options, "port", 6379),
             options["index"]      = Arr::get(options, "index", 0),
             options["persistent"] = Arr::get(options, "persistent", false),
             options["auth"]       = Arr::get(options, "auth", ""),
@@ -49,61 +49,70 @@ class Redis extends AbstractAdapter
 
     /**
      * Flushes/clears the cache
+     *
+     * @return bool
+     * @throws Exception
      */
     public function clear() -> bool
     {
-        var connection;
-
-        let connection = this->getAdapter();
-
-        return connection->flushDB();
+        return this->getAdapter()->flushDB();
     }
 
     /**
      * Decrements a stored number
+     *
+     * @param string $key
+     * @param int    $value
+     *
+     * @return bool|int
+     * @throws Exception
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
-        var connection;
-
-        let connection = this->getAdapter();
-
-        return connection->decrBy(key, value);
+        return this->getAdapter()->decrBy(key, value);
     }
 
     /**
      * Reads data from the adapter
+     *
+     * @param string $key
+     *
+     * @return bool
+     * @throws Exception
      */
     public function delete(string! key) -> bool
     {
-        var connection;
-
-        let connection = this->getAdapter();
-
-        return (bool) connection->delete(key);
+        return (bool) this->getAdapter()->delete(key);
     }
 
     /**
      * Reads data from the adapter
+     *
+     * @param string $key
+     * @param null   $defaultValue
+     *
+     * @return mixed
+     * @throws Exception
      */
     public function get(string! key, var defaultValue = null) -> var
     {
-        var connection, content;
-
-        let connection = this->getAdapter(),
-            content    = connection->get(key);
-
-        return this->getUnserializedData(content, defaultValue);
+        return this->getUnserializedData(
+            this->getAdapter()->get(key),
+            defaultValue
+        );
     }
 
     /**
      * Returns the already connected adapter or connects to the Memcached
      * server(s)
+     *
+     * @return mixed|\Redis
+     * @throws Exception
      */
     public function getAdapter() -> var
     {
-        var auth, connection, host, index, options, persistent, port,
-            result, socket;
+        var auth, connection, host, index, method, options, 
+            persistent, port, result;
 
         if null === this->adapter {
             let options    = this->options,
@@ -113,21 +122,9 @@ class Redis extends AbstractAdapter
                 index      = options["index"],
                 persistent = options["persistent"],
                 port       = options["port"],
-                socket     = options["socket"];
+                method     = persistent ? "pconnect" : "connect";
 
-            if !empty socket {
-                if persistent {
-                    let result = connection->pconnect(socket);
-                } else {
-                    let result = connection->connect(socket);
-                }
-            } else {
-                if persistent {
-                    let result = connection->pconnect(host, port, this->lifetime);
-                } else {
-                    let result = connection->connect(host, port, this->lifetime);
-                }
-            }
+            let result = connection->{method}(host, port, this->lifetime);
 
             if !result {
                 throw new Exception(
@@ -136,7 +133,7 @@ class Redis extends AbstractAdapter
             }
 
             if !empty auth && !connection->auth(auth) {
-                throw new Exception("Failed to authenticate with the Redisd server");
+                throw new Exception("Failed to authenticate with the Redis server");
             }
 
             if index > 0 && !connection->select(index) {
@@ -154,61 +151,70 @@ class Redis extends AbstractAdapter
 
     /**
      * Stores data in the adapter
+     *
+     * @return array
+     * @throws Exception
      */
     public function getKeys() -> array
     {
-        var connection;
-
-        let connection = this->getAdapter();
-
-        return connection->getKeys("*");
+        return this->getAdapter()->getKeys("*");
     }
 
     /**
      * Checks if an element exists in the cache
+     *
+     * @param string $key
+     *
+     * @return bool
+     * @throws Exception
      */
     public function has(string! key) -> bool
     {
-        var connection;
-
-        let connection = this->getAdapter();
-
-        return (bool) connection->exists(key);
+        return (bool) this->getAdapter()->exists($key);
     }
 
     /**
      * Increments a stored number
+     *
+     * @param string $key
+     * @param int    $value
+     *
+     * @return bool|int
+     * @throws Exception
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        var connection;
-
-        let connection = this->getAdapter();
-
-        return connection->incrBy(key, value);
+        return this->getAdapter()->incrBy($key, $value);
     }
 
     /**
      * Stores data in the adapter
+     *
+     * @param string $key
+     * @param mixed  $value
+     * @param null   $ttl
+     *
+     * @return bool
+     * @throws Exception
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {
-        var connection, content, lifetime;
-
-        let connection = this->getAdapter(),
-            content    = this->getSerializedData(value),
-            lifetime   = this->getTtl(ttl);
-
-        return connection->set(key, content, lifetime);
+        return this->getAdapter()->set(
+            key,
+            this->getSerializedData(value),
+            this->getTtl(ttl)
+        );
     }
 
     /**
      * Checks the serializer. If it is a supported one it is set, otherwise
      * the custom one is set.
+     *
+     * @param \Redis $connection
      */
-    private function setSerializer(<\Memcached> connection)
+    private function setSerializer(<\Redis> connection)
     {
-        var serializer;
+        var serializer, version;
         string className;
         array map;
 
@@ -217,6 +223,21 @@ class Redis extends AbstractAdapter
             "php"  : \Redis::SERIALIZER_PHP
         ];
 
+        /**
+         * In case IGBINARY or MSGPACK are not defined for previous versions
+         * of Redis
+         */
+        let version = connection->info("REDIS_VERSION");
+        var_dump(version);
+
+//        if defined("\Redis::SERIALIZER_IGBINARY") {
+//            let map["igbinary"] = \Redis::SERIALIZER_IGBINARY;
+//        }
+//
+//        if defined("\Redis::SERIALIZER_MSGPACK") {
+//            let map["msgpack"]  = \Redis::SERIALIZER_MSGPACK;
+//        }
+//
         let serializer = strtolower(this->defaultSerializer);
 
         if isset map[serializer] {

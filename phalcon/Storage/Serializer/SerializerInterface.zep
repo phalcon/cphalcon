@@ -16,4 +16,9 @@ interface SerializerInterface extends \Serializable
      * @var mixed
      */
     public function getData() -> var;
+
+    /**
+     * @param $data
+     */
+    public function setData(var data) -> void;
 }

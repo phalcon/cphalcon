@@ -136,6 +136,11 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Calculates the TTL for a cache item
+     *
+     * @param DateInterval|int|null $ttl
+     *
+     * @return int
+     * @throws Exception
      */
     protected function getTtl(var ttl) -> int
     {
@@ -158,7 +163,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected function getUnserializedData(var content, var defaultValue = null) -> var
     {
-        if content === false {
+        if !content {
             return defaultValue;
         }
 
