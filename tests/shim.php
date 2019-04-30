@@ -164,8 +164,31 @@ if (true !== function_exists('getOptionsRedis')) {
         ];
     }
 }
+
 /**
- * Return the Redis options
+ * Return the Session options
+ */
+if (true !== function_exists('getOptionsModelsStream')) {
+    /**
+     * @return array
+     */
+    /**
+     * Get Session Stream options
+     */
+    function getOptionsModelsStream()
+    {
+        if (!is_dir(cacheDir('models'))) {
+            mkdir(cacheDir('models'));
+        }
+
+        return [
+            'cacheDir' => cacheDir('models'),
+        ];
+    }
+}
+
+/**
+ * Return the Session options
  */
 if (true !== function_exists('getOptionsSessionStream')) {
     /**

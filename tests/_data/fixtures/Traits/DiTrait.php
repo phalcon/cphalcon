@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use function getOptionsPostgresql;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Backend\Libmemcached;
@@ -277,7 +276,7 @@ trait DiTrait
      */
     protected function newDiMysql()
     {
-        return new Mysql(getOptionsMysql());
+        return new Mysql($this->getOptionsMysql());
     }
 
     /**
@@ -321,7 +320,7 @@ trait DiTrait
             'session',
             function () {
                 $manager = new SessionManager();
-                $manager->setHandler(new SessionLibmemcached(getOptionsMysql()));
+                $manager->setHandler(new SessionLibmemcached($this->getOptionsMysql()));
 
                 return $manager;
             }
@@ -466,7 +465,7 @@ trait DiTrait
      */
     protected function newDiPostgresql()
     {
-        return new Postgresql(getOptionsPostgresql());
+        return new Postgresql($this->getOptionsPostgresql());
     }
 
     /**
