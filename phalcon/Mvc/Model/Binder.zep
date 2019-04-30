@@ -12,7 +12,7 @@ namespace Phalcon\Mvc\Model;
 
 use Phalcon\Mvc\Controller\BindModelInterface;
 use Phalcon\Mvc\Model\Binder\BindableInterface;
-use Phalcon\Cache\BackendInterface;
+use Phalcon\Storage\Adapter\AdapterInterface;
 
 /**
  * Phalcon\Mvc\Model\Binding
@@ -46,7 +46,7 @@ class Binder implements BinderInterface
     /**
      * Phalcon\Mvc\Model\Binder constructor
      */
-    public function __construct(<BackendInterface> cache = null) -> void
+    public function __construct(<AdapterInterface> cache = null) -> void
     {
         let this->cache = cache;
     }
@@ -100,7 +100,7 @@ class Binder implements BinderInterface
     /**
      * Sets cache instance
      */
-    public function getCache() -> <BackendInterface>
+    public function getCache() -> <AdapterInterface>
     {
         return this->cache;
     }
@@ -209,7 +209,7 @@ class Binder implements BinderInterface
         }
 
         if cache != null {
-            cache->save(cacheKey, paramsCache);
+            cache->set(cacheKey, paramsCache);
         }
 
         let this->internalCache[cacheKey] = paramsCache;
@@ -220,7 +220,7 @@ class Binder implements BinderInterface
     /**
      * Gets cache instance
      */
-    public function setCache(<BackendInterface> cache) -> <BinderInterface>
+    public function setCache(<AdapterInterface> cache) -> <BinderInterface>
     {
         let this->cache = cache;
 
