@@ -119,6 +119,8 @@ class Ini extends Config
             for key, val in ini {
                 let ini[key] = this->cast(val);
             }
+
+            return ini;
         }
 
         // Decode true
