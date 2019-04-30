@@ -69,7 +69,9 @@ class ConstructCest
         $I->assertInstanceOf(Simple::class, $robots);
         $I->assertCount(6, $robots);
         $I->assertEquals($robots->count(), 6);
-        $cache->delete('test-resultset');
+
+        $result = $cache->clear();
+        $I->assertTrue($result);
 
         $I->amInPath(cacheDir());
         $I->dontSeeFileFound('test-resultset');

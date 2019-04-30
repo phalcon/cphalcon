@@ -37,8 +37,6 @@ class GetPostCest //extends HttpBase
 
         $request = $container['request'];
 
-//        var_dump($container['filter']); die();
-
 //        $request = $this->getRequestObject();
 
         $I->assertEquals(
