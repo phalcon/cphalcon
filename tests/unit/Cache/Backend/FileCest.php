@@ -33,7 +33,7 @@ class FileCest
         $I->wantTo("Check fresh state by using file cache as backend");
         $I->skipTest('TODO - Check me');
 
-        $cache = new File(new Output(['lifetime' => 2]), ['cacheDir' => cacheFolder()]);
+        $cache = new File(new Output(['lifetime' => 2]), ['cacheDir' => cacheDir()]);
 
         $I->assertFalse($cache->isStarted());
         $I->assertFalse($cache->isFresh());
@@ -60,7 +60,7 @@ class FileCest
         $cache->start('start-keyname');
         $I->assertTrue($cache->isFresh());
 
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheDir());
         $I->safeDeleteFile('start-keyname');
     }
 
@@ -74,7 +74,7 @@ class FileCest
 
             $frontCache = new Output(['lifetime' => 2]);
             $cache      = new File($frontCache, [
-                'cacheDir' => cacheFolder(),
+                'cacheDir' => cacheDir(),
                 'prefix'   => 'unit_',
             ]);
 
@@ -100,7 +100,7 @@ class FileCest
             ob_end_clean();
 
             $I->assertEquals($time, $obContent);
-            $I->amInPath(cacheFolder());
+            $I->amInPath(cacheDir());
             $I->seeFileFound('unit_' . $cache->getKey('test_output'));
 
             // Same cache

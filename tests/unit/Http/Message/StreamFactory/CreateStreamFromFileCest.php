@@ -32,7 +32,7 @@ class CreateStreamFromFileCest
     public function httpMessageStreamFactoryCreateStreamFromFile(UnitTester $I)
     {
         $I->wantToTest('Http\Message\StreamFactory - createStreamFromFile()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $expected = file_get_contents($fileName);
 
         $factory = new StreamFactory();

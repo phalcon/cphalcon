@@ -32,7 +32,7 @@ class ReadCest
     public function httpMessageStreamRead(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - read()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $stream   = new Stream($fileName, 'rb');
 
         $expected = 'Congress shall make no law respecting an establishment of '
@@ -60,7 +60,7 @@ class ReadCest
                 'A valid resource is required.'
             ),
             function () {
-                $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+                $fileName = dataDir('/assets/stream/bill-of-rights.txt');
                 $stream   = new Stream($fileName, 'rb');
                 $stream->detach();
 

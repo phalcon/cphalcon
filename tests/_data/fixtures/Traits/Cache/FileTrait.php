@@ -14,7 +14,7 @@ namespace Phalcon\Test\Fixtures\Traits\Cache;
 
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
-use function cacheFolder;
+use function cacheDir;
 
 /**
  * @package Phalcon\Test\Fixtures\Traits\Cache
@@ -33,7 +33,7 @@ trait FileTrait
         $this->cache = new File(
             $frontCache,
             [
-                'cacheDir' => cacheFolder(),
+                'cacheDir' => cacheDir(),
             ]
         );
     }

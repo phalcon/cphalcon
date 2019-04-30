@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Libmemcached;
 
-use function dataFolder;
+use function dataDir;
 use function env;
 use IntegrationTester;
 use Phalcon\Mvc\Model\MetaData\Libmemcached;
@@ -50,7 +50,7 @@ class ConstructCest
             }
         );
 
-        $this->data = require dataFolder('fixtures/metadata/robots.php');
+        $this->data = require dataDir('fixtures/metadata/robots.php');
     }
 
     /**

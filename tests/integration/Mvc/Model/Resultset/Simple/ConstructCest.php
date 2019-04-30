@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\Resultset\Simple;
 
-use function cacheFolder;
+use function cacheDir;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -32,7 +32,7 @@ class ConstructCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
-        $I->cleanDir(cacheFolder());
+        $I->cleanDir(cacheDir());
     }
 
     /**
@@ -61,7 +61,7 @@ class ConstructCest
 
         $cache->set('test-resultset', $robots);
 
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheDir());
         $I->seeFileFound('test-resultset');
 
         $robots = $cache->get('test-resultset');
@@ -71,7 +71,7 @@ class ConstructCest
         $I->assertEquals($robots->count(), 6);
         $cache->delete('test-resultset');
 
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheDir());
         $I->dontSeeFileFound('test-resultset');
     }
 
@@ -99,7 +99,7 @@ class ConstructCest
 
         $cache->set('test-resultset', $robots);
 
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheDir());
         $I->seeFileFound('test-resultset');
 
         $robots = $cache->get('test-resultset');
@@ -109,7 +109,7 @@ class ConstructCest
         $I->assertEquals($robots->count(), 6);
 
         $cache->delete('test-resultset');
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheDir());
         $I->dontSeeFileFound('test-resultset');
     }
 }

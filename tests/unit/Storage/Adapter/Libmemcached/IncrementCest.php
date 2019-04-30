@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
+use function getOptionsLibmemcached;
 
 /**
  * Class IncrementCest
@@ -34,7 +35,7 @@ class IncrementCest
     public function storageAdapterLibmemcachedIncrement(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - increment()');
-        $adapter = new Libmemcached($this->getOptions());
+        $adapter = new Libmemcached(getOptionsLibmemcached());
 
         $key    = 'cache-data';
         $result = $adapter->set($key, 1);
@@ -53,5 +54,12 @@ class IncrementCest
 
         $actual = $adapter->get($key);
         $I->assertEquals($expected, $actual);
+
+        /**
+         * unknown key
+         */
+        $key    = 'unknown';
+        $result = $adapter->increment($key);
+        $I->assertFalse($result);
     }
 }

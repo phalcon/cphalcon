@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use function cacheFolder;
+use function cacheDir;
 use function env;
 use function is_dir;
 use function mkdir;
@@ -47,7 +47,7 @@ trait OptionsTrait
     {
         return [
             'lifetime' => 3600,
-            'cacheDir' => cacheFolder(),
+            'cacheDir' => cacheDir(),
         ];
     }
 
@@ -88,20 +88,6 @@ trait OptionsTrait
             'host'  => env('DATA_REDIS_HOST'),
             'port'  => env('DATA_REDIS_PORT'),
             'index' => env('DATA_REDIS_NAME'),
-        ];
-    }
-
-    /**
-     * Get Session Stream options
-     */
-    protected function getOptionsSessionStream()
-    {
-        if (!is_dir(cacheFolder('sessions'))) {
-            mkdir(cacheFolder('sessions'));
-        }
-
-        return [
-            'savePath' => cacheFolder('sessions'),
         ];
     }
 

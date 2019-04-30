@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Files;
 
-use function cacheFolder;
-use function dataFolder;
+use function cacheDir;
+use function dataDir;
 use IntegrationTester;
 use Phalcon\Mvc\Model\MetaData\Files;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -37,13 +37,13 @@ class ConstructCest
             function () {
                 return new Files(
                     [
-                        'metaDataDir' => cacheFolder(),
+                        'metaDataDir' => cacheDir(),
                     ]
                 );
             }
         );
 
-        $this->data = require dataFolder('fixtures/metadata/robots.php');
+        $this->data = require dataDir('fixtures/metadata/robots.php');
     }
 
     /**
@@ -67,20 +67,20 @@ class ConstructCest
 
         Robots::findFirst();
 
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheDir());
 
         $I->seeFileFound('meta-phalcon_test_models_robots-robots.php');
 
         $I->assertEquals(
             $this->data['meta-robots-robots'],
-            require cacheFolder('meta-phalcon_test_models_robots-robots.php')
+            require cacheDir('meta-phalcon_test_models_robots-robots.php')
         );
 
         $I->seeFileFound('map-phalcon_test_models_robots.php');
 
         $I->assertEquals(
             $this->data['map-robots'],
-            require cacheFolder('map-phalcon_test_models_robots.php')
+            require cacheDir('map-phalcon_test_models_robots.php')
         );
 
         $I->assertFalse($md->isEmpty());

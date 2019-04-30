@@ -35,7 +35,7 @@ class IsWritableCest
     public function httpMessageStreamIsWritable(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Message\Stream - isWritable() - ' . $example[0]);
-        $fileName = dataFolder('/assets/stream/bill-of-rights-empty.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights-empty.txt');
         $stream   = new Stream($fileName, $example[0]);
         $I->assertEquals($example[1], $stream->isWritable());
     }
@@ -55,7 +55,7 @@ class IsWritableCest
     {
         $I->wantToTest('Http\Message\Stream - isWritable() with "x" - ' . $example[0]);
         $fileName = $I->getNewFileName();
-        $fileName = outputFolder('tests/stream/' . $fileName);
+        $fileName = outputDir('tests/stream/' . $fileName);
         $stream   = new Stream($fileName, $example[0]);
         $I->assertEquals($example[1], $stream->isWritable());
     }

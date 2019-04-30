@@ -28,10 +28,7 @@ class MemoryCest
     public function testAclWildcardAllowDeny(UnitTester $I)
     {
         $acl = new Memory();
-
-        $acl->setDefaultAction(
-            Acl::DENY
-        );
+        $acl->setDefaultAction(Acl::DENY);
 
         $aclRoles = [
             'Admin'  => new Role('Admin'),
@@ -49,26 +46,19 @@ class MemoryCest
         }
 
         foreach ($aclComponents as $component => $actions) {
-            $acl->addComponent(
-                new Component($component),
-                $actions
-            );
+            $acl->addComponent(new Component($component), $actions);
         }
-
         $acl->allow("*", "welcome", "index");
 
         foreach ($aclRoles as $Role => $object) {
-            $I->assertTrue(
-                $acl->isAllowed($Role, 'welcome', 'index')
-            );
+            $actual = $acl->isAllowed($Role, 'welcome', 'index');
+            $I->assertTrue($actual);
         }
 
         $acl->deny("*", "welcome", "index");
-
         foreach ($aclRoles as $Role => $object) {
-            $I->assertFalse(
-                $acl->isAllowed($Role, 'welcome', 'index')
-            );
+            $actual = $acl->isAllowed($Role, 'welcome', 'index');
+            $I->assertFalse($actual);
         }
     }
 
@@ -84,9 +74,7 @@ class MemoryCest
         $aclRole = new Role('Administrators', 'Super User access');
         $aclComponent   = new Component('Customers', 'Customer management');
 
-        $acl->setDefaultAction(
-            Acl::DENY
-        );
+        $acl->setDefaultAction(Acl::DENY);
 
         $acl->addRole($aclRole);
         $acl->addComponent($aclComponent, ['search', 'destroy']);
@@ -102,24 +90,17 @@ class MemoryCest
         $aclRole = new Role('Administrators', 'Super User access');
         $aclComponent   = new Component('Customers', 'Customer management');
 
-        $acl->setDefaultAction(
-            Acl::DENY
-        );
+        $acl->setDefaultAction(Acl::DENY);
 
         $acl->addRole($aclRole);
-
-        $acl->addComponent(
-            $aclComponent,
-            ['search', 'destroy']
-        );
+        $acl->addComponent($aclComponent, ['search', 'destroy']);
 
         $acl->allow('Administrators', 'Customers', 'search');
         $acl->deny('Administrators', 'Customers', 'destroy');
 
-        $I->assertEquals(
-            Acl::DENY,
-            $acl->isAllowed('Administrators', 'Customers', 'destroy')
-        );
+        $expected = Acl::DENY;
+        $actual   = $acl->isAllowed('Administrators', 'Customers', 'destroy');
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -143,18 +124,13 @@ class MemoryCest
         $acl->deny('Administrators', 'Customers', 'destroy');
 
         $contents = serialize($acl);
-        file_put_contents(
-            cacheFolder($filename),
-            $contents
-        );
+        file_put_contents(cacheDir($filename), $contents);
 
         $acl = null;
 
-        $contents = file_get_contents(
-            cacheFolder($filename)
-        );
+        $contents = file_get_contents(cacheDir($filename));
 
-        $I->safeDeleteFile(cacheFolder($filename));
+        $I->safeDeleteFile(cacheDir($filename));
 
         $acl    = unserialize($contents);
         $actual = ($acl instanceof Memory);

@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
+use function getOptionsLibmemcached;
 
 /**
  * Class GetPrefixCest
@@ -36,7 +37,7 @@ class GetPrefixCest
         $I->wantToTest('Storage\Adapter\Libmemcached - getPrefix()');
         $adapter = new Libmemcached(
             array_merge(
-                $this->getOptions(),
+                getOptionsLibmemcached(),
                 [
                     'prefix' => 'my-prefix',
                 ]

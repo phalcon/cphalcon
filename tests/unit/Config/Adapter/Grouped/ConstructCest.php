@@ -16,7 +16,7 @@ use Phalcon\Config\Adapter\Grouped;
 use Phalcon\Factory\Exception;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
 class ConstructCest
 {
@@ -34,9 +34,9 @@ class ConstructCest
         $this->config["test"]["property2"] = "something-else";
 
         $config = [
-            dataFolder('assets/config/config.php'),
+            dataDir('assets/config/config.php'),
             [
-                'filePath' => dataFolder('assets/config/config.json'),
+                'filePath' => dataDir('assets/config/config.json'),
                 'adapter'  => 'json',
             ],
             [

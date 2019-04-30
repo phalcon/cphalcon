@@ -32,7 +32,7 @@ class CreateStreamFromResourceCest
     public function httpMessageStreamFactoryCreateStreamFromResource(UnitTester $I)
     {
         $I->wantToTest('Http\Message\StreamFactory - createStreamFromResource()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $expected = file_get_contents($fileName);
         $resource = fopen($fileName, 'r+b');
 

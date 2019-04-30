@@ -44,7 +44,7 @@ class OpenCest
     {
         $I->wantToTest('Session\Adapter\Stream - open()');
         $adapter = $this->getSessionStream();
-        $actual  = $adapter->open(cacheFolder(), 'test1');
+        $actual  = $adapter->open(cacheDir(), 'test1');
         $I->assertTrue($actual);
     }
 }

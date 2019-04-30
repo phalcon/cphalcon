@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Storage\Serializer\Php;
+namespace Phalcon\Test\Unit\Storage\Unserializer\Php;
 
 use Codeception\Example;
 use Phalcon\Storage\Serializer\Php;
@@ -23,7 +23,7 @@ use UnitTester;
 class UnserializeCest
 {
     /**
-     * Tests Phalcon\Storage\Serializer\Php :: unserialize()
+     * Tests Phalcon\Storage\Unserializer\Php :: unserialize()
      *
      * @dataProvider getExamples
      *
@@ -35,13 +35,12 @@ class UnserializeCest
      */
     public function storageSerializerPhpUnserialize(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Storage\Serializer\Php - unserialize() - ' . $example[0]);
+        $I->wantToTest('Storage\Unserializer\Php - unserialize() - ' . $example[0]);
         $serializer = new Php();
-        $serialized = serialize($example[1]);
-        $serializer->unserialize($serialized);
 
         $expected = $example[1];
-        $actual   = $serializer->getData();
+        $serializer->unserialize($example[2]);
+        $actual = $serializer->getData();
         $I->assertEquals($expected, $actual);
     }
 
@@ -52,24 +51,44 @@ class UnserializeCest
     {
         return [
             [
+                'null',
+                null,
+                null,
+            ],
+            [
+                'true',
+                true,
+                true,
+            ],
+            [
+                'false',
+                false,
+                false,
+            ],
+            [
                 'integer',
+                1234,
                 1234,
             ],
             [
                 'float',
                 1.234,
+                1.234,
             ],
             [
                 'string',
                 'Phalcon Framework',
+                serialize('Phalcon Framework'),
             ],
             [
                 'array',
                 ['Phalcon Framework'],
+                serialize(['Phalcon Framework']),
             ],
             [
                 'object',
                 new stdClass(),
+                serialize(new stdClass()),
             ],
         ];
     }

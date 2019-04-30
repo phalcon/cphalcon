@@ -15,7 +15,7 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
-use function outputFolder;
+use function outputDir;
 
 class SaveCest
 {
@@ -30,23 +30,12 @@ class SaveCest
     public function imageAdapterImagickSave(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - save()');
-
-        $image = new Imagick(
-            outputFolder('tests/image/imagick/new.jpg'),
-            100,
-            100
-        );
-
+        $image = new Imagick(outputDir('tests/image/imagick/new.jpg'), 100, 100);
         $image->setResourceLimit(6, 1);
-
         $image->save();
 
-        $I->amInPath(
-            outputFolder('tests/image/imagick/')
-        );
-
+        $I->amInPath(outputDir('tests/image/imagick/'));
         $I->seeFileFound('new.jpg');
-
         $I->safeDeleteFile('new.jpg');
     }
 }

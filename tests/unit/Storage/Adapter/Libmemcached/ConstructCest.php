@@ -12,10 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 
+use DateInterval;
 use Phalcon\Storage\Adapter\AdapterInterface;
-use Phalcon\Storage\Adapter\Libmemcached;
+use Phalcon\Test\Fixtures\Storage\Adapter\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
+use function getOptionsLibmemcached;
 
 /**
  * Class ConstructCest
@@ -35,12 +37,69 @@ class ConstructCest
     public function storageAdapterLibmemcachedConstruct(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - __construct()');
-        $adapter = new Libmemcached($this->getOptions());
+        $adapter = new Libmemcached(getOptionsLibmemcached());
 
         $class = Libmemcached::class;
         $I->assertInstanceOf($class, $adapter);
 
         $class = AdapterInterface::class;
         $I->assertInstanceOf($class, $adapter);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Libmemcached :: __construct() - empty
+     * options
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-04-09
+     */
+    public function storageAdapterLibmemcachedConstructEmptyOptions(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Libmemcached - __construct() - empty options');
+        $adapter = new Libmemcached();
+
+        $expected = [
+            'servers' => [
+                0 => [
+                    "host"   => "127.0.0.1",
+                    "port"   => 11211,
+                    "weight" => 1,
+                ],
+            ],
+        ];
+        $actual   = $adapter->getOptions();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Libmemcached :: __construct() - getTtl
+     * options
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-04-09
+     *
+     * @throws \Exception
+     */
+    public function storageAdapterLibmemcachedConstructGetTtl(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Libmemcached - __construct() - getTtl');
+        $adapter = new Libmemcached();
+
+        $expected = 3600;
+        $actual   = $adapter->getTtl(null);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 20;
+        $actual   = $adapter->getTtl(20);
+        $I->assertEquals($expected, $actual);
+
+        $time = new DateInterval('PT5S');
+        $expected = 5;
+        $actual   = $adapter->getTtl($time);
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -14,9 +14,13 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Redis;
 
 use Codeception\Example;
 use Phalcon\Storage\Adapter\Redis;
+use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use stdClass;
+use function uniqid;
 use UnitTester;
+use function array_merge;
+use function getOptionsRedis;
 
 /**
  * Class GetSetCest
@@ -33,13 +37,15 @@ class GetSetCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @throws Exception
      * @since        2019-03-31
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
      */
     public function storageAdapterRedisGetSet(UnitTester $I, Example $example)
     {
         $I->wantToTest('Storage\Adapter\Redis - get()/set() - ' . $example[0]);
-        $adapter = new Redis($this->getOptions());
+        $adapter = new Redis(getOptionsRedis());
 
         $key = 'cache-data';
 
@@ -49,6 +55,124 @@ class GetSetCest
         $expected = $example[1];
         $actual   = $adapter->get($key);
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Redis :: get() - persistent
+     *
+     * @param UnitTester $I
+     *
+     * @since  2019-03-31
+     * @author Phalcon Team <team@phalconphp.com>
+     *
+     * @throws Exception
+     */
+    public function storageAdapterRedisGetSetPersistent(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Redis - get()/set() - persistent');
+        $adapter = new Redis(
+            array_merge(
+                getOptionsRedis(),
+                [
+                    'persistent' => true,
+                ]
+            )
+        );
+
+        $key = uniqid();
+        $result = $adapter->set($key, 'test');
+        $I->assertTrue($result);
+
+        $expected = 'test';
+        $actual   = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Redis :: get() - wrong index
+     *
+     * @param UnitTester $I
+     *
+     * @since  2019-03-31
+     * @author Phalcon Team <team@phalconphp.com>
+     */
+    public function storageAdapterRedisGetSetWrongIndex(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Redis - get()/set() - wrong index');
+        $I->expectThrowable(
+            new Exception('Redis server selected database failed'),
+            function () {
+                $adapter = new Redis(
+                    array_merge(
+                        getOptionsRedis(),
+                        [
+                            'index' => 99,
+                        ]
+                    )
+                );
+
+                $adapter->get('test');
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Redis :: get() - failed auth
+     *
+     * @param UnitTester $I
+     *
+     * @since  2019-03-31
+     * @author Phalcon Team <team@phalconphp.com>
+     */
+    public function storageAdapterRedisGetSetFailedAuth(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Redis - get()/set() - failed auth');
+        $I->expectThrowable(
+            new Exception('Failed to authenticate with the Redis server'),
+            function () {
+                $adapter = new Redis(
+                    array_merge(
+                        getOptionsRedis(),
+                        [
+                            'auth' => 'something',
+                        ]
+                    )
+                );
+
+                $adapter->get('test');
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Redis :: get()/set() - custom serializer
+     *
+     * @param UnitTester $I
+     *
+     * @throws Exception
+     * @since  2019-04-29
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     */
+    public function storageAdapterRedisGetSetCustomSerializer(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Redis - get()/set() - custom serializer');
+        $adapter = new Redis(
+            array_merge(
+                getOptionsRedis(),
+                [
+                    'defaultSerializer' => 'Base64',
+                ]
+            )
+        );
+
+        $key    = 'cache-data';
+        $source = 'Phalcon Framework';
+        $result = $adapter->set($key, $source);
+        $I->assertTrue($result);
+
+        $actual = $adapter->get($key);
+        $I->assertEquals($source, $actual);
     }
 
     /**

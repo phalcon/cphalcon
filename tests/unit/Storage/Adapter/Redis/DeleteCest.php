@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
+use function getOptionsRedis;
 
 /**
  * Class DeleteCest
@@ -34,7 +35,7 @@ class DeleteCest
     public function storageAdapterRedisDelete(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Redis - delete()');
-        $adapter = new Redis($this->getOptions());
+        $adapter = new Redis(getOptionsRedis());
 
         $key = 'cache-data';
         $adapter->set($key, 'test');

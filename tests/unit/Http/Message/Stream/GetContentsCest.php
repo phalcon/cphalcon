@@ -32,7 +32,7 @@ class GetContentsCest
     public function httpMessageStreamGetContents(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - getContents()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $expected = file_get_contents($fileName);
         $stream   = new Stream($fileName, 'rb');
 
@@ -51,7 +51,7 @@ class GetContentsCest
     public function httpMessageStreamGetContentsFromPosition(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - getContents() - from position');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $stream   = new Stream($fileName, 'rb');
 
         $stream->seek(2169);
@@ -79,7 +79,7 @@ class GetContentsCest
                 'The resource is not readable.'
             ),
             function () {
-                $fileName = dataFolder('/assets/stream/bill-of-rights-empty.txt');
+                $fileName = dataDir('/assets/stream/bill-of-rights-empty.txt');
                 $stream   = new Stream($fileName, 'wb');
 
                 $actual = $stream->getContents();

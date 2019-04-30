@@ -143,6 +143,6 @@ class ReflectionCest
      */
     protected function _before(UnitTester $I)
     {
-        require_once dataFolder('fixtures/Annotations/TestClass.php');
+        require_once dataDir('fixtures/Annotations/TestClass.php');
     }
 }

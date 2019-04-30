@@ -155,8 +155,8 @@ class FilterCest
         $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
-        $sourceFile = dataFolder('/assets/assets/cssmin-01.css');
-        $targetFile = dataFolder('/assets/assets/cssmin-01-result.css');
+        $sourceFile = dataDir('/assets/assets/cssmin-01.css');
+        $targetFile = dataDir('/assets/assets/cssmin-01-result.css');
 
         $I->assertFileExists($sourceFile);
         $I->assertFileExists($targetFile);

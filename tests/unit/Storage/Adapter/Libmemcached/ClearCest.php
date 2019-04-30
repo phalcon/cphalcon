@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
+use function getOptionsLibmemcached;
 
 /**
  * Class ClearCest
@@ -34,7 +35,7 @@ class ClearCest
     public function storageAdapterLibmemcachedClear(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - clear()');
-        $adapter = new Libmemcached($this->getOptions());
+        $adapter = new Libmemcached(getOptionsLibmemcached());
 
         $key1 = uniqid();
         $key2 = uniqid();

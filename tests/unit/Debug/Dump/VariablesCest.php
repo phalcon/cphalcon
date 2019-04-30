@@ -15,7 +15,7 @@ namespace Phalcon\Test\Unit\Debug\Dump;
 use Phalcon\Debug\Dump;
 use stdClass;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 use function file_get_contents;
 
 class VariablesCest
@@ -34,7 +34,7 @@ class VariablesCest
         $test3 = new stdClass();
         $dump  = new Dump();
 
-        $expected = trim(file_get_contents(dataFolder('fixtures/Dump/variables_output.txt')));
+        $expected = trim(file_get_contents(dataDir('fixtures/Dump/variables_output.txt')));
         $actual   = $dump->variables($test1, $test2, $test3);
         $I->assertEquals($expected, $actual);
     }

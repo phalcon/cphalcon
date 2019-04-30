@@ -49,7 +49,7 @@ class ComplexCest
 
         $cache->save('test-resultset', $robots);
 
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheDir());
         $I->seeFileFound('test-resultset');
 
         $robots = $cache->get('test-resultset');
@@ -59,7 +59,7 @@ class ComplexCest
         $I->assertEquals(3, $robots->count());
 
         $cache->delete('test-resultset');
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheDir());
         $I->dontSeeFileFound('test-resultset');
     }
 

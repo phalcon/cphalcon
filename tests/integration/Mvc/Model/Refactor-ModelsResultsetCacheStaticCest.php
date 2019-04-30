@@ -8,7 +8,7 @@ use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Cacheable\Parts;
 use Phalcon\Test\Models\Cacheable\Robots;
-use function cacheFolder;
+use function cacheDir;
 
 class ModelsResultsetCacheStaticCest
 {
@@ -17,7 +17,7 @@ class ModelsResultsetCacheStaticCest
     public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
-        $I->cleanDir(cacheFolder());
+        $I->cleanDir(cacheDir());
     }
 
     public function testOverrideStaticCache(IntegrationTester $I)
@@ -29,7 +29,7 @@ class ModelsResultsetCacheStaticCest
             return new File(
                 $frontCache,
                 [
-                    'cacheDir' => cacheFolder(),
+                    'cacheDir' => cacheDir(),
                 ]
             );
         };

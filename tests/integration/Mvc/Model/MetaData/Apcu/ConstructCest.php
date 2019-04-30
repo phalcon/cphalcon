@@ -14,7 +14,7 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Apcu;
 
 use function apcu_clear_cache;
 use function apcu_fetch;
-use function dataFolder;
+use function dataDir;
 use IntegrationTester;
 use function json_encode;
 use Phalcon\Mvc\Model\MetaData\Apcu;
@@ -49,7 +49,7 @@ class ConstructCest
             }
         );
 
-        $this->data = require dataFolder('fixtures/metadata/robots.php');
+        $this->data = require dataDir('fixtures/metadata/robots.php');
         apcu_clear_cache();
     }
 

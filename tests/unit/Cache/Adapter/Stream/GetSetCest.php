@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Cache\Adapter\Stream;
 
 use Phalcon\Cache\Adapter\Stream;
 use UnitTester;
-use function outputFolder;
+use function outputDir;
 
 /**
  * Class GetSetCest
@@ -33,13 +33,13 @@ class GetSetCest
     {
         $I->wantToTest('Cache\Adapter\Stream - get()/set()');
 
-        $adapter = new Stream(['cacheDir' => outputFolder()]);
+        $adapter = new Stream(['cacheDir' => outputDir()]);
 
         $data   = 'Phalcon Framework';
         $result = $adapter->set('test-key', $data);
         $I->assertTrue($result);
 
-        $target = outputFolder() . 'phstrm-/te/st/-k/';
+        $target = outputDir() . 'phstrm-/te/st/-k/';
         $I->amInPath($target);
         $I->openFile('test-key');
         $expected = '"ttl":3600,"content":"s:17:\"Phalcon Framework\";';
@@ -59,9 +59,9 @@ class GetSetCest
     {
         $I->wantToTest('Cache\Adapter\Stream - get()/set()');
 
-        $adapter = new Stream(['cacheDir' => outputFolder()]);
+        $adapter = new Stream(['cacheDir' => outputDir()]);
 
-        $target = outputFolder() . 'phstrm-/te/st/-k/';
+        $target = outputDir() . 'phstrm-/te/st/-k/';
         $data   = 'Phalcon Framework';
         $result = $adapter->set('test-key', $data);
         $I->assertTrue($result);

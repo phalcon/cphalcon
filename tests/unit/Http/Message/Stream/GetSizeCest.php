@@ -31,7 +31,7 @@ class GetSizeCest
     public function httpMessageStreamGetSize(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - getSize()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $expected = filesize($fileName);
         $stream   = new Stream($fileName, 'rb');
         $actual   = $stream->getSize();

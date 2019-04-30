@@ -13,7 +13,7 @@ namespace Phalcon\Test\Unit\Translate\Adapter;
 
 use Phalcon\Translate\Adapter\Gettext;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
 class GettextCest
 {
@@ -43,7 +43,7 @@ class GettextCest
             [
                 'locale'        => 'en_US.utf8',
                 'defaultDomain' => 'messages',
-                'directory'     => dataFolder('assets/translation/gettext'),
+                'directory'     => dataDir('assets/translation/gettext'),
                 'category'      => LC_MESSAGES,
             ]
         );
@@ -74,7 +74,7 @@ class GettextCest
             [
                 'locale'        => 'en_US.utf8',
                 'defaultDomain' => 'messages',
-                'directory'     => dataFolder('assets/translation/gettext'),
+                'directory'     => dataDir('assets/translation/gettext'),
                 'category'      => LC_MESSAGES,
             ]
         );
@@ -109,7 +109,7 @@ class GettextCest
             [
                 'locale'        => 'en_US.utf8',
                 'defaultDomain' => 'messages',
-                'directory'     => dataFolder('assets/translation/gettext'),
+                'directory'     => dataDir('assets/translation/gettext'),
                 'category'      => LC_MESSAGES,
             ]
         );

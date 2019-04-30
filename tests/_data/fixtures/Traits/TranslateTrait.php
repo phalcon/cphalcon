@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Traits;
 
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
 /**
  * @package Phalcon\Test\Fixtures\Traits
@@ -64,7 +64,7 @@ trait TranslateTrait
     {
         return [
             'ru' => [
-                'content' => dataFolder('assets/translation/csv/ru_RU.csv'),
+                'content' => dataDir('assets/translation/csv/ru_RU.csv'),
             ],
         ];
     }
@@ -74,7 +74,7 @@ trait TranslateTrait
         return [
             'locale'        => 'en_US.utf8',
             'defaultDomain' => 'messages',
-            'directory'     => dataFolder('assets/translation/gettext'),
+            'directory'     => dataDir('assets/translation/gettext'),
             'category'      => LC_MESSAGES,
         ];
     }

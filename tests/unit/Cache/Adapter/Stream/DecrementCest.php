@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Stream;
 
-use function outputFolder;
+use function outputDir;
 use Phalcon\Cache\Adapter\Stream;
 use UnitTester;
 
@@ -32,7 +32,7 @@ class DecrementCest
     public function storageAdapterStreamDecrement(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - decrement()');
-        $adapter = new Stream(['cacheDir' => outputFolder()]);
+        $adapter = new Stream(['cacheDir' => outputDir()]);
 
         $key    = 'cache-data';
         $result = $adapter->set($key, 100);

@@ -13,8 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 
 use Phalcon\Storage\Adapter\Libmemcached;
+use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
+use function getOptionsLibmemcached;
 
 /**
  * Class DecrementCest
@@ -28,13 +30,15 @@ class DecrementCest
      *
      * @param UnitTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws Exception
      * @since  2019-03-31
+     *
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function storageAdapterLibmemcachedDecrement(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - decrement()');
-        $adapter = new Libmemcached($this->getOptions());
+        $adapter = new Libmemcached(getOptionsLibmemcached());
 
         $key    = 'cache-data';
         $result = $adapter->set($key, 100);
@@ -53,5 +57,12 @@ class DecrementCest
 
         $actual = $adapter->get($key);
         $I->assertEquals($expected, $actual);
+
+        /**
+         * unknown key
+         */
+        $key    = 'unknown';
+        $result = $adapter->decrement($key);
+        $I->assertFalse($result);
     }
 }
