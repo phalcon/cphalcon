@@ -36,7 +36,7 @@ class ComplexCest
      */
     public function shouldLoadResultsetFromCacheByUsingPhqlFile(IntegrationTester $I)
     {
-        $cache   = $this->getAndSetModelsCacheFile();
+        $cache   = $this->getAndSetModelsCacheStream();
         $manager = $this->container->get('modelsManager');
 
         $robots = $manager->executeQuery(
@@ -65,7 +65,7 @@ class ComplexCest
 
     public function shouldLoadResultsetFromCacheByUsingPhqlLibmemcached(IntegrationTester $I)
     {
-        $cache   = $this->getAndSetModelsCacheFileLibmemcached();
+        $cache   = $this->getAndSetModelsCacheLibmemcached();
         $manager = $this->container->get('modelsManager');
 
         $robots = $manager->executeQuery(
