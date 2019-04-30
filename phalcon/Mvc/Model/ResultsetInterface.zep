@@ -10,9 +10,9 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\ModelInterface;
+use Phalcon\Storage\Adapter\AdapterInterface;
 
 /**
  * Phalcon\Mvc\Model\ResultsetInterface
@@ -44,7 +44,7 @@ interface ResultsetInterface
     /**
      * Returns the associated cache for the resultset
      */
-    public function getCache() -> <BackendInterface>;
+    public function getCache() -> <AdapterInterface>;
 
     /**
      * Get first row in the resultset

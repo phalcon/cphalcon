@@ -15,11 +15,12 @@ use Phalcon\Mvc\Model\Row;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Exception;
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\DiInterface;
 use Phalcon\Di;
 use Phalcon\Cache\FrontendInterface;
+use Phalcon\Storage\Adapter\AdapterInterface;
+use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Complex
@@ -41,7 +42,11 @@ class Complex extends Resultset implements ResultsetInterface
      *
      * @param array columnTypes
      */
-    public function __construct(var columnTypes, <ResultInterface> result = null, <BackendInterface> cache = null) -> void
+    public function __construct(
+        var columnTypes,
+        <ResultInterface> result = null,
+        <AdapterInterface> cache = null
+    ) -> void
     {
         /**
          * Column types, tell the resultset how to build the result
@@ -277,7 +282,7 @@ class Complex extends Resultset implements ResultsetInterface
          */
         let records = this->toArray();
 
-        let cache = this->cache,
+        let cache       = this->cache,
             columnTypes = this->columnTypes,
             hydrateMode = this->hydrateMode;
 
@@ -288,9 +293,8 @@ class Complex extends Resultset implements ResultsetInterface
         }
 
         if container->has("serializer") {
-            let serializer = <FrontendInterface> container->getShared("serializer");
-
-            return serializer->beforeStore(
+            let serializer = <SerializerInterface> container->getShared("serializer");
+            serializer->setData(
                 [
                     "cache"       : cache,
                     "rows"        : records,
@@ -298,6 +302,7 @@ class Complex extends Resultset implements ResultsetInterface
                     "hydrateMode" : hydrateMode
                 ]
             );
+            return serializer->serialize();
         }
 
         return serialize(
@@ -341,9 +346,9 @@ class Complex extends Resultset implements ResultsetInterface
             throw new Exception("Invalid serialization data");
         }
 
-        let this->rows = resultset["rows"],
-            this->count = count(resultset["rows"]),
-            this->cache = resultset["cache"],
+        let this->rows        = resultset["rows"],
+            this->count       = count(resultset["rows"]),
+            this->cache       = resultset["cache"],
             this->columnTypes = resultset["columnTypes"],
             this->hydrateMode = resultset["hydrateMode"];
     }
