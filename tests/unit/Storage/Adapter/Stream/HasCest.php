@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
 use Phalcon\Storage\Adapter\Stream;
 use UnitTester;
-use function outputFolder;
+use function outputDir;
 use function uniqid;
 
 /**
@@ -33,7 +33,7 @@ class HasCest
     public function storageAdapterStreamHas(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - has()');
-        $adapter = new Stream(['cacheDir' => outputFolder()]);
+        $adapter = new Stream(['cacheDir' => outputDir()]);
 
         $key = uniqid();
 

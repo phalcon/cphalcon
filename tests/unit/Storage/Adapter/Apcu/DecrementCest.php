@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Apcu;
 
+use Exception;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use UnitTester;
@@ -28,8 +29,10 @@ class DecrementCest
      *
      * @param UnitTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws Exception
      * @since  2019-03-31
+     *
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function storageAdapterApcuDecrement(UnitTester $I)
     {

@@ -32,7 +32,7 @@ class AllCest
         $test3 = new stdClass();
         $dump  = new Dump();
 
-        $expected = trim(file_get_contents(dataFolder('fixtures/Dump/variables_output.txt')));
+        $expected = trim(file_get_contents(dataDir('fixtures/Dump/variables_output.txt')));
         $actual   = $dump->all($test1, $test2, $test3);
         $I->assertEquals($expected, $actual);
     }

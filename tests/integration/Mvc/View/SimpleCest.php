@@ -3,8 +3,6 @@
 namespace Phalcon\Test\Integration\Mvc\View;
 
 use IntegrationTester;
-use Phalcon\Cache\Backend\File;
-use Phalcon\Cache\Frontend\Output;
 use Phalcon\Di;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Engine\Volt;

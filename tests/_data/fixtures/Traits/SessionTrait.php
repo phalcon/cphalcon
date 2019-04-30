@@ -31,7 +31,7 @@ trait SessionTrait
      */
     protected function getSessionStream(): Stream
     {
-        return new Stream($this->getOptionsSessionStream());
+        return new Stream(getOptionsSessionStream());
     }
 
     /**

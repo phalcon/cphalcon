@@ -29,7 +29,7 @@ class VariableCest
         $test = 'value';
         $dump = new Dump();
 
-        $expected = trim(file_get_contents(dataFolder('fixtures/Dump/variable_output.txt')));
+        $expected = trim(file_get_contents(dataDir('fixtures/Dump/variable_output.txt')));
         $actual   = $dump->variable($test);
         $I->assertEquals($expected, $actual);
     }
@@ -48,7 +48,7 @@ class VariableCest
         $test = 'value';
         $dump = new Dump();
 
-        $expected = trim(file_get_contents(dataFolder('fixtures/Dump/variable_name_output.txt')));
+        $expected = trim(file_get_contents(dataDir('fixtures/Dump/variable_name_output.txt')));
         $actual   = $dump->variable($test, 'super');
         $I->assertEquals($expected, $actual);
     }

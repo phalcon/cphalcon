@@ -29,22 +29,14 @@ class GetNameCest
     public function loggerAdapterStreamGetName(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - getName()');
+        $fileName   = $I->getNewFileName('log', 'log');
+        $outputPath = outputDir('tests/logs/');
+        $adapter    = new Stream($outputPath . $fileName);
 
-        $fileName = $I->getNewFileName('log', 'log');
+        $expected = $outputPath . $fileName;
+        $actual   = $adapter->getName();
+        $I->assertEquals($expected, $actual);
 
-        $outputPath = outputFolder('tests/logs/');
-
-        $adapter = new Stream(
-            $outputPath . $fileName
-        );
-
-        $I->assertEquals(
-            $outputPath . $fileName,
-            $adapter->getName()
-        );
-
-        $I->safeDeleteFile(
-            $outputPath . $fileName
-        );
+        $I->safeDeleteFile($outputPath . $fileName);
     }
 }

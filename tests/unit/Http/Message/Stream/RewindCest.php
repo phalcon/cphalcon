@@ -32,7 +32,7 @@ class RewindCest
     public function httpMessageStreamRewind(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - rewind()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $stream   = new Stream($fileName);
 
         $stream->seek(10);
@@ -62,7 +62,7 @@ class RewindCest
                 'A valid resource is required.'
             ),
             function () {
-                $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+                $fileName = dataDir('/assets/stream/bill-of-rights.txt');
                 $stream   = new Stream($fileName, 'rb');
                 $stream->detach();
 

@@ -31,7 +31,7 @@ class ToStringCest
     public function httpMessageStreamToString(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - __toString()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $expected = file_get_contents($fileName);
         $stream   = new Stream($fileName, 'rb');
 

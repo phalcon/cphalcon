@@ -13,16 +13,16 @@ namespace Phalcon\Test\Unit\Annotations\Adapter;
 
 use Phalcon\Annotations\Adapter\Files;
 use UnitTester;
-use function outputFolder;
+use function outputDir;
 
 class FilesCest
 {
     public function testFilesAdapter(UnitTester $I)
     {
-        require_once dataFolder('fixtures/Annotations/TestClass.php');
-        require_once dataFolder('fixtures/Annotations/TestClassNs.php');
+        require_once dataDir('fixtures/Annotations/TestClass.php');
+        require_once dataDir('fixtures/Annotations/TestClassNs.php');
 
-        $adapter = new Files(['annotationsDir' => outputFolder('tests/annotations/')]);
+        $adapter = new Files(['annotationsDir' => outputDir('tests/annotations/')]);
 
         $classAnnotations = $adapter->get('TestClass');
         $I->assertInternalType('object', $classAnnotations);
@@ -46,7 +46,7 @@ class FilesCest
 
         unset($adapter);
 
-        $I->amInPath(outputFolder('tests/annotations/'));
+        $I->amInPath(outputDir('tests/annotations/'));
 
         $I->safeDeleteFile('testclass.php');
         $I->safeDeleteFile('user_testclassns.php');

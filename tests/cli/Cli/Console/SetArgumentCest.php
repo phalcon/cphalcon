@@ -37,10 +37,8 @@ class SetArgumentCest
      */
     public function cliConsoleSetArgument(CliTester $I)
     {
-        require_once dataFolder('fixtures/tasks/MainTask.php');
-
+        require_once dataDir('fixtures/tasks/MainTask.php');
         $I->wantToTest("Cli\Console - setArgument()");
-
         $this->setNewCliFactoryDefault();
 
         $this->container->setShared(
@@ -53,47 +51,22 @@ class SetArgumentCest
         );
 
         $console = $this->newCliConsole();
-
-        $console->setDI(
-            $this->container
-        );
+        $console->setDI($this->container);
 
         $dispatcher = $this->container->getShared("dispatcher");
-
-        $console->setArgument(
-            [
-                "php",
-                "--foo=bar",
-                "-bar",
-                "main",
-                "hello",
-                "a",
-                "B",
-            ]
-        )->handle();
-
-        $I->assertEquals(
+        $console->setArgument([
+            "php",
+            "--foo=bar",
+            "-bar",
             "main",
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
             "hello",
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            ["a", "B"],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            [
-                "foo" => "bar",
-                "bar" => true,
-            ],
-            $dispatcher->getOptions()
-        );
+            "a",
+            "B"
+        ])->handle();
+        $I->assertEquals("main", $dispatcher->getTaskName());
+        $I->assertEquals("hello", $dispatcher->getActionName());
+        $I->assertEquals(["a", "B"], $dispatcher->getParams());
+        $I->assertEquals(["foo" => "bar", "bar" => true], $dispatcher->getOptions());
     }
 
     public function testArgumentArray(CliTester $I)

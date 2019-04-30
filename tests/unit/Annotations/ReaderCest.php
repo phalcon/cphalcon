@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Annotations;
 use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Reader;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 use function file_exists;
 
 class ReaderCest
@@ -45,11 +45,11 @@ class ReaderCest
      */
     public function testParseWithInvalidAnnotation(UnitTester $I)
     {
-        $includeFile = dataFolder('fixtures/Annotations/TestInvalid.php');
+        $includeFile = dataDir('fixtures/Annotations/TestInvalid.php');
         $I->assertTrue(file_exists($includeFile));
         require_once $includeFile;
 
-        $file = dataFolder('fixtures/Annotations/TestInvalid.php');
+        $file = dataDir('fixtures/Annotations/TestInvalid.php');
         $I->expectThrowable(
             new Exception('Syntax error, unexpected EOF in ' . $file),
             function () {
@@ -67,7 +67,7 @@ class ReaderCest
      */
     public function testReaderParse(UnitTester $I)
     {
-        $includeFile = dataFolder('fixtures/Annotations/TestClass.php');
+        $includeFile = dataDir('fixtures/Annotations/TestClass.php');
         $I->assertTrue(file_exists($includeFile));
         require_once $includeFile;
 

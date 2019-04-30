@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
+use function getOptionsLibmemcached;
 
 /**
  * Class DeleteCest
@@ -34,7 +35,7 @@ class DeleteCest
     public function storageAdapterLibmemcachedDelete(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - delete()');
-        $adapter = new Libmemcached($this->getOptions());
+        $adapter = new Libmemcached(getOptionsLibmemcached());
 
         $key = 'cache-data';
         $adapter->set($key, 'test');

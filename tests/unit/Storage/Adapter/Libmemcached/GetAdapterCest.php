@@ -16,6 +16,7 @@ use Memcached;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
+use function getOptionsLibmemcached;
 
 /**
  * Class GetAdapterCest
@@ -35,7 +36,7 @@ class GetAdapterCest
     public function storageAdapterLibmemcachedGetAdapter(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - getAdapter()');
-        $adapter = new Libmemcached($this->getOptions());
+        $adapter = new Libmemcached(getOptionsLibmemcached());
 
         $class  = Memcached::class;
         $actual = $adapter->getAdapter();

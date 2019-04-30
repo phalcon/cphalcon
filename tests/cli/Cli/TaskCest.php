@@ -29,8 +29,8 @@ class TaskCest
         /**
          * @todo Check the loader
          */
-        require_once dataFolder('fixtures/tasks/EchoTask.php');
-        require_once dataFolder('fixtures/tasks/MainTask.php');
+        require_once dataDir('fixtures/tasks/EchoTask.php');
+        require_once dataDir('fixtures/tasks/MainTask.php');
         
         $this->container["registry"] = function () {
             $registry = new Registry();

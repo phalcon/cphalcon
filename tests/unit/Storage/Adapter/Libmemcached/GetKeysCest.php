@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
+use function getOptionsLibmemcached;
 
 /**
  * Class GetKeysCest
@@ -34,7 +35,10 @@ class GetKeysCest
     public function storageAdapterLibmemcachedGetKeys(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - getKeys()');
-        $adapter = new Libmemcached($this->getOptions());
+        $adapter = new Libmemcached(getOptionsLibmemcached());
+
+        $actual = $adapter->clear();
+        $I->assertTrue($actual);
 
         $key = 'key-1';
         $adapter->set($key, 'test');

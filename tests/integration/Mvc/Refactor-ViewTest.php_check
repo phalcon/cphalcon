@@ -689,7 +689,7 @@ class ViewTest extends IntegrationTest
         $backendCache = new BackendCache(
             $frontendCache,
             array(
-                'cacheDir' => cacheFolder()
+                'cacheDir' => cacheDir()
             )
         );
 

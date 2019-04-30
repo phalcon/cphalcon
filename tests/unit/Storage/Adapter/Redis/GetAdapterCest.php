@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
+use function getOptionsRedis;
 
 /**
  * Class GetAdapterCest
@@ -34,7 +35,7 @@ class GetAdapterCest
     public function storageAdapterRedisGetAdapter(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Redis - getAdapter()');
-        $adapter = new Redis($this->getOptions());
+        $adapter = new Redis(getOptionsRedis());
 
         $class  = \Redis::class;
         $actual = $adapter->getAdapter();

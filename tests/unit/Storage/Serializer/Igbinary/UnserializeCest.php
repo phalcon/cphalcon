@@ -37,7 +37,7 @@ class UnserializeCest
     {
         $I->wantToTest('Storage\Serializer\Igbinary - unserialize() - ' . $example[0]);
         $serializer = new Igbinary();
-        $serialized = igbinary_serialize($example[1]);
+        $serialized = \igbinary_serialize($example[1]);
         $serializer->unserialize($serialized);
 
         $expected = $example[1];

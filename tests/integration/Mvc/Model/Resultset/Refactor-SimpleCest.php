@@ -16,7 +16,7 @@ use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\People;
 use Phalcon\Test\Models\Robots;
-use function cacheFolder;
+use function cacheDir;
 
 class SimpleCest
 {
@@ -26,7 +26,7 @@ class SimpleCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
-        $I->cleanDir(cacheFolder());
+        $I->cleanDir(cacheDir());
     }
 
     /**
@@ -49,7 +49,7 @@ class SimpleCest
 
         $cache->save('test-resultset', $robots);
 
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheDir());
         $I->seeFileFound('test-resultset');
 
         $robots = $cache->get('test-resultset');
@@ -59,7 +59,7 @@ class SimpleCest
         $I->assertEquals($robots->count(), 3);
 
         $cache->delete('test-resultset');
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheDir());
         $I->dontSeeFileFound('test-resultset');
     }
 
@@ -90,7 +90,7 @@ class SimpleCest
 
         $cache->save('test-resultset', $robots);
 
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheDir());
         $I->seeFileFound('test-resultset');
 
         $robots = $cache->get('test-resultset');
@@ -100,7 +100,7 @@ class SimpleCest
         $I->assertEquals($robots->count(), 3);
 
         $cache->delete('test-resultset');
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheDir());
         $I->dontSeeFileFound('test-resultset');
     }
 

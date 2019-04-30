@@ -20,7 +20,7 @@ use Phalcon\Test\Fixtures\Listener\FirstListener;
 use Phalcon\Test\Fixtures\Listener\SecondListener;
 use Phalcon\Test\Fixtures\Listener\ThirdListener;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
 class ManagerCest
 {
@@ -31,8 +31,8 @@ class ManagerCest
      */
     public function _before(UnitTester $I)
     {
-        include_once dataFolder('fixtures/Events/ComponentX.php');
-        include_once dataFolder('fixtures/Events/ComponentY.php');
+        include_once dataDir('fixtures/Events/ComponentX.php');
+        include_once dataDir('fixtures/Events/ComponentY.php');
     }
 
     /**

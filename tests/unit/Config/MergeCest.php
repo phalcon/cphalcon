@@ -31,12 +31,10 @@ class MergeCest
     public function configMergeConfig(UnitTester $I)
     {
         $I->wantToTest("Config - merge() - Config");
-
         $config = $this->getConfig();
 
         $expected = $this->getMergedByConfig();
         $actual   = $config;
-
         $I->assertEquals($expected, $actual);
     }
 
@@ -51,12 +49,10 @@ class MergeCest
     public function configMergeArr(UnitTester $I)
     {
         $I->wantToTest("Config - merge() - array");
-
         $config = $this->getConfig();
 
         $expected = $this->getMergedByArray();
         $actual   = $config;
-
         $I->assertEquals($expected, $actual);
     }
 
@@ -228,10 +224,7 @@ class MergeCest
     private function getMergedByConfig(): Config
     {
         $config = new Config();
-
-        $config->merge(
-            $this->getConfig()
-        );
+        $config->merge($this->getConfig());
 
         return $config;
     }
@@ -244,10 +237,7 @@ class MergeCest
     private function getMergedByArray(): Config
     {
         $config = new Config();
-
-        $config->merge(
-            require dataFolder('assets/config/config.php')
-        );
+        $config->merge(require dataDir('assets/config/config.php'));
 
         return $config;
     }

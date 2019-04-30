@@ -16,7 +16,7 @@ use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\Adapter\AdapterInterface;
 use Phalcon\Storage\Exception;
 use UnitTester;
-use function outputFolder;
+use function outputDir;
 
 /**
  * Class ConstructCest
@@ -34,7 +34,7 @@ class ConstructCest
     public function storageAdapterStreamConstruct(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - __construct()');
-        $adapter = new Stream(['cacheDir' => outputFolder()]);
+        $adapter = new Stream(['cacheDir' => outputDir()]);
 
         $class = Stream::class;
         $I->assertInstanceOf($class, $adapter);

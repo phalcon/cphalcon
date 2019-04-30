@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
 use Phalcon\Storage\Adapter\Stream;
 use UnitTester;
-use function outputFolder;
+use function outputDir;
 
 /**
  * Class DeleteCest
@@ -32,7 +32,7 @@ class DeleteCest
     public function storageAdapterStreamDelete(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - delete()');
-        $adapter = new Stream(['cacheDir' => outputFolder()]);
+        $adapter = new Stream(['cacheDir' => outputDir()]);
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -57,7 +57,7 @@ class DeleteCest
     public function storageAdapterStreamDeleteTwice(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - delete() - twice');
-        $adapter = new Stream(['cacheDir' => outputFolder()]);
+        $adapter = new Stream(['cacheDir' => outputDir()]);
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -82,7 +82,7 @@ class DeleteCest
     public function storageAdapterStreamDeleteUnknown(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - delete() - unknown');
-        $adapter = new Stream(['cacheDir' => outputFolder()]);
+        $adapter = new Stream(['cacheDir' => outputDir()]);
 
         $key    = 'cache-data';
         $actual = $adapter->delete($key);

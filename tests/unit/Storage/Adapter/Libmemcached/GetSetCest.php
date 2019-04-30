@@ -14,9 +14,11 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 
 use Codeception\Example;
 use Phalcon\Storage\Adapter\Libmemcached;
+use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use stdClass;
 use UnitTester;
+use function getOptionsLibmemcached;
 
 /**
  * Class GetSetCest
@@ -26,20 +28,22 @@ class GetSetCest
     use LibmemcachedTrait;
 
     /**
-     * Tests Phalcon\Storage\Adapter\Libmemcached :: get()
+     * Tests Phalcon\Storage\Adapter\Libmemcached :: get()/set()
      *
      * @dataProvider getExamples
      *
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @throws Exception
      * @since        2019-03-31
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
      */
     public function storageAdapterLibmemcachedGetSet(UnitTester $I, Example $example)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - get()/set() - ' . $example[0]);
-        $adapter = new Libmemcached($this->getOptions());
+        $adapter = new Libmemcached(getOptionsLibmemcached());
 
         $key = 'cache-data';
 
@@ -49,6 +53,38 @@ class GetSetCest
         $expected = $example[1];
         $actual   = $adapter->get($key);
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Libmemcached :: get()/set() - custom
+     * serializer
+     *
+     * @param UnitTester $I
+     *
+     * @throws Exception
+     * @since  2019-04-29
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     */
+    public function storageAdapterLibmemcachedGetSetCustomSerializer(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Libmemcached - get()/set() - custom serializer');
+        $adapter = new Libmemcached(
+            array_merge(
+                getOptionsLibmemcached(),
+                [
+                    'defaultSerializer' => 'Base64',
+                ]
+            )
+        );
+
+        $key    = 'cache-data';
+        $source = 'Phalcon Framework';
+        $result = $adapter->set($key, $source);
+        $I->assertTrue($result);
+
+        $actual = $adapter->get($key);
+        $I->assertEquals($source, $actual);
     }
 
     /**
@@ -70,8 +106,16 @@ class GetSetCest
                 123.456,
             ],
             [
-                'boolean',
+                'boolean true',
                 true,
+            ],
+            [
+                'boolean false',
+                false,
+            ],
+            [
+                'null',
+                null,
             ],
             [
                 'object',

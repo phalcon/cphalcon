@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Session\Adapter\Stream;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
-use function cacheFolder;
+use function cacheDir;
 use function file_put_contents;
 use function uniqid;
 
@@ -51,10 +51,10 @@ class DestroyCest
         /**
          * Create a file in the session folder
          */
-        file_put_contents(cacheFolder('test1'), uniqid());
+        file_put_contents(cacheDir('test1'), uniqid());
         $actual = $adapter->destroy('test1');
         $I->assertTrue($actual);
 
-        $I->dontSeeFileFound('test1', cacheFolder());
+        $I->dontSeeFileFound('test1', cacheDir());
     }
 }

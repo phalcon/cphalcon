@@ -46,7 +46,7 @@ class ConstructCest
 
         define('TEST_CONST', 'foo');
 
-        $config = new Ini(dataFolder('assets/config/config-with-constants.ini'), INI_SCANNER_NORMAL);
+        $config = new Ini(dataDir('assets/config/config-with-constants.ini'), INI_SCANNER_NORMAL);
 
         $expected = [
             'test'    => 'foo',

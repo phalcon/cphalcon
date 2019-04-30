@@ -35,7 +35,7 @@ class ConstructCest
         $dump    = new Dump([], true);
 
         $actual   = $I->callProtectedMethod($dump, 'output', $patient);
-        $expected = file_get_contents(dataFolder('fixtures/Dump/class_properties.txt'));
+        $expected = file_get_contents(dataDir('fixtures/Dump/class_properties.txt'));
 
         // Test without HTML
         $actual = strip_tags($actual);

@@ -43,14 +43,8 @@ class OpenCest
     public function sessionAdapterNoopOpen(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Noop - open()');
-
         $adapter = $this->getSessionNoop();
-
-        $I->assertTrue(
-            $adapter->open(
-                cacheFolder(),
-                'test1'
-            )
-        );
+        $actual  = $adapter->open(cacheDir(), 'test1');
+        $I->assertTrue($actual);
     }
 }

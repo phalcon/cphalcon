@@ -20,7 +20,7 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Parts;
 use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\Snapshot\Robots;
-use function outputFolder;
+use function outputDir;
 
 class BuilderCest
 {
@@ -50,7 +50,7 @@ class BuilderCest
                     new Data(
                         ['lifetime' => 20,]
                     ),
-                    ['cacheDir' => outputFolder('tests/cache/')]
+                    ['cacheDir' => outputDir('tests/cache/')]
                 );
             },
             true
@@ -80,7 +80,7 @@ class BuilderCest
             $I->assertInstanceOf(RobotsParts::class, $robotParts);
             $I->assertNotEmpty($robotParts->getSnapshotData());
             $I->assertEquals($robotParts->getSnapshotData(), $robotParts->toArray());
-            $I->seeFileFound(outputFolder("tests/cache/robots-cache-complex"));
+            $I->seeFileFound(outputDir("tests/cache/robots-cache-complex"));
         }
     }
 

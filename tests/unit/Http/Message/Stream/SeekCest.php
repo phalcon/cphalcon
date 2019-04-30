@@ -31,7 +31,7 @@ class SeekCest
     public function httpMessageStreamSeek(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - seek()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $stream   = new Stream($fileName, 'rb');
 
         $stream->seek(274);
@@ -52,7 +52,7 @@ class SeekCest
     public function httpMessageStreamSeekAfterFileSize(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - seek() - after file size');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $stream   = new Stream($fileName, 'rb');
 
         $stream->seek(10240);

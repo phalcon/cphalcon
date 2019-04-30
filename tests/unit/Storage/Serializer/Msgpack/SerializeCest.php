@@ -12,8 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Serializer\Msgpack;
 
+use Codeception\Example;
 use Phalcon\Storage\Serializer\Msgpack;
+use stdClass;
 use UnitTester;
+use function msgpack_pack;
 
 /**
  * Class SerializeCest
@@ -23,19 +26,70 @@ class SerializeCest
     /**
      * Tests Phalcon\Storage\Serializer\Msgpack :: serialize()
      *
-     * @param UnitTester $I
+     * @dataProvider getExamples
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-03-30
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-03-30
      */
-    public function storageSerializerMsgpackSerialize(UnitTester $I)
+    public function storageSerializerMsgpackSerialize(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Storage\Serializer\Msgpack - serialize()');
-        $data       = ["Phalcon Framework"];
-        $serializer = new Msgpack($data);
+        $I->wantToTest('Storage\Serializer\Msgpack - serialize() - ' . $example[0]);
+        $serializer = new Msgpack($example[1]);
 
-        $expected = msgpack_pack($data);
+        $expected = $example[2];
         $actual   = $serializer->serialize();
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return array
+     */
+    private function getExamples(): array
+    {
+        return [
+            [
+                'null',
+                null,
+                null,
+            ],
+            [
+                'true',
+                true,
+                true,
+            ],
+            [
+                'false',
+                false,
+                false,
+            ],
+            [
+                'integer',
+                1234,
+                1234,
+            ],
+            [
+                'float',
+                1.234,
+                1.234,
+            ],
+            [
+                'string',
+                'Phalcon Framework',
+                msgpack_pack('Phalcon Framework'),
+            ],
+            [
+                'array',
+                ['Phalcon Framework'],
+                msgpack_pack(["Phalcon Framework"]),
+            ],
+            [
+                'object',
+                new stdClass(),
+                msgpack_pack(new stdClass()),
+            ],
+        ];
     }
 }

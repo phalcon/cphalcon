@@ -32,7 +32,7 @@ class WithBodyCest
     public function httpMessageResponseWithBody(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Response - withBody()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $stream   = new Stream($fileName, 'rb');
         $request  = new Response();
 

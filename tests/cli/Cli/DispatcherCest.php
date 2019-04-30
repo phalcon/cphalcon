@@ -24,9 +24,9 @@ class DispatcherCest
         /**
          * @todo Check the loader
          */
-        require_once dataFolder('fixtures/tasks/EchoTask.php');
-        require_once dataFolder('fixtures/tasks/MainTask.php');
-        require_once dataFolder('fixtures/tasks/ParamsTask.php');
+        require_once dataDir('fixtures/tasks/EchoTask.php');
+        require_once dataDir('fixtures/tasks/MainTask.php');
+        require_once dataDir('fixtures/tasks/ParamsTask.php');
 
         $this->setNewCliFactoryDefault();
     }

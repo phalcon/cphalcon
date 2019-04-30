@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
 use Phalcon\Storage\Adapter\Stream;
 use UnitTester;
-use function outputFolder;
+use function outputDir;
 use function sort;
 
 /**
@@ -34,7 +34,7 @@ class GetKeysCest
     {
         $I->wantToTest('Storage\Adapter\Stream - getKeys()');
 
-        $adapter = new Stream(['cacheDir' => outputFolder()]);
+        $adapter = new Stream(['cacheDir' => outputDir()]);
 
         $adapter->clear();
 

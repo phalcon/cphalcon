@@ -62,7 +62,7 @@ class RenderCest
         $volt = new Volt($view, $this->container);
         $volt->setEventsManager($eventsManager);
 
-        $template = dataFolder('fixtures/views/compiler/partial.volt');
+        $template = dataDir('fixtures/views/compiler/partial.volt');
         $volt->render($template, ['some_var' => 'aaa']);
 
         $expected = 'Before fired';

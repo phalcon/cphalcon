@@ -36,7 +36,7 @@ class ConstructCest
     {
         $I->wantToTest('Http\Message\UploadedFile - __construct()');
 
-        $stream = outputFolder(uniqid('test'));
+        $stream = outputDir(uniqid('test'));
         $file   = new UploadedFile($stream, 100);
         $class  = UploadedFileInterface::class;
         $I->assertInstanceOf($class, $file);
@@ -82,7 +82,7 @@ class ConstructCest
         $I->expectThrowable(
             new Exception("Invalid 'error'. Must be one of the UPLOAD_ERR_* constants"),
             function () {
-                $stream = outputFolder(uniqid('test'));
+                $stream = outputDir(uniqid('test'));
                 $file   = new UploadedFile($stream, 100, 100);
             }
         );

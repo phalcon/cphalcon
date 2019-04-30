@@ -135,11 +135,11 @@ class PostgresqlHelper
         return [
             [
                 null,
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example7.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example7.sql'))),
             ],
             [
                 'schema',
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example8.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example8.sql'))),
             ],
         ];
     }
@@ -553,7 +553,7 @@ class PostgresqlHelper
 //
 //    protected function getForeignKey($foreignKeyName)
 //    {
-//        $sql = rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example9.sql'));
+//        $sql = rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example9.sql'));
 //        str_replace('%_FK_%', $foreignKeyName, $sql);
 //
 //        return $sql;

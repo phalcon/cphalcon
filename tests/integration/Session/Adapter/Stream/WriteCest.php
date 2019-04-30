@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Session\Adapter\Stream;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
-use function cacheFolder;
+use function cacheDir;
 use function uniqid;
 
 /**
@@ -48,9 +48,9 @@ class WriteCest
         $adapter = $this->getSessionStream();
         $value   = uniqid();
         $adapter->write('test1', $value);
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheDir());
         $I->seeFileFound('test1');
         $I->seeInThisFile($value);
-        $I->safeDeleteFile(cacheFolder('test1'));
+        $I->safeDeleteFile(cacheDir('test1'));
     }
 }

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Memory;
 
-use function dataFolder;
+use function dataDir;
 use IntegrationTester;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -40,7 +40,7 @@ class ConstructCest
             }
         );
 
-        $this->data = require dataFolder('fixtures/metadata/robots.php');
+        $this->data = require dataDir('fixtures/metadata/robots.php');
     }
 
     /**

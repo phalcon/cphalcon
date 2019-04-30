@@ -13,18 +13,18 @@ namespace Phalcon\Test\Unit\Annotations\Adapter;
 
 use Phalcon\Annotations\Adapter\Memory;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 use function file_exists;
 
 class MemoryCest
 {
     public function testMemoryAdapter(UnitTester $I)
     {
-        $I->assertTrue(file_exists(dataFolder('fixtures/Annotations/TestClass.php')));
-        $I->assertTrue(file_exists(dataFolder('fixtures/Annotations/TestClassNs.php')));
+        $I->assertTrue(file_exists(dataDir('fixtures/Annotations/TestClass.php')));
+        $I->assertTrue(file_exists(dataDir('fixtures/Annotations/TestClassNs.php')));
 
-        require_once dataFolder('fixtures/Annotations/TestClass.php');
-        require_once dataFolder('fixtures/Annotations/TestClassNs.php');
+        require_once dataDir('fixtures/Annotations/TestClass.php');
+        require_once dataDir('fixtures/Annotations/TestClassNs.php');
 
         $adapter = new Memory();
 

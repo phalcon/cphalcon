@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Cache\Adapter\Stream;
 
 use Phalcon\Cache\Adapter\Stream;
 use UnitTester;
-use function outputFolder;
+use function outputDir;
 use function sort;
 
 /**
@@ -34,7 +34,7 @@ class GetKeysCest
     {
         $I->wantToTest('Cache\Adapter\Stream - getKeys()');
 
-        $adapter = new Stream(['cacheDir' => outputFolder()]);
+        $adapter = new Stream(['cacheDir' => outputDir()]);
 
         $adapter->clear();
 

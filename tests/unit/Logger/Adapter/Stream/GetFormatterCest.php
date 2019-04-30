@@ -16,7 +16,7 @@ use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
-use function outputFolder;
+use function outputDir;
 
 /**
  * @package Phalcon\Test\Unit\Logger
@@ -34,22 +34,14 @@ class GetFormatterCest
         $I->wantToTest('Logger\Adapter\Stream - getFormatter()');
 
         $fileName = $I->getNewFileName('log', 'log');
-
-        $fileName = outputFolder(
-            'tests/logs/' . $fileName
-        );
+        $fileName = outputDir('tests/logs/' . $fileName);
 
         $adapter = new Stream($fileName);
+        $adapter->getFormatter(new Line());
 
-        $adapter->getFormatter(
-            new Line()
-        );
-
-        $I->assertInstanceOf(
-            FormatterInterface::class,
-            $adapter->getFormatter()
-        );
-
+        $class  = FormatterInterface::class;
+        $actual = $adapter->getFormatter();
+        $I->assertInstanceOf($class, $actual);
         $I->safeDeleteFile($fileName);
     }
 }

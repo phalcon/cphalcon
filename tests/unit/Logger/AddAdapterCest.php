@@ -15,7 +15,7 @@ namespace Phalcon\Test\Unit\Logger;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
-use function outputFolder;
+use function outputDir;
 
 /**
  * @package Phalcon\Test\Unit\Logger
@@ -32,37 +32,22 @@ class AddAdapterCest
     {
         $I->wantToTest('Logger - addAdapter()');
 
-        $fileName1 = $I->getNewFileName('log', 'log');
-        $fileName2 = $I->getNewFileName('log', 'log');
+        $fileName1  = $I->getNewFileName('log', 'log');
+        $fileName2  = $I->getNewFileName('log', 'log');
+        $outputPath = outputDir('tests/logs/');
+        $adapter1   = new Stream($outputPath . $fileName1);
+        $adapter2   = new Stream($outputPath . $fileName2);
 
-        $outputPath = outputFolder('tests/logs/');
+        $logger = new Logger('my-logger', ['one' => $adapter1]);
 
-        $adapter1 = new Stream(
-            $outputPath . $fileName1
-        );
-
-        $adapter2 = new Stream(
-            $outputPath . $fileName2
-        );
-
-        $logger = new Logger(
-            'my-logger',
-            [
-                'one' => $adapter1,
-            ]
-        );
-
-        $I->assertCount(
-            1,
-            $logger->getAdapters()
-        );
+        $expected = 1;
+        $actual   = $logger->getAdapters();
+        $I->assertCount($expected, $actual);
 
         $logger->addAdapter('two', $adapter2);
-
-        $I->assertCount(
-            2,
-            $logger->getAdapters()
-        );
+        $expected = 2;
+        $actual   = $logger->getAdapters();
+        $I->assertCount($expected, $actual);
 
         $logger->debug('Hello');
 
