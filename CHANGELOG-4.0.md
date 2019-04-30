@@ -104,6 +104,7 @@
     - `Phalcon\Cache\Frontend\None`
     - `Phalcon\Cache\Frontend\Output`
 [#13439](https://github.com/phalcon/cphalcon/issues/13439)
+- Removed model namespace aliases.
 
 # [4.0.0-alpha.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.4) (2019-03-31)
 ## Added

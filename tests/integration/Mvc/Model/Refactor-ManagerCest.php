@@ -88,21 +88,6 @@ class ManagerCest
         );
     }
 
-    public function testAliasedNamespacesRelations(IntegrationTester $I)
-    {
-        $I->skipTest('TODO - Check test');
-        $manager = $this->getService('modelsManager');
-        $manager->registerNamespaceAlias('AlbumORama', 'Phalcon\Test\Models\AlbumORama');
-
-        $expected = ['AlbumORama' => 'Phalcon\Test\Models\AlbumORama'];
-        $actual   = $manager->getNamespaceAliases();
-        $I->assertEquals($expected, $actual);
-
-        foreach (Albums::find() as $album) {
-            $I->assertInstanceOf(Artists::class, $album->artist);
-        }
-    }
-
     /**
      * Tests Model::getRelated with the desired fields
      *
