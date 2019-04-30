@@ -30,13 +30,15 @@ class PhalconJsminOptimizer extends OptimizerAbstract
      */
     public function optimize(array $expression, Call $call, CompilationContext $context)
     {
-
         if (!isset($expression['parameters'])) {
             return false;
         }
 
         if (count($expression['parameters']) != 1) {
-            throw new CompilerException("phalcon_jsmin only accepts one parameter", $expression);
+            throw new CompilerException(
+                "phalcon_jsmin only accepts one parameter",
+                $expression
+            );
         }
 
         /**
@@ -45,8 +47,12 @@ class PhalconJsminOptimizer extends OptimizerAbstract
         $call->processExpectedReturn($context);
 
         $symbolVariable = $call->getSymbolVariable();
+
         if ($symbolVariable->getType() != 'variable') {
-            throw new CompilerException("Returned values by functions can only be assigned to variant variables", $expression);
+            throw new CompilerException(
+                "Returned values by functions can only be assigned to variant variables",
+                $expression
+            );
         }
 
         if ($call->mustInitSymbolVariable()) {
@@ -54,10 +60,23 @@ class PhalconJsminOptimizer extends OptimizerAbstract
         }
 
         $context->headersManager->add('phalcon/assets/filters/jsminifier');
+
         $symbolVariable->setDynamicTypes('string');
 
-        $resolvedParams = $call->getResolvedParams($expression['parameters'], $context, $expression);
-        $context->codePrinter->output('phalcon_jsmin(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ' TSRMLS_CC);');
-        return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
+        $resolvedParams = $call->getResolvedParams(
+            $expression['parameters'],
+            $context,
+            $expression
+        );
+
+        $context->codePrinter->output(
+            'phalcon_jsmin(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ' TSRMLS_CC);'
+        );
+
+        return new CompiledExpression(
+            'variable',
+            $symbolVariable->getRealName(),
+            $expression
+        );
     }
 }

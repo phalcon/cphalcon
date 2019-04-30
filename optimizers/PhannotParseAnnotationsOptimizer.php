@@ -21,7 +21,6 @@ use Zephir\Optimizers\OptimizerAbstract;
 
 class PhannotParseAnnotationsOptimizer extends OptimizerAbstract
 {
-
     /**
      * @param array              $expression
      * @param Call               $call
@@ -32,13 +31,15 @@ class PhannotParseAnnotationsOptimizer extends OptimizerAbstract
      */
     public function optimize(array $expression, Call $call, CompilationContext $context)
     {
-
         if (!isset($expression['parameters'])) {
             return false;
         }
 
         if (count($expression['parameters']) != 3) {
-            throw new CompilerException("phannot_parse_annotations only accepts three parameter", $expression);
+            throw new CompilerException(
+                "phannot_parse_annotations only accepts three parameter",
+                $expression
+            );
         }
 
         /**
@@ -47,31 +48,51 @@ class PhannotParseAnnotationsOptimizer extends OptimizerAbstract
         $call->processExpectedReturn($context);
 
         $symbolVariable = $call->getSymbolVariable();
+
         if ($symbolVariable->getType() != 'variable') {
-            throw new CompilerException("Returned values by functions can only be assigned to variant variables", $expression);
+            throw new CompilerException(
+                "Returned values by functions can only be assigned to variant variables",
+                $expression
+            );
         }
 
         if ($call->mustInitSymbolVariable()) {
             $symbolVariable->initVariant($context);
         }
 
-        $context->headersManager->add('phalcon/annotations/scanner', HeadersManager::POSITION_LAST);
-        $context->headersManager->add('phalcon/annotations/annot', HeadersManager::POSITION_LAST);
+        $context->headersManager->add(
+            'phalcon/annotations/scanner',
+            HeadersManager::POSITION_LAST
+        );
+
+        $context->headersManager->add(
+            'phalcon/annotations/annot',
+            HeadersManager::POSITION_LAST
+        );
 
         $symbolVariable->setDynamicTypes('array');
 
-        $resolvedParams = $call->getResolvedParams($expression['parameters'], $context, $expression);
+        $resolvedParams = $call->getResolvedParams(
+            $expression['parameters'],
+            $context,
+            $expression
+        );
 
         $call->addCallStatusFlag($context);
 
         $symbol = $context->backend->getVariableCode($symbolVariable);
 
-        $context->codePrinter->output('ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(' . $symbol . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ', ' . $resolvedParams[2] . ' TSRMLS_CC);');
+        $context->codePrinter->output(
+            'ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(' . $symbol . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ', ' . $resolvedParams[2] . ' TSRMLS_CC);'
+        );
 
         $call->checkTempParameters($context);
         $call->addCallStatusOrJump($context);
 
-        return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
+        return new CompiledExpression(
+            'variable',
+            $symbolVariable->getRealName(),
+            $expression
+        );
     }
-
 }
