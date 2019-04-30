@@ -71,7 +71,7 @@ trait DiTrait
      */
     protected function getAndSetModelsCacheStream()
     {
-        $cache = new Stream(getOptionsModelsStream());
+        $cache = new Stream($this->getOptionsModelCacheStream());
         $this->container->set('modelsCache', $cache);
 
         return $cache;
