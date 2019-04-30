@@ -28,7 +28,9 @@ class Libmemcached extends AbstractAdapter
     protected options = [];
 
     /**
-     * Constructor
+     * Libmemcached constructor.
+     *
+     * @param array $options
      */
     public function __construct(array! options = [])
     {
@@ -50,14 +52,13 @@ class Libmemcached extends AbstractAdapter
 
     /**
      * Flushes/clears the cache
+     *
+     * @return bool
+     * @throws Exception
      */
     public function clear() -> bool
     {
-        var connection;
-
-        let connection = this->getAdapter();
-
-        return connection->flush();
+        return this->getAdapter()->flush();
     }
 
     /**
@@ -65,45 +66,50 @@ class Libmemcached extends AbstractAdapter
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
-        var connection;
-
-        let connection = this->getAdapter();
-
-        return connection->decrement(key, value);
+        return this->getAdapter()->decrement(key, value);
     }
 
     /**
      * Reads data from the adapter
+     *
+     * @param string $key
+     *
+     * @return bool
+     * @throws Exception
      */
     public function delete(string! key) -> bool
     {
-        var connection;
-
-        let connection = this->getAdapter();
-
-        return connection->delete(key, 0);
+        return this->getAdapter()->delete(key, 0);
     }
 
     /**
      * Reads data from the adapter
+     *
+     * @param string $key
+     * @param null   $defaultValue
+     *
+     * @return mixed
+     * @throws Exception
      */
     public function get(string! key, var defaultValue = null) -> var
     {
-        var connection, content;
-
-        let connection = this->getAdapter(),
-            content    = connection->get(key);
-
-        return this->getUnserializedData(content, defaultValue);
+        return this->getUnserializedData(
+            this->getAdapter()->get(key),
+            defaultValue
+        );
     }
 
     /**
      * Returns the already connected adapter or connects to the Memcached
      * server(s)
+     *
+     * @return Memcached
+     * @throws Exception
      */
     public function getAdapter() -> var
     {
-        var client, connection, options, persistentId, servers, serverList;
+        var client, connection, failover, options, persistentId, 
+	        servers, serverList;
 
         if null === this->adapter {
             let options      = this->options,
@@ -114,8 +120,16 @@ class Libmemcached extends AbstractAdapter
             connection->setOption(\Memcached::OPT_PREFIX_KEY, this->prefix);
 
             if count(serverList) < 1 {
-                let servers = Arr::get(options, "servers", []),
-                    client  = Arr::get(options, "client", []);
+                let servers  = Arr::get(options, "servers", []),
+                    client   = Arr::get(options, "client", []),
+                    failover = [
+                        \Memcached::OPT_CONNECT_TIMEOUT       : 10,
+                        \Memcached::OPT_DISTRIBUTION          : \Memcached::DISTRIBUTION_CONSISTENT,
+                        \Memcached::OPT_SERVER_FAILURE_LIMIT  : 2,
+                        \Memcached::OPT_REMOVE_FAILED_SERVERS : true,
+                        \Memcached::OPT_RETRY_TIMEOUT         : 1
+                    ],
+                    client   = array_merge(failover, client);
 
                 if !connection->setOptions(client) {
                     throw new Exception("Cannot set Memcached client options");
@@ -136,18 +150,26 @@ class Libmemcached extends AbstractAdapter
 
     /**
      * Stores data in the adapter
+     *
+     * @return array
+     * @throws Exception
      */
     public function getKeys() -> array
     {
-        var connection;
+    	var keys;
+	
+        let keys = $this->getAdapter()->getAllKeys();
 
-        let connection = this->getAdapter();
-
-        return connection->getAllKeys();
+        return !keys ? [] : keys;
     }
 
     /**
      * Checks if an element exists in the cache
+     *
+     * @param string $key
+     *
+     * @return bool
+     * @throws Exception
      */
     public function has(string! key) -> bool
     {
@@ -161,33 +183,42 @@ class Libmemcached extends AbstractAdapter
 
     /**
      * Increments a stored number
+     *
+     * @param string $key
+     * @param int    $value
+     *
+     * @return bool|int
+     * @throws Exception
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        var connection;
-
-        let connection = this->getAdapter();
-
-        return connection->increment(key, value);
+        return this->getAdapter()->increment(key, value);
     }
 
     /**
      * Stores data in the adapter
+     *
+     * @param string $key
+     * @param mixed  $value
+     * @param null   $ttl
+     *
+     * @return bool
+     * @throws Exception
      */
     public function set(string! key, var value, var ttl = null) -> bool
     {
-        var connection, content, lifetime;
-
-        let connection = this->getAdapter(),
-            content    = this->getSerializedData(value),
-            lifetime   = this->getTtl(ttl);
-
-        return connection->set(key, content, lifetime);
+        return this->getAdapter()->set(
+            key,
+            this->getSerializedData(value),
+            this->getTtl(ttl)
+        );
     }
 
     /**
      * Checks the serializer. If it is a supported one it is set, otherwise
      * the custom one is set.
+     *
+     * @param Memcached $connection
      */
     private function setSerializer(<\Memcached> connection)
     {

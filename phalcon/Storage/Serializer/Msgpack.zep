@@ -17,7 +17,7 @@ class Msgpack extends AbstractSerializer
 	/**
 	 * Serializes data
 	 */
-	public function serialize() -> string
+	public function serialize() -> string|null
 	{
         if this->isSerializable(this->data) {
             return this->data;

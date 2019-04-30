@@ -28,11 +28,11 @@ abstract class AbstractSerializer implements SerializerInterface
 	    let this-> data = data;
 	}
 
+    /**
+     * If this returns true, then the data returns back as is
+     */
 	protected function isSerializable(var data) -> bool
 	{
-        return empty data         ||
-           typeof data === "bool" ||
-           typeof data === "int"  ||
-           typeof data === "float";
+        return empty data || typeof data === "bool" || is_numeric(data);
 	}
 }
