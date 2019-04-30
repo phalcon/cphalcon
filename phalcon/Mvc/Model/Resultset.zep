@@ -12,12 +12,13 @@ namespace Phalcon\Mvc\Model;
 
 use Closure;
 use Phalcon\Db;
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Storage\Adapter\AdapterInterface;
+use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
  * Phalcon\Mvc\Model\Resultset
@@ -97,7 +98,7 @@ abstract class Resultset
      *
      * @param \Phalcon\Db\ResultInterface|false result
      */
-    public function __construct(result, <BackendInterface> cache = null) -> void
+    public function __construct(result, <AdapterInterface> cache = null) -> void
     {
         var rowCount, rows;
 
@@ -295,7 +296,7 @@ abstract class Resultset
     /**
      * Returns the associated cache for the resultset
      */
-    public function getCache() -> <BackendInterface>
+    public function getCache() -> <AdapterInterface>
     {
         return this->cache;
     }
