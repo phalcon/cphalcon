@@ -24,8 +24,6 @@ use Phalcon\Session\Adapter\Stream;
  */
 trait SessionTrait
 {
-    use OptionsTrait;
-
     /**
      * @return Stream
      */
@@ -39,7 +37,7 @@ trait SessionTrait
      */
     protected function getSessionLibmemcached(): Libmemcached
     {
-        return new Libmemcached($this->getOptionsLibmemcached());
+        return new Libmemcached(getOptionsLibmemcached());
     }
 
     /**

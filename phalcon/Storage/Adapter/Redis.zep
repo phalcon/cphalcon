@@ -214,7 +214,7 @@ class Redis extends AbstractAdapter
      */
     private function setSerializer(<\Redis> connection)
     {
-        var serializer, version;
+        var serializer;
         string className;
         array map;
 
@@ -227,17 +227,14 @@ class Redis extends AbstractAdapter
          * In case IGBINARY or MSGPACK are not defined for previous versions
          * of Redis
          */
-        let version = connection->info("REDIS_VERSION");
-        var_dump(version);
+        if defined("\\Redis::SERIALIZER_IGBINARY") {
+            let map["igbinary"] = constant("\\Redis::SERIALIZER_IGBINARY");
+        }
 
-//        if defined("\Redis::SERIALIZER_IGBINARY") {
-//            let map["igbinary"] = \Redis::SERIALIZER_IGBINARY;
-//        }
-//
-//        if defined("\Redis::SERIALIZER_MSGPACK") {
-//            let map["msgpack"]  = \Redis::SERIALIZER_MSGPACK;
-//        }
-//
+        if defined("\\Redis::SERIALIZER_MSGPACK") {
+            let map["msgpack"]  = constant("\\Redis::SERIALIZER_MSGPACK");
+        }
+
         let serializer = strtolower(this->defaultSerializer);
 
         if isset map[serializer] {
