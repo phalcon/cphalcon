@@ -26,7 +26,7 @@ class SimpleCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
-        $I->cleanDir(cacheDir());
+        $I->cleanDir(cacheModelsDir());
     }
 
     /**
@@ -39,7 +39,7 @@ class SimpleCest
     public function shouldLoadResultsetFromCache(IntegrationTester $I)
     {
         $I->skipTest('TODO = Check the numbers');
-        $cache = $this->getAndSetModelsCacheFile();
+        $cache = $this->getAndSetModelsCacheStream();
 
         $robots = Robots::find(['order' => 'id']);
 
@@ -47,9 +47,9 @@ class SimpleCest
         $I->assertCount(3, $robots);
         $I->assertEquals($robots->count(), 3);
 
-        $cache->save('test-resultset', $robots);
+        $cache->set('test-resultset', $robots);
 
-        $I->amInPath(cacheDir());
+        $I->amInPath(cacheModelsDir());
         $I->seeFileFound('test-resultset');
 
         $robots = $cache->get('test-resultset');
@@ -59,7 +59,7 @@ class SimpleCest
         $I->assertEquals($robots->count(), 3);
 
         $cache->delete('test-resultset');
-        $I->amInPath(cacheDir());
+        $I->amInPath(cacheModelsDir());
         $I->dontSeeFileFound('test-resultset');
     }
 
@@ -72,7 +72,7 @@ class SimpleCest
      */
     public function shouldLoadResultsetWithBindingFromCache(IntegrationTester $I)
     {
-        $cache   = $this->getAndSetModelsCacheFile();
+        $cache   = $this->getAndSetModelsCacheStream();
         $manager = $this->getService('modelsManager');
 
         $initialId = 0;
@@ -88,9 +88,9 @@ class SimpleCest
         $I->assertCount(3, $robots);
         $I->assertEquals($robots->count(), 3);
 
-        $cache->save('test-resultset', $robots);
+        $cache->set('test-resultset', $robots);
 
-        $I->amInPath(cacheDir());
+        $I->amInPath(cacheModelsDir());
         $I->seeFileFound('test-resultset');
 
         $robots = $cache->get('test-resultset');
@@ -100,7 +100,7 @@ class SimpleCest
         $I->assertEquals($robots->count(), 3);
 
         $cache->delete('test-resultset');
-        $I->amInPath(cacheDir());
+        $I->amInPath(cacheModelsDir());
         $I->dontSeeFileFound('test-resultset');
     }
 
@@ -113,7 +113,8 @@ class SimpleCest
      */
     public function shouldLoadResultsetFromLibmemcached(IntegrationTester $I)
     {
-        $cache = $this->getAndSetModelsCacheFileLibmemcached();
+        $cache = $this->getAndSetModelsCacheLibmemcached();
+        $cache->clear();
 
         $key = 'test-resultset-' . mt_rand(0, 9999);
         // Single
