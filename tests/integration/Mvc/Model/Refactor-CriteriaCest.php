@@ -413,7 +413,8 @@ class CriteriaCest
     public function freshCache(IntegrationTester $I, Example $example)
     {
         $this->container->setShared('db', $example['adapter']);
-        $this->getAndSetModelsCacheStream();
+        $cache = $this->getAndSetModelsCacheStream();
+        $cache->clear();
 
         $personas = Personas::query()
                             ->where("estado='I'")
