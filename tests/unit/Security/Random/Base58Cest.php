@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Security\Random;
 
 use UnitTester;
 
-/**
- * Class Base58Cest
- */
 class Base58Cest
 {
     /**
      * Tests Phalcon\Security\Random :: base58()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Libmemcached;
 
 use IntegrationTester;
 
-/**
- * Class GetBindTypesCest
- */
 class GetBindTypesCest
 {
     /**
      * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: getBindTypes()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

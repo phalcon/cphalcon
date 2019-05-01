@@ -21,8 +21,6 @@ class ManagerCest
     /**
      * Tests Phalcon\Session\Manager :: start()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @issue  https://github.com/phalcon/cphalcon/issues/13718
      * @since  2019-01-09

@@ -20,8 +20,6 @@ use Psr\Log\LoggerInterface;
 use UnitTester;
 
 /**
- * Class ConstructCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class ConstructCest
@@ -30,8 +28,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Logger :: __construct() - implement PSR
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -50,8 +46,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Logger :: __construct() - constants
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -73,8 +67,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Logger :: __construct() - file with json formatter
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2262
      *

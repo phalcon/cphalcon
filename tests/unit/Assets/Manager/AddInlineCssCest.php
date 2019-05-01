@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use UnitTester;
 
-/**
- * Class AddInlineCssCest
- */
 class AddInlineCssCest
 {
     /**
      * Tests Phalcon\Assets\Manager :: addInlineCss()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class AddInlineCssCest
     public function assetsManagerAddInlineCss(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - addInlineCss()');
+
         $I->skipTest('Need implementation');
     }
 }

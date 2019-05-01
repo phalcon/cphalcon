@@ -18,9 +18,6 @@ use UnitTester;
 use function dataFolder;
 use function outputFolder;
 
-/**
- * Class SharpenCest
- */
 class SharpenCest
 {
     use ImagickTrait;

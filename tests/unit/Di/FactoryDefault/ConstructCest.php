@@ -12,25 +12,22 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
+use Codeception\Example;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault :: __construct()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultConstruct(UnitTester $I)
+    public function diFactoryDefaultConstruct(UnitTester $I)
     {
         $I->wantToTest('Di\FactoryDefault - __construct()');
+
         $container = new FactoryDefault();
         $services  = $this->getServices();
 
@@ -42,51 +39,134 @@ class ConstructCest
     private function getServices(): array
     {
         return [
-            'annotations'        => 'Phalcon\Annotations\Adapter\Memory',
-            'assets'             => 'Phalcon\Assets\Manager',
-            'crypt'              => 'Phalcon\Crypt',
-            'cookies'            => 'Phalcon\Http\Response\Cookies',
-            'dispatcher'         => 'Phalcon\Mvc\Dispatcher',
-            'escaper'            => 'Phalcon\Escaper',
-            'eventsManager'      => 'Phalcon\Events\Manager',
-            'flash'              => 'Phalcon\Flash\Direct',
-            'flashSession'       => 'Phalcon\Flash\Session',
-            'filter'             => 'Phalcon\Filter\FilterLocator',
-//            'filter'             => 'Phalcon\Filter',
-            'modelsManager'      => 'Phalcon\Mvc\Model\Manager',
-            'modelsMetadata'     => 'Phalcon\Mvc\Model\MetaData\Memory',
-            'request'            => 'Phalcon\Http\Request',
-            'response'           => 'Phalcon\Http\Response',
-            'router'             => 'Phalcon\Mvc\Router',
-            'security'           => 'Phalcon\Security',
-            'tag'                => 'Phalcon\Tag',
-            'transactionManager' => 'Phalcon\Mvc\Model\Transaction\Manager',
-            'url'                => 'Phalcon\Url',
+            [
+                'service' => 'annotations',
+                'class'   => \Phalcon\Annotations\Adapter\Memory::class,
+            ],
+
+            [
+                'service' => 'assets',
+                'class'   => \Phalcon\Assets\Manager::class,
+            ],
+
+            [
+                'service' => 'crypt',
+                'class'   => \Phalcon\Crypt::class,
+            ],
+
+            [
+                'service' => 'cookies',
+                'class'   => \Phalcon\Http\Response\Cookies::class,
+            ],
+
+            [
+                'service' => 'dispatcher',
+                'class'   => \Phalcon\Mvc\Dispatcher::class,
+            ],
+
+            [
+                'service' => 'escaper',
+                'class'   => \Phalcon\Escaper::class,
+            ],
+
+            [
+                'service' => 'eventsManager',
+                'class'   => \Phalcon\Events\Manager::class,
+            ],
+
+            [
+                'service' => 'flash',
+                'class'   => \Phalcon\Flash\Direct::class,
+            ],
+
+            [
+                'service' => 'flashSession',
+                'class'   => \Phalcon\Flash\Session::class,
+            ],
+
+            [
+                'service' => 'filter',
+                'class'   => \Phalcon\Filter\FilterLocator::class,
+            ],
+
+            // [
+            //     'service' => 'filter',
+            //     'class'   => \Phalcon\Filter::class,
+            // ],
+
+            [
+                'service' => 'modelsManager',
+                'class'   => \Phalcon\Mvc\Model\Manager::class,
+            ],
+
+            [
+                'service' => 'modelsMetadata',
+                'class'   => \Phalcon\Mvc\Model\MetaData\Memory::class,
+            ],
+
+            [
+                'service' => 'request',
+                'class'   => \Phalcon\Http\Request::class,
+            ],
+
+            [
+                'service' => 'response',
+                'class'   => \Phalcon\Http\Response::class,
+            ],
+
+            [
+                'service' => 'router',
+                'class'   => \Phalcon\Mvc\Router::class,
+            ],
+
+            [
+                'service' => 'security',
+                'class'   => \Phalcon\Security::class,
+            ],
+
+            [
+                'service' => 'tag',
+                'class'   => \Phalcon\Tag::class,
+            ],
+
+            [
+                'service' => 'transactionManager',
+                'class'   => \Phalcon\Mvc\Model\Transaction\Manager::class,
+            ],
+
+            [
+                'service' => 'url',
+                'class'   => \Phalcon\Url::class,
+            ],
         ];
     }
 
     /**
      * Tests Phalcon\Di\FactoryDefault :: __construct() - Check services
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider getServices
      */
-    public function diFactoryDefaultConstructServices(UnitTester $I)
+    public function diFactoryDefaultConstructServices(UnitTester $I, Example $example)
     {
         $I->wantToTest('Di\FactoryDefault - __construct() - Check services');
-        $container = new FactoryDefault();
-        $services  = $this->getServices();
 
-        foreach ($services as $service => $class) {
+        $container = new FactoryDefault();
+
+        if ('sessionBag' === $example['service']) {
+            $params = ['someName'];
+        } else {
             $params = null;
-            if ('sessionBag' === $service) {
-                $params = ['someName'];
-            }
-            $expected = get_class($container->get($service, $params));
-            $actual   = $class;
-            $I->assertEquals($expected, $actual);
         }
+
+        $I->assertInstanceOf(
+            $example['class'],
+            $container->get(
+                $example['service'],
+                $params
+            )
+        );
     }
 }

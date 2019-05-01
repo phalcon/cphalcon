@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Annotation;
 
 use UnitTester;
 
-/**
- * Class GetExprArgumentsCest
- */
 class GetExprArgumentsCest
 {
     /**
      * Tests Phalcon\Annotations\Annotation :: getExprArguments()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetExprArgumentsCest
     public function annotationsAnnotationGetExprArguments(UnitTester $I)
     {
         $I->wantToTest('Annotations\Annotation - getExprArguments()');
+
         $I->skipTest('Need implementation');
     }
 }

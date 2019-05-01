@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 
 use UnitTester;
 
-/**
- * Class SetOptionsCest
- */
 class SetOptionsCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: setOptions()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetOptionsCest
     public function cacheBackendLibmemcachedSetOptions(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Libmemcached - setOptions()');
+
         $I->skipTest('Need implementation');
     }
 }

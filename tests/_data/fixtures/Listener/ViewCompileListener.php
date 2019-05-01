@@ -66,17 +66,11 @@ class ViewCompileListener
         $this->after = "After fired";
     }
 
-    /**
-     * @return string
-     */
     public function getAfter(): string
     {
         return $this->after;
     }
 
-    /**
-     * @return string
-     */
     public function getBefore(): string
     {
         return $this->before;

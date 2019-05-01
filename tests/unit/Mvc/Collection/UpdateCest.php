@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class UpdateCest
- */
 class UpdateCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: update()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class UpdateCest
     public function mvcCollectionUpdate(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - update()');
+
         $I->skipTest('Need implementation');
     }
 }

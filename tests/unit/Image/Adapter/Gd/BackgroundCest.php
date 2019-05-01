@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
 use UnitTester;
 
-/**
- * Class BackgroundCest
- */
 class BackgroundCest
 {
     /**
      * Tests Phalcon\Image\Adapter\Gd :: background()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class BackgroundCest
     public function imageAdapterGdBackground(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Gd - background()');
+
         $I->skipTest('Need implementation');
     }
 }

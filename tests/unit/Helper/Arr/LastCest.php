@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Helper\Arr;
 use Phalcon\Helper\Arr;
 use UnitTester;
 
-/**
- * Class LastCest
- */
 class LastCest
 {
     /**
      * Tests Phalcon\Helper\Arr :: last()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
@@ -31,20 +26,20 @@ class LastCest
     public function helperArrLast(UnitTester $I)
     {
         $I->wantToTest('Helper\Arr - last()');
+
         $collection = [
             'Phalcon',
             'Framework',
         ];
 
-        $expected = 'Framework';
-        $actual   = Arr::last($collection);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Framework',
+            Arr::last($collection)
+        );
     }
 
     /**
      * Tests Phalcon\Helper\Arr :: last() - function
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
@@ -52,18 +47,22 @@ class LastCest
     public function helperArrLastFunction(UnitTester $I)
     {
         $I->wantToTest('Helper\Arr - last() - function');
+
         $collection = [
             'Phalcon',
             'Framework',
         ];
 
-        $expected = 'Phalcon';
-        $actual   = Arr::last(
+        $actual = Arr::last(
             $collection,
             function ($element) {
                 return strlen($element) < 8;
             }
         );
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            'Phalcon',
+            $actual
+        );
     }
 }

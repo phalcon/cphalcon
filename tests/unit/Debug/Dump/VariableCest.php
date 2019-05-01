@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Debug\Dump;
 use Phalcon\Debug\Dump;
 use UnitTester;
 
-/**
- * Class VariableCest
- */
 class VariableCest
 {
     /**
      * Tests Phalcon\Debug\Dump :: variable()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

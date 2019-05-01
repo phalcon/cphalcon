@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Adapter\Memory;
 
 use UnitTester;
 
-/**
- * Class GetPropertyCest
- */
 class GetPropertyCest
 {
     /**
      * Tests Phalcon\Annotations\Adapter\Memory :: getProperty()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetPropertyCest
     public function annotationsAdapterMemoryGetProperty(UnitTester $I)
     {
         $I->wantToTest('Annotations\Adapter\Memory - getProperty()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
-/**
- * Class GetRawCest
- */
 class GetRawCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault :: getRaw()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultGetRaw(UnitTester $I)
+    public function diFactoryDefaultGetRaw(UnitTester $I)
     {
         $I->wantToTest('Di\FactoryDefault - getRaw()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -17,9 +17,6 @@ use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
-/**
- * Class UnderscoreGetSetCest
- */
 class UnderscoreGetSetCest
 {
     use DiTrait;
@@ -27,8 +24,6 @@ class UnderscoreGetSetCest
 
     /**
      * Tests Phalcon\Session\Manager :: __get()/__set()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -51,9 +46,11 @@ class UnderscoreGetSetCest
 
         $expected      = 'myval';
         $manager->test = $expected;
-        $actual        = $manager->test;
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $manager->test
+        );
 
 
 

@@ -18,16 +18,12 @@ use Phalcon\Logger\Exception;
 use UnitTester;
 
 /**
- * Class GetAdapterCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class GetAdapterCest
 {
     /**
      * Tests Phalcon\Logger :: getAdapter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -63,8 +59,6 @@ class GetAdapterCest
 
     /**
      * Tests Phalcon\Logger :: getAdapter() - unknown
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

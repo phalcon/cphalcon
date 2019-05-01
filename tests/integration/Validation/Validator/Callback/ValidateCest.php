@@ -21,16 +21,11 @@ use Phalcon\Validation\Validator\Exception;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
 
-/**
- * Class ValidateCest
- */
 class ValidateCest
 {
     /**
      * Tests Phalcon\Validation\Validator\Callback :: validate() - single field
      * using boolean
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
@@ -109,8 +104,6 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Callback :: validate() - single field
      * using validator
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
@@ -188,16 +181,12 @@ class ValidateCest
             ]
         );
 
-        $actual = $messages;
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $messages);
     }
 
     /**
      * Tests Phalcon\Validation\Validator\Callback :: validate() - multiple
      * field returning boolean
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
@@ -284,8 +273,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Callback :: validate() - multiple
      * field validator
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
@@ -409,8 +396,6 @@ class ValidateCest
 
     /**
      * Tests Phalcon\Validation\Validator\Callback :: validate() - exception
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29

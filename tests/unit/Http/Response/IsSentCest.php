@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
 
-/**
- * Class IsSentCest
- */
 class IsSentCest
 {
     /**
      * Tests Phalcon\Http\Response :: isSent()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsSentCest
     public function httpResponseIsSent(UnitTester $I)
     {
         $I->wantToTest('Http\Response - isSent()');
+
         $I->skipTest('Need implementation');
     }
 }

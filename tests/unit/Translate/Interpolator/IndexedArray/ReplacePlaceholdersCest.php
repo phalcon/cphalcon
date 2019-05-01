@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Translate\Interpolator\IndexedArray;
 use Phalcon\Translate\Interpolator\IndexedArray;
 use UnitTester;
 
-/**
- * Class ReplacePlaceholdersCest
- */
 class ReplacePlaceholdersCest
 {
     /**

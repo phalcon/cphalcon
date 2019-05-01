@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class SummatoryCest
- */
 class SummatoryCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: summatory()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SummatoryCest
     public function mvcCollectionSummatory(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - summatory()');
+
         $I->skipTest('Need implementation');
     }
 }

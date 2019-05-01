@@ -16,15 +16,10 @@ use Phalcon\Debug\Dump;
 use Phalcon\Test\Fixtures\Dump\ClassProperties;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Debug\Dump :: __construct() - dump properties
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/13315
      *

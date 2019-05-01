@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Security\Random;
 use Codeception\Example;
 use UnitTester;
 
-/**
- * Class Base64Cest
- */
 class Base64Cest
 {
     /**
      * Tests Phalcon\Security\Random :: base64()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -44,8 +39,9 @@ class Base64Cest
 
         $base64 = $random->base64($len);
 
-        $I->assertTrue(
-            is_string($base64)
+        $I->assertInternalType(
+            'string',
+            $base64
         );
 
         $expected = ($len === null) ? 16 : $len;

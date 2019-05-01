@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Memory;
 
 use UnitTester;
 
-/**
- * Class IncrementCest
- */
 class IncrementCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Memory :: increment()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IncrementCest
     public function cacheBackendMemoryIncrement(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Memory - increment()');
+
         $I->skipTest('Need implementation');
     }
 }

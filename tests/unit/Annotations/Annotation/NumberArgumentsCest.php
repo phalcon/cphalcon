@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Annotation;
 
 use UnitTester;
 
-/**
- * Class NumberArgumentsCest
- */
 class NumberArgumentsCest
 {
     /**
      * Tests Phalcon\Annotations\Annotation :: numberArguments()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class NumberArgumentsCest
     public function annotationsAnnotationNumberArguments(UnitTester $I)
     {
         $I->wantToTest('Annotations\Annotation - numberArguments()');
+
         $I->skipTest('Need implementation');
     }
 }

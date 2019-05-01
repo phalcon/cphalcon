@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
 use UnitTester;
 
-/**
- * Class MergeCest
- */
 class MergeCest
 {
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: merge()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class MergeCest
     public function configAdapterGroupedMerge(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Grouped - merge()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -19,17 +19,12 @@ use Phalcon\Translate\AdapterInterface;
 use Phalcon\Translate\Exception;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use TranslateTrait;
 
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Crypt\Mismatch;
 
 use UnitTester;
 
-/**
- * Class GetPreviousCest
- */
 class GetPreviousCest
 {
     /**
      * Tests Phalcon\Crypt\Mismatch :: getPrevious()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16

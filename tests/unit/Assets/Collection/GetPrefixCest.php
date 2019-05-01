@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
-/**
- * Class GetPrefixCest
- */
 class GetPrefixCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: getPrefix()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetPrefixCest
     public function assetsCollectionGetPrefix(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - getPrefix()');
+
         $I->skipTest('Need implementation');
     }
 }

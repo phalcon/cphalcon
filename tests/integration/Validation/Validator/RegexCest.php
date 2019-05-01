@@ -176,6 +176,8 @@ class RegexCest
             )
         );
 
+
+
         $messages = $validation->validate(
             [
                 'name' => 'somevalue',
@@ -187,6 +189,8 @@ class RegexCest
             0,
             $messages->count()
         );
+
+
 
         $messages = $validation->validate(
             [
@@ -200,9 +204,12 @@ class RegexCest
             $messages->count()
         );
 
-        $expected = $validationMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $validationMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+
 
         $messages = $validation->validate(
             [
@@ -216,9 +223,12 @@ class RegexCest
             $messages->count()
         );
 
-        $expected = $validationMessages['type'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $validationMessages['type'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+
 
         $messages = $validation->validate(
             [
@@ -232,13 +242,15 @@ class RegexCest
             $messages->count()
         );
 
-        $expected = $validationMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $validationMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
 
-        $expected = $validationMessages['type'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $validationMessages['type'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 
     public function validationValidatorCustomMessage(IntegrationTester $I)
@@ -254,6 +266,8 @@ class RegexCest
                 ]
             )
         );
+
+
 
         $messages = $validation->validate(
             []
@@ -271,6 +285,8 @@ class RegexCest
         );
 
         $I->assertEquals($expected, $messages);
+
+
 
         $messages = $validation->validate(
             [

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
-/**
- * Class SetTargetUriCest
- */
 class SetTargetUriCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: setTargetUri()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetTargetUriCest
     public function assetsCollectionSetTargetUri(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - setTargetUri()');
+
         $I->skipTest('Need implementation');
     }
 }

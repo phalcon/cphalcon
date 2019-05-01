@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
 
-/**
- * Class PixelateCest
- */
 class PixelateCest
 {
     use ImagickTrait;
@@ -25,14 +22,13 @@ class PixelateCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: pixelate()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19
      */
     public function imageAdapterImagickPixelate(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - pixelate()');
+
         $I->skipTest('Need implementation');
     }
 }

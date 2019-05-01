@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
 
-/**
- * Class GetTypeCest
- */
 class GetTypeCest
 {
     use ImagickTrait;
@@ -25,14 +22,13 @@ class GetTypeCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: getType()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19
      */
     public function imageAdapterImagickGetType(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - getType()');
+
         $I->skipTest('Need implementation');
     }
 }

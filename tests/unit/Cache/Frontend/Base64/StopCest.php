@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Base64;
 
 use UnitTester;
 
-/**
- * Class StopCest
- */
 class StopCest
 {
     /**
      * Tests Phalcon\Cache\Frontend\Base64 :: stop()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class StopCest
     public function cacheFrontendBase64Stop(UnitTester $I)
     {
         $I->wantToTest('Cache\Frontend\Base64 - stop()');
+
         $I->skipTest('Need implementation');
     }
 }

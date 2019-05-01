@@ -16,15 +16,10 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use UnitTester;
 
-/**
- * Class JsonSerializeCest
- */
 class JsonSerializeCest
 {
     /**
      * Tests Phalcon\Messages\Messages :: jsonSerialize()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -61,9 +56,9 @@ class JsonSerializeCest
             $messages
         );
 
-        $data      = $messages->jsonSerialize();
-        $condition = is_array($data);
-        $I->assertTrue($condition);
+        $data = $messages->jsonSerialize();
+
+        $I->assertInternalType('array', $data);
 
         $I->assertCount(2, $data);
     }

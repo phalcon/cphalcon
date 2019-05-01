@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request\File;
 
 use UnitTester;
 
-/**
- * Class GetErrorCest
- */
 class GetErrorCest
 {
     /**
      * Tests Phalcon\Http\Request\File :: getError()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetErrorCest
     public function httpRequestFileGetError(UnitTester $I)
     {
         $I->wantToTest('Http\Request\File - getError()');
+
         $I->skipTest('Need implementation');
     }
 }

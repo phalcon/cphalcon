@@ -50,21 +50,29 @@ class SessionCest
          * @TODO Check the session
          */
         $I->skipTest('TODO: Check the session');
+
         $examples = [
             'error',
             'success',
             'notice',
             'warning',
         ];
+
         foreach ($examples as $function) {
             $flash = $this->getFlash();
 
+
+
             $flash->setAutoescape(false);
+
             $flash->$function("<script>alert('This will execute as JavaScript!')</script>");
 
-            $expected = ["<script>alert('This will execute as JavaScript!')</script>"];
-            $actual   = $flash->getMessages($function);
-            $I->assertEquals($expected, $actual);
+            $I->assertEquals(
+                ["<script>alert('This will execute as JavaScript!')</script>"],
+                $flash->getMessages($function)
+            );
+
+
 
             ob_start();
             $flash->$function("<script>alert('This will execute as JavaScript!')</script>");
@@ -72,15 +80,22 @@ class SessionCest
             $actual = ob_get_contents();
             ob_end_clean();
 
-            $expected = "<div class=\"{$function}Message\">"
-                . "<script>alert('This will execute as JavaScript!')</script></div>" . PHP_EOL;
+            $expected = "<div class=\"{$function}Message\"><script>alert('This will execute as JavaScript!')</script></div>" . PHP_EOL;
+
             $I->assertEquals($expected, $actual);
 
+
+
             $flash->setAutoescape(true);
+
             $flash->$function("<script>alert('This will execute as JavaScript!')</script>");
-            $expected = ["<script>alert('This will execute as JavaScript!')</script>"];
-            $actual   = $flash->getMessages($function);
-            $I->assertEquals($expected, $actual);
+
+            $I->assertEquals(
+                ["<script>alert('This will execute as JavaScript!')</script>"],
+                $flash->getMessages($function)
+            );
+
+
 
             ob_start();
             $flash->$function("<script>alert('This will execute as JavaScript!')</script>");
@@ -121,21 +136,25 @@ class SessionCest
          * @TODO Check the session
          */
         $I->skipTest('TODO: Check the session');
+
         $flash = $this->getFlash();
 
         $flash->success('sample success');
         $flash->error('sample error');
 
-        $expected = ['sample success'];
-        $actual   = $flash->getMessages('success');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            ['sample success'],
+            $flash->getMessages('success')
+        );
 
-        $expected = ['sample error'];
-        $actual   = $flash->getMessages('error');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            ['sample error'],
+            $flash->getMessages('error')
+        );
 
-        $actual = $flash->getMessages();
-        $I->assertEmpty($actual);
+        $I->assertEmpty(
+            $flash->getMessages()
+        );
     }
 
     /**
@@ -215,14 +234,21 @@ class SessionCest
         ];
 
         foreach ($examples as $function) {
-            $flash    = $this->getFlash();
-            $template = ' class="%s"';
-            $class    = sprintf($template, $this->classes[$function]);
+            $flash = $this->getFlash();
 
-            $template = '<div%s>%s</div>' . PHP_EOL;
+            $class = sprintf(
+                ' class="%s"',
+                $this->classes[$function]
+            );
+
             $message  = 'sample message';
 
-            $expected = sprintf($template, $class, $message);
+            $expected = sprintf(
+                '<div%s>%s</div>' . PHP_EOL,
+                $class,
+                $message
+            );
+
             ob_start();
             $flash->$function($message);
             $flash->output();
@@ -268,7 +294,8 @@ class SessionCest
          */
         $I->skipTest('TODO: Check the session');
 
-        $flash    = $this->getFlash();
+        $flash = $this->getFlash();
+
         $template = '<span class="%cssClass%" aria-label="clickme">%message%</span>';
 
         $flash->setCustomTemplate($template);

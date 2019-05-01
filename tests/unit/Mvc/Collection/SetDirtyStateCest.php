@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class SetDirtyStateCest
- */
 class SetDirtyStateCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: setDirtyState()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetDirtyStateCest
     public function mvcCollectionSetDirtyState(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - setDirtyState()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 
 use UnitTester;
 
-/**
- * Class IsStartedCest
- */
 class IsStartedCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: isStarted()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsStartedCest
     public function cacheBackendLibmemcachedIsStarted(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Libmemcached - isStarted()');
+
         $I->skipTest('Need implementation');
     }
 }

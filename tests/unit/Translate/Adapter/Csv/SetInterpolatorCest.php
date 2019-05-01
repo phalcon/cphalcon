@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
 
 use UnitTester;
 
-/**
- * Class SetInterpolatorCest
- */
 class SetInterpolatorCest
 {
     /**
      * Tests Phalcon\Translate\Adapter\Csv :: setInterpolator()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetInterpolatorCest
     public function translateAdapterCsvSetInterpolator(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Csv - setInterpolator()');
+
         $I->skipTest('Need implementation');
     }
 }

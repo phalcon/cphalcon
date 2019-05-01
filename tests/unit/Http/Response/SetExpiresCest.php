@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
 
-/**
- * Class SetExpiresCest
- */
 class SetExpiresCest
 {
     /**
      * Tests Phalcon\Http\Response :: setExpires()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetExpiresCest
     public function httpResponseSetExpires(UnitTester $I)
     {
         $I->wantToTest('Http\Response - setExpires()');
+
         $I->skipTest('Need implementation');
     }
 }

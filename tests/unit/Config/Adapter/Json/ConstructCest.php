@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Config\Adapter\Json;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use ConfigTrait;
@@ -29,8 +26,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Config\Adapter\Json :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

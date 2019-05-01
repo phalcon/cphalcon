@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request\File;
 
 use UnitTester;
 
-/**
- * Class MoveToCest
- */
 class MoveToCest
 {
     /**
      * Tests Phalcon\Http\Request\File :: moveTo()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class MoveToCest
     public function httpRequestFileMoveTo(UnitTester $I)
     {
         $I->wantToTest('Http\Request\File - moveTo()');
+
         $I->skipTest('Need implementation');
     }
 }

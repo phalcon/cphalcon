@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Events\Event;
 
 use UnitTester;
 
-/**
- * Class SetDataCest
- */
 class SetDataCest
 {
     /**
      * Tests Phalcon\Events\Event :: setData()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetDataCest
     public function eventsEventSetData(UnitTester $I)
     {
         $I->wantToTest('Events\Event - setData()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -30,6 +30,10 @@ class RenderCest
         $this->newDi();
         $this->setDiEscaper();
         $this->setDiUrl();
+
+        Tag::setDocType(
+            Tag::XHTML5
+        );
     }
 
     /**

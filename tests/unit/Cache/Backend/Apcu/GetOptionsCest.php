@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Apcu;
 
 use UnitTester;
 
-/**
- * Class GetOptionsCest
- */
 class GetOptionsCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Apcu :: getOptions()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetOptionsCest
     public function cacheBackendApcuGetOptions(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Apcu - getOptions()');
+
         $I->skipTest('Need implementation');
     }
 }

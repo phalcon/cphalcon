@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class IsSecureCest
- */
 class IsSecureCest
 {
     /**
      * Tests Phalcon\Http\Request :: isSecure()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsSecureCest
     public function httpRequestIsSecure(UnitTester $I)
     {
         $I->wantToTest('Http\Request - isSecure()');
+
         $I->skipTest('Need implementation');
     }
 }

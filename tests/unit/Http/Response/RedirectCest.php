@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
 
-/**
- * Class RedirectCest
- */
 class RedirectCest
 {
     /**
      * Tests Phalcon\Http\Response :: redirect()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class RedirectCest
     public function httpResponseRedirect(UnitTester $I)
     {
         $I->wantToTest('Http\Response - redirect()');
+
         $I->skipTest('Need implementation');
     }
 }

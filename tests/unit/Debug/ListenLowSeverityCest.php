@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Debug;
 
 use UnitTester;
 
-/**
- * Class ListenLowSeverityCest
- */
 class ListenLowSeverityCest
 {
     /**
      * Tests Phalcon\Debug :: listenLowSeverity()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ListenLowSeverityCest
     public function debugListenLowSeverity(UnitTester $I)
     {
         $I->wantToTest('Debug - listenLowSeverity()');
+
         $I->skipTest('Need implementation');
     }
 }

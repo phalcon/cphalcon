@@ -16,15 +16,10 @@ use Phalcon\Debug;
 use UnitTester;
 use function sprintf;
 
-/**
- * Class GetJsSourcesCest
- */
 class GetJsSourcesCest
 {
     /**
      * Tests Phalcon\Debug :: getJsSources()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

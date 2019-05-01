@@ -15,15 +15,10 @@ namespace Phalcon\Test\Integration\Mvc\Router\Group;
 use IntegrationTester;
 use Phalcon\Mvc\Router\Group;
 
-/**
- * Class GetPrefixCest
- */
 class GetPrefixCest
 {
     /**
      * Tests Phalcon\Mvc\Router\Group :: getPrefix()
-     *
-     * @param IntegrationTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17
@@ -42,8 +37,6 @@ class GetPrefixCest
 
     /**
      * Tests Phalcon\Mvc\Router\Group :: getPrefix() when nothing is set
-     *
-     * @param IntegrationTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17

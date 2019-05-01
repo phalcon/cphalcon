@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
-/**
- * Class AddJsCest
- */
 class AddJsCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: addJs()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class AddJsCest
     public function assetsCollectionAddJs(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - addJs()');
+
         $I->skipTest('Need implementation');
     }
 }

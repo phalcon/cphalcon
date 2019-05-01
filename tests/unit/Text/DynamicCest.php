@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Text;
 use Phalcon\Text;
 use UnitTester;
 
-/**
- * Class DynamicCest
- */
 class DynamicCest
 {
     /**
      * Tests Phalcon\Text :: dynamic()
-     *
-     * @param UnitTester $I
      *
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-07-01
@@ -36,9 +31,10 @@ class DynamicCest
         $I->assertNotContains('{', $actual);
         $I->assertNotContains('}', $actual);
 
-        $expected = 1;
-        $actual   = preg_match('/^(Hi|Hello), my name is a Bob!$/', $actual);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            preg_match('/^(Hi|Hello), my name is a Bob!$/', $actual)
+        );
     }
 
     /**
@@ -57,9 +53,10 @@ class DynamicCest
         $I->assertNotContains('{', $actual);
         $I->assertNotContains('}', $actual);
 
-        $expected = 1;
-        $actual   = preg_match('/^(Hi|Hello), my name is a Bob!$/', $actual);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            preg_match('/^(Hi|Hello), my name is a Bob!$/', $actual)
+        );
     }
 
     /**
@@ -75,31 +72,43 @@ class DynamicCest
     {
         $I->wantToTest('Text - dynamic() - custom separator');
 
+
+
         $actual = Text::dynamic('{Hi=Hello}, my name is a Bob!', '{', '}', '=');
+
         $I->assertNotContains('{', $actual);
         $I->assertNotContains('}', $actual);
         $I->assertNotContains('=', $actual);
 
-        $expected = 1;
-        $actual   = preg_match('/^(Hi|Hello), my name is a Bob!$/', $actual);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            preg_match('/^(Hi|Hello), my name is a Bob!$/', $actual)
+        );
+
+
 
         $actual = Text::dynamic("{Hi'Hello}, my name is a {Rob'Zyxep'Andres}!", '{', '}', "'");
+
         $I->assertNotContains('{', $actual);
         $I->assertNotContains('}', $actual);
         $I->assertNotContains("''", $actual);
 
-        $expected = 1;
-        $actual   = preg_match('/^(Hi|Hello), my name is a (Rob|Zyxep|Andres)!$/', $actual);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            preg_match('/^(Hi|Hello), my name is a (Rob|Zyxep|Andres)!$/', $actual)
+        );
+
+
 
         $actual = Text::dynamic('{Hi/Hello}, my name is a {Stanislav/Nikos}!', '{', '}', '/');
+
         $I->assertNotContains('{', $actual);
         $I->assertNotContains('}', $actual);
         $I->assertNotContains('/', $actual);
 
-        $expected = 1;
-        $actual   = preg_match('/^(Hi|Hello), my name is a (Stanislav|Nikos)!$/', $actual);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            preg_match('/^(Hi|Hello), my name is a (Stanislav|Nikos)!$/', $actual)
+        );
     }
 }

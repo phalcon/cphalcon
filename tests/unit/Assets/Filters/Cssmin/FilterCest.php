@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Assets\Filters\Cssmin;
 use Phalcon\Assets\Filters\Cssmin;
 use UnitTester;
 
-/**
- * Class FilterCest
- */
 class FilterCest
 {
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10

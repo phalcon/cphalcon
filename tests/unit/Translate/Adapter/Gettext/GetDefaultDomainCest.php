@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
 use UnitTester;
 
-/**
- * Class GetDefaultDomainCest
- */
 class GetDefaultDomainCest
 {
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: getDefaultDomain()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetDefaultDomainCest
     public function translateAdapterGettextGetDefaultDomain(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Gettext - getDefaultDomain()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -18,17 +18,12 @@ use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 use function dataFolder;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use ConfigTrait;
 
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: __construct() - complex instance
-     *
-     * @param UnitTester $I
      *
      * @author fenikkusu
      * @since  2017-06-06

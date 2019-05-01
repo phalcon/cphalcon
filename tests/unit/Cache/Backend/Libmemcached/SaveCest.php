@@ -15,17 +15,12 @@ namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\Cache\LibmemcachedTrait;
 use UnitTester;
 
-/**
- * Class SaveCest
- */
 class SaveCest
 {
     use LibmemcachedTrait;
 
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: save()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Mongo;
 
 use UnitTester;
 
-/**
- * Class GcCest
- */
 class GcCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Mongo :: gc()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GcCest
     public function cacheBackendMongoGc(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Mongo - gc()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Loader;
 
 use UnitTester;
 
-/**
- * Class RegisterDirsCest
- */
 class RegisterDirsCest
 {
     /**
      * Tests Phalcon\Loader :: registerDirs()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class RegisterDirsCest
     public function loaderRegisterDirs(UnitTester $I)
     {
         $I->wantToTest('Loader - registerDirs()');
+
         $I->skipTest('Need implementation');
     }
 }

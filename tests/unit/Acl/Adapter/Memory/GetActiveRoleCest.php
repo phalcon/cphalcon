@@ -16,9 +16,6 @@ use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
-/**
- * Class GetActiveRoleCest
- */
 class GetActiveRoleCest
 {
     /**
@@ -42,8 +39,6 @@ class GetActiveRoleCest
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveRole() - default
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

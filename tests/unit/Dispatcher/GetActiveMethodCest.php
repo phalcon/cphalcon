@@ -12,23 +12,21 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Dispatcher;
 
-use UnitTester;
+use Codeception\Example;
 use Phalcon\Mvc\Dispatcher;
+use UnitTester;
 
-/**
- * Class GetActiveMethodCest
- */
 class GetActiveMethodCest
 {
     /**
      * Tests Phalcon\Dispatcher :: getActiveMethod()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider dispatcherGetActiveMethodProvider
      */
-    public function dispatcherGetActiveMethod(UnitTester $I)
+    public function dispatcherGetActiveMethod(UnitTester $I, Example $example)
     {
         $I->wantToTest('Dispatcher - getActiveMethod()');
 
@@ -36,20 +34,40 @@ class GetActiveMethodCest
 
         $dispatcher->setActionSuffix('Action');
 
-        $dispatcher->setActionName('hello-phalcon');
-        $actualMethod = $dispatcher->getActiveMethod();
-        $I->assertEquals('helloPhalconAction', $actualMethod);
 
-        $dispatcher->setActionName('home_page');
-        $actualMethod = $dispatcher->getActiveMethod();
-        $I->assertEquals('homePageAction', $actualMethod);
 
-        $dispatcher->setActionName('secondPage');
-        $actualMethod = $dispatcher->getActiveMethod();
-        $I->assertEquals('secondPageAction', $actualMethod);
+        $dispatcher->setActionName(
+            $example['actionName']
+        );
 
-        $dispatcher->setActionName('ThirdPage');
-        $actualMethod = $dispatcher->getActiveMethod();
-        $I->assertEquals('thirdPageAction', $actualMethod);
+        $I->assertEquals(
+            $example['expected'],
+            $dispatcher->getActiveMethod()
+        );
+    }
+
+    private function dispatcherGetActiveMethodProvider(): array
+    {
+        return [
+            [
+                'actionName' => 'hello-phalcon',
+                'expected'   => 'helloPhalconAction',
+            ],
+
+            [
+                'actionName' => 'home_page',
+                'expected'   => 'homePageAction',
+            ],
+
+            [
+                'actionName' => 'secondPage',
+                'expected'   => 'secondPageAction',
+            ],
+
+            [
+                'actionName' => 'ThirdPage',
+                'expected'   => 'thirdPageAction',
+            ],
+        ];
     }
 }

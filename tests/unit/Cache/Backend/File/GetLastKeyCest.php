@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\File;
 
 use UnitTester;
 
-/**
- * Class GetLastKeyCest
- */
 class GetLastKeyCest
 {
     /**
      * Tests Phalcon\Cache\Backend\File :: getLastKey()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetLastKeyCest
     public function cacheBackendFileGetLastKey(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\File - getLastKey()');
+
         $I->skipTest('Need implementation');
     }
 }

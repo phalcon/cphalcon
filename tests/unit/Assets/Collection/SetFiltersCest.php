@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
-/**
- * Class SetFiltersCest
- */
 class SetFiltersCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: setFilters()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetFiltersCest
     public function assetsCollectionSetFilters(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - setFilters()');
+
         $I->skipTest('Need implementation');
     }
 }

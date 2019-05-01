@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class SetIdCest
- */
 class SetIdCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: setId()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetIdCest
     public function mvcCollectionSetId(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - setId()');
+
         $I->skipTest('Need implementation');
     }
 }

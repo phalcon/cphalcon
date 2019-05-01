@@ -19,14 +19,13 @@ class DisplayToCest
     /**
      * Tests Phalcon\Tag :: displayTo()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function tagDisplayTo(UnitTester $I)
     {
-        $I->wantToTest("Tag - displayTo()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Tag - displayTo()');
+
+        $I->skipTest('Need implementation');
     }
 }

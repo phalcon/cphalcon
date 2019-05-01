@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash;
 
 use UnitTester;
 
-/**
- * Class GetEscaperServiceCest
- */
 class GetEscaperServiceCest
 {
     /**
      * Tests Phalcon\Flash :: getEscaperService()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetEscaperServiceCest
     public function flashGetEscaperService(UnitTester $I)
     {
         $I->wantToTest('Flash - getEscaperService()');
+
         $I->skipTest('Need implementation');
     }
 }

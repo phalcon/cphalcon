@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Loader;
 
 use UnitTester;
 
-/**
- * Class AutoLoadCest
- */
 class AutoLoadCest
 {
     /**
      * Tests Phalcon\Loader :: autoLoad()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class AutoLoadCest
     public function loaderAutoLoad(UnitTester $I)
     {
         $I->wantToTest('Loader - autoLoad()');
+
         $I->skipTest('Need implementation');
     }
 }

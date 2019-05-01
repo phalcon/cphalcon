@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class SaveCest
- */
 class SaveCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: save()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SaveCest
     public function mvcCollectionSave(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - save()');
+
         $I->skipTest('Need implementation');
     }
 }

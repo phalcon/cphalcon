@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class GetActiveMethodCest
- */
 class GetActiveMethodCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getActiveMethod()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetActiveMethodCest
     public function mvcDispatcherGetActiveMethod(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - getActiveMethod()');
+
         $I->skipTest('Need implementation');
     }
 }

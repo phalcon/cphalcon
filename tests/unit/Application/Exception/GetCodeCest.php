@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Application\Exception;
 
 use UnitTester;
 
-/**
- * Class GetCodeCest
- */
 class GetCodeCest
 {
     /**
      * Tests Phalcon\Application\Exception :: getCode()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetCodeCest
     public function applicationExceptionGetCode(UnitTester $I)
     {
         $I->wantToTest('Application\Exception - getCode()');
+
         $I->skipTest('Need implementation');
     }
 }

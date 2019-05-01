@@ -14,16 +14,10 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Libmemcached;
 
 use IntegrationTester;
 
-/**
- * Class GetPrimaryKeyAttributesCest
- */
 class GetPrimaryKeyAttributesCest
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached ::
-     * getPrimaryKeyAttributes()
-     *
-     * @param IntegrationTester $I
+     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: getPrimaryKeyAttributes()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
-/**
- * Class GetAttributesCest
- */
 class GetAttributesCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: getAttributes()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetAttributesCest
     public function assetsCollectionGetAttributes(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - getAttributes()');
+
         $I->skipTest('Need implementation');
     }
 }

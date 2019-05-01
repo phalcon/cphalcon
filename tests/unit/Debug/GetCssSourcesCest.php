@@ -16,15 +16,10 @@ use Phalcon\Debug;
 use UnitTester;
 use function sprintf;
 
-/**
- * Class GetCssSourcesCest
- */
 class GetCssSourcesCest
 {
     /**
      * Tests Phalcon\Debug :: getCssSources()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

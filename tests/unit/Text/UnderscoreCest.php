@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Text;
 use Phalcon\Text;
 use UnitTester;
 
-/**
- * Class UnderscoreCest
- */
 class UnderscoreCest
 {
     /**
      * Tests Phalcon\Text :: underscore()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

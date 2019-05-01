@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class GetParamCest
- */
 class GetParamCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getParam()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetParamCest
     public function mvcDispatcherGetParam(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - getParam()');
+
         $I->skipTest('Need implementation');
     }
 }

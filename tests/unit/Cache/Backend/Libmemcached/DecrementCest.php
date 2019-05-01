@@ -15,17 +15,12 @@ namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\Cache\LibmemcachedTrait;
 use UnitTester;
 
-/**
- * Class DecrementCest
- */
 class DecrementCest
 {
     use LibmemcachedTrait;
 
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: decrement()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

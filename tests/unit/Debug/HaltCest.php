@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Debug;
 
 use UnitTester;
 
-/**
- * Class HaltCest
- */
 class HaltCest
 {
     /**
      * Tests Phalcon\Debug :: halt()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class HaltCest
     public function debugHalt(UnitTester $I)
     {
         $I->wantToTest('Debug - halt()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 
 use UnitTester;
 
-/**
- * Class StopCest
- */
 class StopCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: stop()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class StopCest
     public function cacheBackendLibmemcachedStop(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Libmemcached - stop()');
+
         $I->skipTest('Need implementation');
     }
 }

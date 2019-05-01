@@ -15,17 +15,12 @@ namespace Phalcon\Test\Unit\Config\Adapter\Php;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class OffsetExistsCest
- */
 class OffsetExistsCest
 {
     use ConfigTrait;
 
     /**
      * Tests Phalcon\Config\Adapter\Php :: offsetExists()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

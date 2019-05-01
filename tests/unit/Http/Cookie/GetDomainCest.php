@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Cookie;
 
 use UnitTester;
 
-/**
- * Class GetDomainCest
- */
 class GetDomainCest
 {
     /**
      * Tests Phalcon\Http\Cookie :: getDomain()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetDomainCest
     public function httpCookieGetDomain(UnitTester $I)
     {
         $I->wantToTest('Http\Cookie - getDomain()');
+
         $I->skipTest('Need implementation');
     }
 }

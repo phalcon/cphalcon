@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Security\Random;
 
 use UnitTester;
 
-/**
- * Class BytesCest
- */
 class BytesCest
 {
     /**
      * Tests Phalcon\Security\Random :: bytes()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

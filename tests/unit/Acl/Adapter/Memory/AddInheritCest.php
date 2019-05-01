@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use UnitTester;
 
-/**
- * Class AddInheritCest
- */
 class AddInheritCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addInherit()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class AddInheritCest
     public function aclAdapterMemoryAddInherit(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - addInherit()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
 
-/**
- * Class SetContentCest
- */
 class SetContentCest
 {
     /**
      * Tests Phalcon\Http\Response :: setContent()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetContentCest
     public function httpResponseSetContent(UnitTester $I)
     {
         $I->wantToTest('Http\Response - setContent()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Validation\Validator;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Numericality;
@@ -23,30 +24,53 @@ class NumericalityCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @author Andrey Izman <izmanw@gmail.com>
      * @since  2016-06-05
+     *
+     * @dataProvider validationValidatorSingleFieldProvider
      */
-    public function validationValidatorSingleField(IntegrationTester $I)
+    public function validationValidatorSingleField(IntegrationTester $I, Example $example)
     {
         $validation = new Validation();
-        $validation->add('amount', new Numericality());
-        $messages = $validation->validate(['amount' => 123]);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['amount' => 123.12]);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $validation->add(
+            'amount',
+            new Numericality()
+        );
 
-        $messages = $validation->validate(['amount' => '123abc']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'amount' => $example['amount'],
+            ]
+        );
 
-        $messages = $validation->validate(['amount' => '123.12e3']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $example['expected'],
+            $messages->count()
+        );
+    }
+
+    private function validationValidatorSingleFieldProvider(): array
+    {
+        return [
+            [
+                'amount'   => 123,
+                'expected' => 0,
+            ],
+
+            [
+                'amount'   => 123.12,
+                'expected' => 0,
+            ],
+
+            [
+                'amount'   => '123abc',
+                'expected' => 1,
+            ],
+
+            [
+                'amount'   => '123.12e3',
+                'expected' => 1,
+            ],
+        ];
     }
 
     /**
@@ -147,6 +171,8 @@ class NumericalityCest
 
         $this->setTestLocale('en_US.UTF8');
 
+
+
         $messages = $validation->validate(
             [
                 'amount' => 123.12,
@@ -157,6 +183,8 @@ class NumericalityCest
             0,
             $messages->count()
         );
+
+
 
         $messages = $validation->validate(
             [
@@ -169,6 +197,8 @@ class NumericalityCest
             $messages->count()
         );
 
+
+
         $messages = $validation->validate(
             [
                 'amount' => '123,12',
@@ -180,7 +210,11 @@ class NumericalityCest
             $messages->count()
         );
 
+
+
         $this->setTestLocale('fr_FR.UTF8');
+
+
 
         $messages = $validation->validate(
             [
@@ -193,6 +227,8 @@ class NumericalityCest
             $messages->count()
         );
 
+
+
         // revert back locale
         $this->setTestLocale($locale);
     }
@@ -200,14 +236,10 @@ class NumericalityCest
     /**
      * Set locale
      *
-     * @param string $locale
-     *
-     * @return string
-     *
      * @author Andrey Izman <izmanw@gmail.com>
      * @since  2018-08-08
      */
-    protected function setTestLocale($locale)
+    protected function setTestLocale(string $locale): string
     {
         putenv('LC_ALL=' . $locale);
         putenv('LANG=' . $locale);

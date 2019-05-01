@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class GetHandlerClassCest
- */
 class GetHandlerClassCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getHandlerClass()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetHandlerClassCest
     public function mvcDispatcherGetHandlerClass(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - getHandlerClass()');
+
         $I->skipTest('Need implementation');
     }
 }

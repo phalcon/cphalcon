@@ -17,16 +17,12 @@ use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
 
 /**
- * Class SetAdaptersCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class SetAdaptersCest
 {
     /**
      * Tests Phalcon\Logger :: setAdapters()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -87,8 +83,6 @@ class SetAdaptersCest
 
     /**
      * Tests Phalcon\Logger :: setAdapters() - constructor
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

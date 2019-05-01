@@ -319,10 +319,9 @@ class RequestCest extends HttpBase
 
 
 
-        $I->assertTrue(
-            is_string(
-                $request->getHttpHost()
-            )
+        $I->assertInternalType(
+            'string',
+            $request->getHttpHost()
         );
 
         $I->assertEquals(

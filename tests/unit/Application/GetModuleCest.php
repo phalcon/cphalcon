@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Application;
 
 use UnitTester;
 
-/**
- * Class GetModuleCest
- */
 class GetModuleCest
 {
     /**
      * Tests Phalcon\Application :: getModule()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetModuleCest
     public function applicationGetModule(UnitTester $I)
     {
         $I->wantToTest('Application - getModule()');
+
         $I->skipTest('Need implementation');
     }
 }

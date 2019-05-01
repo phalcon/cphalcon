@@ -18,17 +18,12 @@ use UnitTester;
 use function dataFolder;
 use function outputFolder;
 
-/**
- * Class RotateCest
- */
 class RotateCest
 {
     use ImagickTrait;
 
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: rotate()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19

@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Security;
 use UnitTester;
 use Phalcon\Security;
 
-/**
- * Class CheckHashCest
- */
 class CheckHashCest
 {
     /**
      * Tests Phalcon\Security :: checkHash()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

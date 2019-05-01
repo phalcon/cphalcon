@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Security;
 use Phalcon\Security;
 use UnitTester;
 
-/**
- * Class IsLegacyHashCest
- */
 class IsLegacyHashCest
 {
     /**

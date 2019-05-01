@@ -119,8 +119,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * @inheritdoc
-     *
-     * @return bool
      */
     public function exists(): bool
     {
@@ -129,11 +127,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * @inheritdoc
-     *
-     * @param string $index
-     * @param mixed $defaultValue
-     * @param bool $remove
-     * @return mixed
      */
     public function get(string $index, $defaultValue = null, bool $remove = false)
     {
@@ -154,8 +147,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * @inheritdoc
-     *
-     * @return string
      */
     public function getId(): string
     {
@@ -164,8 +155,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * @inheritdoc
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -174,8 +163,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * @inheritdoc
-     *
-     * @return array
      */
     public function getOptions(): array
     {

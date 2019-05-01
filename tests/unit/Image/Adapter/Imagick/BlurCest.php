@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
 
-/**
- * Class BlurCest
- */
 class BlurCest
 {
     use ImagickTrait;
@@ -25,14 +22,13 @@ class BlurCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: blur()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19
      */
     public function imageAdapterImagickBlur(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - blur()');
+
         $I->skipTest('Need implementation');
     }
 }

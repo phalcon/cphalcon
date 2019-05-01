@@ -16,15 +16,10 @@ use Phalcon\Http\Response;
 use Phalcon\Http\Response\Headers;
 use UnitTester;
 
-/**
- * Class ResetHeadersCest
- */
 class ResetHeadersCest
 {
     /**
      * Tests Phalcon\Http\Response :: resetHeaders()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

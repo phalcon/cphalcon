@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Debug;
 
 use UnitTester;
 
-/**
- * Class ListenCest
- */
 class ListenCest
 {
     /**
      * Tests Phalcon\Debug :: listen()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ListenCest
     public function debugListen(UnitTester $I)
     {
         $I->wantToTest('Debug - listen()');
+
         $I->skipTest('Need implementation');
     }
 }

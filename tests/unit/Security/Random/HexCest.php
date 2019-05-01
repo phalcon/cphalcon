@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Security\Random;
 
 use UnitTester;
 
-/**
- * Class HexCest
- */
 class HexCest
 {
     /**
      * Tests Phalcon\Security\Random :: hex()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Application\Exception;
 
 use UnitTester;
 
-/**
- * Class GetMessageCest
- */
 class GetMessageCest
 {
     /**
      * Tests Phalcon\Application\Exception :: getMessage()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetMessageCest
     public function applicationExceptionGetMessage(UnitTester $I)
     {
         $I->wantToTest('Application\Exception - getMessage()');
+
         $I->skipTest('Need implementation');
     }
 }

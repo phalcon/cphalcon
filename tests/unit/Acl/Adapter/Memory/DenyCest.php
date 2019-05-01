@@ -16,15 +16,10 @@ use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
-/**
- * Class DenyCest
- */
 class DenyCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: deny()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

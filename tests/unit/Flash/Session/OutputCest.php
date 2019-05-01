@@ -16,9 +16,6 @@ use Phalcon\Flash\Session;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-/**
- * Class OutputCest
- */
 class OutputCest
 {
     use DiTrait;
@@ -43,8 +40,6 @@ class OutputCest
     /**
      * Tests Phalcon\Flash\Session :: output()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -57,8 +52,6 @@ class OutputCest
     /**
      * Tests Phalcon\Flash\Session :: output() in case the session is empty
      *
-     * @param UnitTester $I
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since 2019-04-29
      */
@@ -67,6 +60,7 @@ class OutputCest
         $I->wantToTest('Flash\Session - output() when session is empty');
 
         $flash = $this->getFlash();
+
         $flash->clear();
 
         ob_start();
@@ -84,6 +78,7 @@ class OutputCest
     {
         $container = $this->getDi();
         $flash     = new Session($this->classes);
+
         $flash->setDI($container);
 
         return $flash;
