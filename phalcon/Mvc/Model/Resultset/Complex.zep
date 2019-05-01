@@ -336,8 +336,8 @@ class Complex extends Resultset implements ResultsetInterface
 
         if container->has("serializer") {
             let serializer = <SerializerInterface> container->getShared("serializer");
-            serializer->setData(data)
-            let resultset = serializer->serialize();
+
+            let resultset = serializer->unserialize(data);
         } else {
             let resultset = unserialize(data);
         }
