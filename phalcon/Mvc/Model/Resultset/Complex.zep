@@ -18,7 +18,6 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\DiInterface;
 use Phalcon\Di;
-use Phalcon\Cache\FrontendInterface;
 use Phalcon\Storage\Adapter\AdapterInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
@@ -336,8 +335,9 @@ class Complex extends Resultset implements ResultsetInterface
         }
 
         if container->has("serializer") {
-            let serializer = <FrontendInterface> container->getShared("serializer");
-            let resultset = serializer->afterRetrieve(data);
+            let serializer = <SerializerInterface> container->getShared("serializer");
+            serializer->setData(data)
+            let resultset = serializer->serialize();
         } else {
             let resultset = unserialize(data);
         }
