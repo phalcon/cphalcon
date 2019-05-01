@@ -12,11 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\Resultset\Simple;
 
-use function cacheDir;
+use function cacheModelsDir;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
+use Phalcon\Helper\Str;
 
 /**
  * Class ConstructCest
@@ -32,7 +33,7 @@ class ConstructCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
-        $I->cleanDir(cacheDir());
+        $I->cleanDir(cacheModelsDir());
     }
 
     /**
@@ -49,8 +50,11 @@ class ConstructCest
     {
         $I->wantToTest('Mvc\Model\Resultset\Simple - __construct() - complete PHQL');
 
-        $cache   = $this->getAndSetModelsCacheStream();
-        $manager = $this->getService('modelsManager');
+        $cache    = $this->getAndSetModelsCacheStream();
+        $manager  = $this->getService('modelsManager');
+        $filePath = cacheModelsDir()
+                  . 'phstrm-/'
+                  . Str::folderFromFile('test-resultset');
 
         $robots = $manager->executeQuery('SELECT * FROM ' . Robots::class);
 
@@ -61,8 +65,7 @@ class ConstructCest
 
         $cache->set('test-resultset', $robots);
 
-        $I->amInPath(cacheDir());
-        $I->seeFileFound('test-resultset');
+        $I->seeFileFound('test-resultset', $filePath);
 
         $robots = $cache->get('test-resultset');
 
@@ -73,8 +76,8 @@ class ConstructCest
         $result = $cache->clear();
         $I->assertTrue($result);
 
-        $I->amInPath(cacheDir());
-        $I->dontSeeFileFound('test-resultset');
+        $I->amInPath(cacheModelsDir());
+        $I->dontSeeFileFound('test-resultset', $filePath);
     }
 
     /**
@@ -90,8 +93,11 @@ class ConstructCest
     {
         $I->wantToTest('Mvc\Model\Resultset\Simple - __construct() - incomplete PHQL');
 
-        $cache   = $this->getAndSetModelsCacheStream();
-        $manager = $this->getService('modelsManager');
+        $cache    = $this->getAndSetModelsCacheStream();
+        $manager  = $this->getService('modelsManager');
+        $filePath = cacheModelsDir()
+                  . 'phstrm-/'
+                  . Str::folderFromFile('test-resultset');
 
         $robots = $manager->executeQuery('SELECT id FROM ' . Robots::class);
 
@@ -101,8 +107,7 @@ class ConstructCest
 
         $cache->set('test-resultset', $robots);
 
-        $I->amInPath(cacheDir());
-        $I->seeFileFound('test-resultset');
+        $I->seeFileFound('test-resultset', $filePath);
 
         $robots = $cache->get('test-resultset');
 
@@ -111,7 +116,7 @@ class ConstructCest
         $I->assertEquals($robots->count(), 6);
 
         $cache->delete('test-resultset');
-        $I->amInPath(cacheDir());
-        $I->dontSeeFileFound('test-resultset');
+
+        $I->dontSeeFileFound('test-resultset', $filePath);
     }
 }
