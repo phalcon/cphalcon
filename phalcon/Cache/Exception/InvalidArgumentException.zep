@@ -11,7 +11,7 @@
 namespace Phalcon\Cache\Exception;
 
 /**
- * Phalcon\Cache\Exception\Exceptiopn
+ * Phalcon\Cache\Exception\InvalidArgumentException
  *
  * Exceptions thrown in Phalcon\Cache will use this class
  *
