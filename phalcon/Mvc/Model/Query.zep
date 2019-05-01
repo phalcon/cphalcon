@@ -15,12 +15,12 @@ use Phalcon\Db\RawValue;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\DiInterface;
+use Phalcon\Helper\Arr;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\QueryInterface;
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\Model\Query\Status;
 use Phalcon\Mvc\Model\Resultset\Complex;
 use Phalcon\Mvc\Model\Query\StatusInterface;
@@ -30,6 +30,7 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Db\DialectInterface;
+use Phalcon\Storage\Adapter\AdapterInterface;
 
 /**
  * Phalcon\Mvc\Model\Query
@@ -2606,7 +2607,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Returns the current cache backend instance
      */
-    public function getCache() -> <BackendInterface>
+    public function getCache() -> <AdapterInterface>
     {
         return this->cache;
     }
@@ -2753,9 +2754,9 @@ class Query implements QueryInterface, InjectionAwareInterface
                      * We cache required meta-data to make its future access
                      * faster
                      */
-                    let columns1[aliasCopy]["instance"] = instance,
+                    let columns1[aliasCopy]["instance"]   = instance,
                         columns1[aliasCopy]["attributes"] = attributes,
-                        columns1[aliasCopy]["columnMap"] = columnMap;
+                        columns1[aliasCopy]["columnMap"]  = columnMap;
 
                     // Check if the model keeps snapshots
                     let isKeepingSnapshots = (bool) manager->isKeepingSnapshots(instance);
@@ -3416,15 +3417,15 @@ class Query implements QueryInterface, InjectionAwareInterface
          * representation
          */
         let selectIr = [
-            "columns": [
+            "columns" : [
                 [
-                    "type"  : "object",
-                    "model" : get_class(model),
-                    "column": model->getSource()
+                    "type"   : "object",
+                    "model"  : get_class(model),
+                    "column" : model->getSource()
                 ]
             ],
-            "models": intermediate["models"],
-            "tables": intermediate["tables"]
+            "models"  : intermediate["models"],
+            "tables"  : intermediate["tables"]
         ];
 
         /**
@@ -3466,9 +3467,8 @@ class Query implements QueryInterface, InjectionAwareInterface
             preparedResult, defaultBindParams, mergedParams, defaultBindTypes,
             mergedTypes, type, lifetime, intermediate;
 
-        let uniqueRow = this->uniqueRow;
-
-        let cacheOptions = this->cacheOptions;
+        let uniqueRow    = this->uniqueRow,
+            cacheOptions = this->cacheOptions;
 
         if cacheOptions !== null {
             if unlikely typeof cacheOptions != "array" {
@@ -3487,24 +3487,15 @@ class Query implements QueryInterface, InjectionAwareInterface
             /**
              * By default use use 3600 seconds (1 hour) as cache lifetime
              */
-            if !fetch lifetime, cacheOptions["lifetime"] {
-                let lifetime = 3600;
-            }
-
-            /**
-             * "modelsCache" is the default name for the models cache service
-             */
-            if !fetch cacheService, cacheOptions["service"] {
-                let cacheService = "modelsCache";
-            }
-
-            let cache = this->container->getShared(cacheService);
+            let lifetime     = Arr::get(cacheOptions, "lifetime", 3600),
+                cacheService = Arr::get(cacheOptions, "service", "modelsCache"),
+                cache        = this->container->getShared(cacheService);
 
             if unlikely typeof cache != "object" {
                 throw new Exception("Cache service must be an object");
             }
 
-            let result = cache->get(key, lifetime);
+            let result = cache->get(key);
 
             if !empty result {
                 if unlikely typeof result != "object" {
@@ -3631,7 +3622,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 );
             }
 
-            cache->save(key, result, lifetime);
+            cache->set(key, result, lifetime);
         }
 
         /**

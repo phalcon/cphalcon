@@ -118,19 +118,7 @@ class ModelsResultsetCacheCest
 
     private function testCacheDefaultDIBindings(IntegrationTester $I)
     {
-        $this->container->set(
-            'modelsCache',
-            function () {
-                $frontCache = new Data();
-                return new File(
-                    $frontCache,
-                    [
-                        'cacheDir' => cacheDir(),
-                    ]
-                );
-            },
-            true
-        );
+        $this->getAndSetModelsCacheStream();
 
         $robots = Robots::find([
             'cache'      => ['key' => 'some'],

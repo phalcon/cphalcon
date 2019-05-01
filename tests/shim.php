@@ -58,6 +58,7 @@ if (!function_exists('loadFolders')) {
             'annotations',
             'assets',
             'cache',
+            'cache/models',
             'image',
             'image/gd',
             'image/imagick',
@@ -120,6 +121,21 @@ if (true !== function_exists('outputDir')) {
     function outputDir(string $fileName = '')
     {
         return codecept_output_dir() . $fileName;
+    }
+}
+
+/**
+ * Returns the output folder
+ */
+if (true !== function_exists('cacheModelsDir')) {
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
+    function cacheModelsDir(string $fileName = '')
+    {
+        return codecept_output_dir() . 'tests/cache/models/' . $fileName;
     }
 }
 
@@ -186,7 +202,7 @@ if (true !== function_exists('getOptionsModelCacheStream')) {
     {
         return [
             'lifetime' => 3600,
-            'cacheDir' => cacheDir(),
+            'cacheDir' => cacheModelsDir(),
         ];
     }
 }
