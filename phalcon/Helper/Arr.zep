@@ -64,11 +64,7 @@ class Arr
     {
         var filtered;
 
-        if null !== method && is_callable(method)  {
-            let filtered = array_filter(collection, method);
-        } else {
-            let filtered = collection;
-        }
+        let filtered = self::filterCollection(collection, method);
 
         reset(filtered);
 
@@ -186,11 +182,7 @@ class Arr
     {
         var filtered;
 
-        if null !== method && is_callable(method)  {
-            let filtered = array_filter(collection, method);
-        } else {
-            let filtered = collection;
-        }
+        let filtered = self::filterCollection(collection, method);
 
         return end(filtered);
     }
@@ -208,11 +200,7 @@ class Arr
     {
         var filtered;
 
-        if null !== method && is_callable(method)  {
-            let filtered = array_filter(collection, method);
-        } else {
-            let filtered = collection;
-        }
+        let filtered = self::filterCollection(collection, method);
 
         end(filtered);
 
@@ -348,7 +336,7 @@ class Arr
      */
     final public static function validateAll(array! collection, var method) -> bool
     {
-        return count(array_filter(collection, method)) === count(collection);
+        return count(self::filterCollection(collection, method)) === count(collection);
     }
 
     /**
@@ -362,9 +350,17 @@ class Arr
      */
     final public static function validateAny(array! collection, var method) -> bool
     {
-        return count(array_filter(collection, method)) > 0;
+        return count(self::filterCollection(collection, method)) > 0;
     }
 
+    /**
+     * Helper method to filter the collection
+     *
+     * @param array    $collection
+     * @param callable $method
+     *
+     * @return array
+     */
     final private static function filterCollection(array collection, var method = null) -> array
     {
         if null !== method && is_callable(method)  {
