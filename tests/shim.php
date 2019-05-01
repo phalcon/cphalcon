@@ -126,9 +126,6 @@ if (true !== function_exists('outputDir')) {
 /*******************************************************************************
  * Options
  *******************************************************************************/
-/**
- * Return the libmemcached options
- */
 if (true !== function_exists('getOptionsLibmemcached')) {
     /**
      * @return array
@@ -148,9 +145,6 @@ if (true !== function_exists('getOptionsLibmemcached')) {
     }
 }
 
-/**
- * Return the Redis options
- */
 if (true !== function_exists('getOptionsRedis')) {
     /**
      * @return array
@@ -164,9 +158,7 @@ if (true !== function_exists('getOptionsRedis')) {
         ];
     }
 }
-/**
- * Return the Redis options
- */
+
 if (true !== function_exists('getOptionsSessionStream')) {
     /**
      * @return array
@@ -182,6 +174,63 @@ if (true !== function_exists('getOptionsSessionStream')) {
 
         return [
             'savePath' => cacheDir('sessions'),
+        ];
+    }
+}
+
+if (true !== function_exists('getOptionsModelCacheStream')) {
+    /**
+     * Get Model cache options - Stream
+     */
+    function getOptionsModelCacheStream(): array
+    {
+        return [
+            'lifetime' => 3600,
+            'cacheDir' => cacheDir(),
+        ];
+    }
+}
+
+if (true !== function_exists('getOptionsMysql')) {
+    /**
+     * Get mysql db options
+     */
+    function getOptionsMysql(): array
+    {
+        return [
+            'host'     => env('DATA_MYSQL_HOST'),
+            'username' => env('DATA_MYSQL_USER'),
+            'password' => env('DATA_MYSQL_PASS'),
+            'dbname'   => env('DATA_MYSQL_NAME'),
+            'charset'  => env('DATA_MYSQL_CHARSET'),
+        ];
+    }
+}
+
+if (true !== function_exists('getOptionsPostgresql')) {
+    /**
+     * Get postgresql db options
+     */
+    function getOptionsPostgresql(): array
+    {
+        return [
+            'host'     => env('DATA_POSTGRES_HOST'),
+            'username' => env('DATA_POSTGRES_USER'),
+            'password' => env('DATA_POSTGRES_PASS'),
+            'dbname'   => env('DATA_POSTGRES_NAME'),
+            'schema'   => env('DATA_POSTGRES_SCHEMA'),
+        ];
+    }
+}
+
+if (true !== function_exists('getOptionsSqlite')) {
+    /**
+     * Get sqlite db options
+     */
+    function getOptionsSqlite(): array
+    {
+        return [
+            'dbname' => env('DATA_SQLITE_NAME'),
         ];
     }
 }

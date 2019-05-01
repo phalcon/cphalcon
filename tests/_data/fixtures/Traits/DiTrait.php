@@ -12,6 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use function getOptionsLibmemcached;
+use function getOptionsModelCacheStream;
+use function getOptionsMysql;
+use function getOptionsPostgresql;
+use function getOptionsRedis;
+use function getOptionsSqlite;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Backend\Libmemcached;
@@ -39,7 +45,8 @@ use Phalcon\Session\Adapter\Noop as SessionNoop;
 use Phalcon\Session\Adapter\Redis as SessionRedis;
 use Phalcon\Session\Adapter\Stream as SessionFiles;
 use Phalcon\Session\Manager as SessionManager;
-use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\Adapter\Libmemcached as StorageLibmemcached;
+use Phalcon\Storage\Adapter\Stream as StorageStream;
 use Phalcon\Url;
 use function cacheDir;
 use function dataDir;
@@ -67,11 +74,22 @@ trait DiTrait
     }
 
     /**
-     * @return Stream
+     * @return StorageStream
      */
-    protected function getAndSetModelsCacheStream()
+    protected function getAndSetModelsCacheStream(): StorageStream
     {
-        $cache = new Stream($this->getOptionsModelCacheStream());
+        $cache = new StorageStream(getOptionsModelCacheStream());
+        $this->container->set('modelsCache', $cache);
+
+        return $cache;
+    }
+
+    /**
+     * @return StorageLibmemcached
+     */
+    protected function getAndSetModelsCacheLibmemcached(): StorageLibmemcached
+    {
+        $cache = new StorageLibmemcached(getOptionsLibmemcached());
         $this->container->set('modelsCache', $cache);
 
         return $cache;
@@ -278,7 +296,7 @@ trait DiTrait
      */
     protected function newDiMysql()
     {
-        return new Mysql($this->getOptionsMysql());
+        return new Mysql(getOptionsMysql());
     }
 
     /**
@@ -322,7 +340,7 @@ trait DiTrait
             'session',
             function () {
                 $manager = new SessionManager();
-                $manager->setHandler(new SessionLibmemcached($this->getOptionsMysql()));
+                $manager->setHandler(new SessionLibmemcached(getOptionsLibmemcached()));
 
                 return $manager;
             }
@@ -354,7 +372,7 @@ trait DiTrait
             'session',
             function () {
                 $manager = new SessionManager();
-                $manager->setHandler(new SessionRedis());
+                $manager->setHandler(new SessionRedis(getOptionsRedis()));
 
                 return $manager;
             }
@@ -374,7 +392,7 @@ trait DiTrait
      */
     protected function newDiSqlite()
     {
-        return new Sqlite($this->getOptionsSqlite());
+        return new Sqlite(getOptionsSqlite());
     }
 
     /**
@@ -467,7 +485,7 @@ trait DiTrait
      */
     protected function newDiPostgresql()
     {
-        return new Postgresql($this->getOptionsPostgresql());
+        return new Postgresql(getOptionsPostgresql());
     }
 
     /**
