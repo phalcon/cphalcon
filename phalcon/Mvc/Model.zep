@@ -39,7 +39,6 @@ use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\ValidationInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
-use Phalcon\Cache\FrontendInterface;
 
 /**
  * Phalcon\Mvc\Model
