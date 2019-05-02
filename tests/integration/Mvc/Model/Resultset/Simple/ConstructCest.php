@@ -54,7 +54,7 @@ class ConstructCest
         $manager  = $this->getService('modelsManager');
         $filePath = cacheModelsDir()
                   . 'phstrm-/'
-                  . Str::folderFromFile('test-resultset');
+                  . Str::dirFromFile('test-resultset');
 
         $robots = $manager->executeQuery('SELECT * FROM ' . Robots::class);
 
@@ -97,7 +97,7 @@ class ConstructCest
         $manager  = $this->getService('modelsManager');
         $filePath = cacheModelsDir()
                   . 'phstrm-/'
-                  . Str::folderFromFile('test-resultset');
+                  . Str::dirFromFile('test-resultset');
 
         $robots = $manager->executeQuery('SELECT id FROM ' . Robots::class);
 

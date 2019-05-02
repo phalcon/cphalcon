@@ -10,6 +10,7 @@
 
 namespace Phalcon\Session\Adapter;
 
+use Phalcon\Helper\Str;
 use Phalcon\Session\Exception;
 
 /**
@@ -59,7 +60,7 @@ class Stream extends Noop
             throw new Exception("The save_path [" . path . "]is not writeable");
         }
 
-        let this->path = rtrim(path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        let this->path = Str::dirSeparator(path);
     }
 
     public function destroy(var id) -> bool

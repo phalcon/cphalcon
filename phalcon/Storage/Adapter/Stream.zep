@@ -53,7 +53,7 @@ class Stream extends AbstractAdapter
         /**
          * Lets set some defaults and options here
          */
-        let this->cacheDir = rtrim(cacheDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR,
+        let this->cacheDir = Str::dirSeparator(cacheDir),
             this->prefix   = "phstrm-",
             this->options  = options;
 
@@ -70,8 +70,8 @@ class Stream extends AbstractAdapter
     {
         var directory, iterator, file, result;
 
-        let result      = true,
-            directory = rtrim(this->cacheDir . this->prefix, DIRECTORY_SEPARATOR),
+        let result    = true,
+            directory = Str::dirSeparator(this->cacheDir),
             iterator  = this->rglob(directory . "/*");
 
         for file in iterator {
@@ -177,7 +177,7 @@ class Stream extends AbstractAdapter
         var directory, iterator, file, split, results;
 
         let results   = [],
-            directory = rtrim(this->cacheDir . this->prefix, DIRECTORY_SEPARATOR),
+            directory = Str::dirSeparator(this->cacheDir),
             iterator  = this->rglob(directory . "/*");
 
         for file in iterator {
@@ -276,12 +276,12 @@ class Stream extends AbstractAdapter
      */
     private function getDir(string! key = "") -> string
     {
-        var directory, fileDirectory;
+        var dirPrefix, dirFromFile;
 
-        let directory     = rtrim(this->cacheDir . this->prefix, DIRECTORY_SEPARATOR),
-            fileDirectory = rtrim(Str::folderFromFile(key), DIRECTORY_SEPARATOR);
+        let dirPrefix   = this->cacheDir . this->prefix,
+            dirFromFile = Str::dirFromFile(key);
 
-        return directory . DIRECTORY_SEPARATOR . fileDirectory . DIRECTORY_SEPARATOR;
+        return Str::dirSeparator(dirPrefix) . Str::dirSeparator(dirFromFile);
     }
 
     /**

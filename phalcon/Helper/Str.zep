@@ -165,6 +165,53 @@ class Str
     }
 
     /**
+     * Accepts a file name (without extension) and returns a calculated
+     * directory structure with the filename in the end
+     *
+     * <code>
+     * use Phalcon\Helper\Str;
+     *
+     * echo Str::dirFromFile("file1234.jpg"); // /fi/le/12/file1234.jpg
+     * </code>
+     *
+     * @param string $file
+     *
+     * @return string
+     */
+    final public static function dirFromFile(string! file) -> string
+    {
+        var name, start;
+
+        let name  = pathinfo(file, PATHINFO_FILENAME),
+            start = substr(name, 0, -2);
+
+        if !start {
+            let start = substr(name, 0, 1);
+        }
+
+        return implode("/", str_split(start, 2)) . "/";
+    }
+
+    /**
+     * Accepts a directory name and ensures that it ends with
+     * DIRECTORY_SEPARATOR
+     *
+     * <code>
+     * use Phalcon\Helper\Str;
+     *
+     * echo Str::dirSeparator("/home/phalcon"); // /home/phalcon/
+     * </code>
+     *
+     * @param string $directory
+     *
+     * @return string
+     */
+    final public static function dirSeparator(string! directory) -> string
+    {
+        return rtrim(directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+    }
+
+    /**
      * Generates random text in accordance with the template
      *
      * <code>
@@ -278,34 +325,6 @@ class Str
         } else {
             return trim(strstr(strstr(text, start), end, true), start . end);
         }
-    }
-
-    /**
-     * Accepts a file name (without extension) and returns a calculated folder structure with the
-     * filename in the end
-     *
-     * <code>
-     * use Phalcon\Helper\Str;
-     *
-     * echo Str::folderFromFile("file1234.jpg"); // /fi/le/12/file1234.jpg
-     * </code>
-     *
-     * @param string $file
-     *
-     * @return string
-     */
-    final public static function folderFromFile(string! file) -> string
-    {
-        var name, start;
-
-        let name  = pathinfo(file, PATHINFO_FILENAME),
-            start = substr(name, 0, -2);
-
-        if !start {
-            let start = substr(name, 0, 1);
-        }
-
-        return implode("/", str_split(start, 2)) . "/";
     }
 
     /**
