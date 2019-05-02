@@ -149,6 +149,8 @@ class SaveCest
          * Deleting is necessary because other tests may rely on specific row count
          */
         $I->assertTrue($robotPart->delete());
+        $I->assertTrue($robotPart->robot->delete());
+        $I->assertTrue($part->delete());
     }
 
     /**
