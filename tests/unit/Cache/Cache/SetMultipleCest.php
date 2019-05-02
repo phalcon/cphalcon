@@ -84,5 +84,13 @@ class SetMultipleCest
                 );
             }
         );
+
+        $I->expectThrowable(
+            new InvalidArgumentException('The keys need to be an array or instance of Traversable'),
+            function () {
+                $adapter = new Cache(new Apcu());
+                $actual  = $adapter->setMultiple(1234);
+            }
+        );
     }
 }

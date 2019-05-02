@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Cache\Cache;
 
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Cache;
+use Phalcon\Cache\Exception\InvalidArgumentException;
 use function uniqid;
 use UnitTester;
 
@@ -60,5 +61,26 @@ class GetMultipleCest
         ];
         $actual   = $adapter->getMultiple([$key1, $key2, 'unknown'], 'default-unknown');
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Cache\Cache :: getMultiple() - exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-05-01
+     */
+    public function cacheCacheGetMultipleException(UnitTester $I)
+    {
+        $I->wantToTest('Cache\Cache - getMultiple() - exception');
+
+        $I->expectThrowable(
+            new InvalidArgumentException('The keys need to be an array or instance of Traversable'),
+            function () {
+                $adapter = new Cache(new Apcu());
+                $actual  = $adapter->getMultiple(1234);
+            }
+        );
     }
 }
