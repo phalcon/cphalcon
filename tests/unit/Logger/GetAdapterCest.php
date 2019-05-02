@@ -34,7 +34,7 @@ class GetAdapterCest
 
         $fileName1 = $I->getNewFileName('log', 'log');
 
-        $outputPath = outputFolder('tests/logs/');
+        $outputPath = outputDir('tests/logs/');
 
         $adapter1 = new Stream(
             $outputPath . $fileName1

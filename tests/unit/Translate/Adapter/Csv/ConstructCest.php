@@ -32,7 +32,7 @@ class ConstructCest
 
         $translator = new Csv(
             [
-                'content' => dataFolder('assets/translation/csv/ru_RU.csv'),
+                'content' => dataDir('assets/translation/csv/ru_RU.csv'),
             ]
         );
 

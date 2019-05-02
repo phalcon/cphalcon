@@ -15,7 +15,7 @@ namespace Phalcon\Test\Unit\Logger;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
-use function outputFolder;
+use function outputDir;
 
 /**
  * @package Phalcon\Test\Unit\Logger
@@ -32,7 +32,7 @@ class LogCest
     {
         $I->wantToTest('Logger - log()');
 
-        $logPath = outputFolder('tests/logs/');
+        $logPath = outputDir('tests/logs/');
 
         $fileName = $I->getNewFileName('log', 'log');
 

@@ -79,7 +79,7 @@ class ConstructCest
 
         $fileName = $I->getNewFileName('log', 'log');
 
-        $outputPath = outputFolder('tests/logs/');
+        $outputPath = outputDir('tests/logs/');
 
         $adapter = new Stream(
             $outputPath . $fileName
