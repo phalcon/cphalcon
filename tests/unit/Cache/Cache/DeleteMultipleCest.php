@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Cache\Cache;
 
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Cache;
+use Phalcon\Cache\Exception\InvalidArgumentException;
 use function uniqid;
 use UnitTester;
 
@@ -63,5 +64,26 @@ class DeleteMultipleCest
         $I->assertFalse($actual);
         $actual = $adapter->has($key3);
         $I->assertTrue($actual);
+    }
+
+    /**
+     * Tests Phalcon\Cache\Cache :: deleteMultiple() - exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-05-01
+     */
+    public function cacheCacheDeleteMultipleException(UnitTester $I)
+    {
+        $I->wantToTest('Cache\Cache - deleteMultiple() - exception');
+
+        $I->expectThrowable(
+            new InvalidArgumentException('The keys need to be an array or instance of Traversable'),
+            function () {
+                $adapter = new Cache(new Apcu());
+                $actual  = $adapter->deleteMultiple(1234);
+            }
+        );
     }
 }
