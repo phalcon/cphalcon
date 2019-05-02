@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Cache;
 
+use Phalcon\Cache\Adapter\Apcu;
+use Phalcon\Cache\Cache;
+use function uniqid;
 use UnitTester;
 
 /**
@@ -31,6 +34,34 @@ class DeleteMultipleCest
     {
         $I->wantToTest('Cache\Cache - deleteMultiple()');
 
-        $I->skipTest('Need implementation');
+        $adapter = new Cache(new Apcu());
+
+        $key1 = uniqid();
+        $key2 = uniqid();
+        $key3 = uniqid();
+        $adapter->setMultiple(
+            [
+                $key1 => 'test1',
+                $key2 => 'test2',
+                $key3 => 'test3',
+            ]
+        );
+
+        $actual = $adapter->has($key1);
+        $I->assertTrue($actual);
+        $actual = $adapter->has($key2);
+        $I->assertTrue($actual);
+        $actual = $adapter->has($key3);
+        $I->assertTrue($actual);
+
+        $actual = $adapter->deleteMultiple([$key1, $key2]);
+        $I->assertTrue($actual);
+
+        $actual = $adapter->has($key1);
+        $I->assertFalse($actual);
+        $actual = $adapter->has($key2);
+        $I->assertFalse($actual);
+        $actual = $adapter->has($key3);
+        $I->assertTrue($actual);
     }
 }

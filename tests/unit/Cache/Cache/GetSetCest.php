@@ -15,25 +15,25 @@ namespace Phalcon\Test\Unit\Cache\Cache;
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
-use function uniqid;
 use UnitTester;
+use function uniqid;
 
 /**
- * Class DeleteCest
+ * Class GetSetCest
  */
-class DeleteCest
+class GetSetCest
 {
     /**
-     * Tests Phalcon\Cache\Cache :: delete()
+     * Tests Phalcon\Cache\Cache :: get()/set()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01
      */
-    public function cacheCacheDelete(UnitTester $I)
+    public function cacheCacheSetGet(UnitTester $I)
     {
-        $I->wantToTest('Cache\Cache - delete()');
+        $I->wantToTest('Cache\Cache - get()');
 
         $adapter = new Cache(new Apcu());
 
@@ -47,32 +47,40 @@ class DeleteCest
         $actual = $adapter->has($key2);
         $I->assertTrue($actual);
 
-        $actual   = $adapter->delete($key1);
-        $I->assertTrue($actual);
+        $expected = 'test';
+        $actual   = $adapter->get($key1);
+        $I->assertEquals($expected, $actual);
 
-        $actual = $adapter->has($key1);
-        $I->assertFalse($actual);
-        $actual = $adapter->has($key2);
-        $I->assertTrue($actual);
+        $expected = 'test';
+        $actual   = $adapter->get($key2);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Cache\Cache :: delete() - exception
+     * Tests Phalcon\Cache\Cache :: get() - exception
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01
      */
-    public function cacheCacheDeleteException(UnitTester $I)
+    public function cacheCacheGetSetException(UnitTester $I)
     {
-        $I->wantToTest('Cache\Cache - delete() - exception');
+        $I->wantToTest('Cache\Cache - get() - exception');
 
         $I->expectThrowable(
             new InvalidArgumentException('The key contains invalid characters'),
             function () {
                 $adapter = new Cache(new Apcu());
-                $value = $adapter->delete('abc$^');
+                $value = $adapter->get('abc$^');
+            }
+        );
+
+        $I->expectThrowable(
+            new InvalidArgumentException('The key contains invalid characters'),
+            function () {
+                $adapter = new Cache(new Apcu());
+                $value = $adapter->set('abc$^', 'test');
             }
         );
     }

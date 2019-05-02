@@ -12,7 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Cache;
 
+use Phalcon\Cache\Adapter\Apcu;
+use Phalcon\Cache\Cache;
 use UnitTester;
+use function uniqid;
 
 /**
  * Class ClearCest
@@ -31,6 +34,25 @@ class ClearCest
     {
         $I->wantToTest('Cache\Cache - clear()');
 
-        $I->skipTest('Need implementation');
+        $adapter = new Cache(new Apcu());
+
+        $key1 = uniqid();
+        $key2 = uniqid();
+        $adapter->set($key1, 'test');
+        $actual = $adapter->has($key1);
+        $I->assertTrue($actual);
+
+        $adapter->set($key2, 'test');
+        $actual = $adapter->has($key2);
+        $I->assertTrue($actual);
+
+        $actual = $adapter->clear();
+        $I->assertTrue($actual);
+
+        $actual = $adapter->has($key1);
+        $I->assertFalse($actual);
+
+        $actual = $adapter->has($key2);
+        $I->assertFalse($actual);
     }
 }

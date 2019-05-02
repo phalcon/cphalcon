@@ -14,8 +14,9 @@ namespace Phalcon\Test\Unit\Cache\Cache;
 
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Cache;
-use function uniqid;
+use Phalcon\Cache\Exception\InvalidArgumentException;
 use UnitTester;
+use function uniqid;
 
 /**
  * Class HasCest
@@ -44,5 +45,26 @@ class HasCest
         $adapter->set($key, 'test');
         $actual = $adapter->has($key);
         $I->assertTrue($actual);
+    }
+
+    /**
+     * Tests Phalcon\Cache\Cache :: has() - exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-05-01
+     */
+    public function cacheCacheHasException(UnitTester $I)
+    {
+        $I->wantToTest('Cache\Cache - has() - exception');
+
+        $I->expectThrowable(
+            new InvalidArgumentException('The key contains invalid characters'),
+            function () {
+                $adapter = new Cache(new Apcu());
+                $value = $adapter->has('abc$^');
+            }
+        );
     }
 }

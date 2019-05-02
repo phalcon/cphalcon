@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Cache;
 
+use Phalcon\Cache\Adapter\Apcu;
+use Phalcon\Cache\Cache;
+use function uniqid;
 use UnitTester;
 
 /**
@@ -31,6 +34,31 @@ class GetMultipleCest
     {
         $I->wantToTest('Cache\Cache - getMultiple()');
 
-        $I->skipTest('Need implementation');
+        $adapter = new Cache(new Apcu());
+
+        $key1 = uniqid();
+        $key2 = uniqid();
+        $adapter->set($key1, 'test1');
+        $actual = $adapter->has($key1);
+        $I->assertTrue($actual);
+
+        $adapter->set($key2, 'test2');
+        $actual = $adapter->has($key2);
+        $I->assertTrue($actual);
+
+        $expected = [
+            $key1 => 'test1',
+            $key2 => 'test2',
+        ];
+        $actual   = $adapter->getMultiple([$key1, $key2]);
+        $I->assertEquals($expected, $actual);
+
+        $expected = [
+            $key1     => 'test1',
+            $key2     => 'test2',
+            'unknown' => 'default-unknown',
+        ];
+        $actual   = $adapter->getMultiple([$key1, $key2, 'unknown'], 'default-unknown');
+        $I->assertEquals($expected, $actual);
     }
 }

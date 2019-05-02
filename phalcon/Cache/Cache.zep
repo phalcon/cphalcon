@@ -110,7 +110,7 @@ class Cache implements CacheInterface
     {
         this->checkKey(key);
 
-        return this->adapter->get(key);
+        return this->adapter->get(key, defaultValue);
     }
 
     /**
@@ -152,6 +152,8 @@ class Cache implements CacheInterface
      */
     public function has(var key) -> bool
     {
+        this->checkKey(key);
+
         return this->adapter->has(key);
     }
 
@@ -171,6 +173,8 @@ class Cache implements CacheInterface
      */
     public function set(var key, var value, var ttl = null) -> bool
     {
+        this->checkKey(key);
+
         return this->adapter->set(key, value, ttl);
     }
 
@@ -212,7 +216,7 @@ class Cache implements CacheInterface
     {
         let key = (string) key;
 
-        if !preg_match("/[^A-Za-z0-9-_]/", key) {
+        if preg_match("/[^A-Za-z0-9-_]/", key) {
             throw new InvalidArgumentException(
                 "The key contains invalid characters"
             );
