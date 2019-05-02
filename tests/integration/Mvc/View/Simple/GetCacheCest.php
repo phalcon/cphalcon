@@ -12,13 +12,25 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
+use function dataDir;
 use IntegrationTester;
+use Phalcon\Mvc\View\Simple;
+use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
  * Class GetCacheCest
  */
 class GetCacheCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiViewSimple();
+    }
+
     /**
      * Tests Phalcon\Mvc\View\Simple :: getCache()
      *
@@ -30,6 +42,21 @@ class GetCacheCest
     public function mvcViewSimpleGetCache(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\View\Simple - getCache()');
-        $I->skipTest('Need implementation');
+
+        $class = Stream::class;
+        $cache = $this->getAndSetViewCacheStream();
+        $I->assertInstanceOf($class, $cache);
+
+        $view = new Simple();
+        $view->setViewsDir(dataDir('fixtures/views/'));
+
+        // No cache before DI is set
+        $I->assertFalse($view->getCache());
+
+        $view->setDI($this->container);
+        $I->assertEquals($view, $view->cache(['key' => 'view_simple_cache']));
+
+        $cache = $view->getCache();
+        $I->assertInstanceOf(Stream::class, $cache);
     }
 }
