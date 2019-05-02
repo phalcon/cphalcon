@@ -103,9 +103,9 @@ script:
   - if [ "$PHP_VERNUM" -ge "70300" ]; then phpenv config-rm xdebug.ini || true; fi
 
   - vendor/bin/codecept build --quiet
-  - vendor/bin/codecept run --ext DotReporter tests/cli/
-  - vendor/bin/codecept run --ext DotReporter tests/integration/
-  - vendor/bin/codecept run --ext DotReporter tests/unit/
+  - vendor/bin/codecept run tests/cli/
+  - vendor/bin/codecept run tests/integration/
+  - vendor/bin/codecept run tests/unit/
 
   - .ci/run-volt-tests.sh
 
