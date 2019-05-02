@@ -383,6 +383,56 @@ class SimpleCest
         $I->safeDeleteFile('view_simple_cache');
     }
 
+    public function testRenderWithCache(IntegrationTester $I)
+    {
+        $I->wantToTest('Render by using simple view with cache');
+
+        if (PHP_MAJOR_VERSION == 7) {
+            $I->skipTest(
+                'Skipped in view of the experimental support for PHP 7.'
+            );
+        }
+
+        // Create cache at first run
+        $view = new Simple();
+        codecept_debug(gettype($view->getParamsToView()));
+        $view->setViewsDir(dataDir('fixtures/views/'));
+
+        // No cache before DI is set
+        $I->assertFalse($view->getCache());
+
+        $view->setDI($this->getDi());
+        $I->assertEquals($view, $view->cache(['key' => 'view_simple_cache']));
+
+        $cache = $view->getCache();
+        $I->assertInstanceOf('Phalcon\Cache\BackendInterface', $cache);
+
+        $timeNow = time();
+        $view->setParamToView('a_cool_var', $timeNow);
+
+        $I->assertEquals("<p>$timeNow</p>", rtrim($view->render('test3/coolVar')));
+
+        $I->amInPath(cacheDir());
+        $I->seeFileFound('view_simple_cache');
+        $I->seeInThisFile("<p>$timeNow</p>");
+
+        unset($view, $cache);
+
+        // Re-use the cached contents
+        $view = new Simple;
+        $view->setViewsDir(dataDir('fixtures/views/'));
+        $view->setDI($this->getDi());
+        $view->cache(['key' => 'view_simple_cache']);
+
+        $I->assertEmpty($view->getContent());
+        $I->assertEquals("<p>$timeNow</p>", rtrim($view->render('test3/coolVar')));
+
+        $I->assertNotEmpty($view->getContent());
+        $I->assertEquals("<p></p>", rtrim($view->render('test3/coolVar')));
+
+        $I->safeDeleteFile('view_simple_cache');
+    }
+
     /**
      * Setup viewCache service and DI
      */
