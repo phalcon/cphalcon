@@ -12,6 +12,7 @@ namespace Phalcon\Mvc\View;
 
 use Closure;
 use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Helper\Arr;
 use Phalcon\Helper\Str;
@@ -446,7 +447,7 @@ class Simple extends Injectable implements ViewBaseInterface
     {
         var container, cacheService, cacheOptions, viewCache;
 
-        let container = this->container;
+        let container = <DiInterface> this->container;
 
         if unlikely typeof container != "object" {
             throw new Exception(
@@ -456,7 +457,7 @@ class Simple extends Injectable implements ViewBaseInterface
 
         let cacheOptions = this->cacheOptions;
 
-        if typeof cacheOptions == "array" {
+        if typeof cacheOptions !== "array" {
             let cacheOptions = [];
         }
 
