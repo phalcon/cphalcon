@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Libmemcached;
 
 use Phalcon\Cache\Adapter\Libmemcached;
-use Phalcon\Storage\Adapter\AdapterInterface;
+use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 

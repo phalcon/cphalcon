@@ -10,7 +10,7 @@
 
 namespace Phalcon\Cache\Adapter;
 
-use Phalcon\Storage\Adapter\AdapterInterface as StorageAdapterInterface;
+use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 use Phalcon\Storage\Adapter\Stream as StorageStream;
 
 /**
@@ -18,6 +18,6 @@ use Phalcon\Storage\Adapter\Stream as StorageStream;
  *
  * Stream adapter
  */
-class Stream extends StorageStream implements StorageAdapterInterface
+class Stream extends StorageStream implements CacheAdapterInterface
 {
 }

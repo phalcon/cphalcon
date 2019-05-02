@@ -10,11 +10,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Cache\Adapter\Redis;
+namespace Phalcon\Test\Unit\Cache\Cache;
 
-use Phalcon\Cache\Adapter\Redis;
-use Phalcon\Cache\Adapter\AdapterInterface;
-use Phalcon\Test\Fixtures\Traits\RedisTrait;
+use Phalcon\Cache\Adapter\Apcu;
+use Phalcon\Cache\Cache;
+use Psr\SimpleCache\CacheInterface;
 use UnitTester;
 
 /**
@@ -22,25 +22,24 @@ use UnitTester;
  */
 class ConstructCest
 {
-    use RedisTrait;
-
     /**
-     * Tests Phalcon\Cache\Adapter\Redis :: __construct()
+     * Tests Phalcon\Cache\Cache :: __construct()
      *
      * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-09
+     * @since  2019-05-01
      */
-    public function storageAdapterRedisConstruct(UnitTester $I)
+    public function cacheCacheConstruct(UnitTester $I)
     {
-        $I->wantToTest('Cache\Adapter\Redis - __construct()');
-        $adapter = new Redis($this->getOptions());
+        $I->wantToTest('Cache\Cache - __construct()');
 
-        $class = Redis::class;
+        $adapter = new Cache(new Apcu());
+
+        $class = Cache::class;
         $I->assertInstanceOf($class, $adapter);
 
-        $class = AdapterInterface::class;
+        $class = CacheInterface::class;
         $I->assertInstanceOf($class, $adapter);
     }
 }

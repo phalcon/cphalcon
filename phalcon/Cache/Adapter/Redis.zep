@@ -10,7 +10,7 @@
 
 namespace Phalcon\Cache\Adapter;
 
-use Phalcon\Storage\Adapter\AdapterInterface as StorageAdapterInterface;
+use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 use Phalcon\Storage\Adapter\Redis as StorageRedis;
 
 /**
@@ -18,6 +18,6 @@ use Phalcon\Storage\Adapter\Redis as StorageRedis;
  *
  * Redis adapter
  */
-class Redis extends StorageRedis implements StorageAdapterInterface
+class Redis extends StorageRedis implements CacheAdapterInterface
 {
 }

@@ -37,7 +37,7 @@ class Cache implements CacheInterface
      */
     public function __construct(<AdapterInterface> adapter) -> void
     {
-        let adapter = adapter;
+        let this->adapter = adapter;
     }
 
     /**
