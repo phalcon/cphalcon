@@ -10,14 +10,13 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\DiInterface;
 use Phalcon\Di\Injectable;
-use Phalcon\Events\ManagerInterface;
-use Phalcon\Helper\Arr;
 use Phalcon\Helper\Str;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Mvc\ViewInterface;
+use Phalcon\Cache\BackendInterface;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 
 /**
@@ -171,7 +170,7 @@ class View extends Injectable implements ViewInterface
      */
     public function cache(var options = true) -> <View>
     {
-        var viewOptions, cacheOptions, key, value;
+        var viewOptions, cacheOptions, key, value, cacheLevel;
 
         if typeof options == "array" {
             let viewOptions = this->options;
@@ -183,7 +182,9 @@ class View extends Injectable implements ViewInterface
             /**
              * Get the default cache options
              */
-            let cacheOptions = Arr::get(viewOptions, "cache", []);
+            if !fetch cacheOptions, viewOptions["cache"] {
+                let cacheOptions = [];
+            }
 
             for key, value in options {
                 let cacheOptions[key] = value;
@@ -193,9 +194,14 @@ class View extends Injectable implements ViewInterface
              * Check if the user has defined a default cache level or use
              * self::LEVEL_MAIN_LAYOUT as default
              */
-            let this->cacheLevel     = Arr::get(cacheOptions, "level", self::LEVEL_MAIN_LAYOUT),
-                viewOptions["cache"] = cacheOptions,
-                this->options        = viewOptions;
+            if fetch cacheLevel, cacheOptions["level"] {
+                let this->cacheLevel = cacheLevel;
+            } else {
+                let this->cacheLevel = self::LEVEL_MAIN_LAYOUT;
+            }
+
+            let viewOptions["cache"] = cacheOptions;
+            let this->options = viewOptions;
         } else {
             /**
              * If 'options' isn't an array we enable the cache with default
@@ -354,9 +360,9 @@ class View extends Injectable implements ViewInterface
     /**
      * Returns the cache instance used to cache
      */
-    public function getCache() -> <AdapterInterface>
+    public function getCache() -> <BackendInterface>
     {
-        if !this->cache || typeof this->cache !== "object" {
+        if !this->cache || typeof this->cache != "object" {
             let this->cache = this->createCache();
         }
 
@@ -1194,7 +1200,7 @@ class View extends Injectable implements ViewInterface
     /**
      * Create a Phalcon\Cache based on the internal cache options
      */
-    protected function createCache() -> <AdapterInterface>
+    protected function createCache() -> <BackendInterface>
     {
         var container, cacheService, viewCache, viewOptions, cacheOptions;
 
@@ -1206,14 +1212,20 @@ class View extends Injectable implements ViewInterface
             );
         }
 
-        let viewOptions = this->options,
-            cacheOptions = Arr::get(viewOptions, "cache", []);
+        let cacheService = "viewCache";
+
+        let viewOptions = this->options;
+
+        if fetch cacheOptions, viewOptions["cache"] {
+            if isset cacheOptions["service"] {
+                let cacheService = cacheOptions["service"];
+            }
+        }
 
         /**
          * The injected service must be an object
          */
-        let cacheService = Arr::get(cacheOptions, "service" , "viewCache"),
-            viewCache    = <AdapterInterface> container->getShared(cacheService);
+        let viewCache = <BackendInterface> container->getShared(cacheService);
 
         if unlikely typeof viewCache != "object" {
             throw new Exception("The injected caching service is invalid");
@@ -1225,28 +1237,19 @@ class View extends Injectable implements ViewInterface
     /**
      * Checks whether view exists on registered extensions and render it
      */
-    protected function engineRender(
-        array engines,
-        string viewPath,
-        bool silence,
-        bool mustClean,
-        <AdapterInterface> cache = null
-    ) {
+    protected function engineRender(array engines, string viewPath, bool silence, bool mustClean, <BackendInterface> cache = null)
+    {
         bool notExists;
         int renderLevel, cacheLevel;
         var key, lifetime, viewsDir, basePath, viewsDirPath, viewOptions,
             cacheOptions, cachedView, viewParams, eventsManager, extension,
             engine, viewEnginePath, viewEnginePaths;
 
-        let notExists       = true,
-            basePath        = this->basePath,
-            viewParams      = this->viewParams,
-            eventsManager   = <ManagerInterface> this->eventsManager,
-            viewEnginePaths = [],
-            viewOptions     = this->options,
-            cacheOptions    = Arr::get(viewOptions, "cache", []),
-            key             = Arr::get(cacheOptions, "key", md5(viewPath)),
-            lifetime        = Arr::get(cacheOptions, "lifetime", 3600);
+        let notExists = true,
+            basePath = this->basePath,
+            viewParams = this->viewParams,
+            eventsManager = <ManagerInterface> this->eventsManager,
+            viewEnginePaths = [];
 
         for viewsDir in this->getViewsDirs() {
             if !this->isAbsolutePath(viewPath) {
@@ -1257,14 +1260,53 @@ class View extends Injectable implements ViewInterface
 
             if typeof cache == "object" {
                 let renderLevel = (int) this->renderLevel,
-                    cacheLevel  = (int) this->cacheLevel;
+                    cacheLevel = (int) this->cacheLevel;
 
                 if renderLevel >= cacheLevel {
-                    let cachedView = cache->get(key);
-                    if null !== cachedView {
-                        let this->content = cachedView;
-                        return;
-                    } else {
+                    /**
+                     * Check if the cache is started, the first time a cache is
+                     * started we start the cache
+                     */
+                    if !cache->isStarted() {
+                        let key = null,
+                            lifetime = null;
+
+                        let viewOptions = this->options;
+
+                        /**
+                         * Check if the user has defined a different options to
+                         * the default
+                         */
+                        if fetch cacheOptions, viewOptions["cache"] {
+                            if typeof cacheOptions == "array" {
+                                fetch key, cacheOptions["key"];
+                                fetch lifetime, cacheOptions["lifetime"];
+                            }
+                        }
+
+                        /**
+                         * If a cache key is not set we create one using a md5
+                         */
+                        if key === null {
+                            let key = md5(viewPath);
+                        }
+
+                        /**
+                         * We start the cache using the key set
+                         */
+                        let cachedView = cache->start(key, lifetime);
+
+                        if cachedView !== null {
+                            let this->content = cachedView;
+                            return null;
+                        }
+                    }
+
+                    /**
+                     * This method only returns true if the cache has not
+                     * expired
+                     */
+                    if !cache->isFresh() {
                         return null;
                     }
                 }
