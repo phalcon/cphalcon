@@ -85,6 +85,17 @@ trait DiTrait
     }
 
     /**
+     * @return StorageStream
+     */
+    protected function getAndSetViewCacheStream(): StorageStream
+    {
+        $cache = new StorageStream(getOptionsModelCacheStream());
+        $this->container->set('viewCache', $cache);
+
+        return $cache;
+    }
+
+    /**
      * @return StorageLibmemcached
      */
     protected function getAndSetModelsCacheLibmemcached(): StorageLibmemcached
