@@ -19,6 +19,7 @@ settings:
     # Tests (especially functional) can take a lot of memory
     # We set a high limit for them by default.
     memory_limit: 1024M
+    lint: true
 
 coverage:
     # Disable Code Coverage by default to speed up Travis tests
