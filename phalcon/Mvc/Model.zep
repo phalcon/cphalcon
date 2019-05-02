@@ -99,7 +99,31 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
     protected modelsMetaData;
 
-    protected related;
+    /*
+     * We use different related storages, because a rollbacked transaction could corrupt them
+     *
+     * Stores every fetched and set related records.
+     * Updated also after the related records have been successfully saved.
+     *
+     * @var array
+     */
+    protected related = [];
+
+    /*
+     * Stores only set related records.
+     * Cleared upon successful save.
+     *
+     * @var array
+     */
+    protected relatedUnsaved = [];
+
+    /*
+     * Updated continously during the save process.
+     * Cleared upon successful save.
+     *
+     * @var array
+     */
+    protected relatedSaved = [];
 
     protected operationMade = 0;
 
@@ -248,7 +272,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function __get(string! property)
     {
-        var modelName, manager, lowerProperty, relation, result, method;
+        var modelName, manager, lowerProperty, relation, method;
 
         let modelName = get_class(this),
             manager = this->getModelsManager(),
@@ -263,39 +287,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         );
 
         if typeof relation == "object" {
-
-            /*
-             Not fetch a relation if it is on CamelCase
-             */
-            if isset this->{lowerProperty} && typeof this->{lowerProperty} == "object" {
-                return this->{lowerProperty};
-            }
             /**
              * Get the related records
              */
-            let result = manager->getRelationRecords(
-                relation,
-                null,
-                this,
-                null
-            );
-
-            /**
-             * Assign the result to the object
-             */
-            if typeof result == "object" {
-                /**
-                 * We assign the result to the instance avoiding future queries
-                 */
-                let this->{lowerProperty} = result;
-
-                /**
-                 * We store relationship objects in the related bag
-                 */
-                let this->related[lowerProperty] = result;
-            }
-
-            return result;
+            return this->getRelated(lowerProperty);
         }
 
         /**
@@ -348,71 +343,101 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     {
         var lowerProperty, related, modelName, manager, lowerKey, relation,
             referencedModel, key, item, dirtyState;
-        bool haveRelation;
 
         /**
          * Values are probably relationships if they are objects
          */
         if typeof value == "object" && value instanceof ModelInterface {
-            let dirtyState = this->dirtyState;
-
-            if value->getDirtyState() != dirtyState {
-                let dirtyState = self::DIRTY_STATE_TRANSIENT;
-            }
-
             let lowerProperty = strtolower(property),
-                this->{lowerProperty} = value,
-                this->related[lowerProperty] = value,
-                this->dirtyState = dirtyState;
+                modelName = get_class(this),
+                manager = this->getModelsManager();
 
-            return value;
+            let relation = <RelationInterface> manager->getRelationByAlias(
+                    modelName,
+                    lowerProperty
+                );
+
+            if typeof relation == "object" {
+                let dirtyState = this->dirtyState;
+
+                if (value->getDirtyState() != dirtyState) {
+                    let dirtyState = self::DIRTY_STATE_TRANSIENT;
+                }
+
+                let this->related[lowerProperty] = value,
+                    this->relatedUnsaved[lowerProperty] = value,
+                    this->dirtyState = dirtyState;
+
+                return value;
+            }
         }
 
         /**
          * Check if the value is an array
          */
-        if typeof value == "array" {
+        elseif typeof value == "array" {
             let lowerProperty = strtolower(property),
                 modelName = get_class(this),
                 manager = this->getModelsManager();
 
-            let haveRelation = false;
-            let related = [];
+            let relation = <RelationInterface> manager->getRelationByAlias(
+                    modelName,
+                    lowerProperty
+                );
 
-            for key, item in value {
-                if typeof item == "object" {
-                    if item instanceof ModelInterface {
-                        let related[] = item;
-                        let haveRelation = true;
-                    }
-                } else {
-                    let lowerKey = strtolower(key),
-                        this->{lowerKey} = item;
+            if typeof relation == "object" {
+                switch relation->getType() {
+                    case Relation::BELONGS_TO:
+                    case Relation::HAS_ONE:
+                        /**
+                         * Load referenced model from local cache if its possible
+                         */
+                        if(this->isRelationshipLoaded(lowerProperty)) {
+                            let referencedModel = this->related[lowerProperty];
+                        } else {
+                            let referencedModel = manager->load(
+                                relation->getReferencedModel()
+                            );
+                        }
 
-                    let relation = <RelationInterface> manager->getRelationByAlias(
-                        modelName,
-                        lowerProperty
-                    );
+                        if typeof referencedModel == "object" {
+                            for key, item in value {
+                                let lowerKey = strtolower(key);
 
-                    if typeof relation == "object" {
-                        let referencedModel = manager->load(
-                            relation->getReferencedModel()
-                        );
+                                referencedModel->writeAttribute(lowerKey, item);
+                            }
 
-                        referencedModel->writeAttribute(lowerKey, item);
+                            let this->related[lowerProperty] = referencedModel,
+                                this->relatedUnsaved[lowerProperty] = referencedModel,
+                                this->dirtyState = self::DIRTY_STATE_TRANSIENT;
 
-                        let haveRelation = true;
-                    }
+                            return value;
+                        }
+
+                        break;
+
+                    case Relation::HAS_MANY:
+                    case Relation::HAS_MANY_THROUGH:
+                        let related = [];
+
+                        for item in value {
+                            if typeof item == "object" {
+                                if item instanceof ModelInterface {
+                                    let related[] = item;
+                                }
+                            }
+                        }
+
+                        if count(related) > 0 {
+                            let this->related[lowerProperty] = related,
+                                this->relatedUnsaved[lowerProperty] = related,
+                                this->dirtyState = self::DIRTY_STATE_TRANSIENT;
+
+                            return value;
+                        }
+
+                        break;
                 }
-            }
-
-            if count(related) > 0 {
-                let this->related[lowerProperty] = related,
-                    this->dirtyState = self::DIRTY_STATE_TRANSIENT;
-            }
-
-            if haveRelation {
-                return value;
             }
         }
 
@@ -1747,17 +1772,18 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getRelated(string alias, arguments = null) -> <ResultsetInterface>
     {
-        var relation, className, manager;
+        var relation, className, manager, result, lowerAlias;
 
         /**
          * Query the relation by alias
          */
         let className = get_class(this),
-            manager = <ManagerInterface> this->modelsManager;
+            manager = <ManagerInterface> this->modelsManager,
+            lowerAlias = strtolower(alias);
 
         let relation = <RelationInterface> manager->getRelationByAlias(
             className,
-            alias
+            lowerAlias
         );
 
         if typeof relation != "object" {
@@ -1767,14 +1793,38 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         }
 
         /**
-         * Call the 'getRelationRecords' in the models manager
+         * There might be unsaved related records that can be returned
          */
-        return manager->getRelationRecords(relation, null, this, arguments);
+        if isset this->relatedUnsaved[lowerAlias] {
+            let result = this->relatedUnsaved[lowerAlias];
+        } else {
+            /**
+             * If the related records are already in cache and the relation is reusable,
+             * we return the cached records.
+             */
+            if relation->isReusable() && this->isRelationshipLoaded(lowerAlias) {
+                let result = this->related[lowerAlias];
+            } else {
+                /**
+                 * Call the 'getRelationRecords' in the models manager
+                 *
+                 * The manager also checks and stores reusable records.
+                 */
+                let result = manager->getRelationRecords(relation, null, this, arguments);
+
+                /**
+                 * We store relationship objects in the related cache
+                 */
+                let this->related[lowerAlias] = result;
+            }
+        }
+
+        return result;
     }
 
     public function isRelationshipLoaded(string relationshipAlias) -> bool
     {
-        return isset this->related[relationshipAlias];
+        return isset this->related[strtolower(relationshipAlias)];
     }
 
     /**
@@ -2225,8 +2275,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function save() -> bool
     {
-        var metaData, related, schema, writeConnection, readConnection, source,
-            table, identityField, exists, success;
+        var metaData, schema, writeConnection, readConnection, source,
+            table, identityField, exists, success, relatedUnsaved;
+        bool hasRelatedUnsaved;
 
         let metaData = this->getModelsMetaData();
 
@@ -2241,12 +2292,18 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         this->fireEvent("prepareSave");
 
         /**
+         * Store the original records as a base for the updated ones
+         */
+        let this->relatedSaved = this->related;
+
+        /**
          * Save related records in belongsTo relationships
          */
-        let related = this->related;
+        let relatedUnsaved = this->relatedUnsaved,
+            hasRelatedUnsaved = count(relatedUnsaved) > 0;
 
-        if typeof related == "array" {
-            if this->_preSaveRelatedRecords(writeConnection, related) === false {
+        if hasRelatedUnsaved {
+            if this->_preSaveRelatedRecords(writeConnection, relatedUnsaved) === false {
                 return false;
             }
         }
@@ -2293,7 +2350,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Rollback the current transaction if there was validation errors
              */
-            if typeof related == "array" {
+            if hasRelatedUnsaved {
                 writeConnection->rollback(false);
             }
 
@@ -2335,7 +2392,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
         }
 
-        if typeof related == "array" {
+        if hasRelatedUnsaved {
             /**
              * Rollbacks the implicit transaction if the master save has failed
              */
@@ -2347,7 +2404,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                  */
                 let success = this->_postSaveRelatedRecords(
                     writeConnection,
-                    related
+                    relatedUnsaved
                 );
             }
         }
@@ -2362,6 +2419,15 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         if success === false {
             this->_cancelOperation();
         } else {
+            if hasRelatedUnsaved {
+                /**
+                 * Update and clear related caches
+                 */
+                let this->related = this->relatedSaved,
+                    this->relatedUnsaved = [],
+                    this->relatedSaved = [];
+            }
+
             this->fireEvent("afterSave");
         }
 
@@ -3987,50 +4053,62 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function _getRelatedRecords(string! modelName, string! method, var arguments)
     {
-        var manager, relation, queryMethod, extraArgs;
+        var manager, relation, queryMethod, extraArgs, alias;
 
         let manager = <ManagerInterface> this->modelsManager;
 
         let relation = false,
             queryMethod = null;
 
+        fetch extraArgs, arguments[0];
+
         /**
          * Calling find/findFirst if the method starts with "get"
          */
         if starts_with(method, "get") {
+            let alias = substr(method, 3);
             let relation = <RelationInterface> manager->getRelationByAlias(
-                modelName,
-                substr(method, 3)
-            );
+                    modelName,
+                    alias
+                );
+
+            /**
+             * Return if the relation was not found becasue getRelated() throws an exception if the relation is unknown
+             */
+            if typeof relation != "object" {
+                return null;
+            }
+
+            return this->getRelated(alias, extraArgs);
         }
 
         /**
          * Calling count if the method starts with "count"
          */
-        elseif starts_with(method, "count") {
+        if starts_with(method, "count") {
             let queryMethod = "count";
 
             let relation = <RelationInterface> manager->getRelationByAlias(
-                modelName,
-                substr(method, 5)
+                    modelName,
+                    substr(method, 5)
+                );
+
+            /**
+             * If the relation was found perform the query via the models manager
+             */
+            if typeof relation != "object" {
+                return null;
+            }
+
+            return manager->getRelationRecords(
+                relation,
+                queryMethod,
+                this,
+                extraArgs
             );
         }
 
-        /**
-         * If the relation was found perform the query via the models manager
-         */
-        if typeof relation != "object" {
-            return null;
-        }
-
-        fetch extraArgs, arguments[0];
-
-        return manager->getRelationRecords(
-            relation,
-            queryMethod,
-            this,
-            extraArgs
-        );
+        return null;
     }
 
     /**
@@ -4570,6 +4648,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     }
 
                     /**
+                     * Update the cache with the saved record
+                     */
+                    let this->relatedSaved[name] = record;
+
+                    /**
                      * Read the attribute from the referenced model and assign
                      * it to the current model
                      */
@@ -4794,6 +4877,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         }
                     }
 
+                }
+
+
+                /**
+                 * Has-many-to-many records are intact, so we do not neet an update there
+                 */
+                if !isThrough {
+                    /**
+                     * Update the cache with the saved records
+                     */
+                    let this->relatedSaved[name] = relatedRecords;
                 }
             } else {
                 if typeof record != "array" {
