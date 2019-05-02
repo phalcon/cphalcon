@@ -11,12 +11,11 @@
 namespace Phalcon\Mvc\View;
 
 use Closure;
-use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Di\Injectable;
-use Phalcon\Helper\Arr;
 use Phalcon\Helper\Str;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Mvc\ViewBaseInterface;
+use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\View\EngineInterface;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 
@@ -148,7 +147,7 @@ class Simple extends Injectable implements ViewBaseInterface
     /**
      * Returns the cache instance used to cache
      */
-    public function getCache() -> <AdapterInterface>
+    public function getCache() -> <BackendInterface>
     {
         if this->cache && typeof this->cache != "object" {
             let this->cache = this->createCache();
@@ -300,28 +299,47 @@ class Simple extends Injectable implements ViewBaseInterface
             mergedParams;
 
         /**
-         * Create/Get a cache and the options
+         * Create/Get a cache
          */
-        let cache        = this->getCache(),
-            cacheOptions = this->cacheOptions;
+        let cache = this->getCache();
 
-        if typeof cacheOptions !== "array" {
-            let cacheOptions = [];
-        }
-
-        let key      = Arr::get(cacheOptions, "key", md5(path)),
-            lifetime = Arr::get(cacheOptions, "lifetime", 3600);
-
-        /**
-         * Check if the cache is a valid object
-         */
         if typeof cache == "object" {
-            let content = cache->get(key);
+            /**
+             * Check if the cache is started, the first time a cache is started
+             * we start the cache
+             */
+            if !cache->isStarted() {
+                let key = null,
+                    lifetime = null;
 
-            if null !== content {
-                let this->content = content;
+                /**
+                 * Check if the user has defined a different options to the
+                 * default
+                 */
+                let cacheOptions = this->cacheOptions;
 
-                return content;
+                if typeof cacheOptions == "array" {
+                    fetch key, cacheOptions["key"];
+                    fetch lifetime, cacheOptions["lifetime"];
+                }
+
+                /**
+                 * If a cache key is not set we create one using a md5
+                 */
+                if key === null {
+                    let key = md5(path);
+                }
+
+                /**
+                 * We start the cache using the key set
+                 */
+                let content = cache->start(key, lifetime);
+
+                if content !== null {
+                    let this->content = content;
+
+                    return content;
+                }
             }
         }
 
@@ -344,15 +362,18 @@ class Simple extends Injectable implements ViewBaseInterface
          */
         this->internalRender(path, mergedParams);
 
-        ob_end_clean();
-
         /**
-         * Store the data in the cache
+         * Store the data in output into the cache
          */
         if typeof cache == "object" {
-            let content = this->content;
-            cache->set(key, content, lifetime);
+            if cache->isStarted() && cache->isFresh() {
+                cache->save();
+            } else {
+                cache->stop();
+            }
         }
+
+        ob_end_clean();
 
         return this->content;
     }
@@ -442,7 +463,7 @@ class Simple extends Injectable implements ViewBaseInterface
     /**
      * Create a Phalcon\Cache based on the internal cache options
      */
-    protected function createCache() -> <AdapterInterface>
+    protected function createCache() -> <BackendInterface>
     {
         var container, cacheService, cacheOptions, viewCache;
 
@@ -454,17 +475,20 @@ class Simple extends Injectable implements ViewBaseInterface
             );
         }
 
+        let cacheService = "viewCache";
+
         let cacheOptions = this->cacheOptions;
 
         if typeof cacheOptions == "array" {
-            let cacheOptions = [];
+            if isset cacheOptions["service"] {
+                fetch cacheService, cacheOptions["service"];
+            }
         }
 
         /**
          * The injected service must be an object
          */
-        let cacheService = Arr::get(cacheOptions, "service" , "viewCache"),
-            viewCache    = <AdapterInterface> container->getShared(cacheService);
+        let viewCache = <BackendInterface> container->getShared(cacheService);
 
         if unlikely typeof viewCache != "object" {
             throw new Exception("The injected caching service is invalid");
