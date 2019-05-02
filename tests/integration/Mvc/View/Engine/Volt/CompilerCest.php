@@ -147,16 +147,19 @@ class CompilerCest
         $I->safeDeleteFile(dataFolder('fixtures/views/macro/strtotime.volt.php'));
 
         Di::reset();
-        Tag::setDocType(Tag::XHTML5);
+
+        $tag = new \Phalcon\Html\Tag();
+
+        $tag->setDocType(
+            \Phalcon\Html\Tag::XHTML5
+        );
 
         $view = new View;
         $di   = new Di;
         $di->set('escaper', function () {
             return new Escaper;
         });
-        $di->set('tag', function () {
-            return new Tag;
-        });
+        $di->set('tag', $tag);
         $di->set('url', function () {
             return (new Url)->setBaseUri('/');
         });

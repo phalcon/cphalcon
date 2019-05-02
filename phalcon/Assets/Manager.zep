@@ -762,15 +762,15 @@ class Manager implements InjectionAwareInterface
             let collection = this->get(collectionName);
         }
 
-        let callback = ["Phalcon\\Tag", "stylesheetLink"];
-
         let container = this->container;
 
         if typeof container == "object" && container->has("tag") {
             let tag = container->getShared("tag");
-
-            let callback = [tag, "stylesheetLink"];
+        } else {
+            let tag = new \Phalcon\Html\Tag();
         }
+
+        let callback = [tag, "stylesheet"];
 
         return this->output(collection, callback, "css");
     }
@@ -783,7 +783,7 @@ class Manager implements InjectionAwareInterface
     public function outputInline(<Collection> collection, type) -> string
     {
         var output, html, codes, filters, filter, code, attributes, content,
-            join, joinedContent;
+            join, joinedContent, container, tag;
 
         let output = "",
             html = "",
@@ -793,10 +793,21 @@ class Manager implements InjectionAwareInterface
             filters = collection->getFilters(),
             join = collection->getJoin() ;
 
+        let container = this->container;
+
+        if typeof container == "object" && container->has("tag") {
+            let tag = container->getShared("tag");
+        } else {
+            let tag = new \Phalcon\Html\Tag();
+        }
+
         if count(codes) {
             for code in codes {
                 let attributes = code->getAttributes(),
                     content = code->getContent();
+
+                let attributes["selfClose"] = false;
+                let attributes["onlyStart"] = true;
 
                 for filter in filters {
                     /**
@@ -816,12 +827,12 @@ class Manager implements InjectionAwareInterface
                 if join {
                     let joinedContent .= content;
                 } else {
-                    let html .= Tag::tagHtml(type, attributes, false, true) . content . Tag::tagHtmlClose(type, true);
+                    let html .= tag->element(type, attributes) . content . tag->elementClose(type, ["useEol": true]);
                 }
             }
 
             if join {
-                let html .= Tag::tagHtml(type, attributes, false, true) . joinedContent . Tag::tagHtmlClose(type, true);
+                let html .= tag->element(type, attributes) . joinedContent . tag->elementClose(type, ["useEol": true]);
             }
 
             /**
@@ -882,13 +893,15 @@ class Manager implements InjectionAwareInterface
             let collection = this->get(collectionName);
         }
 
-        let callback = ["Phalcon\\Tag", "javascriptInclude"];
-
         let container = this->container;
+
         if typeof container == "object" && container->has("tag") {
             let tag = container->getShared("tag");
-            let callback = [tag, "javascriptInclude"];
+        } else {
+            let tag = new \Phalcon\Html\Tag();
         }
+
+        let callback = [tag, "javascript"];
 
         return this->output(collection, callback, "js");
     }

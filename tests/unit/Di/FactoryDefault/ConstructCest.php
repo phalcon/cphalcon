@@ -59,7 +59,7 @@ class ConstructCest
             'response'           => 'Phalcon\Http\Response',
             'router'             => 'Phalcon\Mvc\Router',
             'security'           => 'Phalcon\Security',
-            'tag'                => 'Phalcon\Tag',
+            'tag'                => 'Phalcon\Html\Tag',
             'transactionManager' => 'Phalcon\Mvc\Model\Transaction\Manager',
             'url'                => 'Phalcon\Url',
         ];

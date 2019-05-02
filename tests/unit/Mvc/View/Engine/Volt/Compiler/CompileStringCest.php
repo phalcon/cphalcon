@@ -105,21 +105,21 @@ class CompileStringCest
             ['{{ dump(a) }}', '<?= var_dump($a) ?>'],
             ["{{ date('Y-m-d', time()) }}", '<?= date(\'Y-m-d\', time()) ?>'],
             ['{{ robots.getPart(a) }}', '<?= $robots->getPart($a) ?>'],
-            //Phalcon\Tag helpers
-            ["{{ link_to('hello', 'some-link') }}", '<?= $this->tag->linkTo([\'hello\', \'some-link\']) ?>'],
+            //Phalcon\Html\Tag helpers
+            ["{{ link('hello', 'some-link') }}", '<?= $this->tag->link(\'hello\', \'some-link\') ?>'],
             [
-                "{{ form('action': 'save/products', 'method': 'post') }}",
-                '<?= $this->tag->form([\'action\' => \'save/products\', \'method\' => \'post\']) ?>',
+                "{{ form('save/products', ['method': 'post']) }}",
+                '<?= $this->tag->form(\'save/products\', [\'method\' => \'post\']) ?>',
             ],
             [
-                '{{ stylesheet_link(config.cdn.css.bootstrap, config.cdn.local) }}',
-                '<?= $this->tag->stylesheetLink($config->cdn->css->bootstrap, $config->cdn->local) ?>',
+                '{{ stylesheet(config.cdn.css.bootstrap, config.cdn.local) }}',
+                '<?= $this->tag->stylesheet($config->cdn->css->bootstrap, $config->cdn->local) ?>',
             ],
-            ["{{ javascript_include('js/some.js') }}", '<?= $this->tag->javascriptInclude(\'js/some.js\') ?>'],
-            ["{{ image('img/logo.png', 'width': 80) }}", "<?= \$this->tag->image(['img/logo.png', 'width' => 80]) ?>"],
+            ["{{ javascript('js/some.js') }}", '<?= $this->tag->javascript(\'js/some.js\') ?>'],
+            ["{{ image('img/logo.png', ['width': 80]) }}", "<?= \$this->tag->image('img/logo.png', ['width' => 80]) ?>"],
             [
-                "{{ email_field('email', 'class': 'form-control', 'placeholder': 'Email Address') }}",
-                "<?= \$this->tag->emailField(['email', 'class' => 'form-control', 'placeholder' => 'Email Address']) ?>",
+                "{{ input_email('email', ['class': 'form-control', 'placeholder': 'Email Address']) }}",
+                "<?= \$this->tag->inputEmail('email', ['class' => 'form-control', 'placeholder' => 'Email Address']) ?>",
             ],
             //Filters
             ['{{ "hello"|e }}', '<?= $this->escaper->escapeHtml(\'hello\') ?>'],
@@ -247,8 +247,7 @@ class CompileStringCest
             //Mixed
             ['{# some comment #}{{ "hello" }}{# other comment }}', "<?= 'hello' ?>"],
             // Select
-            ['{{ select_static(["name": "kek"], ["Y": "Yes", "N": "No"]) }}', "<?= \$this->tag->selectStatic(['name' => 'kek'], ['Y' => 'Yes', 'N' => 'No']) ?>"],
-            ['{{ select(["name": "kek"], ["Y": "Yes", "N": "No"]) }}', "<?= \$this->tag->select(['name' => 'kek'], ['Y' => 'Yes', 'N' => 'No']) ?>"]
+            ['{{ select("kek", ["Y": "Yes", "N": "No"]) }}', "<?= \$this->tag->select('kek', ['Y' => 'Yes', 'N' => 'No']) ?>"]
         ];
     }
 

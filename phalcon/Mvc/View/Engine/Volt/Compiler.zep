@@ -1617,7 +1617,7 @@ class Compiler implements InjectionAwareInterface
     {
         var code, funcArguments, arguments, nameExpr, nameType, name,
             extensions, functions, definition, extendedBlocks, block,
-            currentBlock, exprLevel, escapedCode, method, arrayHelpers;
+            currentBlock, exprLevel, escapedCode, method;
 
         let code = null;
 
@@ -1744,6 +1744,7 @@ class Compiler implements InjectionAwareInterface
                         return "'" . escapedCode . "'";
                     }
                 }
+
                 return "''";
             }
 
@@ -1751,89 +1752,12 @@ class Compiler implements InjectionAwareInterface
                 camelize(name)
             );
 
-            let arrayHelpers = [
-                "link_to":        true,
-                "image":          true,
-                "form":           true,
-                "submit_button":  true,
-                "radio_field":    true,
-                "check_field":    true,
-                "file_field":     true,
-                "hidden_field":   true,
-                "password_field": true,
-                "text_area":      true,
-                "text_field":     true,
-                "email_field":    true,
-                "date_field":     true,
-                "tel_field":      true,
-                "numeric_field":  true,
-                "image_input":    true
-            ];
-
             /**
-             * Check if it's a method in Phalcon\Tag
+             * Check if it's a method in Phalcon\Html\Tag
              */
-            if method_exists("Phalcon\\Tag", method) {
-                if isset arrayHelpers[name] {
-                    return "$this->tag->" . method . "([" . arguments . "])";
-                }
-
-                return "$this->tag->" . method . "(" . arguments . ")";
-            }
-
-            /**
-             * The code below will be activated when Html\Tag is enabled
-             */
-            /**
-            let arrayHelpers = [
-                "button_submit"         : true.
-                "element"               : true.
-                "element_close"         : true.
-                "end_form"              : true.
-                "form"                  : true.
-                "friendly_title"        : true.
-                "get_doc_type"          : true.
-                "get_title"             : true.
-                "get_title_separator"   : true.
-                "image"                 : true.
-                "input_checkbox"        : true.
-                "input_color"           : true.
-                "input_date"            : true.
-                "input_date_time"       : true.
-                "input_date_time_local" : true.
-                "input_email"           : true.
-                "input_file"            : true.
-                "input_hidden"          : true.
-                "input_image"           : true.
-                "input_month"           : true.
-                "input_numeric"         : true.
-                "input_password"        : true.
-                "input_radio"           : true.
-                "input_range"           : true.
-                "input_search"          : true.
-                "input_tel"             : true.
-                "input_text"            : true.
-                "input_time"            : true.
-                "input_url"             : true.
-                "input_week"            : true.
-                "javascript"            : true.
-                "link"                  : true.
-                "prepend_title"         : true.
-                "render_title"          : true.
-                "select"                : true.
-                "stylesheet"            : true.
-                "submit"                : true.
-                "text_area"             : true.
-            ];
-
             if method_exists("Phalcon\\Html\\Tag", method) {
-                if isset arrayHelpers[name] {
-                    return "$this->tag->" . method . "([" . arguments . "])";
-                }
-
                 return "$this->tag->" . method . "(" . arguments . ")";
             }
-            */
 
             /**
              * Get a dynamic URL

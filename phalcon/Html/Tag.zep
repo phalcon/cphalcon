@@ -249,7 +249,7 @@ class Tag implements InjectionAwareInterface
      * Volt syntax:
      * <code>
      * {{ form('posts/save') }}
-     * {{ form('posts/save', ['method': 'post') }}
+     * {{ form('posts/save', ['method': 'post']) }}
      * </code>
      */
     public function form(string action, array parameters = []) -> string
@@ -280,7 +280,6 @@ class Tag implements InjectionAwareInterface
      * Converts text to URL-friendly strings
      *
      * Parameters
-     * `text`      The text to be processed
      * `separator` Separator to use (default '-')
      * `lowercase` Convert to lowercase
      * `replace`
@@ -291,8 +290,8 @@ class Tag implements InjectionAwareInterface
      * $tab = new Tag();
      *
      * echo $tag->friendlyTitle(
+     *     'These are big important news',
      *     [
-     *         'text'       => 'These are big important news',
      *         'separator' => '-',
      *     ]
      * );
@@ -300,7 +299,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt Syntax:
      * <code>
-     * {{ friendly_title(['text': 'These are big important news', 'separator': '-']) }}
+     * {{ friendly_title('These are big important news', ['separator': '-']) }}
      * </code>
      */
     public function friendlyTitle(string! text, array parameters = []) -> string
@@ -576,7 +575,7 @@ class Tag implements InjectionAwareInterface
      * Volt Syntax:
      * <code>
      * {{ image('img/bg.png') }}
-     * {{ image('img/photo.jpg', ['alt': 'Some Photo') }}
+     * {{ image('img/photo.jpg', ['alt': 'Some Photo']) }}
      * {{ image('http://static.mywebsite.com/img/bg.png', ['local': false]) }}
      * </code>
      */
@@ -609,8 +608,8 @@ class Tag implements InjectionAwareInterface
      *
      * <code>
      * echo $tag->inputCheckbox(
+     *     'terms',
      *     [
-     *         'name'  => 'terms,
      *         'value' => 'Y',
      *     ]
      * );
@@ -618,7 +617,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * <code>
-     * {{ input_checkbox(['name': 'terms, 'value': 'Y']) }}
+     * {{ input_checkbox('terms', ['value': 'Y']) }}
      * </code>
      */
     public function inputCheckbox(string! name, array parameters = []) -> string
@@ -643,8 +642,8 @@ class Tag implements InjectionAwareInterface
      * $tag = new Tag();
      *
      * echo $tag->inputDate(
+     *     'born',
      *     [
-     *         'name'  => 'born',
      *         'value' => '14-12-1980',
      *     ]
      * );
@@ -652,7 +651,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * <code>
-     * {{ input_date(['name':'born', 'value':'14-12-1980']) }}
+     * {{ input_date('born', ['value': '14-12-1980']) }}
      * </code>
      */
     public function inputDate(string! name, array parameters = []) -> string
@@ -669,8 +668,8 @@ class Tag implements InjectionAwareInterface
      * $tag = new Tag();
      *
      * echo $tag->inputDateTime(
+     *     'born',
      *     [
-     *         'name'  => 'born',
      *         'value' => '14-12-1980',
      *     ]
      * );
@@ -678,7 +677,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * <code>
-     * {{ input_date_time(['name':'born', 'value':'14-12-1980']) }}
+     * {{ input_date_time('born', ['value': '14-12-1980']) }}
      * </code>
     */
     public function inputDateTime(string! name, array parameters = []) -> string
@@ -695,8 +694,8 @@ class Tag implements InjectionAwareInterface
      * $tag = new Tag();
      *
      * echo $tag->inputDateTimeLocal(
+     *     'born',
      *     [
-     *         'name'  => 'born',
      *         'value' => '14-12-1980',
      *     ]
      * );
@@ -704,7 +703,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * <code>
-     * {{ input_date_time_local(['name':'born', 'value':'14-12-1980']) }}
+     * {{ input_date_time_local('born', ['value': '14-12-1980']) }}
      * </code>
     */
     public function inputDateTimeLocal(string! name, array parameters = []) -> string
@@ -721,15 +720,13 @@ class Tag implements InjectionAwareInterface
      * $tag = new Tag();
      *
      * echo $tag->inputEmail(
-     *     [
-     *         'name' => 'email',
-      *     ]
+     *      'email'
      * );
      * </code>
      *
      * Volt syntax:
      * <code>
-     * {{ input_email(['name': 'email']);
+     * {{ input_email('email') }}
      * </code>
      */
     public function inputEmail(string! name, array parameters = []) -> string
@@ -746,15 +743,13 @@ class Tag implements InjectionAwareInterface
      * $tag = new Tag();
      *
      * echo $tag->inputFile(
-     *     [
-     *         'name' => 'file',
-      *     ]
+     *     'file'
      * );
      * </code>
      *
      * Volt syntax:
      * <code>
-     * {{ input_file(['name': 'file']);
+     * {{ input_file('file') }}
      * </code>
      */
     public function inputFile(string! name, array parameters = []) -> string
@@ -771,8 +766,8 @@ class Tag implements InjectionAwareInterface
      * $tag = new Tag();
      *
      * echo $tag->inputHidden(
+     *     'my-field',
      *     [
-     *         'name'  => 'my-field',
      *         'value' => 'mike',
      *     ]
      * );
@@ -790,16 +785,15 @@ class Tag implements InjectionAwareInterface
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
+     *
      * echo $tag->inputImage(
-     *     [
-     *         'src' => '/img/button.png',
-     *     ]
+     *     '/img/button.png'
      * );
      * </code>
      *
      * Volt syntax:
      * <code>
-     * {{ input_image(['src': '/img/button.png']) }}
+     * {{ input_image('/img/button.png') }}
      * </code>
      */
     public function inputImage(string! name, array parameters = []) -> string
@@ -824,8 +818,8 @@ class Tag implements InjectionAwareInterface
      * $tag = new Tag();
      *
      * echo $tag->numericField(
+     *     'price',
      *     [
-     *         'name' => 'price',
      *         'min'  => '1',
      *         'max'  => '5',
      *     ]
@@ -846,8 +840,8 @@ class Tag implements InjectionAwareInterface
      * $tag = new Tag();
      *
      * echo $tag->passwordField(
+     *     'my-field',
      *     [
-     *         'name' => 'my-field',
      *         'size' => 30,
      *     ]
      * );
@@ -867,8 +861,8 @@ class Tag implements InjectionAwareInterface
      * $tag = new Tag();
      *
      * echo $tag->inputRadio(
+     *     'weather',
      *     [
-     *         'name'  => 'weather',
      *         'value" => 'hot',
      *     ]
      * );
@@ -876,7 +870,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * <code>
-     * {{ input_radio(['name': 'weather', 'value": 'hot']) }}
+     * {{ input_radio('weather', ['value": 'hot']) }}
      * </code>
      */
     public function inputRadio(string! name, array parameters = []) -> string
@@ -917,8 +911,8 @@ class Tag implements InjectionAwareInterface
      * $tag = new Tag();
      *
      * echo $tag->inputText(
+     *     'my-field',
      *     [
-     *         'name' => 'my-field',
      *         'size' => 30,
      *     ]
      * );
@@ -966,7 +960,7 @@ class Tag implements InjectionAwareInterface
      *
      * echo $tag->javascript(
      *     'http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js',
-     *        [
+     *     [
      *         'local' => false,
      *     ]
      * );
@@ -1119,7 +1113,7 @@ class Tag implements InjectionAwareInterface
      *
      * $tag = new Tag();
      *
-     * echo $tag->reset('Reset')
+     * echo $tag->reset('Reset');
      * </code>
      *
      * Volt syntax:

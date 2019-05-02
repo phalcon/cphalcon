@@ -99,9 +99,9 @@ class ParseCest
             ['{{ !!10 }}', 1],
             //Calling functions
             ['{{ contents() }}', 1],
-            ["{{ link_to('hello', 'some-link') }}", 1],
-            ["{{ form('action': 'save/products', 'method': 'post') }}", 1],
-            ["{{ form('action': 'save/products', 'method': other_func(1, 2, 3)) }}", 1],
+            ["{{ link('hello', 'some-link') }}", 1],
+            ["{{ form('save/products', ['method': 'post']) }}", 1],
+            ["{{ form('save/products', ['method': other_func(1, 2, 3)]) }}", 1],
             ["{{ partial('hello/x') }}", 1],
             ['{{ dump(a) }}', 1],
             ["{{ date('Y-m-d', time()) }}", 1],
@@ -264,14 +264,14 @@ class ParseCest
                 '{# Hello #}
 
                 {% for robot in robots %}
-                    {{ link_to("hello", robot.id ~ ~ robot.name) }}
+                    {{ link("hello", robot.id ~ ~ robot.name) }}
                 {% endfor %}
 
                 ',
                 'Syntax error, unexpected token ~ in eval code on line 4',
             ],
             [
-                '\'{{ link_to("album/" ~ album.id ~ "/" ~ $album.uri, "<img src=\"" ~ album.url ~ "\" alt=\"" ~ album.name ~ "\"/>") }}\'',
+                '\'{{ link("album/" ~ album.id ~ "/" ~ $album.uri, "<img src=\"" ~ album.url ~ "\" alt=\"" ~ album.name ~ "\"/>") }}\'',
                 "Scanning error before 'album.uri, \"<img...' in eval code on line 1",
             ],
         ];

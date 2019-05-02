@@ -11,21 +11,21 @@
 
 namespace Phalcon\Test\Fixtures\Assets;
 
-class CustomTag extends \Phalcon\Tag
+class CustomTag extends \Phalcon\HtmlTag
 {
-    public static function stylesheetLink($parameters = null, bool $local = true): string
+    public function stylesheet(string $url, array $parameters = []): string
     {
         return sprintf(
             "<link href=\"%s\">\n",
-            $parameters[0]
+            $url
         );
     }
 
-    public static function javascriptInclude($parameters = null, bool $local = true): string
+    public function javascript(string $url, array $parameters = []): string
     {
         return sprintf(
             "<script src=\"%s\" type=\"application/javascript\"></script>\n",
-            $parameters[0]
+            $url
         );
     }
 }

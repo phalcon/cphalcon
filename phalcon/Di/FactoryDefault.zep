@@ -50,7 +50,7 @@ class FactoryDefault extends \Phalcon\Di
             "response":           new Service("Phalcon\\Http\\Response", true),
             "router":             new Service("Phalcon\\Mvc\\Router", true),
             "security":           new Service("Phalcon\\Security", true),
-            "tag":                new Service("Phalcon\\Tag", true),
+            "tag":                new Service("Phalcon\\Html\\Tag", true),
             "transactionManager": new Service("Phalcon\\Mvc\\Model\\Transaction\\Manager", true),
             "url":                new Service("Phalcon\\Url", true)
         ];
