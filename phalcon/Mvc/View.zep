@@ -12,6 +12,7 @@ namespace Phalcon\Mvc;
 
 use Phalcon\DiInterface;
 use Phalcon\Di\Injectable;
+use Phalcon\Helper\Str;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Mvc\ViewInterface;
 use Phalcon\Cache\BackendInterface;
@@ -1157,20 +1158,14 @@ class View extends Injectable implements ViewInterface
      */
     public function setViewsDir(var viewsDir) -> <View>
     {
-        var position, directory, directorySeparator, newViewsDir;
+        var position, directory, newViewsDir;
 
         if unlikely (typeof viewsDir != "string" && typeof viewsDir != "array") {
             throw new Exception("Views directory must be a string or an array");
         }
 
-        let directorySeparator = DIRECTORY_SEPARATOR;
-
         if typeof viewsDir == "string" {
-            if substr(viewsDir, -1) != directorySeparator {
-                let viewsDir = viewsDir . directorySeparator;
-            }
-
-            let this->viewsDirs = viewsDir;
+            let this->viewsDirs = Str::dirSeparator(viewsDir);
         } else {
             let newViewsDir = [];
 
@@ -1181,11 +1176,7 @@ class View extends Injectable implements ViewInterface
                     );
                 }
 
-                if substr(directory, -1) != directorySeparator {
-                    let newViewsDir[position] = directory . directorySeparator;
-                } else {
-                    let newViewsDir[position] = directory;
-                }
+                let newViewsDir[position] = Str::dirSeparator(directory);
             }
 
             let this->viewsDirs = newViewsDir;

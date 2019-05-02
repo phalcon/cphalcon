@@ -16,12 +16,12 @@ use Phalcon\Helper\Str;
 use UnitTester;
 
 /**
- * Class FolderFromFileCest
+ * Class DirFromFileCest
  */
-class FolderFromFileCest
+class DirFromFileCest
 {
     /**
-     * Tests Phalcon\Helper\Str :: folderFromFile()
+     * Tests Phalcon\Helper\Str :: dirFromFile()
      *
      * @param UnitTester $I
      *
@@ -30,26 +30,26 @@ class FolderFromFileCest
      */
     public function helperStrFolderFromFile(UnitTester $I)
     {
-        $I->wantToTest('Helper\Str - folderFromFile()');
+        $I->wantToTest('Helper\Str - dirFromFile()');
         $fileName = 'abcdef12345.jpg';
 
         $expected = 'ab/cd/ef/12/3/';
-        $actual   = Str::folderFromFile($fileName);
+        $actual   = Str::dirFromFile($fileName);
         $I->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests Phalcon\Helper\Str :: folderFromFile() - empty string
+     * Tests Phalcon\Helper\Str :: dirFromFile() - empty string
      *
      * @param UnitTester $I
      */
     public function helperStrFolderFromFileEmptyString(UnitTester $I)
     {
-        $I->wantToTest('Helper\Str - folderFromFile() - empty string');
+        $I->wantToTest('Helper\Str - dirFromFile() - empty string');
         $fileName = '';
 
         $expected = '/';
-        $actual   = Str::folderFromFile($fileName);
+        $actual   = Str::dirFromFile($fileName);
         $I->assertEquals($expected, $actual);
     }
 }

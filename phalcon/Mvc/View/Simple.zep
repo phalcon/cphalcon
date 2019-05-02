@@ -12,6 +12,7 @@ namespace Phalcon\Mvc\View;
 
 use Closure;
 use Phalcon\Di\Injectable;
+use Phalcon\Helper\Str;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Cache\BackendInterface;
@@ -456,11 +457,7 @@ class Simple extends Injectable implements ViewBaseInterface
      */
     public function setViewsDir(string! viewsDir)
     {
-        if substr(viewsDir, -1) != DIRECTORY_SEPARATOR {
-            let viewsDir .= DIRECTORY_SEPARATOR;
-        }
-
-        let this->viewsDir = viewsDir;
+        let this->viewsDir = Str::dirSeparator(viewsDir);
     }
 
     /**
