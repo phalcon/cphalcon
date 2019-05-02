@@ -36,9 +36,12 @@ class GetModulesCest
     public function cliConsoleGetModules(CliTester $I)
     {
         $I->wantToTest("Cli\Console - getModules()");
+
         $console = $this->newCliConsole();
-        $expected = [];
-        $actual = $console->getModules();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            [],
+            $console->getModules()
+        );
     }
 }

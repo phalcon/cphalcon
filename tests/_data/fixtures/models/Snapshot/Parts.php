@@ -17,7 +17,12 @@ class Parts extends Model
 {
     public function initialize()
     {
-        $this->hasMany('id', RobotsParts::class, 'robots_id');
+        $this->hasMany(
+            'id',
+            RobotsParts::class,
+            'robots_id'
+        );
+
         $this->keepSnapshots(true);
     }
 }

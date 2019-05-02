@@ -34,7 +34,9 @@ class GetOptionCest
     public function validationValidatorStringLengthGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength - getOption()');
+
         $validator = new StringLength();
+
         $this->checkGetOption($I, $validator);
     }
 }

@@ -44,8 +44,12 @@ class ConstructCest
     public function sessionAdapterRedisConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Redis - __construct()');
+
         $adapter = $this->getSessionRedis();
-        $class   = SessionHandlerInterface::class;
-        $I->assertInstanceOf($class, $adapter);
+
+        $I->assertInstanceOf(
+            SessionHandlerInterface::class,
+            $adapter
+        );
     }
 }

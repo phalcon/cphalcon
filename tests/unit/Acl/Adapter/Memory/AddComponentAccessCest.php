@@ -33,6 +33,7 @@ class AddComponentAccessCest
     public function aclAdapterMemoryAddComponentAccess(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - addComponentAccess()');
+
         $I->skipTest('Need implementation');
     }
 
@@ -47,11 +48,16 @@ class AddComponentAccessCest
     public function aclAdapterMemoryAddComponentAccessUnknown(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - addComponentAccess() - unknown');
+
         $I->expectThrowable(
             new Exception("Component 'Post' does not exist in ACL"),
             function () {
                 $acl = new Memory();
-                $acl->addComponentAccess('Post', ['update']);
+
+                $acl->addComponentAccess(
+                    'Post',
+                    ['update']
+                );
             }
         );
     }
@@ -68,12 +74,18 @@ class AddComponentAccessCest
     public function aclAdapterMemoryAddComponentAccessWrongAccessList(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - addComponentAccess() - wrong access list');
+
         $I->expectThrowable(
             new Exception('Invalid value for accessList'),
             function () {
                 $acl  = new Memory();
                 $post = new Component('Post');
-                $acl->addComponent($post, ['update']);
+
+                $acl->addComponent(
+                    $post,
+                    ['update']
+                );
+
                 $acl->addComponentAccess('Post', 123);
             }
         );

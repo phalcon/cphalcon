@@ -38,7 +38,9 @@ class ElementCest
     public function htmlHelperElementConstruct(UnitTester $I, Example $example)
     {
         $I->wantToTest('Html\Helper\Element - __construct()');
+
         $escaper = $this->newEscaper();
+
         $helper  = new Element($escaper);
 
         $expected = $example[0];

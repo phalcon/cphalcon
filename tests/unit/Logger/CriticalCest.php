@@ -35,6 +35,7 @@ class CriticalCest
     public function loggerCritical(UnitTester $I)
     {
         $I->wantToTest('Logger - critical()');
+
         $this->runLoggerFile($I, 'critical');
     }
 }

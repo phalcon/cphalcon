@@ -32,6 +32,7 @@ class PreComputeHashKeyCest
     public function kernelPreComputeHashKey(UnitTester $I)
     {
         $I->wantToTest("Kernel - preComputeHashKey()");
+
         $I->skipTest("Need implementation");
     }
 }

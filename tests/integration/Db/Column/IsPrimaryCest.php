@@ -35,10 +35,15 @@ class IsPrimaryCest
     public function dbColumnIsPrimary(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - isPrimary()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['primary'], $column->isPrimary());
+            $I->assertEquals(
+                $columns[$index]['primary'],
+                $column->isPrimary()
+            );
         }
     }
 }

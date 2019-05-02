@@ -44,12 +44,15 @@ class ReadCest
     public function sessionAdapterNoopRead(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Noop - write()');
+
         $adapter = $this->getSessionNoop();
         $value   = uniqid();
+
         $adapter->write('test1', $value);
 
-        $expected = '';
-        $actual   = $adapter->read('test1');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '',
+            $adapter->read('test1')
+        );
     }
 }

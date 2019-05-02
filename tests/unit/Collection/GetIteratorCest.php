@@ -31,15 +31,20 @@ class GetIteratorCest
     public function collectionGetIterator(UnitTester $I)
     {
         $I->wantToTest('Collection - getIterator()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Collection($data);
 
         foreach ($collection as $key => $value) {
-            $I->assertEquals($data[$key], $collection[$key]);
+            $I->assertEquals(
+                $data[$key],
+                $collection[$key]
+            );
         }
     }
 }

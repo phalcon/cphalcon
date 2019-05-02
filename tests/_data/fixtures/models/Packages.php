@@ -34,7 +34,9 @@ class Packages extends Model
             ['reference_id', 'reference_type_id'],
             PackageDetails::class,
             ['reference_id', 'reference_type_id'],
-            ['alias' => 'details']
+            [
+                'alias' => 'details',
+            ]
         );
     }
 }

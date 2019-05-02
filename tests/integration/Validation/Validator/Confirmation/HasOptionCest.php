@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorConfirmationHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Confirmation - hasOption()');
-        $validator = new Confirmation(['message' => 'This is a message']);
+
+        $validator = new Confirmation(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

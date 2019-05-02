@@ -37,12 +37,20 @@ class GetSetHandlerCest
     public function sessionManagerGetSetHandler(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - getHandler()/setHandler()');
+
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+
+        $files = $this->getSessionFiles();
+
         $manager->setHandler($files);
 
+
+
         $actual = $manager->getHandler();
-        $class  = SessionHandlerInterface::class;
-        $I->assertInstanceOf($class, $actual);
+
+        $I->assertInstanceOf(
+            SessionHandlerInterface::class,
+            $actual
+        );
     }
 }

@@ -32,10 +32,12 @@ class ConstructCest
     public function serviceLocatorConstruct(UnitTester $I)
     {
         $I->wantToTest('Service\Locator - __construct() - empty');
+
         $I->expectThrowable(
             new Exception('The service unknown has not been found in the locator'),
             function () {
                 $locator = new Locator();
+
                 $locator->get('unknown');
             }
         );

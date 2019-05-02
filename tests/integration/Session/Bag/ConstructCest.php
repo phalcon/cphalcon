@@ -36,9 +36,12 @@ class ConstructCest
     public function sessionBagConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - __construct()');
+
         $collection = new Bag('BagTest');
 
-        $class = Bag::class;
-        $I->assertInstanceOf($class, $collection);
+        $I->assertInstanceOf(
+            Bag::class,
+            $collection
+        );
     }
 }

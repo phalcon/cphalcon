@@ -44,13 +44,18 @@ class DestroyCest
     public function sessionAdapterLibmemcachedDestroy(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - destroy()');
+
         $adapter = $this->getSessionLibmemcached();
 
         $value      = uniqid();
         $serialized = serialize($value);
+
         $I->haveInLibmemcached('test1', $serialized);
-        $actual = $adapter->destroy('test1');
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->destroy('test1')
+        );
+
         $I->dontSeeInLibmemcached('test1');
     }
 }

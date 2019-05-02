@@ -35,13 +35,21 @@ class ProcessCest
     public function loggerAdapterSyslogProcess(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Syslog - process()');
-        $streamName = $I->getNewFileName('log', 'log');
-        $adapter    = new Syslog($streamName);
 
-        $item = new Item('Message 1', 'debug', Logger::DEBUG);
+        $streamName = $I->getNewFileName('log', 'log');
+
+        $adapter = new Syslog($streamName);
+
+        $item = new Item(
+            'Message 1',
+            'debug',
+            Logger::DEBUG
+        );
+
         $adapter->process($item);
 
-        $actual = $adapter->close();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->close()
+        );
     }
 }

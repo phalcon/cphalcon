@@ -31,20 +31,25 @@ class ReduceSlashesCest
     public function textReduceSlashes(UnitTester $I)
     {
         $I->wantToTest('Text - reduceSlashes()');
-        $expected = 'app/controllers/IndexController';
-        $actual   = Text::reduceSlashes('app/controllers//IndexController');
-        $I->assertEquals($expected, $actual);
 
-        $expected = 'http://foo/bar/baz/buz';
-        $actual   = Text::reduceSlashes('http://foo//bar/baz/buz');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'app/controllers/IndexController',
+            Text::reduceSlashes('app/controllers//IndexController')
+        );
 
-        $expected = 'php://memory';
-        $actual   = Text::reduceSlashes('php://memory');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'http://foo/bar/baz/buz',
+            Text::reduceSlashes('http://foo//bar/baz/buz')
+        );
 
-        $expected = 'http/https';
-        $actual   = Text::reduceSlashes('http//https');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'php://memory',
+            Text::reduceSlashes('php://memory')
+        );
+
+        $I->assertEquals(
+            'http/https',
+            Text::reduceSlashes('http//https')
+        );
     }
 }

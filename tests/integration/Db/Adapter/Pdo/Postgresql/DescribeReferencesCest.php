@@ -37,14 +37,21 @@ class DescribeReferencesCest
         $I->wantToTest("Db\Adapter\Pdo\Postgresql - describeReferences()");
 
         $referencesNoSchema = $this->connection->describeReferences('robots_parts');
-        $referencesSchema   = $this->connection->describeReferences('robots_parts', env('DATA_POSTGRES_SCHEMA'));
+
+        $referencesSchema = $this->connection->describeReferences(
+            'robots_parts',
+            env('DATA_POSTGRES_SCHEMA')
+        );
 
         $I->assertEquals($referencesNoSchema, $referencesSchema);
 
         $I->assertCount(2, $referencesNoSchema);
 
         foreach ($referencesNoSchema as $reference) {
-            $I->assertCount(1, $reference->getColumns());
+            $I->assertCount(
+                1,
+                $reference->getColumns()
+            );
         }
     }
 }

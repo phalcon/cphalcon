@@ -41,7 +41,10 @@ class FormElementsCest
     public function _before(IntegrationTester $I)
     {
         Tag::resetInput();
-        Tag::setDocType(Tag::HTML5);
+
+        Tag::setDocType(
+            Tag::HTML5
+        );
     }
 
     /**
@@ -58,54 +61,82 @@ class FormElementsCest
         $form = new Form();
 
         $lastName = new Text('lastName');
-        $lastName->setLabel('user.lastName');
-        $lastName->setFilters([
-            "string",
-            "striptags",
-            "trim",
-        ]);
 
-        $lastName->addValidators([
-            new PresenceOf([
-                'message'      => 'user.lastName.presenceOf',
-                'cancelOnFail' => true,
-            ]),
-            new StringLength([
-                'min'            => 3,
-                'max'            => 255,
-                'messageMaximum' => 'user.lastName.max',
-                'messageMinimum' => 'user.lastName.min',
-            ]),
-        ]);
+        $lastName->setLabel('user.lastName');
+
+        $lastName->setFilters(
+            [
+                "string",
+                "striptags",
+                "trim",
+            ]
+        );
+
+        $lastName->addValidators(
+            [
+                new PresenceOf(
+                    [
+                        'message'      => 'user.lastName.presenceOf',
+                        'cancelOnFail' => true,
+                    ]
+                ),
+                new StringLength(
+                    [
+                        'min'            => 3,
+                        'max'            => 255,
+                        'messageMaximum' => 'user.lastName.max',
+                        'messageMinimum' => 'user.lastName.min',
+                    ]
+                ),
+            ]
+        );
+
+
 
         $firstName = new Text('firstName');
-        $firstName->setLabel('user.firstName');
-        $firstName->setFilters([
-            "string",
-            "striptags",
-            "trim",
-        ]);
 
-        $firstName->addValidators([
-            new PresenceOf([
-                'message'      => 'user.firstName.presenceOf',
-                'cancelOnFail' => true,
-            ]),
-            new StringLength([
-                'min'            => 3,
-                'max'            => 255,
-                'messageMaximum' => 'user.firstName.max',
-                'messageMinimum' => 'user.firstName.min',
-            ]),
-        ]);
+        $firstName->setLabel('user.firstName');
+
+        $firstName->setFilters(
+            [
+                "string",
+                "striptags",
+                "trim",
+            ]
+        );
+
+        $firstName->addValidators(
+            [
+                new PresenceOf(
+                    [
+                        'message'      => 'user.firstName.presenceOf',
+                        'cancelOnFail' => true,
+                    ]
+                ),
+                new StringLength(
+                    [
+                        'min'            => 3,
+                        'max'            => 255,
+                        'messageMaximum' => 'user.firstName.max',
+                        'messageMinimum' => 'user.firstName.min',
+                    ]
+                ),
+            ]
+        );
 
         $form->add($lastName);
         $form->add($firstName);
 
-        $_POST = [];
-        $I->assertFalse($form->isValid($_POST));
 
-        $actual   = $form->getMessages();
+
+        $_POST = [];
+
+        $I->assertFalse(
+            $form->isValid($_POST)
+        );
+
+
+
         $expected = new Messages(
             [
                 new Message(
@@ -116,6 +147,9 @@ class FormElementsCest
                 ),
             ]
         );
-        $I->assertEquals($actual, $expected);
+
+        $actual = $form->getMessages();
+
+        $I->assertEquals($expected, $actual);
     }
 }

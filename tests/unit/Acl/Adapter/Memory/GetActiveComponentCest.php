@@ -32,8 +32,11 @@ class GetActiveComponentCest
     public function aclAdapterMemoryGetActiveComponentDefault(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveComponent() - default');
-        $acl    = new Memory();
+
+        $acl = new Memory();
+
         $actual = $acl->getActiveComponent();
+
         $I->assertNull($actual);
     }
 
@@ -48,18 +51,33 @@ class GetActiveComponentCest
     public function aclAdapterMemoryGetActiveComponent(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveComponent()');
+
         $acl = new Memory();
-        $acl->setDefaultAction(Acl::DENY);
+
+        $acl->setDefaultAction(
+            Acl::DENY
+        );
 
         $acl->addRole('Guests');
-        $acl->addComponent('Login', ['help', 'index']);
+
+        $acl->addComponent(
+            'Login',
+            ['help', 'index']
+        );
 
         $acl->allow('Guests', 'Login', '*');
+
+
+
         $actual = $acl->isAllowed('Guests', 'Login', 'index');
+
         $I->assertTrue($actual);
+
+
 
         $expected = 'Login';
         $actual   = $acl->getActiveComponent();
+
         $I->assertEquals($expected, $actual);
     }
 }

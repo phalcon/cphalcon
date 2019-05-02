@@ -44,16 +44,20 @@ class WriteCest
     public function sessionAdapterRedisWrite(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Redis - write()');
+
         $adapter = $this->getSessionRedis();
         $value   = uniqid();
+
         $adapter->write('test1', $value);
 
         /**
          * Serialize the value because the adapter does not have a serializer
          */
-        $expected = $value;
-        $actual   = $I->grabFromRedis('test1');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $value,
+            $I->grabFromRedis('test1')
+        );
+
         $I->sendCommandToRedis('del', 'test1');
     }
 }

@@ -28,10 +28,18 @@ class Language extends Model
         $this->setSource("language");
 
         $this->hasMany(
-            ['lang', 'locale'],
+            [
+                'lang',
+                'locale',
+            ],
             LanguageI18n::class,
-            ['from_lang', 'from_locale'],
-            ['alias' => 'translations']
+            [
+                'from_lang',
+                'from_locale',
+            ],
+            [
+                'alias' => 'translations',
+            ]
         );
     }
 }

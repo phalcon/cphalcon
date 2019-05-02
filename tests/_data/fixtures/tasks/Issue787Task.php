@@ -10,7 +10,9 @@ class Issue787Task extends Task
     {
         $this->dispatcher;
         $this->dispatcher;
+
         self::$output .= "beforeExecuteRoute" . PHP_EOL;
+
         return true;
     }
 

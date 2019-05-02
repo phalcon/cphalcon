@@ -31,6 +31,7 @@ class GetSetFieldCest
     public function messagesMessageGetSetField(UnitTester $I)
     {
         $I->wantToTest('Messages\Message - getField()/setField()');
+
         $message = new Message(
             'This is a message #1',
             'MyField',
@@ -38,8 +39,9 @@ class GetSetFieldCest
             111
         );
 
-        $expected = 'MyField';
-        $actual   = $message->getField();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'MyField',
+            $message->getField()
+        );
     }
 }

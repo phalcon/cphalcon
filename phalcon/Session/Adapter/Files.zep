@@ -29,7 +29,7 @@ use Phalcon\Session\Exception;
  *         'savePath' => '/tmp',
  *     ]
  * );
- * $session->setHandler(new Files());
+ * $session->setHandler($files);
  * </code>
  */
 class Files extends Noop

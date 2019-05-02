@@ -21,7 +21,6 @@ use Zephir\Optimizers\OptimizerAbstract;
 
 class PhqlParsePhqlOptimizer extends OptimizerAbstract
 {
-
     /**
      * @param array              $expression
      * @param Call               $call
@@ -37,7 +36,10 @@ class PhqlParsePhqlOptimizer extends OptimizerAbstract
         }
 
         if (count($expression['parameters']) != 1) {
-            throw new CompilerException("'phql_parse_phql' only accepts one parameter", $expression);
+            throw new CompilerException(
+                "'phql_parse_phql' only accepts one parameter",
+                $expression
+            );
         }
 
         /**
@@ -46,8 +48,12 @@ class PhqlParsePhqlOptimizer extends OptimizerAbstract
         $call->processExpectedReturn($context);
 
         $symbolVariable = $call->getSymbolVariable();
+
         if ($symbolVariable->getType() != 'variable') {
-            throw new CompilerException("Returned values by functions can only be assigned to variant variables", $expression);
+            throw new CompilerException(
+                "Returned values by functions can only be assigned to variant variables",
+                $expression
+            );
         }
 
         if ($call->mustInitSymbolVariable()) {
@@ -56,19 +62,37 @@ class PhqlParsePhqlOptimizer extends OptimizerAbstract
 
         $symbolVariable->setDynamicTypes('array');
 
-        $resolvedParams = $call->getReadOnlyResolvedParams($expression['parameters'], $context, $expression);
+        $resolvedParams = $call->getReadOnlyResolvedParams(
+            $expression['parameters'],
+            $context,
+            $expression
+        );
 
-        $context->headersManager->add('phalcon/mvc/model/query/scanner', HeadersManager::POSITION_LAST);
-        $context->headersManager->add('phalcon/mvc/model/query/phql', HeadersManager::POSITION_LAST);
+        $context->headersManager->add(
+            'phalcon/mvc/model/query/scanner',
+            HeadersManager::POSITION_LAST
+        );
+
+        $context->headersManager->add(
+            'phalcon/mvc/model/query/phql',
+            HeadersManager::POSITION_LAST
+        );
 
         $call->addCallStatusFlag($context);
 
         $symbol = $context->backend->getVariableCode($symbolVariable);
-        $context->codePrinter->output('ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(' . $symbol . ', ' . $resolvedParams[0] . ' TSRMLS_CC);');
+
+        $context->codePrinter->output(
+            'ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(' . $symbol . ', ' . $resolvedParams[0] . ' TSRMLS_CC);'
+        );
 
         $call->checkTempParameters($context);
         $call->addCallStatusOrJump($context);
 
-        return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
+        return new CompiledExpression(
+            'variable',
+            $symbolVariable->getRealName(),
+            $expression
+        );
     }
 }

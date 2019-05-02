@@ -36,20 +36,29 @@ class ToJsonCest
     public function sessionBagToJson(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - toJson()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Bag('BagTest');
+
         $collection->init($data);
+
+
 
         $expected = json_encode($data);
         $actual   = $collection->toJson();
+
         $I->assertEquals($expected, $actual);
+
+
 
         $expected = json_encode($data, JSON_PRETTY_PRINT);
         $actual   = $collection->toJson(JSON_PRETTY_PRINT);
+
         $I->assertEquals($expected, $actual);
     }
 }

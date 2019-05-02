@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorRegexConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Regex - __construct()');
+
         $validator = new Regex();
+
         $this->checkConstruct($I, $validator);
     }
 }

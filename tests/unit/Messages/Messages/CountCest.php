@@ -32,6 +32,7 @@ class CountCest
     public function messagesMessagesCount(UnitTester $I)
     {
         $I->wantToTest('Messages\Messages - count()');
+
         $messages = new Messages(
             [
                 new Message('This is a message #1', 'MyField1', 'MyType1', 111),
@@ -39,8 +40,9 @@ class CountCest
             ]
         );
 
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
     }
 }

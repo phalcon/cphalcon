@@ -34,7 +34,9 @@ class GetOptionCest
     public function validationValidatorBetweenGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Between - getOption()');
+
         $validator = new Between();
+
         $this->checkGetOption($I, $validator);
     }
 }

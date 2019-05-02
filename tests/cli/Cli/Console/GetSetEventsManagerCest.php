@@ -37,12 +37,14 @@ class GetSetEventsManagerCest
         $I->wantToTest("Cli\Console - setEventsManager()");
 
         $console = $this->newCliConsole();
+
         $eventsManager = $this->newEventsManager();
 
         $console->setEventsManager($eventsManager);
-        $expected = Manager::class;
-        $actual = $console->getEventsManager();
 
-        $I->assertInstanceOf($expected, $actual);
+        $I->assertInstanceOf(
+            Manager::class,
+            $console->getEventsManager()
+        );
     }
 }

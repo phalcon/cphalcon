@@ -35,22 +35,26 @@ class UnderscoreCallCest
     public function serviceLocatorUnderscoreCall(UnitTester $I)
     {
         $I->wantToTest('Html\Locator - __call()');
+
         $services = [
             'helloFilter' => HelloService::class,
         ];
 
         $locator = new Locator($services);
-        $actual  = $locator->has('helloFilter');
-        $I->assertTrue($actual);
 
-        /** @var object $service */
-        $expected = 'Hello Phalcon [count: 1]';
-        $actual   = $locator->helloFilter('Phalcon');
-        $I->assertEquals($expected, $actual);
+        $I->assertTrue(
+            $locator->has('helloFilter')
+        );
 
-        $expected = 'Hello Phalcon [count: 2]';
-        $actual   = $locator->helloFilter('Phalcon');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Hello Phalcon [count: 1]',
+            $locator->helloFilter('Phalcon')
+        );
+
+        $I->assertEquals(
+            'Hello Phalcon [count: 2]',
+            $locator->helloFilter('Phalcon')
+        );
     }
 
     /**
@@ -64,6 +68,7 @@ class UnderscoreCallCest
     public function serviceLocatorUnderscoreCallAnonymous(UnitTester $I)
     {
         $I->wantToTest('Html\Locator - __call()');
+
         $services = [
             'custom' => function ($escaper, $value) {
                 return $escaper->escapeHtml($value);
@@ -71,12 +76,16 @@ class UnderscoreCallCest
         ];
 
         $escaper = $this->newEscaper();
-        $locator = new Locator($services);
-        $actual  = $locator->has('custom');
-        $I->assertTrue($actual);
 
-        $expected = 'Jack &amp; Jill';
-        $actual   = $locator->custom($escaper, 'Jack & Jill');
-        $I->assertEquals($expected, $actual);
+        $locator = new Locator($services);
+
+        $I->assertTrue(
+            $locator->has('custom')
+        );
+
+        $I->assertEquals(
+            'Jack &amp; Jill',
+            $locator->custom($escaper, 'Jack & Jill')
+        );
     }
 }

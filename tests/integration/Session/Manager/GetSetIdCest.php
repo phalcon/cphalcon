@@ -37,19 +37,39 @@ class GetSetIdCest
     public function sessionManagerGetSetId(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - getId()/setId()');
+
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+
+        $files = $this->getSessionFiles();
+
         $manager->setHandler($files);
 
-        $expected = '';
-        $actual   = $manager->getId();
-        $I->assertEquals($expected, $actual);
+
+
+        $actual = $manager->getId();
+
+        $I->assertEquals(
+            '',
+            $actual
+        );
+
+
 
         $id = uniqid();
+
         $manager->setId($id);
-        $expected = $id;
-        $actual   = $manager->getId();
-        $I->assertEquals($expected, $actual);
+
+
+
+        $actual = $manager->getId();
+
+        $I->assertEquals(
+            $id,
+            $actual
+        );
+
+
+
         $manager->destroy();
     }
 }

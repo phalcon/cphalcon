@@ -34,7 +34,9 @@ class SetOptionCest
     public function validationValidatorFileSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\File - setOption()');
+
         $validator = new File();
+
         $this->checkSetOption($I, $validator);
     }
 }

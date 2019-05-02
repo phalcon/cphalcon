@@ -30,6 +30,7 @@ class ValidateCest
     public function validationValidatorPresenceofValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\PresenceOf - validate()');
+
         $I->skipTest('Need implementation');
     }
 }

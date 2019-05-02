@@ -35,12 +35,28 @@ class AddCest
     public function loggerAdapterNoopAdd(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Noop - add()');
+
         $adapter = new Noop();
 
         $adapter->begin();
-        $item1 = new Item('Message 1', 'debug', Logger::DEBUG);
-        $item2 = new Item('Message 2', 'debug', Logger::DEBUG);
-        $item3 = new Item('Message 3', 'debug', Logger::DEBUG);
+
+        $item1 = new Item(
+            'Message 1',
+            'debug',
+            Logger::DEBUG
+        );
+
+        $item2 = new Item(
+            'Message 2',
+            'debug',
+            Logger::DEBUG
+        );
+
+        $item3 = new Item(
+            'Message 3',
+            'debug',
+            Logger::DEBUG
+        );
 
         $adapter
             ->add($item1)

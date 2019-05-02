@@ -31,6 +31,7 @@ class DecryptCest
     public function shouldNotThrowExceptionIfKeyMismatch(UnitTester $I)
     {
         $I->wantToTest('Crypt - decrypt() not throwing Exception on key mismatch');
+
         $crypt = new Crypt();
 
         $actual = $crypt->decrypt(
@@ -57,6 +58,7 @@ class DecryptCest
             Exception::class,
             function () {
                 $crypt = new Crypt();
+
                 $crypt->useSigning(true);
 
                 $crypt->decrypt(
@@ -77,6 +79,7 @@ class DecryptCest
     public function shouldDecryptSignedString(UnitTester $I)
     {
         $crypt = new Crypt();
+
         $crypt->useSigning(true);
 
         $key = 'secret';

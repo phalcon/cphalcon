@@ -39,8 +39,13 @@ class ConstructCest
     public function loggerConstructImplementPsr(UnitTester $I)
     {
         $I->wantToTest('Logger - __construct() - implement PSR');
+
         $logger = new Logger('my-logger');
-        $I->assertInstanceOf(LoggerInterface::class, $logger);
+
+        $I->assertInstanceOf(
+            LoggerInterface::class,
+            $logger
+        );
     }
 
     /**
@@ -54,6 +59,7 @@ class ConstructCest
     public function loggerConstructConstants(UnitTester $I)
     {
         $I->wantToTest('Logger - __construct() - constants');
+
         $I->assertEquals(2, Logger::ALERT);
         $I->assertEquals(1, Logger::CRITICAL);
         $I->assertEquals(7, Logger::DEBUG);
@@ -78,10 +84,18 @@ class ConstructCest
     public function loggerConstructStreamWithJsonConstants(UnitTester $I)
     {
         $I->wantToTest('Logger - __construct() - file with json formatter');
-        $fileName   = $I->getNewFileName('log', 'log');
+
+        $fileName = $I->getNewFileName('log', 'log');
+
         $outputPath = outputFolder('tests/logs/');
-        $adapter    = new Stream($outputPath . $fileName);
-        $adapter->setFormatter(new Json());
+
+        $adapter = new Stream(
+            $outputPath . $fileName
+        );
+
+        $adapter->setFormatter(
+            new Json()
+        );
 
         $logger = new Logger(
             'my-logger',
@@ -91,11 +105,18 @@ class ConstructCest
         );
 
         $time = time();
+
         $logger->debug('This is a message');
-        $logger->log(Logger::ERROR, "This is an error");
+
+        $logger->log(
+            Logger::ERROR,
+            "This is an error"
+        );
+
         $logger->error("This is another error");
 
         $I->amInPath($outputPath);
+
         $I->openFile($fileName);
 
         $expected = sprintf(
@@ -108,6 +129,9 @@ class ConstructCest
         );
 
         $I->seeInThisFile($expected);
-        $I->safeDeleteFile($outputPath . $fileName);
+
+        $I->safeDeleteFile(
+            $outputPath . $fileName
+        );
     }
 }

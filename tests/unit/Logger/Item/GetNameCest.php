@@ -34,11 +34,19 @@ class GetNameCest
     public function loggerItemGetName(UnitTester $I)
     {
         $I->wantToTest('Logger\Item - getName()');
-        $time = time();
-        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
-        $expected = 'debug';
-        $actual   = $item->getName();
-        $I->assertEquals($expected, $actual);
+        $time = time();
+
+        $item = new Item(
+            'log message',
+            'debug',
+            Logger::DEBUG,
+            $time
+        );
+
+        $I->assertEquals(
+            'debug',
+            $item->getName()
+        );
     }
 }

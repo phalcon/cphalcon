@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorNumericalityHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Numericality - hasOption()');
-        $validator = new Numericality(['message' => 'This is a message']);
+
+        $validator = new Numericality(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

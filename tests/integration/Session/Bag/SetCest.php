@@ -36,25 +36,42 @@ class SetCest
     public function sessionBagSet(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - set()');
+
         $collection = new Bag('BagTest');
 
         $collection->set('three', 'two');
+
+
+
         $expected = 'two';
         $actual   = $collection->get('three');
+
         $I->assertEquals($expected, $actual);
+
+
 
         $collection->three = 'Phalcon';
-        $expected          = 'Phalcon';
-        $actual            = $collection->get('three');
+
+        $expected = 'Phalcon';
+        $actual   = $collection->get('three');
+
         $I->assertEquals($expected, $actual);
+
+
 
         $collection->offsetSet('three', 123);
+
         $expected = 123;
         $actual   = $collection->get('three');
+
         $I->assertEquals($expected, $actual);
 
+
+
         $collection['three'] = true;
-        $actual              = $collection->get('three');
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $collection->get('three')
+        );
     }
 }

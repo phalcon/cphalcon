@@ -32,7 +32,9 @@ class PaginatorCest
     public function testModelPaginator(IntegrationTester $I)
     {
         $I->skipTest('TODO: Check me');
+
         $personnes = Personnes::find();
+
         $paginator = new Model(
             [
                 'data'  => $personnes,
@@ -43,58 +45,73 @@ class PaginatorCest
 
         //First Page
         $page = $paginator->paginate();
-        $I->assertInstanceOf('stdClass', $page);
+
+        $I->assertInstanceOf(
+            \stdClass::class,
+            $page
+        );
 
         $I->assertCount(10, $page->items);
 
-        $I->assertEquals($page->before, 1);
-        $I->assertEquals($page->next, 2);
-        $I->assertEquals($page->last, 218);
-        $I->assertEquals($page->limit, 10);
+        $I->assertEquals(1, $page->before);
+        $I->assertEquals(2, $page->next);
+        $I->assertEquals(218, $page->last);
+        $I->assertEquals(10, $page->limit);
 
-        $I->assertEquals($page->current, 1);
-        $I->assertEquals($page->total_pages, 218);
+        $I->assertEquals(1, $page->current);
+        $I->assertEquals(218, $page->total_pages);
 
         //Middle Page
         $paginator->setCurrentPage(50);
 
         $page = $paginator->paginate();
-        $I->assertInstanceOf('stdClass', $page);
+
+        $I->assertInstanceOf(
+            \stdClass::class,
+            $page
+        );
 
         $I->assertCount(10, $page->items);
 
-        $I->assertEquals($page->before, 49);
-        $I->assertEquals($page->next, 51);
-        $I->assertEquals($page->last, 218);
+        $I->assertEquals(49, $page->before);
+        $I->assertEquals(51, $page->next);
+        $I->assertEquals(218, $page->last);
 
-        $I->assertEquals($page->current, 50);
-        $I->assertEquals($page->total_pages, 218);
+        $I->assertEquals(50, $page->current);
+        $I->assertEquals(218, $page->total_pages);
 
         //Last Page
         $paginator->setCurrentPage(218);
 
         $page = $paginator->paginate();
-        $I->assertInstanceOf('stdClass', $page);
+
+        $I->assertInstanceOf(
+            \stdClass::class,
+            $page
+        );
 
         $I->assertCount(10, $page->items);
 
-        $I->assertEquals($page->before, 217);
-        $I->assertEquals((int) $page->next, 218);
-        $I->assertEquals($page->last, 218);
+        $I->assertEquals(217, $page->before);
+        $I->assertEquals(218, (int) $page->next);
+        $I->assertEquals(218, $page->last);
 
-        $I->assertEquals($page->current, 218);
-        $I->assertEquals($page->total_pages, 218);
+        $I->assertEquals(218, $page->current);
+        $I->assertEquals(218, $page->total_pages);
     }
 
     public function testModelPaginatorBind(IntegrationTester $I)
     {
         $I->skipTest('TODO: Check me');
-        $personnes = Personnes::find([
-            "conditions" => "cedula >=:d1: AND cedula>=:d2: ",
-            "bind"       => ["d1" => '1', "d2" => "5"],
-            "order"      => "cedula, nombres",
-            "limit"      => "33",
-        ]);
+
+        $personnes = Personnes::find(
+            [
+                "conditions" => "cedula >=:d1: AND cedula>=:d2: ",
+                "bind"       => ["d1" => '1', "d2" => "5"],
+                "order"      => "cedula, nombres",
+                "limit"      => "33",
+            ]
+        );
 
         $paginator = new Model(
             [
@@ -106,23 +123,29 @@ class PaginatorCest
 
         //First Page
         $page = $paginator->paginate();
-        $I->assertInstanceOf('stdClass', $page);
+
+        $I->assertInstanceOf(
+            \stdClass::class,
+            $page
+        );
 
         $I->assertCount(10, $page->items);
 
-        $I->assertEquals($page->before, 1);
-        $I->assertEquals($page->next, 2);
-        $I->assertEquals($page->last, 4);
-        $I->assertEquals($page->limit, 10);
+        $I->assertEquals(1, $page->before);
+        $I->assertEquals(2, $page->next);
+        $I->assertEquals(4, $page->last);
+        $I->assertEquals(10, $page->limit);
 
-        $I->assertEquals($page->current, 1);
-        $I->assertEquals($page->total_pages, 4);
+        $I->assertEquals(1, $page->current);
+        $I->assertEquals(4, $page->total_pages);
     }
 
     public function testQueryBuilderPaginator(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check me');
+
         $manager = $this->getService('modelsManager');
+
         $builder = $manager->createBuilder()
                            ->columns('cedula, nombres')
                            ->from('Personnes')
@@ -139,18 +162,21 @@ class PaginatorCest
 
         $page = $paginator->paginate();
 
-        $I->assertInstanceOf('stdClass', $page);
+        $I->assertInstanceOf(
+            \stdClass::class,
+            $page
+        );
 
         $I->assertCount(10, $page->items);
 
-        $I->assertEquals($page->before, 1);
-        $I->assertEquals($page->next, 2);
-        $I->assertEquals($page->last, 218);
-        $I->assertEquals($page->limit, 10);
+        $I->assertEquals(1, $page->before);
+        $I->assertEquals(2, $page->next);
+        $I->assertEquals(218, $page->last);
+        $I->assertEquals(10, $page->limit);
 
-        $I->assertEquals($page->current, 1);
-        $I->assertEquals($page->total_items, 2180);
-        $I->assertEquals($page->total_pages, 218);
+        $I->assertEquals(1, $page->current);
+        $I->assertEquals(2180, $page->total_items);
+        $I->assertEquals(218, $page->total_pages);
 
         $I->assertInternalType('int', $page->total_items);
         $I->assertInternalType('int', $page->total_pages);
@@ -160,16 +186,19 @@ class PaginatorCest
 
         $page = $paginator->paginate();
 
-        $I->assertInstanceOf('stdClass', $page);
+        $I->assertInstanceOf(
+            \stdClass::class,
+            $page
+        );
 
         $I->assertCount(10, $page->items);
 
-        $I->assertEquals($page->before, 99);
-        $I->assertEquals($page->next, 101);
-        $I->assertEquals($page->last, 218);
+        $I->assertEquals(99, $page->before);
+        $I->assertEquals(101, $page->next);
+        $I->assertEquals(218, $page->last);
 
-        $I->assertEquals($page->current, 100);
-        $I->assertEquals($page->total_pages, 218);
+        $I->assertEquals(100, $page->current);
+        $I->assertEquals(218, $page->total_pages);
 
         $I->assertInternalType('int', $page->total_items);
         $I->assertInternalType('int', $page->total_pages);
@@ -183,12 +212,12 @@ class PaginatorCest
 
         $I->assertCount(10, $page->items);
 
-        $I->assertEquals($page->before, 217);
-        $I->assertEquals($page->next, 218);
-        $I->assertEquals($page->last, 218);
+        $I->assertEquals(217, $page->before);
+        $I->assertEquals(218, $page->next);
+        $I->assertEquals(218, $page->last);
 
-        $I->assertEquals($page->current, 218);
-        $I->assertEquals($page->total_pages, 218);
+        $I->assertEquals(218, $page->current);
+        $I->assertEquals(218, $page->total_pages);
 
         $I->assertInternalType('int', $page->total_items);
         $I->assertInternalType('int', $page->total_pages);
@@ -197,16 +226,16 @@ class PaginatorCest
 
         // -- current page --
         $currentPage = $paginator->getCurrentPage();
-        $I->assertEquals($currentPage, 218);
+        $I->assertEquals(218, $currentPage);
 
         // -- limit --
         $rowsLimit = $paginator->getLimit();
-        $I->assertEquals($rowsLimit, 10);
+        $I->assertEquals(10, $rowsLimit);
 
         $setterResult = $paginator->setLimit(25);
         $rowsLimit    = $paginator->getLimit();
-        $I->assertEquals($rowsLimit, 25);
-        $I->assertEquals($setterResult, $paginator);
+        $I->assertEquals(25, $rowsLimit);
+        $I->assertEquals($paginator, $setterResult);
 
         // -- builder --
         $queryBuilder = $paginator->getQueryBuilder();
@@ -220,13 +249,15 @@ class PaginatorCest
         $setterResult = $paginator->setQueryBuilder($builder2);
         $queryBuilder = $paginator->getQueryBuilder();
         $I->assertEquals($builder2, $queryBuilder);
-        $I->assertEquals($setterResult, $paginator);
+        $I->assertEquals($paginator, $setterResult);
     }
 
     public function testQueryBuilderPaginatorGroupBy(IntegrationTester $I)
     {
         $I->skipTest('TODO: Check me');
+
         $database = $this->getService('db');
+
         $database->query(
             "SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE," .
             "NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER," .
@@ -235,6 +266,7 @@ class PaginatorCest
 
         // test paginator with group by string value
         $manager = $this->getService('modelsManager');
+
         $builder = $manager->createBuilder()
                            ->columns('cedula, nombres')
                            ->from('Personnes')
@@ -266,16 +298,17 @@ class PaginatorCest
 
         // -- current page --
         $currentPage = $paginator->getCurrentPage();
-        $I->assertEquals($currentPage, 18);
+
+        $I->assertEquals(18, $currentPage);
 
         // -- limit --
         $rowsLimit = $paginator->getLimit();
-        $I->assertEquals($rowsLimit, 10);
+        $I->assertEquals(10, $rowsLimit);
 
         $setterResult = $paginator->setLimit(25);
         $rowsLimit    = $paginator->getLimit();
-        $I->assertEquals($rowsLimit, 25);
-        $I->assertEquals($setterResult, $paginator);
+        $I->assertEquals(25, $rowsLimit);
+        $I->assertEquals($paginator, $setterResult);
 
         // -- builder --
         $queryBuilder = $paginator->getQueryBuilder();
@@ -290,16 +323,18 @@ class PaginatorCest
         $setterResult = $paginator->setQueryBuilder($builder2);
         $queryBuilder = $paginator->getQueryBuilder();
         $I->assertEquals($builder2, $queryBuilder);
-        $I->assertEquals($setterResult, $paginator);
+        $I->assertEquals($paginator, $setterResult);
     }
 
     private function paginatorBuilderTest(IntegrationTester $I, $builder)
     {
-        $paginator = new QueryBuilder([
-            "builder" => $builder,
-            "limit"   => 10,
-            "page"    => 1,
-        ]);
+        $paginator = new QueryBuilder(
+            [
+                "builder" => $builder,
+                "limit"   => 10,
+                "page"    => 1,
+            ]
+        );
 
         $page = $paginator->paginate();
 
@@ -307,14 +342,14 @@ class PaginatorCest
 
         $I->assertCount(10, $page->items);
 
-        $I->assertEquals($page->before, 1);
-        $I->assertEquals($page->next, 2);
-        $I->assertEquals($page->last, 18);
-        $I->assertEquals($page->limit, 10);
+        $I->assertEquals(1, $page->before);
+        $I->assertEquals(2, $page->next);
+        $I->assertEquals(18, $page->last);
+        $I->assertEquals(10, $page->limit);
 
-        $I->assertEquals($page->current, 1);
-        $I->assertEquals($page->total_items, 178);
-        $I->assertEquals($page->total_pages, 18);
+        $I->assertEquals(1, $page->current);
+        $I->assertEquals(178, $page->total_items);
+        $I->assertEquals(18, $page->total_pages);
 
         $I->assertInternalType('int', $page->total_items);
         $I->assertInternalType('int', $page->total_pages);
@@ -328,12 +363,12 @@ class PaginatorCest
 
         $I->assertCount(10, $page->items);
 
-        $I->assertEquals($page->before, 9);
-        $I->assertEquals($page->next, 11);
-        $I->assertEquals($page->last, 18);
+        $I->assertEquals(9, $page->before);
+        $I->assertEquals(11, $page->next);
+        $I->assertEquals(18, $page->last);
 
-        $I->assertEquals($page->current, 10);
-        $I->assertEquals($page->total_pages, 18);
+        $I->assertEquals(10, $page->current);
+        $I->assertEquals(18, $page->total_pages);
 
         $I->assertInternalType('int', $page->total_items);
         $I->assertInternalType('int', $page->total_pages);
@@ -343,16 +378,19 @@ class PaginatorCest
 
         $page = $paginator->paginate();
 
-        $I->assertInstanceOf('stdClass', $page);
+        $I->assertInstanceOf(
+            \stdClass::class,
+            $page
+        );
 
         $I->assertCount(9, $page->items);
 
-        $I->assertEquals($page->before, 17);
-        $I->assertEquals($page->next, 18);
-        $I->assertEquals($page->last, 18);
+        $I->assertEquals(17, $page->before);
+        $I->assertEquals(18, $page->next);
+        $I->assertEquals(18, $page->last);
 
-        $I->assertEquals($page->current, 18);
-        $I->assertEquals($page->total_pages, 18);
+        $I->assertEquals(18, $page->current);
+        $I->assertEquals(18, $page->total_pages);
 
         $I->assertInternalType('int', $page->total_items);
         $I->assertInternalType('int', $page->total_pages);

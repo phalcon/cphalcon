@@ -190,7 +190,9 @@ class MemorySession implements ManagerInterface
      */
     public function has(string $index): bool
     {
-        return isset($this->memory[$this->prepareIndex($index)]);
+        return isset(
+            $this->memory[$this->prepareIndex($index)]
+        );
     }
 
     /**
@@ -213,7 +215,9 @@ class MemorySession implements ManagerInterface
      */
     public function remove(string $index)
     {
-        unset($this->memory[$this->prepareIndex($index)]);
+        unset(
+            $this->memory[$this->prepareIndex($index)]
+        );
     }
 
     /**
@@ -368,4 +372,5 @@ class MemorySession implements ManagerInterface
     public function registerHandler(\SessionHandlerInterface $handler): bool
     {
         // TODO: Implement registerHandler() method.
-}}
+    }
+}

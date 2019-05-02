@@ -36,20 +36,30 @@ class LiquidRescaleCest
     public function imageAdapterImagickLiquidRescale(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - liquidRescale()');
+
         $I->skipTest('Check library support');
-        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
+
+        $image = new Imagick(
+            dataFolder('assets/images/phalconphp.jpg')
+        );
+
         $image->setResourceLimit(6, 1);
 
         // Resize to 200 pixels on the shortest side
         $image->liquidRescale(200, 200)->save(outputFolder('tests/image/imagick/liquidRescale.jpg'));
 
-        $I->amInPath(outputFolder('tests/image/imagick/'));
+        $I->amInPath(
+            outputFolder('tests/image/imagick/')
+        );
+
         $I->seeFileFound('liquidRescale.jpg');
 
-        $actual = $image->getWidth() == 200;
-        $I->assertTrue($actual);
-        $actual = $image->getHeight() == 200;
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $image->getWidth() == 200
+        );
+        $I->assertTrue(
+            $image->getHeight() == 200
+        );
 
         $I->safeDeleteFile('liquidRescale.jpg');
     }

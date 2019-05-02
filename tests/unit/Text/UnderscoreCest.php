@@ -31,20 +31,25 @@ class UnderscoreCest
     public function textUnderscore(UnitTester $I)
     {
         $I->wantToTest('Text - underscore()');
-        $expected = 'start_a_horse';
-        $actual   = Text::underscore('start a horse');
-        $I->assertEquals($expected, $actual);
 
-        $expected = 'five_cats';
-        $actual   = Text::underscore("five\tcats");
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'start_a_horse',
+            Text::underscore('start a horse')
+        );
 
-        $expected = 'look_behind';
-        $actual   = Text::underscore(' look behind ');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'five_cats',
+            Text::underscore("five\tcats")
+        );
 
-        $expected = 'Awesome_Phalcon';
-        $actual   = Text::underscore(" \t Awesome \t  \t Phalcon ");
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'look_behind',
+            Text::underscore(' look behind ')
+        );
+
+        $I->assertEquals(
+            'Awesome_Phalcon',
+            Text::underscore(" \t Awesome \t  \t Phalcon ")
+        );
     }
 }

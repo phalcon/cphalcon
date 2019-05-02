@@ -31,11 +31,18 @@ class ToStringCest
     public function messagesMessageToString(UnitTester $I)
     {
         $I->wantToTest('Messages\Message - __toString()');
-        $message = new Message('This is a message #1', 'MyField', 'MyType', 111);
 
-        $expected = 'This is a message #1';
-        $actual   = $message->__toString();
-        $I->assertEquals($expected, $actual);
+        $message = new Message(
+            'This is a message #1',
+            'MyField',
+            'MyType',
+            111
+        );
+
+        $I->assertEquals(
+            'This is a message #1',
+            $message->__toString()
+        );
     }
 
     /**
@@ -49,10 +56,17 @@ class ToStringCest
     public function messagesMessageToStringCast(UnitTester $I)
     {
         $I->wantToTest('Messages\Message - __toString() - cast');
-        $message = new Message('This is a message #1', 'MyField', 'MyType', 111);
 
-        $expected = 'This is a message #1';
-        $actual   = (string) $message;
-        $I->assertEquals($expected, $actual);
+        $message = new Message(
+            'This is a message #1',
+            'MyField',
+            'MyType',
+            111
+        );
+
+        $I->assertEquals(
+            'This is a message #1',
+            (string) $message
+        );
     }
 }

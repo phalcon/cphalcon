@@ -35,7 +35,7 @@ class TableOptionsCest
     public function dbAdapterPdoMysqlTableOptions(IntegrationTester $I)
     {
         $I->wantToTest('Db\Adapter\Pdo\Mysql - tableOptions()');
-        $table    = 'dialect_table';
+
         $expected = [
             'auto_increment'  => '1',
             'engine'          => 'InnoDB',
@@ -43,7 +43,11 @@ class TableOptionsCest
             'table_type'      => 'BASE TABLE',
         ];
 
-        $actual = $this->connection->tableOptions($table, $this->getDatabaseName());
+        $actual = $this->connection->tableOptions(
+            'dialect_table',
+            $this->getDatabaseName()
+        );
+
         $I->assertEquals($expected, $actual);
     }
 }

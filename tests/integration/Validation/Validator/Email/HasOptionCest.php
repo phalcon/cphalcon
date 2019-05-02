@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorEmailHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Email - hasOption()');
-        $validator = new Email(['message' => 'This is a message']);
+
+        $validator = new Email(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

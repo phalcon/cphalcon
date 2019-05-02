@@ -50,10 +50,15 @@ class DispatcherTestAfterExecuteRouteForwardController extends Controller
     {
         $this->trace('afterExecuteRoute-method');
 
-        $this->getDI()->getShared('dispatcher')->forward([
-            'controller' => 'dispatcher-test-default',
-            'action'     => 'index',
-        ])
-        ;
+        $di = $this->getDI();
+
+        $dispatcher = $di->getShared('dispatcher');
+
+        $dispatcher->forward(
+            [
+                'controller' => 'dispatcher-test-default',
+                'action'     => 'index',
+            ]
+        );
     }
 }

@@ -27,11 +27,16 @@ class ConfigCest
      */
     public function testNumericConfig(UnitTester $I)
     {
-        $config = new Config(['abc']);
+        $config = new Config(
+            [
+                'abc',
+            ]
+        );
 
-        $expected = 'abc';
-        $actual   = $config->{0};
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'abc',
+            $config->{0}
+        );
     }
 
     /**
@@ -48,17 +53,20 @@ class ConfigCest
             ]
         );
 
-        $expected = 'Phalcon\Config';
-        $actual   = $config->childNode;
-        $I->assertInstanceOf($expected, $actual);
+        $I->assertInstanceOf(
+            Config::class,
+            $config->childNode
+        );
 
-        $expected = 'Phalcon\Config';
-        $actual   = $config->get('childNode');
-        $I->assertInstanceOf($expected, $actual);
+        $I->assertInstanceOf(
+            Config::class,
+            $config->get('childNode')
+        );
 
-        $expected = 'Phalcon\Config';
-        $actual   = $config->offsetGet('childNode');
-        $I->assertInstanceOf($expected, $actual);
+        $I->assertInstanceOf(
+            Config::class,
+            $config->offsetGet('childNode')
+        );
     }
 
     /**
@@ -99,7 +107,9 @@ class ConfigCest
                 ],
             ]
         );
-        $actual   = new Config($settings);
+
+        $actual = new Config($settings);
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -111,7 +121,14 @@ class ConfigCest
      */
     public function testConfigMergeArray(UnitTester $I)
     {
-        $config = new Config(['keys' => ['scott', 'cheetah']]);
+        $config = new Config(
+            [
+                'keys' => [
+                    'scott',
+                    'cheetah',
+                ],
+            ]
+        );
 
         $expected = Config::__set_state(
             [
@@ -124,19 +141,46 @@ class ConfigCest
                 ),
             ]
         );
-        $actual   = $config->merge(new Config(['keys' => ['peter']]));
+
+        $actual = $config->merge(
+            new Config(
+                [
+                    'keys' => ['peter'],
+                ]
+            )
+        );
+
         $I->assertEquals($expected, $actual);
 
-        $config = new Config(['keys' => ['peter']]);
+        $config = new Config(
+            [
+                'keys' => ['peter'],
+            ]
+        );
 
-        $expected = Config::__set_state([
-            'keys' => Config::__set_state([
-                '0' => 'peter',
-                '1' => 'scott',
-                '2' => 'cheetah',
-            ]),
-        ]);
-        $actual   = $config->merge(new Config(['keys' => ['scott', 'cheetah']]));
+        $expected = Config::__set_state(
+            [
+                'keys' => Config::__set_state(
+                    [
+                        '0' => 'peter',
+                        '1' => 'scott',
+                        '2' => 'cheetah',
+                    ]
+                ),
+            ]
+        );
+
+        $actual = $config->merge(
+            new Config(
+                [
+                    'keys' => [
+                        'scott',
+                        'cheetah',
+                    ],
+                ]
+            )
+        );
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -148,41 +192,45 @@ class ConfigCest
      */
     public function testConfigMergeComplexObjects(UnitTester $I)
     {
-        $config1 = new Config([
-            'controllersDir' => '../x/y/z',
-            'modelsDir'      => '../x/y/z',
-            'database'       => [
-                'adapter'      => 'Mysql',
-                'host'         => 'localhost',
-                'username'     => 'scott',
-                'password'     => 'cheetah',
-                'name'         => 'test_db',
-                'charset'      => [
-                    'primary' => 'utf8',
+        $config1 = new Config(
+            [
+                'controllersDir' => '../x/y/z',
+                'modelsDir'      => '../x/y/z',
+                'database'       => [
+                    'adapter'      => 'Mysql',
+                    'host'         => 'localhost',
+                    'username'     => 'scott',
+                    'password'     => 'cheetah',
+                    'name'         => 'test_db',
+                    'charset'      => [
+                        'primary' => 'utf8',
+                    ],
+                    'alternatives' => [
+                        'primary' => 'latin1',
+                        'second'  => 'latin1',
+                    ],
                 ],
-                'alternatives' => [
-                    'primary' => 'latin1',
-                    'second'  => 'latin1',
-                ],
-            ],
-        ]);
+            ]
+        );
 
-        $config2 = new Config([
-            'modelsDir' => '../x/y/z',
-            'database'  => [
-                'adapter'      => 'Postgresql',
-                'host'         => 'localhost',
-                'username'     => 'peter',
-                'options'      => [
-                    'case'                        => 'lower',
-                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+        $config2 = new Config(
+            [
+                'modelsDir' => '../x/y/z',
+                'database'  => [
+                    'adapter'      => 'Postgresql',
+                    'host'         => 'localhost',
+                    'username'     => 'peter',
+                    'options'      => [
+                        'case'                        => 'lower',
+                        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+                    ],
+                    'alternatives' => [
+                        'primary' => 'swedish',
+                        'third'   => 'american',
+                    ],
                 ],
-                'alternatives' => [
-                    'primary' => 'swedish',
-                    'third'   => 'american',
-                ],
-            ],
-        ]);
+            ]
+        );
 
         $config1->merge($config2);
 
@@ -219,7 +267,9 @@ class ConfigCest
                 ),
             ]
         );
-        $actual   = $config1;
+
+        $actual = $config1;
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -263,7 +313,9 @@ class ConfigCest
                 ],
             ],
         ];
-        $actual   = $config->toArray();
+
+        $actual = $config->toArray();
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -276,50 +328,115 @@ class ConfigCest
      */
     public function testIssue13351MergeNonZeroBasedNumericKey(UnitTester $I)
     {
-        $config  = new Config([1 => 'Apple']);
-        $config2 = new Config([2 => 'Banana']);
+        $config  = new Config(
+            [
+                1 => 'Apple',
+            ]
+        );
+
+        $config2 = new Config(
+            [
+                2 => 'Banana',
+            ]
+        );
+
         $config->merge($config2);
+
+
 
         $expected = [
             1 => 'Apple',
             2 => 'Banana',
         ];
-        $actual   = $config->toArray();
+
+        $actual = $config->toArray();
+
         $I->assertEquals($expected, $actual);
 
 
-        $config  = new Config([0 => 'Apple']);
-        $config2 = new Config([1 => 'Banana']);
+
+        $config  = new Config(
+            [
+                0 => 'Apple',
+            ]
+        );
+
+        $config2 = new Config(
+            [
+                1 => 'Banana',
+            ]
+        );
+
         $config->merge($config2);
+
+
 
         $expected = [
             0 => 'Apple',
             1 => 'Banana',
         ];
-        $actual   = $config->toArray();
+
+        $actual = $config->toArray();
+
         $I->assertEquals($expected, $actual);
 
-        $config  = new Config([1 => 'Apple', 'p' => 'Pineapple']);
-        $config2 = new Config([2 => 'Banana']);
+
+
+        $config  = new Config(
+            [
+                1   => 'Apple',
+                'p' => 'Pineapple',
+            ]
+        );
+
+        $config2 = new Config(
+            [
+                2 => 'Banana',
+            ]
+        );
+
         $config->merge($config2);
+
+
 
         $expected = [
             1   => 'Apple',
             'p' => 'Pineapple',
             2   => 'Banana',
         ];
-        $actual   = $config->toArray();
+
+        $actual = $config->toArray();
+
         $I->assertEquals($expected, $actual);
 
-        $config  = new Config([
-            'One' => [1 => 'Apple', 'p' => 'Pineapple'],
-            'Two' => [1 => 'Apple'],
-        ]);
-        $config2 = new Config([
-            'One' => [2 => 'Banana'],
-            'Two' => [2 => 'Banana'],
-        ]);
+
+
+        $config  = new Config(
+            [
+                'One' => [
+                    1   => 'Apple',
+                    'p' => 'Pineapple',
+                ],
+                'Two' => [
+                    1 => 'Apple',
+                ],
+            ]
+        );
+
+        $config2 = new Config(
+            [
+                'One' => [
+                    2 => 'Banana',
+                ],
+                'Two' => [
+                    2 => 'Banana',
+                ],
+            ]
+        );
+
         $config->merge($config2);
+
+
 
         $expected = [
             'One' => [
@@ -332,7 +449,9 @@ class ConfigCest
                 2 => 'Banana',
             ],
         ];
-        $actual   = $config->toArray();
+
+        $actual = $config->toArray();
+
         $I->assertEquals($expected, $actual);
     }
 }

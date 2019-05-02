@@ -63,7 +63,9 @@ class MicroController extends Controller
     public function returnResponseAction()
     {
         $response = new Response();
+
         $response->setContent("test");
+
         return $response;
     }
 }

@@ -31,11 +31,16 @@ class GetSetSeparatorCest
     public function htmlBreadcrumbsGetSetSeparator(UnitTester $I)
     {
         $I->wantToTest('Html\Breadcrumbs - getSeparator()/setSeparator()');
+
         $breadcrumbs = new Breadcrumbs();
 
         $expected = ' -:- ';
+
         $breadcrumbs->setSeparator($expected);
-        $actual = $breadcrumbs->getSeparator();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $breadcrumbs->getSeparator()
+        );
     }
 }

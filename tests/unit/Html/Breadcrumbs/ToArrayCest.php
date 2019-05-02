@@ -31,7 +31,9 @@ class ToArrayCest
     public function htmlBreadcrumbsToArray(UnitTester $I)
     {
         $I->wantToTest('Html\Breadcrumbs - toArray()');
+
         $breadcrumbs = new Breadcrumbs();
+
         $breadcrumbs
             ->add('Home', '/')
             ->add('Users', '/users')
@@ -43,7 +45,10 @@ class ToArrayCest
             '/users' => 'Users',
             ''       => 'Phalcon Team',
         ];
-        $actual   = $breadcrumbs->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $breadcrumbs->toArray()
+        );
     }
 }

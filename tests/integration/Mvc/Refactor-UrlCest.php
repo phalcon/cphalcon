@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Mvc;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Router;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -39,9 +40,11 @@ class UrlCest
         $container  = $this->getDi();
         $router     = new Router(false);
         $routerData = $this->getDataToSetDi();
+
         foreach ($routerData as $data) {
             $this->getRouteAndSetRouteMethod($router, $data)->setName($data['setname']);
         }
+
         $router->removeExtraSlashes(true);
 
         $container->set('router', $router);
@@ -102,20 +105,25 @@ class UrlCest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
+     *
+     * @dataProvider getUrlToSetServer
      */
-    public function shouldGetCorrectUrlWithServer(IntegrationTester $I)
+    public function shouldGetCorrectUrlWithServer(IntegrationTester $I, Example $example)
     {
-        $examples = $this->getUrlToSetServer();
-        foreach ($examples as $item) {
-            $params   = $item[0];
-            $expected = $item[1];
+        $params = $example['params'];
 
-            $_SERVER['PHP_SELF'] = $params['server_php_self'];
+        $_SERVER['PHP_SELF'] = $params['server_php_self'];
 
-            $url    = $this->getService('url');
-            $actual = $url->get($params['get']);
-            $I->assertEquals($expected, $actual);
-        }
+        $url = $this->getService('url');
+
+        $actual = $url->get(
+            $params['get']
+        );
+
+        $I->assertEquals(
+            $example['expected'],
+            $actual
+        );
     }
 
     private function getUrlToSetServer(): array
@@ -123,19 +131,20 @@ class UrlCest
         return [
             //Tests the base url
             [
-                [
+                'params' => [
                     'server_php_self' => '/index.php',
                     'get'             => null,
                 ],
-                '/',
+                'expected' => '/',
             ],
+
             //Tests a different url
             [
-                [
+                'params' => [
                     'server_php_self' => '/index.php',
                     'get'             => 'classes/api/Some',
                 ],
-                '/classes/api/Some',
+                'expected' => '/classes/api/Some',
             ],
         ];
     }
@@ -145,20 +154,25 @@ class UrlCest
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-09-04
+     *
+     * @dataProvider getUrlToSetBaseUri
      */
-    public function shouldCorrectSetBaseUri(IntegrationTester $I)//+
+    public function shouldCorrectSetBaseUri(IntegrationTester $I, Example $example)
     {
-        $examples = $this->getUrlToSetBaseUri();
-        foreach ($examples as $item) {
-            $params   = $item[0];
-            $expected = $item[1];
+        $params   = $example[0];
+        $expected = $example[1];
 
-            $url = $this->getService('url');
-            $url->setBaseUri($params['base_url']);
+        $url = $this->getService('url');
 
-            $actual = $url->get($params['param']);
-            $I->assertEquals($expected, $actual);
-        }
+        $url->setBaseUri(
+            $params['base_url']
+        );
+
+        $actual = $url->get(
+            $params['param']
+        );
+
+        $I->assertEquals($expected, $actual);
     }
 
     private function getUrlToSetBaseUri(): array
@@ -176,6 +190,7 @@ class UrlCest
                 ],
                 '/admin/products/p/index',
             ],
+
             //Tests the url with a controller
             [
                 [
@@ -232,20 +247,25 @@ class UrlCest
      * @author Olivier Monaco <olivier.monaco@nospam.free.fr>
      * @since  2015-02-03
      * @issue  https://github.com/phalcon/cphalcon/issues/3315
+     *
+     * @dataProvider getUrlToSetWithoutDi
      */
-    public function shouldGetCorrectUrl(IntegrationTester $I)
+    public function shouldGetCorrectUrl(IntegrationTester $I, Example $example)
     {
-        $examples = $this->getUrlToSetWithoutDi();
-        foreach ($examples as $item) {
-            $params   = $item[0];
-            $expected = $item[1];
+        $params   = $example[0];
+        $expected = $example[1];
 
-            $url = $this->getService('url');
-            $url->setBaseUri($params['base_url']);
+        $url = $this->getService('url');
 
-            $actual = $url->get($params['get']);
-            $I->assertEquals($expected, $actual);
-        }
+        $url->setBaseUri(
+            $params['base_url']
+        );
+
+        $actual = $url->get(
+            $params['get']
+        );
+
+        $I->assertEquals($expected, $actual);
     }
 
     private function getUrlToSetWithoutDi(): array
@@ -310,20 +330,26 @@ class UrlCest
      * @author Olivier Monaco <olivier.monaco@nospam.free.fr>
      * @since  2015-02-03
      * @issue  https://github.com/phalcon/cphalcon/issues/3315
+     *
+     * @dataProvider getUrlToSetWithoutDiTwoParam
      */
-    public function shouldGetCorrectUrlWithGetParam(IntegrationTester $I)
+    public function shouldGetCorrectUrlWithGetParam(IntegrationTester $I, Example $example)
     {
-        $examples = $this->getUrlToSetWithoutDiTwoParam();
-        foreach ($examples as $item) {
-            $params   = $item[0];
-            $expected = $item[1];
+        $params   = $example[0];
+        $expected = $example[1];
 
-            $url = $this->getService('url');
-            $url->setBaseUri($params['base_url']);
+        $url = $this->getService('url');
 
-            $actual = $url->get($params['get'], $params['second_get']);
-            $I->assertEquals($expected, $actual);
-        }
+        $url->setBaseUri(
+            $params['base_url']
+        );
+
+        $actual = $url->get(
+            $params['get'],
+            $params['second_get']
+        );
+
+        $I->assertEquals($expected, $actual);
     }
 
     private function getUrlToSetWithoutDiTwoParam(): array

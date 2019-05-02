@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorCallbackConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Callback - __construct()');
+
         $validator = new Callback();
+
         $this->checkConstruct($I, $validator);
     }
 }

@@ -33,20 +33,29 @@ class RollbackCest
     public function loggerAdapterStreamRollback(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - rollback()');
-        $fileName   = $I->getNewFileName('log', 'log');
+
+        $fileName = $I->getNewFileName('log', 'log');
+
         $outputPath = outputFolder('tests/logs/');
-        $adapter    = new Stream($outputPath . $fileName);
+
+        $adapter = new Stream(
+            $outputPath . $fileName
+        );
 
         $adapter->begin();
 
-        $actual = $adapter->inTransaction();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->inTransaction()
+        );
 
         $adapter->rollback();
 
-        $actual = $adapter->inTransaction();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->inTransaction()
+        );
 
-        $I->safeDeleteFile($outputPath . $fileName);
+        $I->safeDeleteFile(
+            $outputPath . $fileName
+        );
     }
 }

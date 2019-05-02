@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorCreditCardHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\CreditCard - hasOption()');
-        $validator = new CreditCard(['message' => 'This is a message']);
+
+        $validator = new CreditCard(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

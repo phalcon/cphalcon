@@ -34,11 +34,19 @@ class GetTypeCest
     public function loggerItemGetType(UnitTester $I)
     {
         $I->wantToTest('Logger\Item - getType()');
-        $time = time();
-        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
-        $expected = Logger::DEBUG;
-        $actual   = $item->getType();
-        $I->assertEquals($expected, $actual);
+        $time = time();
+
+        $item = new Item(
+            'log message',
+            'debug',
+            Logger::DEBUG,
+            $time
+        );
+
+        $I->assertEquals(
+            Logger::DEBUG,
+            $item->getType()
+        );
     }
 }

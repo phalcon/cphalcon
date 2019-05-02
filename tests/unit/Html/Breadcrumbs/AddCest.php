@@ -31,14 +31,16 @@ class AddCest
     public function htmlBreadcrumbsAdd(UnitTester $I)
     {
         $I->wantToTest('Html\Breadcrumbs - add()');
-        $breadcrumbs = new Breadcrumbs();
-        $breadcrumbs
-            ->add('Home', '/');
 
-        $expected = [
-            '/' => 'Home',
-        ];
-        $actual   = $breadcrumbs->toArray();
-        $I->assertEquals($expected, $actual);
+        $breadcrumbs = new Breadcrumbs();
+
+        $breadcrumbs->add('Home', '/');
+
+        $I->assertEquals(
+            [
+                '/' => 'Home',
+            ],
+            $breadcrumbs->toArray()
+        );
     }
 }

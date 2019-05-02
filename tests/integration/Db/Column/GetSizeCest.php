@@ -35,10 +35,15 @@ class GetSizeCest
     public function dbColumnGetSize(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - getSize()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['size'], $column->getSize());
+            $I->assertEquals(
+                $columns[$index]['size'],
+                $column->getSize()
+            );
         }
     }
 }

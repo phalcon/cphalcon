@@ -31,27 +31,40 @@ class GetCest
     public function collectionGet(UnitTester $I)
     {
         $I->wantToTest('Collection - get()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Collection($data);
 
         $expected = 'four';
-        $actual   = $collection->get('three');
-        $I->assertEquals($expected, $actual);
 
-        $actual   = $collection->get('THREE');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $collection->get('three')
+        );
 
-        $actual = $collection['three'];
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $collection->get('THREE')
+        );
 
-        $actual = $collection->three;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $collection['three']
+        );
 
-        $actual = $collection->offsetGet('three');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $collection->three
+        );
+
+        $I->assertEquals(
+            $expected,
+            $collection->offsetGet('three')
+        );
     }
 }

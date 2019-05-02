@@ -1,5 +1,6 @@
 <?php
 
+use Codeception\Actor;
 
 /**
  * Inherited Methods
@@ -16,7 +17,7 @@
  *
  * @SuppressWarnings(PHPMD)
  */
-class IntegrationTester extends \Codeception\Actor
+class IntegrationTester extends Actor
 {
     use _generated\IntegrationTesterActions;
 
@@ -32,7 +33,8 @@ class IntegrationTester extends \Codeception\Actor
      *
      * @return string
      */
-    public function preparePathToFileWithDelimiter($path, $separator) {
+    public function preparePathToFileWithDelimiter($path, $separator)
+    {
         $virtual_str = '';
 
         if (!is_string($path) || !is_string($separator)) {
@@ -45,9 +47,11 @@ class IntegrationTester extends \Codeception\Actor
 
         for ($i = 0; $i < strlen($path); $i++) {
             $ch = $path[$i];
+
             if ($ch == '\0') {
                 break;
             }
+
             if ($ch == '/' || $ch == '\\' || $ch == ':') {
                 $virtual_str .= $separator;
             } else {

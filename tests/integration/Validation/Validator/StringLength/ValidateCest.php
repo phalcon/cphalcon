@@ -35,7 +35,9 @@ class ValidateCest
     public function validationValidatorStringLengthValidateSingleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength :: validate() - single field');
+
         $validation = new Validation();
+
         $validation->add(
             'name',
             new StringLength(
@@ -46,15 +48,32 @@ class ValidateCest
             )
         );
 
-        $messages = $validation->validate(['name' => 'SomeValue']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'SomeValue123']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue123',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
     }
 
     /**
@@ -68,13 +87,32 @@ class ValidateCest
     public function validationValidatorStringLengthValidateMinimum(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength :: validate() - minimum');
-        $validation = new Validation();
-        $validation->add('name', new StringLength(['min' => 3]));
 
-        $messages = $validation->validate(['name' => 'Something']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $validation = new Validation();
+
+        $validation->add(
+            'name',
+            new StringLength(
+                [
+                    'min' => 3,
+                ]
+            )
+        );
+
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'Something',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
+
 
         $expected = new Messages(
             [
@@ -86,9 +124,14 @@ class ValidateCest
                 ),
             ]
         );
-        $messages = $validation->validate(['name' => 'So']);
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'name' => 'So',
+            ]
+        );
+
+        $I->assertEquals($expected, $messages);
     }
 
     /**
@@ -102,17 +145,36 @@ class ValidateCest
      */
     public function validationValidatorStringLengthValidateMinimumWithCustomMessage(IntegrationTester $I)
     {
-        $I->wantToTest('Validation\Validator\StringLength :: validate() - minimum custom message');
-        $validation = new Validation();
-        $validation->add(
-            'message',
-            new StringLength(['min' => 3, 'messageMinimum' => 'The message is too short'])
+        $I->wantToTest(
+            'Validation\Validator\StringLength :: validate() - minimum custom message'
         );
 
-        $messages = $validation->validate(['message' => 'Something']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $validation = new Validation();
+
+        $validation->add(
+            'message',
+            new StringLength(
+                [
+                    'min'            => 3,
+                    'messageMinimum' => 'The message is too short',
+                ]
+            )
+        );
+
+
+
+        $messages = $validation->validate(
+            [
+                'message' => 'Something',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
+
 
         $expected = new Messages(
             [
@@ -124,9 +186,14 @@ class ValidateCest
                 ),
             ]
         );
-        $messages = $validation->validate(['message' => 'So']);
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'message' => 'So',
+            ]
+        );
+
+        $I->assertEquals($expected, $messages);
     }
 
     /**
@@ -140,13 +207,32 @@ class ValidateCest
     public function validationValidatorStringLengthValidateMaximum(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength :: validate() - maximum');
-        $validation = new Validation();
-        $validation->add('name', new StringLength(['max' => 4]));
 
-        $messages = $validation->validate(['name' => 'John']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $validation = new Validation();
+
+        $validation->add(
+            'name',
+            new StringLength(
+                [
+                    'max' => 4,
+                ]
+            )
+        );
+
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'John',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
+
 
         $expected = new Messages(
             [
@@ -158,9 +244,14 @@ class ValidateCest
                 ),
             ]
         );
-        $messages = $validation->validate(['name' => 'Johannes']);
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'name' => 'Johannes',
+            ]
+        );
+
+        $I->assertEquals($expected, $messages);
     }
 
     /**
@@ -174,17 +265,36 @@ class ValidateCest
      */
     public function validationValidatorStringLengthValidateMaximumWithCustomMessage(IntegrationTester $I)
     {
-        $I->wantToTest('Validation\Validator\StringLength :: validate() - maximum custom message');
-        $validation = new Validation();
-        $validation->add(
-            'message',
-            new StringLength(['max' => 4, 'messageMaximum' => 'The message is too long'])
+        $I->wantToTest(
+            'Validation\Validator\StringLength :: validate() - maximum custom message'
         );
 
-        $messages = $validation->validate(['message' => 'Pet']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $validation = new Validation();
+
+        $validation->add(
+            'message',
+            new StringLength(
+                [
+                    'max'            => 4,
+                    'messageMaximum' => 'The message is too long',
+                ]
+            )
+        );
+
+
+
+        $messages = $validation->validate(
+            [
+                'message' => 'Pet',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
+
 
         $expected = new Messages(
             [
@@ -196,9 +306,14 @@ class ValidateCest
                 ),
             ]
         );
-        $messages = $validation->validate(['message' => 'Validation']);
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'message' => 'Validation',
+            ]
+        );
+
+        $I->assertEquals($expected, $messages);
     }
 
     /**
@@ -212,16 +327,22 @@ class ValidateCest
      */
     public function validationValidatorStringLengthValidateMultipleFieldSingleMinMax(IntegrationTester $I)
     {
-        $I->wantToTest('Validation\Validator\StringLength :: validate() - multiple field and single min, max');
-        $validation                = new Validation();
+        $I->wantToTest(
+            'Validation\Validator\StringLength :: validate() - multiple field and single min, max'
+        );
+
+        $validation = new Validation();
+
         $validationMinimumMessages = [
             'name' => 'Name length must be minimum 0.',
             'type' => 'Type length must be minimum 0.',
         ];
+
         $validationMaximumMessages = [
             'name' => 'Name length must be maximum 9.',
             'type' => 'Type length must be maximum 9.',
         ];
+
         $validation->add(
             [
                 'name',
@@ -237,32 +358,62 @@ class ValidateCest
             )
         );
 
-        $messages = $validation->validate(['name' => 'SomeValue', 'type' => 'SomeValue']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'SomeValue123', 'type' => 'SomeValue']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMaximumMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue',
+                'type' => 'SomeValue',
+            ]
+        );
 
-        $messages = $validation->validate(['name' => 'SomeValue123', 'type' => 'SomeValue123']);
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
 
-        $expected = $validationMaximumMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMaximumMessages['type'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue123',
+                'type' => 'SomeValue',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMaximumMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue123',
+                'type' => 'SomeValue123',
+            ]
+        );
+
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMaximumMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $I->assertEquals(
+            $validationMaximumMessages['type'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 
     /**
@@ -277,15 +428,19 @@ class ValidateCest
     public function validationValidatorStringLengthValidateMultipleFieldMultipleMinMax(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength :: validate() - multiple field and min, max');
-        $validation                = new Validation();
+
+        $validation = new Validation();
+
         $validationMinimumMessages = [
             'name' => 'Name length must be minimum 0.',
             'type' => 'Type length must be minimum 0.',
         ];
+
         $validationMaximumMessages = [
             'name' => 'Name length must be maximum 9.',
             'type' => 'Type length must be maximum 4.',
         ];
+
         $validation->add(
             [
                 'name',
@@ -307,40 +462,80 @@ class ValidateCest
             )
         );
 
-        $messages = $validation->validate(['name' => 'SomeValue', 'type' => 'Some']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'SomeValue123', 'type' => 'Some']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMaximumMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue',
+                'type' => 'Some',
+            ]
+        );
 
-        $messages = $validation->validate(['name' => 'SomeValue', 'type' => 'SomeValue']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
 
-        $expected = $validationMaximumMessages['type'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'SomeValue123', 'type' => 'SomeValue']);
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMaximumMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue123',
+                'type' => 'Some',
+            ]
+        );
 
-        $expected = $validationMaximumMessages['type'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMaximumMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue',
+                'type' => 'SomeValue',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMaximumMessages['type'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue123',
+                'type' => 'SomeValue',
+            ]
+        );
+
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMaximumMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $I->assertEquals(
+            $validationMaximumMessages['type'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 }

@@ -30,7 +30,11 @@ class Twig extends Engine implements EngineInterface
      */
     public function __construct(ViewBaseInterface $view, DiInterface $dependencyInjector = null)
     {
-        $this->twig = new Twig_Environment(new Twig_Loader_Filesystem($view->getViewsDir()));
+        $this->twig = new Twig_Environment(
+            new Twig_Loader_Filesystem(
+                $view->getViewsDir()
+            )
+        );
 
         parent::__construct($view, $dependencyInjector);
     }
@@ -52,7 +56,12 @@ class Twig extends Engine implements EngineInterface
             $params['view'] = $this->view;
         }
 
-        $relativePath = str_replace($this->view->getViewsDir(), '', $path);
+        $relativePath = str_replace(
+            $this->view->getViewsDir(),
+            '',
+            $path
+        );
+
         $content = $this->twig->render($relativePath, $params);
 
         if ($mustClean) {

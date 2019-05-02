@@ -74,6 +74,7 @@ class FlashBase
 
         if ($this->notHtml) {
             $flash->setAutomaticHtml(false);
+
             $expected = $message;
         } else {
             $expected = sprintf($template, $class, $message);
@@ -82,6 +83,7 @@ class FlashBase
 
         if ($this->notImplicit) {
             $flash->setImplicitFlush(false);
+
             $actual = $flash->$function($message);
         } else {
             $actual = $this->getObResponse($flash, $function, $message);
@@ -157,7 +159,9 @@ class FlashBase
 
         foreach ($functions as $function) {
             $this->notImplicit = true;
+
             $this->stringTest($I, $function);
+
             $this->notImplicit = false;
         }
     }
@@ -179,7 +183,9 @@ class FlashBase
 
         foreach ($functions as $function) {
             $this->notHtml = true;
+
             $this->stringTest($I, $function);
+
             $this->notHtml = false;
         }
     }
@@ -202,7 +208,9 @@ class FlashBase
         foreach ($functions as $function) {
             $this->notHtml     = true;
             $this->notImplicit = true;
+
             $this->stringTest($I, $function);
+
             $this->notHtml     = false;
             $this->notImplicit = false;
         }

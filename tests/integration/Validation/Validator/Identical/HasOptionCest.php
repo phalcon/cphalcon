@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorIdenticalHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Identical - hasOption()');
-        $validator = new Identical(['message' => 'This is a message']);
+
+        $validator = new Identical(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

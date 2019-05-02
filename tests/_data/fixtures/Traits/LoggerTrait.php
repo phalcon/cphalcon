@@ -24,10 +24,6 @@ use function outputFolder;
  */
 trait LoggerTrait
 {
-    /**
-     * @param UnitTester $I
-     * @param string     $level
-     */
     protected function runLoggerFile(UnitTester $I, string $level)
     {
         $logPath  = outputFolder('tests/logs/');

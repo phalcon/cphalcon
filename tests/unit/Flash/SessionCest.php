@@ -100,7 +100,9 @@ class SessionCest
     protected function getFlash()
     {
         $container = $this->getDi();
-        $flash     = new Session($this->classes);
+
+        $flash = new Session($this->classes);
+
         $flash->setDI($container);
 
         return $flash;
@@ -149,16 +151,20 @@ class SessionCest
          * @TODO Check the session
          */
         $I->skipTest('TODO: Check the session');
+
         $flash = $this->getFlash();
+
         $flash->error('sample error');
 
-        $expected = [];
-        $actual   = $flash->getMessages('success', false);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [],
+            $flash->getMessages('success', false)
+        );
 
-        $expected = 1;
-        $actual   = count($flash->getMessages());
-        $I->assertTrue($expected === $actual);
+        $I->assertCount(
+            1,
+            $flash->getMessages()
+        );
     }
 
     /**
@@ -173,6 +179,7 @@ class SessionCest
          * @TODO Check the session
          */
         $I->skipTest('TODO: Check the session');
+
         $flash = $this->getFlash();
 
         ob_start();
@@ -181,9 +188,11 @@ class SessionCest
         $flash->clear();
         $actual = ob_get_contents();
         ob_end_clean();
-        $expected = '';
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '',
+            $actual
+        );
     }
 
     /**
@@ -198,6 +207,7 @@ class SessionCest
          * @TODO Check the session
          */
         $I->skipTest('TODO: Check the session');
+
         $examples = [
             'error',
             'success',
@@ -232,13 +242,16 @@ class SessionCest
      */
     public function testCustomTemplateGetterSetter(UnitTester $I)
     {
-        $flash    = $this->getFlash();
+        $flash = $this->getFlash();
+
         $template = '<span class="%cssClasses%">%message%</span>';
+
         $flash->setCustomTemplate($template);
 
-        $expected = $template;
-        $actual   = $flash->getCustomTemplate();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $template,
+            $flash->getCustomTemplate()
+        );
     }
 
     /**
@@ -254,18 +267,24 @@ class SessionCest
          * @TODO Check the session
          */
         $I->skipTest('TODO: Check the session');
+
         $flash    = $this->getFlash();
         $template = '<span class="%cssClass%" aria-label="clickme">%message%</span>';
+
         $flash->setCustomTemplate($template);
 
         $message  = 'sample message';
-        $expected = '<span class="successMessage" aria-label="clickme">sample message</span>';
-        ob_start();
+
         $flash->success($message);
+
+        ob_start();
         $flash->output();
         $actual = ob_get_contents();
         ob_end_clean();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '<span class="successMessage" aria-label="clickme">sample message</span>',
+            $actual
+        );
     }
 }

@@ -38,11 +38,14 @@ class AnchorCest
     public function htmlHelperAnchorConstruct(UnitTester $I, Example $example)
     {
         $I->wantToTest('Html\Helper\Anchor - __construct()');
+
         $escaper = $this->newEscaper();
+
         $anchor  = new Anchor($escaper);
 
         $expected = $example[0];
         $actual   = $anchor('/myurl', 'click me', $example[1]);
+
         $I->assertEquals($expected, $actual);
     }
 

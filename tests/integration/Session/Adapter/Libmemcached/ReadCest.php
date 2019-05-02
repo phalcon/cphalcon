@@ -44,14 +44,20 @@ class ReadCest
     public function sessionAdapterLibmemcachedRead(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - write()');
+
         $adapter = $this->getSessionLibmemcached();
-        $value   = serialize(uniqid());
+
+        $value = serialize(
+            uniqid()
+        );
 
         $I->haveInLibmemcached('test1', $value);
 
         $expected = unserialize($value);
         $actual   = $adapter->read('test1');
+
         $I->assertEquals($expected, $actual);
+
         $I->removeFromLibmemcached('test1');
     }
 }

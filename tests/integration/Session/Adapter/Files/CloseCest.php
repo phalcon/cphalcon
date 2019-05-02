@@ -43,8 +43,11 @@ class CloseCest
     public function sessionAdapterFilesClose(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Files - close()');
+
         $adapter = $this->getSessionFiles();
-        $actual  = $adapter->close();
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->close()
+        );
     }
 }

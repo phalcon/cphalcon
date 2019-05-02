@@ -37,9 +37,16 @@ class GetSetDICest
     public function sessionBagGetSetDI(IntegrationTester $I)
     {
         $I->wantToTest("Session\Bag - getDI()/setDI()");
+
         $session = new Bag("DiTest");
-        $di      = new FactoryDefault();
+
+        $di = new FactoryDefault();
+
         $session->setDI($di);
-        $I->assertEquals($di, $session->getDI());
+
+        $I->assertEquals(
+            $di,
+            $session->getDI()
+        );
     }
 }

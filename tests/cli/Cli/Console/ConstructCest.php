@@ -23,6 +23,7 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 class ConstructCest
 {
     use DiTrait;
+
     /**
      * Tests Phalcon\Cli\Console :: __construct()
      *
@@ -37,16 +38,22 @@ class ConstructCest
     public function cliConsoleConstruct(CliTester $I)
     {
         $I->wantToTest("Cli\Console - __construct()");
+
         $this->newDi(); //Make sure the Default DI has no services.
+
         $container = $this->newCliFactoryDefault();
 
         $console = $this->newCliConsole();
-        $I->assertFalse($console->getDI()->has('dispatcher'));
+
+        $I->assertFalse(
+            $console->getDI()->has('dispatcher')
+        );
 
         $console = new CliConsole($container);
 
-        $expected = Dispatcher::class;
-        $actual   = $console->getDI()->getShared('dispatcher');
-        $I->assertInstanceOf($expected, $actual);
+        $I->assertInstanceOf(
+            Dispatcher::class,
+            $console->getDI()->getShared('dispatcher')
+        );
     }
 }

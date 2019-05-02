@@ -38,11 +38,14 @@ class TextAreaCest
     public function htmlHelperTextareaConstruct(UnitTester $I, Example $example)
     {
         $I->wantToTest('Html\Helper\TextArea - __construct()');
+
         $escaper = $this->newEscaper();
+
         $helper  = new TextArea($escaper);
 
         $expected = $example[0];
         $actual   = $helper($example[1], $example[2]);
+
         $I->assertEquals($expected, $actual);
     }
 

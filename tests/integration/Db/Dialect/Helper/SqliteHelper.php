@@ -85,8 +85,21 @@ class SqliteHelper
     protected function getCreateViewFixtures(): array
     {
         return [
-            [['sql' => 'SELECT 1'], null, 'CREATE VIEW "test_view" AS SELECT 1'],
-            [['sql' => 'SELECT 1'], 'schema', 'CREATE VIEW "schema"."test_view" AS SELECT 1'],
+            [
+                [
+                    'sql' => 'SELECT 1',
+                ],
+                null,
+                'CREATE VIEW "test_view" AS SELECT 1',
+            ],
+
+            [
+                [
+                    'sql' => 'SELECT 1',
+                ],
+                'schema',
+                'CREATE VIEW "schema"."test_view" AS SELECT 1',
+            ],
         ];
     }
 
@@ -199,8 +212,18 @@ class SqliteHelper
     protected function getModifyColumnFixtures13012(): array
     {
         return [
-            new Column('old', ['type' => Column::TYPE_VARCHAR]),
-            new Column('new', ['type' => Column::TYPE_VARCHAR]),
+            new Column(
+                'old',
+                [
+                    'type' => Column::TYPE_VARCHAR,
+                ]
+            ),
+            new Column(
+                'new',
+                [
+                    'type' => Column::TYPE_VARCHAR,
+                ]
+            ),
         ];
     }
 

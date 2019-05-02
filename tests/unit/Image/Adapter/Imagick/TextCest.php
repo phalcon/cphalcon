@@ -36,7 +36,11 @@ class TextCest
     public function imageAdapterImagickText(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - text()');
-        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
+
+        $image = new Imagick(
+            dataFolder('assets/images/phalconphp.jpg')
+        );
+
         $image->setResourceLimit(6, 1);
 
         $image->text(
@@ -50,11 +54,21 @@ class TextCest
         )->save(outputFolder('tests/image/imagick/text.jpg'))
         ;
 
-        $I->amInPath(outputFolder('tests/image/imagick/'));
+        $I->amInPath(
+            outputFolder('tests/image/imagick/')
+        );
+
         $I->seeFileFound('text.jpg');
 
-        $I->assertEquals(1820, $image->getWidth());
-        $I->assertEquals(694, $image->getHeight());
+        $I->assertEquals(
+            1820,
+            $image->getWidth()
+        );
+
+        $I->assertEquals(
+            694,
+            $image->getHeight()
+        );
 
         $I->safeDeleteFile('text.jpg');
     }

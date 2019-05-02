@@ -34,7 +34,9 @@ class Personers extends PhalconModel
     public function initialize()
     {
         $this->setSource('personas');
+
         $this->useDynamicUpdate(true);
+
         $this->addBehavior(
             new SoftDelete(
                 [
