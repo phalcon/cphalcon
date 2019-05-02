@@ -64,4 +64,70 @@ class WriteAttributeCest
             $user->toArray()
         );
     }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: writeAttribute() with associative array
+     *
+     * @param IntegrationTester $I
+     *
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2019-04-30
+     */
+    public function mvcModelWriteAttributeWithAssociativeArray(IntegrationTester $I)
+    {
+        $I->wantToTest('Tests Phalcon\Mvc\Model :: writeAttribute() with associative array');
+
+        $associativeArray = [
+            'firstName' => 'First name',
+            'lastName' => 'Last name'
+        ];
+
+        $user = new Users();
+        $user->writeAttribute('id', 123);
+        $user->writeAttribute('name', $associativeArray);
+
+        $I->assertEquals(
+            $associativeArray,
+            $user->readAttribute('name')
+        );
+
+        $I->assertEquals(
+            [
+                'id'   => 123,
+                'name' => $associativeArray
+            ],
+            $user->toArray()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: writeAttribute() undefined property with associative array
+     *
+     * @param IntegrationTester $I
+     *
+     * @see https://github.com/phalcon/cphalcon/issues/14021
+     *
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2019-04-30
+     */
+    public function mvcModelWriteAttributeUndefinedPropertyWithAssociativeArray(IntegrationTester $I)
+    {
+        $I->wantToTest('Tests Phalcon\Mvc\Model :: writeAttribute() undefined property with associative array');
+
+        $associativeArray = [
+            'id' => 123,
+            'name' => 'My Name'
+        ];
+
+        $user = new Users();
+        $user->whatEverUndefinedProperty = $associativeArray;
+
+        $I->assertEquals(
+            [
+                'id'   => null,
+                'name' => null
+            ],
+            $user->toArray()
+        );
+    }
 }
