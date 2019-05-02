@@ -30,6 +30,8 @@ class ClearCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
+     *
+     * @throws \Exception
      */
     public function storageAdapterApcuClear(UnitTester $I)
     {
