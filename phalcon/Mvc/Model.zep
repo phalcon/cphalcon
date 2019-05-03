@@ -341,8 +341,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function __set(string property, value)
     {
-        var lowerProperty, related, modelName, manager, lowerKey, relation,
-            referencedModel, key, item, dirtyState;
+        var lowerProperty, related, modelName, manager,
+            relation, referencedModel, item, dirtyState;
 
         /**
          * Values are probably relationships if they are objects
@@ -2271,8 +2271,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function save() -> bool
     {
-        var metaData, schema, writeConnection, readConnection, source,
-            table, identityField, exists, success, relatedUnsaved;
+        var metaData, schema, writeConnection, readConnection, source, table,
+            identityField, exists, success, related, relatedSaved, relatedUnsaved;
         bool hasRelatedUnsaved;
 
         let metaData = this->getModelsMetaData();
@@ -2288,15 +2288,20 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         this->fireEvent("prepareSave");
 
         /**
-         * Store the original records as a base for the updated ones
+         * Load related storages
          */
-        let this->relatedSaved = this->related;
+        let related = this->related,
+            relatedUnsaved = this->relatedUnsaved;
 
         /**
-         * Save related records in belongsTo relationships
+         * Store the original records as a base for the updated ones
          */
-        let relatedUnsaved = this->relatedUnsaved,
-            hasRelatedUnsaved = count(relatedUnsaved) > 0;
+        let this->relatedSaved = related;
+
+        /**
+         * Does it have unsaved related records
+         */
+        let hasRelatedUnsaved = count(relatedUnsaved) > 0;
 
         if hasRelatedUnsaved {
             if this->_preSaveRelatedRecords(writeConnection, relatedUnsaved) === false {
@@ -2416,10 +2421,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             this->_cancelOperation();
         } else {
             if hasRelatedUnsaved {
+                let relatedSaved = this->relatedSaved;
+
                 /**
                  * Update and clear related caches
                  */
-                let this->related = this->relatedSaved,
+                let this->related = relatedSaved,
                     this->relatedUnsaved = [],
                     this->relatedSaved = [];
             }
