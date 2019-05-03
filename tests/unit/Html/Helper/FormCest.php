@@ -41,7 +41,7 @@ class FormCest
 
         $escaper = $this->newEscaper();
 
-        $helper  = new Form($escaper);
+        $helper = new Form($escaper);
 
         $expected = $example[0];
         $actual   = $helper($example[1]);

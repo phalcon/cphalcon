@@ -32,7 +32,7 @@ class GetModuleCest
      * @since  2018-11-13
      *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-12-26
+     * @since  2018-12-26
      */
     public function cliConsoleGetModule(CliTester $I)
     {
@@ -46,10 +46,10 @@ class GetModuleCest
                     "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
                     "path"      => __DIR__ . "/../../../_data/modules/frontend/Module.php",
                 ],
-                "backend" => [
+                "backend"  => [
                     "className" => "Phalcon\\Test\\Modules\\Backend\\Module",
                     "path"      => __DIR__ . "/../../../_data/modules/backend/Module.php",
-                ]
+                ],
             ]
         );
 

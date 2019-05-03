@@ -28,14 +28,12 @@ class ConstructCest
         $I->wantToTest('Crypt - __construct()');
 
 
-
         $crypt = new Crypt();
 
         $I->assertInstanceOf(
             Crypt::class,
             $crypt
         );
-
 
 
         $crypt = new Crypt("aes-256-cfb", true);

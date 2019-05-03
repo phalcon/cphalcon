@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
-use Phalcon\Events\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
@@ -33,7 +32,7 @@ class GetSetDefaultModuleCest
      * @since  2018-11-13
      *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-12-26
+     * @since  2018-12-26
      */
     public function cliConsoleSetGetDefaultModule(CliTester $I)
     {

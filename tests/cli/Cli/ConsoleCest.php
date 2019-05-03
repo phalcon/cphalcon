@@ -12,14 +12,14 @@
 namespace Phalcon\Test\Cli\Cli;
 
 use CliTester;
+use Issue787Task;
 use Phalcon\Cli\Console;
 use Phalcon\Cli\Console\Exception as ConsoleException;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
 use Phalcon\Cli\Router;
-use Phalcon\Di;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function dataFolder;
+use function dataDir;
 
 class ConsoleCest
 {
@@ -167,7 +167,7 @@ class ConsoleCest
 
     public function testIssue787(CliTester $I)
     {
-        require_once dataFolder('fixtures/tasks/Issue787Task.php');
+        require_once dataDir('fixtures/tasks/Issue787Task.php');
 
         $dispatcher = new Dispatcher();
 
@@ -194,7 +194,7 @@ class ConsoleCest
 
         $I->assertEquals(
             "beforeExecuteRoute" . PHP_EOL . "initialize" . PHP_EOL,
-            \Issue787Task::$output
+            Issue787Task::$output
         );
     }
 
@@ -271,7 +271,7 @@ class ConsoleCest
     /**
      * @test
      *
-     * @expectedException        \Phalcon\Cli\Dispatcher\Exception
+     * @expectedException        DispatcherException
      * @expectedExceptionMessage Dummy\MainTask handler class cannot be loaded
      */
     public function shouldThrowExceptionWithArguments(CliTester $I)
@@ -337,7 +337,6 @@ class ConsoleCest
         $dispatcher = $console->getDI()->getShared('dispatcher');
 
 
-
         $console->setArgument(
             [
                 'php',
@@ -349,7 +348,8 @@ class ConsoleCest
                 'World',
                 '######',
             ]
-        )->handle();
+        )->handle()
+        ;
 
         $I->assertEquals(
             'main',
@@ -389,7 +389,6 @@ class ConsoleCest
         );
 
 
-
         $console->setArgument(
             [
                 'php',
@@ -401,7 +400,8 @@ class ConsoleCest
                 '--option3=hoge',
                 '######',
             ]
-        )->handle();
+        )->handle()
+        ;
 
         $I->assertEquals(
             'main',

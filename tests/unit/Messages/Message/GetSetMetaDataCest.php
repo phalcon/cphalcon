@@ -38,7 +38,6 @@ class GetSetMetaDataCest
         );
 
 
-
         $expected = [
             'My1' => 'Metadata1',
         ];
@@ -47,7 +46,6 @@ class GetSetMetaDataCest
             $expected,
             $message->getMetaData()
         );
-
 
 
         $expected = [

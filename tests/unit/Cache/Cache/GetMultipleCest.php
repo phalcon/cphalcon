@@ -15,8 +15,8 @@ namespace Phalcon\Test\Unit\Cache\Cache;
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
-use function uniqid;
 use UnitTester;
+use function uniqid;
 
 /**
  * Class GetMultipleCest

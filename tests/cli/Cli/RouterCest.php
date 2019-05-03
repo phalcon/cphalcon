@@ -14,6 +14,7 @@ namespace Phalcon\Test\Cli\Cli;
 use CliTester;
 use Codeception\Example;
 use Phalcon\Cli\Router;
+use Phalcon\Cli\Router\Exception;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -38,7 +39,6 @@ class RouterCest
         $router = new Router();
 
 
-
         $router->handle(
             []
         );
@@ -59,7 +59,6 @@ class RouterCest
             [],
             $router->getParams()
         );
-
 
 
         $router->handle(
@@ -87,7 +86,6 @@ class RouterCest
         );
 
 
-
         $router->handle(
             [
                 "task" => "echo",
@@ -111,7 +109,6 @@ class RouterCest
             [],
             $router->getParams()
         );
-
 
 
         $router->handle(
@@ -141,7 +138,6 @@ class RouterCest
         );
 
 
-
         $router->handle(
             [
                 "task"   => "main",
@@ -169,7 +165,6 @@ class RouterCest
             ["arg1", "arg2"],
             $router->getParams()
         );
-
 
 
         $router->handle(
@@ -201,7 +196,6 @@ class RouterCest
             ["arg1", "arg2"],
             $router->getParams()
         );
-
 
 
         $router->handle(
@@ -342,6 +336,33 @@ class RouterCest
         $this->runTests($I, $router, $example);
     }
 
+    private function runTests(CliTester $I, $router, Example $example)
+    {
+        $router->handle(
+            $example['uri']
+        );
+
+        $I->assertEquals(
+            $example['module'],
+            $router->getModuleName()
+        );
+
+        $I->assertEquals(
+            $example['task'],
+            $router->getTaskName()
+        );
+
+        $I->assertEquals(
+            $example['action'],
+            $router->getActionName()
+        );
+
+        $I->assertEquals(
+            $example['params'],
+            $router->getParams()
+        );
+    }
+
     /**
      * @dataProvider getExamplesRouterParams
      */
@@ -363,7 +384,7 @@ class RouterCest
         $router = new Router(false);
 
         $usersFind = $router->add('api users find')->setName('usersFind');
-        $usersAdd = $router->add('api users add')->setName('usersAdd');
+        $usersAdd  = $router->add('api users add')->setName('usersAdd');
 
         $I->assertEquals(
             $usersAdd,
@@ -406,15 +427,16 @@ class RouterCest
                 function ($action) {
                     return str_replace('-', '', $action);
                 }
-            );
+            )
+        ;
 
         $router
             ->add(
                 '([A-Z]+) ([0-9]+)',
                 [
-                    'task' => 1,
+                    'task'   => 1,
                     'action' => 'default',
-                    'id' => 2,
+                    'id'     => 2,
                 ]
             )
             ->convert(
@@ -438,7 +460,8 @@ class RouterCest
                 function ($id) {
                     return strrev($id);
                 }
-            );
+            )
+        ;
 
         $router->handle($route);
 
@@ -464,7 +487,6 @@ class RouterCest
         $router = new Router(false);
 
 
-
         $route = $router->add("route0", "Feed");
 
         $I->assertEquals(
@@ -473,7 +495,6 @@ class RouterCest
             ],
             $route->getPaths()
         );
-
 
 
         $route = $router->add("route1", "Feed::get");
@@ -485,7 +506,6 @@ class RouterCest
             ],
             $route->getPaths()
         );
-
 
 
         $route = $router->add("route2", "News::Posts::show");
@@ -500,7 +520,6 @@ class RouterCest
         );
 
 
-
         $route = $router->add("route3", "MyApp\\Tasks\\Posts::show");
 
         $I->assertEquals(
@@ -511,7 +530,6 @@ class RouterCest
             ],
             $route->getPaths()
         );
-
 
 
         $route = $router->add("route3", "News::MyApp\\Tasks\\Posts::show");
@@ -527,12 +545,11 @@ class RouterCest
         );
 
 
-
         $route = $router->add("route3", "\\Posts::show");
 
         $I->assertEquals(
             [
-                'task' => 'posts',
+                'task'   => 'posts',
                 'action' => 'show',
             ],
             $route->getPaths()
@@ -542,7 +559,7 @@ class RouterCest
     public function testShortPaths2(CliTester $I)
     {
         $I->expectThrowable(
-            new \Phalcon\Cli\Router\Exception("The route contains invalid paths"),
+            new Exception("The route contains invalid paths"),
             function () {
                 Route::reset();
 
@@ -569,7 +586,8 @@ class RouterCest
 
                     return false;
                 }
-            );
+            )
+        ;
 
         $router
             ->add('static route2')
@@ -579,8 +597,8 @@ class RouterCest
 
                     return true;
                 }
-            );
-
+            )
+        ;
 
 
         $router->handle();
@@ -590,13 +608,11 @@ class RouterCest
         );
 
 
-
         $router->handle('static route');
 
         $I->assertFalse(
             $router->wasMatched()
         );
-
 
 
         $router->handle('static route2');
@@ -673,7 +689,7 @@ class RouterCest
                 'task'     => 'manual',
                 'action'   => 'show',
                 'language' => 1,
-                'file'     => 2
+                'file'     => 2,
             ]
         );
 
@@ -821,7 +837,7 @@ class RouterCest
                 'params' => [
                     'language' => 'en',
                     'file'     => 'translate.adapter',
-                ]
+                ],
             ],
 
             [
@@ -832,7 +848,7 @@ class RouterCest
                 'params' => [
                     'language' => 'en',
                     'file'     => 'translate.adapter',
-                ]
+                ],
             ],
 
             [
@@ -841,7 +857,7 @@ class RouterCest
                 'task'   => 'posts',
                 'action' => 'show',
                 'params' => [
-                    'year' => '1999',
+                    'year'  => '1999',
                     'title' => 'le-nice-title',
                 ],
             ],
@@ -880,9 +896,9 @@ class RouterCest
     {
         return [
             [
-                'uri' => 'some hattie',
+                'uri'    => 'some hattie',
                 'module' => null,
-                'task' => '',
+                'task'   => '',
                 'action' => '',
                 'params' => [
                     'name' => 'hattie',
@@ -890,9 +906,9 @@ class RouterCest
             ],
 
             [
-                'uri' => 'some hattie 100',
+                'uri'    => 'some hattie 100',
                 'module' => null,
-                'task' => '',
+                'task'   => '',
                 'action' => '',
                 'params' => [
                     'name' => 'hattie',
@@ -901,9 +917,9 @@ class RouterCest
             ],
 
             [
-                'uri' => 'some hattie 100 2011-01-02',
+                'uri'    => 'some hattie 100 2011-01-02',
                 'module' => null,
-                'task' => '',
+                'task'   => '',
                 'action' => '',
                 'params' => [
                     'name' => 'hattie',
@@ -920,18 +936,18 @@ class RouterCest
             [
                 "route" => 'some-controller my-action-name this-is-a-country',
                 "paths" => [
-                    'task' => 'somecontroller',
+                    'task'   => 'somecontroller',
                     'action' => 'myactionname',
-                    'params' => ['this-is-a-country']
-                ]
+                    'params' => ['this-is-a-country'],
+                ],
             ],
             [
                 "route" => 'BINARY 1101',
                 "paths" => [
-                    'task' => 'binary',
+                    'task'   => 'binary',
                     'action' => 'index',
-                    'params' => [1011]
-                ]
+                    'params' => [1011],
+                ],
             ],
         ];
     }
@@ -940,155 +956,128 @@ class RouterCest
     {
         return [
             [
-                'uri' => '/',
+                'uri'    => '/',
                 'module' => 'devtools',
-                'task' => 'main',
+                'task'   => 'main',
                 'action' => 'hello',
                 'params' => [],
             ],
 
             [
-                'uri' => '/documentation/index/hellao/aaadpqñda/bbbAdld/cc-ccc',
+                'uri'    => '/documentation/index/hellao/aaadpqñda/bbbAdld/cc-ccc',
                 'module' => null,
-                'task' => 'documentation',
+                'task'   => 'documentation',
                 'action' => 'index',
                 'params' => ['hellao', 'aaadpqñda', 'bbbAdld', 'cc-ccc'],
             ],
 
             [
-                'uri' => '/documentation/index/',
+                'uri'    => '/documentation/index/',
                 'module' => null,
-                'task' => 'documentation',
+                'task'   => 'documentation',
                 'action' => 'index',
                 'params' => [],
             ],
 
             [
-                'uri' => '/documentation/index',
+                'uri'    => '/documentation/index',
                 'module' => null,
-                'task' => 'documentation',
+                'task'   => 'documentation',
                 'action' => 'index',
                 'params' => [],
             ],
             [
-                'uri' => '/documentation/',
+                'uri'    => '/documentation/',
                 'module' => null,
-                'task' => 'documentation',
+                'task'   => 'documentation',
                 'action' => null,
                 'params' => [],
             ],
 
             [
-                'uri' => '/system/admin/a/edit/hellao/aaadp',
+                'uri'    => '/system/admin/a/edit/hellao/aaadp',
                 'module' => null,
-                'task' => 'admin',
+                'task'   => 'admin',
                 'action' => 'edit',
                 'params' => ['hellao', 'aaadp'],
             ],
 
             [
-                'uri' => '/es/news',
+                'uri'    => '/es/news',
                 'module' => null,
-                'task' => 'news',
+                'task'   => 'news',
                 'action' => 'index',
                 'params' => ['language' => 'es'],
             ],
             [
-                'uri' => '/admin/posts/edit/100',
+                'uri'    => '/admin/posts/edit/100',
                 'module' => 'admin',
-                'task' => 'posts',
+                'task'   => 'posts',
                 'action' => 'edit',
                 'params' => ['id' => 100],
             ],
 
             [
-                'uri' => '/posts/2010/02/10/title/content',
+                'uri'    => '/posts/2010/02/10/title/content',
                 'module' => null,
-                'task' => 'posts',
+                'task'   => 'posts',
                 'action' => 'show',
                 'params' => [
-                    'year' => '2010',
+                    'year'  => '2010',
                     'month' => '02',
-                    'day' => '10',
-                    0 => 'title',
-                    1 => 'content',
+                    'day'   => '10',
+                    0       => 'title',
+                    1       => 'content',
                 ],
             ],
 
             [
-                'uri' => '/manual/en/translate.adapter.txt',
+                'uri'    => '/manual/en/translate.adapter.txt',
                 'module' => null,
-                'task' => 'manual',
+                'task'   => 'manual',
                 'action' => 'show',
                 'params' => ['language' => 'en', 'file' => 'translate.adapter'],
             ],
 
             [
-                'uri' => '/named-manual/en/translate.adapter.txt',
+                'uri'    => '/named-manual/en/translate.adapter.txt',
                 'module' => null,
-                'task' => 'manual',
+                'task'   => 'manual',
                 'action' => 'show',
                 'params' => ['language' => 'en', 'file' => 'translate.adapter'],
             ],
 
             [
-                'uri' => '/posts/1999/s/le-nice-title',
+                'uri'    => '/posts/1999/s/le-nice-title',
                 'module' => null,
-                'task' => 'posts',
+                'task'   => 'posts',
                 'action' => 'show',
                 'params' => ['year' => '1999', 'title' => 'le-nice-title'],
             ],
 
             [
-                'uri' => '/feed/fr/blog/diaporema.json',
+                'uri'    => '/feed/fr/blog/diaporema.json',
                 'module' => null,
-                'task' => 'feed',
+                'task'   => 'feed',
                 'action' => 'get',
                 'params' => ['lang' => 'fr', 'blog' => 'diaporema', 'type' => 'json'],
             ],
 
             [
-                'uri' => '/posts/delete/150',
+                'uri'    => '/posts/delete/150',
                 'module' => null,
-                'task' => 'posts',
+                'task'   => 'posts',
                 'action' => 'delete',
                 'params' => ['id' => '150'],
             ],
 
             [
-                'uri' => '/very/static/route',
+                'uri'    => '/very/static/route',
                 'module' => null,
-                'task' => 'static',
+                'task'   => 'static',
                 'action' => 'route',
                 'params' => [],
             ],
         ];
-    }
-
-    private function runTests(CliTester $I, $router, Example $example)
-    {
-        $router->handle(
-            $example['uri']
-        );
-
-        $I->assertEquals(
-            $example['module'],
-            $router->getModuleName()
-        );
-
-        $I->assertEquals(
-            $example['task'],
-            $router->getTaskName()
-        );
-
-        $I->assertEquals(
-            $example['action'],
-            $router->getActionName()
-        );
-
-        $I->assertEquals(
-            $example['params'],
-            $router->getParams()
-        );
     }
 }

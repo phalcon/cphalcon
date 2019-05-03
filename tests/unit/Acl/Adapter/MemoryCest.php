@@ -13,8 +13,8 @@ namespace Phalcon\Test\Unit\Acl\Adapter;
 
 use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Role;
 use Phalcon\Acl\Component;
+use Phalcon\Acl\Role;
 use UnitTester;
 
 class MemoryCest
@@ -71,8 +71,8 @@ class MemoryCest
     public function testAclObjects(UnitTester $I)
     {
         $acl          = new Memory();
-        $aclRole = new Role('Administrators', 'Super User access');
-        $aclComponent   = new Component('Customers', 'Customer management');
+        $aclRole      = new Role('Administrators', 'Super User access');
+        $aclComponent = new Component('Customers', 'Customer management');
 
         $acl->setDefaultAction(Acl::DENY);
 
@@ -87,8 +87,8 @@ class MemoryCest
         $I->assertEquals($expected, $actual);
 
         $acl          = new Memory();
-        $aclRole = new Role('Administrators', 'Super User access');
-        $aclComponent   = new Component('Customers', 'Customer management');
+        $aclRole      = new Role('Administrators', 'Super User access');
+        $aclComponent = new Component('Customers', 'Customer management');
 
         $acl->setDefaultAction(Acl::DENY);
 
@@ -114,8 +114,8 @@ class MemoryCest
         $filename = $I->getNewFileName('acl', 'log');
 
         $acl          = new Memory();
-        $aclRole = new Role('Administrators', 'Super User access');
-        $aclComponent   = new Component('Customers', 'Customer management');
+        $aclRole      = new Role('Administrators', 'Super User access');
+        $aclComponent = new Component('Customers', 'Customer management');
 
         $acl->addRole($aclRole);
         $acl->addComponent($aclComponent, ['search', 'destroy']);

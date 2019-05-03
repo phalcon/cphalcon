@@ -3,14 +3,11 @@
 namespace Phalcon\Test\Integration\Forms;
 
 use IntegrationTester;
-use Phalcon\Forms\Element\Email;
-use Phalcon\Forms\Element\Password;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
-use Phalcon\Test\Models\Select as MvcModel;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
 
@@ -51,10 +48,11 @@ class FormElementsCest
      * Tests canceling validation on first fail
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/13149
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
+     *
      * @since  2017-11-19
      *
-     * @param  IntegrationTester $I
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function shouldCancelValidationOnFirstFail(IntegrationTester $I)
     {
@@ -92,7 +90,6 @@ class FormElementsCest
         );
 
 
-
         $firstName = new Text('firstName');
 
         $firstName->setLabel('user.firstName');
@@ -128,13 +125,11 @@ class FormElementsCest
         $form->add($firstName);
 
 
-
         $_POST = [];
 
         $I->assertFalse(
             $form->isValid($_POST)
         );
-
 
 
         $expected = new Messages(

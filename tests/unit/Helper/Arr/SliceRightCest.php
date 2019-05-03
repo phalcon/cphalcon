@@ -49,7 +49,6 @@ class SliceRightCest
         );
 
 
-
         $expected = [
             'PHP',
         ];

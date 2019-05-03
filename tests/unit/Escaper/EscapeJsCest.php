@@ -29,7 +29,7 @@ class EscapeJsCest
 
         $escaper = new Escaper();
 
-        $source  = "function createtoc () {"
+        $source = "function createtoc () {"
             . "var h2s = document.getElementsByTagName('H2');"
             . "l = toc.appendChild(document.createElement('ol'));"
             . "for (var i=0; i<h2s.length; i++) {"

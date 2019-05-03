@@ -41,7 +41,7 @@ class ElementCest
 
         $escaper = $this->newEscaper();
 
-        $helper  = new Element($escaper);
+        $helper = new Element($escaper);
 
         $expected = $example[0];
         $actual   = $helper($example[1], $example[2], $example[3]);

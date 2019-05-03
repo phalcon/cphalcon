@@ -34,7 +34,7 @@ class HandleCest
                 $view = new View();
 
                 $view->setViewsDir(
-                    dataFolder('fixtures/views/')
+                    dataDir('fixtures/views/')
                 );
 
                 return $view;

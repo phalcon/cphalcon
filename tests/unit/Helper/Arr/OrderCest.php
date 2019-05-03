@@ -34,7 +34,6 @@ class OrderCest
         ];
 
 
-
         $expected = [
             ['id' => 1, 'name' => 'Raja'],
             ['id' => 2, 'name' => 'Joy'],
@@ -45,7 +44,6 @@ class OrderCest
             $expected,
             Arr::order($collection, 'id')
         );
-
 
 
         $expected = [

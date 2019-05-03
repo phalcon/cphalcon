@@ -21,8 +21,8 @@ class DetectEncodingCest
     /**
      * Tests Phalcon\Escaper :: detectEncoding()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-09-16
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2014-09-16
      *
      * @dataProvider escaperDetectEncodingProvider
      */

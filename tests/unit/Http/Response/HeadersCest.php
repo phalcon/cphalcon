@@ -78,8 +78,8 @@ class HeadersCest extends HttpBase
      * Tests the set of the response status headers
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12895
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-06-17
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-06-17
      *
      * @dataProvider statusHeaderProvider
      */
@@ -115,8 +115,8 @@ class HeadersCest extends HttpBase
      * Tests the get of the response status headers
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12895
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-06-17
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-06-17
      *
      * @dataProvider statusHeaderProvider
      */

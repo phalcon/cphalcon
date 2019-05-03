@@ -11,10 +11,22 @@
 
 namespace Phalcon\Test\Unit;
 
+use Example\Namespaces\Adapter\Another;
+use Example\Namespaces\Adapter\File;
+use Example\Namespaces\Adapter\Mongo;
+use Example\Namespaces\Adapter\Redis;
+use Example\Namespaces\Engines\Alcohol;
+use Example\Namespaces\Engines\Gasoline;
+use Example\Namespaces\Example\Example;
+use LoaderEvent;
+use One;
+use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Loader;
+use Sqlite;
+use Two;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
 class LoaderCest
 {
@@ -27,14 +39,14 @@ class LoaderCest
 
         $loader->registerNamespaces(
             [
-                'Example\Namespaces\Base' => dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
+                'Example\Namespaces\Base' => dataDir('fixtures/Loader/Example/Namespaces/Base/'),
             ]
         );
 
         $loader->registerNamespaces(
             [
-                'Example\Namespaces\Adapter' => dataFolder('fixtures/Loader/Example/Namespaces/Adapter/'),
-                'Example\Namespaces'         => dataFolder('fixtures/Loader/Example/Namespaces/'),
+                'Example\Namespaces\Adapter' => dataDir('fixtures/Loader/Example/Namespaces/Adapter/'),
+                'Example\Namespaces'         => dataDir('fixtures/Loader/Example/Namespaces/'),
             ],
             true
         );
@@ -42,23 +54,23 @@ class LoaderCest
         $loader->register();
 
         $I->assertInstanceOf(
-            \Example\Namespaces\Adapter\Mongo::class,
-            new \Example\Namespaces\Adapter\Mongo()
+            Mongo::class,
+            new Mongo()
         );
 
         $I->assertInstanceOf(
-            \Example\Namespaces\Adapter\Redis::class,
-            new \Example\Namespaces\Adapter\Redis()
+            Redis::class,
+            new Redis()
         );
 
         $I->assertInstanceOf(
-            \Example\Namespaces\Engines\Gasoline::class,
-            new \Example\Namespaces\Engines\Gasoline()
+            Gasoline::class,
+            new Gasoline()
         );
 
         $I->assertInstanceOf(
-            \Example\Namespaces\Example\Example::class,
-            new \Example\Namespaces\Example\Example()
+            Example::class,
+            new Example()
         );
 
         $loader->unregister();
@@ -77,14 +89,14 @@ class LoaderCest
 
         $loader->registerNamespaces(
             [
-                'Example\Namespaces\Base' => dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
-                'Example\Namespaces'      => dataFolder('fixtures/Loader/Example/Namespaces/'),
+                'Example\Namespaces\Base' => dataDir('fixtures/Loader/Example/Namespaces/Base/'),
+                'Example\Namespaces'      => dataDir('fixtures/Loader/Example/Namespaces/'),
             ]
         );
 
         $loader->registerNamespaces(
             [
-                'Example' => dataFolder('fixtures/Loader/Example/Namespaces/'),
+                'Example' => dataDir('fixtures/Loader/Example/Namespaces/'),
             ],
             true
         );
@@ -92,8 +104,8 @@ class LoaderCest
         $loader->register();
 
         $I->assertInstanceOf(
-            \Example\Namespaces\Engines\Alcohol::class,
-            new \Example\Namespaces\Engines\Alcohol()
+            Alcohol::class,
+            new Alcohol()
         );
 
         $loader->unregister();
@@ -106,13 +118,13 @@ class LoaderCest
         $loader->registerDirs(
             [
                 // missing trailing slash
-                dataFolder('fixtures/Loader/Example/Folders/Dialects'),
+                dataDir('fixtures/Loader/Example/Folders/Dialects'),
             ]
         );
 
         $loader->registerDirs(
             [
-                dataFolder('fixtures/Loader/Example/Folders/Types/'),
+                dataDir('fixtures/Loader/Example/Folders/Types/'),
             ],
             true
         );
@@ -120,13 +132,13 @@ class LoaderCest
         $loader->register();
 
         $I->assertInstanceOf(
-            \Sqlite::class,
-            new \Sqlite()
+            Sqlite::class,
+            new Sqlite()
         );
 
         $I->assertInstanceOf(
-            \Integer::class,
-            new \Integer()
+            Integer::class,
+            new Integer()
         );
 
         $loader->unregister();
@@ -164,18 +176,16 @@ class LoaderCest
 
         $loader->registerFiles(
             [
-                dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClass.php'),
-                dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClassOne.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClass.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassOne.php'),
             ]
         );
-
         $loader->registerFiles(
             [
-                dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClassTwo.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassTwo.php'),
             ],
             true
         );
-
         $loader->register();
 
         $I->assertTrue(
@@ -236,13 +246,13 @@ class LoaderCest
 
         $loader->registerNamespaces(
             [
-                "Example\\Namespaces\\Base" => dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
+                "Example\\Namespaces\\Base" => dataDir('fixtures/Loader/Example/Namespaces/Base/'),
             ]
         );
 
         $expected = [
             "Example\\Namespaces\\Base" => [
-                dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
+                dataDir('fixtures/Loader/Example/Namespaces/Base/'),
             ],
         ];
 
@@ -254,8 +264,8 @@ class LoaderCest
         $loader->registerNamespaces(
             [
                 "Example\\Namespaces\\Adapter" => [
-                    dataFolder('fixtures/Loader/Example/Namespaces/Adapter/'),
-                    dataFolder('fixtures/Loader/Example/Namespaces/Plugin/'),
+                    dataDir('fixtures/Loader/Example/Namespaces/Adapter/'),
+                    dataDir('fixtures/Loader/Example/Namespaces/Plugin/'),
                 ],
             ],
             true
@@ -263,11 +273,11 @@ class LoaderCest
 
         $expected = [
             "Example\\Namespaces\\Base"    => [
-                dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
+                dataDir('fixtures/Loader/Example/Namespaces/Base/'),
             ],
             "Example\\Namespaces\\Adapter" => [
-                dataFolder('fixtures/Loader/Example/Namespaces/Adapter/'),
-                dataFolder('fixtures/Loader/Example/Namespaces/Plugin/'),
+                dataDir('fixtures/Loader/Example/Namespaces/Adapter/'),
+                dataDir('fixtures/Loader/Example/Namespaces/Plugin/'),
             ],
         ];
 
@@ -279,18 +289,18 @@ class LoaderCest
         $loader->register();
 
         $I->assertInstanceOf(
-            \Example\Namespaces\Adapter\Mongo::class,
-            new \Example\Namespaces\Adapter\Mongo()
+            Mongo::class,
+            new Mongo()
         );
 
         $I->assertInstanceOf(
-            \Example\Namespaces\Adapter\Another::class,
-            new \Example\Namespaces\Adapter\Another()
+            Another::class,
+            new Another()
         );
 
         $I->assertInstanceOf(
-            \Example\Namespaces\Adapter\Redis::class,
-            new \Example\Namespaces\Adapter\Redis()
+            Redis::class,
+            new Redis()
         );
 
         $loader->unregister();
@@ -313,17 +323,17 @@ class LoaderCest
         );
         $loader->registerDirs(
             [
-                dataFolder('fixtures/Loader/Example/Folders/Dialects'),
-                dataFolder('fixtures/Loader/Example/Folders/Types'),
-                dataFolder('fixtures/Loader/Example/Namespaces/Adapter'),
+                dataDir('fixtures/Loader/Example/Folders/Dialects'),
+                dataDir('fixtures/Loader/Example/Folders/Types'),
+                dataDir('fixtures/Loader/Example/Namespaces/Adapter'),
             ]
         );
 
         $loader->register();
 
         $I->assertInstanceOf(
-            \Example\Namespaces\Adapter\File::class,
-            new \Example\Namespaces\Adapter\File()
+            File::class,
+            new File()
         );
 
         $loader->unregister();
@@ -335,12 +345,12 @@ class LoaderCest
 
         $loader->registerClasses(
             [
-                'One' => dataFolder('fixtures/Loader/Example/Classes/One.php'),
+                'One' => dataDir('fixtures/Loader/Example/Classes/One.php'),
             ]
         );
         $loader->registerClasses(
             [
-                'Two' => dataFolder('fixtures/Loader/Example/Classes/Two.php'),
+                'Two' => dataDir('fixtures/Loader/Example/Classes/Two.php'),
             ],
             true
         );
@@ -348,13 +358,13 @@ class LoaderCest
         $loader->register();
 
         $I->assertInstanceOf(
-            \One::class,
-            new \One()
+            One::class,
+            new One()
         );
 
         $I->assertInstanceOf(
-            \Two::class,
-            new \Two()
+            Two::class,
+            new Two()
         );
 
         $loader->unregister();
@@ -366,19 +376,19 @@ class LoaderCest
 
         $loader->registerDirs(
             [
-                dataFolder('fixtures/Loader/Example/Events/'),
+                dataDir('fixtures/Loader/Example/Events/'),
             ]
         );
 
         $loader->registerClasses(
             [
-                'OtherClass' => dataFolder('fixtures/Loader/Example/Events/Other/'),
+                'OtherClass' => dataDir('fixtures/Loader/Example/Events/Other/'),
             ]
         );
 
         $loader->registerNamespaces(
             [
-                'Other\OtherClass' => dataFolder('fixtures/Loader/Example/Events/Other/'),
+                'Other\OtherClass' => dataDir('fixtures/Loader/Example/Events/Other/'),
             ]
         );
 
@@ -391,7 +401,7 @@ class LoaderCest
             function ($event, $loader) use (&$trace) {
                 $type = $event->getType();
 
-                /** @var \Phalcon\Events\Event $event */
+                /** @var Event $event */
                 /** @var Loader $loader */
                 if (!isset($trace[$type])) {
                     $trace[$type] = [];
@@ -402,24 +412,14 @@ class LoaderCest
         );
 
         $loader->setEventsManager($eventsManager);
-
         $loader->register();
 
-        $I->assertInstanceOf(
-            \LoaderEvent::class,
-            new \LoaderEvent()
-        );
+        $I->assertInstanceOf('LoaderEvent', new LoaderEvent());
 
         $expected = [
-            'beforeCheckClass' => [
-                0 => null,
-            ],
-            'beforeCheckPath' => [
-                0 => dataFolder('fixtures/Loader/Example/Events/LoaderEvent.php'),
-            ],
-            'pathFound' => [
-                0 => dataFolder('fixtures/Loader/Example/Events/LoaderEvent.php'),
-            ],
+            'beforeCheckClass' => [0 => null],
+            'beforeCheckPath'  => [0 => dataDir('fixtures/Loader/Example/Events/LoaderEvent.php')],
+            'pathFound'        => [0 => dataDir('fixtures/Loader/Example/Events/LoaderEvent.php')],
         ];
 
         $I->assertEquals($expected, $trace);
@@ -447,13 +447,13 @@ class LoaderCest
 
         $loader->registerFiles(
             [
-                dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClassThree.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassThree.php'),
             ]
         );
 
         $loader->registerNamespaces(
             [
-                'Example' => dataFolder('fixtures/Loader/Example/'),
+                'Example' => dataDir('fixtures/Loader/Example/'),
             ],
             true
         );
@@ -485,13 +485,13 @@ class LoaderCest
 
         $loader->registerFiles(
             [
-                dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClassThree.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassThree.php'),
             ]
         );
 
         $loader->registerNamespaces(
             [
-                'Example\Namespaces' => dataFolder('fixtures/Loader/Example/Namespaces'),
+                'Example\Namespaces' => dataDir('fixtures/Loader/Example/Namespaces'),
             ],
             true
         );

@@ -2,7 +2,6 @@
 
 namespace Helper;
 
-use function cacheDir;
 use Codeception\Configuration;
 use Codeception\Exception\ModuleConfigException;
 use Codeception\Lib\ModuleContainer;
@@ -11,6 +10,7 @@ use Phalcon\Cache\Backend\File as FileBackend;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Frontend\Igbinary;
 use Phalcon\Cache\FrontendInterface;
+use function cacheDir;
 
 /**
  * Phalcon\Test\Module\Cache\Backend\File
@@ -18,8 +18,8 @@ use Phalcon\Cache\FrontendInterface;
  * Module for testing backend cache adapters
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @package   Phalcon\Test\Module\Cache\Backend
+ * @link          https://phalconphp.com
+ * @package       Phalcon\Test\Module\Cache\Backend
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -68,7 +68,7 @@ class PhalconCacheFile extends Filesystem
      * File Constructor.
      *
      * @param ModuleContainer $container
-     * @param array|null $config
+     * @param array|null      $config
      *
      * @throws ModuleConfigException
      */
@@ -87,24 +87,6 @@ class PhalconCacheFile extends Filesystem
         $this->config = array_merge($defaults, $config);
 
         parent::__construct($container);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function _initialize()
-    {
-        $this->initializeCachePath(
-            $this->config['cache_dir']
-        );
-
-        $this->initializeFrontend(
-            $this->config['frontend']
-        );
-
-        $this->initializeBackend(
-            $this->config['backend']
-        );
     }
 
     /**
@@ -154,9 +136,9 @@ class PhalconCacheFile extends Filesystem
     /**
      * Stores an item `$value` with `$key` on the cache backend.
      *
-     * @param string $key
-     * @param string $content
-     * @param int $lifetime
+     * @param string  $key
+     * @param string  $content
+     * @param int     $lifetime
      * @param boolean $stopBuffer
      */
     public function haveInCacheStorage($key, $content = null, $lifetime = null, $stopBuffer = true)
@@ -205,8 +187,8 @@ class PhalconCacheFile extends Filesystem
      * ```
      *
      * @param string $key
-     * @param mixed $value
-     * @param int $lifetime
+     * @param mixed  $value
+     * @param int    $lifetime
      */
     public function seeInCacheStorage($key, $value = null, $lifetime = null)
     {
@@ -256,6 +238,43 @@ class PhalconCacheFile extends Filesystem
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function _initialize()
+    {
+        $this->initializeCachePath(
+            $this->config['cache_dir']
+        );
+
+        $this->initializeFrontend(
+            $this->config['frontend']
+        );
+
+        $this->initializeBackend(
+            $this->config['backend']
+        );
+    }
+
+    /**
+     * @param string $dir
+     *
+     * @throws ModuleConfigException
+     */
+    protected function initializeCachePath($dir)
+    {
+        $cacheDir = $this->absolutizePath($dir);
+
+        if (is_file($cacheDir) || !is_dir($cacheDir) || !is_writable($cacheDir)) {
+            throw new ModuleConfigException(
+                __CLASS__,
+                "The 'cache_dir' parameter should be a writable path to the cache directory."
+            );
+        }
+
+        $this->config['cache_dir'] = $cacheDir;
+    }
+
+    /**
      * @param $className
      *
      * @throws ModuleConfigException
@@ -294,40 +313,7 @@ class PhalconCacheFile extends Filesystem
         );
 
         $this->config['frontend'] = $className;
-        $this->frontend = $adapter;
-    }
-
-    protected function initializeBackend($className)
-    {
-        $adapter = new FileBackend(
-            $this->frontend,
-            [
-                'cacheDir' => $this->config['cache_dir'],
-                'prefix'   => $this->config['prefix'],
-            ]
-        );
-
-        $this->config['backend'] = $className;
-        $this->backend = $adapter;
-    }
-
-    /**
-     * @param string $dir
-     *
-     * @throws ModuleConfigException
-     */
-    protected function initializeCachePath($dir)
-    {
-        $cacheDir = $this->absolutizePath($dir);
-
-        if (is_file($cacheDir) || !is_dir($cacheDir) || !is_writable($cacheDir)) {
-            throw new ModuleConfigException(
-                __CLASS__,
-                "The 'cache_dir' parameter should be a writable path to the cache directory."
-            );
-        }
-
-        $this->config['cache_dir'] = $cacheDir;
+        $this->frontend           = $adapter;
     }
 
     protected function getSupportedFrontends()
@@ -360,5 +346,19 @@ class PhalconCacheFile extends Filesystem
                 },
             ],
         ];
+    }
+
+    protected function initializeBackend($className)
+    {
+        $adapter = new FileBackend(
+            $this->frontend,
+            [
+                'cacheDir' => $this->config['cache_dir'],
+                'prefix'   => $this->config['prefix'],
+            ]
+        );
+
+        $this->config['backend'] = $className;
+        $this->backend           = $adapter;
     }
 }

@@ -35,7 +35,6 @@ class SliceLeftCest
         ];
 
 
-
         $expected = [
             'Phalcon',
         ];
@@ -44,7 +43,6 @@ class SliceLeftCest
             $expected,
             Arr::sliceLeft($collection, 1)
         );
-
 
 
         $expected = [

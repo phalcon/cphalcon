@@ -30,7 +30,7 @@ class SetCipherCest
 
         $cipher = "aes-256-cfb";
 
-        $crypt  = new Crypt();
+        $crypt = new Crypt();
 
         $crypt->setCipher($cipher);
 
@@ -46,7 +46,7 @@ class SetCipherCest
      * @author                   Phalcon Team <team@phalconphp.com>
      * @since                    2018-05-06
      *
-     * @expectedException        \Phalcon\Crypt\Exception
+     * @expectedException        Exception
      * @expectedExceptionMessage The cipher algorithm "xxx-yyy-zzz" is not
      *                           supported on this system.
      */

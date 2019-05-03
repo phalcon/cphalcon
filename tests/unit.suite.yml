@@ -15,14 +15,14 @@ modules:
       host: '%DATA_MEMCACHED_HOST%'
       port: '%DATA_MEMCACHED_PORT%'
       weight: '%DATA_MEMCACHED_WEIGHT%'
-#    Phalcon\Test\Module\Cache\Backend\File:
-#      frontend: Phalcon\Cache\Frontend\Data
-#      cache_dir: '%PATH_CACHE%'
+  #    Phalcon\Test\Module\Cache\Backend\File:
+  #      frontend: Phalcon\Cache\Frontend\Data
+  #      cache_dir: '%PATH_CACHE%'
   enabled:
     - Apc
     - Asserts
     - Filesystem
     - Redis
     - Helper\Unit
-#    - Helper\PhalconCacheFile
+    #    - Helper\PhalconCacheFile
     - Helper\PhalconLibmemcached

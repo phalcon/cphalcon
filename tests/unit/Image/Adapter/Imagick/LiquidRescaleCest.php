@@ -15,7 +15,7 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 use function outputFolder;
 
 class LiquidRescaleCest
@@ -35,7 +35,7 @@ class LiquidRescaleCest
         $I->skipTest('Check library support');
 
         $image = new Imagick(
-            dataFolder('assets/images/phalconphp.jpg')
+            dataDir('assets/images/phalconphp.jpg')
         );
 
         $image->setResourceLimit(6, 1);

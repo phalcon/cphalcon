@@ -19,6 +19,7 @@ use Phalcon\Events\Manager;
 use Phalcon\Test\Fixtures\Listener\FirstListener;
 use Phalcon\Test\Fixtures\Listener\SecondListener;
 use Phalcon\Test\Fixtures\Listener\ThirdListener;
+use stdClass;
 use UnitTester;
 use function dataDir;
 
@@ -254,8 +255,8 @@ class ManagerCest
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12882
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-06-06
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-06-06
      *
      * @dataProvider booleanProvider
      */
@@ -287,21 +288,13 @@ class ManagerCest
         $I->assertCount(0, $events['test:detachable']);
     }
 
-    private function booleanProvider(): array
-    {
-        return [
-            [true],
-            [false],
-        ];
-    }
-
     /**
      * Tests detach handler by using an Object
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12882
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-06-06
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-06-06
      *
      * @dataProvider booleanProvider
      */
@@ -310,12 +303,11 @@ class ManagerCest
         $enablePriorities = $example[0];
 
 
-
         $manager = new Manager();
 
         $manager->enablePriorities($enablePriorities);
 
-        $handler = new \stdClass();
+        $handler = new stdClass();
 
         $manager->attach('test:detachable', $handler);
 
@@ -353,5 +345,13 @@ class ManagerCest
         ob_end_clean();
 
         return $output;
+    }
+
+    private function booleanProvider(): array
+    {
+        return [
+            [true],
+            [false],
+        ];
     }
 }

@@ -12,6 +12,7 @@
 namespace Phalcon\Test\Cli\Cli;
 
 use CliTester;
+use Exception;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -48,7 +49,6 @@ class DispatcherCest
         );
 
 
-
         $dispatcher->dispatch();
 
         $I->assertEquals(
@@ -70,7 +70,6 @@ class DispatcherCest
             'mainAction',
             $dispatcher->getReturnedValue()
         );
-
 
 
         $dispatcher->setTaskName('echo');
@@ -96,7 +95,6 @@ class DispatcherCest
             'echoMainAction',
             $dispatcher->getReturnedValue()
         );
-
 
 
         $dispatcher->setTaskName('main');
@@ -125,7 +123,6 @@ class DispatcherCest
         );
 
 
-
         $dispatcher->setActionName('hello');
 
         $dispatcher->setParams(
@@ -145,7 +142,7 @@ class DispatcherCest
         );
 
         $I->assertEquals(
-            array('World', '######'),
+            ['World', '######'],
             $dispatcher->getParams()
         );
 
@@ -153,7 +150,6 @@ class DispatcherCest
             'Hello World######',
             $dispatcher->getReturnedValue()
         );
-
 
 
         $dispatcher->setActionName('hello');
@@ -210,7 +206,7 @@ class DispatcherCest
                 'Hello World!',
                 $dispatcher->getReturnedValue()
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $I->assertEquals(
                 'Dummy\MainTask handler class cannot be loaded',
                 $e->getMessage()

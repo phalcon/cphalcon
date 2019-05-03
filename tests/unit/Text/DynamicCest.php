@@ -71,7 +71,6 @@ class DynamicCest
         $I->wantToTest('Text - dynamic() - custom separator');
 
 
-
         $actual = Text::dynamic('{Hi=Hello}, my name is a Bob!', '{', '}', '=');
 
         $I->assertNotContains('{', $actual);
@@ -84,7 +83,6 @@ class DynamicCest
         );
 
 
-
         $actual = Text::dynamic("{Hi'Hello}, my name is a {Rob'Zyxep'Andres}!", '{', '}', "'");
 
         $I->assertNotContains('{', $actual);
@@ -95,7 +93,6 @@ class DynamicCest
             '/^(Hi|Hello), my name is a (Rob|Zyxep|Andres)!$/',
             $actual
         );
-
 
 
         $actual = Text::dynamic('{Hi/Hello}, my name is a {Stanislav/Nikos}!', '{', '}', '/');

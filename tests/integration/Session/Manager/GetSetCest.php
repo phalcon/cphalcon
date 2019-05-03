@@ -34,7 +34,7 @@ class GetSetCest
 
         $manager = new Manager();
 
-        $files = $this->getSessionFiles();
+        $files = $this->getSessionStream();
 
         $manager->setHandler($files);
 

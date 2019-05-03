@@ -47,7 +47,6 @@ class LoadCest
         );
 
 
-
         $expected = realpath(
             $options->file
         );
@@ -75,7 +74,6 @@ class LoadCest
             Imagick::class,
             $image
         );
-
 
 
         $expected = realpath(

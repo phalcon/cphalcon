@@ -29,7 +29,7 @@ class GetSetEventsManagerCest
      * @since  2018-11-13
      *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-12-26
+     * @since  2018-12-26
      */
     public function cliConsoleGetSetEventsManager(CliTester $I)
     {

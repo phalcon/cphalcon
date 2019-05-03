@@ -72,7 +72,7 @@ class GetSetCest
             new InvalidArgumentException('The key contains invalid characters'),
             function () {
                 $adapter = new Cache(new Apcu());
-                $value = $adapter->get('abc$^');
+                $value   = $adapter->get('abc$^');
             }
         );
 
@@ -80,7 +80,7 @@ class GetSetCest
             new InvalidArgumentException('The key contains invalid characters'),
             function () {
                 $adapter = new Cache(new Apcu());
-                $value = $adapter->set('abc$^', 'test');
+                $value   = $adapter->set('abc$^', 'test');
             }
         );
     }
