@@ -110,6 +110,5 @@ class RenderCest
 
         $I->safeDeleteFile($file);
         $I->dontSeeFileFound($file);
-
     }
 }
