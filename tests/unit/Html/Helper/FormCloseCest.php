@@ -37,7 +37,7 @@ class FormCloseCest
 
         $escaper = $this->newEscaper();
 
-        $helper  = new FormClose($escaper);
+        $helper = new FormClose($escaper);
 
         $I->assertEquals(
             '</form>',

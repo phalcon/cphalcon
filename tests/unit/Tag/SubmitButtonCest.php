@@ -51,7 +51,7 @@ class SubmitButtonCest extends TagSetup
     {
         $I->wantToTest("Tag - submitButton() - array as parameter");
 
-        $options  = [
+        $options = [
             'x_name',
             'class' => 'x_class',
         ];

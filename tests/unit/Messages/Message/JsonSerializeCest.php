@@ -39,12 +39,10 @@ class JsonSerializeCest
         );
 
 
-
         $I->assertInstanceOf(
             JsonSerializable::class,
             $message
         );
-
 
 
         $expected = [
@@ -54,7 +52,7 @@ class JsonSerializeCest
             'code'     => 111,
             'metaData' => [
                 'My1' => 'Metadata1',
-            ]
+            ],
         ];
 
         $actual = $message->jsonSerialize();

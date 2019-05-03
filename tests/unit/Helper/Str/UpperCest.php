@@ -21,14 +21,34 @@ class UpperCest
     /**
      * Tests Phalcon\Helper\Str :: upper()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-06
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-04-06
      *
      * @dataProvider basicProvider
      */
     public function helperStrUpper(UnitTester $I, Example $example)
     {
         $I->wantToTest('Helper\Str - upper()');
+
+        $I->assertEquals(
+            $example['expected'],
+            Str::upper(
+                $example['text']
+            )
+        );
+    }
+
+    /**
+     * Tests Phalcon\Helper\Str :: upper() - multi-bytes encoding
+     *
+     * @author       Stanislav Kiryukhin <korsar.zn@gmail.com>
+     * @since        2015-05-06
+     *
+     * @dataProvider multiBytesEncodingProvider
+     */
+    public function helperStrUpperMultiBytesEncoding(UnitTester $I, Example $example)
+    {
+        $I->wantToTest('Helper\Str - upper() - multi byte encoding');
 
         $I->assertEquals(
             $example['expected'],
@@ -56,26 +76,6 @@ class UpperCest
                 'expected' => '1234',
             ],
         ];
-    }
-
-    /**
-     * Tests Phalcon\Helper\Str :: upper() - multi-bytes encoding
-     *
-     * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
-     * @since  2015-05-06
-     *
-     * @dataProvider multiBytesEncodingProvider
-     */
-    public function helperStrUpperMultiBytesEncoding(UnitTester $I, Example $example)
-    {
-        $I->wantToTest('Helper\Str - upper() - multi byte encoding');
-
-        $I->assertEquals(
-            $example['expected'],
-            Str::upper(
-                $example['text']
-            )
-        );
     }
 
     private function multiBytesEncodingProvider(): array

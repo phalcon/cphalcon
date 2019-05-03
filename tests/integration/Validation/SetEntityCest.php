@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation;
 
 use IntegrationTester;
-use Phalcon\Test\Models\Users;
 use Phalcon\Validation;
+use stdClass;
 
 /**
  * Class SetEntityCest
@@ -33,7 +33,7 @@ class SetEntityCest
     {
         $I->wantToTest('Validation - setEntity()');
 
-        $user = new \stdClass();
+        $user = new stdClass();
 
         $validation = new Validation();
 

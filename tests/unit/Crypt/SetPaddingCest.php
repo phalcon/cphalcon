@@ -31,7 +31,7 @@ class SetPaddingCest
             '',
         ];
 
-        $key   = '0123456789ABCDEF0123456789ABCDEF';
+        $key = '0123456789ABCDEF0123456789ABCDEF';
 
         $ciphers = [
             'AES-256-ECB',

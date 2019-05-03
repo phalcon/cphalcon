@@ -28,7 +28,6 @@ class IsUniqueCest
         $I->wantToTest('Helper\Arr - isUnique()');
 
 
-
         $collection = [
             'Phalcon',
             'Framework',
@@ -37,7 +36,6 @@ class IsUniqueCest
         $I->assertTrue(
             Arr::isUnique($collection)
         );
-
 
 
         $collection = [

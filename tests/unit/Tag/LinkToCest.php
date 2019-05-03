@@ -105,7 +105,7 @@ class LinkToCest extends TagSetup
     {
         $I->wantToTest("Tag - linkTo() - array as a parameter");
 
-        $options  = [
+        $options = [
             'x_url',
             'x_name',
         ];
@@ -128,7 +128,7 @@ class LinkToCest extends TagSetup
     {
         $I->wantToTest("Tag - linkTo() - named array as a parameter");
 
-        $options  = [
+        $options = [
             'action' => 'x_url',
             'text'   => 'x_name',
             'class'  => 'x_class',
@@ -166,7 +166,7 @@ class LinkToCest extends TagSetup
 
         Tag::resetInput();
 
-        $options  = [
+        $options = [
             "x_action/x_param",
             'x_name',
         ];
@@ -178,7 +178,7 @@ class LinkToCest extends TagSetup
 
         Tag::resetInput();
 
-        $options  = [
+        $options = [
             "x_action/x_param",
             'x_name',
             'class' => 'x_class',
@@ -216,7 +216,7 @@ class LinkToCest extends TagSetup
 
         Tag::resetInput();
 
-        $options  = [
+        $options = [
             "http://phalconphp.com/en/",
             'x_name',
             false,
@@ -229,7 +229,7 @@ class LinkToCest extends TagSetup
 
         Tag::resetInput();
 
-        $options  = [
+        $options = [
             "http://phalconphp.com/en/",
             'text'  => 'x_name',
             'local' => false,

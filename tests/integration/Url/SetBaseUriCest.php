@@ -107,8 +107,8 @@ class SetBaseUriCest
     /**
      * Tests the url with a controller and action
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-04
+     * @author       Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since        2014-09-04
      *
      * @dataProvider getUrlToSetBaseUri
      */
@@ -128,6 +128,61 @@ class SetBaseUriCest
             $example['expected'],
             $actual
         );
+    }
+
+    /**
+     * Tests the url with a controller and action
+     *
+     * @author       Olivier Monaco <olivier.monaco@nospam.free.fr>
+     * @since        2015-02-03
+     * @issue  https://github.com/phalcon/cphalcon/issues/3315
+     *
+     * @dataProvider getUrlToSetWithoutDi
+     */
+    public function shouldGetCorrectUrl(IntegrationTester $I, Example $example)
+    {
+        $params   = $example[0];
+        $expected = $example[1];
+
+        $url = $this->getService('url');
+
+        $url->setBaseUri(
+            $params['base_url']
+        );
+
+        $actual = $url->get(
+            $params['get']
+        );
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Test should avoid double slash when joining baseUri to provided uri
+     *
+     * @author       Olivier Monaco <olivier.monaco@nospam.free.fr>
+     * @since        2015-02-03
+     * @issue  https://github.com/phalcon/cphalcon/issues/3315
+     *
+     * @dataProvider getUrlToSetWithoutDiTwoParam
+     */
+    public function shouldGetCorrectUrlWithGetParam(IntegrationTester $I, Example $example)
+    {
+        $params   = $example[0];
+        $expected = $example[1];
+
+        $url = $this->getService('url');
+
+        $url->setBaseUri(
+            $params['base_url']
+        );
+
+        $actual = $url->get(
+            $params['get'],
+            $params['second_get']
+        );
+
+        $I->assertEquals($expected, $actual);
     }
 
     private function getUrlToSetBaseUri(): array
@@ -189,34 +244,6 @@ class SetBaseUriCest
         ];
     }
 
-
-    /**
-     * Tests the url with a controller and action
-     *
-     * @author Olivier Monaco <olivier.monaco@nospam.free.fr>
-     * @since  2015-02-03
-     * @issue  https://github.com/phalcon/cphalcon/issues/3315
-     *
-     * @dataProvider getUrlToSetWithoutDi
-     */
-    public function shouldGetCorrectUrl(IntegrationTester $I, Example $example)
-    {
-        $params   = $example[0];
-        $expected = $example[1];
-
-        $url = $this->getService('url');
-
-        $url->setBaseUri(
-            $params['base_url']
-        );
-
-        $actual = $url->get(
-            $params['get']
-        );
-
-        $I->assertEquals($expected, $actual);
-    }
-
     private function getUrlToSetWithoutDi(): array
     {
         return [
@@ -271,34 +298,6 @@ class SetBaseUriCest
                 'schema:example.com',
             ],
         ];
-    }
-
-    /**
-     * Test should avoid double slash when joining baseUri to provided uri
-     *
-     * @author Olivier Monaco <olivier.monaco@nospam.free.fr>
-     * @since  2015-02-03
-     * @issue  https://github.com/phalcon/cphalcon/issues/3315
-     *
-     * @dataProvider getUrlToSetWithoutDiTwoParam
-     */
-    public function shouldGetCorrectUrlWithGetParam(IntegrationTester $I, Example $example)
-    {
-        $params   = $example[0];
-        $expected = $example[1];
-
-        $url = $this->getService('url');
-
-        $url->setBaseUri(
-            $params['base_url']
-        );
-
-        $actual = $url->get(
-            $params['get'],
-            $params['second_get']
-        );
-
-        $I->assertEquals($expected, $actual);
     }
 
     private function getUrlToSetWithoutDiTwoParam(): array

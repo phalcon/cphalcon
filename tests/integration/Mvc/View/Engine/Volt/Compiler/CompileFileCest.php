@@ -31,7 +31,7 @@ class CompileFileCest
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compileFile()");
 
-        $viewFile    = dataFolder('fixtures/views/layouts/compiler.volt');
+        $viewFile    = dataDir('fixtures/views/layouts/compiler.volt');
         $compileFile = $viewFile . '.php';
 
         $expected = '<?php if ($some_eval) { ?>
@@ -66,7 +66,7 @@ Clearly, the song is: <?= $this->getContent() ?>.
 
         $viewFile = sprintf(
             '%sfixtures/views/filters/%s.volt',
-            dataFolder(),
+            dataDir(),
             $example['view']
         );
 

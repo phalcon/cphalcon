@@ -97,5 +97,5 @@ data.mysql:
 data.postgres:
   image: nanobox/postgresql:9.5
 
-data.redis :
-  image : nanobox/redis:3.2
+data.redis:
+  image: nanobox/redis:3.2

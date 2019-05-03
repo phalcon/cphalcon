@@ -14,10 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use Phalcon\Assets\Asset\Css;
 use Phalcon\Assets\Manager;
+use Phalcon\Test\Fixtures\Assets\CustomTag;
 use Phalcon\Test\Fixtures\Assets\TrimFilter;
 use Phalcon\Test\Fixtures\Assets\UppercaseFilter;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Assets\CustomTag;
 use UnitTester;
 
 class OutputCssCest
@@ -121,10 +121,10 @@ class OutputCssCest
         $assets->useImplicitOutput(false);
 
         $css     = $assets->collection('css');
-        $cssFile = dataFolder('assets/assets/1198.css');
+        $cssFile = dataDir('assets/assets/1198.css');
 
         $css->setTargetPath(
-            cacheFolder($fileName)
+            cacheDir($fileName)
         );
 
         $css->addCss($cssFile);
@@ -142,10 +142,10 @@ class OutputCssCest
         $assets->outputCss('css');
 
         $expected = 'A{TEXT-DECORATION:NONE;}B{FONT-WEIGHT:BOLD;}';
-        $actual   = file_get_contents(cacheFolder($fileName));
+        $actual   = file_get_contents(cacheDir($fileName));
 
         $I->safeDeleteFile(
-            cacheFolder($fileName)
+            cacheDir($fileName)
         );
 
         $I->assertEquals($expected, $actual);

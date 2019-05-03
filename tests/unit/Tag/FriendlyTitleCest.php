@@ -216,7 +216,7 @@ class FriendlyTitleCest extends TagSetup
                 $options  = 'This is a Test';
                 $expected = 't_s_s_a_test';
 
-                $actual   = Tag::friendlyTitle($options, '_', true, true);
+                $actual = Tag::friendlyTitle($options, '_', true, true);
             }
         );
     }

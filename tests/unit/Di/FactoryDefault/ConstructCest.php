@@ -13,7 +13,22 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use Codeception\Example;
+use Phalcon\Crypt;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Escaper;
+use Phalcon\Filter\FilterLocator;
+use Phalcon\Flash\Direct;
+use Phalcon\Flash\Session;
+use Phalcon\Http\Request;
+use Phalcon\Http\Response;
+use Phalcon\Http\Response\Cookies;
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\Model\MetaData\Memory;
+use Phalcon\Mvc\Model\Transaction\Manager;
+use Phalcon\Mvc\Router;
+use Phalcon\Security;
+use Phalcon\Tag;
+use Phalcon\Url;
 use UnitTester;
 
 class ConstructCest
@@ -51,22 +66,22 @@ class ConstructCest
 
             [
                 'service' => 'crypt',
-                'class'   => \Phalcon\Crypt::class,
+                'class'   => Crypt::class,
             ],
 
             [
                 'service' => 'cookies',
-                'class'   => \Phalcon\Http\Response\Cookies::class,
+                'class'   => Cookies::class,
             ],
 
             [
                 'service' => 'dispatcher',
-                'class'   => \Phalcon\Mvc\Dispatcher::class,
+                'class'   => Dispatcher::class,
             ],
 
             [
                 'service' => 'escaper',
-                'class'   => \Phalcon\Escaper::class,
+                'class'   => Escaper::class,
             ],
 
             [
@@ -76,17 +91,17 @@ class ConstructCest
 
             [
                 'service' => 'flash',
-                'class'   => \Phalcon\Flash\Direct::class,
+                'class'   => Direct::class,
             ],
 
             [
                 'service' => 'flashSession',
-                'class'   => \Phalcon\Flash\Session::class,
+                'class'   => Session::class,
             ],
 
             [
                 'service' => 'filter',
-                'class'   => \Phalcon\Filter\FilterLocator::class,
+                'class'   => FilterLocator::class,
             ],
 
             // [
@@ -101,42 +116,42 @@ class ConstructCest
 
             [
                 'service' => 'modelsMetadata',
-                'class'   => \Phalcon\Mvc\Model\MetaData\Memory::class,
+                'class'   => Memory::class,
             ],
 
             [
                 'service' => 'request',
-                'class'   => \Phalcon\Http\Request::class,
+                'class'   => Request::class,
             ],
 
             [
                 'service' => 'response',
-                'class'   => \Phalcon\Http\Response::class,
+                'class'   => Response::class,
             ],
 
             [
                 'service' => 'router',
-                'class'   => \Phalcon\Mvc\Router::class,
+                'class'   => Router::class,
             ],
 
             [
                 'service' => 'security',
-                'class'   => \Phalcon\Security::class,
+                'class'   => Security::class,
             ],
 
             [
                 'service' => 'tag',
-                'class'   => \Phalcon\Tag::class,
+                'class'   => Tag::class,
             ],
 
             [
                 'service' => 'transactionManager',
-                'class'   => \Phalcon\Mvc\Model\Transaction\Manager::class,
+                'class'   => Manager::class,
             ],
 
             [
                 'service' => 'url',
-                'class'   => \Phalcon\Url::class,
+                'class'   => Url::class,
             ],
         ];
     }
@@ -144,8 +159,8 @@ class ConstructCest
     /**
      * Tests Phalcon\Di\FactoryDefault :: __construct() - Check services
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider getServices
      */

@@ -42,7 +42,6 @@ class ServiceCest
         );
 
 
-
         $I->assertFalse(
             $di->getService('resolved')->isResolved()
         );
@@ -50,7 +49,6 @@ class ServiceCest
         $I->assertFalse(
             $di->getService('notResolved')->isResolved()
         );
-
 
 
         $di->get('resolved');

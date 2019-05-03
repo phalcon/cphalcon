@@ -59,14 +59,13 @@ class CurrentCest
         );
 
 
-
         $expected = Message::__set_state(
             [
                 '_message'  => 'This is a message #1',
                 '_field'    => 'MyField1',
                 '_type'     => 'MyType1',
                 '_code'     => 111,
-                '_metaData' => ['My1' => 'Metadata1']
+                '_metaData' => ['My1' => 'Metadata1'],
             ]
         );
 

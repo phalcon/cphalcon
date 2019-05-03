@@ -56,7 +56,6 @@ class SetCest
         );
 
 
-
         $collection['three'] = true;
 
         $I->assertTrue(

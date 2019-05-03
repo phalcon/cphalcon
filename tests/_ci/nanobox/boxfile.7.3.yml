@@ -36,9 +36,9 @@ run.config:
     zend_extensions:
       - opcache
     dev_zend_extensions:
-# Removed xdebug (will be back when Xdebug 2.7.0 is stable)
-#      add:
-#        - xdebug
+      # Removed xdebug (will be back when Xdebug 2.7.0 is stable)
+      #      add:
+      #        - xdebug
       rm:
         - opcache
   extra_packages:
@@ -98,5 +98,5 @@ data.mysql:
 data.postgres:
   image: nanobox/postgresql:9.5
 
-data.redis :
-  image : nanobox/redis:3.2
+data.redis:
+  image: nanobox/redis:3.2

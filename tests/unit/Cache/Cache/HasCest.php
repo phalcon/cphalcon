@@ -63,7 +63,7 @@ class HasCest
             new InvalidArgumentException('The key contains invalid characters'),
             function () {
                 $adapter = new Cache(new Apcu());
-                $value = $adapter->has('abc$^');
+                $value   = $adapter->has('abc$^');
             }
         );
     }

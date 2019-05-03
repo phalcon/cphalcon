@@ -61,7 +61,6 @@ class NextCest
         );
 
 
-
         $expected = Message::__set_state(
             [
                 '_message'  => 'This is a message #2',
@@ -70,7 +69,7 @@ class NextCest
                 '_code'     => 222,
                 '_metaData' => [
                     'My2' => 'Metadata2',
-                ]
+                ],
             ]
         );
 

@@ -13,6 +13,7 @@ use Phalcon\Validation\Validator\Email;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
 use Phalcon\Validation\Validator\Url;
+use stdClass;
 
 /**
  * Phalcon\Test\Integration\ValidationCest
@@ -66,10 +67,11 @@ class ValidationCest
      * Tests the get
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10405
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-06-27
      *
-     * @param IntegrationTester $I
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function appendValidationMessageToTheNonObject(IntegrationTester $I)
     {
@@ -77,7 +79,7 @@ class ValidationCest
         $validation  = new Validation();
 
         $validation->bind(
-            new \stdClass(),
+            new stdClass(),
             [
                 'day'   => date('d'),
                 'month' => date('m'),
@@ -112,7 +114,7 @@ class ValidationCest
      */
     public function testWithEntityAndFilter(IntegrationTester $I)
     {
-        $users    = new Users(
+        $users = new Users(
             [
                 'name' => ' ',
             ]
@@ -353,7 +355,6 @@ class ValidationCest
         ;
 
 
-
         $messages = $validation->validate(
             [
                 'name'  => '',
@@ -363,7 +364,6 @@ class ValidationCest
         );
 
         $I->assertCount(2, $messages);
-
 
 
         $messages = $validation->validate(
@@ -377,7 +377,6 @@ class ValidationCest
         $I->assertCount(1, $messages);
 
 
-
         $messages = $validation->validate(
             [
                 'name'  => 'MyName',
@@ -387,7 +386,6 @@ class ValidationCest
         );
 
         $I->assertCount(0, $messages);
-
 
 
         $messages = $validation->validate(

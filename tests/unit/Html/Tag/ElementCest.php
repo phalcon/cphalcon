@@ -180,7 +180,6 @@ class ElementCest
         ];
 
 
-
         $tag->setDocType(
             Tag::XHTML10_STRICT
         );
@@ -189,7 +188,6 @@ class ElementCest
             '<aside>' . PHP_EOL,
             $tag->element($name, $parameters)
         );
-
 
 
         $tag->setDocType(

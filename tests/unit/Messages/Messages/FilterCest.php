@@ -77,7 +77,7 @@ class FilterCest
                     '_code'     => 111,
                     '_metaData' => [
                         'My1' => 'Metadata1',
-                    ]
+                    ],
                 ]
             ),
             1 => Message::__set_state(
@@ -88,7 +88,7 @@ class FilterCest
                     '_code'     => 222,
                     '_metaData' => [
                         'My2' => 'Metadata2',
-                    ]
+                    ],
                 ]
             ),
         ];

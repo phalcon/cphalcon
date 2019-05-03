@@ -297,7 +297,7 @@ class ImageCest extends TagSetup
     {
         $I->wantToTest("Tag :: image() - array parameter and remote link");
 
-        $options  = [
+        $options = [
             'http://phalconphp.com/img/hello.gif',
             'alt' => 'Hello',
         ];

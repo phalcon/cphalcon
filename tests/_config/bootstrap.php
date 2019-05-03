@@ -7,9 +7,9 @@ use Phalcon\Loader;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
-use Phalcon\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Test\Fixtures\MemorySession as PhalconMemorySession;
+use Phalcon\Url;
 
 $container = new FactoryDefault();
 
@@ -34,11 +34,11 @@ $configFile = [
         'viewsDir'       => $root . 'tests/_data/fixtures/views/',
         'resultsetsDir'  => $root . 'tests/_data/fixtures/resultsets/',
         'tasksDir'       => $root . 'tests/_data/fixtures/tasks/',
-//        'microDir'       => $root . 'tests/_data/micro/',
-//        'objectsetsDir'  => $root . 'tests/_data/objectsets/',
-//        'debugDir'       => $root . 'tests/_data/debug/',
-//        'collectionsDir' => $root . 'tests/_data/collections/',
-//        'aclDir'         => $root . 'tests/_data/acl/',
+        //        'microDir'       => $root . 'tests/_data/micro/',
+        //        'objectsetsDir'  => $root . 'tests/_data/objectsets/',
+        //        'debugDir'       => $root . 'tests/_data/debug/',
+        //        'collectionsDir' => $root . 'tests/_data/collections/',
+        //        'aclDir'         => $root . 'tests/_data/acl/',
     ],
     'database'    => [
         'adapter'  => 'Mysql',
@@ -85,10 +85,10 @@ $namespaces = [
     'Phalcon\Test\Modules\Frontend\Controllers' => $configFile['application']['modulesDir'] . 'frontend/controllers/',
     'Phalcon\Test\Modules\Backend\Controllers'  => $configFile['application']['modulesDir'] . 'backend/controllers/',
     'Phalcon\Test\Tasks'                        => $configFile['application']['tasksDir'],
-//    'Phalcon\Test\Acl'                          => $configFile['application']['aclDir'],
-//    'Phalcon\Test\Collections'                  => $configFile['application']['collectionsDir'],
-//    'Phalcon\Test\Debug'                        => $configFile['application']['debugDir'],
-//    'Phalcon\Test\Objectsets'                   => $configFile['application']['objectsetsDir'],
+    //    'Phalcon\Test\Acl'                          => $configFile['application']['aclDir'],
+    //    'Phalcon\Test\Collections'                  => $configFile['application']['collectionsDir'],
+    //    'Phalcon\Test\Debug'                        => $configFile['application']['debugDir'],
+    //    'Phalcon\Test\Objectsets'                   => $configFile['application']['objectsetsDir'],
 ];
 
 $loader->registerNamespaces($namespaces);
@@ -97,7 +97,7 @@ $loader->registerDirs(
     [
         $configFile['application']['tasksDir'],
         $configFile['application']['controllersDir'],
-    //        $configFile['application']['microDir'],
+        //        $configFile['application']['microDir'],
     ]
 );
 

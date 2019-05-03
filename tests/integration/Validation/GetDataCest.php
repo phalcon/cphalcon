@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Validation;
 
 use IntegrationTester;
 use Phalcon\Validation;
+use stdClass;
 
 class GetDataCest
 {
@@ -27,7 +28,7 @@ class GetDataCest
     {
         $I->wantToTest('Validation - getData()');
 
-        $user = new \stdClass();
+        $user = new stdClass();
 
         $data = [
             'name' => 'Sid',

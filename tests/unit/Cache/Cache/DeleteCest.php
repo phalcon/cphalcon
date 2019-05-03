@@ -15,8 +15,8 @@ namespace Phalcon\Test\Unit\Cache\Cache;
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
-use function uniqid;
 use UnitTester;
+use function uniqid;
 
 /**
  * Class DeleteCest
@@ -47,7 +47,7 @@ class DeleteCest
         $actual = $adapter->has($key2);
         $I->assertTrue($actual);
 
-        $actual   = $adapter->delete($key1);
+        $actual = $adapter->delete($key1);
         $I->assertTrue($actual);
 
         $actual = $adapter->has($key1);
@@ -72,7 +72,7 @@ class DeleteCest
             new InvalidArgumentException('The key contains invalid characters'),
             function () {
                 $adapter = new Cache(new Apcu());
-                $value = $adapter->delete('abc$^');
+                $value   = $adapter->delete('abc$^');
             }
         );
     }

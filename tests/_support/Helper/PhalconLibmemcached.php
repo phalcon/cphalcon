@@ -12,10 +12,11 @@ declare(strict_types=1);
 
 namespace Helper;
 
+use Codeception\Exception\ModuleException;
 use Codeception\Module;
 use Codeception\TestInterface;
-use Codeception\Exception\ModuleException;
 use function intval;
+use Memcached;
 
 /**
  * Class PhalconLibmemcached
@@ -23,7 +24,7 @@ use function intval;
 class PhalconLibmemcached extends Module
 {
     /**
-     * @var \Memcached
+     * @var Memcached
      */
     public $memcached;
 
@@ -78,6 +79,34 @@ class PhalconLibmemcached extends Module
     }
 
     /**
+     * Connect to the Memcached.
+     *
+     * @throws ModuleException
+     */
+    protected function connect()
+    {
+        $this->memcached = new Memcached(
+            $this->config['persistent_id']
+        );
+
+        // Persistent memcached pools need to be reconnected if getServerList() is empty
+        if (empty($this->memcached->getServerList())) {
+            $connect = $this->memcached->addServer(
+                $this->config['host'],
+                intval($this->config['port']),
+                intval($this->config['weight'])
+            );
+
+            if (!$connect) {
+                throw new ModuleException(
+                    __CLASS__,
+                    'Cannot connect to the Memcached server'
+                );
+            }
+        }
+    }
+
+    /**
      * Flushes all Memcached data.
      */
     public function clearMemcache()
@@ -97,6 +126,7 @@ class PhalconLibmemcached extends Module
      * </code>
      *
      * @param mixed $key
+     *
      * @return mixed
      * @throws ModuleException
      */
@@ -108,7 +138,7 @@ class PhalconLibmemcached extends Module
 
         $value = $this->memcached->get($key);
 
-        if ($this->memcached->getResultCode() !== \Memcached::RES_SUCCESS) {
+        if ($this->memcached->getResultCode() !== Memcached::RES_SUCCESS) {
             $this->fail("Cannot find key '$key' in the Memcached");
         }
 
@@ -138,7 +168,7 @@ class PhalconLibmemcached extends Module
 
         $this->memcached->set($key, $value, intval($expiration));
 
-        if ($this->memcached->getResultCode() !== \Memcached::RES_SUCCESS) {
+        if ($this->memcached->getResultCode() !== Memcached::RES_SUCCESS) {
             $this->fail(
                 "[{$this->memcached->getResultCode()}] Unable to store the '$key' in the Memcached"
             );
@@ -152,7 +182,8 @@ class PhalconLibmemcached extends Module
      * // With only one argument, only checks the key does not exist
      * $I->dontSeeInLibmemcached('users_count');
      *
-     * // Checks a 'users_count' exists does not exist or its value is not the one provided
+     * // Checks a 'users_count' exists does not exist or its value is not the
+     * one provided
      * $I->dontSeeInLibmemcached('users_count', 200);
      * </code>
      *
@@ -172,14 +203,14 @@ class PhalconLibmemcached extends Module
         $this->debugSection('Value', $actual);
 
         if ($value === null) {
-            if ($this->memcached->getResultCode() !== \Memcached::RES_NOTFOUND) {
+            if ($this->memcached->getResultCode() !== Memcached::RES_NOTFOUND) {
                 $this->fail("The key '$key' exists in the Memcached");
             }
 
             return;
         }
 
-        if ($this->memcached->getResultCode() !== \Memcached::RES_SUCCESS) {
+        if ($this->memcached->getResultCode() !== Memcached::RES_SUCCESS) {
             $this->fail("Cannot find key '$key' in the Memcached");
         }
 
@@ -215,7 +246,7 @@ class PhalconLibmemcached extends Module
 
         $this->debugSection('Value', $actual);
 
-        if ($this->memcached->getResultCode() === \Memcached::RES_SUCCESS) {
+        if ($this->memcached->getResultCode() === Memcached::RES_SUCCESS) {
             $actual = $this->memcached->delete($key);
 
             $this->assertTrue(
@@ -251,7 +282,7 @@ class PhalconLibmemcached extends Module
 
         $this->debugSection('Value', $actual);
 
-        if ($this->memcached->getResultCode() !== \Memcached::RES_SUCCESS) {
+        if ($this->memcached->getResultCode() !== Memcached::RES_SUCCESS) {
             $this->fail("Cannot find key '$key' in the Memcached");
         }
 
@@ -261,34 +292,6 @@ class PhalconLibmemcached extends Module
                 $actual,
                 "Cannot find key '$key' in the Memcached with the provided value"
             );
-        }
-    }
-
-    /**
-     * Connect to the Memcached.
-     *
-     * @throws ModuleException
-     */
-    protected function connect()
-    {
-        $this->memcached = new \Memcached(
-            $this->config['persistent_id']
-        );
-
-        // Persistent memcached pools need to be reconnected if getServerList() is empty
-        if (empty($this->memcached->getServerList())) {
-            $connect = $this->memcached->addServer(
-                $this->config['host'],
-                intval($this->config['port']),
-                intval($this->config['weight'])
-            );
-
-            if (!$connect) {
-                throw new ModuleException(
-                    __CLASS__,
-                    'Cannot connect to the Memcached server'
-                );
-            }
         }
     }
 }

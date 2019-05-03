@@ -72,7 +72,6 @@ class ElementCloseCest
         $expected = '</canvas>' . PHP_EOL;
 
 
-
         $tag->setDocType(
             Tag::XHTML10_STRICT
         );
@@ -80,7 +79,6 @@ class ElementCloseCest
         $actual = $tag->elementClose($name, $parameters);
 
         $I->assertEquals($expected, $actual);
-
 
 
         $tag->setDocType(

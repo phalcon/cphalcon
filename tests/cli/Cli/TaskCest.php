@@ -12,6 +12,8 @@
 namespace Phalcon\Test\Cli\Cli;
 
 use CliTester;
+use EchoTask;
+use MainTask;
 use Phalcon\Registry;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -31,7 +33,7 @@ class TaskCest
          */
         require_once dataDir('fixtures/tasks/EchoTask.php');
         require_once dataDir('fixtures/tasks/MainTask.php');
-        
+
         $this->container["registry"] = function () {
             $registry = new Registry();
 
@@ -40,7 +42,7 @@ class TaskCest
             return $registry;
         };
 
-        $task = new \MainTask();
+        $task = new MainTask();
 
         $task->setDI(
             $this->container
@@ -61,7 +63,7 @@ class TaskCest
             $task->helloAction("World")
         );
 
-        $task2 = new \EchoTask();
+        $task2 = new EchoTask();
 
         $task2->setDI(
             $this->container

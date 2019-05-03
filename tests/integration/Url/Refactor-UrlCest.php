@@ -103,8 +103,8 @@ class UrlCest
     /**
      * Tests the base url
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-04
+     * @author       Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @since        2014-09-04
      *
      * @dataProvider getUrlToSetServer
      */
@@ -131,7 +131,7 @@ class UrlCest
         return [
             //Tests the base url
             [
-                'params' => [
+                'params'   => [
                     'server_php_self' => '/index.php',
                     'get'             => null,
                 ],
@@ -140,7 +140,7 @@ class UrlCest
 
             //Tests a different url
             [
-                'params' => [
+                'params'   => [
                     'server_php_self' => '/index.php',
                     'get'             => 'classes/api/Some',
                 ],

@@ -230,8 +230,8 @@ class RandomCest
     /**
      * Tests Phalcon\Helper\Str :: random() - distinct type
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-06
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-04-06
      *
      * @dataProvider helperStrRandomDistinctProvider
      */
@@ -239,7 +239,7 @@ class RandomCest
     {
         $I->wantToTest('Helper\Str - random() - distinct');
 
-        $source  = Str::random(
+        $source = Str::random(
             Str::RANDOM_DISTINCT,
             $example[0]
         );

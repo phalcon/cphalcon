@@ -172,21 +172,21 @@ class ModelsCest
                 '_message'  => 'tipo_documento_id is required',
                 '_field'    => 'tipo_documento_id',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
             1 => ModelMessage::__set_state([
                 '_type'     => 'PresenceOf',
                 '_message'  => 'cupo is required',
                 '_field'    => 'cupo',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
             2 => ModelMessage::__set_state([
                 '_type'     => 'PresenceOf',
                 '_message'  => 'estado is required',
                 '_field'    => 'estado',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ];
         $I->assertEquals($persona->getMessages(), $messages);
@@ -479,21 +479,21 @@ class ModelsCest
                 '_message'  => 'slagBorgerId is required',
                 '_field'    => 'slagBorgerId',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
             1 => ModelMessage::__set_state([
                 '_type'     => 'PresenceOf',
                 '_message'  => 'kredit is required',
                 '_field'    => 'kredit',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
             2 => ModelMessage::__set_state([
                 '_type'     => 'PresenceOf',
                 '_message'  => 'status is required',
                 '_field'    => 'status',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ];
         $I->assertEquals($personer->getMessages(), $messages);

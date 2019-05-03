@@ -4,14 +4,11 @@ namespace Phalcon\Test\Integration\Mvc\View;
 
 use IntegrationTester;
 use Phalcon\Di;
-use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Mvc\View\Simple;
-use Phalcon\Test\Fixtures\Mvc\View\Engine\Mustache;
-use Phalcon\Test\Fixtures\Mvc\View\Engine\Twig;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function dataFolder;
+use function dataDir;
 
 class SimpleCest
 {
@@ -47,7 +44,7 @@ class SimpleCest
         );
 
         $I->amInPath(
-            dataFolder('fixtures/views/mustache')
+            dataDir('fixtures/views/mustache')
         );
 
         $I->seeFileFound('index.mhtml.php');
@@ -67,7 +64,7 @@ class SimpleCest
             new Exception(
                 sprintf(
                     "View '%sfixtures/views/unknown/view' was not found in the views directory",
-                    dataFolder()
+                    dataDir()
                 )
             ),
             function () {
@@ -90,7 +87,7 @@ class SimpleCest
             new Exception(
                 sprintf(
                     "View '%sfixtures/views/unknown/view' was not found in the views directory",
-                    dataFolder()
+                    dataDir()
                 )
             ),
             function () {
@@ -217,11 +214,11 @@ class SimpleCest
         );
 
         $view->setViewsDir(
-            dataFolder('views' . DIRECTORY_SEPARATOR)
+            dataDir('views' . DIRECTORY_SEPARATOR)
         );
 
         $I->assertEquals(
-            dataFolder('views' . DIRECTORY_SEPARATOR),
+            dataDir('views' . DIRECTORY_SEPARATOR),
             $view->getViewsDir()
         );
 
@@ -250,7 +247,7 @@ class SimpleCest
         $view = new Simple();
 
         $view->setViewsDir(
-            dataFolder('fixtures/views/')
+            dataDir('fixtures/views/')
         );
 
         $I->assertNull(
@@ -278,184 +275,5 @@ class SimpleCest
             $another_var,
             $view->getVar('another_var')
         );
-    }
-
-    public function testRenderWithCache(IntegrationTester $I)
-    {
-        $I->wantToTest('Render by using simple view with cache');
-
-        // Create cache at first run
-        $view = new Simple();
-
-        codecept_debug(
-            gettype(
-                $view->getParamsToView()
-            )
-        );
-
-        $view->setViewsDir(
-            dataFolder('fixtures/views/')
-        );
-
-        // No cache before DI is set
-        $I->assertFalse(
-            $view->getCache()
-        );
-
-        $view->setDI(
-            $this->getDi()
-        );
-
-        $I->assertEquals(
-            $view,
-            $view->cache(
-                [
-                    'key' => 'view_simple_cache',
-                ]
-            )
-        );
-
-        $cache = $view->getCache();
-
-        $I->assertInstanceOf(
-            \Phalcon\Cache\BackendInterface::class,
-            $cache
-        );
-
-        $timeNow = time();
-
-        $view->setParamToView('a_cool_var', $timeNow);
-
-        $I->assertEquals(
-            "<p>$timeNow</p>" . PHP_EOL,
-            $view->render('currentrender/coolVar')
-        );
-
-        $I->amInPath(
-            cacheFolder()
-        );
-
-        $I->seeFileFound('view_simple_cache');
-
-        $I->seeInThisFile(
-            json_encode("<p>$timeNow</p>" . PHP_EOL)
-        );
-
-        unset($view, $cache);
-
-
-
-        // Re-use the cached contents
-        $view = new Simple;
-
-        $view->setViewsDir(
-            dataFolder('fixtures/views/')
-        );
-
-        $view->setDI(
-            $this->getDi()
-        );
-
-        $view->cache(
-            [
-                'key' => 'view_simple_cache',
-            ]
-        );
-
-        $I->assertEmpty(
-            $view->getContent()
-        );
-
-        $I->assertEquals(
-            "<p>$timeNow</p>" . PHP_EOL,
-            $view->render('currentrender/coolVar')
-        );
-
-        $I->assertNotEmpty(
-            $view->getContent()
-        );
-
-        $I->assertEquals(
-            "<p></p>" . PHP_EOL,
-            $view->render('currentrender/coolVar')
-        );
-
-        $I->safeDeleteFile('view_simple_cache');
-    }
-
-    public function testRenderWithCache(IntegrationTester $I)
-    {
-        $I->wantToTest('Render by using simple view with cache');
-
-        if (PHP_MAJOR_VERSION == 7) {
-            $I->skipTest(
-                'Skipped in view of the experimental support for PHP 7.'
-            );
-        }
-
-        // Create cache at first run
-        $view = new Simple();
-        codecept_debug(gettype($view->getParamsToView()));
-        $view->setViewsDir(dataDir('fixtures/views/'));
-
-        // No cache before DI is set
-        $I->assertFalse($view->getCache());
-
-        $view->setDI($this->getDi());
-        $I->assertEquals($view, $view->cache(['key' => 'view_simple_cache']));
-
-        $cache = $view->getCache();
-        $I->assertInstanceOf('Phalcon\Cache\BackendInterface', $cache);
-
-        $timeNow = time();
-        $view->setParamToView('a_cool_var', $timeNow);
-
-        $I->assertEquals("<p>$timeNow</p>", rtrim($view->render('test3/coolVar')));
-
-        $I->amInPath(cacheDir());
-        $I->seeFileFound('view_simple_cache');
-        $I->seeInThisFile("<p>$timeNow</p>");
-
-        unset($view, $cache);
-
-        // Re-use the cached contents
-        $view = new Simple;
-        $view->setViewsDir(dataDir('fixtures/views/'));
-        $view->setDI($this->getDi());
-        $view->cache(['key' => 'view_simple_cache']);
-
-        $I->assertEmpty($view->getContent());
-        $I->assertEquals("<p>$timeNow</p>", rtrim($view->render('test3/coolVar')));
-
-        $I->assertNotEmpty($view->getContent());
-        $I->assertEquals("<p></p>", rtrim($view->render('test3/coolVar')));
-
-        $I->safeDeleteFile('view_simple_cache');
-    }
-
-    /**
-     * Setup viewCache service and DI
-     */
-    protected function getDi(): Di
-    {
-        $di = new Di;
-
-        $di->set(
-            'viewCache',
-            function () {
-                return new File(
-                    new Output(
-                        [
-                            'lifetime' => 2,
-                        ]
-                    ),
-                    [
-                        'cacheDir' => cacheFolder(),
-                    ]
-                );
-            }
-        );
-
-        return $di;
     }
 }

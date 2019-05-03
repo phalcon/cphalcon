@@ -41,7 +41,7 @@ class TextAreaCest
 
         $escaper = $this->newEscaper();
 
-        $helper  = new TextArea($escaper);
+        $helper = new TextArea($escaper);
 
         $expected = $example[0];
         $actual   = $helper($example[1], $example[2]);

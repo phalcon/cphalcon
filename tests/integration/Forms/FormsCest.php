@@ -56,7 +56,6 @@ class FormsCest
         );
 
 
-
         $element2 = new Radio('radio');
 
         $element2->setAttributes(
@@ -64,7 +63,6 @@ class FormsCest
                 'value' => 0,
             ]
         );
-
 
 
         $I->assertEquals(
@@ -286,7 +284,6 @@ class FormsCest
             ],
             $entity
         );
-
 
 
         $I->assertTrue(

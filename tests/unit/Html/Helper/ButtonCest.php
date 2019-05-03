@@ -41,7 +41,7 @@ class ButtonCest
 
         $escaper = $this->newEscaper();
 
-        $helper  = new Button($escaper);
+        $helper = new Button($escaper);
 
         $expected = $example[0];
         $actual   = $helper($example[1], $example[2]);

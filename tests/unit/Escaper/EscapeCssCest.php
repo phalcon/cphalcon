@@ -29,7 +29,7 @@ class EscapeCssCest
 
         $escaper = new Escaper();
 
-        $source  = ".émotion { background: url('http://phalconphp.com/a.php?c=d&e=f'); }";
+        $source = ".émotion { background: url('http://phalconphp.com/a.php?c=d&e=f'); }";
 
         $expected = '\2e \e9 motion\20 \7b \20 background\3a \20 url\28 '
             . '\27 http\3a \2f \2f phalconphp\2e com\2f a\2e php'

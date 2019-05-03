@@ -25,8 +25,8 @@ class EscapeHtmlAttrCest
     /**
      * Tests Phalcon\Escaper :: escapeHtmlAttr()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-09-16
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2014-09-16
      *
      * @dataProvider escaperEscapeHtmlAttrProvider
      */

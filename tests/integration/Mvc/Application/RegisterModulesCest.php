@@ -55,11 +55,11 @@ class RegisterModulesCest
         $application->registerModules(
             [
                 'frontend' => [
-                    'path'      => dataFolder('fixtures/modules/frontend/Module.php'),
+                    'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                     'className' => \Phalcon\Test\Modules\Frontend\Module::class,
                 ],
                 'backend' => [
-                    'path'      => dataFolder('fixtures/modules/backend/Module.php'),
+                    'path'      => dataDir('fixtures/modules/backend/Module.php'),
                     'className' => \Phalcon\Test\Modules\Backend\Module::class,
                 ],
             ]
@@ -122,7 +122,7 @@ class RegisterModulesCest
                         'view',
                         function () use ($view) {
                             $view->setViewsDir(
-                                dataFolder('fixtures/modules/frontend/views/')
+                                dataDir('fixtures/modules/frontend/views/')
                             );
 
                             return $view;
@@ -134,7 +134,7 @@ class RegisterModulesCest
                         'view',
                         function () use ($view) {
                             $view->setViewsDir(
-                                dataFolder('fixtures/modules/backend/views/')
+                                dataDir('fixtures/modules/backend/views/')
                             );
 
                             return $view;

@@ -65,7 +65,7 @@ class UnderscoreCallCest
         $services = [
             'custom' => function ($escaper, $value) {
                 return $escaper->escapeHtml($value);
-            }
+            },
         ];
 
         $escaper = $this->newEscaper();

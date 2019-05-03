@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config;
 
+use PDO;
 use Phalcon\Config;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
@@ -39,6 +40,19 @@ class MergeCest
     }
 
     /**
+     * Merges the reference config object into an empty config object.
+     *
+     * @return Config
+     */
+    private function getMergedByConfig(): Config
+    {
+        $config = new Config();
+        $config->merge($this->getConfig());
+
+        return $config;
+    }
+
+    /**
      * Tests Phalcon\Config :: merge()
      *
      * @param UnitTester $I
@@ -54,6 +68,19 @@ class MergeCest
         $expected = $this->getMergedByArray();
         $actual   = $config;
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Merges the reference config array data into an empty config object.
+     *
+     * @return Config
+     */
+    private function getMergedByArray(): Config
+    {
+        $config = new Config();
+        $config->merge(require dataDir('assets/config/config.php'));
+
+        return $config;
     }
 
     /**
@@ -165,7 +192,7 @@ class MergeCest
                     'username'     => 'peter',
                     'options'      => [
                         'case'                        => 'lower',
-                        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+                        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                     ],
                     'alternatives' => [
                         'primary' => 'swedish',
@@ -203,7 +230,7 @@ class MergeCest
                         'options'      => Config::__set_state(
                             [
                                 'case'                                 => 'lower',
-                                (string) \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+                                (string) PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                             ]
                         ),
                     ]
@@ -214,31 +241,5 @@ class MergeCest
         $actual = $config1;
 
         $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Merges the reference config object into an empty config object.
-     *
-     * @return Config
-     */
-    private function getMergedByConfig(): Config
-    {
-        $config = new Config();
-        $config->merge($this->getConfig());
-
-        return $config;
-    }
-
-    /**
-     * Merges the reference config array data into an empty config object.
-     *
-     * @return Config
-     */
-    private function getMergedByArray(): Config
-    {
-        $config = new Config();
-        $config->merge(require dataDir('assets/config/config.php'));
-
-        return $config;
     }
 }
