@@ -12,6 +12,7 @@
 namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
+use Phalcon\Cli\Router;
 
 class GetDescriptionCest
 {
@@ -28,7 +29,7 @@ class GetDescriptionCest
 
         $routes = $this->getExampleRoutes();
 
-        $router = new \Phalcon\Cli\Router(false);
+        $router = new Router(false);
 
         foreach ($routes as $pattern => $description) {
             $router->add($pattern)->setDescription($description);
