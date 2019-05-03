@@ -63,7 +63,6 @@ class GetActiveRoleCest
         $acl->allow('Guests', 'Login', '*');
 
 
-
         $I->assertTrue(
             $acl->isAllowed('Guests', 'Login', 'index')
         );

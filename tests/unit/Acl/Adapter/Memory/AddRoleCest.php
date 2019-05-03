@@ -34,7 +34,6 @@ class AddRoleCest
         $role = new Role('Administrators', 'Super User access');
 
 
-
         $actual = $acl->addRole('Administrators');
 
         $I->assertTrue($actual);
@@ -76,11 +75,9 @@ class AddRoleCest
         $role = new Role('Administrators', 'Super User access');
 
 
-
         $actual = $acl->addRole('Administrators');
 
         $I->assertTrue($actual);
-
 
 
         $actual = $acl->addRole('Administrators');
@@ -104,11 +101,9 @@ class AddRoleCest
         $role = new Role('Administrators', 'Super User access');
 
 
-
         $actual = $acl->addRole($role);
 
         $I->assertTrue($actual);
-
 
 
         $actual = $acl->addRole($role);
@@ -130,7 +125,6 @@ class AddRoleCest
 
         $acl  = new Memory();
         $role = new Role('11', 'Super User access');
-
 
 
         $actual = $acl->addRole('11');

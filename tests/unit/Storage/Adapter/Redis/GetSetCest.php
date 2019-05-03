@@ -17,10 +17,10 @@ use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use stdClass;
-use function uniqid;
 use UnitTester;
 use function array_merge;
 use function getOptionsRedis;
+use function uniqid;
 
 /**
  * Class GetSetCest
@@ -62,10 +62,10 @@ class GetSetCest
      *
      * @param UnitTester $I
      *
-     * @since  2019-03-31
+     * @throws Exception
      * @author Phalcon Team <team@phalconphp.com>
      *
-     * @throws Exception
+     * @since  2019-03-31
      */
     public function storageAdapterRedisGetSetPersistent(UnitTester $I)
     {
@@ -79,7 +79,7 @@ class GetSetCest
             )
         );
 
-        $key = uniqid();
+        $key    = uniqid();
         $result = $adapter->set($key, 'test');
         $I->assertTrue($result);
 

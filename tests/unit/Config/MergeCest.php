@@ -191,7 +191,7 @@ class MergeCest
                     'host'         => 'localhost',
                     'username'     => 'peter',
                     'options'      => [
-                        'case'                        => 'lower',
+                        'case'                       => 'lower',
                         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                     ],
                     'alternatives' => [
@@ -229,7 +229,7 @@ class MergeCest
                         ),
                         'options'      => Config::__set_state(
                             [
-                                'case'                                 => 'lower',
+                                'case'                                => 'lower',
                                 (string) PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                             ]
                         ),

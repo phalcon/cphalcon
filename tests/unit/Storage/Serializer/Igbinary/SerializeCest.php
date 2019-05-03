@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Serializer\Igbinary;
 
 use Codeception\Example;
+use function igbinary_serialize;
 use Phalcon\Storage\Serializer\Igbinary;
 use stdClass;
 use UnitTester;
@@ -77,17 +78,17 @@ class SerializeCest
             [
                 'string',
                 'Phalcon Framework',
-                \igbinary_serialize('Phalcon Framework'),
+                igbinary_serialize('Phalcon Framework'),
             ],
             [
                 'array',
                 ['Phalcon Framework'],
-                \igbinary_serialize(["Phalcon Framework"]),
+                igbinary_serialize(["Phalcon Framework"]),
             ],
             [
                 'object',
                 new stdClass(),
-                \igbinary_serialize(new stdClass()),
+                igbinary_serialize(new stdClass()),
             ],
         ];
     }

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 
 use DateInterval;
+use Exception;
 use Phalcon\Storage\Adapter\AdapterInterface;
 use Phalcon\Test\Fixtures\Storage\Adapter\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
@@ -79,10 +80,10 @@ class ConstructCest
      *
      * @param UnitTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws Exception
      * @since  2019-04-09
      *
-     * @throws \Exception
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function storageAdapterLibmemcachedConstructGetTtl(UnitTester $I)
     {
@@ -97,7 +98,7 @@ class ConstructCest
         $actual   = $adapter->getTtl(20);
         $I->assertEquals($expected, $actual);
 
-        $time = new DateInterval('PT5S');
+        $time     = new DateInterval('PT5S');
         $expected = 5;
         $actual   = $adapter->getTtl($time);
         $I->assertEquals($expected, $actual);
