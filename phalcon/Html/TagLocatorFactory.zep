@@ -30,7 +30,8 @@ class TagLocatorFactory implements LocatorFactoryInterface
         var helpers, locator;
 
         /**
-         * Available helpers
+         * Available helpers. This needs to change when Zephir supports use
+         * statements to inject the Escaper service in each helper
          */
         let helpers = [
             "a"          : function () { return new \Phalcon\Html\Helper\Anchor(); },

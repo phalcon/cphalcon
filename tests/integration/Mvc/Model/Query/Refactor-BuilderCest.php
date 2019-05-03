@@ -1051,7 +1051,7 @@ class BuilderCest
         ;
 
         $I->assertEquals(
-        /** Just prevent IDE to highlight this as not valid SQL dialect */
+            /** Just prevent IDE to highlight this as not valid SQL dialect */
             'SELECT name ' . "FROM {$expected}",
             $phql
         );
