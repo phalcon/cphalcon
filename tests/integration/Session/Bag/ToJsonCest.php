@@ -48,12 +48,10 @@ class ToJsonCest
         $collection->init($data);
 
 
-
         $expected = json_encode($data);
         $actual   = $collection->toJson();
 
         $I->assertEquals($expected, $actual);
-
 
 
         $expected = json_encode($data, JSON_PRETTY_PRINT);

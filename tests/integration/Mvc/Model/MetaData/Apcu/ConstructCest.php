@@ -12,16 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Apcu;
 
+use IntegrationTester;
+use Phalcon\Mvc\Model\MetaData\Apcu;
+use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Robots;
 use function apcu_clear_cache;
 use function apcu_fetch;
 use function dataDir;
-use IntegrationTester;
-use function json_encode;
-use Phalcon\Mvc\Model\MetaData\Apcu;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
 use function serialize;
-use function var_dump;
 
 /**
  * Class ConstructCest
@@ -64,7 +63,7 @@ class ConstructCest
     public function mvcModelMetadataApcuConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\MetaData\Apcu - __construct()');
-        /** @var \Phalcon\Mvc\Model\MetaDataInterface $md */
+        /** @var MetaDataInterface $md */
         $md = $this->container->getShared('modelsMetadata');
 
 

@@ -39,7 +39,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name' => 'Asd',
@@ -50,7 +49,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -92,7 +90,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name' => 'Asd',
@@ -104,7 +101,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -123,7 +119,6 @@ class ValidateCest
             $validationMessages['name'],
             $messages->offsetGet(0)->getMessage()
         );
-
 
 
         $messages = $validation->validate(
@@ -153,8 +148,8 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - Non Alphabetic
      * Characters
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2016-06-10
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2016-06-10
      *
      * @dataProvider validationValidatorAlphaValidateNonAlphabeticCharactersProvider
      */
@@ -195,24 +190,12 @@ class ValidateCest
         $I->assertEquals($expected, $actual);
     }
 
-    private function validationValidatorAlphaValidateNonAlphabeticCharactersProvider(): array
-    {
-        return [
-            ['1'],
-            [123],
-            ['a-b-c-d'],
-            ['a-1-c-2'],
-            ['a1c2'],
-            ['o0o0o0o0'],
-        ];
-    }
-
     /**
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - Alphabetic
      * Characters
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2016-06-10
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2016-06-10
      *
      * @dataProvider validationValidatorAlphaValidateAlphabeticCharactersProvider
      */
@@ -245,25 +228,14 @@ class ValidateCest
         );
     }
 
-    private function validationValidatorAlphaValidateAlphabeticCharactersProvider(): array
-    {
-        return [
-            ['a'],
-            ['asdavafaiwnoabwiubafpowf'],
-            ['QWERTYUIOPASDFGHJKL'],
-            ['aSdFgHjKl'],
-            [null],
-        ];
-    }
-
     /**
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - Non Latin
      * Characters
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2016-06-10
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2016-06-10
      *
      * @dataProvider nonLatinCharactersProvider
      */
@@ -294,6 +266,29 @@ class ValidateCest
             0,
             $messages->count()
         );
+    }
+
+    private function validationValidatorAlphaValidateNonAlphabeticCharactersProvider(): array
+    {
+        return [
+            ['1'],
+            [123],
+            ['a-b-c-d'],
+            ['a-1-c-2'],
+            ['a1c2'],
+            ['o0o0o0o0'],
+        ];
+    }
+
+    private function validationValidatorAlphaValidateAlphabeticCharactersProvider(): array
+    {
+        return [
+            ['a'],
+            ['asdavafaiwnoabwiubafpowf'],
+            ['QWERTYUIOPASDFGHJKL'],
+            ['aSdFgHjKl'],
+            [null],
+        ];
     }
 
     private function nonLatinCharactersProvider(): array

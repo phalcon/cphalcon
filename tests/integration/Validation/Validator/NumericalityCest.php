@@ -21,9 +21,9 @@ class NumericalityCest
     /**
      * Tests numericality validator with single field
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @author Andrey Izman <izmanw@gmail.com>
-     * @since  2016-06-05
+     * @author       Wojciech Ślawski <jurigag@gmail.com>
+     * @author       Andrey Izman <izmanw@gmail.com>
+     * @since        2016-06-05
      *
      * @dataProvider validationValidatorSingleFieldProvider
      */
@@ -46,31 +46,6 @@ class NumericalityCest
             $example['expected'],
             $messages->count()
         );
-    }
-
-    private function validationValidatorSingleFieldProvider(): array
-    {
-        return [
-            [
-                'amount'   => 123,
-                'expected' => 0,
-            ],
-
-            [
-                'amount'   => 123.12,
-                'expected' => 0,
-            ],
-
-            [
-                'amount'   => '123abc',
-                'expected' => 1,
-            ],
-
-            [
-                'amount'   => '123.12e3',
-                'expected' => 1,
-            ],
-        ];
     }
 
     /**
@@ -172,7 +147,6 @@ class NumericalityCest
         $this->setTestLocale('en_US.UTF8');
 
 
-
         $messages = $validation->validate(
             [
                 'amount' => 123.12,
@@ -183,7 +157,6 @@ class NumericalityCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -198,7 +171,6 @@ class NumericalityCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'amount' => '123,12',
@@ -211,9 +183,7 @@ class NumericalityCest
         );
 
 
-
         $this->setTestLocale('fr_FR.UTF8');
-
 
 
         $messages = $validation->validate(
@@ -226,7 +196,6 @@ class NumericalityCest
             0,
             $messages->count()
         );
-
 
 
         // revert back locale
@@ -246,5 +215,30 @@ class NumericalityCest
         putenv('LANGUAGE=' . $locale);
 
         return setlocale(LC_ALL, $locale);
+    }
+
+    private function validationValidatorSingleFieldProvider(): array
+    {
+        return [
+            [
+                'amount'   => 123,
+                'expected' => 0,
+            ],
+
+            [
+                'amount'   => 123.12,
+                'expected' => 0,
+            ],
+
+            [
+                'amount'   => '123abc',
+                'expected' => 1,
+            ],
+
+            [
+                'amount'   => '123.12e3',
+                'expected' => 1,
+            ],
+        ];
     }
 }

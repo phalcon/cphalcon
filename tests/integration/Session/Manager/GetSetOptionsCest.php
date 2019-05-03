@@ -42,8 +42,7 @@ class GetSetOptionsCest
             'test2' => 'option2',
         ];
 
-        $manager  = new Manager($options);
-
+        $manager = new Manager($options);
 
 
         $expected = $options;
@@ -76,7 +75,6 @@ class GetSetOptionsCest
         ];
 
         $manager->setOptions($options);
-
 
 
         $I->assertEquals(

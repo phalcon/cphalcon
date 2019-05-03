@@ -16,8 +16,8 @@ class DialectBase
     /**
      * Tests Dialect::createView
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-02-26
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-02-26
      *
      * @dataProvider getCreateViewFixtures
      */
@@ -62,8 +62,8 @@ class DialectBase
      * @issue  https://github.com/phalcon/cphalcon/issues/12536
      * @issue  https://github.com/phalcon/cphalcon/issues/11359
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-02-26
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-02-26
      *
      * @dataProvider getDescribeColumnsFixtures
      */
@@ -152,7 +152,7 @@ class DialectBase
             $key      = $example[1];
             $expected = $example[2];
 
-            $dialect  = $this->getDialectObject();
+            $dialect = $this->getDialectObject();
 
             $actual = $dialect->dropForeignKey(
                 'table',
@@ -398,8 +398,7 @@ class DialectBase
     {
         list($oldColumn, $newColumn) = $this->getModifyColumnFixtures13012();
 
-        $dialect  = $this->getDialectObject();
-
+        $dialect = $this->getDialectObject();
 
 
         $expected = $this->getModifyColumnSql();

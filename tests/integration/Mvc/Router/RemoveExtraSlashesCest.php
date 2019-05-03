@@ -28,8 +28,8 @@ class RemoveExtraSlashesCest
      *
      * @param IntegrationTester $I
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
-     * @since  2012-12-16
+     * @author       Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since        2012-12-16
      *
      * @dataProvider getMatchingWithExtraSlashes
      */
@@ -45,7 +45,6 @@ class RemoveExtraSlashesCest
         $router->removeExtraSlashes(true);
 
         $router->handle($route);
-
 
 
         $I->assertTrue(

@@ -43,7 +43,7 @@ class ModelsForeignKeysCest
                 '_message'  => 'Value of field "parts_id" does not exist on referenced table',
                 '_field'    => 'parts_id',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ];
 
@@ -59,7 +59,7 @@ class ModelsForeignKeysCest
                 '_message'  => 'The robot code does not exist',
                 '_field'    => 'robots_id',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ];
 
@@ -78,7 +78,7 @@ class ModelsForeignKeysCest
                 '_message'  => 'Record is referenced by model Phalcon\Test\Models\RobotsParts',
                 '_field'    => 'id',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ];
 
@@ -95,7 +95,7 @@ class ModelsForeignKeysCest
                 '_message'  => 'Parts cannot be deleted because is referenced by a Robot',
                 '_field'    => 'id',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ];
 
@@ -117,7 +117,7 @@ class ModelsForeignKeysCest
                 '_message'  => 'Value of field "delesCode" does not exist on referenced table',
                 '_field'    => 'delesCode',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ];
 
@@ -133,7 +133,7 @@ class ModelsForeignKeysCest
                 '_message'  => 'The robotters code does not exist',
                 '_field'    => 'robottersCode',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ];
 
@@ -151,7 +151,7 @@ class ModelsForeignKeysCest
                 '_message'  => 'Record is referenced by model Phalcon\Test\Models\RobottersDeles',
                 '_field'    => 'code',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ];
 
@@ -168,7 +168,7 @@ class ModelsForeignKeysCest
                 '_message'  => 'Deles cannot be deleted because is referenced by a Robotter',
                 '_field'    => 'code',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ];
 

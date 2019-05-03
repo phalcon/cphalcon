@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Redis;
 
-use function dataDir;
-use function env;
 use IntegrationTester;
-use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\MetaData\Redis;
+use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
+use function dataDir;
+use function env;
 
 /**
  * Class ConstructCest
@@ -62,7 +62,7 @@ class ConstructCest
     {
         $I->wantToTest('Mvc\Model\MetaData\Redis - __construct()');
 
-        /** @var \Phalcon\Mvc\Model\MetaDataInterface $md */
+        /** @var MetaDataInterface $md */
         $md = $this->container->getShared('modelsMetadata');
 
         $md->reset();

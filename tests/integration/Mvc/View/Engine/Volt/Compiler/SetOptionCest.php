@@ -26,8 +26,8 @@ class SetOptionCest
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-17
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-01-17
      *
      * @dataProvider getVoltSetOptionAutoescape
      */

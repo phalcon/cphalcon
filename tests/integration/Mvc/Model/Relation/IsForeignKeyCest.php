@@ -33,7 +33,6 @@ class IsForeignKeyCest
         $I->wantToTest('Mvc\Model\Relation - isForeignKey()');
 
 
-
         $options = [];
 
         $relation = new Relation(
@@ -47,7 +46,6 @@ class IsForeignKeyCest
         $I->assertFalse(
             $relation->isForeignKey()
         );
-
 
 
         $options = [
@@ -67,7 +65,6 @@ class IsForeignKeyCest
         );
 
 
-
         $options = [
             'foreignKey' => [],
         ];
@@ -85,7 +82,6 @@ class IsForeignKeyCest
         );
 
 
-
         $options = [
             'foreignKey' => true,
         ];
@@ -101,7 +97,6 @@ class IsForeignKeyCest
         $I->assertTrue(
             $relation->isForeignKey()
         );
-
 
 
         $options = [

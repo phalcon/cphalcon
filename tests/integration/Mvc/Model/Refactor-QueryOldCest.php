@@ -69,6 +69,81 @@ class QueryOldCest
         );
     }
 
+    /**
+     * Tests Query::parse insert
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-01-24
+     *
+     * @dataProvider getExamplesInsert
+     */
+    public function shouldInsertParsing(IntegrationTester $I, Example $example)
+    {
+        $params   = $example[0];
+        $expected = $example[1];
+
+        $query = new Query(
+            $params['query']
+        );
+
+        $query->setDI($this->container);
+
+        $I->assertEquals(
+            $expected,
+            $query->parse()
+        );
+    }
+
+    /**
+     * Tests Query::parse update
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-01-24
+     *
+     * @dataProvider getExamplesUpdate
+     */
+    public function shouldUpdateParsing(IntegrationTester $I, Example $example)
+    {
+        $params   = $example[0];
+        $expected = $example[1];
+
+        $query = new Query(
+            $params['query']
+        );
+
+        $query->setDI($this->container);
+
+        $I->assertEquals(
+            $expected,
+            $query->parse()
+        );
+    }
+
+    /**
+     * Tests Query::parse delete
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-01-24
+     *
+     * @dataProvider getExamplesDelete
+     */
+    public function shouldDeleteParsing(IntegrationTester $I, Example $example)
+    {
+        $params   = $example[0];
+        $expected = $example[1];
+
+        $query = new Query(
+            $params['query']
+        );
+
+        $query->setDI($this->container);
+
+        $I->assertEquals(
+            $expected,
+            $query->parse()
+        );
+    }
+
     private function getExamples(): array
     {
         return [
@@ -6974,31 +7049,6 @@ class QueryOldCest
         ];
     }
 
-    /**
-     * Tests Query::parse insert
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-24
-     *
-     * @dataProvider getExamplesInsert
-     */
-    public function shouldInsertParsing(IntegrationTester $I, Example $example)
-    {
-        $params   = $example[0];
-        $expected = $example[1];
-
-        $query = new Query(
-            $params['query']
-        );
-
-        $query->setDI($this->container);
-
-        $I->assertEquals(
-            $expected,
-            $query->parse()
-        );
-    }
-
     private function getExamplesInsert(): array
     {
         return [
@@ -7263,31 +7313,6 @@ class QueryOldCest
                 ],
             ],
         ];
-    }
-
-    /**
-     * Tests Query::parse update
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-24
-     *
-     * @dataProvider getExamplesUpdate
-     */
-    public function shouldUpdateParsing(IntegrationTester $I, Example $example)
-    {
-        $params   = $example[0];
-        $expected = $example[1];
-
-        $query = new Query(
-            $params['query']
-        );
-
-        $query->setDI($this->container);
-
-        $I->assertEquals(
-            $expected,
-            $query->parse()
-        );
     }
 
     private function getExamplesUpdate(): array
@@ -7792,31 +7817,6 @@ class QueryOldCest
                 ],
             ],
         ];
-    }
-
-    /**
-     * Tests Query::parse delete
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-24
-     *
-     * @dataProvider getExamplesDelete
-     */
-    public function shouldDeleteParsing(IntegrationTester $I, Example $example)
-    {
-        $params   = $example[0];
-        $expected = $example[1];
-
-        $query = new Query(
-            $params['query']
-        );
-
-        $query->setDI($this->container);
-
-        $I->assertEquals(
-            $expected,
-            $query->parse()
-        );
     }
 
     private function getExamplesDelete(): array

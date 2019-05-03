@@ -16,7 +16,6 @@ use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\People;
 use Phalcon\Test\Models\Robots;
-use function cacheDir;
 
 class SimpleCest
 {

@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router\Group;
 
 use IntegrationTester;
-use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Group;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
@@ -46,11 +45,9 @@ class AddPutCest
         $router->mount($group);
 
 
-
         $_SERVER['REQUEST_METHOD'] = 'PUT';
 
         $router->handle('/docs/index');
-
 
 
         $I->assertEquals(

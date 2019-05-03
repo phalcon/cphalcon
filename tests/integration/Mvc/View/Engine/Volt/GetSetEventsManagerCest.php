@@ -24,7 +24,8 @@ class GetSetEventsManagerCest
     use DiTrait;
 
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt :: getEventsManager()/setEventsManager()
+     * Tests Phalcon\Mvc\View\Engine\Volt ::
+     * getEventsManager()/setEventsManager()
      *
      * @param IntegrationTester $I
      *

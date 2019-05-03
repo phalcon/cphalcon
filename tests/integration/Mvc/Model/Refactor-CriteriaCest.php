@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
-use function cacheModelsDir;
 use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -22,6 +22,7 @@ use Phalcon\Test\Models\Personas;
 use Phalcon\Test\Models\Personers;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Users;
+use function cacheModelsDir;
 
 class CriteriaCest
 {
@@ -63,7 +64,7 @@ class CriteriaCest
             $limit    = $item[0];
             $offset   = $item[1];
             $expected = $item[2];
-            /** @var \Phalcon\Mvc\Model\Criteria $query */
+            /** @var Criteria $query */
             $query = Users::query();
             $query->limit($limit, $offset);
 
@@ -89,10 +90,11 @@ class CriteriaCest
     /**
      * Tests creating builder from criteria
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
+     *
      * @since  2017-05-21
      *
-     * @param IntegrationTester $I
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function createBuilderFromCriteria(IntegrationTester $I)
     {

@@ -12,6 +12,8 @@
 namespace Phalcon\Test\Integration\Paginator\Adapter;
 
 use IntegrationTester;
+use Phalcon\Paginator\Adapter\NativeArray;
+use Phalcon\Paginator\Repository;
 
 class RepositoryCest
 {
@@ -23,7 +25,7 @@ class RepositoryCest
      */
     public function testRepositoryPaginator(IntegrationTester $I)
     {
-        $paginatorRepository = new \Phalcon\Paginator\Repository();
+        $paginatorRepository = new Repository();
 
         $paginatorRepository->setAliases(
             [
@@ -34,7 +36,7 @@ class RepositoryCest
             ]
         );
 
-        $paginator = new \Phalcon\Paginator\Adapter\NativeArray(
+        $paginator = new NativeArray(
             [
                 'data'       => array_fill(0, 30, 'banana'),
                 'limit'      => 25,
@@ -46,10 +48,9 @@ class RepositoryCest
         $page = $paginator->paginate();
 
         $I->assertInstanceOf(
-            \Phalcon\Paginator\Repository::class,
+            Repository::class,
             $page
         );
-
 
 
         // Test getters
@@ -59,7 +60,6 @@ class RepositoryCest
         $I->assertEquals(2, $page->getLast());
         $I->assertEquals(25, $page->getLimit());
         $I->assertEquals(1, $page->getCurrent());
-
 
 
         // Test aliases
@@ -72,10 +72,9 @@ class RepositoryCest
         $page = $paginator->paginate();
 
         $I->assertInstanceOf(
-            \Phalcon\Paginator\Repository::class,
+            Repository::class,
             $page
         );
-
 
 
         // Test magic getters
@@ -84,7 +83,6 @@ class RepositoryCest
         $I->assertEquals(2, $page->next);
         $I->assertEquals(2, $page->last);
         $I->assertEquals(2, $page->current);
-
 
 
         // Test aliases

@@ -39,7 +39,6 @@ class IdenticalCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name' => 'SomeValue',
@@ -52,7 +51,6 @@ class IdenticalCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name' => 'SomeValue123',
@@ -63,7 +61,6 @@ class IdenticalCest
             1,
             $messages->count()
         );
-
 
 
         $expected = new Messages(
@@ -109,7 +106,6 @@ class IdenticalCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name'        => 'SomeValue',
@@ -121,7 +117,6 @@ class IdenticalCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -142,7 +137,6 @@ class IdenticalCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name'        => 'SomeValue123',
@@ -154,7 +148,6 @@ class IdenticalCest
             2,
             $messages->count()
         );
-
 
 
         $I->assertEquals(
@@ -200,7 +193,6 @@ class IdenticalCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name'        => 'SomeValue',
@@ -212,7 +204,6 @@ class IdenticalCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -233,7 +224,6 @@ class IdenticalCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name'        => 'SomeValue',
@@ -250,7 +240,6 @@ class IdenticalCest
             $validationMessages['anotherName'],
             $messages->offsetGet(0)->getMessage()
         );
-
 
 
         $messages = $validation->validate(
@@ -291,7 +280,6 @@ class IdenticalCest
         );
 
 
-
         $messages = $validation->validate(
             []
         );
@@ -308,7 +296,6 @@ class IdenticalCest
         );
 
         $I->assertEquals($expected, $messages);
-
 
 
         $messages = $validation->validate(

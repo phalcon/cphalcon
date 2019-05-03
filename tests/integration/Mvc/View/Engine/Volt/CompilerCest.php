@@ -23,11 +23,12 @@ use Phalcon\Di;
 use Phalcon\Escaper;
 use Phalcon\Forms\Element\Password;
 use Phalcon\Forms\Form;
-use Phalcon\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tag;
+use Phalcon\Url;
+use stdClass;
 
 /**
  * Phalcon\Test\Integration\Mvc\View\Engine\Volt\CompilerCest
@@ -250,7 +251,6 @@ class CompilerCest
         $I->assertEquals($expected, $actual);
 
 
-
         $view->start();
         $view->render('macro', 'conditionaldate');
         $view->finish();
@@ -258,7 +258,6 @@ class CompilerCest
         $expected = sprintf('from <br/>%s, %s UTC', date('Y-m-d'), date('H:i'));
         $actual   = $view->getContent();
         $I->assertEquals($expected, $actual);
-
 
 
         $view->start();
@@ -270,7 +269,6 @@ class CompilerCest
         $I->assertEquals($expected, $actual);
 
 
-
         $view->start();
         $view->render('macro', 'error_messages');
         $view->finish();
@@ -279,7 +277,6 @@ class CompilerCest
             . '<span class="error-message">The name is invalid</span></div>';
         $actual   = $view->getContent();
         $I->assertEquals($expected, $actual);
-
 
 
         $view->setVar(
@@ -301,7 +298,6 @@ class CompilerCest
         $I->assertEquals($expected, $actual);
 
 
-
         $view->setVar('date', new DateTime());
         $view->start();
         $view->render('macro', 'strtotime');
@@ -314,7 +310,6 @@ class CompilerCest
         $I->assertEquals($content[0], $content[1]);
         $I->assertEquals($content[1], $content[2]);
         $I->assertEquals($content[2], $content[0]);
-
 
 
         $I->safeDeleteFile(
@@ -399,7 +394,7 @@ class CompilerCest
                 return new Volt($view, $this);
             },
         ]);
-        $object      = new \stdClass();
+        $object      = new stdClass();
         $object->foo = "bar";
         $object->baz = "buz";
         $object->pi  = 3.14;
@@ -420,7 +415,6 @@ class CompilerCest
         $expected = substr($view->getContent(), strpos($view->getContent(), 'class'));
 
         $I->assertEquals($expected, $actual);
-
 
 
         $form = new Form;

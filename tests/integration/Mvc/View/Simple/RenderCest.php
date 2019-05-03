@@ -67,6 +67,7 @@ class RenderCest
             $view->getContent()
         );
     }
+
     /**
      * Tests Phalcon\Mvc\View\Simple :: render()
      *

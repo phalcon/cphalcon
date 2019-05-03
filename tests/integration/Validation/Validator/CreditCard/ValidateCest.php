@@ -92,7 +92,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'creditCard'        => 4601587377626131,
@@ -104,7 +103,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -120,12 +118,10 @@ class ValidateCest
         );
 
 
-
         $I->assertEquals(
             $validationMessages['creditCard'],
             $messages->offsetGet(0)->getMessage()
         );
-
 
 
         $messages = $validation->validate(
@@ -141,12 +137,10 @@ class ValidateCest
         );
 
 
-
         $I->assertEquals(
             $validationMessages['creditCard'],
             $messages->offsetGet(0)->getMessage()
         );
-
 
 
         $I->assertEquals(
@@ -223,7 +217,6 @@ class ValidateCest
                 'creditCard',
                 new CreditCard()
             );
-
 
 
             $expected = new Messages(

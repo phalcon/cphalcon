@@ -17,7 +17,8 @@ use IntegrationTester;
 class GetNonPrimaryKeyAttributesCest
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: getNonPrimaryKeyAttributes()
+     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached ::
+     * getNonPrimaryKeyAttributes()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

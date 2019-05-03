@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\Resultset\Simple;
 
-use function cacheModelsDir;
 use IntegrationTester;
+use Phalcon\Helper\Str;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
-use Phalcon\Helper\Str;
+use function cacheModelsDir;
 
 /**
  * Class ConstructCest
@@ -53,8 +53,8 @@ class ConstructCest
         $cache    = $this->getAndSetModelsCacheStream();
         $manager  = $this->getService('modelsManager');
         $filePath = cacheModelsDir()
-                  . 'phstrm-/'
-                  . Str::dirFromFile('test-resultset');
+            . 'phstrm-/'
+            . Str::dirFromFile('test-resultset');
 
         $robots = $manager->executeQuery('SELECT * FROM ' . Robots::class);
 
@@ -84,6 +84,7 @@ class ConstructCest
      * Tests Phalcon\Mvc\Model\Resultset\Simple :: __construct()
      * Work with Simple Resultset by load data from the file cache (incomplete
      * PHQL option).
+     *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -96,8 +97,8 @@ class ConstructCest
         $cache    = $this->getAndSetModelsCacheStream();
         $manager  = $this->getService('modelsManager');
         $filePath = cacheModelsDir()
-                  . 'phstrm-/'
-                  . Str::dirFromFile('test-resultset');
+            . 'phstrm-/'
+            . Str::dirFromFile('test-resultset');
 
         $robots = $manager->executeQuery('SELECT id FROM ' . Robots::class);
 

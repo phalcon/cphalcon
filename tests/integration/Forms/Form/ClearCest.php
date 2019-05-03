@@ -62,10 +62,11 @@ class ClearCest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12165
      * @issue  https://github.com/phalcon/cphalcon/issues/12099
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-01
      *
-     * @param  IntegrationTester $I
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function clearFormElements(IntegrationTester $I)
     {
@@ -198,10 +199,11 @@ class ClearCest
      * Tests clearing the Form Elements and using Form::isValid
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11978
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-01
      *
-     * @param  IntegrationTester $I
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function clearFormElementsAndUsingValidation(IntegrationTester $I)
     {
@@ -299,10 +301,11 @@ class ClearCest
      * Tests clearing the Form Elements by using Form::bind
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11978
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-01
      *
-     * @param  IntegrationTester $I
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function clearFormElementsByUsingFormBind(IntegrationTester $I)
     {

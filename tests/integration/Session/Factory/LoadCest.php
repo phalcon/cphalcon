@@ -57,7 +57,6 @@ class LoadCest
         $I->assertInstanceOf(Files::class, $session);
 
 
-
         $expected = $session->getOptions();
 
         $actual = array_intersect_assoc(

@@ -14,11 +14,12 @@ namespace Phalcon\Test\Integration\Mvc\Application;
 
 use IntegrationTester;
 use Phalcon\Di;
-use Phalcon\DiInterface;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\DiInterface;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;
+use Phalcon\Test\Modules\Backend\Module;
 
 class RegisterModulesCest
 {
@@ -58,9 +59,9 @@ class RegisterModulesCest
                     'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                     'className' => \Phalcon\Test\Modules\Frontend\Module::class,
                 ],
-                'backend' => [
+                'backend'  => [
                     'path'      => dataDir('fixtures/modules/backend/Module.php'),
-                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                    'className' => Module::class,
                 ],
             ]
         );
@@ -129,7 +130,7 @@ class RegisterModulesCest
                         }
                     );
                 },
-                'backend' => function (DiInterface $di) use ($view) {
+                'backend'  => function (DiInterface $di) use ($view) {
                     $di->set(
                         'view',
                         function () use ($view) {

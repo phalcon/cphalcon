@@ -49,7 +49,6 @@ class HandleCest
         );
 
 
-
         $I->assertEquals(
             'this is a test',
             $micro->handle('/test')

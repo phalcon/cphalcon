@@ -19,7 +19,6 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Validation;
 use Phalcon\Validation\Validator\Regex;
 
 /**
@@ -84,7 +83,6 @@ class HasMessagesForCest
         $I->assertFalse($actual);
 
 
-
         $expected = new Messages(
             [
                 new Message(
@@ -101,18 +99,15 @@ class HasMessagesForCest
         $I->assertEquals($expected, $actual);
 
 
-
         $expected = new Messages();
         $actual   = $form->getMessagesFor('address');
 
         $I->assertEquals($expected, $actual);
 
 
-
         $actual = $form->hasMessagesFor('telephone');
 
         $I->assertTrue($actual);
-
 
 
         $actual = $form->hasMessagesFor('address');

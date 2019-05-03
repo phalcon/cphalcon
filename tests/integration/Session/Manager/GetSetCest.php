@@ -39,11 +39,9 @@ class GetSetCest
         $manager->setHandler($files);
 
 
-
         $I->assertTrue(
             $manager->start()
         );
-
 
 
         $expected = 'myval';
@@ -56,9 +54,7 @@ class GetSetCest
         );
 
 
-
         $manager->destroy();
-
 
 
         $I->assertFalse(

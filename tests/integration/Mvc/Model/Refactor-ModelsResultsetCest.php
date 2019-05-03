@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use AppendIterator;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Personas;
@@ -393,7 +394,7 @@ class ModelsResultsetCest
         $this->setDiMysql();
 
         // see http://php.net/manual/en/appenditerator.construct.php
-        $iterator      = new \AppendIterator();
+        $iterator      = new AppendIterator();
         $robots_first  = Robots::find(['limit' => 2]);
         $robots_second = Robots::find(['limit' => 1, 'offset' => 2]);
 

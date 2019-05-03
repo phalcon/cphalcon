@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
-use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Mvc\View\Simple;
+use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**

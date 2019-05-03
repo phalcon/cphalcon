@@ -48,7 +48,6 @@ class SerializeCest
         $collection->init($data);
 
 
-
         $expected = serialize($data);
         $actual   = $collection->serialize();
 

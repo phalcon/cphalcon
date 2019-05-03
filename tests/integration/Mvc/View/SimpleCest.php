@@ -3,7 +3,6 @@
 namespace Phalcon\Test\Integration\Mvc\View;
 
 use IntegrationTester;
-use Phalcon\Di;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Mvc\View\Simple;

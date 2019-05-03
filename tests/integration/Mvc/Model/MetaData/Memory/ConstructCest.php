@@ -12,12 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Memory;
 
-use function dataDir;
 use IntegrationTester;
 use Phalcon\Mvc\Model\MetaData\Memory;
+use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Robotto;
+use function dataDir;
 
 /**
  * Class ConstructCest
@@ -55,7 +56,7 @@ class ConstructCest
     {
         $I->wantToTest('Mvc\Model\MetaData\Memory - __construct()');
 
-        /** @var \Phalcon\Mvc\Model\MetaDataInterface $md */
+        /** @var MetaDataInterface $md */
         $md = $this->container->getShared('modelsMetadata');
 
         $md->reset();
@@ -80,7 +81,7 @@ class ConstructCest
     public function mvcModelMetadataMemoryConstructManual(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\MetaData\Memory - __construct() - manual');
-        /** @var \Phalcon\Mvc\Model\MetaDataInterface $metaData */
+        /** @var MetaDataInterface $metaData */
         $metaData = $this->container->getShared('modelsMetadata');
 
         $robotto = new Robotto();

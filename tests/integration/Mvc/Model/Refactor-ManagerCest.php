@@ -18,8 +18,8 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\AlbumORama\Artists;
 use Phalcon\Test\Models\Customers;
-use Phalcon\Test\Models\Relations\RobotsParts;
 use Phalcon\Test\Models\People;
+use Phalcon\Test\Models\Relations\RobotsParts;
 use Phalcon\Test\Models\Robots;
 
 class ManagerCest
