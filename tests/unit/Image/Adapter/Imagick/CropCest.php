@@ -16,7 +16,7 @@ use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
 use function dataDir;
-use function outputFolder;
+use function outputDir;
 
 class CropCest
 {
@@ -39,10 +39,10 @@ class CropCest
         $image->setResourceLimit(6, 1);
 
         // Crop the image to 200x200 pixels, from the center
-        $image->crop(200, 200)->save(outputFolder('tests/image/imagick/crop.jpg'));
+        $image->crop(200, 200)->save(outputDir('tests/image/imagick/crop.jpg'));
 
         $I->amInPath(
-            outputFolder('tests/image/imagick/')
+            outputDir('tests/image/imagick/')
         );
 
         $I->seeFileFound('crop.jpg');
