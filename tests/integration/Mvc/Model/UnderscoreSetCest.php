@@ -16,7 +16,8 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models;
 use Phalcon\Mvc\Model;
 
-class UnderscoreSetCest {
+class UnderscoreSetCest
+{
     use DiTrait;
 
     public function _before(IntegrationTester $I)
