@@ -67,7 +67,6 @@ class RenderCest
             $view->getContent()
         );
     }
-    
     /**
      * Tests Phalcon\Mvc\View\Simple :: render()
      *
@@ -111,5 +110,6 @@ class RenderCest
 
         $I->safeDeleteFile($file);
         $I->dontSeeFileFound($file);
+
     }
 }
