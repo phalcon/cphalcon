@@ -401,11 +401,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         }
 
                         if typeof referencedModel == "object" {
-                            for key, item in value {
-                                let lowerKey = strtolower(key);
-
-                                referencedModel->writeAttribute(lowerKey, item);
-                            }
+                            referencedModel->assign(value);
 
                             let this->related[lowerProperty] = referencedModel,
                                 this->relatedUnsaved[lowerProperty] = referencedModel,
