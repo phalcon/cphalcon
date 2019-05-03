@@ -200,6 +200,10 @@ if (true !== function_exists('getOptionsModelCacheStream')) {
      */
     function getOptionsModelCacheStream(): array
     {
+        if (!is_dir(cacheDir('models'))) {
+            mkdir(cacheDir('models'));
+        }
+
         return [
             'lifetime' => 3600,
             'cacheDir' => cacheModelsDir(),
