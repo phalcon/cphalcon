@@ -42,8 +42,6 @@ class UnderscoreGetSetCest
             $manager->start()
         );
 
-
-
         $expected      = 'myval';
         $manager->test = $expected;
 
@@ -51,8 +49,6 @@ class UnderscoreGetSetCest
             $expected,
             $manager->test
         );
-
-
 
         $manager->destroy();
 
