@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Apcu;
 
-use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use UnitTester;
 

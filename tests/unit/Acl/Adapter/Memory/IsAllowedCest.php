@@ -14,8 +14,8 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Role;
 use Phalcon\Acl\Component;
+use Phalcon\Acl\Role;
 use Phalcon\Test\Fixtures\Acl\TestRoleComponentAware;
 use UnitTester;
 
@@ -122,7 +122,7 @@ class IsAllowedCest
             Acl::DENY
         );
 
-        $role = new TestRoleComponentAware(1, 'User', 'Admin');
+        $role      = new TestRoleComponentAware(1, 'User', 'Admin');
         $component = new TestRoleComponentAware(2, 'User', 'Admin');
 
         $acl->addRole('Admin');

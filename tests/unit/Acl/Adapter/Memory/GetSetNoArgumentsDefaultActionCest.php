@@ -22,7 +22,8 @@ use UnitTester;
 class GetSetNoArgumentsDefaultActionCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction()
+     * Tests Phalcon\Acl\Adapter\Memory ::
+     * getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction()
      *
      * @param UnitTester $I
      *
@@ -48,7 +49,8 @@ class GetSetNoArgumentsDefaultActionCest
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction() - default
+     * Tests Phalcon\Acl\Adapter\Memory ::
+     * getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction() - default
      *
      * @param UnitTester $I
      *

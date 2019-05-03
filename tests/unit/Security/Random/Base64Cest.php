@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Security\Random;
 
 use Codeception\Example;
+use Phalcon\Security\Random;
 use UnitTester;
 
 class Base64Cest
@@ -31,7 +32,7 @@ class Base64Cest
 
         $len = $example[0];
 
-        $random = new \Phalcon\Security\Random();
+        $random = new Random();
 
         $base64 = $random->base64($len);
 

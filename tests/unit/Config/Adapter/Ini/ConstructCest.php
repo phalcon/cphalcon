@@ -52,16 +52,16 @@ class ConstructCest
             'test'    => 'foo',
             'path'    => 'foo/something/else',
             'section' => [
-                'test'   => 'foo',
-                'path'   => 'foo/another-thing/somewhere',
-                'parent' => [
+                'test'      => 'foo',
+                'path'      => 'foo/another-thing/somewhere',
+                'parent'    => [
                     'property'  => 'foo',
                     'property2' => 'foohello',
                 ],
                 'testArray' => [
                     'value1',
-                    'value2'
-                ]
+                    'value2',
+                ],
             ],
 
         ];

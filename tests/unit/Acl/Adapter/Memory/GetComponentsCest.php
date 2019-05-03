@@ -42,7 +42,6 @@ class GetComponentsCest
         $acl->addComponent($component2, ['index']);
 
 
-
         $expected = [$component1, $component2];
         $actual   = $acl->getComponents();
 

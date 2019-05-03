@@ -132,13 +132,13 @@ class LoaderCest
         $loader->register();
 
         $I->assertInstanceOf(
-            \Sqlite::class,
+            Sqlite::class,
             new Sqlite()
         );
 
         $I->assertInstanceOf(
-            \Integer::class,
-            new \Integer()
+            Integer::class,
+            new Integer()
         );
 
         $loader->unregister();

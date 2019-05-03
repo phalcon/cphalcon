@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Stream;
 
-use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\Exception;
 use UnitTester;
 use function outputDir;

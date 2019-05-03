@@ -12,9 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Memory;
 
-use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Cache\Adapter\AdapterInterface;
-
+use Phalcon\Cache\Adapter\Memory;
 use UnitTester;
 
 /**

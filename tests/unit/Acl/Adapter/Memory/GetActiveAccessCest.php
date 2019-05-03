@@ -30,7 +30,7 @@ class GetActiveAccessCest
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveAccess() - default');
 
-        $acl    = new Memory();
+        $acl = new Memory();
 
         $actual = $acl->getActiveAccess();
 
@@ -65,11 +65,9 @@ class GetActiveAccessCest
         $acl->allow('Guests', 'Login', '*');
 
 
-
         $actual = $acl->isAllowed('Guests', 'Login', 'index');
 
         $I->assertTrue($actual);
-
 
 
         $expected = 'index';
