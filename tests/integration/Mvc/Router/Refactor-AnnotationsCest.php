@@ -16,7 +16,6 @@ use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Controllers\NamespacedAnnotationController;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function is_object;
 
 class AnnotationsCest
 {
@@ -98,13 +97,13 @@ class AnnotationsCest
             $I->assertCount($expected, $actual);
 
             $route = $router->getRouteByName("save-robot");
-            $I->assertTrue(is_object($route));
+            $I->assertInternalType('object', $route);
 
             $class = Route::class;
             $I->assertInstanceOf($class, $route);
 
             $route = $router->getRouteByName("save-product");
-            $I->assertTrue(is_object($route));
+            $I->assertInternalType('object', $route);
 
             $class = Route::class;
             $I->assertInstanceOf($class, $route);

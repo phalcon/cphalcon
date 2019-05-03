@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Mongo;
 
 use UnitTester;
 
-/**
- * Class StopCest
- */
 class StopCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Mongo :: stop()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class StopCest
     public function cacheBackendMongoStop(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Mongo - stop()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Helper\Arr;
 use Phalcon\Helper\Arr;
 use UnitTester;
 
-/**
- * Class ChunkCest
- */
 class ChunkCest
 {
     /**
      * Tests Phalcon\Helper\Arr :: chunk()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
@@ -32,7 +27,7 @@ class ChunkCest
     {
         $I->wantToTest('Helper\Arr - chunk()');
 
-        $source   = [
+        $source = [
             'k1' => 1,
             'k2' => 2,
             'k3' => 3,
@@ -46,14 +41,15 @@ class ChunkCest
             [3, 4],
             [5, 6],
         ];
-        $actual   = Arr::chunk($source, 2);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            Arr::chunk($source, 2)
+        );
     }
 
     /**
      * Tests Phalcon\Helper\Arr :: chunk() - preserve
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
@@ -62,7 +58,7 @@ class ChunkCest
     {
         $I->wantToTest('Helper\Arr - chunk() - preserve');
 
-        $source   = [
+        $source = [
             'k1' => 1,
             'k2' => 2,
             'k3' => 3,
@@ -85,7 +81,10 @@ class ChunkCest
                 'k6' => 6,
             ],
         ];
-        $actual   = Arr::chunk($source, 2, true);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            Arr::chunk($source, 2, true)
+        );
     }
 }

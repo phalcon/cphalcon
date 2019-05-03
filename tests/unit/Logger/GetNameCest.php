@@ -16,16 +16,12 @@ use Phalcon\Logger;
 use UnitTester;
 
 /**
- * Class GetNameCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class GetNameCest
 {
     /**
      * Tests Phalcon\Logger :: getName()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

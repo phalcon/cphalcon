@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class DispatchCest
- */
 class DispatchCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: dispatch()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class DispatchCest
     public function mvcDispatcherDispatch(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - dispatch()');
+
         $I->skipTest('Need implementation');
     }
 }

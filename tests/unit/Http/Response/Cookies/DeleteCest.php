@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response\Cookies;
 
 use UnitTester;
 
-/**
- * Class DeleteCest
- */
 class DeleteCest
 {
     /**
      * Tests Phalcon\Http\Response\Cookies :: delete()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class DeleteCest
     public function httpResponseCookiesDelete(UnitTester $I)
     {
         $I->wantToTest('Http\Response\Cookies - delete()');
+
         $I->skipTest('Need implementation');
     }
 }

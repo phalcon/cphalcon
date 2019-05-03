@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 
 use UnitTester;
 
-/**
- * Class SetLastKeyCest
- */
 class SetLastKeyCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: setLastKey()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetLastKeyCest
     public function cacheBackendLibmemcachedSetLastKey(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Libmemcached - setLastKey()');
+
         $I->skipTest('Need implementation');
     }
 }

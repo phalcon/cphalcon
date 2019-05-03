@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class HasFilesCest
- */
 class HasFilesCest
 {
     /**
      * Tests Phalcon\Http\Request :: hasFiles()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class HasFilesCest
     public function httpRequestHasFiles(UnitTester $I)
     {
         $I->wantToTest('Http\Request - hasFiles()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Assets\Inline\Js;
 use Phalcon\Assets\Inline\Js;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**

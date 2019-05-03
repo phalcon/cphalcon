@@ -16,17 +16,12 @@ use Phalcon\Assets\Inline\Js;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class SetAttributesCest
- */
 class SetAttributesCest
 {
     use AssetsTrait;
 
     /**
      * Tests Phalcon\Assets\Inline :: setAttributes()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

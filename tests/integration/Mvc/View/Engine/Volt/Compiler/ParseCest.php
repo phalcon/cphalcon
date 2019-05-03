@@ -42,8 +42,9 @@ class ParseCest
         $volt   = new Compiler();
         $actual = $volt->parse($param);
 
-        $I->assertTrue(
-            is_array($actual)
+        $I->assertInternalType(
+            'array',
+            $actual
         );
 
         $I->assertCount($count, $actual);

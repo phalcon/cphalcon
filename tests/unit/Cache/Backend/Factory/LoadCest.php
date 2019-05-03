@@ -18,9 +18,6 @@ use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
-/**
- * Class LoadCest
- */
 class LoadCest
 {
     use FactoryTrait;

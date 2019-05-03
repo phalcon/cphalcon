@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Adapter\Memory;
 
 use UnitTester;
 
-/**
- * Class GetMethodCest
- */
 class GetMethodCest
 {
     /**
      * Tests Phalcon\Annotations\Adapter\Memory :: getMethod()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetMethodCest
     public function annotationsAdapterMemoryGetMethod(UnitTester $I)
     {
         $I->wantToTest('Annotations\Adapter\Memory - getMethod()');
+
         $I->skipTest('Need implementation');
     }
 }

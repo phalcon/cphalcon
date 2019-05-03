@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response\Headers;
 
 use UnitTester;
 
-/**
- * Class SetStateCest
- */
 class SetStateCest
 {
     /**
      * Tests Phalcon\Http\Response\Headers :: __set_state()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetStateCest
     public function httpResponseHeadersSetState(UnitTester $I)
     {
         $I->wantToTest('Http\Response\Headers - __set_state()');
+
         $I->skipTest('Need implementation');
     }
 }

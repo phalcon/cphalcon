@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class CountCest
- */
 class CountCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: count()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class CountCest
     public function mvcCollectionCount(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - count()');
+
         $I->skipTest('Need implementation');
     }
 }

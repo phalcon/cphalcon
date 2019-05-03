@@ -16,17 +16,12 @@ use Phalcon\Cache\Exception;
 use Phalcon\Test\Fixtures\Traits\Cache\FileTrait;
 use UnitTester;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     use FileTrait;
 
     /**
      * Tests Phalcon\Cache\Backend\File :: get()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

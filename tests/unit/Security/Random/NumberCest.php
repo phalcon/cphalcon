@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Security\Random;
 
 use UnitTester;
 
-/**
- * Class NumberCest
- */
 class NumberCest
 {
     /**
      * Tests Phalcon\Security\Random :: number()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

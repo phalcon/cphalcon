@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Escaper;
 use Phalcon\Escaper;
 use UnitTester;
 
-/**
- * Class SetEncodingCest
- */
 class SetEncodingCest
 {
     /**
      * Tests Phalcon\Escaper :: setEncoding()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-16
@@ -31,11 +26,14 @@ class SetEncodingCest
     public function escaperSetEncoding(UnitTester $I)
     {
         $I->wantToTest("Escaper - setEncoding()");
+
         $escaper = new Escaper();
+
         $escaper->setEncoding('UTF-8');
 
-        $expected = 'UTF-8';
-        $actual   = $escaper->getEncoding();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'UTF-8',
+            $escaper->getEncoding()
+        );
     }
 }

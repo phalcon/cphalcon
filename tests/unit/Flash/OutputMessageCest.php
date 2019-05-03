@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash;
 
 use UnitTester;
 
-/**
- * Class OutputMessageCest
- */
 class OutputMessageCest
 {
     /**
      * Tests Phalcon\Flash :: outputMessage()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class OutputMessageCest
     public function flashOutputMessage(UnitTester $I)
     {
         $I->wantToTest('Flash - outputMessage()');
+
         $I->skipTest('Need implementation');
     }
 }

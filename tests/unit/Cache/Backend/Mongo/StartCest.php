@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Mongo;
 
 use UnitTester;
 
-/**
- * Class StartCest
- */
 class StartCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Mongo :: start()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class StartCest
     public function cacheBackendMongoStart(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Mongo - start()');
+
         $I->skipTest('Need implementation');
     }
 }

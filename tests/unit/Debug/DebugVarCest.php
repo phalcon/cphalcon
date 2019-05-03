@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Debug;
 
 use UnitTester;
 
-/**
- * Class DebugVarCest
- */
 class DebugVarCest
 {
     /**
      * Tests Phalcon\Debug :: debugVar()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class DebugVarCest
     public function debugDebugVar(UnitTester $I)
     {
         $I->wantToTest('Debug - debugVar()');
+
         $I->skipTest('Need implementation');
     }
 }

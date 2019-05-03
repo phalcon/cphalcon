@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Acl\Role;
 use Phalcon\Acl\Role;
 use UnitTester;
 
-/**
- * Class GetNameCest
- */
 class GetNameCest
 {
     /**
      * Tests Phalcon\Acl\Role :: getName()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

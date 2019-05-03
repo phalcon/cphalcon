@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 use Phalcon\Assets\Manager;
 use UnitTester;
 
-/**
- * Class ExistsCest
- */
 class ExistsCest
 {
     /**

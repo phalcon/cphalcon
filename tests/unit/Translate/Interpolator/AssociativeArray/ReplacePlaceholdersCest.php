@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Translate\Interpolator\AssociativeArray;
 use Phalcon\Translate\Interpolator\AssociativeArray;
 use UnitTester;
 
-/**
- * Class ReplacePlaceholdersCest
- */
 class ReplacePlaceholdersCest
 {
     /**

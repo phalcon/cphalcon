@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Msgpack;
 
 use UnitTester;
 
-/**
- * Class StopCest
- */
 class StopCest
 {
     /**
      * Tests Phalcon\Cache\Frontend\Msgpack :: stop()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class StopCest
     public function cacheFrontendMsgpackStop(UnitTester $I)
     {
         $I->wantToTest('Cache\Frontend\Msgpack - stop()');
+
         $I->skipTest('Need implementation');
     }
 }

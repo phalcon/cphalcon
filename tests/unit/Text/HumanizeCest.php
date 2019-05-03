@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Text;
 use Phalcon\Text;
 use UnitTester;
 
-/**
- * Class HumanizeCest
- */
 class HumanizeCest
 {
     /**
      * Tests Phalcon\Text :: humanize()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

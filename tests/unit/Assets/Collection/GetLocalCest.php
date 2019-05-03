@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
-/**
- * Class GetLocalCest
- */
 class GetLocalCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: getLocal()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetLocalCest
     public function assetsCollectionGetLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - getLocal()');
+
         $I->skipTest('Need implementation');
     }
 }

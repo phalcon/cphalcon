@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Application;
 
 use UnitTester;
 
-/**
- * Class RegisterModulesCest
- */
 class RegisterModulesCest
 {
     /**
      * Tests Phalcon\Mvc\Application :: registerModules()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class RegisterModulesCest
     public function mvcApplicationRegisterModules(UnitTester $I)
     {
         $I->wantToTest('Mvc\Application - registerModules()');
+
         $I->skipTest('Need implementation');
     }
 }

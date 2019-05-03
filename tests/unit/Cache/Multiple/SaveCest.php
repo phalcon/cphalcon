@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Multiple;
 
 use UnitTester;
 
-/**
- * Class SaveCest
- */
 class SaveCest
 {
     /**
      * Tests Phalcon\Cache\Multiple :: save()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SaveCest
     public function cacheMultipleSave(UnitTester $I)
     {
         $I->wantToTest('Cache\Multiple - save()');
+
         $I->skipTest('Need implementation');
     }
 }

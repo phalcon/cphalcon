@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ConstructCest
     public function cacheBackendLibmemcachedConstruct(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Libmemcached - __construct()');
+
         $I->skipTest('Need implementation');
     }
 }

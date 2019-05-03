@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Apcu;
 
 use UnitTester;
 
-/**
- * Class DecrementCest
- */
 class DecrementCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Apcu :: decrement()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class DecrementCest
     public function cacheBackendApcuDecrement(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Apcu - decrement()');
+
         $I->skipTest('Need implementation');
     }
 }

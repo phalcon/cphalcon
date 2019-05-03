@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -15,15 +14,10 @@ namespace Phalcon\Test\Unit\Security;
 
 use UnitTester;
 
-/**
- * Class HashCest
- */
 class HashCest
 {
     /**
      * Tests Phalcon\Security :: hash()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,5 +25,7 @@ class HashCest
     public function securityHash(UnitTester $I)
     {
         $I->wantToTest('Security - hash()');
+
+        $I->skipTest('Need implementation');
     }
 }

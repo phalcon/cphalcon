@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
-/**
- * Class ResetCest
- */
 class ResetCest
 {
     /**
      * Tests Phalcon\Di :: reset()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ResetCest
     public function diReset(UnitTester $I)
     {
         $I->wantToTest('Di - reset()');
+
         $I->skipTest('Need implementation');
     }
 }

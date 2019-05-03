@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Data;
 
 use UnitTester;
 
-/**
- * Class StartCest
- */
 class StartCest
 {
     /**
      * Tests Phalcon\Cache\Frontend\Data :: start()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class StartCest
     public function cacheFrontendDataStart(UnitTester $I)
     {
         $I->wantToTest('Cache\Frontend\Data - start()');
+
         $I->skipTest('Need implementation');
     }
 }

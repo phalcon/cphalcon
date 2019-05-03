@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Redis;
 
 use UnitTester;
 
-/**
- * Class SetFrontendCest
- */
 class SetFrontendCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Redis :: setFrontend()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetFrontendCest
     public function cacheBackendRedisSetFrontend(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Redis - setFrontend()');
+
         $I->skipTest('Need implementation');
     }
 }

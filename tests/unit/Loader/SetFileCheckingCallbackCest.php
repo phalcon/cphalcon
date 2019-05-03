@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Loader;
 
 use UnitTester;
 
-/**
- * Class SetFileCheckingCallbackCest
- */
 class SetFileCheckingCallbackCest
 {
     /**
      * Tests Phalcon\Loader :: setFileCheckingCallback()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetFileCheckingCallbackCest
     public function loaderSetFileCheckingCallback(UnitTester $I)
     {
         $I->wantToTest('Loader - setFileCheckingCallback()');
+
         $I->skipTest('Need implementation');
     }
 }

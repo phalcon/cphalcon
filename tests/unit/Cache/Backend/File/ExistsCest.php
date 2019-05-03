@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\File;
 
 use UnitTester;
 
-/**
- * Class ExistsCest
- */
 class ExistsCest
 {
     /**
      * Tests Phalcon\Cache\Backend\File :: exists()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ExistsCest
     public function cacheBackendFileExists(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\File - exists()');
+
         $I->skipTest('Need implementation');
     }
 }

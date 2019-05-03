@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class SetModelBinderCest
- */
 class SetModelBinderCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: setModelBinder()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetModelBinderCest
     public function mvcDispatcherSetModelBinder(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - setModelBinder()');
+
         $I->skipTest('Need implementation');
     }
 }

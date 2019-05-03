@@ -16,15 +16,10 @@ use Codeception\Example;
 use Phalcon\Helper\Str;
 use UnitTester;
 
-/**
- * Class RandomCest
- */
 class RandomCest
 {
     /**
      * Tests Phalcon\Helper\Str :: random() - constants
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
@@ -43,8 +38,6 @@ class RandomCest
 
     /**
      * Tests Phalcon\Helper\Str :: random() - alnum
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
@@ -79,8 +72,6 @@ class RandomCest
     /**
      * Tests Phalcon\Helper\Str :: random() - alpha
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
@@ -113,8 +104,6 @@ class RandomCest
 
     /**
      * Tests Phalcon\Helper\Str :: random() - hexdec
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
@@ -149,8 +138,6 @@ class RandomCest
     /**
      * Tests Phalcon\Helper\Str :: random() - numeric
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
@@ -184,8 +171,6 @@ class RandomCest
     /**
      * Tests Phalcon\Helper\Str :: random() - non zero
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
@@ -218,8 +203,6 @@ class RandomCest
 
     /**
      * Tests Phalcon\Helper\Str :: random() - distinct type
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06

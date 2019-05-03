@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Debug\Dump;
 use Phalcon\Debug\Dump;
 use UnitTester;
 
-/**
- * Class GetSetDetailedCest
- */
 class GetSetDetailedCest
 {
     /**
      * Tests Phalcon\Debug\Dump :: getDetailed()/setDetailed()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

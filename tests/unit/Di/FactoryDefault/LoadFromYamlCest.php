@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
-/**
- * Class LoadFromYamlCest
- */
 class LoadFromYamlCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault :: loadFromYaml()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultLoadFromYaml(UnitTester $I)
+    public function diFactoryDefaultLoadFromYaml(UnitTester $I)
     {
         $I->wantToTest('Di\FactoryDefault - loadFromYaml()');
+
         $I->skipTest('Need implementation');
     }
 }

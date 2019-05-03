@@ -16,8 +16,6 @@ use Phalcon\Test\Fixtures\Traits\LoggerTrait;
 use UnitTester;
 
 /**
- * Class NoticeCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class NoticeCest
@@ -26,8 +24,6 @@ class NoticeCest
 
     /**
      * Tests Phalcon\Logger :: notice()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

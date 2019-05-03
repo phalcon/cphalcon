@@ -13,23 +13,52 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class RenderCest
- */
 class RenderCest
 {
-    /**
-     * Tests Phalcon\Mvc\View\Simple :: render()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function mvcViewSimpleRender(IntegrationTester $I)
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View\Simple - render()');
-        $I->skipTest('Need implementation');
+        $this->newDi();
+        $this->setDiViewSimple();
+    }
+
+    /**
+     * Tests render
+     *
+     * @author Kamil Skowron <git@hedonsoftware.com>
+     * @since  2014-05-28
+     */
+    public function testRender(IntegrationTester $I)
+    {
+        $view = $this->container->get('viewSimple');
+
+        $I->assertEquals(
+            'here',
+            $view->render('currentrender/other')
+        );
+    }
+
+    /**
+     * Tests render
+     *
+     * @author Kamil Skowron <git@hedonsoftware.com>
+     * @since  2014-05-28
+     */
+    public function testRenderStandard(IntegrationTester $I)
+    {
+        $view = $this->container->get('viewSimple');
+
+        $I->assertEquals(
+            'We are here',
+            $view->render('simple/index')
+        );
+
+        $I->assertEquals(
+            'We are here',
+            $view->getContent()
+        );
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class ForwardCest
- */
 class ForwardCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: forward()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ForwardCest
     public function mvcDispatcherForward(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - forward()');
+
         $I->skipTest('Need implementation');
     }
 }

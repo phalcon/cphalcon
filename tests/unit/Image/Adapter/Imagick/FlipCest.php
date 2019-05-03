@@ -19,17 +19,12 @@ use UnitTester;
 use function dataFolder;
 use function outputFolder;
 
-/**
- * Class FlipCest
- */
 class FlipCest
 {
     use ImagickTrait;
 
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: flip()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19

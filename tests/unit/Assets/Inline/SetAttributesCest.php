@@ -16,9 +16,6 @@ use Phalcon\Assets\Inline;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class SetAttributesCest
- */
 class SetAttributesCest
 {
     use AssetsTrait;

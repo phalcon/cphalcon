@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Helper\Str;
 use UnitTester;
 
-/**
- * Class CamelizeCest
- */
 class CamelizeCest
 {
     /**
@@ -26,25 +23,23 @@ class CamelizeCest
      *
      * @dataProvider getSources
      *
-     * @param UnitTester $I
-     * @param Example    $item
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-04-06
      */
-    public function helperStrCamelize(UnitTester $I, Example $item)
+    public function helperStrCamelize(UnitTester $I, Example $example)
     {
         $I->wantToTest('Helper\Str - camelize()');
-        $value     = $item[0];
-        $expected  = $item[1];
-        $delimiter = $item[2];
-        $actual    = Str::camelize($value, $delimiter);
-        $I->assertEquals($expected, $actual);
+
+        $value     = $example[0];
+        $expected  = $example[1];
+        $delimiter = $example[2];
+
+        $I->assertEquals(
+            $expected,
+            Str::camelize($value, $delimiter)
+        );
     }
 
-    /**
-     * @return array
-     */
     private function getSources(): array
     {
         return [

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Events\Manager;
 
 use UnitTester;
 
-/**
- * Class AttachCest
- */
 class AttachCest
 {
     /**
      * Tests Phalcon\Events\Manager :: attach()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class AttachCest
     public function eventsManagerAttach(UnitTester $I)
     {
         $I->wantToTest('Events\Manager - attach()');
+
         $I->skipTest('Need implementation');
     }
 }

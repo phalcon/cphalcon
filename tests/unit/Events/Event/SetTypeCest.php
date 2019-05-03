@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Events\Event;
 
 use UnitTester;
 
-/**
- * Class SetTypeCest
- */
 class SetTypeCest
 {
     /**
      * Tests Phalcon\Events\Event :: setType()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetTypeCest
     public function eventsEventSetType(UnitTester $I)
     {
         $I->wantToTest('Events\Event - setType()');
+
         $I->skipTest('Need implementation');
     }
 }

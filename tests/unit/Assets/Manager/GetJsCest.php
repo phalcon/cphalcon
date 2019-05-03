@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use UnitTester;
 
-/**
- * Class GetJsCest
- */
 class GetJsCest
 {
     /**
      * Tests Phalcon\Assets\Manager :: getJs()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetJsCest
     public function assetsManagerGetJs(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - getJs()');
+
         $I->skipTest('Need implementation');
     }
 }

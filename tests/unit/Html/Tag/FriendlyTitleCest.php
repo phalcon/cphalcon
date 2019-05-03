@@ -62,14 +62,15 @@ class FriendlyTitleCest
 
         $tag = new Tag();
 
-        $text     = 'This is a Test';
-        $options  = [
+        $text    = 'This is a Test';
+        $options = [
             'separator' => '_',
         ];
 
-        $expected = 'this_is_a_test';
-        $actual   = $tag->friendlyTitle($text, $options);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'this_is_a_test',
+            $tag->friendlyTitle($text, $options)
+        );
     }
 
     /**
@@ -86,14 +87,15 @@ class FriendlyTitleCest
 
         $tag = new Tag();
 
-        $text     = 'This is a Test';
-        $options  = [
+        $text    = 'This is a Test';
+        $options = [
             'lowercase' => false,
         ];
 
-        $expected = 'This-is-a-Test';
-        $actual   = $tag->friendlyTitle($text, $options);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'This-is-a-Test',
+            $tag->friendlyTitle($text, $options)
+        );
     }
 
     /**

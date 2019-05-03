@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Adapter\Apcu;
 
 use UnitTester;
 
-/**
- * Class SetReaderCest
- */
 class SetReaderCest
 {
     /**
      * Tests Phalcon\Annotations\Adapter\Apcu :: setReader()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetReaderCest
     public function annotationsAdapterApcuSetReader(UnitTester $I)
     {
         $I->wantToTest('Annotations\Adapter\Apcu - setReader()');
+
         $I->skipTest('Need implementation');
     }
 }

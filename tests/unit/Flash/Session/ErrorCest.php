@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash\Session;
 
 use UnitTester;
 
-/**
- * Class ErrorCest
- */
 class ErrorCest
 {
     /**
      * Tests Phalcon\Flash\Session :: error()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ErrorCest
     public function flashSessionError(UnitTester $I)
     {
         $I->wantToTest('Flash\Session - error()');
+
         $I->skipTest('Need implementation');
     }
 }

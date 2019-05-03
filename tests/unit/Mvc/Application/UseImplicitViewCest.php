@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Application;
 
 use UnitTester;
 
-/**
- * Class UseImplicitViewCest
- */
 class UseImplicitViewCest
 {
     /**
      * Tests Phalcon\Mvc\Application :: useImplicitView()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class UseImplicitViewCest
     public function mvcApplicationUseImplicitView(UnitTester $I)
     {
         $I->wantToTest('Mvc\Application - useImplicitView()');
+
         $I->skipTest('Need implementation');
     }
 }

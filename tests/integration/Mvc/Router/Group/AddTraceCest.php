@@ -17,17 +17,12 @@ use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Group;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class AddTraceCest
- */
 class AddTraceCest
 {
     use RouterTrait;
 
     /**
      * Tests Phalcon\Mvc\Router\Group :: addTrace()
-     *
-     * @param IntegrationTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17

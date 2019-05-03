@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class AppendMessageCest
- */
 class AppendMessageCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: appendMessage()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class AppendMessageCest
     public function mvcCollectionAppendMessage(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - appendMessage()');
+
         $I->skipTest('Need implementation');
     }
 }

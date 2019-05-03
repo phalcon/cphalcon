@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Igbinary;
 
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Cache\Frontend\Igbinary :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ConstructCest
     public function cacheFrontendIgbinaryConstruct(UnitTester $I)
     {
         $I->wantToTest('Cache\Frontend\Igbinary - __construct()');
+
         $I->skipTest('Need implementation');
     }
 }

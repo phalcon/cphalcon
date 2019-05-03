@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class GetPreviousControllerNameCest
- */
 class GetPreviousControllerNameCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getPreviousControllerName()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetPreviousControllerNameCest
     public function mvcDispatcherGetPreviousControllerName(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - getPreviousControllerName()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Multiple;
 
 use UnitTester;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     /**
      * Tests Phalcon\Cache\Multiple :: get()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetCest
     public function cacheMultipleGet(UnitTester $I)
     {
         $I->wantToTest('Cache\Multiple - get()');
+
         $I->skipTest('Need implementation');
     }
 }

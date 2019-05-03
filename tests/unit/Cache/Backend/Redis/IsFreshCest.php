@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Redis;
 
 use UnitTester;
 
-/**
- * Class IsFreshCest
- */
 class IsFreshCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Redis :: isFresh()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsFreshCest
     public function cacheBackendRedisIsFresh(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Redis - isFresh()');
+
         $I->skipTest('Need implementation');
     }
 }

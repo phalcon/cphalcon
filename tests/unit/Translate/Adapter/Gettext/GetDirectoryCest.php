@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
 use UnitTester;
 
-/**
- * Class GetDirectoryCest
- */
 class GetDirectoryCest
 {
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: getDirectory()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetDirectoryCest
     public function translateAdapterGettextGetDirectory(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Gettext - getDirectory()');
+
         $I->skipTest('Need implementation');
     }
 }

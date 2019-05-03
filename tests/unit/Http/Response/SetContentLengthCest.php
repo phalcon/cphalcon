@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
 
-/**
- * Class SetContentLengthCest
- */
 class SetContentLengthCest
 {
     /**
      * Tests Phalcon\Http\Response :: setContentLength()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetContentLengthCest
     public function httpResponseSetContentLength(UnitTester $I)
     {
         $I->wantToTest('Http\Response - setContentLength()');
+
         $I->skipTest('Need implementation');
     }
 }

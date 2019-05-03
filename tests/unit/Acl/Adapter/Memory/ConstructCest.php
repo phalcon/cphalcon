@@ -16,9 +16,6 @@ use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
@@ -37,8 +34,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

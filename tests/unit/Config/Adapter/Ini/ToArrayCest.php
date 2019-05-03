@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Config\Adapter\Ini;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class ToArrayCest
- */
 class ToArrayCest
 {
     use ConfigTrait;

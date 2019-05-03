@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class GetAcceptableContentCest
- */
 class GetAcceptableContentCest
 {
     /**
      * Tests Phalcon\Http\Request :: getAcceptableContent()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetAcceptableContentCest
     public function httpRequestGetAcceptableContent(UnitTester $I)
     {
         $I->wantToTest('Http\Request - getAcceptableContent()');
+
         $I->skipTest('Need implementation');
     }
 }

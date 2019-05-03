@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Response;
 use Phalcon\Http\Response;
 use UnitTester;
 
-/**
- * Class SetNotModifiedCest
- */
 class SetNotModifiedCest
 {
     /**
      * Tests Phalcon\Http\Response :: setNotModified()
-     *
-     * @param UnitTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17

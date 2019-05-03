@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class GetMethodCest
- */
 class GetMethodCest
 {
     /**
      * Tests Phalcon\Http\Request :: getMethod()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetMethodCest
     public function httpRequestGetMethod(UnitTester $I)
     {
         $I->wantToTest('Http\Request - getMethod()');
+
         $I->skipTest('Need implementation');
     }
 }

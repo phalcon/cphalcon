@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Debug;
 use Phalcon\Debug;
 use UnitTester;
 
-/**
- * Class SetUriCest
- */
 class SetUriCest
 {
     /**
      * Tests Phalcon\Debug :: setUri()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,8 +26,10 @@ class SetUriCest
     public function debugSetUri(UnitTester $I)
     {
         $I->wantToTest('Debug - setUri()');
+
         $debug = new Debug();
-        $uri   = 'https://something.com/test/';
+
+        $uri = 'https://something.com/test/';
 
         $expected = sprintf(
             "<link rel='stylesheet' type='text/css' " .
@@ -45,7 +42,10 @@ class SetUriCest
         );
 
         $debug->setUri($uri);
-        $actual = $debug->getCssSources();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $debug->getCssSources()
+        );
     }
 }

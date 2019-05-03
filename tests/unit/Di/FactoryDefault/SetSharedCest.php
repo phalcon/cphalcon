@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
-/**
- * Class SetSharedCest
- */
 class SetSharedCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault :: setShared()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultSetShared(UnitTester $I)
+    public function diFactoryDefaultSetShared(UnitTester $I)
     {
         $I->wantToTest('Di\FactoryDefault - setShared()');
+
         $I->skipTest('Need implementation');
     }
 }

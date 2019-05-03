@@ -17,15 +17,10 @@ use Phalcon\Acl\Exception;
 use Phalcon\Acl\Role;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Acl\Role :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

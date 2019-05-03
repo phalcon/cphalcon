@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class CreateCest
- */
 class CreateCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: create()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class CreateCest
     public function mvcCollectionCreate(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - create()');
+
         $I->skipTest('Need implementation');
     }
 }

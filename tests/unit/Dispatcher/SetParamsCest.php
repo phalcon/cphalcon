@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class SetParamsCest
- */
 class SetParamsCest
 {
     /**
      * Tests Phalcon\Dispatcher :: setParams()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetParamsCest
     public function dispatcherSetParams(UnitTester $I)
     {
         $I->wantToTest('Dispatcher - setParams()');
+
         $I->skipTest('Need implementation');
     }
 }

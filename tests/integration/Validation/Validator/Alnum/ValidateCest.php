@@ -16,15 +16,10 @@ use IntegrationTester;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Alnum;
 
-/**
- * Class ValidateCest
- */
 class ValidateCest
 {
     /**
      * Tests Phalcon\Validation\Validator\Alnum :: validate() - single field
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -66,8 +61,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Alnum :: validate() - multiple field
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -94,6 +87,8 @@ class ValidateCest
             )
         );
 
+
+
         $messages = $validation->validate(
             [
                 'name' => 'SomeValue123',
@@ -105,6 +100,8 @@ class ValidateCest
             0,
             $messages->count()
         );
+
+
 
         $messages = $validation->validate(
             [
@@ -122,6 +119,8 @@ class ValidateCest
             $validationMessages['name'],
             $messages->offsetGet(0)->getMessage()
         );
+
+
 
         $messages = $validation->validate(
             [

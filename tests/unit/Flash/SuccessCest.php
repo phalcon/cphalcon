@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash;
 
 use UnitTester;
 
-/**
- * Class SuccessCest
- */
 class SuccessCest
 {
     /**
      * Tests Phalcon\Flash :: success()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SuccessCest
     public function flashSuccess(UnitTester $I)
     {
         $I->wantToTest('Flash - success()');
+
         $I->skipTest('Need implementation');
     }
 }

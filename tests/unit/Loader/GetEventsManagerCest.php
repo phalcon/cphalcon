@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Loader;
 
 use UnitTester;
 
-/**
- * Class GetEventsManagerCest
- */
 class GetEventsManagerCest
 {
     /**
      * Tests Phalcon\Loader :: getEventsManager()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetEventsManagerCest
     public function loaderGetEventsManager(UnitTester $I)
     {
         $I->wantToTest('Loader - getEventsManager()');
+
         $I->skipTest('Need implementation');
     }
 }

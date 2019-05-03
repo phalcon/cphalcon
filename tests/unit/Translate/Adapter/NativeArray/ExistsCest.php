@@ -16,9 +16,6 @@ use Phalcon\Test\Fixtures\Traits\TranslateTrait;
 use Phalcon\Translate\Adapter\NativeArray;
 use UnitTester;
 
-/**
- * Class ExistsCest
- */
 class ExistsCest
 {
     use TranslateTrait;
@@ -26,12 +23,10 @@ class ExistsCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: exists()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function translateAdapterNativearrayExists(UnitTester $I)
+    public function translateAdapterNativeArrayExists(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - exists()');
         $language   = $this->getArrayConfig()['en'];

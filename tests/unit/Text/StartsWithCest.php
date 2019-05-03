@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Text;
 use Phalcon\Text;
 use UnitTester;
 
-/**
- * Class StartsWithCest
- */
 class StartsWithCest
 {
     /**
      * Tests Phalcon\Text :: startsWith()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

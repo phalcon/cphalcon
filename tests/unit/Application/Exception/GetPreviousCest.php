@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Application\Exception;
 
 use UnitTester;
 
-/**
- * Class GetPreviousCest
- */
 class GetPreviousCest
 {
     /**
      * Tests Phalcon\Application\Exception :: getPrevious()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetPreviousCest
     public function applicationExceptionGetPrevious(UnitTester $I)
     {
         $I->wantToTest('Application\Exception - getPrevious()');
+
         $I->skipTest('Need implementation');
     }
 }

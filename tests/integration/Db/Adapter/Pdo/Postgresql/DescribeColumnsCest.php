@@ -17,9 +17,6 @@ use Phalcon\Db\Column;
 use Phalcon\Test\Fixtures\Traits\Db\PostgresqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class DescribeColumnsCest
- */
 class DescribeColumnsCest
 {
     use DiTrait;
@@ -27,8 +24,6 @@ class DescribeColumnsCest
 
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Postgresql :: describeColumns()
-     *
-     * @param IntegrationTester $I
      *
      * @issue  https://github.com/phalcon/phalcon-devtools/issues/853
      *

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\File;
 
 use UnitTester;
 
-/**
- * Class GetLifetimeCest
- */
 class GetLifetimeCest
 {
     /**
      * Tests Phalcon\Cache\Backend\File :: getLifetime()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetLifetimeCest
     public function cacheBackendFileGetLifetime(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\File - getLifetime()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class GetMessagesCest
- */
 class GetMessagesCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: getMessages()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetMessagesCest
     public function mvcCollectionGetMessages(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - getMessages()');
+
         $I->skipTest('Need implementation');
     }
 }

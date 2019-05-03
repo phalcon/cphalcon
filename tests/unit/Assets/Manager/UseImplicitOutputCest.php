@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use UnitTester;
 
-/**
- * Class UseImplicitOutputCest
- */
 class UseImplicitOutputCest
 {
     /**
      * Tests Phalcon\Assets\Manager :: useImplicitOutput()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class UseImplicitOutputCest
     public function assetsManagerUseImplicitOutput(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - useImplicitOutput()');
+
         $I->skipTest('Need implementation');
     }
 }

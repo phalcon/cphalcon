@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Mongo;
 
 use UnitTester;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Mongo :: get()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetCest
     public function cacheBackendMongoGet(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Mongo - get()');
+
         $I->skipTest('Need implementation');
     }
 }

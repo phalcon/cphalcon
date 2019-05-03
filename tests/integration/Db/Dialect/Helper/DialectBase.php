@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Integration\Db\Dialect\Helper;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\DialectInterface;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
@@ -15,34 +16,31 @@ class DialectBase
     /**
      * Tests Dialect::createView
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @dataProvider getCreateViewFixtures
      */
-    public function testCreateView(IntegrationTester $I)
+    public function testCreateView(IntegrationTester $I, Example $example)
     {
-        $data = $this->getCreateViewFixtures();
+        $definition = $example[0];
+        $schema     = $example[1];
+        $expected   = $example[2];
 
-        foreach ($data as $item) {
-            $definition = $item[0];
-            $schema     = $item[1];
-            $expected   = $item[2];
+        $dialect = $this->getDialectObject();
 
-            $dialect = $this->getDialectObject();
+        $actual = $dialect->createView(
+            'test_view',
+            $definition,
+            $schema
+        );
 
-            $actual = $dialect->createView(
-                'test_view',
-                $definition,
-                $schema
-            );
+        $I->assertInternalType(
+            'string',
+            $actual
+        );
 
-            $I->assertTrue(
-                is_string($actual)
-            );
-
-            $I->assertEquals($expected, $actual);
-        }
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -69,24 +67,22 @@ class DialectBase
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @dataProvider getDescribeColumnsFixtures
      */
-    public function testDescribeColumns(IntegrationTester $I)
+    public function testDescribeColumns(IntegrationTester $I, Example $example)
     {
-        $data = $this->getDescribeColumnsFixtures();
+        $schema   = $example[0];
+        $expected = $example[1];
 
-        foreach ($data as $item) {
-            $schema   = $item[0];
-            $expected = $item[1];
+        $dialect = $this->getDialectObject();
 
-            $dialect = $this->getDialectObject();
+        $actual = $dialect->describeColumns(
+            'table',
+            $schema
+        );
 
-            $actual = $dialect->describeColumns(
-                'table',
-                $schema
-            );
-
-            $I->assertEquals($expected, $actual);
-        }
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -292,8 +288,9 @@ class DialectBase
                 $ifExists
             );
 
-            $I->assertTrue(
-                is_string($actual)
+            $I->assertInternalType(
+                'string',
+                $actual
             );
 
             $I->assertEquals($expected, $actual);
@@ -355,8 +352,9 @@ class DialectBase
 
             $actual = $dialect->getColumnList($columns);
 
-            $I->assertTrue(
-                is_string($actual)
+            $I->assertInternalType(
+                'string',
+                $actual
             );
 
             $I->assertEquals($expected, $actual);
@@ -571,8 +569,9 @@ class DialectBase
                 $schema
             );
 
-            $I->assertTrue(
-                is_string($actual)
+            $I->assertInternalType(
+                'string',
+                $actual
             );
 
             $I->assertEquals($expected, $actual);
@@ -636,8 +635,9 @@ class DialectBase
                 $schema
             );
 
-            $I->assertTrue(
-                is_string($actual)
+            $I->assertInternalType(
+                'string',
+                $actual
             );
 
             $I->assertEquals($expected, $actual);

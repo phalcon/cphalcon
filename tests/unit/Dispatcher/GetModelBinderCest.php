@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class GetModelBinderCest
- */
 class GetModelBinderCest
 {
     /**
      * Tests Phalcon\Dispatcher :: getModelBinder()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetModelBinderCest
     public function dispatcherGetModelBinder(UnitTester $I)
     {
         $I->wantToTest('Dispatcher - getModelBinder()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response\Cookies;
 
 use UnitTester;
 
-/**
- * Class SendCest
- */
 class SendCest
 {
     /**
      * Tests Phalcon\Http\Response\Cookies :: send()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SendCest
     public function httpResponseCookiesSend(UnitTester $I)
     {
         $I->wantToTest('Http\Response\Cookies - send()');
+
         $I->skipTest('Need implementation');
     }
 }

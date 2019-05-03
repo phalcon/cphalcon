@@ -16,15 +16,10 @@ use Phalcon\Debug\Dump;
 use stdClass;
 use UnitTester;
 
-/**
- * Class AllCest
- */
 class AllCest
 {
     /**
      * Tests Phalcon\Debug\Dump :: all()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

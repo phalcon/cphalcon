@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Application\Exception;
 
 use UnitTester;
 
-/**
- * Class GetLineCest
- */
 class GetLineCest
 {
     /**
      * Tests Phalcon\Application\Exception :: getLine()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetLineCest
     public function applicationExceptionGetLine(UnitTester $I)
     {
         $I->wantToTest('Application\Exception - getLine()');
+
         $I->skipTest('Need implementation');
     }
 }

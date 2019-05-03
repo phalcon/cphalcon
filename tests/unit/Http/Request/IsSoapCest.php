@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class IsSoapCest
- */
 class IsSoapCest
 {
     /**
      * Tests Phalcon\Http\Request :: isSoap()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsSoapCest
     public function httpRequestIsSoap(UnitTester $I)
     {
         $I->wantToTest('Http\Request - isSoap()');
+
         $I->skipTest('Need implementation');
     }
 }

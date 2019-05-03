@@ -97,12 +97,16 @@ class UniquenessCest
             new Uniqueness()
         );
 
+
+
         $messages = $validation->validate(null, $this->robot);
 
         $I->assertEquals(
             1,
             $messages->count()
         );
+
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
 
@@ -135,6 +139,8 @@ class UniquenessCest
             )
         );
 
+
+
         $messages = $validation->validate(null, $this->robot);
 
         $I->assertEquals(
@@ -158,6 +164,8 @@ class UniquenessCest
             new Uniqueness()
         );
 
+
+
         $messages = $validation->validate(null, $this->robot);
 
         $I->assertEquals(
@@ -165,12 +173,16 @@ class UniquenessCest
             $messages->count()
         );
 
+
+
         $messages = $validation->validate(null, $this->anotherRobot);
 
         $I->assertEquals(
             1,
             $messages->count()
         );
+
+
 
         $messages = $validation->validate(null, $this->deletedRobot);
 
@@ -195,12 +207,16 @@ class UniquenessCest
             new Uniqueness()
         );
 
+
+
         $messages = $validation->validate(null, $this->robot);
 
         $I->assertEquals(
             1,
             $messages->count()
         );
+
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
 
@@ -233,6 +249,8 @@ class UniquenessCest
             )
         );
 
+
+
         $messages = $validation->validate(null, $this->robot);
 
         $I->assertEquals(
@@ -256,6 +274,8 @@ class UniquenessCest
             new Uniqueness()
         );
 
+
+
         $messages = $validation->validate(null, $this->robot);
 
         $I->assertEquals(
@@ -263,12 +283,16 @@ class UniquenessCest
             $messages->count()
         );
 
+
+
         $messages = $validation->validate(null, $this->anotherRobot);
 
         $I->assertEquals(
             0,
             $messages->count()
         );
+
+
 
         $messages = $validation->validate(null, $this->deletedRobot);
 
@@ -297,12 +321,16 @@ class UniquenessCest
             )
         );
 
+
+
         $messages = $validation->validate(null, $this->robot);
 
         $I->assertEquals(
             0,
             $messages->count()
         );
+
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
 
@@ -331,12 +359,16 @@ class UniquenessCest
             )
         );
 
+
+
         $messages = $validation->validate(null, $this->robot);
 
         $I->assertEquals(
             0,
             $messages->count()
         );
+
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
 
@@ -368,12 +400,16 @@ class UniquenessCest
             )
         );
 
+
+
         $messages = $validation->validate(null, $this->robot);
 
         $I->assertEquals(
             0,
             $messages->count()
         );
+
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
 
@@ -405,12 +441,16 @@ class UniquenessCest
             )
         );
 
+
+
         $messages = $validation->validate(null, $this->robot);
 
         $I->assertEquals(
             0,
             $messages->count()
         );
+
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
 
@@ -445,13 +485,12 @@ class UniquenessCest
             )
         );
 
-        try {
-            $validation->validate(null, $this->robot);
-
-            verify_that(false);
-        } catch (\Exception $e) {
-            verify_that(true);
-        }
+        $I->expectException(
+            \Exception::class,
+            function () use ($validation) {
+                $validation->validate(null, $this->robot);
+            }
+        );
     }
 
     /**
@@ -475,12 +514,16 @@ class UniquenessCest
             )
         );
 
+
+
         $messages = $validation->validate(null, $this->robot);
 
         $I->assertEquals(
             0,
             $messages->count()
         );
+
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
 
@@ -492,6 +535,8 @@ class UniquenessCest
         $anotherRobot = clone $this->anotherRobot;
 
         $this->anotherRobot->create();
+
+
 
         $messages = $validation->validate(null, $anotherRobot);
 
@@ -520,6 +565,8 @@ class UniquenessCest
 
         $robot = Robotters::findFirst(1);
 
+
+
         $robot->theName = 'Astro Boy';
 
         $messages = $validation->validate(null, $robot);
@@ -528,6 +575,8 @@ class UniquenessCest
             1,
             $messages->count()
         );
+
+
 
         $robot->theName = 'Astro Boyy';
 

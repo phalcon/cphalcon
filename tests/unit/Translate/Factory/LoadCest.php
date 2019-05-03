@@ -17,9 +17,6 @@ use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\Factory;
 use UnitTester;
 
-/**
- * Class LoadCest
- */
 class LoadCest
 {
     use FactoryTrait;

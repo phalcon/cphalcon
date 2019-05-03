@@ -71,7 +71,9 @@ class QueryBuilderCest
     public function testIssue12111WithoutGroupException(IntegrationTester $I)
     {
         $I->expectThrowable(
-            new Exception('When having is set there should be columns option provided for which calculate row count'),
+            new Exception(
+                'When having is set there should be columns option provided for which calculate row count'
+            ),
             function () {
                 $this->setDiMysql();
 

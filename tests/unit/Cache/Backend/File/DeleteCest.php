@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\File;
 
 use UnitTester;
 
-/**
- * Class DeleteCest
- */
 class DeleteCest
 {
     /**
      * Tests Phalcon\Cache\Backend\File :: delete()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class DeleteCest
     public function cacheBackendFileDelete(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\File - delete()');
+
         $I->skipTest('Need implementation');
     }
 }

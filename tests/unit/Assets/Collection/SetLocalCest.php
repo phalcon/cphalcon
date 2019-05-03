@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
-/**
- * Class SetLocalCest
- */
 class SetLocalCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: setLocal()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetLocalCest
     public function assetsCollectionSetLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - setLocal()');
+
         $I->skipTest('Need implementation');
     }
 }

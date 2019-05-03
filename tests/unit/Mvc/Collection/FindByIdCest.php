@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class FindByIdCest
- */
 class FindByIdCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: findById()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class FindByIdCest
     public function mvcCollectionFindById(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - findById()');
+
         $I->skipTest('Need implementation');
     }
 }

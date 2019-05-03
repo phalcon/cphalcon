@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class GetConnectionServiceCest
- */
 class GetConnectionServiceCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: getConnectionService()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetConnectionServiceCest
     public function mvcCollectionGetConnectionService(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - getConnectionService()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 use Phalcon\Assets\Manager;
 use UnitTester;
 
-/**
- * Class AddJsCest
- */
 class AddJsCest
 {
     /**
      * Tests Phalcon\Assets\Manager :: addJs()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-13

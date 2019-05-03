@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Annotation;
 
 use UnitTester;
 
-/**
- * Class HasArgumentCest
- */
 class HasArgumentCest
 {
     /**
      * Tests Phalcon\Annotations\Annotation :: hasArgument()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class HasArgumentCest
     public function annotationsAnnotationHasArgument(UnitTester $I)
     {
         $I->wantToTest('Annotations\Annotation - hasArgument()');
+
         $I->skipTest('Need implementation');
     }
 }

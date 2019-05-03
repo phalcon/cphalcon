@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class HasPostCest
- */
 class HasPostCest
 {
     /**
      * Tests Phalcon\Http\Request :: hasPost()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class HasPostCest
     public function httpRequestHasPost(UnitTester $I)
     {
         $I->wantToTest('Http\Request - hasPost()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class GetActionNameCest
- */
 class GetActionNameCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getActionName()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetActionNameCest
     public function mvcDispatcherGetActionName(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - getActionName()');
+
         $I->skipTest('Need implementation');
     }
 }

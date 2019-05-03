@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Assets\Filters\None;
 use Phalcon\Assets\Filters\None;
 use UnitTester;
 
-/**
- * Class FilterCest
- */
 class FilterCest
 {
     /**
      * Tests Phalcon\Assets\Filters\None :: filter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

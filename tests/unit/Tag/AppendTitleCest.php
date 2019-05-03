@@ -24,8 +24,6 @@ class AppendTitleCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: appendTitle()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-09-05
      */

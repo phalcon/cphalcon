@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class SkipOperationCest
- */
 class SkipOperationCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: skipOperation()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SkipOperationCest
     public function mvcCollectionSkipOperation(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - skipOperation()');
+
         $I->skipTest('Need implementation');
     }
 }

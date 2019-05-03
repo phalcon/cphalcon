@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class GetDefaultNamespaceCest
- */
 class GetDefaultNamespaceCest
 {
     /**
      * Tests Phalcon\Dispatcher :: getDefaultNamespace()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetDefaultNamespaceCest
     public function dispatcherGetDefaultNamespace(UnitTester $I)
     {
         $I->wantToTest('Dispatcher - getDefaultNamespace()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Redis;
 
 use UnitTester;
 
-/**
- * Class SetOptionsCest
- */
 class SetOptionsCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Redis :: setOptions()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetOptionsCest
     public function cacheBackendRedisSetOptions(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Redis - setOptions()');
+
         $I->skipTest('Need implementation');
     }
 }
