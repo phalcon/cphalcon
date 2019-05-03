@@ -12,11 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Item;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 /**
+ * Class GetContextCest
+ *
  * @package Phalcon\Test\Unit\Logger
  */
 class GetContextCest
@@ -24,28 +26,17 @@ class GetContextCest
     /**
      * Tests Phalcon\Logger\Item :: getContext()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
     public function loggerItemGetContext(UnitTester $I)
     {
         $I->wantToTest('Logger\Item - getContext()');
-
-        $time = time();
-
+        $time    = time();
         $context = ['context'];
+        $item    = new Item('log message', 'debug', Logger::DEBUG, $time, $context);
 
-        $item = new Item(
-            'log message',
-            'debug',
-            Logger::DEBUG,
-            $time,
-            $context
-        );
-
-        $I->assertEquals(
-            $context,
-            $item->getContext()
-        );
+        $expected = $context;
+        $actual   = $item->getContext();
+        $I->assertEquals($expected, $actual);
     }
 }

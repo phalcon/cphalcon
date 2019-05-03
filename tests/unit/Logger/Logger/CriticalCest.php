@@ -10,28 +10,28 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger;
+namespace Phalcon\Test\Unit\Logger\Logger;
 
 use Phalcon\Test\Fixtures\Traits\LoggerTrait;
 use UnitTester;
 
 /**
+ * Class CriticalCest
+ *
  * @package Phalcon\Test\Unit\Logger
  */
-class DebugCest
+class CriticalCest
 {
     use LoggerTrait;
 
     /**
-     * Tests Phalcon\Logger :: debug()
+     * Tests Phalcon\Logger :: critical()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
-    public function loggerDebug(UnitTester $I)
+    public function loggerCritical(UnitTester $I)
     {
-        $I->wantToTest('Logger - debug()');
-
-        $this->runLoggerFile($I, 'debug');
+        $I->wantToTest('Logger - critical()');
+        $this->runLoggerFile($I, 'critical');
     }
 }

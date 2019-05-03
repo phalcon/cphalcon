@@ -12,32 +12,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\CacheFactory;
 
-use Phalcon\Cache\Adapter\Apcu;
-use Phalcon\Cache\CacheFactory;
-use Psr\SimpleCache\CacheInterface;
 use UnitTester;
 
-/**
- * Class NewInstanceCest
- */
 class NewInstanceCest
 {
     /**
      * Tests Phalcon\Cache\CacheFactory :: newInstance()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-01
+     * @since  2019-05-03
      */
     public function cacheCacheFactoryNewInstance(UnitTester $I)
     {
         $I->wantToTest('Cache\CacheFactory - newInstance()');
 
-        $factory = new CacheFactory();
-        $adapter = $factory->newInstance(new Apcu());
-
-        $class = CacheInterface::class;
-        $I->assertInstanceOf($class, $adapter);
+        $I->skipTest('Need implementation');
     }
 }

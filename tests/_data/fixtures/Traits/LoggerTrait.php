@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use Phalcon\Logger;
+use Phalcon\Logger\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
 use function outputDir;

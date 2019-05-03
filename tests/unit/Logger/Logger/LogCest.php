@@ -10,14 +10,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger;
+namespace Phalcon\Test\Unit\Logger\Logger;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Logger;
 use UnitTester;
 use function outputDir;
 
 /**
+ * Class LogCest
+ *
  * @package Phalcon\Test\Unit\Logger
  */
 class LogCest
@@ -25,27 +27,16 @@ class LogCest
     /**
      * Tests Phalcon\Logger :: log()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
     public function loggerLog(UnitTester $I)
     {
         $I->wantToTest('Logger - log()');
-
-        $logPath = outputDir('tests/logs/');
-
+        $logPath  = outputDir();
         $fileName = $I->getNewFileName('log', 'log');
+        $adapter  = new Stream($logPath . $fileName);
 
-        $adapter = new Stream(
-            $logPath . $fileName
-        );
-
-        $logger = new Logger(
-            'my-logger',
-            [
-                'one' => $adapter,
-            ]
-        );
+        $logger = new Logger('my-logger', ['one' => $adapter]);
 
         $levels = [
             Logger::ALERT     => 'alert',
@@ -57,13 +48,20 @@ class LogCest
             Logger::NOTICE    => 'notice',
             Logger::WARNING   => 'warning',
             Logger::CUSTOM    => 'custom',
+            'alert'           => 'alert',
+            'critical'        => 'critical',
+            'debug'           => 'debug',
+            'emergency'       => 'emergency',
+            'error'           => 'error',
+            'info'            => 'info',
+            'notice'          => 'notice',
+            'warning'         => 'warning',
+            'custom'          => 'custom',
+            'unknown'         => 'custom',
         ];
 
         foreach ($levels as $level => $levelName) {
-            $logger->log(
-                $level,
-                'Message ' . $levelName
-            );
+            $logger->log($level, 'Message ' . $levelName);
         }
 
         $I->amInPath($logPath);
@@ -79,7 +77,6 @@ class LogCest
 
             $I->seeInThisFile($expected);
         }
-
         $I->safeDeleteFile($fileName);
     }
 }

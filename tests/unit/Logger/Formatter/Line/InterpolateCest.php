@@ -80,4 +80,21 @@ class InterpolateCest
             $formatter->format($item)
         );
     }
+    /**
+     * Tests Phalcon\Logger\Formatter\Line :: interpolate() - empty
+     *
+     * @param UnitTester $I
+     */
+    public function loggerFormatterLineInterpolateEmpty(UnitTester $I)
+    {
+        $I->wantToTest('Logger\Formatter\Line - interpolate() - empty');
+        $formatter = new Line();
+
+        $message = 'The sky is {color}';
+        $context = [];
+
+        $expected = 'The sky is {color}';
+        $actual   = $formatter->interpolate($message, $context);
+        $I->assertEquals($expected, $actual);
+    }
 }

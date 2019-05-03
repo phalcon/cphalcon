@@ -10,14 +10,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger;
+namespace Phalcon\Test\Unit\Logger\Logger;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 /**
+ * Class GetAdapterCest
+ *
  * @package Phalcon\Test\Unit\Logger
  */
 class GetAdapterCest
@@ -25,20 +27,14 @@ class GetAdapterCest
     /**
      * Tests Phalcon\Logger :: getAdapter()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
     public function loggerGetAdapter(UnitTester $I)
     {
         $I->wantToTest('Logger - getAdapter()');
-
-        $fileName1 = $I->getNewFileName('log', 'log');
-
+        $fileName1  = $I->getNewFileName('log', 'log');
         $outputPath = outputDir('tests/logs/');
-
-        $adapter1 = new Stream(
-            $outputPath . $fileName1
-        );
+        $adapter1   = new Stream($outputPath . $fileName1);
 
         $logger = new Logger(
             'my-logger',
@@ -47,21 +43,18 @@ class GetAdapterCest
             ]
         );
 
-        $I->assertInstanceOf(
-            Stream::class,
-            $logger->getAdapter('one')
-        );
 
-        $I->safeDeleteFile(
-            $outputPath . $fileName1
-        );
+        $class  = Stream::class;
+        $actual = $logger->getAdapter('one');
+        $I->assertInstanceOf($class, $actual);
+
+        $I->safeDeleteFile($outputPath . $fileName1);
     }
 
     /**
      * Tests Phalcon\Logger :: getAdapter() - unknown
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
     public function loggerGetAdapterUnknown(UnitTester $I)
     {
@@ -71,7 +64,6 @@ class GetAdapterCest
             new Exception('Adapter does not exist for this logger'),
             function () {
                 $logger = new Logger('my-logger');
-
                 $logger->getAdapter('unknown');
             }
         );

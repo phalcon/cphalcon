@@ -10,16 +10,19 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger;
+namespace Phalcon\Test\Unit\Logger\Logger;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\Json;
+use Phalcon\Logger\Logger;
 use Phalcon\Test\Fixtures\Traits\LoggerTrait;
 use Psr\Log\LoggerInterface;
 use UnitTester;
 
 /**
+ * Class ConstructCest
+ *
  * @package Phalcon\Test\Unit\Logger
  */
 class ConstructCest
@@ -29,23 +32,19 @@ class ConstructCest
     /**
      * Tests Phalcon\Logger :: __construct() - implement PSR
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
     public function loggerConstructImplementPsr(UnitTester $I)
     {
         $I->wantToTest('Logger - __construct() - implement PSR');
-
         $logger = new Logger('my-logger');
-
-        $I->assertInstanceOf(
-            LoggerInterface::class,
-            $logger
-        );
+        $I->assertInstanceOf(LoggerInterface::class, $logger);
     }
 
     /**
      * Tests Phalcon\Logger :: __construct() - constants
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -53,7 +52,6 @@ class ConstructCest
     public function loggerConstructConstants(UnitTester $I)
     {
         $I->wantToTest('Logger - __construct() - constants');
-
         $I->assertEquals(2, Logger::ALERT);
         $I->assertEquals(1, Logger::CRITICAL);
         $I->assertEquals(7, Logger::DEBUG);
@@ -68,26 +66,15 @@ class ConstructCest
     /**
      * Tests Phalcon\Logger :: __construct() - file with json formatter
      *
-     * @issue  https://github.com/phalcon/cphalcon/issues/2262
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2016-01-28
+     * @param UnitTester $I
      */
     public function loggerConstructStreamWithJsonConstants(UnitTester $I)
     {
         $I->wantToTest('Logger - __construct() - file with json formatter');
-
-        $fileName = $I->getNewFileName('log', 'log');
-
+        $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = outputDir('tests/logs/');
-
-        $adapter = new Stream(
-            $outputPath . $fileName
-        );
-
-        $adapter->setFormatter(
-            new Json()
-        );
+        $adapter    = new Stream($outputPath . $fileName);
+        $adapter->setFormatter(new Json());
 
         $logger = new Logger(
             'my-logger',
@@ -97,18 +84,11 @@ class ConstructCest
         );
 
         $time = time();
-
         $logger->debug('This is a message');
-
-        $logger->log(
-            Logger::ERROR,
-            "This is an error"
-        );
-
+        $logger->log(Logger::ERROR, "This is an error");
         $logger->error("This is another error");
 
         $I->amInPath($outputPath);
-
         $I->openFile($fileName);
 
         $expected = sprintf(
@@ -121,9 +101,42 @@ class ConstructCest
         );
 
         $I->seeInThisFile($expected);
+        $I->safeDeleteFile($outputPath . $fileName);
+    }
 
-        $I->safeDeleteFile(
-            $outputPath . $fileName
+    /**
+     * Tests Phalcon\Logger :: __construct() - read only mode exception
+     *
+     * @param UnitTester $I
+     */
+    public function loggerConstructStreamReadOnlyModeException(UnitTester $I)
+    {
+        $I->wantToTest('Logger - __construct() - read only mode exception');
+        $fileName   = $I->getNewFileName('log', 'log');
+        $outputPath = outputDir('tests/logs/');
+        $file       = $outputPath . $fileName;
+        $I->expectThrowable(
+            new Exception('Adapter cannot be opened in read mode'),
+            function () use ($file) {
+                $adapter = new Stream($file, ['mode' => 'r']);
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Logger :: __construct() - no adapter exception
+     *
+     * @param UnitTester $I
+     */
+    public function loggerConstructNoAdapterException(UnitTester $I)
+    {
+        $I->wantToTest('Logger - __construct() - no adapter exception');
+        $I->expectThrowable(
+            new Exception('No adapters specified'),
+            function () {
+                $logger = new Logger('my-logger');
+                $logger->info('Some message');
+            }
         );
     }
 }
