@@ -18,6 +18,7 @@ use Example\Namespaces\Adapter\Redis;
 use Example\Namespaces\Engines\Alcohol;
 use Example\Namespaces\Engines\Gasoline;
 use Example\Namespaces\Example\Example;
+use Integer;
 use LoaderEvent;
 use One;
 use Phalcon\Events\Event;
