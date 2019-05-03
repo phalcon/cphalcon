@@ -39,7 +39,6 @@ class InclusionInCest
         );
 
 
-
         $messages = $validation->validate(
             []
         );
@@ -61,7 +60,6 @@ class InclusionInCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'status' => 'X',
@@ -72,7 +70,6 @@ class InclusionInCest
             $expected,
             $messages
         );
-
 
 
         $messages = $validation->validate(
@@ -116,7 +113,6 @@ class InclusionInCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'type'        => 'cyborg',
@@ -128,7 +124,6 @@ class InclusionInCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -147,7 +142,6 @@ class InclusionInCest
             $validationMessages['type'],
             $messages->offsetGet(0)->getMessage()
         );
-
 
 
         $messages = $validation->validate(
@@ -205,7 +199,6 @@ class InclusionInCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'type'        => 'cyborg',
@@ -217,7 +210,6 @@ class InclusionInCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -237,7 +229,6 @@ class InclusionInCest
         $I->assertEquals($expected, $actual);
 
 
-
         $messages = $validation->validate(
             [
                 'type'        => 'mechanic',
@@ -253,7 +244,6 @@ class InclusionInCest
         $expected = $validationMessages['anotherType'];
         $actual   = $messages->offsetGet(0)->getMessage();
         $I->assertEquals($expected, $actual);
-
 
 
         $messages = $validation->validate(
@@ -294,7 +284,6 @@ class InclusionInCest
         );
 
 
-
         $messages = $validation->validate(
             []
         );
@@ -313,11 +302,9 @@ class InclusionInCest
         $I->assertEquals($expected, $messages);
 
 
-
         $messages = $validation->validate(['status' => 'x=1']);
 
         $I->assertEquals($expected, $messages);
-
 
 
         $messages = $validation->validate(['status' => 'A']);

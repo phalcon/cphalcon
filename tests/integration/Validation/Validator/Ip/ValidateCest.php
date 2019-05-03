@@ -73,7 +73,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'ip' => '2001:cdba:0000:0000:0000:0000:3257:9652',
@@ -86,7 +85,6 @@ class ValidateCest
             'This is a test message',
             (string) $messages[0]
         );
-
 
 
         $validation = new Validation();
@@ -183,7 +181,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'ip'        => '127.0.0.1',
@@ -192,7 +189,6 @@ class ValidateCest
         );
 
         $I->assertCount(1, $messages);
-
 
 
         $messages = $validation->validate(
@@ -205,7 +201,6 @@ class ValidateCest
         $I->assertCount(1, $messages);
 
 
-
         $messages = $validation->validate(
             [
                 'ip'        => '192.168.10.20',
@@ -214,7 +209,6 @@ class ValidateCest
         );
 
         $I->assertCount(0, $messages);
-
 
 
         $messages = $validation->validate(

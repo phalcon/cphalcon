@@ -31,7 +31,6 @@ class GetLastProfileCest
     }
 
 
-
     /**
      * Tests Phalcon\Db\Profiler :: getLastProfile()
      *
@@ -47,7 +46,6 @@ class GetLastProfileCest
     }
 
 
-
     public function testDbMysql(IntegrationTester $I)
     {
         $this->setDiMysql();
@@ -56,26 +54,6 @@ class GetLastProfileCest
 
         $this->executeTests($I, $connection);
     }
-
-    public function testDbPostgresql(IntegrationTester $I)
-    {
-        $this->setDiPostgresql();
-
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
-    }
-
-    public function testDbSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
-    }
-
-
 
     private function executeTests(IntegrationTester $I, $connection)
     {
@@ -148,5 +126,23 @@ class GetLastProfileCest
         $I->assertTrue(
             $profile->getFinalTime() > $profile->getInitialTime()
         );
+    }
+
+    public function testDbPostgresql(IntegrationTester $I)
+    {
+        $this->setDiPostgresql();
+
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
+    }
+
+    public function testDbSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
     }
 }

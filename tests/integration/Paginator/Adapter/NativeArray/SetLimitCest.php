@@ -41,12 +41,10 @@ class SetLimitCest
         );
 
 
-        
         $I->assertEquals(
             25,
             $paginator->getLimit()
         );
-
 
 
         $paginator->setLimit(10);

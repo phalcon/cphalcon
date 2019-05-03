@@ -47,7 +47,8 @@ class DispatcherBeforeDispatchLoopCest extends BaseDispatcher
                     ]
                 );
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -85,7 +86,8 @@ class DispatcherBeforeDispatchLoopCest extends BaseDispatcher
             function () {
                 return false;
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -123,7 +125,8 @@ class DispatcherBeforeDispatchLoopCest extends BaseDispatcher
             function () {
                 return false;
             }
-        );
+        )
+        ;
 
         // Unfortunately, we really need to collect all responses or use the Event stopping property
         // instead of return <tt>false</tt>. The following statement breaks the ability to stop the chain.
@@ -133,7 +136,8 @@ class DispatcherBeforeDispatchLoopCest extends BaseDispatcher
             function () {
                 return true;
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -181,7 +185,8 @@ class DispatcherBeforeDispatchLoopCest extends BaseDispatcher
             function () {
                 return false;
             }
-        );
+        )
+        ;
 
         // Unfortunately, we really need to collect all responses or use the Event stopping property
         // instead of return <tt>false</tt>. The following statement breaks the ability to stop the chain.
@@ -190,10 +195,10 @@ class DispatcherBeforeDispatchLoopCest extends BaseDispatcher
             function () {
                 return false;
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
-
 
 
         $expected = [
@@ -222,17 +227,18 @@ class DispatcherBeforeDispatchLoopCest extends BaseDispatcher
             function () {
                 throw new Exception('beforeDispatchLoop exception occurred');
             }
-        );
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function () {
                 return false;
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
-
 
 
         $expected = [

@@ -43,8 +43,8 @@ class TextCest
      * Tests Text::render
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10398
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2016-07-17name
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2016-07-17name
      *
      * @dataProvider testCreatingTextElementWithNameSimilarToTheFormMethodsProvider
      */
@@ -55,12 +55,10 @@ class TextCest
         $element = new Text($name);
 
 
-
         $I->assertEquals(
             $name,
             $element->getName()
         );
-
 
 
         $expected = sprintf(
@@ -77,24 +75,6 @@ class TextCest
         $I->assertNull(
             $element->getValue()
         );
-    }
-
-    private function testCreatingTextElementWithNameSimilarToTheFormMethodsProvider(): array
-    {
-        return [
-            ['validation'],
-            ['action'],
-            ['useroption'],
-            ['useroptions'],
-            ['entity'],
-            ['elements'],
-            ['messages'],
-            ['messagesfor'],
-            ['label'],
-            ['value'],
-            ['di'],
-            ['eventsmanager'],
-        ];
     }
 
     public function testIssue2045(IntegrationTester $I)
@@ -160,13 +140,10 @@ class TextCest
         $element->setAttribute('placeholder', 'Type the name');
 
 
-
-
         $I->assertEquals(
             'name',
             $element->getLabel()
         );
-
 
 
         $expected = [
@@ -178,8 +155,6 @@ class TextCest
             $expected,
             $element->getAttributes()
         );
-
-
 
 
         $I->assertEquals(
@@ -196,7 +171,6 @@ class TextCest
             'en',
             $element->getAttribute('lang', 'en')
         );
-
 
 
         $element->setLabel(0);
@@ -266,7 +240,6 @@ class TextCest
         );
 
 
-
         $I->assertEquals(
             'value',
             $element1->getUserOption('some')
@@ -280,5 +253,23 @@ class TextCest
             'default',
             $element1->getUserOption('some-non', 'default')
         );
+    }
+
+    private function testCreatingTextElementWithNameSimilarToTheFormMethodsProvider(): array
+    {
+        return [
+            ['validation'],
+            ['action'],
+            ['useroption'],
+            ['useroptions'],
+            ['entity'],
+            ['elements'],
+            ['messages'],
+            ['messagesfor'],
+            ['label'],
+            ['value'],
+            ['di'],
+            ['eventsmanager'],
+        ];
     }
 }

@@ -56,7 +56,6 @@ class PutCest
         );
 
 
-
         $_SERVER['REQUEST_METHOD'] = 'PUT';
 
         $I->assertEquals(

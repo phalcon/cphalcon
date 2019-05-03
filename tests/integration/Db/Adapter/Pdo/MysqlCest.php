@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Db\Adapter\Pdo;
 use Codeception\Example;
 use Helper\Dialect\MysqlTrait;
 use IntegrationTester;
+use PDOException;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Reference;
 use Phalcon\Test\Integration\Db\Dialect\Helper\MysqlHelper;
@@ -38,7 +39,7 @@ class MysqlCest extends MysqlHelper
                     'charset'  => env('DATA_MYSQL_CHARSET'),
                 ]
             );
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             $I->skipTest(
                 "Unable to connect to the database: " . $e->getMessage()
             );
@@ -91,12 +92,10 @@ class MysqlCest extends MysqlHelper
         ];
 
 
-
         $I->assertEquals(
             $expected,
             $this->connection->listTables()
         );
-
 
 
         $dbName = env('DATA_MYSQL_NAME', 'phalcon_test');
@@ -123,12 +122,10 @@ class MysqlCest extends MysqlHelper
         $I->assertCount(2, $actual);
 
 
-
         $I->assertCount(
             2,
             $this->connection->describeReferences('robots_parts', null)
         );
-
 
 
         $references = $actual;
@@ -145,8 +142,8 @@ class MysqlCest extends MysqlHelper
     /**
      * Tests Mysql::escapeIdentifier
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
-     * @since  2016-11-19
+     * @author       Sid Roberts <sid@sidroberts.co.uk>
+     * @since        2016-11-19
      *
      * @dataProvider testEscapeIdentifierProvider
      */
@@ -158,6 +155,70 @@ class MysqlCest extends MysqlHelper
         $I->assertEquals(
             $expected,
             $this->connection->escapeIdentifier($identifier)
+        );
+    }
+
+    /**
+     * Tests Mysql::addForeignKey
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/556
+     * @author       Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since        2017-07-03
+     *
+     * @dataProvider shouldAddForeignKeyProvider
+     */
+    public function shouldAddForeignKey(IntegrationTester $I, Example $example)
+    {
+        $I->assertEquals(
+            $example['expected'],
+            $this->connection->execute(
+                $example['sql']
+            )
+        );
+    }
+
+    /**
+     * Tests Mysql::getForeignKey
+     *
+     * @test
+     * @issue  https://github.com/phalcon/cphalcon/issues/556
+     * @author       Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since        2017-07-03
+     *
+     * @dataProvider shouldCheckAddedForeignKeyProvider
+     */
+    public function shouldCheckAddedForeignKey(IntegrationTester $I, Example $example)
+    {
+        $actual = $this->connection->execute(
+            $example['sql'],
+            [
+                'MYSQL_ATTR_USE_BUFFERED_QUERY',
+            ]
+        );
+
+        $I->assertEquals(
+            $example['expected'],
+            $actual
+        );
+    }
+
+    /**
+     * Tests Mysql::dropAddForeignKey
+     *
+     * @test
+     * @issue  https://github.com/phalcon/cphalcon/issues/556
+     * @author       Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since        2017-07-03
+     *
+     * @dataProvider shouldDropForeignKeyProvider
+     */
+    public function shouldDropForeignKey(IntegrationTester $I, Example $example)
+    {
+        $I->assertEquals(
+            $example['expected'],
+            $this->connection->execute(
+                $example['sql']
+            )
         );
     }
 
@@ -186,25 +247,6 @@ class MysqlCest extends MysqlHelper
         ];
     }
 
-    /**
-     * Tests Mysql::addForeignKey
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/556
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-07-03
-     *
-     * @dataProvider shouldAddForeignKeyProvider
-     */
-    public function shouldAddForeignKey(IntegrationTester $I, Example $example)
-    {
-        $I->assertEquals(
-            $example['expected'],
-            $this->connection->execute(
-                $example['sql']
-            )
-        );
-    }
-
     private function shouldAddForeignKeyProvider(): array
     {
         return [
@@ -220,31 +262,6 @@ class MysqlCest extends MysqlHelper
         ];
     }
 
-    /**
-     * Tests Mysql::getForeignKey
-     *
-     * @test
-     * @issue  https://github.com/phalcon/cphalcon/issues/556
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-07-03
-     *
-     * @dataProvider shouldCheckAddedForeignKeyProvider
-     */
-    public function shouldCheckAddedForeignKey(IntegrationTester $I, Example $example)
-    {
-        $actual = $this->connection->execute(
-            $example['sql'],
-            [
-                'MYSQL_ATTR_USE_BUFFERED_QUERY',
-            ]
-        );
-
-        $I->assertEquals(
-            $example['expected'],
-            $actual
-        );
-    }
-
     private function shouldCheckAddedForeignKeyProvider(): array
     {
         return [
@@ -258,26 +275,6 @@ class MysqlCest extends MysqlHelper
                 'expected' => true,
             ],
         ];
-    }
-
-    /**
-     * Tests Mysql::dropAddForeignKey
-     *
-     * @test
-     * @issue  https://github.com/phalcon/cphalcon/issues/556
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-07-03
-     *
-     * @dataProvider shouldDropForeignKeyProvider
-     */
-    public function shouldDropForeignKey(IntegrationTester $I, Example $example)
-    {
-        $I->assertEquals(
-            $example['expected'],
-            $this->connection->execute(
-                $example['sql']
-            )
-        );
     }
 
     private function shouldDropForeignKeyProvider(): array

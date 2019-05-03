@@ -26,8 +26,8 @@ class AddFilterCest
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider getVoltAddFilter
      */
@@ -50,27 +50,12 @@ class AddFilterCest
     }
 
     /**
-     * @return array
-     */
-    private function getVoltAddFilter(): array
-    {
-        return [
-            [
-                'reverse',
-                'strrev',
-                '{{ "hello"|reverse }}',
-                '<?= strrev(\'hello\') ?>',
-            ],
-        ];
-    }
-
-    /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: addFilter() - closure
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider getVoltAddFilterClosure
      */
@@ -96,6 +81,21 @@ class AddFilterCest
             $expected,
             $volt->compileString($voltName)
         );
+    }
+
+    /**
+     * @return array
+     */
+    private function getVoltAddFilter(): array
+    {
+        return [
+            [
+                'reverse',
+                'strrev',
+                '{{ "hello"|reverse }}',
+                '<?= strrev(\'hello\') ?>',
+            ],
+        ];
     }
 
     /**

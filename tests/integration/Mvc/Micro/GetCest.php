@@ -56,7 +56,6 @@ class GetCest
         );
 
 
-
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
         $I->assertEquals(

@@ -16,6 +16,7 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Date;
+use stdClass;
 
 class DateCest
 {
@@ -35,7 +36,6 @@ class DateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'date' => '2016-06-05',
@@ -46,7 +46,6 @@ class DateCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -193,7 +192,7 @@ class DateCest
             ['', 'Y-m-d'],
             [false, 'Y-m-d'],
             [null, 'Y-m-d'],
-            [new \stdClass, 'Y-m-d'],
+            [new stdClass, 'Y-m-d'],
             ['2015-13-01', 'Y-m-d'],
             ['2015-01-32', 'Y-m-d'],
             ['2015-01', 'Y-m-d'],

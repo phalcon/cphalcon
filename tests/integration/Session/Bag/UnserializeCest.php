@@ -48,7 +48,6 @@ class UnserializeCest
         $collection = new Bag('BagTest');
 
 
-
         $collection->unserialize($serialized);
 
         $expected = $data;

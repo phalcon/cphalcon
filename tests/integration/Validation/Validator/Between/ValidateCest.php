@@ -48,7 +48,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'price' => 5,
@@ -69,13 +68,11 @@ class ValidateCest
         $I->assertEquals($expected, $messages);
 
 
-
         $messages = $validation->validate(
             []
         );
 
         $I->assertEquals($expected, $messages);
-
 
 
         $messages = $validation->validate(
@@ -128,7 +125,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'amount' => 100,
@@ -139,7 +135,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -158,7 +153,6 @@ class ValidateCest
             $validationMessages['amount'],
             $messages->offsetGet(0)->getMessage()
         );
-
 
 
         $messages = $validation->validate(
@@ -208,7 +202,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'price' => 5,
@@ -229,12 +222,10 @@ class ValidateCest
         $I->assertEquals($expected, $messages);
 
 
-
         $I->assertEquals(
             $validation->validate([]),
             $messages
         );
-
 
 
         $messages = $validation->validate(

@@ -12,12 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Files;
 
-use function cacheDir;
-use function dataDir;
 use IntegrationTester;
 use Phalcon\Mvc\Model\MetaData\Files;
+use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
+use function cacheDir;
+use function dataDir;
 
 /**
  * Class ConstructCest
@@ -59,7 +60,7 @@ class ConstructCest
         $I->wantToTest('Mvc\Model\MetaData\Files - __construct()');
 
 
-        /** @var \Phalcon\Mvc\Model\MetaDataInterface $md */
+        /** @var MetaDataInterface $md */
         $md = $this->container->getShared('modelsMetadata');
 
         $md->reset();

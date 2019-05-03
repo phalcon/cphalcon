@@ -52,7 +52,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 "user"  => "user",
@@ -61,7 +60,6 @@ class ValidateCest
         );
 
         $I->assertCount(0, $messages);
-
 
 
         $messages = $validation->validate(
@@ -74,7 +72,6 @@ class ValidateCest
         $I->assertCount(0, $messages);
 
 
-
         $messages = $validation->validate(
             [
                 "user"  => "user",
@@ -83,7 +80,6 @@ class ValidateCest
         );
 
         $I->assertCount(1, $messages);
-
 
 
         $expected = new Messages(
@@ -136,7 +132,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'user'  => 'u',
@@ -145,7 +140,6 @@ class ValidateCest
         );
 
         $I->assertCount(0, $messages);
-
 
 
         $messages = $validation->validate(
@@ -158,7 +152,6 @@ class ValidateCest
         $I->assertCount(0, $messages);
 
 
-
         $messages = $validation->validate(
             [
                 'user'  => 'u',
@@ -167,7 +160,6 @@ class ValidateCest
         );
 
         $I->assertCount(1, $messages);
-
 
 
         $expected = new Messages(
@@ -216,7 +208,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'user'  => null,
@@ -225,7 +216,6 @@ class ValidateCest
         );
 
         $I->assertCount(0, $messages);
-
 
 
         $messages = $validation->validate(
@@ -238,7 +228,6 @@ class ValidateCest
         $I->assertCount(0, $messages);
 
 
-
         $messages = $validation->validate(
             [
                 'user'  => 'user',
@@ -247,7 +236,6 @@ class ValidateCest
         );
 
         $I->assertCount(2, $messages);
-
 
 
         $expected = new Messages(
@@ -308,7 +296,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'admin' => null,
@@ -317,7 +304,6 @@ class ValidateCest
         );
 
         $I->assertCount(2, $messages);
-
 
 
         $expected = new Messages(
@@ -340,38 +326,34 @@ class ValidateCest
         $I->assertEquals($expected, $messages);
 
 
-
         $messages = $validation->validate(
             [
                 'admin' => 'admin',
-                'user' => null,
+                'user'  => null,
             ]
         );
 
         $I->assertCount(0, $messages);
-
 
 
         $messages = $validation->validate(
             [
                 'admin' => null,
-                'user' => 'user',
+                'user'  => 'user',
             ]
         );
 
         $I->assertCount(0, $messages);
 
 
-
         $messages = $validation->validate(
             [
                 'admin' => 'admin',
-                'user' => 'user',
+                'user'  => 'user',
             ]
         );
 
         $I->assertCount(2, $messages);
-
 
 
         $expected = new Messages(

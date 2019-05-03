@@ -48,7 +48,6 @@ class ToArrayCest
         $collection->init($data);
 
 
-
         $expected = $data;
         $actual   = $collection->toArray();
 

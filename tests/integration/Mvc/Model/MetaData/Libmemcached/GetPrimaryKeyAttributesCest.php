@@ -17,7 +17,8 @@ use IntegrationTester;
 class GetPrimaryKeyAttributesCest
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: getPrimaryKeyAttributes()
+     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached ::
+     * getPrimaryKeyAttributes()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

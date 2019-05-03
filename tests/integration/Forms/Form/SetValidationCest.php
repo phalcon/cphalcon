@@ -77,7 +77,6 @@ class SetValidationCest
         $form->setValidation($customValidation);
 
 
-
         $actual = $form->isValid(
             [
                 'telephone' => '12345',
@@ -88,17 +87,14 @@ class SetValidationCest
         $I->assertFalse($actual);
 
 
-
         $actual = $form->get('telephone')->hasMessages();
 
         $I->assertTrue($actual);
 
 
-
         $actual = $form->get('address')->hasMessages();
 
         $I->assertFalse($actual);
-
 
 
         $expected = new Messages(
@@ -117,12 +113,10 @@ class SetValidationCest
         $I->assertEquals($expected, $actual);
 
 
-
         $expected = $form->getMessages();
         $actual   = $form->get('telephone')->getMessages();
 
         $I->assertEquals($expected, $actual);
-
 
 
         $expected = new Messages();
