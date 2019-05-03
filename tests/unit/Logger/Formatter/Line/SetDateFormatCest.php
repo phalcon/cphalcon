@@ -16,6 +16,8 @@ use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
 /**
+ * Class SetDateFormatCest
+ *
  * @package Phalcon\Test\Unit\Logger
  */
 class SetDateFormatCest
@@ -23,22 +25,18 @@ class SetDateFormatCest
     /**
      * Tests Phalcon\Logger\Formatter\Line :: setDateFormat()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
     public function loggerFormatterLineSetDateFormat(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Line - setDateFormat()');
-
         $formatter = new Line();
 
         $format = 'YmdHis';
-
         $formatter->setDateFormat($format);
 
-        $I->assertEquals(
-            $format,
-            $formatter->getDateFormat()
-        );
+        $expected = $format;
+        $actual   = $formatter->getDateFormat();
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -12,11 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Item;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 /**
+ * Class GetTimeCest
+ *
  * @package Phalcon\Test\Unit\Logger
  */
 class GetTimeCest
@@ -24,25 +26,16 @@ class GetTimeCest
     /**
      * Tests Phalcon\Logger\Item :: getTime()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
     public function loggerItemGetTime(UnitTester $I)
     {
         $I->wantToTest('Logger\Item - getTime()');
-
         $time = time();
+        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
-        $item = new Item(
-            'log message',
-            'debug',
-            Logger::DEBUG,
-            $time
-        );
-
-        $I->assertEquals(
-            $time,
-            $item->getTime()
-        );
+        $expected = $time;
+        $actual   = $item->getTime();
+        $I->assertEquals($expected, $actual);
     }
 }

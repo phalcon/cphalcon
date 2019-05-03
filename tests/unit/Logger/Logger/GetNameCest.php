@@ -10,12 +10,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger;
+namespace Phalcon\Test\Unit\Logger\Logger;
 
-use Phalcon\Logger;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 /**
+ * Class GetNameCest
+ *
  * @package Phalcon\Test\Unit\Logger
  */
 class GetNameCest
@@ -23,18 +25,15 @@ class GetNameCest
     /**
      * Tests Phalcon\Logger :: getName()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
     public function loggerGetName(UnitTester $I)
     {
         $I->wantToTest('Logger - getName()');
-
         $logger = new Logger('my-name');
 
-        $I->assertEquals(
-            'my-name',
-            $logger->getName()
-        );
+        $expected = 'my-name';
+        $actual   = $logger->getName();
+        $I->assertEquals($expected, $actual);
     }
 }

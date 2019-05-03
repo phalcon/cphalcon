@@ -10,28 +10,28 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger;
+namespace Phalcon\Test\Unit\Logger\Logger;
 
 use Phalcon\Test\Fixtures\Traits\LoggerTrait;
 use UnitTester;
 
 /**
+ * Class WarningCest
+ *
  * @package Phalcon\Test\Unit\Logger
  */
-class EmergencyCest
+class WarningCest
 {
     use LoggerTrait;
 
     /**
-     * Tests Phalcon\Logger :: emergency()
+     * Tests Phalcon\Logger :: warning()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
-    public function loggerEmergency(UnitTester $I)
+    public function loggerWarning(UnitTester $I)
     {
-        $I->wantToTest('Logger - emergency()');
-
-        $this->runLoggerFile($I, 'emergency');
+        $I->wantToTest('Logger - warning()');
+        $this->runLoggerFile($I, 'warning');
     }
 }

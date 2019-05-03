@@ -10,13 +10,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Logger;
+namespace Phalcon\Test\Unit\Logger\Logger;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 /**
+ * Class GetAdaptersCest
+ *
  * @package Phalcon\Test\Unit\Logger
  */
 class GetAdaptersCest
@@ -24,25 +26,16 @@ class GetAdaptersCest
     /**
      * Tests Phalcon\Logger :: getAdapters()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
     public function loggerGetAdapters(UnitTester $I)
     {
         $I->wantToTest('Logger - getAdapters()');
-
-        $fileName1 = $I->getNewFileName('log', 'log');
-        $fileName2 = $I->getNewFileName('log', 'log');
-
+        $fileName1  = $I->getNewFileName('log', 'log');
+        $fileName2  = $I->getNewFileName('log', 'log');
         $outputPath = outputDir('tests/logs/');
-
-        $adapter1 = new Stream(
-            $outputPath . $fileName1
-        );
-
-        $adapter2 = new Stream(
-            $outputPath . $fileName2
-        );
+        $adapter1   = new Stream($outputPath . $fileName1);
+        $adapter2   = new Stream($outputPath . $fileName2);
 
         $logger = new Logger(
             'my-logger',
@@ -52,26 +45,15 @@ class GetAdaptersCest
             ]
         );
 
+        $expected = 2;
         $adapters = $logger->getAdapters();
+        $I->assertCount($expected, $adapters);
 
-        $I->assertCount(2, $adapters);
+        $class = Stream::class;
+        $I->assertInstanceOf($class, $adapters['one']);
+        $I->assertInstanceOf($class, $adapters['two']);
 
-        $I->assertInstanceOf(
-            Stream::class,
-            $adapters['one']
-        );
-
-        $I->assertInstanceOf(
-            Stream::class,
-            $adapters['two']
-        );
-
-        $I->safeDeleteFile(
-            $outputPath . $fileName1
-        );
-
-        $I->safeDeleteFile(
-            $outputPath . $fileName2
-        );
+        $I->safeDeleteFile($outputPath . $fileName1);
+        $I->safeDeleteFile($outputPath . $fileName2);
     }
 }

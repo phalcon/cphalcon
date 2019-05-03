@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon;
+namespace Phalcon\Logger;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\InvalidArgumentException;
@@ -169,16 +169,16 @@ class Logger implements LoggerInterface
     {
         var name, registered;
 
-        let registered = this->getAdapters();
+        let registered = this->adapters;
 
         /**
          * Loop through what has been passed. Check these names with
          * the registered adapters. If they match, add them to the
          * this->excluded array
          */
-        for name, _ in adapters {
+        for name in adapters {
             if isset registered[name] {
-                let this->excluded[] = name;
+                let this->excluded[name] = true;
             }
         }
 
@@ -196,7 +196,7 @@ class Logger implements LoggerInterface
     {
         var adapter, adapters;
 
-        let adapters = this->getAdapters();
+        let adapters = this->adapters;
 
         if !fetch adapter, adapters[name] {
             throw new Exception("Adapter does not exist for this logger");
@@ -319,7 +319,7 @@ class Logger implements LoggerInterface
      */
     protected function addMessage(int level, string message, array context = []) -> bool
     {
-        var adapter, key, keys, excluded, levelName, levels, item, registered;
+        var adapter, key, excluded, levelName, levels, item, registered;
 
         let registered = this->adapters,
             excluded   = this->excluded;
@@ -337,20 +337,12 @@ class Logger implements LoggerInterface
         let item = new Item(message, levelName, level, time(), context);
 
         /**
-         * Compare the actual adapters array with the excluded one. Whatever
-         * the difference is, that is the array of adapters that we will log
-         * this message to. By default `excluded` is empty so the message will
-         * be logged to all registered adapters
+         * Log only if the key does not exist in the excluded ones
          */
-        let keys = array_diff(
-            array_keys(registered),
-            excluded
-        );
-
-        for key in keys {
-            let adapter = registered[key];
-
-            adapter->process(item);
+        for key, adapter in registered {
+            if !isset excluded[key] {
+                adapter->process(item);
+            }
         }
 
         /**
