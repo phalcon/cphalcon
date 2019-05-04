@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\AdapterFactory;
 
 use Phalcon\Service\Exception;
-use Phalcon\Storage\Adapter\Php;
 use Phalcon\Storage\Adapter\Apcu;
+use Phalcon\Storage\Adapter\Php;
 use Phalcon\Storage\AdapterFactory;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
