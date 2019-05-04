@@ -15,7 +15,7 @@ use Phalcon\Service\Locator;
 /**
  * Phalcon\Storage\SerializerLocator
  *
- * Lazy loads, stores and exposes tag helper objects
+ * Lazy loads, stores and exposes sanitizer objects
  */
 class SerializerLocator extends Locator
 {

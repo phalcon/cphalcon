@@ -12,6 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\CacheFactory;
 
+use Phalcon\Cache\Adapter\Apcu;
+use Phalcon\Cache\Cache;
+use Phalcon\Cache\CacheFactory;
+use Psr\SimpleCache\CacheInterface;
 use UnitTester;
 
 class NewInstanceCest
@@ -26,6 +30,13 @@ class NewInstanceCest
     {
         $I->wantToTest('Cache\CacheFactory - newInstance()');
 
-        $I->skipTest('Need implementation');
+        $factory = new CacheFactory();
+        $adapter = $factory->newInstance(new Apcu());
+
+        $class = Cache::class;
+        $I->assertInstanceOf($class, $adapter);
+
+        $class = CacheInterface::class;
+        $I->assertInstanceOf($class, $adapter);
     }
 }

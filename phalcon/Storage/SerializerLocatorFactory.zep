@@ -10,15 +10,10 @@
 
 namespace Phalcon\Storage;
 
-use Phalcon\Service\Locator;
+use Phalcon\Storage\SerializerLocator;
 use Phalcon\Service\LocatorInterface;
 use Phalcon\Service\LocatorFactoryInterface;
 
-/**
- * Phalcon\Storage\SerializerLocatorFactory
- *
- * ServiceLocator implementation for Tag helpers
- */
 class SerializerLocatorFactory implements LocatorFactoryInterface
 {
     /**
@@ -27,35 +22,24 @@ class SerializerLocatorFactory implements LocatorFactoryInterface
      */
     public function newInstance() -> <LocatorInterface>
     {
-        var helpers, locator;
+        var locator, helpers;
 
         /**
-         * Available helpers. This needs to change when Zephir supports use
-         * statements to inject the Escaper service in each helper
+         * Available helpers
          */
         let helpers = [
-            "base64"   : function (data) {
-                return new \Phalcon\Storage\Serializer\Base64(data);
-            },
-            "igbinary" : function (data) {
-                return new \Phalcon\Storage\Serializer\Igbinary(data);
-            },
-            "json"     : function (data) {
-                return new \Phalcon\Storage\Serializer\Json(data);
-            },
-            "msgpack"  : function (data) {
-                return new \Phalcon\Storage\Serializer\Msgpack(data);
-            },
-            "none"     : function (data) {
-                return new \Phalcon\Storage\Serializer\None(data);
-            },
-            "php"      : function (data) {
-                return new \Phalcon\Storage\Serializer\Php(data);
-            }
+            "base64"   : function () { return new \Phalcon\Storage\Serializer\Base64(); },
+            "igbinary" : function () { return new \Phalcon\Storage\Serializer\Igbinary(); },
+            "json"     : function () { return new \Phalcon\Storage\Serializer\Json(); },
+            "msgpack"  : function () { return new \Phalcon\Storage\Serializer\Msgpack(); },
+            "none"     : function () { return new \Phalcon\Storage\Serializer\None(); },
+            "php"      : function () { return new \Phalcon\Storage\Serializer\Php(); }
         ];
 
-        let locator = new Locator(helpers);
+        let locator = new SerializerLocator(helpers);
 
         return locator;
     }
 }
+
+
