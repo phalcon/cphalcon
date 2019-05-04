@@ -16,16 +16,12 @@ use Phalcon\Logger\Formatter\Json;
 use UnitTester;
 
 /**
- * Class SetDateFormatCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class SetDateFormatCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Json :: setDateFormat()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

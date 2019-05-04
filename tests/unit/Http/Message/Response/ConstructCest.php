@@ -16,15 +16,10 @@ use Phalcon\Http\Message\Response;
 use Psr\Http\Message\ResponseInterface;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Http\Message\Response :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-08
@@ -32,8 +27,12 @@ class ConstructCest
     public function httpMessageResponseConstruct(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Response - __construct()');
-        $Response = new Response();
-        $class    = ResponseInterface::class;
-        $I->assertInstanceOf($class, $Response);
+
+        $response = new Response();
+
+        $I->assertInstanceOf(
+            ResponseInterface::class,
+            $response
+        );
     }
 }

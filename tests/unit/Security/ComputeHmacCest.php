@@ -12,12 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use UnitTester;
+use Codeception\Example;
 use Phalcon\Security;
+use UnitTester;
 
-/**
- * Class ComputeHmacCest
- */
 class ComputeHmacCest
 {
     /**
@@ -25,18 +23,14 @@ class ComputeHmacCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
+     *
+     * @dataProvider securityComputeHmacProvider
      */
-    public function securityComputeHmac(UnitTester $I)
+    public function securityComputeHmac(UnitTester $I, Example $example)
     {
         $I->wantToTest('Security - computeHmac()');
 
         $security = new Security();
-
-        $data = [];
-
-        for ($i = 1; $i < 256; ++$i) {
-            $data[] = str_repeat('a', $i);
-        }
 
         $keys = [
             substr(md5('test', true), 0, strlen(md5('test', true)) / 2),
@@ -44,21 +38,34 @@ class ComputeHmacCest
             md5('test', true) . md5('test', true),
         ];
 
-        foreach ($data as $text) {
-            $I->assertEquals(
-                hash_hmac('md5', $text, $keys[0]),
-                $security->computeHmac($text, $keys[0], 'md5')
-            );
+        $text = $example[0];
 
-            $I->assertEquals(
-                hash_hmac('md5', $text, $keys[1]),
-                $security->computeHmac($text, $keys[1], 'md5')
-            );
+        $I->assertEquals(
+            hash_hmac('md5', $text, $keys[0]),
+            $security->computeHmac($text, $keys[0], 'md5')
+        );
 
-            $I->assertEquals(
-                hash_hmac('md5', $text, $keys[2]),
-                $security->computeHmac($text, $keys[2], 'md5')
-            );
+        $I->assertEquals(
+            hash_hmac('md5', $text, $keys[1]),
+            $security->computeHmac($text, $keys[1], 'md5')
+        );
+
+        $I->assertEquals(
+            hash_hmac('md5', $text, $keys[2]),
+            $security->computeHmac($text, $keys[2], 'md5')
+        );
+    }
+
+    private function securityComputeHmacProvider(): array
+    {
+        $data = [];
+
+        for ($i = 1; $i < 256; ++$i) {
+            $data[] = [
+                str_repeat('a', $i),
+            ];
         }
+
+        return $data;
     }
 }

@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class IsUnsignedCest
- */
 class IsUnsignedCest
 {
     use DiTrait;
@@ -26,8 +23,6 @@ class IsUnsignedCest
 
     /**
      * Tests Phalcon\Db\Column :: isUnsigned()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -18,17 +18,12 @@ use UnitTester;
 use function dataFolder;
 use function outputFolder;
 
-/**
- * Class WatermarkCest
- */
 class WatermarkCest
 {
     use ImagickTrait;
 
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: watermark()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19
@@ -56,12 +51,14 @@ class WatermarkCest
 
         $I->seeFileFound('watermark.jpg');
 
-        $I->assertTrue(
-            $image->getWidth() > 200
+        $I->assertGreaterThan(
+            200,
+            $image->getWidth()
         );
 
-        $I->assertTrue(
-            $image->getHeight() > 200
+        $I->assertGreaterThan(
+            200,
+            $image->getHeight()
         );
 
         $I->safeDeleteFile('watermark.jpg');

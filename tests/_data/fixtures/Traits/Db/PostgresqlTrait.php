@@ -13,8 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Traits\Db;
 
 /**
- * Trait PostgresqlTrait
- *
  * @package Phalcon\Test\Fixtures\Traits\Db
  */
 trait PostgresqlTrait
@@ -22,8 +20,6 @@ trait PostgresqlTrait
     protected $connection = null;
 
     /**
-     * Constructor
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-10-26
      */
@@ -48,8 +44,6 @@ trait PostgresqlTrait
     /**
      * Returns the database schema;
      *
-     * @return string
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-10-26
      */
@@ -60,8 +54,6 @@ trait PostgresqlTrait
 
     /**
      * Return the array of expected columns
-     *
-     * @return array
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-10-26
@@ -81,8 +73,6 @@ trait PostgresqlTrait
 
     /**
      * Return the array of columns
-     *
-     * @return array
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-10-26
@@ -704,8 +694,6 @@ trait PostgresqlTrait
     /**
      * Return the array of expected indexes
      *
-     * @return array
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-10-26
      */
@@ -746,8 +734,6 @@ trait PostgresqlTrait
     /**
      * Return the array of expected references
      *
-     * @return array
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-10-26
      */
@@ -781,8 +767,6 @@ trait PostgresqlTrait
 
     /**
      * Returns the database name
-     *
-     * @return string
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-10-26

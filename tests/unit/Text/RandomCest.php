@@ -21,8 +21,6 @@ class RandomCest
     /**
      * Tests Phalcon\Text :: random() - constants
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -41,185 +39,199 @@ class RandomCest
     /**
      * Tests Phalcon\Text :: random() - alnum
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider oneToTenProvider
      */
-    public function textRandomAlnum(UnitTester $I)
+    public function textRandomAlnum(UnitTester $I, Example $example)
     {
         $I->wantToTest('Text - random() - alnum');
 
-        for ($i = 1; $i < 10; $i++) {
-            $source = Text::random(
-                Text::RANDOM_ALNUM,
-                $i
-            );
+        $i = $example[0];
 
-            $I->assertEquals(
-                1,
-                preg_match('/[a-zA-Z0-9]+/', $source, $matches)
-            );
+        $source = Text::random(
+            Text::RANDOM_ALNUM,
+            $i
+        );
 
-            $I->assertEquals(
-                $source,
-                $matches[0]
-            );
+        $I->assertEquals(
+            1,
+            preg_match('/[a-zA-Z0-9]+/', $source, $matches)
+        );
 
-            $I->assertEquals(
-                $i,
-                strlen($source)
-            );
-        }
+        $I->assertEquals(
+            $source,
+            $matches[0]
+        );
+
+        $I->assertEquals(
+            $i,
+            strlen($source)
+        );
+    }
+
+    private function oneToTenProvider(): array
+    {
+        return [
+            [1],
+            [2],
+            [3],
+            [4],
+            [5],
+            [6],
+            [7],
+            [8],
+            [9],
+            [10],
+        ];
     }
 
     /**
      * Tests Phalcon\Text :: random() - alpha
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider oneToTenProvider
      */
-    public function textRandomAlpha(UnitTester $I)
+    public function textRandomAlpha(UnitTester $I, Example $example)
     {
         $I->wantToTest('Text - random() - alpha');
 
-        for ($i = 1; $i < 10; $i++) {
-            $source = Text::random(
-                Text::RANDOM_ALPHA,
-                $i
-            );
+        $i = $example[0];
 
-            $I->assertEquals(
-                1,
-                preg_match('/[a-zA-Z]+/', $source, $matches)
-            );
+        $source = Text::random(
+            Text::RANDOM_ALPHA,
+            $i
+        );
 
-            $I->assertEquals(
-                $source,
-                $matches[0]
-            );
+        $I->assertEquals(
+            1,
+            preg_match('/[a-zA-Z]+/', $source, $matches)
+        );
 
-            $I->assertEquals(
-                $i,
-                strlen($source)
-            );
-        }
+        $I->assertEquals(
+            $source,
+            $matches[0]
+        );
+
+        $I->assertEquals(
+            $i,
+            strlen($source)
+        );
     }
 
     /**
      * Tests Phalcon\Text :: random() - hexdec
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider oneToTenProvider
      */
-    public function textRandomHexDec(UnitTester $I)
+    public function textRandomHexDec(UnitTester $I, Example $example)
     {
         $I->wantToTest('Text - random() - hexdex');
 
-        for ($i = 1; $i < 10; $i++) {
-            $source = Text::random(
-                Text::RANDOM_HEXDEC,
-                $i
-            );
+        $i = $example[0];
 
-            $I->assertEquals(
-                1,
-                preg_match('/[a-f0-9]+/', $source, $matches)
-            );
+        $source = Text::random(
+            Text::RANDOM_HEXDEC,
+            $i
+        );
 
-            $I->assertEquals(
-                $source,
-                $matches[0]
-            );
+        $I->assertEquals(
+            1,
+            preg_match('/[a-f0-9]+/', $source, $matches)
+        );
 
-            $I->assertEquals(
-                $i,
-                strlen($source)
-            );
-        }
+        $I->assertEquals(
+            $source,
+            $matches[0]
+        );
+
+        $I->assertEquals(
+            $i,
+            strlen($source)
+        );
     }
 
     /**
      * Tests Phalcon\Text :: random() - numeric
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider oneToTenProvider
      */
-    public function textRandomNumeric(UnitTester $I)
+    public function textRandomNumeric(UnitTester $I, Example $example)
     {
         $I->wantToTest('Text - random() - numeric');
 
-        for ($i = 1; $i < 10; $i++) {
-            $source = Text::random(
-                Text::RANDOM_NUMERIC,
-                $i
-            );
+        $i = $example[0];
 
-            $I->assertEquals(
-                1,
-                preg_match('/[0-9]+/', $source, $matches)
-            );
+        $source = Text::random(
+            Text::RANDOM_NUMERIC,
+            $i
+        );
 
-            $I->assertEquals(
-                $source,
-                $matches[0]
-            );
+        $I->assertEquals(
+            1,
+            preg_match('/[0-9]+/', $source, $matches)
+        );
 
-            $I->assertEquals(
-                $i,
-                strlen($source)
-            );
-        }
+        $I->assertEquals(
+            $source,
+            $matches[0]
+        );
+
+        $I->assertEquals(
+            $i,
+            strlen($source)
+        );
     }
 
     /**
      * Tests Phalcon\Text :: random() - non zero
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider oneToTenProvider
      */
-    public function textRandomNonZero(UnitTester $I)
+    public function textRandomNonZero(UnitTester $I, Example $example)
     {
         $I->wantToTest('Text - random() - non zero');
 
-        for ($i = 1; $i < 10; $i++) {
-            $source = Text::random(
-                Text::RANDOM_NOZERO,
-                $i
-            );
+        $i = $example[0];
+
+        $source = Text::random(
+            Text::RANDOM_NOZERO,
+            $i
+        );
 
 
 
-            $actual = preg_match('/[1-9]+/', $source, $matches);
+        $actual = preg_match('/[1-9]+/', $source, $matches);
 
-            $I->assertEquals(1, $actual);
+        $I->assertEquals(1, $actual);
 
 
 
-            $I->assertEquals(
-                $source,
-                $matches[0]
-            );
+        $I->assertEquals(
+            $source,
+            $matches[0]
+        );
 
-            $I->assertEquals(
-                $i,
-                strlen($source)
-            );
-        }
+        $I->assertEquals(
+            $i,
+            strlen($source)
+        );
     }
 
     /**
      * Tests Phalcon\Text :: random() - distinct type
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -237,9 +249,9 @@ class RandomCest
 
         $pattern = '#^[^2345679ACDEFHJKLMNPRSTUVWXYZ]+$#';
 
-        $I->assertEquals(
-            0,
-            preg_match($pattern, $source)
+        $I->assertNotRegExp(
+            $pattern,
+            $source
         );
 
         $I->assertEquals(

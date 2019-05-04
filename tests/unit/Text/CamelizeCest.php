@@ -34,9 +34,10 @@ class CamelizeCest
         $expected  = $example[1];
         $delimiter = $example[2];
 
-        $actual = Text::camelize($value, $delimiter);
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            Text::camelize($value, $delimiter)
+        );
     }
 
     private function getSources(): array

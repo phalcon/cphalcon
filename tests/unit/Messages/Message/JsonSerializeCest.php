@@ -12,18 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Messages\Message;
 
+use JsonSerializable;
 use Phalcon\Messages\Message;
 use UnitTester;
 
-/**
- * Class JsonSerializeCest
- */
 class JsonSerializeCest
 {
     /**
      * Tests Phalcon\Messages\Message :: jsonSerialize()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -45,7 +41,7 @@ class JsonSerializeCest
 
 
         $I->assertInstanceOf(
-            \JsonSerializable::class,
+            JsonSerializable::class,
             $message
         );
 

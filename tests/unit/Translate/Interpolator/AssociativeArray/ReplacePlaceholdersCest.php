@@ -21,8 +21,6 @@ class ReplacePlaceholdersCest
      * Tests Phalcon\Translate\Interpolator\AssociativeArray ::
      * replacePlaceholders()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

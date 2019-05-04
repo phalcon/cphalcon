@@ -15,8 +15,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 use UnitTester;
 
 /**
- * Trait RedisTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait RedisTrait

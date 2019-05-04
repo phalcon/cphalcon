@@ -14,11 +14,14 @@ class ModelsEventsCest
     public function testEventsFetch(IntegrationTester $I)
     {
         $trace = [];
+
         $this->prepareDi($trace);
         $this->setDiMysql();
 
-        $robot        = GossipRobots::findFirst();
+        $robot = GossipRobots::findFirst();
+
         $robot->trace = &$trace;
+
         $I->assertEquals(
             $trace,
             [
@@ -29,29 +32,33 @@ class ModelsEventsCest
         );
     }
 
-    /**
-     * @param $trace
-     */
     private function prepareDI(&$trace)
     {
         $this->setNewFactoryDefault();
+
         $eventsManager = $this->newEventsManager();
+
         $eventsManager->attach(
             'model',
             function ($event, $model) use (&$trace) {
-                if (!isset($trace[$event->getType()][get_class($model)])) {
-                    $trace[$event->getType()][get_class($model)] = 1;
-                } else {
-                    $trace[$event->getType()][get_class($model)]++;
+                $type  = $event->getType();
+                $class = get_class($model);
+
+                if (!isset($trace[$type][$class])) {
+                    $trace[$type][$class] = 0;
                 }
+
+                $trace[$type][$class]++;
             }
         );
 
         $this->container->setShared('eventsManager', $eventsManager);
+
         $this->container->setShared(
             'modelsManager',
             function () use ($eventsManager) {
                 $modelsManager = new ModelManager();
+
                 $modelsManager->setEventsManager($eventsManager);
 
                 return $modelsManager;
@@ -62,16 +69,19 @@ class ModelsEventsCest
     public function testEventsCreate(IntegrationTester $I)
     {
         $trace = [];
+
         $this->prepareDI($trace);
         $this->setDiMysql();
 
-        $robot           = new GossipRobots();
+        $robot = new GossipRobots();
+
         $robot->name     = 'Test';
         $robot->year     = 2000;
         $robot->type     = 'Some Type';
         $robot->datetime = '1970/01/01 00:00:00';
         $robot->text     = 'text';
         $robot->trace    = &$trace;
+
         $robot->save();
 
         $I->assertEquals(
@@ -108,11 +118,14 @@ class ModelsEventsCest
     public function testEventsUpdate(IntegrationTester $I)
     {
         $trace = [];
+
         $this->prepareDI($trace);
         $this->setDiMysql();
 
-        $robot        = GossipRobots::findFirst();
+        $robot = GossipRobots::findFirst();
+
         $robot->trace = &$trace;
+
         $robot->save();
 
         $I->assertEquals(
@@ -158,11 +171,14 @@ class ModelsEventsCest
     public function testEventsDelete(IntegrationTester $I)
     {
         $trace = [];
+
         $this->prepareDI($trace);
         $this->setDiMysql();
 
-        $robot        = GossipRobots::findFirst();
+        $robot = GossipRobots::findFirst();
+
         $robot->trace = &$trace;
+
         $robot->delete();
 
         $I->assertEquals(

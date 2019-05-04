@@ -16,16 +16,12 @@ use UnitTester;
 use function dataFolder;
 
 /**
- * Trait TranslateTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait TranslateTrait
 {
     /**
      * Executed before each test
-     *
-     * @param UnitTester $I
      */
     public function _before(UnitTester $I, $scenario)
     {
@@ -36,9 +32,6 @@ trait TranslateTrait
         }
     }
 
-    /**
-     * @return array
-     */
     protected function getArrayConfig(): array
     {
         return [
@@ -67,9 +60,6 @@ trait TranslateTrait
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getCsvConfig(): array
     {
         return [
@@ -79,9 +69,6 @@ trait TranslateTrait
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getGettextConfig(): array
     {
         return [

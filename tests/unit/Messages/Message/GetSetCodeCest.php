@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Messages\Message;
 use Phalcon\Messages\Message;
 use UnitTester;
 
-/**
- * Class GetSetCodeCest
- */
 class GetSetCodeCest
 {
     /**
      * Tests Phalcon\Messages\Message :: getCode()/setCode()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

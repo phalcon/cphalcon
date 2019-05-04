@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-/**
- * Class JsonSerializeCest
- */
 class JsonSerializeCest
 {
     /**
      * Tests Phalcon\Registry :: jsonSerialize()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,15 +26,18 @@ class JsonSerializeCest
     public function collectionJsonSerialize(UnitTester $I)
     {
         $I->wantToTest('Registry - jsonSerialize()');
-        $data     = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $registry = new Registry($data);
 
-        $expected = $data;
-        $actual   = $registry->jsonSerialize();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $data,
+            $registry->jsonSerialize()
+        );
     }
 }

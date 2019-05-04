@@ -19,16 +19,12 @@ use UnitTester;
 use const PHP_EOL;
 
 /**
- * Class FormatCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class FormatCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Json :: format()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -62,8 +58,6 @@ class FormatCest
 
     /**
      * Tests Phalcon\Logger\Formatter\Json :: format() -custom
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

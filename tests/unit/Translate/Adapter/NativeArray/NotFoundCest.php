@@ -18,9 +18,6 @@ use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\Exception;
 use UnitTester;
 
-/**
- * Class NotFoundCest
- */
 class NotFoundCest
 {
     use TranslateTrait;
@@ -28,26 +25,31 @@ class NotFoundCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - default
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterNativearrayNotFound(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - notFound()');
-        $language   = $this->getArrayConfig()['en'];
-        $translator = new NativeArray(['content' => $language]);
+
+        $language = $this->getArrayConfig()['en'];
+
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
 
         $expected = 'unknown';
-        $actual   = $translator->query($expected);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $translator->query($expected)
+        );
     }
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - triggerError
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -55,16 +57,19 @@ class NotFoundCest
     public function translateAdapterNativearrayNotFoundTriggerError(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - notFound() - triggerError');
+
         $I->expectThrowable(
             new Exception('Cannot find translation key: unknown'),
             function () {
-                $language   = $this->getArrayConfig()['en'];
+                $language = $this->getArrayConfig()['en'];
+
                 $translator = new NativeArray(
                     [
                         'content'      => $language,
                         'triggerError' => true,
                     ]
                 );
+
                 $translator->query('unknown');
             }
         );
@@ -74,24 +79,25 @@ class NotFoundCest
      * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - triggerError
      * random value
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterNativearrayNotFoundTriggerErrorRandomVaue(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - notFound() - triggerError random value');
+
         $I->expectThrowable(
             new Exception('Cannot find translation key: unknown'),
             function () {
-                $language   = $this->getArrayConfig()['en'];
+                $language = $this->getArrayConfig()['en'];
+
                 $translator = new NativeArray(
                     [
                         'content'      => $language,
                         'triggerError' => 'blahblah',
                     ]
                 );
+
                 $translator->query('unknown');
             }
         );
@@ -100,19 +106,24 @@ class NotFoundCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - custom
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterNativearrayNotFoundCustom(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - notFound() - custom');
-        $language   = $this->getArrayConfig()['en'];
-        $translator = new NativeAdapter(['content' => $language]);
 
-        $expected = '';
-        $actual   = $translator->query('unknown');
-        $I->assertEquals($expected, $actual);
+        $language = $this->getArrayConfig()['en'];
+
+        $translator = new NativeAdapter(
+            [
+                'content' => $language,
+            ]
+        );
+
+        $I->assertEquals(
+            '',
+            $translator->query('unknown')
+        );
     }
 }

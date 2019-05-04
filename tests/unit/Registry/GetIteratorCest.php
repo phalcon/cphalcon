@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-/**
- * Class GetIteratorCest
- */
 class GetIteratorCest
 {
     /**
      * Tests Phalcon\Registry :: getIterator()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,15 +26,20 @@ class GetIteratorCest
     public function collectionGetIterator(UnitTester $I)
     {
         $I->wantToTest('Registry - getIterator()');
-        $data     = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $registry = new Registry($data);
 
         foreach ($registry as $key => $value) {
-            $I->assertEquals($data[$key], $registry[$key]);
+            $I->assertEquals(
+                $data[$key],
+                $registry[$key]
+            );
         }
     }
 }

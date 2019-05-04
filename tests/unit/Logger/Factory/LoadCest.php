@@ -17,16 +17,10 @@ use Phalcon\Logger\Factory;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
-/**
- * Class LoadCest
- */
 class LoadCest
 {
     use FactoryTrait;
 
-    /**
-     * @param UnitTester $I
-     */
     public function _before(UnitTester $I)
     {
         $this->init();
@@ -34,8 +28,6 @@ class LoadCest
 
     /**
      * Tests Phalcon\Logger\Factory :: load() - Config
-     *
-     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
@@ -52,7 +44,6 @@ class LoadCest
     /**
      * Runs the tests based on different configurations
      *
-     * @param UnitTester   $I
      * @param Config|array $options
      */
     private function runTests(UnitTester $I, $options)
@@ -71,8 +62,11 @@ class LoadCest
         );
 
         $adapters = $logger->getAdapters();
-        $expected = count($options['adapters']);
-        $I->assertCount($expected, $adapters);
+
+        $I->assertCount(
+            count($options['adapters']),
+            $adapters
+        );
 
         $counter = 0;
 
@@ -84,10 +78,10 @@ class LoadCest
 
             $I->assertInstanceOf($class, $adapter);
 
-            $expected = $options['adapters'][$counter]['name'];
-            $actual   = $adapter->getName();
-
-            $I->assertEquals($expected, $actual);
+            $I->assertEquals(
+                $options['adapters'][$counter]['name'],
+                $adapter->getName()
+            );
 
             $counter++;
         }
@@ -95,8 +89,6 @@ class LoadCest
 
     /**
      * Tests Phalcon\Logger\Factory :: load() - array
-     *
-     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02

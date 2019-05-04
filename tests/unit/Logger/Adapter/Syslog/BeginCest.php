@@ -16,8 +16,6 @@ use Phalcon\Logger\Adapter\Syslog;
 use UnitTester;
 
 /**
- * Class BeginCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class BeginCest
@@ -25,20 +23,21 @@ class BeginCest
     /**
      * Tests Phalcon\Logger\Adapter\Syslog :: begin()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function loggerAdapterSyslogBegin(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Syslog - begin()');
+
         $streamName = $I->getNewFileName('log', 'log');
-        $adapter    = new Syslog($streamName);
+
+        $adapter = new Syslog($streamName);
 
         $adapter->begin();
 
-        $actual = $adapter->inTransaction();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->inTransaction()
+        );
     }
 }

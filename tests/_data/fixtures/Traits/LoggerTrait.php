@@ -18,8 +18,6 @@ use UnitTester;
 use function outputFolder;
 
 /**
- * Trait LoggerTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait LoggerTrait
@@ -32,21 +30,30 @@ trait LoggerTrait
 
         $logString = "Hello";
 
-        $logger  = new Logger('my-logger', ['one' => $adapter]);
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter,
+            ]
+        );
+
         $logTime = date('D, d M y H:i:s O');
+
         $logger->{$level}($logString);
 
         $logger->getAdapter('one')->close();
 
         $I->amInPath($logPath);
         $I->openFile($fileName);
-        $expected = sprintf(
-            "[%s][%s] " . $logString,
-            $logTime,
-            $level
+
+        $I->seeInThisFile(
+            sprintf(
+                "[%s][%s] " . $logString,
+                $logTime,
+                $level
+            )
         );
 
-        $I->seeInThisFile($expected);
         $I->safeDeleteFile($fileName);
     }
 }

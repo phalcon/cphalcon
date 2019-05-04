@@ -15,8 +15,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 use RuntimeException;
 
 /**
- * Trait CookieTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait CookieTrait

@@ -32,7 +32,9 @@ class ResizeCest
     {
         $I->wantToTest('Image\Adapter\Imagick - resize()');
 
-        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
+        $image = new Imagick(
+            dataFolder('assets/images/phalconphp.jpg')
+        );
 
         $image->setResourceLimit(6, 1);
 
@@ -45,12 +47,14 @@ class ResizeCest
 
         $I->seeFileFound('resize.jpg');
 
-        $I->assertTrue(
-            $image->getWidth() <= 200
+        $I->assertLessThanOrEqual(
+            200,
+            $image->getWidth()
         );
 
-        $I->assertTrue(
-            $image->getHeight() <= 200
+        $I->assertLessThanOrEqual(
+            200,
+            $image->getHeight()
         );
 
         $I->safeDeleteFile('resize.jpg');

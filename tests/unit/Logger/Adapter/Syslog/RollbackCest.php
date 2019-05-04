@@ -16,16 +16,12 @@ use Phalcon\Logger\Adapter\Syslog;
 use UnitTester;
 
 /**
- * Class RollbackCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class RollbackCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Syslog :: rollback()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

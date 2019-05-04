@@ -23,8 +23,6 @@ class GetSetRandomBytesCest
     /**
      * Tests Phalcon\Security :: getRandomBytes()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -34,14 +32,20 @@ class GetSetRandomBytesCest
 
         $security = new Security();
 
-        $expected = 16;
-        $actual   = $security->getRandomBytes();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            16,
+            $security->getRandomBytes()
+        );
 
         $expected = 22;
 
+
+
         $security->setRandomBytes($expected);
-        $actual   = $security->getRandomBytes();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $security->getRandomBytes()
+        );
     }
 }

@@ -64,7 +64,7 @@ class GetIdCest
                     strpos($chunks[1], '.') + 1
                 );
 
-                $special   = $this->specialToNumber(
+                $special = $this->specialToNumber(
                     substr(
                         $chunks[1],
                         0,

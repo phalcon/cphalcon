@@ -17,16 +17,12 @@ use Phalcon\Logger\Exception;
 use UnitTester;
 
 /**
- * Class CommitCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class CommitCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: commit()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -35,11 +31,13 @@ class CommitCest
     {
         $I->wantToTest('Logger\Adapter\Stream - commit()');
 
-        $fileName   = $I->getNewFileName('log', 'log');
+        $fileName = $I->getNewFileName('log', 'log');
 
         $outputPath = outputFolder('tests/logs/');
 
-        $adapter = new Stream($outputPath . $fileName);
+        $adapter = new Stream(
+            $outputPath . $fileName
+        );
 
         $adapter->begin();
 
@@ -61,8 +59,6 @@ class CommitCest
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: commit() - no transaction
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -74,7 +70,9 @@ class CommitCest
 
         $outputPath = outputFolder('tests/logs/');
 
-        $adapter = new Stream($outputPath . $fileName);
+        $adapter = new Stream(
+            $outputPath . $fileName
+        );
 
         $I->assertFalse(
             $adapter->inTransaction()

@@ -16,16 +16,12 @@ use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
 
 /**
- * Class InTransactionCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class InTransactionCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: inTransaction()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -54,6 +50,8 @@ class InTransactionCest
             $adapter->inTransaction()
         );
 
-        $I->safeDeleteFile($outputPath . $fileName);
+        $I->safeDeleteFile(
+            $outputPath . $fileName
+        );
     }
 }

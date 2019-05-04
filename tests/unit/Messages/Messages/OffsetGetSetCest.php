@@ -16,15 +16,10 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use UnitTester;
 
-/**
- * Class OffsetGetSetCest
- */
 class OffsetGetSetCest
 {
     /**
      * Tests Phalcon\Messages\Messages :: offsetGet()/offsetSet()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -86,7 +81,9 @@ class OffsetGetSetCest
                 '_field'    => 'MyField3',
                 '_type'     => 'MyType3',
                 '_code'     => 777,
-                '_metaData' => ['My3' => 'Metadata3']
+                '_metaData' => [
+                    'My3' => 'Metadata3',
+                ],
             ]
         );
 

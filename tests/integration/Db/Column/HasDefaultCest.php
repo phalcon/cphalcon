@@ -16,33 +16,27 @@ use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Column;
 
-/**
- * Class HasDefaultCest
- */
 class HasDefaultCest
 {
     /**
      * Tests Phalcon\Db\Column :: hasDefault() - Mysql
-     *
-     * @param IntegrationTester $I
-     * @param Example           $data
      *
      * @dataProvider connectionProvider
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
      */
-    public function dbColumnHasDefault(IntegrationTester $I, Example $data)
+    public function dbColumnHasDefault(IntegrationTester $I, Example $example)
     {
         $I->wantToTest(
             sprintf(
                 'Db\Column - hasDefault() - %s',
-                $data['name']
+                $example['name']
             )
         );
 
-        $columns  = $data['data'];
-        $expected = $data['expected'];
+        $columns  = $example['data'];
+        $expected = $example['expected'];
 
         foreach ($columns as $index => $column) {
             $I->assertEquals(
@@ -57,10 +51,8 @@ class HasDefaultCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
-     *
-     * @return array
      */
-    private function connectionProvider()
+    private function connectionProvider(): array
     {
         return [
             [

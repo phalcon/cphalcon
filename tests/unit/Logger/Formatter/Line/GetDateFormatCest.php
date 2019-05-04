@@ -16,16 +16,12 @@ use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
 /**
- * Class GetDateFormatCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class GetDateFormatCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Line :: getDateFormat()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

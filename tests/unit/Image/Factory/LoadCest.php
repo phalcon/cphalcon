@@ -17,16 +17,10 @@ use Phalcon\Image\Factory;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
-/**
- * Class LoadCest
- */
 class LoadCest
 {
     use FactoryTrait;
 
-    /**
-     * @param UnitTester $I
-     */
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('imagick');
@@ -36,8 +30,6 @@ class LoadCest
 
     /**
      * Tests Phalcon\Image\Factory :: load() - Phalcon\Config
-     *
-     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
@@ -60,15 +52,14 @@ class LoadCest
             $options->file
         );
 
-        $actual = $image->getRealpath();
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $image->getRealpath()
+        );
     }
 
     /**
      * Tests Phalcon\Image\Factory :: load() - array
-     *
-     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
@@ -91,8 +82,9 @@ class LoadCest
             $options["file"]
         );
 
-        $actual = $image->getRealpath();
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $image->getRealpath()
+        );
     }
 }

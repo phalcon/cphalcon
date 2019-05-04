@@ -18,16 +18,12 @@ use Phalcon\Logger\Item;
 use UnitTester;
 
 /**
- * Class CloseCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class CloseCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: close()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

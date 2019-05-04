@@ -26,10 +26,13 @@ class ConstructCest
     public function securityConstruct(UnitTester $I)
     {
         $I->wantToTest('Security - __construct()');
+
         $security = new Security();
 
-        $class = Security::class;
-        $I->assertInstanceOf($class, $security);
+        $I->assertInstanceOf(
+            Security::class,
+            $security
+        );
     }
 
     /**

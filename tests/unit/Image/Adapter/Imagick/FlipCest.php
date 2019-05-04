@@ -48,10 +48,15 @@ class FlipCest
 
         $I->seeFileFound('flip.jpg');
 
-        $actual = $image->getWidth() > 200;
-        $I->assertTrue($actual);
-        $actual = $image->getHeight() > 200;
-        $I->assertTrue($actual);
+        $I->assertGreaterThan(
+            200,
+            $image->getWidth()
+        );
+
+        $I->assertGreaterThan(
+            200,
+            $image->getHeight()
+        );
 
         $I->safeDeleteFile('flip.jpg');
     }

@@ -25,8 +25,6 @@ class SharpenCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: sharpen()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19
      */
@@ -49,11 +47,13 @@ class SharpenCest
 
         $I->seeFileFound('sharpen.jpg');
 
-        $I->assertTrue(
-            $image->getWidth() > 200
+        $I->assertGreaterThan(
+            200,
+            $image->getWidth()
         );
-        $I->assertTrue(
-            $image->getHeight() > 200
+        $I->assertGreaterThan(
+            200,
+            $image->getHeight()
         );
 
         $I->safeDeleteFile('sharpen.jpg');

@@ -20,8 +20,6 @@ class ConstantsCest
     /**
      * Tests Phalcon\Db\Column :: constants
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-10-26
      */

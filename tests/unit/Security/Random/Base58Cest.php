@@ -54,8 +54,11 @@ class Base58Cest
 
 
         $expectedLength = 30;
-        $base58 = $random->base58($expectedLength);
+        $base58         = $random->base58($expectedLength);
 
-        $I->assertEquals($expectedLength, strlen($base58));
+        $I->assertEquals(
+            $expectedLength,
+            strlen($base58)
+        );
     }
 }

@@ -44,8 +44,6 @@ use function cacheFolder;
 use function dataFolder;
 
 /**
- * Trait DiTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait DiTrait
@@ -63,10 +61,7 @@ trait DiTrait
         return $this->container;
     }
 
-    /**
-     * @return File
-     */
-    protected function getAndSetModelsCacheFile()
+    protected function getAndSetModelsCacheFile(): File
     {
         $cache = new File(
             new Data(
@@ -84,10 +79,7 @@ trait DiTrait
         return $cache;
     }
 
-    /**
-     * @return Libmemcached
-     */
-    protected function getAndSetModelsCacheFileLibmemcached()
+    protected function getAndSetModelsCacheFileLibmemcached(): Libmemcached
     {
         $config = [
             'servers' => [
@@ -137,42 +129,27 @@ trait DiTrait
         Di::setDefault($this->container);
     }
 
-    /**
-     * @return CliFactoryDefault
-     */
-    protected function newCliFactoryDefault()
+    protected function newCliFactoryDefault(): CliFactoryDefault
     {
         return new CliFactoryDefault();
     }
 
-    /**
-     * @return CliConsole
-     */
-    protected function newCliConsole()
+    protected function newCliConsole(): CliConsole
     {
         return new CliConsole();
     }
 
-    /**
-     * @return EventsManager
-     */
-    protected function newEventsManager()
+    protected function newEventsManager(): EventsManager
     {
         return new EventsManager();
     }
 
-    /**
-     * @return Escaper
-     */
-    protected function newEscaper()
+    protected function newEscaper(): Escaper
     {
         return new Escaper();
     }
 
-    /**
-     * @return ModelsManager
-     */
-    protected function newModelsManager()
+    protected function newModelsManager(): ModelsManager
     {
         return new ModelsManager();
     }
@@ -488,7 +465,9 @@ trait DiTrait
             function () {
                 $view = new Simple();
 
-                $view->setViewsDir(dataFolder('fixtures/views/'));
+                $view->setViewsDir(
+                    dataFolder('fixtures/views/')
+                );
 
                 return $view;
             }
@@ -518,10 +497,7 @@ trait DiTrait
         Di::setDefault($this->container);
     }
 
-    /**
-     * @return FactoryDefault
-     */
-    protected function newFactoryDefault()
+    protected function newFactoryDefault(): FactoryDefault
     {
         return new FactoryDefault();
     }
@@ -555,10 +531,6 @@ trait DiTrait
 
     /**
      * Return a service from the container
-     *
-     * @param string $name
-     *
-     * @return mixed
      */
     protected function getService(string $name)
     {

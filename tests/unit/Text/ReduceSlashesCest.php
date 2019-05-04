@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Text;
 
+use Codeception\Example;
 use Phalcon\Text;
 use UnitTester;
 
@@ -22,29 +23,41 @@ class ReduceSlashesCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider textReduceSlashesProvider
      */
-    public function textReduceSlashes(UnitTester $I)
+    public function textReduceSlashes(UnitTester $I, Example $example)
     {
         $I->wantToTest('Text - reduceSlashes()');
 
         $I->assertEquals(
-            'app/controllers/IndexController',
-            Text::reduceSlashes('app/controllers//IndexController')
+            $example['expected'],
+            Text::reduceSlashes($example['string'])
         );
+    }
 
-        $I->assertEquals(
-            'http://foo/bar/baz/buz',
-            Text::reduceSlashes('http://foo//bar/baz/buz')
-        );
+    private function textReduceSlashesProvider(): array
+    {
+        return [
+            [
+                'string'   => 'app/controllers//IndexController',
+                'expected' => 'app/controllers/IndexController',
+            ],
 
-        $I->assertEquals(
-            'php://memory',
-            Text::reduceSlashes('php://memory')
-        );
+            [
+                'string'   => 'http://foo//bar/baz/buz',
+                'expected' => 'http://foo/bar/baz/buz',
+            ],
 
-        $I->assertEquals(
-            'http/https',
-            Text::reduceSlashes('http//https')
-        );
+            [
+                'string'   => 'php://memory',
+                'expected' => 'php://memory',
+            ],
+
+            [
+                'string'   => 'http//https',
+                'expected' => 'http/https',
+            ],
+        ];
     }
 }

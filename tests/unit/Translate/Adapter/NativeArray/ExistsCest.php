@@ -29,10 +29,17 @@ class ExistsCest
     public function translateAdapterNativeArrayExists(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - exists()');
-        $language   = $this->getArrayConfig()['en'];
-        $translator = new NativeArray(['content' => $language]);
 
-        $actual = $translator->exists('hi');
-        $I->assertTrue($actual);
+        $language = $this->getArrayConfig()['en'];
+
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
+
+        $I->assertTrue(
+            $translator->exists('hi')
+        );
     }
 }
