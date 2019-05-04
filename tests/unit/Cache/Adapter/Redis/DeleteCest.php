@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Redis;
 
+use function getOptionsRedis;
 use Phalcon\Cache\Adapter\Redis;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 
@@ -34,7 +36,8 @@ class DeleteCest
     public function storageAdapterRedisDelete(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - delete()');
-        $adapter = new Redis($this->getOptions());
+        $factory = new SerializerFactory();
+        $adapter = new Redis($factory, getOptionsRedis());
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -59,7 +62,8 @@ class DeleteCest
     public function storageAdapterRedisDeleteTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - delete() - twice');
-        $adapter = new Redis($this->getOptions());
+        $factory = new SerializerFactory();
+        $adapter = new Redis($factory, getOptionsRedis());
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -84,7 +88,8 @@ class DeleteCest
     public function storageAdapterRedisDeleteUnknown(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - delete() - unknown');
-        $adapter = new Redis($this->getOptions());
+        $factory = new SerializerFactory();
+        $adapter = new Redis($factory, getOptionsRedis());
 
         $key    = 'cache-data';
         $actual = $adapter->delete($key);

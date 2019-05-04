@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Apcu;
 
 use Phalcon\Cache\Adapter\Apcu;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use UnitTester;
 
@@ -34,7 +35,8 @@ class GetPrefixCest
     public function storageAdapterApcuGetSetPrefix(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - getPrefix()');
-        $adapter = new Apcu(['prefix' => 'my-prefix']);
+        $factory = new SerializerFactory();
+        $adapter = new Apcu($factory, ['prefix' => 'my-prefix']);
 
         $expected = 'my-prefix';
         $actual   = $adapter->getPrefix();
@@ -52,7 +54,8 @@ class GetPrefixCest
     public function storageAdapterApcuGetSetPrefixDefault(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - getPrefix() - default');
-        $adapter = new Apcu();
+        $factory = new SerializerFactory();
+        $adapter = new Apcu($factory);
 
         $expected = 'ph-apcu-';
         $actual   = $adapter->getPrefix();

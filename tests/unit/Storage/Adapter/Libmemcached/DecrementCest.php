@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Exception;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 use function getOptionsLibmemcached;
@@ -38,7 +39,8 @@ class DecrementCest
     public function storageAdapterLibmemcachedDecrement(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - decrement()');
-        $adapter = new Libmemcached(getOptionsLibmemcached());
+        $factory = new SerializerFactory();
+        $adapter = new Libmemcached($factory, getOptionsLibmemcached());
 
         $key    = 'cache-data';
         $result = $adapter->set($key, 100);

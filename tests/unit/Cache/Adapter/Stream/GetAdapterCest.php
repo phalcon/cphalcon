@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Stream;
 
+use function outputDir;
 use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
 /**
@@ -32,7 +34,8 @@ class GetAdapterCest
     {
         $I->wantToTest('Cache\Adapter\Stream - getAdapter()');
 
-        $adapter = new Stream(['cacheDir' => '/tmp']);
+        $factory = new SerializerFactory();
+        $adapter = new Stream($factory, ['cacheDir' => '/tmp']);
 
         $actual = $adapter->getAdapter();
         $I->assertNull($actual);

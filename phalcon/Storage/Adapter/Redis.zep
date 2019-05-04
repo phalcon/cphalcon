@@ -13,6 +13,7 @@ namespace Phalcon\Storage\Adapter;
 use Phalcon\Helper\Arr;
 use Phalcon\Storage\Adapter\AbstractAdapter;
 use Phalcon\Storage\Exception;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
@@ -30,7 +31,7 @@ class Redis extends AbstractAdapter
     /**
      * Constructor
      */
-    public function __construct(array! options = [])
+    public function __construct(<SerializerFactory> factory, array! options = [])
     {
         /**
          * Lets set some defaults and options here
@@ -44,7 +45,7 @@ class Redis extends AbstractAdapter
             this->prefix          = "ph-reds-",
             this->options         = options;
 
-        parent::__construct(options);
+        parent::__construct(factory, options);
     }
 
     /**

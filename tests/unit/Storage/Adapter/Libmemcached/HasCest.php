@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 
 use Phalcon\Storage\Adapter\Libmemcached;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 use function getOptionsLibmemcached;
@@ -35,7 +36,8 @@ class HasCest
     public function storageAdapterLibmemcachedGetSetHas(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - has()');
-        $adapter = new Libmemcached(getOptionsLibmemcached());
+        $factory = new SerializerFactory();
+        $adapter = new Libmemcached($factory, getOptionsLibmemcached());
 
         $key = uniqid();
 

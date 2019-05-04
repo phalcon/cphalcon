@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Redis;
 use Codeception\Example;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Exception;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use stdClass;
 use UnitTester;
@@ -45,7 +46,8 @@ class GetSetCest
     public function storageAdapterRedisGetSet(UnitTester $I, Example $example)
     {
         $I->wantToTest('Storage\Adapter\Redis - get()/set() - ' . $example[0]);
-        $adapter = new Redis(getOptionsRedis());
+        $factory = new SerializerFactory();
+        $adapter = new Redis($factory, getOptionsRedis());
 
         $key = 'cache-data';
 
@@ -70,7 +72,9 @@ class GetSetCest
     public function storageAdapterRedisGetSetPersistent(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Redis - get()/set() - persistent');
+        $factory = new SerializerFactory();
         $adapter = new Redis(
+            $factory,
             array_merge(
                 getOptionsRedis(),
                 [
@@ -102,7 +106,9 @@ class GetSetCest
         $I->expectThrowable(
             new Exception('Redis server selected database failed'),
             function () {
+                $factory = new SerializerFactory();
                 $adapter = new Redis(
+                    $factory,
                     array_merge(
                         getOptionsRedis(),
                         [
@@ -130,7 +136,9 @@ class GetSetCest
         $I->expectThrowable(
             new Exception('Failed to authenticate with the Redis server'),
             function () {
+                $factory = new SerializerFactory();
                 $adapter = new Redis(
+                    $factory,
                     array_merge(
                         getOptionsRedis(),
                         [
@@ -157,7 +165,9 @@ class GetSetCest
     public function storageAdapterRedisGetSetCustomSerializer(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Redis - get()/set() - custom serializer');
+        $factory = new SerializerFactory();
         $adapter = new Redis(
+            $factory,
             array_merge(
                 getOptionsRedis(),
                 [

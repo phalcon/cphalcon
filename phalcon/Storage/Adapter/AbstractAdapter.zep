@@ -14,6 +14,7 @@ use DateInterval;
 use Phalcon\Helper\Arr;
 use Phalcon\Storage\Adapter\AdapterInterface;
 use Phalcon\Storage\Exception;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
 abstract class AbstractAdapter implements AdapterInterface
@@ -29,6 +30,11 @@ abstract class AbstractAdapter implements AdapterInterface
      * @var string
      */
     protected defaultSerializer = "Php";
+
+    /**
+     * @var <SerializerFactory>
+     */
+    protected factorySerializer;
 
     /**
      * Name of the default TTL (time to live)
@@ -52,14 +58,19 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Sets parameters based on options
      */
-    protected function __construct(array! options) -> void
+    public function __construct(<SerializerFactory> factory, array! options) -> void
     {
+        string className;
+
         /**
          * Lets set some defaults and options here
          */
         let this->defaultSerializer = Arr::get(options, "defaultSerializer", "Php"),
             this->lifetime          = Arr::get(options, "lifetime", 3600),
-            this->serializer        = Arr::get(options, "serializer", null);
+            this->serializer        = Arr::get(options, "serializer", null),
+            this->serializerFactory = factory,
+            className               = strtolower(this->defaultSerializer),
+            this->serializer        = factory->newInstance(className);
 
         if isset options["prefix"] {
             let this->prefix = options["prefix"];

@@ -13,7 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Redis;
 
 use Codeception\Example;
+use function getOptionsRedis;
 use Phalcon\Cache\Adapter\Redis;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use stdClass;
 use UnitTester;
@@ -39,7 +41,8 @@ class GetSetCest
     public function storageAdapterRedisGetSet(UnitTester $I, Example $example)
     {
         $I->wantToTest('Cache\Adapter\Redis - get()/set() - ' . $example[0]);
-        $adapter = new Redis($this->getOptions());
+        $factory = new SerializerFactory();
+        $adapter = new Redis($factory, getOptionsRedis());
 
         $key = 'cache-data';
 

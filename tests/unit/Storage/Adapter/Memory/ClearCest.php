@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Adapter\Memory;
 
 use Phalcon\Storage\Adapter\Memory;
+use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
 /**
@@ -31,7 +32,8 @@ class ClearCest
     public function storageAdapterMemoryClear(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Memory - clear()');
-        $adapter = new Memory();
+        $factory = new SerializerFactory();
+        $adapter = new Memory($factory);
 
         $key1 = uniqid();
         $key2 = uniqid();
@@ -64,7 +66,8 @@ class ClearCest
     public function storageAdapterMemoryClearTwice(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Memory - clear() - twice');
-        $adapter = new Memory();
+        $factory = new SerializerFactory();
+        $adapter = new Memory($factory);
 
         $key1 = uniqid();
         $key2 = uniqid();

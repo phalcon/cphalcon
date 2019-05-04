@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Adapter\Apcu;
 
 use Phalcon\Storage\Adapter\Apcu;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use UnitTester;
 
@@ -34,7 +35,8 @@ class IncrementCest
     public function storageAdapterApcuIncrement(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Apcu - increment()');
-        $adapter = new Apcu();
+        $factory = new SerializerFactory();
+        $adapter = new Apcu($factory);
 
         $key    = 'cache-data';
         $result = $adapter->set($key, 1);
