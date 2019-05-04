@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Libmemcached;
 
-use function getOptionsLibmemcached;
-use Phalcon\Cache\Adapter\Apcu;
+use Exception;
 use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
+use function getOptionsLibmemcached;
 
 /**
  * Class DecrementCest
@@ -31,10 +31,10 @@ class DecrementCest
      *
      * @param UnitTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws Exception
      * @since  2019-03-31
      *
-     * @throws \Exception
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function cacheAdapterLibmemcachedDecrement(UnitTester $I)
     {

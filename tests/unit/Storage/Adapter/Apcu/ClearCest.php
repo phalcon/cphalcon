@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Apcu;
 
+use Exception;
 use Phalcon\Storage\Adapter\Apcu;
-use Phalcon\Storage\AdapterFactory;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use UnitTester;
@@ -30,10 +30,10 @@ class ClearCest
      *
      * @param UnitTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws Exception
      * @since  2019-03-31
      *
-     * @throws \Exception
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function storageAdapterApcuClear(UnitTester $I)
     {

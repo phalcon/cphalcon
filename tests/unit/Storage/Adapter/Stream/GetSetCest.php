@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
+use Exception;
 use Phalcon\Storage\Adapter\Stream;
-use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function file_put_contents;
@@ -30,11 +30,11 @@ class GetSetCest
      *
      * @param UnitTester $I
      *
-     * @since  2019-04-24
-     *
+     * @throws Exception
      * @author Phalcon Team <team@phalconphp.com>
      *
-     * @throws \Exception
+     * @since  2019-04-24
+     *
      */
     public function storageAdapterStreamSet(UnitTester $I)
     {
@@ -60,11 +60,11 @@ class GetSetCest
      *
      * @param UnitTester $I
      *
-     * @since  2019-04-24
-     *
+     * @throws Exception
      * @author Phalcon Team <team@phalconphp.com>
      *
-     * @throws \Exception
+     * @since  2019-04-24
+     *
      */
     public function storageAdapterStreamGet(UnitTester $I)
     {
@@ -91,7 +91,7 @@ class GetSetCest
      *
      * @param UnitTester $I
      *
-     * @throws \Exception
+     * @throws Exception
      * @since  2019-04-24
      *
      * @author Phalcon Team <team@phalconphp.com>

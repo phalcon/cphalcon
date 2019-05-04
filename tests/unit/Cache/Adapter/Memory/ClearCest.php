@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Memory;
 
-use function getOptionsLibmemcached;
-use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
