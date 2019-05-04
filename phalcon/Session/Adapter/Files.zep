@@ -55,7 +55,7 @@ class Files extends Noop
             let path = ini_get("session.save_path");
         }
 
-        if !is_writable(path) {
+        if unlikely !is_writable(path) {
             throw new Exception("The save_path [" . path . "]is not writeable");
         }
 

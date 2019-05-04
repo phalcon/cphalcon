@@ -37,7 +37,7 @@ class Console extends BaseApplication
 
         let container = this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("internal services")
             );
@@ -81,7 +81,7 @@ class Console extends BaseApplication
 
             let modules = this->modules;
 
-            if !isset modules[moduleName] {
+            if unlikely !isset modules[moduleName] {
                 throw new Exception(
                     "Module '" . moduleName . "' isn't registered in the console container"
                 );
@@ -89,7 +89,7 @@ class Console extends BaseApplication
 
             let module = modules[moduleName];
 
-            if typeof module != "array" {
+            if unlikely typeof module != "array" {
                 throw new Exception("Invalid module definition path");
             }
 
@@ -99,7 +99,7 @@ class Console extends BaseApplication
 
             if fetch path, module["path"] {
                 if !class_exists(className, false) {
-                    if !file_exists(path) {
+                    if unlikely !file_exists(path) {
                         throw new Exception(
                             "Module definition path '" . path . "' doesn't exist"
                         );

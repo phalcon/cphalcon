@@ -126,7 +126,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
         }
 
         let container = this->container;
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
                     "the services related to the ORM"
@@ -138,7 +138,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
          * Request the connection service from the DI
          */
         let connection = container->getShared(service);
-        if typeof connection != "object" {
+        if unlikely typeof connection != "object" {
             throw new Exception("Invalid injected connection service");
         }
 

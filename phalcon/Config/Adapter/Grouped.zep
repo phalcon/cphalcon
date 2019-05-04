@@ -102,7 +102,7 @@ class Grouped extends Config
             }
 
             if configInstance["adapter"] === "array" {
-                if !isset configInstance["config"] {
+                if unlikely !isset configInstance["config"] {
                     throw new Exception(
                         "To use 'array' adapter you have to specify the 'config' as an array."
                     );

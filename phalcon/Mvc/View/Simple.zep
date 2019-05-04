@@ -472,7 +472,7 @@ class Simple extends Injectable implements ViewBaseInterface
 
         let container = this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("the view cache services")
             );
@@ -493,7 +493,7 @@ class Simple extends Injectable implements ViewBaseInterface
          */
         let viewCache = <BackendInterface> container->getShared(cacheService);
 
-        if typeof viewCache != "object" {
+        if unlikely typeof viewCache != "object" {
             throw new Exception("The injected caching service is invalid");
         }
 
@@ -527,7 +527,7 @@ class Simple extends Injectable implements ViewBaseInterface
                  */
                 let engines[".phtml"] = new PhpEngine(this, di);
             } else {
-                if typeof di != "object" {
+                if unlikely typeof di != "object" {
                     throw new Exception(
                         Exception::containerServiceNotFound(
                             "the application services"
@@ -653,7 +653,7 @@ class Simple extends Injectable implements ViewBaseInterface
         /**
          * Always throw an exception if the view does not exist
          */
-        if notExists {
+        if unlikely notExists {
             throw new Exception(
                 "View '" . viewsDirPath . "' was not found in the views directory"
             );

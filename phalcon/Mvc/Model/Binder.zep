@@ -60,7 +60,7 @@ class Binder implements BinderInterface
 
         let this->originalValues = [];
 
-        if !(handler instanceof \Closure) && methodName === null {
+        if unlikely (!(handler instanceof \Closure) && methodName === null) {
             throw new Exception(
                 "You must specify methodName for handler or pass Closure as handler"
             );
@@ -181,7 +181,7 @@ class Binder implements BinderInterface
                 }
 
                 if typeof realClasses == "array" {
-                    if !fetch className, realClasses[paramKey] {
+                    if unlikely !fetch className, realClasses[paramKey] {
                         throw new Exception(
                             "You should provide model class name for " . paramKey . " parameter"
                         );

@@ -119,7 +119,7 @@ class Postgresql extends Dialect
             indexSqlAfterCreate, sql, columnLine, indexType, referenceSql,
             onDelete, onUpdate, primaryColumns, columnDefinition;
 
-        if !fetch columns, definition["columns"] {
+        if unlikely !fetch columns, definition["columns"] {
             throw new Exception(
                 "The index 'columns' is required in the definition array"
             );
@@ -254,7 +254,7 @@ class Postgresql extends Dialect
     {
         var viewSql;
 
-        if !fetch viewSql, definition["sql"] {
+        if unlikely !fetch viewSql, definition["sql"] {
             throw new Exception(
                 "The index 'sql' is required in the definition array"
             );
@@ -486,7 +486,7 @@ class Postgresql extends Dialect
                 break;
 
             default:
-                if empty columnSql {
+                if unlikely empty columnSql {
                     throw new Exception(
                         "Unrecognized PostgreSQL data type at column " . column->getName()
                     );

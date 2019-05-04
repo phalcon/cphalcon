@@ -58,7 +58,7 @@ class Gettext extends Adapter implements \ArrayAccess
      */
     public function __construct(array! options) -> void
     {
-        if !function_exists("gettext") {
+        if unlikely !function_exists("gettext") {
             throw new Exception(
                 "This class requires the gettext extension for PHP"
             );
@@ -227,11 +227,11 @@ class Gettext extends Adapter implements \ArrayAccess
      */
     protected function prepareOptions(array! options) -> void
     {
-        if !isset options["locale"] {
+        if unlikely !isset options["locale"] {
             throw new Exception("Parameter 'locale' is required");
         }
 
-        if !isset options["directory"] {
+        if unlikely !isset options["directory"] {
             throw new Exception("Parameter 'directory' is required");
         }
 

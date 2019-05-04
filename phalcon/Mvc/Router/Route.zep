@@ -478,7 +478,7 @@ class Route implements RouteInterface
             let routePaths = [];
         }
 
-        if typeof routePaths !== "array" {
+        if unlikely typeof routePaths !== "array" {
             throw new Exception("The route contains invalid paths");
         }
 

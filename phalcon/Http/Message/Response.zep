@@ -312,7 +312,7 @@ class Response implements ResponseInterface
      */
     private function checkHeaderName(var name) -> void
     {
-        if typeof name !== "string" || !preg_match("/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/", name) {
+        if unlikely (typeof name !== "string" || !preg_match("/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/", name)) {
             throw new \InvalidArgumentException("Invalid header name " . name);
         }
     }
@@ -362,14 +362,14 @@ class Response implements ResponseInterface
      */
     private function checkHeaderValue(var value) -> void
     {
-        if typeof value !== "string" && typeof value !== "int" && typeof value !== "float" {
+        if unlikely (typeof value !== "string" && typeof value !== "int" && typeof value !== "float") {
             throw new \InvalidArgumentException("Invalid header value");
         }
 
         let value = (string) value;
 
-        if preg_match("#(?:(?:(?<!\r)\n)|(?:\r(?!\n))|(?:\r\n(?![ \t])))#", value) ||
-            preg_match("/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/", value) {
+        if unlikely (preg_match("#(?:(?:(?<!\r)\n)|(?:\r(?!\n))|(?:\r\n(?![ \t])))#", value) ||
+            preg_match("/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/", value)) {
             throw new \InvalidArgumentException("Invalid header value");
         }
     }
@@ -402,7 +402,7 @@ class Response implements ResponseInterface
             let values = [values];
         }
 
-        if empty(values) {
+        if unlikely empty(values) {
             throw new \InvalidArgumentException(
                 "Invalid header value: must be a string or array of strings; cannot be an empty array"
             );
@@ -528,7 +528,7 @@ class Response implements ResponseInterface
             return body;
         }
 
-        if typeof body !== "string" && typeof body !== "resource" {
+        if unlikely (typeof body !== "string" && typeof body !== "resource") {
             throw new \InvalidArgumentException(
                 "Invalid stream passed as a parameter"
             );
@@ -549,13 +549,13 @@ class Response implements ResponseInterface
             min     = min(keys),
             max     = max(keys);
 
-        if typeof code !== "int" || code < min || code > max {
+        if unlikely (typeof code !== "int" || code < min || code > max) {
             throw new \InvalidArgumentException(
                 "Invalid status code '" . code . "', (allowed values " . min . "-" . max . ")"
             );
         }
 
-        if typeof phrase !== "string" {
+        if unlikely (typeof phrase !== "string") {
             throw new \InvalidArgumentException("Invalid response reason");
         }
 
@@ -602,11 +602,11 @@ class Response implements ResponseInterface
             "3.0" : 1
         ];
 
-        if empty(protocol) || typeof protocol !== "string" {
+        if unlikely (empty(protocol) || typeof protocol !== "string") {
             throw new \InvalidArgumentException("Invalid protocol value");
         }
 
-        if !isset protocols[protocol] {
+        if unlikely !isset protocols[protocol] {
             throw new \InvalidArgumentException(
                 "Unsupported protocol " . protocol
             );

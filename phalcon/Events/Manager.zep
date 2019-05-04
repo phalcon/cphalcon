@@ -48,7 +48,7 @@ class Manager implements ManagerInterface
     {
         var priorityQueue;
 
-        if typeof handler != "object" {
+        if unlikely typeof handler != "object" {
             throw new Exception("Event handler must be an Object");
         }
 
@@ -99,7 +99,7 @@ class Manager implements ManagerInterface
     {
         var priorityQueue, newPriorityQueue, data;
 
-        if typeof handler != "object" {
+        if unlikely typeof handler != "object" {
             throw new Exception("Event handler must be an Object");
         }
 
@@ -182,7 +182,7 @@ class Manager implements ManagerInterface
         }
 
         // All valid events must have a colon separator
-        if !memstr(eventType, ":") {
+        if unlikely !memstr(eventType, ":") {
             throw new Exception("Invalid event type " . eventType);
         }
 
@@ -242,7 +242,7 @@ class Manager implements ManagerInterface
         // Get the event type
         let eventName = event->getType();
 
-        if typeof eventName != "string" {
+        if unlikely typeof eventName != "string" {
             throw new Exception("The event type not valid");
         }
 

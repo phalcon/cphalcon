@@ -33,7 +33,7 @@ class Volt extends Engine
     {
         var macro;
 
-        if !fetch macro, this->macros[name] {
+        if unlikely !fetch macro, this->macros[name] {
             throw new Exception("Macro '" . name . "' does not exist");
         }
 

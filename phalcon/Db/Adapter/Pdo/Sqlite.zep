@@ -72,7 +72,7 @@ class Sqlite extends PdoAdapter
             let descriptor["dsn"] = dbname;
 
             unset descriptor["dbname"];
-        } elseif !isset descriptor["dsn"] {
+        } elseif unlikely !isset descriptor["dsn"] {
             throw new Exception(
                 "The database must be specified with either 'dbname' or 'dsn'."
             );

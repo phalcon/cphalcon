@@ -35,7 +35,7 @@ class Builder
         /**
          * The class name is required
          */
-        if !fetch className, definition["className"] {
+        if unlikely !fetch className, definition["className"] {
             throw new Exception(
                 "Invalid service definition. Missing 'className' parameter"
             );
@@ -77,14 +77,13 @@ class Builder
          * The definition has calls?
          */
         if fetch paramCalls, definition["calls"] {
-
-            if typeof instance != "object" {
+            if unlikely typeof instance != "object" {
                 throw new Exception(
                     "The definition has setter injection parameters but the constructor didn't return an instance"
                 );
             }
 
-            if typeof paramCalls != "array" {
+            if unlikely typeof paramCalls != "array" {
                 throw new Exception(
                     "Setter injection parameters must be an array"
                 );
@@ -98,7 +97,7 @@ class Builder
                 /**
                  * The call parameter must be an array of arrays
                  */
-                if typeof method != "array" {
+                if unlikely typeof method != "array" {
                     throw new Exception(
                         "Method call must be an array on position " . methodPosition
                     );
@@ -107,7 +106,7 @@ class Builder
                 /**
                  * A param 'method' is required
                  */
-                if !fetch methodName, method["method"] {
+                if unlikely !fetch methodName, method["method"] {
                     throw new Exception(
                         "The method name is required on position " . methodPosition
                     );
@@ -119,8 +118,7 @@ class Builder
                 let methodCall = [instance, methodName];
 
                 if fetch arguments, method["arguments"] {
-
-                    if typeof arguments != "array" {
+                    if unlikely typeof arguments != "array" {
                         throw new Exception(
                             "Call arguments must be an array " . methodPosition
                         );
@@ -154,13 +152,13 @@ class Builder
          */
         if fetch paramCalls, definition["properties"] {
 
-            if typeof instance != "object" {
+            if unlikely typeof instance != "object" {
                 throw new Exception(
                     "The definition has properties injection parameters but the constructor didn't return an instance"
                 );
             }
 
-            if typeof paramCalls != "array" {
+            if unlikely typeof paramCalls != "array" {
                 throw new Exception(
                     "Setter injection parameters must be an array"
                 );
@@ -174,7 +172,7 @@ class Builder
                 /**
                  * The call parameter must be an array of arrays
                  */
-                if typeof property != "array" {
+                if unlikely typeof property != "array" {
                     throw new Exception(
                         "Property must be an array on position " . propertyPosition
                     );
@@ -183,7 +181,7 @@ class Builder
                 /**
                  * A param 'name' is required
                  */
-                if !fetch propertyName, property["name"] {
+                if unlikely !fetch propertyName, property["name"] {
                     throw new Exception(
                         "The property name is required on position " . propertyPosition
                     );
@@ -192,7 +190,7 @@ class Builder
                 /**
                  * A param 'value' is required
                  */
-                if !fetch propertyValue, property["value"] {
+                if unlikely !fetch propertyValue, property["value"] {
                     throw new Exception(
                         "The property value is required on position " . propertyPosition
                     );
@@ -224,7 +222,7 @@ class Builder
         /**
          * All the arguments must have a type
          */
-        if !fetch type, argument["type"] {
+        if unlikely !fetch type, argument["type"] {
             throw new Exception(
                 "Argument at position " . position . " must have a type"
             );
@@ -237,13 +235,13 @@ class Builder
              * DI
              */
             case "service":
-                if !fetch name, argument["name"] {
+                if unlikely !fetch name, argument["name"] {
                     throw new Exception(
                         "Service 'name' is required in parameter on position " . position
                     );
                 }
 
-                if typeof container != "object" {
+                if unlikely typeof container != "object" {
                     throw new Exception(
                         "The dependency injector container is not valid"
                     );
@@ -255,7 +253,7 @@ class Builder
              * If the argument type is 'parameter', we assign the value as it is
              */
             case "parameter":
-                if !fetch value, argument["value"] {
+                if unlikely !fetch value, argument["value"] {
                     throw new Exception(
                         "Service 'value' is required in parameter on position " . position
                     );
@@ -268,13 +266,13 @@ class Builder
              */
             case "instance":
 
-                if !fetch name, argument["className"] {
+                if unlikely !fetch name, argument["className"] {
                     throw new Exception(
                         "Service 'className' is required in parameter on position " . position
                     );
                 }
 
-                if typeof container != "object" {
+                if unlikely typeof container != "object" {
                     throw new Exception(
                         "The dependency injector container is not valid"
                     );

@@ -196,14 +196,14 @@ class Simple extends Resultset
                         /**
                          * Check if the key is part of the column map
                          */
-                        if !fetch renamedKey, columnMap[key] {
+                        if unlikely !fetch renamedKey, columnMap[key] {
                             throw new Exception(
                                 "Column '" . key . "' is not part of the column map"
                             );
                         }
 
                         if typeof renamedKey == "array" {
-                            if !fetch renamedKey, renamedKey[0] {
+                            if unlikely !fetch renamedKey, renamedKey[0] {
                                 throw new Exception(
                                     "Column '" . key . "' is not part of the column map"
                                 );
@@ -236,7 +236,7 @@ class Simple extends Resultset
 
         let container = Di::getDefault();
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 "The dependency injector container is not valid"
             );
@@ -273,7 +273,7 @@ class Simple extends Resultset
 
         let container = Di::getDefault();
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 "The dependency injector container is not valid"
             );
@@ -286,7 +286,7 @@ class Simple extends Resultset
             let resultset = unserialize(data);
         }
 
-        if typeof resultset != "array" {
+        if unlikely typeof resultset != "array" {
             throw new Exception("Invalid serialization data");
         }
 

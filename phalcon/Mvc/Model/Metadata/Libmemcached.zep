@@ -63,7 +63,7 @@ class Libmemcached extends MetaData
             let options = [];
         }
 
-        if !isset options["servers"] {
+        if unlikely !isset options["servers"] {
             throw new Exception("No servers given in options");
         }
 

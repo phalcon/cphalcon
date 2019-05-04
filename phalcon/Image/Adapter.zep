@@ -245,15 +245,14 @@ abstract class Adapter implements AdapterInterface
 
         if master == Image::TENSILE {
 
-            if !width || !height {
+            if unlikely (!width || !height) {
                 throw new Exception("width and height must be specified");
             }
 
         } else {
-
             if master == Image::AUTO {
 
-                if !width || !height {
+                if unlikely (!width || !height) {
                     throw new Exception("width and height must be specified");
                 }
 
@@ -262,7 +261,7 @@ abstract class Adapter implements AdapterInterface
 
             if master == Image::INVERSE {
 
-                if !width || !height {
+                if unlikely (!width || !height) {
                     throw new Exception("width and height must be specified");
                 }
 
@@ -272,7 +271,7 @@ abstract class Adapter implements AdapterInterface
             switch master {
 
                 case Image::WIDTH:
-                    if !width {
+                    if unlikely !width {
                         throw new Exception("width must be specified");
                     }
 
@@ -281,7 +280,7 @@ abstract class Adapter implements AdapterInterface
                     break;
 
                 case Image::HEIGHT:
-                    if !height {
+                    if unlikely !height {
                         throw new Exception("height must be specified");
                     }
 
@@ -290,7 +289,7 @@ abstract class Adapter implements AdapterInterface
                     break;
 
                 case Image::PRECISE:
-                    if !width || !height {
+                    if unlikely (!width || !height) {
                         throw new Exception(
                             "width and height must be specified"
                         );
