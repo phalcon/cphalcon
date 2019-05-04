@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
 use UnitTester;
 
-/**
- * Class _Cest
- */
 class UnderscoreCest
 {
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: _()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class UnderscoreCest
     public function translateAdapterGettextUnderscore(UnitTester $I)
     {
         $I->wantToTest("Translate\Adapter\Gettext - _()");
+
         $I->skipTest("Need implementation");
     }
 }

@@ -15,16 +15,12 @@ namespace Phalcon\Test\Unit\Kernel;
 use UnitTester;
 
 /**
- * Class PreComputeHashKeyCest
- *
  * @package Phalcon\Test\Unit\Kernel
  */
 class PreComputeHashKeyCest
 {
     /**
      * Tests Phalcon\Kernel :: preComputeHashKey()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

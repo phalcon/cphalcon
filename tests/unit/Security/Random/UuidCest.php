@@ -25,14 +25,36 @@ class UuidCest
     public function securityRandomUuid(UnitTester $I)
     {
         $I->wantToTest("Security\Random - uuid()");
+
         $random = new \Phalcon\Security\Random;
-        $uuid   = $random->uuid();
 
-        //test forbidden characters
-        $I->assertRegExp("/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}$/", $uuid);
 
-        $differentUuid = $random->uuid();
-        //Buy lottery ticket if this fails (or fix the bug)
-        $I->assertNotEquals($uuid, $differentUuid);
+
+        $uuid = $random->uuid();
+
+        // Test forbidden characters
+        $I->assertRegExp(
+            "/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}$/",
+            $uuid
+        );
+    }
+
+    /**
+     * Tests Phalcon\Security\Random :: uuid() produces different results
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function securityRandomUuidDifferentResults(UnitTester $I)
+    {
+        $I->wantToTest("Security\Random - uuid() produces different results");
+
+        $random = new \Phalcon\Security\Random;
+
+        $uuid1 = $random->uuid();
+        $uuid2 = $random->uuid();
+
+        // Buy lottery ticket if this fails (or fix the bug)
+        $I->assertNotEquals($uuid1, $uuid2);
     }
 }

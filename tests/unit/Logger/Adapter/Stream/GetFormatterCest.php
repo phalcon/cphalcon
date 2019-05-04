@@ -19,16 +19,12 @@ use UnitTester;
 use function outputFolder;
 
 /**
- * Class GetFormatterCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class GetFormatterCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: getFormatter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -28,19 +28,18 @@ class DynamicCest
         $I->wantToTest('Text - dynamic()');
 
         $actual = Text::dynamic('{Hi|Hello}, my name is a Bob!');
+
         $I->assertNotContains('{', $actual);
         $I->assertNotContains('}', $actual);
 
-        $I->assertEquals(
-            1,
-            preg_match('/^(Hi|Hello), my name is a Bob!$/', $actual)
+        $I->assertRegExp(
+            '/^(Hi|Hello), my name is a Bob!$/',
+            $actual
         );
     }
 
     /**
      * Tests Phalcon\Text :: dynamic() - custom delimiter
-     *
-     * @param UnitTester $I
      *
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-07-01
@@ -50,19 +49,18 @@ class DynamicCest
         $I->wantToTest('Text - dynamic() - custom delimiter');
 
         $actual = Text::dynamic('(Hi|Hello), my name is a Bob!', '(', ')');
+
         $I->assertNotContains('{', $actual);
         $I->assertNotContains('}', $actual);
 
-        $I->assertEquals(
-            1,
-            preg_match('/^(Hi|Hello), my name is a Bob!$/', $actual)
+        $I->assertRegExp(
+            '/^(Hi|Hello), my name is a Bob!$/',
+            $actual
         );
     }
 
     /**
      * Tests Phalcon\Text :: dynamic() - custom separator
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11215
      * @author Phalcon Team <team@phalconphp.com>
@@ -80,9 +78,9 @@ class DynamicCest
         $I->assertNotContains('}', $actual);
         $I->assertNotContains('=', $actual);
 
-        $I->assertEquals(
-            1,
-            preg_match('/^(Hi|Hello), my name is a Bob!$/', $actual)
+        $I->assertRegExp(
+            '/^(Hi|Hello), my name is a Bob!$/',
+            $actual
         );
 
 
@@ -93,9 +91,9 @@ class DynamicCest
         $I->assertNotContains('}', $actual);
         $I->assertNotContains("''", $actual);
 
-        $I->assertEquals(
-            1,
-            preg_match('/^(Hi|Hello), my name is a (Rob|Zyxep|Andres)!$/', $actual)
+        $I->assertRegExp(
+            '/^(Hi|Hello), my name is a (Rob|Zyxep|Andres)!$/',
+            $actual
         );
 
 
@@ -106,9 +104,9 @@ class DynamicCest
         $I->assertNotContains('}', $actual);
         $I->assertNotContains('/', $actual);
 
-        $I->assertEquals(
-            1,
-            preg_match('/^(Hi|Hello), my name is a (Stanislav|Nikos)!$/', $actual)
+        $I->assertRegExp(
+            '/^(Hi|Hello), my name is a (Stanislav|Nikos)!$/',
+            $actual
         );
     }
 }

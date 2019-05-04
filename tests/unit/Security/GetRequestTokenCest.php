@@ -16,9 +16,6 @@ use UnitTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Security;
 
-/**
- * Class GetRequestTokenCest
- */
 class GetRequestTokenCest
 {
     use DiTrait;
@@ -62,8 +59,6 @@ class GetRequestTokenCest
     /**
      * Tests Phalcon\Security :: getRequestToken() and getSessionToken()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -72,6 +67,7 @@ class GetRequestTokenCest
         $I->wantToTest('Security - getRequestToken() and getSessionToken()');
 
         $this->startSession();
+
         $container = $this->getDI();
 
         // Initialize session.
@@ -83,26 +79,59 @@ class GetRequestTokenCest
 
         // Reinitialize object like if it's a new request.
         $security = new Security();
+
         $security->setDI($container);
+
         $requestToken = $security->getRequestToken();
         $sessionToken = $security->getSessionToken();
         $tokenKey     = $security->getTokenKey();
         $token        = $security->getToken();
 
         $I->assertEquals($sessionToken, $requestToken);
+
         $I->assertNotEquals($token, $sessionToken);
-        $I->assertEquals($security->getRequestToken(), $requestToken);
-        $I->assertNotEquals($token, $security->getRequestToken());
 
-        $_POST = [$tokenKey => $requestToken];
-        $I->assertTrue($security->checkToken(null, null, false));
+        $I->assertEquals(
+            $requestToken,
+            $security->getRequestToken()
+        );
 
-        $_POST = [$tokenKey => $token];
-        $I->assertFalse($security->checkToken(null, null, false));
+        $I->assertNotEquals(
+            $token,
+            $security->getRequestToken()
+        );
 
-        $I->assertFalse($security->checkToken());
+
+
+        $_POST = [
+            $tokenKey => $requestToken,
+        ];
+
+        $I->assertTrue(
+            $security->checkToken(null, null, false)
+        );
+
+
+
+        $_POST = [
+            $tokenKey => $token,
+        ];
+
+        $I->assertFalse(
+            $security->checkToken(null, null, false)
+        );
+
+        $I->assertFalse(
+            $security->checkToken()
+        );
+
+
 
         $security->destroyToken();
-        $I->assertNotEquals($security->getRequestToken(), $requestToken);
+
+        $I->assertNotEquals(
+            $requestToken,
+            $security->getRequestToken()
+        );
     }
 }

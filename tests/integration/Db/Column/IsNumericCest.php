@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class IsNumericCest
- */
 class IsNumericCest
 {
     use DiTrait;
@@ -26,8 +23,6 @@ class IsNumericCest
 
     /**
      * Tests Phalcon\Db\Column :: isNumeric()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

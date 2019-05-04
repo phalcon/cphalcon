@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-/**
- * Class ToArrayCest
- */
 class ToArrayCest
 {
     /**
      * Tests Phalcon\Registry :: toArray()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,15 +26,18 @@ class ToArrayCest
     public function collectionToArray(UnitTester $I)
     {
         $I->wantToTest('Registry - toArray()');
-        $data     = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $registry = new Registry($data);
 
-        $expected = $data;
-        $actual   = $registry->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $data,
+            $registry->toArray()
+        );
     }
 }

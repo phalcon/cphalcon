@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class DescribeReferencesCest
- */
 class DescribeReferencesCest
 {
     use DiTrait;
@@ -26,8 +23,6 @@ class DescribeReferencesCest
 
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: describeReferences()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -55,8 +50,6 @@ class DescribeReferencesCest
 
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: describeReferences() - count
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

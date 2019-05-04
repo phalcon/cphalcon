@@ -26,34 +26,126 @@ class CheckHashCest
     public function securityCheckHash(UnitTester $I)
     {
         $I->wantToTest('Security - checkHash()');
+
         $security = new Security();
+
         $password = 'PhalconROCKS!';
 
-        $security->setDefaultHash(Security::CRYPT_DEFAULT);
-        $I->assertTrue($security->checkHash($password, $security->hash($password)));
 
-        $security->setDefaultHash(Security::CRYPT_STD_DES);
-        $I->assertTrue($security->checkHash($password, $security->hash($password)));
 
-        $security->setDefaultHash(Security::CRYPT_EXT_DES);
-        $I->assertTrue($security->checkHash($password, $security->hash($password)));
+        $security->setDefaultHash(
+            Security::CRYPT_DEFAULT
+        );
 
-        $security->setDefaultHash(Security::CRYPT_BLOWFISH);
-        $I->assertTrue($security->checkHash($password, $security->hash($password)));
+        $I->assertTrue(
+            $security->checkHash(
+                $password,
+                $security->hash($password)
+            )
+        );
 
-        $security->setDefaultHash(Security::CRYPT_BLOWFISH_A);
-        $I->assertTrue($security->checkHash($password, $security->hash($password)));
 
-        $security->setDefaultHash(Security::CRYPT_BLOWFISH_X);
-        $I->assertTrue($security->checkHash($password, $security->hash($password)));
 
-        $security->setDefaultHash(Security::CRYPT_BLOWFISH_Y);
-        $I->assertTrue($security->checkHash($password, $security->hash($password)));
+        $security->setDefaultHash(
+            Security::CRYPT_STD_DES
+        );
 
-        $security->setDefaultHash(Security::CRYPT_SHA256);
-        $I->assertTrue($security->checkHash($password, $security->hash($password)));
+        $I->assertTrue(
+            $security->checkHash(
+                $password,
+                $security->hash($password)
+            )
+        );
 
-        $security->setDefaultHash(Security::CRYPT_SHA512);
-        $I->assertTrue($security->checkHash($password, $security->hash($password)));
+
+
+        $security->setDefaultHash(
+            Security::CRYPT_EXT_DES
+        );
+
+        $I->assertTrue(
+            $security->checkHash(
+                $password,
+                $security->hash($password)
+            )
+        );
+
+
+
+        $security->setDefaultHash(
+            Security::CRYPT_BLOWFISH
+        );
+
+        $I->assertTrue(
+            $security->checkHash(
+                $password,
+                $security->hash($password)
+            )
+        );
+
+
+
+        $security->setDefaultHash(
+            Security::CRYPT_BLOWFISH_A
+        );
+
+        $I->assertTrue(
+            $security->checkHash(
+                $password,
+                $security->hash($password)
+            )
+        );
+
+
+
+        $security->setDefaultHash(
+            Security::CRYPT_BLOWFISH_X
+        );
+
+        $I->assertTrue(
+            $security->checkHash(
+                $password,
+                $security->hash($password)
+            )
+        );
+
+
+
+        $security->setDefaultHash(
+            Security::CRYPT_BLOWFISH_Y
+        );
+
+        $I->assertTrue(
+            $security->checkHash(
+                $password,
+                $security->hash($password)
+            )
+        );
+
+
+
+        $security->setDefaultHash(
+            Security::CRYPT_SHA256
+        );
+
+        $I->assertTrue(
+            $security->checkHash(
+                $password,
+                $security->hash($password)
+            )
+        );
+
+
+
+        $security->setDefaultHash(
+            Security::CRYPT_SHA512
+        );
+
+        $I->assertTrue(
+            $security->checkHash(
+                $password,
+                $security->hash($password)
+            )
+        );
     }
 }

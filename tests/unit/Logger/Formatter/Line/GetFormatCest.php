@@ -16,16 +16,12 @@ use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
 /**
- * Class GetFormatCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class GetFormatCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Line :: getFormat()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

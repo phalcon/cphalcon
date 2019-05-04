@@ -16,8 +16,6 @@ use Phalcon\Logger\Adapter\Syslog;
 use UnitTester;
 
 /**
- * Class CloseCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class CloseCest
@@ -25,18 +23,19 @@ class CloseCest
     /**
      * Tests Phalcon\Logger\Adapter\Syslog :: close()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function loggerAdapterSyslogClose(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Syslog - close()');
-        $streamName = $I->getNewFileName('log', 'log');
-        $adapter    = new Syslog($streamName);
 
-        $actual = $adapter->close();
-        $I->assertTrue($actual);
+        $streamName = $I->getNewFileName('log', 'log');
+
+        $adapter = new Syslog($streamName);
+
+        $I->assertTrue(
+            $adapter->close()
+        );
     }
 }

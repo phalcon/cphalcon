@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Response;
 use Phalcon\Http\Message\Response;
 use UnitTester;
 
-/**
- * Class HasHeaderCest
- */
 class HasHeaderCest
 {
     /**
      * Tests Phalcon\Http\Message\Response :: hasHeader()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
@@ -31,25 +26,27 @@ class HasHeaderCest
     public function httpMessageResponseHasHeader(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Response - hasHeader()');
-        $data    = [
+
+        $data = [
             'Accept' => [
                 'text/html',
                 'text/json',
             ],
         ];
-        $request = new Response('php://memory', 200, $data);
 
-        $actual = $request->hasHeader('accept');
-        $I->assertTrue($actual);
+        $response = new Response('php://memory', 200, $data);
 
-        $actual = $request->hasHeader('aCCepT');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $response->hasHeader('accept')
+        );
+
+        $I->assertTrue(
+            $response->hasHeader('aCCepT')
+        );
     }
 
     /**
      * Tests Phalcon\Http\Message\Response :: hasHeader() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
@@ -57,9 +54,11 @@ class HasHeaderCest
     public function httpMessageResponseHasHeaderEmpty(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Response - hasHeader() - empty');
-        $request = new Response();
 
-        $actual = $request->hasHeader('empty');
-        $I->assertFalse($actual);
+        $response = new Response();
+
+        $I->assertFalse(
+            $response->hasHeader('empty')
+        );
     }
 }

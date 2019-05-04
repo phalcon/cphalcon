@@ -17,15 +17,10 @@ use Phalcon\Messages\Messages;
 use TypeError;
 use UnitTester;
 
-/**
- * Class AppendMessagesCest
- */
 class AppendMessagesCest
 {
     /**
      * Tests Phalcon\Messages\Messages :: appendMessages() - array
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -77,8 +72,6 @@ class AppendMessagesCest
     /**
      * Tests Phalcon\Messages\Messages :: __construct() - exception
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -98,9 +91,9 @@ class AppendMessagesCest
             $actual = $ex->getMessage();
         }
 
-        $expected = 'Argument 1 passed to Phalcon\Messages\Messages::appendMessage() must implement interface Phalcon\Messages\MessageInterface, bool';
-        $actual   = substr($actual, 0, 128);
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Argument 1 passed to Phalcon\Messages\Messages::appendMessage() must implement interface Phalcon\Messages\MessageInterface, bool',
+            substr($actual, 0, 128)
+        );
     }
 }

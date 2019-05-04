@@ -29,10 +29,17 @@ class OffsetExistsCest
     public function translateAdapterNativeArrayOffsetExists(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - offsetExists()');
-        $language   = $this->getArrayConfig()['en'];
-        $translator = new NativeArray(['content' => $language]);
 
-        $actual = $translator->offsetExists('hi');
-        $I->assertTrue($actual);
+        $language = $this->getArrayConfig()['en'];
+
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
+
+        $I->assertTrue(
+            $translator->offsetExists('hi')
+        );
     }
 }

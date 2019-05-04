@@ -32,9 +32,10 @@ class DynamicCest
         $I->assertNotContains('{', $actual);
         $I->assertNotContains('}', $actual);
 
-        $expected = 1;
-        $actual   = preg_match('/^(Hi|Hello), my name is a Bob!$/', $actual);
-        $I->assertEquals($expected, $actual);
+        $I->assertRegExp(
+            '/^(Hi|Hello), my name is a Bob!$/',
+            $actual
+        );
     }
 
     /**
@@ -52,9 +53,10 @@ class DynamicCest
         $I->assertNotContains('{', $actual);
         $I->assertNotContains('}', $actual);
 
-        $expected = 1;
-        $actual   = preg_match('/^(Hi|Hello), my name is a Bob!$/', $actual);
-        $I->assertEquals($expected, $actual);
+        $I->assertRegExp(
+            '/^(Hi|Hello), my name is a Bob!$/',
+            $actual
+        );
     }
 
     /**
@@ -68,31 +70,43 @@ class DynamicCest
     {
         $I->wantToTest('Helper\Str - dynamic() - custom separator');
 
+
+
         $actual = Str::dynamic('{Hi=Hello}, my name is a Bob!', '{', '}', '=');
+
         $I->assertNotContains('{', $actual);
         $I->assertNotContains('}', $actual);
         $I->assertNotContains('=', $actual);
 
-        $expected = 1;
-        $actual   = preg_match('/^(Hi|Hello), my name is a Bob!$/', $actual);
-        $I->assertEquals($expected, $actual);
+        $I->assertRegExp(
+            '/^(Hi|Hello), my name is a Bob!$/',
+            $actual
+        );
+
+
 
         $actual = Str::dynamic("{Hi'Hello}, my name is a {Rob'Zyxep'Andres}!", '{', '}', "'");
+
         $I->assertNotContains('{', $actual);
         $I->assertNotContains('}', $actual);
         $I->assertNotContains("''", $actual);
 
-        $expected = 1;
-        $actual   = preg_match('/^(Hi|Hello), my name is a (Rob|Zyxep|Andres)!$/', $actual);
-        $I->assertEquals($expected, $actual);
+        $I->assertRegExp(
+            '/^(Hi|Hello), my name is a (Rob|Zyxep|Andres)!$/',
+            $actual
+        );
+
+
 
         $actual = Str::dynamic('{Hi/Hello}, my name is a {Stanislav/Nikos}!', '{', '}', '/');
+
         $I->assertNotContains('{', $actual);
         $I->assertNotContains('}', $actual);
         $I->assertNotContains('/', $actual);
 
-        $expected = 1;
-        $actual   = preg_match('/^(Hi|Hello), my name is a (Stanislav|Nikos)!$/', $actual);
-        $I->assertEquals($expected, $actual);
+        $I->assertRegExp(
+            '/^(Hi|Hello), my name is a (Stanislav|Nikos)!$/',
+            $actual
+        );
     }
 }

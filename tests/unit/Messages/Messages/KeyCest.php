@@ -16,15 +16,10 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use UnitTester;
 
-/**
- * Class KeyCest
- */
 class KeyCest
 {
     /**
      * Tests Phalcon\Messages\Messages :: key()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

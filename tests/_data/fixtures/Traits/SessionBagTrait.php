@@ -15,15 +15,10 @@ namespace Phalcon\Test\Fixtures\Traits;
 use UnitTester;
 
 /**
- * Trait SessionBagTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait SessionBagTrait
 {
-    /**
-     * @param UnitTester $I
-     */
     public function _before(UnitTester $I)
     {
         $this->setNewFactoryDefault();

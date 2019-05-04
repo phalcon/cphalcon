@@ -18,15 +18,10 @@ use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Adapter\Redis;
 
 /**
- * Trait SessionTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait SessionTrait
 {
-    /**
-     * @return Files
-     */
     protected function getSessionFiles(): Files
     {
         return new Files(
@@ -36,9 +31,6 @@ trait SessionTrait
         );
     }
 
-    /**
-     * @return Libmemcached
-     */
     protected function getSessionLibmemcached(): Libmemcached
     {
         return new Libmemcached(
@@ -53,17 +45,11 @@ trait SessionTrait
         );
     }
 
-    /**
-     * @return Noop
-     */
     protected function getSessionNoop(): Noop
     {
         return new Noop();
     }
 
-    /**
-     * @return Redis
-     */
     protected function getSessionRedis(): Redis
     {
         return new Redis(

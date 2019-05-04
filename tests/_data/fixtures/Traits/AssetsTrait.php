@@ -16,17 +16,10 @@ use Phalcon\Assets\AssetInterface;
 use UnitTester;
 
 /**
- * Trait AssetsTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait AssetsTrait
 {
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetAssetKey(UnitTester $I, AssetInterface $asset, string $expected)
     {
         $I->assertEquals(
@@ -35,11 +28,6 @@ trait AssetsTrait
         );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param array          $expected
-     */
     private function assetGetAttributes(UnitTester $I, AssetInterface $asset, array $expected)
     {
         $I->assertEquals(
@@ -48,11 +36,6 @@ trait AssetsTrait
         );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetContent(UnitTester $I, AssetInterface $asset, string $expected)
     {
         $I->assertEquals(
@@ -61,11 +44,6 @@ trait AssetsTrait
         );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param bool           $expected
-     */
     private function assetGetFilter(UnitTester $I, AssetInterface $asset, bool $expected)
     {
         $I->assertEquals(
@@ -74,10 +52,6 @@ trait AssetsTrait
         );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     */
     private function assetGetLocal(UnitTester $I, AssetInterface $asset)
     {
         $I->assertTrue(
@@ -85,11 +59,6 @@ trait AssetsTrait
         );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetPath(UnitTester $I, AssetInterface $asset, string $expected)
     {
         $I->assertEquals(
@@ -98,11 +67,6 @@ trait AssetsTrait
         );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param mixed          $expected
-     */
     private function assetGetRealSourcePath(UnitTester $I, AssetInterface $asset, $expected)
     {
         $I->assertEquals(
@@ -111,11 +75,6 @@ trait AssetsTrait
         );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetRealTargetPath(UnitTester $I, AssetInterface $asset, string $expected)
     {
         $I->assertEquals(
@@ -124,11 +83,6 @@ trait AssetsTrait
         );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param mixed          $expected
-     */
     private function assetGetRealTargetUri(UnitTester $I, AssetInterface $asset, $expected)
     {
         $I->assertEquals(
@@ -137,11 +91,6 @@ trait AssetsTrait
         );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetSourcePath(UnitTester $I, AssetInterface $asset, string $expected)
     {
         $I->assertEquals(
@@ -150,11 +99,6 @@ trait AssetsTrait
         );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetTargetPath(UnitTester $I, AssetInterface $asset, string $expected)
     {
         $I->assertEquals(
@@ -163,11 +107,6 @@ trait AssetsTrait
         );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetTargetUri(UnitTester $I, AssetInterface $asset, string $expected)
     {
         $I->assertEquals(
@@ -176,11 +115,6 @@ trait AssetsTrait
         );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetType(UnitTester $I, AssetInterface $asset, string $expected)
     {
         $I->assertEquals(

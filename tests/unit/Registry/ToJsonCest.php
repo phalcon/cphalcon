@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-/**
- * Class ToJsonCest
- */
 class ToJsonCest
 {
     /**
      * Tests Phalcon\Registry :: toJson()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,19 +26,23 @@ class ToJsonCest
     public function collectionToJson(UnitTester $I)
     {
         $I->wantToTest('Registry - toJson()');
-        $data     = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $registry = new Registry($data);
 
-        $expected = json_encode($data);
-        $actual   = $registry->toJson();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            json_encode($data),
+            $registry->toJson()
+        );
 
-        $expected = json_encode($data, JSON_PRETTY_PRINT);
-        $actual   = $registry->toJson(JSON_PRETTY_PRINT);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            json_encode($data, JSON_PRETTY_PRINT),
+            $registry->toJson(JSON_PRETTY_PRINT)
+        );
     }
 }

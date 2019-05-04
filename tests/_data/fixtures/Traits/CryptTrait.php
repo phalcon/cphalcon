@@ -15,15 +15,10 @@ namespace Phalcon\Test\Fixtures\Traits;
 use UnitTester;
 
 /**
- * Trait CryptTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait CryptTrait
 {
-    /**
-     * @param UnitTester $I
-     */
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('openssl');

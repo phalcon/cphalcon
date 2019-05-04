@@ -29,11 +29,18 @@ class OffsetGetCest
     public function translateAdapterNativeArrayOffsetGet(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - offsetGet()');
-        $language   = $this->getArrayConfig()['en'];
-        $translator = new NativeArray(['content' => $language]);
 
-        $expected = 'Hello';
-        $actual   = $translator->offsetGet('hi');
-        $I->assertEquals($expected, $actual);
+        $language = $this->getArrayConfig()['en'];
+
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
+
+        $I->assertEquals(
+            'Hello',
+            $translator->offsetGet('hi')
+        );
     }
 }

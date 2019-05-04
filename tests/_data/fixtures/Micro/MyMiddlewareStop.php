@@ -16,6 +16,9 @@ use Phalcon\Mvc\Micro\MiddlewareInterface;
 
 class MyMiddlewareStop implements MiddlewareInterface
 {
+    /**
+     * @var int
+     */
     protected $number = 0;
 
     public function call(Micro $application)

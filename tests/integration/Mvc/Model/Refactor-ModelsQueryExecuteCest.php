@@ -715,7 +715,10 @@ class ModelsQueryExecuteCest
         );
         $I->assertTrue($status->success());
 
-        $I->assertTrue($status->getModel()->id > 0);
+        $I->assertGreaterThan(
+            0,
+            $status->getModel()->id
+        );
     }
 
     private function testInsertRenamedExecute(IntegrationTester $I)
@@ -792,7 +795,10 @@ class ModelsQueryExecuteCest
         );
         $I->assertTrue($status->success());
 
-        $I->assertTrue($status->getModel()->code > 0);
+        $I->assertGreaterThan(
+            0,
+            $status->getModel()->code
+        );
     }
 
     private function testUpdateExecute(IntegrationTester $I)

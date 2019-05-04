@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Request;
 use Phalcon\Http\Message\Request;
 use UnitTester;
 
-/**
- * Class GetProtocolVersionCest
- */
 class GetProtocolVersionCest
 {
     /**
      * Tests Phalcon\Http\Message\Request :: getProtocolVersion()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-05
@@ -31,10 +26,12 @@ class GetProtocolVersionCest
     public function httpMessageRequestGetProtocolVersion(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Request - getProtocolVersion()');
+
         $request = new Request();
 
-        $expected = '1.1';
-        $actual   = $request->getProtocolVersion();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '1.1',
+            $request->getProtocolVersion()
+        );
     }
 }

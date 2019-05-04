@@ -35,14 +35,9 @@ class Base64SafeCest
 
         $random = new \Phalcon\Security\Random();
 
-        $isValid = function ($base64) use ($pattern) {
-            return (preg_match("#[^$pattern]+#i", $base64) === 0);
-        };
-
-        $actual = $random->base64Safe($len, $padding);
-
-        $I->assertTrue(
-            $isValid($actual)
+        $I->assertRegExp(
+            "#^[" . $pattern . "]+$#i",
+            $random->base64Safe($len, $padding)
         );
     }
 

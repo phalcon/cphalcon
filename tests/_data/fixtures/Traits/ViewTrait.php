@@ -17,8 +17,6 @@ use Phalcon\Mvc\View;
 use Phalcon\Mvc\ViewBaseInterface;
 
 /**
- * Trait ViewTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait ViewTrait
@@ -61,11 +59,9 @@ trait ViewTrait
     /**
      * Set params and check expected data after render view
      *
-     * @param string $errorMessage
-     * @param array  $params
-     * @param View   $view
+     * @param View $view
      */
-    protected function setParamAndCheckData($errorMessage, $params, $view)
+    protected function setParamAndCheckData(string $errorMessage, array $params, $view)
     {
         foreach ($params as $param) {
             $view->setParamToView(

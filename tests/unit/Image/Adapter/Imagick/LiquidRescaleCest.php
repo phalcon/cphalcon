@@ -53,6 +53,7 @@ class LiquidRescaleCest
             200,
             $image->getWidth()
         );
+
         $I->assertEquals(
             200,
             $image->getHeight()

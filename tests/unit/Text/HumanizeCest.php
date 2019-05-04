@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Text;
 
+use Codeception\Example;
 use Phalcon\Text;
 use UnitTester;
 
@@ -22,29 +23,41 @@ class HumanizeCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider textHumanizeProvider
      */
-    public function textHumanize(UnitTester $I)
+    public function textHumanize(UnitTester $I, Example $example)
     {
         $I->wantToTest('Text - humanize()');
 
         $I->assertEquals(
-            'start a horse',
-            Text::humanize('start_a_horse')
+            $example['expected'],
+            Text::humanize($example['string'])
         );
+    }
 
-        $I->assertEquals(
-            'five cats',
-            Text::humanize('five-cats')
-        );
+    private function textHumanizeProvider(): array
+    {
+        return [
+            [
+                'string'   => 'start_a_horse',
+                'expected' => 'start a horse',
+            ],
 
-        $I->assertEquals(
-            'kittens are cats',
-            Text::humanize('kittens-are_cats')
-        );
+            [
+                'string'   => 'five-cats',
+                'expected' => 'five cats',
+            ],
 
-        $I->assertEquals(
-            'Awesome Phalcon',
-            Text::humanize(" \t Awesome-Phalcon \t ")
-        );
+            [
+                'string'   => 'kittens-are_cats',
+                'expected' => 'kittens are cats',
+            ],
+
+            [
+                'string'   => " \t Awesome-Phalcon \t ",
+                'expected' => 'Awesome Phalcon',
+            ],
+        ];
     }
 }

@@ -16,15 +16,10 @@ use Phalcon\Collection;
 use Phalcon\Http\Message\Request;
 use UnitTester;
 
-/**
- * Class GetHeadersCest
- */
 class GetHeadersCest
 {
     /**
      * Tests Phalcon\Http\Message\Request :: getHeaders()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -32,24 +27,32 @@ class GetHeadersCest
     public function httpMessageRequestGetHeaders(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Request - getHeaders()');
-        $data    = [
+
+        $data = [
             'Cache-Control' => ['max-age=0'],
             'Accept'        => ['text/html'],
         ];
-        $request = new Request('GET', null, 'php://memory', $data);
+
+        $request = new Request(
+            'GET',
+            null,
+            'php://memory',
+            $data
+        );
 
         $expected = [
             'Accept'        => ['text/html'],
             'Cache-Control' => ['max-age=0'],
         ];
-        $actual   = $request->getHeaders();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $request->getHeaders()
+        );
     }
 
     /**
      * Tests Phalcon\Http\Message\Request :: getHeaders() - collection
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -57,25 +60,34 @@ class GetHeadersCest
     public function httpMessageRequestGetHeadersCollection(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Request - getHeaders()');
-        $data    = [
+
+        $data = [
             'Cache-Control' => ['max-age=0'],
             'Accept'        => ['text/html'],
         ];
+
         $headers = new Collection($data);
-        $request = new Request('GET', null, 'php://memory', $headers);
+
+        $request = new Request(
+            'GET',
+            null,
+            'php://memory',
+            $headers
+        );
 
         $expected = [
             'Accept'        => ['text/html'],
             'Cache-Control' => ['max-age=0'],
         ];
-        $actual   = $request->getHeaders();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $request->getHeaders()
+        );
     }
 
     /**
      * Tests Phalcon\Http\Message\Request :: getHeaders() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -83,10 +95,12 @@ class GetHeadersCest
     public function httpMessageRequestGetHeadersEmpty(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Request - getHeaders() - empty');
+
         $request = new Request();
 
-        $expected = [];
-        $actual   = $request->getHeaders();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [],
+            $request->getHeaders()
+        );
     }
 }

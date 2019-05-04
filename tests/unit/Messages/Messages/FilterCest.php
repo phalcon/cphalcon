@@ -16,15 +16,10 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use UnitTester;
 
-/**
- * Class FilterCest
- */
 class FilterCest
 {
     /**
      * Tests Phalcon\Messages\Messages :: filter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -68,7 +63,9 @@ class FilterCest
         $I->assertCount(3, $messages);
 
         $actual = $messages->filter('Password');
+
         $I->assertInternalType('array', $actual);
+
         $I->assertCount(2, $actual);
 
         $expected = [
@@ -95,6 +92,7 @@ class FilterCest
                 ]
             ),
         ];
+
         $I->assertEquals($expected, $actual);
     }
 }

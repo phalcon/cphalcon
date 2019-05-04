@@ -50,14 +50,13 @@ class ConstructCest
     /**
      * Tests Phalcon\Translate\Adapter\Csv :: __construct() - Exception
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterCsvContentParamExist(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Csv - constructor without "content" throws exception');
+
         $I->expectThrowable(
             new Exception("Parameter 'content' is required"),
             function () {

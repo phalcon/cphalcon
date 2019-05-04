@@ -168,12 +168,14 @@ class LoaderCest
                 dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClassOne.php'),
             ]
         );
+
         $loader->registerFiles(
             [
                 dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClassTwo.php'),
             ],
             true
         );
+
         $loader->register();
 
         $I->assertTrue(
@@ -400,14 +402,24 @@ class LoaderCest
         );
 
         $loader->setEventsManager($eventsManager);
+
         $loader->register();
 
-        $I->assertInstanceOf('LoaderEvent', new \LoaderEvent());
+        $I->assertInstanceOf(
+            \LoaderEvent::class,
+            new \LoaderEvent()
+        );
 
         $expected = [
-            'beforeCheckClass' => [0 => null],
-            'beforeCheckPath'  => [0 => dataFolder('fixtures/Loader/Example/Events/LoaderEvent.php')],
-            'pathFound'        => [0 => dataFolder('fixtures/Loader/Example/Events/LoaderEvent.php')],
+            'beforeCheckClass' => [
+                0 => null,
+            ],
+            'beforeCheckPath' => [
+                0 => dataFolder('fixtures/Loader/Example/Events/LoaderEvent.php'),
+            ],
+            'pathFound' => [
+                0 => dataFolder('fixtures/Loader/Example/Events/LoaderEvent.php'),
+            ],
         ];
 
         $I->assertEquals($expected, $trace);

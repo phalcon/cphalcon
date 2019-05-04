@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-/**
- * Class SerializeCest
- */
 class SerializeCest
 {
     /**
      * Tests Phalcon\Registry :: serialize()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,15 +26,18 @@ class SerializeCest
     public function collectionSerialize(UnitTester $I)
     {
         $I->wantToTest('Registry - serialize()');
-        $data     = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $registry = new Registry($data);
 
-        $expected = serialize($data);
-        $actual   = $registry->serialize();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            serialize($data),
+            $registry->serialize()
+        );
     }
 }

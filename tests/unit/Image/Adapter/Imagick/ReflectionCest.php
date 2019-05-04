@@ -47,12 +47,14 @@ class ReflectionCest
 
         $I->seeFileFound('reflection.jpg');
 
-        $I->assertTrue(
-            $image->getWidth() > 200
+        $I->assertGreaterThan(
+            200,
+            $image->getWidth()
         );
 
-        $I->assertTrue(
-            $image->getHeight() > 200
+        $I->assertGreaterThan(
+            200,
+            $image->getHeight()
         );
 
         $I->safeDeleteFile('reflection.jpg');

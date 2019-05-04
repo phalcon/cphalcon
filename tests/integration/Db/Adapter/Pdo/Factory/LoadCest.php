@@ -22,9 +22,6 @@ class LoadCest
 {
     use FactoryTrait;
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function _before(IntegrationTester $I)
     {
         $this->init();
@@ -32,8 +29,6 @@ class LoadCest
 
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Factory :: load() - Config
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
@@ -49,9 +44,7 @@ class LoadCest
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Config|Array      $options
-     * @param array             $data
+     * @param Config|array $options
      */
     private function runTests(IntegrationTester $I, $options, array $data)
     {

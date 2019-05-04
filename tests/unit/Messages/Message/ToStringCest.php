@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Messages\Message;
 use Phalcon\Messages\Message;
 use UnitTester;
 
-/**
- * Class ToStringCest
- */
 class ToStringCest
 {
     /**
      * Tests Phalcon\Messages\Message :: __toString()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -47,8 +42,6 @@ class ToStringCest
 
     /**
      * Tests Phalcon\Messages\Message :: __toString() - cast
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

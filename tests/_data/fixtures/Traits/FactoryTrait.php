@@ -18,8 +18,6 @@ use function dataFolder;
 use function outputFolder;
 
 /**
- * Trait FactoryTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait FactoryTrait
@@ -36,8 +34,10 @@ trait FactoryTrait
      */
     protected function init()
     {
-        $configFile        = dataFolder("assets/config/factory.ini");
-        $this->config      = new Ini($configFile, INI_SCANNER_NORMAL);
+        $configFile = dataFolder("assets/config/factory.ini");
+
+        $this->config = new Ini($configFile, INI_SCANNER_NORMAL);
+
         $this->arrayConfig = $this->config->toArray();
     }
 
@@ -64,7 +64,8 @@ trait FactoryTrait
             ],
         ];
 
-        $this->config      = new Config($options);
+        $this->config = new Config($options);
+
         $this->arrayConfig = $this->config->toArray();
     }
 }

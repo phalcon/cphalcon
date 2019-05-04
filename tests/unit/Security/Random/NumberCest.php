@@ -25,30 +25,49 @@ class NumberCest
     public function securityRandomNumber(UnitTester $I)
     {
         $I->wantToTest("Security\Random - number()");
-        $random = new \Phalcon\Security\Random;
-        $I->expectException(\Exception::class, function () {
-            $randNumber = $random->number();
-        });
 
-        $I->expectException(\Exception::class, function () {
-            $randNumber = $random->number(-1);
-        });
+        $random = new \Phalcon\Security\Random;
+
+
+
+        $I->expectException(
+            \Exception::class,
+            function () {
+                $randNumber = $random->number();
+            }
+        );
+
+        $I->expectException(
+            \Exception::class,
+            function () {
+                $randNumber = $random->number(-1);
+            }
+        );
+
+
 
         $maxRand    = 1;
         $randNumber = $random->number($maxRand);
 
         $I->assertGreaterOrEquals(0, $randNumber);
+
         $I->assertLessOrEquals($maxRand, $randNumber);
+
+
 
         $maxRand    = 1000000000000000000;
         $randNumber = $random->number($maxRand);
 
         $I->assertGreaterOrEquals(0, $randNumber);
+
         $I->assertLessOrEquals($maxRand, $randNumber);
 
-        $differentNumber = $random->number($maxRand);
+
 
         //Buy lottery ticket if this fails (or fix the bug)
-        $I->assertNotEquals($randNumber, $differentNumber);
+        $I->assertNotEquals(
+            $randNumber,
+            $random->number($maxRand)
+        );
     }
 }

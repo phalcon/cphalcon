@@ -16,8 +16,6 @@ use Phalcon\Logger\Adapter\Noop;
 use UnitTester;
 
 /**
- * Class CloseCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class CloseCest
@@ -25,17 +23,17 @@ class CloseCest
     /**
      * Tests Phalcon\Logger\Adapter\Noop :: close()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function loggerAdapterNoopClose(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Noop - close()');
+
         $adapter = new Noop();
 
-        $actual = $adapter->close();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->close()
+        );
     }
 }

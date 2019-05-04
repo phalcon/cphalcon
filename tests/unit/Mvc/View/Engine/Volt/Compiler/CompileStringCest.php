@@ -17,15 +17,10 @@ use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
 use UnitTester;
 
-/**
- * Class CompileStringCest
- */
 class CompileStringCest
 {
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileString()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-01-17
@@ -46,9 +41,6 @@ class CompileStringCest
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getVoltCompileString(): array
     {
         return [
@@ -256,8 +248,6 @@ class CompileStringCest
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileString() - syntax
      * error
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-01-17
      *
@@ -267,8 +257,8 @@ class CompileStringCest
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compileString() - syntax error");
 
-        $code    = $example[0];
-        $message = $example[1];
+        $code    = $example['code'];
+        $message = $example['message'];
 
         $volt = new Compiler();
 
@@ -280,15 +270,23 @@ class CompileStringCest
         );
     }
 
-    /**
-     * @return array
-     */
     private function getVoltCompileStringErrors(): array
     {
         return [
-            ['{{ "hello"|unknown }}', 'Unknown filter "unknown" in eval code on line 1'],
-            ['{{ "hello"|unknown(1, 2, 3) }}', 'Unknown filter "unknown" in eval code on line 1'],
-            ['{{ "hello"|(a-1) }}', 'Unknown filter type in eval code on line 1'],
+            [
+                'code'    => '{{ "hello"|unknown }}',
+                'message' => 'Unknown filter "unknown" in eval code on line 1',
+            ],
+
+            [
+                'code'    => '{{ "hello"|unknown(1, 2, 3) }}',
+                'message' => 'Unknown filter "unknown" in eval code on line 1',
+            ],
+
+            [
+                'code'    => '{{ "hello"|(a-1) }}',
+                'message' => 'Unknown filter type in eval code on line 1',
+            ],
         ];
     }
 }

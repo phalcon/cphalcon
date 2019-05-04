@@ -16,15 +16,10 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use UnitTester;
 
-/**
- * Class NextCest
- */
 class NextCest
 {
     /**
      * Tests Phalcon\Messages\Messages :: next()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

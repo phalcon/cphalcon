@@ -34,22 +34,19 @@ class InterpolateCest
 
         $formatter = new Syslog();
 
-        $message = 'The sky is {color}';
-
-        $context = [
-            'color' => 'blue',
-        ];
-
         $I->assertEquals(
             'The sky is blue',
-            $formatter->interpolate($message, $context)
+            $formatter->interpolate(
+                'The sky is {color}',
+                [
+                    'color' => 'blue',
+                ]
+            )
         );
     }
 
     /**
      * Tests Phalcon\Logger\Formatter\Syslog :: interpolate() - format
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

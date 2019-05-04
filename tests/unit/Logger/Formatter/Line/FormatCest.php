@@ -19,16 +19,12 @@ use UnitTester;
 use const PHP_EOL;
 
 /**
- * Class FormatCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class FormatCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Line :: format()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -49,14 +45,15 @@ class FormatCest
         );
 
         $expected = sprintf('[%s][debug] log message', date('D, d M y H:i:s O', $time)) . PHP_EOL;
-        $actual   = $formatter->format($item);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $formatter->format($item)
+        );
     }
 
     /**
      * Tests Phalcon\Logger\Formatter\Line :: format() -custom
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -77,7 +74,10 @@ class FormatCest
         );
 
         $expected = sprintf('log message-[debug]-%s', date('D, d M y H:i:s O', $time)) . PHP_EOL;
-        $actual   = $formatter->format($item);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $formatter->format($item)
+        );
     }
 }

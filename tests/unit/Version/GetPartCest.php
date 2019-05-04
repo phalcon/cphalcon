@@ -37,30 +37,41 @@ class GetPartCest
          * Phalcon\Version) and E is the release number (for example 2 for RC2)
          */
 
-        $id       = Version::getId();
-        $expected = intval($id[0]); //The major version is the first digit
-        $actual   = Version::getPart(Version::VERSION_MAJOR);
-        $I->assertEquals($expected, $actual);
+        $id = Version::getId();
 
-        $expected = intval($id[1] . $id[2]); //The medium version is the second and third digits
-        $actual   = Version::getPart(Version::VERSION_MEDIUM);
-        $I->assertEquals($expected, $actual);
+        // The major version is the first digit
+        $I->assertEquals(
+            intval($id[0]),
+            Version::getPart(Version::VERSION_MAJOR)
+        );
 
-        $expected = intval($id[3] . $id[4]); //The minor version is the fourth and fifth digits
-        $actual   = Version::getPart(Version::VERSION_MINOR);
-        $I->assertEquals($expected, $actual);
+        // The medium version is the second and third digits
+        $I->assertEquals(
+            intval($id[1] . $id[2]),
+            Version::getPart(Version::VERSION_MEDIUM)
+        );
 
-        $expected = $this->numberToSpecial($id[5]);
-        $actual   = Version::getPart(Version::VERSION_SPECIAL);
-        $I->assertEquals($expected, $actual);
+        // The minor version is the fourth and fifth digits
+        $I->assertEquals(
+            intval($id[3] . $id[4]),
+            Version::getPart(Version::VERSION_MINOR)
+        );
+
+        $I->assertEquals(
+            $this->numberToSpecial($id[5]),
+            Version::getPart(Version::VERSION_SPECIAL)
+        );
 
         $special  = $this->numberToSpecial($id[5]);
         $expected = ($special) ? $id[6] : 0;
-        $actual   = Version::getPart(Version::VERSION_SPECIAL_NUMBER);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            Version::getPart(Version::VERSION_SPECIAL_NUMBER)
+        );
 
-        $expected = Version::get();
-        $actual   = Version::getPart(7);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            Version::get(),
+            Version::getPart(7)
+        );
     }
 }

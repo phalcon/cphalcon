@@ -16,15 +16,10 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use UnitTester;
 
-/**
- * Class OffsetExistsCest
- */
 class OffsetExistsCest
 {
     /**
      * Tests Phalcon\Messages\Messages :: offsetExists()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

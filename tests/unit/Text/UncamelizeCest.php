@@ -23,28 +23,23 @@ class UncamelizeCest
      *
      * @dataProvider getSources
      *
-     * @param UnitTester $I
-     * @param Example    $item
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
      */
-    public function textUncamelize(UnitTester $I, Example $item)
+    public function textUncamelize(UnitTester $I, Example $example)
     {
         $I->wantToTest('Text - uncamelize()');
 
-        $value     = $item[0];
-        $expected  = $item[1];
-        $delimiter = $item[2];
+        $value     = $example[0];
+        $expected  = $example[1];
+        $delimiter = $example[2];
 
-        $actual = Text::uncamelize($value, $delimiter);
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            Text::uncamelize($value, $delimiter)
+        );
     }
 
-    /**
-     * @return array
-     */
     private function getSources(): array
     {
         return [

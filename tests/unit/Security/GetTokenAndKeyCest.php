@@ -60,10 +60,8 @@ class GetTokenAndKeyCest
     }
 
     /**
-     * Tests Security::getToken and Security::getTokenKey for generating only
-     * one token per request
-     *
-     * @param UnitTester $I
+     * Tests Security::getToken() and Security::getTokenKey() for generating
+     * only one token per request
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -81,31 +79,43 @@ class GetTokenAndKeyCest
         $tokenKey = $security->getTokenKey();
         $token    = $security->getToken();
 
-        $expected = $tokenKey;
-        $actual   = $security->getTokenKey();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $token;
-        $actual   = $security->getToken();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $token;
-        $actual   = $security->getSessionToken();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $tokenKey,
+            $security->getTokenKey()
+        );
+
+        $I->assertEquals(
+            $token,
+            $security->getToken()
+        );
+
+        $I->assertEquals(
+            $token,
+            $security->getSessionToken()
+        );
+
+
 
         $security->destroyToken();
 
-        $expected = $tokenKey;
-        $actual   = $security->getTokenKey();
-        $I->assertNotEquals($expected, $actual);
+        $I->assertNotEquals(
+            $tokenKey,
+            $security->getTokenKey()
+        );
 
-        $expected = $token;
-        $actual   = $security->getToken();
-        $I->assertNotEquals($expected, $actual);
+        $I->assertNotEquals(
+            $token,
+            $security->getToken()
+        );
 
-        $expected = $token;
-        $actual   = $security->getSessionToken();
-        $I->assertNotEquals($expected, $actual);
+        $I->assertNotEquals(
+            $token,
+            $security->getSessionToken()
+        );
+
+
 
         $security->destroyToken();
     }

@@ -17,8 +17,6 @@ use Phalcon\Cache\Frontend\Data;
 use function cacheFolder;
 
 /**
- * Trait FileTrait
- *
  * @package Phalcon\Test\Fixtures\Traits\Cache
  */
 trait FileTrait
@@ -30,7 +28,8 @@ trait FileTrait
 
     public function _before()
     {
-        $frontCache  = new Data();
+        $frontCache = new Data();
+
         $this->cache = new File(
             $frontCache,
             [

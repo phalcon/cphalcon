@@ -25,9 +25,6 @@ class MysqlCest extends MysqlHelper
      */
     protected $connection;
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function _before(IntegrationTester $I)
     {
         try {
@@ -103,9 +100,11 @@ class MysqlCest extends MysqlHelper
 
 
         $dbName = env('DATA_MYSQL_NAME', 'phalcon_test');
-        $actual = $this->connection->listTables($dbName);
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $this->connection->listTables($dbName)
+        );
     }
 
     /**

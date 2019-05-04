@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-/**
- * Class SetCest
- */
 class SetCest
 {
     /**
      * Tests Phalcon\Registry :: set()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,25 +26,42 @@ class SetCest
     public function collectionSet(UnitTester $I)
     {
         $I->wantToTest('Registry - set()');
+
         $registry = new Registry();
 
+
+
         $registry->set('three', 'two');
-        $expected = 'two';
-        $actual   = $registry->get('three');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            'two',
+            $registry->get('three')
+        );
+
+
 
         $registry->three = 'Phalcon';
-        $expected        = 'Phalcon';
-        $actual          = $registry->get('three');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            'Phalcon',
+            $registry->get('three')
+        );
+
+
 
         $registry->offsetSet('three', 123);
-        $expected = 123;
-        $actual   = $registry->get('three');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            123,
+            $registry->get('three')
+        );
+
+
 
         $registry['three'] = true;
-        $actual            = $registry->get('three');
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $registry->get('three')
+        );
     }
 }
