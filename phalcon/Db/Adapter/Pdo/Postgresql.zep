@@ -101,11 +101,11 @@ class Postgresql extends PdoAdapter
     {
         var sql, queries, query, exception, columns;
 
-        if !fetch columns, definition["columns"] {
+        if unlikely !fetch columns, definition["columns"] {
             throw new Exception("The table must contain at least one column");
         }
 
-        if !count(columns) {
+        if unlikely !count(columns) {
             throw new Exception("The table must contain at least one column");
         }
 

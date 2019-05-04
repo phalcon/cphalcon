@@ -323,13 +323,13 @@ class Uri implements UriInterface
     {
         this->checkStringParameter(path, "path");
 
-        if false !== strpos(path, "?") {
+        if unlikely false !== strpos(path, "?") {
             throw new \InvalidArgumentException(
                 "Path cannot contain a query string"
             );
         }
 
-        if false !== strpos(path, "#") {
+        if unlikely false !== strpos(path, "#") {
             throw new \InvalidArgumentException(
                 "Path cannot contain a query fragment"
             );
@@ -366,7 +366,7 @@ class Uri implements UriInterface
                     let type = gettype(port);
                 }
 
-                if typeof port !== "string" {
+                if unlikely typeof port !== "string" {
                     throw new \InvalidArgumentException(
                         "Method expects an integer, integer string or null argument instead of " . type
                     );
@@ -376,7 +376,7 @@ class Uri implements UriInterface
             let port = this->filterPort(port);
         }
 
-        if null !== port && (port < 1 || port > 65535) {
+        if unlikely (null !== port && (port < 1 || port > 65535)) {
             throw new \InvalidArgumentException(
                 "Method expects valid port (1-65535)"
             );
@@ -402,7 +402,7 @@ class Uri implements UriInterface
     {
         this->checkStringParameter(query, "query");
 
-        if false !== strpos(query, "#") {
+        if unlikely false !== strpos(query, "#") {
             throw new \InvalidArgumentException(
                 "Query cannot contain a query fragment"
             );
@@ -483,7 +483,7 @@ class Uri implements UriInterface
             let type = gettype(element);
         }
 
-        if typeof element !== "string" {
+        if unlikely typeof element !== "string" {
             throw new \InvalidArgumentException(
                 "Method requires a string argument instead of " . type
             );
@@ -665,7 +665,7 @@ class Uri implements UriInterface
             return "";
         }
 
-        if !isset schemes[filtered] {
+        if unlikely !isset schemes[filtered] {
             throw new \InvalidArgumentException(
                 "Unsupported scheme [" . filtered . "]. " .
                 "Scheme must be one of [" . implode(", ", schemes). "]"
@@ -695,7 +695,7 @@ class Uri implements UriInterface
 
         let urlParts = parse_url(encoded);
 
-        if !urlParts {
+        if unlikely !urlParts {
             throw new \InvalidArgumentException(
                 "The source URI string appears to be malformed"
             );

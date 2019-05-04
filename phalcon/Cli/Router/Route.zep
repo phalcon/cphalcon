@@ -471,7 +471,7 @@ class Route
                         // Extract the namespace from the namespaced class
                         let namespaceName = get_ns_class(taskName);
 
-                        if namespaceName === null || realClassName === null {
+                        if unlikely (namespaceName === null || realClassName === null) {
                             throw new Exception(
                                 "The route contains invalid paths"
                             );
@@ -500,7 +500,7 @@ class Route
             let routePaths = [];
         }
 
-        if typeof routePaths !== "array" {
+        if unlikely typeof routePaths !== "array" {
             throw new Exception("The route contains invalid paths");
         }
 

@@ -290,7 +290,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
         if this->registered === false {
             let container = this->container;
 
-            if typeof container != "object" {
+            if unlikely typeof container != "object" {
                 throw new Exception(
                     Exception::containerServiceNotFound(
                         "the 'response' service"

@@ -78,7 +78,7 @@ abstract class AbstractHelper
 
         for key, value in attributes {
             if typeof key == "string" && value !== null {
-                if typeof value == "array" || typeof value == "resource" || typeof value == "object" {
+                if unlikely (typeof value == "array" || typeof value == "resource" || typeof value == "object") {
                     throw new Exception(
                         "Value at index: '" . key . "' type: '" . gettype(value) . "' cannot be rendered"
                     );

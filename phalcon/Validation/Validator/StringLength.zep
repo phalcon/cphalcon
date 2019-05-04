@@ -82,7 +82,7 @@ class StringLength extends Validator
         let isSetMin = this->hasOption("min"),
             isSetMax = this->hasOption("max");
 
-        if !isSetMin && !isSetMax {
+        if unlikely (!isSetMin && !isSetMax) {
             throw new Exception("A minimum or maximum must be set");
         }
 

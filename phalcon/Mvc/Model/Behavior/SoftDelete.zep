@@ -38,14 +38,14 @@ class SoftDelete extends Behavior
         /**
          * 'value' is the value to be updated instead of delete the record
          */
-        if !fetch value, options["value"] {
+        if unlikely !fetch value, options["value"] {
             throw new Exception("The option 'value' is required");
         }
 
         /**
          * 'field' is the attribute to be updated instead of delete the record
          */
-        if !fetch field, options["field"] {
+        if unlikely !fetch field, options["field"] {
             throw new Exception("The option 'field' is required");
         }
 

@@ -56,7 +56,7 @@ class Mysql extends PdoAdapter
             this->dialect->getForeignKeyChecks()
         );
 
-        if !foreignKeyCheck->execute() {
+        if unlikely !foreignKeyCheck->execute() {
             throw new Exception(
                 "DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1"
             );

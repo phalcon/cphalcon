@@ -150,13 +150,13 @@ class UploadedFile implements UploadedFileInterface
      */
     public function getStream() -> <StreamInterface>
     {
-        if this->error !== constant("UPLOAD_ERR_OK") {
+        if unlikely this->error !== constant("UPLOAD_ERR_OK") {
             throw new Exception(
                 this->getErrorDescription(this->error)
             );
         }
 
-        if true === this->alreadyMoved {
+        if unlikely true === this->alreadyMoved {
             throw new Exception(
                 "The file has already been moved to the target location"
             );
@@ -205,11 +205,11 @@ class UploadedFile implements UploadedFileInterface
     {
         var sapi, dirname;
 
-        if true === this->alreadyMoved {
+        if unlikely true === this->alreadyMoved {
             throw new Exception("File has already been moved");
         }
 
-        if constant("UPLOAD_ERR_OK") !== this->error {
+        if unlikely constant("UPLOAD_ERR_OK") !== this->error {
             throw new Exception(
                 this->getErrorDescription(this->error)
             );
@@ -220,7 +220,7 @@ class UploadedFile implements UploadedFileInterface
         /**
          * All together for early failure
          */
-        if !(typeof targetPath === "string" && !empty(targetPath) && is_dir(dirname) && is_writable(dirname)) {
+        if unlikely !(typeof targetPath === "string" && !empty(targetPath) && is_dir(dirname) && is_writable(dirname)) {
             throw new Exception(
                 "Target folder is empty string, not a folder or not writable"
             );
@@ -234,7 +234,7 @@ class UploadedFile implements UploadedFileInterface
         if empty(sapi) || empty(this->fileName) || starts_with(sapi, "cli") {
             this->storeFile(targetPath);
         } else {
-            if !move_uploaded_file(this->fileName, targetPath) {
+            if unlikely !move_uploaded_file(this->fileName, targetPath) {
                 throw new Exception(
                     "The file cannot be moved to the target folder"
                 );
@@ -249,7 +249,7 @@ class UploadedFile implements UploadedFileInterface
      */
     private function checkError(int error) -> void
     {
-        if true !== Number::between(error, constant("UPLOAD_ERR_OK"), constant("UPLOAD_ERR_EXTENSION")) {
+        if unlikely true !== Number::between(error, constant("UPLOAD_ERR_OK"), constant("UPLOAD_ERR_EXTENSION")) {
             throw new Exception(
                 "Invalid 'error'. Must be one of the UPLOAD_ERR_* constants"
             );

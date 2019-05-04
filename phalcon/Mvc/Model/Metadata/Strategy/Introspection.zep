@@ -41,7 +41,7 @@ class Introspection implements StrategyInterface
         if method_exists(model, "columnMap") {
             let userColumnMap = model->{"columnMap"}();
 
-            if typeof userColumnMap != "array" {
+            if unlikely typeof userColumnMap != "array" {
                 throw new Exception("columnMap() not returned an array");
             }
 
@@ -78,7 +78,7 @@ class Introspection implements StrategyInterface
          */
         let readConnection = model->getReadConnection();
 
-        if !readConnection->tableExists(table, schema) {
+        if unlikely !readConnection->tableExists(table, schema) {
             if schema {
                 let completeTable = schema . "'.'" . table;
             } else {
@@ -98,7 +98,7 @@ class Introspection implements StrategyInterface
          */
         let columns = readConnection->describeColumns(table, schema);
 
-        if !count(columns) {
+        if unlikely !count(columns) {
             if schema {
                 let completeTable = schema . "'.'" . table;
             } else {

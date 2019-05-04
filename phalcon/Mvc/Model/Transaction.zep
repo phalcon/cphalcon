@@ -175,7 +175,7 @@ class Transaction implements TransactionInterface
 
         let connection = this->connection;
 
-        if connection->rollback() {
+        if unlikely connection->rollback() {
             if !rollbackMessage {
                 let rollbackMessage = "Transaction aborted";
             }

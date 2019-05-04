@@ -89,7 +89,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
         let this->container = container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
                     "the services related to the ORM"
@@ -183,7 +183,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
         let container = <DiInterface> this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
                     "the services related to the ORM"

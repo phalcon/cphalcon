@@ -85,7 +85,7 @@ class ExclusionIn extends Validator
             }
         }
 
-        if typeof domain != "array" {
+        if unlikely typeof domain != "array" {
             throw new Exception("Option 'domain' must be an array");
         }
 
@@ -98,7 +98,7 @@ class ExclusionIn extends Validator
                 let strict = strict[field];
             }
 
-            if typeof strict != "boolean" {
+            if unlikely typeof strict != "boolean" {
                 throw new Exception("Option 'strict' must be a bool");
             }
         }

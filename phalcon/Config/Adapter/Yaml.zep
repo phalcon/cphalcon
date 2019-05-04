@@ -62,7 +62,7 @@ class Yaml extends Config
         var yamlConfig;
         int ndocs = 0;
 
-        if !extension_loaded("yaml") {
+        if unlikely !extension_loaded("yaml") {
             throw new Exception("Yaml extension not loaded");
         }
 
@@ -72,7 +72,7 @@ class Yaml extends Config
             let yamlConfig = yaml_parse_file(filePath);
         }
 
-        if yamlConfig === false {
+        if unlikely yamlConfig === false {
             throw new Exception(
                 "Configuration file " . basename(filePath) . " can't be loaded"
             );

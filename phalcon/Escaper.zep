@@ -167,7 +167,7 @@ class Escaper implements EscaperInterface
         /**
          * mbstring is required here
          */
-        if !function_exists("mb_convert_encoding") {
+        if unlikely !function_exists("mb_convert_encoding") {
             throw new Exception("Extension 'mbstring' is required");
         }
 

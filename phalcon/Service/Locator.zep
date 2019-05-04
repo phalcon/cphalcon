@@ -58,7 +58,7 @@ class Locator implements LocatorInterface
     {
         var definition, service;
 
-        if !this->has(name) {
+        if unlikely !this->has(name) {
             throw new Exception(
                 "The service " . name . " has not been found in the locator"
             );

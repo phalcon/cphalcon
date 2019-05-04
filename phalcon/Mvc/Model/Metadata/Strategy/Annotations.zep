@@ -29,7 +29,7 @@ class Annotations implements StrategyInterface
         array orderedColumnMap, reversedColumnMap;
         bool hasReversedColumn;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception("The dependency injector is invalid");
         }
 
@@ -38,7 +38,7 @@ class Annotations implements StrategyInterface
         let className = get_class(model),
             reflection = annotations->get(className);
 
-        if typeof reflection != "object" {
+        if unlikely typeof reflection != "object" {
             throw new Exception(
                 "No annotations were found in class " . className
             );
@@ -49,7 +49,7 @@ class Annotations implements StrategyInterface
          */
         let propertiesAnnotations = reflection->getPropertiesAnnotations();
 
-        if !count(propertiesAnnotations) {
+        if unlikely !count(propertiesAnnotations) {
             throw new Exception(
                 "No properties with annotations were found in class " . className
             );
@@ -110,7 +110,7 @@ class Annotations implements StrategyInterface
             identityField, notNull, attributes, defaultValues, defaultValue,
             emptyStringValues, skipOnInsert, skipOnUpdate;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception("The dependency injector is invalid");
         }
 
@@ -119,7 +119,7 @@ class Annotations implements StrategyInterface
         let className = get_class(model),
             reflection = annotations->get(className);
 
-        if typeof reflection != "object" {
+        if unlikely typeof reflection != "object" {
             throw new Exception(
                 "No annotations were found in class " . className
             );
@@ -130,7 +130,7 @@ class Annotations implements StrategyInterface
          */
         let propertiesAnnotations = reflection->getPropertiesAnnotations();
 
-        if !count(propertiesAnnotations) {
+        if unlikely !count(propertiesAnnotations) {
             throw new Exception(
                 "No properties with annotations were found in class " . className
             );

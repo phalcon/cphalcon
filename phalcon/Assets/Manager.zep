@@ -252,7 +252,7 @@ class Manager implements InjectionAwareInterface
     {
         var collection;
 
-        if !fetch collection, this->collections[id] {
+        if unlikely !fetch collection, this->collections[id] {
             throw new Exception("The collection does not exist in the manager");
         }
 
@@ -429,13 +429,13 @@ class Manager implements InjectionAwareInterface
                 /**
                 * We need a valid final target path
                 */
-                if !completeTargetPath {
+                if unlikely !completeTargetPath {
                     throw new Exception(
                         "Path '" . completeTargetPath . "' is not a valid target path (1)"
                     );
                 }
 
-                if is_dir(completeTargetPath) {
+                if unlikely is_dir(completeTargetPath) {
                     throw new Exception(
                         "Path '" . completeTargetPath . "' is not a valid target path (2), is dir."
                     );
@@ -473,8 +473,9 @@ class Manager implements InjectionAwareInterface
                     /**
                      * We need a valid source path
                      */
-                    if !sourcePath {
+                    if unlikely !sourcePath {
                         let sourcePath = asset->getPath();
+
                         throw new Exception(
                             "Asset '" . sourcePath . "' does not have a valid source path"
                         );
@@ -501,7 +502,7 @@ class Manager implements InjectionAwareInterface
                 /**
                  * We need a valid final target path
                  */
-                if !targetPath {
+                if unlikely !targetPath {
                     throw new Exception(
                         "Asset '" . sourcePath . "' does not have a valid target path"
                     );
@@ -512,7 +513,7 @@ class Manager implements InjectionAwareInterface
                     /**
                      * Make sure the target path is not the same source path
                      */
-                    if targetPath == sourcePath {
+                    if unlikely targetPath == sourcePath {
                         throw new Exception(
                             "Asset '" . targetPath . "' have the same source and target paths"
                         );
@@ -594,7 +595,7 @@ class Manager implements InjectionAwareInterface
                         /**
                          * Filters must be valid objects
                          */
-                        if typeof filter != "object" {
+                        if unlikely typeof filter != "object" {
                             throw new Exception("Filter is invalid");
                         }
 
@@ -802,7 +803,7 @@ class Manager implements InjectionAwareInterface
                     /**
                      * Filters must be valid objects
                      */
-                    if typeof filter != "object" {
+                    if unlikely typeof filter != "object" {
                         throw new Exception("Filter is invalid");
                     }
 

@@ -337,7 +337,7 @@ class Request implements RequestInterface
      */
     public function withRequestTarget(var requestTarget) -> <Request>
     {
-        if preg_match("/\s/", requestTarget) {
+        if unlikely preg_match("/\s/", requestTarget) {
             throw new \InvalidArgumentException(
                 "Invalid request target: cannot contain whitespace"
             );
@@ -423,7 +423,7 @@ class Request implements RequestInterface
      */
     private function checkHeaderName(var name) -> void
     {
-        if typeof name !== "string" || !preg_match("/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/", name) {
+        if unlikely (typeof name !== "string" || !preg_match("/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/", name)) {
             throw new \InvalidArgumentException("Invalid header name " . name);
         }
     }
@@ -475,14 +475,14 @@ class Request implements RequestInterface
      */
     private function checkHeaderValue(var value) -> void
     {
-        if typeof value !== "string" && typeof value !== "int" && typeof value !== "float" {
+        if unlikely (typeof value !== "string" && typeof value !== "int" && typeof value !== "float") {
             throw new \InvalidArgumentException("Invalid header value");
         }
 
         let value = (string) value;
 
-        if preg_match("#(?:(?:(?<!\r)\n)|(?:\r(?!\n))|(?:\r\n(?![ \t])))#", value) ||
-            preg_match("/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/", value) {
+        if unlikely (preg_match("#(?:(?:(?<!\r)\n)|(?:\r(?!\n))|(?:\r\n(?![ \t])))#", value) ||
+            preg_match("/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/", value)) {
             throw new \InvalidArgumentException("Invalid header value");
         }
     }
@@ -515,7 +515,7 @@ class Request implements RequestInterface
             let values = [values];
         }
 
-        if empty(values) {
+        if unlikely empty(values) {
             throw new \InvalidArgumentException(
                 "Invalid header value: must be a string or array of strings; cannot be an empty array"
             );
@@ -557,7 +557,7 @@ class Request implements RequestInterface
             return body;
         }
 
-        if typeof body !== "string" && typeof body !== "resource" {
+        if unlikely (typeof body !== "string" && typeof body !== "resource") {
             throw new \InvalidArgumentException(
                 "Invalid stream passed as a parameter"
             );
@@ -591,13 +591,13 @@ class Request implements RequestInterface
                 collection->set("Host", [host]);
             }
         } else {
-            if headers instanceof Collection {
-                let collection = headers;
-            } else {
+            if unlikely !(headers instanceof Collection) {
                 throw new \InvalidArgumentException(
                     "Headers needs to be either an array or instance of Phalcon\Collection"
                 );
             }
+
+            let collection = headers;
         }
 
         return collection;
@@ -622,7 +622,7 @@ class Request implements RequestInterface
             "TRACE"   : 1
         ];
 
-        if !(!empty(method) && typeof method === "string" && isset methods[method]) {
+        if unlikely !(!empty(method) && typeof method === "string" && isset methods[method]) {
             throw new \InvalidArgumentException(
                 "Invalid or unsupported method " . method
             );
@@ -645,11 +645,11 @@ class Request implements RequestInterface
             "3.0" : 1
         ];
 
-        if (empty(protocol)) || typeof protocol !== "string" {
+        if unlikely (empty(protocol)) || typeof protocol !== "string" {
             throw new \InvalidArgumentException("Invalid protocol value");
         }
 
-        if !isset protocols[protocol] {
+        if unlikely !isset protocols[protocol] {
             throw new \InvalidArgumentException(
                 "Unsupported protocol " . protocol
             );

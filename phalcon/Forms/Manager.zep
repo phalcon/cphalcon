@@ -39,7 +39,7 @@ class Manager
     {
         var form;
 
-        if !fetch form, this->forms[name] {
+        if unlikely !fetch form, this->forms[name] {
             throw new Exception("There is no form with name='" . name . "'");
         }
 

@@ -101,19 +101,19 @@ class Reference implements ReferenceInterface
 
         let this->name = name;
 
-        if !fetch referencedTable, definition["referencedTable"] {
+        if unlikely !fetch referencedTable, definition["referencedTable"] {
             throw new Exception("Referenced table is required");
         }
 
         let this->referencedTable = referencedTable;
 
-        if !fetch columns, definition["columns"] {
+        if unlikely !fetch columns, definition["columns"] {
             throw new Exception("Foreign key columns are required");
         }
 
         let this->columns = columns;
 
-        if !fetch referencedColumns, definition["referencedColumns"] {
+        if unlikely !fetch referencedColumns, definition["referencedColumns"] {
             throw new Exception(
                 "Referenced columns of the foreign key are required"
             );
@@ -137,7 +137,7 @@ class Reference implements ReferenceInterface
             let this->onUpdate = onUpdate;
         }
 
-        if count(columns) != count(referencedColumns) {
+        if unlikely count(columns) != count(referencedColumns) {
             throw new Exception(
                 "Number of columns is not equals than the number of columns referenced"
             );
@@ -153,7 +153,7 @@ class Reference implements ReferenceInterface
             constraintName, onDelete, onUpdate;
 
         if !fetch constraintName, data["referenceName"] {
-            if !fetch constraintName, data["name"] {
+            if unlikely !fetch constraintName, data["name"] {
                 throw new Exception("name parameter is required");
             }
         }

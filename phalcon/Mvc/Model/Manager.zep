@@ -289,7 +289,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * The model doesn't exist throw an exception
          */
-        if !class_exists(modelName) {
+        if unlikely !class_exists(modelName) {
             throw new Exception(
                 "Model '" . modelName . "' could not be loaded"
             );
@@ -485,7 +485,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let container = <DiInterface> this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
                     "the services related to the ORM"
@@ -498,7 +498,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         let connection = <AdapterInterface> container->getShared(service);
 
-        if typeof connection != "object" {
+        if unlikely typeof connection != "object" {
             throw new Exception("Invalid injected connection service");
         }
 
@@ -738,7 +738,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check if the number of fields are the same
          */
         if typeof referencedFields == "array" {
-            if count(fields) != count(referencedFields) {
+            if unlikely count(fields) != count(referencedFields) {
                 throw new Exception(
                     "Number of referenced fields are not the same"
                 );
@@ -760,7 +760,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check an alias for the relation
          */
         if fetch alias, options["alias"] {
-            if typeof alias != "string" {
+            if unlikely typeof alias != "string" {
                 throw new Exception("Relation alias must be a string");
             }
 
@@ -823,7 +823,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check if the number of fields are the same
          */
         if typeof referencedFields == "array" {
-            if count(fields) != count(referencedFields) {
+            if unlikely count(fields) != count(referencedFields) {
                 throw new Exception(
                     "Number of referenced fields are not the same"
                 );
@@ -845,7 +845,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check an alias for the relation
          */
         if fetch alias, options["alias"] {
-            if typeof alias != "string" {
+            if unlikely typeof alias != "string" {
                 throw new Exception("Relation alias must be a string");
             }
 
@@ -910,7 +910,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check if the number of fields are the same
          */
         if typeof referencedFields == "array" {
-            if count(fields) != count(referencedFields) {
+            if unlikely count(fields) != count(referencedFields) {
                 throw new Exception(
                     "Number of referenced fields are not the same"
                 );
@@ -932,7 +932,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check an alias for the relation
          */
         if fetch alias, options["alias"] {
-            if typeof alias != "string" {
+            if unlikely typeof alias != "string" {
                 throw new Exception("Relation alias must be a string");
             }
 
@@ -1002,7 +1002,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * intermediate model
          */
         if typeof intermediateFields == "array" {
-            if count(fields) != count(intermediateFields) {
+            if unlikely count(fields) != count(intermediateFields) {
                 throw new Exception(
                     "Number of referenced fields are not the same"
                 );
@@ -1014,7 +1014,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * model to the referenced model
          */
         if typeof intermediateReferencedFields == "array" {
-            if count(fields) != count(intermediateFields) {
+            if unlikely count(fields) != count(intermediateFields) {
                 throw new Exception(
                     "Number of referenced fields are not the same"
                 );
@@ -1326,12 +1326,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
              */
             let fields = relation->getFields();
 
-            if typeof fields != "array" {
-                let conditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = :APR0:",
-                    placeholders["APR0"] = record->readAttribute(fields);
-            } else {
+            if unlikely typeof fields == "array" {
                 throw new Exception("Not supported");
             }
+
+            let conditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = :APR0:",
+                placeholders["APR0"] = record->readAttribute(fields);
 
             let joinConditions = [];
 
@@ -1340,11 +1340,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
              */
             let intermediateFields = relation->getIntermediateReferencedFields();
 
-            if typeof intermediateFields != "array" {
-                let joinConditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = [" . referencedModel . "].[" . relation->getReferencedFields() . "]";
-            } else {
+            if unlikely typeof intermediateFields == "array" {
                 throw new Exception("Not supported");
             }
+
+            let joinConditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = [" . referencedModel . "].[" . relation->getReferencedFields() . "]";
 
             /**
              * We don't trust the user or the database so we use bound parameters
@@ -1759,7 +1759,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let container = this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
                     "the services related to the ORM"
@@ -1812,7 +1812,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let container = <DiInterface> this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
                     "the services related to the ORM"
@@ -1855,7 +1855,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var namespaceName;
 
-        if !fetch namespaceName, this->namespaceAliases[alias] {
+        if unlikely !fetch namespaceName, this->namespaceAliases[alias] {
             throw new Exception(
                 "Namespace alias '" . alias . "' is not registered"
             );

@@ -107,7 +107,7 @@ class Security implements InjectionAwareInterface
 
         let container = <DiInterface> this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("the 'session' service")
             );
@@ -165,7 +165,7 @@ class Security implements InjectionAwareInterface
 
         let hmac = hash_hmac(algo, data, key, raw);
 
-        if !hmac {
+        if unlikely !hmac {
             throw new Exception(
                 sprintf(
                     "Unknown hashing algorithm: %s",
@@ -186,7 +186,7 @@ class Security implements InjectionAwareInterface
 
         let container = <DiInterface> this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("the 'session' service")
             );
@@ -258,7 +258,7 @@ class Security implements InjectionAwareInterface
 
         let container = <DiInterface> this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("the 'session' service")
             );
@@ -306,7 +306,7 @@ class Security implements InjectionAwareInterface
 
             let container = <DiInterface> this->container;
 
-            if typeof container != "object" {
+            if unlikely typeof container != "object" {
                 throw new Exception(
                     Exception::containerServiceNotFound("the 'session' service")
                 );
@@ -334,7 +334,7 @@ class Security implements InjectionAwareInterface
         if null === this->tokenKey {
             let container = <DiInterface> this->container;
 
-            if typeof container != "object" {
+            if unlikely typeof container != "object" {
                 throw new Exception(
                     Exception::containerServiceNotFound("the 'session' service")
                 );
@@ -416,7 +416,7 @@ class Security implements InjectionAwareInterface
                     let saltBytes = this->getSaltBytes(2);
                 }
 
-                if typeof saltBytes != "string" {
+                if unlikely typeof saltBytes != "string" {
                     throw new Exception(
                         "Unable to get random bytes for the salt"
                     );
@@ -435,7 +435,7 @@ class Security implements InjectionAwareInterface
 
                 let saltBytes = this->getSaltBytes(hash == self::CRYPT_MD5 ? 12 : 16);
 
-                if typeof saltBytes != "string" {
+                if unlikely typeof saltBytes != "string" {
                     throw new Exception(
                         "Unable to get random bytes for the salt"
                     );
@@ -464,7 +464,7 @@ class Security implements InjectionAwareInterface
 
                 let saltBytes = this->getSaltBytes(22);
 
-                if typeof saltBytes != "string" {
+                if unlikely typeof saltBytes != "string" {
                     throw new Exception(
                         "Unable to get random bytes for the salt"
                     );

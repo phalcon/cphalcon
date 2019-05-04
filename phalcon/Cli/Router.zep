@@ -239,7 +239,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
             this->matchedRoute = null;
 
         if typeof arguments != "array" {
-            if typeof arguments != "string" && typeof arguments != "null" {
+            if unlikely (typeof arguments != "string" && typeof arguments != "null") {
                 throw new Exception("Arguments must be an array or string");
             }
 
@@ -265,7 +265,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                         /**
                          * Check first if the callback is callable
                          */
-                        if !is_callable(beforeMatch) {
+                        if unlikely !is_callable(beforeMatch) {
                             throw new Exception(
                                 "Before-Match callback is not callable in matched route"
                             );

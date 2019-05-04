@@ -320,7 +320,7 @@ class Tag implements InjectionAwareInterface
             separator = Arr::get(parameters, "separator", "-");
 
         if !empty replace {
-            if typeof replace !== "array" && typeof replace !== "string"{
+            if unlikely (typeof replace !== "array" && typeof replace !== "string") {
                 throw new Exception(
                     "Parameter replace must be an array or a string"
                 );
@@ -1195,7 +1195,7 @@ class Tag implements InjectionAwareInterface
         /**
          * First check the data passed. We only accept datasets or arrays
          */
-        if typeof data !== "array" && data !== "object" {
+        if unlikely (typeof data !== "array" && data !== "object") {
             throw new Exception(
                 "The dataset must be either an array or a ResultsetInterface"
             );
@@ -1283,7 +1283,7 @@ class Tag implements InjectionAwareInterface
     public function setAttribute(string! name, value) -> <Tag>
     {
         if value !== null {
-            if typeof value == "array" || typeof value == "object" {
+            if unlikely (typeof value == "array" || typeof value == "object") {
                 throw new Exception(
                     "Only scalar values can be assigned to UI components"
                 );
@@ -1522,7 +1522,7 @@ class Tag implements InjectionAwareInterface
         if typeof service !== "object" {
             let container = this->getDI();
 
-            if typeof container != "object" {
+            if unlikely typeof container != "object" {
                 throw new Exception(
                     Exception::containerServiceNotFound(
                         "the '" . name . "' service"
@@ -1572,7 +1572,7 @@ class Tag implements InjectionAwareInterface
 
         for key, value in attrs {
             if typeof key == "string" && value !== null {
-                if typeof value == "array" || typeof value == "resource" {
+                if unlikely (typeof value == "array" || typeof value == "resource") {
                     throw new Exception(
                         "Value at index: '" . key . "' type: '" . gettype(value) . "' cannot be rendered"
                     );
@@ -1755,14 +1755,14 @@ class Tag implements InjectionAwareInterface
                             optionText  = option->optionText;
                     }
                 } else {
-                    if typeof option == "array" {
-                        let optionValue = option[optionValue],
-                            optionText  = option[optionText];
-                    } else {
+                    if unlikely typeof option != "array" {
                         throw new Exception(
                             "Resultset returned an invalid value"
                         );
                     }
+
+                    let optionValue = option[optionValue],
+                        optionText  = option[optionText];
                 }
 
                 let optionValue = escaper->escapeHtmlAttr(optionValue);

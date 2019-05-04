@@ -59,7 +59,7 @@ class Libmemcached extends Noop
 
         let options = this->options;
 
-        if !fetch servers, options["servers"] {
+        if unlikely !fetch servers, options["servers"] {
             throw new Exception("No 'servers' specified in the options");
         }
 

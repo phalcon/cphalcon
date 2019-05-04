@@ -123,7 +123,7 @@ class Validation extends Injectable implements ValidationInterface
     {
         this->setEntity(entity);
 
-        if typeof data != "array" && typeof data != "object" {
+        if unlikely (typeof data != "array" && typeof data != "object") {
             throw new Exception("Data to validate must be an array or object");
         }
 
@@ -239,7 +239,7 @@ class Validation extends Injectable implements ValidationInterface
         } else {
             let data = this->data;
 
-            if typeof data != "array" && typeof data != "object" {
+            if unlikely (typeof data != "array" && typeof data != "object") {
                 throw new Exception("There is no data to validate");
             }
 
@@ -276,7 +276,7 @@ class Validation extends Injectable implements ValidationInterface
                 if typeof container != "object" {
                     let container = Di::getDefault();
 
-                    if typeof container != "object" {
+                    if unlikely typeof container != "object" {
                         throw new Exception(
                             Exception::containerServiceNotFound(
                                 "the 'filter' service"
@@ -288,7 +288,7 @@ class Validation extends Injectable implements ValidationInterface
                 let filterService = <LocatorInterface> container->getShared("filter");
 //                let filterService = container->getShared("filter");
 
-                if typeof filterService != "object" {
+                if unlikely typeof filterService != "object" {
                     throw new Exception("Returned 'filter' service is invalid");
                 }
 
@@ -392,7 +392,7 @@ class Validation extends Injectable implements ValidationInterface
      */
     public function setEntity(entity) -> void
     {
-        if typeof entity != "object" {
+        if unlikely typeof entity != "object" {
             throw new Exception("Entity must be an object");
         }
 
@@ -446,7 +446,7 @@ class Validation extends Injectable implements ValidationInterface
         let validators = this->validators;
         let combinedFieldsValidators = this->combinedFieldsValidators;
 
-        if typeof validators != "array" {
+        if unlikely typeof validators != "array" {
             throw new Exception("There are no validators to validate");
         }
 
@@ -478,22 +478,22 @@ class Validation extends Injectable implements ValidationInterface
         let this->messages = messages;
 
         if data !== null {
-            if typeof data == "array" || typeof data == "object" {
-                let this->data = data;
-            } else {
+            if unlikely (typeof data != "array" && typeof data != "object") {
                 throw new Exception("Invalid data to validate");
             }
+
+            let this->data = data;
         }
 
         for scope in validators {
-            if typeof scope != "array" {
+            if unlikely typeof scope != "array" {
                 throw new Exception("The validator scope is not valid");
             }
 
             let field = scope[0],
                 validator = scope[1];
 
-            if typeof validator != "object" {
+            if unlikely typeof validator != "object" {
                 throw new Exception("One of the validators is not valid");
             }
 
@@ -516,14 +516,14 @@ class Validation extends Injectable implements ValidationInterface
         }
 
         for scope in combinedFieldsValidators {
-            if typeof scope != "array" {
+            if unlikely typeof scope != "array" {
                 throw new Exception("The validator scope is not valid");
             }
 
             let field = scope[0],
                 validator = scope[1];
 
-            if typeof validator != "object" {
+            if unlikely typeof validator != "object" {
                 throw new Exception("One of the validators is not valid");
             }
 

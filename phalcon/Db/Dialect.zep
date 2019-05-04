@@ -209,7 +209,7 @@ abstract class Dialect implements DialectInterface
         int i;
         var type, times, postTimes, placeholders, rawValue, value;
 
-        if !fetch type, expression["type"] {
+        if unlikely !fetch type, expression["type"] {
             throw new Exception("Invalid SQL expression");
         }
 
@@ -461,13 +461,13 @@ abstract class Dialect implements DialectInterface
         var tables, columns, sql, distinct, joins, where, escapeChar,
             groupBy, having, orderBy, limit, forUpdate, bindCounts;
 
-        if !fetch tables, definition["tables"] {
+        if unlikely !fetch tables, definition["tables"] {
             throw new Exception(
                 "The index 'tables' is required in the definition array"
             );
         }
 
-        if !fetch columns, definition["columns"] {
+        if unlikely !fetch columns, definition["columns"] {
             throw new Exception(
                 "The index 'columns' is required in the definition array"
             );
@@ -1017,7 +1017,7 @@ abstract class Dialect implements DialectInterface
             return this->getSqlColumn(expression["column"]);
         }
 
-        if !fetch value, expression["value"] {
+        if unlikely !fetch value, expression["value"] {
             throw new Exception("Invalid SQL expression");
         }
 

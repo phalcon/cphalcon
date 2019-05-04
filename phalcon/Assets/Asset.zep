@@ -185,7 +185,7 @@ class Asset implements AssetInterface
             /**
              * Check first if the file is readable
              */
-            if !file_exists(completePath) {
+            if unlikely !file_exists(completePath) {
                 throw new Exception(
                     "Asset's content for '" . completePath . "' cannot be read"
                 );
@@ -198,7 +198,7 @@ class Asset implements AssetInterface
          */
         let content = file_get_contents(completePath);
 
-        if content === false {
+        if unlikely content === false {
             throw new Exception(
                 "Asset's content for '" . completePath . "' cannot be read"
             );

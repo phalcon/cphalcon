@@ -121,7 +121,7 @@ class Sqlite extends Dialect
             fetch temporary, options["temporary"];
         }
 
-        if !fetch columns, definition["columns"] {
+        if unlikely !fetch columns, definition["columns"] {
             throw new Exception(
                 "The index 'columns' is required in the definition array"
             );
@@ -235,7 +235,7 @@ class Sqlite extends Dialect
     {
         var viewSql;
 
-        if !fetch viewSql, definition["sql"] {
+        if unlikely !fetch viewSql, definition["sql"] {
             throw new Exception(
                 "The index 'sql' is required in the definition array"
             );

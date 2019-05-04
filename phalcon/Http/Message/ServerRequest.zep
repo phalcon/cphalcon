@@ -574,7 +574,7 @@ class ServerRequest implements ServerRequestInterface
      */
     public function withRequestTarget(var requestTarget) -> <ServerRequest>
     {
-        if preg_match("/\s/", requestTarget) {
+        if unlikely preg_match("/\s/", requestTarget) {
             throw new \InvalidArgumentException(
                 "Invalid request target: cannot contain whitespace"
             );
@@ -697,7 +697,7 @@ class ServerRequest implements ServerRequestInterface
      */
     private function checkHeaderName(var name) -> void
     {
-        if typeof name !== "string" || !preg_match("/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/", name) {
+        if unlikely (typeof name !== "string" || !preg_match("/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/", name)) {
             throw new \InvalidArgumentException("Invalid header name " . name);
         }
     }
@@ -749,14 +749,14 @@ class ServerRequest implements ServerRequestInterface
      */
     private function checkHeaderValue(var value) -> void
     {
-        if typeof value !== "string" && typeof value !== "int" && typeof value !== "float" {
+        if unlikely (typeof value !== "string" && typeof value !== "int" && typeof value !== "float") {
             throw new \InvalidArgumentException("Invalid header value");
         }
 
         let value = (string) value;
 
-        if preg_match("#(?:(?:(?<!\r)\n)|(?:\r(?!\n))|(?:\r\n(?![ \t])))#", value) ||
-            preg_match("/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/", value) {
+        if unlikely (preg_match("#(?:(?:(?<!\r)\n)|(?:\r(?!\n))|(?:\r\n(?![ \t])))#", value) ||
+            preg_match("/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/", value)) {
             throw new \InvalidArgumentException("Invalid header value");
         }
     }
@@ -772,7 +772,7 @@ class ServerRequest implements ServerRequestInterface
             if typeof file === "array" {
                 this->checkUploadedFiles(file);
             } else {
-                if !(typeof file === "object" && file instanceof UploadedFileInterface) {
+                if unlikely !(typeof file === "object" && file instanceof UploadedFileInterface) {
                     throw new \InvalidArgumentException("Invalid uploaded file");
                 }
             }
@@ -808,7 +808,7 @@ class ServerRequest implements ServerRequestInterface
             let values = [values];
         }
 
-        if empty(values) {
+        if unlikely empty(values) {
             throw new \InvalidArgumentException(
                 "Invalid header value: must be a string or array of strings; cannot be an empty array"
             );
@@ -850,7 +850,7 @@ class ServerRequest implements ServerRequestInterface
             return body;
         }
 
-        if typeof body !== "string" && typeof body !== "resource" {
+        if unlikely (typeof body !== "string" && typeof body !== "resource") {
             throw new \InvalidArgumentException(
                 "Invalid stream passed as a parameter"
             );
@@ -915,7 +915,7 @@ class ServerRequest implements ServerRequestInterface
             "TRACE"   : 1
         ];
 
-        if !(!empty(method) && typeof method === "string" && isset methods[method]) {
+        if unlikely !(!empty(method) && typeof method === "string" && isset methods[method]) {
             throw new \InvalidArgumentException(
                 "Invalid or unsupported method " . method
             );
@@ -938,11 +938,11 @@ class ServerRequest implements ServerRequestInterface
             "3.0" : 1
         ];
 
-        if (empty(protocol)) || typeof protocol !== "string" {
+        if unlikely (empty(protocol)) || typeof protocol !== "string" {
             throw new \InvalidArgumentException("Invalid protocol value");
         }
 
-        if !isset protocols[protocol] {
+        if unlikely !isset protocols[protocol] {
             throw new \InvalidArgumentException(
                 "Unsupported protocol " . protocol
             );

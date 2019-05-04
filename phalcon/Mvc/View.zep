@@ -1159,7 +1159,7 @@ class View extends Injectable implements ViewInterface
     {
         var position, directory, directorySeparator, newViewsDir;
 
-        if typeof viewsDir != "string" && typeof viewsDir != "array" {
+        if unlikely (typeof viewsDir != "string" && typeof viewsDir != "array") {
             throw new Exception("Views directory must be a string or an array");
         }
 
@@ -1175,7 +1175,7 @@ class View extends Injectable implements ViewInterface
             let newViewsDir = [];
 
             for position, directory in viewsDir {
-                if typeof directory != "string" {
+                if unlikely typeof directory != "string" {
                     throw new Exception(
                         "Views directory item must be a string"
                     );
@@ -1215,7 +1215,7 @@ class View extends Injectable implements ViewInterface
 
         let container = <DiInterface> this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("the view cache services")
             );
@@ -1236,7 +1236,7 @@ class View extends Injectable implements ViewInterface
          */
         let viewCache = <BackendInterface> container->getShared(cacheService);
 
-        if typeof viewCache != "object" {
+        if unlikely typeof viewCache != "object" {
             throw new Exception("The injected caching service is invalid");
         }
 
@@ -1368,7 +1368,7 @@ class View extends Injectable implements ViewInterface
                 eventsManager->fire("view:notFoundView", this, viewEnginePath);
             }
 
-            if !silence {
+            if unlikely !silence {
                 throw new Exception(
                     "View '" . viewPath . "' was not found in any of the views directory"
                 );
@@ -1412,7 +1412,7 @@ class View extends Injectable implements ViewInterface
                  */
                 let engines[".phtml"] = new PhpEngine(this, di);
             } else {
-                if typeof di != "object" {
+                if unlikely typeof di != "object" {
                     throw new Exception(
                         Exception::containerServiceNotFound(
                             "application services"
@@ -1442,7 +1442,7 @@ class View extends Injectable implements ViewInterface
                         /**
                          * Engine can be a string representing a service in the DI
                          */
-                        if typeof engineService != "string" {
+                        if unlikely typeof engineService != "string" {
                             throw new Exception(
                                 "Invalid template engine registration for extension: " . extension
                             );

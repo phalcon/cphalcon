@@ -47,13 +47,13 @@ class Factory extends BaseFactory
             let config = config->toArray();
         }
 
-        if typeof config != "array" {
+        if unlikely typeof config != "array" {
             throw new Exception(
                 "Config must be array or Phalcon\\Config object"
             );
         }
 
-        if !fetch file, config["file"] {
+        if unlikely !fetch file, config["file"] {
             throw new Exception(
                 "You must provide 'file' option in factory config parameter."
             );

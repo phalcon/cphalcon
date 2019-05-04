@@ -80,7 +80,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(model, self::MODELS_ATTRIBUTES);
 
-        if typeof data != "array" {
+        if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
 
@@ -104,7 +104,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(model, self::MODELS_AUTOMATIC_DEFAULT_INSERT);
 
-        if typeof data != "array" {
+        if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
 
@@ -128,7 +128,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(model, self::MODELS_AUTOMATIC_DEFAULT_UPDATE);
 
-        if typeof data != "array" {
+        if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
 
@@ -152,7 +152,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(model, self::MODELS_DATA_TYPES_BIND);
 
-        if typeof data != "array" {
+        if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
 
@@ -176,7 +176,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readColumnMapIndex(model, self::MODELS_COLUMN_MAP);
 
-        if typeof data != "null" && typeof data != "array" {
+        if unlikely (typeof data != "null" && typeof data != "array") {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
 
@@ -200,7 +200,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(model, self::MODELS_DEFAULT_VALUES);
 
-        if typeof data != "array" {
+        if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
 
@@ -224,7 +224,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(model, self::MODELS_DATA_TYPES);
 
-        if typeof data != "array" {
+        if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
 
@@ -248,7 +248,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(model, self::MODELS_DATA_TYPES_NUMERIC);
 
-        if typeof data != "array" {
+        if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
 
@@ -280,7 +280,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(model, self::MODELS_EMPTY_STRING_VALUES);
 
-        if typeof data != "array" {
+        if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
 
@@ -323,7 +323,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(model, self::MODELS_NON_PRIMARY_KEY);
 
-        if typeof data != "array" {
+        if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
 
@@ -347,7 +347,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(model, self::MODELS_NOT_NULL);
 
-        if typeof data != "array" {
+        if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
 
@@ -371,7 +371,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(model, self::MODELS_PRIMARY_KEY);
 
-        if typeof data != "array" {
+        if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
 
@@ -395,7 +395,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readColumnMapIndex(model, self::MODELS_REVERSE_COLUMN_MAP);
 
-        if typeof data != "null" && typeof data != "array" {
+        if unlikely (typeof data != "null" && typeof data != "array") {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
 
@@ -691,7 +691,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         var source, schema;
         string key;
 
-        if typeof data != "array" && typeof data != "string" && typeof data != "boolean" {
+        if unlikely (typeof data != "array" && typeof data != "string" && typeof data != "boolean") {
             throw new Exception("Invalid data for index");
         }
 
@@ -741,7 +741,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
                     if method_exists(model, "metaData") {
                         let modelMetadata = model->{"metaData"}();
 
-                        if typeof modelMetadata != "array" {
+                        if unlikely typeof modelMetadata != "array" {
                             throw new Exception(
                                 "Invalid meta-data for model " . className
                             );

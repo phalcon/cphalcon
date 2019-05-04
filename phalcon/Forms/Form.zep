@@ -54,7 +54,7 @@ class Form extends Injectable implements \Countable, \Iterator
     public function __construct(var entity = null, array userOptions = []) -> void
     {
         if typeof entity != "null" {
-            if typeof entity != "object" {
+            if unlikely typeof entity != "object" {
                 throw new Exception("The base entity is not valid");
             }
 
@@ -142,7 +142,7 @@ class Form extends Injectable implements \Countable, \Iterator
         var filter, key, value, element, filters, container, filteredValue;
         string method;
 
-        if empty this->elements {
+        if unlikely empty this->elements {
             throw new Exception("There are no elements in the form");
         }
 
@@ -301,7 +301,7 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var element;
 
-        if !fetch element, this->elements[name] {
+        if unlikely !fetch element, this->elements[name] {
             throw new Exception(
                 "Element with ID=" . name . " is not part of the form"
             );
@@ -343,7 +343,7 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var element, label;
 
-        if !fetch element, this->elements[name] {
+        if unlikely !fetch element, this->elements[name] {
             throw new Exception(
                 "Element with ID=" . name . " is not part of the form"
             );
@@ -706,7 +706,7 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var element;
 
-        if !fetch element, this->elements[name] {
+        if unlikely !fetch element, this->elements[name] {
             throw new Exception(
                 "Element with ID=" . name . " is not part of the form"
             );
@@ -730,7 +730,7 @@ class Form extends Injectable implements \Countable, \Iterator
     {
         var element;
 
-        if !fetch element, this->elements[name] {
+        if unlikely !fetch element, this->elements[name] {
             throw new Exception(
                 "Element with ID=" . name . " is not part of the form"
             );
