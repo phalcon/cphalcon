@@ -12,26 +12,23 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Filter\Sanitize;
 
-use function func_get_args;
-use Phalcon\Filter\SanitizerInterface;
 
 /**
  * Class IPv4
  */
-class IPv4 implements SanitizerInterface
+class IPv4
 {
     /**
      * Sanitizes IP addresses
      *
+     * @param mixed $ip
+     *
      * @return mixed
      */
-    public function __invoke()
+    public function __invoke($ip)
     {
-        $arguments = func_get_args();
-        $value     = $arguments[0] ?? '';
-
         return filter_var(
-            $value,
+            $ip,
             FILTER_VALIDATE_IP,
             FILTER_FLAG_IPV4
         );

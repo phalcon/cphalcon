@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Filter\FilterLocator;
 
+use Closure;
 use Codeception\Example;
 use Phalcon\Filter\FilterLocator;
 use Phalcon\Test\Fixtures\Filter\Sanitize\IPv4;
@@ -35,57 +36,45 @@ class CustomCest
     {
         $I->wantToTest('Filter\FilterLocator - custom has()');
         $services = [
-            'md5' => function ($input) {
-                return md5($input);
+            'ipv4' => function () {
+                return new IPv4();
             },
         ];
 
         $locator = new FilterLocator($services);
 
-        $actual = $locator->has('md5');
+        $actual = $locator->has('ipv4');
         $I->assertTrue($actual);
     }
 
     /**
      * Tests Phalcon\Filter\FilterLocator :: custom sanitizer
      *
-     * @dataProvider getExamples
-     *
      * @param UnitTester $I
-     * @param Example    $example
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-01-19
      */
-    public function filterFilterLocatorCustomSanitizer(UnitTester $I, Example $example)
+    public function filterFilterLocatorCustomSanitizer(UnitTester $I)
     {
         $I->wantToTest('Filter\FilterLocator - custom sanitizer');
         $services = [
-            'md5' => function () {
-                $args  = func_get_args();
-                $param = $args[0] ?? '';
-
-                return md5($param);
+            'ipv4' => function () {
+                return new IPv4();
             },
         ];
 
         $locator = new FilterLocator($services);
 
         /** @var IPv4 $sanitizer */
-        $sanitizer = $locator->get('md5');
-        $expected  = $example[1];
-        $actual    = $sanitizer($example[0]);
-        $I->assertEquals($expected, $actual);
-    }
+        $sanitizer = $locator->get('ipv4');
+        $I->assertInstanceOf(IPv4::class, $sanitizer);
 
-    /**
-     * @return array
-     */
-    private function getExamples(): array
-    {
-        return [
-            ['Phalcon', '0c72dd6ed577ad56621483e7a752b09f'],
-            ['Framework', '07782c22a88d1e82a09910124a9225a2'],
-        ];
+        $expected = '127.0.0.1';
+        $actual   = $sanitizer('127.0.0.1');
+        $I->assertEquals($expected, $actual);
+
+        $actual   = $sanitizer('127.0.0');
+        $I->assertFalse($actual);
     }
 }

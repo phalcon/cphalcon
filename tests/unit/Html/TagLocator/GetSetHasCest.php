@@ -56,7 +56,9 @@ class GetSetHasCest
     {
         $I->wantToTest('Html\TagLocator - get()/set()/has() - get()');
         $services = [
-            'helloFilter' => HelloService::class,
+            'helloFilter' => function () {
+                return new HelloService();
+            },
         ];
 
         $locator = new TagLocator($services);
@@ -80,7 +82,9 @@ class GetSetHasCest
     {
         $I->wantToTest('Html\TagLocator - get()/set()/has() - get() - same');
         $services = [
-            'helloFilter' => HelloService::class,
+            'helloFilter' => function () {
+                return new HelloService();
+            },
         ];
 
         $locator = new TagLocator($services);
