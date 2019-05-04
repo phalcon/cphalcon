@@ -12,7 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
+use function getOptionsRedis;
+use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
+use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function outputDir;
 use function uniqid;
@@ -29,11 +32,14 @@ class ClearCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
+     *
+     * @throws \Exception
      */
     public function storageAdapterStreamClear(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - clear()');
-        $adapter = new Stream(['cacheDir' => outputDir()]);
+        $factory = new SerializerFactory();
+        $adapter = new Stream($factory, ['cacheDir' => outputDir()]);
 
         $key1 = uniqid();
         $key2 = uniqid();
@@ -62,11 +68,14 @@ class ClearCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
+     *
+     * @throws \Exception
      */
     public function storageAdapterStreamClearTwice(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - clear() - twice');
-        $adapter = new Stream(['cacheDir' => outputDir()]);
+        $factory = new SerializerFactory();
+        $adapter = new Stream($factory, ['cacheDir' => outputDir()]);
 
         $key1 = uniqid();
         $key2 = uniqid();

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Memory;
 
 use Phalcon\Cache\Adapter\Memory;
+use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
 /**
@@ -31,7 +32,8 @@ class GetAdapterCest
     public function storageAdapterMemoryGetAdapter(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - getAdapter()');
-        $adapter = new Memory();
+        $factory = new SerializerFactory();
+        $adapter = new Memory($factory);
 
         $actual = $adapter->getAdapter();
         $I->assertNull($actual);

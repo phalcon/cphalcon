@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Stream;
 
 use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function outputDir;
 
@@ -32,7 +33,9 @@ class GetPrefixCest
     public function storageAdapterStreamGetSetPrefix(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - getPrefix()');
+        $factory = new SerializerFactory();
         $adapter = new Stream(
+            $factory,
             [
                 'cacheDir' => outputDir(),
                 'prefix'   => 'my-prefix',
@@ -55,7 +58,8 @@ class GetPrefixCest
     public function storageAdapterStreamGetSetPrefixDefault(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - getPrefix() - default');
-        $adapter = new Stream(['cacheDir' => outputDir()]);
+        $factory = new SerializerFactory();
+        $adapter = new Stream($factory, ['cacheDir' => outputDir()]);
 
         $expected = 'phstrm-';
         $actual   = $adapter->getPrefix();

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Adapter\Memory;
 
 use Phalcon\Storage\Adapter\Memory;
+use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
 /**
@@ -31,7 +32,11 @@ class GetPrefixCest
     public function storageAdapterMemoryGetSetPrefix(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Memory - getPrefix()');
-        $adapter = new Memory(['prefix' => 'my-prefix']);
+        $factory = new SerializerFactory();
+        $adapter = new Memory(
+            $factory,
+            ['prefix' => 'my-prefix']
+        );
 
         $expected = 'my-prefix';
         $actual   = $adapter->getPrefix();
@@ -49,7 +54,8 @@ class GetPrefixCest
     public function storageAdapterMemoryGetSetPrefixDefault(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Memory - getPrefix() - default');
-        $adapter = new Memory();
+        $factory = new SerializerFactory();
+        $adapter = new Memory($factory);
 
         $expected = 'ph-memo-';
         $actual   = $adapter->getPrefix();

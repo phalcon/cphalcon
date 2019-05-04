@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception;
+use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function outputDir;
 
@@ -27,7 +28,7 @@ class IncrementCest
      *
      * @param UnitTester $I
      *
-     * @throws Exception
+     * @throws \Exception
      * @since  2019-04-24
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -35,7 +36,8 @@ class IncrementCest
     public function storageAdapterStreamIncrement(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - increment()');
-        $adapter = new Stream(['cacheDir' => outputDir()]);
+        $factory = new SerializerFactory();
+        $adapter = new Stream($factory, ['cacheDir' => outputDir()]);
 
         $key    = 'cache-data';
         $result = $adapter->set($key, 1);

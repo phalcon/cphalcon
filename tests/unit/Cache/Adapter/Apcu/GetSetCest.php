@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Cache\Adapter\Apcu;
 
 use Codeception\Example;
 use Phalcon\Cache\Adapter\Apcu;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use stdClass;
 use UnitTester;
@@ -39,7 +40,8 @@ class GetSetCest
     public function storageAdapterApcuGetSet(UnitTester $I, Example $example)
     {
         $I->wantToTest('Cache\Adapter\Apcu - get()/set() - ' . $example[0]);
-        $adapter = new Apcu();
+        $factory = new SerializerFactory();
+        $adapter = new Apcu($factory);
 
         $key = uniqid();
 

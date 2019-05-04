@@ -12,8 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Libmemcached;
 
+use function getOptionsLibmemcached;
 use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Adapter\Libmemcached;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 
@@ -35,7 +38,8 @@ class ConstructCest
     public function cacheAdapterLibmemcachedConstruct(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - __construct()');
-        $adapter = new Libmemcached($this->getOptions());
+        $factory = new SerializerFactory();
+        $adapter = new Libmemcached($factory, getOptionsLibmemcached());
 
         $class = Libmemcached::class;
         $I->assertInstanceOf($class, $adapter);
