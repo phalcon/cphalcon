@@ -13,7 +13,6 @@ namespace Phalcon\Session\Adapter;
 use Phalcon\Storage\Adapter\Redis as StorageRedis;
 use Phalcon\Helper\Arr;
 use Phalcon\Session\Exception;
-use Phalcon\Storage\SerializerFactory;
 use SessionHandlerInterface;
 
 /**
@@ -41,11 +40,11 @@ use SessionHandlerInterface;
  */
  class Redis extends StorageRedis implements SessionHandlerInterface
 {
-    public function __construct(<SerializerFactory> factory, array! options = []) -> void
+    public function __construct(array! options = []) -> void
     {
         let options["prefix"] = "sess-reds-";
 
-        parent::__construct(factory, options);
+        parent::__construct(options);
     }
 
     /**

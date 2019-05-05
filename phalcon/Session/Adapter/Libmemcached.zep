@@ -11,7 +11,6 @@
 namespace Phalcon\Session\Adapter;
 
 use Phalcon\Storage\Adapter\Libmemcached as StorageLibmemcached;
-use Phalcon\Storage\SerializerFactory;
 use SessionHandlerInterface;
 
 /**
@@ -53,11 +52,11 @@ class Libmemcached extends StorageLibmemcached implements SessionHandlerInterfac
     /**
      * Constructor
      */
-    public function __construct(<SerializerFactory> factory, array! options = []) -> void
+    public function __construct(array! options = []) -> void
     {
         let options["prefix"] = "sess-memc-";
 
-        parent::__construct(factory, options);
+        parent::__construct(options);
     }
 
     /**

@@ -19,10 +19,8 @@ use function getOptionsPostgresql;
 use function getOptionsRedis;
 use function getOptionsSqlite;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
-use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Backend\Libmemcached;
-use Phalcon\Cache\Cache;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Crypt;
@@ -49,7 +47,6 @@ use Phalcon\Session\Adapter\Stream as SessionFiles;
 use Phalcon\Session\Manager as SessionManager;
 use Phalcon\Storage\Adapter\Libmemcached as StorageLibmemcached;
 use Phalcon\Storage\Adapter\Stream as StorageStream;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Url;
 use function cacheDir;
 use function dataDir;
@@ -81,8 +78,7 @@ trait DiTrait
      */
     protected function getAndSetModelsCacheStream(): StorageStream
     {
-        $factory = new SerializerFactory();
-        $cache   = new StorageStream($factory, getOptionsModelCacheStream());
+        $cache = new StorageStream(getOptionsModelCacheStream());
         $this->container->set('modelsCache', $cache);
 
         return $cache;
@@ -93,8 +89,7 @@ trait DiTrait
      */
     protected function getAndSetViewCacheStream(): StorageStream
     {
-        $factory = new SerializerFactory();
-        $cache   = new StorageStream($factory, getOptionsModelCacheStream());
+        $cache = new StorageStream(getOptionsModelCacheStream());
         $this->container->set('viewCache', $cache);
         return $cache;
     }
@@ -104,8 +99,7 @@ trait DiTrait
      */
     protected function getAndSetModelsCacheLibmemcached(): StorageLibmemcached
     {
-        $factory = new SerializerFactory();
-        $cache   = new StorageLibmemcached($factory, getOptionsLibmemcached());
+        $cache = new StorageLibmemcached(getOptionsLibmemcached());
         $this->container->set('modelsCache', $cache);
 
         return $cache;
