@@ -13,6 +13,7 @@ namespace Phalcon\Storage\Adapter;
 use Phalcon\Helper\Arr;
 use Phalcon\Storage\Adapter\AbstractAdapter;
 use Phalcon\Storage\Exception;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
@@ -32,7 +33,7 @@ class Libmemcached extends AbstractAdapter
      *
      * @param array $options
      */
-    public function __construct(array! options = [])
+    public function __construct(<SerializerFactory> factory, array! options = [])
     {
         if !isset options["servers"] {
             let options["servers"] = [
@@ -47,7 +48,7 @@ class Libmemcached extends AbstractAdapter
         let this->prefix  = "ph-memc-",
             this->options = options;
 
-        parent::__construct(options);
+        parent::__construct(factory, options);
     }
 
     /**
@@ -223,7 +224,6 @@ class Libmemcached extends AbstractAdapter
     private function setSerializer(<\Memcached> connection)
     {
         var serializer;
-        string className;
         array map;
 
         let map = [
@@ -238,8 +238,7 @@ class Libmemcached extends AbstractAdapter
             let this->defaultSerializer = "";
             connection->setOption(\Memcached::OPT_SERIALIZER, map[serializer]);
         } else {
-            let className = "Phalcon\\Storage\\Serializer\\" . this->defaultSerializer;
-            let this->serializer = new {className}();
+            this->initSerializer();
         }
     }
 }
