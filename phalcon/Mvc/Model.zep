@@ -4076,7 +4076,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 );
 
             /**
-             * Return if the relation was not found becasue getRelated() throws an exception if the relation is unknown
+             * Return if the relation was not found because getRelated() throws an exception if the relation is unknown
              */
             if typeof relation != "object" {
                 return null;
