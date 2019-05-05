@@ -13,7 +13,6 @@ namespace Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Storage\Adapter\Libmemcached as StorageLibmemcached;
-use Phalcon\Storage\SerializerFactory;
 
 /**
  * Phalcon\Mvc\Model\MetaData\Libmemcached
@@ -51,11 +50,11 @@ class Libmemcached extends MetaData
      *
      * @param array options
      */
-    public function __construct(<SerializerFactory> factory, array! options = []) -> void
+    public function __construct(array! options = []) -> void
     {
         let options["prefix"]   = "ph-mm-memc-",
             options["lifetime"] = 172800,
-            this->adapter       = new StorageLibmemcached(factory, options);
+            this->adapter       = new StorageLibmemcached(options);
     }
 
     /**
