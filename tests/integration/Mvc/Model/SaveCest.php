@@ -92,7 +92,10 @@ class SaveCest
         /**
          * Verify model count
          */
-        $I->assertEquals(1, Models\Users::count(['id = 54321']));
+        $I->assertEquals(
+            1,
+            Models\Users::count(['id = 54321'])
+        );
 
         /**
          * Deleting is necessary because other tests may rely on specific row count
@@ -130,20 +133,44 @@ class SaveCest
 
         $I->assertTrue($robotPart->save());
 
-        $I->assertTrue($robotPart->robots_id > 0);
-        $I->assertTrue($robotPart->parts_id > 0);
+        $I->assertGreaterThan(
+            0,
+            $robotPart->robots_id
+        );
 
-        $I->assertTrue($robotPart->robot->id > 0);
-        $I->assertTrue($part->id > 0);
+        $I->assertGreaterThan(
+            0,
+            $robotPart->parts_id
+        );
+
+        $I->assertGreaterThan(
+            0,
+            $robotPart->robot->id
+        );
+
+        $I->assertGreaterThan(
+            0,
+            $part->id
+        );
 
         $connection = $this->getService('db');
 
         $I->assertFalse((bool) $connection->isUnderTransaction());
 
-        $I->assertEquals($robotPart->getDirtyState(), Model::DIRTY_STATE_PERSISTENT);
+        $I->assertEquals(
+            Model::DIRTY_STATE_PERSISTENT,
+            $robotPart->getDirtyState()
+        );
 
-        $I->assertEquals($robotPart->robot->getDirtyState(), Model::DIRTY_STATE_PERSISTENT);
-        $I->assertEquals($part->getDirtyState(), Model::DIRTY_STATE_PERSISTENT);
+        $I->assertEquals(
+            Model::DIRTY_STATE_PERSISTENT,
+            $robotPart->robot->getDirtyState()
+        );
+
+        $I->assertEquals(
+            Model::DIRTY_STATE_PERSISTENT,
+            $part->getDirtyState()
+        );
 
         /**
          * Deleting is necessary because other tests may rely on specific row count

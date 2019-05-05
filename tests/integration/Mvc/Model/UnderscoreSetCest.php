@@ -128,8 +128,15 @@ class UnderscoreSetCest
 
         $robot = $robotPart->robot;
 
-        $I->assertInstanceOf(Models\Robots::class, $robot);
-        $I->assertEquals($robotPart->getDirtyState(), Model::DIRTY_STATE_TRANSIENT);
+        $I->assertInstanceOf(
+            Models\Robots::class,
+            $robot
+        );
+
+        $I->assertEquals(
+            Model::DIRTY_STATE_TRANSIENT,
+            $robotPart->getDirtyState()
+        );
     }
 
     /**
@@ -149,9 +156,20 @@ class UnderscoreSetCest
 
         $robot = $robotPart->robot;
 
-        $I->assertInstanceOf(Models\Robots::class, $robot);
-        $I->assertEquals($robotPart->getDirtyState(), Model::DIRTY_STATE_TRANSIENT);
-        $I->assertEquals($robot->name, 'TestRobotName');
+        $I->assertInstanceOf(
+            Models\Robots::class,
+            $robot
+        );
+
+        $I->assertEquals(
+            $robotPart->getDirtyState(),
+            Model::DIRTY_STATE_TRANSIENT
+        );
+
+        $I->assertEquals(
+            'TestRobotName',
+            $robot->name
+        );
     }
 
     /**
@@ -171,8 +189,15 @@ class UnderscoreSetCest
 
         $user = $customer->user;
 
-        $I->assertInstanceOf(Models\Users::class, $user);
-        $I->assertEquals($customer->getDirtyState(), Model::DIRTY_STATE_TRANSIENT);
+        $I->assertInstanceOf(
+            Models\Users::class,
+            $user
+        );
+
+        $I->assertEquals(
+            Model::DIRTY_STATE_TRANSIENT,
+            $customer->getDirtyState()
+        );
     }
 
     /**
@@ -192,9 +217,20 @@ class UnderscoreSetCest
 
         $user = $customer->user;
 
-        $I->assertInstanceOf(Models\Users::class, $user);
-        $I->assertEquals($customer->getDirtyState(), Model::DIRTY_STATE_TRANSIENT);
-        $I->assertEquals($user->name, 'TestUserName');
+        $I->assertInstanceOf(
+            Models\Users::class,
+            $user
+        );
+
+        $I->assertEquals(
+            Model::DIRTY_STATE_TRANSIENT,
+            $customer->getDirtyState()
+        );
+
+        $I->assertEquals(
+            'TestUserName',
+            $user->name
+        );
     }
 
     /**
@@ -217,10 +253,26 @@ class UnderscoreSetCest
 
         $robotsParts = $robot->robotsParts;
 
-        $I->assertTrue(is_array($robotsParts));
-        $I->assertCount(2, $robotsParts);
-        $I->assertInstanceOf(Models\RobotsParts::class, $robotsParts[0]);
-        $I->assertEquals($robot->getDirtyState(), Model::DIRTY_STATE_TRANSIENT);
+        $I->assertInternalType(
+            'array',
+            $robotsParts
+        );
+
+        $I->assertCount(
+            2,
+            $robotsParts
+        );
+
+        $I->assertInstanceOf(
+            Models\RobotsParts::class,
+            $robotsParts[0]
+        );
+
+
+        $I->assertEquals(
+            Model::DIRTY_STATE_TRANSIENT,
+            $robot->getDirtyState()
+        );
     }
 
     /**
@@ -243,10 +295,26 @@ class UnderscoreSetCest
 
         $robotParts = $robot->M2MParts;
 
-        $I->assertTrue(is_array($robotParts));
-        $I->assertCount(2, $robotParts);
-        $I->assertInstanceOf(Models\Relations\M2MParts::class, $robotParts[0]);
-        $I->assertEquals($robot->getDirtyState(), Model::DIRTY_STATE_TRANSIENT);
+
+        $I->assertInternalType(
+            'array',
+            $robotParts
+        );
+
+        $I->assertCount(
+            2,
+            $robotParts
+        );
+
+        $I->assertInstanceOf(
+            Models\Relations\M2MParts::class,
+            $robotParts[0]
+        );
+
+        $I->assertEquals(
+            Model::DIRTY_STATE_TRANSIENT,
+            $robot->getDirtyState()
+        );
     }
 
     /**
