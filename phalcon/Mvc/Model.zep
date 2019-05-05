@@ -1789,30 +1789,39 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         }
 
         /**
-         * There might be unsaved related records that can be returned
+         * If there are any arguments, Manager with handle the caching of the records
          */
-        if isset this->relatedUnsaved[lowerAlias] {
-            let result = this->relatedUnsaved[lowerAlias];
-        } else {
+        if arguments === null {
             /**
-             * If the related records are already in cache and the relation is reusable,
-             * we return the cached records.
+             * There might be unsaved related records that can be returned
              */
-            if relation->isReusable() && this->isRelationshipLoaded(lowerAlias) {
-                let result = this->related[lowerAlias];
+            if isset this->relatedUnsaved[lowerAlias] {
+                let result = this->relatedUnsaved[lowerAlias];
             } else {
                 /**
-                 * Call the 'getRelationRecords' in the models manager
-                 *
-                 * The manager also checks and stores reusable records.
+                 * If the related records are already in cache and the relation is reusable,
+                 * we return the cached records.
                  */
-                let result = manager->getRelationRecords(relation, null, this, arguments);
+                if relation->isReusable() && this->isRelationshipLoaded(lowerAlias) {
+                    let result = this->related[lowerAlias];
+                } else {
+                    /**
+                     * Call the 'getRelationRecords' in the models manager.
+                     */
+                    let result = manager->getRelationRecords(relation, null, this, arguments);
 
-                /**
-                 * We store relationship objects in the related cache
-                 */
-                let this->related[lowerAlias] = result;
+                    /**
+                     * We store relationship objects in the related cache if there were no arguments.
+                     */
+                    let this->related[lowerAlias] = result;
+                }
             }
+        } else {
+            /**
+             * Individually queried related records are handled by Manager.
+             * The Manager also checks and stores reusable records.
+             */
+            let result = manager->getRelationRecords(relation, null, this, arguments);
         }
 
         return result;
