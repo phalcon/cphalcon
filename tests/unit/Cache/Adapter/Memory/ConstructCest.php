@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Cache\Adapter\Memory;
 
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Adapter\Memory;
-use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
 /**
@@ -33,8 +32,7 @@ class ConstructCest
     public function storageAdapterMemoryConstruct(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - __construct()');
-        $factory = new SerializerFactory();
-        $adapter = new Memory($factory);
+        $adapter = new Memory();
 
         $class = Memory::class;
         $I->assertInstanceOf($class, $adapter);

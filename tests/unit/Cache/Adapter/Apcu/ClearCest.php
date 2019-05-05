@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Cache\Adapter\Apcu;
 
 use Exception;
 use Phalcon\Cache\Adapter\Apcu;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use UnitTester;
 
@@ -38,8 +37,7 @@ class ClearCest
     public function storageAdapterApcuClear(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - clear()');
-        $factory = new SerializerFactory();
-        $adapter = new Apcu($factory);
+        $adapter = new Apcu();
 
         $key1 = uniqid();
         $key2 = uniqid();
@@ -68,14 +66,11 @@ class ClearCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
-     *
-     * @throws Exception
      */
     public function storageAdapterApcuClearTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - clear() - twice');
-        $factory = new SerializerFactory();
-        $adapter = new Apcu($factory);
+        $adapter = new Apcu();
 
         $key1 = uniqid();
         $key2 = uniqid();

@@ -14,7 +14,6 @@ use Phalcon\Collection;
 use Phalcon\Helper\Arr;
 use Phalcon\Storage\Adapter\AbstractAdapter;
 use Phalcon\Storage\Exception;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
@@ -37,8 +36,10 @@ class Memory extends AbstractAdapter
     /**
      * Constructor
      */
-    public function __construct(<SerializerFactory> factory, array! options = [])
+    public function __construct(array! options = [])
     {
+        string className;
+
         /**
          * Lets set some defaults and options here
          */
@@ -46,7 +47,10 @@ class Memory extends AbstractAdapter
             this->options = options,
             this->data    = new Collection();
 
-        parent::__construct(factory, options);
+        parent::__construct(options);
+
+        let className = "Phalcon\\Storage\\Serializer\\" . this->defaultSerializer;
+        let this->serializer = new {className}();
     }
 
     /**

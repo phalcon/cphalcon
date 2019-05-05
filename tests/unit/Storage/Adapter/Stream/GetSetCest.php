@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception;
-use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function file_put_contents;
 use function outputDir;
@@ -30,18 +29,16 @@ class GetSetCest
      *
      * @param UnitTester $I
      *
+     * @throws Exception
      * @since  2019-04-24
      *
      * @author Phalcon Team <team@phalconphp.com>
-     *
-     * @throws \Exception
      */
     public function storageAdapterStreamSet(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - set()');
 
-        $factory = new SerializerFactory();
-        $adapter = new Stream($factory, ['cacheDir' => outputDir()]);
+        $adapter = new Stream(['cacheDir' => outputDir()]);
 
         $data   = 'Phalcon Framework';
         $result = $adapter->set('test-key', $data);
@@ -60,18 +57,16 @@ class GetSetCest
      *
      * @param UnitTester $I
      *
+     * @throws Exception
      * @since  2019-04-24
      *
      * @author Phalcon Team <team@phalconphp.com>
-     *
-     * @throws \Exception
      */
     public function storageAdapterStreamGet(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - get()');
 
-        $factory = new SerializerFactory();
-        $adapter = new Stream($factory, ['cacheDir' => outputDir()]);
+        $adapter = new Stream(['cacheDir' => outputDir()]);
 
         $target = outputDir() . 'phstrm-/te/st/-k/';
         $data   = 'Phalcon Framework';
@@ -91,7 +86,7 @@ class GetSetCest
      *
      * @param UnitTester $I
      *
-     * @throws \Exception
+     * @throws Exception
      * @since  2019-04-24
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -100,8 +95,7 @@ class GetSetCest
     {
         $I->wantToTest('Storage\Adapter\Stream - get() - errors');
 
-        $factory = new SerializerFactory();
-        $adapter = new Stream($factory, ['cacheDir' => outputDir()]);
+        $adapter = new Stream(['cacheDir' => outputDir()]);
 
         $target = outputDir() . 'phstrm-/te/st/-k/';
 

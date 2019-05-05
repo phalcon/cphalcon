@@ -14,7 +14,6 @@ use Phalcon\Helper\Arr;
 use Phalcon\Helper\Str;
 use Phalcon\Storage\Adapter\AbstractAdapter;
 use Phalcon\Storage\Exception;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
@@ -41,9 +40,10 @@ class Stream extends AbstractAdapter
      *
      * @throws Exception
      */
-    public function __construct(<SerializerFactory> factory, array! options = [])
+    public function __construct(array! options = [])
     {
         var cacheDir;
+        string className;
 
         let cacheDir = Arr::get(options, "cacheDir", "");
         if empty cacheDir {
@@ -57,7 +57,10 @@ class Stream extends AbstractAdapter
             this->prefix   = "phstrm-",
             this->options  = options;
 
-        parent::__construct(factory, options);
+        parent::__construct(options);
+
+        let className = "Phalcon\\Storage\\Serializer\\" . this->defaultSerializer;
+        let this->serializer = new {className}();
     }
 
     /**

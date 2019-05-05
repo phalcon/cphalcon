@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Adapter\Memory;
 
 use Phalcon\Storage\Adapter\Memory;
-use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
 /**
@@ -32,8 +31,7 @@ class DecrementCest
     public function storageAdapterMemoryDecrement(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Memory - decrement()');
-        $factory = new SerializerFactory();
-        $adapter = new Memory($factory);
+        $adapter = new Memory();
 
         $key    = uniqid();
         $result = $adapter->set($key, 100);

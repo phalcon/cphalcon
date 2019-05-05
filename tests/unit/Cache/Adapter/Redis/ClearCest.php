@@ -12,10 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Redis;
 
-use function getOptionsRedis;
-use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Cache\Adapter\Redis;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 
@@ -37,8 +34,7 @@ class ClearCest
     public function storageAdapterRedisClear(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - clear()');
-        $factory = new SerializerFactory();
-        $adapter = new Redis($factory, getOptionsRedis());
+        $adapter = new Redis($this->getOptions());
 
         $key1 = uniqid();
         $key2 = uniqid();
@@ -71,8 +67,7 @@ class ClearCest
     public function storageAdapterRedisClearTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - clear() - twice');
-        $factory = new SerializerFactory();
-        $adapter = new Redis($factory, getOptionsRedis());
+        $adapter = new Redis($this->getOptions());
 
         $key1 = uniqid();
         $key2 = uniqid();

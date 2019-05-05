@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Redis;
 
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Exception;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 use function getOptionsRedis;
@@ -40,9 +39,7 @@ class DecrementCest
     {
         $I->wantToTest('Storage\Adapter\Redis - decrement()');
         $I->skipTest('Check this');
-        $factory = new SerializerFactory();
-        $adapter = new Redis($factory, getOptionsRedis());
-
+        $adapter = new Redis(getOptionsRedis());
 
         $key    = uniqid();
         $result = $adapter->set($key, 100);

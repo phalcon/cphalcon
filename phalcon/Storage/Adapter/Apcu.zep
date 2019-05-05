@@ -14,7 +14,6 @@ use Phalcon\Helper\Arr;
 use Phalcon\Storage\Adapter\AbstractAdapter;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\Serializer\SerializerInterface;
-use Phalcon\Storage\SerializerFactory;
 
 /**
  * Phalcon\Storage\Adapter\Apcu
@@ -31,15 +30,20 @@ class Apcu extends AbstractAdapter
     /**
      * Constructor
      */
-    public function __construct(<SerializerFactory> factory, array! options = [])
+    public function __construct(array! options = [])
     {
+        string className;
+
         /**
          * Lets set some defaults and options here
          */
         let this->prefix  = "ph-apcu-",
             this->options = options;
 
-        parent::__construct(factory, options);
+        parent::__construct(options);
+
+        let className = "Phalcon\\Storage\\Serializer\\" . this->defaultSerializer;
+        let this->serializer = new {className}();
     }
 
     /**

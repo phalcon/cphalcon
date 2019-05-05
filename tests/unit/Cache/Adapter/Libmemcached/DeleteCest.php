@@ -12,10 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Libmemcached;
 
-use function getOptionsLibmemcached;
-use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Adapter\Libmemcached;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 
@@ -37,8 +34,7 @@ class DeleteCest
     public function cacheAdapterLibmemcachedDelete(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - delete()');
-        $factory = new SerializerFactory();
-        $adapter = new Libmemcached($factory, getOptionsLibmemcached());
+        $adapter = new Libmemcached($this->getOptions());
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -63,8 +59,7 @@ class DeleteCest
     public function cacheAdapterLibmemcachedDeleteTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - delete() - twice');
-        $factory = new SerializerFactory();
-        $adapter = new Libmemcached($factory, getOptionsLibmemcached());
+        $adapter = new Libmemcached($this->getOptions());
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -89,8 +84,7 @@ class DeleteCest
     public function cacheAdapterLibmemcachedDeleteUnknown(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - delete() - unknown');
-        $factory = new SerializerFactory();
-        $adapter = new Libmemcached($factory, getOptionsLibmemcached());
+        $adapter = new Libmemcached($this->getOptions());
 
         $key    = 'cache-data';
         $actual = $adapter->delete($key);
