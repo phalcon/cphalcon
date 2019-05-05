@@ -47,6 +47,7 @@ use Phalcon\Session\Adapter\Stream as SessionFiles;
 use Phalcon\Session\Manager as SessionManager;
 use Phalcon\Storage\Adapter\Libmemcached as StorageLibmemcached;
 use Phalcon\Storage\Adapter\Stream as StorageStream;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Url;
 use function cacheDir;
 use function dataDir;
@@ -78,7 +79,8 @@ trait DiTrait
      */
     protected function getAndSetModelsCacheStream(): StorageStream
     {
-        $cache = new StorageStream(getOptionsModelCacheStream());
+        $serializer = new SerializerFactory();
+        $cache      = new StorageStream($serializer, getOptionsModelCacheStream());
         $this->container->set('modelsCache', $cache);
 
         return $cache;
@@ -89,7 +91,8 @@ trait DiTrait
      */
     protected function getAndSetViewCacheStream(): StorageStream
     {
-        $cache = new StorageStream(getOptionsModelCacheStream());
+        $serializer = new SerializerFactory();
+        $cache      = new StorageStream($serializer, getOptionsModelCacheStream());
         $this->container->set('viewCache', $cache);
         return $cache;
     }
@@ -99,7 +102,8 @@ trait DiTrait
      */
     protected function getAndSetModelsCacheLibmemcached(): StorageLibmemcached
     {
-        $cache = new StorageLibmemcached(getOptionsLibmemcached());
+        $serializer = new SerializerFactory();
+        $cache      = new StorageLibmemcached($serializer, getOptionsLibmemcached());
         $this->container->set('modelsCache', $cache);
 
         return $cache;

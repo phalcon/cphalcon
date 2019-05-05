@@ -12,9 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Cache;
 
-use Phalcon\Cache\Adapter\Apcu;
+use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
 use Phalcon\Storage\Adapter\AdapterInterface;
+use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
 /**
@@ -34,7 +35,11 @@ class GetAdapterCest
     {
         $I->wantToTest('Cache\Cache - getAdapter()');
 
-        $adapter = new Cache(new Apcu());
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+        $instance   = $factory->newInstance('apcu');
+
+        $adapter = new Cache($instance);
 
         $class  = AdapterInterface::class;
         $actual = $adapter->getAdapter();

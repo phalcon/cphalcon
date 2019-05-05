@@ -12,9 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\CacheFactory;
 
-use Phalcon\Cache\Adapter\Apcu;
+use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\CacheFactory;
+use Phalcon\Storage\SerializerFactory;
 use Psr\SimpleCache\CacheInterface;
 use UnitTester;
 
@@ -30,8 +31,10 @@ class NewInstanceCest
     {
         $I->wantToTest('Cache\CacheFactory - newInstance()');
 
-        $factory = new CacheFactory();
-        $adapter = $factory->newInstance(new Apcu());
+        $serializer     = new SerializerFactory();
+        $adapterFactory = new AdapterFactory($serializer);
+        $cacheFactory   = new CacheFactory($adapterFactory);
+        $adapter        = $cacheFactory->newInstance('apcu');
 
         $class = Cache::class;
         $I->assertInstanceOf($class, $adapter);

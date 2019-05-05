@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Apcu;
 
+use Exception;
 use Phalcon\Cache\Adapter\Apcu;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use UnitTester;
 
@@ -28,13 +30,17 @@ class DecrementCest
      *
      * @param UnitTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws Exception
      * @since  2019-03-31
+     *
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function storageAdapterApcuDecrement(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - decrement()');
-        $adapter = new Apcu();
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Apcu($serializer);
 
         $key    = uniqid();
         $result = $adapter->set($key, 100);

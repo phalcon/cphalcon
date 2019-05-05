@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use function getOptionsLibmemcached;
+use function getOptionsRedis;
 use Phalcon\Session\Adapter\Libmemcached;
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Adapter\Redis;
 use Phalcon\Session\Adapter\Stream;
+use Phalcon\Storage\AdapterFactory;
+use Phalcon\Storage\SerializerFactory;
 
 /**
  * Trait SessionTrait
@@ -37,7 +41,10 @@ trait SessionTrait
      */
     protected function getSessionLibmemcached(): Libmemcached
     {
-        return new Libmemcached(getOptionsLibmemcached());
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+
+        return new Libmemcached($factory, getOptionsLibmemcached());
     }
 
     /**
@@ -53,6 +60,9 @@ trait SessionTrait
      */
     protected function getSessionRedis(): Redis
     {
-        return new Redis($this->getOptionsRedis());
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+
+        return new Redis($factory, getOptionsRedis());
     }
 }

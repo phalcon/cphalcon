@@ -13,8 +13,11 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Redis;
 
 use Phalcon\Cache\Adapter\Redis;
+use Phalcon\Storage\Exception;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
+use function getOptionsRedis;
 
 /**
  * Class DecrementCest
@@ -28,14 +31,18 @@ class DecrementCest
      *
      * @param UnitTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws Exception
      * @since  2019-03-31
+     *
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function storageAdapterRedisDecrement(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - decrement()');
         $I->skipTest('Check this');
-        $adapter = new Redis($this->getOptions());
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Redis($serializer, getOptionsRedis());
 
         $key    = uniqid();
         $result = $adapter->set($key, 100);
@@ -54,5 +61,12 @@ class DecrementCest
 
         $actual = $adapter->get($key);
         $I->assertEquals($expected, $actual);
+
+        /**
+         * unknown key
+         */
+        $key    = 'unknown';
+        $result = $adapter->decrement($key);
+        $I->assertFalse($result);
     }
 }

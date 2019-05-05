@@ -11,7 +11,7 @@
 namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Storage\Adapter\Redis as StorageRedis;
+use Phalcon\Storage\AdapterFactory;
 
 /**
  * Phalcon\Mvc\Model\MetaData\Redis
@@ -43,11 +43,11 @@ class Redis extends MetaData
      *
      * @param array options
      */
-    public function __construct(array! options = []) -> void
+    public function __construct(<AdapterFactory> factory, array! options = []) -> void
     {
         let options["prefix"]   = "ph-mm-reds-",
             options["lifetime"] = 172800,
-            this->adapter       = new StorageRedis(options);
+            this->adapter       = factory->newInstance("redis", options);
     }
 
     /**
