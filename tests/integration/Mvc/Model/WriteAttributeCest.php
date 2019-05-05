@@ -120,7 +120,7 @@ class WriteAttributeCest
         ];
 
         $user = new Users();
-        $user->whatEverUndefinedProperty = $associativeArray;
+        $user->writeAttribute('whatEverUndefinedProperty', $associativeArray);
 
         $I->assertEquals(
             [
