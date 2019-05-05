@@ -29,11 +29,11 @@ class DecrementCest
      * @param UnitTester $I
      *
      * @throws Exception
-     * @throws \Exception
-     * @author Phalcon Team <team@phalconphp.com>
-     *
      * @since  2019-04-24
      *
+     * @author Phalcon Team <team@phalconphp.com>
+     *
+     * @throws \Exception
      */
     public function storageAdapterStreamDecrement(UnitTester $I)
     {

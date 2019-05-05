@@ -12,7 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
-use Exception;
+use function getOptionsRedis;
+use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
@@ -29,10 +30,10 @@ class ClearCest
      *
      * @param UnitTester $I
      *
-     * @throws Exception
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws \Exception
      */
     public function storageAdapterStreamClear(UnitTester $I)
     {
@@ -65,10 +66,10 @@ class ClearCest
      *
      * @param UnitTester $I
      *
-     * @throws Exception
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws \Exception
      */
     public function storageAdapterStreamClearTwice(UnitTester $I)
     {

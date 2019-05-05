@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Stream;
 
-use Exception;
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
@@ -28,10 +27,10 @@ class DecrementCest
      *
      * @param UnitTester $I
      *
-     * @throws Exception
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws \Exception
      */
     public function storageAdapterStreamDecrement(UnitTester $I)
     {
