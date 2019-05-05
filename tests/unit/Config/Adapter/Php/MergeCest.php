@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Config\Adapter\Php;
 
 use UnitTester;
 
-/**
- * Class MergeCest
- */
 class MergeCest
 {
     /**
      * Tests Phalcon\Config\Adapter\Php :: merge()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

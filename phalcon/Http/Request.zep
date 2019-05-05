@@ -476,7 +476,7 @@ class Request implements RequestInterface, InjectionAwareInterface
              * (in a case-insensitive manner), the digits '0' through '9', and
              * the hyphen ('-') as per RFC 952/2181
              */
-            if "" !== preg_replace("/[a-z0-9-]+\.?/", "", host) {
+            if unlikely ("" !== preg_replace("/[a-z0-9-]+\.?/", "", host)) {
                 throw new \UnexpectedValueException("Invalid host " . host);
             }
         }
@@ -1003,7 +1003,7 @@ class Request implements RequestInterface, InjectionAwareInterface
         let httpMethod = this->getMethod();
 
         if typeof methods == "string" {
-            if strict && !this->isValidHttpMethod(methods) {
+            if unlikely (strict && !this->isValidHttpMethod(methods)) {
                 throw new Exception("Invalid HTTP method: " . methods);
             }
 
@@ -1020,7 +1020,7 @@ class Request implements RequestInterface, InjectionAwareInterface
             return false;
         }
 
-        if strict {
+        if unlikely strict {
             throw new Exception("Invalid HTTP method: non-string");
         }
 
@@ -1156,7 +1156,7 @@ class Request implements RequestInterface, InjectionAwareInterface
     {
         var filterLocator, sanitizer, localScope, scopeMethod;
 
-        if count(filters) < 1 {
+        if unlikely count(filters) < 1 {
             throw new Exception(
                 "Filters have not been defined for '" . name . "'"
             );
@@ -1165,7 +1165,7 @@ class Request implements RequestInterface, InjectionAwareInterface
         let filterLocator = this->getFilterLocatorService();
 
         for sanitizer in filters {
-            if true !== filterLocator->has(sanitizer) {
+            if unlikely true !== filterLocator->has(sanitizer) {
                 throw new Exception(
                     "Sanitizer '" . sanitizer . "' does not exist in the filter locator"
                 );
@@ -1249,7 +1249,7 @@ class Request implements RequestInterface, InjectionAwareInterface
             if typeof filter != "object" {
                 let container = <DiInterface> this->container;
 
-                if typeof container != "object" {
+                if unlikely typeof container != "object" {
                     throw new Exception(
                         Exception::containerServiceNotFound(
                             "the 'filter' service"
@@ -1484,7 +1484,7 @@ class Request implements RequestInterface, InjectionAwareInterface
         if typeof locator != "object" {
             let container = <DiInterface> this->container;
 
-            if typeof container != "object" {
+            if unlikely typeof container != "object" {
                 throw new Exception(
                     Exception::containerServiceNotFound("the 'filter' service")
                 );

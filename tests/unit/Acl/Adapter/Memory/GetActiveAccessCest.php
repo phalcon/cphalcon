@@ -16,9 +16,6 @@ use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
-/**
- * Class GetActiveAccessCest
- */
 class GetActiveAccessCest
 {
     /**

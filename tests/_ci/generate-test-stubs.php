@@ -28,15 +28,10 @@ namespace Phalcon\Test\Unit\%n%;
 
 use UnitTester;
 
-/**
- * Class %m%Cest
- */
 class %m%Cest
 {
     /**
      * Tests %ns% :: %sm%()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  %d%

@@ -16,8 +16,6 @@ use Phalcon\Tag;
 use UnitTester;
 
 /**
- * Class ResetInputCest
- *
  * @package Phalcon\Test\Unit\Tag
  */
 class ResetInputCest

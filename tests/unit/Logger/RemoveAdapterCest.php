@@ -18,16 +18,12 @@ use Phalcon\Logger\Exception;
 use UnitTester;
 
 /**
- * Class RemoveAdapterCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class RemoveAdapterCest
 {
     /**
      * Tests Phalcon\Logger :: removeAdapter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -80,8 +76,6 @@ class RemoveAdapterCest
 
     /**
      * Tests Phalcon\Logger :: removeAdapter() - unknown
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

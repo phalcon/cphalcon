@@ -16,17 +16,12 @@ use Phalcon\Test\Fixtures\Traits\VersionTrait;
 use Phalcon\Version;
 use UnitTester;
 
-/**
- * Class GetIdCest
- */
 class GetIdCest
 {
     use VersionTrait;
 
     /**
      * Tests Phalcon\Version :: getId()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

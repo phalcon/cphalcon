@@ -17,17 +17,12 @@ use Phalcon\Test\Fixtures\Service\HelloService;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-/**
- * Class UnderscoreCallCest
- */
 class UnderscoreCallCest
 {
     use DiTrait;
 
     /**
      * Tests Phalcon\Service\Locator :: __call()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-01-19
@@ -60,8 +55,6 @@ class UnderscoreCallCest
     /**
      * Tests Phalcon\Service\Locator :: __call()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-01-19
      */
@@ -85,7 +78,10 @@ class UnderscoreCallCest
 
         $I->assertEquals(
             'Jack &amp; Jill',
-            $locator->custom($escaper, 'Jack & Jill')
+            $locator->custom(
+                $escaper,
+                'Jack & Jill'
+            )
         );
     }
 }

@@ -71,7 +71,7 @@ class Files extends MetaData
 
         let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
 
-        if file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false {
+        if unlikely file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false {
             throw new Exception("Meta-Data directory cannot be written");
         }
     }

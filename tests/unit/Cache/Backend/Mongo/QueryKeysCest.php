@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Mongo;
 
 use UnitTester;
 
-/**
- * Class QueryKeysCest
- */
 class QueryKeysCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Mongo :: queryKeys()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class QueryKeysCest
     public function cacheBackendMongoQueryKeys(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Mongo - queryKeys()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Apcu;
 
 use UnitTester;
 
-/**
- * Class QueryKeysCest
- */
 class QueryKeysCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Apcu :: queryKeys()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class QueryKeysCest
     public function cacheBackendApcuQueryKeys(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Apcu - queryKeys()');
+
         $I->skipTest('Need implementation');
     }
 }

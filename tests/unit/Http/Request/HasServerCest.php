@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class HasServerCest
- */
 class HasServerCest
 {
     /**
      * Tests Phalcon\Http\Request :: hasServer()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class HasServerCest
     public function httpRequestHasServer(UnitTester $I)
     {
         $I->wantToTest('Http\Request - hasServer()');
+
         $I->skipTest('Need implementation');
     }
 }

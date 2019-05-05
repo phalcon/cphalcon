@@ -115,7 +115,7 @@ class Url implements UrlInterface, InjectionAwareInterface
         }
 
         if typeof uri == "array" {
-            if !fetch routeName, uri["for"] {
+            if unlikely !fetch routeName, uri["for"] {
                 throw new Exception(
                     "It's necessary to define the route name with the parameter 'for'"
                 );
@@ -129,7 +129,7 @@ class Url implements UrlInterface, InjectionAwareInterface
             if typeof router != "object" {
                 let container = <DiInterface> this->container;
 
-                if typeof container != "object" {
+                if unlikely typeof container != "object" {
                     throw new Exception(
                         Exception::containerServiceNotFound(
                             "the 'router' service"
@@ -146,7 +146,7 @@ class Url implements UrlInterface, InjectionAwareInterface
              */
             let route = <RouteInterface> router->getRouteByName(routeName);
 
-            if typeof route != "object" {
+            if unlikely typeof route != "object" {
                 throw new Exception(
                     "Cannot obtain a route using the name '" . routeName . "'"
                 );

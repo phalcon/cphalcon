@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Events\Event;
 
 use UnitTester;
 
-/**
- * Class GetSourceCest
- */
 class GetSourceCest
 {
     /**
      * Tests Phalcon\Events\Event :: getSource()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetSourceCest
     public function eventsEventGetSource(UnitTester $I)
     {
         $I->wantToTest('Events\Event - getSource()');
+
         $I->skipTest('Need implementation');
     }
 }

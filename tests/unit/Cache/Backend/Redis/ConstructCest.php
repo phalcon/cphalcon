@@ -18,17 +18,12 @@ use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use RedisTrait;
 
     /**
      * Tests Phalcon\Cache\Backend\Redis :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -13,23 +13,44 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Application;
 
 use IntegrationTester;
+use Phalcon\DiInterface;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Mvc\Application;
+use Phalcon\Mvc\View;
 
-/**
- * Class HandleCest
- */
 class HandleCest
 {
-    /**
-     * Tests Phalcon\Mvc\Application :: handle()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function mvcApplicationHandle(IntegrationTester $I)
+    public function singleModule(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Application - handle()');
-        $I->skipTest('Need implementation');
+        $I->skipTest('TODO - Check me');
+
+        $I->wantTo('handle request and get content by using single modules strategy');
+
+        $di = new FactoryDefault();
+
+        $di->set(
+            'view',
+            function () {
+                $view = new View();
+
+                $view->setViewsDir(
+                    dataFolder('fixtures/views/')
+                );
+
+                return $view;
+            },
+            true
+        );
+
+        $application = new Application();
+
+        $application->setDI($di);
+
+        $response = $application->handle("/micro");
+
+        $I->assertEquals(
+            '<html>We are here</html>' . PHP_EOL,
+            $response->getContent()
+        );
     }
 }

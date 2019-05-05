@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Application;
 
 use UnitTester;
 
-/**
- * Class SetEventsManagerCest
- */
 class SetEventsManagerCest
 {
     /**
      * Tests Phalcon\Application :: setEventsManager()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetEventsManagerCest
     public function applicationSetEventsManager(UnitTester $I)
     {
         $I->wantToTest('Application - setEventsManager()');
+
         $I->skipTest('Need implementation');
     }
 }

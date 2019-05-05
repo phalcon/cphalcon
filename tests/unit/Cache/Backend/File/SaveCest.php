@@ -15,17 +15,12 @@ namespace Phalcon\Test\Unit\Cache\Backend\File;
 use Phalcon\Test\Fixtures\Traits\Cache\FileTrait;
 use UnitTester;
 
-/**
- * Class SaveCest
- */
 class SaveCest
 {
     use FileTrait;
 
     /**
      * Tests Phalcon\Cache\Backend\File :: save()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

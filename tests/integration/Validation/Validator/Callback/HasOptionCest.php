@@ -16,17 +16,12 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\Callback;
 
-/**
- * Class HasOptionCest
- */
 class HasOptionCest
 {
     use ValidationTrait;
 
     /**
      * Tests Phalcon\Validation\Validator\Callback :: hasOption()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

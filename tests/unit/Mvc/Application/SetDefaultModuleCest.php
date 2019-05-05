@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Application;
 
 use UnitTester;
 
-/**
- * Class SetDefaultModuleCest
- */
 class SetDefaultModuleCest
 {
     /**
      * Tests Phalcon\Mvc\Application :: setDefaultModule()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetDefaultModuleCest
     public function mvcApplicationSetDefaultModule(UnitTester $I)
     {
         $I->wantToTest('Mvc\Application - setDefaultModule()');
+
         $I->skipTest('Need implementation');
     }
 }

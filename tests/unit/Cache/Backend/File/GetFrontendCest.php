@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\File;
 
 use UnitTester;
 
-/**
- * Class GetFrontendCest
- */
 class GetFrontendCest
 {
     /**
      * Tests Phalcon\Cache\Backend\File :: getFrontend()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetFrontendCest
     public function cacheBackendFileGetFrontend(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\File - getFrontend()');
+
         $I->skipTest('Need implementation');
     }
 }

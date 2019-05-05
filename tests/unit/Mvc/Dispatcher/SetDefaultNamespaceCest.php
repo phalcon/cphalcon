@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class SetDefaultNamespaceCest
- */
 class SetDefaultNamespaceCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: setDefaultNamespace()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetDefaultNamespaceCest
     public function mvcDispatcherSetDefaultNamespace(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - setDefaultNamespace()');
+
         $I->skipTest('Need implementation');
     }
 }

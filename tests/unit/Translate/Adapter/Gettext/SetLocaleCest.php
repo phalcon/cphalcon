@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
 use UnitTester;
 
-/**
- * Class SetLocaleCest
- */
 class SetLocaleCest
 {
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: setLocale()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetLocaleCest
     public function translateAdapterGettextSetLocale(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Gettext - setLocale()');
+
         $I->skipTest('Need implementation');
     }
 }

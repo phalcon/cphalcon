@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
-/**
- * Class OffsetExistsCest
- */
 class OffsetExistsCest
 {
     /**
      * Tests Phalcon\Di :: offsetExists()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class OffsetExistsCest
     public function diOffsetExists(UnitTester $I)
     {
         $I->wantToTest('Di - offsetExists()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use UnitTester;
 
-/**
- * Class CollectionCest
- */
 class CollectionCest
 {
     /**
      * Tests Phalcon\Assets\Manager :: collection()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class CollectionCest
     public function assetsManagerCollection(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - collection()');
+
         $I->skipTest('Need implementation');
     }
 }

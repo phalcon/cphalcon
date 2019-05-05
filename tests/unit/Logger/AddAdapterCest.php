@@ -18,16 +18,12 @@ use UnitTester;
 use function outputFolder;
 
 /**
- * Class AddAdapterCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class AddAdapterCest
 {
     /**
      * Tests Phalcon\Logger :: addAdapter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

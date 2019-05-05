@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash\Session;
 
 use UnitTester;
 
-/**
- * Class SetImplicitFlushCest
- */
 class SetImplicitFlushCest
 {
     /**
      * Tests Phalcon\Flash\Session :: setImplicitFlush()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetImplicitFlushCest
     public function flashSessionSetImplicitFlush(UnitTester $I)
     {
         $I->wantToTest('Flash\Session - setImplicitFlush()');
+
         $I->skipTest('Need implementation');
     }
 }

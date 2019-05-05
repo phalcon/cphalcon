@@ -29,28 +29,36 @@ class ComputeHmacCest
     public function securityComputeHmac(UnitTester $I)
     {
         $I->wantToTest('Security - computeHmac()');
+
         $security = new Security();
 
         $data = [];
+
         for ($i = 1; $i < 256; ++$i) {
             $data[] = str_repeat('a', $i);
         }
+
         $keys = [
             substr(md5('test', true), 0, strlen(md5('test', true)) / 2),
             md5('test', true),
             md5('test', true) . md5('test', true),
         ];
 
-        foreach ($data as $index => $text) {
-            $expected = hash_hmac('md5', $text, $keys[0]);
-            $actual   = $security->computeHmac($text, $keys[0], 'md5');
-            $I->assertEquals($expected, $actual);
-            $expected = hash_hmac('md5', $text, $keys[1]);
-            $actual   = $security->computeHmac($text, $keys[1], 'md5');
-            $I->assertEquals($expected, $actual);
-            $expected = hash_hmac('md5', $text, $keys[2]);
-            $actual   = $security->computeHmac($text, $keys[2], 'md5');
-            $I->assertEquals($expected, $actual);
+        foreach ($data as $text) {
+            $I->assertEquals(
+                hash_hmac('md5', $text, $keys[0]),
+                $security->computeHmac($text, $keys[0], 'md5')
+            );
+
+            $I->assertEquals(
+                hash_hmac('md5', $text, $keys[1]),
+                $security->computeHmac($text, $keys[1], 'md5')
+            );
+
+            $I->assertEquals(
+                hash_hmac('md5', $text, $keys[2]),
+                $security->computeHmac($text, $keys[2], 'md5')
+            );
         }
     }
 }

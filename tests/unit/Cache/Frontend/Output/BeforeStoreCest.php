@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Output;
 
 use UnitTester;
 
-/**
- * Class BeforeStoreCest
- */
 class BeforeStoreCest
 {
     /**
      * Tests Phalcon\Cache\Frontend\Output :: beforeStore()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class BeforeStoreCest
     public function cacheFrontendOutputBeforeStore(UnitTester $I)
     {
         $I->wantToTest('Cache\Frontend\Output - beforeStore()');
+
         $I->skipTest('Need implementation');
     }
 }

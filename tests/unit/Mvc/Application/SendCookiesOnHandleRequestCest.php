@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Application;
 
 use UnitTester;
 
-/**
- * Class SendCookiesOnHandleRequestCest
- */
 class SendCookiesOnHandleRequestCest
 {
     /**
      * Tests Phalcon\Mvc\Application :: sendCookiesOnHandleRequest()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SendCookiesOnHandleRequestCest
     public function mvcApplicationSendCookiesOnHandleRequest(UnitTester $I)
     {
         $I->wantToTest('Mvc\Application - sendCookiesOnHandleRequest()');
+
         $I->skipTest('Need implementation');
     }
 }

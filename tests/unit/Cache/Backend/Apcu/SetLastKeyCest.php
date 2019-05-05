@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Apcu;
 
 use UnitTester;
 
-/**
- * Class SetLastKeyCest
- */
 class SetLastKeyCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Apcu :: setLastKey()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetLastKeyCest
     public function cacheBackendApcuSetLastKey(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Apcu - setLastKey()');
+
         $I->skipTest('Need implementation');
     }
 }

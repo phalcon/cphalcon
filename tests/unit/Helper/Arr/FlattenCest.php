@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Helper\Arr;
 use Phalcon\Helper\Arr;
 use UnitTester;
 
-/**
- * Class FlattenCest
- */
 class FlattenCest
 {
     /**
      * Tests Phalcon\Helper\Arr :: flatten()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
@@ -32,16 +27,16 @@ class FlattenCest
     {
         $I->wantToTest('Helper\Arr - flatten()');
 
-        $source   = [1, [2], [[3], 4], 5];
+        $source = [1, [2], [[3], 4], 5];
+
         $expected = [1, 2, [3], 4, 5];
         $actual   = Arr::flatten($source);
+
         $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Helper\Arr :: flatten() - deep
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
@@ -50,7 +45,8 @@ class FlattenCest
     {
         $I->wantToTest('Helper\Arr - flatten() - deep');
 
-        $source   = [1, [2], [[3], 4], 5];
+        $source = [1, [2], [[3], 4], 5];
+
         $expected = [1, 2, 3, 4, 5];
         $actual   = Arr::flatten($source, true);
         $I->assertEquals($expected, $actual);

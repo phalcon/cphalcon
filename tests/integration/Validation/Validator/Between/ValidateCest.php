@@ -93,8 +93,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Between :: validate() - multiple field
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -189,8 +187,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Between :: validate() - custom message
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -230,9 +226,7 @@ class ValidateCest
             ]
         );
 
-        $actual = $messages;
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $messages);
 
 
 
@@ -240,6 +234,8 @@ class ValidateCest
             $validation->validate([]),
             $messages
         );
+
+
 
         $messages = $validation->validate(
             [

@@ -17,16 +17,12 @@ use Phalcon\Logger\Item;
 use UnitTester;
 
 /**
- * Class GetContextCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class GetContextCest
 {
     /**
      * Tests Phalcon\Logger\Item :: getContext()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -456,7 +456,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                 if request === null {
                     let container = <DiInterface> this->container;
 
-                    if typeof container != "object" {
+                    if unlikely typeof container != "object" {
                         throw new Exception(
                             Exception::containerServiceNotFound(
                                 "the 'request' service"
@@ -487,7 +487,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                 if request === null {
                     let container = <DiInterface> this->container;
 
-                    if typeof container != "object" {
+                    if unlikely typeof container != "object" {
                         throw new Exception(
                             Exception::containerServiceNotFound(
                                 "the 'request' service"
@@ -568,7 +568,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                     /**
                      * Check first if the callback is callable
                      */
-                    if !is_callable(beforeMatch) {
+                    if unlikely !is_callable(beforeMatch) {
                         throw new Exception(
                             "Before-Match callback is not callable in matched route"
                         );
@@ -610,7 +610,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
                     let converters = route->getConverters();
 
                     for part, position in paths {
-                        if typeof part != "string" {
+                        if unlikely typeof part != "string" {
                             throw new Exception("Wrong key in paths: " . part);
                         }
 
@@ -797,7 +797,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 
         let groupRoutes = group->getRoutes();
 
-        if !count(groupRoutes) {
+        if unlikely !count(groupRoutes) {
             throw new Exception(
                 "The group of routes does not contain any routes"
             );
@@ -836,7 +836,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
      */
     public function notFound(var paths) -> <RouterInterface>
     {
-        if typeof paths != "array" && typeof paths != "string" {
+        if unlikely (typeof paths != "array" && typeof paths != "string") {
             throw new Exception(
                 "The not-found paths must be an array or string"
             );

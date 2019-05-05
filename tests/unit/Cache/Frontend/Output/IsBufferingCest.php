@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Output;
 
 use UnitTester;
 
-/**
- * Class IsBufferingCest
- */
 class IsBufferingCest
 {
     /**
      * Tests Phalcon\Cache\Frontend\Output :: isBuffering()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsBufferingCest
     public function cacheFrontendOutputIsBuffering(UnitTester $I)
     {
         $I->wantToTest('Cache\Frontend\Output - isBuffering()');
+
         $I->skipTest('Need implementation');
     }
 }

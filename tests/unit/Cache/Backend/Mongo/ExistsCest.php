@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Mongo;
 
 use UnitTester;
 
-/**
- * Class ExistsCest
- */
 class ExistsCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Mongo :: exists()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ExistsCest
     public function cacheBackendMongoExists(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Mongo - exists()');
+
         $I->skipTest('Need implementation');
     }
 }

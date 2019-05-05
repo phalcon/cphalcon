@@ -16,9 +16,6 @@ use Phalcon\Cache\Exception;
 use Phalcon\Test\Fixtures\Traits\Cache\FileTrait;
 use UnitTester;
 
-/**
- * Class DecrementCest
- */
 class DecrementCest
 {
     use FileTrait;

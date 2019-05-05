@@ -125,7 +125,7 @@ class Event implements EventInterface
      */
     public function stop() -> <EventInterface>
     {
-        if !this->cancelable {
+        if unlikely !this->cancelable {
             throw new Exception("Trying to cancel a non-cancelable event");
         }
 

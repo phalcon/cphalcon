@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Redis;
 
 use UnitTester;
 
-/**
- * Class SetLastKeyCest
- */
 class SetLastKeyCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Redis :: setLastKey()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetLastKeyCest
     public function cacheBackendRedisSetLastKey(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Redis - setLastKey()');
+
         $I->skipTest('Need implementation');
     }
 }

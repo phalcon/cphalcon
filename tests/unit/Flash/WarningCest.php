@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash;
 
 use UnitTester;
 
-/**
- * Class WarningCest
- */
 class WarningCest
 {
     /**
      * Tests Phalcon\Flash :: warning()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class WarningCest
     public function flashWarning(UnitTester $I)
     {
         $I->wantToTest('Flash - warning()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -617,13 +617,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
         let models = this->models;
         if typeof models == "array" {
-            if !count(models) {
+            if unlikely !count(models) {
                 throw new Exception(
                     "At least one model is required to build the query"
                 );
             }
         } else {
-            if !models {
+            if unlikely !models {
                 throw new Exception(
                     "At least one model is required to build the query"
                 );
@@ -638,7 +638,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
              * a condition using the related primary key
              */
             if typeof models == "array" {
-                if count(models) > 1 {
+                if unlikely count(models) > 1 {
                     throw new Exception(
                         "Cannot build the query. Invalid condition"
                     );
@@ -671,7 +671,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                     }
 
                     if typeof columnMap == "array" {
-                        if !fetch attributeField, columnMap[firstPrimaryKey] {
+                        if unlikely !fetch attributeField, columnMap[firstPrimaryKey] {
                             throw new Exception(
                                 "Column '" . firstPrimaryKey . "' isn't part of the column map"
                             );
@@ -688,7 +688,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             /**
              * A primary key is mandatory in these cases
              */
-            if noPrimary {
+            if unlikely noPrimary {
                 throw new Exception(
                     "Source related to this model does not have a primary key defined"
                 );
@@ -950,7 +950,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         let phql = this->getPhql();
 
         let container = <DiInterface> this->container;
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
                     "the services related to the ORM"
@@ -1461,7 +1461,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     {
         var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
-        if operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR {
+        if unlikely (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
             throw new Exception(sprintf("Operator % is not available.", operator));
         }
 
@@ -1504,7 +1504,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         var key, queryKey, value, bindKeys, bindParams, operatorMethod;
         int hiddenParam;
 
-        if operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR {
+        if unlikely (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
             throw new Exception(
                 sprintf(
                     "Operator % is not available.",
@@ -1558,7 +1558,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     {
         var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
-        if operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR {
+        if unlikely (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
             throw new Exception(
                 sprintf(
                     "Operator % is not available.",
@@ -1605,7 +1605,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         var key, queryKey, value, bindKeys, bindParams, operatorMethod;
         int hiddenParam;
 
-        if operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR {
+        if unlikely (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
             throw new Exception(
                 sprintf(
                     "Operator % is not available.",

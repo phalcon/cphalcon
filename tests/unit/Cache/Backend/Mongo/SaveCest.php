@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Mongo;
 
 use UnitTester;
 
-/**
- * Class SaveCest
- */
 class SaveCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Mongo :: save()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SaveCest
     public function cacheBackendMongoSave(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Mongo - save()');
+
         $I->skipTest('Need implementation');
     }
 }

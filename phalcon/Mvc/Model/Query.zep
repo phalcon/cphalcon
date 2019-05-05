@@ -153,13 +153,13 @@ class Query implements QueryInterface, InjectionAwareInterface
 
         let manager = container->getShared("modelsManager");
 
-        if typeof manager != "object" {
+        if unlikely typeof manager != "object" {
             throw new Exception("Injected service 'modelsManager' is invalid");
         }
 
         let metaData = container->getShared("modelsMetadata");
 
-        if typeof metaData != "object" {
+        if unlikely typeof metaData != "object" {
             throw new Exception("Injected service 'modelsMetaData' is invalid");
         }
 
@@ -239,7 +239,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             /**
              * The column has a domain, we need to check if it's an alias
              */
-            if !fetch source, sqlAliases[columnDomain] {
+            if unlikely !fetch source, sqlAliases[columnDomain] {
                 throw new Exception(
                     "Unknown model or alias '" . columnDomain . "' (11), when preparing: " . this->phql
                 );
@@ -258,7 +258,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                  * We need the model instance to retrieve the reversed column
                  * map
                  */
-                if !fetch model, sqlAliasesModelsInstances[columnDomain] {
+                if unlikely !fetch model, sqlAliasesModelsInstances[columnDomain] {
                     throw new Exception(
                         "There is no model related to model or alias '" . columnDomain . "', when executing: " . this->phql
                     );
@@ -270,7 +270,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             }
 
             if typeof columnMap == "array" {
-                if !fetch realColumnName, columnMap[columnName] {
+                if unlikely !fetch realColumnName, columnMap[columnName] {
                     throw new Exception(
                         "Column '" . columnName . "' doesn't belong to the model or alias '" . columnDomain . "', when executing: ". this->phql
                     );
@@ -293,7 +293,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 if metaData->hasAttribute(model, columnName) {
                     let number++;
 
-                    if number > 1 {
+                    if unlikely number > 1 {
                         throw new Exception(
                             "The column '" . columnName . "' is ambiguous, when preparing: " . this->phql
                         );
@@ -307,7 +307,7 @@ class Query implements QueryInterface, InjectionAwareInterface
              * After check in every model, the column does not belong to any of
              * the selected models
              */
-            if hasModel === false {
+            if unlikely hasModel === false {
                 throw new Exception(
                     "Column '" . columnName . "' doesn't belong to any of the selected models (1), when preparing: " . this->phql
                 );
@@ -318,7 +318,7 @@ class Query implements QueryInterface, InjectionAwareInterface
              */
             let models = this->models;
 
-            if typeof models != "array" {
+            if unlikely typeof models != "array" {
                 throw new Exception("The models list was not loaded correctly");
             }
 
@@ -327,7 +327,7 @@ class Query implements QueryInterface, InjectionAwareInterface
              */
             let className = get_class(hasModel);
 
-            if !fetch source, models[className] {
+            if unlikely !fetch source, models[className] {
                 throw new Exception(
                     "Can't obtain model's source from models list: '" . className . "', when preparing: " . this->phql
                 );
@@ -346,7 +346,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 /**
                  * The real column name is in the column map
                  */
-                if !fetch realColumnName, columnMap[columnName] {
+                if unlikely !fetch realColumnName, columnMap[columnName] {
                     throw new Exception(
                         "Column '" . columnName . "' doesn't belong to any of the selected models (3), when preparing: " . this->phql
                     );
@@ -665,19 +665,19 @@ class Query implements QueryInterface, InjectionAwareInterface
                             case "array-str":
                             case "array-int":
 
-                                if !fetch bind, this->bindParams[name] {
+                                if unlikely !fetch bind, this->bindParams[name] {
                                     throw new Exception(
                                         "Bind value is required for array type placeholder: " . name
                                     );
                                 }
 
-                                if typeof bind != "array" {
+                                if unlikely typeof bind != "array" {
                                     throw new Exception(
                                         "Bind type requires an array in placeholder: " . name
                                     );
                                 }
 
-                                if count(bind) < 1 {
+                                if unlikely count(bind) < 1 {
                                     throw new Exception(
                                         "At least one value must be bound in placeholder: " . name
                                     );
@@ -830,7 +830,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             columnData, balias, eager;
         array sqlColumns, sqlColumn;
 
-        if !fetch columnType, column["type"] {
+        if unlikely !fetch columnType, column["type"] {
             throw new Exception("Corrupted SELECT AST");
         }
 
@@ -864,7 +864,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             return sqlColumns;
         }
 
-        if !isset column["column"] {
+        if unlikely !isset column["column"] {
             throw new Exception("Corrupted SELECT AST");
         }
 
@@ -879,7 +879,7 @@ class Query implements QueryInterface, InjectionAwareInterface
              */
             let columnDomain = column["column"];
 
-            if !fetch source, sqlAliases[columnDomain] {
+            if unlikely !fetch source, sqlAliases[columnDomain] {
                 throw new Exception(
                     "Unknown model or alias '" . columnDomain . "' (2), when preparing: " . this->phql
                 );
@@ -974,7 +974,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     {
         var modelName, model, source, schema;
 
-        if !fetch modelName, qualifiedName["name"] {
+        if unlikely !fetch modelName, qualifiedName["name"] {
             throw new Exception("Corrupted SELECT AST");
         }
 
@@ -1030,7 +1030,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     {
         var type;
 
-        if !fetch type, join["type"] {
+        if unlikely !fetch type, join["type"] {
             throw new Exception("Corrupted SELECT AST");
         }
 
@@ -1112,7 +1112,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 /**
                  * Get the referenced field in the same position
                  */
-                if !fetch referencedField, referencedFields[position] {
+                if unlikely !fetch referencedField, referencedFields[position] {
                     throw new Exception(
                         "The number of fields must be equal to the number of referenced fields in join " . modelAlias . "-" . joinAlias . ", when preparing: " . this->phql
                     );
@@ -1232,7 +1232,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
         if typeof fields == "array" {
             for field, position in fields {
-                if !isset referencedFields[position] {
+                if unlikely !isset referencedFields[position] {
                     throw new Exception(
                         "The number of fields must be equal to the number of referenced fields in join " . modelAlias . "-" . joinAlias . ", when preparing: " . this->phql
                     );
@@ -1412,7 +1412,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 /**
                  * Check if alias is unique
                  */
-                if isset joinModels[alias] {
+                if unlikely isset joinModels[alias] {
                     throw new Exception(
                         "Cannot use '" . alias . "' as join alias because it was already used, when preparing: " . this->phql
                     );
@@ -1471,7 +1471,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 /**
                  * Check if alias is unique
                  */
-                if isset joinModels[realModelName] {
+                if unlikely isset joinModels[realModelName] {
                     throw new Exception(
                         "Cannot use '" . realModelName . "' as join alias because it was already used, when preparing: " . this->phql
                     );
@@ -1618,7 +1618,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                             /**
                              * More than one relation must throw an exception
                              */
-                            if count(relations) != 1 {
+                            if unlikely count(relations) != 1 {
                                 throw new Exception(
                                     "There is more than one relation between models '" . fromModelName . "' and '" . joinModel . "', the join must be done using an alias, when preparing: " . this->phql
                                 );
@@ -1814,11 +1814,11 @@ class Query implements QueryInterface, InjectionAwareInterface
             let select = ast;
         }
 
-        if !fetch tables, select["tables"] {
+        if unlikely !fetch tables, select["tables"] {
             throw new Exception("Corrupted SELECT AST");
         }
 
-        if !fetch columns, select["columns"] {
+        if unlikely !fetch columns, select["columns"] {
             throw new Exception("Corrupted SELECT AST");
         }
 
@@ -1883,13 +1883,13 @@ class Query implements QueryInterface, InjectionAwareInterface
         let manager = this->manager,
             metaData = this->metaData;
 
-        if typeof manager != "object" {
+        if unlikely typeof manager != "object" {
             throw new Exception(
                 "A models-manager is required to execute the query"
             );
         }
 
-        if typeof metaData != "object" {
+        if unlikely typeof metaData != "object" {
             throw new Exception("A meta-data is required to execute the query");
         }
 
@@ -1929,7 +1929,7 @@ class Query implements QueryInterface, InjectionAwareInterface
              */
             if fetch alias, selectedModel["alias"] {
                 // Check if the alias was used before
-                if isset sqlAliases[alias] {
+                if unlikely isset sqlAliases[alias] {
                     throw new Exception(
                         "Alias '" . alias . "' is used more than once, when preparing: " . this->phql
                     );
@@ -1987,15 +1987,15 @@ class Query implements QueryInterface, InjectionAwareInterface
                             relationModel
                         );
 
-                        if typeof relation == "object" {
-                            let bestAlias = relation->getOption("alias"),
-                                relationModel = relation->getReferencedModel(),
-                                eagerType = relation->getType();
-                        } else {
+                        if unlikely typeof relation != "object" {
                             throw new Exception(
                                 "Can't find a relationship between '" . realModelName . "' and '" . relationModel . "' when preparing: " . this->phql
                             );
                         }
+
+                        let bestAlias = relation->getOption("alias"),
+                            relationModel = relation->getReferencedModel(),
+                            eagerType = relation->getType();
                     }
 
                     let selectColumns[] = [
@@ -2187,18 +2187,18 @@ class Query implements QueryInterface, InjectionAwareInterface
 
         let ast = this->ast;
 
-        if !isset ast["qualifiedName"] {
+        if unlikely !isset ast["qualifiedName"] {
             throw new Exception("Corrupted INSERT AST");
         }
 
-        if !isset ast["values"] {
+        if unlikely !isset ast["values"] {
             throw new Exception("Corrupted INSERT AST");
         }
 
         let qualifiedName = ast["qualifiedName"];
 
         // Check if the related model exists
-        if !isset qualifiedName["name"] {
+        if unlikely !isset qualifiedName["name"] {
             throw new Exception("Corrupted INSERT AST");
         }
 
@@ -2246,7 +2246,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 let name = field["name"];
 
                 // Check that inserted fields are part of the model
-                if !metaData->hasAttribute(model, name) {
+                if unlikely !metaData->hasAttribute(model, name) {
                     throw new Exception(
                         "The model '" . modelName . "' doesn't have the attribute '" . name . "', when preparing: " . this->phql
                     );
@@ -2280,15 +2280,15 @@ class Query implements QueryInterface, InjectionAwareInterface
 
         let ast = this->ast;
 
-        if !fetch update, ast["update"] {
+        if unlikely !fetch update, ast["update"] {
             throw new Exception("Corrupted UPDATE AST");
         }
 
-        if !fetch tables, update["tables"] {
+        if unlikely !fetch tables, update["tables"] {
             throw new Exception("Corrupted UPDATE AST");
         }
 
-        if !fetch values, update["values"] {
+        if unlikely !fetch values, update["values"] {
             throw new Exception("Corrupted UPDATE AST");
         }
 
@@ -2420,11 +2420,11 @@ class Query implements QueryInterface, InjectionAwareInterface
 
         let ast = this->ast;
 
-        if !fetch delete, ast["delete"] {
+        if unlikely !fetch delete, ast["delete"] {
             throw new Exception("Corrupted DELETE AST");
         }
 
-        if !fetch tables, delete["tables"] {
+        if unlikely !fetch tables, delete["tables"] {
             throw new Exception("Corrupted DELETE AST");
         }
 
@@ -2587,7 +2587,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             }
         }
 
-        if typeof irPhql != "array" {
+        if unlikely typeof irPhql != "array" {
             throw new Exception("Corrupted AST");
         }
 
@@ -2654,7 +2654,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 // More than one type of connection is not allowed
                 let connectionTypes[connection->getType()] = true;
 
-                if count(connectionTypes) == 2 {
+                if unlikely count(connectionTypes) == 2 {
                     throw new Exception(
                         "Cannot use models of different database systems in the same query"
                     );
@@ -2673,7 +2673,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         let columns1 = columns;
 
         for column in columns {
-            if typeof column != "array" {
+            if unlikely typeof column != "array" {
                 throw new Exception("Invalid column definition");
             }
 
@@ -2946,13 +2946,13 @@ class Query implements QueryInterface, InjectionAwareInterface
                 let resultsetClassName = (<ModelInterface> resultObject)->getResultsetClass();
 
                 if resultsetClassName {
-                    if !class_exists(resultsetClassName) {
+                    if unlikely !class_exists(resultsetClassName) {
                         throw new Exception(
                             "Resultset class \"" . resultsetClassName . "\" not found"
                         );
                     }
 
-                    if !is_subclass_of(resultsetClassName, "Phalcon\\Mvc\\Model\\ResultsetInterface") {
+                    if unlikely !is_subclass_of(resultsetClassName, "Phalcon\\Mvc\\Model\\ResultsetInterface") {
                         throw new Exception(
                             "Resultset class \"" . resultsetClassName . "\" must be an implementation of Phalcon\\Mvc\\Model\\ResultsetInterface"
                         );
@@ -3042,7 +3042,7 @@ class Query implements QueryInterface, InjectionAwareInterface
          * The number of calculated values must be equal to the number of fields
          * in the model
          */
-        if count(fields) != count(values) {
+        if unlikely count(fields) != count(values) {
             throw new Exception(
                 "The column count does not match the values count"
             );
@@ -3073,7 +3073,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 case PHQL_T_SPLACEHOLDER:
                 case PHQL_T_BPLACEHOLDER:
 
-                    if typeof bindParams != "array" {
+                    if unlikely typeof bindParams != "array" {
                         throw new Exception(
                             "Bound parameter cannot be replaced because placeholders is not an array"
                         );
@@ -3085,7 +3085,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                         dialect->getSqlExpression(exprValue)
                     );
 
-                    if !fetch insertValue, bindParams[wildcard] {
+                    if unlikely !fetch insertValue, bindParams[wildcard] {
                         throw new Exception(
                             "Bound parameter '" . wildcard . "' cannot be replaced because it isn't in the placeholders list"
                         );
@@ -3108,7 +3108,7 @@ class Query implements QueryInterface, InjectionAwareInterface
              * attributes as columns
              */
             if automaticFields && typeof columnMap == "array" {
-                if !fetch attributeName, columnMap[fieldName] {
+                if unlikely !fetch attributeName, columnMap[fieldName] {
                     throw new Exception(
                         "Column '" . fieldName . "' isn't part of the column map"
                     );
@@ -3152,7 +3152,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
         let models = intermediate["models"];
 
-        if isset models[1] {
+        if unlikely isset models[1] {
             throw new Exception(
                 "Updating several models at the same time is still not supported"
             );
@@ -3217,7 +3217,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 case PHQL_T_SPLACEHOLDER:
                 case PHQL_T_BPLACEHOLDER:
 
-                    if typeof bindParams != "array" {
+                    if unlikely typeof bindParams != "array" {
                         throw new Exception(
                             "Bound parameter cannot be replaced because placeholders is not an array"
                         );
@@ -3229,14 +3229,15 @@ class Query implements QueryInterface, InjectionAwareInterface
                         dialect->getSqlExpression(exprValue)
                     );
 
-                    if fetch updateValue, bindParams[wildcard] {
-                        unset selectBindParams[wildcard];
-                        unset selectBindTypes[wildcard];
-                    } else {
+                    if unlikely !fetch updateValue, bindParams[wildcard] {
                         throw new Exception(
                             "Bound parameter '" . wildcard . "' cannot be replaced because it's not in the placeholders list"
                         );
                     }
+
+                    unset selectBindParams[wildcard];
+                    unset selectBindTypes[wildcard];
+
                     break;
 
                 case PHQL_T_BPLACEHOLDER:
@@ -3326,7 +3327,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
         let models = intermediate["models"];
 
-        if isset models[1] {
+        if unlikely isset models[1] {
             throw new Exception(
                 "Delete from several models at the same time is still not supported"
             );
@@ -3470,14 +3471,14 @@ class Query implements QueryInterface, InjectionAwareInterface
         let cacheOptions = this->cacheOptions;
 
         if typeof cacheOptions != "null" {
-            if typeof cacheOptions != "array" {
+            if unlikely typeof cacheOptions != "array" {
                 throw new Exception("Invalid caching options");
             }
 
             /**
              * The user must set a cache key
              */
-            if !fetch key, cacheOptions["key"] {
+            if unlikely !fetch key, cacheOptions["key"] {
                 throw new Exception(
                     "A cache key must be provided to identify the cached resultset in the cache backend"
                 );
@@ -3499,14 +3500,14 @@ class Query implements QueryInterface, InjectionAwareInterface
 
             let cache = this->container->getShared(cacheService);
 
-            if typeof cache != "object" {
+            if unlikely typeof cache != "object" {
                 throw new Exception("Cache service must be an object");
             }
 
             let result = cache->get(key, lifetime);
 
             if !empty result {
-                if typeof result != "object" {
+                if unlikely typeof result != "object" {
                     throw new Exception(
                         "Cache didn't return a valid resultset"
                     );
@@ -3565,11 +3566,11 @@ class Query implements QueryInterface, InjectionAwareInterface
             let mergedTypes = bindTypes;
         }
 
-        if typeof mergedParams != "null" && typeof mergedParams != "array" {
+        if unlikely (typeof mergedParams != "null" && typeof mergedParams != "array") {
             throw new Exception("Bound parameters must be an array");
         }
 
-        if typeof mergedTypes != "null" && typeof mergedTypes != "array" {
+        if unlikely (typeof mergedTypes != "null" && typeof mergedTypes != "array") {
             throw new Exception("Bound parameter types must be an array");
         }
 
@@ -3845,7 +3846,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 bindTypes
             );
 
-            if typeof connection != "object" {
+            if unlikely typeof connection != "object" {
                 throw new Exception(
                     "selectReadConnection did not return a connection"
                 );
@@ -3879,7 +3880,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 bindTypes
             );
 
-            if typeof connection != "object" {
+            if unlikely typeof connection != "object" {
                 throw new Exception(
                     "selectWriteConnection did not return a connection"
                 );

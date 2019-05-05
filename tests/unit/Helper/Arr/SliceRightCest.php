@@ -23,14 +23,13 @@ class SliceRightCest
     /**
      * Tests Phalcon\Helper\Arr :: sliceRight()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
     public function helperArrSliceRight(UnitTester $I)
     {
         $I->wantToTest('Helper\Arr - sliceRight()');
+
         $collection = [
             'Phalcon',
             'Framework',
@@ -43,13 +42,21 @@ class SliceRightCest
             'for',
             'PHP',
         ];
-        $actual   = Arr::sliceRight($collection, 1);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            Arr::sliceRight($collection, 1)
+        );
+
+
 
         $expected = [
             'PHP',
         ];
-        $actual   = Arr::sliceRight($collection, 3);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            Arr::sliceRight($collection, 3)
+        );
     }
 }

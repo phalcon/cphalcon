@@ -28,7 +28,7 @@ class Document implements EntityInterface, \ArrayAccess
     {
         var value;
 
-        if !fetch value, this->{index} {
+        if unlikely !fetch value, this->{index} {
             throw new Exception("The index does not exist in the row");
         }
 

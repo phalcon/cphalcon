@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Helper\Arr;
 use Phalcon\Helper\Arr;
 use UnitTester;
 
-/**
- * Class GroupCest
- */
 class GroupCest
 {
     /**
      * Tests Phalcon\Helper\Arr :: group()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-07
@@ -31,7 +26,8 @@ class GroupCest
     public function helperArrGroup(UnitTester $I)
     {
         $I->wantToTest('Helper\Arr - group()');
-        $collection =  [
+
+        $collection = [
             ['name' => 'Paul',  'age' => 34],
             ['name' => 'Peter', 'age' => 31],
             ['name' => 'John',  'age' => 29],
@@ -57,14 +53,14 @@ class GroupCest
                 ],
             ],
         ];
+
         $actual = Arr::group($collection, 'age');
+
         $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Helper\Arr :: group() - object
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-07
@@ -89,16 +85,17 @@ class GroupCest
 
         $expected = [
             'Peter' => [$peter],
-            'Paul'  => [$paul]
+            'Paul'  => [$paul],
         ];
-        $actual   = Arr::group($collection, 'name');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            Arr::group($collection, 'name')
+        );
     }
 
     /**
      * Tests Phalcon\Helper\Arr :: group() - function
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-07
@@ -106,13 +103,17 @@ class GroupCest
     public function helperArrGroupFunction(UnitTester $I)
     {
         $I->wantToTest('Helper\Arr - group() - function');
+
         $collection = ['one', 'two', 'three'];
 
         $expected = [
             3 => ['one', 'two'],
             5 => ['three']
         ];
-        $actual   = Arr::group($collection, 'strlen');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            Arr::group($collection, 'strlen')
+        );
     }
 }

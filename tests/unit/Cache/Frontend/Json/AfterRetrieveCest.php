@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Json;
 
 use UnitTester;
 
-/**
- * Class AfterRetrieveCest
- */
 class AfterRetrieveCest
 {
     /**
      * Tests Phalcon\Cache\Frontend\Json :: afterRetrieve()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class AfterRetrieveCest
     public function cacheFrontendJsonAfterRetrieve(UnitTester $I)
     {
         $I->wantToTest('Cache\Frontend\Json - afterRetrieve()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -16,15 +16,10 @@ use Phalcon\Assets\Exception;
 use Phalcon\Assets\Manager;
 use UnitTester;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     /**
      * Tests Phalcon\Assets\Manager :: get() - unknown
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-06-04

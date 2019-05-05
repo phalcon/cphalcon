@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Base64;
 
 use UnitTester;
 
-/**
- * Class StartCest
- */
 class StartCest
 {
     /**
      * Tests Phalcon\Cache\Frontend\Base64 :: start()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class StartCest
     public function cacheFrontendBase64Start(UnitTester $I)
     {
         $I->wantToTest('Cache\Frontend\Base64 - start()');
+
         $I->skipTest('Need implementation');
     }
 }

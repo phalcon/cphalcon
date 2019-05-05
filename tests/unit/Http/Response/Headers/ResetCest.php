@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response\Headers;
 
 use UnitTester;
 
-/**
- * Class ResetCest
- */
 class ResetCest
 {
     /**
      * Tests Phalcon\Http\Response\Headers :: reset()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ResetCest
     public function httpResponseHeadersReset(UnitTester $I)
     {
         $I->wantToTest('Http\Response\Headers - reset()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -19,15 +19,10 @@ use Phalcon\Test\Fixtures\Acl\TestRoleAware;
 use Phalcon\Test\Fixtures\Acl\TestComponentAware;
 use UnitTester;
 
-/**
- * Class AllowCest
- */
 class AllowCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: allow()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -165,12 +160,24 @@ class AllowCest
                 $admin         = new TestRoleAware(4, 'Admins');
                 $model         = new TestComponentAware(2, 'Post');
 
-                $acl->allow('Guests', 'Post', 'update', function ($parameter) {
-                    return $parameter % 2 == 0;
-                });
-                $acl->allow('Members', 'Post', 'update', function ($parameter) {
-                    return $parameter % 2 == 0;
-                });
+                $acl->allow(
+                    'Guests',
+                    'Post',
+                    'update',
+                    function ($parameter) {
+                        return $parameter % 2 == 0;
+                    }
+                );
+
+                $acl->allow(
+                    'Members',
+                    'Post',
+                    'update',
+                    function ($parameter) {
+                        return $parameter % 2 == 0;
+                    }
+                );
+
                 $acl->allow('Admins', 'Post', 'update');
 
                 $actual = $acl->isAllowed($guest, $model, 'update');

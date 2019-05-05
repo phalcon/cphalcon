@@ -232,7 +232,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
             if this->useEncryption {
                 let container = <DiInterface> this->container;
 
-                if typeof container != "object" {
+                if unlikely typeof container != "object" {
                     throw new Exception(
                         Exception::containerServiceNotFound(
                             "the 'filter' and 'crypt' services"
@@ -242,7 +242,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
                 let crypt = <CryptInterface> container->getShared("crypt");
 
-                if typeof crypt != "object" {
+                if unlikely typeof crypt != "object" {
                     throw new Exception(
                         "A dependency which implements CryptInterface is required to use encryption"
                     );
@@ -283,7 +283,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
                     if container === null {
                         let container = <DiInterface> this->container;
 
-                        if typeof container != "object" {
+                        if unlikely typeof container != "object" {
                             throw new Exception(
                                 Exception::containerServiceNotFound(
                                     "the 'filter' service"
@@ -388,7 +388,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
         let container = this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("the 'session' service")
             );
@@ -431,7 +431,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
         }
 
         if this->useEncryption && !empty value {
-            if typeof container != "object" {
+            if unlikely typeof container != "object" {
                 throw new Exception(
                     Exception::containerServiceNotFound(
                         "the 'filter' service"
@@ -441,7 +441,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
             let crypt = <CryptInterface> container->getShared("crypt");
 
-            if typeof crypt != "object" {
+            if unlikely typeof crypt != "object" {
                 throw new Exception(
                     "A dependency which implements CryptInterface is required to use encryption"
                 );
@@ -609,7 +609,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
         let length = mb_strlen(signKey);
 
-        if length < 32 {
+        if unlikely length < 32 {
             throw new CookieException(
                 sprintf(
                     "The cookie's key should be at least 32 characters long. Current length is %d.",

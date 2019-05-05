@@ -346,7 +346,7 @@ class Micro extends Injectable implements \ArrayAccess
 
         let container = this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("micro services")
             );
@@ -382,7 +382,7 @@ class Micro extends Injectable implements \ArrayAccess
             let matchedRoute = router->getMatchedRoute();
 
             if typeof matchedRoute == "object" {
-                if !fetch handler, this->handlers[matchedRoute->getRouteId()] {
+                if unlikely !fetch handler, this->handlers[matchedRoute->getRouteId()] {
                     throw new Exception(
                         "Matched route doesn't have an associated handler"
                     );
@@ -432,7 +432,7 @@ class Micro extends Injectable implements \ArrayAccess
                             }
                         }
 
-                        if !is_callable(before) {
+                        if unlikely !is_callable(before) {
                             throw new Exception(
                                 "'before' handler is not callable"
                             );
@@ -561,7 +561,7 @@ class Micro extends Injectable implements \ArrayAccess
                             continue;
                         }
 
-                        if !is_callable(afterBinding) {
+                        if unlikely !is_callable(afterBinding) {
                             throw new Exception(
                                 "'afterBinding' handler is not callable"
                             );
@@ -627,7 +627,7 @@ class Micro extends Injectable implements \ArrayAccess
                             }
                         }
 
-                        if !is_callable(after) {
+                        if unlikely !is_callable(after) {
                             throw new Exception(
                                 "One of the 'after' handlers is not callable"
                             );
@@ -661,7 +661,7 @@ class Micro extends Injectable implements \ArrayAccess
                  */
                 let notFoundHandler = this->notFoundHandler;
 
-                if !is_callable(notFoundHandler) {
+                if unlikely !is_callable(notFoundHandler) {
                     throw new Exception(
                         "Not-Found handler is not callable or is not defined"
                     );
@@ -712,7 +712,7 @@ class Micro extends Injectable implements \ArrayAccess
                         }
                     }
 
-                    if !is_callable(finish) {
+                    if unlikely !is_callable(finish) {
                         throw new Exception(
                             "One of the 'finish' handlers is not callable"
                         );
@@ -755,7 +755,7 @@ class Micro extends Injectable implements \ArrayAccess
             let errorHandler = this->errorHandler;
 
             if errorHandler {
-                if !is_callable(errorHandler) {
+                if unlikely !is_callable(errorHandler) {
                     throw new Exception("Error handler is not callable");
                 }
 
@@ -788,7 +788,7 @@ class Micro extends Injectable implements \ArrayAccess
          * handler
          */
         if this->responseHandler {
-            if !is_callable(this->responseHandler) {
+            if unlikely !is_callable(this->responseHandler) {
                 throw new Exception(
                     "Response handler is not callable or is not defined"
                 );
@@ -915,13 +915,13 @@ class Micro extends Injectable implements \ArrayAccess
          */
         let mainHandler = collection->getHandler();
 
-        if empty mainHandler {
+        if unlikely empty mainHandler {
             throw new Exception("Collection requires a main handler");
         }
 
         let handlers = collection->getHandlers();
 
-        if !count(handlers) {
+        if unlikely !count(handlers) {
             throw new Exception("There are no handlers to mount");
         }
 
@@ -941,7 +941,7 @@ class Micro extends Injectable implements \ArrayAccess
             let prefix = collection->getPrefix();
 
             for handler in handlers {
-                if typeof handler != "array" {
+                if unlikely typeof handler != "array" {
                     throw new Exception(
                         "One of the registered handlers is invalid"
                     );

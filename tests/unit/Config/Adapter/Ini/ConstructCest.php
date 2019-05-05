@@ -16,17 +16,12 @@ use Phalcon\Config\Adapter\Ini;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use ConfigTrait;
 
     /**
      * Tests Phalcon\Config\Adapter\Ini :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

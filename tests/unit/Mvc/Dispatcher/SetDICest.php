@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class SetDICest
- */
 class SetDICest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: setDI()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetDICest
     public function mvcDispatcherSetDI(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - setDI()');
+
         $I->skipTest('Need implementation');
     }
 }

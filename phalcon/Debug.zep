@@ -375,7 +375,7 @@ class Debug
      */
     public function onUncaughtLowSeverity(severity, message, file, line, context) -> void
     {
-        if error_reporting() & severity {
+        if unlikely error_reporting() & severity {
             throw new \ErrorException(message, 0, severity, file, line);
         }
     }

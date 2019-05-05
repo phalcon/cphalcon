@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Config\Adapter\Json;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class CountCest
- */
 class CountCest
 {
     use ConfigTrait;

@@ -175,7 +175,7 @@ class Uniqueness extends CombinedFieldsValidator
         if convert != null {
             let values = {convert}(values);
 
-            if !is_array(values) {
+            if unlikely !is_array(values) {
                 throw new Exception("Value conversion must return an array");
             }
         }
@@ -186,7 +186,7 @@ class Uniqueness extends CombinedFieldsValidator
             // check validation getEntity() method
             let record = validation->getEntity();
 
-            if empty record {
+            if unlikely empty record {
                 throw new Exception(
                     "Model of record must be set to property \"model\""
                 );

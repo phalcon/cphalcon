@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Output;
 
 use UnitTester;
 
-/**
- * Class StartCest
- */
 class StartCest
 {
     /**
      * Tests Phalcon\Cache\Frontend\Output :: start()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class StartCest
     public function cacheFrontendOutputStart(UnitTester $I)
     {
         $I->wantToTest('Cache\Frontend\Output - start()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
-/**
- * Class SetSourcePathCest
- */
 class SetSourcePathCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: setSourcePath()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetSourcePathCest
     public function assetsCollectionSetSourcePath(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - setSourcePath()');
+
         $I->skipTest('Need implementation');
     }
 }

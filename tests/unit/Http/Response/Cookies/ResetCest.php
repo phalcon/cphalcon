@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response\Cookies;
 
 use UnitTester;
 
-/**
- * Class ResetCest
- */
 class ResetCest
 {
     /**
      * Tests Phalcon\Http\Response\Cookies :: reset()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ResetCest
     public function httpResponseCookiesReset(UnitTester $I)
     {
         $I->wantToTest('Http\Response\Cookies - reset()');
+
         $I->skipTest('Need implementation');
     }
 }

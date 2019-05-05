@@ -264,6 +264,7 @@ class ManagerCest
         $enablePriorities = $example[0];
 
         $manager = new Manager();
+
         $manager->enablePriorities($enablePriorities);
 
         $handler = function () {
@@ -274,7 +275,7 @@ class ManagerCest
         $events = $I->getProtectedProperty($manager, 'events');
 
         $I->assertCount(1, $events);
-        $I->assertTrue(array_key_exists('test:detachable', $events));
+        $I->assertArrayHasKey('test:detachable', $events);
         $I->assertCount(1, $events['test:detachable']);
 
         $manager->detach('test:detachable', $handler);
@@ -282,7 +283,7 @@ class ManagerCest
         $events = $I->getProtectedProperty($manager, 'events');
 
         $I->assertCount(1, $events);
-        $I->assertTrue(array_key_exists('test:detachable', $events));
+        $I->assertArrayHasKey('test:detachable', $events);
         $I->assertCount(0, $events['test:detachable']);
     }
 
@@ -322,9 +323,7 @@ class ManagerCest
 
         $I->assertCount(1, $events);
 
-        $I->assertTrue(
-            array_key_exists('test:detachable', $events)
-        );
+        $I->assertArrayHasKey('test:detachable', $events);
 
         $I->assertCount(1, $events['test:detachable']);
 
@@ -334,9 +333,7 @@ class ManagerCest
 
         $I->assertCount(1, $events);
 
-        $I->assertTrue(
-            array_key_exists('test:detachable', $events)
-        );
+        $I->assertArrayHasKey('test:detachable', $events);
 
         $I->assertCount(0, $events['test:detachable']);
     }

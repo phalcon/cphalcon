@@ -19,15 +19,10 @@ use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Alpha;
 
-/**
- * Class ValidateCest
- */
 class ValidateCest
 {
     /**
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - single field
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -72,8 +67,6 @@ class ValidateCest
 
     /**
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - multiple field
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -126,8 +119,6 @@ class ValidateCest
             $messages->count()
         );
 
-
-
         $I->assertEquals(
             $validationMessages['name'],
             $messages->offsetGet(0)->getMessage()
@@ -147,14 +138,10 @@ class ValidateCest
             $messages->count()
         );
 
-
-
         $I->assertEquals(
             $validationMessages['name'],
             $messages->offsetGet(0)->getMessage()
         );
-
-
 
         $I->assertEquals(
             $validationMessages['type'],
@@ -165,8 +152,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - Non Alphabetic
      * Characters
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-10
@@ -226,8 +211,6 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - Alphabetic
      * Characters
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-10
      *
@@ -282,7 +265,7 @@ class ValidateCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-10
      *
-     * @dataProvider validationValidatorAlphaValidateNonLatinCharactersProvider
+     * @dataProvider nonLatinCharactersProvider
      */
     public function validationValidatorAlphaValidateNonLatinCharacters(IntegrationTester $I, Example $example)
     {
@@ -313,7 +296,7 @@ class ValidateCest
         );
     }
 
-    private function validationValidatorAlphaValidateNonLatinCharactersProvider(): array
+    private function nonLatinCharactersProvider(): array
     {
         return [
             ['йцукенг'],

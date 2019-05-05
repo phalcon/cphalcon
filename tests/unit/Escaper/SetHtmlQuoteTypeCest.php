@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Escaper;
 use Phalcon\Escaper;
 use UnitTester;
 
-/**
- * Class SetHtmlQuoteTypeCest
- */
 class SetHtmlQuoteTypeCest
 {
     /**
      * Tests Phalcon\Escaper :: setHtmlQuoteType()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,11 +26,14 @@ class SetHtmlQuoteTypeCest
     public function escaperSetHtmlQuoteType(UnitTester $I)
     {
         $I->wantToTest("Escaper - setHtmlQuoteType()");
+
         $escaper = new Escaper();
 
         $escaper->setHtmlQuoteType(ENT_HTML401);
-        $expected = "That&#039;s right";
-        $actual   = $escaper->escapeHtmlAttr("That's right");
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            "That&#039;s right",
+            $escaper->escapeHtmlAttr("That's right")
+        );
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Memory;
 
 use UnitTester;
 
-/**
- * Class GetFrontendCest
- */
 class GetFrontendCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Memory :: getFrontend()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetFrontendCest
     public function cacheBackendMemoryGetFrontend(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Memory - getFrontend()');
+
         $I->skipTest('Need implementation');
     }
 }

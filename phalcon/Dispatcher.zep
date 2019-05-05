@@ -208,7 +208,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             let numberDispatches++;
 
             // Throw an exception after 256 consecutive forwards
-            if numberDispatches == 256 {
+            if unlikely numberDispatches == 256 {
                 this->{"throwDispatchException"}(
                     "Dispatcher has detected a cyclic routing causing stability problems",
                     self::EXCEPTION_CYCLIC_ROUTING
@@ -269,7 +269,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             let handler = container->getShared(handlerClass);
 
             // Handlers must be only objects
-            if typeof handler !== "object" {
+            if unlikely typeof handler !== "object" {
                 let status = this->{"throwDispatchException"}(
                     "Invalid handler returned from the services container",
                     self::EXCEPTION_INVALID_HANDLER
@@ -301,7 +301,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             /**
              * Check if the params is an array
              */
-            if typeof params != "array" {
+            if unlikely typeof params != "array" {
                 /**
                  * An invalid parameter variable was passed throw an exception
                  */
@@ -320,7 +320,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             // Check if the method exists in the handler
             let actionMethod = this->getActiveMethod();
 
-            if !is_callable([handler, actionMethod]) {
+            if unlikely !is_callable([handler, actionMethod]) {
                 if hasEventsManager {
                     if eventsManager->fire("dispatch:beforeNotFoundAction", this) === false {
                         continue;
@@ -617,7 +617,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     {
         var namespaceName, controllerName, params, actionName, taskName;
 
-        if this->isControllerInitialize === true {
+        if unlikely this->isControllerInitialize === true {
             /**
              * Note: Important that we do not throw a "throwDispatchException"
              * call here. This is important because it would allow the

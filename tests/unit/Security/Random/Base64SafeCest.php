@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Security\Random;
 use Codeception\Example;
 use UnitTester;
 
-/**
- * Class Base64SafeCest
- */
 class Base64SafeCest
 {
     /**
      * Tests Phalcon\Security\Random :: base64Safe()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

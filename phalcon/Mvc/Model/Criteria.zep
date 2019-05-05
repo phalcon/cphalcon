@@ -792,7 +792,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
         let model = this->getModelName();
 
-        if typeof model != "string" {
+        if unlikely typeof model != "string" {
             throw new Exception("Model name must be string");
         }
 

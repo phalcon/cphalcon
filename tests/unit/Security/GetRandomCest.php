@@ -16,9 +16,6 @@ use UnitTester;
 use Phalcon\Security;
 use Phalcon\Security\Random;
 
-/**
- * Class GetRandomCest
- */
 class GetRandomCest
 {
     /**

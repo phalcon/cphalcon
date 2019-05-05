@@ -3,6 +3,8 @@
 namespace Phalcon\Test\Integration\Mvc\View;
 
 use IntegrationTester;
+use Phalcon\Cache\Backend\File;
+use Phalcon\Cache\Frontend\Output;
 use Phalcon\Di;
 use Phalcon\Mvc\View\Engine\Php;
 use Phalcon\Mvc\View\Engine\Volt;
@@ -24,25 +26,6 @@ class SimpleCest
     }
 
     /**
-     * Tests render
-     *
-     * @author Kamil Skowron <git@hedonsoftware.com>
-     * @since  2014-05-28
-     */
-    public function testRenderStandard(IntegrationTester $I)
-    {
-        $view = $this->container->get('viewSimple');
-
-        $expected = 'We are here';
-        $actual   = $view->render('simple/index');
-        $I->assertEquals($expected, $actual);
-
-        $expected = 'We are here';
-        $actual   = $view->getContent();
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
      * Tests the rendering with registered engine
      *
      * @author Kamil Skowron <git@hedonsoftware.com>
@@ -53,37 +36,25 @@ class SimpleCest
         $view = $this->container->get('viewSimple');
 
         $view->setParamToView('name', 'FooBar');
-        $view->registerEngines(['.mhtml' => Volt::class]);
 
-        $expected = 'Hello FooBar';
-        $actual   = $view->render('mustache/index');
-        $I->assertEquals($expected, $actual);
+        $view->registerEngines(
+            [
+                '.mhtml' => Volt::class,
+            ]
+        );
 
-        $I->amInPath(dataFolder('fixtures/views/mustache'));
+        $I->assertEquals(
+            'Hello FooBar',
+            $view->render('mustache/index')
+        );
+
+        $I->amInPath(
+            dataFolder('fixtures/views/mustache')
+        );
+
         $I->seeFileFound('index.mhtml.php');
+
         $I->safeDeleteFile('index.mhtml.php');
-    }
-
-    /**
-     * Tests the Simple::getRegisteredEngines
-     *
-     * @author Kamil Skowron <git@hedonsoftware.com>
-     * @since  2014-05-28
-     */
-    public function testGetRegisteredEngines(IntegrationTester $I)
-    {
-        $view     = $this->container->get('viewSimple');
-        $expected = [
-            '.mhtml' => Mustache::class,
-            '.phtml' => Php::class,
-            '.twig'  => Twig::class,
-            '.volt'  => Volt::class,
-        ];
-
-        $view->registerEngines($expected);
-
-        $actual = $view->getRegisteredEngines();
-        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -128,30 +99,10 @@ class SimpleCest
                 $view = $this->container->get('viewSimple');
 
                 $view->setParamToView('name', 'FooBar');
+
                 $view->render('unknown/view');
             }
         );
-    }
-
-    /**
-     * Tests render with variables
-     *
-     * @author Kamil Skowron <git@hedonsoftware.com>
-     * @since  2014-05-28
-     */
-    public function testRenderWithVariables(IntegrationTester $I)
-    {
-        $view = $this->container->get('viewSimple');
-
-        $expected = 'here';
-        $actual   = $view->render('currentrender/other');
-        $I->assertEquals($expected, $actual);
-
-        $view->setParamToView('a_cool_var', 'le-this');
-
-        $expected = '<p>le-this</p>';
-        $actual   = $view->render('currentrender/another');
-        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -163,12 +114,23 @@ class SimpleCest
     public function testRenderWithPartials(IntegrationTester $I)
     {
         $I->skipTest('TODO = Check me');
+
         $view = $this->container->get('viewSimple');
 
-        $expectedParams = ['cool_var' => 'FooBar'];
+        $expectedParams = [
+            'cool_var' => 'FooBar',
+        ];
 
-        $this->renderPartialBuffered($view, 'partials/_partial1', $expectedParams);
-        expect($view->getContent())->equals('Hey, this is a partial, also FooBar');
+        $this->renderPartialBuffered(
+            $view,
+            'partials/_partial1',
+            $expectedParams
+        );
+
+        $I->assertEquals(
+            'Hey, this is a partial, also FooBar',
+            $view->getContent()
+        );
 
         $view->setVars($expectedParams);
 
@@ -185,36 +147,102 @@ class SimpleCest
     public function testSettersAndGetters(IntegrationTester $I)
     {
         $I->skipTest('TODO = Check me');
+
         $view = $this->container->get('viewSimple');
 
         $view->foo = 'bar';
-        expect('bar')->equals($view->foo);
 
-        expect($view)->equals($view->setVar('foo1', 'bar1'));
-        expect('bar1')->equals($view->getVar('foo1'));
+        $I->assertEquals(
+            'bar',
+            $view->foo
+        );
 
-        $expectedVars = ['foo2' => 'bar2', 'foo3' => 'bar3'];
-        expect($view)->equals($view->setVars($expectedVars));
-        expect('bar2')->equals($view->foo2);
-        expect('bar3')->equals($view->foo3);
-        expect($view)->equals($view->setVars($expectedVars, false));
+        $I->assertEquals(
+            $view,
+            $view->setVar('foo1', 'bar1')
+        );
 
-        expect($view)->equals($view->setParamToView('foo4', 'bar4'));
+        $I->assertEquals(
+            'bar1',
+            $view->getVar('foo1')
+        );
 
-        $expectedParamsToView = ['foo2' => 'bar2', 'foo3' => 'bar3', 'foo4' => 'bar4'];
-        expect($expectedParamsToView)->equals($view->getParamsToView());
+        $expectedVars = [
+            'foo2' => 'bar2',
+            'foo3' => 'bar3',
+        ];
 
-        expect($view)->equals($view->setContent('<h1>hello</h1>'));
-        expect('<h1>hello</h1>')->equals($view->getContent());
+        $I->assertEquals(
+            $view,
+            $view->setVars($expectedVars)
+        );
 
-        $view->setViewsDir(dataFolder('views' . DIRECTORY_SEPARATOR));
-        expect(dataFolder('views' . DIRECTORY_SEPARATOR))->equals($view->getViewsDir());
+        $I->assertEquals(
+            'bar2',
+            $view->foo2
+        );
 
-        $expectedCacheOptions = ['lifetime' => 86400, 'key' => 'simple-cache'];
+        $I->assertEquals(
+            'bar3',
+            $view->foo3
+        );
+
+        $I->assertEquals(
+            $view,
+            $view->setVars($expectedVars, false)
+        );
+
+        $I->assertEquals(
+            $view,
+            $view->setParamToView('foo4', 'bar4')
+        );
+
+        $expectedParamsToView = [
+            'foo2' => 'bar2',
+            'foo3' => 'bar3',
+            'foo4' => 'bar4',
+        ];
+
+        $I->assertEquals(
+            $expectedParamsToView,
+            $view->getParamsToView()
+        );
+
+        $I->assertEquals(
+            $view,
+            $view->setContent('<h1>hello</h1>')
+        );
+
+        $I->assertEquals(
+            '<h1>hello</h1>',
+            $view->getContent()
+        );
+
+        $view->setViewsDir(
+            dataFolder('views' . DIRECTORY_SEPARATOR)
+        );
+
+        $I->assertEquals(
+            dataFolder('views' . DIRECTORY_SEPARATOR),
+            $view->getViewsDir()
+        );
+
+        $expectedCacheOptions = [
+            'lifetime' => 86400,
+            'key'      => 'simple-cache',
+        ];
 
         verify_not($view->getCacheOptions());
-        expect($view)->equals($view->setCacheOptions($expectedCacheOptions));
-        expect($expectedCacheOptions)->equals($view->getCacheOptions());
+
+        $I->assertEquals(
+            $view,
+            $view->setCacheOptions($expectedCacheOptions)
+        );
+
+        $I->assertEquals(
+            $expectedCacheOptions,
+            $view->getCacheOptions()
+        );
     }
 
     public function testSetVars(IntegrationTester $I)
@@ -222,83 +250,163 @@ class SimpleCest
         $I->wantToTest('Set and get View vars');
 
         $view = new Simple();
-        $view->setViewsDir(dataFolder('fixtures/views/'));
 
-        $I->assertNull($view->getVar('some_var'));
+        $view->setViewsDir(
+            dataFolder('fixtures/views/')
+        );
+
+        $I->assertNull(
+            $view->getVar('some_var')
+        );
+
         $some_var = time();
+
         $view->setParamToView('some_var', $some_var);
 
+        $I->assertNull(
+            $view->getVar('another_var')
+        );
 
-        $I->assertNull($view->getVar('another_var'));
         $another_var = uniqid();
+
         $view->setVar('another_var', $another_var);
 
-        $I->assertEquals($some_var, $view->getVar('some_var'));
-        $I->assertEquals($another_var, $view->getVar('another_var'));
+        $I->assertEquals(
+            $some_var,
+            $view->getVar('some_var')
+        );
+
+        $I->assertEquals(
+            $another_var,
+            $view->getVar('another_var')
+        );
     }
 
     public function testRenderWithCache(IntegrationTester $I)
     {
         $I->wantToTest('Render by using simple view with cache');
 
-        if (PHP_MAJOR_VERSION == 7) {
-            $I->skipTest(
-                'Skipped in view of the experimental support for PHP 7.'
-            );
-        }
-
         // Create cache at first run
         $view = new Simple();
-        codecept_debug(gettype($view->getParamsToView()));
-        $view->setViewsDir(dataFolder('fixtures/views/'));
+
+        codecept_debug(
+            gettype(
+                $view->getParamsToView()
+            )
+        );
+
+        $view->setViewsDir(
+            dataFolder('fixtures/views/')
+        );
 
         // No cache before DI is set
-        $I->assertFalse($view->getCache());
+        $I->assertFalse(
+            $view->getCache()
+        );
 
-        $view->setDI($this->getDi());
-        $I->assertEquals($view, $view->cache(['key' => 'view_simple_cache']));
+        $view->setDI(
+            $this->getDi()
+        );
+
+        $I->assertEquals(
+            $view,
+            $view->cache(
+                [
+                    'key' => 'view_simple_cache',
+                ]
+            )
+        );
 
         $cache = $view->getCache();
-        $I->assertInstanceOf('Phalcon\Cache\BackendInterface', $cache);
+
+        $I->assertInstanceOf(
+            \Phalcon\Cache\BackendInterface::class,
+            $cache
+        );
 
         $timeNow = time();
+
         $view->setParamToView('a_cool_var', $timeNow);
 
-        $I->assertEquals("<p>$timeNow</p>", rtrim($view->render('test3/coolVar')));
+        $I->assertEquals(
+            "<p>$timeNow</p>" . PHP_EOL,
+            $view->render('currentrender/coolVar')
+        );
 
-        $I->amInPath(cacheFolder());
+        $I->amInPath(
+            cacheFolder()
+        );
+
         $I->seeFileFound('view_simple_cache');
-        $I->seeInThisFile("<p>$timeNow</p>");
+
+        $I->seeInThisFile(
+            json_encode("<p>$timeNow</p>" . PHP_EOL)
+        );
 
         unset($view, $cache);
 
+
+
         // Re-use the cached contents
         $view = new Simple;
-        $view->setViewsDir(dataFolder('fixtures/views/'));
-        $view->setDI($this->getDi());
-        $view->cache(['key' => 'view_simple_cache']);
 
-        $I->assertEmpty($view->getContent());
-        $I->assertEquals("<p>$timeNow</p>", rtrim($view->render('test3/coolVar')));
+        $view->setViewsDir(
+            dataFolder('fixtures/views/')
+        );
 
-        $I->assertNotEmpty($view->getContent());
-        $I->assertEquals("<p></p>", rtrim($view->render('test3/coolVar')));
+        $view->setDI(
+            $this->getDi()
+        );
+
+        $view->cache(
+            [
+                'key' => 'view_simple_cache',
+            ]
+        );
+
+        $I->assertEmpty(
+            $view->getContent()
+        );
+
+        $I->assertEquals(
+            "<p>$timeNow</p>" . PHP_EOL,
+            $view->render('currentrender/coolVar')
+        );
+
+        $I->assertNotEmpty(
+            $view->getContent()
+        );
+
+        $I->assertEquals(
+            "<p></p>" . PHP_EOL,
+            $view->render('currentrender/coolVar')
+        );
 
         $I->safeDeleteFile('view_simple_cache');
     }
 
     /**
      * Setup viewCache service and DI
-     *
-     * @return Di
      */
-    protected function getDi()
+    protected function getDi(): Di
     {
         $di = new Di;
 
-        $di->set('viewCache', function () {
-            return new File(new Output(['lifetime' => 2]), ['cacheDir' => cacheFolder()]);
-        });
+        $di->set(
+            'viewCache',
+            function () {
+                return new File(
+                    new Output(
+                        [
+                            'lifetime' => 2,
+                        ]
+                    ),
+                    [
+                        'cacheDir' => cacheFolder(),
+                    ]
+                );
+            }
+        );
 
         return $di;
     }

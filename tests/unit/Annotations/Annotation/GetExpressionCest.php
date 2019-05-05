@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Annotation;
 
 use UnitTester;
 
-/**
- * Class GetExpressionCest
- */
 class GetExpressionCest
 {
     /**
      * Tests Phalcon\Annotations\Annotation :: getExpression()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetExpressionCest
     public function annotationsAnnotationGetExpression(UnitTester $I)
     {
         $I->wantToTest('Annotations\Annotation - getExpression()');
+
         $I->skipTest('Need implementation');
     }
 }

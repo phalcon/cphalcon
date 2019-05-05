@@ -16,17 +16,12 @@ use Phalcon\Config;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class SetStateCest
- */
 class SetStateCest
 {
     use ConfigTrait;
 
     /**
      * Tests Phalcon\Config :: __set_state()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

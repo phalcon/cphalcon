@@ -81,7 +81,7 @@ class Files extends Adapter
 
         let code = "<?php return " . var_export(data, true) . "; ";
 
-        if file_put_contents(path, code) === false {
+        if unlikely file_put_contents(path, code) === false {
               throw new Exception("Annotations directory cannot be written");
         }
     }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash\Direct;
 
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Flash\Direct :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ConstructCest
     public function flashDirectConstruct(UnitTester $I)
     {
         $I->wantToTest('Flash\Direct - __construct()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -12,9 +12,6 @@ declare(strict_types=1);
 
 use Phalcon\Events\Manager;
 
-/**
- * Class ComponentY
- */
 class ComponentY
 {
     /**

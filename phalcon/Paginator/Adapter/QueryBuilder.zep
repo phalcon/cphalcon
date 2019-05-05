@@ -57,11 +57,11 @@ class QueryBuilder extends Adapter
     {
         var builder, columns;
 
-        if !isset config["limit"] {
+        if unlikely !isset config["limit"] {
             throw new Exception("Parameter 'limit' is required");
         }
 
-        if !fetch builder, config["builder"] {
+        if unlikely !fetch builder, config["builder"] {
             throw new Exception("Parameter 'builder' is required");
         }
 
@@ -156,10 +156,9 @@ class QueryBuilder extends Adapter
          */
 
         if hasHaving && !hasGroup {
-            if empty columns {
+            if unlikely empty columns {
                 throw new Exception(
-                    "When having is set there should be columns " .
-                    "option provided for which calculate row count"
+                    "When having is set there should be columns option provided for which calculate row count"
                 );
             }
 
@@ -207,7 +206,7 @@ class QueryBuilder extends Adapter
             let sql = totalQuery->getSql(),
                 modelClass = builder->getModels();
 
-            if typeof modelClass == "null" {
+            if unlikely typeof modelClass == "null" {
                 throw new Exception("Model not defined in builder");
             }
 

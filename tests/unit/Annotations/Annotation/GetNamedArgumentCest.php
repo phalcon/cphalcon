@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Annotation;
 
 use UnitTester;
 
-/**
- * Class GetNamedArgumentCest
- */
 class GetNamedArgumentCest
 {
     /**
      * Tests Phalcon\Annotations\Annotation :: getNamedArgument()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetNamedArgumentCest
     public function annotationsAnnotationGetNamedArgument(UnitTester $I)
     {
         $I->wantToTest('Annotations\Annotation - getNamedArgument()');
+
         $I->skipTest('Need implementation');
     }
 }

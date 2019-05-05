@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
 
-/**
- * Class AppendContentCest
- */
 class AppendContentCest
 {
     /**
      * Tests Phalcon\Http\Response :: appendContent()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class AppendContentCest
     public function httpResponseAppendContent(UnitTester $I)
     {
         $I->wantToTest('Http\Response - appendContent()');
+
         $I->skipTest('Need implementation');
     }
 }

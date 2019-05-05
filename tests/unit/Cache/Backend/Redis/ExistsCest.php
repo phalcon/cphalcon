@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Redis;
 
 use UnitTester;
 
-/**
- * Class ExistsCest
- */
 class ExistsCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Redis :: exists()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ExistsCest
     public function cacheBackendRedisExists(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Redis - exists()');
+
         $I->skipTest('Need implementation');
     }
 }

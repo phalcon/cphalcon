@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class ReadAttributeCest
- */
 class ReadAttributeCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: readAttribute()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ReadAttributeCest
     public function mvcCollectionReadAttribute(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - readAttribute()');
+
         $I->skipTest('Need implementation');
     }
 }

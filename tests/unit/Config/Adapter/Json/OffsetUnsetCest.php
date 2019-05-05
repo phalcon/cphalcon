@@ -15,16 +15,10 @@ namespace Phalcon\Test\Unit\Config\Adapter\Json;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class OffsetUnsetCest
- */
 class OffsetUnsetCest
 {
     use ConfigTrait;
 
-    /**
-     * @param UnitTester $I
-     */
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('json');
@@ -32,8 +26,6 @@ class OffsetUnsetCest
 
     /**
      * Tests Phalcon\Config\Adapter\Json :: offsetUnset()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

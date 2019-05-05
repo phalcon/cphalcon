@@ -70,7 +70,7 @@ class Str
 
         let arguments = func_get_args();
 
-        if count(arguments) < 3 {
+        if unlikely count(arguments) < 3 {
             throw new Exception("concat needs at least three parameters");
         }
 
@@ -180,7 +180,7 @@ class Str
         var ldS, rdS, matches, match, words, word, sub;
         string pattern;
 
-        if substr_count(text, leftDelimiter) !== substr_count(text, rightDelimiter) {
+        if unlikely substr_count(text, leftDelimiter) !== substr_count(text, rightDelimiter) {
             throw new \RuntimeException(
                 "Syntax error in string \"" . text . "\""
             );

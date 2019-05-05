@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Base64;
 
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Cache\Frontend\Base64 :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ConstructCest
     public function cacheFrontendBase64Construct(UnitTester $I)
     {
         $I->wantToTest('Cache\Frontend\Base64 - __construct()');
+
         $I->skipTest('Need implementation');
     }
 }

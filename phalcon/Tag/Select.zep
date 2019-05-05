@@ -91,14 +91,14 @@ abstract class Select
             /**
              * The options is a resultset
              */
-            if !fetch using, params["using"] {
+            if unlikely !fetch using, params["using"] {
                 throw new Exception("The 'using' parameter is required");
-            } else {
-                if typeof using != "array" && typeof using != "object" {
-                    throw new Exception(
-                        "The 'using' parameter should be an array"
-                    );
-                }
+            }
+
+            if unlikely (typeof using != "array" && typeof using != "object") {
+                throw new Exception(
+                    "The 'using' parameter should be an array"
+                );
             }
         }
 
@@ -199,7 +199,7 @@ abstract class Select
         let params = null;
 
         if typeof using == "array" {
-            if count(using) != 2 {
+            if unlikely count(using) != 2 {
                 throw new Exception("Parameter 'using' requires two values");
             }
 
@@ -220,14 +220,14 @@ abstract class Select
                         let optionText = option->usingOne;
                     }
                 } else {
-                    if typeof option == "array" {
-                        let optionValue = option[usingZero];
-                        let optionText = option[usingOne];
-                    } else {
+                    if unlikely typeof option != "array" {
                         throw new Exception(
                             "Resultset returned an invalid value"
                         );
                     }
+
+                    let optionValue = option[usingZero];
+                    let optionText = option[usingOne];
                 }
 
                 let optionValue = escaper->escapeHtmlAttr(optionValue);

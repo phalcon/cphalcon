@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Adapter\Files;
 
 use UnitTester;
 
-/**
- * Class ReadCest
- */
 class ReadCest
 {
     /**
      * Tests Phalcon\Annotations\Adapter\Files :: read()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ReadCest
     public function annotationsAdapterFilesRead(UnitTester $I)
     {
         $I->wantToTest('Annotations\Adapter\Files - read()');
+
         $I->skipTest('Need implementation');
     }
 }

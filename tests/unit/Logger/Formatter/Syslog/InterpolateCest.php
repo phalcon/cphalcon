@@ -18,16 +18,12 @@ use Phalcon\Logger\Item;
 use UnitTester;
 
 /**
- * Class InterpolateCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class InterpolateCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Syslog :: interpolate()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

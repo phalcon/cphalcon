@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Text;
 use UnitTester;
 
-/**
- * Class RandomCest
- */
 class RandomCest
 {
     /**

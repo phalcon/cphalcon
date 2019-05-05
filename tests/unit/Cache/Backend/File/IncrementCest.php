@@ -16,17 +16,12 @@ use Phalcon\Cache\Exception;
 use Phalcon\Test\Fixtures\Traits\Cache\FileTrait;
 use UnitTester;
 
-/**
- * Class IncrementCest
- */
 class IncrementCest
 {
     use FileTrait;
 
     /**
      * Tests Phalcon\Cache\Backend\File :: increment()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

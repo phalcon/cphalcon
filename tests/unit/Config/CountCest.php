@@ -15,17 +15,12 @@ namespace Phalcon\Test\Unit\Config;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class CountCest
- */
 class CountCest
 {
     use ConfigTrait;
 
     /**
      * Tests Phalcon\Config :: count()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

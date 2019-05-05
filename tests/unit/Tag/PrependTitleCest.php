@@ -20,8 +20,6 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Tag :: prependTitle()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-09-05
      */

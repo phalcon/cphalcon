@@ -38,15 +38,33 @@ class IdenticalCest
             )
         );
 
-        $messages = $validation->validate(['name' => 'SomeValue']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'SomeValue123']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue123',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+
 
         $expected = new Messages(
             [
@@ -58,8 +76,8 @@ class IdenticalCest
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals($expected, $messages);
     }
 
     /**
@@ -70,11 +88,13 @@ class IdenticalCest
      */
     public function validationValidatorMultipleFieldSingleAccepted(IntegrationTester $I)
     {
-        $validation         = new Validation();
+        $validation = new Validation();
+
         $validationMessages = [
             'name'        => 'Name must be SomeValue.',
             'anotherName' => 'AnotherName must be SomeValue.',
         ];
+
         $validation->add(
             [
                 'name',
@@ -87,32 +107,65 @@ class IdenticalCest
                 ]
             )
         );
-        $messages = $validation->validate(['name' => 'SomeValue', 'anotherName' => 'SomeValue']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'SomeValue123', 'anotherName' => 'SomeValue']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'SomeValue123', 'anotherName' => 'SomeValue123']);
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'name'        => 'SomeValue',
+                'anotherName' => 'SomeValue',
+            ]
+        );
 
-        $expected = $validationMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
 
-        $expected = $validationMessages['anotherName'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+
+
+        $messages = $validation->validate(
+            [
+                'name'        => 'SomeValue123',
+                'anotherName' => 'SomeValue',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+
+
+        $messages = $validation->validate(
+            [
+                'name'        => 'SomeValue123',
+                'anotherName' => 'SomeValue123',
+            ]
+        );
+
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
+
+
+
+        $I->assertEquals(
+            $validationMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $I->assertEquals(
+            $validationMessages['anotherName'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 
     /**
@@ -123,11 +176,13 @@ class IdenticalCest
      */
     public function validationValidatorMultipleFieldMultipleAccepted(IntegrationTester $I)
     {
-        $validation         = new Validation();
+        $validation = new Validation();
+
         $validationMessages = [
             'name'        => 'Name must be SomeValue.',
             'anotherName' => 'AnotherName must be SomeAnotherValue.',
         ];
+
         $validation->add(
             [
                 'name',
@@ -144,41 +199,81 @@ class IdenticalCest
             )
         );
 
-        $messages = $validation->validate(['name' => 'SomeValue', 'anotherName' => 'SomeAnotherValue']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'SomeValue123', 'anotherName' => 'SomeAnotherValue']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'name'        => 'SomeValue',
+                'anotherName' => 'SomeAnotherValue',
+            ]
+        );
 
-        $messages = $validation->validate(['name' => 'SomeValue', 'anotherName' => 'SomeAnotherValue123']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
 
-        $expected = $validationMessages['anotherName'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'SomeValue123', 'anotherName' => 'SomeAnotherValue123']);
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'name'        => 'SomeValue123',
+                'anotherName' => 'SomeAnotherValue',
+            ]
+        );
 
-        $expected = $validationMessages['anotherName'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+
+
+        $messages = $validation->validate(
+            [
+                'name'        => 'SomeValue',
+                'anotherName' => 'SomeAnotherValue123',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['anotherName'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+
+
+        $messages = $validation->validate(
+            [
+                'name'        => 'SomeValue123',
+                'anotherName' => 'SomeAnotherValue123',
+            ]
+        );
+
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $I->assertEquals(
+            $validationMessages['anotherName'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 
     public function validationValidatorCustomMessage(IntegrationTester $I)
@@ -195,7 +290,12 @@ class IdenticalCest
             )
         );
 
-        $messages = $validation->validate([]);
+
+
+        $messages = $validation->validate(
+            []
+        );
+
         $expected = new Messages(
             [
                 new Message(
@@ -206,12 +306,20 @@ class IdenticalCest
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'Peter']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $messages);
+
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'Peter',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 }

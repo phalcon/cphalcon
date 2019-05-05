@@ -17,17 +17,12 @@ use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
 use function outputFolder;
 
-/**
- * Class SaveCest
- */
 class SaveCest
 {
     use ImagickTrait;
 
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: save()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19

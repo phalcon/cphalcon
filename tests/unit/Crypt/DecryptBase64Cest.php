@@ -16,9 +16,6 @@ use Phalcon\Crypt;
 use Phalcon\Crypt\Exception;
 use UnitTester;
 
-/**
- * Class DecryptBase64Cest
- */
 class DecryptBase64Cest
 {
     /**

@@ -121,7 +121,7 @@ class Complex extends Resultset implements ResultsetInterface
          * Create every record according to the column types
          */
         for alias, column in this->columnTypes {
-            if typeof column != "array" {
+            if unlikely typeof column != "array" {
                 throw new Exception("Column type is corrupt");
             }
 
@@ -283,7 +283,7 @@ class Complex extends Resultset implements ResultsetInterface
 
         let container = Di::getDefault();
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception("The dependency injector container is not valid");
         }
 
@@ -324,7 +324,7 @@ class Complex extends Resultset implements ResultsetInterface
 
         let container = Di::getDefault();
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 "The dependency injector container is not valid"
             );
@@ -337,7 +337,7 @@ class Complex extends Resultset implements ResultsetInterface
             let resultset = unserialize(data);
         }
 
-        if typeof resultset != "array" {
+        if unlikely typeof resultset != "array" {
             throw new Exception("Invalid serialization data");
         }
 

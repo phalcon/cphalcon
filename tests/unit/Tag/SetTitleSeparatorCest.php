@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Tag;
 use Phalcon\Tag;
 use UnitTester;
 
-/**
- * Class SetTitleSeparatorCest
- */
 class SetTitleSeparatorCest
 {
     /**
      * Tests Phalcon\Tag :: setTitleSeparator()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-09-05

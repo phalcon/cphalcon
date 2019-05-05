@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Reflection;
 
 use UnitTester;
 
-/**
- * Class SetStateCest
- */
 class SetStateCest
 {
     /**
      * Tests Phalcon\Annotations\Reflection :: __set_state()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetStateCest
     public function annotationsReflectionSetState(UnitTester $I)
     {
         $I->wantToTest('Annotations\Reflection - __set_state()');
+
         $I->skipTest('Need implementation');
     }
 }

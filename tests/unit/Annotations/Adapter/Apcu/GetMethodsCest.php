@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Adapter\Apcu;
 
 use UnitTester;
 
-/**
- * Class GetMethodsCest
- */
 class GetMethodsCest
 {
     /**
      * Tests Phalcon\Annotations\Adapter\Apcu :: getMethods()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetMethodsCest
     public function annotationsAdapterApcuGetMethods(UnitTester $I)
     {
         $I->wantToTest('Annotations\Adapter\Apcu - getMethods()');
+
         $I->skipTest('Need implementation');
     }
 }

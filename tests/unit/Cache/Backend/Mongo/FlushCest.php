@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Mongo;
 
 use UnitTester;
 
-/**
- * Class FlushCest
- */
 class FlushCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Mongo :: flush()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class FlushCest
     public function cacheBackendMongoFlush(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Mongo - flush()');
+
         $I->skipTest('Need implementation');
     }
 }

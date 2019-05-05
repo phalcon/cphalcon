@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Json;
 
 use UnitTester;
 
-/**
- * Class GetContentCest
- */
 class GetContentCest
 {
     /**
      * Tests Phalcon\Cache\Frontend\Json :: getContent()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetContentCest
     public function cacheFrontendJsonGetContent(UnitTester $I)
     {
         $I->wantToTest('Cache\Frontend\Json - getContent()');
+
         $I->skipTest('Need implementation');
     }
 }

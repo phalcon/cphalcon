@@ -27,8 +27,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Cli\Console :: __construct()
      *
-     * @param CliTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      *
@@ -39,7 +37,8 @@ class ConstructCest
     {
         $I->wantToTest("Cli\Console - __construct()");
 
-        $this->newDi(); //Make sure the Default DI has no services.
+        // Make sure the Default DI has no services.
+        $this->newDi();
 
         $container = $this->newCliFactoryDefault();
 

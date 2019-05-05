@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
 
-/**
- * Class GetHeadersCest
- */
 class GetHeadersCest
 {
     /**
      * Tests Phalcon\Http\Response :: getHeaders()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetHeadersCest
     public function httpResponseGetHeaders(UnitTester $I)
     {
         $I->wantToTest('Http\Response - getHeaders()');
+
         $I->skipTest('Need implementation');
     }
 }

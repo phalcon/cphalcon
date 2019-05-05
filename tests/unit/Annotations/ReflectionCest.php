@@ -108,16 +108,26 @@ class ReflectionCest
         $I->assertFalse($annotation->hasArgument('none'));
 
         $propertiesAnnotations = $reflection->getPropertiesAnnotations();
-        $I->assertTrue(is_array($propertiesAnnotations));
-        $I->assertEquals('Phalcon\Annotations\Collection', get_class($propertiesAnnotations['testProp1']));
+        $I->assertInternalType('array', $propertiesAnnotations);
+        $I->assertInstanceOf(
+            \Phalcon\Annotations\Collection::class,
+            $propertiesAnnotations['testProp1']
+        );
 
         $total = 0;
         foreach ($propertiesAnnotations as $property => $annotations) {
-            $I->assertEquals('Phalcon\Annotations\Collection', get_class($propertiesAnnotations['testProp1']));
+            $I->assertInstanceOf(
+                \Phalcon\Annotations\Collection::class,
+                $propertiesAnnotations['testProp1']
+            );
 
             $number = 0;
             foreach ($annotations as $annotation) {
-                $I->assertEquals('Phalcon\Annotations\Annotation', get_class($annotation));
+                $I->assertInstanceOf(
+                    \Phalcon\Annotations\Annotation::class,
+                    $annotation
+                );
+
                 $number++;
                 $total++;
             }

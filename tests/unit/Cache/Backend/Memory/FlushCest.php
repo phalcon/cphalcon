@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Memory;
 
 use UnitTester;
 
-/**
- * Class FlushCest
- */
 class FlushCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Memory :: flush()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class FlushCest
     public function cacheBackendMemoryFlush(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Memory - flush()');
+
         $I->skipTest('Need implementation');
     }
 }

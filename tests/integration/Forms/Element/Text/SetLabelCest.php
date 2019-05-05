@@ -13,23 +13,50 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Element\Text;
 
 use IntegrationTester;
+use Phalcon\Forms\Element\Text;
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class SetLabelCest
- */
 class SetLabelCest
 {
-    /**
-     * Tests Phalcon\Forms\Element\Text :: setLabel()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function formsElementTextSetLabel(IntegrationTester $I)
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
     {
-        $I->wantToTest('Forms\Element\Text - setLabel()');
-        $I->skipTest('Need implementation');
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+    }
+
+    /**
+     * executed after each test
+     */
+    public function _after(IntegrationTester $I)
+    {
+        // Setting the doctype to XHTML5 for other tests to run smoothly
+        Tag::setDocType(
+            Tag::XHTML5
+        );
+    }
+
+    public function testFormElementEmpty(IntegrationTester $I)
+    {
+        $element = new Text("name");
+
+        $I->assertNull(
+            $element->getLabel()
+        );
+    }
+
+    public function testIssue1210(IntegrationTester $I)
+    {
+        $element = new Text("test");
+
+        $element->setLabel("Test");
+
+        $I->assertEquals(
+            '<label for="test">Test</label>',
+            $element->label()
+        );
     }
 }

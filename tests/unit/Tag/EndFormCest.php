@@ -21,8 +21,6 @@ class EndFormCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: endForm()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

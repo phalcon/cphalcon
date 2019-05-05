@@ -63,11 +63,11 @@ class Service implements ServiceInterface
     {
         var definition, shared;
 
-        if !fetch definition, attributes["_definition"] {
+        if unlikely !fetch definition, attributes["_definition"] {
             throw new Exception("The attribute '_definition' is required");
         }
 
-        if !fetch shared, attributes["_shared"] {
+        if unlikely !fetch shared, attributes["_shared"] {
             throw new Exception("The attribute '_shared' is required");
         }
 
@@ -92,7 +92,8 @@ class Service implements ServiceInterface
         var definition, arguments, parameter;
 
         let definition = this->definition;
-        if typeof definition != "array" {
+
+        if unlikely typeof definition != "array" {
             throw new Exception(
                 "Definition must be an array to obtain its parameters"
             );
@@ -216,7 +217,7 @@ class Service implements ServiceInterface
         /**
          * If the service can't be built, we must throw an exception
          */
-        if found === false {
+        if unlikely found === false {
             throw new ServiceResolutionException();
         }
 
@@ -248,7 +249,8 @@ class Service implements ServiceInterface
         var definition, arguments;
 
         let definition = this->definition;
-        if typeof definition != "array" {
+
+        if unlikely typeof definition != "array" {
             throw new Exception(
                 "Definition must be an array to update its parameters"
             );

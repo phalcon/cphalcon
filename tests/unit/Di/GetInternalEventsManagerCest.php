@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
-/**
- * Class GetInternalEventsManagerCest
- */
 class GetInternalEventsManagerCest
 {
     /**
      * Tests Phalcon\Di :: getInternalEventsManager()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetInternalEventsManagerCest
     public function diGetInternalEventsManager(UnitTester $I)
     {
         $I->wantToTest('Di - getInternalEventsManager()');
+
         $I->skipTest('Need implementation');
     }
 }

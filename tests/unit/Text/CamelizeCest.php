@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Text;
 use UnitTester;
 
-/**
- * Class CamelizeCest
- */
 class CamelizeCest
 {
     /**
@@ -26,19 +23,16 @@ class CamelizeCest
      *
      * @dataProvider getSources
      *
-     * @param UnitTester $I
-     * @param Example    $item
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
      */
-    public function textCamelize(UnitTester $I, Example $item)
+    public function textCamelize(UnitTester $I, Example $example)
     {
         $I->wantToTest('Text - camelize()');
 
-        $value     = $item[0];
-        $expected  = $item[1];
-        $delimiter = $item[2];
+        $value     = $example[0];
+        $expected  = $example[1];
+        $delimiter = $example[2];
 
         $actual = Text::camelize($value, $delimiter);
 

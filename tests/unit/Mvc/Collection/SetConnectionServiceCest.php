@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class SetConnectionServiceCest
- */
 class SetConnectionServiceCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: setConnectionService()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetConnectionServiceCest
     public function mvcCollectionSetConnectionService(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - setConnectionService()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Helper\Arr;
 use Phalcon\Helper\Arr;
 use UnitTester;
 
-/**
- * Class RemoveLeftCest
- */
 class SliceLeftCest
 {
     /**
      * Tests Phalcon\Helper\Arr :: sliceLeft()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
@@ -31,6 +26,7 @@ class SliceLeftCest
     public function helperArrSliceLeft(UnitTester $I)
     {
         $I->wantToTest('Helper\Arr - sliceLeft()');
+
         $collection = [
             'Phalcon',
             'Framework',
@@ -38,18 +34,28 @@ class SliceLeftCest
             'PHP',
         ];
 
+
+
         $expected = [
             'Phalcon',
         ];
-        $actual   = Arr::sliceLeft($collection, 1);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            Arr::sliceLeft($collection, 1)
+        );
+
+
 
         $expected = [
             'Phalcon',
             'Framework',
             'for',
         ];
-        $actual   = Arr::sliceLeft($collection, 3);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            Arr::sliceLeft($collection, 3)
+        );
     }
 }

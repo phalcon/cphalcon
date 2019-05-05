@@ -87,7 +87,7 @@ class Application extends BaseApplication
 
         let container = this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("internal services")
             );
@@ -187,7 +187,7 @@ class Application extends BaseApplication
             /**
              * A module definition must ne an array or an object
              */
-            if typeof module != "array" && typeof module != "object" {
+            if unlikely (typeof module != "array" && typeof module != "object") {
                 throw new Exception("Invalid module definition");
             }
 
@@ -208,7 +208,7 @@ class Application extends BaseApplication
                  */
                 if fetch path, module["path"] {
                     if !class_exists(className, false) {
-                        if !file_exists(path) {
+                        if unlikely !file_exists(path) {
                             throw new Exception(
                                 "Module definition path '" . path . "' doesn't exist"
                             );
@@ -230,7 +230,7 @@ class Application extends BaseApplication
                 /**
                  * A module definition object, can be a Closure instance
                  */
-                if !(module instanceof \Closure) {
+                if unlikely !(module instanceof \Closure) {
                     throw new Exception("Invalid module definition");
                 }
 

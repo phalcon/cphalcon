@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response\Headers;
 
 use UnitTester;
 
-/**
- * Class SetRawCest
- */
 class SetRawCest
 {
     /**
      * Tests Phalcon\Http\Response\Headers :: setRaw()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetRawCest
     public function httpResponseHeadersSetRaw(UnitTester $I)
     {
         $I->wantToTest('Http\Response\Headers - setRaw()');
+
         $I->skipTest('Need implementation');
     }
 }

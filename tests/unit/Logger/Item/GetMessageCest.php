@@ -17,16 +17,12 @@ use Phalcon\Logger\Item;
 use UnitTester;
 
 /**
- * Class GetMessageCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class GetMessageCest
 {
     /**
      * Tests Phalcon\Logger\Item :: getMessage()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

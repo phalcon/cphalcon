@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Events\Event;
 
 use UnitTester;
 
-/**
- * Class IsCancelableCest
- */
 class IsCancelableCest
 {
     /**
      * Tests Phalcon\Events\Event :: isCancelable()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsCancelableCest
     public function eventsEventIsCancelable(UnitTester $I)
     {
         $I->wantToTest('Events\Event - isCancelable()');
+
         $I->skipTest('Need implementation');
     }
 }

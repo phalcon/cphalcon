@@ -16,15 +16,10 @@ use Phalcon\Crypt;
 use Phalcon\Crypt\Exception;
 use UnitTester;
 
-/**
- * Class SetCipherCest
- */
 class SetCipherCest
 {
     /**
      * Tests Phalcon\Crypt :: setCipher()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

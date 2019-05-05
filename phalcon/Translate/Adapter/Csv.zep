@@ -34,7 +34,7 @@ class Csv extends Adapter implements \ArrayAccess
 
         parent::__construct(options);
 
-        if !isset options["content"] {
+        if unlikely !isset options["content"] {
             throw new Exception("Parameter 'content' is required");
         }
 
@@ -84,7 +84,7 @@ class Csv extends Adapter implements \ArrayAccess
 
         let fileHandler = fopen(file, "rb");
 
-        if typeof fileHandler !== "resource" {
+        if unlikely typeof fileHandler !== "resource" {
             throw new Exception(
                 "Error opening translation file '" . file . "'"
             );

@@ -18,17 +18,12 @@ use UnitTester;
 use function dataFolder;
 use function outputFolder;
 
-/**
- * Class ReflectionCest
- */
 class ReflectionCest
 {
     use ImagickTrait;
 
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: reflection()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19

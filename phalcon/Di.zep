@@ -214,7 +214,7 @@ class Di implements DiInterface
                  * The DI also acts as builder for any class even if it isn't
                  * defined in the DI
                  */
-                if !class_exists(name) {
+                if unlikely !class_exists(name) {
                     throw new Exception(
                         "Service '" . name . "' wasn't found in the dependency injection container"
                     );
@@ -280,7 +280,7 @@ class Di implements DiInterface
     {
         var service;
 
-        if !fetch service, this->services[name] {
+        if unlikely !fetch service, this->services[name] {
             throw new Exception(
                 "Service '" . name . "' wasn't found in the dependency injection container"
             );
@@ -296,7 +296,7 @@ class Di implements DiInterface
     {
         var service;
 
-        if !fetch service, this->services[name] {
+        if unlikely !fetch service, this->services[name] {
             throw new Exception(
                 "Service '" . name . "' wasn't found in the dependency injection container"
             );

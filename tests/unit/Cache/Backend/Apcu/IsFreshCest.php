@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Backend\Apcu;
 
 use UnitTester;
 
-/**
- * Class IsFreshCest
- */
 class IsFreshCest
 {
     /**
      * Tests Phalcon\Cache\Backend\Apcu :: isFresh()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsFreshCest
     public function cacheBackendApcuIsFresh(UnitTester $I)
     {
         $I->wantToTest('Cache\Backend\Apcu - isFresh()');
+
         $I->skipTest('Need implementation');
     }
 }

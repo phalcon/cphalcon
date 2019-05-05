@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
 use UnitTester;
 
-/**
- * Class OffsetUnsetCest
- */
 class OffsetUnsetCest
 {
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: offsetUnset()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class OffsetUnsetCest
     public function translateAdapterGettextOffsetUnset(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Gettext - offsetUnset()');
+
         $I->skipTest('Need implementation');
     }
 }

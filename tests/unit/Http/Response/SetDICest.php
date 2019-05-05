@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
 
-/**
- * Class SetDICest
- */
 class SetDICest
 {
     /**
      * Tests Phalcon\Http\Response :: setDI()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetDICest
     public function httpResponseSetDI(UnitTester $I)
     {
         $I->wantToTest('Http\Response - setDI()');
+
         $I->skipTest('Need implementation');
     }
 }

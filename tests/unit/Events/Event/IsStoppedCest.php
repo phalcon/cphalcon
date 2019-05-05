@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Events\Event;
 
 use UnitTester;
 
-/**
- * Class IsStoppedCest
- */
 class IsStoppedCest
 {
     /**
      * Tests Phalcon\Events\Event :: isStopped()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsStoppedCest
     public function eventsEventIsStopped(UnitTester $I)
     {
         $I->wantToTest('Events\Event - isStopped()');
+
         $I->skipTest('Need implementation');
     }
 }

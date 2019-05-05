@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class SerializeCest
- */
 class SerializeCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: serialize()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SerializeCest
     public function mvcCollectionSerialize(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - serialize()');
+
         $I->skipTest('Need implementation');
     }
 }

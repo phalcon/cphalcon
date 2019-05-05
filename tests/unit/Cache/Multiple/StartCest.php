@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Multiple;
 
 use UnitTester;
 
-/**
- * Class StartCest
- */
 class StartCest
 {
     /**
      * Tests Phalcon\Cache\Multiple :: start()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class StartCest
     public function cacheMultipleStart(UnitTester $I)
     {
         $I->wantToTest('Cache\Multiple - start()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -18,15 +18,10 @@ use UnitTester;
 use function dataFolder;
 use function file_get_contents;
 
-/**
- * Class VariablesCest
- */
 class VariablesCest
 {
     /**
      * Tests Phalcon\Debug\Dump :: variables()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

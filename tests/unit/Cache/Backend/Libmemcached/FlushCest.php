@@ -15,17 +15,12 @@ namespace Phalcon\Test\Unit\Cache\Backend\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\Cache\LibmemcachedTrait;
 use UnitTester;
 
-/**
- * Class FlushCest
- */
 class FlushCest
 {
     use LibmemcachedTrait;
 
     /**
      * Tests Phalcon\Cache\Backend\Libmemcached :: flush()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

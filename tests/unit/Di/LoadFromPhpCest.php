@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
-/**
- * Class LoadFromPhpCest
- */
 class LoadFromPhpCest
 {
     /**
      * Tests Phalcon\Di :: loadFromPhp()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class LoadFromPhpCest
     public function diLoadFromPhp(UnitTester $I)
     {
         $I->wantToTest('Di - loadFromPhp()');
+
         $I->skipTest('Need implementation');
     }
 }

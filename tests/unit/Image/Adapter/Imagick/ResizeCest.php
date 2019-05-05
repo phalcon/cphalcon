@@ -18,17 +18,12 @@ use UnitTester;
 use function dataFolder;
 use function outputFolder;
 
-/**
- * Class ResizeCest
- */
 class ResizeCest
 {
     use ImagickTrait;
 
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: resize()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19

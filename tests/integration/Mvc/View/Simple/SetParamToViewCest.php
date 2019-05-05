@@ -13,23 +13,33 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class SetParamToViewCest
- */
 class SetParamToViewCest
 {
-    /**
-     * Tests Phalcon\Mvc\View\Simple :: setParamToView()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function mvcViewSimpleSetParamToView(IntegrationTester $I)
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View\Simple - setParamToView()');
-        $I->skipTest('Need implementation');
+        $this->newDi();
+        $this->setDiViewSimple();
+    }
+
+    /**
+     * Tests render with variables
+     *
+     * @author Kamil Skowron <git@hedonsoftware.com>
+     * @since  2014-05-28
+     */
+    public function testRenderWithVariables(IntegrationTester $I)
+    {
+        $view = $this->container->get('viewSimple');
+
+        $view->setParamToView('a_cool_var', 'le-this');
+
+        $I->assertEquals(
+            '<p>le-this</p>',
+            $view->render('currentrender/another')
+        );
     }
 }

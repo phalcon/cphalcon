@@ -189,7 +189,7 @@ abstract class Resultset
                 /**
                  * We only can delete resultsets if every element is a complete object
                  */
-                if !method_exists(record, "getWriteConnection") {
+                if unlikely !method_exists(record, "getWriteConnection") {
                     throw new Exception("The returned record is not valid");
                 }
 
@@ -426,7 +426,7 @@ abstract class Resultset
      */
     public function offsetGet(var index) -> <ModelInterface> | bool
     {
-        if index >= this->count {
+        if unlikely index >= this->count {
             throw new Exception("The index does not exist in the cursor");
         }
 
@@ -578,7 +578,7 @@ abstract class Resultset
                 /**
                  * We only can update resultsets if every element is a complete object
                  */
-                if !method_exists(record, "getWriteConnection") {
+                if unlikely !method_exists(record, "getWriteConnection") {
                     throw new Exception("The returned record is not valid");
                 }
 

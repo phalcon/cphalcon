@@ -17,16 +17,12 @@ use Phalcon\Di;
 use Phalcon\Url;
 
 /**
- * Class GetSetDICest
- *
  * @package Phalcon\Test\Integration\Url
  */
 class GetSetDICest
 {
     /**
      * Tests Phalcon\Url :: getDI()/setDI()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

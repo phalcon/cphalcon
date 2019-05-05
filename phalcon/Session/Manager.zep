@@ -273,7 +273,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      */
     public function setId(string id) -> <ManagerInterface>
     {
-        if (true === this->exists()) {
+        if unlikely (true === this->exists()) {
             throw new RuntimeException(
                 "The session has already been started. " .
                 "To change the id, use regenerateId()"
@@ -297,13 +297,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      */
     public function setName(string name) -> <ManagerInterface>
     {
-        if this->exists() {
+        if unlikely this->exists() {
             throw new InvalidArgumentException(
                 "Cannot set session name after a session has started"
             );
         }
 
-        if !preg_match("/^[\p{L}\p{N}_-]+$/u", name) {
+        if unlikely !preg_match("/^[\p{L}\p{N}_-]+$/u", name) {
             throw new InvalidArgumentException(
                 "The name contains non alphanum characters"
             );
@@ -345,14 +345,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface
             return false;
         }
 
+        if unlikely !(this->handler instanceof SessionHandlerInterface) {
+            throw new Exception("The session handler is not valid");
+        }
+
         /**
          * Register the handler
          */
-        if (this->handler instanceof SessionHandlerInterface) {
-            this->registerHandler(this->handler);
-        } else {
-            throw new Exception("The session handler is not valid");
-        }
+        this->registerHandler(this->handler);
 
         /**
          * Start the session

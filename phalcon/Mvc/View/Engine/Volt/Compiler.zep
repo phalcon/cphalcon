@@ -67,7 +67,7 @@ class Compiler implements InjectionAwareInterface
      */
     public function addExtension(extension) -> <Compiler>
     {
-        if typeof extension != "object" {
+        if unlikely typeof extension != "object" {
             throw new Exception("The extension is not valid");
         }
 
@@ -215,7 +215,7 @@ class Compiler implements InjectionAwareInterface
 
                 let compileAlways = options[optionKey];
 
-                if typeof compileAlways != "boolean" {
+                if unlikely typeof compileAlways != "boolean" {
                     throw new Exception(
                         "'" . optionKey . "' must be a bool value"
                     );
@@ -228,7 +228,7 @@ class Compiler implements InjectionAwareInterface
             if isset options["prefix"] {
                 let prefix = options["prefix"];
 
-                if typeof prefix != "string" {
+                if unlikely typeof prefix != "string" {
                     throw new Exception("'prefix' must be a string");
                 }
             }
@@ -251,12 +251,10 @@ class Compiler implements InjectionAwareInterface
 
                 let compiledPath = options[optionKey];
 
-                if typeof compiledPath != "string" {
-                    if typeof compiledPath != "object" {
-                        throw new Exception(
-                            "'" . optionKey . "' must be a string or a closure"
-                        );
-                    }
+                if unlikely (typeof compiledPath != "string" && typeof compiledPath != "object") {
+                    throw new Exception(
+                        "'" . optionKey . "' must be a string or a closure"
+                    );
                 }
             }
 
@@ -277,7 +275,7 @@ class Compiler implements InjectionAwareInterface
 
                 let compiledSeparator = options[optionKey];
 
-                if typeof compiledSeparator != "string" {
+                if unlikely typeof compiledSeparator != "string" {
                     throw new Exception("'" . optionKey . "' must be a string");
                 }
             }
@@ -299,7 +297,7 @@ class Compiler implements InjectionAwareInterface
 
                 let compiledExtension = options[optionKey];
 
-                if typeof compiledExtension != "string" {
+                if unlikely typeof compiledExtension != "string" {
                     throw new Exception("'" . optionKey . "' must be a string");
                 }
             }
@@ -354,7 +352,7 @@ class Compiler implements InjectionAwareInterface
                     /**
                      * The closure must return a valid path
                      */
-                    if typeof compiledTemplatePath != "string" {
+                    if unlikely typeof compiledTemplatePath != "string" {
                         throw new Exception(
                             "compiledPath closure didn't return a valid string"
                         );
@@ -405,7 +403,7 @@ class Compiler implements InjectionAwareInterface
                          */
                         let blocksCode = file_get_contents(realCompiledPath);
 
-                        if blocksCode === false {
+                        if unlikely blocksCode === false {
                             throw new Exception(
                                 "Extends compilation file " . realCompiledPath . " could not be opened"
                             );
@@ -439,7 +437,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid option is required
          */
-        if !fetch autoescape, statement["enable"] {
+        if unlikely !fetch autoescape, statement["enable"] {
             throw new Exception("Corrupted statement");
         }
 
@@ -470,7 +468,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupt statement", statement);
         }
 
@@ -546,7 +544,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupt statement", statement);
         }
 
@@ -566,7 +564,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupted statement");
         }
 
@@ -586,7 +584,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupt statement", statement);
         }
 
@@ -629,7 +627,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupt statement", statement);
         }
 
@@ -655,7 +653,7 @@ class Compiler implements InjectionAwareInterface
     {
         var viewCode, compilation, finalCompilation;
 
-        if path == compiledPath {
+        if unlikely path == compiledPath {
             throw new Exception(
                 "Template path and compilation template path cannot be the same"
             );
@@ -664,7 +662,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * Check if the template does exist
          */
-        if !file_exists(path) {
+        if unlikely !file_exists(path) {
             throw new Exception("Template file " . path . " does not exist");
         }
 
@@ -674,7 +672,7 @@ class Compiler implements InjectionAwareInterface
          */
         let viewCode = file_get_contents(path);
 
-        if viewCode === false {
+        if unlikely viewCode === false {
             throw new Exception(
                 "Template file " . path . " could not be opened"
             );
@@ -697,7 +695,7 @@ class Compiler implements InjectionAwareInterface
          * Always use file_put_contents to write files instead of write the file
          * directly, this respect the open_basedir directive
          */
-        if file_put_contents(compiledPath, finalCompilation) === false {
+        if unlikely file_put_contents(compiledPath, finalCompilation) === false {
             throw new Exception("Volt directory can't be written");
         }
 
@@ -717,7 +715,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid expression is required
          */
-        if !isset statement["expr"] {
+        if unlikely !isset statement["expr"] {
             throw new Exception("Corrupted statement");
         }
 
@@ -891,7 +889,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupt statement", statement);
         }
 
@@ -926,7 +924,7 @@ class Compiler implements InjectionAwareInterface
          * Include statement
          * A valid expression is required
          */
-        if !fetch pathExpr, statement["path"] {
+        if unlikely !fetch pathExpr, statement["path"] {
             throw new Exception("Corrupted statement");
         }
 
@@ -996,14 +994,14 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid name is required
          */
-        if !fetch name, statement["name"] {
+        if unlikely !fetch name, statement["name"] {
             throw new Exception("Corrupted statement");
         }
 
         /**
          * Check if the macro is already defined
          */
-        if isset this->macros[name] {
+        if unlikely isset this->macros[name] {
             throw new Exception("Macro '" . name . "' is already defined");
         }
 
@@ -1034,7 +1032,7 @@ class Compiler implements InjectionAwareInterface
                 let code .= "$" . variableName . " = $__p[\"" . variableName ."\"];";
                 let code .= " } else { ";
 
-                if fetch defaultValue, parameter["default"] {
+                if likely fetch defaultValue, parameter["default"] {
                     let code .= "$" . variableName . " = " . this->expression(defaultValue) . ";";
                 } else {
                     let code .= " throw new \\Phalcon\\Mvc\\View\\Exception(\"Macro '" . name . "' was called without parameter: " . variableName . "\"); ";
@@ -1076,7 +1074,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupted statement");
         }
 
@@ -1097,7 +1095,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid assignment list is required
          */
-        if !fetch assignments, statement["assignments"] {
+        if unlikely !fetch assignments, statement["assignments"] {
             throw new Exception("Corrupted statement");
         }
 
@@ -1176,7 +1174,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupt statement", statement);
         }
 
@@ -1985,7 +1983,7 @@ class Compiler implements InjectionAwareInterface
             }
         }
 
-        if typeof this->prefix != "string" {
+        if unlikely typeof this->prefix != "string" {
             throw new Exception("The unique compilation prefix is invalid");
         }
 
@@ -2161,7 +2159,7 @@ class Compiler implements InjectionAwareInterface
              * Enable autoescape globally
              */
             if fetch autoescape, options["autoescape"] {
-                if typeof autoescape != "boolean" {
+                if unlikely typeof autoescape != "boolean" {
                     throw new Exception("'autoescape' must be bool");
                 }
 
@@ -2174,7 +2172,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * The parsing must return a valid array
          */
-        if typeof intermediate != "array" {
+        if unlikely typeof intermediate != "array" {
             throw new Exception("Invalid intermediate representation");
         }
 
@@ -2299,7 +2297,7 @@ class Compiler implements InjectionAwareInterface
         if type == PHVOLT_T_IDENTIFIER {
             let name = filter["value"];
         } else {
-            if type != PHVOLT_T_FCALL {
+            if unlikely type != PHVOLT_T_FCALL {
                 /**
                  * Unknown filter throw an exception
                  */
@@ -2632,14 +2630,14 @@ class Compiler implements InjectionAwareInterface
             /**
              * All statements must be arrays
              */
-            if typeof statement != "array" {
+            if unlikely typeof statement != "array" {
                 throw new Exception("Corrupted statement");
             }
 
             /**
              * Check if the statement is valid
              */
-            if !isset statement["type"] {
+            if unlikely !isset statement["type"] {
                 throw new Exception(
                     "Invalid statement in " . statement["file"] . " on line " . statement["line"],
                     statement

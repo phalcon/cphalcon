@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class SetDefaultControllerCest
- */
 class SetDefaultControllerCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: setDefaultController()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetDefaultControllerCest
     public function mvcDispatcherSetDefaultController(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - setDefaultController()');
+
         $I->skipTest('Need implementation');
     }
 }

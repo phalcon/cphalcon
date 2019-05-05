@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Debug;
 
 use UnitTester;
 
-/**
- * Class SetShowBackTraceCest
- */
 class SetShowBackTraceCest
 {
     /**
      * Tests Phalcon\Debug :: setShowBackTrace()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetShowBackTraceCest
     public function debugSetShowBackTrace(UnitTester $I)
     {
         $I->wantToTest('Debug - setShowBackTrace()');
+
         $I->skipTest('Need implementation');
     }
 }

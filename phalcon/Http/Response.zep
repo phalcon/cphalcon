@@ -115,7 +115,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         if typeof container != "object" {
             let container = \Phalcon\Di::getDefault();
 
-            if typeof container != "object" {
+            if unlikely typeof container != "object" {
                 throw new Exception(
                     Exception::containerServiceNotFound("the 'url' service")
                 );
@@ -319,7 +319,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var content, file;
 
-        if this->sent {
+        if unlikely this->sent {
             throw new Exception("Response was already sent");
         }
 
@@ -771,7 +771,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
                 511 : "Network Authentication Required"  // RFC 6585, 6
             ];
 
-            if !isset statusCodes[code] {
+            if unlikely !isset statusCodes[code] {
                 throw new Exception(
                     "Non-standard statuscode given without a message"
                 );

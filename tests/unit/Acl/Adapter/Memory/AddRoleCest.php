@@ -16,9 +16,6 @@ use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Role;
 use UnitTester;
 
-/**
- * Class AddRoleCest
- */
 class AddRoleCest
 {
     /**

@@ -16,9 +16,6 @@ use Phalcon\Assets\Inline;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetFilterCest
- */
 class GetFilterCest
 {
     use AssetsTrait;
@@ -43,8 +40,6 @@ class GetFilterCest
 
     /**
      * Tests Phalcon\Assets\Inline :: getFilter() - js
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Loader;
 
 use UnitTester;
 
-/**
- * Class RegisterFilesCest
- */
 class RegisterFilesCest
 {
     /**
      * Tests Phalcon\Loader :: registerFiles()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class RegisterFilesCest
     public function loaderRegisterFiles(UnitTester $I)
     {
         $I->wantToTest('Loader - registerFiles()');
+
         $I->skipTest('Need implementation');
     }
 }

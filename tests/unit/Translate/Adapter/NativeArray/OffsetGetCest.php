@@ -16,9 +16,6 @@ use Phalcon\Test\Fixtures\Traits\TranslateTrait;
 use Phalcon\Translate\Adapter\NativeArray;
 use UnitTester;
 
-/**
- * Class OffsetGetCest
- */
 class OffsetGetCest
 {
     use TranslateTrait;
@@ -26,12 +23,10 @@ class OffsetGetCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: offsetGet()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function translateAdapterNativearrayOffsetGet(UnitTester $I)
+    public function translateAdapterNativeArrayOffsetGet(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - offsetGet()');
         $language   = $this->getArrayConfig()['en'];

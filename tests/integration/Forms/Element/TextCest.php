@@ -34,7 +34,9 @@ class TextCest
     public function _after(IntegrationTester $I)
     {
         // Setting the doctype to XHTML5 for other tests to run smoothly
-        Tag::setDocType(Tag::XHTML5);
+        Tag::setDocType(
+            Tag::XHTML5
+        );
     }
 
     /**
@@ -95,18 +97,6 @@ class TextCest
         ];
     }
 
-    public function testIssue1210(IntegrationTester $I)
-    {
-        $element = new Text("test");
-
-        $element->setLabel("Test");
-
-        $I->assertEquals(
-            '<label for="test">Test</label>',
-            $element->label()
-        );
-    }
-
     public function testIssue2045(IntegrationTester $I)
     {
         $element = new Text("name");
@@ -149,10 +139,6 @@ class TextCest
     {
         $element = new Text("name");
 
-        $I->assertNull(
-            $element->getLabel()
-        );
-
         $I->assertEquals(
             [],
             $element->getAttributes()
@@ -188,9 +174,10 @@ class TextCest
             'placeholder' => 'Type the name',
         ];
 
-        $actual = $element->getAttributes();
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $element->getAttributes()
+        );
 
 
 
@@ -214,7 +201,6 @@ class TextCest
 
         $element->setLabel(0);
 
-
         $I->assertEquals(
             '<label for="name">0</label>',
             $element->label()
@@ -228,9 +214,11 @@ class TextCest
         $element1->setLabel('name');
 
         $expected = ['name'];
-        $actual   = $element1->prepareAttributes();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $element1->prepareAttributes()
+        );
     }
 
     public function testFormPrepareAttributesDefault(IntegrationTester $I)
@@ -245,10 +233,15 @@ class TextCest
             ]
         );
 
-        $expected = ['name', 'class' => 'big-input'];
-        $actual   = $element1->prepareAttributes();
+        $expected = [
+            'name',
+            'class' => 'big-input',
+        ];
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $element1->prepareAttributes()
+        );
     }
 
     public function testFormOptions(IntegrationTester $I)
@@ -261,16 +254,16 @@ class TextCest
             ]
         );
 
-        $element1->setUserOptions(
-            [
-                'some' => 'value',
-            ]
+        $options = [
+            'some' => 'value',
+        ];
+
+        $element1->setUserOptions($options);
+
+        $I->assertEquals(
+            $options,
+            $element1->getUserOptions()
         );
-
-        $expected = ['some' => 'value'];
-        $actual   = $element1->getUserOptions();
-
-        $I->assertEquals($expected, $actual);
 
 
 

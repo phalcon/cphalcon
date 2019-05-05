@@ -19,15 +19,10 @@ use Phalcon\Acl\Component;
 use Phalcon\Test\Fixtures\Acl\TestRoleComponentAware;
 use UnitTester;
 
-/**
- * Class IsAllowedCest
- */
 class IsAllowedCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - default
-     *
-     * @param UnitTester $I
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/12573
      *
@@ -37,23 +32,40 @@ class IsAllowedCest
     public function aclAdapterMemoryIsAllowedDefault(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - isAllowed() - default');
+
         $acl = new Memory();
-        $acl->setDefaultAction(Acl::DENY);
-        $acl->addComponent(new Component('Post'), ['index', 'update', 'create']);
-        $acl->addRole(new Role('Guests'));
+
+        $acl->setDefaultAction(
+            Acl::DENY
+        );
+
+        $acl->addComponent(
+            new Component('Post'),
+            [
+                'index',
+                'update',
+                'create',
+            ]
+        );
+
+        $acl->addRole(
+            new Role('Guests')
+        );
 
         $acl->allow('Guests', 'Post', 'index');
-        $actual = $acl->isAllowed('Guests', 'Post', 'index');
-        $I->assertTrue($actual);
-        $actual = $acl->isAllowed('Guests', 'Post', 'update');
-        $I->assertFalse($actual);
+
+        $I->assertTrue(
+            $acl->isAllowed('Guests', 'Post', 'index')
+        );
+
+        $I->assertFalse(
+            $acl->isAllowed('Guests', 'Post', 'update')
+        );
     }
 
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - objects
-     *
-     * @param UnitTester $I
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-02-15
@@ -61,25 +73,41 @@ class IsAllowedCest
     public function aclAdapterMemoryIsAllowedObjects(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - isAllowed() - objects');
+
         $acl = new Memory();
-        $acl->setDefaultAction(Acl::DENY);
-        $Role = new Role('Guests');
-        $component   = new Component('Post');
-        $acl->addRole($Role);
-        $acl->addComponent($component, ['index', 'update', 'create']);
+
+        $acl->setDefaultAction(
+            Acl::DENY
+        );
+
+        $role = new Role('Guests');
+
+        $component = new Component('Post');
+
+        $acl->addRole($role);
+
+        $acl->addComponent(
+            $component,
+            [
+                'index',
+                'update',
+                'create',
+            ]
+        );
 
         $acl->allow('Guests', 'Post', 'index');
 
-        $actual = $acl->isAllowed($Role, $component, 'index');
-        $I->assertTrue($actual);
-        $actual = $acl->isAllowed($Role, $component, 'update');
-        $I->assertFalse($actual);
+        $I->assertTrue(
+            $acl->isAllowed($role, $component, 'index')
+        );
+
+        $I->assertFalse(
+            $acl->isAllowed($role, $component, 'update')
+        );
     }
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - same class
-     *
-     * @param UnitTester $I
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-02-15

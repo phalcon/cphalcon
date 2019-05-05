@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class AggregateCest
- */
 class AggregateCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: aggregate()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class AggregateCest
     public function mvcCollectionAggregate(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - aggregate()');
+
         $I->skipTest('Need implementation');
     }
 }

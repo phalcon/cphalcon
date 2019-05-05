@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Cache\Frontend\Json;
 
 use UnitTester;
 
-/**
- * Class IsBufferingCest
- */
 class IsBufferingCest
 {
     /**
      * Tests Phalcon\Cache\Frontend\Json :: isBuffering()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsBufferingCest
     public function cacheFrontendJsonIsBuffering(UnitTester $I)
     {
         $I->wantToTest('Cache\Frontend\Json - isBuffering()');
+
         $I->skipTest('Need implementation');
     }
 }
