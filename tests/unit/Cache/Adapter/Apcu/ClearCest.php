@@ -66,10 +66,10 @@ class ClearCest
      *
      * @param UnitTester $I
      *
-     * @throws Exception
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws Exception
      */
     public function storageAdapterApcuClearTwice(UnitTester $I)
     {

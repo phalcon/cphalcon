@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
-use Exception;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
@@ -29,10 +28,10 @@ class HasCest
      *
      * @param UnitTester $I
      *
-     * @throws Exception
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws \Exception
      */
     public function storageAdapterStreamHas(UnitTester $I)
     {
