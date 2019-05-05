@@ -28,7 +28,7 @@ class GetSetHasCest
     public function storageAdapterFactoryGetSetHas(UnitTester $I)
     {
         $I->wantToTest('Storage\AdapterFactory - get()/set()/has()');
-        $I->skipTest('TODO - Check this');
+
         $mappers = ['none' => 'Phalcon\Test\Fixtures\Storage\Adapter\None'];
         $factory = new SerializerFactory();
         $service = new AdapterFactory($factory, $mappers);
@@ -42,7 +42,7 @@ class GetSetHasCest
         $actual = $service->has('redis');
         $I->assertTrue($actual);
 
-        $actual = $service->get('none');
+        $actual = $service->get('none', [$factory]);
         $class  = None::class;
         $I->assertInstanceOf($class, $actual);
     }
