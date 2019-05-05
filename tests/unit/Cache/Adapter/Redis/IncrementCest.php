@@ -12,9 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Redis;
 
-use function getOptionsRedis;
 use Phalcon\Cache\Adapter\Redis;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 
@@ -37,8 +35,7 @@ class IncrementCest
     {
         $I->wantToTest('Cache\Adapter\Redis - increment()');
         $I->skipTest('Check this');
-        $factory = new SerializerFactory();
-        $adapter = new Redis($factory, getOptionsRedis());
+        $adapter = new Redis($this->getOptions());
 
         $key    = 'cache-data';
         $result = $adapter->set($key, 1);

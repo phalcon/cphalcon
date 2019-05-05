@@ -15,7 +15,6 @@ namespace Phalcon\Test\Unit\Cache\Cache;
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
-use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function uniqid;
 
@@ -36,8 +35,7 @@ class SetMultipleCest
     {
         $I->wantToTest('Cache\Cache - setMultiple()');
 
-        $factory = new SerializerFactory();
-        $adapter = new Cache(new Apcu($factory));
+        $adapter = new Cache(new Apcu());
 
         $key1 = uniqid();
         $key2 = uniqid();
@@ -77,8 +75,7 @@ class SetMultipleCest
         $I->expectThrowable(
             new InvalidArgumentException('The key contains invalid characters'),
             function () {
-                $factory = new SerializerFactory();
-                $adapter = new Cache(new Apcu($factory));
+                $adapter = new Cache(new Apcu());
                 $adapter->setMultiple(
                     [
                         'abc$^' => 'test1',
@@ -91,8 +88,7 @@ class SetMultipleCest
         $I->expectThrowable(
             new InvalidArgumentException('The keys need to be an array or instance of Traversable'),
             function () {
-                $factory = new SerializerFactory();
-                $adapter = new Cache(new Apcu($factory));
+                $adapter = new Cache(new Apcu());
                 $actual  = $adapter->setMultiple(1234);
             }
         );

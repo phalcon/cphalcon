@@ -12,9 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Libmemcached;
 
-use function getOptionsLibmemcached;
 use Phalcon\Cache\Adapter\Libmemcached;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 
@@ -36,8 +34,7 @@ class IncrementCest
     public function cacheAdapterLibmemcachedIncrement(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - increment()');
-        $factory = new SerializerFactory();
-        $adapter = new Libmemcached($factory, getOptionsLibmemcached());
+        $adapter = new Libmemcached($this->getOptions());
 
         $key    = uniqid();
         $result = $adapter->set($key, 1);

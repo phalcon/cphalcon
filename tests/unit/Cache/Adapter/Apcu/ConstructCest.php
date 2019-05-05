@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Cache\Adapter\Apcu;
 
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Adapter\Apcu;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use UnitTester;
 
@@ -36,8 +35,7 @@ class ConstructCest
     public function storageAdapterApcuConstruct(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - __construct()');
-        $factory = new SerializerFactory();
-        $adapter = new Apcu($factory);
+        $adapter = new Apcu();
 
         $class = Apcu::class;
         $I->assertInstanceOf($class, $adapter);

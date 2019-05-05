@@ -12,9 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Redis;
 
-use function getOptionsRedis;
 use Phalcon\Cache\Adapter\Redis;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 
@@ -36,8 +34,7 @@ class HasCest
     public function storageAdapterRedisGetSetHas(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - has()');
-        $factory = new SerializerFactory();
-        $adapter = new Redis($factory, getOptionsRedis());
+        $adapter = new Redis($this->getOptions());
 
         $key = uniqid();
 
