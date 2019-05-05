@@ -12,7 +12,7 @@ namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\Exception;
-use Phalcon\Storage\Adapter\Apcu as StorageApcu;
+use Phalcon\Storage\AdapterFactory;
 
 /**
  * Phalcon\Mvc\Model\MetaData\Apcu
@@ -41,10 +41,10 @@ class Apcu extends MetaData
      *
      * @param array options
      */
-    public function __construct(options = null) -> void
+    public function __construct(<AdapterFactory> factory, array! options = null) -> void
     {
         let options["prefix"]   = "ph-mm-apcu-",
             options["lifetime"] = 172800,
-            this->adapter       = new StorageApcu(options);
+            this->adapter       = factory->newInstance("apcu", options);
     }
 }

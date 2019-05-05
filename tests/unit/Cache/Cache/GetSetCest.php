@@ -12,9 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Cache;
 
-use Phalcon\Cache\Adapter\Apcu;
+use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
+use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function uniqid;
 
@@ -35,7 +36,11 @@ class GetSetCest
     {
         $I->wantToTest('Cache\Cache - get()');
 
-        $adapter = new Cache(new Apcu());
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+        $instance   = $factory->newInstance('apcu');
+
+        $adapter = new Cache($instance);
 
         $key1 = uniqid();
         $key2 = uniqid();
@@ -71,7 +76,11 @@ class GetSetCest
         $I->expectThrowable(
             new InvalidArgumentException('The key contains invalid characters'),
             function () {
-                $adapter = new Cache(new Apcu());
+                $serializer = new SerializerFactory();
+                $factory    = new AdapterFactory($serializer);
+                $instance   = $factory->newInstance('apcu');
+
+                $adapter = new Cache($instance);
                 $value   = $adapter->get('abc$^');
             }
         );
@@ -79,7 +88,11 @@ class GetSetCest
         $I->expectThrowable(
             new InvalidArgumentException('The key contains invalid characters'),
             function () {
-                $adapter = new Cache(new Apcu());
+                $serializer = new SerializerFactory();
+                $factory    = new AdapterFactory($serializer);
+                $instance   = $factory->newInstance('apcu');
+
+                $adapter = new Cache($instance);
                 $value   = $adapter->set('abc$^', 'test');
             }
         );

@@ -10,16 +10,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Storage\AdapterFactory;
+namespace Phalcon\Test\Unit\Cache\AdapterFactory;
 
 use Codeception\Example;
-use Phalcon\Storage\Adapter\Apcu;
-use Phalcon\Storage\Adapter\Libmemcached;
-use Phalcon\Storage\Adapter\Memory;
-use Phalcon\Storage\Adapter\Redis;
-use Phalcon\Storage\Adapter\Stream;
-use Phalcon\Storage\AdapterFactory;
-use Phalcon\Storage\Exception;
+use Phalcon\Cache\Adapter\Apcu;
+use Phalcon\Cache\Adapter\Libmemcached;
+use Phalcon\Cache\Adapter\Memory;
+use Phalcon\Cache\Adapter\Redis;
+use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\Exception;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function getOptionsLibmemcached;
