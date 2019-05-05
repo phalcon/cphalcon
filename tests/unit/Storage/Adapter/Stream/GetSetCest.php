@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception;
+use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function file_put_contents;
 use function outputDir;
@@ -38,7 +39,8 @@ class GetSetCest
     {
         $I->wantToTest('Storage\Adapter\Stream - set()');
 
-        $adapter = new Stream(['cacheDir' => outputDir()]);
+        $serializer = new SerializerFactory();
+        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
 
         $data   = 'Phalcon Framework';
         $result = $adapter->set('test-key', $data);
@@ -66,7 +68,8 @@ class GetSetCest
     {
         $I->wantToTest('Storage\Adapter\Stream - get()');
 
-        $adapter = new Stream(['cacheDir' => outputDir()]);
+        $serializer = new SerializerFactory();
+        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
 
         $target = outputDir() . 'phstrm-/te/st/-k/';
         $data   = 'Phalcon Framework';
@@ -95,7 +98,8 @@ class GetSetCest
     {
         $I->wantToTest('Storage\Adapter\Stream - get() - errors');
 
-        $adapter = new Stream(['cacheDir' => outputDir()]);
+        $serializer = new SerializerFactory();
+        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
 
         $target = outputDir() . 'phstrm-/te/st/-k/';
 

@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 use DateInterval;
 use Exception;
 use Phalcon\Storage\Adapter\AdapterInterface;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Storage\Adapter\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
@@ -38,7 +39,9 @@ class ConstructCest
     public function storageAdapterLibmemcachedConstruct(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - __construct()');
-        $adapter = new Libmemcached(getOptionsLibmemcached());
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
         $class = Libmemcached::class;
         $I->assertInstanceOf($class, $adapter);
@@ -59,7 +62,9 @@ class ConstructCest
     public function storageAdapterLibmemcachedConstructEmptyOptions(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - __construct() - empty options');
-        $adapter = new Libmemcached();
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Libmemcached($serializer);
 
         $expected = [
             'servers' => [
@@ -88,7 +93,9 @@ class ConstructCest
     public function storageAdapterLibmemcachedConstructGetTtl(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - __construct() - getTtl');
-        $adapter = new Libmemcached();
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Libmemcached($serializer);
 
         $expected = 3600;
         $actual   = $adapter->getTtl(null);

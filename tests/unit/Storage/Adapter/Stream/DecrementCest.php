@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception;
+use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function outputDir;
 
@@ -35,7 +36,8 @@ class DecrementCest
     public function storageAdapterStreamDecrement(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - decrement()');
-        $adapter = new Stream(['cacheDir' => outputDir()]);
+        $serializer = new SerializerFactory();
+        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
 
         $key    = 'cache-data';
         $result = $adapter->set($key, 100);

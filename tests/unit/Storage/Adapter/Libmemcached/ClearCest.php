@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 
 use Phalcon\Storage\Adapter\Libmemcached;
+use Phalcon\Storage\Adapter\Memory;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 use function getOptionsLibmemcached;
@@ -35,7 +37,9 @@ class ClearCest
     public function storageAdapterLibmemcachedClear(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - clear()');
-        $adapter = new Libmemcached(getOptionsLibmemcached());
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
         $key1 = uniqid();
         $key2 = uniqid();
@@ -68,7 +72,9 @@ class ClearCest
     public function storageAdapterLibmemcachedClearTwice(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - clear() - twice');
-        $adapter = new Libmemcached($this->getOptions());
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
         $key = 'key-1';
         $adapter->set($key, 'test');

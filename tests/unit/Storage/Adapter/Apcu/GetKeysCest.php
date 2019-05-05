@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Adapter\Apcu;
 
 use Phalcon\Storage\Adapter\Apcu;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use UnitTester;
 
@@ -34,7 +35,9 @@ class GetKeysCest
     public function storageAdapterApcuGetKeys(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Apcu - getKeys()');
-        $adapter = new Apcu();
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Apcu($serializer);
 
         $adapter->clear();
 
