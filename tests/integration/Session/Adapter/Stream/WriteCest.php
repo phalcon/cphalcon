@@ -48,9 +48,9 @@ class WriteCest
         $adapter = $this->getSessionStream();
         $value   = uniqid();
         $adapter->write('test1', $value);
-        $I->amInPath(cacheDir('sessions'));
+        $I->amInPath(outputSessionsDir());
         $I->seeFileFound('test1');
         $I->seeInThisFile($value);
-        $I->safeDeleteFile(cacheDir('sessions/test1'));
+        $I->safeDeleteFile(outputSessionsDir('/test1'));
     }
 }
