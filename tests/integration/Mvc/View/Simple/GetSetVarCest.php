@@ -13,23 +13,32 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
- * Class SetCacheOptionsCest
+ * Class GetVarCest
  */
-class SetCacheOptionsCest
+class GetVarCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiViewSimple();
+    }
+
     /**
-     * Tests Phalcon\Mvc\View\Simple :: setCacheOptions()
+     * Tests Phalcon\Mvc\View\Simple :: getVar()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcViewSimpleSetCacheOptions(IntegrationTester $I)
+    public function mvcViewSimpleGetVar(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View\Simple - setCacheOptions()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Mvc\View\Simple - getVar()');
+
     }
 }

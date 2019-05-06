@@ -33,7 +33,7 @@ class GetAdapterCest
     {
         $I->wantToTest('Logger - getAdapter()');
         $fileName1  = $I->getNewFileName('log', 'log');
-        $outputPath = outputDir('tests/logs/');
+        $outputPath = logsDir();
         $adapter1   = new Stream($outputPath . $fileName1);
 
         $logger = new Logger(

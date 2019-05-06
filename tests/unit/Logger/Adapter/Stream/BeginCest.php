@@ -16,6 +16,8 @@ use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
 
 /**
+ * Class BeginCest
+ *
  * @package Phalcon\Test\Unit\Logger
  */
 class BeginCest
@@ -23,14 +25,13 @@ class BeginCest
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: begin()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
     public function loggerAdapterStreamBegin(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - begin()');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = outputDir('tests/logs/');
+        $outputPath = logsDir();
         $adapter    = new Stream($outputPath . $fileName);
 
         $adapter->begin();

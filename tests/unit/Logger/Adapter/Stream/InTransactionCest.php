@@ -16,6 +16,8 @@ use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
 
 /**
+ * Class InTransactionCest
+ *
  * @package Phalcon\Test\Unit\Logger
  */
 class InTransactionCest
@@ -23,14 +25,13 @@ class InTransactionCest
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: inTransaction()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
     public function loggerAdapterStreamInTransaction(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - inTransaction()');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = outputDir('tests/logs/');
+        $outputPath = logsDir();
         $adapter    = new Stream($outputPath . $fileName);
 
         $adapter->begin();
@@ -43,8 +44,6 @@ class InTransactionCest
         $actual = $adapter->inTransaction();
         $I->assertFalse($actual);
 
-        $I->safeDeleteFile(
-            $outputPath . $fileName
-        );
+        $I->safeDeleteFile($outputPath . $fileName);
     }
 }
