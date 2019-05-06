@@ -32,7 +32,7 @@ use function outputDir;
 class NewInstanceCest
 {
     /**
-     * Tests Phalcon\Storage\AdapterFactory :: newInstance()
+     * Tests Phalcon\Cache\AdapterFactory :: newInstance()
      *
      * @dataProvider getExamples
      *
