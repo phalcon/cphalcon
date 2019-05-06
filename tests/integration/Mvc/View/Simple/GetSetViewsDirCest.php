@@ -13,23 +13,37 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
+use Phalcon\Mvc\View\Simple;
+use function dataDir;
+use const DIRECTORY_SEPARATOR;
 
 /**
- * Class GetViewsDirCest
+ * Class GetSetViewsDirCest
  */
-class GetViewsDirCest
+class GetSetViewsDirCest
 {
     /**
-     * Tests Phalcon\Mvc\View\Simple :: getViewsDir()
+     * Tests Phalcon\Mvc\View\Simple :: getViewsDir()/setViewsDir()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcViewSimpleGetViewsDir(IntegrationTester $I)
+    public function mvcViewSimpleGetSetViewsDir(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View\Simple - getViewsDir()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Mvc\View\Simple - getViewsDir()/setViewsDir()');
+
+        $view = new Simple();
+
+        $view->setViewsDir(
+            dataDir('views' . DIRECTORY_SEPARATOR)
+        );
+
+        $I->assertEquals(
+            dataDir('views' . DIRECTORY_SEPARATOR),
+            $view->getViewsDir()
+        );
+
     }
 }

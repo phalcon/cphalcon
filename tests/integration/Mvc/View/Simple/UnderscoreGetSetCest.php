@@ -13,21 +13,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Mvc\View\Simple;
 
 /**
  * Class UnderscoreGetSetCest
  */
 class UnderscoreGetSetCest
 {
-    use DiTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->setNewFactoryDefault();
-        $this->setDiViewSimple();
-    }
-
     /**
      * Tests Phalcon\Mvc\View\Simple :: __get()/__set()
      *
@@ -39,7 +31,8 @@ class UnderscoreGetSetCest
     public function mvcViewSimpleUnderscoreGetSet(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\View\Simple - __get()/__set()');
-        $view = $this->container->get('viewSimple');
+
+        $view = new Simple();
 
         $view->foo = 'bar';
 

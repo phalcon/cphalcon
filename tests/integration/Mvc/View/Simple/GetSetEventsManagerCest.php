@@ -13,23 +13,35 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
+use Phalcon\Mvc\View\Simple;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
- * Class GetEventsManagerCest
+ * Class GetSetEventsManagerCest
  */
-class GetEventsManagerCest
+class GetSetEventsManagerCest
 {
+    use DiTrait;
+
     /**
-     * Tests Phalcon\Mvc\View\Simple :: getEventsManager()
+     * Tests Phalcon\Mvc\View\Simple :: getEventsManager()/setEventsManager()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcViewSimpleGetEventsManager(IntegrationTester $I)
+    public function mvcViewSimpleGetSetEventsManager(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View\Simple - getEventsManager()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Mvc\View\Simple - getEventsManager()/setEventsManager()');
+
+        $manager = $this->newEventsManager();
+        $view    = new Simple();
+
+        $view->setEventsManager($manager);
+
+        $actual = $view->getEventsManager();
+        $I->assertEquals($manager, $actual);
+
     }
 }

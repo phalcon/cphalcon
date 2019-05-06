@@ -13,21 +13,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Mvc\View\Simple;
 
 /**
- * Class GetVarCest
+ * Class GetSetVarCest
  */
-class GetVarCest
+class GetSetVarCest
 {
-    use DiTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->setNewFactoryDefault();
-        $this->setDiViewSimple();
-    }
-
     /**
      * Tests Phalcon\Mvc\View\Simple :: getVar()
      *
@@ -36,9 +28,20 @@ class GetVarCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcViewSimpleGetVar(IntegrationTester $I)
+    public function mvcViewSimpleGeSettVar(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View\Simple - getVar()');
+        $I->wantToTest('Mvc\View\Simple - getVar()/setVar()');
 
+        $view = new Simple();
+
+        $I->assertEquals(
+            $view,
+            $view->setVar('foo1', 'bar1')
+        );
+
+        $I->assertEquals(
+            'bar1',
+            $view->getVar('foo1')
+        );
     }
 }

@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt\Compiler;
 
 use Codeception\Example;
-use IntegrationTester;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
+use IntegrationTester;
 
 /**
  * Class CompileStringCest
@@ -41,10 +41,9 @@ class CompileStringCest
 
         $volt = new Compiler();
 
-        $I->assertEquals(
-            $expected,
-            $volt->compileString($param)
-        );
+        $actual = $volt->compileString($param);
+
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -275,6 +274,9 @@ class CompileStringCest
             ],
             //Mixed
             ['{# some comment #}{{ "hello" }}{# other comment }}', "<?= 'hello' ?>"],
+            // Select
+            ['{{ select_static(["name": "kek"], ["Y": "Yes", "N": "No"]) }}', "<?= \$this->tag->selectStatic(['name' => 'kek'], ['Y' => 'Yes', 'N' => 'No']) ?>"],
+            ['{{ select(["name": "kek"], ["Y": "Yes", "N": "No"]) }}', "<?= \$this->tag->select(['name' => 'kek'], ['Y' => 'Yes', 'N' => 'No']) ?>"],
         ];
     }
 
