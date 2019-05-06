@@ -18,7 +18,7 @@ use Phalcon\Session\Adapter\Libmemcached;
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Adapter\Redis;
 use Phalcon\Session\Adapter\Stream;
-use Phalcon\Cache\AdapterFactory;
+use Phalcon\Storage\AdapterFactory;
 use Phalcon\Storage\SerializerFactory;
 
 /**
