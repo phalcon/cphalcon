@@ -12,6 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use function getOptionsLibmemcached;
+use function getOptionsModelCacheStream;
+use function getOptionsMysql;
+use function getOptionsPostgresql;
+use function getOptionsRedis;
+use function getOptionsSqlite;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Backend\Libmemcached;
@@ -45,12 +51,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Url;
 use function cacheDir;
 use function dataDir;
-use function getOptionsLibmemcached;
-use function getOptionsModelCacheStream;
-use function getOptionsMysql;
-use function getOptionsPostgresql;
-use function getOptionsRedis;
-use function getOptionsSqlite;
 
 /**
  * Trait DiTrait

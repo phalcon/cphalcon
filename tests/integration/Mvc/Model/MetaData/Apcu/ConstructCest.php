@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Apcu;
 
 use IntegrationTester;
+use Phalcon\Storage\AdapterFactory;
 use Phalcon\Mvc\Model\MetaData\Apcu;
 use Phalcon\Mvc\Model\MetaDataInterface;
-use Phalcon\Storage\AdapterFactory;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
