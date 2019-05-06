@@ -17,7 +17,7 @@ use Phalcon\Helper\Str;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
-use function cacheModelsDir;
+use function outputModelsDir;
 
 /**
  * Class ConstructCest
@@ -33,7 +33,7 @@ class ConstructCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
-        $I->cleanDir(cacheModelsDir());
+        $I->cleanDir(outputModelsDir());
     }
 
     /**
@@ -52,7 +52,7 @@ class ConstructCest
 
         $cache    = $this->getAndSetModelsCacheStream();
         $manager  = $this->getService('modelsManager');
-        $filePath = cacheModelsDir()
+        $filePath = outputModelsDir()
             . 'phstrm-/'
             . Str::dirFromFile('test-resultset');
 
@@ -76,7 +76,7 @@ class ConstructCest
         $result = $cache->clear();
         $I->assertTrue($result);
 
-        $I->amInPath(cacheModelsDir());
+        $I->amInPath(outputModelsDir());
         $I->dontSeeFileFound('test-resultset', $filePath);
     }
 
@@ -96,7 +96,7 @@ class ConstructCest
 
         $cache    = $this->getAndSetModelsCacheStream();
         $manager  = $this->getService('modelsManager');
-        $filePath = cacheModelsDir()
+        $filePath = outputModelsDir()
             . 'phstrm-/'
             . Str::dirFromFile('test-resultset');
 
