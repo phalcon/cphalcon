@@ -246,7 +246,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Magic method to get related records using the relation alias as a
      * property
      *
-     * @return \Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
+     * @return mixed
      */
     public function __get(string! property)
     {
@@ -265,6 +265,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         );
 
         if typeof relation == "object" {
+            /**
+             * There might be unsaved related records that can be returned
+             */
+            if isset this->dirtyRelated[lowerAlias] {
+                return this->dirtyRelated[lowerAlias];
+            }
+
             /**
              * Get the related records
              */
@@ -342,6 +349,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     let dirtyState = self::DIRTY_STATE_TRANSIENT;
                 }
 
+                unset this->related[lowerProperty];
+
                 let this->dirtyRelated[lowerProperty] = value,
                     this->dirtyState = dirtyState;
 
@@ -376,6 +385,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         if typeof referencedModel == "object" {
                             referencedModel->assign(value);
 
+                            unset this->related[lowerProperty];
+
                             let this->dirtyRelated[lowerProperty] = referencedModel,
                                 this->dirtyState = self::DIRTY_STATE_TRANSIENT;
 
@@ -397,6 +408,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         }
 
                         if count(related) > 0 {
+                            unset this->related[lowerProperty];
+
                             let this->dirtyRelated[lowerProperty] = related,
                                 this->dirtyState = self::DIRTY_STATE_TRANSIENT;
 
@@ -1725,7 +1738,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
     /**
      * Returns the DependencyInjection connection service name used to read data
-     related the model
+     * related the model
      */
     final public function getReadConnectionService() -> string
     {
@@ -1764,28 +1777,21 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          */
         if arguments === null {
             /**
-             * There might be unsaved related records that can be returned
+             * If the related records are already in cache and the relation is reusable,
+             * we return the cached records.
              */
-            if isset this->dirtyRelated[lowerAlias] {
-                let result = this->dirtyRelated[lowerAlias];
+            if relation->isReusable() && this->isRelationshipLoaded(lowerAlias) {
+                let result = this->related[lowerAlias];
             } else {
                 /**
-                 * If the related records are already in cache and the relation is reusable,
-                 * we return the cached records.
+                 * Call the 'getRelationRecords' in the models manager.
                  */
-                if relation->isReusable() && this->isRelationshipLoaded(lowerAlias) {
-                    let result = this->related[lowerAlias];
-                } else {
-                    /**
-                     * Call the 'getRelationRecords' in the models manager.
-                     */
-                    let result = manager->getRelationRecords(relation, null, this, arguments);
+                let result = manager->getRelationRecords(relation, null, this, arguments);
 
-                    /**
-                     * We store relationship objects in the related cache if there were no arguments.
-                     */
-                    let this->related[lowerAlias] = result;
-                }
+                /**
+                 * We store relationship objects in the related cache if there were no arguments.
+                 */
+                let this->related[lowerAlias] = result;
             }
         } else {
             /**
@@ -1798,6 +1804,26 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         return result;
     }
 
+    /**
+     * Checks if saved related records have already been loaded.
+     *
+     * Only returns true if the records were previously fetched
+     * through the model without any additional parameters.
+     *
+     * <code>
+     * $robot = Robots::findFirst();
+     * var_dump($robot->isRelationshipLoaded('robotsParts')); // false
+     *
+     * $robotsParts = $robot->getRobotsParts(['id > 0']);
+     * var_dump($robot->isRelationshipLoaded('robotsParts')); // false
+     *
+     * $robotsParts = $robot->getRobotsParts(); // or $robot->robotsParts
+     * var_dump($robot->isRelationshipLoaded('robotsParts')); // true
+     *
+     * $robot->robotsParts = [new RobotsParts()];
+     * var_dump($robot->isRelationshipLoaded('robotsParts')); // false
+     * </code>
+     */
     public function isRelationshipLoaded(string relationshipAlias) -> bool
     {
         return isset this->related[strtolower(relationshipAlias)];
@@ -2252,7 +2278,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     public function save() -> bool
     {
         var metaData, schema, writeConnection, readConnection, source, table,
-            identityField, exists, success, related, dirtyRelated;
+            identityField, exists, success, dirtyRelated;
         bool hasDirtyRelated;
 
         let metaData = this->getModelsMetaData();

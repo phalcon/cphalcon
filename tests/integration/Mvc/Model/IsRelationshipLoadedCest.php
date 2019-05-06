@@ -87,11 +87,11 @@ class IsRelationshipLoadedCest
 
         $album->artist = new AlbumORama\Artists();
 
-        $I->assertTrue($album->isRelationshipLoaded('artist'));
+        $I->assertFalse($album->isRelationshipLoaded('artist'));
 
         $album->songs = [new AlbumORama\Songs(), new AlbumORama\Songs()];
 
-        $I->assertTrue($album->isRelationshipLoaded('songs'));
+        $I->assertFalse($album->isRelationshipLoaded('songs'));
     }
 
     /**
