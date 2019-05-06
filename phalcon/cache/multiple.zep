@@ -86,7 +86,7 @@ class Multiple
      */
     public function __construct(backends = null)
     {
-        if typeof backends != "null" {
+        if backends !== null {
             if typeof backends != "array" {
                 throw new Exception("The backends must be an array");
             }

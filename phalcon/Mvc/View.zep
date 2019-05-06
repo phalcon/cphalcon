@@ -341,7 +341,7 @@ class View extends Injectable implements ViewInterface
             }
         }
 
-        if typeof activeRenderPath == "null" {
+        if activeRenderPath === null {
             let activeRenderPath = "";
         }
 

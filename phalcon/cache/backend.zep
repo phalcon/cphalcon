@@ -107,7 +107,7 @@ abstract class Backend implements BackendInterface
         /**
          * Update the last lifetime to be used in save()
          */
-        if typeof lifetime != "null" {
+        if lifetime !== null {
             let this->_lastLifetime = lifetime;
         }
 

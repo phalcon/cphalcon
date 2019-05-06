@@ -71,7 +71,7 @@ class Tag
      */
     public static function appendTitle(var title) -> void
     {
-        if typeof self::documentAppendTitle == "null" {
+        if self::documentAppendTitle === null {
             let self::documentAppendTitle = [];
         }
 
@@ -464,7 +464,7 @@ class Tag
         );
 
         if prepend {
-            if typeof self::documentPrependTitle == "null" {
+            if self::documentPrependTitle === null {
                 let self::documentPrependTitle = [];
             }
 
@@ -484,7 +484,7 @@ class Tag
         }
 
         if append {
-            if typeof self::documentAppendTitle == "null" {
+            if self::documentAppendTitle === null {
                 let self::documentAppendTitle = [];
             }
 
@@ -921,7 +921,7 @@ class Tag
      */
     public static function prependTitle(var title) -> void
     {
-        if typeof self::documentPrependTitle == "null" {
+        if self::documentPrependTitle === null {
             let self::documentPrependTitle = [];
         }
 

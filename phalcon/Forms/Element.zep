@@ -281,7 +281,7 @@ abstract class Element implements ElementInterface
          * Assign the default value if there is no form available or
          * Phalcon\Tag returns null
          */
-        if typeof value == "null" {
+        if value === null {
             let value = this->value;
         }
 

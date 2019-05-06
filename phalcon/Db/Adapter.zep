@@ -592,7 +592,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
             return [];
         }
 
-        if typeof fetchMode !== "null" {
+        if fetchMode !== null {
             result->setFetchMode(fetchMode);
         }
 
@@ -787,7 +787,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
                     let value = (string) value;
                 }
 
-                if typeof value == "null" {
+                if value === null {
                     let placeholders[] = "null";
                 } else {
                     let placeholders[] = "?";
@@ -1166,7 +1166,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
                     let value = (string) value;
                 }
 
-                if typeof value == "null" {
+                if value === null {
                     let placeholders[] = escapedField . " = null";
                 } else {
                     let updateValues[] = value;

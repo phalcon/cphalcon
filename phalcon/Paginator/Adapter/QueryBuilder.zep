@@ -206,7 +206,7 @@ class QueryBuilder extends Adapter
             let sql = totalQuery->getSql(),
                 modelClass = builder->getModels();
 
-            if unlikely typeof modelClass == "null" {
+            if unlikely modelClass === null {
                 throw new Exception("Model not defined in builder");
             }
 

@@ -1806,7 +1806,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             let ast = this->ast;
         }
 
-        if typeof merge == "null" {
+        if merge === null {
             let merge = false;
         }
 
@@ -2915,7 +2915,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                     let columnMap = metaData->getColumnMap(resultObject),
                         typesColumnMap = metaData->getDataTypes(resultObject);
 
-                    if typeof columnMap === "null" {
+                    if columnMap === null {
                         let simpleColumnMap = [];
 
                         for attribute in metaData->getAttributes(resultObject) {
@@ -3470,7 +3470,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
         let cacheOptions = this->cacheOptions;
 
-        if typeof cacheOptions != "null" {
+        if cacheOptions !== null {
             if unlikely typeof cacheOptions != "array" {
                 throw new Exception("Invalid caching options");
             }
@@ -3566,11 +3566,11 @@ class Query implements QueryInterface, InjectionAwareInterface
             let mergedTypes = bindTypes;
         }
 
-        if unlikely (typeof mergedParams != "null" && typeof mergedParams != "array") {
+        if unlikely (mergedParams !== null && typeof mergedParams != "array") {
             throw new Exception("Bound parameters must be an array");
         }
 
-        if unlikely (typeof mergedTypes != "null" && typeof mergedTypes != "array") {
+        if unlikely (mergedTypes !== null && typeof mergedTypes != "array") {
             throw new Exception("Bound parameter types must be an array");
         }
 

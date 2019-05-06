@@ -497,7 +497,7 @@ class Postgresql extends PdoAdapter
             /**
              * Check if the column has default values
              */
-            if typeof field[9] != "null" {
+            if field[9] !== null {
                 let definition["default"] = preg_replace(
                     "/^'|'?::[[:alnum:][:space:]]+$/",
                     "",

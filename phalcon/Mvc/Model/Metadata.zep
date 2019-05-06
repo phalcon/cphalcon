@@ -176,7 +176,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readColumnMapIndex(model, self::MODELS_COLUMN_MAP);
 
-        if unlikely (typeof data != "null" && typeof data != "array") {
+        if unlikely (data !== null && typeof data != "array") {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
 
@@ -395,7 +395,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readColumnMapIndex(model, self::MODELS_REVERSE_COLUMN_MAP);
 
-        if unlikely (typeof data != "null" && typeof data != "array") {
+        if unlikely (data !== null && typeof data != "array") {
             throw new Exception("The meta-data is invalid or is corrupt");
         }
 
@@ -407,7 +407,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     public function getStrategy() -> <StrategyInterface>
     {
-        if typeof this->strategy == "null" {
+        if this->strategy === null {
             let this->strategy = new Introspection();
         }
 
