@@ -268,7 +268,6 @@ class UnderscoreSetCest
             $robotsParts[0]
         );
 
-
         $I->assertEquals(
             Model::DIRTY_STATE_TRANSIENT,
             $robot->getDirtyState()
@@ -294,7 +293,6 @@ class UnderscoreSetCest
         ];
 
         $robotParts = $robot->M2MParts;
-
 
         $I->assertInternalType(
             'array',
