@@ -268,8 +268,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * There might be unsaved related records that can be returned
              */
-            if isset this->dirtyRelated[lowerAlias] {
-                return this->dirtyRelated[lowerAlias];
+            if isset this->dirtyRelated[lowerProperty] {
+                return this->dirtyRelated[lowerProperty];
             }
 
             /**
