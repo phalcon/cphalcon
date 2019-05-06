@@ -263,7 +263,7 @@ class Validation extends Injectable implements ValidationInterface
             }
         }
 
-        if typeof value == "null" {
+        if value === null {
             return null;
         }
 

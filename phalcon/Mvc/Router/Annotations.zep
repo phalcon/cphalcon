@@ -291,11 +291,11 @@ class Annotations extends Router
             /**
              * Create the route using the prefix
              */
-            if typeof value !== "null" {
+            if value !== null {
                 if value != "/" {
                     let uri = routePrefix . value;
                 } else {
-                    if typeof routePrefix !== "null" {
+                    if routePrefix !== null {
                         let uri = routePrefix;
                     } else {
                         let uri = value;

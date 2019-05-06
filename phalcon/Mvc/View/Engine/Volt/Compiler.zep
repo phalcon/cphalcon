@@ -953,7 +953,7 @@ class Compiler implements InjectionAwareInterface
                 let subCompiler = clone this;
                 let compilation = subCompiler->compile(finalPath, false);
 
-                if typeof compilation == "null" {
+                if compilation === null {
                     /**
                      * Use file-get-contents to respect the openbase_dir
                      * directive
@@ -2737,7 +2737,7 @@ class Compiler implements InjectionAwareInterface
                         /**
                          * Create a unamed block
                          */
-                        if typeof compilation != "null" {
+                        if compilation !== null {
                             let blocks[] = compilation;
                             let compilation = null;
                         }
@@ -2786,7 +2786,7 @@ class Compiler implements InjectionAwareInterface
                      * If the compilation doesn't return anything we include the
                      * compiled path
                      */
-                    if typeof tempCompilation == "null" {
+                    if tempCompilation === null {
                         let tempCompilation = file_get_contents(
                             subCompiler->getCompiledTemplatePath()
                         );
@@ -2891,7 +2891,7 @@ class Compiler implements InjectionAwareInterface
             let level = this->blockLevel;
 
             if level == 1 {
-                if typeof compilation != "null" {
+                if compilation !== null {
                     let this->blocks[] = compilation;
                 }
             }

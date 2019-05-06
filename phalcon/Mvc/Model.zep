@@ -3035,7 +3035,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
                         bindParams[] = value;
 
-                    if typeof value == "null" {
+                    if value === null {
                         let numberNull++;
                     }
                 }
@@ -3047,7 +3047,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 let conditions[] = "[" . referencedFields . "] = ?0",
                     bindParams[] = value;
 
-                if typeof value == "null" {
+                if value === null {
                     let validateWithNulls = true;
                 }
             }
