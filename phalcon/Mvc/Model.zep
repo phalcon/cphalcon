@@ -92,38 +92,16 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     protected container;
 
     protected dirtyState = 1;
+    
+    protected dirtyRelated = [];
 
     protected errorMessages = [];
 
     protected modelsManager;
 
     protected modelsMetaData;
-
-    /*
-     * We use different related storages, because a rollbacked transaction could corrupt them
-     *
-     * Stores every fetched and set related records.
-     * Updated also after the related records have been successfully saved.
-     *
-     * @var array
-     */
+    
     protected related = [];
-
-    /*
-     * Stores only set related records.
-     * Cleared upon successful save.
-     *
-     * @var array
-     */
-    protected relatedUnsaved = [];
-
-    /*
-     * Updated continously during the save process.
-     * Cleared upon successful save.
-     *
-     * @var array
-     */
-    protected relatedSaved = [];
 
     protected operationMade = 0;
 
@@ -364,8 +342,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     let dirtyState = self::DIRTY_STATE_TRANSIENT;
                 }
 
-                let this->related[lowerProperty] = value,
-                    this->relatedUnsaved[lowerProperty] = value,
+                let this->dirtyRelated[lowerProperty] = value,
                     this->dirtyState = dirtyState;
 
                 return value;
@@ -392,19 +369,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         /**
                          * Load referenced model from local cache if its possible
                          */
-                        if(this->isRelationshipLoaded(lowerProperty)) {
-                            let referencedModel = this->related[lowerProperty];
-                        } else {
-                            let referencedModel = manager->load(
+                         let referencedModel = manager->load(
                                 relation->getReferencedModel()
                             );
-                        }
 
                         if typeof referencedModel == "object" {
                             referencedModel->assign(value);
 
-                            let this->related[lowerProperty] = referencedModel,
-                                this->relatedUnsaved[lowerProperty] = referencedModel,
+                            let this->dirtyRelated[lowerProperty] = referencedModel,
                                 this->dirtyState = self::DIRTY_STATE_TRANSIENT;
 
                             return value;
@@ -425,8 +397,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         }
 
                         if count(related) > 0 {
-                            let this->related[lowerProperty] = related,
-                                this->relatedUnsaved[lowerProperty] = related,
+                            let this->dirtyRelated[lowerProperty] = related,
                                 this->dirtyState = self::DIRTY_STATE_TRANSIENT;
 
                             return value;
@@ -1795,8 +1766,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * There might be unsaved related records that can be returned
              */
-            if isset this->relatedUnsaved[lowerAlias] {
-                let result = this->relatedUnsaved[lowerAlias];
+            if isset this->dirtyRelated[lowerAlias] {
+                let result = this->dirtyRelated[lowerAlias];
             } else {
                 /**
                  * If the related records are already in cache and the relation is reusable,
@@ -2281,8 +2252,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     public function save() -> bool
     {
         var metaData, schema, writeConnection, readConnection, source, table,
-            identityField, exists, success, related, relatedSaved, relatedUnsaved;
-        bool hasRelatedUnsaved;
+            identityField, exists, success, related, dirtyRelated;
+        bool hasDirtyRelated;
 
         let metaData = this->getModelsMetaData();
 
@@ -2297,23 +2268,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         this->fireEvent("prepareSave");
 
         /**
-         * Load related storages
+         * Load unsaved related records
          */
-        let related = this->related,
-            relatedUnsaved = this->relatedUnsaved;
-
-        /**
-         * Store the original records as a base for the updated ones
-         */
-        let this->relatedSaved = related;
+        let dirtyRelated = this->dirtyRelated;
 
         /**
          * Does it have unsaved related records
          */
-        let hasRelatedUnsaved = count(relatedUnsaved) > 0;
+        let hasDirtyRelated = count(dirtyRelated) > 0;
 
-        if hasRelatedUnsaved {
-            if this->_preSaveRelatedRecords(writeConnection, relatedUnsaved) === false {
+        if hasDirtyRelated {
+            if this->_preSaveRelatedRecords(writeConnection, dirtyRelated) === false {
                 return false;
             }
         }
@@ -2360,7 +2325,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Rollback the current transaction if there was validation errors
              */
-            if hasRelatedUnsaved {
+            if hasDirtyRelated {
                 writeConnection->rollback(false);
             }
 
@@ -2402,7 +2367,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
         }
 
-        if hasRelatedUnsaved {
+        if hasDirtyRelated {
             /**
              * Rollbacks the implicit transaction if the master save has failed
              */
@@ -2414,7 +2379,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                  */
                 let success = this->_postSaveRelatedRecords(
                     writeConnection,
-                    relatedUnsaved
+                    dirtyRelated
                 );
             }
         }
@@ -2429,15 +2394,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         if success === false {
             this->_cancelOperation();
         } else {
-            if hasRelatedUnsaved {
-                let relatedSaved = this->relatedSaved;
-
+            if hasDirtyRelated {
                 /**
-                 * Update and clear related caches
+                 * Clear unsaved related records storage
                  */
-                let this->related = relatedSaved,
-                    this->relatedUnsaved = [],
-                    this->relatedSaved = [];
+                let this->dirtyRelated = [];
             }
 
             this->fireEvent("afterSave");
@@ -4660,11 +4621,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     }
 
                     /**
-                     * Update the cache with the saved record
-                     */
-                    let this->relatedSaved[name] = record;
-
-                    /**
                      * Read the attribute from the referenced model and assign
                      * it to the current model
                      */
@@ -4888,18 +4844,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                             return false;
                         }
                     }
-
-                }
-
-
-                /**
-                 * Has-many-to-many records are intact, so we do not neet an update there
-                 */
-                if !isThrough {
-                    /**
-                     * Update the cache with the saved records
-                     */
-                    let this->relatedSaved[name] = relatedRecords;
                 }
             } else {
                 if typeof record != "array" {
