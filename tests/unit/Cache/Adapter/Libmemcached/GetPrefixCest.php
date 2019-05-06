@@ -13,10 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Libmemcached;
 
 use Phalcon\Cache\Adapter\Libmemcached;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
-use function getOptionsLibmemcached;
 
 /**
  * Class GetPrefixCest
@@ -33,15 +31,12 @@ class GetPrefixCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterLibmemcachedGetSetPrefix(UnitTester $I)
+    public function cacheAdapterLibmemcachedGetSetPrefix(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - getPrefix()');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached(
-            $serializer,
+        $adapter = new Libmemcached(
             array_merge(
-                getOptionsLibmemcached(),
+                $this->getOptions(),
                 [
                     'prefix' => 'my-prefix',
                 ]
@@ -61,12 +56,10 @@ class GetPrefixCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterLibmemcachedGetSetPrefixDefault(UnitTester $I)
+    public function cacheAdapterLibmemcachedGetSetPrefixDefault(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - getPrefix() - default');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
+        $adapter = new Libmemcached($this->getOptions());
 
         $expected = 'ph-memc-';
         $actual   = $adapter->getPrefix();

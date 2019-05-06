@@ -14,10 +14,8 @@ namespace Phalcon\Test\Unit\Cache\Adapter\Redis;
 
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Adapter\Redis;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
-use function getOptionsRedis;
 
 /**
  * Class ConstructCest
@@ -37,9 +35,7 @@ class ConstructCest
     public function storageAdapterRedisConstruct(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - __construct()');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Redis($serializer, getOptionsRedis());
+        $adapter = new Redis($this->getOptions());
 
         $class = Redis::class;
         $I->assertInstanceOf($class, $adapter);

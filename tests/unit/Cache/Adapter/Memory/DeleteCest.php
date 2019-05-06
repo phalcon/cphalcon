@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Memory;
 
 use Phalcon\Cache\Adapter\Memory;
-use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
 /**
@@ -32,9 +31,7 @@ class DeleteCest
     public function storageAdapterMemoryDelete(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - delete()');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Memory($serializer);
+        $adapter = new Memory();
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -59,9 +56,7 @@ class DeleteCest
     public function storageAdapterMemoryDeleteTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - delete() - twice');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Memory($serializer);
+        $adapter = new Memory();
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -86,9 +81,7 @@ class DeleteCest
     public function storageAdapterMemoryDeleteUnknown(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - delete() - unknown');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Memory($serializer);
+        $adapter = new Memory();
 
         $key    = 'cache-data';
         $actual = $adapter->delete($key);

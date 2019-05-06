@@ -12,10 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Cache;
 
-use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
-use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function uniqid;
 
@@ -36,11 +35,7 @@ class DeleteMultipleCest
     {
         $I->wantToTest('Cache\Cache - deleteMultiple()');
 
-        $serializer = new SerializerFactory();
-        $factory    = new AdapterFactory($serializer);
-        $instance   = $factory->newInstance('apcu');
-
-        $adapter = new Cache($instance);
+        $adapter = new Cache(new Apcu());
 
         $key1 = uniqid();
         $key2 = uniqid();
@@ -86,11 +81,7 @@ class DeleteMultipleCest
         $I->expectThrowable(
             new InvalidArgumentException('The keys need to be an array or instance of Traversable'),
             function () {
-                $serializer = new SerializerFactory();
-                $factory    = new AdapterFactory($serializer);
-                $instance   = $factory->newInstance('apcu');
-
-                $adapter = new Cache($instance);
+                $adapter = new Cache(new Apcu());
                 $actual  = $adapter->deleteMultiple(1234);
             }
         );

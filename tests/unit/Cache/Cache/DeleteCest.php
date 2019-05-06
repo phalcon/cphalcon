@@ -12,10 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Cache;
 
-use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
-use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function uniqid;
 
@@ -36,11 +35,7 @@ class DeleteCest
     {
         $I->wantToTest('Cache\Cache - delete()');
 
-        $serializer = new SerializerFactory();
-        $factory    = new AdapterFactory($serializer);
-        $instance   = $factory->newInstance('apcu');
-
-        $adapter = new Cache($instance);
+        $adapter = new Cache(new Apcu());
 
         $key1 = uniqid();
         $key2 = uniqid();
@@ -76,11 +71,7 @@ class DeleteCest
         $I->expectThrowable(
             new InvalidArgumentException('The key contains invalid characters'),
             function () {
-                $serializer = new SerializerFactory();
-                $factory    = new AdapterFactory($serializer);
-                $instance   = $factory->newInstance('apcu');
-
-                $adapter = new Cache($instance);
+                $adapter = new Cache(new Apcu());
                 $value   = $adapter->delete('abc$^');
             }
         );

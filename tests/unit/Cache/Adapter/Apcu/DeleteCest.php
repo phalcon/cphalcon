@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Apcu;
 
 use Phalcon\Cache\Adapter\Apcu;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use UnitTester;
 
@@ -35,9 +34,7 @@ class DeleteCest
     public function storageAdapterApcuDelete(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - delete()');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Apcu($serializer);
+        $adapter = new Apcu();
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -62,9 +59,7 @@ class DeleteCest
     public function storageAdapterApcuDeleteTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - delete() - twice');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Apcu($serializer);
+        $adapter = new Apcu();
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -89,9 +84,7 @@ class DeleteCest
     public function storageAdapterApcuDeleteUnknown(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - delete() - unknown');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Apcu($serializer);
+        $adapter = new Apcu();
 
         $key    = 'cache-data';
         $actual = $adapter->delete($key);

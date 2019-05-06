@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Cache\Adapter\Memory;
 
 use Codeception\Example;
 use Phalcon\Cache\Adapter\Memory;
-use Phalcon\Storage\SerializerFactory;
 use stdClass;
 use UnitTester;
 
@@ -37,9 +36,7 @@ class GetSetCest
     public function storageAdapterMemoryGetSet(UnitTester $I, Example $example)
     {
         $I->wantToTest('Cache\Adapter\Memory - get()/set() - ' . $example[0]);
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Memory($serializer);
+        $adapter = new Memory();
 
         $key = uniqid();
 

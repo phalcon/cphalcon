@@ -13,6 +13,11 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\SerializerFactory;
 
 use Codeception\Example;
+use Phalcon\Storage\Adapter\Apcu;
+use Phalcon\Storage\Adapter\Libmemcached;
+use Phalcon\Storage\Adapter\Memory;
+use Phalcon\Storage\Adapter\Redis;
+use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\Serializer\Base64;
 use Phalcon\Storage\Serializer\Igbinary;

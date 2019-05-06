@@ -13,10 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Libmemcached;
 
 use Phalcon\Cache\Adapter\Libmemcached;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
-use function getOptionsLibmemcached;
 
 /**
  * Class GetKeysCest
@@ -33,15 +31,10 @@ class GetKeysCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-13
      */
-    public function storageAdapterLibmemcachedGetKeys(UnitTester $I)
+    public function cacheAdapterLibmemcachedGetKeys(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - getKeys()');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
-
-        $actual = $adapter->clear();
-        $I->assertTrue($actual);
+        $adapter = new Libmemcached($this->getOptions());
 
         $key = 'key-1';
         $adapter->set($key, 'test');
