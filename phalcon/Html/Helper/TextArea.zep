@@ -25,6 +25,6 @@ class TextArea extends AbstractHelper
      */
     public function __invoke(string! text, array attributes = []) -> string
     {
-        return this->renderElement("textarea", text, attributes);
+        return this->renderFullElement("textarea", text, attributes);
     }
 }

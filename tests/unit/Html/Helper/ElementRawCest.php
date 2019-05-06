@@ -10,22 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Html\Helper;
+namespace Phalcon\Test\Unit\Html\Helper\Element;
 
 use Codeception\Example;
 use Phalcon\Escaper;
 use Phalcon\Html\Exception;
-use Phalcon\Html\Helper\Form;
+use Phalcon\Html\Helper\ElementRaw;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
 /**
- * Class FormCest
+ * Class ElementRawCest
  */
-class FormCest
+class ElementRawCest
 {
     /**
-     * Tests Phalcon\Html\Helper\Form :: __construct()
+     * Tests Phalcon\Html\Helper\Element :: __construct()
      *
      * @dataProvider getExamples
      *
@@ -34,20 +34,20 @@ class FormCest
      *
      * @throws Exception
      */
-    public function htmlHelperFormConstruct(UnitTester $I, Example $example)
+    public function htmlHelperElementRawConstruct(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Html\Helper\Form - __construct()');
+        $I->wantToTest('Html\Helper\ElementRaw - __construct()');
         $escaper = new Escaper();
-        $helper  = new Form($escaper);
+        $helper  = new ElementRaw($escaper);
 
         $expected = $example[0];
-        $actual   = $helper($example[1]);
+        $actual   = $helper($example[1], $example[2], $example[3]);
         $I->assertEquals($expected, $actual);
 
         $factory  = new TagFactory($escaper);
-        $locator  = $factory->newInstance('form');
+        $locator  = $factory->newInstance('elementRaw');
         $expected = $example[0];
-        $actual   = $locator($example[1]);
+        $actual   = $locator($example[1], $example[2], $example[3]);
         $I->assertEquals($expected, $actual);
     }
 
@@ -58,18 +58,36 @@ class FormCest
     {
         return [
             [
-                '<form method="post" enctype="multipart/form-data">',
+                '<canvas>test tag</canvas>',
+                'canvas',
+                'test tag',
                 [],
             ],
             [
-                '<form id="my-id" name="my-name" method="post" enctype="multipart/form-data">',
+                '<canvas>Jack & Jill</canvas>',
+                'canvas',
+                'Jack & Jill',
+                [],
+            ],
+            [
+                '<canvas><script>alert("hello");</script>test tag</canvas>',
+                'canvas',
+                '<script>alert("hello");</script>test tag',
+                [],
+            ],
+            [
+                '<section id="my-id" name="my-name">test tag</section>',
+                'section',
+                'test tag',
                 [
                     'id'   => 'my-id',
                     'name' => 'my-name',
                 ],
             ],
             [
-                '<form id="my-id" name="my-name" class="my-class" method="post" enctype="multipart/form-data">',
+                '<address id="my-id" name="my-name" class="my-class">test tag</address>',
+                'address',
+                'test tag',
                 [
                     'class' => 'my-class',
                     'name'  => 'my-name',

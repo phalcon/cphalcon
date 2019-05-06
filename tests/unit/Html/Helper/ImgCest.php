@@ -15,17 +15,17 @@ namespace Phalcon\Test\Unit\Html\Helper;
 use Codeception\Example;
 use Phalcon\Escaper;
 use Phalcon\Html\Exception;
-use Phalcon\Html\Helper\Form;
+use Phalcon\Html\Helper\Img;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
 /**
- * Class FormCest
+ * Class ImgCest
  */
-class FormCest
+class ImgCest
 {
     /**
-     * Tests Phalcon\Html\Helper\Form :: __construct()
+     * Tests Phalcon\Html\Helper\Img :: __construct()
      *
      * @dataProvider getExamples
      *
@@ -34,20 +34,20 @@ class FormCest
      *
      * @throws Exception
      */
-    public function htmlHelperFormConstruct(UnitTester $I, Example $example)
+    public function htmlHelperImgConstruct(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Html\Helper\Form - __construct()');
+        $I->wantToTest('Html\Helper\Img - __construct()');
         $escaper = new Escaper();
-        $helper  = new Form($escaper);
+        $helper  = new Img($escaper);
 
         $expected = $example[0];
-        $actual   = $helper($example[1]);
+        $actual   = $helper('/my-url', $example[1]);
         $I->assertEquals($expected, $actual);
 
         $factory  = new TagFactory($escaper);
-        $locator  = $factory->newInstance('form');
+        $locator  = $factory->newInstance('img');
         $expected = $example[0];
-        $actual   = $locator($example[1]);
+        $actual   = $locator('/my-url', $example[1]);
         $I->assertEquals($expected, $actual);
     }
 
@@ -58,19 +58,20 @@ class FormCest
     {
         return [
             [
-                '<form method="post" enctype="multipart/form-data">',
+                '<img src="/my-url"/>',
                 [],
             ],
             [
-                '<form id="my-id" name="my-name" method="post" enctype="multipart/form-data">',
+                '<img src="/my-url" id="my-id" name="my-name"/>',
                 [
                     'id'   => 'my-id',
                     'name' => 'my-name',
                 ],
             ],
             [
-                '<form id="my-id" name="my-name" class="my-class" method="post" enctype="multipart/form-data">',
+                '<img src="/my-url" id="my-id" name="my-name" class="my-class"/>',
                 [
+                    'src'   => '/other-url',
                     'class' => 'my-class',
                     'name'  => 'my-name',
                     'id'    => 'my-id',

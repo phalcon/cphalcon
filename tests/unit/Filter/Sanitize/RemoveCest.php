@@ -22,7 +22,7 @@ use UnitTester;
 class RemoveCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\Remove :: __invoke()
      *
      * @dataProvider getData
      *

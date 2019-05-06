@@ -22,7 +22,7 @@ use UnitTester;
 class AbsIntCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\AbsInt :: __invoke()
      *
      * @dataProvider getData
      *

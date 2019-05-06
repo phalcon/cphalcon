@@ -22,7 +22,7 @@ use UnitTester;
 class StringValCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\StringVal :: __invoke()
      *
      * @dataProvider getData
      *
