@@ -13,8 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Libmemcached;
 
 use Phalcon\Cache\Adapter\Libmemcached;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
+use function getOptionsLibmemcached;
 
 /**
  * Class ClearCest
@@ -31,10 +33,12 @@ class ClearCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function cacheAdapterLibmemcachedClear(UnitTester $I)
+    public function storageAdapterLibmemcachedClear(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - clear()');
-        $adapter = new Libmemcached($this->getOptions());
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
         $key1 = uniqid();
         $key2 = uniqid();
@@ -42,8 +46,8 @@ class ClearCest
         $actual = $adapter->has($key1);
         $I->assertTrue($actual);
 
-        $adapter->set($key2, 'test');
-        $actual = $adapter->has($key2);
+        $adapter->set($key1, 'test');
+        $actual = $adapter->has($key1);
         $I->assertTrue($actual);
 
         $actual = $adapter->clear();
@@ -64,19 +68,21 @@ class ClearCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function cacheAdapterLibmemcachedClearTwice(UnitTester $I)
+    public function storageAdapterLibmemcachedClearTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - clear() - twice');
-        $adapter = new Libmemcached($this->getOptions());
 
-        $key1 = uniqid();
-        $key2 = uniqid();
-        $adapter->set($key1, 'test');
-        $actual = $adapter->has($key1);
+        $serializer = new SerializerFactory();
+        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
+
+        $key = 'key-1';
+        $adapter->set($key, 'test');
+        $actual = $adapter->has($key);
         $I->assertTrue($actual);
 
-        $adapter->set($key2, 'test');
-        $actual = $adapter->has($key2);
+        $key = 'key-2';
+        $adapter->set($key, 'test');
+        $actual = $adapter->has($key);
         $I->assertTrue($actual);
 
         $actual = $adapter->clear();

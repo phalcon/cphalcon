@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Storage;
+namespace Phalcon\Cache;
 
-use Phalcon\Storage\Adapter\AbstractAdapter;
+use Phalcon\Cache\Adapter\AbstractAdapter;
 use Phalcon\Storage\SerializerFactory;
 
 class AdapterFactory
@@ -40,11 +40,11 @@ class AdapterFactory
         let this->serializerFactory = factory;
 
         let helpers = [
-            "apcu"         : "\\Phalcon\\Storage\\Adapter\\Apcu",
-            "libmemcached" : "\\Phalcon\\Storage\\Adapter\\Libmemcached",
-            "memory"       : "\\Phalcon\\Storage\\Adapter\\Memory",
-            "redis"        : "\\Phalcon\\Storage\\Adapter\\Redis",
-            "stream"       : "\\Phalcon\\Storage\\Adapter\\Stream"
+            "apcu"         : "\\Phalcon\\Cache\\Adapter\\Apcu",
+            "libmemcached" : "\\Phalcon\\Cache\\Adapter\\Libmemcached",
+            "memory"       : "\\Phalcon\\Cache\\Adapter\\Memory",
+            "redis"        : "\\Phalcon\\Cache\\Adapter\\Redis",
+            "stream"       : "\\Phalcon\\Cache\\Adapter\\Stream"
         ];
 
         let helpers = array_merge(helpers, services);

@@ -15,6 +15,8 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Apcu;
 use IntegrationTester;
 use Phalcon\Mvc\Model\MetaData\Apcu;
 use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Storage\AdapterFactory;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 use function apcu_clear_cache;
@@ -39,7 +41,10 @@ class ConstructCest
         $this->container->setShared(
             'modelsMetadata',
             function () {
+                $serializer = new SerializerFactory();
+                $factory    = new AdapterFactory($serializer);
                 return new Apcu(
+                    $factory,
                     [
                         'prefix'   => 'app\\',
                         'lifetime' => 60,
