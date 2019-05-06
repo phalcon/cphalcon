@@ -39,7 +39,6 @@ class IsRelationshipLoadedCest
      */
     public function mvcModelUnderscoreGet(IntegrationTester $I)
     {
-
         $I->wantToTest('Mvc\Model - isRelationshipLoaded() when using __get()');
 
         /**
