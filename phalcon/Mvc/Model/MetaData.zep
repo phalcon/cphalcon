@@ -16,7 +16,7 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
 use Phalcon\Mvc\Model\MetaData\StrategyInterface;
-use Phalcon\Storage\Adapter\AdapterInterface as StorageAdapterInterface;
+use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 
 /**
  * Phalcon\Mvc\Model\MetaData
@@ -57,7 +57,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     const MODELS_REVERSE_COLUMN_MAP = 1;
 
     /**
-     * @var StorageAdapterInterface
+     * @var CacheAdapterInterface
      */
     protected adapter;
 

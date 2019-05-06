@@ -12,7 +12,7 @@ namespace Phalcon\Mvc\Model;
 
 use Phalcon\Mvc\Controller\BindModelInterface;
 use Phalcon\Mvc\Model\Binder\BindableInterface;
-use Phalcon\Storage\Adapter\AdapterInterface;
+use Phalcon\Cache\Adapter\AdapterInterface;
 
 /**
  * Phalcon\Mvc\Model\Binding

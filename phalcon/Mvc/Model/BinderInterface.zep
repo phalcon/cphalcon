@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Storage\Adapter\AdapterInterface;
+use Phalcon\Cache\Adapter\AdapterInterface;
 
 /**
  * Phalcon\Mvc\Model\BinderInterface
