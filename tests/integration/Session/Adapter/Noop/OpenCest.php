@@ -44,7 +44,7 @@ class OpenCest
     {
         $I->wantToTest('Session\Adapter\Noop - open()');
         $adapter = $this->getSessionNoop();
-        $actual  = $adapter->open(cacheDir(), 'test1');
+        $actual  = $adapter->open(outputSessionsDir(), 'test1');
         $I->assertTrue($actual);
     }
 }

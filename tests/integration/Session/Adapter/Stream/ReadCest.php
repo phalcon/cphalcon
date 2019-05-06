@@ -15,7 +15,6 @@ namespace Phalcon\Test\Integration\Session\Adapter\Stream;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
-use function cacheDir;
 use function uniqid;
 
 /**
@@ -53,6 +52,6 @@ class ReadCest
         $expected = $value;
         $actual   = $adapter->read('test1');
         $I->assertEquals($expected, $actual);
-        $I->safeDeleteFile(cacheDir('sessions/test1'));
+        $I->safeDeleteFile(outputSessionsDir('/test1'));
     }
 }
