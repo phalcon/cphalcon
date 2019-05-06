@@ -149,7 +149,7 @@ class UnderscoreGetCest
          * Non-existent relationship
          */
         $I->assertNull(
-            $robot->getRelated('nonExistentRelation')
+            $robot->nonExistentRelation
         );
     }
 

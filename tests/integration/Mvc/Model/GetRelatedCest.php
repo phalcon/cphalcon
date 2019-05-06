@@ -100,7 +100,7 @@ class GetRelatedCest
             ]
         );
 
-        $I->assertEqual(
+        $I->assertEquals(
             0,
             $nonExistentRobotParts->count()
         );
