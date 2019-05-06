@@ -12,12 +12,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Exception;
+use Phalcon\Logger\Logger;
 use Phalcon\Logger\Item;
 use UnitTester;
+use function outputDir;
 
 /**
+ * Class ProcessCest
+ *
  * @package Phalcon\Test\Unit\Logger
  */
 class ProcessCest
@@ -25,14 +29,15 @@ class ProcessCest
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: process()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
+     *
+     * @throws Exception
      */
     public function loggerAdapterStreamProcess(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - process()');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = outputDir('tests/logs/');
+        $outputPath = logsDir();
         $adapter    = new Stream($outputPath . $fileName);
 
         $item = new Item('Message 1', 'debug', Logger::DEBUG);

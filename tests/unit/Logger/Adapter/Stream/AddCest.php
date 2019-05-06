@@ -12,12 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 /**
+ * Class AddCest
+ *
  * @package Phalcon\Test\Unit\Logger
  */
 class AddCest
@@ -25,14 +27,13 @@ class AddCest
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: add()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
     public function loggerAdapterStreamAdd(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - add()');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = outputDir('tests/logs/');
+        $outputPath = logsDir();
         $adapter    = new Stream($outputPath . $fileName);
 
         $adapter->begin();

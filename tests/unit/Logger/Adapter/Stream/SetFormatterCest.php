@@ -19,6 +19,8 @@ use UnitTester;
 use function outputDir;
 
 /**
+ * Class SetFormatterCest
+ *
  * @package Phalcon\Test\Unit\Logger
  */
 class SetFormatterCest
@@ -26,15 +28,14 @@ class SetFormatterCest
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: setFormatter()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
     public function loggerAdapterStreamSetFormatter(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - setFormatter()');
 
         $fileName = $I->getNewFileName('log', 'log');
-        $fileName = outputDir('tests/logs/' . $fileName);
+        $fileName = logsDir($fileName);
 
         $adapter = new Stream($fileName);
         $adapter->setFormatter(new Line());

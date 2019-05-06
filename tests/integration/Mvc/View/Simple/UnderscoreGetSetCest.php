@@ -15,31 +15,37 @@ namespace Phalcon\Test\Integration\Mvc\View\Simple;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-class SetParamToViewCest
+/**
+ * Class UnderscoreGetSetCest
+ */
+class UnderscoreGetSetCest
 {
     use DiTrait;
 
     public function _before(IntegrationTester $I)
     {
-        $this->newDi();
+        $this->setNewFactoryDefault();
         $this->setDiViewSimple();
     }
 
     /**
-     * Tests render with variables
+     * Tests Phalcon\Mvc\View\Simple :: __get()/__set()
      *
-     * @author Kamil Skowron <git@hedonsoftware.com>
-     * @since  2014-05-28
+     * @param IntegrationTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
      */
-    public function testRenderWithVariables(IntegrationTester $I)
+    public function mvcViewSimpleUnderscoreGetSet(IntegrationTester $I)
     {
+        $I->wantToTest('Mvc\View\Simple - __get()/__set()');
         $view = $this->container->get('viewSimple');
 
-        $view->setParamToView('a_cool_var', 'le-this');
+        $view->foo = 'bar';
 
         $I->assertEquals(
-            '<p>le-this</p>',
-            $view->render('currentrender/another')
+            'bar',
+            $view->foo
         );
     }
 }
