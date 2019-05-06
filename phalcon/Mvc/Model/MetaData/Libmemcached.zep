@@ -12,7 +12,7 @@ namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Storage\Adapter\Libmemcached as StorageLibmemcached;
+use Phalcon\Storage\AdapterFactory;
 
 /**
  * Phalcon\Mvc\Model\MetaData\Libmemcached
@@ -20,26 +20,6 @@ use Phalcon\Storage\Adapter\Libmemcached as StorageLibmemcached;
  * Stores model meta-data in the Memcache.
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
- *
- *<code>
- * $metaData = new Phalcon\Mvc\Model\MetaData\Libmemcached(
- *     [
- *         "servers"  => [
- *             [
- *                 "host"   => "localhost",
- *                 "port"   => 11211,
- *                 "weight" => 1,
- *             ],
- *         ],
- *         "client"   => [
- *             Memcached::OPT_HASH       => Memcached::HASH_MD5,
- *             Memcached::OPT_PREFIX_KEY => "prefix.",
- *         ],
- *         "lifetime" => 3600,
- *         "prefix"   => "my_",
- *     ]
- * );
- *</code>
  */
 class Libmemcached extends MetaData
 {
@@ -50,11 +30,11 @@ class Libmemcached extends MetaData
      *
      * @param array options
      */
-    public function __construct(array! options = []) -> void
+    public function __construct(<AdapterFactory> factory, array! options = []) -> void
     {
         let options["prefix"]   = "ph-mm-memc-",
             options["lifetime"] = 172800,
-            this->adapter       = new StorageLibmemcached(options);
+            this->adapter       = factory->newInstance("libmemcached", options);
     }
 
     /**

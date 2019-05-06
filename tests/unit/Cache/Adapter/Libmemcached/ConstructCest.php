@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Libmemcached;
 
+use DateInterval;
+use Exception;
 use Phalcon\Cache\Adapter\AdapterInterface;
-use Phalcon\Cache\Adapter\Libmemcached;
+use Phalcon\Storage\SerializerFactory;
+use Phalcon\Test\Fixtures\Cache\Adapter\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
+use function getOptionsLibmemcached;
 
 /**
  * Class ConstructCest
@@ -32,15 +36,78 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-09
      */
-    public function cacheAdapterLibmemcachedConstruct(UnitTester $I)
+    public function storageAdapterLibmemcachedConstruct(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - __construct()');
-        $adapter = new Libmemcached($this->getOptions());
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
         $class = Libmemcached::class;
         $I->assertInstanceOf($class, $adapter);
 
         $class = AdapterInterface::class;
         $I->assertInstanceOf($class, $adapter);
+    }
+
+    /**
+     * Tests Phalcon\Cache\Adapter\Libmemcached :: __construct() - empty
+     * options
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-04-09
+     */
+    public function storageAdapterLibmemcachedConstructEmptyOptions(UnitTester $I)
+    {
+        $I->wantToTest('Cache\Adapter\Libmemcached - __construct() - empty options');
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Libmemcached($serializer);
+
+        $expected = [
+            'servers' => [
+                0 => [
+                    "host"   => "127.0.0.1",
+                    "port"   => 11211,
+                    "weight" => 1,
+                ],
+            ],
+        ];
+        $actual   = $adapter->getOptions();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Cache\Adapter\Libmemcached :: __construct() - getTtl
+     * options
+     *
+     * @param UnitTester $I
+     *
+     * @throws Exception
+     * @since  2019-04-09
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     */
+    public function storageAdapterLibmemcachedConstructGetTtl(UnitTester $I)
+    {
+        $I->wantToTest('Cache\Adapter\Libmemcached - __construct() - getTtl');
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Libmemcached($serializer);
+
+        $expected = 3600;
+        $actual   = $adapter->getTtl(null);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 20;
+        $actual   = $adapter->getTtl(20);
+        $I->assertEquals($expected, $actual);
+
+        $time     = new DateInterval('PT5S');
+        $expected = 5;
+        $actual   = $adapter->getTtl($time);
+        $I->assertEquals($expected, $actual);
     }
 }

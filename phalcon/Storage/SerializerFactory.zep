@@ -34,24 +34,12 @@ class SerializerFactory
         var helpers, name, service;
 
         let helpers = [
-            "base64"   : function () {
-                return new \Phalcon\Storage\Serializer\Base64();
-            },
-            "igbinary" : function () {
-                return new \Phalcon\Storage\Serializer\Igbinary();
-            },
-            "json"     : function () {
-                return new \Phalcon\Storage\Serializer\Json();
-            },
-            "msgpack"  : function () {
-                return new \Phalcon\Storage\Serializer\Msgpack();
-            },
-            "none"     : function () {
-                return new \Phalcon\Storage\Serializer\None();
-            },
-            "php"      : function () {
-                return new \Phalcon\Storage\Serializer\Php();
-            }
+            "base64"   : "\\Phalcon\\Storage\\Serializer\\Base64",
+            "igbinary" : "\\Phalcon\\Storage\\Serializer\\Igbinary",
+            "json"     : "\\Phalcon\\Storage\\Serializer\\Json",
+            "msgpack"  : "\\Phalcon\\Storage\\Serializer\\Msgpack",
+            "none"     : "\\Phalcon\\Storage\\Serializer\\None",
+            "php"      : "\\Phalcon\\Storage\\Serializer\\Php"
         ];
 
         let helpers = array_merge(helpers, services);
@@ -77,8 +65,8 @@ class SerializerFactory
         }
 
         if !isset this->services[name] {
-            let definition            = this->mapper[name],
-                this->services[name] = {definition}();
+            let definition           = this->mapper[name],
+                this->services[name] = new {definition}();
         }
 
         return this->services[name];

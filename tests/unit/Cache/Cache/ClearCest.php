@@ -12,8 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Cache;
 
-use Phalcon\Cache\Adapter\Apcu;
+use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
+use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function uniqid;
 
@@ -34,7 +35,11 @@ class ClearCest
     {
         $I->wantToTest('Cache\Cache - clear()');
 
-        $adapter = new Cache(new Apcu());
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+        $instance   = $factory->newInstance('apcu');
+
+        $adapter = new Cache($instance);
 
         $key1 = uniqid();
         $key2 = uniqid();

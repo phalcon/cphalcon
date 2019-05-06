@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Stream;
 
 use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function outputDir;
 
@@ -32,7 +33,8 @@ class DeleteCest
     public function storageAdapterStreamDelete(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - delete()');
-        $adapter = new Stream(['cacheDir' => outputDir()]);
+        $serializer = new SerializerFactory();
+        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -57,7 +59,8 @@ class DeleteCest
     public function storageAdapterStreamDeleteTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - delete() - twice');
-        $adapter = new Stream(['cacheDir' => outputDir()]);
+        $serializer = new SerializerFactory();
+        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -82,7 +85,9 @@ class DeleteCest
     public function storageAdapterStreamDeleteUnknown(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - delete() - unknown');
-        $adapter = new Stream(['cacheDir' => outputDir()]);
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
 
         $key    = 'cache-data';
         $actual = $adapter->delete($key);

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Memory;
 
 use Phalcon\Cache\Adapter\Memory;
+use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
 /**
@@ -31,7 +32,9 @@ class HasCest
     public function storageAdapterMemoryGetSetHas(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - has()');
-        $adapter = new Memory();
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Memory($serializer);
 
         $key = uniqid();
 

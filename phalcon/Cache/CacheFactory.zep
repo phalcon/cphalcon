@@ -11,6 +11,7 @@
 namespace Phalcon\Cache;
 
 use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\CacheInterface;
 
@@ -22,12 +23,29 @@ use Phalcon\Cache\CacheInterface;
 class CacheFactory
 {
     /**
+     * @var <AdapterFactory>
+     */
+    protected adapterFactory;
+
+    /**
+     * Constructor
+     */
+    public function __construct(<AdapterFactory> factory)
+    {
+        let this->adapterFactory = factory;
+    }
+
+    /**
      * Constructor.
      *
      * @param AdapterInterface  adapter The cache adapter
      */
-    public function newInstance(<AdapterInterface> adapter) -> <CacheInterface>
+    public function newInstance(string! name, array! options = []) -> <CacheInterface>
     {
+        var adapter;
+
+        let adapter = this->adapterFactory->newInstance(name, options);
+
         return new Cache(adapter);
     }
 }
