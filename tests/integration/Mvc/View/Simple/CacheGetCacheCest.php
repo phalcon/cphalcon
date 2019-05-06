@@ -13,14 +13,14 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
-use Phalcon\Mvc\View\Simple;
 use Phalcon\Cache\Adapter\Stream;
+use Phalcon\Mvc\View\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
- * Class GetCacheCest
+ * Class CacheGetCacheCest
  */
-class GetCacheCest
+class CacheGetCacheCest
 {
     use DiTrait;
 
@@ -31,7 +31,7 @@ class GetCacheCest
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Simple :: getCache()
+     * Tests Phalcon\Mvc\View\Simple :: cache()/getCache()
      *
      * @param IntegrationTester $I
      *
@@ -40,7 +40,7 @@ class GetCacheCest
      */
     public function mvcViewSimpleGetCache(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View\Simple - getCache()');
+        $I->wantToTest('Mvc\View\Simple - cache()/getCache()');
 
 
         $class = Stream::class;

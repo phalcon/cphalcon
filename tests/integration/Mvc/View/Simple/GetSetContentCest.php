@@ -13,23 +13,35 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
+use Phalcon\Mvc\View\Simple;
 
 /**
- * Class GetContentCest
+ * Class GetSetContentCest
  */
-class GetContentCest
+class GetSetContentCest
 {
     /**
-     * Tests Phalcon\Mvc\View\Simple :: getContent()
+     * Tests Phalcon\Mvc\View\Simple :: getContent()/setContent()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcViewSimpleGetContent(IntegrationTester $I)
+    public function mvcViewSimpleGetSetContent(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View\Simple - getContent()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Mvc\View\Simple - getContent()/setContents()');
+
+        $view = new Simple();
+
+        $I->assertEquals(
+            $view,
+            $view->setContent('<h1>hello</h1>')
+        );
+
+        $I->assertEquals(
+            '<h1>hello</h1>',
+            $view->getContent()
+        );
     }
 }

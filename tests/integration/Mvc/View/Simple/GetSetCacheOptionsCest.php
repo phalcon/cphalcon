@@ -13,23 +13,41 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
+use Phalcon\Mvc\View\Simple;
 
 /**
- * Class GetCacheOptionsCest
+ * Class GetSetCacheOptionsCest
  */
-class GetCacheOptionsCest
+class GetSetCacheOptionsCest
 {
     /**
-     * Tests Phalcon\Mvc\View\Simple :: getCacheOptions()
+     * Tests Phalcon\Mvc\View\Simple :: getCacheOptions()/setCacheOptions()
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcViewSimpleGetCacheOptions(IntegrationTester $I)
+    public function mvcViewSimpleGetSetCacheOptions(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View\Simple - getCacheOptions()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Mvc\View\Simple - getCacheOptions()/setCacheOptions()');
+
+        $view = new Simple();
+
+        $options = [
+            'lifetime' => 86400,
+            'key'      => 'simple-cache',
+        ];
+
+        $I->assertEquals(
+            $view,
+            $view->setCacheOptions($options)
+        );
+
+        $I->assertEquals(
+            $options,
+            $view->getCacheOptions()
+        );
+
     }
 }
