@@ -13,10 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Libmemcached;
 
 use IntegrationTester;
-use Phalcon\Cache\AdapterFactory;
 use Phalcon\Mvc\Model\MetaData\Libmemcached;
 use Phalcon\Mvc\Model\MetaDataInterface;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 use function dataDir;
@@ -39,10 +37,7 @@ class ConstructCest
         $this->container->setShared(
             'modelsMetadata',
             function () {
-                $serializer = new SerializerFactory();
-                $factory    = new AdapterFactory($serializer);
                 return new Libmemcached(
-                    $factory,
                     [
                         'servers' => [
                             [
