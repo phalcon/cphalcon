@@ -12,7 +12,7 @@ namespace Phalcon\Mvc\Model;
 
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Storage\Adapter\AdapterInterface;
+use Phalcon\Cache\Adapter\AdapterInterface;
 
 /**
  * Phalcon\Mvc\Model\ResultsetInterface
