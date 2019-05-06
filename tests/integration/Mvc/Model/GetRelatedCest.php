@@ -116,7 +116,9 @@ class GetRelatedCest
                     'nonExistentRelation'
                 )
             ),
-            $robot->getRelated('nonExistentRelation')
+            function() use ($robot) {
+                $robot->getRelated('nonExistentRelation');
+            }
         );
     }
 }

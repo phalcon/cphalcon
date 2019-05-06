@@ -144,13 +144,6 @@ class UnderscoreGetCest
             'Phalcon\Mvc\Model\Resultset\Simple',
             $robotParts
         );
-
-        /**
-         * Non-existent relationship
-         */
-        $I->assertNull(
-            $robot->nonExistentRelation
-        );
     }
 
     /**
