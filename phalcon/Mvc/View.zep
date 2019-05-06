@@ -308,9 +308,7 @@ class View extends Injectable implements ViewInterface
      */
     public function finish() -> <View>
     {
-        if this->isBuffering() {
-            ob_end_clean();
-        }
+        ob_end_clean();
 
         return this;
     }
@@ -929,7 +927,7 @@ class View extends Injectable implements ViewInterface
              * Store the data in the cache
              */
             if typeof cache == "object" {
-                if this->isBuffering() && this->isFresh {
+                if cache->isBuffering() && cache->isFresh {
                     let contents = ob_get_contents(),
                         success  = cache->save(this->key, contents, this->lifetime);
 
@@ -943,9 +941,7 @@ class View extends Injectable implements ViewInterface
 
                     echo contents;
                 } else {
-                    if this->isBuffering() {
-                        ob_end_clean();
-                    }
+                    ob_end_clean();
                 }
             }
         }
@@ -1279,7 +1275,7 @@ class View extends Injectable implements ViewInterface
                      * Check if the cache is started, the first time a cache is
                      * started we start the cache
                      */
-                    if !this->isBuffering() {
+                    if !cache->isBuffering() {
                         /**
                          * Check if the user has defined a different options to
                          * the default

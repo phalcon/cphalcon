@@ -19,7 +19,7 @@ use Phalcon\Mvc\View\Exception;
 use Phalcon\Mvc\View\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\ViewTrait;
-use function outputModelsDir;
+use function cacheModelsDir;
 use function dataDir;
 use function file_get_contents;
 use function json_decode;
@@ -113,7 +113,7 @@ class RenderCest
             rtrim($view->render('currentrender/coolVar'))
         );
 
-        $file     = outputModelsDir('phstrm-/vi/ew/_s/im/pl/e_/ca/c/view_simple_cache');
+        $file     = cacheModelsDir('phstrm-/vi/ew/_s/im/pl/e_/ca/c/view_simple_cache');
         $contents = file_get_contents($file);
         $contents = json_decode($contents, true);
         $I->assertEquals("<p>$timeNow</p>", rtrim(unserialize($contents["content"])));

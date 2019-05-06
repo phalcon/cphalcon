@@ -25,7 +25,7 @@ class SimpleCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
-        $I->cleanDir(outputModelsDir());
+        $I->cleanDir(cacheModelsDir());
     }
 
     /**
@@ -48,7 +48,7 @@ class SimpleCest
 
         $cache->set('test-resultset', $robots);
 
-        $I->amInPath(outputModelsDir());
+        $I->amInPath(cacheModelsDir());
         $I->seeFileFound('test-resultset');
 
         $robots = $cache->get('test-resultset');
@@ -58,7 +58,7 @@ class SimpleCest
         $I->assertEquals($robots->count(), 3);
 
         $cache->delete('test-resultset');
-        $I->amInPath(outputModelsDir());
+        $I->amInPath(cacheModelsDir());
         $I->dontSeeFileFound('test-resultset');
     }
 
@@ -89,7 +89,7 @@ class SimpleCest
 
         $cache->set('test-resultset', $robots);
 
-        $I->amInPath(outputModelsDir());
+        $I->amInPath(cacheModelsDir());
         $I->seeFileFound('test-resultset');
 
         $robots = $cache->get('test-resultset');
@@ -99,7 +99,7 @@ class SimpleCest
         $I->assertEquals($robots->count(), 3);
 
         $cache->delete('test-resultset');
-        $I->amInPath(outputModelsDir());
+        $I->amInPath(cacheModelsDir());
         $I->dontSeeFileFound('test-resultset');
     }
 
