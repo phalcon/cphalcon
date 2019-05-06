@@ -69,12 +69,8 @@ if (!function_exists('loadFolders')) {
         ];
         foreach ($folders as $folder) {
             $item = outputDir('tests/' . $folder);
-            if (true !== file_exists($item)) {
-                mkdir($item, 0777, true);
-            }
+            checkDir($item);
         }
-
-        checkDir(cacheDir());
     }
 }
 
