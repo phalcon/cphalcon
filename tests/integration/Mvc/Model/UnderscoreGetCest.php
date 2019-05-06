@@ -114,7 +114,7 @@ class UnderscoreGetCest
          */
         $robotPart = Models\RobotsParts::findFirst();
 
-        $part = $robotPart->parts;
+        $part = $robotPart->part;
 
         $I->assertInstanceOf(
             Models\Parts::class,

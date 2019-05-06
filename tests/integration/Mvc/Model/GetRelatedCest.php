@@ -47,14 +47,14 @@ class GetRelatedCest
          */
         $robotPart = Models\RobotsParts::findFirst();
 
-        $part = $robotPart->getRelated(Models\Parts::class);
+        $part = $robotPart->getRelated('part');
 
         $I->assertInstanceOf(
             Models\Parts::class,
             $part
         );
 
-        $nonExistentPart = $robotPart->getRelated(Models\Parts::class, [
+        $nonExistentPart = $robotPart->getRelated('part', [
                 'id < 0',
                 'order' => 'id DESC'
             ]
@@ -87,14 +87,14 @@ class GetRelatedCest
          */
         $robot = Models\Robots::findFirst();
 
-        $robotParts = $robot->getRelated(Models\RobotsParts::class);
+        $robotParts = $robot->getRelated('robotsParts');
 
         $I->assertInstanceOf(
             'Phalcon\Mvc\Model\Resultset\Simple',
             $robotParts
         );
 
-        $nonExistentRobotParts = $robot->getRelated(Models\RobotsParts::class, [
+        $nonExistentRobotParts = $robot->getRelated('robotsParts', [
                 'id < 0',
                 'order' => 'id DESC'
             ]
