@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Memory;
 
 use Phalcon\Cache\Adapter\Memory;
-use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
 /**
@@ -32,9 +31,7 @@ class IncrementCest
     public function storageAdapterMemoryIncrement(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - increment()');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Memory($serializer);
+        $adapter = new Memory();
 
         $key    = 'cache-data';
         $result = $adapter->set($key, 1);

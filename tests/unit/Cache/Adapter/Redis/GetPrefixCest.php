@@ -13,10 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Redis;
 
 use Phalcon\Cache\Adapter\Redis;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
-use function getOptionsRedis;
 
 /**
  * Class GetPrefixCest
@@ -36,12 +34,9 @@ class GetPrefixCest
     public function storageAdapterRedisGetSetPrefix(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - getPrefix()');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Redis(
-            $serializer,
+        $adapter = new Redis(
             array_merge(
-                getOptionsRedis(),
+                $this->getOptions(),
                 [
                     'prefix' => 'my-prefix',
                 ]
@@ -64,9 +59,7 @@ class GetPrefixCest
     public function storageAdapterRedisGetSetPrefixDefault(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - getPrefix() - default');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Redis($serializer, getOptionsRedis());
+        $adapter = new Redis($this->getOptions());
 
         $expected = 'ph-reds-';
         $actual   = $adapter->getPrefix();

@@ -13,10 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Libmemcached;
 
 use Phalcon\Cache\Adapter\Libmemcached;
-use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
-use function getOptionsLibmemcached;
 
 /**
  * Class DeleteCest
@@ -33,12 +31,10 @@ class DeleteCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterLibmemcachedDelete(UnitTester $I)
+    public function cacheAdapterLibmemcachedDelete(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - delete()');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
+        $adapter = new Libmemcached($this->getOptions());
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -60,12 +56,10 @@ class DeleteCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterLibmemcachedDeleteTwice(UnitTester $I)
+    public function cacheAdapterLibmemcachedDeleteTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - delete() - twice');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
+        $adapter = new Libmemcached($this->getOptions());
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -87,12 +81,10 @@ class DeleteCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterLibmemcachedDeleteUnknown(UnitTester $I)
+    public function cacheAdapterLibmemcachedDeleteUnknown(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - delete() - unknown');
-
-        $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
+        $adapter = new Libmemcached($this->getOptions());
 
         $key    = 'cache-data';
         $actual = $adapter->delete($key);

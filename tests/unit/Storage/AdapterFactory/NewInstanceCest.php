@@ -13,18 +13,18 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\AdapterFactory;
 
 use Codeception\Example;
+use function getOptionsLibmemcached;
+use function getOptionsRedis;
+use function outputDir;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\AdapterFactory;
-use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Storage\Exception;
 use UnitTester;
-use function getOptionsLibmemcached;
-use function getOptionsRedis;
-use function outputDir;
 
 /**
  * Class NewInstanceCest
@@ -38,10 +38,10 @@ class NewInstanceCest
      *
      * @param UnitTester $I
      *
-     * @throws Exception
-     * @since        2019-05-04
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-05-04
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @throws Exception
      */
     public function storageAdapterFactoryNewInstance(UnitTester $I, Example $example)
     {
@@ -61,10 +61,10 @@ class NewInstanceCest
      *
      * @param UnitTester $I
      *
-     * @throws Exception
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-04
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws Exception
      */
     public function storageSerializerFactoryNewInstanceException(UnitTester $I)
     {
@@ -87,11 +87,11 @@ class NewInstanceCest
     private function getExamples(): array
     {
         return [
-            ['apcu', Apcu::class, []],
+            ['apcu',         Apcu::class,         []],
             ['libmemcached', Libmemcached::class, getOptionsLibmemcached()],
-            ['memory', Memory::class, []],
-            ['redis', Redis::class, getOptionsRedis()],
-            ['stream', Stream::class, ['cacheDir' => outputDir()]],
+            ['memory',       Memory::class,       []],
+            ['redis',        Redis::class,        getOptionsRedis()],
+            ['stream',       Stream::class,       ['cacheDir' => outputDir()]],
         ];
     }
 }

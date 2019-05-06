@@ -12,10 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Cache;
 
-use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
-use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function uniqid;
 
@@ -36,11 +35,7 @@ class HasCest
     {
         $I->wantToTest('Cache\Cache - has()');
 
-        $serializer = new SerializerFactory();
-        $factory    = new AdapterFactory($serializer);
-        $instance   = $factory->newInstance('apcu');
-
-        $adapter = new Cache($instance);
+        $adapter = new Cache(new Apcu());
 
         $key = uniqid();
 
@@ -67,13 +62,8 @@ class HasCest
         $I->expectThrowable(
             new InvalidArgumentException('The key contains invalid characters'),
             function () {
-                $serializer = new SerializerFactory();
-                $factory    = new AdapterFactory($serializer);
-                $instance   = $factory->newInstance('apcu');
-
-                $adapter = new Cache($instance);
-
-                $value = $adapter->has('abc$^');
+                $adapter = new Cache(new Apcu());
+                $value   = $adapter->has('abc$^');
             }
         );
     }

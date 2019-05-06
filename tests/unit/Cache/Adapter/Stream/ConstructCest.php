@@ -15,7 +15,6 @@ namespace Phalcon\Test\Unit\Cache\Adapter\Stream;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\Exception;
-use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function outputDir;
 
@@ -35,8 +34,7 @@ class ConstructCest
     public function storageAdapterStreamConstruct(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - __construct()');
-        $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter = new Stream(['cacheDir' => outputDir()]);
 
         $class = Stream::class;
         $I->assertInstanceOf($class, $adapter);
@@ -60,8 +58,7 @@ class ConstructCest
         $I->expectThrowable(
             new Exception("The 'cacheDir' must be specified in the options"),
             function () {
-                $serializer = new SerializerFactory();
-                $adapter    = new Stream($serializer);
+                $adapter = new Stream();
             }
         );
     }
