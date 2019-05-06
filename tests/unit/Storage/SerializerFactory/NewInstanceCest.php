@@ -88,5 +88,4 @@ class NewInstanceCest
             ['php', Php::class],
         ];
     }
-
 }

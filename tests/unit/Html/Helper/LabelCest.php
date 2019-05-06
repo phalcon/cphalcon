@@ -15,17 +15,17 @@ namespace Phalcon\Test\Unit\Html\Helper;
 use Codeception\Example;
 use Phalcon\Escaper;
 use Phalcon\Html\Exception;
-use Phalcon\Html\Helper\Form;
+use Phalcon\Html\Helper\Label;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
 /**
- * Class FormCest
+ * Class LabelCest
  */
-class FormCest
+class LabelCest
 {
     /**
-     * Tests Phalcon\Html\Helper\Form :: __construct()
+     * Tests Phalcon\Html\Helper\Label :: __construct()
      *
      * @dataProvider getExamples
      *
@@ -34,18 +34,18 @@ class FormCest
      *
      * @throws Exception
      */
-    public function htmlHelperFormConstruct(UnitTester $I, Example $example)
+    public function htmlHelperLabelConstruct(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Html\Helper\Form - __construct()');
+        $I->wantToTest('Html\Helper\Label - __construct()');
         $escaper = new Escaper();
-        $helper  = new Form($escaper);
+        $helper  = new Label($escaper);
 
         $expected = $example[0];
         $actual   = $helper($example[1]);
         $I->assertEquals($expected, $actual);
 
         $factory  = new TagFactory($escaper);
-        $locator  = $factory->newInstance('form');
+        $locator  = $factory->newInstance('label');
         $expected = $example[0];
         $actual   = $locator($example[1]);
         $I->assertEquals($expected, $actual);
@@ -58,21 +58,21 @@ class FormCest
     {
         return [
             [
-                '<form method="post" enctype="multipart/form-data">',
+                '<label>',
                 [],
             ],
             [
-                '<form id="my-id" name="my-name" method="post" enctype="multipart/form-data">',
+                '<label for="my-name" id="my-id">',
                 [
-                    'id'   => 'my-id',
-                    'name' => 'my-name',
+                    'id'  => 'my-id',
+                    'for' => 'my-name',
                 ],
             ],
             [
-                '<form id="my-id" name="my-name" class="my-class" method="post" enctype="multipart/form-data">',
+                '<label for="my-name" id="my-id" class="my-class">',
                 [
                     'class' => 'my-class',
-                    'name'  => 'my-name',
+                    'for'   => 'my-name',
                     'id'    => 'my-id',
                 ],
             ],

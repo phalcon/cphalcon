@@ -13,11 +13,11 @@ namespace Phalcon\Html\Helper;
 use Phalcon\Html\Helper\AbstractHelper;
 
 /**
- * Phalcon\Html\Helper\Anchor
+ * Phalcon\Html\Helper\AnchorRaw
  *
- * Creates an anchor
+ * Creates a raw anchor
  */
-class Anchor extends AbstractHelper
+class AnchorRaw extends AbstractHelper
 {
     /**
      * @var string href       The href tag
@@ -37,6 +37,6 @@ class Anchor extends AbstractHelper
 
         let overrides = array_merge(overrides, attributes);
 
-        return $this->renderFullElement("a", text, overrides);
+        return $this->renderFullElement("a", text, overrides, true);
     }
 }

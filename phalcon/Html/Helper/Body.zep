@@ -13,17 +13,17 @@ namespace Phalcon\Html\Helper;
 use Phalcon\Html\Helper\AbstractHelper;
 
 /**
- * Phalcon\Html\Helper\FormClose
+ * Phalcon\Html\Helper\Body
  *
- * Creates a form closing tag
+ * Creates a body tag
  */
-class FormClose extends AbstractHelper
+class Body extends AbstractHelper
 {
     /**
      * @var array  attributes Any additional attributes
      */
-    public function __invoke() -> string
+    public function __invoke(array attributes = []) -> string
     {
-        return "</form>";
+        return this->renderElement("body", attributes);
     }
 }

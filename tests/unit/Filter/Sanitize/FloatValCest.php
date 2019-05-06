@@ -23,7 +23,7 @@ use function number_format;
 class FloatValCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\FloatVal :: __invoke()
      *
      * @dataProvider getData
      *

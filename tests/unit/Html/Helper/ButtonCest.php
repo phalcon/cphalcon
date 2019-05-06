@@ -13,8 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Html\Helper\Button;
 
 use Codeception\Example;
+use Phalcon\Escaper;
+use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Button;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
 /**
@@ -22,8 +24,6 @@ use UnitTester;
  */
 class ButtonCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Html\Helper\Button :: __construct()
      *
@@ -32,20 +32,22 @@ class ButtonCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author       Phalcon Team <team@phalconphp.com>
-     * @since        2019-01-19
+     * @throws Exception
      */
     public function htmlHelperTextareaConstruct(UnitTester $I, Example $example)
     {
         $I->wantToTest('Html\Helper\Button - __construct()');
-
-        $escaper = $this->newEscaper();
-
-        $helper = new Button($escaper);
+        $escaper = new Escaper();
+        $helper  = new Button($escaper);
 
         $expected = $example[0];
         $actual   = $helper($example[1], $example[2]);
+        $I->assertEquals($expected, $actual);
 
+        $factory  = new TagFactory($escaper);
+        $locator  = $factory->newInstance('button');
+        $expected = $example[0];
+        $actual   = $locator($example[1], $example[2]);
         $I->assertEquals($expected, $actual);
     }
 

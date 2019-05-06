@@ -15,17 +15,17 @@ namespace Phalcon\Test\Unit\Html\Helper;
 use Codeception\Example;
 use Phalcon\Escaper;
 use Phalcon\Html\Exception;
-use Phalcon\Html\Helper\Anchor;
+use Phalcon\Html\Helper\AnchorRaw;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
 /**
- * Class AnchorCest
+ * Class AnchorRawCest
  */
-class AnchorCest
+class AnchorRawCest
 {
     /**
-     * Tests Phalcon\Html\Helper\Anchor :: __construct()
+     * Tests Phalcon\Html\Helper\AnchorRaw :: __construct()
      *
      * @dataProvider getExamples
      *
@@ -34,21 +34,53 @@ class AnchorCest
      *
      * @throws Exception
      */
-    public function htmlHelperAnchorConstruct(UnitTester $I, Example $example)
+    public function htmlHelperAnchorRawConstruct(UnitTester $I, Example $example)
     {
         $I->wantToTest('Html\Helper\Anchor - __construct()');
         $escaper = new Escaper();
-        $anchor  = new Anchor($escaper);
+        $anchor  = new AnchorRaw($escaper);
 
         $expected = $example[0];
         $actual   = $anchor('/myurl', 'click<>me', $example[1]);
         $I->assertEquals($expected, $actual);
 
         $factory  = new TagFactory($escaper);
-        $locator  = $factory->newInstance('a');
+        $locator  = $factory->newInstance('aRaw');
         $expected = $example[0];
         $actual   = $locator('/myurl', 'click<>me', $example[1]);
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Html\Helper\Anchor :: __construct() - exception
+     *
+     * @param UnitTester $I
+     *
+     * @throws Exception
+     */
+    public function htmlHelperAnchorConstructException(UnitTester $I)
+    {
+        $I->wantToTest('Html\Helper\Anchor - __construct()');
+        $I->expectThrowable(
+            new Exception(
+                'Value at index: "other" type: "array" cannot be rendered'
+            ),
+            function () {
+                $escaper    = new Escaper();
+                $anchor     = new AnchorRaw($escaper);
+                $attributes = [
+                    'id'    => 'my-id',
+                    'name'  => 'my-name',
+                    'other' => [
+                        'a',
+                        'b',
+                        'c',
+                    ],
+                ];
+
+                $output = $anchor('/myurl', 'click me', $attributes);
+            }
+        );
     }
 
     /**
@@ -58,24 +90,24 @@ class AnchorCest
     {
         return [
             [
-                '<a href="/myurl">click&lt;&gt;me</a>',
+                '<a href="/myurl">click<>me</a>',
                 [],
             ],
             [
-                '<a href="/myurl">click&lt;&gt;me</a>',
+                '<a href="/myurl">click<>me</a>',
                 [
                     'href' => '/somethingelse',
                 ],
             ],
             [
-                '<a href="/myurl" id="my-id" name="my-name">click&lt;&gt;me</a>',
+                '<a href="/myurl" id="my-id" name="my-name">click<>me</a>',
                 [
                     'id'   => 'my-id',
                     'name' => 'my-name',
                 ],
             ],
             [
-                '<a href="/myurl" id="my-id" name="my-name" class="my-class">click&lt;&gt;me</a>',
+                '<a href="/myurl" id="my-id" name="my-name" class="my-class">click<>me</a>',
                 [
                     'class' => 'my-class',
                     'name'  => 'my-name',

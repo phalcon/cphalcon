@@ -25,6 +25,6 @@ class Button extends AbstractHelper
      */
     public function __invoke(string! text, array attributes = []) -> string
     {
-        return this->renderElement("button", text, attributes);
+        return this->renderFullElement("button", text, attributes);
     }
 }

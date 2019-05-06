@@ -22,7 +22,7 @@ use UnitTester;
 class SpecialCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\Special :: __invoke()
      *
      * @dataProvider getData
      *

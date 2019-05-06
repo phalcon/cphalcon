@@ -22,7 +22,7 @@ use UnitTester;
 class SpecialFullCest
 {
     /**
-     * Tests PhalconNG\Filter\Sanitize\SpecialFull :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\SpecialFull :: __invoke()
      *
      * @dataProvider getData
      *
