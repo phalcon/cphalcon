@@ -58,12 +58,13 @@ if (!function_exists('loadFolders')) {
             'annotations',
             'assets',
             'cache',
-            'models',
+            'cache/models',
+            'cache/sessions',
             'image',
             'image/gd',
             'image/imagick',
             'logs',
-            'sessions',
+            'session',
             'stream',
         ];
         foreach ($folders as $folder) {
@@ -155,30 +156,15 @@ if (true !== function_exists('outputDir')) {
 /**
  * Returns the output folder
  */
-if (true !== function_exists('outputModelsDir')) {
+if (true !== function_exists('cacheModelsDir')) {
     /**
      * @param string $fileName
      *
      * @return string
      */
-    function outputModelsDir(string $fileName = '')
+    function cacheModelsDir(string $fileName = '')
     {
-        return codecept_output_dir() . 'tests/models/' . $fileName;
-    }
-}
-
-/**
- * Returns the output folder
- */
-if (true !== function_exists('outputSessionsDir')) {
-    /**
-     * @param string $fileName
-     *
-     * @return string
-     */
-    function outputSessionsDir(string $fileName = '')
-    {
-        return codecept_output_dir() . 'tests/sessions/' . $fileName;
+        return codecept_output_dir() . 'tests/cache/models/' . $fileName;
     }
 }
 
@@ -228,7 +214,7 @@ if (true !== function_exists('getOptionsSessionStream')) {
     function getOptionsSessionStream()
     {
         return [
-            'savePath' => outputSessionsDir(),
+            'savePath' => cacheDir('sessions'),
         ];
     }
 }
@@ -241,7 +227,7 @@ if (true !== function_exists('getOptionsModelCacheStream')) {
     {
         return [
             'lifetime' => 3600,
-            'cacheDir' => outputModelsDir(),
+            'cacheDir' => cacheModelsDir(),
         ];
     }
 }
