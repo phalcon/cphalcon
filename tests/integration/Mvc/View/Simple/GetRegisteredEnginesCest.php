@@ -30,9 +30,6 @@ class GetRegisteredEnginesCest
     }
 
     /**
-     * Tests Phalcon\Mvc\View\Simple :: registerEngines()/getRegisteredEngines()
-     *
-     * @param IntegrationTester $I
      * Tests the Simple::getRegisteredEngines
      *
      * @author Kamil Skowron <git@hedonsoftware.com>
@@ -40,8 +37,6 @@ class GetRegisteredEnginesCest
      */
     public function testGetRegisteredEngines(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View\Simple - registerEngines()/getRegisteredEngines()');
-
         $view = $this->container->get('viewSimple');
 
         $engines = [

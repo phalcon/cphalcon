@@ -22,7 +22,7 @@ use Phalcon\Test\Models\Personas;
 use Phalcon\Test\Models\Personers;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Users;
-use function outputModelsDir;
+use function cacheModelsDir;
 
 class CriteriaCest
 {
@@ -434,7 +434,7 @@ class CriteriaCest
 
         $I->assertFalse($personas->isFresh());
 
-        $I->amInPath(outputModelsDir());
+        $I->amInPath(cacheModelsDir());
         $I->safeDeleteFile('cache-for-issue-2131');
         $I->dontSeeFileFound('cache-for-issue-2131');
     }
