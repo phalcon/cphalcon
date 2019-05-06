@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Cache\Cache;
 
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
-use Phalcon\Storage\Adapter\AdapterInterface;
+use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
