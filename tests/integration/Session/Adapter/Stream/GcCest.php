@@ -15,6 +15,7 @@ namespace Phalcon\Test\Integration\Session\Adapter\Stream;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use function cacheDir;
 use function file_put_contents;
 use function sleep;
 use function uniqid;
