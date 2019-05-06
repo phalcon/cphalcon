@@ -60,7 +60,7 @@ class GetRelatedCest
             ]
         );
 
-        $I->assertNull($nonExistentPart);
+        $I->assertFalse($nonExistentPart);
 
         /**
          * Testing has-one relationship
@@ -80,7 +80,7 @@ class GetRelatedCest
             ]
         );
 
-        $I->assertNull($nonExistentUser);
+        $I->assertFalse($nonExistentUser);
 
         /**
          * Has-many relationship
@@ -106,40 +106,17 @@ class GetRelatedCest
         );
 
         /**
-         * Has-many-to-many relationship
-         */
-        $relationsRobot = Models\Relations\M2MRobots::findFirst();
-
-        $M2MParts = $relationsRobot->getRelated('M2MParts');
-
-        $I->assertInstanceOf(
-            'Phalcon\Mvc\Model\Resultset\Simple',
-            $M2MParts
-        );
-
-        $nonExistentM2MParts = $relationsRobot->getRelated('M2MParts', [
-                'id < 0',
-                'order' => 'id DESC'
-            ]
-        );
-
-        $I->assertEqual(
-            0,
-            $nonExistentM2MParts->count()
-        );
-
-        /**
          * Non-existent relationship
          */
         $I->expectThrowable(
             new Exception(
                 sprintf(
                     "There is no defined relations for the model '%s' using alias '%s'",
-                    Models\Relations\M2MRobots::class,
+                    Models\Robots::class,
                     'nonExistentRelation'
                 )
             ),
-            $relationsRobot->getRelated('nonExistentRelation')
+            $robot->getRelated('nonExistentRelation')
         );
     }
 }

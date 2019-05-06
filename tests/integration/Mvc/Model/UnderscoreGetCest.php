@@ -146,22 +146,10 @@ class UnderscoreGetCest
         );
 
         /**
-         * Has-many-to-many relationship
-         */
-        $relationsRobot = Models\Relations\M2MRobots::findFirst();
-
-        $M2MParts = $relationsRobot->M2MParts;
-
-        $I->assertInstanceOf(
-            'Phalcon\Mvc\Model\Resultset\Simple',
-            $M2MParts
-        );
-
-        /**
          * Non-existent relationship
          */
         $I->assertNull(
-            $relationsRobot->getRelated('nonExistentRelation')
+            $robot->getRelated('nonExistentRelation')
         );
     }
 
