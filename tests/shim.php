@@ -63,7 +63,7 @@ if (!function_exists('loadFolders')) {
             'image/imagick',
             'models',
             'logs',
-            'sessions',
+            'session',
             'stream',
         ];
         foreach ($folders as $folder) {
