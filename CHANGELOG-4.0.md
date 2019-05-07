@@ -24,6 +24,8 @@
 - Changed `Phalcon\Mvc\Model\Manager::getModelSource()` to use `setModelSource()` internally instead of setting the source manually [#13987](https://github.com/phalcon/cphalcon/pull/13987)
 - The property `options` is always an array in `Phalcon\Mvc\Model\Relation`. [#13989](https://github.com/phalcon/cphalcon/pull/13989)
 - `Phalcon\Logger\Adapter\AbstractAdapter::process()` is now actually abstract. [#14012](https://github.com/phalcon/cphalcon/pull/14012)
+- `Phalcon\Mvc\ModelInterface::getRelated()` return type declaration has changed (not always `ResultsetInterface`) [#14035](https://github.com/phalcon/cphalcon/pull/14035/)
+- In `Phalcon\Mvc\Model`, relations fetched using magic methods are now handled by `Phalcon\Mvc\Model::getRelated()` internally.  [#14035](https://github.com/phalcon/cphalcon/pull/14035/)
 
 ## Fixed
 - Fixed `Mvc\Collection::isInitialized()` now works as intended. [#13931](https://github.com/phalcon/cphalcon/pull/13931)
@@ -37,6 +39,10 @@
 - `Phalcon\Mvc\Model\Relation::isForeignKey()` now returns false if the `foreignKey` option is set to `false`.
 - Fixed `Phalcon\Flash\Session::output()` not to throw an exception when there are no messages stored in session. [#14023](https://github.com/phalcon/cphalcon/issues/14023)
 - Fixed `Phalcon\Config\Adapter\Ini()` to handle arrays correctly in .ini files. [#14025](https://github.com/phalcon/cphalcon/issues/14025)
+- Fixed non-reusable relations in `Phalcon\Mvc\Model`, now returning fresh records. [#13531](https://github.com/phalcon/cphalcon/issues/13531)
+- `Phalcon\Mvc\Model::isRelationshipLoaded()` is now working for every type of relations. [#14035](https://github.com/phalcon/cphalcon/pull/14035)
+- Fixed `Phalcon\Mvc\Model::writeAttribute()` to handle associative arrays correctly. [#14021](https://github.com/phalcon/cphalcon/issues/14021)
+- Fixed `Phalcon\Mvc\Model::save()` failing after fetching related records. [#13964](https://github.com/phalcon/cphalcon/issues/13964)
 
 ## Removed
 - Removed `arrayHelpers` property from the Volt compiler. [#13925](https://github.com/phalcon/cphalcon/pull/13925)
