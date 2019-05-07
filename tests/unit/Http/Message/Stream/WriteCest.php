@@ -33,7 +33,7 @@ class WriteCest
     {
         $I->wantToTest('Http\Message\Stream - write()');
         $fileName = $I->getNewFileName();
-        $fileName = dataDir($fileName);
+        $fileName = logsDir($fileName);
         $stream   = new Stream($fileName, 'wb');
 
         $source   = 'A well regulated Militia, being necessary to the security of a free State, '
@@ -67,7 +67,7 @@ class WriteCest
             ),
             function () use ($I) {
                 $fileName = $I->getNewFileName();
-                $fileName = dataDir($fileName);
+                $fileName = logsDir($fileName);
                 $stream   = new Stream($fileName, 'wb');
                 $stream->detach();
 

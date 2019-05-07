@@ -164,7 +164,22 @@ if (true !== function_exists('cacheModelsDir')) {
      */
     function cacheModelsDir(string $fileName = '')
     {
-        return codecept_output_dir() . 'tests/cache/models/' . $fileName;
+        return codecept_output_dir() . 'tests/models/' . $fileName;
+    }
+}
+
+/**
+ * Returns the output folder
+ */
+if (true !== function_exists('cacheSessionsDir')) {
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
+    function cacheSessionsDir(string $fileName = '')
+    {
+        return codecept_output_dir() . 'tests/sessions/' . $fileName;
     }
 }
 
@@ -214,7 +229,7 @@ if (true !== function_exists('getOptionsSessionStream')) {
     function getOptionsSessionStream()
     {
         return [
-            'savePath' => cacheDir('sessions'),
+            'savePath' => cacheSessionsDir(),
         ];
     }
 }
