@@ -30,7 +30,7 @@ class ProcessCest
     {
         $I->wantToTest('Logger\Adapter\Stream - process()');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = outputDir();
+        $outputPath = logsDir();
         $adapter    = new Stream($outputPath . $fileName);
 
         $item = new Item('Message 1', 'debug', Logger::DEBUG);

@@ -26,7 +26,7 @@ class InTransactionCest
     {
         $I->wantToTest('Logger\Adapter\Stream - inTransaction()');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = outputDir();
+        $outputPath = logsDir();
         $adapter    = new Stream($outputPath . $fileName);
 
         $adapter->begin();

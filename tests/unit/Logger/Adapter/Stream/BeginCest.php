@@ -26,7 +26,7 @@ class BeginCest
     {
         $I->wantToTest('Logger\Adapter\Stream - begin()');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = outputDir();
+        $outputPath = logsDir();
         $adapter    = new Stream($outputPath . $fileName);
 
         $adapter->begin();
