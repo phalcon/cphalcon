@@ -29,8 +29,6 @@ class GetAdapterCest
     /**
      * Tests Phalcon\Storage\Adapter\Libmemcached :: getAdapter()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-14
      */

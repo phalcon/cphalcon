@@ -24,8 +24,6 @@ class UnserializeCest
     /**
      * Tests Phalcon\Storage\Serializer\Base64 :: unserialize()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-30
      */
@@ -44,8 +42,6 @@ class UnserializeCest
 
     /**
      * Tests Phalcon\Storage\Serializer\Base64 :: serialize() - exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-30

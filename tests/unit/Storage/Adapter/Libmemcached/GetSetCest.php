@@ -62,8 +62,6 @@ class GetSetCest
      * Tests Phalcon\Storage\Adapter\Libmemcached :: get()/set() - custom
      * serializer
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      * @since  2019-04-29
      *

@@ -23,8 +23,6 @@ class GetFragmentCest
     /**
      * Tests Phalcon\Http\Message\Uri :: getFragment()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */
@@ -41,8 +39,6 @@ class GetFragmentCest
 
     /**
      * Tests Phalcon\Http\Message\Uri :: getFragment() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-07

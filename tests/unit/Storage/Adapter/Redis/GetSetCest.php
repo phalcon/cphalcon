@@ -63,8 +63,6 @@ class GetSetCest
     /**
      * Tests Phalcon\Storage\Adapter\Redis :: get() - persistent
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      * @author Phalcon Team <team@phalconphp.com>
      *
@@ -97,8 +95,6 @@ class GetSetCest
     /**
      * Tests Phalcon\Storage\Adapter\Redis :: get() - wrong index
      *
-     * @param UnitTester $I
-     *
      * @since  2019-03-31
      * @author Phalcon Team <team@phalconphp.com>
      */
@@ -127,8 +123,6 @@ class GetSetCest
     /**
      * Tests Phalcon\Storage\Adapter\Redis :: get() - failed auth
      *
-     * @param UnitTester $I
-     *
      * @since  2019-03-31
      * @author Phalcon Team <team@phalconphp.com>
      */
@@ -156,8 +150,6 @@ class GetSetCest
 
     /**
      * Tests Phalcon\Storage\Adapter\Redis :: get()/set() - custom serializer
-     *
-     * @param UnitTester $I
      *
      * @throws Exception
      * @since  2019-04-29

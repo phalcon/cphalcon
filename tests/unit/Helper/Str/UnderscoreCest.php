@@ -23,8 +23,6 @@ class UnderscoreCest
     /**
      * Tests Phalcon\Helper\Str :: underscore()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */

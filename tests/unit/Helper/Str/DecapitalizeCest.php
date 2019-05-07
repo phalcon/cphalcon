@@ -23,8 +23,6 @@ class DecapitalizeCest
     /**
      * Tests Phalcon\Helper\Str :: decapitalize()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */

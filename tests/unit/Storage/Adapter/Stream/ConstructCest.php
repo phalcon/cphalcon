@@ -27,8 +27,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: __construct()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
@@ -47,8 +45,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: __construct() - exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24

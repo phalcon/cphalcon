@@ -23,8 +23,6 @@ class WithAddedHeaderCest
     /**
      * Tests Phalcon\Http\Message\Response :: withAddedHeader()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
      */
@@ -55,8 +53,6 @@ class WithAddedHeaderCest
 
     /**
      * Tests Phalcon\Http\Message\Response :: withAddedHeader() - merge
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09

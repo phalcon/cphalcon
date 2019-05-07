@@ -24,8 +24,6 @@ class GetMetadataCest
     /**
      * Tests Phalcon\Http\Message\Stream :: getMetadata()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */

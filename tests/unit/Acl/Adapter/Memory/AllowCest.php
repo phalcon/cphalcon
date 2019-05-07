@@ -59,8 +59,6 @@ class AllowCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: allow() - function
      *
-     * @param UnitTester $I
-     *
      * @issue   https://github.com/phalcon/cphalcon/issues/11235
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>

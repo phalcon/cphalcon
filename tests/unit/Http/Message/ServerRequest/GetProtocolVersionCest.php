@@ -52,8 +52,6 @@ class GetProtocolVersionCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getProtocolVersion() - empty
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-05
      */

@@ -22,8 +22,6 @@ class UnderscoreCallCest
     /**
      * Tests Phalcon\Di\FactoryDefault :: __call()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

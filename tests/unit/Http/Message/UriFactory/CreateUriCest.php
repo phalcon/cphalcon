@@ -25,8 +25,6 @@ class CreateUriCest
     /**
      * Tests Phalcon\Http\Message\UriFactory :: createUri()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */
@@ -42,8 +40,6 @@ class CreateUriCest
 
     /**
      * Tests Phalcon\Http\Message\UriFactory :: createUri() - exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

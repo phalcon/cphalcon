@@ -24,8 +24,6 @@ class GetSetHasCest
     /**
      * Tests Phalcon\Filter\FilterLocator :: get()/set()/has() - has()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-01-19
      */
@@ -46,8 +44,6 @@ class GetSetHasCest
 
     /**
      * Tests Phalcon\Filter\FilterLocator :: get()/set()/has() - get()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -72,8 +68,6 @@ class GetSetHasCest
 
     /**
      * Tests Phalcon\Filter\FilterLocator :: get()/set()/has() - get() same
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -103,8 +97,6 @@ class GetSetHasCest
 
     /**
      * Tests Phalcon\Filter\FilterLocator :: get()/set()/has() - set()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

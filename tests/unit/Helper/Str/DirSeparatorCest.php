@@ -23,8 +23,6 @@ class DirSeparatorCest
     /**
      * Tests Phalcon\Helper\Str :: dirSeparator()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16
      */

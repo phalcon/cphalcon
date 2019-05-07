@@ -29,8 +29,6 @@ class ProcessCest
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: process()
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      */
     public function loggerAdapterStreamProcess(UnitTester $I)

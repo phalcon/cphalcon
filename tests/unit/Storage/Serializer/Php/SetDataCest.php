@@ -23,8 +23,6 @@ class SetDataCest
     /**
      * Tests Phalcon\Storage\Serializer\Php :: setData()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-12
      */

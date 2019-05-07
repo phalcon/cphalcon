@@ -52,8 +52,6 @@ class CheckTokenCest
     /**
      * Tests Phalcon\Security :: checkToken() and destroyToken()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

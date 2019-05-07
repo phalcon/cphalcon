@@ -25,8 +25,6 @@ class GetUploadedFilesCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getUploadedFiles()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-03
      */
@@ -56,8 +54,6 @@ class GetUploadedFilesCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getUploadedFiles() - empty
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-03
      */
@@ -73,8 +69,6 @@ class GetUploadedFilesCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getUploadedFiles() -
      * exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-03

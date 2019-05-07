@@ -56,8 +56,6 @@ class AppendTitleCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: appendTitle() - separator
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-09-05
      */
@@ -90,8 +88,6 @@ class AppendTitleCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: appendTitle() - double call
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-09-05
@@ -127,8 +123,6 @@ class AppendTitleCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: appendTitle() - array
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-09-05
      */
@@ -161,8 +155,6 @@ class AppendTitleCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: appendTitle() - empty array
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-09-05

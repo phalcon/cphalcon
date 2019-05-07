@@ -24,8 +24,6 @@ class GetContentsCest
     /**
      * Tests Phalcon\Http\Message\Stream :: getContents()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -42,8 +40,6 @@ class GetContentsCest
 
     /**
      * Tests Phalcon\Http\Message\Stream :: getContents() - from position
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -65,8 +61,6 @@ class GetContentsCest
 
     /**
      * Tests Phalcon\Http\Message\Stream :: getContents() - exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

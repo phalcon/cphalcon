@@ -57,8 +57,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: __construct() - exception
      *
-     * @param UnitTester $I
-     *
      * @author Fenikkusu
      * @since  2017-06-06
      */

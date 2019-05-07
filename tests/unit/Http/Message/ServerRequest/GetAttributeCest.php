@@ -23,8 +23,6 @@ class GetAttributeCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getAttribute()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-11
      */
@@ -43,8 +41,6 @@ class GetAttributeCest
 
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getAttribute() - unknown
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-11

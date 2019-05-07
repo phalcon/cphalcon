@@ -28,8 +28,6 @@ class ClearCest
     /**
      * Tests Phalcon\Storage\Adapter\Libmemcached :: clear()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
@@ -62,8 +60,6 @@ class ClearCest
 
     /**
      * Tests Phalcon\Storage\Adapter\Libmemcached :: clear() - twice
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31

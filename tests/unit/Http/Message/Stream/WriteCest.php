@@ -24,8 +24,6 @@ class WriteCest
     /**
      * Tests Phalcon\Http\Message\Stream :: write()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -52,8 +50,6 @@ class WriteCest
 
     /**
      * Tests Phalcon\Http\Message\Stream :: write() - detached
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

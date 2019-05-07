@@ -24,8 +24,6 @@ class TellCest
     /**
      * Tests Phalcon\Http\Message\Stream :: tell()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -44,8 +42,6 @@ class TellCest
 
     /**
      * Tests Phalcon\Http\Message\Stream :: tell() - detached
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

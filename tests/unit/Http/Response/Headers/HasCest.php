@@ -23,8 +23,6 @@ class HasCest
     /**
      * Tests Phalcon\Http\Response\Headers :: has()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-08
      */

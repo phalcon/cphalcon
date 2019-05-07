@@ -23,8 +23,6 @@ class SeekCest
     /**
      * Tests Phalcon\Http\Message\Stream :: seek()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -43,8 +41,6 @@ class SeekCest
 
     /**
      * Tests Phalcon\Http\Message\Stream :: seek() - after file size
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

@@ -23,8 +23,6 @@ class WithHeaderCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: withHeader()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */

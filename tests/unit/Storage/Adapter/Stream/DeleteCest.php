@@ -25,8 +25,6 @@ class DeleteCest
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: delete()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
@@ -51,8 +49,6 @@ class DeleteCest
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: delete() - twice
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
@@ -76,8 +72,6 @@ class DeleteCest
 
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: delete() - unknown
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24

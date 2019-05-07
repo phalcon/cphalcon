@@ -18,17 +18,12 @@ use Phalcon\Escaper;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     use DiTrait;
 
     /**
      * Tests Phalcon\Container :: get()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

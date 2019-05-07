@@ -30,8 +30,6 @@ class JavascriptCest
     /**
      * Tests Phalcon\Tag :: javascript() - local
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
@@ -51,8 +49,6 @@ class JavascriptCest
     /**
      * Tests Phalcon\Tag :: javascript() - remote
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
@@ -71,8 +67,6 @@ class JavascriptCest
 
     /**
      * Tests Phalcon\Tag :: javascript() - HTML5
-     *
-     * @param UnitTester $I
      *
      * @issue https://github.com/phalcon/cphalcon/issues/13341
      *

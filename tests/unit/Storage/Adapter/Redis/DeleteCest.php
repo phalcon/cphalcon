@@ -28,8 +28,6 @@ class DeleteCest
     /**
      * Tests Phalcon\Storage\Adapter\Redis :: delete()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
@@ -55,8 +53,6 @@ class DeleteCest
     /**
      * Tests Phalcon\Storage\Adapter\Redis :: delete() - twice
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
@@ -81,8 +77,6 @@ class DeleteCest
 
     /**
      * Tests Phalcon\Storage\Adapter\Redis :: delete() - unknown
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31

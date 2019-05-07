@@ -24,8 +24,6 @@ class ConcatCest
     /**
      * Tests Phalcon\Helper\Str :: concat()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */

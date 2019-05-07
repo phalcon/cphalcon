@@ -26,8 +26,6 @@ class DecrementCest
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: decrement()
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      * @since  2019-04-24
      *

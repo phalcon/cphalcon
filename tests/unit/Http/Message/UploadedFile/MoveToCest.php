@@ -25,8 +25,6 @@ class MoveToCest
     /**
      * Tests Phalcon\Http\Message\UploadedFile :: moveTo()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -53,8 +51,6 @@ class MoveToCest
     /**
      * Tests Phalcon\Http\Message\UploadedFile :: moveTo() - upload error
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -78,8 +74,6 @@ class MoveToCest
     /**
      * Tests Phalcon\Http\Message\UploadedFile :: moveTo() - wrong path
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -100,8 +94,6 @@ class MoveToCest
 
     /**
      * Tests Phalcon\Http\Message\UploadedFile :: moveTo() - already moved
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

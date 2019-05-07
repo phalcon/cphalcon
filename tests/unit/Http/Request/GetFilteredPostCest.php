@@ -59,8 +59,6 @@ class GetFilteredPostCest
     /**
      * Tests Phalcon\Http\Request :: getFilteredPost() - default
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-01
      */

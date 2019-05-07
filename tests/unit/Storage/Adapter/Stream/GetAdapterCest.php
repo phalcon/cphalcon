@@ -24,8 +24,6 @@ class GetAdapterCest
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: getAdapter()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
