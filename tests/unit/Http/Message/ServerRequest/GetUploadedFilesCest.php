@@ -17,9 +17,6 @@ use Phalcon\Http\Message\ServerRequest;
 use Phalcon\Http\Message\UploadedFile;
 use UnitTester;
 
-/**
- * Class GetUploadedFilesCest
- */
 class GetUploadedFilesCest
 {
     /**

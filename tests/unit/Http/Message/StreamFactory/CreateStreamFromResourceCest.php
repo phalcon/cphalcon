@@ -17,9 +17,6 @@ use Phalcon\Http\Message\Stream;
 use Phalcon\Http\Message\StreamFactory;
 use UnitTester;
 
-/**
- * Class CreateStreamFromResourceCest
- */
 class CreateStreamFromResourceCest
 {
     /**

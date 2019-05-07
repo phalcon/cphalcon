@@ -16,9 +16,6 @@ use Phalcon\Http\Message\UploadedFileFactory;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 use UnitTester;
 
-/**
- * Class CreateServerUploadedFileCest
- */
 class ConstructCest
 {
     /**

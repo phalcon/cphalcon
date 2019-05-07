@@ -16,9 +16,6 @@ use Phalcon\Collection;
 use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
-/**
- * Class GetHeadersCest
- */
 class GetHeadersCest
 {
     /**

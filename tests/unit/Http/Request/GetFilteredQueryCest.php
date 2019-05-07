@@ -14,9 +14,6 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class GetFilteredQueryCest
- */
 class GetFilteredQueryCest
 {
     /**

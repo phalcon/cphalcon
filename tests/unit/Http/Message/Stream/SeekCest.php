@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Http\Message\Stream;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
 
-/**
- * Class SeekCest
- */
 class SeekCest
 {
     /**

@@ -16,9 +16,6 @@ use Phalcon\Http\Message\ServerRequestFactory;
 use Psr\Http\Message\ServerRequestFactoryInterface;
 use UnitTester;
 
-/**
- * Class CreateServerRequestCest
- */
 class ConstructCest
 {
     /**

@@ -17,9 +17,6 @@ use InvalidArgumentException;
 use Phalcon\Http\Message\Uri;
 use UnitTester;
 
-/**
- * Class WithQueryCest
- */
 class WithQueryCest
 {
     /**

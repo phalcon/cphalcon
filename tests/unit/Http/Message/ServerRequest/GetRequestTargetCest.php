@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
-/**
- * Class GetRequestTargetCest
- */
 class GetRequestTargetCest
 {
     /**

@@ -19,9 +19,6 @@ use Psr\Http\Message\StreamInterface;
 use stdClass;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**

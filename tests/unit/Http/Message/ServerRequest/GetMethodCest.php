@@ -16,9 +16,6 @@ use InvalidArgumentException;
 use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
-/**
- * Class GetMethodCest
- */
 class GetMethodCest
 {
     /**

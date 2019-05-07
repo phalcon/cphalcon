@@ -16,9 +16,6 @@ use Phalcon\Test\Fixtures\Http\Server\MiddlewareFixture;
 use Psr\Http\Server\MiddlewareInterface;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**

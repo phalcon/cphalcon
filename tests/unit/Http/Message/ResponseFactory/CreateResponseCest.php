@@ -16,9 +16,6 @@ use Phalcon\Http\Message\ResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use UnitTester;
 
-/**
- * Class CreateResponseCest
- */
 class CreateResponseCest
 {
     /**

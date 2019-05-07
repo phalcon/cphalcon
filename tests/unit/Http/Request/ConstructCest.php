@@ -16,9 +16,6 @@ use Phalcon\Http\Request;
 use Phalcon\Http\RequestInterface;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**

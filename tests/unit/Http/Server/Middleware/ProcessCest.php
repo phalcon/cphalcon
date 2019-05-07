@@ -14,9 +14,6 @@ namespace Phalcon\Test\Unit\Http\Server\Middleware;
 
 use UnitTester;
 
-/**
- * Class ProcessCest
- */
 class ProcessCest
 {
     /**

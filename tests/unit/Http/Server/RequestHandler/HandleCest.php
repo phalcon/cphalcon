@@ -14,9 +14,6 @@ namespace Phalcon\Test\Unit\Http\Server\RequestHandler;
 
 use UnitTester;
 
-/**
- * Class HandleCest
- */
 class HandleCest
 {
     /**

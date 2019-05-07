@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Http\Response\Headers;
 use Phalcon\Http\Response\Headers;
 use UnitTester;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     /**

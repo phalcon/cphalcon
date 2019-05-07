@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Http\Message\Response;
 use Phalcon\Http\Message\Response;
 use UnitTester;
 
-/**
- * Class WithHeaderCest
- */
 class WithHeaderCest
 {
     /**

@@ -16,9 +16,6 @@ use Phalcon\Http\Message\Response;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
 
-/**
- * Class WithBodyCest
- */
 class WithBodyCest
 {
     /**

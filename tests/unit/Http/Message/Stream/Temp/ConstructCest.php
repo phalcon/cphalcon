@@ -16,9 +16,6 @@ use Phalcon\Http\Message\Stream\Temp;
 use Psr\Http\Message\StreamInterface;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**

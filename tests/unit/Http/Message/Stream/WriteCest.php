@@ -16,9 +16,6 @@ use Phalcon\Http\Message\Exception;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
 
-/**
- * Class WriteCest
- */
 class WriteCest
 {
     /**

@@ -16,9 +16,6 @@ use Phalcon\Http\Message\ServerRequest;
 use Phalcon\Http\Message\Uri;
 use UnitTester;
 
-/**
- * Class GetUriCest
- */
 class GetUriCest
 {
     /**
