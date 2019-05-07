@@ -44,5 +44,6 @@ class GetSetViewsDirCest
             dataDir('views' . DIRECTORY_SEPARATOR),
             $view->getViewsDir()
         );
+
     }
 }
