@@ -54,7 +54,8 @@ class GetRelatedCest
             $part
         );
 
-        $nonExistentPart = $robotPart->getRelated('part',
+        $nonExistentPart = $robotPart->getRelated(
+            'part',
             [
                 'id < 0',
                 'order' => 'id DESC'
@@ -75,7 +76,8 @@ class GetRelatedCest
             $user
         );
 
-        $nonExistentUser = $customer->getRelated('user',
+        $nonExistentUser = $customer->getRelated(
+            'user',
             [
                 'id < 0',
                 'order' => 'id DESC'
@@ -96,7 +98,8 @@ class GetRelatedCest
             $robotParts
         );
 
-        $nonExistentRobotParts = $robot->getRelated('robotsParts',
+        $nonExistentRobotParts = $robot->getRelated(
+            'robotsParts',
             [
                 'id < 0',
                 'order' => 'id DESC'
