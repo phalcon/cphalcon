@@ -56,8 +56,7 @@ class GetRelatedCest
 
         $nonExistentPart = $robotPart->getRelated('part', [
                 'id < 0',
-                'order' => 'id DESC'
-            ]
+                'order' => 'id DESC']
         );
 
         $I->assertFalse($nonExistentPart);
@@ -76,8 +75,7 @@ class GetRelatedCest
 
         $nonExistentUser = $customer->getRelated('user', [
                 'id < 0',
-                'order' => 'id DESC'
-            ]
+                'order' => 'id DESC']
         );
 
         $I->assertFalse($nonExistentUser);
@@ -96,8 +94,7 @@ class GetRelatedCest
 
         $nonExistentRobotParts = $robot->getRelated('robotsParts', [
                 'id < 0',
-                'order' => 'id DESC'
-            ]
+                'order' => 'id DESC']
         );
 
         $I->assertEquals(
@@ -116,7 +113,7 @@ class GetRelatedCest
                     'nonExistentRelation'
                 )
             ),
-            function() use ($robot) {
+            function () use ($robot) {
                 $robot->getRelated('nonExistentRelation');
             }
         );

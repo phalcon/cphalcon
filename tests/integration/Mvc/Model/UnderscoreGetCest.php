@@ -106,7 +106,8 @@ class UnderscoreGetCest
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-07
      */
-    public function mvcModelUnderscoreGetRelated(IntegrationTester $I) {
+    public function mvcModelUnderscoreGetRelated(IntegrationTester $I)
+    {
         $I->wantToTest('Mvc\Model - __get() related records');
 
         /**
@@ -154,7 +155,8 @@ class UnderscoreGetCest
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-07
      */
-    public function mvcModelUnderscoreGetDirtyRelated(IntegrationTester $I) {
+    public function mvcModelUnderscoreGetDirtyRelated(IntegrationTester $I)
+    {
         $I->wantToTest('Mvc\Model - __get() dirty related records');
 
         $robot = Models\Robots::findFirst();
