@@ -13,14 +13,19 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View;
 
 use IntegrationTester;
+use Phalcon\Di;
+use Phalcon\Mvc\View;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
- * Class GetDICest
+ * Class GetSetDICest
  */
-class GetDICest
+class GetSetDICest
 {
+    use DiTrait;
+
     /**
-     * Tests Phalcon\Mvc\View :: getDI()
+     * Tests Phalcon\Mvc\View :: getDI()/setDI()
      *
      * @param IntegrationTester $I
      *
@@ -29,7 +34,15 @@ class GetDICest
      */
     public function mvcViewGetDI(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View - getDI()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Mvc\View - getDI()/setDI()');
+
+        $container = new Di();
+        $view      = new View();
+
+        $view->setDI($container);
+
+        $class  = Di::class;
+        $actual = $view->getDI();
+        $I->assertInstanceOf($class, $actual);
     }
 }

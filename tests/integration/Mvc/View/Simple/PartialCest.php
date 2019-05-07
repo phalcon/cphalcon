@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use function ob_end_clean;
 use function ob_start;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
  * Class PartialCest
