@@ -13,6 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
+use function ob_end_clean;
+use function ob_get_level;
+use function ob_start;
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Exception;
@@ -34,6 +37,15 @@ class RenderCest
     {
         $this->newDi();
         $this->setDiViewSimple();
+
+        ob_start();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        if (ob_get_level()) {
+            ob_end_clean();
+        }
     }
 
     /**
@@ -75,51 +87,6 @@ class RenderCest
             'We are here',
             $view->getContent()
         );
-    }
-
-    /**
-     * Tests Phalcon\Mvc\View\Simple :: render() - with cache
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function testRenderRenderWithCache(IntegrationTester $I)
-    {
-        $I->wantToTest('Mvc\View\Simple - render() - with cache');
-
-        $class = Stream::class;
-        $cache = $this->getAndSetViewCacheStream();
-        $I->assertInstanceOf($class, $cache);
-
-        $view = new Simple();
-        $view->setViewsDir(dataDir('fixtures/views/'));
-
-        // No cache before DI is set
-        $I->assertFalse($view->getCache());
-
-        $view->setDI($this->container);
-        $I->assertEquals($view, $view->cache(['key' => 'view_simple_cache']));
-
-        $cache = $view->getCache();
-        $I->assertInstanceOf(Stream::class, $cache);
-
-        $timeNow = time();
-        $view->setParamToView('a_cool_var', $timeNow);
-
-        $I->assertEquals(
-            "<p>$timeNow</p>",
-            rtrim($view->render('currentrender/coolVar'))
-        );
-
-        $file     = cacheModelsDir('phstrm-/vi/ew/_s/im/pl/e_/ca/c/view_simple_cache');
-        $contents = file_get_contents($file);
-        $contents = json_decode($contents, true);
-        $I->assertEquals("<p>$timeNow</p>", rtrim(unserialize($contents["content"])));
-
-        $I->safeDeleteFile($file);
-        $I->dontSeeFileFound($file);
     }
 
     /**
@@ -202,11 +169,7 @@ class RenderCest
             'cool_var' => 'FooBar',
         ];
 
-        $this->renderPartialBuffered(
-            $view,
-            'partials/partial',
-            $expectedParams
-        );
+        $view->partial('partials/partial', $expectedParams);
 
         $I->assertEquals(
             'Hey, this is a partial, also FooBar',
@@ -244,6 +207,4 @@ class RenderCest
             }
         );
     }
-
-
 }
