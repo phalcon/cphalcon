@@ -197,14 +197,12 @@ class Manager implements ManagerInterface
             let this->responses = null;
         }
 
-        let event = null;
+        // Create the event context
+        let event = new Event(eventName, source, data, cancelable);
 
         // Check if events are grouped by type
         if fetch fireEvents, events[type] {
             if typeof fireEvents == "object" {
-                // Create the event context
-                let event = new Event(eventName, source, data, cancelable);
-
                 // Call the events queue
                 let status = this->fireQueue(fireEvents, event);
             }
@@ -213,11 +211,6 @@ class Manager implements ManagerInterface
         // Check if there are listeners for the event type itself
         if fetch fireEvents, events[eventType] {
             if typeof fireEvents == "object" {
-                // Create the event if it wasn't created before
-                if event === null {
-                    let event = new Event(eventName, source, data, cancelable);
-                }
-
                 // Call the events queue
                 let status = this->fireQueue(fireEvents, event);
             }
@@ -233,11 +226,10 @@ class Manager implements ManagerInterface
      */
     final public function fireQueue(<SplPriorityQueue> queue, <EventInterface> event)
     {
-        var status, arguments, eventName, data, iterator, source, handler;
+        var status, eventName, data, iterator, source, handler;
         bool collect, cancelable;
 
-        let status = null,
-            arguments = null;
+        let status = null;
 
         // Get the event type
         let eventName = event->getType();
@@ -271,46 +263,35 @@ class Manager implements ManagerInterface
             iterator->next();
 
             // Only handler objects are valid
-            if typeof handler == "object" {
-                // Check if the event is a closure
-                if handler instanceof \Closure {
-                    // Create the closure arguments
-                    if arguments === null {
-                        let arguments = [event, source, data];
-                    }
+            if unlikely typeof handler != "object" {
+                continue;
+            }
 
-                    // Call the function in the PHP userland
-                    let status = call_user_func_array(handler, arguments);
+            // Check if the event is a closure
+            if handler instanceof \Closure {
+                // Call the function in the PHP userland
+                let status = call_user_func_array(
+                    handler,
+                    [event, source, data]
+                );
+            } else {
+                // Check if the listener has implemented an event with the same name
+                if !method_exists(handler, eventName) {
+                    continue;
+                }
 
-                    // Trace the response
-                    if collect {
-                        let this->responses[] = status;
-                    }
+                let status = handler->{eventName}(event, source, data);
+            }
 
-                    if cancelable {
-                        // Check if the event was stopped by the user
-                        if event->isStopped() {
-                            break;
-                        }
-                    }
-                } else {
-                    // Check if the listener has implemented an event with the same name
-                    if method_exists(handler, eventName) {
-                        // Call the function in the PHP userland
-                        let status = handler->{eventName}(event, source, data);
+            // Trace the response
+            if collect {
+                let this->responses[] = status;
+            }
 
-                        // Collect the response
-                        if collect {
-                            let this->responses[] = status;
-                        }
-
-                        if cancelable {
-                            // Check if the event was stopped by the user
-                            if event->isStopped() {
-                                break;
-                            }
-                        }
-                    }
+            if cancelable {
+                // Check if the event was stopped by the user
+                if event->isStopped() {
+                    break;
                 }
             }
         }
@@ -323,11 +304,8 @@ class Manager implements ManagerInterface
      */
     public function getListeners(string! type) -> array
     {
-        var fireEvents, priorityQueue, listeners;
-
-        if typeof this->events !== "array" {
-            return [];
-        }
+        var fireEvents, priorityQueue;
+        array listeners;
 
         if !fetch fireEvents, this->events[type] {
             return [];
