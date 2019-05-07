@@ -28,7 +28,7 @@ class AddCest
     {
         $I->wantToTest('Logger\Adapter\Stream - add()');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = outputDir();
+        $outputPath = logsDir();
         $adapter    = new Stream($outputPath . $fileName);
 
         $adapter->begin();

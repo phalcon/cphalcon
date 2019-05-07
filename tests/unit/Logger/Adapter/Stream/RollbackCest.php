@@ -28,7 +28,7 @@ class RollbackCest
     {
         $I->wantToTest('Logger\Adapter\Stream - rollback()');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = outputDir();
+        $outputPath = logsDir();
         $adapter    = new Stream($outputPath . $fileName);
 
         $adapter->begin();
@@ -56,7 +56,7 @@ class RollbackCest
             new Exception('There is no active transaction'),
             function () use ($I) {
                 $fileName   = $I->getNewFileName('log', 'log');
-                $outputPath = outputDir();
+                $outputPath = logsDir();
                 $adapter    = new Stream($outputPath . $fileName);
 
                 $adapter->rollback();
