@@ -51,6 +51,8 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 class Simple extends Injectable implements ViewBaseInterface
 {
     protected activeRenderPath;
+    protected cache = false;
+    protected cacheOptions;
     protected content;
 
     /**
@@ -109,6 +111,34 @@ class Simple extends Injectable implements ViewBaseInterface
     }
 
     /**
+     * Cache the actual view render to certain level
+     *
+     *<code>
+     * $this->view->cache(
+     *     [
+     *         "key"      => "my-key",
+     *         "lifetime" => 86400,
+     *     ]
+     * );
+     *</code>
+     */
+    public function cache(var options = true) -> <Simple>
+    {
+        if typeof options == "array" {
+            let this->cache = true,
+                this->cacheOptions = options;
+        } else {
+            if options {
+                let this->cache = true;
+            } else {
+                let this->cache = false;
+            }
+        }
+
+        return this;
+    }
+
+    /**
      * Returns the path of the view that is currently rendered
      */
     public function getActiveRenderPath() -> string
@@ -117,7 +147,27 @@ class Simple extends Injectable implements ViewBaseInterface
     }
 
     /**
-     * Returns output from another view stage
+     * Returns the cache instance used to cache
+     */
+    public function getCache() -> <AdapterInterface>
+    {
+        if this->cache && typeof this->cache !== "object" {
+            let this->cache = this->createCache();
+        }
+
+        return this->cache;
+    }
+
+    /**
+     * Returns the cache options
+     */
+    public function getCacheOptions() -> array
+    {
+        return this->cacheOptions;
+    }
+
+    /**
+     * Returns cached output from another view stage
      */
     public function getContent() -> string
     {
@@ -247,7 +297,31 @@ class Simple extends Injectable implements ViewBaseInterface
      */
     public function render(string! path, array params = []) -> string
     {
-        var mergedParams, viewParams;
+        var cache, key, lifetime, cacheOptions, content, viewParams,
+            mergedParams;
+
+        /**
+         * Create/Get a cache and the options
+         */
+        let cache        = this->getCache(),
+            cacheOptions = this->cacheOptions;
+
+        if typeof cacheOptions !== "array" {
+            let cacheOptions = [];
+        }
+
+        let key      = Arr::get(cacheOptions, "key", md5(path)),
+            lifetime = Arr::get(cacheOptions, "lifetime", 3600);
+
+        if typeof cache == "object" {
+            let content = cache->get(key);
+
+            if null !== content {
+                let this->content = content;
+
+                return content;
+            }
+        }
 
         /**
          * Create a virtual symbol table
@@ -270,7 +344,25 @@ class Simple extends Injectable implements ViewBaseInterface
 
         ob_end_clean();
 
+        /**
+         * Store the data in output into the cache
+         */
+        if typeof cache == "object" {
+            let content = this->content;
+            cache->set(key, content, lifetime);
+        }
+
         return this->content;
+    }
+
+    /**
+     * Sets the cache options
+     */
+    public function setCacheOptions(array options) -> <Simple>
+    {
+        let this->cacheOptions = options;
+
+        return this;
     }
 
     /**
@@ -343,6 +435,40 @@ class Simple extends Injectable implements ViewBaseInterface
     public function setViewsDir(string! viewsDir)
     {
         let this->viewsDir = Str::dirSeparator(viewsDir);
+    }
+
+    /**
+     * Create a Phalcon\Cache based on the internal cache options
+     */
+    protected function createCache() -> <AdapterInterface>
+    {
+        var container, cacheService, cacheOptions, viewCache;
+
+        let container = <DiInterface> this->container;
+
+        if typeof container != "object" {
+            throw new Exception(
+                Exception::containerServiceNotFound("the view cache services")
+            );
+        }
+
+        let cacheOptions = this->cacheOptions;
+
+        if typeof cacheOptions !== "array" {
+            let cacheOptions = [];
+        }
+
+        /**
+         * The injected service must be an object
+         */
+        let cacheService = Arr::get(cacheOptions, "service" , "viewCache"),
+            viewCache    = <AdapterInterface> container->getShared(cacheService);
+
+        if typeof viewCache != "object" {
+            throw new Exception("The injected cache service is not valid");
+        }
+
+        return viewCache;
     }
 
     /**
