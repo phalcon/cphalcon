@@ -53,6 +53,6 @@ class ReadCest
         $expected = $value;
         $actual   = $adapter->read('test1');
         $I->assertEquals($expected, $actual);
-        $I->safeDeleteFile(cacheSessionsDir('test1'));
+        $I->safeDeleteFile(cacheDir('sessions/test1'));
     }
 }
