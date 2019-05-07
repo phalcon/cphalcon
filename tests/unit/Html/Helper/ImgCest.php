@@ -19,9 +19,6 @@ use Phalcon\Html\Helper\Img;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
-/**
- * Class ImgCest
- */
 class ImgCest
 {
     /**

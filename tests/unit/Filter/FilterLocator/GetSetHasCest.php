@@ -16,9 +16,6 @@ use Phalcon\Filter\FilterLocator;
 use Phalcon\Test\Fixtures\Service\HelloService;
 use UnitTester;
 
-/**
- * Class GetSetHasCest
- */
 class GetSetHasCest
 {
     /**

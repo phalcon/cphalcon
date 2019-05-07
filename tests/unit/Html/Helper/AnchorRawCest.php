@@ -19,9 +19,6 @@ use Phalcon\Html\Helper\AnchorRaw;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
-/**
- * Class AnchorRawCest
- */
 class AnchorRawCest
 {
     /**

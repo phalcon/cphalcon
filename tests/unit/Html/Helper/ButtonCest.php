@@ -19,9 +19,6 @@ use Phalcon\Html\Helper\Button;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
-/**
- * Class ButtonCest
- */
 class ButtonCest
 {
     /**

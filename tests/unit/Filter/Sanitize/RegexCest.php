@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Regex;
 use UnitTester;
 
-/**
- * Class RegexCest
- */
 class RegexCest
 {
     /**

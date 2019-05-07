@@ -17,9 +17,6 @@ use Phalcon\Filter\Sanitize\FloatVal;
 use UnitTester;
 use function number_format;
 
-/**
- * Class FloatValCest
- */
 class FloatValCest
 {
     /**

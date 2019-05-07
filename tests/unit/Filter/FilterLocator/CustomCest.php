@@ -19,9 +19,6 @@ use Phalcon\Test\Fixtures\Filter\Sanitize\IPv4;
 use UnitTester;
 use function func_get_args;
 
-/**
- * Class CustomCest
- */
 class CustomCest
 {
     /**

@@ -19,9 +19,6 @@ use Phalcon\Html\Helper\Label;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
-/**
- * Class LabelCest
- */
 class LabelCest
 {
     /**

@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\BoolVal;
 use UnitTester;
 
-/**
- * Class BoolValCest
- */
 class BoolValCest
 {
     /**

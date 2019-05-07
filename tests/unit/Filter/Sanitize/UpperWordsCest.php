@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\UpperWords;
 use UnitTester;
 
-/**
- * Class UpperWordsCest
- */
 class UpperWordsCest
 {
     /**

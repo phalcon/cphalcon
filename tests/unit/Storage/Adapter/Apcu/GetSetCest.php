@@ -19,9 +19,6 @@ use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use stdClass;
 use UnitTester;
 
-/**
- * Class GetSetCest
- */
 class GetSetCest
 {
     use ApcuTrait;

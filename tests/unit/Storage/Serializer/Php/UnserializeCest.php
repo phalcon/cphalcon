@@ -17,9 +17,6 @@ use Phalcon\Storage\Serializer\Php;
 use stdClass;
 use UnitTester;
 
-/**
- * Class UnserializeCest
- */
 class UnserializeCest
 {
     /**

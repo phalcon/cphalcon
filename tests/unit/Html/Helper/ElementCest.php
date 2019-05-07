@@ -19,9 +19,6 @@ use Phalcon\Html\Helper\Element;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
-/**
- * Class ElementCest
- */
 class ElementCest
 {
     /**

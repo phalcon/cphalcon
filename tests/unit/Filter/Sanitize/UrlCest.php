@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Url;
 use UnitTester;
 
-/**
- * Class UrlCest
- */
 class UrlCest
 {
     /**

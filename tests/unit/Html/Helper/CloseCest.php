@@ -18,9 +18,6 @@ use Phalcon\Html\Helper\Close;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
-/**
- * Class CloseCest
- */
 class CloseCest
 {
     /**

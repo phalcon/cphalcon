@@ -19,9 +19,6 @@ use Phalcon\Html\Helper\Form;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
-/**
- * Class FormCest
- */
 class FormCest
 {
     /**

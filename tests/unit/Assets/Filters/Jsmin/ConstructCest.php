@@ -18,11 +18,6 @@ use stdClass;
 use TypeError;
 use UnitTester;
 
-/**
- * Class FilterCest
- *
- * @package Phalcon\Test\Unit\Assets\Filters\Jsmin
- */
 class ConstructCest
 {
     /**

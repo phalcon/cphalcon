@@ -17,9 +17,6 @@ use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 use function dataDir;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use ConfigTrait;

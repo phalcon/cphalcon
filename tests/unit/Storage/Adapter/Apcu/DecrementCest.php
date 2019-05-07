@@ -18,9 +18,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use UnitTester;
 
-/**
- * Class DecrementCest
- */
 class DecrementCest
 {
     use ApcuTrait;

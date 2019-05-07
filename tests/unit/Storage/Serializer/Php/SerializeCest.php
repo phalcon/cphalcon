@@ -18,9 +18,6 @@ use stdClass;
 use UnitTester;
 use function serialize;
 
-/**
- * Class SerializeCest
- */
 class SerializeCest
 {
     /**

@@ -16,11 +16,6 @@ use Codeception\Example;
 use Phalcon\Html\Tag;
 use UnitTester;
 
-/**
- * Class GetSetDocTypeCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class GetSetDocTypeCest
 {
     /**

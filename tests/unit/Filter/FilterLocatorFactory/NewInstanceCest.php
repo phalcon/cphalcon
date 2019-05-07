@@ -39,9 +39,6 @@ use Phalcon\Filter\Sanitize\Url;
 use Phalcon\Service\LocatorInterface;
 use UnitTester;
 
-/**
- * Class NewInstanceCest
- */
 class NewInstanceCest
 {
     /**

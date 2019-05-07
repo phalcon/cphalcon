@@ -15,11 +15,6 @@ namespace Phalcon\Test\Unit\Html\Tag;
 use Phalcon\Html\Tag;
 use UnitTester;
 
-/**
- * Class SetAttributeCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class SetAttributeCest
 {
     /**

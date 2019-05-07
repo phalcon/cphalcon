@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Storage\Serializer\Php;
 use Phalcon\Storage\Serializer\Php;
 use UnitTester;
 
-/**
- * Class SetDataCest
- */
 class SetDataCest
 {
     /**

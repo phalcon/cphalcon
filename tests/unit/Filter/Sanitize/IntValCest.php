@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\IntVal;
 use UnitTester;
 
-/**
- * Class IntValCest
- */
 class IntValCest
 {
     /**

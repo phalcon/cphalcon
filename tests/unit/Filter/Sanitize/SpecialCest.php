@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Special;
 use UnitTester;
 
-/**
- * Class SpecialCest
- */
 class SpecialCest
 {
     /**
