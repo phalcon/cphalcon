@@ -44,6 +44,5 @@ class GetSetDICest
         $class  = Di::class;
         $actual = $view->getDI();
         $I->assertInstanceOf($class, $actual);
-
     }
 }
