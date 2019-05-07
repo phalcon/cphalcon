@@ -35,7 +35,7 @@ class SetFormatterCest
         $I->wantToTest('Logger\Adapter\Stream - setFormatter()');
 
         $fileName = $I->getNewFileName('log', 'log');
-        $fileName = logsDir($fileName);
+        $fileName = outputDir($fileName);
 
         $adapter = new Stream($fileName);
         $adapter->setFormatter(new Line());

@@ -72,7 +72,7 @@ class ConstructCest
     {
         $I->wantToTest('Logger - __construct() - file with json formatter');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = outputDir('tests/logs/');
         $adapter    = new Stream($outputPath . $fileName);
         $adapter->setFormatter(new Json());
 
@@ -113,7 +113,7 @@ class ConstructCest
     {
         $I->wantToTest('Logger - __construct() - read only mode exception');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = outputDir('tests/logs/');
         $file       = $outputPath . $fileName;
         $I->expectThrowable(
             new Exception('Adapter cannot be opened in read mode'),

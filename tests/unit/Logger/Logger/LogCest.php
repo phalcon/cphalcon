@@ -32,7 +32,7 @@ class LogCest
     public function loggerLog(UnitTester $I)
     {
         $I->wantToTest('Logger - log()');
-        $logPath  = logsDir();
+        $logPath  = outputDir();
         $fileName = $I->getNewFileName('log', 'log');
         $adapter  = new Stream($logPath . $fileName);
 

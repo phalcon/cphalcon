@@ -55,7 +55,7 @@ class IsSeekableCest
     {
         $I->wantToTest('Http\Message\Stream - isSeekable() with "x" - ' . $example[0]);
         $fileName = $I->getNewFileName();
-        $fileName = logsDir($fileName);
+        $fileName = outputDir('tests/stream/' . $fileName);
         $stream   = new Stream($fileName, $example[0]);
         $I->assertEquals($example[1], $stream->isSeekable());
     }
