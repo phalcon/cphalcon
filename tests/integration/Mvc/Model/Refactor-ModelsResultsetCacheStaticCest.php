@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use function cacheModelsDir;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Cacheable\Parts;
@@ -15,7 +16,7 @@ class ModelsResultsetCacheStaticCest
     public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
-        $I->cleanDir(cacheDir());
+        $I->cleanDir(cacheModelsDir());
     }
 
     public function testOverrideStaticCache(IntegrationTester $I)
