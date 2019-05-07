@@ -16,9 +16,6 @@ use Phalcon\Di;
 use Phalcon\Http\Request;
 use UnitTester;
 
-/**
- * Class GetSetDICest
- */
 class GetSetDICest
 {
     /**

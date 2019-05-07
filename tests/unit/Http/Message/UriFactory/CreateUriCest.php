@@ -17,9 +17,6 @@ use Psr\Http\Message\UriInterface;
 use TypeError;
 use UnitTester;
 
-/**
- * Class CreateUriCest
- */
 class CreateUriCest
 {
     /**

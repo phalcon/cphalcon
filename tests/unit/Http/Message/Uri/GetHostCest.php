@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Http\Message\Uri;
 use Phalcon\Http\Message\Uri;
 use UnitTester;
 
-/**
- * Class GetHostCest
- */
 class GetHostCest
 {
     /**

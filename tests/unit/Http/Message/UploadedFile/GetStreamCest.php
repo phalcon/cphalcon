@@ -16,9 +16,6 @@ use Phalcon\Http\Message\Stream;
 use Phalcon\Http\Message\UploadedFile;
 use UnitTester;
 
-/**
- * Class GetStreamCest
- */
 class GetStreamCest
 {
     /**

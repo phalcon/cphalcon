@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Http\Message\UploadedFile;
 use Phalcon\Http\Message\UploadedFile;
 use UnitTester;
 
-/**
- * Class GetClientFilenameCest
- */
 class GetClientFilenameCest
 {
     /**

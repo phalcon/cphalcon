@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 use function ucfirst;
 
-/**
- * Class GetFilteredPostCest
- */
 class GetFilteredPostCest
 {
     use DiTrait;

@@ -16,9 +16,6 @@ use Phalcon\Http\Message\UriFactory;
 use Psr\Http\Message\UriFactoryInterface;
 use UnitTester;
 
-/**
- * Class CreateUriCest
- */
 class ConstructCest
 {
     /**

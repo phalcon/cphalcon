@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Http\Message\Uri;
 use UnitTester;
 
-/**
- * Class WithPortCest
- */
 class WithPortCest
 {
     /**

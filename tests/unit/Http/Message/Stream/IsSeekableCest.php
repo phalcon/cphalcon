@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
 
-/**
- * Class IsSeekableCest
- */
 class IsSeekableCest
 {
     /**

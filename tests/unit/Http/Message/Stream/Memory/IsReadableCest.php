@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Http\Message\Stream\Memory;
 use Phalcon\Http\Message\Stream\Memory;
 use UnitTester;
 
-/**
- * Class IsReadableCest
- */
 class IsReadableCest
 {
     /**

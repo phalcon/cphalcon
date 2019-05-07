@@ -16,9 +16,6 @@ use InvalidArgumentException;
 use Phalcon\Http\Message\Response;
 use UnitTester;
 
-/**
- * Class WithProtocolVersionCest
- */
 class WithProtocolVersionCest
 {
     /**

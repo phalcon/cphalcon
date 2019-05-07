@@ -16,9 +16,6 @@ use Phalcon\Test\Fixtures\Http\Server\RequestHandlerFixture;
 use Psr\Http\Server\RequestHandlerInterface;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
