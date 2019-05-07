@@ -36,7 +36,7 @@ class ComplexCest
      */
     public function shouldLoadResultsetFromCacheByUsingPhqlFile(IntegrationTester $I)
     {
-        $cache   = $this->getAndSetModelsCacheFile();
+        $cache   = $this->getAndSetModelsCacheStream();
         $manager = $this->container->get('modelsManager');
 
         $robots = $manager->executeQuery(
@@ -47,7 +47,7 @@ class ComplexCest
         $I->assertCount(3, $robots);
         $I->assertEquals(3, $robots->count());
 
-        $cache->save('test-resultset', $robots);
+        $cache->set('test-resultset', $robots);
 
         $I->amInPath(cacheDir());
         $I->seeFileFound('test-resultset');
@@ -65,7 +65,7 @@ class ComplexCest
 
     public function shouldLoadResultsetFromCacheByUsingPhqlLibmemcached(IntegrationTester $I)
     {
-        $cache   = $this->getAndSetModelsCacheFileLibmemcached();
+        $cache   = $this->getAndSetModelsCacheLibmemcached();
         $manager = $this->container->get('modelsManager');
 
         $robots = $manager->executeQuery(
@@ -76,7 +76,7 @@ class ComplexCest
         $I->assertCount(3, $robots);
         $I->assertEquals(3, $robots->count());
 
-        $cache->save('test-resultset', $robots);
+        $cache->set('test-resultset', $robots);
 
         $robots = $cache->get('test-resultset');
 

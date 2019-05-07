@@ -72,10 +72,6 @@ if (!function_exists('loadFolders')) {
                 mkdir($item, 0777, true);
             }
         }
-
-        if (true !== file_exists(cacheDir())) {
-            mkdir(cacheDir(), 0777, true);
-        }
     }
 }
 
@@ -90,7 +86,7 @@ if (!function_exists('cacheDir')) {
      */
     function cacheDir(string $fileName = '')
     {
-        return env('PATH_CACHE') . $fileName;
+        return codecept_output_dir() . 'tests/cache/' . $fileName;
     }
 }
 
@@ -106,6 +102,21 @@ if (!function_exists('dataDir')) {
     function dataDir(string $fileName = '')
     {
         return codecept_data_dir() . $fileName;
+    }
+}
+
+/**
+ * Returns the output folder
+ */
+if (true !== function_exists('logsDir')) {
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
+    function logsDir(string $fileName = '')
+    {
+        return codecept_output_dir() . 'tests/logs/' . $fileName;
     }
 }
 
