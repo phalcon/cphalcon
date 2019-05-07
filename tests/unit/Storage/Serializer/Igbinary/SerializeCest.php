@@ -18,9 +18,6 @@ use stdClass;
 use UnitTester;
 use function igbinary_serialize;
 
-/**
- * Class SerializeCest
- */
 class SerializeCest
 {
     /**

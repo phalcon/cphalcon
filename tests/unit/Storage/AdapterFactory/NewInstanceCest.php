@@ -26,9 +26,6 @@ use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
 
-/**
- * Class NewInstanceCest
- */
 class NewInstanceCest
 {
     /**

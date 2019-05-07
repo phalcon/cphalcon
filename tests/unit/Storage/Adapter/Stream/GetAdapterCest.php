@@ -16,9 +16,6 @@ use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
-/**
- * Class GetAdapterCest
- */
 class GetAdapterCest
 {
     /**

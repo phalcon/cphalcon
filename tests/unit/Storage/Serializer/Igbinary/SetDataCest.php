@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Storage\Serializer\Igbinary;
 use Phalcon\Storage\Serializer\Igbinary;
 use UnitTester;
 
-/**
- * Class SetDataCest
- */
 class SetDataCest
 {
     /**

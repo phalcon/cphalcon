@@ -19,9 +19,6 @@ use function session_destroy;
 use function session_start;
 use function session_status;
 
-/**
- * Class GetTokenCest
- */
 class GetTokenAndKeyCest
 {
     use DiTrait;

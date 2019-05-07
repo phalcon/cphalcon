@@ -17,11 +17,6 @@ use Phalcon\Logger\Item;
 use Phalcon\Logger\Logger;
 use UnitTester;
 
-/**
- * Class FormatCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class FormatCest
 {
     /**

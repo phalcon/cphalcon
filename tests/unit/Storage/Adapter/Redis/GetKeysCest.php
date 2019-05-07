@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 use function getOptionsRedis;
 
-/**
- * Class GetKeysCest
- */
 class GetKeysCest
 {
     use RedisTrait;

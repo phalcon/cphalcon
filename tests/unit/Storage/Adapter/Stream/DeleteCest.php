@@ -17,9 +17,6 @@ use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function outputDir;
 
-/**
- * Class DeleteCest
- */
 class DeleteCest
 {
     /**

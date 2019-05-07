@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Storage\Serializer\Base64;
 use Phalcon\Storage\Serializer\Base64;
 use UnitTester;
 
-/**
- * Class SetDataCest
- */
 class SetDataCest
 {
     /**

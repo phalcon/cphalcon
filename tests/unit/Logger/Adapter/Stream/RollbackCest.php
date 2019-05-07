@@ -17,11 +17,6 @@ use Phalcon\Logger\Exception;
 use UnitTester;
 use function outputDir;
 
-/**
- * Class RollbackCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class RollbackCest
 {
     /**

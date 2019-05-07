@@ -16,11 +16,6 @@ use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-/**
- * Class TextAreaCest
- *
- * @package Phalcon\Test\Unit\Tag
- */
 class TextAreaCest extends TagSetup
 {
     /**

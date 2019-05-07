@@ -19,9 +19,6 @@ use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 use function getOptionsRedis;
 
-/**
- * Class DecrementCest
- */
 class DecrementCest
 {
     use RedisTrait;

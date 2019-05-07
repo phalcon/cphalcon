@@ -16,9 +16,6 @@ use InvalidArgumentException;
 use Phalcon\Storage\Serializer\Base64;
 use UnitTester;
 
-/**
- * Class SerializeCest
- */
 class SerializeCest
 {
     /**

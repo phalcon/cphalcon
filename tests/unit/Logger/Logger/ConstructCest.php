@@ -20,11 +20,6 @@ use Phalcon\Test\Fixtures\Traits\LoggerTrait;
 use Psr\Log\LoggerInterface;
 use UnitTester;
 
-/**
- * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class ConstructCest
 {
     use LoggerTrait;

@@ -14,9 +14,6 @@ namespace Phalcon\Test\Unit\Tag;
 
 use UnitTester;
 
-/**
- * Class GetTitleSeparatorCest
- */
 class GetTitleSeparatorCest
 {
     /**

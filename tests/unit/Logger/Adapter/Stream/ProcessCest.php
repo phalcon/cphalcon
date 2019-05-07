@@ -19,11 +19,6 @@ use Phalcon\Logger\Item;
 use UnitTester;
 use function outputDir;
 
-/**
- * Class ProcessCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class ProcessCest
 {
     /**

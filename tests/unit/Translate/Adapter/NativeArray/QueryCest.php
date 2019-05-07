@@ -14,11 +14,6 @@ namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 
 use Phalcon\Test\Fixtures\Helpers\TranslateQueryHelper;
 
-/**
- * Class QueryCest
- *
- * @package Phalcon\Test\Unit\Translate\Adapter\NativeArray
- */
 class QueryCest extends TranslateQueryHelper
 {
     protected $function = 'query';

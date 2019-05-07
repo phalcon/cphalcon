@@ -17,11 +17,6 @@ use Phalcon\Logger\Logger;
 use UnitTester;
 use function outputDir;
 
-/**
- * Class AddAdapterCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class AddAdapterCest
 {
     /**

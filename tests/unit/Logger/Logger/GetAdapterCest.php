@@ -17,11 +17,6 @@ use Phalcon\Logger\Exception;
 use Phalcon\Logger\Logger;
 use UnitTester;
 
-/**
- * Class GetAdapterCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class GetAdapterCest
 {
     /**

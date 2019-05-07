@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Security;
 use UnitTester;
 use Phalcon\Security;
 
-/**
- * Class GetRandomBytesCest
- */
 class GetSetRandomBytesCest
 {
     /**

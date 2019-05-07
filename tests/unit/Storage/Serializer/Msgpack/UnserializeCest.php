@@ -17,9 +17,6 @@ use Phalcon\Storage\Serializer\Msgpack;
 use stdClass;
 use UnitTester;
 
-/**
- * Class UnserializeCest
- */
 class UnserializeCest
 {
     /**

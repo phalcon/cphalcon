@@ -18,9 +18,6 @@ use Phalcon\Storage\SerializerFactory;
 use stdClass;
 use UnitTester;
 
-/**
- * Class GetSetCest
- */
 class GetSetCest
 {
     /**

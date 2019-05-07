@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Storage\Serializer\Msgpack;
 use Phalcon\Storage\Serializer\Msgpack;
 use UnitTester;
 
-/**
- * Class GetDataCest
- */
 class GetDataCest
 {
     /**

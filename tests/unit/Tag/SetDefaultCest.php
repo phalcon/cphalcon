@@ -16,9 +16,6 @@ use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-/**
- * Class SetDefaultCest
- */
 class SetDefaultCest extends TagSetup
 {
     /**

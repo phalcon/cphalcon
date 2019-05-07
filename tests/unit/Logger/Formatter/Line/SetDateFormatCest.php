@@ -15,11 +15,6 @@ namespace Phalcon\Test\Unit\Logger\Formatter\Line;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
-/**
- * Class SetDateFormatCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class SetDateFormatCest
 {
     /**

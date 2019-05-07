@@ -15,11 +15,6 @@ namespace Phalcon\Test\Unit\Logger\Logger;
 use Phalcon\Logger\Logger;
 use UnitTester;
 
-/**
- * Class GetNameCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class GetNameCest
 {
     /**

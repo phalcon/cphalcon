@@ -14,11 +14,6 @@ namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
-/**
- * Class WeekFieldCest
- *
- * @package Phalcon\Test\Unit\Tag
- */
 class WeekFieldCest extends TagHelper
 {
     protected $function  = 'weekField';
