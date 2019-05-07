@@ -32,7 +32,7 @@ class CommitCest
     {
         $I->wantToTest('Logger\Adapter\Stream - commit()');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = outputDir();
         $adapter    = new Stream($outputPath . $fileName);
 
         $adapter->begin();
@@ -57,7 +57,7 @@ class CommitCest
     {
         $I->wantToTest('Logger\Adapter\Stream - commit() - no transaction');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = outputDir();
 
         try {
             $adapter = new Stream($outputPath . $fileName);

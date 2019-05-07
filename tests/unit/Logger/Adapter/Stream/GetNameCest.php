@@ -31,7 +31,7 @@ class GetNameCest
     {
         $I->wantToTest('Logger\Adapter\Stream - getName()');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = outputDir();
         $adapter    = new Stream($outputPath . $fileName);
 
         $expected = $outputPath . $fileName;

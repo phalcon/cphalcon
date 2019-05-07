@@ -33,7 +33,7 @@ class CloseCest
     {
         $I->wantToTest('Logger\Adapter\Stream - close()');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = outputDir();
         $adapter    = new Stream($outputPath . $fileName);
 
         $item = new Item('Message 1', 'debug', Logger::DEBUG);

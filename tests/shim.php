@@ -59,7 +59,6 @@ if (!function_exists('loadFolders')) {
             'assets',
             'cache',
             'cache/models',
-            'cache/sessions',
             'image',
             'image/gd',
             'image/imagick',
@@ -74,7 +73,9 @@ if (!function_exists('loadFolders')) {
             }
         }
 
-        checkDir(cacheDir());
+        if (true !== file_exists(cacheDir())) {
+            mkdir(cacheDir(), 0777, true);
+        }
     }
 }
 
@@ -94,21 +95,6 @@ if (!function_exists('cacheDir')) {
 }
 
 /**
- * Checks if a directory exists and creates it if need be
- */
-if (!function_exists('checkDir')) {
-    /**
-     * @param string $directory
-     */
-    function checkDir(string $directory = '')
-    {
-        if (!is_dir($directory)) {
-            mkdir($directory);
-        }
-    }
-}
-
-/**
  * Returns the output folder
  */
 if (!function_exists('dataDir')) {
@@ -120,21 +106,6 @@ if (!function_exists('dataDir')) {
     function dataDir(string $fileName = '')
     {
         return codecept_data_dir() . $fileName;
-    }
-}
-
-/**
- * Returns the output folder
- */
-if (!function_exists('logsDir')) {
-    /**
-     * @param string $fileName
-     *
-     * @return string
-     */
-    function logsDir(string $fileName = '')
-    {
-        return outputDir('tests/logs/' . $fileName);
     }
 }
 
@@ -164,22 +135,7 @@ if (true !== function_exists('cacheModelsDir')) {
      */
     function cacheModelsDir(string $fileName = '')
     {
-        return codecept_output_dir() . 'tests/models/' . $fileName;
-    }
-}
-
-/**
- * Returns the output folder
- */
-if (true !== function_exists('cacheSessionsDir')) {
-    /**
-     * @param string $fileName
-     *
-     * @return string
-     */
-    function cacheSessionsDir(string $fileName = '')
-    {
-        return codecept_output_dir() . 'tests/sessions/' . $fileName;
+        return codecept_output_dir() . 'tests/cache/models/' . $fileName;
     }
 }
 
@@ -228,8 +184,12 @@ if (true !== function_exists('getOptionsSessionStream')) {
      */
     function getOptionsSessionStream()
     {
+        if (!is_dir(cacheDir('sessions'))) {
+            mkdir(cacheDir('sessions'));
+        }
+
         return [
-            'savePath' => cacheSessionsDir(),
+            'savePath' => cacheDir('sessions'),
         ];
     }
 }
@@ -240,6 +200,10 @@ if (true !== function_exists('getOptionsModelCacheStream')) {
      */
     function getOptionsModelCacheStream(): array
     {
+        if (!is_dir(cacheDir('models'))) {
+            mkdir(cacheDir('models'));
+        }
+
         return [
             'lifetime' => 3600,
             'cacheDir' => cacheModelsDir(),

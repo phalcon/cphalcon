@@ -35,7 +35,7 @@ class RemoveAdapterCest
 
         $fileName1  = $I->getNewFileName('log', 'log');
         $fileName2  = $I->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = outputDir('tests/logs/');
         $adapter1   = new Stream($outputPath . $fileName1);
         $adapter2   = new Stream($outputPath . $fileName2);
 
@@ -70,7 +70,7 @@ class RemoveAdapterCest
         $I->wantToTest('Logger - removeAdapter() - unknown');
 
         $fileName1  = $I->getNewFileName('log', 'log');
-        $outputPath = logsDir();
+        $outputPath = outputDir('tests/logs/');
 
         try {
             $adapter1 = new Stream($outputPath . $fileName1);
