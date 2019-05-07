@@ -10,7 +10,6 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\ManagerInterface;
@@ -49,12 +48,6 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 class View extends Injectable implements ViewInterface
 {
     /**
-     * Cache Mode
-     */
-    const CACHE_MODE_NONE = 0;
-    const CACHE_MODE_INVERSE = 1;
-
-    /**
      * Render Level: To the action view
      */
     const LEVEL_ACTION_VIEW = 1;
@@ -87,8 +80,6 @@ class View extends Injectable implements ViewInterface
     protected actionName;
     protected activeRenderPaths;
     protected basePath = "";
-    protected cache;
-    protected cacheLevel = 0;
     protected content = "";
     protected controllerName;
     protected currentRenderLevel = 0 { get };
@@ -155,67 +146,6 @@ class View extends Injectable implements ViewInterface
     public function __set(string! key, var value)
     {
         let this->viewParams[key] = value;
-    }
-
-    /**
-     * Cache the actual view render to certain level
-     *
-     *<code>
-     * $this->view->cache(
-     *     [
-     *         "key"      => "my-key",
-     *         "lifetime" => 86400,
-     *     ]
-     * );
-     *</code>
-     */
-    public function cache(var options = true) -> <View>
-    {
-        var viewOptions, cacheOptions, key, value, cacheLevel;
-
-        if typeof options == "array" {
-            let viewOptions = this->options;
-
-            if typeof viewOptions != "array" {
-                let viewOptions = [];
-            }
-
-            /**
-             * Get the default cache options
-             */
-            if !fetch cacheOptions, viewOptions["cache"] {
-                let cacheOptions = [];
-            }
-
-            for key, value in options {
-                let cacheOptions[key] = value;
-            }
-
-            /**
-             * Check if the user has defined a default cache level or use
-             * self::LEVEL_MAIN_LAYOUT as default
-             */
-            if fetch cacheLevel, cacheOptions["level"] {
-                let this->cacheLevel = cacheLevel;
-            } else {
-                let this->cacheLevel = self::LEVEL_MAIN_LAYOUT;
-            }
-
-            let viewOptions["cache"] = cacheOptions;
-            let this->options = viewOptions;
-        } else {
-            /**
-             * If 'options' isn't an array we enable the cache with default
-             * options
-             */
-            if options {
-                let this->cacheLevel = self::LEVEL_MAIN_LAYOUT;
-            } else {
-                let this->cacheLevel = self::LEVEL_NO_RENDER;
-            }
-        }
-
-        return this;
     }
 
     /**
@@ -359,19 +289,7 @@ class View extends Injectable implements ViewInterface
     }
 
     /**
-     * Returns the cache instance used to cache
-     */
-    public function getCache() -> <AdapterInterface>
-    {
-        if !this->cache || typeof this->cache != "object" {
-            let this->cache = this->createCache();
-        }
-
-        return this->cache;
-    }
-
-    /**
-     * Returns cached output from another view stage
+     * Returns output from another view stage
      */
     public function getContent() -> string
     {
@@ -554,14 +472,6 @@ class View extends Injectable implements ViewInterface
     }
 
     /**
-     * Check if the component is currently caching the output content
-     */
-    public function isCaching() -> bool
-    {
-        return this->cacheLevel > 0;
-    }
-
-    /**
      * Whether automatic rendering is enabled
      */
     public function isDisabled() -> bool
@@ -711,7 +621,7 @@ class View extends Injectable implements ViewInterface
         int renderLevel;
         var layoutsDir, layout, pickView, layoutName, engines, renderView,
             pickViewAction, eventsManager, disabledLevels, templatesBefore,
-            templatesAfter, templateBefore, templateAfter, cache;
+            templatesAfter, templateBefore, templateAfter;
 
         let this->currentRenderLevel = 0;
 
@@ -778,15 +688,6 @@ class View extends Injectable implements ViewInterface
             }
         }
 
-        /**
-         * Start the cache if there is a cache level enabled
-         */
-        if this->cacheLevel {
-            let cache = this->getCache();
-        } else {
-            let cache = null;
-        }
-
         let eventsManager = <ManagerInterface> this->eventsManager;
 
         /**
@@ -835,8 +736,7 @@ class View extends Injectable implements ViewInterface
                         engines,
                         renderView,
                         silence,
-                        mustClean,
-                        cache
+                        mustClean
                     );
                 }
             }
@@ -857,8 +757,7 @@ class View extends Injectable implements ViewInterface
                             engines,
                             layoutsDir . templateBefore,
                             silence,
-                            mustClean,
-                            cache
+                            mustClean
                         );
                     }
 
@@ -877,8 +776,7 @@ class View extends Injectable implements ViewInterface
                         engines,
                         layoutsDir . layoutName,
                         silence,
-                        mustClean,
-                        cache
+                        mustClean
                     );
                 }
             }
@@ -899,8 +797,7 @@ class View extends Injectable implements ViewInterface
                             engines,
                             layoutsDir . templateAfter,
                             silence,
-                            mustClean,
-                            cache
+                            mustClean
                         );
                     }
 
@@ -919,24 +816,12 @@ class View extends Injectable implements ViewInterface
                         engines,
                         this->mainView,
                         silence,
-                        mustClean,
-                        cache
+                        mustClean
                     );
                 }
             }
 
             let this->currentRenderLevel = 0;
-
-            /**
-             * Store the data in the cache
-             */
-            if typeof cache == "object" {
-                if cache->isStarted() && cache->isFresh() {
-                    cache->save();
-                } else {
-                    cache->stop();
-                }
-            }
         }
 
         /**
@@ -956,9 +841,7 @@ class View extends Injectable implements ViewInterface
     {
         let this->disabled = false,
             this->engines = false,
-            this->cache = null,
             this->renderLevel = self::LEVEL_MAIN_LAYOUT,
-            this->cacheLevel = self::LEVEL_NO_RENDER,
             this->content = null,
             this->templatesBefore = [],
             this->templatesAfter = [];
@@ -1199,47 +1082,17 @@ class View extends Injectable implements ViewInterface
     }
 
     /**
-     * Create a Phalcon\Cache based on the internal cache options
-     */
-    protected function createCache() -> <AdapterInterface>
-    {
-        var container, cacheService, viewCache, viewOptions, cacheOptions;
-
-        let container = <DiInterface> this->container;
-
-        if typeof container != "object" {
-            throw new Exception(
-                Exception::containerServiceNotFound("the view cache services")
-            );
-        }
-
-        let viewOptions  = this->options,
-            cacheOptions = Arr::get(viewOptions, "cache", []),
-            cacheService = Arr::get(cacheService, "service", "viewCache"),
-            viewCache    = <AdapterInterface> container->getShared(cacheService);
-
-        if typeof viewCache != "object" {
-            throw new Exception("The injected cache service is not valid");
-        }
-
-        return viewCache;
-    }
-
-    /**
      * Checks whether view exists on registered extensions and render it
      */
     protected function engineRender(
         array engines,
         string viewPath,
         bool silence,
-        bool mustClean,
-        <AdapterInterface> cache = null
+        bool mustClean
     ) {
         bool notExists;
-        int renderLevel, cacheLevel;
-        var key, lifetime, viewsDir, basePath, viewsDirPath, viewOptions,
-            cacheOptions, cachedView, viewParams, eventsManager, extension,
-            engine, viewEnginePath, viewEnginePaths;
+        var basePath, engine, eventsManager, extension, viewsDir, viewsDirPath,
+            viewEnginePath, viewEnginePaths, viewParams;
 
         let notExists = true,
             basePath = this->basePath,
@@ -1252,60 +1105,6 @@ class View extends Injectable implements ViewInterface
                 let viewsDirPath = basePath . viewsDir . viewPath;
             } else {
                 let viewsDirPath = viewPath;
-            }
-
-            if typeof cache == "object" {
-                let renderLevel = (int) this->renderLevel,
-                    cacheLevel = (int) this->cacheLevel;
-
-                if renderLevel >= cacheLevel {
-                    /**
-                     * Check if the cache is started, the first time a cache is
-                     * started we start the cache
-                     */
-                    if !cache->isStarted() {
-                        let key = null,
-                            lifetime = null;
-
-                        let viewOptions = this->options;
-
-                        /**
-                         * Check if the user has defined a different options to
-                         * the default
-                         */
-                        if fetch cacheOptions, viewOptions["cache"] {
-                            if typeof cacheOptions == "array" {
-                                fetch key, cacheOptions["key"];
-                                fetch lifetime, cacheOptions["lifetime"];
-                            }
-                        }
-
-                        /**
-                         * If a cache key is not set we create one using a md5
-                         */
-                        if key === null {
-                            let key = md5(viewPath);
-                        }
-
-                        /**
-                         * We start the cache using the key set
-                         */
-                        let cachedView = cache->start(key, lifetime);
-
-                        if cachedView !== null {
-                            let this->content = cachedView;
-                            return null;
-                        }
-                    }
-
-                    /**
-                     * This method only returns true if the cache has not
-                     * expired
-                     */
-                    if !cache->isFresh() {
-                        return null;
-                    }
-                }
             }
 
             /**
