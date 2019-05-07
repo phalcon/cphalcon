@@ -58,6 +58,5 @@ class SetVarsCest
             $view,
             $view->setVars($expected, false)
         );
-
     }
 }
