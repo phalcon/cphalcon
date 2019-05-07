@@ -172,8 +172,8 @@ class Compiler implements InjectionAwareInterface
     public function compile(string! templatePath, bool extendsMode = false)
     {
         var blocksCode, compilation, compileAlways, compiledExtension,
-            compiledPath, compiledSeparator, compiledTemplatePath, optionKey,
-            options, prefix, realCompiledPath, stat, templateSepPath;
+            compiledPath, compiledSeparator, compiledTemplatePath, options,
+            prefix, stat, templateSepPath;
 
         /**
          * Re-initialize some properties already initialized when the object is
@@ -187,127 +187,95 @@ class Compiler implements InjectionAwareInterface
         let this->blockLevel = 0;
         let this->exprLevel = 0;
 
-        let stat = true;
-        let compileAlways = false;
-        let compiledPath = "";
-        let prefix = null;
-        let compiledSeparator = "%%";
-        let compiledExtension = ".php";
         let compilation = null;
 
         let options = this->options;
 
-        if typeof options == "array" {
-            /**
-             * This makes that templates will be compiled always
-             */
-            if isset options["always"] || isset options["compileAlways"] {
-                if isset options["always"] {
-                    let optionKey = "always";
-                } else {
-                    let optionKey = "compileAlways";
-
-                    trigger_error(
-                        "The 'compileAlways' option is deprecated. Use 'always' instead.",
-                        E_USER_DEPRECATED
-                    );
-                }
-
-                let compileAlways = options[optionKey];
-
-                if unlikely typeof compileAlways != "boolean" {
-                    throw new Exception(
-                        "'" . optionKey . "' must be a bool value"
-                    );
-                }
+        /**
+         * This makes that templates will be compiled always
+         */
+        if !fetch compileAlways, options["always"] {
+            if fetch compileAlways, options["compileAlways"] {
+                trigger_error(
+                    "The 'compileAlways' option is deprecated. Use 'always' instead.",
+                    E_USER_DEPRECATED
+                );
+            } else {
+                let compileAlways = false;
             }
+        }
 
-            /**
-             * Prefix is prepended to the template name
-             */
-            if isset options["prefix"] {
-                let prefix = options["prefix"];
+        if unlikely typeof compileAlways != "boolean" {
+            throw new Exception("'always' must be a bool value");
+        }
 
-                if unlikely typeof prefix != "string" {
-                    throw new Exception("'prefix' must be a string");
-                }
+        /**
+         * Prefix is prepended to the template name
+         */
+        if !fetch prefix, options["prefix"] {
+            let prefix = "";
+        }
+
+        if unlikely typeof prefix != "string" {
+            throw new Exception("'prefix' must be a string");
+        }
+
+        /**
+         * Compiled path is a directory where the compiled templates will be
+         * located
+         */
+        if !fetch compiledPath, options["path"] {
+            if fetch compiledPath, options["compiledPath"] {
+                trigger_error(
+                    "The 'compiledPath' option is deprecated. Use 'path' instead.",
+                    E_USER_DEPRECATED
+                );
+            } else {
+                let compiledPath = "";
             }
+        }
 
-            /**
-             * Compiled path is a directory where the compiled templates will be
-             * located
-             */
-            if isset options["path"] || isset options["compiledPath"] {
-                if isset options["path"] {
-                    let optionKey = "path";
-                } else {
-                    let optionKey = "compiledPath";
-
-                    trigger_error(
-                        "The 'compiledPath' option is deprecated. Use 'path' instead.",
-                        E_USER_DEPRECATED
-                    );
-                }
-
-                let compiledPath = options[optionKey];
-
-                if unlikely (typeof compiledPath != "string" && typeof compiledPath != "object") {
-                    throw new Exception(
-                        "'" . optionKey . "' must be a string or a closure"
-                    );
-                }
+        /**
+         * There is no compiled separator by default
+         */
+        if !fetch compiledSeparator, options["separator"] {
+            if fetch compiledSeparator, options["compiledSeparator"] {
+                trigger_error(
+                    "The 'compiledSeparator' option is deprecated. Use 'separator' instead.",
+                    E_USER_DEPRECATED
+                );
+            } else {
+                let compiledSeparator = "%%";
             }
+        }
 
-            /**
-             * There is no compiled separator by default
-             */
-            if isset options["separator"] || isset options["compiledSeparator"] {
-                if isset options["separator"] {
-                    let optionKey = "separator";
-                } else {
-                    let optionKey = "compiledSeparator";
+        if unlikely typeof compiledSeparator != "string" {
+            throw new Exception("'separator' must be a string");
+        }
 
-                    trigger_error(
-                        "The 'compiledSeparator' option is deprecated. Use 'separator' instead.",
-                        E_USER_DEPRECATED
-                    );
-                }
-
-                let compiledSeparator = options[optionKey];
-
-                if unlikely typeof compiledSeparator != "string" {
-                    throw new Exception("'" . optionKey . "' must be a string");
-                }
+        /**
+         * By default the compile extension is .php
+         */
+        if !fetch compiledExtension, options["extension"] {
+            if fetch compiledExtension, options["compiledExtension"] {
+                trigger_error(
+                    "The 'compiledExtension' option is deprecated. Use 'extension' instead.",
+                    E_USER_DEPRECATED
+                );
+            } else {
+                let compiledExtension = ".php";
             }
+        }
 
-            /**
-             * By default the compile extension is .php
-             */
-            if isset options["extension"] || isset options["compiledExtension"] {
-                if isset options["extension"] {
-                    let optionKey = "extension";
-                } else {
-                    let optionKey = "compiledExtension";
+        if unlikely typeof compiledExtension != "string" {
+            throw new Exception("'extension' must be a string");
+        }
 
-                    trigger_error(
-                        "The 'compiledExtension' option is deprecated. Use 'extension' instead.",
-                        E_USER_DEPRECATED
-                    );
-                }
-
-                let compiledExtension = options[optionKey];
-
-                if unlikely typeof compiledExtension != "string" {
-                    throw new Exception("'" . optionKey . "' must be a string");
-                }
-            }
-
-            /**
-             * Stat option assumes the compilation of the file
-             */
-            if isset options["stat"] {
-                let stat = options["stat"];
-            }
+        /**
+         * Stat option assumes the compilation of the file
+         */
+        if !fetch stat, options["stat"] {
+            let stat = true;
         }
 
         /**
@@ -338,49 +306,41 @@ class Compiler implements InjectionAwareInterface
             } else {
                 let compiledTemplatePath = compiledPath . prefix . templateSepPath . compiledExtension;
             }
-        } else {
+        } elseif typeof compiledPath == "object" && compiledPath instanceof \Closure {
             /**
              * A closure can dynamically compile the path
              */
-            if typeof compiledPath == "object" {
-                if compiledPath instanceof \Closure {
-                    let compiledTemplatePath = call_user_func_array(
-                        compiledPath,
-                        [templatePath, options, extendsMode]
-                    );
 
-                    /**
-                     * The closure must return a valid path
-                     */
-                    if unlikely typeof compiledTemplatePath != "string" {
-                        throw new Exception(
-                            "compiledPath closure didn't return a valid string"
-                        );
-                    }
-                } else {
-                    throw new Exception(
-                        "compiledPath must be a string or a closure"
-                    );
-                }
+            let compiledTemplatePath = call_user_func_array(
+                compiledPath,
+                [templatePath, options, extendsMode]
+            );
+
+            /**
+             * The closure must return a valid path
+             */
+            if unlikely typeof compiledTemplatePath != "string" {
+                throw new Exception(
+                    "'path' closure didn't return a valid string"
+                );
             }
+        } else {
+            throw new Exception(
+                "'path' must be a string or a closure"
+            );
         }
-
-        /**
-         * Use the real path to avoid collisions
-         */
-        let realCompiledPath = compiledTemplatePath;
 
         /**
          * Compile always must be used only in the development stage
          */
-        if !file_exists(realCompiledPath) || compileAlways {
+        if !file_exists(compiledTemplatePath) || compileAlways {
             /**
              * The file needs to be compiled because it either doesn't exist or
              * needs to compiled every time
              */
             let compilation = this->compileFile(
                 templatePath,
-                realCompiledPath,
+                compiledTemplatePath,
                 extendsMode
             );
         } else {
@@ -389,10 +349,10 @@ class Compiler implements InjectionAwareInterface
                  * Compare modification timestamps to check if the file
                  * needs to be recompiled
                  */
-                if compare_mtime(templatePath, realCompiledPath) {
+                if compare_mtime(templatePath, compiledTemplatePath) {
                     let compilation = this->compileFile(
                         templatePath,
-                        realCompiledPath,
+                        compiledTemplatePath,
                         extendsMode
                     );
                 } else {
@@ -401,11 +361,11 @@ class Compiler implements InjectionAwareInterface
                          * In extends mode we read the file that must
                          * contains a serialized array of blocks
                          */
-                        let blocksCode = file_get_contents(realCompiledPath);
+                        let blocksCode = file_get_contents(compiledTemplatePath);
 
                         if unlikely blocksCode === false {
                             throw new Exception(
-                                "Extends compilation file " . realCompiledPath . " could not be opened"
+                                "Extends compilation file " . compiledTemplatePath . " could not be opened"
                             );
                         }
 
@@ -422,7 +382,7 @@ class Compiler implements InjectionAwareInterface
             }
         }
 
-        let this->compiledTemplatePath = realCompiledPath;
+        let this->compiledTemplatePath = compiledTemplatePath;
 
         return compilation;
     }
