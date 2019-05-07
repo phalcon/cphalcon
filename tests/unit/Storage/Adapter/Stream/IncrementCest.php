@@ -26,8 +26,6 @@ class IncrementCest
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: increment()
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      * @since  2019-04-24
      *

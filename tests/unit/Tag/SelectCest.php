@@ -23,8 +23,6 @@ class SelectCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: select()
      *
-     * @param UnitTester $I
-     *
      * @author Cameron Hall <me@chall.id.au>
      * @since  2019-01-27
      */
@@ -48,8 +46,6 @@ class SelectCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: select() with no options
-     *
-     * @param UnitTester $I
      *
      * @author Cameron Hall <me@chall.id.au>
      * @since  2019-01-27

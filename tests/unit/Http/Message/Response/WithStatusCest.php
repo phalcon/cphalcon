@@ -23,8 +23,6 @@ class WithStatusCest
     /**
      * Tests Phalcon\Http\Message\Response :: withStatus()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
      */
@@ -41,8 +39,6 @@ class WithStatusCest
 
     /**
      * Tests Phalcon\Http\Message\Response :: withStatus() - other reason
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09

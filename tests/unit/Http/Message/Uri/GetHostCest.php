@@ -23,8 +23,6 @@ class GetHostCest
     /**
      * Tests Phalcon\Http\Message\Uri :: getHost()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */
@@ -42,8 +40,6 @@ class GetHostCest
 
     /**
      * Tests Phalcon\Http\Message\Uri :: getHost() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-07

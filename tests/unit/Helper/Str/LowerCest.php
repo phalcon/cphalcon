@@ -23,8 +23,6 @@ class LowerCest
     /**
      * Tests Phalcon\Helper\Str :: lower()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
@@ -46,8 +44,6 @@ class LowerCest
 
     /**
      * Tests Phalcon\Helper\Str :: lower() - multi-bytes encoding
-     *
-     * @param UnitTester $I
      *
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-05-06

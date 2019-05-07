@@ -24,8 +24,6 @@ class SetDefaultCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: setDefault()
      *
-     * @param UnitTester $I
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/2402
      * @author Dmitry Patsura <talk@dmtry.me>
      * @since  2014-05-10

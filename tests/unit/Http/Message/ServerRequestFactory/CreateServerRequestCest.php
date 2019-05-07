@@ -24,8 +24,6 @@ class CreateServerRequestCest
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: createServerRequest()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */

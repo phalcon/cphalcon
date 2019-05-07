@@ -23,8 +23,6 @@ class IsWritableCest
     /**
      * Tests Phalcon\Http\Message\Stream\Input :: isWritable()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-19
      */

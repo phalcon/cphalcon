@@ -30,8 +30,6 @@ class GetTitleCest
     /**
      * Tests Phalcon\Html\Tag :: getTitle()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -50,8 +48,6 @@ class GetTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: getTitle() - escape
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -72,8 +68,6 @@ class GetTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: getTitle() - parameters
-     *
-     * @param UnitTester $I
      *
      * @since  2018-12-27
      */

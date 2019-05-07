@@ -47,8 +47,6 @@ class FloatValCest
      * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
      * This is on its own to align the float values (fraction)
      *
-     * @param UnitTester $I
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
      */

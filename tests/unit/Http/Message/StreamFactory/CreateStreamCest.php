@@ -24,8 +24,6 @@ class CreateStreamCest
     /**
      * Tests Phalcon\Http\Message\StreamFactory :: createStream()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */

@@ -29,8 +29,6 @@ class GetSetDICest
     /**
      * Tests Phalcon\Html\Tag :: getDI()/setDI()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

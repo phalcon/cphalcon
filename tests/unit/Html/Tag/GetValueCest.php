@@ -25,8 +25,6 @@ class GetValueCest
     /**
      * Tests Phalcon\Html\Tag :: getValue()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -44,8 +42,6 @@ class GetValueCest
     /**
      * Tests Phalcon\Html\Tag :: getValue() - internal array
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -62,8 +58,6 @@ class GetValueCest
 
     /**
      * Tests Phalcon\Html\Tag :: getValue() - POST
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -28,8 +28,6 @@ class GetSetCest
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: set()
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      * @since  2019-04-24
      *
@@ -56,8 +54,6 @@ class GetSetCest
 
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: get()
-     *
-     * @param UnitTester $I
      *
      * @throws Exception
      * @since  2019-04-24
@@ -86,8 +82,6 @@ class GetSetCest
 
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: get() - errors
-     *
-     * @param UnitTester $I
      *
      * @throws Exception
      * @since  2019-04-24

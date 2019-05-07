@@ -30,8 +30,6 @@ class AppendTitleCest
     /**
      * Tests Phalcon\Html\Tag :: appendTitle()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -102,8 +100,6 @@ class AppendTitleCest
     /**
      * Tests Phalcon\Html\Tag :: appendTitle() - separator
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -139,8 +135,6 @@ class AppendTitleCest
     /**
      * Tests Phalcon\Html\Tag :: appendTitle() - double call
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -174,8 +168,6 @@ class AppendTitleCest
     /**
      * Tests Phalcon\Html\Tag :: appendTitle() - many
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -207,8 +199,6 @@ class AppendTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: appendTitle() - empty array
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

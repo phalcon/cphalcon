@@ -23,8 +23,6 @@ class GetSizeCest
     /**
      * Tests Phalcon\Http\Message\Stream :: getSize()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -40,8 +38,6 @@ class GetSizeCest
 
     /**
      * Tests Phalcon\Http\Message\Stream :: getSize() - invalid stream
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

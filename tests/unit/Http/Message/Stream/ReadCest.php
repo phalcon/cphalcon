@@ -24,8 +24,6 @@ class ReadCest
     /**
      * Tests Phalcon\Http\Message\Stream :: read()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -46,8 +44,6 @@ class ReadCest
 
     /**
      * Tests Phalcon\Http\Message\Stream :: read() - detached
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

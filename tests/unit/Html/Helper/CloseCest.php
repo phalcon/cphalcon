@@ -26,8 +26,6 @@ class CloseCest
     /**
      * Tests Phalcon\Html\Helper\Close :: __construct()
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      */
     public function htmlHelperCloseConstruct(UnitTester $I)

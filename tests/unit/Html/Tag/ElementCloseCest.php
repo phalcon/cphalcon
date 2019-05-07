@@ -25,8 +25,6 @@ class ElementCloseCest
     /**
      * Tests Phalcon\Html\Tag :: elementClose()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -52,8 +50,6 @@ class ElementCloseCest
 
     /**
      * Tests Phalcon\Html\Tag :: elementClose() - EOL
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05

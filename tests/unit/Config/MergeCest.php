@@ -24,8 +24,6 @@ class MergeCest
     /**
      * Tests Phalcon\Config :: merge()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-15
      */
@@ -54,8 +52,6 @@ class MergeCest
 
     /**
      * Tests Phalcon\Config :: merge()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-15

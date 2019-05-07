@@ -26,8 +26,6 @@ class ClearCest
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: clear()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
@@ -59,8 +57,6 @@ class ClearCest
 
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: clear() - twice
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31

@@ -23,8 +23,6 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - string as a parameter
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -41,8 +39,6 @@ class SubmitButtonCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: submitButton() - array as a parameter
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -64,8 +60,6 @@ class SubmitButtonCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: submitButton() - array as parameter and id in it
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -90,8 +84,6 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - name and no id in parameter
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -114,8 +106,6 @@ class SubmitButtonCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: submitButton() - setDefault
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -140,8 +130,6 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - displayTo
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -165,8 +153,6 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - setDefault and element not present
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -189,8 +175,6 @@ class SubmitButtonCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: submitButton() - displayTo and element not present
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05

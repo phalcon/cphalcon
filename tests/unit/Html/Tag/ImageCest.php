@@ -30,8 +30,6 @@ class ImageCest
     /**
      * Tests Phalcon\Html\Tag :: image()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -51,8 +49,6 @@ class ImageCest
 
     /**
      * Tests Phalcon\Html\Tag :: image() - remote
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -77,8 +73,6 @@ class ImageCest
     /**
      * Tests Phalcon\Html\Tag :: image() - params
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -100,8 +94,6 @@ class ImageCest
 
     /**
      * Tests Phalcon\Html\Tag :: image() - params src
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -126,8 +118,6 @@ class ImageCest
     /**
      * Tests Phalcon\Html\Tag :: image() - setAttribute()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -149,8 +139,6 @@ class ImageCest
 
     /**
      * Tests Phalcon\Html\Tag :: image() - setAttribute() element not present
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05

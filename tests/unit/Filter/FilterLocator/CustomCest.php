@@ -27,8 +27,6 @@ class CustomCest
     /**
      * Tests Phalcon\Filter\FilterLocator :: custom has()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-01-19
      */
@@ -49,8 +47,6 @@ class CustomCest
 
     /**
      * Tests Phalcon\Filter\FilterLocator :: custom sanitizer
-     *
-     * @param UnitTester $I
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-01-19

@@ -30,8 +30,6 @@ class StylesheetCest
     /**
      * Tests Phalcon\Html\Tag :: stylesheet() - local
      *
-     * @param UnitTester $I
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/1486
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-12
@@ -66,8 +64,6 @@ class StylesheetCest
     /**
      * Tests Phalcon\Html\Tag :: stylesheet() - remote
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
@@ -100,8 +96,6 @@ class StylesheetCest
 
     /**
      * Tests Phalcon\Html\Tag :: stylesheet() - override rel
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2142
      * @author Dreamszhu <dreamsxin@qq.com>

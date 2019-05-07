@@ -54,8 +54,6 @@ class AnchorRawCest
     /**
      * Tests Phalcon\Html\Helper\Anchor :: __construct() - exception
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      */
     public function htmlHelperAnchorConstructException(UnitTester $I)

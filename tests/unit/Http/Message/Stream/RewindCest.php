@@ -24,8 +24,6 @@ class RewindCest
     /**
      * Tests Phalcon\Http\Message\Stream :: rewind()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -48,8 +46,6 @@ class RewindCest
 
     /**
      * Tests Phalcon\Http\Message\Stream :: rewind() - detached
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

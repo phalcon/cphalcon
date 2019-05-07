@@ -16,17 +16,12 @@ use Phalcon\Container;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     use DiTrait;
 
     /**
      * Tests Phalcon\Container :: has()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

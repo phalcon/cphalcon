@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Collection;
 use Phalcon\Collection;
 use UnitTester;
 
-/**
- * Class ClearCest
- */
 class ClearCest
 {
     /**
      * Tests Phalcon\Collection :: clear()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -23,8 +23,6 @@ class GetClientMediaTypeCest
     /**
      * Tests Phalcon\Http\Message\UploadedFile :: getClientMediaType()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */

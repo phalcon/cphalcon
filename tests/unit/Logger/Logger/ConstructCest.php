@@ -44,8 +44,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Logger :: __construct() - constants
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

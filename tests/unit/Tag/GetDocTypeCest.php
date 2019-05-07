@@ -21,8 +21,6 @@ class GetDocTypeCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: getDocType() - 3.2
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -35,8 +33,6 @@ class GetDocTypeCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: getDocType() - 4.01 Strict
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      */
@@ -47,8 +43,6 @@ class GetDocTypeCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: getDocType() - 4.01 Transitional
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
@@ -61,8 +55,6 @@ class GetDocTypeCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: getDocType() - 4.01 Frameset
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      */
@@ -73,8 +65,6 @@ class GetDocTypeCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: getDocType() - 5
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
@@ -87,8 +77,6 @@ class GetDocTypeCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: getDocType() - 1.0 Strict
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      */
@@ -99,8 +87,6 @@ class GetDocTypeCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: getDocType() - 1.0 Transitional
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
@@ -113,8 +99,6 @@ class GetDocTypeCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: getDocType() - 1.0 Frameset
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      */
@@ -125,8 +109,6 @@ class GetDocTypeCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: getDocType() - 1.1
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
@@ -139,8 +121,6 @@ class GetDocTypeCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: getDocType() - 2.0
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
      */
@@ -151,8 +131,6 @@ class GetDocTypeCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: getDocType() - wrong setting
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04

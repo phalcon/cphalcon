@@ -25,8 +25,6 @@ class WithHostCest
     /**
      * Tests Phalcon\Http\Message\Uri :: withHost()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */

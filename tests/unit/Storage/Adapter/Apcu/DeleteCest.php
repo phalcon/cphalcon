@@ -27,8 +27,6 @@ class DeleteCest
     /**
      * Tests Phalcon\Storage\Adapter\Apcu :: delete()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
@@ -54,8 +52,6 @@ class DeleteCest
     /**
      * Tests Phalcon\Storage\Adapter\Apcu :: delete() - twice
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
@@ -80,8 +76,6 @@ class DeleteCest
 
     /**
      * Tests Phalcon\Storage\Adapter\Apcu :: delete() - unknown
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31

@@ -27,8 +27,6 @@ class HasCest
     /**
      * Tests Phalcon\Storage\Adapter\Apcu :: get()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */

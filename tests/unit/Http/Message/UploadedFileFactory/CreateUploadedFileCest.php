@@ -25,8 +25,6 @@ class CreateUploadedFileCest
     /**
      * Tests Phalcon\Http\Message\UploadedFileFactory :: createUploadedFile()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */

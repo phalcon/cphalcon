@@ -21,8 +21,6 @@ class AddRoleCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole() - string
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -42,8 +40,6 @@ class AddRoleCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole() - object
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -61,8 +57,6 @@ class AddRoleCest
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole() - twice string
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -88,8 +82,6 @@ class AddRoleCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole() - twice object
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -113,8 +105,6 @@ class AddRoleCest
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole() - numeric key
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

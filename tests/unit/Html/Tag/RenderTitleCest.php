@@ -30,8 +30,6 @@ class RenderTitleCest
     /**
      * Tests Phalcon\Html\Tag :: renderTitle()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -51,8 +49,6 @@ class RenderTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: renderTitle() - parameters
-     *
-     * @param UnitTester $I
      *
      * @since 2018-12-27
      */

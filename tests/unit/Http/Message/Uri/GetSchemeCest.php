@@ -23,8 +23,6 @@ class GetSchemeCest
     /**
      * Tests Phalcon\Http\Message\Uri :: getScheme()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */
@@ -41,8 +39,6 @@ class GetSchemeCest
 
     /**
      * Tests Phalcon\Http\Message\Uri :: getScheme() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-07

@@ -25,8 +25,6 @@ class GetPrefixCest
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: getPrefix()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
@@ -50,8 +48,6 @@ class GetPrefixCest
 
     /**
      * Tests Phalcon\Storage\Adapter\Stream :: getPrefix() - default
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24

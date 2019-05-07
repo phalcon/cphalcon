@@ -56,8 +56,6 @@ class NewInstanceCest
     /**
      * Tests Phalcon\Storage\SerializerFactory :: newInstance() - exception
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      * @since  2019-05-04
      *

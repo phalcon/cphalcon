@@ -24,8 +24,6 @@ class GetHeadersCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getHeaders()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -48,8 +46,6 @@ class GetHeadersCest
 
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getHeaders() - collection
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -74,8 +70,6 @@ class GetHeadersCest
 
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getHeaders() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

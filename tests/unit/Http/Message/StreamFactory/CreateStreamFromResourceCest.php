@@ -25,8 +25,6 @@ class CreateStreamFromResourceCest
     /**
      * Tests Phalcon\Http\Message\StreamFactory :: createStreamFromResource()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -50,8 +48,6 @@ class CreateStreamFromResourceCest
     /**
      * Tests Phalcon\Http\Message\StreamFactory :: createStreamFromResource() -
      * exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

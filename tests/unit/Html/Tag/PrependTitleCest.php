@@ -31,8 +31,6 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Html\Tag :: prependTitle()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -99,8 +97,6 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Html\Tag :: prependTitle() - separator
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -132,8 +128,6 @@ class PrependTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: prependTitle() - double call
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -167,8 +161,6 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Html\Tag :: prependTitle() - many
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -199,8 +191,6 @@ class PrependTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: prependTitle() - empty array
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

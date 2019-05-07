@@ -29,8 +29,6 @@ class DecrementCest
     /**
      * Tests Phalcon\Storage\Adapter\Libmemcached :: decrement()
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      * @since  2019-03-31
      *

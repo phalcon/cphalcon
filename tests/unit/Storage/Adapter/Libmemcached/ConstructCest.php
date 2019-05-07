@@ -31,8 +31,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Storage\Adapter\Libmemcached :: __construct()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-09
      */
@@ -53,8 +51,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Storage\Adapter\Libmemcached :: __construct() - empty
      * options
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-09
@@ -82,8 +78,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Storage\Adapter\Libmemcached :: __construct() - getTtl
      * options
-     *
-     * @param UnitTester $I
      *
      * @throws Exception
      * @since  2019-04-09

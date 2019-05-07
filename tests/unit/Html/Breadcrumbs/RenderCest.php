@@ -23,8 +23,6 @@ class RenderCest
     /**
      * Tests Phalcon\Html\Breadcrumbs :: render()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

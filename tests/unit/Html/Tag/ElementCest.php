@@ -32,8 +32,6 @@ class ElementCest
     /**
      * Tests Phalcon\Html\Tag :: element()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -72,8 +70,6 @@ class ElementCest
     /**
      * Tests Phalcon\Html\Tag :: element() - no name
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -91,8 +87,6 @@ class ElementCest
 
     /**
      * Tests Phalcon\Tag :: element() - self close
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -126,8 +120,6 @@ class ElementCest
     /**
      * Tests Phalcon\Tag :: element() - only start
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -158,8 +150,6 @@ class ElementCest
 
     /**
      * Tests Phalcon\Tag :: element() - EOL
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05

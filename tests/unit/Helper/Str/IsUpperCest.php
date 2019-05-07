@@ -23,8 +23,6 @@ class IsUpperCest
     /**
      * Tests Phalcon\Helper\Str :: isUpper()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */

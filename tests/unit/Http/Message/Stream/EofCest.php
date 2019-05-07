@@ -23,8 +23,6 @@ class EofCest
     /**
      * Tests Phalcon\Http\Message\Stream :: eof()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -45,8 +43,6 @@ class EofCest
     /**
      * Tests Phalcon\Http\Message\Stream :: eof() - detached stream
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -63,8 +59,6 @@ class EofCest
 
     /**
      * Tests Phalcon\Http\Message\Stream :: eof() - not at eof
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

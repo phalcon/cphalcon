@@ -21,8 +21,6 @@ class JavascriptIncludeCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: javascriptInclude() - string as a parameter local
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
@@ -45,8 +43,6 @@ class JavascriptIncludeCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: javascriptInclude() - array as a parameter local
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
@@ -68,8 +64,6 @@ class JavascriptIncludeCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: javascriptInclude() - remote link
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
@@ -94,8 +88,6 @@ class JavascriptIncludeCest extends TagSetup
      * Tests Phalcon\Tag :: javascriptInclude() - array parameter for a remote
      * link
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
@@ -115,8 +107,6 @@ class JavascriptIncludeCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: javascriptInclude() - HTML5
-     *
-     * @param UnitTester $I
      *
      * @issue https://github.com/phalcon/cphalcon/issues/13341
      *
