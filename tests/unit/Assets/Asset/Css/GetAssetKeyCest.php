@@ -18,6 +18,8 @@ use UnitTester;
 
 class GetAssetKeyCest
 {
+    use AssetsTrait;
+
     /**
      * Tests Phalcon\Assets\Asset\Css :: getAssetKey() - css local
      *
