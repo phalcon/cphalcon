@@ -18,7 +18,7 @@ use Phalcon\Config\Adapter\Json;
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
 /**
  * @package Phalcon\Test\Fixtures\Traits
@@ -114,22 +114,22 @@ trait ConfigTrait
         switch ($adapter) {
             case 'Ini':
                 return new Ini(
-                    dataFolder('assets/config/config.ini')
+                    dataDir('assets/config/config.ini')
                 );
 
             case 'Json':
                 return new Json(
-                    dataFolder('assets/config/config.json')
+                    dataDir('assets/config/config.json')
                 );
 
             case 'Php':
                 return new Php(
-                    dataFolder('assets/config/config.php')
+                    dataDir('assets/config/config.php')
                 );
 
             case 'Yaml':
                 return new Yaml(
-                    dataFolder('assets/config/config.yml')
+                    dataDir('assets/config/config.yml')
                 );
 
             default:

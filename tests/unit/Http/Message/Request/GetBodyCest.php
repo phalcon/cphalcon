@@ -28,7 +28,7 @@ class GetBodyCest
     {
         $I->wantToTest('Http\Message\Request - getBody()');
 
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
 
         $stream = new Stream($fileName, 'rb');
 

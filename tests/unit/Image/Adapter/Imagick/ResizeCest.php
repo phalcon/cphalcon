@@ -15,8 +15,8 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
-use function dataFolder;
-use function outputFolder;
+use function dataDir;
+use function outputDir;
 
 class ResizeCest
 {
@@ -33,16 +33,16 @@ class ResizeCest
         $I->wantToTest('Image\Adapter\Imagick - resize()');
 
         $image = new Imagick(
-            dataFolder('assets/images/phalconphp.jpg')
+            dataDir('assets/images/phalconphp.jpg')
         );
 
         $image->setResourceLimit(6, 1);
 
         // Resize to 200 pixels on the shortest side
-        $image->resize(200, 200)->save(outputFolder('tests/image/imagick/resize.jpg'));
+        $image->resize(200, 200)->save(outputDir('tests/image/imagick/resize.jpg'));
 
         $I->amInPath(
-            outputFolder('tests/image/imagick/')
+            outputDir('tests/image/imagick/')
         );
 
         $I->seeFileFound('resize.jpg');
