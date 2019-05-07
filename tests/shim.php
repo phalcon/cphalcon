@@ -68,9 +68,7 @@ if (!function_exists('loadFolders')) {
         ];
         foreach ($folders as $folder) {
             $item = outputDir('tests/' . $folder);
-            if (!is_dir($item)) {
-                mkdir($item, 0777, true);
-            }
+            checkDir($item);
         }
     }
 }
@@ -87,6 +85,21 @@ if (!function_exists('cacheDir')) {
     function cacheDir(string $fileName = '')
     {
         return env('PATH_CACHE') . $fileName;
+    }
+}
+
+/**
+ * Checks if a directory exists and creates it if need be
+ */
+if (!function_exists('checkDir')) {
+    /**
+     * @param string $directory
+     */
+    function checkDir(string $directory = '')
+    {
+        if (!is_dir($directory)) {
+            mkdir($directory);
+        }
     }
 }
 
