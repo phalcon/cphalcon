@@ -20,16 +20,6 @@ use Phalcon\Cache\Adapter\AdapterInterface;
 interface ViewBaseInterface
 {
     /**
-     * Cache the actual view render to certain level
-     */
-    public function cache(var options = true);
-
-    /**
-     * Returns the cache instance used to cache
-     */
-    public function getCache() -> <AdapterInterface>;
-
-    /**
      * Returns cached output from another view stage
      */
     public function getContent() -> string;
