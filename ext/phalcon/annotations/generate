@@ -1,0 +1,31 @@
+#! /bin/sh
+
+rm -f parser.o
+rm -f parser.lo
+rm -f scanner.o
+rm -f scanner.lo
+
+if [ ! -f lemon ]; then
+	gcc -g lemon.c -o lemon
+fi
+
+re2c -o scanner.c scanner.re
+
+./lemon -s parser.php5.lemon
+./lemon -s parser.php7.lemon
+
+echo "#include \"php_phalcon.h\"" > parser.c
+echo "#if PHP_VERSION_ID < 70000" >> parser.c
+cat parser.php5.c >> parser.c
+echo "#else" >> parser.c
+cat parser.php7.c >> parser.c
+echo "#endif" >> parser.c
+cat base.c >> parser.c
+
+sed s/"\#line"/"\/\/"/g scanner.c > xx && mv -f xx scanner.c
+sed s/"#line"/"\/\/"/g parser.c > xx && mv -f xx parser.c
+sed s/"define TOKEN"/"define ATOKEN"/g parser.c > xx && mv -f xx parser.c
+sed s/YY/AA/g scanner.c > xx && mv -f xx scanner.c
+sed s/yy/aa/g scanner.c > xx && mv -f xx scanner.c
+sed s/YY/AA/g parser.c > xx && mv -f xx parser.c
+sed s/yy/aa/g parser.c > xx && mv -f xx parser.c
