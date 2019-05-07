@@ -172,7 +172,7 @@ class PostgresqlCest
     {
         $sql = rtrim(
             file_get_contents(
-                dataFolder('fixtures/Db/postgresql/example9.sql')
+                dataDir('fixtures/Db/postgresql/example9.sql')
             )
         );
 

@@ -13,7 +13,7 @@ namespace Phalcon\Test\Unit\Translate\Adapter;
 
 use Phalcon\Translate\Adapter\Csv;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
 class CsvCest
 {
@@ -26,12 +26,12 @@ class CsvCest
     {
         $this->config = [
             'ru' => [
-                'content' => dataFolder('assets/translation/csv/ru_RU.csv'),
+                'content' => dataDir('assets/translation/csv/ru_RU.csv'),
             ],
 
             // the next delimiter is a tab character
             'options' => [
-                'content'   => dataFolder('assets/translation/csv/fr_FR_options.csv'),
+                'content'   => dataDir('assets/translation/csv/fr_FR_options.csv'),
                 'delimiter' => "	",
                 'enclosure' => "'",
             ],
