@@ -110,47 +110,6 @@ trait DiTrait
     }
 
     /**
-     * @return File
-     */
-    protected function getAndSetModelsCacheFile()
-    {
-        $cache = new File(
-            new Data(
-                [
-                    'lifetime' => 3600,
-                ]
-            ),
-            [
-                'cacheDir' => cacheDir(),
-            ]
-        );
-        $this->container->set('modelsCache', $cache);
-
-        return $cache;
-    }
-
-    /**
-     * @return Libmemcached
-     */
-    protected function getAndSetModelsCacheFileLibmemcached()
-    {
-        $config = [
-            'servers' => [
-                [
-                    'host'   => env('DATA_MEMCACHED_HOST'),
-                    'port'   => env('DATA_MEMCACHED_PORT'),
-                    'weight' => env('DATA_MEMCACHED_WEIGHT'),
-                ],
-            ],
-        ];
-
-        $cache = new Libmemcached(new Data(['lifetime' => 3600]), $config);
-        $this->container->set('modelsCache', $cache);
-
-        return $cache;
-    }
-
-    /**
      * Set up a new DI
      */
     protected function newDi()

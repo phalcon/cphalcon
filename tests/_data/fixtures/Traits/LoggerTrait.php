@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use function logsDir;
 use Phalcon\Logger\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
@@ -24,7 +25,7 @@ trait LoggerTrait
 {
     protected function runLoggerFile(UnitTester $I, string $level)
     {
-        $logPath  = outputDir('tests/logs/');
+        $logPath  = logsDir();
         $fileName = $I->getNewFileName('log', 'log');
         $adapter  = new Stream($logPath . $fileName);
 
