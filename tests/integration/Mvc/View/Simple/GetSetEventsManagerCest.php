@@ -42,6 +42,5 @@ class GetSetEventsManagerCest
 
         $actual = $view->getEventsManager();
         $I->assertEquals($manager, $actual);
-
     }
 }
