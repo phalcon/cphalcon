@@ -38,7 +38,7 @@ class ConstructCest
             function () {
                 return new Files(
                     [
-                        'metaDataDir' => cacheMetadataDir(),
+                        'metaDataDir' => cacheDir(),
                     ]
                 );
             }

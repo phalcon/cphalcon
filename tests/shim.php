@@ -61,7 +61,6 @@ if (!function_exists('loadFolders')) {
             'image',
             'image/gd',
             'image/imagick',
-            'metadata',
             'models',
             'logs',
             'sessions',
@@ -133,21 +132,6 @@ if (true !== function_exists('outputDir')) {
     function outputDir(string $fileName = '')
     {
         return codecept_output_dir() . $fileName;
-    }
-}
-
-/**
- * Returns the output folder
- */
-if (true !== function_exists('cacheMetadataDir')) {
-    /**
-     * @param string $fileName
-     *
-     * @return string
-     */
-    function cacheMetadataDir(string $fileName = '')
-    {
-        return codecept_output_dir() . 'tests/metadata/' . $fileName;
     }
 }
 
