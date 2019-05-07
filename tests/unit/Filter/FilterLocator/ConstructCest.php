@@ -16,9 +16,6 @@ use Phalcon\Filter\FilterLocator;
 use Phalcon\Service\Exception;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**

@@ -16,9 +16,6 @@ use Phalcon\Debug\Dump;
 use ReflectionException;
 use UnitTester;
 
-/**
- * Class SetStylesCest
- */
 class SetStylesCest
 {
     /**

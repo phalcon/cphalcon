@@ -17,11 +17,6 @@ use Phalcon\Html\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-/**
- * Class GetSetDICest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class GetSetDICest
 {
     use DiTrait;

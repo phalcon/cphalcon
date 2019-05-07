@@ -17,11 +17,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 use UnitTester;
 
-/**
- * Class GetTitleCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class GetTitleCest
 {
     use DiTrait;

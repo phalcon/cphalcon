@@ -21,9 +21,6 @@ use stdClass;
 use UnitTester;
 use function getOptionsLibmemcached;
 
-/**
- * Class GetSetCest
- */
 class GetSetCest
 {
     use LibmemcachedTrait;

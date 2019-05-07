@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\SpecialFull;
 use UnitTester;
 
-/**
- * Class SpecialFullCest
- */
 class SpecialFullCest
 {
     /**

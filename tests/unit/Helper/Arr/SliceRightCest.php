@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Helper\Arr;
 use Phalcon\Helper\Arr;
 use UnitTester;
 
-/**
- * Class RemoveRightCest
- */
 class SliceRightCest
 {
     /**

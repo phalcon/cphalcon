@@ -14,11 +14,6 @@ namespace Phalcon\Test\Unit\Html\Tag;
 
 use UnitTester;
 
-/**
- * Class FormCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class FormCest
 {
     /**

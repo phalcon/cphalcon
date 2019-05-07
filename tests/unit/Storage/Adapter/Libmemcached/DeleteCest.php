@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 use function getOptionsLibmemcached;
 
-/**
- * Class DeleteCest
- */
 class DeleteCest
 {
     use LibmemcachedTrait;

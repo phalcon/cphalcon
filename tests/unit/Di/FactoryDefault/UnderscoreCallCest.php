@@ -14,9 +14,6 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
-/**
- * Class UnderscoreCallCest
- */
 class UnderscoreCallCest
 {
     /**

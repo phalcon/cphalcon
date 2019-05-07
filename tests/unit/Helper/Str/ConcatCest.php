@@ -16,9 +16,6 @@ use Phalcon\Helper\Str;
 use Phalcon\Helper\Exception;
 use UnitTester;
 
-/**
- * Class ConcatCest
- */
 class ConcatCest
 {
     /**

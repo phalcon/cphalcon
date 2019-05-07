@@ -18,11 +18,6 @@ use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 use const PHP_EOL;
 use UnitTester;
 
-/**
- * Class PrependTitleCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class PrependTitleCest
 {
     use DiTrait;

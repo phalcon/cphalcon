@@ -17,11 +17,6 @@ use stdClass;
 use TypeError;
 use UnitTester;
 
-/**
- * Class FilterCest
- *
- * @package Phalcon\Test\Unit\Assets\Filters\Cssmin
- */
 class ConstructCest
 {
     /**

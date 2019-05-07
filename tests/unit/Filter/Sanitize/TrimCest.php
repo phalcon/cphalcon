@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Trim;
 use UnitTester;
 
-/**
- * Class TrimCest
- */
 class TrimCest
 {
     /**

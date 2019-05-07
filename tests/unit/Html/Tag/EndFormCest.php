@@ -16,11 +16,6 @@ use Phalcon\Html\Tag;
 use UnitTester;
 use const PHP_EOL;
 
-/**
- * Class EndFormCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class EndFormCest
 {
     /**

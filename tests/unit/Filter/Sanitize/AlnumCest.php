@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Alnum;
 use UnitTester;
 
-/**
- * Class AlnumCest
- */
 class AlnumCest
 {
     /**

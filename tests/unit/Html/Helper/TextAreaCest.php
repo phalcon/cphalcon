@@ -19,9 +19,6 @@ use Phalcon\Html\Helper\TextArea;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
-/**
- * Class TextAreaCest
- */
 class TextAreaCest
 {
     /**

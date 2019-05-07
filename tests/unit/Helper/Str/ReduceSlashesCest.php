@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Helper\Str;
 use Phalcon\Helper\Str;
 use UnitTester;
 
-/**
- * Class ReduceSlashesCest
- */
 class ReduceSlashesCest
 {
     /**

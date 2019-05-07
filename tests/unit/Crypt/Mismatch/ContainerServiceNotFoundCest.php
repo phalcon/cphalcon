@@ -14,9 +14,6 @@ namespace Phalcon\Test\Unit\Crypt\Mismatch;
 
 use UnitTester;
 
-/**
- * Class ContainerServiceNotFoundCest
- */
 class ContainerServiceNotFoundCest
 {
     /**

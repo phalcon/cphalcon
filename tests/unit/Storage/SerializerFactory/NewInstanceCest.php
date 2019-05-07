@@ -23,9 +23,6 @@ use Phalcon\Storage\Serializer\Php;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
-/**
- * Class NewInstanceCest
- */
 class NewInstanceCest
 {
     /**

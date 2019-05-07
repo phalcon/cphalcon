@@ -19,9 +19,6 @@ use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 use function getOptionsLibmemcached;
 
-/**
- * Class GetAdapterCest
- */
 class GetAdapterCest
 {
     use LibmemcachedTrait;

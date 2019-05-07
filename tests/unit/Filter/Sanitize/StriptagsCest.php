@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Striptags;
 use UnitTester;
 
-/**
- * Class StriptagsCest
- */
 class StriptagsCest
 {
     /**

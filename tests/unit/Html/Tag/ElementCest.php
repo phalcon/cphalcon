@@ -19,11 +19,6 @@ use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 use UnitTester;
 use const PHP_EOL;
 
-/**
- * Class ElementCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class ElementCest
 {
     use DiTrait;

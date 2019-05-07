@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\UpperFirst;
 use UnitTester;
 
-/**
- * Class UpperFirstCest
- */
 class UpperFirstCest
 {
     /**

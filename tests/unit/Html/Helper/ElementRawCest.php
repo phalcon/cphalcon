@@ -19,9 +19,6 @@ use Phalcon\Html\Helper\ElementRaw;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
-/**
- * Class ElementRawCest
- */
 class ElementRawCest
 {
     /**

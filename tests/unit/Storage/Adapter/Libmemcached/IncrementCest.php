@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 use function getOptionsLibmemcached;
 
-/**
- * Class IncrementCest
- */
 class IncrementCest
 {
     use LibmemcachedTrait;

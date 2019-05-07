@@ -29,9 +29,6 @@ use Phalcon\Html\TagFactory;
 use Phalcon\Html\Exception;
 use UnitTester;
 
-/**
- * Class NewInstanceCest
- */
 class NewInstanceCest
 {
     /**

@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\StringVal;
 use UnitTester;
 
-/**
- * Class StringValCest
- */
 class StringValCest
 {
     /**

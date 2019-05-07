@@ -14,9 +14,6 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use UnitTester;
 
-/**
- * Class DropComponentAccessCest
- */
 class DropComponentAccessCest
 {
     /**

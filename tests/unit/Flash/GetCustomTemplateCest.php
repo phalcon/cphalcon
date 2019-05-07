@@ -14,9 +14,6 @@ namespace Phalcon\Test\Unit\Flash;
 
 use UnitTester;
 
-/**
- * Class GetCustomTemplateCest
- */
 class GetCustomTemplateCest
 {
     /**

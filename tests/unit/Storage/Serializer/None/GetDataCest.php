@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Storage\Serializer\None;
 use Phalcon\Storage\Serializer\None;
 use UnitTester;
 
-/**
- * Class GetDataCest
- */
 class GetDataCest
 {
     /**

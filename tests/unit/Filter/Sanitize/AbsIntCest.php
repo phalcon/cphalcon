@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\AbsInt;
 use UnitTester;
 
-/**
- * Class AbsIntCest
- */
 class AbsIntCest
 {
     /**

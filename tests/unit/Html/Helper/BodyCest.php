@@ -19,9 +19,6 @@ use Phalcon\Html\Helper\Body;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
-/**
- * Class BodyCest
- */
 class BodyCest
 {
     /**
