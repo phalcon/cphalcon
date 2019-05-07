@@ -1,3 +1,0 @@
-find . -name \*.lo -o -name \*.o -o -name \*.gch | xargs rm -f
-make clean
-phpize --clean
