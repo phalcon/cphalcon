@@ -16,11 +16,6 @@ use Phalcon\Logger\Item;
 use Phalcon\Logger\Logger;
 use UnitTester;
 
-/**
- * Class GetTimeCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class GetTimeCest
 {
     /**

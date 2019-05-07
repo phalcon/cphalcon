@@ -17,11 +17,6 @@ use Phalcon\Logger\Item;
 use Phalcon\Logger\Logger;
 use UnitTester;
 
-/**
- * Class CloseCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class CloseCest
 {
     /**

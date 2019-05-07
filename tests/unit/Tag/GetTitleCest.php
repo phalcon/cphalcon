@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Tag;
 use Phalcon\Tag;
 use UnitTester;
 
-/**
- * Class GetTitleCest
- */
 class GetTitleCest
 {
     /**

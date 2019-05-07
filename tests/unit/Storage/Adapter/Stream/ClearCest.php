@@ -18,9 +18,6 @@ use UnitTester;
 use function outputDir;
 use function uniqid;
 
-/**
- * Class ClearCest
- */
 class ClearCest
 {
     /**

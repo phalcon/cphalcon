@@ -14,11 +14,6 @@ namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
-/**
- * Class UrlFieldCest
- *
- * @package Phalcon\Test\Unit\Tag
- */
 class UrlFieldCest extends TagHelper
 {
     protected $function  = 'urlField';

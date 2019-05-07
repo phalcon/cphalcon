@@ -18,9 +18,6 @@ use stdClass;
 use UnitTester;
 use function msgpack_pack;
 
-/**
- * Class SerializeCest
- */
 class SerializeCest
 {
     /**

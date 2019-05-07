@@ -17,9 +17,6 @@ use Phalcon\Storage\Serializer\Json;
 use stdClass;
 use UnitTester;
 
-/**
- * Class SerializeCest
- */
 class SerializeCest
 {
     /**

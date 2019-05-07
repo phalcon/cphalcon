@@ -18,11 +18,6 @@ use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 use function outputDir;
 
-/**
- * Class SetFormatterCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class SetFormatterCest
 {
     /**

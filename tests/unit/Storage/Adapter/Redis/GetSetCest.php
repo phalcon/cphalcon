@@ -23,9 +23,6 @@ use function array_merge;
 use function getOptionsRedis;
 use function uniqid;
 
-/**
- * Class GetSetCest
- */
 class GetSetCest
 {
     use RedisTrait;

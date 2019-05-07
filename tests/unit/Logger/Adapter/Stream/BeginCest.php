@@ -15,11 +15,6 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
 
-/**
- * Class BeginCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class BeginCest
 {
     /**

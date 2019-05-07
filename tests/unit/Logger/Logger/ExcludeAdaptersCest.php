@@ -16,11 +16,6 @@ use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Logger;
 use UnitTester;
 
-/**
- * Class ExcludeAdaptersCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class ExcludeAdaptersCest
 {
     /**

@@ -14,9 +14,6 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class GetHandlerSuffixCest
- */
 class GetHandlerSuffixCest
 {
     /**

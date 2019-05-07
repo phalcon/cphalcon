@@ -16,11 +16,6 @@ use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
 use UnitTester;
 
-/**
- * Class CommitCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class CommitCest
 {
     /**

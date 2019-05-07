@@ -19,9 +19,6 @@ use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function outputDir;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**

@@ -20,9 +20,6 @@ use function file_put_contents;
 use function outputDir;
 use function sleep;
 
-/**
- * Class GetSetCest
- */
 class GetSetCest
 {
     /**

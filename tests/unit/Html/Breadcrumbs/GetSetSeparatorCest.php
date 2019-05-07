@@ -15,7 +15,6 @@ namespace Phalcon\Test\Unit\Html\Breadcrumbs;
 use Phalcon\Html\Breadcrumbs;
 use UnitTester;
 
-
 class GetSetSeparatorCest
 {
     /**

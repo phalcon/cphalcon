@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-/**
- * Class SelectCest
- */
 class SelectCest extends TagSetup
 {
     /**

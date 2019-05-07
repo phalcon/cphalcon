@@ -15,11 +15,6 @@ namespace Phalcon\Test\Unit\Logger\Logger;
 use Phalcon\Test\Fixtures\Traits\LoggerTrait;
 use UnitTester;
 
-/**
- * Class EmergencyCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class EmergencyCest
 {
     use LoggerTrait;
