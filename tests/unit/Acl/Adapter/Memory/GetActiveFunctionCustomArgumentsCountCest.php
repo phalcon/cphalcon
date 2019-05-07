@@ -14,16 +14,11 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use UnitTester;
 
-/**
- * Class GetActiveFunctionCustomArgumentsCountCest
- */
 class GetActiveFunctionCustomArgumentsCountCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory ::
      * getActiveFunctionCustomArgumentsCount()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

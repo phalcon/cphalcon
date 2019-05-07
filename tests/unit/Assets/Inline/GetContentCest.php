@@ -16,17 +16,12 @@ use Phalcon\Assets\Inline;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetContentCest
- */
 class GetContentCest
 {
     use AssetsTrait;
 
     /**
      * Tests Phalcon\Assets\Inline :: getContent() - css
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -43,8 +38,6 @@ class GetContentCest
 
     /**
      * Tests Phalcon\Assets\Inline :: getContent() - js
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

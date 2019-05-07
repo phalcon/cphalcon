@@ -18,15 +18,10 @@ use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
-/**
- * Class GetAdapterCest
- */
 class GetAdapterCest
 {
     /**
      * Tests Phalcon\Cache\Cache :: getAdapter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01

@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 use function getOptionsLibmemcached;
 
-/**
- * Class IncrementCest
- */
 class IncrementCest
 {
     use LibmemcachedTrait;
@@ -28,12 +25,10 @@ class IncrementCest
     /**
      * Tests Phalcon\Cache\Adapter\Libmemcached :: increment()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterLibmemcachedIncrement(UnitTester $I)
+    public function cacheAdapterLibmemcachedIncrement(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - increment()');
 

@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 use function getOptionsLibmemcached;
 
-/**
- * Class GetKeysCest
- */
 class GetKeysCest
 {
     use LibmemcachedTrait;
@@ -28,12 +25,10 @@ class GetKeysCest
     /**
      * Tests Phalcon\Cache\Adapter\Libmemcached :: getKeys()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-13
      */
-    public function storageAdapterLibmemcachedGetKeys(UnitTester $I)
+    public function cacheAdapterLibmemcachedGetKeys(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - getKeys()');
 

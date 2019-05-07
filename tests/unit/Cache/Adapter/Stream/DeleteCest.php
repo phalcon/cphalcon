@@ -17,20 +17,15 @@ use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function outputDir;
 
-/**
- * Class DeleteCest
- */
 class DeleteCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: delete()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
-    public function storageAdapterStreamDelete(UnitTester $I)
+    public function cacheAdapterStreamDelete(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - delete()');
         $serializer = new SerializerFactory();
@@ -51,12 +46,10 @@ class DeleteCest
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: delete() - twice
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
-    public function storageAdapterStreamDeleteTwice(UnitTester $I)
+    public function cacheAdapterStreamDeleteTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - delete() - twice');
         $serializer = new SerializerFactory();
@@ -77,12 +70,10 @@ class DeleteCest
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: delete() - unknown
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
-    public function storageAdapterStreamDeleteUnknown(UnitTester $I)
+    public function cacheAdapterStreamDeleteUnknown(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - delete() - unknown');
 

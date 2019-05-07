@@ -16,17 +16,12 @@ use Phalcon\Assets\Asset\Css;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class SetTargetPathCest
- */
 class SetTargetPathCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: setTargetPath() - css local
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: setTargetPath() - css local
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -42,9 +37,7 @@ class SetTargetPathCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: setTargetPath() - css remote
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: setTargetPath() - css remote
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

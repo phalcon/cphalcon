@@ -19,15 +19,10 @@ use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function uniqid;
 
-/**
- * Class SetMultipleCest
- */
 class SetMultipleCest
 {
     /**
      * Tests Phalcon\Cache\Cache :: setMultiple()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01
@@ -67,8 +62,6 @@ class SetMultipleCest
 
     /**
      * Tests Phalcon\Cache\Cache :: setMultiple() - exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01

@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Assets\CustomTag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-/**
- * Class OutputJsCest
- */
 class OutputJsCest
 {
     use DiTrait;
@@ -45,8 +42,6 @@ class OutputJsCest
 
     /**
      * Tests Phalcon\Assets\Manager :: outputJs() - implicit
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-13
@@ -77,8 +72,6 @@ class OutputJsCest
 
     /**
      * Tests Phalcon\Assets\Manager :: outputJs() - not implicit
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-13

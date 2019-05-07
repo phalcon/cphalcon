@@ -20,22 +20,17 @@ use function file_put_contents;
 use function outputDir;
 use function sleep;
 
-/**
- * Class GetSetCest
- */
 class GetSetCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: set()
-     *
-     * @param UnitTester $I
      *
      * @throws Exception
      * @since  2019-04-24
      *
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function storageAdapterStreamSet(UnitTester $I)
+    public function cacheAdapterStreamSet(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - set()');
 
@@ -57,14 +52,12 @@ class GetSetCest
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: get()
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      * @since  2019-04-24
      *
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function storageAdapterStreamGet(UnitTester $I)
+    public function cacheAdapterStreamGet(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - get()');
 
@@ -87,14 +80,12 @@ class GetSetCest
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: get() - errors
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      * @since  2019-04-24
      *
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function storageAdapterStreamGetErrors(UnitTester $I)
+    public function cacheAdapterStreamGetErrors(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - get() - errors');
 

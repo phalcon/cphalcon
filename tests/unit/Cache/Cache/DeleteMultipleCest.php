@@ -19,15 +19,10 @@ use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function uniqid;
 
-/**
- * Class DeleteMultipleCest
- */
 class DeleteMultipleCest
 {
     /**
      * Tests Phalcon\Cache\Cache :: deleteMultiple()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01
@@ -73,8 +68,6 @@ class DeleteMultipleCest
 
     /**
      * Tests Phalcon\Cache\Cache :: deleteMultiple() - exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01

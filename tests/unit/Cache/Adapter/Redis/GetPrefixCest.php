@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 use function getOptionsRedis;
 
-/**
- * Class GetPrefixCest
- */
 class GetPrefixCest
 {
     use RedisTrait;
@@ -28,12 +25,10 @@ class GetPrefixCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: getPrefix()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterRedisGetSetPrefix(UnitTester $I)
+    public function cacheAdapterRedisGetSetPrefix(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - getPrefix()');
 
@@ -56,12 +51,10 @@ class GetPrefixCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: getPrefix() - default
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterRedisGetSetPrefixDefault(UnitTester $I)
+    public function cacheAdapterRedisGetSetPrefixDefault(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - getPrefix() - default');
 

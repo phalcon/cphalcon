@@ -26,9 +26,6 @@ use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
 
-/**
- * Class NewInstanceCest
- */
 class NewInstanceCest
 {
     /**
@@ -36,14 +33,12 @@ class NewInstanceCest
      *
      * @dataProvider getExamples
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      * @since        2019-05-04
      *
      * @author       Phalcon Team <team@phalconphp.com>
      */
-    public function storageAdapterFactoryNewInstance(UnitTester $I, Example $example)
+    public function cacheAdapterFactoryNewInstance(UnitTester $I, Example $example)
     {
         $I->wantToTest('Storage\AdapterFactory - newInstance() - ' . $example[0]);
 
@@ -58,8 +53,6 @@ class NewInstanceCest
 
     /**
      * Tests Phalcon\Storage\SerializerFactory :: newInstance() - exception
-     *
-     * @param UnitTester $I
      *
      * @throws Exception
      * @since  2019-05-04

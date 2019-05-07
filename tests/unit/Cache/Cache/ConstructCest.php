@@ -18,15 +18,10 @@ use Phalcon\Storage\SerializerFactory;
 use Psr\SimpleCache\CacheInterface;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Cache\Cache :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01

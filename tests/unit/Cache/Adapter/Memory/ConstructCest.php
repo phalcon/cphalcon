@@ -17,20 +17,15 @@ use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Memory :: __construct()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-09
      */
-    public function storageAdapterMemoryConstruct(UnitTester $I)
+    public function cacheAdapterMemoryConstruct(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - __construct()');
 

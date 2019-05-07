@@ -23,8 +23,6 @@ class GetAttributesCest
     /**
      * Tests Phalcon\Assets\Inline :: getAttributes() - css
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -41,8 +39,6 @@ class GetAttributesCest
 
     /**
      * Tests Phalcon\Assets\Inline :: getAttributes() - js
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

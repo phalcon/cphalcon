@@ -19,9 +19,6 @@ use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 use function getOptionsLibmemcached;
 
-/**
- * Class GetAdapterCest
- */
 class GetAdapterCest
 {
     use LibmemcachedTrait;
@@ -29,12 +26,10 @@ class GetAdapterCest
     /**
      * Tests Phalcon\Cache\Adapter\Libmemcached :: getAdapter()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-14
      */
-    public function storageAdapterLibmemcachedGetAdapter(UnitTester $I)
+    public function cacheAdapterLibmemcachedGetAdapter(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - getAdapter()');
 

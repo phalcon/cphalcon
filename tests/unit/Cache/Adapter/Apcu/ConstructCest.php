@@ -18,9 +18,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use ApcuTrait;
@@ -28,12 +25,10 @@ class ConstructCest
     /**
      * Tests Phalcon\Cache\Adapter\Apcu :: __construct()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-09
      */
-    public function storageAdapterApcuConstruct(UnitTester $I)
+    public function cacheAdapterApcuConstruct(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - __construct()');
 

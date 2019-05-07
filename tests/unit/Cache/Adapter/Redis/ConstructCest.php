@@ -19,9 +19,6 @@ use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 use function getOptionsRedis;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use RedisTrait;
@@ -29,12 +26,10 @@ class ConstructCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: __construct()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-09
      */
-    public function storageAdapterRedisConstruct(UnitTester $I)
+    public function cacheAdapterRedisConstruct(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - __construct()');
 

@@ -16,15 +16,10 @@ use Phalcon\Assets\Asset\Css;
 use UnitTester;
 use function dataDir;
 
-/**
- * Class GetContentCest
- */
 class GetContentCest
 {
     /**
-     * Tests Phalcon\Assets\Asset :: getContent()
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getContent()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -23,9 +23,6 @@ use function array_merge;
 use function getOptionsRedis;
 use function uniqid;
 
-/**
- * Class GetSetCest
- */
 class GetSetCest
 {
     use RedisTrait;
@@ -43,7 +40,7 @@ class GetSetCest
      *
      * @author       Phalcon Team <team@phalconphp.com>
      */
-    public function storageAdapterRedisGetSet(UnitTester $I, Example $example)
+    public function cacheAdapterRedisGetSet(UnitTester $I, Example $example)
     {
         $I->wantToTest('Cache\Adapter\Redis - get()/set() - ' . $example[0]);
 
@@ -63,14 +60,12 @@ class GetSetCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: get() - persistent
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      * @author Phalcon Team <team@phalconphp.com>
      *
      * @since  2019-03-31
      */
-    public function storageAdapterRedisGetSetPersistent(UnitTester $I)
+    public function cacheAdapterRedisGetSetPersistent(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - get()/set() - persistent');
 
@@ -97,12 +92,10 @@ class GetSetCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: get() - wrong index
      *
-     * @param UnitTester $I
-     *
      * @since  2019-03-31
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function storageAdapterRedisGetSetWrongIndex(UnitTester $I)
+    public function cacheAdapterRedisGetSetWrongIndex(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - get()/set() - wrong index');
         $I->expectThrowable(
@@ -127,12 +120,10 @@ class GetSetCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: get() - failed auth
      *
-     * @param UnitTester $I
-     *
      * @since  2019-03-31
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function storageAdapterRedisGetSetFailedAuth(UnitTester $I)
+    public function cacheAdapterRedisGetSetFailedAuth(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - get()/set() - failed auth');
         $I->expectThrowable(
@@ -157,14 +148,12 @@ class GetSetCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: get()/set() - custom serializer
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      * @since  2019-04-29
      *
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function storageAdapterRedisGetSetCustomSerializer(UnitTester $I)
+    public function cacheAdapterRedisGetSetCustomSerializer(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - get()/set() - custom serializer');
 

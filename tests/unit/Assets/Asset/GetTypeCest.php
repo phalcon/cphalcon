@@ -16,17 +16,12 @@ use Phalcon\Assets\Asset;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetTypeCest
- */
 class GetTypeCest
 {
     use AssetsTrait;
 
     /**
      * Tests Phalcon\Assets\Asset :: getType() - css local
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -43,8 +38,6 @@ class GetTypeCest
     /**
      * Tests Phalcon\Assets\Asset :: getType() - css remote
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -60,8 +53,6 @@ class GetTypeCest
     /**
      * Tests Phalcon\Assets\Asset :: getType() - js local
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -76,8 +67,6 @@ class GetTypeCest
 
     /**
      * Tests Phalcon\Assets\Asset :: getType() - js remote
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

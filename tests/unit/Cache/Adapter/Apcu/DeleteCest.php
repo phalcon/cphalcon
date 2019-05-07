@@ -17,9 +17,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use UnitTester;
 
-/**
- * Class DeleteCest
- */
 class DeleteCest
 {
     use ApcuTrait;
@@ -27,12 +24,10 @@ class DeleteCest
     /**
      * Tests Phalcon\Cache\Adapter\Apcu :: delete()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterApcuDelete(UnitTester $I)
+    public function cacheAdapterApcuDelete(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - delete()');
 
@@ -54,12 +49,10 @@ class DeleteCest
     /**
      * Tests Phalcon\Cache\Adapter\Apcu :: delete() - twice
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterApcuDeleteTwice(UnitTester $I)
+    public function cacheAdapterApcuDeleteTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - delete() - twice');
 
@@ -81,12 +74,10 @@ class DeleteCest
     /**
      * Tests Phalcon\Cache\Adapter\Apcu :: delete() - unknown
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterApcuDeleteUnknown(UnitTester $I)
+    public function cacheAdapterApcuDeleteUnknown(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - delete() - unknown');
 

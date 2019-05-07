@@ -16,20 +16,15 @@ use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
-/**
- * Class IncrementCest
- */
 class IncrementCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Memory :: increment()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterMemoryIncrement(UnitTester $I)
+    public function cacheAdapterMemoryIncrement(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - increment()');
 

@@ -21,9 +21,6 @@ use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 use function getOptionsLibmemcached;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use LibmemcachedTrait;
@@ -31,12 +28,10 @@ class ConstructCest
     /**
      * Tests Phalcon\Cache\Adapter\Libmemcached :: __construct()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-09
      */
-    public function storageAdapterLibmemcachedConstruct(UnitTester $I)
+    public function cacheAdapterLibmemcachedConstruct(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - __construct()');
 
@@ -54,12 +49,10 @@ class ConstructCest
      * Tests Phalcon\Cache\Adapter\Libmemcached :: __construct() - empty
      * options
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-09
      */
-    public function storageAdapterLibmemcachedConstructEmptyOptions(UnitTester $I)
+    public function cacheAdapterLibmemcachedConstructEmptyOptions(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - __construct() - empty options');
 
@@ -83,14 +76,12 @@ class ConstructCest
      * Tests Phalcon\Cache\Adapter\Libmemcached :: __construct() - getTtl
      * options
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      * @since  2019-04-09
      *
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function storageAdapterLibmemcachedConstructGetTtl(UnitTester $I)
+    public function cacheAdapterLibmemcachedConstructGetTtl(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - __construct() - getTtl');
 

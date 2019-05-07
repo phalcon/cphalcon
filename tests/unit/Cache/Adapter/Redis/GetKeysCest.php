@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 use function getOptionsRedis;
 
-/**
- * Class GetKeysCest
- */
 class GetKeysCest
 {
     use RedisTrait;
@@ -28,12 +25,10 @@ class GetKeysCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: getKeys()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-13
      */
-    public function storageAdapterRedisGetKeys(UnitTester $I)
+    public function cacheAdapterRedisGetKeys(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - getKeys()');
 

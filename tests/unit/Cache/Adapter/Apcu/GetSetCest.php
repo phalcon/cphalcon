@@ -19,9 +19,6 @@ use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use stdClass;
 use UnitTester;
 
-/**
- * Class GetSetCest
- */
 class GetSetCest
 {
     use ApcuTrait;
@@ -37,7 +34,7 @@ class GetSetCest
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-03-31
      */
-    public function storageAdapterApcuGetSet(UnitTester $I, Example $example)
+    public function cacheAdapterApcuGetSet(UnitTester $I, Example $example)
     {
         $I->wantToTest('Cache\Adapter\Apcu - get()/set() - ' . $example[0]);
 

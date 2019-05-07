@@ -18,20 +18,15 @@ use UnitTester;
 use function outputDir;
 use function uniqid;
 
-/**
- * Class ClearCest
- */
 class ClearCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: clear()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterStreamClear(UnitTester $I)
+    public function cacheAdapterStreamClear(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - clear()');
         $serializer = new SerializerFactory();
@@ -60,12 +55,10 @@ class ClearCest
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: clear() - twice
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterStreamClearTwice(UnitTester $I)
+    public function cacheAdapterStreamClearTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - clear() - twice');
         $serializer = new SerializerFactory();

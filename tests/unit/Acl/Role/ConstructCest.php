@@ -37,8 +37,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Acl\Role :: __construct() - wildcard
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -55,8 +53,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Acl\Role :: __construct() - without name
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

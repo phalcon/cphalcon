@@ -18,22 +18,17 @@ use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function outputDir;
 
-/**
- * Class IncrementCest
- */
 class IncrementCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: increment()
-     *
-     * @param UnitTester $I
      *
      * @throws Exception
      * @since  2019-04-24
      *
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function storageAdapterStreamIncrement(UnitTester $I)
+    public function cacheAdapterStreamIncrement(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - increment()');
 

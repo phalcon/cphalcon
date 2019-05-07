@@ -19,15 +19,10 @@ use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function uniqid;
 
-/**
- * Class DeleteCest
- */
 class DeleteCest
 {
     /**
      * Tests Phalcon\Cache\Cache :: delete()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01
@@ -63,8 +58,6 @@ class DeleteCest
 
     /**
      * Tests Phalcon\Cache\Cache :: delete() - exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01

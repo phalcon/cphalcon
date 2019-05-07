@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 use function getOptionsRedis;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     use RedisTrait;
@@ -28,12 +25,10 @@ class HasCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: get()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterRedisGetSetHas(UnitTester $I)
+    public function cacheAdapterRedisGetSetHas(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - has()');
 

@@ -41,8 +41,6 @@ class IsRoleCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isRole() - unknown
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

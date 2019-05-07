@@ -19,20 +19,15 @@ use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function outputDir;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: __construct()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
-    public function storageAdapterStreamConstruct(UnitTester $I)
+    public function cacheAdapterStreamConstruct(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - __construct()');
         $serializer = new SerializerFactory();
@@ -48,12 +43,10 @@ class ConstructCest
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: __construct() - exception
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
-    public function storageAdapterStreamConstructException(UnitTester $I)
+    public function cacheAdapterStreamConstructException(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - __construct() - exception');
 
