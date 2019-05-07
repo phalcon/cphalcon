@@ -25,9 +25,9 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Syslog {
         return true;
     }
 
-    use Phalcon\Logger;
     use Phalcon\Logger\Adapter\Syslog;
     use Phalcon\Logger\Item;
+    use Phalcon\Logger\Logger;
     use UnitTester;
 
     /**

@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Formatter\Json;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 /**
