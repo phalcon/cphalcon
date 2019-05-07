@@ -17,9 +17,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use UnitTester;
 
-/**
- * Class GetKeysCest
- */
 class GetKeysCest
 {
     use ApcuTrait;
@@ -27,12 +24,10 @@ class GetKeysCest
     /**
      * Tests Phalcon\Cache\Adapter\Apcu :: getKeys()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-13
      */
-    public function storageAdapterApcuGetKeys(UnitTester $I)
+    public function cacheAdapterApcuGetKeys(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - getKeys()');
 

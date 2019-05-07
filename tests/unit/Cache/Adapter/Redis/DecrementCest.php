@@ -19,9 +19,6 @@ use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 use function getOptionsRedis;
 
-/**
- * Class DecrementCest
- */
 class DecrementCest
 {
     use RedisTrait;
@@ -29,14 +26,12 @@ class DecrementCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: decrement()
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      * @since  2019-03-31
      *
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function storageAdapterRedisDecrement(UnitTester $I)
+    public function cacheAdapterRedisDecrement(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - decrement()');
         $I->skipTest('Check this');

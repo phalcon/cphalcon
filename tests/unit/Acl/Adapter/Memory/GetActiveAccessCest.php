@@ -21,8 +21,6 @@ class GetActiveAccessCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveAccess() - default
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -39,8 +37,6 @@ class GetActiveAccessCest
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveAccess() - default
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

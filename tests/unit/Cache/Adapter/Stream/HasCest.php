@@ -18,20 +18,15 @@ use UnitTester;
 use function outputDir;
 use function uniqid;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: has()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
-    public function storageAdapterStreamHas(UnitTester $I)
+    public function cacheAdapterStreamHas(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - has()');
 

@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Assets\Asset\Js;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
-/**
- * Class GetContentCest
- */
 class GetContentCest
 {
     /**
-     * Tests Phalcon\Assets\Asset :: getContent()
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Js :: getContent()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

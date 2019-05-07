@@ -17,9 +17,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use UnitTester;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     use ApcuTrait;
@@ -27,12 +24,10 @@ class HasCest
     /**
      * Tests Phalcon\Cache\Adapter\Apcu :: get()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterApcuGetSetHas(UnitTester $I)
+    public function cacheAdapterApcuGetSetHas(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - has()');
 

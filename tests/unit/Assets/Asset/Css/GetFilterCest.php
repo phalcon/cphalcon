@@ -16,17 +16,12 @@ use Phalcon\Assets\Asset\Css;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetFilterCest
- */
 class GetFilterCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: getFilter() - css local
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getFilter() - css local
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -41,9 +36,7 @@ class GetFilterCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getFilter() - css remote
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getFilter() - css remote
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

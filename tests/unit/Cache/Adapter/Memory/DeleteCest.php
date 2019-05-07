@@ -16,20 +16,15 @@ use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
-/**
- * Class DeleteCest
- */
 class DeleteCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Memory :: delete()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterMemoryDelete(UnitTester $I)
+    public function cacheAdapterMemoryDelete(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - delete()');
 
@@ -51,12 +46,10 @@ class DeleteCest
     /**
      * Tests Phalcon\Cache\Adapter\Memory :: delete() - twice
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterMemoryDeleteTwice(UnitTester $I)
+    public function cacheAdapterMemoryDeleteTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - delete() - twice');
 
@@ -78,12 +71,10 @@ class DeleteCest
     /**
      * Tests Phalcon\Cache\Adapter\Memory :: delete() - unknown
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterMemoryDeleteUnknown(UnitTester $I)
+    public function cacheAdapterMemoryDeleteUnknown(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - delete() - unknown');
 

@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 use function getOptionsLibmemcached;
 
-/**
- * Class ClearCest
- */
 class ClearCest
 {
     use LibmemcachedTrait;
@@ -28,12 +25,10 @@ class ClearCest
     /**
      * Tests Phalcon\Cache\Adapter\Libmemcached :: clear()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterLibmemcachedClear(UnitTester $I)
+    public function cacheAdapterLibmemcachedClear(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - clear()');
 
@@ -63,12 +58,10 @@ class ClearCest
     /**
      * Tests Phalcon\Cache\Adapter\Libmemcached :: clear() - twice
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterLibmemcachedClearTwice(UnitTester $I)
+    public function cacheAdapterLibmemcachedClearTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - clear() - twice');
 

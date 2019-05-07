@@ -48,8 +48,6 @@ class AddCest
     /**
      * Tests Phalcon\Assets\Collection :: add() - duplicate
      *
-     * @param UnitTester $I
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/10938
      *
      * @author Phalcon Team <team@phalconphp.com>

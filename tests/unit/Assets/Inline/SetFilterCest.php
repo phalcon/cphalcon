@@ -43,8 +43,6 @@ class SetFilterCest
     /**
      * Tests Phalcon\Assets\Inline :: setFilter() - js
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

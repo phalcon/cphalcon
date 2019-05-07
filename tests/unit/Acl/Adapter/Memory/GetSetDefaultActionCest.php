@@ -16,15 +16,10 @@ use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
-/**
- * Class GetSetDefaultActionCest
- */
 class GetSetDefaultActionCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getDefaultAction()/setDefaultAction()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -47,8 +42,6 @@ class GetSetDefaultActionCest
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getDefaultAction()/setDefaultAction()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

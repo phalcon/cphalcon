@@ -16,15 +16,10 @@ use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Component;
 use UnitTester;
 
-/**
- * Class AddComponentCest
- */
 class AddComponentCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addComponent() - string
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -47,8 +42,6 @@ class AddComponentCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addComponent() - object
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -69,8 +62,6 @@ class AddComponentCest
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addComponent() - numeric key
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

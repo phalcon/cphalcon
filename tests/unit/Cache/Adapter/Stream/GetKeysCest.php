@@ -18,20 +18,15 @@ use UnitTester;
 use function outputDir;
 use function sort;
 
-/**
- * Class GetKeysCest
- */
 class GetKeysCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: getKeys()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
-    public function storageAdapterStreamGetKeys(UnitTester $I)
+    public function cacheAdapterStreamGetKeys(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - getKeys()');
 

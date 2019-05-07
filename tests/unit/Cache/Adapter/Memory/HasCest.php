@@ -16,20 +16,15 @@ use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Memory :: get()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterMemoryGetSetHas(UnitTester $I)
+    public function cacheAdapterMemoryGetSetHas(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - has()');
 

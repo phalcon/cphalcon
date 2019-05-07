@@ -17,15 +17,10 @@ use Phalcon\Acl\Component;
 use Phalcon\Acl\Exception;
 use UnitTester;
 
-/**
- * Class AddComponentAccessCest
- */
 class AddComponentAccessCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addComponentAccess()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -39,8 +34,6 @@ class AddComponentAccessCest
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addComponentAccess() - unknown
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -65,8 +58,6 @@ class AddComponentAccessCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addComponentAccess() - wrong access
      * list
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

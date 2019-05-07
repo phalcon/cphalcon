@@ -18,15 +18,10 @@ use Phalcon\Acl\Component;
 use Phalcon\Acl\Role;
 use UnitTester;
 
-/**
- * Class GetActiveFunctionCest
- */
 class GetActiveFunctionCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveFunction()
-     *
-     * @param UnitTester $I
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-01-13

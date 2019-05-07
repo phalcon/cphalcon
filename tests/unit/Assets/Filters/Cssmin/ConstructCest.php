@@ -28,8 +28,6 @@ class ConstructCest
      * Tests Phalcon\Assets\Filters\Cssmin :: __construct() - no string
      * exception
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */

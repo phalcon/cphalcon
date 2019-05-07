@@ -12,16 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
-use Phalcon\Acl;
-use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
 class GetActiveRoleCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveRole() - default
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

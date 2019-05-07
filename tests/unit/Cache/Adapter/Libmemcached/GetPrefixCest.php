@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
 use function getOptionsLibmemcached;
 
-/**
- * Class GetPrefixCest
- */
 class GetPrefixCest
 {
     use LibmemcachedTrait;
@@ -28,12 +25,10 @@ class GetPrefixCest
     /**
      * Tests Phalcon\Cache\Adapter\Libmemcached :: getPrefix()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterLibmemcachedGetSetPrefix(UnitTester $I)
+    public function cacheAdapterLibmemcachedGetSetPrefix(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - getPrefix()');
 
@@ -56,12 +51,10 @@ class GetPrefixCest
     /**
      * Tests Phalcon\Cache\Adapter\Libmemcached :: getPrefix() - default
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterLibmemcachedGetSetPrefixDefault(UnitTester $I)
+    public function cacheAdapterLibmemcachedGetSetPrefixDefault(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - getPrefix() - default');
 

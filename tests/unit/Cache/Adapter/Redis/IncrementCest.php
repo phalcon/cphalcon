@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 use function getOptionsRedis;
 
-/**
- * Class IncrementCest
- */
 class IncrementCest
 {
     use RedisTrait;
@@ -28,12 +25,10 @@ class IncrementCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: increment()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterRedisIncrement(UnitTester $I)
+    public function cacheAdapterRedisIncrement(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - increment()');
         $I->skipTest('Check this');

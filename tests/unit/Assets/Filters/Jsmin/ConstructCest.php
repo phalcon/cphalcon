@@ -28,8 +28,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Filters\Jsmin :: __construct() - no string exception
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
@@ -53,8 +51,6 @@ class ConstructCest
      * Tests Phalcon\Assets\Filters\Jsmin :: __construct() - unterminated
      * comment
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
@@ -74,8 +70,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Filters\Jsmin :: __construct() - unterminated string
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
@@ -94,8 +88,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Assets\Filters\Jsmin :: __construct() - unterminated regex
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24

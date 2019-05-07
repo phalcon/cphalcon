@@ -70,8 +70,6 @@ class OutputCssCest
     /**
      * Tests Phalcon\Assets\Manager :: outputCss() - not implicit
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-13
      */

@@ -37,8 +37,6 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - spaces
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
@@ -55,8 +53,6 @@ class FilterCest
 
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - attributes spaces
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
@@ -82,8 +78,6 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - class spaces
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
@@ -102,8 +96,6 @@ class FilterCest
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - class inheritance
      * spaces
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
@@ -121,8 +113,6 @@ class FilterCest
 
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - complex
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
@@ -143,8 +133,6 @@ class FilterCest
 
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - load files
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
@@ -169,8 +157,6 @@ class FilterCest
 
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10

@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 use function getOptionsRedis;
 
-/**
- * Class ClearCest
- */
 class ClearCest
 {
     use RedisTrait;
@@ -28,12 +25,10 @@ class ClearCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: clear()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterRedisClear(UnitTester $I)
+    public function cacheAdapterRedisClear(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - clear()');
 
@@ -63,12 +58,10 @@ class ClearCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: clear() - twice
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterRedisClearTwice(UnitTester $I)
+    public function cacheAdapterRedisClearTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - clear() - twice');
 

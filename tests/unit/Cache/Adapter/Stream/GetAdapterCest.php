@@ -16,20 +16,15 @@ use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
-/**
- * Class GetAdapterCest
- */
 class GetAdapterCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: getAdapter()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
-    public function storageAdapterStreamGetAdapter(UnitTester $I)
+    public function cacheAdapterStreamGetAdapter(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - getAdapter()');
 

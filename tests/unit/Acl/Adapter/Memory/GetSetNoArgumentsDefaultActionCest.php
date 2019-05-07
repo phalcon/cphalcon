@@ -16,16 +16,11 @@ use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
-/**
- * Class GetNoArgumentsDefaultActionCest
- */
 class GetSetNoArgumentsDefaultActionCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory ::
      * getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -51,8 +46,6 @@ class GetSetNoArgumentsDefaultActionCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory ::
      * getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction() - default
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

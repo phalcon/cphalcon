@@ -19,15 +19,10 @@ use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function uniqid;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     /**
      * Tests Phalcon\Cache\Cache :: has()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01
@@ -54,8 +49,6 @@ class HasCest
 
     /**
      * Tests Phalcon\Cache\Cache :: has() - exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01

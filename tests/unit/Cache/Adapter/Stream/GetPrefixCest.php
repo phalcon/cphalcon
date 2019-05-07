@@ -17,20 +17,15 @@ use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function outputDir;
 
-/**
- * Class GetPrefixCest
- */
 class GetPrefixCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: getPrefix()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
-    public function storageAdapterStreamGetSetPrefix(UnitTester $I)
+    public function cacheAdapterStreamGetSetPrefix(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - getPrefix()');
 
@@ -51,12 +46,10 @@ class GetPrefixCest
     /**
      * Tests Phalcon\Cache\Adapter\Stream :: getPrefix() - default
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-24
      */
-    public function storageAdapterStreamGetSetPrefixDefault(UnitTester $I)
+    public function cacheAdapterStreamGetSetPrefixDefault(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - getPrefix() - default');
 

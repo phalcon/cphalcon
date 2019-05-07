@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Assets\Asset;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
-/**
- * Class GetContentCest
- */
 class GetContentCest
 {
     /**
      * Tests Phalcon\Assets\Asset :: getContent()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -40,8 +35,6 @@ class GetContentCest
 
     /**
      * Tests Phalcon\Assets\Asset :: getContent()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

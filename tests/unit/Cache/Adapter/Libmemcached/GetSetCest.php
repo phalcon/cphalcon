@@ -21,9 +21,6 @@ use stdClass;
 use UnitTester;
 use function getOptionsLibmemcached;
 
-/**
- * Class GetSetCest
- */
 class GetSetCest
 {
     use LibmemcachedTrait;
@@ -41,7 +38,7 @@ class GetSetCest
      *
      * @author       Phalcon Team <team@phalconphp.com>
      */
-    public function storageAdapterLibmemcachedGetSet(UnitTester $I, Example $example)
+    public function cacheAdapterLibmemcachedGetSet(UnitTester $I, Example $example)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - get()/set() - ' . $example[0]);
 
@@ -62,14 +59,12 @@ class GetSetCest
      * Tests Phalcon\Cache\Adapter\Libmemcached :: get()/set() - custom
      * serializer
      *
-     * @param UnitTester $I
-     *
      * @throws Exception
      * @since  2019-04-29
      *
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function storageAdapterLibmemcachedGetSetCustomSerializer(UnitTester $I)
+    public function cacheAdapterLibmemcachedGetSetCustomSerializer(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Libmemcached - get()/set() - custom serializer');
 

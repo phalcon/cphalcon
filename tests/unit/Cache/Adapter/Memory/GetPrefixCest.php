@@ -16,20 +16,15 @@ use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
-/**
- * Class GetPrefixCest
- */
 class GetPrefixCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Memory :: getPrefix()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterMemoryGetSetPrefix(UnitTester $I)
+    public function cacheAdapterMemoryGetSetPrefix(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - getPrefix()');
 
@@ -44,12 +39,10 @@ class GetPrefixCest
     /**
      * Tests Phalcon\Cache\Adapter\Memory :: getPrefix() - default
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterMemoryGetSetPrefixDefault(UnitTester $I)
+    public function cacheAdapterMemoryGetSetPrefixDefault(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - getPrefix() - default');
 

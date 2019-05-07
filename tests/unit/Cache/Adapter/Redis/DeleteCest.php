@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
 use function getOptionsRedis;
 
-/**
- * Class DeleteCest
- */
 class DeleteCest
 {
     use RedisTrait;
@@ -28,12 +25,10 @@ class DeleteCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: delete()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterRedisDelete(UnitTester $I)
+    public function cacheAdapterRedisDelete(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - delete()');
 
@@ -55,12 +50,10 @@ class DeleteCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: delete() - twice
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterRedisDeleteTwice(UnitTester $I)
+    public function cacheAdapterRedisDeleteTwice(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - delete() - twice');
 
@@ -82,12 +75,10 @@ class DeleteCest
     /**
      * Tests Phalcon\Cache\Adapter\Redis :: delete() - unknown
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-31
      */
-    public function storageAdapterRedisDeleteUnknown(UnitTester $I)
+    public function cacheAdapterRedisDeleteUnknown(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - delete() - unknown');
 

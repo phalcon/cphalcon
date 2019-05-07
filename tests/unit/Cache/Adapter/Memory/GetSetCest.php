@@ -18,9 +18,6 @@ use Phalcon\Storage\SerializerFactory;
 use stdClass;
 use UnitTester;
 
-/**
- * Class GetSetCest
- */
 class GetSetCest
 {
     /**
@@ -34,7 +31,7 @@ class GetSetCest
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-03-31
      */
-    public function storageAdapterMemoryGetSet(UnitTester $I, Example $example)
+    public function cacheAdapterMemoryGetSet(UnitTester $I, Example $example)
     {
         $I->wantToTest('Cache\Adapter\Memory - get()/set() - ' . $example[0]);
 

@@ -16,20 +16,15 @@ use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
-/**
- * Class GetKeysCest
- */
 class GetKeysCest
 {
     /**
      * Tests Phalcon\Cache\Adapter\Memory :: getKeys()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-13
      */
-    public function storageAdapterMemoryGetKeys(UnitTester $I)
+    public function cacheAdapterMemoryGetKeys(UnitTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - getKeys()');
 
