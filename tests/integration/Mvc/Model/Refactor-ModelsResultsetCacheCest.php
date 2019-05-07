@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use function cacheModelsDir;
 use IntegrationTester;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
@@ -16,7 +17,7 @@ class ModelsResultsetCacheCest
     public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
-        $I->cleanDir(cacheDir());
+        $I->cleanDir(cacheModelsDir());
     }
 
     public function testCacheDefaultDIMysql(IntegrationTester $I)
