@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
+use function ob_end_clean;
+use function ob_start;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
@@ -40,6 +42,8 @@ class PartialCest
     {
         $I->wantToTest('Mvc\View\Simple - partial()');
 
+        ob_start();
+
         $view = $this->container->get('viewSimple');
 
         $expectedParams = [
@@ -52,5 +56,7 @@ class PartialCest
             'Hey, this is a partial, also FooBar',
             $view->getContent()
         );
+
+        ob_end_clean();
     }
 }
