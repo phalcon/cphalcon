@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response\Headers;
 
+use Phalcon\Http\Response\Headers;
 use UnitTester;
 
 class SetCest
@@ -20,12 +21,25 @@ class SetCest
      * Tests Phalcon\Http\Response\Headers :: set()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-05-08
      */
     public function httpResponseHeadersSet(UnitTester $I)
     {
         $I->wantToTest('Http\Response\Headers - set()');
 
-        $I->skipTest('Need implementation');
+        $headers = new Headers();
+        $headers->set('Content-Type', 'text/html');
+
+        $expected = 'text/html';
+        $actual   = $headers->get('Content-Type');
+
+        $I->assertEquals($expected, $actual);
+
+        $headers->set('Content-Type', 'text/plain');
+
+        $expected = 'text/plain';
+        $actual   = $headers->get('Content-Type');
+
+        $I->assertEquals($expected, $actual);
     }
 }
