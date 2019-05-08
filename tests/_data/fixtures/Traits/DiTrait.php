@@ -149,6 +149,11 @@ trait DiTrait
         return new Escaper();
     }
 
+    protected function newUrl(): Url
+    {
+        return new Url();
+    }
+
     protected function newModelsManager(): ModelsManager
     {
         return new ModelsManager();
