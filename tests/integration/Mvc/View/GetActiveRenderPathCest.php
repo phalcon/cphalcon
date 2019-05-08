@@ -12,6 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View;
 
+use function dataDir;
+use const DIRECTORY_SEPARATOR;
+use Phalcon\Events\Manager;
+use Phalcon\Mvc\View;
+use Phalcon\Test\Fixtures\Mvc\View\AfterRenderListener;
 use IntegrationTester;
 
 /**
@@ -22,14 +27,46 @@ class GetActiveRenderPathCest
     /**
      * Tests Phalcon\Mvc\View :: getActiveRenderPath()
      *
-     * @param IntegrationTester $I
+     * @issue  https://github.com/phalcon/cphalcon/issues/12139
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-08-14
      */
     public function mvcViewGetActiveRenderPath(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\View - getActiveRenderPath()');
-        $I->skipTest('Need implementation');
+
+        $eventsManager = new Manager;
+        $eventsManager->attach('view', new AfterRenderListener());
+
+        $view = new View;
+        $view->setViewsDir(dataDir('views' . DIRECTORY_SEPARATOR));
+        $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $view->setEventsManager($eventsManager);
+
+        $expected = '';
+        $actual   = $view->getActiveRenderPath();
+        $I->assertEquals($expected, $actual);
+
+        $view->start();
+        $view->render('activerender', 'index');
+        $view->finish();
+
+        $view->getContent();
+
+        $I->assertEquals(
+            dataDir('views' . DIRECTORY_SEPARATOR . 'activerender' . DIRECTORY_SEPARATOR . 'index.phtml'),
+            $view->getActiveRenderPath()
+        );
+
+        $view->setViewsDir([
+            dataDir('views' . DIRECTORY_SEPARATOR),
+            dataDir('views2' . DIRECTORY_SEPARATOR),
+        ]);
+
+        $I->assertEquals(
+            [dataDir('views' . DIRECTORY_SEPARATOR . 'activerender' . DIRECTORY_SEPARATOR . 'index.phtml')],
+            $view->getActiveRenderPath()
+        );
     }
 }

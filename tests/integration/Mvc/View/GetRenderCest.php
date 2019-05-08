@@ -12,7 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View;
 
+use function dataDir;
 use IntegrationTester;
+use Phalcon\Di;
+use Phalcon\Helper\Str;
+use Phalcon\Mvc\View;
 
 /**
  * Class GetRenderCest
@@ -30,6 +34,21 @@ class GetRenderCest
     public function mvcViewGetRender(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\View - getRender()');
-        $I->skipTest('Need implementation');
+
+        $container = new Di();
+        $view = new View();
+        $view->setViewsDir(Str::dirSeparator(dataDir('fixtures/views')));
+
+        $view->setDI($container);
+
+        $expected = 'Hey, this is a partial, also abcde';
+        $actual   = $view->getRender(
+            'partials',
+            'partial',
+            [
+                'cool_var' => 'abcde'
+            ]
+        );
+        $I->assertEquals($expected, $actual);
     }
 }

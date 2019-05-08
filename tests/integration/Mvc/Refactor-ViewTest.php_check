@@ -10,23 +10,6 @@ use Phalcon\Mvc\View;
 use Phalcon\Test\Module\IntegrationTest;
 use PHPIntegration\Framework\Exception as PhpIntegrationException;
 
-/**
- * \Phalcon\Test\Integration\Mvc\ViewTest
- * Tests the Phalcon\Mvc\View component
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://www.phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Serghei Iakovlev <serghei@phalconphp.com>
- * @package   Phalcon\Test\Integration\Mvc
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
- * so that we can send you a copy immediately.
- */
 class ViewTest extends IntegrationTest
 {
     use ViewTrait;
@@ -57,41 +40,6 @@ class ViewTest extends IntegrationTest
     }
 
     /**
-     * Test using different layout and pick
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2013-01-07
-     */
-    public function testLayoutAndPick()
-    {
-        $this->specify(
-            'Using different layout and pick does not work as expected',
-            function () {
-                $view = new View;
-                $view->setDI(Di::getDefault());
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-
-                $view->start();
-                $view->setLayout('test6');
-                $view->pick('test3/other');
-                $view->render('test3', 'another');
-                $view->finish();
-
-                expect($view->getContent())->equals("<html>Well, this is the view content: here.</html>\n");
-
-
-                $view->start();
-                $view->setLayout('test6');
-                $view->pick(['test3/other']);
-                $view->render('test3', 'another');
-                $view->finish();
-
-                expect($view->getContent())->equals("<html>Well, this is the view content: here.</html>\n");
-            }
-        );
-    }
-
-    /**
      * Tests render with missing partial
      *
      * @author Kamil Skowron <git@hedonsoftware.com>
@@ -112,27 +60,6 @@ class ViewTest extends IntegrationTest
                 $view->start();
                 $view->render('test5', 'missing');
                 $view->finish();
-            }
-        );
-    }
-
-    /**
-     * Tests View::exists
-     *
-     * @author Kamil Skowron <git@hedonsoftware.com>
-     * @since  2014-05-28
-     */
-    public function testExists()
-    {
-        $this->specify(
-            'The View component does don detect views correctly',
-            function () {
-                $view = new View;
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-
-                expect($view->exists('test2/index'))->true();
-                expect($view->exists('test3/other'))->true();
-                expect($view->exists('does_not_exist'))->false();
             }
         );
     }
@@ -320,26 +247,6 @@ class ViewTest extends IntegrationTest
         );
     }
 
-    /**
-     * Tests View::getRender
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2012-26-12
-     */
-    public function testGetRender()
-    {
-        $this->specify(
-            'The rendering does not work as expected',
-            function () {
-                $view = new View;
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-
-                expect($view->getRender('test5', 'index', ['cool_var' => 'le-this']))
-                    ->equals("<html>Hey, this is a partial, also le-this</html>\n");
-            }
-        );
-    }
-
     public function testSettersAndGetters()
     {
         $this->specify(
@@ -487,101 +394,6 @@ class ViewTest extends IntegrationTest
         return $view;
     }
 
-    public function testCacheDI()
-    {
-        $this->specify(
-            "Views are not cached properly",
-            function () {
-                $this->clearCache();
-
-                $date = date("r");
-                $content = '<html>' . $date . '</html>' . PHP_EOL;
-
-                $di = $this->_getDi();
-                $view = new View();
-                $view->setDI($di);
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-                $view->setVar("date", $date);
-
-                //First hit
-                $view->start();
-                $view->cache(true);
-                $view->render('test8', 'index');
-                $view->finish();
-                expect($view->getContent())->equals($content);
-
-                $view->reset();
-
-                //Second hit
-                $view->start();
-                $view->cache(true);
-                $view->render('test8', 'index');
-                $view->finish();
-                expect($view->getContent())->equals($content);
-
-                $view->reset();
-
-                sleep(1);
-
-                $view->setVar("date", date("r"));
-
-                //Third hit after 1 second
-                $view->start();
-                $view->cache(true);
-                $view->render('test8', 'index');
-                $view->finish();
-                expect($view->getContent())->equals($content);
-
-                $view->reset();
-
-                //Four hit
-                $view->start();
-                $view->cache(true);
-                $view->render('test8', 'index');
-                $view->finish();
-                expect($view->getContent())->equals($content);
-            }
-        );
-    }
-
-    public function testViewCacheIndependency()
-    {
-        $this->specify(
-            "Views are not cached properly (2)",
-            function () {
-                $this->clearCache();
-
-                $date = date("r");
-                $content = '<html>'.$date.'</html>'.PHP_EOL;
-
-                $di = $this->_getDi();
-                $view = new View();
-                $view->setDI($di);
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-                $view->setVar("date", $date);
-
-                //First hit
-                $view->start();
-                $view->cache(true);
-                $view->render('test8', 'index');
-                $view->finish();
-                expect($view->getContent())->equals($content);
-
-                $di2 = $this->_getDi();
-                $view2 = new View();
-                $view2->setDI($di2);
-                $view2->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-
-                //Second hit
-                $view2->start();
-                $view2->cache(true);
-                $view2->render('test8', 'index');
-                $view2->finish();
-                expect($view2->getContent())->equals($content);
-            }
-        );
-    }
-
     public function testViewOptions()
     {
         $this->specify(
@@ -624,23 +436,6 @@ class ViewTest extends IntegrationTest
         );
     }
 
-    public function testCacheMethods()
-    {
-        $this->specify(
-            "View methods don't return the View instance",
-            function () {
-                $di = $this->_getDi();
-                $view = new View();
-                $view->setDI($di);
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-
-                expect($view->start())->equals($view);
-                expect($view->cache(true))->equals($view);
-                expect($view->render('test2', 'index'))->equals($view);
-                expect($view->finish())->equals($view);
-            }
-        );
-    }
 
     /**
      * Tests params view scope
@@ -674,27 +469,5 @@ class ViewTest extends IntegrationTest
                 }
             }
         );
-    }
-
-    private function _getDi($service = 'viewCache', $lifetime = 60)
-    {
-        $di = new Di();
-
-        $frontendCache = new FrontendCache(
-            array(
-                'lifetime' => $lifetime
-            )
-        );
-
-        $backendCache = new BackendCache(
-            $frontendCache,
-            array(
-                'cacheDir' => cacheDir()
-            )
-        );
-
-        $di->set($service, $backendCache);
-
-        return $di;
     }
 }
