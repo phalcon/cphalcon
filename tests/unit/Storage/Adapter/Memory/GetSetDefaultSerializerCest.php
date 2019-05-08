@@ -12,15 +12,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Memory;
 
-use function getOptionsMemory;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
+use function getOptionsMemory;
 
 class GetSetDefaultSerializerCest
 {
     /**
-     * Tests Phalcon\Storage\Adapter\Memory :: getDefaultSerializer()/setDefaultSerializer()
+     * Tests Phalcon\Storage\Adapter\Memory ::
+     * getDefaultSerializer()/setDefaultSerializer()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-13
