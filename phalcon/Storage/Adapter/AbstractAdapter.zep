@@ -29,7 +29,7 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @var string
      */
-    protected defaultSerializer = "Php";
+    protected defaultSerializer = "Php" { get, set };
 
     /**
      * Name of the default TTL (time to live)
@@ -190,6 +190,10 @@ abstract class AbstractAdapter implements AdapterInterface
     protected function initSerializer() -> void
     {
         string className;
+
+        if unlikely null === this->serializerFactory {
+            throw new Exception("A valid serializer is required");
+        }
 
         let className        = strtolower(this->defaultSerializer),
             this->serializer = this->serializerFactory->newInstance(className);

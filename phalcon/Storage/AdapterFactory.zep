@@ -33,7 +33,7 @@ class AdapterFactory
     /**
      * AdapterFactory constructor.
      */
-    public function __construct(<SerializerFactory> factory, array! services = [])
+    public function __construct(<SerializerFactory> factory = null, array! services = [])
     {
         var helpers, name, service;
         
@@ -51,7 +51,7 @@ class AdapterFactory
 
         for name, service in helpers {
             let this->mapper[name] = service;
-            unset(this->services[name]);
+            unset this->services[name];
         }
     }
 

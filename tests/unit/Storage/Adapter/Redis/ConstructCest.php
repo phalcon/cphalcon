@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Redis;
 
 use Phalcon\Storage\Adapter\AdapterInterface;
 use Phalcon\Storage\Adapter\Redis;
+use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
@@ -41,5 +42,26 @@ class ConstructCest
 
         $class = AdapterInterface::class;
         $I->assertInstanceOf($class, $adapter);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Redis :: __construct() - invalid serializer
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-04-09
+     */
+    public function storageAdapterRedisConstructInvalidSerializerException(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Redis - __construct() - invalid serializer exception');
+        $I->expectThrowable(
+            new Exception("A valid serializer is required"),
+            function () {
+                $adapter = new Redis(null, getOptionsRedis());
+                $adapter->setDefaultSerializer('base64');
+
+                $value = $adapter->get('test');
+
+            }
+        );
     }
 }

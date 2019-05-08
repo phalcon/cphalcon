@@ -31,7 +31,7 @@ class Redis extends AbstractAdapter
     /**
      * Constructor
      */
-    public function __construct(<SerializerFactory> factory, array! options = [])
+    public function __construct(<SerializerFactory> factory = null, array! options = [])
     {
         /**
          * Lets set some defaults and options here
