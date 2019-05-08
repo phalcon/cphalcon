@@ -41,7 +41,7 @@ class Stream extends AbstractAdapter
      *
      * @throws Exception
      */
-    public function __construct(<SerializerFactory> factory, array! options = [])
+    public function __construct(<SerializerFactory> factory = null, array! options = [])
     {
         var cacheDir;
 
