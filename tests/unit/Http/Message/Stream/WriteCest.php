@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
+use function logsDir;
 use Phalcon\Http\Message\Exception;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
@@ -28,7 +29,7 @@ class WriteCest
     {
         $I->wantToTest('Http\Message\Stream - write()');
         $fileName = $I->getNewFileName();
-        $fileName = dataDir($fileName);
+        $fileName = logsDir($fileName);
         $stream   = new Stream($fileName, 'wb');
 
         $source   = 'A well regulated Militia, being necessary to the security of a free State, '
@@ -60,7 +61,7 @@ class WriteCest
             ),
             function () use ($I) {
                 $fileName = $I->getNewFileName();
-                $fileName = dataDir($fileName);
+                $fileName = logsDir($fileName);
                 $stream   = new Stream($fileName, 'wb');
                 $stream->detach();
 
