@@ -217,7 +217,7 @@ class View extends Injectable implements ViewInterface
         var basePath, viewsDir, engines, extension;
 
         let basePath = this->basePath,
-            engines = this->registeredEngines;
+            engines  = this->registeredEngines;
 
         if empty engines {
             let engines = [
@@ -617,7 +617,7 @@ class View extends Injectable implements ViewInterface
      */
     public function render(string! controllerName, string! actionName, array params = []) -> <View> | bool
     {
-        bool silence, mustClean;
+        bool silence;
         int renderLevel;
         var layoutsDir, layout, pickView, layoutName, engines, renderView,
             pickViewAction, eventsManager, disabledLevels, templatesBefore,
@@ -709,10 +709,8 @@ class View extends Injectable implements ViewInterface
          * Get the current content in the buffer maybe some output from the
          * controller?
          */
-        let this->content = ob_get_contents();
-
-        let mustClean = true,
-            silence = true;
+        let this->content = ob_get_contents(),
+            silence       = true;
 
         /**
          * Disabled levels allow to avoid an specific level of rendering
@@ -735,8 +733,7 @@ class View extends Injectable implements ViewInterface
                     this->engineRender(
                         engines,
                         renderView,
-                        silence,
-                        mustClean
+                        silence
                     );
                 }
             }
@@ -746,18 +743,15 @@ class View extends Injectable implements ViewInterface
              */
             if renderLevel >= self::LEVEL_BEFORE_TEMPLATE  {
                 if !isset disabledLevels[self::LEVEL_BEFORE_TEMPLATE] {
-                    let this->currentRenderLevel = self::LEVEL_BEFORE_TEMPLATE;
-
-                    let templatesBefore = this->templatesBefore;
-
-                    let silence = false;
+                    let this->currentRenderLevel = self::LEVEL_BEFORE_TEMPLATE,
+                        templatesBefore          = this->templatesBefore,
+                        silence                  = false;
 
                     for templateBefore in templatesBefore {
                         this->engineRender(
                             engines,
                             layoutsDir . templateBefore,
-                            silence,
-                            mustClean
+                            silence
                         );
                     }
 
@@ -775,8 +769,7 @@ class View extends Injectable implements ViewInterface
                     this->engineRender(
                         engines,
                         layoutsDir . layoutName,
-                        silence,
-                        mustClean
+                        silence
                     );
                 }
             }
@@ -786,18 +779,15 @@ class View extends Injectable implements ViewInterface
              */
             if renderLevel >= self::LEVEL_AFTER_TEMPLATE {
                 if !isset disabledLevels[self::LEVEL_AFTER_TEMPLATE] {
-                    let this->currentRenderLevel = self::LEVEL_AFTER_TEMPLATE;
-
-                    let templatesAfter = this->templatesAfter;
-
-                    let silence = false;
+                    let this->currentRenderLevel = self::LEVEL_AFTER_TEMPLATE,
+                        templatesAfter           = this->templatesAfter,
+                        silence                  = false;
 
                     for templateAfter in templatesAfter {
                         this->engineRender(
                             engines,
                             layoutsDir . templateAfter,
-                            silence,
-                            mustClean
+                            silence
                         );
                     }
 
@@ -815,8 +805,7 @@ class View extends Injectable implements ViewInterface
                     this->engineRender(
                         engines,
                         this->mainView,
-                        silence,
-                        mustClean
+                        silence
                     );
                 }
             }
@@ -839,12 +828,12 @@ class View extends Injectable implements ViewInterface
      */
     public function reset() -> <View>
     {
-        let this->disabled = false,
-            this->engines = false,
-            this->renderLevel = self::LEVEL_MAIN_LAYOUT,
-            this->content = null,
+        let this->disabled        = false,
+            this->engines         = false,
+            this->renderLevel     = self::LEVEL_MAIN_LAYOUT,
+            this->content         = null,
             this->templatesBefore = [],
-            this->templatesAfter = [];
+            this->templatesAfter  = [];
 
         return this;
     }
@@ -1088,16 +1077,16 @@ class View extends Injectable implements ViewInterface
         array engines,
         string viewPath,
         bool silence,
-        bool mustClean
+        bool mustClean = true
     ) {
         bool notExists;
         var basePath, engine, eventsManager, extension, viewsDir, viewsDirPath,
             viewEnginePath, viewEnginePaths, viewParams;
 
-        let notExists = true,
-            basePath = this->basePath,
-            viewParams = this->viewParams,
-            eventsManager = <ManagerInterface> this->eventsManager,
+        let notExists       = true,
+            basePath        = this->basePath,
+            viewParams      = this->viewParams,
+            eventsManager   = <ManagerInterface> this->eventsManager,
             viewEnginePaths = [];
 
         for viewsDir in this->getViewsDirs() {
