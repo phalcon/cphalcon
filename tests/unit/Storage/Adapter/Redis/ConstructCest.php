@@ -60,7 +60,6 @@ class ConstructCest
                 $adapter->setDefaultSerializer('base64');
 
                 $value = $adapter->get('test');
-
             }
         );
     }

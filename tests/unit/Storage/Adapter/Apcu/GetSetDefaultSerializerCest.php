@@ -22,7 +22,8 @@ class GetSetDefaultSerializerCest
     use ApcuTrait;
 
     /**
-     * Tests Phalcon\Storage\Adapter\Apcu :: getDefaultSerializer()/setDefaultSerializer()
+     * Tests Phalcon\Storage\Adapter\Apcu ::
+     * getDefaultSerializer()/setDefaultSerializer()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-13

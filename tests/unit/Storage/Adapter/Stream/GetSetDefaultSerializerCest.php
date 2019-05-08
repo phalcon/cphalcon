@@ -12,15 +12,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
-use function outputDir;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
+use function outputDir;
 
 class GetSetDefaultSerializerCest
 {
     /**
-     * Tests Phalcon\Storage\Adapter\Stream :: getDefaultSerializer()/setDefaultSerializer()
+     * Tests Phalcon\Storage\Adapter\Stream ::
+     * getDefaultSerializer()/setDefaultSerializer()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-13
