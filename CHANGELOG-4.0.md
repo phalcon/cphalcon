@@ -76,7 +76,34 @@
 - Removed support for HTTP_CONTENT_TYPE header (a bug in PHP 5). [#14013](https://github.com/phalcon/cphalcon/pull/14013)
 - Removed `Mvc\Model\MetaData\Session` adapter (no longer supported) [#13439](https://github.com/phalcon/cphalcon/pull/13439)
 - Removed `Phalcon\Cache`, `Phalcon\Cache\Backend`, `Phalcon\Cache\BackendInterface`, `Phalcon\Cache\Backend\Apcu`, `Phalcon\Cache\Backend\Factory`, `Phalcon\Cache\Backend\File`, `Phalcon\Cache\Backend\Libmemcached`, `Phalcon\Cache\Backend\Memory`, `Phalcon\Cache\Backend\Mongo`, `Phalcon\Cache\Backend\Redis`, `Phalcon\Cache\Frontend`, `Phalcon\Cache\Frontend\Base64`, `Phalcon\Cache\Frontend\Data`, `Phalcon\Cache\Frontend\Factory`, `Phalcon\Cache\Frontend\Igbinary`, `Phalcon\Cache\Frontend\Json`, `Phalcon\Cache\Frontend\Msgpack`, `Phalcon\Cache\Frontend\None`, `Phalcon\Cache\Frontend\Output`, `Phalcon\Cache\FrontendInterface`, `Phalcon\Cache\Multiple` [#13439](https://github.com/phalcon/cphalcon/issues/13439)
-- Removed `Phalcon\Mvc\View::cache()`, `Phalcon\Mvc\View::getCache()`, `Phalcon\Mvc\View\Simple::cache()`, `Phalcon\Mvc\View\Simple::getCache()` [#13439](https://github.com/phalcon/cphalcon/issues/13439)
+- Removed caching from the view (simple/view)
+    - `Phalcon\Mvc\View::cache()`
+    - `Phalcon\Mvc\View::getCache()`
+    - `Phalcon\Mvc\View\Simple::cache()`
+    - `Phalcon\Mvc\View\Simple::getCache()`
+[#13439](https://github.com/phalcon/cphalcon/issues/13439)
+- Removed multiple Cache Adapter `Phalcon\Cache\Multiple` [#13439](https://github.com/phalcon/cphalcon/issues/13439)
+- Removed old cache classes
+    - `Phalcon\Cache\Backend`
+    - `Phalcon\Cache\BackendInterface`
+    - `Phalcon\Cache\Backend\Apcu`
+    - `Phalcon\Cache\Backend\Factory`
+    - `Phalcon\Cache\Backend\File`
+    - `Phalcon\Cache\Backend\Libmemcached`
+    - `Phalcon\Cache\Backend\Memory`
+    - `Phalcon\Cache\Backend\Mongo`
+    - `Phalcon\Cache\Backend\Redis`
+    - `Phalcon\Cache\Frontend`
+    - `Phalcon\Cache\FrontendInterface`
+    - `Phalcon\Cache\Frontend\Base64`
+    - `Phalcon\Cache\Frontend\Data`
+    - `Phalcon\Cache\Frontend\Factory`
+    - `Phalcon\Cache\Frontend\Igbinary`
+    - `Phalcon\Cache\Frontend\Json`
+    - `Phalcon\Cache\Frontend\Msgpack`
+    - `Phalcon\Cache\Frontend\None`
+    - `Phalcon\Cache\Frontend\Output`
+[#13439](https://github.com/phalcon/cphalcon/issues/13439)
 
 # [4.0.0-alpha.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.4) (2019-03-31)
 ## Added
