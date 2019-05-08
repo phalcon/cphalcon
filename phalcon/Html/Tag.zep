@@ -87,11 +87,24 @@ class Tag implements InjectionAwareInterface
     const XHTML5               = 11;
 
     /**
+     * Constructor
+     */
+    public function __construct(<EscaperInterface> escaper = null, <UrlInterface> url = null)
+    {
+        let this->escaper = escaper,
+            this->url     = url;
+    }
+
+    /**
      * Appends a text to current document title
      */
-    public function appendTitle(array title) -> <Tag>
+    public function appendTitle(var title) -> <Tag>
     {
-        let this->append = title;
+        if typeof title === "array" {
+            let this->append = title;
+        } else {
+            let this->append[] = (string) title;
+        }
 
         return this;
     }
@@ -446,8 +459,8 @@ class Tag implements InjectionAwareInterface
      */
     public function getTitle(bool prepend = true, bool append = true) -> string
     {
-        var item, items, output, title, appendTitle, prependTitle, separator,
-            escaper;
+        var item, output, title, appendTitle, prependTitle, separator, escaper;
+        array items;
 
         let escaper   = this->getService("escaper"),
             items     = [],
@@ -1075,9 +1088,13 @@ class Tag implements InjectionAwareInterface
     /**
      * Prepends a text to current document title
      */
-    public function prependTitle(array title) -> <Tag>
+    public function prependTitle(var title) -> <Tag>
     {
-        let this->prepend = title;
+        if typeof title === "array" {
+            let this->prepend = title;
+        } else {
+            let this->prepend[] = (string) title;
+        }
 
         return this;
     }

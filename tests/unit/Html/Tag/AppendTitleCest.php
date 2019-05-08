@@ -40,12 +40,47 @@ class AppendTitleCest
         $I->wantToTest('Html\Tag - appendTitle()');
 
         $tag = new Tag();
-
         $tag->setDI($this->container);
 
         $tag
             ->setTitle('Title')
             ->appendTitle(['Class'])
+        ;
+
+        $I->assertEquals(
+            "Title",
+            $tag->getTitle(false, false)
+        );
+
+        $I->assertEquals(
+            "TitleClass",
+            $tag->getTitle(false, true)
+        );
+
+        $I->assertEquals(
+            "<title>TitleClass</title>" . PHP_EOL,
+            $tag->renderTitle()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Html\Tag :: appendTitle() - string
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function htmlTagAppendTitleString(UnitTester $I)
+    {
+        $I->wantToTest('Html\Tag - appendTitle() - string');
+
+        $tag = new Tag();
+        $tag->setDI($this->container);
+
+        $tag
+            ->setTitle('Title')
+            ->appendTitle('Class')
         ;
 
         $I->assertEquals(
@@ -77,7 +112,6 @@ class AppendTitleCest
         $I->wantToTest('Html\Tag - appendTitle() - separator');
 
         $tag = new Tag();
-
         $tag->setDI($this->container);
 
         $tag
@@ -113,24 +147,26 @@ class AppendTitleCest
     public function htmlTagAppendTitleDoubleCall(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - appendTitle() - double call');
+
         $tag = new Tag();
         $tag->setDI($this->container);
+
         $tag
             ->setTitle('Main')
             ->setTitleSeparator(' - ')
-            ->appendTitle(['Category'])
-            ->appendTitle(['Title'])
+            ->appendTitle('Category')
+            ->appendTitle('Title')
         ;
 
         $expected = "Main";
         $actual   = $tag->getTitle(false, false);
         $I->assertEquals($expected, $actual);
 
-        $expected = "Main - Title";
+        $expected = "Main - Category - Title";
         $actual   = $tag->getTitle(false, true);
         $I->assertEquals($expected, $actual);
 
-        $expected = "<title>Main - Title</title>" . PHP_EOL;
+        $expected = "<title>Main - Category - Title</title>" . PHP_EOL;
         $actual   = $tag->renderTitle();
         $I->assertEquals($expected, $actual);
     }
@@ -146,8 +182,10 @@ class AppendTitleCest
     public function htmlTagAppendTitleMany(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - appendTitle() - many');
+
         $tag = new Tag();
         $tag->setDI($this->container);
+
         $tag
             ->setTitle('Main')
             ->setTitleSeparator(' - ')
@@ -178,8 +216,10 @@ class AppendTitleCest
     public function htmlTagAppendTitleEmptyArray(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - appendTitle() - empty array');
+
         $tag = new Tag();
         $tag->setDI($this->container);
+
         $tag
             ->setTitle('Main')
             ->setTitleSeparator(' - ')

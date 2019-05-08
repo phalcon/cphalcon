@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Html\Tag;
 use Phalcon\Html\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
+use const PHP_EOL;
 use UnitTester;
 
 /**
@@ -38,6 +39,7 @@ class PrependTitleCest
     public function htmlTagPrependTitle(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - prependTitle()');
+
         $tag = new Tag();
         $tag->setDI($this->container);
         $tag
@@ -59,6 +61,42 @@ class PrependTitleCest
     }
 
     /**
+     * Tests Phalcon\Html\Tag :: prependTitle() - string
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function htmlTagAppendTitleString(UnitTester $I)
+    {
+        $I->wantToTest('Html\Tag - prependTitle() - string');
+
+        $tag = new Tag();
+        $tag->setDI($this->container);
+
+        $tag
+            ->setTitle('Title')
+            ->prependTitle('Class')
+        ;
+
+        $I->assertEquals(
+            "Title",
+            $tag->getTitle(false, false)
+        );
+
+        $I->assertEquals(
+            "ClassTitle",
+            $tag->getTitle(true, false)
+        );
+
+        $I->assertEquals(
+            "<title>ClassTitle</title>" . PHP_EOL,
+            $tag->renderTitle()
+        );
+    }
+
+    /**
      * Tests Phalcon\Html\Tag :: prependTitle() - separator
      *
      * @param UnitTester $I
@@ -69,8 +107,10 @@ class PrependTitleCest
     public function htmlTagPrependTitleSeparator(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - prependTitle() - separator');
+
         $tag = new Tag();
         $tag->setDI($this->container);
+
         $tag
             ->setTitle('Title')
             ->setTitleSeparator('|')
@@ -103,22 +143,23 @@ class PrependTitleCest
         $I->wantToTest('Html\Tag - prependTitle() - double call');
         $tag = new Tag();
         $tag->setDI($this->container);
+
         $tag
             ->setTitle('Main')
             ->setTitleSeparator(' - ')
-            ->prependTitle(['Category'])
-            ->prependTitle(['Title'])
+            ->prependTitle('Category')
+            ->prependTitle('Title')
         ;
 
         $expected = "Main";
         $actual   = $tag->getTitle(false);
         $I->assertEquals($expected, $actual);
 
-        $expected = "Title - Main";
+        $expected = "Title - Category - Main";
         $actual   = $tag->getTitle(true);
         $I->assertEquals($expected, $actual);
 
-        $expected = "<title>Title - Main</title>" . PHP_EOL;
+        $expected = "<title>Title - Category - Main</title>" . PHP_EOL;
         $actual   = $tag->renderTitle();
         $I->assertEquals($expected, $actual);
     }
@@ -136,6 +177,7 @@ class PrependTitleCest
         $I->wantToTest('Html\Tag - prependTitle() - many');
         $tag = new Tag();
         $tag->setDI($this->container);
+
         $tag
             ->setTitle('Main')
             ->setTitleSeparator(' - ')
@@ -168,6 +210,7 @@ class PrependTitleCest
         $I->wantToTest('Html\Tag - prependTitle() - empty array');
         $tag = new Tag();
         $tag->setDI($this->container);
+
         $tag
             ->setTitle('Main')
             ->setTitleSeparator(' - ')
