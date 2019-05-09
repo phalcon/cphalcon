@@ -108,11 +108,18 @@ class Manager implements InjectionAwareInterface
     * $assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
     *</code>
     */
-    public function addCss(string! path, local = true, filter = true, var attributes = null) -> <Manager>
+    public function addCss(
+        string! path,
+        var local = true,
+        bool filter = true,
+        var attributes = null,
+        string version = null,
+        bool autoVersion = false
+    ) -> <Manager>
     {
         this->addAssetByType(
             "css",
-            new AssetCss(path, local, filter, attributes)
+            new AssetCss(path, local, filter, attributes, version, autoVersion)
         );
 
         return this;
@@ -185,11 +192,18 @@ class Manager implements InjectionAwareInterface
      * $assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
      *</code>
      */
-    public function addJs(string! path, local = true, filter = true, attributes = null) -> <Manager>
+    public function addJs(
+        string! path,
+        var local = true,
+        bool filter = true,
+        var attributes = null,
+        string version = null,
+        bool autoVersion = false
+    ) -> <Manager>
     {
         this->addAssetByType(
             "js",
-            new AssetJs(path, local, filter, attributes)
+            new AssetJs(path, local, filter, attributes, version, autoVersion)
         );
 
         return this;
@@ -327,17 +341,17 @@ class Manager implements InjectionAwareInterface
      */
     public function output(<Collection> collection, callback, type) -> string | null
     {
-        var output, assets, filters, prefix, sourceBasePath = null,
-            targetBasePath = null, options, collectionSourcePath,
-            completeSourcePath, collectionTargetPath, completeTargetPath,
-            filteredJoinedContent, join, asset, filterNeeded, local, sourcePath,
-            targetPath, path, prefixedPath, attributes, parameters, html,
-            useImplicitOutput, content, mustFilter, filter, filteredContent,
-            typeCss, targetUri;
+        string output;
+        var asset, assets, attributes, autoVersion, collectionSourcePath,
+            collectionTargetPath, completeSourcePath, completeTargetPath,
+            content, filter, filters, filteredContent, filteredJoinedContent,
+            filterNeeded, html, join, local, modificationTime, mustFilter,
+            options, parameters, path, prefix, prefixedPath, sourceBasePath = null,
+            sourcePath, targetBasePath = null, targetPath, targetUri, typeCss,
+            useImplicitOutput, version;
 
-        let useImplicitOutput = this->implicitOutput;
-
-        let output = "";
+        let useImplicitOutput = this->implicitOutput,
+            output            = "";
 
         /**
          * Get the assets as an array
@@ -540,6 +554,20 @@ class Manager implements InjectionAwareInterface
                     let prefixedPath = path;
                 }
 
+                if null === asset->getVersion() && null === asset->isAutoVersion() {
+					let version     = collection->getVersion(),
+					    autoVersion = collection->isAutoVersion();
+
+				    if autoVersion && local {
+				        let modificationTime = filemtime(asset->getRealSourcePath()),
+				            version          = version ? version . "." . modificationTime : modificationTime;
+				    }
+
+					if version {
+						let prefixedPath = prefixedPath . "?ver=" . version;
+					}
+				}
+
                 /**
                  * Gets extra HTML attributes in the asset
                  */
@@ -650,6 +678,20 @@ class Manager implements InjectionAwareInterface
                     let prefixedPath = path;
                 }
 
+                if null === asset->getVersion() && null === asset->isAutoVersion() {
+					let version     = collection->getVersion(),
+					    autoVersion = collection->isAutoVersion();
+
+				    if autoVersion && local {
+				        let modificationTime = filemtime(asset->getRealSourcePath()),
+				            version          = version ? version . "." . modificationTime : modificationTime;
+				    }
+
+					if version {
+						let prefixedPath = prefixedPath . "?ver=" . version;
+					}
+				}
+
                 /**
                  * Gets extra HTML attributes in the asset
                  */
@@ -708,6 +750,20 @@ class Manager implements InjectionAwareInterface
                 } else {
                     let prefixedPath = targetUri;
                 }
+
+                if null === asset->getVersion() && null === asset->isAutoVersion() {
+					let version     = collection->getVersion(),
+					    autoVersion = collection->isAutoVersion();
+
+				    if autoVersion && local {
+				        let modificationTime = filemtime(completeTargetPath),
+				            version          = version ? version . "." . modificationTime : modificationTime;
+				    }
+
+					if version {
+						let prefixedPath = prefixedPath . "?ver=" . version;
+					}
+				}
 
                 /**
                  * Gets extra HTML attributes in the collection

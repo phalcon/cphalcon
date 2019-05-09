@@ -22,8 +22,15 @@ class Css extends AssetBase
     /**
      * Phalcon\Assets\Asset\Css
      */
-    public function __construct(string! path, bool local = true, bool filter = true, array attributes = []) -> void
+    public function __construct(
+        string! path,
+        bool local = true,
+        bool filter = true,
+        array attributes = [],
+        string version = null,
+        bool autoVersion = false
+    ) -> void
     {
-        parent::__construct("css", path, local, filter, attributes);
+        parent::__construct("css", path, local, filter, attributes, version, autoVersion);
     }
 }
