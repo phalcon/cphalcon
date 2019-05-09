@@ -15,6 +15,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager);
+PHP_METHOD(Phalcon_Mvc_Model_Transaction, throwRollbackException);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\DiInterface, 0)
@@ -109,6 +110,18 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_settransactionmanag
 	ZEND_ARG_OBJ_INFO(0, manager, Phalcon\\Mvc\\Model\\Transaction\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_transaction_throwrollbackexception, 0, 1, Phalcon\\Mvc\\Model\\TransactionInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_transaction_throwrollbackexception, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\TransactionInterface", 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, status, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, status)
+#endif
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_transaction_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Transaction, __construct, arginfo_phalcon_mvc_model_transaction___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model_Transaction, begin, arginfo_phalcon_mvc_model_transaction_begin, ZEND_ACC_PUBLIC)
@@ -122,5 +135,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_transaction_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort, arginfo_phalcon_mvc_model_transaction_setrollbackonabort, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Transaction, setRollbackedRecord, arginfo_phalcon_mvc_model_transaction_setrollbackedrecord, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Transaction, setTransactionManager, arginfo_phalcon_mvc_model_transaction_settransactionmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Transaction, throwRollbackException, arginfo_phalcon_mvc_model_transaction_throwrollbackexception, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

@@ -3,6 +3,7 @@ extern zend_class_entry *phalcon_html_tag_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Html_Tag);
 
+PHP_METHOD(Phalcon_Html_Tag, __construct);
 PHP_METHOD(Phalcon_Html_Tag, appendTitle);
 PHP_METHOD(Phalcon_Html_Tag, button);
 PHP_METHOD(Phalcon_Html_Tag, clear);
@@ -62,12 +63,17 @@ PHP_METHOD(Phalcon_Html_Tag, renderSelectArray);
 PHP_METHOD(Phalcon_Html_Tag, renderSelectResultset);
 zend_object *zephir_init_properties_Phalcon_Html_Tag(zend_class_entry *class_type TSRMLS_DC);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_tag___construct, 0, 0, 0)
+	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\EscaperInterface, 1)
+	ZEND_ARG_OBJ_INFO(0, url, Phalcon\\UrlInterface, 1)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_tag_appendtitle, 0, 1, Phalcon\\Html\\Tag, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_tag_appendtitle, 0, 1, IS_OBJECT, "Phalcon\\Html\\Tag", 0)
 #endif
-	ZEND_ARG_ARRAY_INFO(0, title, 0)
+	ZEND_ARG_INFO(0, title)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -515,7 +521,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_tag_prependtitle, 0,
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_tag_prependtitle, 0, 1, IS_OBJECT, "Phalcon\\Html\\Tag", 0)
 #endif
-	ZEND_ARG_ARRAY_INFO(0, title, 0)
+	ZEND_ARG_INFO(0, title)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -766,6 +772,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_tag_renderselectres
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_html_tag_method_entry) {
+	PHP_ME(Phalcon_Html_Tag, __construct, arginfo_phalcon_html_tag___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Html_Tag, appendTitle, arginfo_phalcon_html_tag_appendtitle, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Tag, button, arginfo_phalcon_html_tag_button, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Tag, clear, NULL, ZEND_ACC_PUBLIC)

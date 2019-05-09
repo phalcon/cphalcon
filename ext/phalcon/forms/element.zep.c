@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Forms_Element, __construct) {
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_trim(&_0, &name, NULL , ZEPHIR_TRIM_BOTH TSRMLS_CC);
 	zephir_get_strval(&name, &_0);
-	if (ZEPHIR_IS_EMPTY(&name)) {
+	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&name))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Form element name is required", "phalcon/Forms/Element.zep", 53);
 		return;
 	}
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Forms_Element, addFilter) {
 	zephir_read_property(&_0, this_ptr, SL("filters"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&filters, &_0);
 	if (Z_TYPE_P(&filters) == IS_ARRAY) {
-		zephir_update_property_array_append(this_ptr, SL("filters"), &filter);
+		zephir_update_property_array_append(this_ptr, SL("filters"), &filter TSRMLS_CC);
 	} else {
 		if (Z_TYPE_P(&filters) == IS_STRING) {
 			ZEPHIR_INIT_VAR(&_1$$5);
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Forms_Element, addValidator) {
 
 
 
-	zephir_update_property_array_append(this_ptr, SL("validators"), validator);
+	zephir_update_property_array_append(this_ptr, SL("validators"), validator TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -697,7 +697,7 @@ PHP_METHOD(Phalcon_Forms_Element, setAttribute) {
 	zephir_get_strval(&attribute, attribute_param);
 
 
-	zephir_update_property_array(this_ptr, SL("attributes"), &attribute, value);
+	zephir_update_property_array(this_ptr, SL("attributes"), &attribute, value TSRMLS_CC);
 	RETURN_THIS();
 
 }
@@ -765,7 +765,7 @@ PHP_METHOD(Phalcon_Forms_Element, setFilters) {
 	if (_0) {
 		_0 = Z_TYPE_P(filters) != IS_ARRAY;
 	}
-	if (_0) {
+	if (UNEXPECTED(_0)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Wrong filter type added", "phalcon/Forms/Element.zep", 433);
 		return;
 	}
@@ -883,7 +883,7 @@ PHP_METHOD(Phalcon_Forms_Element, setUserOption) {
 	zephir_get_strval(&option, option_param);
 
 
-	zephir_update_property_array(this_ptr, SL("options"), &option, value);
+	zephir_update_property_array(this_ptr, SL("options"), &option, value TSRMLS_CC);
 	RETURN_THIS();
 
 }

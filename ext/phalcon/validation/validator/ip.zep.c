@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate) {
 	zephir_bitwise_or_function(&_14, &_13, &allowReserved TSRMLS_CC);
 	zephir_array_update_string(&options, SL("flags"), &_14, PH_COPY | PH_SEPARATE);
 	ZVAL_LONG(&_4, 275);
-	ZEPHIR_CALL_FUNCTION(&_15, "filter_var", NULL, 186, &value, &_4, &options);
+	ZEPHIR_CALL_FUNCTION(&_15, "filter_var", NULL, 207, &value, &_4, &options);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_15))) {
 		ZEPHIR_INIT_VAR(&replacePairs);
@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_18$$12);
 		ZVAL_STRING(&_18$$12, "Ip");
-		ZEPHIR_CALL_METHOD(NULL, &_16$$12, "__construct", NULL, 386, &_17$$12, field, &_18$$12);
+		ZEPHIR_CALL_METHOD(NULL, &_16$$12, "__construct", NULL, 401, &_17$$12, field, &_18$$12);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_16$$12);
 		zephir_check_call_status();
