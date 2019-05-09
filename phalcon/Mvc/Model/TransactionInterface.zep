@@ -74,4 +74,9 @@ interface TransactionInterface
      * Sets transaction manager related to the transaction
      */
     public function setTransactionManager(<ManagerInterface> manager) -> void;
+
+    /**
+     * Enables throwing exception
+     */
+    public function throwRollbackException(bool status) -> <TransactionInterface>;
 }
