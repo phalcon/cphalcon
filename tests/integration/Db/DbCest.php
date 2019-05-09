@@ -37,7 +37,9 @@ class DbCest
     public function dbMySql(IntegrationTester $I)
     {
         $I->wantToTest("Db - MySql");
+
         $this->setDiMysql();
+
         $connection = $this->getService('db');
 
         $this->executeTests($I, $connection);
@@ -46,8 +48,13 @@ class DbCest
     private function executeTests(IntegrationTester $I, $connection)
     {
         $result = $connection->query("SELECT * FROM personas LIMIT 3");
+
         $I->assertInternalType('object', $result);
-        $I->assertInstanceOf('Phalcon\Db\Result\Pdo', $result);
+
+        $I->assertInstanceOf(
+            \Phalcon\Db\Result\Pdo::class,
+            $result
+        );
 
         for ($i = 0; $i < 3; $i++) {
             $row = $result->fetch();
@@ -55,8 +62,10 @@ class DbCest
         }
 
         $row = $result->fetch();
-        $I->assertEquals($row, false);
-        $I->assertEquals($result->numRows(), 3);
+        $I->assertFalse($row);
+        $I->assertEquals(3, $result->numRows());
+
+
 
         $number = 0;
         $result = $connection->query("SELECT * FROM personas LIMIT 5");
@@ -65,7 +74,9 @@ class DbCest
         while ($row = $result->fetch()) {
             $number++;
         }
-        $I->assertEquals($number, 5);
+        $I->assertEquals(5, $number);
+
+
 
         $result = $connection->query("SELECT * FROM personas LIMIT 5");
         $result->setFetchMode(Db::FETCH_NUM);
@@ -76,6 +87,8 @@ class DbCest
         $I->assertFalse(isset($row['cedula']));
         $I->assertFalse(isset($row->cedula));
 
+
+
         $result = $connection->query("SELECT * FROM personas LIMIT 5");
         $result->setFetchMode(Db::FETCH_ASSOC);
         $row = $result->fetch();
@@ -85,11 +98,15 @@ class DbCest
         $I->assertTrue(isset($row['cedula']));
         $I->assertFalse(isset($row->cedula));
 
+
+
         $result = $connection->query("SELECT * FROM personas LIMIT 5");
         $result->setFetchMode(Db::FETCH_OBJ);
         $row = $result->fetch();
         $I->assertInternalType('object', $row);
         $I->assertTrue(isset($row->cedula));
+
+
 
         $result = $connection->query("SELECT * FROM personas LIMIT 5");
         $result->setFetchMode(Db::FETCH_BOTH);
@@ -98,70 +115,166 @@ class DbCest
         $row = $result->fetch();
         $I->assertEquals($row, false);
 
-        $result = $connection->execute("DELETE FROM prueba");
-        $I->assertTrue($result);
 
-        $success = $connection->execute(
-            'INSERT INTO prueba(id, nombre, estado) VALUES (' . $connection->getDefaultIdValue() . ', ?, ?)',
-            [
-                "LOL 1",
-                "A",
-            ]
+
+        $I->assertTrue(
+            $connection->execute("DELETE FROM prueba")
         );
-        $I->assertTrue($success);
 
-        $success = $connection->execute('UPDATE prueba SET nombre = ?, estado = ?', ["LOL 11", "R"]);
-        $I->assertTrue($success);
-
-        $success = $connection->execute('DELETE FROM prueba WHERE estado = ?', ["R"]);
-        $I->assertTrue($success);
-
-        $success = $connection->insert('prueba', [$connection->getDefaultIdValue(), "LOL 1", "A"]);
-        $I->assertTrue($success);
-
-        $success = $connection->insert('prueba', ["LOL 2", "E"], ['nombre', 'estado']);
-        $I->assertTrue($success);
-
-        $success = $connection->insert('prueba', ["LOL 3", "I"], ['nombre', 'estado']);
-        $I->assertTrue($success);
-
-        $success = $connection->insert(
-            'prueba',
-            [
-                new RawValue('current_date'),
-                "A",
-            ],
-            [
-                'nombre',
-                'estado',
-            ]
+        $I->assertTrue(
+            $connection->execute(
+                'INSERT INTO prueba(id, nombre, estado) VALUES (' . $connection->getDefaultIdValue() . ', ?, ?)',
+                [
+                    "LOL 1",
+                    "A",
+                ]
+            )
         );
-        $I->assertTrue($success);
+
+        $I->assertTrue(
+            $connection->execute(
+                'UPDATE prueba SET nombre = ?, estado = ?',
+                [
+                    "LOL 11",
+                    "R",
+                ]
+            )
+        );
+
+        $I->assertTrue(
+            $connection->execute(
+                'DELETE FROM prueba WHERE estado = ?',
+                [
+                    "R",
+                ]
+            )
+        );
+
+        $I->assertTrue(
+            $connection->insert(
+                'prueba',
+                [
+                    $connection->getDefaultIdValue(),
+                    "LOL 1",
+                    "A",
+                ]
+            )
+        );
+
+        $I->assertTrue(
+            $connection->insert(
+                'prueba',
+                [
+                    "LOL 2",
+                    "E",
+                ],
+                [
+                    'nombre',
+                    'estado',
+                ]
+            )
+        );
+
+        $I->assertTrue(
+            $connection->insert(
+                'prueba',
+                [
+                    "LOL 3",
+                    "I",
+                ],
+                [
+                    'nombre',
+                    'estado',
+                ]
+            )
+        );
+
+        $I->assertTrue(
+            $connection->insert(
+                'prueba',
+                [
+                    new RawValue('current_date'),
+                    "A",
+                ],
+                [
+                    'nombre',
+                    'estado',
+                ]
+            )
+        );
 
         for ($i = 0; $i < 50; $i++) {
-            $success = $connection->insert('prueba', ["LOL " . $i, "F"], ['nombre', 'estado']);
-            $I->assertTrue($success);
+            $I->assertTrue(
+                $connection->insert(
+                    'prueba',
+                    [
+                        "LOL " . $i,
+                        "F",
+                    ],
+                    [
+                        'nombre',
+                        'estado',
+                    ]
+                )
+            );
         }
 
-        $success = $connection->update('prueba', ["nombre", "estado"], ["LOL 1000", "X"], "estado='E'");
-        $I->assertTrue($success);
-
-        $success = $connection->update('prueba', ["nombre"], ["LOL 3000"], "estado='X'");
-        $I->assertTrue($success);
-
-        $success = $connection->update(
-            'prueba',
-            ["nombre"],
-            [
-                new RawValue('current_date'),
-            ],
-            "estado='X'"
+        $I->assertTrue(
+            $connection->update(
+                'prueba',
+                [
+                    "nombre",
+                    "estado",
+                ],
+                [
+                    "LOL 1000",
+                    "X",
+                ],
+                "estado='E'"
+            )
         );
-        $I->assertTrue($success);
 
-        //test array syntax for $whereCondition
-        $success = $connection->insert('prueba', ["LOL array syntax", "E"], ['nombre', 'estado']);
-        $I->assertTrue($success);
+        $I->assertTrue(
+            $connection->update(
+                'prueba',
+                [
+                    "nombre",
+                ],
+                [
+                    "LOL 3000",
+                ],
+                "estado='X'"
+            )
+        );
+
+        $I->assertTrue(
+            $connection->update(
+                'prueba',
+                [
+                    "nombre",
+                ],
+                [
+                    new RawValue('current_date'),
+                ],
+                "estado='X'"
+            )
+        );
+
+        // Test array syntax for $whereCondition
+        $I->assertTrue(
+            $connection->insert(
+                'prueba',
+                [
+                    "LOL array syntax",
+                    "E",
+                ],
+                [
+                    'nombre',
+                    'estado',
+                ]
+            )
+        );
+
         $success = $connection->update(
             'prueba',
             ["nombre", 'estado'],
@@ -174,6 +287,7 @@ class DbCest
             [PDO::PARAM_STR, PDO::PARAM_STR]
         );
         $I->assertTrue($success);
+
         $row = $connection->fetchOne(
             'select count(*) as cnt from prueba where nombre=? and estado=?',
             Db::FETCH_ASSOC,
@@ -181,12 +295,28 @@ class DbCest
                 "LOL array syntax 2", "X",
             ]
         );
-        $I->assertEquals($row['cnt'], 1);
-        $success = $connection->update('prueba', ["nombre", 'estado'], ["LOL array syntax 3", 'E'], [
-            'conditions' => "nombre=? and estado = ?",
-            'bind'       => ["LOL array syntax 2", "X"],
-        ]);
+        $I->assertEquals(1, $row['cnt']);
+
+        $success = $connection->update(
+            'prueba',
+            [
+                "nombre",
+                'estado',
+            ],
+            [
+                "LOL array syntax 3",
+                'E',
+            ],
+            [
+                'conditions' => "nombre=? and estado = ?",
+                'bind'       => [
+                    "LOL array syntax 2",
+                    "X",
+                ],
+            ]
+        );
         $I->assertTrue($success);
+
         $row = $connection->fetchOne(
             'select count(*) as cnt from prueba where nombre=? and estado=?',
             Db::FETCH_ASSOC,
@@ -194,15 +324,19 @@ class DbCest
                 "LOL array syntax 3", "E",
             ]
         );
-        $I->assertEquals($row['cnt'], 1);
+        $I->assertEquals(1, $row['cnt']);
 
         //test insertAsDict and updateAsDict
-        $success = $connection->insertAsDict('prueba', [
-            'nombre' => "LOL insertAsDict",
-            'estado' => "E",
-        ]);
+        $success = $connection->insertAsDict(
+            'prueba',
+            [
+                'nombre' => "LOL insertAsDict",
+                'estado' => "E",
+            ]
+        );
 
         $I->assertTrue($success);
+
         $row = $connection->fetchOne(
             'select count(*) as cnt from prueba where nombre=? and estado=?',
             Db::FETCH_ASSOC,
@@ -210,16 +344,19 @@ class DbCest
                 "LOL insertAsDict", "E",
             ]
         );
-        $I->assertEquals($row['cnt'], 1);
-        $success = $connection->updateAsDict(
-            'prueba',
-            [
-                'nombre' => "LOL updateAsDict",
-                'estado' => "X",
-            ],
-            "nombre='LOL insertAsDict' and estado = 'E'"
+        $I->assertEquals(1, $row['cnt']);
+
+        $I->assertTrue(
+            $connection->updateAsDict(
+                'prueba',
+                [
+                    'nombre' => "LOL updateAsDict",
+                    'estado' => "X",
+                ],
+                "nombre='LOL insertAsDict' and estado = 'E'"
+            )
         );
-        $I->assertTrue($success);
+
         $row = $connection->fetchOne(
             'select count(*) as cnt from prueba where nombre=? and estado=?',
             Db::FETCH_ASSOC,
@@ -227,41 +364,67 @@ class DbCest
                 "LOL updateAsDict", "X",
             ]
         );
-        $I->assertEquals($row['cnt'], 1);
+        $I->assertEquals(1, $row['cnt']);
 
-        $connection->delete("prueba", "estado='X'");
-        $I->assertTrue($success);
+        $I->assertTrue(
+            $connection->delete("prueba", "estado='X'")
+        );
 
-        $connection->delete("prueba");
-        $I->assertTrue($success);
-        $I->assertEquals($connection->affectedRows(), 54);
+        $I->assertTrue(
+            $connection->delete("prueba")
+        );
 
-        $row = $connection->fetchOne("SELECT * FROM personas");
-        $I->assertCount(11, $row);
+        $I->assertEquals(
+            54,
+            $connection->affectedRows()
+        );
 
-        $row = $connection->fetchOne("SELECT * FROM personas", Db::FETCH_NUM);
-        $I->assertCount(11, $row);
+        $I->assertCount(
+            11,
+            $connection->fetchOne("SELECT * FROM personas")
+        );
 
-        $rows = $connection->fetchAll("SELECT * FROM personas LIMIT 10");
-        $I->assertCount(10, $rows);
+        $I->assertCount(
+            11,
+            $connection->fetchOne("SELECT * FROM personas", Db::FETCH_NUM)
+        );
+
+        $I->assertCount(
+            10,
+            $connection->fetchAll("SELECT * FROM personas LIMIT 10")
+        );
 
         $rows = $connection->fetchAll("SELECT * FROM personas LIMIT 10", Db::FETCH_NUM);
         $I->assertCount(10, $rows);
         $I->assertCount(11, $rows[0]);
 
-        $id = $connection->fetchColumn("SELECT id FROM robots ORDER BY year DESC");
-        $I->assertEquals(3, $id);
+        $I->assertEquals(
+            3,
+            $connection->fetchColumn("SELECT id FROM robots ORDER BY year DESC")
+        );
 
-        $type = $connection->fetchColumn("SELECT * FROM robots where id=?", [1], 2);
-        $I->assertEquals('mechanical', $type);
+        $I->assertEquals(
+            'mechanical',
+            $connection->fetchColumn("SELECT * FROM robots where id=?", [1], 2)
+        );
 
-        $type = $connection->fetchColumn("SELECT * FROM robots where id=?", [1], 'type');
-        $I->assertEquals('mechanical', $type);
+        $I->assertEquals(
+            'mechanical',
+            $connection->fetchColumn("SELECT * FROM robots where id=?", [1], 'type')
+        );
 
         //Auto-Increment/Serial Columns
-        $sql     = 'INSERT INTO subscriptores(id, email, created_at, status) VALUES (' . $connection->getDefaultIdValue() . ', ?, ?, ?)';
-        $success = $connection->execute($sql, ['shirley@garbage.com', "2011-01-01 12:59:13", "P"]);
-        $I->assertTrue($success);
+        $sql = 'INSERT INTO subscriptores(id, email, created_at, status) VALUES (' . $connection->getDefaultIdValue() . ', ?, ?, ?)';
+        $I->assertTrue(
+            $connection->execute(
+                $sql,
+                [
+                    'shirley@garbage.com',
+                    "2011-01-01 12:59:13",
+                    "P",
+                ]
+            )
+        );
 
         //Check for auto-increment column
         $I->assertGreaterThan(
@@ -269,34 +432,40 @@ class DbCest
             $connection->lastInsertId('subscriptores_id_seq')
         );
 
+
+
         // Create View
-        $success = $connection->createView(
-            'phalcon_test_view',
-            [
-                'sql' => 'SELECT 1 AS one, 2 AS two, 3 AS three',
-            ]
+        $I->assertTrue(
+            $connection->createView(
+                'phalcon_test_view',
+                [
+                    'sql' => 'SELECT 1 AS one, 2 AS two, 3 AS three',
+                ]
+            )
         );
-        $I->assertTrue($success);
 
-        //Check view exists
-        $success = $connection->viewExists('phalcon_test_view');
-        $I->assertTrue((bool) $success);
+        // Check view exists
+        $I->assertTrue(
+            $connection->viewExists('phalcon_test_view')
+        );
 
-        //Gets the list of all views.
+        // Gets the list of all views.
         $views = $connection->listViews();
         $I->assertInternalType('array', $views);
         $I->assertContains('phalcon_test_view', $views);
 
-        //Execute created view
+        // Execute created view
         $row = $connection->fetchOne("SELECT * FROM phalcon_test_view");
         $I->assertCount(3, $row);
         $I->assertArrayHasKey('one', $row);
-        $I->assertEquals($row['two'], 2);
+        $I->assertEquals(2, $row['two']);
 
-        //Drop view
+        // Drop view
         $I->assertTrue(
             $connection->dropView('phalcon_test_view')
         );
+
+
 
         //Transactions without savepoints.
         $connection->setNestedTransactionsWithSavepoints(false);
@@ -351,7 +520,7 @@ class DbCest
             $connection->rollback()
         );
 
-        //Transactions with savepoints.
+        // Transactions with savepoints.
         $connection->setNestedTransactionsWithSavepoints(true);
 
         // level 1 - begin transaction
@@ -414,7 +583,9 @@ class DbCest
     public function dbPostgresql(IntegrationTester $I)
     {
         $I->wantToTest("Db - Postgresql");
+
         $this->setDiPostgresql();
+
         $connection = $this->getService('db');
 
         $this->executeTests($I, $connection);
@@ -431,7 +602,9 @@ class DbCest
     public function dbSqlite(IntegrationTester $I)
     {
         $I->wantToTest("Db - Sqlite");
+
         $this->setDiSqlite();
+
         $connection = $this->getService('db');
 
         $this->executeTests($I, $connection);

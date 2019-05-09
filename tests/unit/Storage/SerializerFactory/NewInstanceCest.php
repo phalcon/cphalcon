@@ -42,8 +42,10 @@ class NewInstanceCest
         $factory = new SerializerFactory();
         $service = $factory->newInstance($example[0]);
 
-        $class = $example[1];
-        $I->assertInstanceOf($class, $service);
+        $I->assertInstanceOf(
+            $example[1],
+            $service
+        );
     }
 
     /**
@@ -67,9 +69,6 @@ class NewInstanceCest
         );
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

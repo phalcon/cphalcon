@@ -41,9 +41,6 @@ class WithPortCest
      *
      * @dataProvider getExamples
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-07
      */
@@ -52,17 +49,29 @@ class WithPortCest
         $I->wantToTest('Http\Uri - withPort() - ' . $example[0]);
 
         $query = 'https://phalcon:secret@dev.phalcon.ld%s/action?param=value#frag';
-        $uri   = new Uri(sprintf($query, ':4300'));
+
+        $uri = new Uri(
+            sprintf($query, ':4300')
+        );
 
         $newInstance = $uri->withPort($example[1]);
-        $I->assertNotEquals($uri, $newInstance);
-        $I->assertEquals($example[2], $newInstance->getPort());
-        $I->assertEquals(sprintf($query, $example[3]), (string) $newInstance);
+
+        $I->assertNotEquals(
+            $uri,
+            $newInstance
+        );
+
+        $I->assertEquals(
+            $example[2],
+            $newInstance->getPort()
+        );
+
+        $I->assertEquals(
+            sprintf($query, $example[3]),
+            (string) $newInstance
+        );
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

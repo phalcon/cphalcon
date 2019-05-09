@@ -252,9 +252,10 @@ class FormCest
             ]
         );
 
-        $actual = $form->getMessages();
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $form->getMessages()
+        );
 
 
         $actual = $form->isValid(
@@ -278,9 +279,10 @@ class FormCest
             ]
         );
 
-        $actual = $form->getMessages();
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $form->getMessages()
+        );
 
 
         $actual = $form->isValid(
@@ -291,27 +293,6 @@ class FormCest
         );
 
         $I->assertTrue($actual);
-    }
-
-    /**
-     * @issue https://github.com/phalcon/cphalcon/issues/1190
-     */
-    public function testIssue1190(IntegrationTester $I)
-    {
-        $object = new stdClass();
-
-        $object->title = 'Hello "world!"';
-
-        $form = new Form($object);
-
-        $form->add(
-            new Text("title")
-        );
-
-        $actual   = $form->render("title");
-        $expected = '<input type="text" id="title" name="title" value="Hello &quot;world!&quot;" />';
-
-        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -375,26 +356,30 @@ class FormCest
             ]
         );
 
-        $actual = $form->get('telephone')->getMessages();
+        $I->assertEquals(
+            $expected,
+            $form->get('telephone')->getMessages()
+        );
 
-        $I->assertEquals($expected, $actual);
-
-
-        $expected = $form->getMessages();
-        $actual   = $form->get('telephone')->getMessages();
-
-        $I->assertEquals($expected, $actual);
-
-
-        $expected = new Messages();
-        $actual   = $form->get('address')->getMessages();
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $form->getMessages(),
+            $form->get('telephone')->getMessages()
+        );
 
 
         $expected = new Messages();
-        $actual   = $form->getMessagesFor('notelement');
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $form->get('address')->getMessages()
+        );
+
+
+        $expected = new Messages();
+
+        $I->assertEquals(
+            $expected,
+            $form->getMessagesFor('notelement')
+        );
     }
 }

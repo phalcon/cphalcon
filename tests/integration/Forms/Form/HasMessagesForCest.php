@@ -21,9 +21,6 @@ use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Validation\Validator\Regex;
 
-/**
- * Class HasMessagesForCest
- */
 class HasMessagesForCest
 {
     use DiTrait;
@@ -94,24 +91,27 @@ class HasMessagesForCest
             ]
         );
 
-        $actual = $form->getMessagesFor('telephone');
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $form->getMessagesFor('telephone')
+        );
 
 
         $expected = new Messages();
-        $actual   = $form->getMessagesFor('address');
 
-        $I->assertEquals($expected, $actual);
-
-
-        $actual = $form->hasMessagesFor('telephone');
-
-        $I->assertTrue($actual);
+        $I->assertEquals(
+            $expected,
+            $form->getMessagesFor('address')
+        );
 
 
-        $actual = $form->hasMessagesFor('address');
 
-        $I->assertFalse($actual);
+        $I->assertTrue(
+            $form->hasMessagesFor('telephone')
+        );
+
+        $I->assertFalse(
+            $form->hasMessagesFor('address')
+        );
     }
 }

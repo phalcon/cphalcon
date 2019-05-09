@@ -22,30 +22,32 @@ class AddPrimaryKeyCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: addPrimaryKey()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function dbDialectSqliteAddPrimaryKey(IntegrationTester $I)
     {
         $I->wantToTest("Db\Dialect\Sqlite - addPrimaryKey()");
+
         $data = $this->getAddPrimaryKeyFixtures();
+
         foreach ($data as $item) {
             $schema    = $item[0];
             $reference = $item[1];
             $expected  = $item[2];
             $dialect   = $this->getDialectSqlite();
             $indexes   = $this->getIndexes();
-            $actual    = $dialect->addPrimaryKey('table', $schema, $indexes[$reference]);
+
+            $actual = $dialect->addPrimaryKey(
+                'table',
+                $schema,
+                $indexes[$reference]
+            );
 
             $I->assertEquals($expected, $actual);
         }
     }
 
-    /**
-     * @return array
-     */
     protected function getAddPrimaryKeyFixtures(): array
     {
         return [];

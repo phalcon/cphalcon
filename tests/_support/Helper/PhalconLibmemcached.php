@@ -57,8 +57,6 @@ class PhalconLibmemcached extends Module
 
     /**
      * Code to run after each test.
-     *
-     * @param TestInterface $test
      */
     public function _after(TestInterface $test)
     {

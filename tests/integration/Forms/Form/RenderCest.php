@@ -18,9 +18,6 @@ use Phalcon\Forms\Form;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class RenderCest
- */
 class RenderCest
 {
     use DiTrait;
@@ -42,7 +39,9 @@ class RenderCest
     public function _after(IntegrationTester $I)
     {
         // Setting the doctype to XHTML5 for other tests to run smoothly
-        Tag::setDocType(Tag::XHTML5);
+        Tag::setDocType(
+            Tag::XHTML5
+        );
     }
 
     /**
@@ -124,5 +123,26 @@ class RenderCest
         );
 
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @issue https://github.com/phalcon/cphalcon/issues/1190
+     */
+    public function testIssue1190(IntegrationTester $I)
+    {
+        $object = new \stdClass();
+
+        $object->title = 'Hello "world!"';
+
+        $form = new Form($object);
+
+        $form->add(
+            new Text("title")
+        );
+
+        $I->assertEquals(
+            '<input type="text" id="title" name="title" value="Hello &quot;world!&quot;" />',
+            $form->render("title")
+        );
     }
 }

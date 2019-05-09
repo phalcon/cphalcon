@@ -14,15 +14,10 @@ namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
 
-/**
- * Class LoadFromYamlCest
- */
 class LoadFromYamlCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault\Cli :: loadFromYaml()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

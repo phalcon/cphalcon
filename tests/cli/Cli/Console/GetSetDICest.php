@@ -16,17 +16,12 @@ use CliTester;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetSetDICest
- */
 class GetSetDICest
 {
     use DiTrait;
 
     /**
      * Tests Phalcon\Cli\Console :: getDI()/setDI()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

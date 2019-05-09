@@ -15,17 +15,12 @@ namespace Phalcon\Test\Integration\Mvc\Router;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class AddGetCest
- */
 class AddGetCest
 {
     use RouterTrait;
 
     /**
      * Tests Phalcon\Mvc\Router :: addGet()
-     *
-     * @param IntegrationTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17

@@ -18,17 +18,11 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 use function cacheDir;
 use function uniqid;
 
-/**
- * Class ReadCest
- */
 class ReadCest
 {
     use DiTrait;
     use SessionTrait;
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function _before(IntegrationTester $I)
     {
         $this->newFactoryDefault();
@@ -37,14 +31,13 @@ class ReadCest
     /**
      * Tests Phalcon\Session\Adapter\Stream :: write()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionAdapterStreamRead(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Stream - write()');
+
         $adapter = $this->getSessionStream();
 
         $value = uniqid();

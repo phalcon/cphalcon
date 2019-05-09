@@ -21,8 +21,6 @@ class LogCest
 {
     /**
      * Tests Phalcon\Logger :: log()
-     *
-     * @param UnitTester $I
      */
     public function loggerLog(UnitTester $I)
     {

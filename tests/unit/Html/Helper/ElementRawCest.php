@@ -26,9 +26,6 @@ class ElementRawCest
      *
      * @dataProvider getExamples
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @throws Exception
      */
     public function htmlHelperElementRawConstruct(UnitTester $I, Example $example)
@@ -48,9 +45,6 @@ class ElementRawCest
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

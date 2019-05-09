@@ -26,9 +26,6 @@ class AnchorRawCest
      *
      * @dataProvider getExamples
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @throws Exception
      */
     public function htmlHelperAnchorRawConstruct(UnitTester $I, Example $example)
@@ -78,9 +75,6 @@ class AnchorRawCest
         );
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

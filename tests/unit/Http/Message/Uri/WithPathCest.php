@@ -24,22 +24,37 @@ class WithPathCest
      *
      * @dataProvider getExamples
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-09
      */
     public function httpMessageUriWithPath(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Message\Uri - withPath() - ' . $example[0]);
-        $query = 'https://dev.phalcon.ld%s';
-        $uri   = new Uri(sprintf($query, '/action'));
 
-        $newInstance = $uri->withPath($example[1]);
-        $I->assertNotEquals($uri, $newInstance);
-        $I->assertEquals($example[2], $newInstance->getPath());
-        $I->assertEquals(sprintf($query, $example[3]), (string) $newInstance);
+        $query = 'https://dev.phalcon.ld%s';
+
+        $uri = new Uri(
+            sprintf($query, '/action')
+        );
+
+        $newInstance = $uri->withPath(
+            $example[1]
+        );
+
+        $I->assertNotEquals(
+            $uri,
+            $newInstance
+        );
+
+        $I->assertEquals(
+            $example[2],
+            $newInstance->getPath()
+        );
+
+        $I->assertEquals(
+            sprintf($query, $example[3]),
+            (string) $newInstance
+        );
     }
 
     /**
@@ -47,15 +62,13 @@ class WithPathCest
      *
      * @dataProvider getExceptions
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-07
      */
     public function httpUriWithPathException(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Uri - withPath() - exception - ' . $example[1]);
+
         $I->expectThrowable(
             new InvalidArgumentException(
                 'Method requires a string argument instead of ' . $example[0]
@@ -68,9 +81,6 @@ class WithPathCest
         );
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [
@@ -82,9 +92,6 @@ class WithPathCest
         ];
     }
 
-    /**
-     * @return array
-     */
     private function getExceptions(): array
     {
         return [

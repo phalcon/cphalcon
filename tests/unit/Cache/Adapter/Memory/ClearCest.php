@@ -33,22 +33,29 @@ class ClearCest
 
         $key1 = uniqid();
         $key2 = uniqid();
+
         $adapter->set($key1, 'test');
-        $actual = $adapter->has($key1);
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->has($key1)
+        );
 
         $adapter->set($key2, 'test');
-        $actual = $adapter->has($key2);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->has($key2)
+        );
 
-        $actual = $adapter->clear();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->clear()
+        );
 
-        $actual = $adapter->has($key1);
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->has($key1)
+        );
 
-        $actual = $adapter->has($key2);
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->has($key2)
+        );
     }
 
     /**
@@ -67,17 +74,23 @@ class ClearCest
         $key1 = uniqid();
         $key2 = uniqid();
         $adapter->set($key1, 'test');
-        $actual = $adapter->has($key1);
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->has($key1)
+        );
 
         $adapter->set($key2, 'test');
-        $actual = $adapter->has($key2);
-        $I->assertTrue($actual);
 
-        $actual = $adapter->clear();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->has($key2)
+        );
 
-        $actual = $adapter->clear();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->clear()
+        );
+
+        $I->assertTrue(
+            $adapter->clear()
+        );
     }
 }

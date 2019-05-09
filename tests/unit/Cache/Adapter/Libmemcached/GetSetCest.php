@@ -30,9 +30,6 @@ class GetSetCest
      *
      * @dataProvider getExamples
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @throws Exception
      * @since        2019-03-31
      *
@@ -47,12 +44,14 @@ class GetSetCest
 
         $key = 'cache-data';
 
-        $result = $adapter->set($key, $example[1]);
-        $I->assertTrue($result);
+        $I->assertTrue(
+            $adapter->set($key, $example[1])
+        );
 
-        $expected = $example[1];
-        $actual   = $adapter->get($key);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $example[1],
+            $adapter->get($key)
+        );
     }
 
     /**
@@ -69,7 +68,8 @@ class GetSetCest
         $I->wantToTest('Cache\Adapter\Libmemcached - get()/set() - custom serializer');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached(
+
+        $adapter = new Libmemcached(
             $serializer,
             array_merge(
                 getOptionsLibmemcached(),
@@ -81,16 +81,17 @@ class GetSetCest
 
         $key    = 'cache-data';
         $source = 'Phalcon Framework';
-        $result = $adapter->set($key, $source);
-        $I->assertTrue($result);
 
-        $actual = $adapter->get($key);
-        $I->assertEquals($source, $actual);
+        $I->assertTrue(
+            $adapter->set($key, $source)
+        );
+
+        $I->assertEquals(
+            $source,
+            $adapter->get($key)
+        );
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

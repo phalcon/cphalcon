@@ -39,21 +39,32 @@ class GetSetCest
 
         $key1 = uniqid();
         $key2 = uniqid();
+
+
+
         $adapter->set($key1, 'test');
-        $actual = $adapter->has($key1);
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->has($key1)
+        );
+
+
 
         $adapter->set($key2, 'test');
-        $actual = $adapter->has($key2);
-        $I->assertTrue($actual);
 
-        $expected = 'test';
-        $actual   = $adapter->get($key1);
-        $I->assertEquals($expected, $actual);
+        $I->assertTrue(
+            $adapter->has($key2)
+        );
 
-        $expected = 'test';
-        $actual   = $adapter->get($key2);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'test',
+            $adapter->get($key1)
+        );
+
+        $I->assertEquals(
+            'test',
+            $adapter->get($key2)
+        );
     }
 
     /**

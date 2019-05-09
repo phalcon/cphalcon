@@ -37,8 +37,10 @@ class GetRolesCest
         $acl->addRole($role2);
 
         $expected = [$role1, $role2];
-        $actual   = $acl->getRoles();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $acl->getRoles()
+        );
     }
 }

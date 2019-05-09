@@ -34,22 +34,34 @@ class IncrementCest
         $serializer = new SerializerFactory();
         $adapter    = new Apcu($serializer);
 
-        $key    = 'cache-data';
-        $result = $adapter->set($key, 1);
-        $I->assertTrue($result);
+        $key = 'cache-data';
+
+        $I->assertTrue(
+            $adapter->set($key, 1)
+        );
 
         $expected = 2;
-        $actual   = $adapter->increment($key);
-        $I->assertEquals($expected, $actual);
 
-        $actual = $adapter->get($key);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $adapter->increment($key)
+        );
+
+        $I->assertEquals(
+            $expected,
+            $adapter->get($key)
+        );
 
         $expected = 10;
-        $actual   = $adapter->increment($key, 8);
-        $I->assertEquals($expected, $actual);
 
-        $actual = $adapter->get($key);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $adapter->increment($key, 8)
+        );
+
+        $I->assertEquals(
+            $expected,
+            $adapter->get($key)
+        );
     }
 }
