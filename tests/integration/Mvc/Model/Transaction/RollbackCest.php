@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\Transaction;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Transaction\Failed;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -57,7 +58,8 @@ class RollbackCest
     {
         $I->wantToTest('Mvc\Model\Transaction - rollback()');
 
-        $this->$function();
+        $method = $function[0];
+        $this->$method();
 
         $tm = $this->container->getShared('transactionManager');
 
@@ -82,20 +84,24 @@ class RollbackCest
 
         $transaction->rollback();
         $I->assertEquals($count, Personas::count());
-
     }
 
     /**
      * Tests Phalcon\Mvc\Model\Transaction :: rollback() - exception
+     *
+     * @dataProvider getFunctions
      *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcModelTransactionRollbackException(IntegrationTester $I)
+    public function mvcModelTransactionRollbackException(IntegrationTester $I, Example $function)
     {
         $I->wantToTest('Mvc\Model\Transaction - rollback() - exception');
+
+        $method = $function[0];
+        $this->$method();
 
         $tm = $this->container->getShared('transactionManager');
 
@@ -140,8 +146,8 @@ class RollbackCest
     private function getFunctions(): array
     {
         return [
-            ['setDiMysql']
-            ['setDiPostgresql']
+            ['setDiMysql'],
+            ['setDiPostgresql'],
         ];
     }
 }
