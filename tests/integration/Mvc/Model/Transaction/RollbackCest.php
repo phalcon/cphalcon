@@ -29,7 +29,6 @@ class RollbackCest
     public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
-        $this->setDiMysql();
         $this->records = [];
     }
 
@@ -47,14 +46,18 @@ class RollbackCest
     /**
      * Tests Phalcon\Mvc\Model\Transaction :: rollback()
      *
+     * @dataProvider getFunctions
+     *
      * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcModelTransactionRollback(IntegrationTester $I)
+    public function mvcModelTransactionRollback(IntegrationTester $I, Example $function)
     {
         $I->wantToTest('Mvc\Model\Transaction - rollback()');
+
+        $this->$function();
 
         $tm = $this->container->getShared('transactionManager');
 
@@ -129,5 +132,16 @@ class RollbackCest
         }
 
         $I->assertEquals($count, Personas::count());
+    }
+
+    /**
+     * @return array
+     */
+    private function getFunctions(): array
+    {
+        return [
+            ['setDiMysql']
+            ['setDiPostgresql']
+        ];
     }
 }
