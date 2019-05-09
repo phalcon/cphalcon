@@ -29,12 +29,14 @@ class HasCest
     public function containerHas(UnitTester $I)
     {
         $I->wantToTest('Container - has()');
+
         $this->newDi();
         $this->setDiFilter();
 
         $container = new Container($this->container);
 
-        $actual = $container->has('filter');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $container->has('filter')
+        );
     }
 }

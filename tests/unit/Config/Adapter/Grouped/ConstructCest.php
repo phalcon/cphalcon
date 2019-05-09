@@ -31,6 +31,7 @@ class ConstructCest
     public function configAdapterGroupedConstructComplexInstance(UnitTester $I)
     {
         $I->wantToTest("Config\Adapter\Grouped - construct - complex");
+
         $this->config["test"]["property2"] = "something-else";
 
         $config = [
@@ -63,6 +64,7 @@ class ConstructCest
     public function configAdapterGroupedConstructThrowsException(UnitTester $I)
     {
         $I->wantToTest("Config\Adapter\Grouped - construct array without config throws exception");
+
         $I->expectThrowable(
             new Exception("To use 'array' adapter you have to specify the 'config' as an array."),
             function () {

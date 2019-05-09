@@ -17,9 +17,6 @@ use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
-/**
- * Class ClearCest
- */
 class ClearCest
 {
     use DiTrait;
@@ -27,8 +24,6 @@ class ClearCest
 
     /**
      * Tests Phalcon\Session\Bag :: clear()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

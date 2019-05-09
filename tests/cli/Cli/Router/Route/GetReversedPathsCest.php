@@ -14,15 +14,10 @@ namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
 
-/**
- * Class GetReversedPathsCest
- */
 class GetReversedPathsCest
 {
     /**
      * Tests Phalcon\Cli\Router\Route :: getReversedPaths()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

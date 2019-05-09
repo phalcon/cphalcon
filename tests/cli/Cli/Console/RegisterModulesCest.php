@@ -16,17 +16,12 @@ use CliTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Modules\Frontend\Module;
 
-/**
- * Class RegisterModulesCest
- */
 class RegisterModulesCest
 {
     use DiTrait;
 
     /**
      * Tests Phalcon\Cli\Console :: registerModules()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

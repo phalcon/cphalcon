@@ -17,9 +17,6 @@ use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     use DiTrait;
@@ -27,8 +24,6 @@ class GetCest
 
     /**
      * Tests Phalcon\Session\Bag :: get()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

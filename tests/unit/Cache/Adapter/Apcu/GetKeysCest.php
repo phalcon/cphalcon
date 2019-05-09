@@ -36,15 +36,27 @@ class GetKeysCest
 
         $adapter->clear();
 
+
+
         $key = 'key-1';
+
         $adapter->set($key, 'test');
-        $actual = $adapter->has($key);
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->has($key)
+        );
+
+
 
         $key = 'key-2';
+
         $adapter->set($key, 'test');
-        $actual = $adapter->has($key);
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->has($key)
+        );
+
+
 
         $expected = [
             'ph-apcu-key-1',

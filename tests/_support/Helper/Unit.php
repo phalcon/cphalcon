@@ -100,9 +100,6 @@ class Unit extends Module
     }
 
     /**
-     * @param $obj
-     * @param $prop
-     *
      * @return mixed
      * @throws ReflectionException
      */
@@ -118,10 +115,6 @@ class Unit extends Module
     }
 
     /**
-     * @param $obj
-     * @param $prop
-     * @param $value
-     *
      * @throws ReflectionException
      */
     public function setProtectedProperty($obj, $prop, $value)

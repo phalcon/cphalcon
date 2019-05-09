@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
@@ -22,30 +23,30 @@ class AddForeignKeyCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: addForeignKey()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @dataProvider getAddForeignKeyFixtures
      */
-    public function dbDialectPostgresqlAddForeignKey(IntegrationTester $I)
+    public function dbDialectPostgresqlAddForeignKey(IntegrationTester $I, Example $example)
     {
         $I->wantToTest("Db\Dialect\Postgresql - addForeignKey()");
-        $data = $this->getAddForeignKeyFixtures();
-        foreach ($data as $item) {
-            $schema     = $item[0];
-            $reference  = $item[1];
-            $expected   = $item[2];
-            $dialect    = $this->getDialectPostgresql();
-            $references = $this->getReferences();
-            $actual     = $dialect->addForeignKey('table', $schema, $references[$reference]);
 
-            $I->assertEquals($expected, $actual);
-        }
+        $schema     = $example[0];
+        $reference  = $example[1];
+        $expected   = $example[2];
+        $dialect    = $this->getDialectPostgresql();
+        $references = $this->getReferences();
+
+        $actual = $dialect->addForeignKey(
+            'table',
+            $schema,
+            $references[$reference]
+        );
+
+        $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     protected function getAddForeignKeyFixtures(): array
     {
         return [

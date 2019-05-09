@@ -26,9 +26,6 @@ class ImgCest
      *
      * @dataProvider getExamples
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @throws Exception
      */
     public function htmlHelperImgConstruct(UnitTester $I, Example $example)
@@ -48,9 +45,6 @@ class ImgCest
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

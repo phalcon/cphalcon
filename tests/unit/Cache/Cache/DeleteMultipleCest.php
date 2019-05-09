@@ -40,6 +40,7 @@ class DeleteMultipleCest
         $key1 = uniqid();
         $key2 = uniqid();
         $key3 = uniqid();
+
         $adapter->setMultiple(
             [
                 $key1 => 'test1',
@@ -48,22 +49,38 @@ class DeleteMultipleCest
             ]
         );
 
-        $actual = $adapter->has($key1);
-        $I->assertTrue($actual);
-        $actual = $adapter->has($key2);
-        $I->assertTrue($actual);
-        $actual = $adapter->has($key3);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->has($key1)
+        );
 
-        $actual = $adapter->deleteMultiple([$key1, $key2]);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->has($key2)
+        );
 
-        $actual = $adapter->has($key1);
-        $I->assertFalse($actual);
-        $actual = $adapter->has($key2);
-        $I->assertFalse($actual);
-        $actual = $adapter->has($key3);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->has($key3)
+        );
+
+        $I->assertTrue(
+            $adapter->deleteMultiple(
+                [
+                    $key1,
+                    $key2,
+                ]
+            )
+        );
+
+        $I->assertFalse(
+            $adapter->has($key1)
+        );
+
+        $I->assertFalse(
+            $adapter->has($key2)
+        );
+
+        $I->assertTrue(
+            $adapter->has($key3)
+        );
     }
 
     /**

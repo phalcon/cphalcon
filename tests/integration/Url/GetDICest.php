@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Url;
 
 use IntegrationTester;
 
-/**
- * Class GetDICest
- */
 class GetDICest
 {
     /**
      * Tests Phalcon\Url :: getDI()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16

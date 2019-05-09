@@ -14,15 +14,10 @@ namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
 
-/**
- * Class GetOptionsCest
- */
 class GetOptionsCest
 {
     /**
      * Tests Phalcon\Cli\Dispatcher :: getOptions()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

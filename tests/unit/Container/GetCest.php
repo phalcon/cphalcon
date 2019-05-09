@@ -31,15 +31,18 @@ class GetCest
     public function containerGet(UnitTester $I)
     {
         $I->wantToTest('Container - get()');
+
         $this->newDi();
         $this->setDiEscaper();
 
         $container = new Container($this->container);
 
         /** @var Service $service */
-        $service  = $container->get('escaper');
-        $expected = Escaper::class;
-        $actual   = $service->getDefinition();
-        $I->assertEquals($expected, $actual);
+        $service = $container->get('escaper');
+
+        $I->assertEquals(
+            Escaper::class,
+            $service->getDefinition()
+        );
     }
 }

@@ -35,10 +35,14 @@ class ConstructCest
         $serializer = new SerializerFactory();
         $adapter    = new Apcu($serializer);
 
-        $class = Apcu::class;
-        $I->assertInstanceOf($class, $adapter);
+        $I->assertInstanceOf(
+            Apcu::class,
+            $adapter
+        );
 
-        $class = AdapterInterface::class;
-        $I->assertInstanceOf($class, $adapter);
+        $I->assertInstanceOf(
+            AdapterInterface::class,
+            $adapter
+        );
     }
 }

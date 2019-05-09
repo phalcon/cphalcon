@@ -28,6 +28,7 @@ class PathCest
     public function configAdapterPhpPath(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Php - path()');
+
         $this->checkPath($I, 'Php');
     }
 
@@ -40,6 +41,7 @@ class PathCest
     public function configAdapterPhpPathDefault(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Php - path() - default');
+
         $this->checkPathDefault($I, 'Php');
     }
 }

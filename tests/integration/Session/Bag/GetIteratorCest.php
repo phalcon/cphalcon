@@ -17,9 +17,6 @@ use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
-/**
- * Class GetIteratorCest
- */
 class GetIteratorCest
 {
     use DiTrait;
@@ -27,8 +24,6 @@ class GetIteratorCest
 
     /**
      * Tests Phalcon\Session\Bag :: getIterator()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

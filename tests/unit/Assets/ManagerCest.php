@@ -322,7 +322,6 @@ class ManagerCest
 
     /**
      * @issue https://github.com/phalcon/cphalcon/issues/11409
-     * @param UnitTester $I
      */
     public function addInlineJs(UnitTester $I)
     {

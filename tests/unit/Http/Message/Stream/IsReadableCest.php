@@ -23,9 +23,6 @@ class IsReadableCest
      *
      * @dataProvider getExamples
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-10
      */
@@ -42,9 +39,6 @@ class IsReadableCest
      *
      * @dataProvider getExamplesX
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-10
      */
@@ -57,9 +51,6 @@ class IsReadableCest
         $I->assertEquals($example[1], $stream->isReadable());
     }
 
-    /**
-     * @return array
-     */
     private function getExamplesX(): array
     {
         return [
@@ -74,9 +65,6 @@ class IsReadableCest
         ];
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

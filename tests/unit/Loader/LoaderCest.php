@@ -413,9 +413,13 @@ class LoaderCest
         );
 
         $loader->setEventsManager($eventsManager);
+
         $loader->register();
 
-        $I->assertInstanceOf('LoaderEvent', new LoaderEvent());
+        $I->assertInstanceOf(
+            LoaderEvent::class,
+            new LoaderEvent()
+        );
 
         $expected = [
             'beforeCheckClass' => [0 => null],

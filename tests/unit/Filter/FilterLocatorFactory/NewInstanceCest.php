@@ -62,23 +62,27 @@ class NewInstanceCest
      *
      * @dataProvider getData
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
      */
     public function filterFilterLocatorFactoryNewInstanceServices(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Filter\FilterLocatorFactory - newInstance() - services ' . $example[0]);
+        $I->wantToTest(
+            'Filter\FilterLocatorFactory - newInstance() - services ' . $example[0]
+        );
+
         $factory  = new FilterLocatorFactory();
         $instance = $factory->newInstance();
 
-        $class = LocatorInterface::class;
-        $I->assertInstanceOf($class, $instance);
+        $I->assertInstanceOf(
+            LocatorInterface::class,
+            $instance
+        );
 
-        $helper = $instance->get($example[0]);
-        $I->assertInstanceOf($example[1], $helper);
+        $I->assertInstanceOf(
+            $example[1],
+            $instance->get($example[0])
+        );
     }
 
     /**

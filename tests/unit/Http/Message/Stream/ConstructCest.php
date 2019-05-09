@@ -30,18 +30,19 @@ class ConstructCest
     public function httpMessageStreamConstruct(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - __construct()');
+
         $request = new Stream("php://temp");
-        $class   = StreamInterface::class;
-        $I->assertInstanceOf($class, $request);
+
+        $I->assertInstanceOf(
+            StreamInterface::class,
+            $request
+        );
     }
 
     /**
      * Tests Phalcon\Http\Message\Stream :: __construct() - exception
      *
      * @dataProvider getExceptionExamples
-     *
-     * @param UnitTester $I
-     * @param Example    $example
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-08

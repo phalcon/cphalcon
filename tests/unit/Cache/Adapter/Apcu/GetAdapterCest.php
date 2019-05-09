@@ -34,7 +34,8 @@ class GetAdapterCest
         $serializer = new SerializerFactory();
         $adapter    = new Apcu($serializer);
 
-        $actual = $adapter->getAdapter();
-        $I->assertNull($actual);
+        $I->assertNull(
+            $adapter->getAdapter()
+        );
     }
 }

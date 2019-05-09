@@ -21,8 +21,6 @@ class WarningCest
 
     /**
      * Tests Phalcon\Logger :: warning()
-     *
-     * @param UnitTester $I
      */
     public function loggerWarning(UnitTester $I)
     {

@@ -23,9 +23,6 @@ class StriptagsCest
      *
      * @dataProvider getData
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
      */
@@ -35,13 +32,12 @@ class StriptagsCest
 
         $sanitizer = new Striptags();
 
-        $actual = $sanitizer($example[0]);
-        $I->assertEquals($example[1], $actual);
+        $I->assertEquals(
+            $example[1],
+            $sanitizer($example[0])
+        );
     }
 
-    /**
-     * @return array
-     */
     private function getData(): array
     {
         return [

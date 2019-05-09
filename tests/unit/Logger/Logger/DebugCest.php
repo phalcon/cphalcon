@@ -21,8 +21,6 @@ class DebugCest
 
     /**
      * Tests Phalcon\Logger :: debug()
-     *
-     * @param UnitTester $I
      */
     public function loggerDebug(UnitTester $I)
     {

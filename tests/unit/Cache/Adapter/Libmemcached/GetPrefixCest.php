@@ -33,7 +33,8 @@ class GetPrefixCest
         $I->wantToTest('Cache\Adapter\Libmemcached - getPrefix()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached(
+
+        $adapter = new Libmemcached(
             $serializer,
             array_merge(
                 getOptionsLibmemcached(),
@@ -43,9 +44,10 @@ class GetPrefixCest
             )
         );
 
-        $expected = 'my-prefix';
-        $actual   = $adapter->getPrefix();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'my-prefix',
+            $adapter->getPrefix()
+        );
     }
 
     /**
@@ -61,8 +63,9 @@ class GetPrefixCest
         $serializer = new SerializerFactory();
         $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
-        $expected = 'ph-memc-';
-        $actual   = $adapter->getPrefix();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'ph-memc-',
+            $adapter->getPrefix()
+        );
     }
 }

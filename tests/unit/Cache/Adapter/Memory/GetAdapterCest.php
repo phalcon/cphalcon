@@ -31,7 +31,8 @@ class GetAdapterCest
         $serializer = new SerializerFactory();
         $adapter    = new Memory($serializer);
 
-        $actual = $adapter->getAdapter();
-        $I->assertNull($actual);
+        $I->assertNull(
+            $adapter->getAdapter()
+        );
     }
 }
