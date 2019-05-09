@@ -38,7 +38,7 @@ class RollbackCest
         $db = $this->container->get('db');
 
         foreach ($this->records as $record) {
-            $db->execute('DELETE FROM personas WHERE cedula = "' . $record . '"');
+            $db->execute("DELETE FROM personas WHERE personas.cedula = '" . $record . "'");
         }
 
         $this->records = [];
