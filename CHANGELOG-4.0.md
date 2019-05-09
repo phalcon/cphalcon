@@ -8,6 +8,7 @@
 - Added `camelize()`, `concat()`, `countVowels()`, `decapitalize()`, `dynamic()`, `endsWith()`, `firstStringBetween()`, `includes()`, `increment()`, `isAnagram()`, `isLower()`, `isPalindrome()`, `isUpper()`, `lower()`, `random()`, `reduceSlashes()`, `startsWith()`, `uncamelize()`, `underscore()`, `upper()` to `Phalcon\Helper\Str` [#13954](https://github.com/phalcon/cphalcon/pull/13954) 
 - Added `Phalcon\Mvc\Model\Query\BuilderInterface::getModels()` returns the models involved in the query
 - Added `addConnect()`, `addPurge()` and `addTrace()` to `Phalcon\Mvc\Router\Group` and its interface. [#14001](https://github.com/phalcon/cphalcon/pull/14001)
+- Added `Phalcon\Mvc\Model\Transaction::throwRollbackException()` which allows a transaction to throw an exception or not on a rollback. [#13949](https://github.com/phalcon/cphalcon/issues/13949)
 
 ## Changed
 - Refactored `Phalcon\Events\Manager` to only use `SplPriorityQueue` to store events. [#13924](https://github.com/phalcon/cphalcon/pull/13924)
@@ -24,6 +25,7 @@
 - Changed `Phalcon\Mvc\Model\Manager::getModelSource()` to use `setModelSource()` internally instead of setting the source manually [#13987](https://github.com/phalcon/cphalcon/pull/13987)
 - The property `options` is always an array in `Phalcon\Mvc\Model\Relation`. [#13989](https://github.com/phalcon/cphalcon/pull/13989)
 - `Phalcon\Logger\Adapter\AbstractAdapter::process()` is now actually abstract. [#14012](https://github.com/phalcon/cphalcon/pull/14012)
+- Changed `Phalcon\Mvc\Model\Transaction::rollback()` to not throw a transaction by default. [#13949](https://github.com/phalcon/cphalcon/issues/13949)
 
 ## Fixed
 - Fixed `Mvc\Collection::isInitialized()` now works as intended. [#13931](https://github.com/phalcon/cphalcon/pull/13931)
