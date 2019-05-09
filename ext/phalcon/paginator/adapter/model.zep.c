@@ -93,14 +93,14 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate) {
 	ZEPHIR_OBS_VAR(&_2);
 	zephir_read_property(&_2, this_ptr, SL("page"), PH_NOISY_CC);
 	pageNumber = zephir_get_intval(&_2);
-	if (Z_TYPE_P(&items) != IS_OBJECT) {
+	if (UNEXPECTED(Z_TYPE_P(&items) != IS_OBJECT)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/Paginator/Adapter/Model.zep", 54);
 		return;
 	}
 	if (pageNumber <= 0) {
 		pageNumber = 1;
 	}
-	if (show <= 0) {
+	if (UNEXPECTED(show <= 0)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "The start page number is zero or less", "phalcon/Paginator/Adapter/Model.zep", 64);
 		return;
 	}

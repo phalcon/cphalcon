@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	if (Z_TYPE_P(&container) != IS_OBJECT) {
 		ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_ce, "getdefault", &_1, 0);
 		zephir_check_call_status();
-		if (Z_TYPE_P(&container) != IS_OBJECT) {
+		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(&_2$$4);
 			object_init_ex(&_2$$4, phalcon_di_exception_ce);
 			ZEPHIR_INIT_VAR(&_5$$4);

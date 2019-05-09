@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/operators.h"
-#include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
 #include "kernel/array.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
@@ -88,12 +88,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_FilterLocator) {
  */
 PHP_METHOD(Phalcon_Filter_FilterLocator, sanitize) {
 
-	zend_string *_3$$3;
-	zend_ulong _2$$3;
-	zephir_fcall_cache_entry *_6 = NULL, *_8 = NULL;
+	zend_string *_2$$3;
+	zend_ulong _1$$3;
+	zephir_fcall_cache_entry *_5 = NULL, *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool noRecursive, _12, _4$$5, _9$$10;
-	zval *value = NULL, value_sub, *sanitizers, sanitizers_sub, *noRecursive_param = NULL, sanitizer, sanitizerKey, sanitizerName, sanitizerParams, *_0$$3, _1$$3, _5$$8, _7$$9, _10$$13, _11$$14;
+	zend_bool noRecursive, _8, _3$$5;
+	zval *value = NULL, value_sub, *sanitizers, sanitizers_sub, *noRecursive_param = NULL, sanitizer, sanitizerKey, sanitizerName, sanitizerParams, *_0$$3, _4$$8, _6$$9;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&value_sub);
@@ -102,11 +102,8 @@ PHP_METHOD(Phalcon_Filter_FilterLocator, sanitize) {
 	ZVAL_UNDEF(&sanitizerKey);
 	ZVAL_UNDEF(&sanitizerName);
 	ZVAL_UNDEF(&sanitizerParams);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_5$$8);
-	ZVAL_UNDEF(&_7$$9);
-	ZVAL_UNDEF(&_10$$13);
-	ZVAL_UNDEF(&_11$$14);
+	ZVAL_UNDEF(&_4$$8);
+	ZVAL_UNDEF(&_6$$9);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &value, &sanitizers, &noRecursive_param);
@@ -125,105 +122,69 @@ PHP_METHOD(Phalcon_Filter_FilterLocator, sanitize) {
 			RETURN_MM();
 		}
 		zephir_is_iterable(sanitizers, 0, "phalcon/Filter/FilterLocator.zep", 127);
-		if (Z_TYPE_P(sanitizers) == IS_ARRAY) {
-			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(sanitizers), _2$$3, _3$$3, _0$$3)
-			{
-				ZEPHIR_INIT_NVAR(&sanitizerKey);
-				if (_3$$3 != NULL) { 
-					ZVAL_STR_COPY(&sanitizerKey, _3$$3);
-				} else {
-					ZVAL_LONG(&sanitizerKey, _2$$3);
-				}
-				ZEPHIR_INIT_NVAR(&sanitizer);
-				ZVAL_COPY(&sanitizer, _0$$3);
-				if (Z_TYPE_P(&sanitizer) == IS_ARRAY) {
-					ZEPHIR_CPY_WRT(&sanitizerName, &sanitizerKey);
-					ZEPHIR_CPY_WRT(&sanitizerParams, &sanitizer);
-				} else {
-					ZEPHIR_CPY_WRT(&sanitizerName, &sanitizer);
-					ZEPHIR_INIT_NVAR(&sanitizerParams);
-					array_init(&sanitizerParams);
-				}
-				_4$$5 = Z_TYPE_P(value) == IS_ARRAY;
-				if (_4$$5) {
-					_4$$5 = !noRecursive;
-				}
-				if (_4$$5) {
-					ZEPHIR_CALL_METHOD(&_5$$8, this_ptr, "processarrayvalues", &_6, 183, value, &sanitizerName, &sanitizerParams);
-					zephir_check_call_status();
-					ZEPHIR_CPY_WRT(value, &_5$$8);
-				} else {
-					ZEPHIR_CALL_METHOD(&_7$$9, this_ptr, "sanitizer", &_8, 184, value, &sanitizerName, &sanitizerParams);
-					zephir_check_call_status();
-					ZEPHIR_CPY_WRT(value, &_7$$9);
-				}
-			} ZEND_HASH_FOREACH_END();
-		} else {
-			ZEPHIR_CALL_METHOD(NULL, sanitizers, "rewind", NULL, 0);
-			zephir_check_call_status();
-			while (1) {
-				ZEPHIR_CALL_METHOD(&_1$$3, sanitizers, "valid", NULL, 0);
-				zephir_check_call_status();
-				if (!zend_is_true(&_1$$3)) {
-					break;
-				}
-				ZEPHIR_CALL_METHOD(&sanitizerKey, sanitizers, "key", NULL, 0);
-				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&sanitizer, sanitizers, "current", NULL, 0);
-				zephir_check_call_status();
-					if (Z_TYPE_P(&sanitizer) == IS_ARRAY) {
-						ZEPHIR_CPY_WRT(&sanitizerName, &sanitizerKey);
-						ZEPHIR_CPY_WRT(&sanitizerParams, &sanitizer);
-					} else {
-						ZEPHIR_CPY_WRT(&sanitizerName, &sanitizer);
-						ZEPHIR_INIT_NVAR(&sanitizerParams);
-						array_init(&sanitizerParams);
-					}
-					_9$$10 = Z_TYPE_P(value) == IS_ARRAY;
-					if (_9$$10) {
-						_9$$10 = !noRecursive;
-					}
-					if (_9$$10) {
-						ZEPHIR_CALL_METHOD(&_10$$13, this_ptr, "processarrayvalues", &_6, 183, value, &sanitizerName, &sanitizerParams);
-						zephir_check_call_status();
-						ZEPHIR_CPY_WRT(value, &_10$$13);
-					} else {
-						ZEPHIR_CALL_METHOD(&_11$$14, this_ptr, "sanitizer", &_8, 184, value, &sanitizerName, &sanitizerParams);
-						zephir_check_call_status();
-						ZEPHIR_CPY_WRT(value, &_11$$14);
-					}
-				ZEPHIR_CALL_METHOD(NULL, sanitizers, "next", NULL, 0);
-				zephir_check_call_status();
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(sanitizers), _1$$3, _2$$3, _0$$3)
+		{
+			ZEPHIR_INIT_NVAR(&sanitizerKey);
+			if (_2$$3 != NULL) { 
+				ZVAL_STR_COPY(&sanitizerKey, _2$$3);
+			} else {
+				ZVAL_LONG(&sanitizerKey, _1$$3);
 			}
-		}
+			ZEPHIR_INIT_NVAR(&sanitizer);
+			ZVAL_COPY(&sanitizer, _0$$3);
+			if (Z_TYPE_P(&sanitizer) == IS_ARRAY) {
+				ZEPHIR_CPY_WRT(&sanitizerName, &sanitizerKey);
+				ZEPHIR_CPY_WRT(&sanitizerParams, &sanitizer);
+			} else {
+				ZEPHIR_CPY_WRT(&sanitizerName, &sanitizer);
+				ZEPHIR_INIT_NVAR(&sanitizerParams);
+				array_init(&sanitizerParams);
+			}
+			_3$$5 = Z_TYPE_P(value) == IS_ARRAY;
+			if (_3$$5) {
+				_3$$5 = !noRecursive;
+			}
+			if (_3$$5) {
+				ZEPHIR_CALL_METHOD(&_4$$8, this_ptr, "processarrayvalues", &_5, 204, value, &sanitizerName, &sanitizerParams);
+				zephir_check_call_status();
+				ZEPHIR_CPY_WRT(value, &_4$$8);
+			} else {
+				ZEPHIR_CALL_METHOD(&_6$$9, this_ptr, "sanitizer", &_7, 205, value, &sanitizerName, &sanitizerParams);
+				zephir_check_call_status();
+				ZEPHIR_CPY_WRT(value, &_6$$9);
+			}
+		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&sanitizer);
 		ZEPHIR_INIT_NVAR(&sanitizerKey);
 		RETVAL_ZVAL(value, 1, 0);
 		RETURN_MM();
 	}
-	_12 = Z_TYPE_P(value) == IS_ARRAY;
-	if (_12) {
-		_12 = !noRecursive;
+	_8 = Z_TYPE_P(value) == IS_ARRAY;
+	if (_8) {
+		_8 = !noRecursive;
 	}
-	if (_12) {
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processarrayvalues", &_6, 183, value, sanitizers);
+	if (_8) {
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processarrayvalues", &_5, 204, value, sanitizers);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "sanitizer", &_8, 184, value, sanitizers);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "sanitizer", &_7, 205, value, sanitizers);
 	zephir_check_call_status();
 	RETURN_MM();
 
 }
 
+/**
+ * Processes the array values with the relevant sanitizers
+ */
 PHP_METHOD(Phalcon_Filter_FilterLocator, processArrayValues) {
 
-	zend_string *_3;
-	zend_ulong _2;
-	zephir_fcall_cache_entry *_5 = NULL;
+	zend_string *_2;
+	zend_ulong _1;
+	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval sanitizerName;
-	zval *values_param = NULL, *sanitizerName_param = NULL, *sanitizerParams_param = NULL, arrayValue, itemKey, itemValue, *_0, _1, _4$$3, _6$$4;
+	zval *values_param = NULL, *sanitizerName_param = NULL, *sanitizerParams_param = NULL, arrayValue, itemKey, itemValue, *_0, _3$$3;
 	zval values, sanitizerParams;
 	zval *this_ptr = getThis();
 
@@ -232,9 +193,7 @@ PHP_METHOD(Phalcon_Filter_FilterLocator, processArrayValues) {
 	ZVAL_UNDEF(&arrayValue);
 	ZVAL_UNDEF(&itemKey);
 	ZVAL_UNDEF(&itemValue);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_6$$4);
+	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&sanitizerName);
 
 	ZEPHIR_MM_GROW();
@@ -252,42 +211,21 @@ PHP_METHOD(Phalcon_Filter_FilterLocator, processArrayValues) {
 
 	ZEPHIR_INIT_VAR(&arrayValue);
 	array_init(&arrayValue);
-	zephir_is_iterable(&values, 0, "phalcon/Filter/FilterLocator.zep", 158);
-	if (Z_TYPE_P(&values) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&values), _2, _3, _0)
-		{
-			ZEPHIR_INIT_NVAR(&itemKey);
-			if (_3 != NULL) { 
-				ZVAL_STR_COPY(&itemKey, _3);
-			} else {
-				ZVAL_LONG(&itemKey, _2);
-			}
-			ZEPHIR_INIT_NVAR(&itemValue);
-			ZVAL_COPY(&itemValue, _0);
-			ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "sanitizer", &_5, 184, &itemValue, &sanitizerName, &sanitizerParams);
-			zephir_check_call_status();
-			zephir_array_update_zval(&arrayValue, &itemKey, &_4$$3, PH_COPY | PH_SEPARATE);
-		} ZEND_HASH_FOREACH_END();
-	} else {
-		ZEPHIR_CALL_METHOD(NULL, &values, "rewind", NULL, 0);
-		zephir_check_call_status();
-		while (1) {
-			ZEPHIR_CALL_METHOD(&_1, &values, "valid", NULL, 0);
-			zephir_check_call_status();
-			if (!zend_is_true(&_1)) {
-				break;
-			}
-			ZEPHIR_CALL_METHOD(&itemKey, &values, "key", NULL, 0);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&itemValue, &values, "current", NULL, 0);
-			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "sanitizer", &_5, 184, &itemValue, &sanitizerName, &sanitizerParams);
-				zephir_check_call_status();
-				zephir_array_update_zval(&arrayValue, &itemKey, &_6$$4, PH_COPY | PH_SEPARATE);
-			ZEPHIR_CALL_METHOD(NULL, &values, "next", NULL, 0);
-			zephir_check_call_status();
+	zephir_is_iterable(&values, 0, "phalcon/Filter/FilterLocator.zep", 165);
+	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&values), _1, _2, _0)
+	{
+		ZEPHIR_INIT_NVAR(&itemKey);
+		if (_2 != NULL) { 
+			ZVAL_STR_COPY(&itemKey, _2);
+		} else {
+			ZVAL_LONG(&itemKey, _1);
 		}
-	}
+		ZEPHIR_INIT_NVAR(&itemValue);
+		ZVAL_COPY(&itemValue, _0);
+		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "sanitizer", &_4, 205, &itemValue, &sanitizerName, &sanitizerParams);
+		zephir_check_call_status();
+		zephir_array_update_zval(&arrayValue, &itemKey, &_3$$3, PH_COPY | PH_SEPARATE);
+	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&itemValue);
 	ZEPHIR_INIT_NVAR(&itemKey);
 	RETURN_CCTOR(&arrayValue);
@@ -336,7 +274,7 @@ PHP_METHOD(Phalcon_Filter_FilterLocator, sanitizer) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "has", NULL, 0, &sanitizerName);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
+	if (zephir_is_true(&_0)) {
 		ZEPHIR_CALL_METHOD(&sanitizerObject, this_ptr, "get", NULL, 0, &sanitizerName);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_1$$3);

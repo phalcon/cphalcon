@@ -7,6 +7,8 @@ PHP_METHOD(Phalcon_Helper_Str, camelize);
 PHP_METHOD(Phalcon_Helper_Str, concat);
 PHP_METHOD(Phalcon_Helper_Str, countVowels);
 PHP_METHOD(Phalcon_Helper_Str, decapitalize);
+PHP_METHOD(Phalcon_Helper_Str, dirFromFile);
+PHP_METHOD(Phalcon_Helper_Str, dirSeparator);
 PHP_METHOD(Phalcon_Helper_Str, dynamic);
 PHP_METHOD(Phalcon_Helper_Str, endsWith);
 PHP_METHOD(Phalcon_Helper_Str, firstBetween);
@@ -76,6 +78,30 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_str_decapitalize,
 	ZEND_ARG_TYPE_INFO(0, encoding, IS_STRING, 0)
 #else
 	ZEND_ARG_INFO(0, encoding)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_str_dirfromfile, 0, 1, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_str_dirfromfile, 0, 1, IS_STRING, NULL, 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, file)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_str_dirseparator, 0, 1, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_str_dirseparator, 0, 1, IS_STRING, NULL, 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, directory, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, directory)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -374,6 +400,8 @@ ZEPHIR_INIT_FUNCS(phalcon_helper_str_method_entry) {
 	PHP_ME(Phalcon_Helper_Str, concat, arginfo_phalcon_helper_str_concat, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Helper_Str, countVowels, arginfo_phalcon_helper_str_countvowels, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Helper_Str, decapitalize, arginfo_phalcon_helper_str_decapitalize, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Helper_Str, dirFromFile, arginfo_phalcon_helper_str_dirfromfile, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Helper_Str, dirSeparator, arginfo_phalcon_helper_str_dirseparator, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Helper_Str, dynamic, arginfo_phalcon_helper_str_dynamic, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Helper_Str, endsWith, arginfo_phalcon_helper_str_endswith, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Helper_Str, firstBetween, arginfo_phalcon_helper_str_firstbetween, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)

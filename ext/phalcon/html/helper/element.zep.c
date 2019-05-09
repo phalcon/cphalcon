@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Html_Helper_Element, __invoke) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderelement", NULL, 0, &tag, &text, &attributes);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &tag, &text, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
 
