@@ -511,20 +511,20 @@ class Micro extends Injectable implements \ArrayAccess
                 if realHandler != null && realHandler instanceof LazyLoader {
                     let methodName = handler[1];
 
-                    /**
-                     * There is seg fault if we try set directly value of method
-                     * to returnedValue
-                     */
                     let lazyReturned = realHandler->callMethod(
                         methodName,
                         params,
                         modelBinder
                     );
-
-                    let returnedValue = lazyReturned;
                 } else {
-                    let returnedValue = call_user_func_array(handler, params);
+                    let lazyReturned = call_user_func_array(handler, params);
                 }
+
+                /**
+                 * There is seg fault if we try set directly value of method
+                 * to returnedValue
+                 */
+                let returnedValue = lazyReturned;
 
                 /**
                  * Calling afterBinding event
