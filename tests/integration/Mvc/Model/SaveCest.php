@@ -247,4 +247,83 @@ class SaveCest
 
         $I->assertTrue($album->save());
     }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: save() - cast lastInsertId to int
+     *
+     * @dataProvider getFunctions
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
+     */
+    public function mvcModelSaveCastLastInsertId(IntegrationTester $I, Example $function)
+    {
+        $I->wantToTest('Mvc\Model - save() - cast lastInsertId to int');
+
+        $method = $function[0];
+        $this->$method();
+
+        Robots::setup(
+            [
+                'castLastInsertIdToInt' => true,
+            ]
+        );
+
+        $name            = uniqid();
+        $robot           = new Robots();
+        $robot->name     = $name;
+        $robot->type     = 'Mechanical';
+        $robot->year     = 2019;
+        $robot->datetime = '2019-05-10 00:00:00';
+        $robot->text     = 'Some Text';
+
+        $result = $robot->save();
+        $I->assertTrue($result);
+
+        $actual = $robot->id;
+        $I->assertTrue(is_int($actual));
+
+        $expected = intval($actual, 10);
+        $I->assertEquals($expected, $actual);
+
+        $result = $robot->delete();
+        $I->assertTrue($result);
+
+        Robots::setup(
+            [
+                'castLastInsertIdToInt' => false,
+            ]
+        );
+
+        $name            = uniqid();
+        $robot           = new Robots();
+        $robot->name     = $name;
+        $robot->type     = 'mechanical';
+        $robot->year     = 2019;
+        $robot->datetime = '2019-05-10 00:00:00';
+        $robot->text     = 'Some Text';
+
+        $result = $robot->save();
+        $I->assertTrue($result);
+
+        $actual = $robot->id;
+        $I->assertTrue(is_string($actual));
+
+        $expected = (string) $actual;
+        $I->assertEquals($expected, $actual);
+
+        $result = $robot->delete();
+        $I->assertTrue($result);
+    }
+
+    /**
+     * @return array
+     */
+    public function getFunctions(): array
+    {
+        return [
+            ['setDiMysql'],
+            ['setDiPostgresql'],
+        ];
+    }
 }
