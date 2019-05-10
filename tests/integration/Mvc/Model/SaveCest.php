@@ -14,8 +14,12 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models;
-use Phalcon\Mvc\Model;
+use Phalcon\Test\Models\AlbumORama\Artists;
+use Phalcon\Test\Models\Robots;
+use function is_int;
+use function is_string;
+use Phalcon\Test\Models\Users;
+use function uniqid;
 
 /**
  * Class SaveCest
@@ -263,30 +267,26 @@ class SaveCest
         $method = $function[0];
         $this->$method();
 
-        Robots::setup(
+        Artists::setup(
             [
                 'castLastInsertIdToInt' => true,
             ]
         );
 
-        $name            = uniqid();
-        $robot           = new Robots();
-        $robot->name     = $name;
-        $robot->type     = 'Mechanical';
-        $robot->year     = 2019;
-        $robot->datetime = '2019-05-10 00:00:00';
-        $robot->text     = 'Some Text';
+        $name       = uniqid();
+        $user       = new Users();
+        $user->name = $name;
 
-        $result = $robot->save();
+        $result = $user->save();
         $I->assertTrue($result);
 
-        $actual = $robot->id;
+        $actual = $user->id;
         $I->assertTrue(is_int($actual));
 
         $expected = intval($actual, 10);
         $I->assertEquals($expected, $actual);
 
-        $result = $robot->delete();
+        $result = $user->delete();
         $I->assertTrue($result);
 
         Robots::setup(
@@ -295,24 +295,20 @@ class SaveCest
             ]
         );
 
-        $name            = uniqid();
-        $robot           = new Robots();
-        $robot->name     = $name;
-        $robot->type     = 'mechanical';
-        $robot->year     = 2019;
-        $robot->datetime = '2019-05-10 00:00:00';
-        $robot->text     = 'Some Text';
+        $name       = uniqid();
+        $user       = new Users();
+        $user->name = $name;
 
-        $result = $robot->save();
+        $result = $user->save();
         $I->assertTrue($result);
 
-        $actual = $robot->id;
+        $actual = $user->id;
         $I->assertTrue(is_string($actual));
 
         $expected = (string) $actual;
         $I->assertEquals($expected, $actual);
 
-        $result = $robot->delete();
+        $result = $user->delete();
         $I->assertTrue($result);
     }
 
