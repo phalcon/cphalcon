@@ -632,27 +632,6 @@ class View extends Injectable implements ViewInterface
         return this;
     }
 
-    public function toString(
-        string! controllerName,
-        string! actionName,
-        array params = []
-    ) -> string
-    {
-        var result;
-
-        this->start();
-
-        let result = this->processRender(controllerName, actionName, params, false);
-
-        this->finish();
-
-        if !result {
-            return "";
-        }
-
-        return this->getContent();
-    }
-
     /**
      * Resets the view component to its factory default values
      */
@@ -901,6 +880,30 @@ class View extends Injectable implements ViewInterface
     }
 
     /**
+     * Renders the view and returns it as a string
+     */
+    public function toString(
+        string! controllerName,
+        string! actionName,
+        array params = []
+    ) -> string
+    {
+        var result;
+
+        this->start();
+
+        let result = this->processRender(controllerName, actionName, params, false);
+
+        this->finish();
+
+        if !result {
+            return "";
+        }
+
+        return this->getContent();
+    }
+
+    /**
      * Checks whether view exists on registered extensions and render it
      */
     protected function engineRender(
@@ -1067,7 +1070,9 @@ class View extends Injectable implements ViewInterface
         return engines;
     }
 
-
+    /**
+     * Processes the view and templates; Fires events if needed
+     */
     public function processRender(
         string! controllerName,
         string! actionName,
