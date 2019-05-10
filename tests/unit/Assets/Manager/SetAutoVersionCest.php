@@ -13,52 +13,34 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Manager;
 
 use Phalcon\Assets\Manager;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 use function dataDir;
+use function filemtime;
 
-class AddJsCest
+class SetAutoVersionCest
 {
-    use AssetsTrait;
+    use DiTrait;
 
     /**
-     * Tests Phalcon\Assets\Manager :: addJs()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-10-13
+     * executed before each test
      */
-    public function assetsManagerAddJs(UnitTester $I)
+    public function _before(UnitTester $I)
     {
-        $I->wantToTest('Assets\Manager - addJs()');
-        $assets = new Manager();
-
-        $assets->addJs('/js/jquery.js');
-        $assets->addJs('/js/jquery-ui.js');
-
-        $collection = $assets->get('js');
-
-        $number   = 0;
-        $expected = 'js';
-        foreach ($collection as $resource) {
-            $actual = $resource->getType();
-            $I->assertEquals($expected, $actual);
-            $number++;
-        }
-
-        $expected = 2;
-        $actual   = $number;
-        $I->assertEquals($expected, $actual);
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
     }
 
     /**
-     * Tests Phalcon\Assets\Manager :: addJs() - versioning
+     * Tests Phalcon\Assets\Manager :: addJs() - automatic versioning
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-02-01
      */
-    public function assetsManagerAddJsVersioning(UnitTester $I)
+    public function assetsManagerAddJsAutomaticVersioning(UnitTester $I)
     {
-        $I->wantToTest('Assets\Manager - addJs() - versioning');
+        $I->wantToTest('Assets\Manager - addJs() - automatic versioning');
 
         $assets = new Manager();
 
@@ -74,21 +56,25 @@ class AddJsCest
             true,
             false,
             [],
-            '2.0.0'
+            null,
+            true
         );
         $assets->addJs(
             dataDir('assets/assets/assets-version-3.js'),
             true,
             false,
-            []
+            [],
+            null,
+            false
         );
 
-        $pathData = dataDir('assets/');
+        $pathData         = dataDir('assets/');
+        $modificationTime = filemtime(dataDir('assets/assets/assets-version-3.js'));
 
         $expected = sprintf(
             "%s\n%s\n%s\n",
             "<script src=\"{$pathData}assets/assets-version-1.js?ver=1.0.0\"></script>",
-            "<script src=\"{$pathData}assets/assets-version-2.js?ver=2.0.0\"></script>",
+            "<script src=\"{$pathData}assets/assets-version-2.js?ver=$modificationTime\"></script>",
             "<script src=\"{$pathData}assets/assets-version-3.js\"></script>"
         );
 
