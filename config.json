@@ -53,6 +53,10 @@
             "type": "bool",
             "default": false
         },
+        "orm.cast_last_insert_id_to_int": {
+            "type": "bool",
+            "default": false
+        },
         "orm.cast_on_hydrate": {
             "type": "bool",
             "default": false
