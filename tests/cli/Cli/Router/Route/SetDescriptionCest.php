@@ -12,6 +12,7 @@
 namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
+use Phalcon\Cli\Router;
 
 class SetDescriptionCest
 {
@@ -28,13 +29,17 @@ class SetDescriptionCest
 
         $routes = $this->getExampleRoutes();
 
-        $router = new \Phalcon\Cli\Router(false);
+        $router = new Router(false);
+
         foreach ($routes as $pattern => $description) {
             $router->add($pattern)->setDescription($description);
         }
 
         foreach ($router->getRoutes() as $route) {
-            $I->assertEquals($routes[$route->getPattern()], $route->getDescription());
+            $I->assertEquals(
+                $routes[$route->getPattern()],
+                $route->getDescription()
+            );
         }
     }
 

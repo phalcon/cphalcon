@@ -16,8 +16,6 @@ use Phalcon\Logger\Adapter\Syslog;
 use UnitTester;
 
 /**
- * Class InTransactionCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class InTransactionCest
@@ -25,25 +23,27 @@ class InTransactionCest
     /**
      * Tests Phalcon\Logger\Adapter\Syslog :: inTransaction()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function loggerAdapterSyslogInTransaction(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Syslog - inTransaction()');
+
         $streamName = $I->getNewFileName('log', 'log');
-        $adapter    = new Syslog($streamName);
+
+        $adapter = new Syslog($streamName);
 
         $adapter->begin();
 
-        $actual = $adapter->inTransaction();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->inTransaction()
+        );
 
         $adapter->commit();
 
-        $actual = $adapter->inTransaction();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->inTransaction()
+        );
     }
 }

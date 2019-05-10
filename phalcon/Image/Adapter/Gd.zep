@@ -74,7 +74,7 @@ class Gd extends Adapter
             imagesavealpha(this->image, true);
 
         } else {
-            if !width || !height {
+            if unlikely !width || !height {
                 throw new Exception(
                     "Failed to create image from file " . this->file
                 );
@@ -112,7 +112,7 @@ class Gd extends Adapter
             return true;
         }
 
-        if !function_exists("gd_info") {
+        if unlikely !function_exists("gd_info") {
             throw new Exception(
                 "GD is either not installed or not enabled, check your configuration"
             );
@@ -120,7 +120,7 @@ class Gd extends Adapter
 
         let version = self::getVersion();
 
-        if !version_compare(version, "2.0.1", ">=") {
+        if unlikely !version_compare(version, "2.0.1", ">=") {
             throw new Exception(
                 "Phalcon\\Image\\Adapter\\GD requires GD version '2.0.1' or greater, you have " . version
             );
@@ -135,7 +135,7 @@ class Gd extends Adapter
     {
         var version, info, matches;
 
-        if !function_exists("gd_info") {
+        if unlikely !function_exists("gd_info") {
             throw new Exception(
                 "GD is either not installed or not enabled, check your configuration"
             );
@@ -604,7 +604,7 @@ class Gd extends Adapter
                 let s5 = (int) space[5];
             }
 
-            if !s0 || !s1 || !s4 || !s5 {
+            if unlikely (!s0 || !s1 || !s4 || !s5) {
                 throw new Exception("Call to imagettfbbox() failed");
             }
 

@@ -46,7 +46,8 @@ class Annotation
      */
     public function __construct(array! reflectionData) -> void
     {
-        var name, exprArguments, argument, resolvedArgument, arguments;
+        var name, exprArguments, argument, resolvedArgument;
+        array arguments;
 
         let this->name = reflectionData["name"];
 

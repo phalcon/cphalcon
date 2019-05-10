@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Validation\Validator;
 
+use Exception;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
@@ -41,13 +42,14 @@ class UniquenessCest
     /**
      * @param IntegrationTester $I
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
-        $this->robot        = new Robots(
+
+        $this->robot = new Robots(
             [
                 'name'     => 'Robotina',
                 'type'     => 'mechanical',
@@ -57,6 +59,7 @@ class UniquenessCest
                 'text'     => 'text',
             ]
         );
+
         $this->anotherRobot = new Robots(
             [
                 'name'     => 'Robotina',
@@ -67,6 +70,7 @@ class UniquenessCest
                 'text'     => 'text',
             ]
         );
+
         $this->deletedRobot = new Robots(
             [
                 'name'     => 'Robotina',
@@ -88,17 +92,27 @@ class UniquenessCest
     public function testSingleField(IntegrationTester $I)
     {
         $validation = new Validation();
-        $validation->add('type', new Uniqueness());
+
+        $validation->add(
+            'type',
+            new Uniqueness()
+        );
+
+
         $messages = $validation->validate(null, $this->robot);
 
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 
     /**
@@ -110,16 +124,27 @@ class UniquenessCest
     public function testSingleFieldConvert(IntegrationTester $I)
     {
         $validation = new Validation();
-        $validation->add('type', new Uniqueness([
-            'convert' => function (array $values) {
-                $values['type'] = 'hydraulic'; // mechanical -> hydraulic
-                return $values;
-            },
-        ]));
+
+        $validation->add(
+            'type',
+            new Uniqueness(
+                [
+                    'convert' => function (array $values) {
+                        $values['type'] = 'hydraulic'; // mechanical -> hydraulic
+
+                        return $values;
+                    },
+                ]
+            )
+        );
+
+
         $messages = $validation->validate(null, $this->robot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 
     /**
@@ -131,21 +156,35 @@ class UniquenessCest
     public function testSingleFieldWithNull(IntegrationTester $I)
     {
         $validation = new Validation();
-        $validation->add('deleted', new Uniqueness());
+
+        $validation->add(
+            'deleted',
+            new Uniqueness()
+        );
+
+
         $messages = $validation->validate(null, $this->robot);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(null, $this->deletedRobot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 
     /**
@@ -157,16 +196,27 @@ class UniquenessCest
     public function testMultipleFields(IntegrationTester $I)
     {
         $validation = new Validation();
-        $validation->add(['name', 'type'], new Uniqueness());
+
+        $validation->add(
+            ['name', 'type'],
+            new Uniqueness()
+        );
+
+
         $messages = $validation->validate(null, $this->robot);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 
     /**
@@ -178,16 +228,27 @@ class UniquenessCest
     public function testMultipleFieldsConvert(IntegrationTester $I)
     {
         $validation = new Validation();
-        $validation->add(['name', 'type'], new Uniqueness([
-            'convert' => function (array $values) {
-                $values['type'] = 'hydraulic'; // mechanical -> hydraulic
-                return $values;
-            },
-        ]));
+
+        $validation->add(
+            ['name', 'type'],
+            new Uniqueness(
+                [
+                    'convert' => function (array $values) {
+                        $values['type'] = 'hydraulic'; // mechanical -> hydraulic
+
+                        return $values;
+                    },
+                ]
+            )
+        );
+
+
         $messages = $validation->validate(null, $this->robot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 
     /**
@@ -199,21 +260,35 @@ class UniquenessCest
     public function testMultipleFieldsWithNull(IntegrationTester $I)
     {
         $validation = new Validation();
-        $validation->add(['type', 'deleted'], new Uniqueness());
+
+        $validation->add(
+            ['type', 'deleted'],
+            new Uniqueness()
+        );
+
+
         $messages = $validation->validate(null, $this->robot);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(null, $this->deletedRobot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 
     /**
@@ -225,18 +300,31 @@ class UniquenessCest
     public function testExceptSingleFieldSingleExcept(IntegrationTester $I)
     {
         $validation = new Validation();
-        $validation->add('year', new Uniqueness([
-            'except' => 1972,
-        ]));
+
+        $validation->add(
+            'year',
+            new Uniqueness(
+                [
+                    'except' => 1972,
+                ]
+            )
+        );
+
+
         $messages = $validation->validate(null, $this->robot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
     }
 
     /**
@@ -248,18 +336,31 @@ class UniquenessCest
     public function testExceptSingleFieldMultipleExcept(IntegrationTester $I)
     {
         $validation = new Validation();
-        $validation->add('year', new Uniqueness([
-            'except' => [1972, 1952],
-        ]));
+
+        $validation->add(
+            'year',
+            new Uniqueness(
+                [
+                    'except' => [1972, 1952],
+                ]
+            )
+        );
+
+
         $messages = $validation->validate(null, $this->robot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 
     /**
@@ -271,21 +372,34 @@ class UniquenessCest
     public function testExceptMultipleFieldSingleExcept(IntegrationTester $I)
     {
         $validation = new Validation();
-        $validation->add(['type', 'year'], new Uniqueness([
-            'except' => [
-                'type' => 'mechanical',
-                'year' => 1972,
-            ],
-        ]));
+
+        $validation->add(
+            ['type', 'year'],
+            new Uniqueness(
+                [
+                    'except' => [
+                        'type' => 'mechanical',
+                        'year' => 1972,
+                    ],
+                ]
+            )
+        );
+
+
         $messages = $validation->validate(null, $this->robot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 
     /**
@@ -297,21 +411,34 @@ class UniquenessCest
     public function testExceptMultipleFieldMultipleExcept(IntegrationTester $I)
     {
         $validation = new Validation();
-        $validation->add(['year', 'type'], new Uniqueness([
-            'except' => [
-                'year' => [1952, 1972],
-                'type' => ['hydraulic', 'mechanical'],
-            ],
-        ]));
+
+        $validation->add(
+            ['year', 'type'],
+            new Uniqueness(
+                [
+                    'except' => [
+                        'year' => [1952, 1972],
+                        'type' => ['hydraulic', 'mechanical'],
+                    ],
+                ]
+            )
+        );
+
+
         $messages = $validation->validate(null, $this->robot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 
     /**
@@ -323,19 +450,28 @@ class UniquenessCest
     public function testConvertArrayReturnsArray(IntegrationTester $I)
     {
         $I->skipTest('TODO: Check the verify');
+
         $validation = new Validation();
-        $validation->add('type', new Uniqueness([
-            'convert' => function (array $values) {
-                ($values);
-                return null;
-            },
-        ]));
-        try {
-            $validation->validate(null, $this->robot);
-            verify_that(false);
-        } catch (\Exception $e) {
-            verify_that(true);
-        }
+
+        $validation->add(
+            'type',
+            new Uniqueness(
+                [
+                    'convert' => function (array $values) {
+                        ($values);
+
+                        return null;
+                    },
+                ]
+            )
+        );
+
+        $I->expectException(
+            Exception::class,
+            function () use ($validation) {
+                $validation->validate(null, $this->robot);
+            }
+        );
     }
 
     /**
@@ -347,27 +483,45 @@ class UniquenessCest
     public function testExceptOtherThanField(IntegrationTester $I)
     {
         $validation = new Validation();
-        $validation->add('text', new Uniqueness([
-            'except' => [
-                'type' => ['mechanical', 'cyborg'],
-            ],
-        ]));
+
+        $validation->add(
+            'text',
+            new Uniqueness(
+                [
+                    'except' => [
+                        'type' => ['mechanical', 'cyborg'],
+                    ],
+                ]
+            )
+        );
+
+
         $messages = $validation->validate(null, $this->robot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(null, $this->anotherRobot);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
 
         $anotherRobot = clone $this->anotherRobot;
+
         $this->anotherRobot->create();
+
+
         $messages = $validation->validate(null, $anotherRobot);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
 
         $this->anotherRobot->delete();
     }
@@ -381,18 +535,32 @@ class UniquenessCest
     public function testIssue13398(IntegrationTester $I)
     {
         $validation = new Validation();
-        $validation->add('theName', new Uniqueness());
-        $robot          = Robotters::findFirst(1);
+
+        $validation->add(
+            'theName',
+            new Uniqueness()
+        );
+
+        $robot = Robotters::findFirst(1);
+
+
         $robot->theName = 'Astro Boy';
-        $messages       = $validation->validate(null, $robot);
-        $expected       = 1;
-        $actual         = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(null, $robot);
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
 
         $robot->theName = 'Astro Boyy';
-        $messages       = $validation->validate(null, $robot);
-        $expected       = 0;
-        $actual         = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(null, $robot);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 }

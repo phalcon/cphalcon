@@ -11,8 +11,8 @@
 
 namespace Phalcon\Test\Integration\Mvc;
 
+use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
@@ -23,51 +23,28 @@ class RouterCest
     /**
      * Tests routing by use Route::convert
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
-     * @since  2012-12-25
+     * @author       Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since        2012-12-25
+     *
+     * @dataProvider getMatchingWithConverted
      */
-    public function testUsingRouteConverters(IntegrationTester $I)
+    public function testUsingRouteConverters(IntegrationTester $I, Example $example)
     {
-        $examples = $this->getMatchingWithConverted();
-        foreach ($examples as $item) {
-            $route  = $item[0];
-            $params = $item[1];
+        $route  = $example[0];
+        $params = $example[1];
 
-            $router = $this->getRouterAndSetData();
-            $router->handle($route);
+        $router = $this->getRouterAndSetData();
+        $router->handle($route);
 
-            $actual = $router->wasMatched();
-            $I->assertTrue($actual);
+        $actual = $router->wasMatched();
+        $I->assertTrue($actual);
 
-            $expected = $params['controller'];
-            $actual   = $router->getControllerName();
-            $I->assertEquals($expected, $actual);
-            $expected = $params['action'];
-            $actual   = $router->getActionName();
-            $I->assertEquals($expected, $actual);
-        }
-    }
-
-    private function getMatchingWithConverted(): array
-    {
-        return [
-            [
-                '/some-controller/my-action-name/this-is-a-country',
-                [
-                    'controller' => 'somecontroller',
-                    'action'     => 'myactionname',
-                    'params'     => ['this-is-a-country'],
-                ],
-            ],
-            [
-                '/BINARY/1101',
-                [
-                    'controller' => 'binary',
-                    'action'     => 'index',
-                    'params'     => [1011],
-                ],
-            ],
-        ];
+        $expected = $params['controller'];
+        $actual   = $router->getControllerName();
+        $I->assertEquals($expected, $actual);
+        $expected = $params['action'];
+        $actual   = $router->getActionName();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -83,31 +60,47 @@ class RouterCest
 
         $router
             ->add('/static/route')
-            ->beforeMatch(function () use (&$trace) {
-                $trace++;
-                return false;
-            })
+            ->beforeMatch(
+                function () use (&$trace) {
+                    $trace++;
+
+                    return false;
+                }
+            )
         ;
 
         $router
             ->add('/static/route2')
-            ->beforeMatch(function () use (&$trace) {
-                $trace++;
-                return true;
-            })
+            ->beforeMatch(
+                function () use (&$trace) {
+                    $trace++;
+
+                    return true;
+                }
+            )
         ;
 
+
         $router->handle("/");
-        $actual = $router->wasMatched();
-        $I->assertFalse($actual);
+
+        $I->assertFalse(
+            $router->wasMatched()
+        );
+
 
         $router->handle('/static/route');
-        $actual = $router->wasMatched();
-        $I->assertFalse($actual);
+
+        $I->assertFalse(
+            $router->wasMatched()
+        );
+
 
         $router->handle('/static/route2');
-        $actual = $router->wasMatched();
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $router->wasMatched()
+        );
+
 
         $I->assertEquals(2, $trace);
     }
@@ -121,6 +114,7 @@ class RouterCest
     public function testGettingNamedRoutes(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check the getRouteById');
+
         $router    = $this->getRouter(false);
         $usersFind = $router->add('/api/users/find')->setHttpMethods('GET')->setName('usersFind');
         $usersAdd  = $router->add('/api/users/add')->setHttpMethods('POST')->setName('usersAdd');
@@ -149,19 +143,28 @@ class RouterCest
     {
         $pathToRouterData = $this->getDataRouter();
         $examples         = $this->getMatchingWithRouter();
+
         foreach ($examples as $params) {
             $router = $this->getRouterAndSetRoutes($pathToRouterData);
-            $router->handle($params['uri']);
 
-            $expected = $params['controller'];
-            $actual   = $router->getControllerName();
-            $I->assertEquals($expected, $actual);
-            $expected = $params['action'];
-            $actual   = $router->getActionName();
-            $I->assertEquals($expected, $actual);
-            $expected = $params['params'];
-            $actual   = $router->getParams();
-            $I->assertEquals($expected, $actual);
+            $router->handle(
+                $params['uri']
+            );
+
+            $I->assertEquals(
+                $params['controller'],
+                $router->getControllerName()
+            );
+
+            $I->assertEquals(
+                $params['action'],
+                $router->getActionName()
+            );
+
+            $I->assertEquals(
+                $params['params'],
+                $router->getParams()
+            );
         }
     }
 
@@ -383,20 +386,30 @@ class RouterCest
     {
         $pathToRouterData = $this->getDataRouterHttp();
         $examples         = $this->getMatchingWithRouterHttp();
-        foreach ($examples as $params) {
-            $router                    = $this->getRouterAndSetRoutes($pathToRouterData);
-            $_SERVER['REQUEST_METHOD'] = $params['method'];
-            $router->handle($params['uri']);
 
-            $expected = $params['controller'];
-            $actual   = $router->getControllerName();
-            $I->assertEquals($expected, $actual);
-            $expected = $params['action'];
-            $actual   = $router->getActionName();
-            $I->assertEquals($expected, $actual);
-            $expected = $params['params'];
-            $actual   = $router->getParams();
-            $I->assertEquals($expected, $actual);
+        foreach ($examples as $params) {
+            $router = $this->getRouterAndSetRoutes($pathToRouterData);
+
+            $_SERVER['REQUEST_METHOD'] = $params['method'];
+
+            $router->handle(
+                $params['uri']
+            );
+
+            $I->assertEquals(
+                $params['controller'],
+                $router->getControllerName()
+            );
+
+            $I->assertEquals(
+                $params['action'],
+                $router->getActionName()
+            );
+
+            $I->assertEquals(
+                $params['params'],
+                $router->getParams()
+            );
         }
     }
 
@@ -509,19 +522,28 @@ class RouterCest
     {
         $pathToRouterData = $this->getDataToRouter();
         $examples         = $this->getMatchingWithToRouter();
+
         foreach ($examples as $params) {
             $router = $this->getRouterAndSetRoutes($pathToRouterData);
-            $router->handle($params['uri']);
 
-            $expected = $params['controller'];
-            $actual   = $router->getControllerName();
-            $I->assertEquals($expected, $actual);
-            $expected = $params['action'];
-            $actual   = $router->getActionName();
-            $I->assertEquals($expected, $actual);
-            $expected = $params['params'];
-            $actual   = $router->getParams();
-            $I->assertEquals($expected, $actual);
+            $router->handle(
+                $params['uri']
+            );
+
+            $I->assertEquals(
+                $params['controller'],
+                $router->getControllerName()
+            );
+
+            $I->assertEquals(
+                $params['action'],
+                $router->getActionName()
+            );
+
+            $I->assertEquals(
+                $params['params'],
+                $router->getParams()
+            );
         }
     }
 
@@ -570,87 +592,25 @@ class RouterCest
     /**
      * Tests adding a route to the router by using short path
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
-     * @since  2012-01-16
+     * @author       Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since        2012-01-16
+     *
+     * @dataProvider getMatchingWithPathProvider
      */
-    public function testAddingRouteByUsingShortPaths(IntegrationTester $I)
+    public function testAddingRouteByUsingShortPaths(IntegrationTester $I, Example $example)
     {
-        $examples = $this->getMatchingWithPathProvider();
-        foreach ($examples as $item) {
-            $route    = $item[0];
-            $path     = $item[1];
-            $expected = $item[2];
-            $router   = $this->getRouter(false);
-            $route    = $router->add($route, $path);
+        $route    = $example[0];
+        $path     = $example[1];
+        $expected = $example[2];
 
-            $actual = $route->getPaths();
-            $I->assertEquals($expected, $actual);
-        }
-    }
+        $router = $this->getRouter(false);
 
-    private function getMatchingWithPathProvider(): array
-    {
-        return [
-            [
-                '/route0',
-                'Feed',
-                [
-                    'controller' => 'feed',
-                ],
-            ],
-            [
-                '/route1',
-                'Feed::get',
-                [
-                    'controller' => 'feed',
-                    'action'     => 'get',
-                ],
-            ],
-            [
-                '/route2',
-                'News::Posts::show',
-                [
-                    'module'     => 'News',
-                    'controller' => 'posts',
-                    'action'     => 'show',
-                ],
-            ],
-            [
-                '/route3',
-                'MyApp\Controllers\Posts::show',
-                [
-                    'namespace'  => 'MyApp\Controllers',
-                    'controller' => 'posts',
-                    'action'     => 'show',
-                ],
-            ],
-            [
-                '/route3',
-                'MyApp\Controllers\::show',
-                [
-                    'controller' => '',
-                    'action'     => 'show',
-                ],
-            ],
-            [
-                '/route3',
-                'News::MyApp\Controllers\Posts::show',
-                [
-                    'module'     => 'News',
-                    'namespace'  => 'MyApp\\Controllers',
-                    'controller' => 'posts',
-                    'action'     => 'show',
-                ],
-            ],
-            [
-                '/route3',
-                '\Posts::show',
-                [
-                    'controller' => 'posts',
-                    'action'     => 'show',
-                ],
-            ],
-        ];
+        $route = $router->add($route, $path);
+
+        $I->assertEquals(
+            $expected,
+            $route->getPaths()
+        );
     }
 
     /**
@@ -665,17 +625,25 @@ class RouterCest
 //        $pathToRouterData = $this->getDataRouterHostName();
         $pathToRouterData = $this->getDataToHostnameRegex();
         $examples         = $this->getMatchingWithHostnameRegex();
+
         foreach ($examples as $item) {
             $expected = $item[0];
             $handle   = $item[1];
             $hostname = $item[2];
-            $router   = $this->getRouterAndSetRoutesAndHostNames($pathToRouterData, false);
+
+            $router = $this->getRouterAndSetRoutesAndHostNames(
+                $pathToRouterData,
+                false
+            );
 
             $_SERVER['HTTP_HOST'] = $hostname;
+
             $router->handle($handle);
 
-            $actual = $router->getControllerName();
-            $I->assertEquals($expected, $actual);
+            $I->assertEquals(
+                $expected,
+                $router->getControllerName()
+            );
         }
     }
 
@@ -742,18 +710,29 @@ class RouterCest
     public function shouldMathWithHostnameRegexWithHostPort111(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check');
+
         $pathToRouterData = $this->getDataRegexRouterHostPort();
         $examples         = $this->getMatchingWithRegexRouterHostPort();
+
         foreach ($examples as $item) {
             $param    = $item[0];
             $expected = $item[1];
 
-            $router               = $this->getRouterAndSetRoutesAndHostNames($pathToRouterData, false);
-            $_SERVER['HTTP_HOST'] = $param['hostname'] . ($param['port'] ? ':' . $param['port'] : '');
-            $router->handle($param['handle']);
+            $router = $this->getRouterAndSetRoutesAndHostNames(
+                $pathToRouterData,
+                false
+            );
 
-            $actual = $router->getControllerName();
-            $I->assertEquals($expected, $actual);
+            $_SERVER['HTTP_HOST'] = $param['hostname'] . ($param['port'] ? ':' . $param['port'] : '');
+
+            $router->handle(
+                $param['handle']
+            );
+
+            $I->assertEquals(
+                $expected,
+                $router->getControllerName()
+            );
         }
     }
 
@@ -871,15 +850,26 @@ class RouterCest
     {
         $pathToRouterData = $this->getDataRouterHostName();
         $examples         = $this->getMatchingWithHostName();
-        foreach ($examples as $item) {
-            $param                = $item[0];
-            $expected             = $item[1];
-            $router               = $this->getRouterAndSetRoutesAndHostNames($pathToRouterData, false);
-            $_SERVER['HTTP_HOST'] = $param['hostname'];
-            $router->handle($param['handle']);
 
-            $actual = $router->getControllerName();
-            $I->assertEquals($expected, $actual);
+        foreach ($examples as $item) {
+            $param    = $item[0];
+            $expected = $item[1];
+
+            $router = $this->getRouterAndSetRoutesAndHostNames(
+                $pathToRouterData,
+                false
+            );
+
+            $_SERVER['HTTP_HOST'] = $param['hostname'];
+
+            $router->handle(
+                $param['handle']
+            );
+
+            $I->assertEquals(
+                $expected,
+                $router->getControllerName()
+            );
         }
     }
 
@@ -955,5 +945,93 @@ class RouterCest
     protected function _before(IntegrationTester $I)
     {
         Route::reset();
+    }
+
+    private function getMatchingWithConverted(): array
+    {
+        return [
+            [
+                '/some-controller/my-action-name/this-is-a-country',
+                [
+                    'controller' => 'somecontroller',
+                    'action'     => 'myactionname',
+                    'params'     => ['this-is-a-country'],
+                ],
+            ],
+
+            [
+                '/BINARY/1101',
+                [
+                    'controller' => 'binary',
+                    'action'     => 'index',
+                    'params'     => [1011],
+                ],
+            ],
+        ];
+    }
+
+    private function getMatchingWithPathProvider(): array
+    {
+        return [
+            [
+                '/route0',
+                'Feed',
+                [
+                    'controller' => 'feed',
+                ],
+            ],
+            [
+                '/route1',
+                'Feed::get',
+                [
+                    'controller' => 'feed',
+                    'action'     => 'get',
+                ],
+            ],
+            [
+                '/route2',
+                'News::Posts::show',
+                [
+                    'module'     => 'News',
+                    'controller' => 'posts',
+                    'action'     => 'show',
+                ],
+            ],
+            [
+                '/route3',
+                'MyApp\Controllers\Posts::show',
+                [
+                    'namespace'  => 'MyApp\Controllers',
+                    'controller' => 'posts',
+                    'action'     => 'show',
+                ],
+            ],
+            [
+                '/route3',
+                'MyApp\Controllers\::show',
+                [
+                    'controller' => '',
+                    'action'     => 'show',
+                ],
+            ],
+            [
+                '/route3',
+                'News::MyApp\Controllers\Posts::show',
+                [
+                    'module'     => 'News',
+                    'namespace'  => 'MyApp\\Controllers',
+                    'controller' => 'posts',
+                    'action'     => 'show',
+                ],
+            ],
+            [
+                '/route3',
+                '\Posts::show',
+                [
+                    'controller' => 'posts',
+                    'action'     => 'show',
+                ],
+            ],
+        ];
     }
 }

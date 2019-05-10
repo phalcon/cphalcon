@@ -12,19 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
+use function logsDir;
 use Phalcon\Http\Message\Exception;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
 
-/**
- * Class WriteCest
- */
 class WriteCest
 {
     /**
      * Tests Phalcon\Http\Message\Stream :: write()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -33,7 +29,7 @@ class WriteCest
     {
         $I->wantToTest('Http\Message\Stream - write()');
         $fileName = $I->getNewFileName();
-        $fileName = dataFolder($fileName);
+        $fileName = logsDir($fileName);
         $stream   = new Stream($fileName, 'wb');
 
         $source   = 'A well regulated Militia, being necessary to the security of a free State, '
@@ -53,8 +49,6 @@ class WriteCest
     /**
      * Tests Phalcon\Http\Message\Stream :: write() - detached
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -67,7 +61,7 @@ class WriteCest
             ),
             function () use ($I) {
                 $fileName = $I->getNewFileName();
-                $fileName = dataFolder($fileName);
+                $fileName = logsDir($fileName);
                 $stream   = new Stream($fileName, 'wb');
                 $stream->detach();
 

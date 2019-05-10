@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Stream;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
 
-/**
- * Class DetachCest
- */
 class DetachCest
 {
     /**
      * Tests Phalcon\Http\Message\Stream :: detach()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -31,7 +26,7 @@ class DetachCest
     public function httpMessageStreamDetach(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - detach()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $handle   = fopen($fileName, 'rb');
         $stream   = new Stream($handle);
 

@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Email;
 use UnitTester;
 
-/**
- * Class EmailCest
- */
 class EmailCest
 {
     /**

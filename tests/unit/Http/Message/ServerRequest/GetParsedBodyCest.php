@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
-/**
- * Class GetParsedBodyCest
- */
 class GetParsedBodyCest
 {
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getParsedBody()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-05
@@ -50,8 +45,6 @@ class GetParsedBodyCest
 
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getParsedBody() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-05

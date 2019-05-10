@@ -13,8 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Traits;
 
 /**
- * Trait VersionTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait VersionTrait
@@ -24,12 +22,8 @@ trait VersionTrait
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
-     *
-     * @param string $number
-     *
-     * @return string
      */
-    protected function numberToSpecial($number): string
+    protected function numberToSpecial(string $number): string
     {
         $special = '';
 
@@ -53,12 +47,8 @@ trait VersionTrait
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
-     *
-     * @param string $input
-     *
-     * @return string
      */
-    protected function specialToNumber($input): string
+    protected function specialToNumber(string $input): string
     {
         switch ($input) {
             case 'alpha':

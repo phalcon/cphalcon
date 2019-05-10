@@ -15,8 +15,7 @@ use Phalcon\Mvc\Model;
 
 class GossipRobots extends Model
 {
-
-    public $trace;
+    public $trace = [];
 
     public function initialize()
     {
@@ -28,14 +27,16 @@ class GossipRobots extends Model
         $this->_talk(__METHOD__);
     }
 
-    protected function _talk($completeMethod)
+    protected function _talk(string $completeMethod)
     {
+        $class = get_class($this);
         $method = explode('::', $completeMethod);
-        if (!isset($this->trace[$method[1]][get_class($this)])) {
-            $this->trace[$method[1]][get_class($this)] = 1;
-        } else {
-            $this->trace[$method[1]][get_class($this)]++;
+
+        if (!isset($this->trace[$method[1]][$class])) {
+            $this->trace[$method[1]][$class] = 0;
         }
+
+        $this->trace[$method[1]][$class]++;
     }
 
     public function beforeValidationOnUpdate()
@@ -81,19 +82,21 @@ class GossipRobots extends Model
     public function beforeCreate()
     {
         $this->_talk(__METHOD__);
+
         return false;
     }
 
     public function beforeDelete()
     {
         $this->_talk(__METHOD__);
+
         return false;
     }
 
     public function notSaved()
     {
         $this->_talk(__METHOD__);
+
         return false;
     }
-
 }

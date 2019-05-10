@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorEmailConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Email - __construct()');
+
         $validator = new Email();
+
         $this->checkConstruct($I, $validator);
     }
 }

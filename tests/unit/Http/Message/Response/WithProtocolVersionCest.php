@@ -16,15 +16,10 @@ use InvalidArgumentException;
 use Phalcon\Http\Message\Response;
 use UnitTester;
 
-/**
- * Class WithProtocolVersionCest
- */
 class WithProtocolVersionCest
 {
     /**
      * Tests Phalcon\Http\Message\Response :: withProtocolVersion()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
@@ -48,8 +43,6 @@ class WithProtocolVersionCest
 
     /**
      * Tests Phalcon\Http\Message\Response :: withProtocolVersion() - exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09

@@ -19,9 +19,6 @@ use Phalcon\Translate\AdapterInterface;
 use Phalcon\Translate\Exception;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use TranslateTrait;
@@ -29,28 +26,34 @@ class ConstructCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: __construct()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterNativeArrayConstruct(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - constructor');
-        $language   = $this->getArrayConfig()['en'];
-        $translator = new NativeArray(['content' => $language]);
 
-        $class = ArrayAccess::class;
-        $I->assertInstanceOf($class, $translator);
+        $language = $this->getArrayConfig()['en'];
 
-        $class = AdapterInterface::class;
-        $I->assertInstanceOf($class, $translator);
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
+
+        $I->assertInstanceOf(
+            ArrayAccess::class,
+            $translator
+        );
+
+        $I->assertInstanceOf(
+            AdapterInterface::class,
+            $translator
+        );
     }
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: __construct() - Exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -58,10 +61,13 @@ class ConstructCest
     public function translateAdapterNativeArrayContentParamExist(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - constructor without content throws exception');
+
         $I->expectThrowable(
             new Exception("Translation content was not provided"),
             function () {
-                new NativeArray([]);
+                new NativeArray(
+                    []
+                );
             }
         );
     }

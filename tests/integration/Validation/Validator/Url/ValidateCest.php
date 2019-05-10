@@ -34,10 +34,19 @@ class ValidateCest
     public function validationValidatorUrlSingleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url :: validate() - single field');
-        $validation = new Validation();
-        $validation->add('url', new Url());
 
-        $messages = $validation->validate([]);
+        $validation = new Validation();
+
+        $validation->add(
+            'url',
+            new Url()
+        );
+
+
+        $messages = $validation->validate(
+            []
+        );
+
         $expected = new Messages(
             [
                 new Message(
@@ -48,17 +57,29 @@ class ValidateCest
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['url' => 'x=1']);
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $messages);
 
-        $messages = $validation->validate(['url' => 'http://phalconphp.com']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'url' => 'x=1',
+            ]
+        );
+
+        $I->assertEquals($expected, $messages);
+
+
+        $messages = $validation->validate(
+            [
+                'url' => 'http://phalconphp.com',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 
     /**
@@ -72,11 +93,14 @@ class ValidateCest
     public function validationValidatorUrlMultipleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url :: validate() - multiple field');
-        $validation         = new Validation();
+
+        $validation = new Validation();
+
         $validationMessages = [
             'url'        => 'Url must be correct url.',
             'anotherUrl' => 'AnotherUrl must be correct url.',
         ];
+
         $validation->add(
             [
                 'url',
@@ -88,15 +112,18 @@ class ValidateCest
                 ]
             )
         );
+
         $messages = $validation->validate(
             [
                 'url'        => 'http://google.com',
                 'anotherUrl' => 'http://google.com',
             ]
         );
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
 
         $messages = $validation->validate(
             [
@@ -104,13 +131,16 @@ class ValidateCest
                 'anotherUrl' => 'http://google.com',
             ]
         );
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['url'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['url'],
+            $messages->offsetGet(0)->getMessage()
+        );
 
         $messages = $validation->validate(
             [
@@ -118,17 +148,21 @@ class ValidateCest
                 'anotherUrl' => '://google.',
             ]
         );
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['url'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
 
-        $expected = $validationMessages['anotherUrl'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $validationMessages['url'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $I->assertEquals(
+            $validationMessages['anotherUrl'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 
     /**
@@ -142,6 +176,7 @@ class ValidateCest
     public function validationValidatorUrlCustomMessage(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url :: validate() - custom message');
+
         $validation = new Validation();
 
         $validation->add(
@@ -153,7 +188,10 @@ class ValidateCest
             )
         );
 
-        $messages = $validation->validate([]);
+        $messages = $validation->validate(
+            []
+        );
+
         $expected = new Messages(
             [
                 new Message(
@@ -164,16 +202,28 @@ class ValidateCest
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['url' => 'x=1']);
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $messages);
 
-        $messages = $validation->validate(['url' => 'http://phalconphp.com']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'url' => 'x=1',
+            ]
+        );
+
+        $I->assertEquals($expected, $messages);
+
+
+        $messages = $validation->validate(
+            [
+                'url' => 'http://phalconphp.com',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 }

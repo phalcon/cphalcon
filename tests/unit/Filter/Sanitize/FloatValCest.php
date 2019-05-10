@@ -13,17 +13,14 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Filter\Sanitize;
 
 use Codeception\Example;
-use function number_format;
 use Phalcon\Filter\Sanitize\FloatVal;
 use UnitTester;
+use function number_format;
 
-/**
- * Class FloatValCest
- */
 class FloatValCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\FloatVal :: __invoke()
      *
      * @dataProvider getData
      *
@@ -46,8 +43,6 @@ class FloatValCest
     /**
      * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
      * This is on its own to align the float values (fraction)
-     *
-     * @param UnitTester $I
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13

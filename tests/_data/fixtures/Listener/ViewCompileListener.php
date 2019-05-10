@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Listener;
 
 use ComponentX;
+use IntegrationTester;
 use Phalcon\Events\Event;
 use Phalcon\Test\Integration\Mvc\View\Engine\Volt\RenderCest;
 use UnitTester;
@@ -31,7 +32,7 @@ class ViewCompileListener
     protected $before = '';
     protected $after  = '';
 
-    public function setTestCase(RenderCest $testCase, \IntegrationTester $tester)
+    public function setTestCase(RenderCest $testCase, IntegrationTester $tester)
     {
         $this->testCase = $testCase;
         $this->tester   = $tester;
@@ -43,7 +44,11 @@ class ViewCompileListener
      */
     public function beforeCompile($event, $component)
     {
-        $this->tester->assertInstanceOf(Event::class, $event);
+        $this->tester->assertInstanceOf(
+            Event::class,
+            $event
+        );
+
         $this->before = "Before fired";
     }
 
@@ -53,21 +58,19 @@ class ViewCompileListener
      */
     public function afterCompile($event, $component)
     {
-        $this->tester->assertInstanceOf(Event::class, $event);
+        $this->tester->assertInstanceOf(
+            Event::class,
+            $event
+        );
+
         $this->after = "After fired";
     }
 
-    /**
-     * @return string
-     */
     public function getAfter(): string
     {
         return $this->after;
     }
 
-    /**
-     * @return string
-     */
     public function getBefore(): string
     {
         return $this->before;

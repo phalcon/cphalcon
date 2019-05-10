@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Debug\Dump;
 use Phalcon\Debug\Dump;
 use UnitTester;
 
-/**
- * Class VariableCest
- */
 class VariableCest
 {
     /**
      * Tests Phalcon\Debug\Dump :: variable()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -34,15 +29,13 @@ class VariableCest
         $test = 'value';
         $dump = new Dump();
 
-        $expected = trim(file_get_contents(dataFolder('fixtures/Dump/variable_output.txt')));
+        $expected = trim(file_get_contents(dataDir('fixtures/Dump/variable_output.txt')));
         $actual   = $dump->variable($test);
         $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Debug\Dump :: variable() - name
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -53,7 +46,7 @@ class VariableCest
         $test = 'value';
         $dump = new Dump();
 
-        $expected = trim(file_get_contents(dataFolder('fixtures/Dump/variable_name_output.txt')));
+        $expected = trim(file_get_contents(dataDir('fixtures/Dump/variable_name_output.txt')));
         $actual   = $dump->variable($test, 'super');
         $I->assertEquals($expected, $actual);
     }

@@ -168,6 +168,7 @@ class Asset implements AssetInterface
         var sourcePath, completePath, content;
 
         let sourcePath = this->sourcePath;
+
         if empty sourcePath {
             let sourcePath = this->path;
         }
@@ -181,11 +182,10 @@ class Asset implements AssetInterface
          * Local assets are loaded from the local disk
          */
         if this->local {
-
             /**
              * Check first if the file is readable
              */
-            if !file_exists(completePath) {
+            if unlikely !file_exists(completePath) {
                 throw new Exception(
                     "Asset's content for '" . completePath . "' cannot be read"
                 );
@@ -197,7 +197,8 @@ class Asset implements AssetInterface
          * be enabled
          */
         let content = file_get_contents(completePath);
-        if content === false {
+
+        if unlikely content === false {
             throw new Exception(
                 "Asset's content for '" . completePath . "' cannot be read"
             );
@@ -230,6 +231,7 @@ class Asset implements AssetInterface
         var sourcePath;
 
         let sourcePath = this->sourcePath;
+
         if empty sourcePath {
             let sourcePath = this->path;
         }
@@ -252,6 +254,7 @@ class Asset implements AssetInterface
         var targetPath, completePath;
 
         let targetPath = this->targetPath;
+
         if empty targetPath {
             let targetPath = this->path;
         }

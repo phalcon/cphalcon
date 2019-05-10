@@ -34,7 +34,9 @@ class GetOptionCest
     public function validationValidatorAlphaGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Alpha - getOption()');
+
         $validator = new Alpha();
+
         $this->checkGetOption($I, $validator);
     }
 }

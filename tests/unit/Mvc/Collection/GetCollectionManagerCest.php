@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class GetCollectionManagerCest
- */
 class GetCollectionManagerCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: getCollectionManager()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetCollectionManagerCest
     public function mvcCollectionGetCollectionManager(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - getCollectionManager()');
+
         $I->skipTest('Need implementation');
     }
 }

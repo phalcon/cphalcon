@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Transaction;
@@ -41,23 +42,106 @@ class QueryOldCest
     {
         $transaction = new Transaction($this->container);
         $query       = new Query(null, $this->container);
+
         $query->setTransaction($transaction);
 
-        $I->assertEquals($transaction, $query->getTransaction());
+        $I->assertEquals(
+            $transaction,
+            $query->getTransaction()
+        );
     }
 
-    public function testSelectParsing(IntegrationTester $I)
+    /**
+     * @dataProvider getExamples
+     */
+    public function testSelectParsing(IntegrationTester $I, Example $example)
     {
-        $examples = $this->getExamples();
-        foreach ($examples as $item) {
-            $phql     = $item['phql'];
-            $expected = $item['expected'];
-            $query    = new Query($phql);
-            $query->setDI($this->container);
+        $phql     = $example['phql'];
+        $expected = $example['expected'];
 
-            $actual = $query->parse();
-            $I->assertEquals($expected, $actual);
-        }
+        $query = new Query($phql);
+
+        $query->setDI($this->container);
+
+        $I->assertEquals(
+            $expected,
+            $query->parse()
+        );
+    }
+
+    /**
+     * Tests Query::parse insert
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-01-24
+     *
+     * @dataProvider getExamplesInsert
+     */
+    public function shouldInsertParsing(IntegrationTester $I, Example $example)
+    {
+        $params   = $example[0];
+        $expected = $example[1];
+
+        $query = new Query(
+            $params['query']
+        );
+
+        $query->setDI($this->container);
+
+        $I->assertEquals(
+            $expected,
+            $query->parse()
+        );
+    }
+
+    /**
+     * Tests Query::parse update
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-01-24
+     *
+     * @dataProvider getExamplesUpdate
+     */
+    public function shouldUpdateParsing(IntegrationTester $I, Example $example)
+    {
+        $params   = $example[0];
+        $expected = $example[1];
+
+        $query = new Query(
+            $params['query']
+        );
+
+        $query->setDI($this->container);
+
+        $I->assertEquals(
+            $expected,
+            $query->parse()
+        );
+    }
+
+    /**
+     * Tests Query::parse delete
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-01-24
+     *
+     * @dataProvider getExamplesDelete
+     */
+    public function shouldDeleteParsing(IntegrationTester $I, Example $example)
+    {
+        $params   = $example[0];
+        $expected = $example[1];
+
+        $query = new Query(
+            $params['query']
+        );
+
+        $query->setDI($this->container);
+
+        $I->assertEquals(
+            $expected,
+            $query->parse()
+        );
     }
 
     private function getExamples(): array
@@ -6965,26 +7049,6 @@ class QueryOldCest
         ];
     }
 
-    /**
-     * Tests Query::parse insert
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-24
-     */
-    public function shouldInsertParsing(IntegrationTester $I)
-    {
-        $examples = $this->getExamplesInsert();
-        foreach ($examples as $item) {
-            $params   = $item[0];
-            $expected = $item[1];
-            $query    = new Query($params['query']);
-            $query->setDI($this->container);
-
-            $actual = $query->parse();
-            $I->assertEquals($expected, $actual);
-        }
-    }
-
     private function getExamplesInsert(): array
     {
         return [
@@ -7249,26 +7313,6 @@ class QueryOldCest
                 ],
             ],
         ];
-    }
-
-    /**
-     * Tests Query::parse update
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-24
-     */
-    public function shouldUpdateParsing(IntegrationTester $I)
-    {
-        $examples = $this->getExamplesUpdate();
-        foreach ($examples as $item) {
-            $params   = $item[0];
-            $expected = $item[1];
-            $query    = new Query($params['query']);
-            $query->setDI($this->container);
-
-            $actual = $query->parse();
-            $I->assertEquals($expected, $actual);
-        }
     }
 
     private function getExamplesUpdate(): array
@@ -7773,26 +7817,6 @@ class QueryOldCest
                 ],
             ],
         ];
-    }
-
-    /**
-     * Tests Query::parse delete
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-24
-     */
-    public function shouldDeleteParsing(IntegrationTester $I)
-    {
-        $examples = $this->getExamplesDelete();
-        foreach ($examples as $item) {
-            $params   = $item[0];
-            $expected = $item[1];
-            $query    = new Query($params['query']);
-            $query->setDI($this->container);
-
-            $actual = $query->parse();
-            $I->assertEquals($expected, $actual);
-        }
     }
 
     private function getExamplesDelete(): array

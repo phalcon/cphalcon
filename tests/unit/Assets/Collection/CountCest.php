@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
-/**
- * Class CountCest
- */
 class CountCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: count()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class CountCest
     public function assetsCollectionCount(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - count()');
+
         $I->skipTest('Need implementation');
     }
 }

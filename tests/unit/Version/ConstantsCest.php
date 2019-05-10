@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Version;
 use Phalcon\Version;
 use UnitTester;
 
-/**
- * Class ConstantsCest
- */
 class ConstantsCest
 {
     /**
      * Tests Phalcon\Version :: Constants
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,6 +26,7 @@ class ConstantsCest
     public function versionConstants(UnitTester $I)
     {
         $I->wantToTest('Version - constants');
+
         $I->assertEquals(0, Version::VERSION_MAJOR);
         $I->assertEquals(1, Version::VERSION_MEDIUM);
         $I->assertEquals(2, Version::VERSION_MINOR);

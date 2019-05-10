@@ -20,8 +20,7 @@ use Phalcon\Mvc\Collection\Exception;
 use Phalcon\Mvc\Collection\ManagerInterface;
 use Phalcon\Messages\Message as Message;
 use Phalcon\ValidationInterface;
-use Phalcon\Cache\FrontendInterface;
-
+use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
  * Phalcon\Mvc\Collection
@@ -73,7 +72,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             let container = Di::getDefault();
         }
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
                     "the services related to the ODM"
@@ -88,7 +87,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          */
         if typeof modelsManager != "object" {
             let modelsManager = container->getShared("collectionManager");
-            if typeof modelsManager != "object" {
+            if unlikely typeof modelsManager != "object" {
                 throw new Exception(
                     "The injected service 'modelsManager' is not valid"
                 );
@@ -136,7 +135,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let connection = model->getConnection();
 
         let source = model->getSource();
-        if empty source {
+        if unlikely empty source {
             throw new Exception("Method getSource() returns empty string");
         }
 
@@ -274,7 +273,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         var exists, data, keys, query,
             success, status, doc, collection;
 
-        if empty criteria {
+        if unlikely empty criteria {
             throw new Exception(
                 "Criteria parameter must be array with one or more attributes of the model"
             );
@@ -312,7 +311,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let keys = array_flip( criteria );
         let data = this->toArray();
 
-        if array_diff_key( keys, data ) {
+        if unlikely array_diff_key( keys, data ) {
             throw new Exception(
                 "Criteria parameter must be array with one or more attributes of the model"
             );
@@ -389,7 +388,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         var disableEvents, status, id, connection, source,
             collection, mongoId, success, ok;
 
-        if !fetch id, this->_id {
+        if unlikely !fetch id, this->_id {
             throw new Exception(
                 "The document cannot be deleted because it doesn't exist"
             );
@@ -410,7 +409,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let connection = this->getConnection();
 
         let source = this->getSource();
-        if empty source {
+        if unlikely empty source {
             throw new Exception("Method getSource() returns empty string");
         }
 
@@ -907,15 +906,17 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          * Obtain the default DI
          */
         let container = Di::getDefault();
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 "The dependency injector container is not valid"
             );
         }
 
         if container->has("serializer") {
-            let serializer = <FrontendInterface> this->container->getShared("serializer");
-            return serializer->beforeStore(this->toArray());
+            let serializer = <SerializerInterface> this->container->getShared("serializer");
+            serializer->setData(this->toArray());
+
+            return serializer->serialize();
         }
 
         /**
@@ -1017,7 +1018,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let connection = model->getConnection();
 
         let source = model->getSource();
-        if empty source {
+        if unlikely empty source {
             throw new Exception("Method getSource() returns empty string");
         }
 
@@ -1095,7 +1096,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          * Obtain the default DI
          */
         let container = Di::getDefault();
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
                     "the services related to the ODM"
@@ -1108,8 +1109,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          */
         let this->container = container;
         if container->has("serializer") {
-            let serializer = <FrontendInterface> container->getShared("serializer");
-            let attributes = serializer->afterRetrieve(data);
+            let serializer = <SerializerInterface> container->getShared("serializer");
+            let attributes = serializer->unserialize(data);
         } else {
             let attributes = unserialize(data);
         }
@@ -1118,7 +1119,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
              * Gets the default modelsManager service
              */
             let manager = container->getShared("collectionManager");
-            if typeof manager != "object" {
+            if unlikely typeof manager != "object" {
                 throw new Exception(
                     "The injected service 'collectionManager' is not valid"
                 );
@@ -1153,7 +1154,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          */
         let exists = this->exists(collection);
 
-        if !exists {
+        if unlikely !exists {
             throw new Exception(
                 "The document cannot be updated because it doesn't exist"
             );
@@ -1364,7 +1365,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         var source, mongoCollection, conditions, limit, sort, documentsCursor;
 
         let source = collection->getSource();
-        if empty source {
+        if unlikely empty source {
             throw new Exception("Method getSource() returns empty string");
         }
 
@@ -1434,7 +1435,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         if fetch className, params["class"] {
             let base = new {className}();
 
-            if !(base instanceof CollectionInterface || base instanceof Collection\Document) {
+            if unlikely !(base instanceof CollectionInterface || base instanceof Collection\Document) {
                 throw new Exception(
                     "Object of class '" . className . "' must be an implementation of Phalcon\\Mvc\\CollectionInterface or an instance of Phalcon\\Mvc\\Collection\\Document"
                 );
@@ -1448,13 +1449,13 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         }
 
         let source = collection->getSource();
-        if empty source {
+        if unlikely empty source {
             throw new Exception("Method getSource() returns empty string");
         }
 
         let mongoCollection = connection->selectCollection(source);
 
-        if typeof mongoCollection != "object" {
+        if unlikely typeof mongoCollection != "object" {
             throw new Exception("Couldn't select mongo collection");
         }
 
@@ -1467,7 +1468,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             }
         }
 
-        if typeof conditions != "array" {
+        if unlikely typeof conditions != "array" {
             throw new Exception("Find parameters must be an array");
         }
 
@@ -1654,7 +1655,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         var container, connection, source, collection;
 
         let container = this->container;
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
                     "the services related to the ODM"
@@ -1663,7 +1664,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         }
 
         let source = this->getSource();
-        if empty source {
+        if unlikely empty source {
             throw new Exception("Method getSource() returns empty string");
         }
 

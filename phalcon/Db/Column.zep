@@ -328,7 +328,7 @@ class Column implements ColumnInterface
         /**
          * Get the column type, one of the TYPE_* constants
          */
-        if !fetch type, definition["type"] {
+        if unlikely !fetch type, definition["type"] {
             throw new Exception("Column type is required");
         }
 
@@ -456,7 +456,7 @@ class Column implements ColumnInterface
             autoIncrement, columnTypeReference, columnTypeValues;
 
         if !fetch columnName, data["columnName"] {
-            if !fetch columnName, data["name"] {
+            if unlikely !fetch columnName, data["name"] {
                 throw new Exception("Column name is required");
             }
         }

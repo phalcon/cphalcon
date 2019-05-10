@@ -35,6 +35,7 @@
  *     "lifetime" => "3600",
  *     "adapter"  => "apc",
  * ];
+ *
  * $annotations = Factory::load($options);
  *</code>
  */

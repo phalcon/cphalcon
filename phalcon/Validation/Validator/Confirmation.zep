@@ -125,7 +125,7 @@ class Confirmation extends Validator
             /**
              * mbstring is required here
              */
-            if !function_exists("mb_strtolower") {
+            if unlikely !function_exists("mb_strtolower") {
                 throw new Exception("Extension 'mbstring' is required");
             }
 

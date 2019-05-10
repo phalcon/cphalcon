@@ -34,7 +34,9 @@ class SetOptionCest
     public function validationValidatorCallbackSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Callback - setOption()');
+
         $validator = new Callback();
+
         $this->checkSetOption($I, $validator);
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
 use UnitTester;
 
-/**
- * Class GetPathDelimiterCest
- */
 class GetPathDelimiterCest
 {
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: getPathDelimiter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetPathDelimiterCest
     public function configAdapterGroupedGetPathDelimiter(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Grouped - getPathDelimiter()');
+
         $I->skipTest('Need implementation');
     }
 }

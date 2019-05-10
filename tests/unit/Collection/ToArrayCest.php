@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Collection;
 use Phalcon\Collection;
 use UnitTester;
 
-/**
- * Class ToArrayCest
- */
 class ToArrayCest
 {
     /**
      * Tests Phalcon\Collection :: toArray()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,15 +26,18 @@ class ToArrayCest
     public function collectionToArray(UnitTester $I)
     {
         $I->wantToTest('Collection - toArray()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Collection($data);
 
-        $expected = $data;
-        $actual   = $collection->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $data,
+            $collection->toArray()
+        );
     }
 }

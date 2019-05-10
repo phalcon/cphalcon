@@ -12,18 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use UnitTester;
 use Phalcon\Security;
+use UnitTester;
 
-/**
- * Class GetDefaultHashCest
- */
 class GetSetDefaultHashCest
 {
     /**
      * Tests Phalcon\Security :: getDefaultHash() and setDefaultHash()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -34,22 +29,35 @@ class GetSetDefaultHashCest
 
         $security = new Security();
 
-        $expected = null;
-        $actual   = $security->getDefaultHash();
-        $I->assertEquals($expected, $actual);
 
-        $expected = 16;
-        $actual   = $security->getRandomBytes();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertNull(
+            $security->getDefaultHash()
+        );
+
+
+
+        $I->assertEquals(
+            16,
+            $security->getRandomBytes()
+        );
+
+
 
         $security->setDefaultHash(1);
-        $expected = 1;
-        $actual   = $security->getDefaultHash();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            1,
+            $security->getDefaultHash()
+        );
+
+
 
         $security->setRandomBytes(22);
-        $expected = 22;
-        $actual   = $security->getRandomBytes();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            22,
+            $security->getRandomBytes()
+        );
     }
 }

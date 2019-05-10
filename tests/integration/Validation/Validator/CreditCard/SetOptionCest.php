@@ -34,7 +34,9 @@ class SetOptionCest
     public function validationValidatorCreditCardSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\CreditCard - setOption()');
+
         $validator = new CreditCard();
+
         $this->checkSetOption($I, $validator);
     }
 }

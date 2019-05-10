@@ -13,21 +13,15 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router\Group;
 
 use IntegrationTester;
-use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Group;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class AddConnectCest
- */
 class AddConnectCest
 {
     use RouterTrait;
 
     /**
      * Tests Phalcon\Mvc\Router\Group :: addConnect()
-     *
-     * @param IntegrationTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17
@@ -51,11 +45,9 @@ class AddConnectCest
         $router->mount($group);
 
 
-
         $_SERVER['REQUEST_METHOD'] = 'CONNECT';
 
         $router->handle('/docs/index');
-
 
 
         $I->assertEquals(

@@ -37,7 +37,7 @@ class RegenerateIdCest
     {
         $I->wantToTest('Session\Manager - regenerateId()');
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
         $manager->start();
 

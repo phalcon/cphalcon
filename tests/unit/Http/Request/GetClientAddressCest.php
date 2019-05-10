@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class GetClientAddressCest
- */
 class GetClientAddressCest
 {
     /**
      * Tests Phalcon\Http\Request :: getClientAddress()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetClientAddressCest
     public function httpRequestGetClientAddress(UnitTester $I)
     {
         $I->wantToTest('Http\Request - getClientAddress()');
+
         $I->skipTest('Need implementation');
     }
 }

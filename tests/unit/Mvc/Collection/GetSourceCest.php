@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class GetSourceCest
- */
 class GetSourceCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: getSource()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetSourceCest
     public function mvcCollectionGetSource(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - getSource()');
+
         $I->skipTest('Need implementation');
     }
 }

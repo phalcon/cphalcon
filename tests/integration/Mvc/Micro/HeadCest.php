@@ -56,7 +56,6 @@ class HeadCest
         );
 
 
-
         $_SERVER['REQUEST_METHOD'] = 'head';
 
         $I->assertEquals(

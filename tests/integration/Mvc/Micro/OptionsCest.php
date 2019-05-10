@@ -56,7 +56,6 @@ class OptionsCest
         );
 
 
-
         $_SERVER['REQUEST_METHOD'] = 'OPTIONS';
 
         $I->assertEquals(

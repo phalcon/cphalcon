@@ -18,9 +18,6 @@ use Phalcon\Paginator\Factory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 
-/**
- * Class LoadCest
- */
 class LoadCest
 {
     use FactoryTrait;
@@ -29,16 +26,17 @@ class LoadCest
     /**
      * Tests Phalcon\Paginator\Factory :: load() - Config
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
     public function paginatorFactoryLoadConfig(IntegrationTester $I)
     {
         $I->wantToTest("Paginator\Factory - load() - Config");
+
         $I->skipTest("TODO: need to check this");
+
         $this->setNewFactoryDefault();
+
         $options          = $this->config->paginator;
         $options->builder = $this
             ->container
@@ -48,11 +46,24 @@ class LoadCest
             ->from("Robots")
             ->orderBy("name")
         ;
+
         /** @var QueryBuilder $paginator */
         $paginator = Factory::load($options);
-        $I->assertInstanceOf(QueryBuilder::class, $paginator);
-        $I->assertEquals($options->limit, $paginator->getLimit());
-        $I->assertEquals($options->page, $paginator->getCurrentPage());
+
+        $I->assertInstanceOf(
+            QueryBuilder::class,
+            $paginator
+        );
+
+        $I->assertEquals(
+            $options->limit,
+            $paginator->getLimit()
+        );
+
+        $I->assertEquals(
+            $options->page,
+            $paginator->getCurrentPage()
+        );
     }
 
     /**
@@ -66,8 +77,11 @@ class LoadCest
     public function paginatorFactoryLoadArray(IntegrationTester $I)
     {
         $I->wantToTest("Paginator\Factory - load() - array");
+
         $I->skipTest("TODO: need to check this");
+
         $this->setNewFactoryDefault();
+
         $options            = $this->arrayConfig["paginator"];
         $options["builder"] = $this
             ->container
@@ -77,10 +91,23 @@ class LoadCest
             ->from("Robots")
             ->orderBy("name")
         ;
+
         /** @var QueryBuilder $paginator */
         $paginator = Factory::load($options);
-        $I->assertInstanceOf(QueryBuilder::class, $paginator);
-        $I->assertEquals($options["limit"], $paginator->getLimit());
-        $I->assertEquals($options["page"], $paginator->getCurrentPage());
+
+        $I->assertInstanceOf(
+            QueryBuilder::class,
+            $paginator
+        );
+
+        $I->assertEquals(
+            $options["limit"],
+            $paginator->getLimit()
+        );
+
+        $I->assertEquals(
+            $options["page"],
+            $paginator->getCurrentPage()
+        );
     }
 }

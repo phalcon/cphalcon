@@ -14,19 +14,14 @@ namespace Phalcon\Test\Unit\Assets\Filters\Jsmin;
 
 use Phalcon\Assets\Exception;
 use Phalcon\Assets\Filters\Jsmin;
+use stdClass;
+use TypeError;
 use UnitTester;
 
-/**
- * Class FilterCest
- *
- * @package Phalcon\Test\Unit\Assets\Filters\Jsmin
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Assets\Filters\Jsmin :: __construct() - no string exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
@@ -36,13 +31,13 @@ class ConstructCest
         $I->wantToTest('Assets\Filters\Jsmin - filter() - no string exception');
         $I->skipTest('Need Phalcon implementation');
         $I->expectThrowable(
-            new \TypeError(
+            new TypeError(
                 'Argument 1 passed to Phalcon\Assets\Filters\Jsmin::filter() ' .
                 'must be of the type string, object given'
             ),
             function () {
                 $jsmin = new Jsmin();
-                $jsmin->filter(new \stdClass());
+                $jsmin->filter(new stdClass());
             }
         );
     }
@@ -50,8 +45,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Filters\Jsmin :: __construct() - unterminated
      * comment
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
@@ -72,8 +65,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Filters\Jsmin :: __construct() - unterminated string
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
@@ -92,8 +83,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Assets\Filters\Jsmin :: __construct() - unterminated regex
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24

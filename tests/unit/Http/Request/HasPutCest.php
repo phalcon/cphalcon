@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class HasPutCest
- */
 class HasPutCest
 {
     /**
      * Tests Phalcon\Http\Request :: hasPut()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class HasPutCest
     public function httpRequestHasPut(UnitTester $I)
     {
         $I->wantToTest('Http\Request - hasPut()');
+
         $I->skipTest('Need implementation');
     }
 }

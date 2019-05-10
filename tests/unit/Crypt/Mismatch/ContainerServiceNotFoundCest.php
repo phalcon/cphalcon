@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Crypt\Mismatch;
 
 use UnitTester;
 
-/**
- * Class ContainerServiceNotFoundCest
- */
 class ContainerServiceNotFoundCest
 {
     /**
      * Tests Phalcon\Crypt\Mismatch :: containerServiceNotFound()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16

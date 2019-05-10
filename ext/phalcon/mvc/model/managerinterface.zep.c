@@ -286,8 +286,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, missingMethod);
 /**
  * Receives events generated in the models and dispatches them to an events-manager if available
  * Notify the behaviors that are listening in the model
- *
- * @param string $eventName
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, notifyEvent);
 

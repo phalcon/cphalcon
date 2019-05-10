@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Crypt;
 
 use UnitTester;
 
-/**
- * Class GetHashAlgoCest
- */
 class GetHashAlgoCest
 {
     /**
      * Tests Phalcon\Crypt :: getHashAlgo()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16

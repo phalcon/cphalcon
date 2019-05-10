@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Stream;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
 
-/**
- * Class SeekCest
- */
 class SeekCest
 {
     /**
      * Tests Phalcon\Http\Message\Stream :: seek()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -31,7 +26,7 @@ class SeekCest
     public function httpMessageStreamSeek(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - seek()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $stream   = new Stream($fileName, 'rb');
 
         $stream->seek(274);
@@ -44,15 +39,13 @@ class SeekCest
     /**
      * Tests Phalcon\Http\Message\Stream :: seek() - after file size
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
     public function httpMessageStreamSeekAfterFileSize(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - seek() - after file size');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $stream   = new Stream($fileName, 'rb');
 
         $stream->seek(10240);

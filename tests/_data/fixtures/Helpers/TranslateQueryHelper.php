@@ -42,11 +42,20 @@ class TranslateQueryHelper
                 $data['language']
             )
         );
-        $language   = $this->getArrayConfig()[$data['code']];
-        $translator = new NativeArray(['content' => $language]);
+
+        $language = $this->getArrayConfig()[$data['code']];
+
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
+
         foreach ($data['tests'] as $key => $expected) {
-            $actual   = $translator->{$this->function}($key);
-            $I->assertEquals($expected, $actual);
+            $I->assertEquals(
+                $expected,
+                $translator->{$this->function}($key)
+            );
         }
     }
 
@@ -70,11 +79,25 @@ class TranslateQueryHelper
                 $data['language']
             )
         );
-        $language   = $this->getArrayConfig()[$data['code']];
-        $translator = new NativeArray(['content' => $language]);
+
+        $language = $this->getArrayConfig()[$data['code']];
+
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
+
         foreach ($data['tests'] as $key => $expected) {
-            $actual   = $translator->{$this->function}($key, ['name' => 'my friend']);
-            $I->assertEquals($expected, $actual);
+            $I->assertEquals(
+                $expected,
+                $translator->{$this->function}(
+                    $key,
+                    [
+                        'name' => 'my friend',
+                    ]
+                )
+            );
         }
     }
 
@@ -98,8 +121,15 @@ class TranslateQueryHelper
                 $data['language']
             )
         );
-        $language   = $this->getArrayConfig()[$data['code']];
-        $translator = new NativeArray(['content' => $language]);
+
+        $language = $this->getArrayConfig()[$data['code']];
+
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
+
         foreach ($data['tests'] as $key => $expected) {
             $actual   = $translator->{$this->function}($key, ['name' => 'my friend']);
             $I->assertEquals($expected, $actual);
@@ -126,15 +156,25 @@ class TranslateQueryHelper
                 $data['language']
             )
         );
-        $language   = $this->getArrayConfig()[$data['code']];
-        $translator = new NativeArray(['content' => $language]);
-        $vars       = [
+
+        $language = $this->getArrayConfig()[$data['code']];
+
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
+
+        $vars = [
             'song'   => 'Dust in the wind',
             'artist' => 'Kansas',
         ];
+
         foreach ($data['tests'] as $key => $expected) {
-            $actual   = $translator->{$this->function}($key, $vars);
-            $I->assertEquals($expected, $actual);
+            $I->assertEquals(
+                $expected,
+                $translator->{$this->function}($key, $vars)
+            );
         }
     }
 
@@ -148,8 +188,13 @@ class TranslateQueryHelper
      */
     public function testWithArrayAccessAndUTF8Strings(UnitTester $I)
     {
-        $language   = $this->getArrayConfig()['ru'];
-        $translator = new NativeArray(['content' => $language]);
+        $language = $this->getArrayConfig()['ru'];
+
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
 
         $vars = [
             'fname' => 'John',
@@ -157,9 +202,10 @@ class TranslateQueryHelper
             'mname' => 'D.',
         ];
 
-        $expected = 'Привет, John D. Doe!';
-        $actual   = $translator->{$this->function}('Hello %fname% %mname% %lname%!', $vars);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Привет, John D. Doe!',
+            $translator->{$this->function}('Hello %fname% %mname% %lname%!', $vars)
+        );
     }
 
     /**

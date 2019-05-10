@@ -92,7 +92,6 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, __construct) {
  * string casting operations.
  *
  * @see http://php.net/manual/en/language.oop5.magic.php#object.tostring
- * @return string
  */
 PHP_METHOD(Phalcon_Http_Message_Stream_Input, __toString) {
 
@@ -117,7 +116,6 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, __toString) {
 /**
  * Returns the remaining contents in a string
  *
- * @return string
  * @throws \RuntimeException if unable to read.
  * @throws \RuntimeException if error occurs while reading.
  */
@@ -152,7 +150,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, getContents) {
 	}
 	zephir_read_property(&_1, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_2, length);
-	ZEPHIR_CALL_FUNCTION(&data, "stream_get_contents", NULL, 50, &_1, &_2);
+	ZEPHIR_CALL_FUNCTION(&data, "stream_get_contents", NULL, 51, &_1, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("data"), &data);
 	_3 = -1 == length;
@@ -173,9 +171,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, getContents) {
 }
 
 /**
- * Returns whether or not the stream is writable.
- *
- * @return bool
+ * Returns whether or not the stream is writeable.
  */
 PHP_METHOD(Phalcon_Http_Message_Stream_Input, isWritable) {
 

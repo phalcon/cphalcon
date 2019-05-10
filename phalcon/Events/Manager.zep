@@ -48,7 +48,7 @@ class Manager implements ManagerInterface
     {
         var priorityQueue;
 
-        if typeof handler != "object" {
+        if unlikely typeof handler != "object" {
             throw new Exception("Event handler must be an Object");
         }
 
@@ -56,8 +56,10 @@ class Manager implements ManagerInterface
             // Create a SplPriorityQueue to store the events with priorities
             let priorityQueue = new SplPriorityQueue();
 
-            // Extract only the Data // Set extraction flags
-            priorityQueue->setExtractFlags(SplPriorityQueue::EXTR_DATA);
+            // Set extraction flags to extract only the Data
+            priorityQueue->setExtractFlags(
+                SplPriorityQueue::EXTR_DATA
+            );
 
             // Append the events to the queue
             let this->events[eventType] = priorityQueue;
@@ -97,7 +99,7 @@ class Manager implements ManagerInterface
     {
         var priorityQueue, newPriorityQueue, data;
 
-        if typeof handler != "object" {
+        if unlikely typeof handler != "object" {
             throw new Exception("Event handler must be an Object");
         }
 
@@ -108,9 +110,14 @@ class Manager implements ManagerInterface
              */
             let newPriorityQueue = new SplPriorityQueue();
 
-            newPriorityQueue->setExtractFlags(SplPriorityQueue::EXTR_DATA);
+            newPriorityQueue->setExtractFlags(
+                SplPriorityQueue::EXTR_DATA
+            );
 
-            priorityQueue->setExtractFlags(SplPriorityQueue::EXTR_BOTH);
+            priorityQueue->setExtractFlags(
+                SplPriorityQueue::EXTR_BOTH
+            );
+
             priorityQueue->top();
 
             while priorityQueue->valid() {
@@ -169,12 +176,13 @@ class Manager implements ManagerInterface
         var events, eventParts, type, eventName, event, status, fireEvents;
 
         let events = this->events;
+
         if typeof events != "array" {
             return null;
         }
 
         // All valid events must have a colon separator
-        if !memstr(eventType, ":") {
+        if unlikely !memstr(eventType, ":") {
             throw new Exception("Invalid event type " . eventType);
         }
 
@@ -189,14 +197,12 @@ class Manager implements ManagerInterface
             let this->responses = null;
         }
 
-        let event = null;
+        // Create the event context
+        let event = new Event(eventName, source, data, cancelable);
 
         // Check if events are grouped by type
         if fetch fireEvents, events[type] {
             if typeof fireEvents == "object" {
-                // Create the event context
-                let event = new Event(eventName, source, data, cancelable);
-
                 // Call the events queue
                 let status = this->fireQueue(fireEvents, event);
             }
@@ -205,11 +211,6 @@ class Manager implements ManagerInterface
         // Check if there are listeners for the event type itself
         if fetch fireEvents, events[eventType] {
             if typeof fireEvents == "object" {
-                // Create the event if it wasn't created before
-                if event === null {
-                    let event = new Event(eventName, source, data, cancelable);
-                }
-
                 // Call the events queue
                 let status = this->fireQueue(fireEvents, event);
             }
@@ -225,14 +226,15 @@ class Manager implements ManagerInterface
      */
     final public function fireQueue(<SplPriorityQueue> queue, <EventInterface> event)
     {
-        var status, arguments, eventName, data, iterator, source, handler;
+        var status, eventName, data, iterator, source, handler;
         bool collect, cancelable;
 
-        let status = null, arguments = null;
+        let status = null;
 
         // Get the event type
         let eventName = event->getType();
-        if typeof eventName != "string" {
+
+        if unlikely typeof eventName != "string" {
             throw new Exception("The event type not valid");
         }
 
@@ -255,53 +257,41 @@ class Manager implements ManagerInterface
         iterator->top();
 
         while iterator->valid() {
-
             // Get the current data
             let handler = iterator->current();
 
             iterator->next();
 
             // Only handler objects are valid
-            if typeof handler == "object" {
-                // Check if the event is a closure
-                if handler instanceof \Closure {
-                    // Create the closure arguments
-                    if arguments === null {
-                        let arguments = [event, source, data];
-                    }
+            if unlikely typeof handler != "object" {
+                continue;
+            }
 
-                    // Call the function in the PHP userland
-                    let status = call_user_func_array(handler, arguments);
+            // Check if the event is a closure
+            if handler instanceof \Closure {
+                // Call the function in the PHP userland
+                let status = call_user_func_array(
+                    handler,
+                    [event, source, data]
+                );
+            } else {
+                // Check if the listener has implemented an event with the same name
+                if !method_exists(handler, eventName) {
+                    continue;
+                }
 
-                    // Trace the response
-                    if collect {
-                        let this->responses[] = status;
-                    }
+                let status = handler->{eventName}(event, source, data);
+            }
 
-                    if cancelable {
-                        // Check if the event was stopped by the user
-                        if event->isStopped() {
-                            break;
-                        }
-                    }
-                } else {
-                    // Check if the listener has implemented an event with the same name
-                    if method_exists(handler, eventName) {
-                        // Call the function in the PHP userland
-                        let status = handler->{eventName}(event, source, data);
+            // Trace the response
+            if collect {
+                let this->responses[] = status;
+            }
 
-                        // Collect the response
-                        if collect {
-                            let this->responses[] = status;
-                        }
-
-                        if cancelable {
-                            // Check if the event was stopped by the user
-                            if event->isStopped() {
-                                break;
-                            }
-                        }
-                    }
+            if cancelable {
+                // Check if the event was stopped by the user
+                if event->isStopped() {
+                    break;
                 }
             }
         }
@@ -314,11 +304,8 @@ class Manager implements ManagerInterface
      */
     public function getListeners(string! type) -> array
     {
-        var fireEvents, priorityQueue, listeners;
-
-        if typeof this->events !== "array" {
-            return [];
-        }
+        var fireEvents, priorityQueue;
+        array listeners;
 
         if !fetch fireEvents, this->events[type] {
             return [];

@@ -5,13 +5,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Group);
 
 PHP_METHOD(Phalcon_Mvc_Router_Group, __construct);
 PHP_METHOD(Phalcon_Mvc_Router_Group, add);
+PHP_METHOD(Phalcon_Mvc_Router_Group, addConnect);
 PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete);
 PHP_METHOD(Phalcon_Mvc_Router_Group, addGet);
 PHP_METHOD(Phalcon_Mvc_Router_Group, addHead);
 PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions);
 PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch);
 PHP_METHOD(Phalcon_Mvc_Router_Group, addPost);
+PHP_METHOD(Phalcon_Mvc_Router_Group, addPurge);
 PHP_METHOD(Phalcon_Mvc_Router_Group, addPut);
+PHP_METHOD(Phalcon_Mvc_Router_Group, addTrace);
 PHP_METHOD(Phalcon_Mvc_Router_Group, beforeMatch);
 PHP_METHOD(Phalcon_Mvc_Router_Group, clear);
 PHP_METHOD(Phalcon_Mvc_Router_Group, getBeforeMatch);
@@ -40,6 +43,19 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_add, 0,
 #endif
 	ZEND_ARG_INFO(0, paths)
 	ZEND_ARG_INFO(0, httpMethods)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addconnect, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_addconnect, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, pattern)
+#endif
+	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -121,9 +137,35 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_addpost
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addpurge, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_addpurge, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, pattern)
+#endif
+	ZEND_ARG_INFO(0, paths)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addput, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_addput, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, pattern)
+#endif
+	ZEND_ARG_INFO(0, paths)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addtrace, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_addtrace, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
@@ -156,9 +198,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_getpref
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_getroutes, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_getroutes, 0, 0, Phalcon\\Mvc\\Router\\RouteInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_getroutes, 0, 0, IS_ARRAY, NULL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_getroutes, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -211,13 +253,16 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_mvc_router_group_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router_Group, __construct, arginfo_phalcon_mvc_router_group___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Router_Group, add, arginfo_phalcon_mvc_router_group_add, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, addConnect, arginfo_phalcon_mvc_router_group_addconnect, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, addDelete, arginfo_phalcon_mvc_router_group_adddelete, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, addGet, arginfo_phalcon_mvc_router_group_addget, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, addHead, arginfo_phalcon_mvc_router_group_addhead, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, addOptions, arginfo_phalcon_mvc_router_group_addoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, addPatch, arginfo_phalcon_mvc_router_group_addpatch, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, addPost, arginfo_phalcon_mvc_router_group_addpost, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, addPurge, arginfo_phalcon_mvc_router_group_addpurge, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, addPut, arginfo_phalcon_mvc_router_group_addput, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Group, addTrace, arginfo_phalcon_mvc_router_group_addtrace, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, beforeMatch, arginfo_phalcon_mvc_router_group_beforematch, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, clear, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Group, getBeforeMatch, NULL, ZEND_ACC_PUBLIC)

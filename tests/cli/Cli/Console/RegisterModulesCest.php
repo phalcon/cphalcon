@@ -14,6 +14,7 @@ namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Modules\Frontend\Module;
 
 /**
  * Class RegisterModulesCest
@@ -31,46 +32,75 @@ class RegisterModulesCest
      * @since  2018-11-13
      *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-26-12
+     * @since  2018-26-12
      */
     public function cliConsoleRegisterModules(CliTester $I)
     {
         $I->wantToTest("Cli\Console - registerModules()");
 
         $console = $this->newCliConsole();
+
         $console->registerModules(
             [
                 "frontend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
-                    "path" => __DIR__ . "/../../../_data/modules/frontend/Module.php",
-                ]
+                    "className" => Module::class,
+                    "path"      => __DIR__ . "/../../../_data/modules/frontend/Module.php",
+                ],
             ]
         );
-        $I->assertCount(1, $console->getModules());
-        $I->assertArrayHasKey("frontend", $console->getModules());
+
+        $I->assertCount(
+            1,
+            $console->getModules()
+        );
+
+        $I->assertArrayHasKey(
+            "frontend",
+            $console->getModules()
+        );
 
         $console->registerModules(
             [
                 "backend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Backend\\Module",
-                    "path" => __DIR__ . "/../../../_data/modules/backend/Module.php",
-                ]
+                    "className" => \Phalcon\Test\Modules\Backend\Module::class,
+                    "path"      => __DIR__ . "/../../../_data/modules/backend/Module.php",
+                ],
             ]
         );
-        $I->assertCount(1, $console->getModules());
-        $I->assertArrayHasKey("backend", $console->getModules());
+
+        $I->assertCount(
+            1,
+            $console->getModules()
+        );
+
+        $I->assertArrayHasKey(
+            "backend",
+            $console->getModules()
+        );
 
         $console->registerModules(
             [
                 "frontend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
-                    "path" => __DIR__ . "/../../../_data/modules/frontend/Module.php",
-                ]
+                    "className" => Module::class,
+                    "path"      => __DIR__ . "/../../../_data/modules/frontend/Module.php",
+                ],
             ],
             $merge = true
         );
-        $I->assertCount(2, $console->getModules());
-        $I->assertArrayHasKey("frontend", $console->getModules());
-        $I->assertArrayHasKey("backend", $console->getModules());
+
+        $I->assertCount(
+            2,
+            $console->getModules()
+        );
+
+        $I->assertArrayHasKey(
+            "frontend",
+            $console->getModules()
+        );
+
+        $I->assertArrayHasKey(
+            "backend",
+            $console->getModules()
+        );
     }
 }

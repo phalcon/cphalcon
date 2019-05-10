@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorUrlHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url - hasOption()');
-        $validator = new Url(['message' => 'This is a message']);
+
+        $validator = new Url(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

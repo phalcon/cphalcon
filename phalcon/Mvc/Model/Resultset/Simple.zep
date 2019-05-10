@@ -10,13 +10,13 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
-use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Mvc\Model\Exception;
-use Phalcon\Cache\BackendInterface;
-use Phalcon\DiInterface;
 use Phalcon\Di;
-use Phalcon\Cache\FrontendInterface;
+use Phalcon\DiInterface;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Simple
@@ -39,8 +39,13 @@ class Simple extends Resultset
      * @param array                                             columnMap
      * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row model
      */
-    public function __construct(var columnMap, var model, result, <BackendInterface> cache = null, bool keepSnapshots = null) -> void
-    {
+    public function __construct(
+        var columnMap,
+        var model,
+        result,
+        <AdapterInterface> cache = null,
+        bool keepSnapshots = null
+    ) -> void {
         let this->model = model,
             this->columnMap = columnMap;
 
@@ -150,8 +155,8 @@ class Simple extends Resultset
      */
     public function toArray(bool renameColumns = true) -> array
     {
-        var result, records, record, renamed, renamedKey, key, value,
-            renamedRecords, columnMap;
+        var result, records, record, renamedKey, key, value, columnMap;
+        array renamedRecords, renamed;
 
         /**
          * If _rows is not present, fetchAll from database
@@ -196,14 +201,14 @@ class Simple extends Resultset
                         /**
                          * Check if the key is part of the column map
                          */
-                        if !fetch renamedKey, columnMap[key] {
+                        if unlikely !fetch renamedKey, columnMap[key] {
                             throw new Exception(
                                 "Column '" . key . "' is not part of the column map"
                             );
                         }
 
                         if typeof renamedKey == "array" {
-                            if !fetch renamedKey, renamedKey[0] {
+                            if unlikely !fetch renamedKey, renamedKey[0] {
                                 throw new Exception(
                                     "Column '" . key . "' is not part of the column map"
                                 );
@@ -236,7 +241,7 @@ class Simple extends Resultset
 
         let container = Di::getDefault();
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 "The dependency injector container is not valid"
             );
@@ -252,9 +257,10 @@ class Simple extends Resultset
         ];
 
         if container->has("serializer") {
-            let serializer = <FrontendInterface> container->getShared("serializer");
+            let serializer = <SerializerInterface> container->getShared("serializer");
+            serializer->setData(data);
 
-            return serializer->beforeStore(data);
+            return serializer->serialize();
         }
 
         /**
@@ -273,28 +279,28 @@ class Simple extends Resultset
 
         let container = Di::getDefault();
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 "The dependency injector container is not valid"
             );
         }
 
         if container->has("serializer") {
-            let serializer = <FrontendInterface> container->getShared("serializer");
-            let resultset = serializer->afterRetrieve(data);
+            let serializer = <SerializerInterface> container->getShared("serializer");
+            let resultset = serializer->unserialize(data);
         } else {
             let resultset = unserialize(data);
         }
 
-        if typeof resultset != "array" {
+        if unlikely typeof resultset != "array" {
             throw new Exception("Invalid serialization data");
         }
 
-        let this->model = resultset["model"],
-            this->rows = resultset["rows"],
-            this->count = count(resultset["rows"]),
-            this->cache = resultset["cache"],
-            this->columnMap = resultset["columnMap"],
+        let this->model       = resultset["model"],
+            this->rows        = resultset["rows"],
+            this->count       = count(resultset["rows"]),
+            this->cache       = resultset["cache"],
+            this->columnMap   = resultset["columnMap"],
             this->hydrateMode = resultset["hydrateMode"];
 
         if fetch keepSnapshots, resultset["keepSnapshots"] {

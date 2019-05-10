@@ -250,13 +250,13 @@ class DbCest
         $I->assertCount(11, $rows[0]);
 
         $id = $connection->fetchColumn("SELECT id FROM robots ORDER BY year DESC");
-        $I->assertEquals($id, 3);
+        $I->assertEquals(3, $id);
 
         $type = $connection->fetchColumn("SELECT * FROM robots where id=?", [1], 2);
-        $I->assertEquals($type, 'mechanical');
+        $I->assertEquals('mechanical', $type);
 
         $type = $connection->fetchColumn("SELECT * FROM robots where id=?", [1], 'type');
-        $I->assertEquals($type, 'mechanical');
+        $I->assertEquals('mechanical', $type);
 
         //Auto-Increment/Serial Columns
         $sql     = 'INSERT INTO subscriptores(id, email, created_at, status) VALUES (' . $connection->getDefaultIdValue() . ', ?, ?, ?)';
@@ -264,7 +264,10 @@ class DbCest
         $I->assertTrue($success);
 
         //Check for auto-increment column
-        $I->assertTrue($connection->lastInsertId('subscriptores_id_seq') > 0);
+        $I->assertGreaterThan(
+            0,
+            $connection->lastInsertId('subscriptores_id_seq')
+        );
 
         // Create View
         $success = $connection->createView(
@@ -291,80 +294,119 @@ class DbCest
         $I->assertEquals($row['two'], 2);
 
         //Drop view
-        $success = $connection->dropView('phalcon_test_view');
-        $I->assertTrue($success);
+        $I->assertTrue(
+            $connection->dropView('phalcon_test_view')
+        );
 
         //Transactions without savepoints.
         $connection->setNestedTransactionsWithSavepoints(false);
 
-        $success = $connection->begin(); // level 1 - real
-        $I->assertTrue($success);
+        // level 1 - real
+        $I->assertTrue(
+            $connection->begin()
+        );
 
-        $success = $connection->begin(); // level 2 - virtual
-        $I->assertFalse($success);
+        // level 2 - virtual
+        $I->assertFalse(
+            $connection->begin()
+        );
 
-        $success = $connection->begin(); // level 3 - virtual
-        $I->assertFalse($success);
+        // level 3 - virtual
+        $I->assertFalse(
+            $connection->begin()
+        );
 
-        $success = $connection->rollback(); // level 2 - virtual
-        $I->assertFalse($success);
+        // level 2 - virtual
+        $I->assertFalse(
+            $connection->rollback()
+        );
 
-        $success = $connection->commit(); // level 1 - virtual
-        $I->assertFalse($success);
+        // level 1 - virtual
+        $I->assertFalse(
+            $connection->commit()
+        );
 
-        $success = $connection->commit(); // commit - real
-        $I->assertTrue($success);
+        // commit - real
+        $I->assertTrue(
+            $connection->commit()
+        );
 
-        $success = $connection->begin(); // level 1 - real
-        $I->assertTrue($success);
+        // level 1 - real
+        $I->assertTrue(
+            $connection->begin()
+        );
 
-        $success = $connection->begin(); // level 2 - virtual
-        $I->assertFalse($success);
+        // level 2 - virtual
+        $I->assertFalse(
+            $connection->begin()
+        );
 
-        $success = $connection->commit(); // level 1 - virtual
-        $I->assertFalse($success);
+        // level 1 - virtual
+        $I->assertFalse(
+            $connection->commit()
+        );
 
-        $success = $connection->rollback(); // rollback - real
-        $I->assertTrue($success);
+        // rollback - real
+        $I->assertTrue(
+            $connection->rollback()
+        );
 
         //Transactions with savepoints.
         $connection->setNestedTransactionsWithSavepoints(true);
 
-        $success = $connection->begin(); // level 1 - begin transaction
-        $I->assertTrue($success);
+        // level 1 - begin transaction
+        $I->assertTrue(
+            $connection->begin()
+        );
 
-        $success = $connection->begin(); // level 2 - uses savepoint_1
-        $I->assertTrue($success);
+        // level 2 - uses savepoint_1
+        $I->assertTrue(
+            $connection->begin()
+        );
 
-        $success = $connection->begin(); // level 3 - uses savepoint_2
-        $I->assertTrue($success);
+        // level 3 - uses savepoint_2
+        $I->assertTrue(
+            $connection->begin()
+        );
 
-        $success = $connection->rollback(); // level 2 - uses rollback savepoint_2
-        $I->assertTrue($success);
+        // level 2 - uses rollback savepoint_2
+        $I->assertTrue(
+            $connection->rollback()
+        );
 
-        $success = $connection->commit(); // level 1  - uses release savepoint_1
-        $I->assertTrue($success);
+        // level 1  - uses release savepoint_1
+        $I->assertTrue(
+            $connection->commit()
+        );
 
-        $success = $connection->commit(); // commit - real commit
-        $I->assertTrue($success);
+        // commit - real commit
+        $I->assertTrue(
+            $connection->commit()
+        );
 
-        $success = $connection->begin(); // level 1 - real begin transaction
-        $I->assertTrue($success);
+        // level 1 - real begin transaction
+        $I->assertTrue(
+            $connection->begin()
+        );
 
-        $success = $connection->begin(); // level 2 - uses savepoint_1
-        $I->assertTrue($success);
+        // level 2 - uses savepoint_1
+        $I->assertTrue(
+            $connection->begin()
+        );
 
-        $success = $connection->commit(); // level 1 - uses release savepoint_1
-        $I->assertTrue($success);
+        // level 1 - uses release savepoint_1
+        $I->assertTrue(
+            $connection->commit()
+        );
 
-        $success = $connection->rollback(); // rollback - real rollback
-        $I->assertTrue($success);
+        // rollback - real rollback
+        $I->assertTrue(
+            $connection->rollback()
+        );
     }
 
     /**
      * Tests Phalcon\Db :: Postgresql
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

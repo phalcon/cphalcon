@@ -67,7 +67,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example1.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example1.sql'))),
             ],
             'example2' => [
                 '',
@@ -95,7 +95,7 @@ class CreateTableCest
                         new Index('PRIMARY', ['column3']),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example2.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example2.sql'))),
             ],
             'example3' => [
                 '',
@@ -131,7 +131,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example3.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example3.sql'))),
             ],
             'example4' => [
                 '',
@@ -151,7 +151,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example4.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example4.sql'))),
             ],
             'example5' => [
                 '',
@@ -178,7 +178,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example5.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example5.sql'))),
             ],
             'example6' => [
                 '',
@@ -215,7 +215,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example6.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example6.sql'))),
             ],
         ];
     }

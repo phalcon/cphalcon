@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class IsNotNullCest
- */
 class IsNotNullCest
 {
     use DiTrait;
@@ -27,18 +24,21 @@ class IsNotNullCest
     /**
      * Tests Phalcon\Db\Column :: isNotNull()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbColumnIsNotNull(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - isNotNull()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['notNull'], $column->isNotNull());
+            $I->assertEquals(
+                $columns[$index]['notNull'],
+                $column->isNotNull()
+            );
         }
     }
 }

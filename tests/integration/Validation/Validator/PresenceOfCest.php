@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Validation\Validator;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
@@ -22,23 +23,30 @@ class PresenceOfCest
     /**
      * Tests presence of validator with single field
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2016-06-05
+     * @author       Wojciech Ślawski <jurigag@gmail.com>
+     * @since        2016-06-05
+     *
+     * @dataProvider shouldValidateSingleFieldProvider
      */
-    public function shouldValidateSingleField(IntegrationTester $I)
+    public function shouldValidateSingleField(IntegrationTester $I, Example $example)
     {
         $validation = new Validation();
-        $validation->add('name', new PresenceOf());
 
-        $messages = $validation->validate(['name' => 'SomeValue']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $validation->add(
+            'name',
+            new PresenceOf()
+        );
 
-        $messages = $validation->validate(['name' => '']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'name' => $example['name'],
+            ]
+        );
+
+        $I->assertEquals(
+            $example['expected'],
+            $messages->count()
+        );
     }
 
     /**
@@ -49,11 +57,13 @@ class PresenceOfCest
      */
     public function shouldValidateMultipleField(IntegrationTester $I)
     {
-        $validation         = new Validation();
+        $validation = new Validation();
+
         $validationMessages = [
             'name' => 'Name cant be empty.',
             'type' => 'Type cant be empty.',
         ];
+
         $validation->add(
             ['name', 'type'],
             new PresenceOf(
@@ -63,19 +73,37 @@ class PresenceOfCest
             )
         );
 
-        $messages = $validation->validate(['name' => 'SomeValue', 'type' => 'SomeValue']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => '', 'type' => 'SomeValue']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue',
+                'type' => 'SomeValue',
+            ]
+        );
 
-        $expected = $validationMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'name' => '',
+                'type' => 'SomeValue',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+
+        $I->assertEquals(
+            $validationMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
 
         $expected = new Messages(
             [
@@ -87,21 +115,31 @@ class PresenceOfCest
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => '', 'type' => '']);
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $messages);
 
-        $expected = $validationMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['type'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'name' => '',
+                'type' => '',
+            ]
+        );
+
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $I->assertEquals(
+            $validationMessages['type'],
+            $messages->offsetGet(1)->getMessage()
+        );
 
         $expected = new Messages(
             [
@@ -119,8 +157,8 @@ class PresenceOfCest
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals($expected, $messages);
     }
 
     /**
@@ -138,8 +176,6 @@ class PresenceOfCest
             ->add('email', new PresenceOf(['message' => 'The email is required']))
             ->add('login', new PresenceOf(['message' => 'The login is required']))
         ;
-
-        $actual = $validation->validate([]);
 
         $expected = new Messages(
             [
@@ -163,6 +199,11 @@ class PresenceOfCest
                 ),
             ]
         );
+
+        $actual = $validation->validate(
+            []
+        );
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -185,8 +226,6 @@ class PresenceOfCest
             ->add('login', new PresenceOf(['message' => 'The login is required']))
         ;
 
-        $actual = $validation->validate([]);
-
         $expected = new Messages(
             [
                 new Message(
@@ -203,6 +242,26 @@ class PresenceOfCest
                 ),
             ]
         );
+
+        $actual = $validation->validate(
+            []
+        );
+
         $I->assertEquals($expected, $actual);
+    }
+
+    private function shouldValidateSingleFieldProvider(): array
+    {
+        return [
+            [
+                'name'     => 'SomeValue',
+                'expected' => 0,
+            ],
+
+            [
+                'name'     => '',
+                'expected' => 1,
+            ],
+        ];
     }
 }

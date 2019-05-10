@@ -17,15 +17,10 @@ use Phalcon\Http\Message\UploadedFileFactory;
 use Psr\Http\Message\UploadedFileInterface;
 use UnitTester;
 
-/**
- * Class CreateUploadedFileCest
- */
 class CreateUploadedFileCest
 {
     /**
      * Tests Phalcon\Http\Message\UploadedFileFactory :: createUploadedFile()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

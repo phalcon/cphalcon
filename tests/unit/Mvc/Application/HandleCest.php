@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Application;
 
 use UnitTester;
 
-/**
- * Class HandleCest
- */
 class HandleCest
 {
     /**
      * Tests Phalcon\Mvc\Application :: handle()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class HandleCest
     public function mvcApplicationHandle(UnitTester $I)
     {
         $I->wantToTest('Mvc\Application - handle()');
+
         $I->skipTest('Need implementation');
     }
 }

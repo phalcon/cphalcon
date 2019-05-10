@@ -131,8 +131,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     protected modelVisibility = [];
 
-    protected namespaceAliases = [];
-
     protected prefix = "";
 
     protected readConnectionServices = [];
@@ -272,24 +270,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function load(string! modelName) -> <ModelInterface>
     {
-        var model, colonPos, namespaceName, namespaceAlias, className;
-
-        /**
-         * Check if a modelName is an alias
-         */
-        let colonPos = strpos(modelName, ":");
-
-        if colonPos !== false {
-            let className = substr(modelName, colonPos + 1);
-            let namespaceAlias = substr(modelName, 0, colonPos);
-            let namespaceName = this->getNamespaceAlias(namespaceAlias);
-            let modelName = namespaceName . "\\" . className;
-        }
+        var model;
 
         /**
          * The model doesn't exist throw an exception
          */
-        if !class_exists(modelName) {
+        if unlikely !class_exists(modelName) {
             throw new Exception(
                 "Model '" . modelName . "' could not be loaded"
             );
@@ -485,7 +471,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let container = <DiInterface> this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
                     "the services related to the ORM"
@@ -498,7 +484,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         let connection = <AdapterInterface> container->getShared(service);
 
-        if typeof connection != "object" {
+        if unlikely typeof connection != "object" {
             throw new Exception("Invalid injected connection service");
         }
 
@@ -721,8 +707,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function addHasOne(<ModelInterface> model, var fields, string! referencedModel,
         var referencedFields, var options = null) -> <RelationInterface>
     {
-        var entityName, referencedEntity, relation, keyRelation, relations,
-            alias, lowerAlias, singleRelations;
+        var entityName, referencedEntity, relation, relations, alias,
+            lowerAlias, singleRelations;
+        string keyRelation;
 
         let entityName = get_class_lower(model),
             referencedEntity = strtolower(referencedModel);
@@ -737,7 +724,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check if the number of fields are the same
          */
         if typeof referencedFields == "array" {
-            if count(fields) != count(referencedFields) {
+            if unlikely count(fields) != count(referencedFields) {
                 throw new Exception(
                     "Number of referenced fields are not the same"
                 );
@@ -759,7 +746,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check an alias for the relation
          */
         if fetch alias, options["alias"] {
-            if typeof alias != "string" {
+            if unlikely typeof alias != "string" {
                 throw new Exception("Relation alias must be a string");
             }
 
@@ -805,8 +792,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function addBelongsTo(<ModelInterface> model, var fields, string! referencedModel,
         var referencedFields, var options = null) -> <RelationInterface>
     {
-        var entityName, referencedEntity, relation, keyRelation, relations,
-            alias, lowerAlias, singleRelations;
+        var entityName, referencedEntity, relation, relations, alias,
+            lowerAlias, singleRelations;
+        string keyRelation;
 
         let entityName = get_class_lower(model),
             referencedEntity = strtolower(referencedModel);
@@ -821,7 +809,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check if the number of fields are the same
          */
         if typeof referencedFields == "array" {
-            if count(fields) != count(referencedFields) {
+            if unlikely count(fields) != count(referencedFields) {
                 throw new Exception(
                     "Number of referenced fields are not the same"
                 );
@@ -843,7 +831,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check an alias for the relation
          */
         if fetch alias, options["alias"] {
-            if typeof alias != "string" {
+            if unlikely typeof alias != "string" {
                 throw new Exception("Relation alias must be a string");
             }
 
@@ -890,8 +878,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function addHasMany(<ModelInterface> model, var fields, string! referencedModel,
         var referencedFields, var options = null) -> <RelationInterface>
     {
-        var entityName, referencedEntity, hasMany, relation, keyRelation,
-            relations, alias, lowerAlias, singleRelations;
+        var entityName, referencedEntity, hasMany, relation, relations, alias,
+            lowerAlias, singleRelations;
+        string keyRelation;
 
         let entityName = get_class_lower(model),
             referencedEntity = strtolower(referencedModel),
@@ -907,7 +896,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check if the number of fields are the same
          */
         if typeof referencedFields == "array" {
-            if count(fields) != count(referencedFields) {
+            if unlikely count(fields) != count(referencedFields) {
                 throw new Exception(
                     "Number of referenced fields are not the same"
                 );
@@ -929,7 +918,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check an alias for the relation
          */
         if fetch alias, options["alias"] {
-            if typeof alias != "string" {
+            if unlikely typeof alias != "string" {
                 throw new Exception("Relation alias must be a string");
             }
 
@@ -979,8 +968,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function addHasManyToMany(<ModelInterface> model, var fields, string! intermediateModel,
         var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <RelationInterface>
     {
-        var entityName, referencedEntity, hasManyToMany, relation, keyRelation,
-            relations, alias, lowerAlias, singleRelations, intermediateEntity;
+        var entityName, referencedEntity, hasManyToMany, relation, relations,
+            alias, lowerAlias, singleRelations, intermediateEntity;
+        string keyRelation;
 
         let entityName = get_class_lower(model),
             intermediateEntity = strtolower(intermediateModel),
@@ -998,7 +988,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * intermediate model
          */
         if typeof intermediateFields == "array" {
-            if count(fields) != count(intermediateFields) {
+            if unlikely count(fields) != count(intermediateFields) {
                 throw new Exception(
                     "Number of referenced fields are not the same"
                 );
@@ -1010,7 +1000,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * model to the referenced model
          */
         if typeof intermediateReferencedFields == "array" {
-            if count(fields) != count(intermediateFields) {
+            if unlikely count(fields) != count(intermediateFields) {
                 throw new Exception(
                     "Number of referenced fields are not the same"
                 );
@@ -1090,7 +1080,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function existsBelongsTo(string! modelName, string! modelRelation) -> bool
     {
-        var entityName, keyRelation;
+        var entityName;
+        string keyRelation;
 
         let entityName = strtolower(modelName);
 
@@ -1114,7 +1105,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function existsHasMany(string! modelName, string! modelRelation) -> bool
     {
-        var entityName, keyRelation;
+        var entityName;
+        string keyRelation;
 
         let entityName = strtolower(modelName);
 
@@ -1138,7 +1130,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function existsHasOne(string! modelName, string! modelRelation) -> bool
     {
-        var entityName, keyRelation;
+        var entityName;
+        string keyRelation;
 
         let entityName = strtolower(modelName);
 
@@ -1162,7 +1155,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function existsHasManyToMany(string! modelName, string! modelRelation) -> bool
     {
-        var entityName, keyRelation;
+        var entityName;
+        string keyRelation;
 
         let entityName = strtolower(modelName);
 
@@ -1200,7 +1194,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     final protected function _mergeFindParameters(var findParamsOne, var findParamsTwo) -> array
     {
-        var key, value, findParams;
+        var key, value;
+        array findParams;
 
         if typeof findParamsOne == "string" && typeof findParamsTwo == "string" {
             return ["(" . findParamsOne . ") AND (" . findParamsTwo . ")"];
@@ -1278,12 +1273,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters = null)
     {
-        var placeholders, referencedModel, intermediateModel,
-            intermediateFields, joinConditions, fields, builder, extraParameters,
-            conditions, refPosition, field, referencedFields, findParams,
-            findArguments, retrieveMethod, uniqueKey, records, arguments, rows,
+        var referencedModel, intermediateModel, intermediateFields, fields,
+            builder, extraParameters, refPosition, field, referencedFields,
+            findParams, findArguments, uniqueKey, records, arguments, rows,
             firstRow;
+        array placeholders, conditions, joinConditions;
         bool reusable;
+        string retrieveMethod;
 
         /**
          * Re-use bound parameters
@@ -1305,7 +1301,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check if the relation is direct or through an intermediate model
          */
         if relation->isThrough() {
-
             let conditions = [];
 
             let intermediateModel = relation->getIntermediateModel(),
@@ -1317,12 +1312,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
              */
             let fields = relation->getFields();
 
-            if typeof fields != "array" {
-                let conditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = :APR0:",
-                    placeholders["APR0"] = record->readAttribute(fields);
-            } else {
+            if unlikely typeof fields == "array" {
                 throw new Exception("Not supported");
             }
+
+            let conditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = :APR0:",
+                placeholders["APR0"] = record->readAttribute(fields);
 
             let joinConditions = [];
 
@@ -1331,11 +1326,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
              */
             let intermediateFields = relation->getIntermediateReferencedFields();
 
-            if typeof intermediateFields != "array" {
-                let joinConditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = [" . referencedModel . "].[" . relation->getReferencedFields() . "]";
-            } else {
+            if unlikely typeof intermediateFields == "array" {
                 throw new Exception("Not supported");
             }
+
+            let joinConditions[] = "[" . intermediateModel . "].[" . intermediateFields . "] = [" . referencedModel . "].[" . relation->getReferencedFields() . "]";
 
             /**
              * We don't trust the user or the database so we use bound parameters
@@ -1512,7 +1507,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function getBelongsToRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
         -> <ResultsetInterface> | bool
     {
-        var keyRelation, relations;
+        var relations;
+        string keyRelation;
 
         /**
          * Check if there is a relation between them
@@ -1541,7 +1537,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function getHasManyRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
         -> <ResultsetInterface> | bool
     {
-        var keyRelation, relations;
+        var relations;
+        string keyRelation;
 
         /**
          * Check if there is a relation between them
@@ -1570,7 +1567,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     public function getHasOneRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
         -> <ModelInterface> | bool
     {
-        var keyRelation, relations;
+        var relations;
+        string keyRelation;
 
         /**
          * Check if there is a relation between them
@@ -1668,7 +1666,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getRelations(string! modelName) -> <RelationInterface[]>
     {
-        var entityName, allRelations, relations, relation;
+        var entityName, relations, relation;
+        array allRelations;
 
         let entityName = strtolower(modelName),
             allRelations = [];
@@ -1708,7 +1707,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getRelationsBetween(string! first, string! second) -> <RelationInterface[]> | bool
     {
-        var keyRelation, relations;
+        var relations;
+        string keyRelation;
 
         let keyRelation = strtolower(first) . "$" . strtolower(second);
 
@@ -1745,7 +1745,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let container = this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
                     "the services related to the ORM"
@@ -1798,7 +1798,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
         let container = <DiInterface> this->container;
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
                     "the services related to the ORM"
@@ -1827,40 +1827,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
-     * Registers shorter aliases for namespaces in PHQL statements
+     * Destroys the current PHQL cache
      */
-    public function registerNamespaceAlias(string alias, string namespaceName) -> void
-    {
-        let this->namespaceAliases[alias] = namespaceName;
-    }
-
-    /**
-     * Returns a real namespace from its alias
-     */
-    public function getNamespaceAlias(string! alias) -> string
-    {
-        var namespaceName;
-
-        if !fetch namespaceName, this->namespaceAliases[alias] {
-            throw new Exception(
-                "Namespace alias '" . alias . "' is not registered"
-            );
-        }
-
-        return namespaceName;
-    }
-
-    /**
-     * Returns all the registered namespace aliases
-     */
-    public function getNamespaceAliases() -> array
-    {
-        return this->namespaceAliases;
-    }
-
-    /**
-      * Destroys the current PHQL cache
-      */
     public function __destruct()
     {
         phalcon_orm_destroy_cache();

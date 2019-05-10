@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Adapter\Memory;
 
 use UnitTester;
 
-/**
- * Class WriteCest
- */
 class WriteCest
 {
     /**
      * Tests Phalcon\Annotations\Adapter\Memory :: write()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class WriteCest
     public function annotationsAdapterMemoryWrite(UnitTester $I)
     {
         $I->wantToTest('Annotations\Adapter\Memory - write()');
+
         $I->skipTest('Need implementation');
     }
 }

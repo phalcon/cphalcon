@@ -16,8 +16,6 @@ use Phalcon\Html\Tag;
 use UnitTester;
 
 /**
- * Trait TagSetupTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait TagHelperTrait
@@ -30,13 +28,23 @@ trait TagHelperTrait
      */
     public function tagField(UnitTester $I)
     {
-        $I->wantToTest(sprintf('Tag - %s() - parameters', $this->function));
-        $tag = new Tag();
-        $tag->setDI($this->container);
+        $I->wantToTest(
+            sprintf(
+                'Tag - %s() - parameters',
+                $this->function
+            )
+        );
 
-        $options  = [
+        $tag = new Tag();
+
+        $tag->setDI(
+            $this->container
+        );
+
+        $options = [
             'class' => 'x_class',
         ];
+
         $expected = '<input type="' . $this->inputType . '" id="x_name" name="x_name" class="x_class"';
 
         $this->testFieldParameter($I, $tag, 'x_name', $this->function, $options, $expected);
@@ -45,17 +53,6 @@ trait TagHelperTrait
 
     /**
      * Runs the test for a Tag::$function with $options
-     *
-     * @param UnitTester $I
-     * @param Tag        $tag
-     * @param string     $name
-     * @param string     $function
-     * @param            $options
-     * @param string     $expected
-     * @param bool       $xhtml
-     * @param string     $set
-     *
-     * @return mixed
      */
     abstract protected function testFieldParameter(
         UnitTester $I,
@@ -76,16 +73,26 @@ trait TagHelperTrait
      */
     public function tagFieldParameterWithId(UnitTester $I)
     {
-        $I->wantToTest(sprintf('Tag - %s() - parameters with id', $this->function));
-        $tag = new Tag();
-        $tag->setDI($this->container);
+        $I->wantToTest(
+            sprintf(
+                'Tag - %s() - parameters with id',
+                $this->function
+            )
+        );
 
-        $options  = [
+        $tag = new Tag();
+
+        $tag->setDI(
+            $this->container
+        );
+
+        $options = [
             'name'  => 'x_name',
             'id'    => 'x_id',
             'class' => 'x_class',
             'size'  => '10',
         ];
+
         $expected = '<input type="' . $this->inputType . '" id="x_id" name="x_name" '
             . 'class="x_class" size="10"';
 
@@ -101,17 +108,26 @@ trait TagHelperTrait
      */
     public function tagFieldWithSetAttribute(UnitTester $I)
     {
-        $I->wantToTest(sprintf('Tag - %s() - setAttribute()', $this->function));
-        $tag = new Tag();
-        $tag->setDI($this->container);
+        $I->wantToTest(
+            sprintf(
+                'Tag - %s() - setAttribute()',
+                $this->function
+            )
+        );
 
-        $options  = [
+        $tag = new Tag();
+
+        $tag->setDI(
+            $this->container
+        );
+
+        $options = [
             'name'  => 'x_name',
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="' . $this->inputType . '" id="x_name" '
-            . 'name="x_name" value="x_value" class="x_class" size="10"';
+
+        $expected = '<input type="' . $this->inputType . '" id="x_name" name="x_name" value="x_value" class="x_class" size="10"';
 
         if ($this->inputType === 'radio' || $this->inputType === 'checkbox') {
             $expected .= ' checked="checked"';
@@ -129,18 +145,26 @@ trait TagHelperTrait
      */
     public function tagFieldWithSetAttributeElementNotPresent(UnitTester $I)
     {
-        $I->wantToTest(sprintf('Tag - %s() - setAttribute() element not present', $this->function));
+        $I->wantToTest(
+            sprintf(
+                'Tag - %s() - setAttribute() element not present',
+                $this->function
+            )
+        );
+
         $tag = new Tag();
-        $tag->setDI($this->container);
+
+        $tag->setDI(
+            $this->container
+        );
 
         $options  = [
             'name'  => 'x_name',
             'class' => 'x_class',
             'size'  => '10',
         ];
-        $expected = '<input type="' . $this->inputType . '" id="x_name" '
-            . 'name="x_name" value="x_value" class="x_class" '
-            . 'size="10"';
+
+        $expected = '<input type="' . $this->inputType . '" id="x_name" name="x_name" value="x_value" class="x_class" size="10"';
 
         if ($this->inputType === 'radio' || $this->inputType === 'checkbox') {
             $expected .= ' checked="checked"';

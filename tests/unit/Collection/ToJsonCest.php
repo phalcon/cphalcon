@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Collection;
 use Phalcon\Collection;
 use UnitTester;
 
-/**
- * Class ToJsonCest
- */
 class ToJsonCest
 {
     /**
      * Tests Phalcon\Collection :: toJson()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,19 +26,23 @@ class ToJsonCest
     public function collectionToJson(UnitTester $I)
     {
         $I->wantToTest('Collection - toJson()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Collection($data);
 
-        $expected = json_encode($data);
-        $actual   = $collection->toJson();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            json_encode($data),
+            $collection->toJson()
+        );
 
-        $expected = json_encode($data, JSON_PRETTY_PRINT);
-        $actual   = $collection->toJson(JSON_PRETTY_PRINT);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            json_encode($data, JSON_PRETTY_PRINT),
+            $collection->toJson(JSON_PRETTY_PRINT)
+        );
     }
 }

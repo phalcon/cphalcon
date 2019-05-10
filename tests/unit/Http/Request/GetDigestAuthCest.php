@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class GetDigestAuthCest
- */
 class GetDigestAuthCest
 {
     /**
      * Tests Phalcon\Http\Request :: getDigestAuth()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetDigestAuthCest
     public function httpRequestGetDigestAuth(UnitTester $I)
     {
         $I->wantToTest('Http\Request - getDigestAuth()');
+
         $I->skipTest('Need implementation');
     }
 }

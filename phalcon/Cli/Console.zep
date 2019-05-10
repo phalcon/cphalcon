@@ -36,7 +36,8 @@ class Console extends BaseApplication
             className, moduleObject, dispatcher, task;
 
         let container = this->container;
-        if typeof container != "object" {
+
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("internal services")
             );
@@ -66,12 +67,12 @@ class Console extends BaseApplication
          * If the router doesn't return a valid module we use the default module
          */
         let moduleName = router->getModuleName();
+
         if !moduleName {
             let moduleName = this->defaultModule;
         }
 
         if moduleName {
-
             if typeof eventsManager == "object" {
                 if eventsManager->fire("console:beforeStartModule", this, moduleName) === false {
                     return false;
@@ -79,14 +80,16 @@ class Console extends BaseApplication
             }
 
             let modules = this->modules;
-            if !isset modules[moduleName] {
+
+            if unlikely !isset modules[moduleName] {
                 throw new Exception(
                     "Module '" . moduleName . "' isn't registered in the console container"
                 );
             }
 
             let module = modules[moduleName];
-            if typeof module != "array" {
+
+            if unlikely typeof module != "array" {
                 throw new Exception("Invalid module definition path");
             }
 
@@ -96,7 +99,7 @@ class Console extends BaseApplication
 
             if fetch path, module["path"] {
                 if !class_exists(className, false) {
-                    if !file_exists(path) {
+                    if unlikely !file_exists(path) {
                         throw new Exception(
                             "Module definition path '" . path . "' doesn't exist"
                         );
@@ -161,6 +164,7 @@ class Console extends BaseApplication
             if typeof arg == "string" {
                 if strncmp(arg, "--", 2) == 0 {
                     let pos = strpos(arg, "=");
+
                     if pos {
                         let opts[trim(substr(arg, 2, pos - 2))] = trim(substr(arg, pos + 1));
                     } else {

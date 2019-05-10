@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt\Compiler;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 
@@ -25,24 +26,61 @@ class AddFilterCest
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
+     *
+     * @dataProvider getVoltAddFilter
      */
-    public function mvcViewEngineVoltCompilerAddFilter(IntegrationTester $I)
+    public function mvcViewEngineVoltCompilerAddFilter(IntegrationTester $I, Example $example)
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - addFilter()");
-        $examples = $this->getVoltAddFilter();
-        foreach ($examples as $item) {
-            $name     = $item[0];
-            $filter   = $item[1];
-            $voltName = $item[2];
-            $expected = $item[3];
 
-            $volt = new Compiler();
-            $volt->addFilter($name, $filter);
-            $actual = $volt->compileString($voltName);
-            $I->assertEquals($expected, $actual);
-        }
+        $name     = $example[0];
+        $filter   = $example[1];
+        $voltName = $example[2];
+        $expected = $example[3];
+
+        $volt = new Compiler();
+
+        $volt->addFilter($name, $filter);
+
+        $actual = $volt->compileString($voltName);
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: addFilter() - closure
+     *
+     * @param IntegrationTester $I
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
+     *
+     * @dataProvider getVoltAddFilterClosure
+     */
+    public function mvcViewEngineVoltCompilerAddFilterClosure(IntegrationTester $I, Example $example)
+    {
+        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - addFilter() - closure");
+
+        $name     = $example[0];
+        $filter   = $example[1];
+        $voltName = $example[2];
+        $expected = $example[3];
+
+        $volt = new Compiler();
+
+        $volt->addFilter(
+            $name,
+            function ($arguments) use ($filter) {
+                return $filter . '(",", ' . $arguments . ')';
+            }
+        );
+
+        $I->assertEquals(
+            $expected,
+            $volt->compileString($voltName)
+        );
     }
 
     /**
@@ -51,39 +89,13 @@ class AddFilterCest
     private function getVoltAddFilter(): array
     {
         return [
-            ['reverse', 'strrev', '{{ "hello"|reverse }}', '<?= strrev(\'hello\') ?>'],
+            [
+                'reverse',
+                'strrev',
+                '{{ "hello"|reverse }}',
+                '<?= strrev(\'hello\') ?>',
+            ],
         ];
-    }
-
-    /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: addFilter() - closure
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function mvcViewEngineVoltCompilerAddFilterClosure(IntegrationTester $I)
-    {
-        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - addFilter() - closure");
-        $examples = $this->getVoltAddFilterClosure();
-        foreach ($examples as $item) {
-            $name     = $item[0];
-            $filter   = $item[1];
-            $voltName = $item[2];
-            $expected = $item[3];
-
-            $volt = new Compiler();
-            $volt->addFilter(
-                $name,
-                function ($arguments) use ($filter) {
-                    return $filter . '(",", ' . $arguments . ')';
-                }
-            );
-
-            $actual = $volt->compileString($voltName);
-            $I->assertEquals($expected, $actual);
-        }
     }
 
     /**
@@ -92,7 +104,12 @@ class AddFilterCest
     private function getVoltAddFilterClosure(): array
     {
         return [
-            ['separate', 'explode', '{{ "1,2,3,4"|separate }}', '<?= explode(",", \'1,2,3,4\') ?>'],
+            [
+                'separate',
+                'explode',
+                '{{ "1,2,3,4"|separate }}',
+                '<?= explode(",", \'1,2,3,4\') ?>',
+            ],
         ];
     }
 }

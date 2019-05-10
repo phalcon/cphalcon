@@ -17,8 +17,6 @@ use Phalcon\Mvc\View;
 use Phalcon\Mvc\ViewBaseInterface;
 
 /**
- * Trait ViewTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait ViewTrait
@@ -52,30 +50,41 @@ trait ViewTrait
     protected function renderPartialBuffered(ViewBaseInterface $view, $partial, $expectedParams = null)
     {
         ob_start();
+
         $view->partial($partial, $expectedParams);
+
         ob_clean();
     }
 
     /**
      * Set params and check expected data after render view
      *
-     * @param string $errorMessage
-     * @param array  $params
-     * @param View   $view
+     * @param View $view
      */
-    protected function setParamAndCheckData($errorMessage, $params, $view)
+    protected function setParamAndCheckData(string $errorMessage, array $params, $view)
     {
         foreach ($params as $param) {
-            $view->setParamToView($param['paramToView'][0], $param['paramToView'][1]);
+            $view->setParamToView(
+                $param['paramToView'][0],
+                $param['paramToView'][1]
+            );
 
             $view->start();
-            $view->setRenderLevel($param['renderLevel']);
-            $view->render($param['render'][0], $param['render'][1]);
+
+            $view->setRenderLevel(
+                $param['renderLevel']
+            );
+
+            $view->render(
+                $param['render'][0],
+                $param['render'][1]
+            );
+
             $view->finish();
 
             $this->assertEquals(
-                $view->getContent(),
                 $param['expected'],
+                $view->getContent(),
                 $errorMessage
             );
         }
@@ -84,15 +93,23 @@ trait ViewTrait
     protected function clearCache()
     {
         if (!file_exists(env('PATH_CACHE'))) {
-            mkdir(env('PATH_CACHE'));
+            mkdir(
+                env('PATH_CACHE')
+            );
         }
 
-        foreach (new DirectoryIterator(env('PATH_CACHE')) as $item) {
+        $items = new DirectoryIterator(
+            env('PATH_CACHE')
+        );
+
+        foreach ($items as $item) {
             if ($item->isDir()) {
                 continue;
             }
 
-            unlink($item->getPathname());
+            unlink(
+                $item->getPathname()
+            );
         }
     }
 }

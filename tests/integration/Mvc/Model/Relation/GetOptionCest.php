@@ -46,7 +46,6 @@ class GetOptionCest
         );
 
 
-
         $I->assertEquals(
             $options['reusable'],
             $relation->getOption('reusable')

@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Crypt;
 use Phalcon\Crypt;
 use UnitTester;
 
-/**
- * Class GetCipherCest
- */
 class GetCipherCest
 {
     /**
      * Tests Phalcon\Crypt :: getCipher()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

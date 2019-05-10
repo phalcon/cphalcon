@@ -39,6 +39,7 @@
  *     "prefix"     => "my_",
  *     "adapter"    => "memcache",
  * ];
+ *
  * $session = Factory::load($options);
  *</code>
  */

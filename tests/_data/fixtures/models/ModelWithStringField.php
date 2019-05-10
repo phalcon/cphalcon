@@ -31,13 +31,17 @@ class ModelWithStringField extends Model
 
     public function allowEmptyStringValue()
     {
-        $this->allowEmptyStringValues([
-            'field',
-        ]);
+        $this->allowEmptyStringValues(
+            [
+                'field',
+            ]
+        );
     }
 
     public function disallowEmptyStringValue()
     {
-        $this->allowEmptyStringValues([]);
+        $this->allowEmptyStringValues(
+            []
+        );
     }
 }

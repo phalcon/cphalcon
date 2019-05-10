@@ -36,5 +36,4 @@ class Pessoas extends Model
             'estado'            => 'estado',
         ];
     }
-
 }

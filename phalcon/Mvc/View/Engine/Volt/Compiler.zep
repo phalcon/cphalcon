@@ -67,7 +67,7 @@ class Compiler implements InjectionAwareInterface
      */
     public function addExtension(extension) -> <Compiler>
     {
-        if typeof extension != "object" {
+        if unlikely typeof extension != "object" {
             throw new Exception("The extension is not valid");
         }
 
@@ -108,9 +108,10 @@ class Compiler implements InjectionAwareInterface
      */
     public function attributeReader(array! expr) -> string
     {
-        var exprCode, left, leftType, variable, level, leftCode, right;
+        var left, leftType, variable, level, leftCode, right;
+        string exprCode;
 
-        let exprCode = null;
+        let exprCode = "";
 
         let left = expr["left"];
 
@@ -171,8 +172,8 @@ class Compiler implements InjectionAwareInterface
     public function compile(string! templatePath, bool extendsMode = false)
     {
         var blocksCode, compilation, compileAlways, compiledExtension,
-            compiledPath, compiledSeparator, compiledTemplatePath, optionKey,
-            options, prefix, realCompiledPath, stat, templateSepPath;
+            compiledPath, compiledSeparator, compiledTemplatePath, options,
+            prefix, stat, templateSepPath;
 
         /**
          * Re-initialize some properties already initialized when the object is
@@ -186,129 +187,95 @@ class Compiler implements InjectionAwareInterface
         let this->blockLevel = 0;
         let this->exprLevel = 0;
 
-        let stat = true;
-        let compileAlways = false;
-        let compiledPath = "";
-        let prefix = null;
-        let compiledSeparator = "%%";
-        let compiledExtension = ".php";
         let compilation = null;
 
         let options = this->options;
 
-        if typeof options == "array" {
-            /**
-             * This makes that templates will be compiled always
-             */
-            if isset options["always"] || isset options["compileAlways"] {
-                if isset options["always"] {
-                    let optionKey = "always";
-                } else {
-                    let optionKey = "compileAlways";
-
-                    trigger_error(
-                        "The 'compileAlways' option is deprecated. Use 'always' instead.",
-                        E_USER_DEPRECATED
-                    );
-                }
-
-                let compileAlways = options[optionKey];
-
-                if typeof compileAlways != "boolean" {
-                    throw new Exception(
-                        "'" . optionKey . "' must be a bool value"
-                    );
-                }
+        /**
+         * This makes that templates will be compiled always
+         */
+        if !fetch compileAlways, options["always"] {
+            if fetch compileAlways, options["compileAlways"] {
+                trigger_error(
+                    "The 'compileAlways' option is deprecated. Use 'always' instead.",
+                    E_USER_DEPRECATED
+                );
+            } else {
+                let compileAlways = false;
             }
+        }
 
-            /**
-             * Prefix is prepended to the template name
-             */
-            if isset options["prefix"] {
-                let prefix = options["prefix"];
+        if unlikely typeof compileAlways != "boolean" {
+            throw new Exception("'always' must be a bool value");
+        }
 
-                if typeof prefix != "string" {
-                    throw new Exception("'prefix' must be a string");
-                }
+        /**
+         * Prefix is prepended to the template name
+         */
+        if !fetch prefix, options["prefix"] {
+            let prefix = "";
+        }
+
+        if unlikely typeof prefix != "string" {
+            throw new Exception("'prefix' must be a string");
+        }
+
+        /**
+         * Compiled path is a directory where the compiled templates will be
+         * located
+         */
+        if !fetch compiledPath, options["path"] {
+            if fetch compiledPath, options["compiledPath"] {
+                trigger_error(
+                    "The 'compiledPath' option is deprecated. Use 'path' instead.",
+                    E_USER_DEPRECATED
+                );
+            } else {
+                let compiledPath = "";
             }
+        }
 
-            /**
-             * Compiled path is a directory where the compiled templates will be
-             * located
-             */
-            if isset options["path"] || isset options["compiledPath"] {
-                if isset options["path"] {
-                    let optionKey = "path";
-                } else {
-                    let optionKey = "compiledPath";
-
-                    trigger_error(
-                        "The 'compiledPath' option is deprecated. Use 'path' instead.",
-                        E_USER_DEPRECATED
-                    );
-                }
-
-                let compiledPath = options[optionKey];
-
-                if typeof compiledPath != "string" {
-                    if typeof compiledPath != "object" {
-                        throw new Exception(
-                            "'" . optionKey . "' must be a string or a closure"
-                        );
-                    }
-                }
+        /**
+         * There is no compiled separator by default
+         */
+        if !fetch compiledSeparator, options["separator"] {
+            if fetch compiledSeparator, options["compiledSeparator"] {
+                trigger_error(
+                    "The 'compiledSeparator' option is deprecated. Use 'separator' instead.",
+                    E_USER_DEPRECATED
+                );
+            } else {
+                let compiledSeparator = "%%";
             }
+        }
 
-            /**
-             * There is no compiled separator by default
-             */
-            if isset options["separator"] || isset options["compiledSeparator"] {
-                if isset options["separator"] {
-                    let optionKey = "separator";
-                } else {
-                    let optionKey = "compiledSeparator";
+        if unlikely typeof compiledSeparator != "string" {
+            throw new Exception("'separator' must be a string");
+        }
 
-                    trigger_error(
-                        "The 'compiledSeparator' option is deprecated. Use 'separator' instead.",
-                        E_USER_DEPRECATED
-                    );
-                }
-
-                let compiledSeparator = options[optionKey];
-
-                if typeof compiledSeparator != "string" {
-                    throw new Exception("'" . optionKey . "' must be a string");
-                }
+        /**
+         * By default the compile extension is .php
+         */
+        if !fetch compiledExtension, options["extension"] {
+            if fetch compiledExtension, options["compiledExtension"] {
+                trigger_error(
+                    "The 'compiledExtension' option is deprecated. Use 'extension' instead.",
+                    E_USER_DEPRECATED
+                );
+            } else {
+                let compiledExtension = ".php";
             }
+        }
 
-            /**
-             * By default the compile extension is .php
-             */
-            if isset options["extension"] || isset options["compiledExtension"] {
-                if isset options["extension"] {
-                    let optionKey = "extension";
-                } else {
-                    let optionKey = "compiledExtension";
+        if unlikely typeof compiledExtension != "string" {
+            throw new Exception("'extension' must be a string");
+        }
 
-                    trigger_error(
-                        "The 'compiledExtension' option is deprecated. Use 'extension' instead.",
-                        E_USER_DEPRECATED
-                    );
-                }
-
-                let compiledExtension = options[optionKey];
-
-                if typeof compiledExtension != "string" {
-                    throw new Exception("'" . optionKey . "' must be a string");
-                }
-            }
-
-            /**
-             * Stat option assumes the compilation of the file
-             */
-            if isset options["stat"] {
-                let stat = options["stat"];
-            }
+        /**
+         * Stat option assumes the compilation of the file
+         */
+        if !fetch stat, options["stat"] {
+            let stat = true;
         }
 
         /**
@@ -339,49 +306,41 @@ class Compiler implements InjectionAwareInterface
             } else {
                 let compiledTemplatePath = compiledPath . prefix . templateSepPath . compiledExtension;
             }
-        } else {
+        } elseif typeof compiledPath == "object" && compiledPath instanceof \Closure {
             /**
              * A closure can dynamically compile the path
              */
-            if typeof compiledPath == "object" {
-                if compiledPath instanceof \Closure {
-                    let compiledTemplatePath = call_user_func_array(
-                        compiledPath,
-                        [templatePath, options, extendsMode]
-                    );
 
-                    /**
-                     * The closure must return a valid path
-                     */
-                    if typeof compiledTemplatePath != "string" {
-                        throw new Exception(
-                            "compiledPath closure didn't return a valid string"
-                        );
-                    }
-                } else {
-                    throw new Exception(
-                        "compiledPath must be a string or a closure"
-                    );
-                }
+            let compiledTemplatePath = call_user_func_array(
+                compiledPath,
+                [templatePath, options, extendsMode]
+            );
+
+            /**
+             * The closure must return a valid path
+             */
+            if unlikely typeof compiledTemplatePath != "string" {
+                throw new Exception(
+                    "'path' closure didn't return a valid string"
+                );
             }
+        } else {
+            throw new Exception(
+                "'path' must be a string or a closure"
+            );
         }
-
-        /**
-         * Use the real path to avoid collisions
-         */
-        let realCompiledPath = compiledTemplatePath;
 
         /**
          * Compile always must be used only in the development stage
          */
-        if !file_exists(realCompiledPath) || compileAlways {
+        if !file_exists(compiledTemplatePath) || compileAlways {
             /**
              * The file needs to be compiled because it either doesn't exist or
              * needs to compiled every time
              */
             let compilation = this->compileFile(
                 templatePath,
-                realCompiledPath,
+                compiledTemplatePath,
                 extendsMode
             );
         } else {
@@ -390,10 +349,10 @@ class Compiler implements InjectionAwareInterface
                  * Compare modification timestamps to check if the file
                  * needs to be recompiled
                  */
-                if compare_mtime(templatePath, realCompiledPath) {
+                if compare_mtime(templatePath, compiledTemplatePath) {
                     let compilation = this->compileFile(
                         templatePath,
-                        realCompiledPath,
+                        compiledTemplatePath,
                         extendsMode
                     );
                 } else {
@@ -402,11 +361,11 @@ class Compiler implements InjectionAwareInterface
                          * In extends mode we read the file that must
                          * contains a serialized array of blocks
                          */
-                        let blocksCode = file_get_contents(realCompiledPath);
+                        let blocksCode = file_get_contents(compiledTemplatePath);
 
-                        if blocksCode === false {
+                        if unlikely blocksCode === false {
                             throw new Exception(
-                                "Extends compilation file " . realCompiledPath . " could not be opened"
+                                "Extends compilation file " . compiledTemplatePath . " could not be opened"
                             );
                         }
 
@@ -423,7 +382,7 @@ class Compiler implements InjectionAwareInterface
             }
         }
 
-        let this->compiledTemplatePath = realCompiledPath;
+        let this->compiledTemplatePath = compiledTemplatePath;
 
         return compilation;
     }
@@ -438,7 +397,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid option is required
          */
-        if !fetch autoescape, statement["enable"] {
+        if unlikely !fetch autoescape, statement["enable"] {
             throw new Exception("Corrupted statement");
         }
 
@@ -463,12 +422,13 @@ class Compiler implements InjectionAwareInterface
      */
     public function compileCache(array! statement, bool extendsMode = false) -> string
     {
-        var compilation, expr, exprCode, lifetime;
+        var expr, exprCode, lifetime;
+        string compilation;
 
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupt statement", statement);
         }
 
@@ -544,7 +504,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupt statement", statement);
         }
 
@@ -564,7 +524,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupted statement");
         }
 
@@ -584,7 +544,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupt statement", statement);
         }
 
@@ -627,7 +587,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupt statement", statement);
         }
 
@@ -653,7 +613,7 @@ class Compiler implements InjectionAwareInterface
     {
         var viewCode, compilation, finalCompilation;
 
-        if path == compiledPath {
+        if unlikely path == compiledPath {
             throw new Exception(
                 "Template path and compilation template path cannot be the same"
             );
@@ -662,7 +622,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * Check if the template does exist
          */
-        if !file_exists(path) {
+        if unlikely !file_exists(path) {
             throw new Exception("Template file " . path . " does not exist");
         }
 
@@ -672,7 +632,7 @@ class Compiler implements InjectionAwareInterface
          */
         let viewCode = file_get_contents(path);
 
-        if viewCode === false {
+        if unlikely viewCode === false {
             throw new Exception(
                 "Template file " . path . " could not be opened"
             );
@@ -695,7 +655,7 @@ class Compiler implements InjectionAwareInterface
          * Always use file_put_contents to write files instead of write the file
          * directly, this respect the open_basedir directive
          */
-        if file_put_contents(compiledPath, finalCompilation) === false {
+        if unlikely file_put_contents(compiledPath, finalCompilation) === false {
             throw new Exception("Volt directory can't be written");
         }
 
@@ -707,14 +667,15 @@ class Compiler implements InjectionAwareInterface
      */
     public function compileForeach(array! statement, bool extendsMode = false) -> string
     {
-        var compilation, prefix, level, prefixLevel, expr, exprCode, bstatement,
-            type, blockStatements, forElse, code, loopContext, iterator, key,
-            ifExpr, variable;
+        var prefix, level, prefixLevel, expr, exprCode, bstatement, type,
+            blockStatements, forElse, code, loopContext, iterator, key, ifExpr,
+            variable;
+        string compilation;
 
         /**
          * A valid expression is required
          */
-        if !isset statement["expr"] {
+        if unlikely !isset statement["expr"] {
             throw new Exception("Corrupted statement");
         }
 
@@ -748,10 +709,6 @@ class Compiler implements InjectionAwareInterface
 
         if typeof blockStatements == "array" {
             for bstatement in blockStatements {
-                if typeof bstatement != "array" {
-                    break;
-                }
-
                 /**
                  * Check if the statement is valid
                  */
@@ -789,6 +746,7 @@ class Compiler implements InjectionAwareInterface
             let compilation .= "$" . prefixLevel . "loop->index0 = 1; ";
             let compilation .= "$" . prefixLevel . "loop->revindex = $" . prefixLevel . "loop->length; ";
             let compilation .= "$" . prefixLevel . "loop->revindex0 = $" . prefixLevel . "loop->length - 1; ?>";
+
             let iterator = "$" . prefixLevel . "iterator";
         } else {
             let iterator = exprCode;
@@ -885,12 +843,13 @@ class Compiler implements InjectionAwareInterface
      */
     public function compileIf(array! statement, bool extendsMode = false) -> string
     {
-        var compilation, blockStatements, expr;
+        var blockStatements, expr;
+        string compilation;
 
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupt statement", statement);
         }
 
@@ -925,7 +884,7 @@ class Compiler implements InjectionAwareInterface
          * Include statement
          * A valid expression is required
          */
-        if !fetch pathExpr, statement["path"] {
+        if unlikely !fetch pathExpr, statement["path"] {
             throw new Exception("Corrupted statement");
         }
 
@@ -954,7 +913,7 @@ class Compiler implements InjectionAwareInterface
                 let subCompiler = clone this;
                 let compilation = subCompiler->compile(finalPath, false);
 
-                if typeof compilation == "null" {
+                if compilation === null {
                     /**
                      * Use file-get-contents to respect the openbase_dir
                      * directive
@@ -988,20 +947,21 @@ class Compiler implements InjectionAwareInterface
      */
     public function compileMacro(array! statement, bool extendsMode) -> string
     {
-        var code, name, defaultValue, macroName, parameters, position,
-            parameter, variableName, blockStatements;
+        var name, defaultValue, parameters, position, parameter, variableName,
+            blockStatements;
+        string code, macroName;
 
         /**
          * A valid name is required
          */
-        if !fetch name, statement["name"] {
+        if unlikely !fetch name, statement["name"] {
             throw new Exception("Corrupted statement");
         }
 
         /**
          * Check if the macro is already defined
          */
-        if isset this->macros[name] {
+        if unlikely isset this->macros[name] {
             throw new Exception("Macro '" . name . "' is already defined");
         }
 
@@ -1032,7 +992,7 @@ class Compiler implements InjectionAwareInterface
                 let code .= "$" . variableName . " = $__p[\"" . variableName ."\"];";
                 let code .= " } else { ";
 
-                if fetch defaultValue, parameter["default"] {
+                if likely fetch defaultValue, parameter["default"] {
                     let code .= "$" . variableName . " = " . this->expression(defaultValue) . ";";
                 } else {
                     let code .= " throw new \\Phalcon\\Mvc\\View\\Exception(\"Macro '" . name . "' was called without parameter: " . variableName . "\"); ";
@@ -1074,7 +1034,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupted statement");
         }
 
@@ -1089,12 +1049,13 @@ class Compiler implements InjectionAwareInterface
      */
     public function compileSet(array! statement) -> string
     {
-        var assignments, assignment, exprCode, target, compilation;
+        var assignments, assignment, exprCode, target;
+        string compilation;
 
         /**
          * A valid assignment list is required
          */
-        if !fetch assignments, statement["assignments"] {
+        if unlikely !fetch assignments, statement["assignments"] {
             throw new Exception("Corrupted statement");
         }
 
@@ -1104,12 +1065,16 @@ class Compiler implements InjectionAwareInterface
          * A single set can have several assignments
          */
         for assignment in assignments {
-            let exprCode = this->expression(assignment["expr"]);
+            let exprCode = this->expression(
+                assignment["expr"]
+            );
 
             /**
              * Resolve the expression assigned
              */
-            let target = this->expression(assignment["variable"]);
+            let target = this->expression(
+                assignment["variable"]
+            );
 
             /**
              * Assignment operator
@@ -1169,7 +1134,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * A valid expression is required
          */
-        if !fetch expr, statement["expr"] {
+        if unlikely !fetch expr, statement["expr"] {
             throw new Exception("Corrupt statement", statement);
         }
 
@@ -1978,7 +1943,7 @@ class Compiler implements InjectionAwareInterface
             }
         }
 
-        if typeof this->prefix != "string" {
+        if unlikely typeof this->prefix != "string" {
             throw new Exception("The unique compilation prefix is invalid");
         }
 
@@ -2154,7 +2119,7 @@ class Compiler implements InjectionAwareInterface
              * Enable autoescape globally
              */
             if fetch autoescape, options["autoescape"] {
-                if typeof autoescape != "boolean" {
+                if unlikely typeof autoescape != "boolean" {
                     throw new Exception("'autoescape' must be bool");
                 }
 
@@ -2167,7 +2132,7 @@ class Compiler implements InjectionAwareInterface
         /**
          * The parsing must return a valid array
          */
-        if typeof intermediate != "array" {
+        if unlikely typeof intermediate != "array" {
             throw new Exception("Invalid intermediate representation");
         }
 
@@ -2292,7 +2257,7 @@ class Compiler implements InjectionAwareInterface
         if type == PHVOLT_T_IDENTIFIER {
             let name = filter["value"];
         } else {
-            if type != PHVOLT_T_FCALL {
+            if unlikely type != PHVOLT_T_FCALL {
                 /**
                  * Unknown filter throw an exception
                  */
@@ -2625,14 +2590,14 @@ class Compiler implements InjectionAwareInterface
             /**
              * All statements must be arrays
              */
-            if typeof statement != "array" {
+            if unlikely typeof statement != "array" {
                 throw new Exception("Corrupted statement");
             }
 
             /**
              * Check if the statement is valid
              */
-            if !isset statement["type"] {
+            if unlikely !isset statement["type"] {
                 throw new Exception(
                     "Invalid statement in " . statement["file"] . " on line " . statement["line"],
                     statement
@@ -2732,7 +2697,7 @@ class Compiler implements InjectionAwareInterface
                         /**
                          * Create a unamed block
                          */
-                        if typeof compilation != "null" {
+                        if compilation !== null {
                             let blocks[] = compilation;
                             let compilation = null;
                         }
@@ -2781,7 +2746,7 @@ class Compiler implements InjectionAwareInterface
                      * If the compilation doesn't return anything we include the
                      * compiled path
                      */
-                    if typeof tempCompilation == "null" {
+                    if tempCompilation === null {
                         let tempCompilation = file_get_contents(
                             subCompiler->getCompiledTemplatePath()
                         );
@@ -2886,7 +2851,7 @@ class Compiler implements InjectionAwareInterface
             let level = this->blockLevel;
 
             if level == 1 {
-                if typeof compilation != "null" {
+                if compilation !== null {
                     let this->blocks[] = compilation;
                 }
             }

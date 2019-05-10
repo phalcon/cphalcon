@@ -38,7 +38,6 @@ class ManagerCest
         $this->setDiMysql();
 
         $this->testGetNewExistingTransactionOnce($I);
-        $this->testRollbackNewInserts($I);
         $this->testCommitNewInserts($I);
         $this->testTransactionRemovedOnCommit($I);
         $this->testTransactionRemovedOnRollback($I);
@@ -59,39 +58,6 @@ class ManagerCest
          * @todo - Check why this returns different Ids in db and TM
          */
 //        $I->assertEquals($db->getConnectionId(), $transaction->getConnection()->getConnectionId());
-    }
-
-    private function testRollbackNewInserts(IntegrationTester $I)
-    {
-        $tm = $this->container->getShared('transactionManager');
-
-        $numPersonas = Personas::count();
-        $transaction = $tm->get();
-
-        for ($i = 0; $i < 10; $i++) {
-            $persona = new Personas();
-            $persona->setTransaction($transaction);
-            $persona->cedula            = 'T-Cx' . $i;
-            $persona->tipo_documento_id = 1;
-            $persona->nombres           = 'LOST LOST';
-            $persona->telefono          = '2';
-            $persona->cupo              = 0;
-            $persona->estado            = 'A';
-
-            $I->assertTrue($persona->save());
-        }
-
-        try {
-            $transaction->rollback();
-            $I->assertTrue(
-                false,
-                "The transaction's rollback didn't throw an expected exception. Emergency stop"
-            );
-        } catch (Failed $e) {
-            $I->assertEquals($e->getMessage(), "Transaction aborted");
-        }
-
-        $I->assertEquals($numPersonas, Personas::count());
     }
 
     private function testCommitNewInserts(IntegrationTester $I)
@@ -176,7 +142,6 @@ class ManagerCest
         $this->setDiPostgresql();
 
         $this->testGetNewExistingTransactionOnce($I);
-        $this->testRollbackNewInserts($I);
         $this->testCommitNewInserts($I);
         $this->testTransactionRemovedOnCommit($I);
         $this->testTransactionRemovedOnRollback($I);
@@ -194,7 +159,6 @@ class ManagerCest
         $this->setDiSqlite();
 
         $this->testGetNewExistingTransactionOnce($I);
-        $this->testRollbackNewInserts($I);
         $this->testCommitNewInserts($I);
         $this->testTransactionRemovedOnCommit($I);
         $this->testTransactionRemovedOnRollback($I);

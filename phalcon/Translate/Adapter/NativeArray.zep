@@ -39,7 +39,7 @@ class NativeArray extends Adapter implements \ArrayAccess
 
         parent::__construct(options);
 
-        if !fetch data, options["content"] {
+        if unlikely !fetch data, options["content"] {
             throw new Exception("Translation content was not provided");
         }
 
@@ -47,7 +47,7 @@ class NativeArray extends Adapter implements \ArrayAccess
             let this->triggerError = (bool) error;
         }
 
-        if typeof data !== "array" {
+        if unlikely typeof data !== "array" {
             throw new Exception("Translation data must be an array");
         }
 
@@ -67,7 +67,7 @@ class NativeArray extends Adapter implements \ArrayAccess
      */
     public function notFound(string! index) -> string
     {
-        if (true === this->triggerError) {
+        if unlikely (true === this->triggerError) {
             throw new Exception("Cannot find translation key: " . index);
         }
 

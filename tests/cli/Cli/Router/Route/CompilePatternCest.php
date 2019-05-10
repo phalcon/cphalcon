@@ -14,15 +14,10 @@ namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
 
-/**
- * Class CompilePatternCest
- */
 class CompilePatternCest
 {
     /**
      * Tests Phalcon\Cli\Router\Route :: compilePattern()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class CompilePatternCest
     public function cliRouterRouteCompilePattern(CliTester $I)
     {
         $I->wantToTest('Cli\Router\Route - compilePattern()');
+
         $I->skipTest('Need implementation');
     }
 }

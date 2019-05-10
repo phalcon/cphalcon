@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Helper\Arr;
 use Phalcon\Helper\Arr;
 use UnitTester;
 
-/**
- * Class FirstKeyCest
- */
 class FirstKeyCest
 {
     /**
      * Tests Phalcon\Helper\Arr :: firstKey()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-07
@@ -43,8 +38,6 @@ class FirstKeyCest
 
     /**
      * Tests Phalcon\Helper\Arr :: firstKey() - function
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-07

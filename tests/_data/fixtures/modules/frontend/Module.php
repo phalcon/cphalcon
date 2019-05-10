@@ -2,7 +2,7 @@
 
 namespace Phalcon\Test\Modules\Frontend;
 
-use function dataFolder;
+use function dataDir;
 use Phalcon\Mvc\View;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
@@ -34,7 +34,7 @@ class Module implements ModuleDefinitionInterface
     {
         $di->set('view', function () {
             $view = new View();
-            $view->setViewsDir(dataFolder('fixtures/modules/frontend/views/'));
+            $view->setViewsDir(dataDir('fixtures/modules/frontend/views/'));
 
             return $view;
         });

@@ -20,35 +20,37 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Tag :: prependTitle()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-09-05
      */
     public function tagPrependTitle(UnitTester $I)
     {
         $I->wantToTest("Tag - prependTitle()");
+
         Tag::resetInput();
+
         Tag::setTitle('Title');
+
         Tag::prependTitle('Class');
 
-        $expected = "Title";
-        $actual   = Tag::getTitle(false, false);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "Title",
+            Tag::getTitle(false, false)
+        );
 
-        $expected = "ClassTitle";
-        $actual   = Tag::getTitle(true, false);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "ClassTitle",
+            Tag::getTitle(true, false)
+        );
 
-        $expected = "<title>ClassTitle</title>" . PHP_EOL;
-        $actual   = Tag::renderTitle();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "<title>ClassTitle</title>" . PHP_EOL,
+            Tag::renderTitle()
+        );
     }
 
     /**
      * Tests Phalcon\Tag :: prependTitle() - separator
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-09-05
@@ -56,28 +58,32 @@ class PrependTitleCest
     public function tagPrependTitleSeparator(UnitTester $I)
     {
         $I->wantToTest("Tag - prependTitle() - separator");
+
         Tag::resetInput();
+
         Tag::setTitle('Title');
         Tag::setTitleSeparator('|');
+
         Tag::prependTitle('Class');
 
-        $expected = "Title";
-        $actual   = Tag::getTitle(false, false);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "Title",
+            Tag::getTitle(false, false)
+        );
 
-        $expected = "Class|Title";
-        $actual   = Tag::getTitle(true, false);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "Class|Title",
+            Tag::getTitle(true, false)
+        );
 
-        $expected = "<title>Class|Title</title>" . PHP_EOL;
-        $actual   = Tag::renderTitle();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "<title>Class|Title</title>" . PHP_EOL,
+            Tag::renderTitle()
+        );
     }
 
     /**
      * Tests Phalcon\Tag :: prependTitle() - double call
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-09-05
@@ -85,29 +91,33 @@ class PrependTitleCest
     public function tagPrependTitleDoubleCall(UnitTester $I)
     {
         $I->wantToTest("Tag - prependTitle() - double call");
+
         Tag::resetInput();
+
         Tag::setTitle('Main');
         Tag::setTitleSeparator(' - ');
+
         Tag::prependTitle('Category');
         Tag::prependTitle('Title');
 
-        $expected = "Main";
-        $actual   = Tag::getTitle(false, false);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "Main",
+            Tag::getTitle(false, false)
+        );
 
-        $expected = "Title - Category - Main";
-        $actual   = Tag::getTitle(true, false);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "Title - Category - Main",
+            Tag::getTitle(true, false)
+        );
 
-        $expected = "<title>Title - Category - Main</title>" . PHP_EOL;
-        $actual   = Tag::renderTitle();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "<title>Title - Category - Main</title>" . PHP_EOL,
+            Tag::renderTitle()
+        );
     }
 
     /**
      * Tests Phalcon\Tag :: prependTitle() - array
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-09-05
@@ -115,28 +125,34 @@ class PrependTitleCest
     public function tagPrependTitleArray(UnitTester $I)
     {
         $I->wantToTest("Tag - prependTitle() - array");
+
         Tag::resetInput();
+
         Tag::setTitle('Main');
         Tag::setTitleSeparator(' - ');
-        Tag::prependTitle(['Category', 'Title']);
 
-        $expected = "Main";
-        $actual   = Tag::getTitle(false, false);
-        $I->assertEquals($expected, $actual);
+        Tag::prependTitle(
+            ['Category', 'Title']
+        );
 
-        $expected = "Title - Category - Main";
-        $actual   = Tag::getTitle(true, false);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "Main",
+            Tag::getTitle(false, false)
+        );
 
-        $expected = "<title>Title - Category - Main</title>" . PHP_EOL;
-        $actual   = Tag::renderTitle();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "Title - Category - Main",
+            Tag::getTitle(true, false)
+        );
+
+        $I->assertEquals(
+            "<title>Title - Category - Main</title>" . PHP_EOL,
+            Tag::renderTitle()
+        );
     }
 
     /**
      * Tests Phalcon\Tag :: prependTitle() - empty array
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-09-05
@@ -144,22 +160,31 @@ class PrependTitleCest
     public function tagPrependTitleEmptyArray(UnitTester $I)
     {
         $I->wantToTest("Tag - prependTitle() - empty array");
+
         Tag::resetInput();
+
         Tag::setTitle('Main');
         Tag::setTitleSeparator(' - ');
+
         Tag::prependTitle('Category');
-        Tag::prependTitle([]);
 
-        $expected = "Main";
-        $actual   = Tag::getTitle(false, false);
-        $I->assertEquals($expected, $actual);
+        Tag::prependTitle(
+            []
+        );
 
-        $expected = "Main";
-        $actual   = Tag::getTitle(true, false);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "Main",
+            Tag::getTitle(false, false)
+        );
 
-        $expected = "<title>Main</title>" . PHP_EOL;
-        $actual   = Tag::renderTitle();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "Main",
+            Tag::getTitle(true, false)
+        );
+
+        $I->assertEquals(
+            "<title>Main</title>" . PHP_EOL,
+            Tag::renderTitle()
+        );
     }
 }

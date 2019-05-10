@@ -19,15 +19,10 @@ use Psr\Http\Message\UploadedFileInterface;
 use stdClass;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Http\Message\UploadedFile :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -36,7 +31,7 @@ class ConstructCest
     {
         $I->wantToTest('Http\Message\UploadedFile - __construct()');
 
-        $stream = outputFolder(uniqid('test'));
+        $stream = logsDir(uniqid('test'));
         $file   = new UploadedFile($stream, 100);
         $class  = UploadedFileInterface::class;
         $I->assertInstanceOf($class, $file);
@@ -70,8 +65,6 @@ class ConstructCest
      * Tests Phalcon\Http\Message\UploadedFile :: __construct() - error
      * exception
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-18
      */
@@ -82,7 +75,7 @@ class ConstructCest
         $I->expectThrowable(
             new Exception("Invalid 'error'. Must be one of the UPLOAD_ERR_* constants"),
             function () {
-                $stream = outputFolder(uniqid('test'));
+                $stream = logsDir(uniqid('test'));
                 $file   = new UploadedFile($stream, 100, 100);
             }
         );

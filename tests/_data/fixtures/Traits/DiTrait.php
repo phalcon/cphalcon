@@ -32,16 +32,25 @@ use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Models\Manager as ModelsManager;
 use Phalcon\Mvc\Models\Metadata\Memory as MetadataMemory;
-use Phalcon\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Simple;
-use Phalcon\Session\Adapter\Files as SessionFiles;
 use Phalcon\Session\Adapter\Libmemcached as SessionLibmemcached;
 use Phalcon\Session\Adapter\Noop as SessionNoop;
 use Phalcon\Session\Adapter\Redis as SessionRedis;
+use Phalcon\Session\Adapter\Stream as SessionFiles;
 use Phalcon\Session\Manager as SessionManager;
-use function cacheFolder;
-use function dataFolder;
+use Phalcon\Cache\Adapter\Libmemcached as StorageLibmemcached;
+use Phalcon\Cache\Adapter\Stream as StorageStream;
+use Phalcon\Storage\SerializerFactory;
+use Phalcon\Url;
+use function cacheDir;
+use function dataDir;
+use function getOptionsLibmemcached;
+use function getOptionsModelCacheStream;
+use function getOptionsMysql;
+use function getOptionsPostgresql;
+use function getOptionsRedis;
+use function getOptionsSqlite;
 
 /**
  * Trait DiTrait
@@ -50,6 +59,8 @@ use function dataFolder;
  */
 trait DiTrait
 {
+    use OptionsTrait;
+
     /**
      * @var null|DiInterface
      */
@@ -64,41 +75,35 @@ trait DiTrait
     }
 
     /**
-     * @return File
+     * @return StorageStream
      */
-    protected function getAndSetModelsCacheFile()
+    protected function getAndSetModelsCacheStream(): StorageStream
     {
-        $cache = new File(
-            new Data(
-                [
-                    'lifetime' => 3600,
-                ]
-            ),
-            [
-                'cacheDir' => cacheFolder(),
-            ]
-        );
+        $serializer = new SerializerFactory();
+        $cache      = new StorageStream($serializer, getOptionsModelCacheStream());
         $this->container->set('modelsCache', $cache);
 
         return $cache;
     }
 
     /**
-     * @return Libmemcached
+     * @return StorageStream
      */
-    protected function getAndSetModelsCacheFileLibmemcached()
+    protected function getAndSetViewCacheStream(): StorageStream
     {
-        $config = [
-            'servers' => [
-                [
-                    'host'   => env('DATA_MEMCACHED_HOST'),
-                    'port'   => env('DATA_MEMCACHED_PORT'),
-                    'weight' => env('DATA_MEMCACHED_WEIGHT'),
-                ],
-            ],
-        ];
+        $serializer = new SerializerFactory();
+        $cache      = new StorageStream($serializer, getOptionsModelCacheStream());
+        $this->container->set('viewCache', $cache);
+        return $cache;
+    }
 
-        $cache = new Libmemcached(new Data(['lifetime' => 3600]), $config);
+    /**
+     * @return StorageLibmemcached
+     */
+    protected function getAndSetModelsCacheLibmemcached(): StorageLibmemcached
+    {
+        $serializer = new SerializerFactory();
+        $cache      = new StorageLibmemcached($serializer, getOptionsLibmemcached());
         $this->container->set('modelsCache', $cache);
 
         return $cache;
@@ -264,15 +269,7 @@ trait DiTrait
      */
     protected function newDiMysql()
     {
-        $options = [
-            'host'     => env('DATA_MYSQL_HOST'),
-            'username' => env('DATA_MYSQL_USER'),
-            'password' => env('DATA_MYSQL_PASS'),
-            'dbname'   => env('DATA_MYSQL_NAME'),
-            'charset'  => env('DATA_MYSQL_CHARSET'),
-        ];
-
-        return new Mysql($options);
+        return new Mysql(getOptionsMysql());
     }
 
     /**
@@ -300,13 +297,7 @@ trait DiTrait
             'session',
             function () {
                 $manager = new SessionManager();
-                $manager->setHandler(
-                    new SessionFiles(
-                        [
-                            'save_path' => cacheFolder(),
-                        ]
-                    )
-                );
+                $manager->setHandler(new SessionFiles(getOptionsSessionStream()));
 
                 return $manager;
             }
@@ -322,19 +313,7 @@ trait DiTrait
             'session',
             function () {
                 $manager = new SessionManager();
-                $manager->setHandler(
-                    new SessionLibmemcached(
-                        [
-                            'servers' => [
-                                [
-                                    'host'   => env('DATA_MEMCACHED_HOST'),
-                                    'port'   => env('DATA_MEMCACHED_PORT'),
-                                    'weight' => env('DATA_MEMCACHED_WEIGHT'),
-                                ],
-                            ],
-                        ]
-                    )
-                );
+                $manager->setHandler(new SessionLibmemcached(getOptionsLibmemcached()));
 
                 return $manager;
             }
@@ -366,7 +345,7 @@ trait DiTrait
             'session',
             function () {
                 $manager = new SessionManager();
-                $manager->setHandler(new SessionRedis());
+                $manager->setHandler(new SessionRedis(getOptionsRedis()));
 
                 return $manager;
             }
@@ -386,11 +365,7 @@ trait DiTrait
      */
     protected function newDiSqlite()
     {
-        $options = [
-            'dbname' => env('DATA_SQLITE_NAME'),
-        ];
-
-        return new Sqlite($options);
+        return new Sqlite(getOptionsSqlite());
     }
 
     /**
@@ -418,7 +393,7 @@ trait DiTrait
             'view',
             function () {
                 $view = new View();
-                $view->setViewsDir(dataFolder('fixtures/views'));
+                $view->setViewsDir(dataDir('fixtures/views'));
 
                 return $view;
             }
@@ -434,7 +409,7 @@ trait DiTrait
             'viewSimple',
             function () {
                 $view = new Simple();
-                $view->setViewsDir(dataFolder('fixtures/views/'));
+                $view->setViewsDir(dataDir('fixtures/views/'));
 
                 return $view;
             }
@@ -483,15 +458,7 @@ trait DiTrait
      */
     protected function newDiPostgresql()
     {
-        $options = [
-            'host'     => env('DATA_POSTGRES_HOST'),
-            'username' => env('DATA_POSTGRES_USER'),
-            'password' => env('DATA_POSTGRES_PASS'),
-            'dbname'   => env('DATA_POSTGRES_NAME'),
-            'schema'   => env('DATA_POSTGRES_SCHEMA'),
-        ];
-
-        return new Postgresql($options);
+        return new Postgresql(getOptionsPostgresql());
     }
 
     /**

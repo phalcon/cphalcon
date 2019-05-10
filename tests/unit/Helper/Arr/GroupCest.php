@@ -13,17 +13,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Helper\Arr;
 
 use Phalcon\Helper\Arr;
+use stdClass;
 use UnitTester;
 
-/**
- * Class GroupCest
- */
 class GroupCest
 {
     /**
      * Tests Phalcon\Helper\Arr :: group()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-07
@@ -31,40 +27,41 @@ class GroupCest
     public function helperArrGroup(UnitTester $I)
     {
         $I->wantToTest('Helper\Arr - group()');
-        $collection =  [
-            ['name' => 'Paul',  'age' => 34],
+
+        $collection = [
+            ['name' => 'Paul', 'age' => 34],
             ['name' => 'Peter', 'age' => 31],
-            ['name' => 'John',  'age' => 29],
+            ['name' => 'John', 'age' => 29],
         ];
 
         $expected = [
             34 => [
                 [
                     'name' => 'Paul',
-                    'age' => 34,
+                    'age'  => 34,
                 ],
             ],
             31 => [
                 [
                     'name' => 'Peter',
-                    'age' => 31,
+                    'age'  => 31,
                 ],
             ],
             29 => [
                 [
                     'name' => 'John',
-                    'age' => 29,
+                    'age'  => 29,
                 ],
             ],
         ];
+
         $actual = Arr::group($collection, 'age');
+
         $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Helper\Arr :: group() - object
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-07
@@ -73,13 +70,13 @@ class GroupCest
     {
         $I->wantToTest('Helper\Arr - group() - object');
 
-        $peter = new \stdClass();
+        $peter       = new stdClass();
         $peter->name = 'Peter';
-        $peter->age = 34;
+        $peter->age  = 34;
 
-        $paul = new \stdClass();
+        $paul       = new stdClass();
         $paul->name = 'Paul';
-        $paul->age = 31;
+        $paul->age  = 31;
 
         $collection = [
             'peter' => $peter,
@@ -89,16 +86,17 @@ class GroupCest
 
         $expected = [
             'Peter' => [$peter],
-            'Paul'  => [$paul]
+            'Paul'  => [$paul],
         ];
-        $actual   = Arr::group($collection, 'name');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            Arr::group($collection, 'name')
+        );
     }
 
     /**
      * Tests Phalcon\Helper\Arr :: group() - function
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-07
@@ -106,13 +104,17 @@ class GroupCest
     public function helperArrGroupFunction(UnitTester $I)
     {
         $I->wantToTest('Helper\Arr - group() - function');
+
         $collection = ['one', 'two', 'three'];
 
         $expected = [
             3 => ['one', 'two'],
-            5 => ['three']
+            5 => ['three'],
         ];
-        $actual   = Arr::group($collection, 'strlen');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            Arr::group($collection, 'strlen')
+        );
     }
 }

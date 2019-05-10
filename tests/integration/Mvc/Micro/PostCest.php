@@ -56,7 +56,6 @@ class PostCest
         );
 
 
-
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
         $I->assertEquals(

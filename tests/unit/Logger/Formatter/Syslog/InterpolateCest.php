@@ -12,14 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Formatter\Syslog;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Formatter\Syslog;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 /**
- * Class InterpolateCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class InterpolateCest
@@ -27,30 +25,28 @@ class InterpolateCest
     /**
      * Tests Phalcon\Logger\Formatter\Syslog :: interpolate()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function loggerFormatterSyslogInterpolate(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Syslog - interpolate()');
+
         $formatter = new Syslog();
 
-        $message = 'The sky is {color}';
-        $context = [
-            'color' => 'blue',
-        ];
-
-        $expected = 'The sky is blue';
-        $actual   = $formatter->interpolate($message, $context);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'The sky is blue',
+            $formatter->interpolate(
+                'The sky is {color}',
+                [
+                    'color' => 'blue',
+                ]
+            )
+        );
     }
 
     /**
      * Tests Phalcon\Logger\Formatter\Syslog :: interpolate() - format
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -58,18 +54,31 @@ class InterpolateCest
     public function loggerFormatterSyslogInterpolateFormat(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Syslog - interpolate() - format()');
+
         $formatter = new Syslog();
 
         $message = 'The sky is {color}';
+
         $context = [
             'color' => 'blue',
         ];
 
         $time = time();
-        $item = new Item($message, 'debug', Logger::DEBUG, $time, $context);
 
-        $expected = [Logger::DEBUG, 'The sky is blue'];
-        $actual   = $formatter->format($item);
-        $I->assertEquals($expected, $actual);
+        $item = new Item(
+            $message,
+            'debug',
+            Logger::DEBUG,
+            $time,
+            $context
+        );
+
+        $I->assertEquals(
+            [
+                Logger::DEBUG,
+                'The sky is blue',
+            ],
+            $formatter->format($item)
+        );
     }
 }

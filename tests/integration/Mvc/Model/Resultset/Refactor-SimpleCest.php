@@ -16,7 +16,6 @@ use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\People;
 use Phalcon\Test\Models\Robots;
-use function cacheFolder;
 
 class SimpleCest
 {
@@ -26,78 +25,7 @@ class SimpleCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
-        $I->cleanDir(cacheFolder());
-    }
-
-    /**
-     * Work with Simple Resultset by load data from the file cache (complete
-     * PHQL option).
-     *
-     * @test
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2012-11-20
-     */
-    public function shouldLoadResultsetFromCacheByUsingCompletePhql(IntegrationTester $I)
-    {
-        $I->skipTest('TODO - Check the counts');
-        $cache   = $this->getAndSetModelsCacheFile();
-        $manager = $this->getService('modelsManager');
-
-        $robots = $manager->executeQuery('SELECT * FROM ' . Robots::class);
-
-        $I->assertInstanceOf(Simple::class, $robots);
-        $I->assertCount(3, $robots);
-        $I->assertEquals($robots->count(), 3);
-
-        $cache->save('test-resultset', $robots);
-
-        $I->amInPath(cacheFolder());
-        $I->seeFileFound('test-resultset');
-
-        $robots = $cache->get('test-resultset');
-
-        $I->assertInstanceOf(Simple::class, $robots);
-        $I->assertCount(3, $robots);
-        $I->assertEquals($robots->count(), 3);
-        $cache->delete('test-resultset');
-
-        $I->amInPath(cacheFolder());
-        $I->dontSeeFileFound('test-resultset');
-    }
-
-    /**
-     * Work with Simple Resultset by load data from the file cache (incomplete
-     * PHQL option).
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2012-12-28
-     */
-    public function shouldLoadResultsetFromCacheByUsingIncompletePhql(IntegrationTester $I)
-    {
-        $I->skipTest('TODO = Check the numbers');
-        $cache   = $this->getAndSetModelsCacheFile();
-        $manager = $this->getService('modelsManager');
-
-        $robots = $manager->executeQuery('SELECT id FROM ' . Robots::class);
-
-        $I->assertInstanceOf(Simple::class, $robots);
-        $I->assertCount(3, $robots);
-        $I->assertEquals($robots->count(), 3);
-
-        $cache->save('test-resultset', $robots);
-
-        $I->amInPath(cacheFolder());
-        $I->seeFileFound('test-resultset');
-
-        $robots = $cache->get('test-resultset');
-
-        $I->assertInstanceOf(Simple::class, $robots);
-        $I->assertCount(3, $robots);
-        $I->assertEquals($robots->count(), 3);
-
-        $cache->delete('test-resultset');
-        $I->amInPath(cacheFolder());
-        $I->dontSeeFileFound('test-resultset');
+        $I->cleanDir(cacheModelsDir());
     }
 
     /**
@@ -110,7 +38,7 @@ class SimpleCest
     public function shouldLoadResultsetFromCache(IntegrationTester $I)
     {
         $I->skipTest('TODO = Check the numbers');
-        $cache = $this->getAndSetModelsCacheFile();
+        $cache = $this->getAndSetModelsCacheStream();
 
         $robots = Robots::find(['order' => 'id']);
 
@@ -118,9 +46,9 @@ class SimpleCest
         $I->assertCount(3, $robots);
         $I->assertEquals($robots->count(), 3);
 
-        $cache->save('test-resultset', $robots);
+        $cache->set('test-resultset', $robots);
 
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheModelsDir());
         $I->seeFileFound('test-resultset');
 
         $robots = $cache->get('test-resultset');
@@ -130,7 +58,7 @@ class SimpleCest
         $I->assertEquals($robots->count(), 3);
 
         $cache->delete('test-resultset');
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheModelsDir());
         $I->dontSeeFileFound('test-resultset');
     }
 
@@ -143,7 +71,7 @@ class SimpleCest
      */
     public function shouldLoadResultsetWithBindingFromCache(IntegrationTester $I)
     {
-        $cache   = $this->getAndSetModelsCacheFile();
+        $cache   = $this->getAndSetModelsCacheStream();
         $manager = $this->getService('modelsManager');
 
         $initialId = 0;
@@ -159,9 +87,9 @@ class SimpleCest
         $I->assertCount(3, $robots);
         $I->assertEquals($robots->count(), 3);
 
-        $cache->save('test-resultset', $robots);
+        $cache->set('test-resultset', $robots);
 
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheModelsDir());
         $I->seeFileFound('test-resultset');
 
         $robots = $cache->get('test-resultset');
@@ -171,7 +99,7 @@ class SimpleCest
         $I->assertEquals($robots->count(), 3);
 
         $cache->delete('test-resultset');
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheModelsDir());
         $I->dontSeeFileFound('test-resultset');
     }
 
@@ -184,7 +112,8 @@ class SimpleCest
      */
     public function shouldLoadResultsetFromLibmemcached(IntegrationTester $I)
     {
-        $cache = $this->getAndSetModelsCacheFileLibmemcached();
+        $cache = $this->getAndSetModelsCacheLibmemcached();
+        $cache->clear();
 
         $key = 'test-resultset-' . mt_rand(0, 9999);
         // Single

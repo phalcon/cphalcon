@@ -19,9 +19,6 @@ use Phalcon\Translate\AdapterInterface;
 use Phalcon\Translate\Exception;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use TranslateTrait;
@@ -29,28 +26,30 @@ class ConstructCest
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: __construct()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function translateAdapterGettextConstruct(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Gettext - constructor');
-        $params     = $this->getGettextConfig();
+
+        $params = $this->getGettextConfig();
+
         $translator = new Gettext($params);
 
-        $class = ArrayAccess::class;
-        $I->assertInstanceOf($class, $translator);
+        $I->assertInstanceOf(
+            ArrayAccess::class,
+            $translator
+        );
 
-        $class = AdapterInterface::class;
-        $I->assertInstanceOf($class, $translator);
+        $I->assertInstanceOf(
+            AdapterInterface::class,
+            $translator
+        );
     }
 
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: __construct() - Exception
-     *
-     * @param UnitTester $I
      *
      * @author Ivan Zubok <chi_no@ukr.net>
      * @since  2014-11-04
@@ -58,10 +57,13 @@ class ConstructCest
     public function translateAdapterGettextContentParamExist(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Gettext - constructor without "locale" throws exception');
+
         $I->expectThrowable(
             new Exception("Parameter 'locale' is required"),
             function () {
-                new Gettext([]);
+                new Gettext(
+                    []
+                );
             }
         );
     }

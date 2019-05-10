@@ -47,7 +47,7 @@ abstract class Element implements ElementInterface
     {
         let name = trim(name);
 
-        if empty name {
+        if unlikely empty name {
             throw new \InvalidArgumentException(
                 "Form element name is required"
             );
@@ -281,7 +281,7 @@ abstract class Element implements ElementInterface
          * Assign the default value if there is no form available or
          * Phalcon\Tag returns null
          */
-        if typeof value == "null" {
+        if value === null {
             let value = this->value;
         }
 
@@ -429,7 +429,7 @@ abstract class Element implements ElementInterface
      */
     public function setFilters(var filters) -> <ElementInterface>
     {
-        if typeof filters != "string" && typeof filters != "array" {
+        if unlikely (typeof filters != "string" && typeof filters != "array") {
             throw new Exception("Wrong filter type added");
         }
 

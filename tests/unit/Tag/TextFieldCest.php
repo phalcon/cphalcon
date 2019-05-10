@@ -14,11 +14,6 @@ namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
-/**
- * Class TextFieldCest
- *
- * @package Phalcon\Test\Unit\Tag
- */
 class TextFieldCest extends TagHelper
 {
     protected $function  = 'textField';

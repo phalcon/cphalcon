@@ -19,11 +19,6 @@ use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 use UnitTester;
 use const PHP_EOL;
 
-/**
- * Class ElementCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class ElementCest
 {
     use DiTrait;
@@ -31,8 +26,6 @@ class ElementCest
 
     /**
      * Tests Phalcon\Html\Tag :: element()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -72,8 +65,6 @@ class ElementCest
     /**
      * Tests Phalcon\Html\Tag :: element() - no name
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -91,8 +82,6 @@ class ElementCest
 
     /**
      * Tests Phalcon\Tag :: element() - self close
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -126,8 +115,6 @@ class ElementCest
     /**
      * Tests Phalcon\Tag :: element() - only start
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -159,34 +146,42 @@ class ElementCest
     /**
      * Tests Phalcon\Tag :: element() - EOL
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
     public function htmlTagElementEol(UnitTester $I)
     {
         $I->wantToTest("Tag - tagHtml() - name parameter EOL");
+
         $tag = new Tag();
+
         $tag->setDI($this->container);
-        $name       = 'aside';
+
+        $name = 'aside';
+
         $parameters = [
             'useEol' => true,
 
         ];
-        $expected   = '<aside>' . PHP_EOL;
 
-        $actual = $tag
-            ->setDocType(Tag::XHTML10_STRICT)
-            ->element($name, $parameters)
-        ;
-        $I->assertEquals($expected, $actual);
 
-        $expected = '<aside></aside>' . PHP_EOL;
-        $actual   = $tag
-            ->setDocType(Tag::HTML5)
-            ->element($name, $parameters)
-        ;
-        $I->assertEquals($expected, $actual);
+        $tag->setDocType(
+            Tag::XHTML10_STRICT
+        );
+
+        $I->assertEquals(
+            '<aside>' . PHP_EOL,
+            $tag->element($name, $parameters)
+        );
+
+
+        $tag->setDocType(
+            Tag::HTML5
+        );
+
+        $I->assertEquals(
+            '<aside></aside>' . PHP_EOL,
+            $tag->element($name, $parameters)
+        );
     }
 }

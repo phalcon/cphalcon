@@ -48,7 +48,6 @@ class NotFoundCest
         $router->handle("/");
 
 
-
         $I->assertEquals(
             'controller',
             $router->getControllerName()

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class ValidationHasFailedCest
- */
 class ValidationHasFailedCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: validationHasFailed()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ValidationHasFailedCest
     public function mvcCollectionValidationHasFailed(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - validationHasFailed()');
+
         $I->skipTest('Need implementation');
     }
 }

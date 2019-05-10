@@ -26,7 +26,6 @@
  * Phalcon\Mvc\Micro\Exception
  *
  * Exceptions thrown in Phalcon\Mvc\Micro will use this class
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Exception) {
 

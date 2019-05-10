@@ -382,7 +382,8 @@ class Route implements RouteInterface
      */
     public function getReversedPaths() -> array
     {
-        var reversed, path, position;
+        var path, position;
+        array reversed;
 
         let reversed = [];
 
@@ -477,7 +478,7 @@ class Route implements RouteInterface
             let routePaths = [];
         }
 
-        if typeof routePaths !== "array" {
+        if unlikely typeof routePaths !== "array" {
             throw new Exception("The route contains invalid paths");
         }
 

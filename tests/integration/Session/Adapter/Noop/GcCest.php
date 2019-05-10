@@ -43,9 +43,11 @@ class GcCest
     public function sessionAdapterNoopGc(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Noop - gc()');
+
         $adapter = $this->getSessionNoop();
 
-        $actual = $adapter->gc(1);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->gc(1)
+        );
     }
 }

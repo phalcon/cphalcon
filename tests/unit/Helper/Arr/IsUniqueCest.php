@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Helper\Arr;
 use Phalcon\Helper\Arr;
 use UnitTester;
 
-/**
- * Class IsUniqueCest
- */
 class IsUniqueCest
 {
     /**
      * Tests Phalcon\Helper\Arr :: isUnique()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
@@ -31,19 +26,26 @@ class IsUniqueCest
     public function helperArrIsUnique(UnitTester $I)
     {
         $I->wantToTest('Helper\Arr - isUnique()');
+
+
         $collection = [
             'Phalcon',
             'Framework',
         ];
-        $actual   = Arr::isUnique($collection);
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            Arr::isUnique($collection)
+        );
+
 
         $collection = [
             'Phalcon',
             'Framework',
             'Phalcon',
         ];
-        $actual   = Arr::isUnique($collection);
-        $I->assertFalse($actual);
+
+        $I->assertFalse(
+            Arr::isUnique($collection)
+        );
     }
 }

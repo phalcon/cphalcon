@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SomeComponent class
  *
@@ -16,7 +17,7 @@
  */
 class SomeComponent
 {
-    public $someProperty = false;
+    public $someProperty;
 
     public function __construct($value)
     {

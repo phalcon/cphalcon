@@ -16,8 +16,6 @@ use Phalcon\Logger\Formatter\Json;
 use UnitTester;
 
 /**
- * Class SetDateFormatCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class SetDateFormatCest
@@ -25,21 +23,22 @@ class SetDateFormatCest
     /**
      * Tests Phalcon\Logger\Formatter\Json :: setDateFormat()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function loggerFormatterJsonSetDateFormat(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Json - setDateFormat()');
+
         $formatter = new Json();
 
         $format = 'YmdHis';
+
         $formatter->setDateFormat($format);
 
-        $expected = $format;
-        $actual   = $formatter->getDateFormat();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $format,
+            $formatter->getDateFormat()
+        );
     }
 }

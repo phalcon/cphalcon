@@ -16,13 +16,10 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Remove;
 use UnitTester;
 
-/**
- * Class RemoveCest
- */
 class RemoveCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\Remove :: __invoke()
      *
      * @dataProvider getData
      *

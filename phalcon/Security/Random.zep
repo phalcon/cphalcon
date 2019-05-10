@@ -253,7 +253,7 @@ class Random
             let handle = fopen("/dev/urandom", "rb");
         }
 
-        if handle === false {
+        if unlikely handle === false {
             throw new Exception("No random device available");
         }
 
@@ -263,7 +263,7 @@ class Random
 
         fclose(handle);
 
-        if strlen(ret) != len {
+        if unlikely strlen(ret) != len {
             throw new Exception(
                 "Unexpected partial read from random device"
             );
@@ -313,7 +313,7 @@ class Random
         var hex, mask, rnd, ret;
         string bin = "";
 
-        if len <= 0 {
+        if unlikely len <= 0 {
             throw new Exception("Require a positive integer > 0");
         }
 

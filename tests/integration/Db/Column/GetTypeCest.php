@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetTypeCest
- */
 class GetTypeCest
 {
     use DiTrait;
@@ -27,18 +24,21 @@ class GetTypeCest
     /**
      * Tests Phalcon\Db\Column :: getType()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbColumnGetType(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - getType()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['type'], $column->getType());
+            $I->assertEquals(
+                $columns[$index]['type'],
+                $column->getType()
+            );
         }
     }
 }

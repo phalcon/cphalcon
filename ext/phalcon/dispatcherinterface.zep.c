@@ -35,8 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_DispatcherInterface) {
 
 /**
  * Dispatches a handle action taking into account the routing parameters
- *
- * @return object
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, dispatch);
 
@@ -64,7 +62,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, getHandlerSuffix);
  * Gets a param by its name or numeric index
  *
  * @param  string|array filters
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_DispatcherInterface, getParam);
 

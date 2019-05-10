@@ -16,13 +16,10 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Striptags;
 use UnitTester;
 
-/**
- * Class StriptagsCest
- */
 class StriptagsCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\Striptags :: __invoke()
      *
      * @dataProvider getData
      *

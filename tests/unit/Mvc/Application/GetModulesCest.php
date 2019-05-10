@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Application;
 
 use UnitTester;
 
-/**
- * Class GetModulesCest
- */
 class GetModulesCest
 {
     /**
      * Tests Phalcon\Mvc\Application :: getModules()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetModulesCest
     public function mvcApplicationGetModules(UnitTester $I)
     {
         $I->wantToTest('Mvc\Application - getModules()');
+
         $I->skipTest('Need implementation');
     }
 }

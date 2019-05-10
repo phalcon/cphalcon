@@ -16,15 +16,10 @@ use Phalcon\Http\Message\ServerRequest;
 use Phalcon\Http\Message\Uri;
 use UnitTester;
 
-/**
- * Class WithUriCest
- */
 class WithUriCest
 {
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: withUri()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

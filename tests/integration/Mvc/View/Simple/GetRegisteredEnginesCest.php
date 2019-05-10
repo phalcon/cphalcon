@@ -13,23 +13,44 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
+use Phalcon\Mvc\View\Engine\Php;
+use Phalcon\Mvc\View\Engine\Volt;
+use Phalcon\Test\Fixtures\Mvc\View\Engine\Mustache;
+use Phalcon\Test\Fixtures\Mvc\View\Engine\Twig;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetRegisteredEnginesCest
- */
 class GetRegisteredEnginesCest
 {
-    /**
-     * Tests Phalcon\Mvc\View\Simple :: getRegisteredEngines()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function mvcViewSimpleGetRegisteredEngines(IntegrationTester $I)
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View\Simple - getRegisteredEngines()');
-        $I->skipTest('Need implementation');
+        $this->newDi();
+        $this->setDiViewSimple();
+    }
+
+    /**
+     * Tests the Simple::getRegisteredEngines
+     *
+     * @author Kamil Skowron <git@hedonsoftware.com>
+     * @since  2014-05-28
+     */
+    public function testGetRegisteredEngines(IntegrationTester $I)
+    {
+        $view = $this->container->get('viewSimple');
+
+        $engines = [
+            '.mhtml' => Mustache::class,
+            '.phtml' => Php::class,
+            '.twig'  => Twig::class,
+            '.volt'  => Volt::class,
+        ];
+
+        $view->registerEngines($engines);
+
+        $I->assertEquals(
+            $engines,
+            $view->getRegisteredEngines()
+        );
     }
 }

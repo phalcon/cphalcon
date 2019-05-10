@@ -16,13 +16,10 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\AbsInt;
 use UnitTester;
 
-/**
- * Class AbsIntCest
- */
 class AbsIntCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\AbsInt :: __invoke()
      *
      * @dataProvider getData
      *

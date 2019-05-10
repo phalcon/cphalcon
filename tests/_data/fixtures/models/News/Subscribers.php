@@ -21,16 +21,24 @@ class Subscribers extends PhalconModel
     {
         $this->setSource("subscriptores");
 
-        $this->addBehavior(new Timestampable([
-            'beforeCreate' => [
-                'field'  => 'created_at',
-                'format' => 'Y-m-d H:i:s',
-            ],
-        ]));
+        $this->addBehavior(
+            new Timestampable(
+                [
+                    'beforeCreate' => [
+                        'field'  => 'created_at',
+                        'format' => 'Y-m-d H:i:s',
+                    ],
+                ]
+            )
+        );
 
-        $this->addBehavior(new SoftDelete([
-            'field' => 'status',
-            'value' => 'D',
-        ]));
+        $this->addBehavior(
+            new SoftDelete(
+                [
+                    'field' => 'status',
+                    'value' => 'D',
+                ]
+            )
+        );
     }
 }

@@ -27,7 +27,7 @@ class Timestampable extends Behavior
      */
     public function notify(string! type, <ModelInterface> model)
     {
-        var options, timestamp, singleField, field, generator, format;
+        var options, timestamp, singleField, field;
 
         /**
          * Check if the developer decided to take action here
@@ -38,52 +38,54 @@ class Timestampable extends Behavior
 
         let options = this->getOptions(type);
 
-        if typeof options == "array" {
-            /**
-             * The field name is required in this behavior
-             */
-            if !fetch field, options["field"] {
-                throw new Exception("The option 'field' is required");
+        if typeof options != "array" {
+            return;
+        }
+
+        /**
+         * The field name is required in this behavior
+         */
+        if unlikely !fetch field, options["field"] {
+            throw new Exception("The option 'field' is required");
+        }
+
+        let timestamp = this->getTimestamp(options);
+
+        /**
+         * Assign the value to the field, use writeAttribute() if the property is protected
+         */
+        if unlikely typeof field == "array" {
+            for singleField in field {
+                model->writeAttribute(singleField, timestamp);
             }
+        } else {
+            model->writeAttribute(field, timestamp);
+        }
+    }
 
-            let timestamp = null;
+    private function getTimestamp(array options)
+    {
+        var format, generator;
 
-            if fetch format, options["format"] {
-                /**
-                 * Format is a format for date()
-                 */
-                let timestamp = date(format);
-            } else {
-                if fetch generator, options["generator"] {
-
-                    /**
-                     * A generator is a closure that produce the correct timestamp value
-                     */
-                    if typeof generator == "object" {
-                        if generator instanceof \Closure {
-                            let timestamp = call_user_func(generator);
-                        }
-                    }
-                }
-            }
-
+        if fetch format, options["format"] {
             /**
-             * Last resort call time()
+             * Format is a format for date()
              */
-            if timestamp === null {
-                let timestamp = time();
-            }
+            return date(format);
+        }
 
+        if fetch generator, options["generator"] {
             /**
-             * Assign the value to the field, use writeAttribute() if the property is protected
+             * A generator is a closure that produce the correct timestamp value
              */
-            if typeof field == "array" {
-                for singleField in field {
-                    model->writeAttribute(singleField, timestamp);
-                }
-            } else {
-                model->writeAttribute(field, timestamp);
+            if typeof generator == "object" && generator instanceof \Closure {
+                return call_user_func(generator);
             }
         }
+
+        /**
+         * Last resort call time()
+         */
+        return time();
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
 
-/**
- * Class DelimiterCest
- */
 class DelimiterCest
 {
     /**
      * Tests Phalcon\Cli\Router\Route :: delimiter()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

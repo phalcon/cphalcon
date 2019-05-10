@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Response;
 use Phalcon\Http\Message\Response;
 use UnitTester;
 
-/**
- * Class GetHeaderCest
- */
 class GetHeaderCest
 {
     /**
      * Tests Phalcon\Http\Message\Response :: getHeader() - empty headers
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
@@ -31,24 +26,30 @@ class GetHeaderCest
     public function httpMessageResponseGetHeader(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Response - getHeader()');
-        $data    = [
+
+        $data = [
             'Cache-Control' => ['max-age=0'],
             'Accept'        => ['text/html'],
         ];
+
         $request = new Response('php://memory', 200, $data);
 
         $expected = ['text/html'];
-        $actual   = $request->getHeader('accept');
-        $I->assertEquals($expected, $actual);
 
-        $actual = $request->getHeader('aCCepT');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $request->getHeader('accept')
+        );
+
+
+        $I->assertEquals(
+            $expected,
+            $request->getHeader('aCCepT')
+        );
     }
 
     /**
      * Tests Phalcon\Http\Message\Response :: getHeader() - empty headers
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
@@ -56,10 +57,12 @@ class GetHeaderCest
     public function httpMessageResponseGetHeaderEmptyHeaders(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Response - getHeader() - empty headers');
+
         $request = new Response();
 
-        $expected = [];
-        $actual   = $request->getHeader('empty');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [],
+            $request->getHeader('empty')
+        );
     }
 }

@@ -39,15 +39,10 @@ use Phalcon\Filter\Sanitize\Url;
 use Phalcon\Service\LocatorInterface;
 use UnitTester;
 
-/**
- * Class NewInstanceCest
- */
 class NewInstanceCest
 {
     /**
      * Tests Phalcon\Filter\FilterLocatorFactory :: newInstance()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

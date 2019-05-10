@@ -17,7 +17,7 @@ use Phalcon\Assets\Filters\None;
 use Phalcon\Assets\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 use function uniqid;
 
 class ManagerCest
@@ -191,14 +191,14 @@ class ManagerCest
     {
         $file   = uniqid() . '.js';
         $assets = new Manager();
-        $jsFile = dataFolder('assets/assets/jquery.js');
+        $jsFile = dataDir('assets/assets/jquery.js');
 
         $assets->useImplicitOutput(false);
         $assets->collection('js')
                ->addJs($jsFile)
                ->join(true)
                ->addFilter(new Jsmin())
-               ->setTargetPath(outputFolder("tests/assets/{$file}"))
+               ->setTargetPath(outputDir("tests/assets/{$file}"))
                ->setTargetLocal(false)
                ->setPrefix('//phalconphp.com/')
                ->setTargetUri('js/jquery.js')
@@ -208,8 +208,8 @@ class ManagerCest
         $actual   = $assets->outputJs('js');
         $I->assertEquals($expected, $actual);
 
-        $I->seeFileFound(outputFolder("tests/assets/{$file}"));
-        $I->safeDeleteFile(outputFolder("tests/assets/{$file}"));
+        $I->seeFileFound(outputDir("tests/assets/{$file}"));
+        $I->safeDeleteFile(outputDir("tests/assets/{$file}"));
     }
 
     /**
@@ -224,14 +224,14 @@ class ManagerCest
 
         $assets->useImplicitOutput(false);
         $assets->collection('js')
-               ->addJs(dataFolder('assets/assets/jquery.js'), false, false)
-               ->setTargetPath(outputFolder("tests/assets/combined.js"))
+               ->addJs(dataDir('assets/assets/jquery.js'), false, false)
+               ->setTargetPath(outputDir("tests/assets/combined.js"))
                ->setTargetUri('production/combined.js')
         ;
 
         $expected = sprintf(
             '<script src="%s"></script>%s',
-            dataFolder('assets/assets/jquery.js'),
+            dataDir('assets/assets/jquery.js'),
             PHP_EOL
         );
         $actual   = $assets->outputJs('js');
@@ -250,15 +250,15 @@ class ManagerCest
 
         $assets->useImplicitOutput(false);
         $assets->collection('js')
-               ->addJs(dataFolder('assets/assets/jquery.js'), false, false)
-               ->setTargetPath(outputFolder("tests/assets/combined.js"))
+               ->addJs(dataDir('assets/assets/jquery.js'), false, false)
+               ->setTargetPath(outputDir("tests/assets/combined.js"))
                ->setTargetUri('production/combined.js')
                ->join(true)
         ;
 
         $expected = sprintf(
             '<script src="%s"></script>%s',
-            dataFolder('assets/assets/jquery.js'),
+            dataDir('assets/assets/jquery.js'),
             PHP_EOL
         );
         $actual   = $assets->outputJs('js');
@@ -277,15 +277,15 @@ class ManagerCest
 
         $assets->useImplicitOutput(false);
         $assets->collection('js')
-               ->addJs(dataFolder('assets/assets/jquery.js'), false, false)
-               ->setTargetPath(outputFolder("assets/combined.js"))
+               ->addJs(dataDir('assets/assets/jquery.js'), false, false)
+               ->setTargetPath(outputDir("assets/combined.js"))
                ->setTargetUri('production/combined.js')
                ->join(false)
         ;
 
         $expected = sprintf(
             '<script src="%s"></script>%s',
-            dataFolder('assets/assets/jquery.js'),
+            dataDir('assets/assets/jquery.js'),
             PHP_EOL
         );
         $actual   = $assets->outputJs('js');
@@ -301,11 +301,11 @@ class ManagerCest
     public function testOutputWithJoinAndFilter(UnitTester $I)
     {
         $assets = new Manager();
-        $jsFile = dataFolder('assets/assets/jquery.js');
+        $jsFile = dataDir('assets/assets/jquery.js');
         $assets->useImplicitOutput(false);
         $assets->collection('js')
                ->addJs($jsFile, false, false)
-               ->setTargetPath(outputFolder("assets/combined.js"))
+               ->setTargetPath(outputDir("assets/combined.js"))
                ->setTargetUri('production/combined.js')
                ->join(false)
                ->addFilter(new None())
@@ -313,7 +313,7 @@ class ManagerCest
 
         $expected = sprintf(
             '<script src="%s"></script>%s',
-            dataFolder('assets/assets/jquery.js'),
+            dataDir('assets/assets/jquery.js'),
             PHP_EOL
         );
         $actual   = $assets->outputJs('js');
@@ -327,7 +327,7 @@ class ManagerCest
     public function addInlineJs(UnitTester $I)
     {
         $manager = new Manager();
-        $jsFile  = dataFolder('assets/assets/signup.js');
+        $jsFile  = dataDir('assets/assets/signup.js');
         $js      = file_get_contents($jsFile);
         $manager->addInlineJs($js);
         $expected = "<script type=\"text/javascript\">{$js}</script>\n";

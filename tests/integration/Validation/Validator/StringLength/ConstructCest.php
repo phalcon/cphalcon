@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorStringLengthConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength - __construct()');
+
         $validator = new StringLength();
+
         $this->checkConstruct($I, $validator);
     }
 }

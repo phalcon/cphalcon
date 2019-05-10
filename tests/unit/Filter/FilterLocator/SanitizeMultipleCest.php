@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Filter\FilterLocator;
 use Phalcon\Filter\FilterLocatorFactory;
 use UnitTester;
 
-/**
- * Class SanitizeMultipleCest
- */
 class SanitizeMultipleCest
 {
     /**

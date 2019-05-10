@@ -48,9 +48,9 @@ class DestroyCest
 
         $value      = uniqid();
         $serialized = serialize($value);
-        $I->haveInLibmemcached('test1', $serialized);
+        $I->haveInLibmemcached('sess-memc-test1', $serialized);
         $actual = $adapter->destroy('test1');
         $I->assertTrue($actual);
-        $I->dontSeeInLibmemcached('test1');
+        $I->dontSeeInLibmemcached('sess-memc-test1');
     }
 }

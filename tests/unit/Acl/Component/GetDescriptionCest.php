@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Acl\Component;
 use Phalcon\Acl\Component;
 use UnitTester;
 
-/**
- * Class GetDescriptionCest
- */
 class GetDescriptionCest
 {
     /**
      * Tests Phalcon\Acl\Component :: getDescription()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -40,8 +35,6 @@ class GetDescriptionCest
 
     /**
      * Tests Phalcon\Acl\Component :: getDescription() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

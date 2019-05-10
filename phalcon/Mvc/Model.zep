@@ -39,7 +39,6 @@ use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\ValidationInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
-use Phalcon\Cache\FrontendInterface;
 
 /**
  * Phalcon\Mvc\Model
@@ -129,7 +128,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let container = Di::getDefault();
         }
 
-        if typeof container != "object" {
+        if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
                     "the services related to the ODM"
@@ -145,7 +144,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         if typeof modelsManager != "object" {
             let modelsManager = <ManagerInterface> container->getShared("modelsManager");
 
-            if typeof modelsManager != "object" {
+            if unlikely typeof modelsManager != "object" {
                 throw new Exception(
                     "The injected service 'modelsManager' is not valid"
                 );
@@ -230,7 +229,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
         let records = self::_invokeFinder(method, arguments);
 
-        if records === null {
+        if unlikely records === null {
             throw new Exception(
                 "The static method '" . method . "' doesn't exist"
             );
@@ -428,7 +427,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         if property_exists(this, property) {
             let manager = this->getModelsManager();
 
-            if !manager->isVisibleModelProperty(this, property) {
+            if unlikely !manager->isVisibleModelProperty(this, property) {
                 throw new Exception(
                     "Property '" . property . "' does not have a setter."
                 );
@@ -444,7 +443,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Setups a behavior in a model
      *
      *<code>
-     *
      * use Phalcon\Mvc\Model;
      * use Phalcon\Mvc\Model\Behavior\Timestampable;
      *
@@ -593,7 +591,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             // Check if we need to rename the field
             if typeof columnMap == "array" {
                 if !fetch attributeField, columnMap[attribute] {
-                    if !globals_get("orm.ignore_unknown_columns") {
+                    if unlikely !globals_get("orm.ignore_unknown_columns") {
                         throw new Exception(
                             "Column '" . attribute. "' doesn't make part of the column map"
                         );
@@ -687,7 +685,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         instance->setDirtyState(dirtyState);
 
         for key, value in data {
-            if typeof key != "string" {
+            if unlikely typeof key != "string" {
                 throw new Exception(
                     "Invalid key in array data provided to dumpResult()"
                 );
@@ -742,7 +740,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
                 // Every field must be part of the column map
                 if !fetch attribute, columnMap[key] {
-                    if !globals_get("orm.ignore_unknown_columns") {
+                    if unlikely !globals_get("orm.ignore_unknown_columns") {
                         throw new Exception(
                             "Column '" . key . "' doesn't make part of the column map"
                         );
@@ -863,7 +861,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                  * Every field must be part of the column map
                  */
                 if !fetch attribute, columnMap[key] {
-                    if !globals_get("orm.ignore_unknown_columns") {
+                    if unlikely !globals_get("orm.ignore_unknown_columns") {
                         throw new Exception(
                             "Column '" . key . "' doesn't make part of the column map"
                         );
@@ -1045,7 +1043,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * We can't create dynamic SQL without a primary key
          */
-        if !count(primaryKeys) {
+        if unlikely !count(primaryKeys) {
             throw new Exception(
                 "A primary key must be defined in the model in order to perform the operation"
             );
@@ -1059,7 +1057,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * Every column part of the primary key must be in the bind data
              * types
              */
-            if !fetch bindType, bindDataTypes[primaryKey] {
+            if unlikely !fetch bindType, bindDataTypes[primaryKey] {
                 throw new Exception(
                     "Column '" . primaryKey . "' have not defined a bind data type"
                 );
@@ -1069,7 +1067,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * Take the column values based on the column map if any
              */
             if typeof columnMap == "array" {
-                if !fetch attributeField, columnMap[primaryKey] {
+                if unlikely !fetch attributeField, columnMap[primaryKey] {
                     throw new Exception(
                         "Column '" . primaryKey . "' isn't part of the column map"
                     );
@@ -1082,7 +1080,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * If the attribute is currently set in the object add it to the
              * conditions
              */
-            if !fetch value, this->{attributeField} {
+            if unlikely !fetch value, this->{attributeField} {
                 throw new Exception(
                     "Cannot delete the record because the primary key attribute: '" . attributeField . "' wasn't set"
                 );
@@ -1528,7 +1526,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
         let snapshot = this->snapshot;
 
-        if typeof snapshot != "array" {
+        if unlikely typeof snapshot != "array" {
             throw new Exception(
                 "The record doesn't have a valid data snapshot"
             );
@@ -1684,7 +1682,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              */
             let metaData = <MetaDataInterface> container->getShared("modelsMetadata");
 
-            if typeof metaData != "object" {
+            if unlikely typeof metaData != "object" {
                 throw new Exception(
                     "The injected service 'modelsMetadata' is not valid"
                 );
@@ -1761,7 +1759,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             alias
         );
 
-        if typeof relation != "object" {
+        if unlikely typeof relation != "object" {
             throw new Exception(
                 "There is no defined relations for the model '" . className . "' using alias '" . alias . "'"
             );
@@ -1825,13 +1823,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         let snapshot = this->snapshot;
         let oldSnapshot = this->oldSnapshot;
 
-        if !globals_get("orm.update_snapshot_on_save") {
+        if unlikely !globals_get("orm.update_snapshot_on_save") {
             throw new Exception(
                 "Update snapshot on save must be enabled for this method to work properly"
             );
         }
 
-        if typeof snapshot != "array" {
+        if unlikely typeof snapshot != "array" {
             throw new Exception(
                 "The record doesn't have a valid data snapshot"
             );
@@ -1840,7 +1838,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Dirty state must be DIRTY_PERSISTENT to make the checking
          */
-        if this->dirtyState != self::DIRTY_STATE_PERSISTENT {
+        if unlikely this->dirtyState != self::DIRTY_STATE_PERSISTENT {
             throw new Exception(
                 "Change checking cannot be performed because the object has not been persisted or is deleted"
             );
@@ -2112,7 +2110,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         var metaData, readConnection, schema, source, table, uniqueKey, tables,
             uniqueParams, dialect, row, fields, attribute, manager, columnMap;
 
-        if this->dirtyState != self::DIRTY_STATE_PERSISTENT {
+        if unlikely this->dirtyState != self::DIRTY_STATE_PERSISTENT {
             throw new Exception(
                 "The record cannot be refreshed because it does not exist or is deleted"
             );
@@ -2137,7 +2135,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * We need to check if the record exists
              */
-            if !this->_exists(metaData, readConnection, table) {
+            if unlikely !this->_exists(metaData, readConnection, table) {
                 throw new Exception(
                     "The record cannot be refreshed because it does not exist or is deleted"
                 );
@@ -2148,7 +2146,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
         let uniqueParams = this->uniqueParams;
 
-        if typeof uniqueParams != "array" {
+        if unlikely typeof uniqueParams != "array" {
             throw new Exception(
                 "The record cannot be refreshed because it does not exist or is deleted"
             );
@@ -2301,7 +2299,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Throw exceptions on failed saves?
              */
-            if globals_get("orm.exception_on_failed_save") {
+            if unlikely globals_get("orm.exception_on_failed_save") {
                 /**
                  * Launch a Phalcon\Mvc\Model\ValidationFailed to notify that
                  * the save failed
@@ -2418,7 +2416,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              */
             let container = Di::getDefault();
 
-            if typeof container != "object" {
+            if unlikely typeof container != "object" {
                 throw new Exception(
                     Exception::containerServiceNotFound(
                         "the services related to the ODM"
@@ -2436,7 +2434,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              */
             let manager = <ManagerInterface> container->getShared("modelsManager");
 
-            if typeof manager != "object" {
+            if unlikely typeof manager != "object" {
                 throw new Exception(
                     "The injected service 'modelsManager' is not valid"
                 );
@@ -2552,7 +2550,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                  * Every field must be part of the column map
                  */
                 if !fetch attribute, columnMap[key] {
-                    if !globals_get("orm.ignore_unknown_columns") {
+                    if unlikely !globals_get("orm.ignore_unknown_columns") {
                         throw new Exception(
                             "Column '" . key . "' doesn't make part of the column map"
                         );
@@ -2563,7 +2561,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
                 if typeof attribute == "array" {
                     if !fetch attribute, attribute[0] {
-                        if !globals_get("orm.ignore_unknown_columns") {
+                        if unlikely !globals_get("orm.ignore_unknown_columns") {
                             throw new Exception(
                                 "Column '" . key . "' doesn't make part of the column map"
                             );
@@ -2616,7 +2614,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                  * Every field must be part of the column map
                  */
                 if !fetch attribute, columnMap[key] {
-                    if !globals_get("orm.ignore_unknown_columns") {
+                    if unlikely !globals_get("orm.ignore_unknown_columns") {
                         throw new Exception(
                             "Column '" . key . "' doesn't make part of the column map"
                         );
@@ -2627,7 +2625,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
                 if typeof attribute == "array" {
                     if !fetch attribute, attribute[0] {
-                        if !globals_get("orm.ignore_unknown_columns") {
+                        if unlikely !globals_get("orm.ignore_unknown_columns") {
                             throw new Exception(
                                 "Column '" . key . "' doesn't make part of the column map"
                             );
@@ -2870,7 +2868,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 }
 
                 if !fetch attributeField, columnMap[attribute] {
-                    if !globals_get("orm.ignore_unknown_columns") {
+                    if unlikely !globals_get("orm.ignore_unknown_columns") {
                         throw new Exception(
                             "Column '" . attribute . "' doesn't make part of the column map"
                         );
@@ -3019,7 +3017,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * Since relations can have multiple columns or a single one, we
              * need to build a condition for each of these cases
              */
-            let conditions = [], bindParams = [];
+            let conditions = [],
+                bindParams = [];
 
             let numberNull = 0,
                 fields = relation->getFields(),
@@ -3035,7 +3034,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
                         bindParams[] = value;
 
-                    if typeof value == "null" {
+                    if value === null {
                         let numberNull++;
                     }
                 }
@@ -3047,7 +3046,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 let conditions[] = "[" . referencedFields . "] = ?0",
                     bindParams[] = value;
 
-                if typeof value == "null" {
+                if value === null {
                     let validateWithNulls = true;
                 }
             }
@@ -3399,7 +3398,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * Check if the model has a column map
              */
             if typeof columnMap == "array" {
-                if !fetch attributeField, columnMap[field] {
+                if unlikely !fetch attributeField, columnMap[field] {
                     throw new Exception(
                         "Column '" . field . "' isn't part of the column map"
                     );
@@ -3428,7 +3427,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         /**
                          * Every column must have a bind data type defined
                          */
-                        if !fetch bindType, bindDataTypes[field] {
+                        if unlikely !fetch bindType, bindDataTypes[field] {
                             throw new Exception(
                                 "Column '" . field . "' have not defined a bind data type"
                             );
@@ -3478,7 +3477,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * Check if the model has a column map
              */
             if typeof columnMap == "array" {
-                if !fetch attributeField, columnMap[identityField] {
+                if unlikely !fetch attributeField, columnMap[identityField] {
                     throw new Exception(
                         "Identity column '" . identityField . "' isn't part of the column map"
                     );
@@ -3507,7 +3506,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     /**
                      * The field is valid we look for a bind value (normally int)
                      */
-                    if !fetch bindType, bindDataTypes[identityField] {
+                    if unlikely !fetch bindType, bindDataTypes[identityField] {
                         throw new Exception(
                             "Identity column '" . identityField . "' isn\'t part of the table columns"
                         );
@@ -3625,7 +3624,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * Check if the model has a column map
              */
             if typeof columnMap == "array" {
-                if !fetch attributeField, columnMap[field] {
+                if unlikely !fetch attributeField, columnMap[field] {
                     throw new Exception(
                         "Column '" . field . "' isn't part of the column map"
                     );
@@ -3638,7 +3637,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 /**
                  * Check a bind type for field to update
                  */
-                if !fetch bindType, bindDataTypes[field] {
+                if unlikely !fetch bindType, bindDataTypes[field] {
                     throw new Exception(
                         "Column '" . field . "' have not defined a bind data type"
                     );
@@ -3677,7 +3676,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                                 if snapshotValue === null {
                                     let changed = true;
                                 } else {
-                                    if !fetch dataType, dataTypes[field] {
+                                    if unlikely !fetch dataType, dataTypes[field] {
                                         throw new Exception(
                                            "Column '" . field . "' have not defined a data type"
                                         );
@@ -3760,7 +3759,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * We can't create dynamic SQL without a primary key
              */
-            if !count(primaryKeys) {
+            if unlikely !count(primaryKeys) {
                 throw new Exception(
                     "A primary key must be defined in the model in order to perform the operation"
                 );
@@ -3773,7 +3772,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                  * Check if the model has a column map
                  */
                 if typeof columnMap == "array" {
-                    if !fetch attributeField, columnMap[field] {
+                    if unlikely !fetch attributeField, columnMap[field] {
                         throw new Exception(
                            "Column '" . field . "' isn't part of the column map"
                         );
@@ -3870,7 +3869,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              */
             for field in primaryKeys {
                 if typeof columnMap == "array" {
-                    if !fetch attributeField, columnMap[field] {
+                    if unlikely !fetch attributeField, columnMap[field] {
                         throw new Exception(
                             "Column '" . field . "' isn't part of the column map"
                         );
@@ -3900,7 +3899,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         numberEmpty++;
                 }
 
-                if !fetch type, bindDataTypes[field] {
+                if unlikely !fetch type, bindDataTypes[field] {
                     throw new Exception(
                         "Column '" . field . "' isn't part of the table columns"
                     );
@@ -4167,7 +4166,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             return null;
         }
 
-        if !fetch value, arguments[0] {
+        if unlikely !fetch value, arguments[0] {
             throw new Exception(
                 "The static method '" . method . "' requires one argument"
             );
@@ -4204,7 +4203,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                  */
                 let field = uncamelize(extraMethod);
 
-                if !isset attributes[field] {
+                if unlikely !isset attributes[field] {
                     throw new Exception(
                         "Cannot resolve attribute '" . extraMethod . "' in the model"
                     );
@@ -4323,7 +4322,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
                 for field in notNull {
                     if typeof columnMap == "array" {
-                        if !fetch attributeField, columnMap[field] {
+                        if unlikely !fetch attributeField, columnMap[field] {
                             throw new Exception(
                                 "Column '" . field . "' isn't part of the column map"
                             );
@@ -4516,7 +4515,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                  * Only belongsTo are stored before save the master record
                  */
                 if type == Relation::BELONGS_TO {
-                    if typeof record != "object" {
+                    if unlikely typeof record != "object" {
                         connection->rollback(nesting);
 
                         throw new Exception(
@@ -4528,7 +4527,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         referencedModel = relation->getReferencedModel(),
                         referencedFields = relation->getReferencedFields();
 
-                    if typeof columns == "array" {
+                    if unlikely typeof columns == "array" {
                         connection->rollback(nesting);
 
                         throw new Exception("Not implemented");
@@ -4633,7 +4632,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     continue;
                 }
 
-                if typeof record != "object" && typeof record != "array" {
+                if unlikely (typeof record != "object" && typeof record != "array") {
                     connection->rollback(nesting);
 
                     throw new Exception(
@@ -4645,7 +4644,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     referencedModel = relation->getReferencedModel(),
                     referencedFields = relation->getReferencedFields();
 
-                if typeof columns == "array" {
+                if unlikely typeof columns == "array" {
                     connection->rollback(nesting);
 
                     throw new Exception("Not implemented");
@@ -4660,7 +4659,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     let relatedRecords = record;
                 }
 
-                if !fetch value, this->{columns} {
+                if unlikely !fetch value, this->{columns} {
                     connection->rollback(nesting);
 
                     throw new Exception(
@@ -4796,7 +4795,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
                 }
             } else {
-                if typeof record != "array" {
+                if unlikely typeof record != "array" {
                     connection->rollback(nesting);
 
                     throw new Exception(

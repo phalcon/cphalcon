@@ -46,7 +46,7 @@ class Factory extends BaseFactory
             let oldConfig = config;
             let extension = substr(strrchr(config, "."), 1);
 
-            if empty extension {
+            if unlikely empty extension {
                 throw new Exception(
                     "You need to provide extension in file path"
                 );
@@ -62,25 +62,26 @@ class Factory extends BaseFactory
             let config = config->toArray();
         }
 
-        if typeof config != "array" {
+        if unlikely typeof config != "array" {
             throw new Exception(
                 "Config must be array or Phalcon\\Config object"
             );
         }
 
-        if !fetch filePath, config["filePath"] {
+        if unlikely !fetch filePath, config["filePath"] {
             throw new Exception(
                 "You must provide 'filePath' option in factory config parameter."
             );
         }
 
-        if !fetch adapter, config["adapter"] {
+        if unlikely !fetch adapter, config["adapter"] {
             throw new Exception(
                 "You must provide 'adapter' option in factory config parameter."
             );
         }
 
         let className = namespaceClass . "\\" . camelize(adapter);
+
         if !strpos(filePath, ".") {
             let filePath = filePath . "." . lcfirst(adapter);
         }

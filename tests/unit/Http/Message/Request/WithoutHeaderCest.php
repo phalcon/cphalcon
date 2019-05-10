@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Request;
 use Phalcon\Http\Message\Request;
 use UnitTester;
 
-/**
- * Class WithoutHeaderCest
- */
 class WithoutHeaderCest
 {
     /**
      * Tests Phalcon\Http\Message\Request :: withoutHeader()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -31,11 +26,14 @@ class WithoutHeaderCest
     public function httpMessageRequestWithoutHeader(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Request - withoutHeader()');
-        $data        = [
+
+        $data = [
             'Accept'        => ['text/html'],
             'Cache-Control' => ['max-age=0'],
         ];
-        $request     = new Request('GET', null, 'php://memory', $data);
+
+        $request = new Request('GET', null, 'php://memory', $data);
+
         $newInstance = $request->withoutHeader('Accept');
 
         $I->assertNotEquals($request, $newInstance);
@@ -44,13 +42,19 @@ class WithoutHeaderCest
             'Accept'        => ['text/html'],
             'Cache-Control' => ['max-age=0'],
         ];
-        $actual   = $request->getHeaders();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $request->getHeaders()
+        );
 
         $expected = [
             'Cache-Control' => ['max-age=0'],
         ];
-        $actual   = $newInstance->getHeaders();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $newInstance->getHeaders()
+        );
     }
 }

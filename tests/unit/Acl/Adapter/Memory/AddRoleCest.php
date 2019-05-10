@@ -16,15 +16,10 @@ use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Role;
 use UnitTester;
 
-/**
- * Class AddRoleCest
- */
 class AddRoleCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole() - string
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -32,17 +27,18 @@ class AddRoleCest
     public function aclAdapterMemoryAddRoleString(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - addRole() - string');
-        $acl       = new Memory();
+
+        $acl  = new Memory();
         $role = new Role('Administrators', 'Super User access');
 
+
         $actual = $acl->addRole('Administrators');
+
         $I->assertTrue($actual);
     }
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole() - object
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -50,17 +46,17 @@ class AddRoleCest
     public function aclAdapterMemoryAddRoleObject(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - addRole() - object');
-        $acl       = new Memory();
+
+        $acl  = new Memory();
         $role = new Role('Administrators', 'Super User access');
 
         $actual = $acl->addRole($role);
+
         $I->assertTrue($actual);
     }
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole() - twice string
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -68,19 +64,23 @@ class AddRoleCest
     public function aclAdapterMemoryAddRoleTwiceString(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - addRole() - twice string');
-        $acl       = new Memory();
+
+        $acl  = new Memory();
         $role = new Role('Administrators', 'Super User access');
 
+
         $actual = $acl->addRole('Administrators');
+
         $I->assertTrue($actual);
+
+
         $actual = $acl->addRole('Administrators');
+
         $I->assertFalse($actual);
     }
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole() - twice object
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -88,19 +88,23 @@ class AddRoleCest
     public function aclAdapterMemoryAddRoleTwiceObject(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - addRole() - twice object');
-        $acl       = new Memory();
+
+        $acl  = new Memory();
         $role = new Role('Administrators', 'Super User access');
 
+
         $actual = $acl->addRole($role);
+
         $I->assertTrue($actual);
+
+
         $actual = $acl->addRole($role);
+
         $I->assertFalse($actual);
     }
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole() - numeric key
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -108,12 +112,17 @@ class AddRoleCest
     public function aclAdapterMemoryAddRoleNumericKey(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - addRole() - numeric key');
-        $acl       = new Memory();
+
+        $acl  = new Memory();
         $role = new Role('11', 'Super User access');
 
+
         $actual = $acl->addRole('11');
+
         $I->assertTrue($actual);
+
         $actual = $acl->isRole('11');
+
         $I->assertTrue($actual);
     }
 }

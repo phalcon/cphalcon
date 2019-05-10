@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use UnitTester;
 
-/**
- * Class OutputInlineCssCest
- */
 class OutputInlineCssCest
 {
     /**
      * Tests Phalcon\Assets\Manager :: outputInlineCss()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class OutputInlineCssCest
     public function assetsManagerOutputInlineCss(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - outputInlineCss()');
+
         $I->skipTest('Need implementation');
     }
 }

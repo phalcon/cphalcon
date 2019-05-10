@@ -41,6 +41,7 @@ class Robots extends Model
     public function validation()
     {
         $validation = new Validation();
+
         $validation->add(
             'name',
             new StringLength(

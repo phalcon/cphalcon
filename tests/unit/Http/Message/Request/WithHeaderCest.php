@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Request;
 use Phalcon\Http\Message\Request;
 use UnitTester;
 
-/**
- * Class WithHeaderCest
- */
 class WithHeaderCest
 {
     /**
      * Tests Phalcon\Http\Message\Request :: withHeader()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -31,25 +26,43 @@ class WithHeaderCest
     public function httpMessageRequestWithHeader(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Request - withHeader()');
-        $data        = [
+
+        $data = [
             'Accept' => ['text/html'],
         ];
-        $request     = new Request('GET', null, 'php://memory', $data);
-        $newInstance = $request->withHeader('Cache-Control', ['max-age=0']);
+
+        $request = new Request('GET', null, 'php://memory', $data);
+
+        $newInstance = $request->withHeader(
+            'Cache-Control',
+            [
+                'max-age=0',
+            ]
+        );
 
         $I->assertNotEquals($request, $newInstance);
+
+
 
         $expected = [
             'Accept' => ['text/html'],
         ];
-        $actual   = $request->getHeaders();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $request->getHeaders()
+        );
+
+
 
         $expected = [
             'Accept'        => ['text/html'],
             'Cache-Control' => ['max-age=0'],
         ];
-        $actual   = $newInstance->getHeaders();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $newInstance->getHeaders()
+        );
     }
 }

@@ -16,17 +16,12 @@ use Phalcon\Assets\Asset\Js;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class SetFilterCest
- */
 class SetFilterCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: setFilter() - js local
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Js :: setFilter() - js local
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -45,9 +40,7 @@ class SetFilterCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: setFilter() - js remote
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Js :: setFilter() - js remote
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

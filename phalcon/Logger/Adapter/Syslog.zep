@@ -10,7 +10,7 @@
 
 namespace Phalcon\Logger\Adapter;
 
-use Phalcon\Logger;
+use Phalcon\Logger\Logger;
 use Phalcon\Logger\Adapter;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\FormatterInterface;
@@ -105,7 +105,8 @@ class Syslog extends AbstractAdapter
      */
     public function process(<Item> item) -> void
     {
-        var name, facility, formatter, level, message, opened, option, result;
+        var name, facility, formatter, level, message, option, result;
+        bool opened;
 
         let formatter = this->getFormatter(),
             message   = formatter->format(item);
@@ -142,7 +143,8 @@ class Syslog extends AbstractAdapter
      */
     private function logLevelToSyslog(string level) -> int
     {
-        var levels, result;
+        var result;
+        array levels;
 
         let levels = [
             Logger::ALERT     : LOG_ALERT,

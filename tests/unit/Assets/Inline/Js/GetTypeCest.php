@@ -16,24 +16,19 @@ use Phalcon\Assets\Inline\Js;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetTypeCest
- */
 class GetTypeCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Inline :: getType()
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Inline\Js :: getType()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineGetType(UnitTester $I)
+    public function assetsInlineJsGetType(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - getType()');
+        $I->wantToTest('Assets\Inline\Js - getType()');
         $content = '<script>alert("Hello");</script>';
         $asset   = new Js($content);
 

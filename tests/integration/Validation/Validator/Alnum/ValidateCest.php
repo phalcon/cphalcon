@@ -16,15 +16,10 @@ use IntegrationTester;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Alnum;
 
-/**
- * Class ValidateCest
- */
 class ValidateCest
 {
     /**
      * Tests Phalcon\Validation\Validator\Alnum :: validate() - single field
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -32,25 +27,39 @@ class ValidateCest
     public function validationValidatorAlnumValidateSingleField(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Alnum - validate() - single field");
+
         $validation = new Validation();
-        $validation->add('name', new Alnum());
-        $messages = $validation->validate(['name' => 'SomeValue123']);
 
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $validation->add(
+            'name',
+            new Alnum()
+        );
 
-        $messages = $validation->validate(['name' => 'SomeValue123!@#']);
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue123',
+            ]
+        );
 
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue123!@#',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
     }
 
     /**
      * Tests Phalcon\Validation\Validator\Alnum :: validate() - multiple field
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -58,11 +67,14 @@ class ValidateCest
     public function validationValidatorAlnumValidateMultipleField(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Alnum - validate() - multiple field");
-        $validation         = new Validation();
+
+        $validation = new Validation();
+
         $validationMessages = [
             'name' => 'Name must be alnum',
             'type' => 'Type must be alnum',
         ];
+
         $validation->add(
             [
                 'name',
@@ -74,34 +86,59 @@ class ValidateCest
                 ]
             )
         );
-        $messages = $validation->validate(['name' => 'SomeValue123', 'type' => 'SomeValue123']);
 
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'SomeValue123!@#', 'type' => 'SomeValue123']);
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue123',
+                'type' => 'SomeValue123',
+            ]
+        );
 
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
 
-        $expected = $validationMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'SomeValue123!@#', 'type' => 'SomeValue123!@#']);
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue123!@#',
+                'type' => 'SomeValue123',
+            ]
+        );
 
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
 
-        $expected = $validationMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $validationMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
 
-        $expected = $validationMessages['type'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue123!@#',
+                'type' => 'SomeValue123!@#',
+            ]
+        );
+
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $I->assertEquals(
+            $validationMessages['type'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 }

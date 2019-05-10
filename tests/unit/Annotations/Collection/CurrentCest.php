@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Collection;
 
 use UnitTester;
 
-/**
- * Class CurrentCest
- */
 class CurrentCest
 {
     /**
      * Tests Phalcon\Annotations\Collection :: current()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class CurrentCest
     public function annotationsCollectionCurrent(UnitTester $I)
     {
         $I->wantToTest('Annotations\Collection - current()');
+
         $I->skipTest('Need implementation');
     }
 }

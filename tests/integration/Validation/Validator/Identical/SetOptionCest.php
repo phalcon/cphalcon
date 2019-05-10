@@ -34,7 +34,9 @@ class SetOptionCest
     public function validationValidatorIdenticalSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Identical - setOption()');
+
         $validator = new Identical();
+
         $this->checkSetOption($I, $validator);
     }
 }

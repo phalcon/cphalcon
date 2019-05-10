@@ -11,6 +11,8 @@
 
 namespace Phalcon\Test\Unit\Annotations;
 
+use Phalcon\Annotations\Annotation;
+use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Reader;
 use Phalcon\Annotations\Reflection;
 use UnitTester;
@@ -87,7 +89,7 @@ class ReflectionCest
 
         $I->assertEquals(14, $total);
 
-        /** @var \Phalcon\Annotations\Collection $annotations */
+        /** @var Collection $annotations */
         $annotations = $methodsAnnotations['testMethod1'];
 
         $I->assertTrue($annotations->has('Simple'));
@@ -108,16 +110,26 @@ class ReflectionCest
         $I->assertFalse($annotation->hasArgument('none'));
 
         $propertiesAnnotations = $reflection->getPropertiesAnnotations();
-        $I->assertTrue(is_array($propertiesAnnotations));
-        $I->assertEquals('Phalcon\Annotations\Collection', get_class($propertiesAnnotations['testProp1']));
+        $I->assertInternalType('array', $propertiesAnnotations);
+        $I->assertInstanceOf(
+            Collection::class,
+            $propertiesAnnotations['testProp1']
+        );
 
         $total = 0;
         foreach ($propertiesAnnotations as $property => $annotations) {
-            $I->assertEquals('Phalcon\Annotations\Collection', get_class($propertiesAnnotations['testProp1']));
+            $I->assertInstanceOf(
+                Collection::class,
+                $propertiesAnnotations['testProp1']
+            );
 
             $number = 0;
             foreach ($annotations as $annotation) {
-                $I->assertEquals('Phalcon\Annotations\Annotation', get_class($annotation));
+                $I->assertInstanceOf(
+                    Annotation::class,
+                    $annotation
+                );
+
                 $number++;
                 $total++;
             }
@@ -133,6 +145,6 @@ class ReflectionCest
      */
     protected function _before(UnitTester $I)
     {
-        require_once dataFolder('fixtures/Annotations/TestClass.php');
+        require_once dataDir('fixtures/Annotations/TestClass.php');
     }
 }

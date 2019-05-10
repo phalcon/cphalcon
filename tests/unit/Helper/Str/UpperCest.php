@@ -12,71 +12,104 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Helper\Str;
 
+use Codeception\Example;
 use Phalcon\Helper\Str;
 use UnitTester;
 
-/**
- * Class UpperCest
- */
 class UpperCest
 {
     /**
      * Tests Phalcon\Helper\Str :: upper()
      *
-     * @param UnitTester $I
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-04-06
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-06
+     * @dataProvider basicProvider
      */
-    public function helperStrUpper(UnitTester $I)
+    public function helperStrUpper(UnitTester $I, Example $example)
     {
         $I->wantToTest('Helper\Str - upper()');
-        $expected = 'HELLO';
-        $actual   = Str::upper('hello');
-        $I->assertEquals($expected, $actual);
 
-        $expected = 'HELLO';
-        $actual   = Str::upper('HELLO');
-        $I->assertEquals($expected, $actual);
-
-        $expected = '1234';
-        $actual   = Str::upper('1234');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $example['expected'],
+            Str::upper(
+                $example['text']
+            )
+        );
     }
 
     /**
      * Tests Phalcon\Helper\Str :: upper() - multi-bytes encoding
      *
-     * @param UnitTester $I
+     * @author       Stanislav Kiryukhin <korsar.zn@gmail.com>
+     * @since        2015-05-06
      *
-     * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
-     * @since  2015-05-06
+     * @dataProvider multiBytesEncodingProvider
      */
-    public function helperStrUpperMultiBytesEncoding(UnitTester $I)
+    public function helperStrUpperMultiBytesEncoding(UnitTester $I, Example $example)
     {
         $I->wantToTest('Helper\Str - upper() - multi byte encoding');
-        $expected = 'ПРИВЕТ МИР!';
-        $actual   = Str::upper('ПРИВЕТ МИР!');
-        $I->assertEquals($expected, $actual);
 
-        $expected = 'ПРИВЕТ МИР!';
-        $actual   = Str::upper('ПриВЕт Мир!');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $example['expected'],
+            Str::upper(
+                $example['text']
+            )
+        );
+    }
 
-        $expected = 'ПРИВЕТ МИР!';
-        $actual   = Str::upper('привет мир!');
-        $I->assertEquals($expected, $actual);
+    private function basicProvider(): array
+    {
+        return [
+            [
+                'text'     => 'hello',
+                'expected' => 'HELLO',
+            ],
 
-        $expected = 'MÄNNER';
-        $actual   = Str::upper('MÄNNER');
-        $I->assertEquals($expected, $actual);
+            [
+                'text'     => 'HELLO',
+                'expected' => 'HELLO',
+            ],
 
-        $expected = 'MÄNNER';
-        $actual   = Str::upper('mÄnnER');
-        $I->assertEquals($expected, $actual);
+            [
+                'text'     => '1234',
+                'expected' => '1234',
+            ],
+        ];
+    }
 
-        $expected = 'MÄNNER';
-        $actual   = Str::upper('männer');
-        $I->assertEquals($expected, $actual);
+    private function multiBytesEncodingProvider(): array
+    {
+        return [
+            [
+                'text'     => 'ПРИВЕТ МИР!',
+                'expected' => 'ПРИВЕТ МИР!',
+            ],
+
+            [
+                'text'     => 'ПриВЕт Мир!',
+                'expected' => 'ПРИВЕТ МИР!',
+            ],
+
+            [
+                'text'     => 'привет мир!',
+                'expected' => 'ПРИВЕТ МИР!',
+            ],
+
+            [
+                'text'     => 'MÄNNER',
+                'expected' => 'MÄNNER',
+            ],
+
+            [
+                'text'     => 'mÄnnER',
+                'expected' => 'MÄNNER',
+            ],
+
+            [
+                'text'     => 'männer',
+                'expected' => 'MÄNNER',
+            ],
+        ];
     }
 }

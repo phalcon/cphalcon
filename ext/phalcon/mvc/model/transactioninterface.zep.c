@@ -34,11 +34,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_TransactionInterface) {
 }
 
 /**
- * Sets transaction manager related to the transaction
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setTransactionManager);
-
-/**
  * Starts the transaction
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, begin);
@@ -79,12 +74,22 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, rollback);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setIsNewTransaction);
 
 /**
+ * Sets flag to rollback on abort the HTTP connection
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setRollbackOnAbort);
+
+/**
  * Sets object which generates rollback action
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setRollbackedRecord);
 
 /**
- * Sets flag to rollback on abort the HTTP connection
+ * Sets transaction manager related to the transaction
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setRollbackOnAbort);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setTransactionManager);
+
+/**
+ * Enables throwing exception
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, throwRollbackException);
 

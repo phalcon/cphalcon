@@ -59,29 +59,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getDefault);
 
 /**
  * Returns column name
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getName);
 
 /**
  * Returns column scale
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getScale);
 
 /**
  * Returns schema's table related to column
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getSchemaName);
 
 /**
  * Returns column size
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getSize);
 
@@ -94,8 +86,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getType);
 
 /**
  * Returns column type reference
- *
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getTypeReference);
 

@@ -62,11 +62,11 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet) {
 
 
 	ZEPHIR_OBS_VAR(&value);
-	if (zephir_fetch_property_zval(&value, this_ptr, index, PH_SILENT_CC)) {
-		RETURN_CCTOR(&value);
+	if (UNEXPECTED(!(zephir_fetch_property_zval(&value, this_ptr, index, PH_SILENT_CC)))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/Mvc/Collection/Document.zep", 32);
+		return;
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/Mvc/Collection/Document.zep", 33);
-	return;
+	RETURN_CCTOR(&value);
 
 }
 
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/Mvc/Collection/Document.zep", 57);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/Mvc/Collection/Document.zep", 59);
 	return;
 
 }
@@ -158,10 +158,10 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute) {
 
 
 	ZEPHIR_OBS_VAR(&value);
-	if (zephir_fetch_property_zval(&value, this_ptr, &attribute, PH_SILENT_CC)) {
-		RETURN_CTOR(&value);
+	if (!(zephir_fetch_property_zval(&value, this_ptr, &attribute, PH_SILENT_CC))) {
+		RETURN_MM_NULL();
 	}
-	RETURN_MM_NULL();
+	RETURN_CTOR(&value);
 
 }
 
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, toArray) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 11, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 7, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 

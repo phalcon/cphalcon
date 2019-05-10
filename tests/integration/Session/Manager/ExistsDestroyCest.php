@@ -37,7 +37,7 @@ class ExistsDestroyCest
     {
         $I->wantToTest('Session\Manager - exists()/destroy()');
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
 
         $actual = $manager->start();
@@ -67,7 +67,7 @@ class ExistsDestroyCest
     {
         $I->wantToTest('Session\Manager - destroy() - clean $_SESSION');
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
 
         $actual = $manager->start();

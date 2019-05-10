@@ -75,7 +75,8 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
      */
     public function clear() -> void
     {
-        let this->data = [];
+        let this->data      = [],
+            this->lowerKeys = [];
     }
 
     /**

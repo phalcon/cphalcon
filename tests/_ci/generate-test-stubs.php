@@ -10,8 +10,6 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-use Phalcon\Text;
-
 $template = '<?php
 declare(strict_types=1);
 
@@ -28,15 +26,10 @@ namespace Phalcon\Test\Unit\%n%;
 
 use UnitTester;
 
-/**
- * Class %m%Cest
- */
 class %m%Cest
 {
     /**
      * Tests %ns% :: %sm%()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  %d%
@@ -52,6 +45,7 @@ class %m%Cest
 
 $allClasses     = get_declared_classes();
 $phalconClasses = [];
+
 foreach ($allClasses as $class) {
     if ('Phalcon\\' === substr($class, 0, 8)) {
         $phalconClasses[] = $class;
@@ -67,10 +61,13 @@ $placeholders = [
     '%d%'  => date('Y-m-d'),
 ];
 
-$outputFolder = dirname(dirname(__FILE__)) . '/nikos/';
+$outputDir = dirname(dirname(__FILE__)) . '/nikos/';
+
 foreach ($phalconClasses as $class) {
-    $methods  = get_class_methods($class);
     $newClass = str_replace('Phalcon\\', '', $class);
+
+    $methods = get_class_methods($class);
+
     sort($methods);
 
     foreach ($methods as $method) {
@@ -109,21 +106,28 @@ foreach ($phalconClasses as $class) {
                 break;
         }
 
-        $placeholders['%m%']  = ucfirst($method);
+        $placeholders['%m%'] = ucfirst($method);
 
-        $dir = str_replace('\\', '/', $outputFolder . $class);
+        $dir = str_replace(
+            '\\',
+            '/',
+            $outputDir . $class
+        );
+
         @mkdir($dir, 0777, true);
 
         $from     = array_keys($placeholders);
         $to       = array_values($placeholders);
         $contents = str_replace($from, $to, $template);
+
         $fileName = str_replace(
             '\\',
             '/',
-            $outputFolder . $class . '/' . ucfirst($method) . 'Cest.php'
+            $outputDir . $class . '/' . ucfirst($method) . 'Cest.php'
         );
 
         echo 'Filename: ' . $fileName . PHP_EOL;
+
         file_put_contents($fileName, $contents);
     }
 }

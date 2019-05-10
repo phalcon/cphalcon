@@ -17,17 +17,11 @@ use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
-/**
- * Class RemoveCest
- */
 class RemoveCest
 {
     use DiTrait;
     use SessionTrait;
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function _after(IntegrationTester $I)
     {
         $_SESSION = [];
@@ -36,8 +30,6 @@ class RemoveCest
     /**
      * Tests Phalcon\Session\Manager :: remove()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -45,7 +37,7 @@ class RemoveCest
     {
         $I->wantToTest('Session\Manager - remove()');
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
 
         $actual = $manager->start();

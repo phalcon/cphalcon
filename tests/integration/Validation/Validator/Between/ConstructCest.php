@@ -34,7 +34,9 @@ class ConstructCest
     public function validationValidatorBetweenConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Between - __construct()');
+
         $validator = new Between();
+
         $this->checkConstruct($I, $validator);
     }
 }

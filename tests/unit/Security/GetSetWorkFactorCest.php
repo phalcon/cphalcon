@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Security;
 use UnitTester;
 use Phalcon\Security;
 
-/**
- * Class SetWorkFactorCest
- */
 class GetSetWorkFactorCest
 {
     /**
      * Tests Phalcon\Security :: setWorkFactor() and getWorkFactor()
-     *
-     * @param UnitTester $I
      *
      * @author Ruud Boon
      * @since  2018-11-13
@@ -34,15 +29,22 @@ class GetSetWorkFactorCest
 
         $security = new Security();
 
-        $expected = 8;
-        $actual   = $security->getWorkFactor();
-        $I->assertEquals($expected, $actual);
+
+
+        $I->assertEquals(
+            8,
+            $security->getWorkFactor()
+        );
+
 
 
         $expected = 31;
 
         $security->setWorkFactor($expected);
-        $actual   = $security->getWorkFactor();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $security->getWorkFactor()
+        );
     }
 }

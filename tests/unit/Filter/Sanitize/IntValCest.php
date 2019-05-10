@@ -16,13 +16,10 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\IntVal;
 use UnitTester;
 
-/**
- * Class IntValCest
- */
 class IntValCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\IntVal :: __invoke()
      *
      * @dataProvider getData
      *

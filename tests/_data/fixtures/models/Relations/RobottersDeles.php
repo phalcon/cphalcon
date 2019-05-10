@@ -28,14 +28,24 @@ class RobottersDeles extends Model
     {
         $this->setSource("robots_parts");
 
-        $this->belongsTo('delesCode', Deles::class, 'code', [
-            'foreignKey' => true,
-        ]);
+        $this->belongsTo(
+            'delesCode',
+            Deles::class,
+            'code',
+            [
+                'foreignKey' => true,
+            ]
+        );
 
-        $this->belongsTo('robottersCode', Robotters::class, 'code', [
-            'foreignKey' => [
-                'message' => 'The robotters code does not exist',
-            ],
-        ]);
+        $this->belongsTo(
+            'robottersCode',
+            Robotters::class,
+            'code',
+            [
+                'foreignKey' => [
+                    'message' => 'The robotters code does not exist',
+                ],
+            ]
+        );
     }
 }

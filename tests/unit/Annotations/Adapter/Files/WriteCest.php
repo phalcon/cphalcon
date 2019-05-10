@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Adapter\Files;
 
 use UnitTester;
 
-/**
- * Class WriteCest
- */
 class WriteCest
 {
     /**
      * Tests Phalcon\Annotations\Adapter\Files :: write()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class WriteCest
     public function annotationsAdapterFilesWrite(UnitTester $I)
     {
         $I->wantToTest('Annotations\Adapter\Files - write()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -107,7 +107,8 @@ class Collection implements \Iterator, \Countable
      */
     public function getAll(string name) -> <Annotation[]>
     {
-        var annotations, found, annotation;
+        var annotations, annotation;
+        array found;
 
         let found = [],
             annotations = this->annotations;

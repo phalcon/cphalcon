@@ -27,18 +27,32 @@ class TableExistsCest
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: tableExists()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbAdapterPdoMysqlTableExists(IntegrationTester $I)
     {
         $I->wantToTest('Db\Adapter\Pdo\Mysql - tableExists()');
+
         $table = 'dialect_table';
-        $I->assertTrue($this->connection->tableExists($table));
-        $I->assertFalse($this->connection->tableExists('unknown-table'));
-        $I->assertTrue($this->connection->tableExists($table, $this->getSchemaName()));
-        $I->assertFalse($this->connection->tableExists('unknown-table', 'unknown-db'));
+
+        $I->assertTrue(
+            $this->connection->tableExists($table)
+        );
+
+        $I->assertFalse(
+            $this->connection->tableExists('unknown-table')
+        );
+
+        $I->assertTrue(
+            $this->connection->tableExists(
+                $table,
+                $this->getSchemaName()
+            )
+        );
+
+        $I->assertFalse(
+            $this->connection->tableExists('unknown-table', 'unknown-db')
+        );
     }
 }

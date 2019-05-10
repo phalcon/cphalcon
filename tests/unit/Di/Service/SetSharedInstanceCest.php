@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Di\Service;
 
 use UnitTester;
 
-/**
- * Class SetSharedInstanceCest
- */
 class SetSharedInstanceCest
 {
     /**
      * Tests Phalcon\Di\Service :: setSharedInstance()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetSharedInstanceCest
     public function diServiceSetSharedInstance(UnitTester $I)
     {
         $I->wantToTest('Di\Service - setSharedInstance()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Stream;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
 
-/**
- * Class GetSizeCest
- */
 class GetSizeCest
 {
     /**
      * Tests Phalcon\Http\Message\Stream :: getSize()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -31,7 +26,7 @@ class GetSizeCest
     public function httpMessageStreamGetSize(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - getSize()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $expected = filesize($fileName);
         $stream   = new Stream($fileName, 'rb');
         $actual   = $stream->getSize();
@@ -40,8 +35,6 @@ class GetSizeCest
 
     /**
      * Tests Phalcon\Http\Message\Stream :: getSize() - invalid stream
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

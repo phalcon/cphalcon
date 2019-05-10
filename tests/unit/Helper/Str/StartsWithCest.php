@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Helper\Str;
 use Phalcon\Helper\Str;
 use UnitTester;
 
-/**
- * Class StartsWithCest
- */
 class StartsWithCest
 {
     /**
      * Tests Phalcon\Helper\Str :: startsWith()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
@@ -44,8 +39,6 @@ class StartsWithCest
     /**
      * Tests Phalcon\Helper\Str :: startsWith() - empty strings
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
      */
@@ -58,8 +51,6 @@ class StartsWithCest
 
     /**
      * Tests Phalcon\Helper\Str :: startsWith() - finding an empty string
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
@@ -74,8 +65,6 @@ class StartsWithCest
 
     /**
      * Tests Phalcon\Helper\Str :: startsWith() - case insensitive flag
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
@@ -95,8 +84,6 @@ class StartsWithCest
 
     /**
      * Tests Phalcon\Helper\Str :: startsWith() - case sensitive flag
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06

@@ -26,20 +26,17 @@ class Anchor extends AbstractHelper
      */
     public function __invoke(string! href, string! text, array attributes = []) -> string
     {
-        var escapedText, overrides;
+        var overrides;
 
-        let overrides = [
-            "href": href
-        ];
+        let overrides = ["href" : href];
 
         /**
          * Avoid duplicate "href" and ignore it if it is passed in the attributes
          */
-        unset(attributes["href"]);
+        unset attributes["href"];
 
-        let overrides   = this->orderAttributes(overrides, attributes),
-            escapedText = this->escaper->escapeHtml(text);
+        let overrides = array_merge(overrides, attributes);
 
-        return "<a " . rtrim(this->renderAttributes(overrides)) . ">" . escapedText . "</a>";
+        return $this->renderFullElement("a", text, overrides);
     }
 }

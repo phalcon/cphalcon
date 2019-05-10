@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Server\Middleware;
 
 use UnitTester;
 
-/**
- * Class ProcessCest
- */
 class ProcessCest
 {
     /**
      * Tests Phalcon\Http\Server\Middleware :: process()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash;
 
 use UnitTester;
 
-/**
- * Class GetAutoescapeCest
- */
 class GetAutoescapeCest
 {
     /**
      * Tests Phalcon\Flash :: getAutoescape()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetAutoescapeCest
     public function flashGetAutoescape(UnitTester $I)
     {
         $I->wantToTest('Flash - getAutoescape()');
+
         $I->skipTest('Need implementation');
     }
 }

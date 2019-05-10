@@ -16,15 +16,10 @@ use Phalcon\Filter\FilterLocator;
 use Phalcon\Service\Exception;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Filter\Locator :: __construct() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-01-19

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class GetSchemeCest
- */
 class GetSchemeCest
 {
     /**
      * Tests Phalcon\Http\Request :: getScheme()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetSchemeCest
     public function httpRequestGetScheme(UnitTester $I)
     {
         $I->wantToTest('Http\Request - getScheme()');
+
         $I->skipTest('Need implementation');
     }
 }

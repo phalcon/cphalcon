@@ -11,10 +11,23 @@
 
 namespace Phalcon\Test\Unit;
 
+use Example\Namespaces\Adapter\Another;
+use Example\Namespaces\Adapter\File;
+use Example\Namespaces\Adapter\Mongo;
+use Example\Namespaces\Adapter\Redis;
+use Example\Namespaces\Engines\Alcohol;
+use Example\Namespaces\Engines\Gasoline;
+use Example\Namespaces\Example\Example;
+use Integer;
+use LoaderEvent;
+use One;
+use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Loader;
+use Sqlite;
+use Two;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
 class LoaderCest
 {
@@ -27,24 +40,39 @@ class LoaderCest
 
         $loader->registerNamespaces(
             [
-                'Example\Namespaces\Base' => dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
+                'Example\Namespaces\Base' => dataDir('fixtures/Loader/Example/Namespaces/Base/'),
             ]
         );
 
         $loader->registerNamespaces(
             [
-                'Example\Namespaces\Adapter' => dataFolder('fixtures/Loader/Example/Namespaces/Adapter/'),
-                'Example\Namespaces'         => dataFolder('fixtures/Loader/Example/Namespaces/'),
+                'Example\Namespaces\Adapter' => dataDir('fixtures/Loader/Example/Namespaces/Adapter/'),
+                'Example\Namespaces'         => dataDir('fixtures/Loader/Example/Namespaces/'),
             ],
             true
         );
 
         $loader->register();
 
-        $I->assertInstanceOf('Example\Namespaces\Adapter\Mongo', new \Example\Namespaces\Adapter\Mongo());
-        $I->assertInstanceOf('Example\Namespaces\Adapter\Redis', new \Example\Namespaces\Adapter\Redis());
-        $I->assertInstanceOf('Example\Namespaces\Engines\Gasoline', new \Example\Namespaces\Engines\Gasoline());
-        $I->assertInstanceOf('Example\Namespaces\Example\Example', new \Example\Namespaces\Example\Example());
+        $I->assertInstanceOf(
+            Mongo::class,
+            new Mongo()
+        );
+
+        $I->assertInstanceOf(
+            Redis::class,
+            new Redis()
+        );
+
+        $I->assertInstanceOf(
+            Gasoline::class,
+            new Gasoline()
+        );
+
+        $I->assertInstanceOf(
+            Example::class,
+            new Example()
+        );
 
         $loader->unregister();
     }
@@ -53,24 +81,33 @@ class LoaderCest
     {
         $loader = new Loader();
 
-        $loader->setExtensions(['inc', 'php']);
-        $loader->registerNamespaces(
+        $loader->setExtensions(
             [
-                'Example\Namespaces\Base' => dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
-                'Example\Namespaces'      => dataFolder('fixtures/Loader/Example/Namespaces/'),
+                'inc',
+                'php',
             ]
         );
 
         $loader->registerNamespaces(
             [
-                'Example' => dataFolder('fixtures/Loader/Example/Namespaces/'),
+                'Example\Namespaces\Base' => dataDir('fixtures/Loader/Example/Namespaces/Base/'),
+                'Example\Namespaces'      => dataDir('fixtures/Loader/Example/Namespaces/'),
+            ]
+        );
+
+        $loader->registerNamespaces(
+            [
+                'Example' => dataDir('fixtures/Loader/Example/Namespaces/'),
             ],
             true
         );
 
         $loader->register();
 
-        $I->assertInstanceOf('Example\Namespaces\Engines\Alcohol', new \Example\Namespaces\Engines\Alcohol());
+        $I->assertInstanceOf(
+            Alcohol::class,
+            new Alcohol()
+        );
 
         $loader->unregister();
     }
@@ -82,21 +119,28 @@ class LoaderCest
         $loader->registerDirs(
             [
                 // missing trailing slash
-                dataFolder('fixtures/Loader/Example/Folders/Dialects'),
+                dataDir('fixtures/Loader/Example/Folders/Dialects'),
             ]
         );
 
         $loader->registerDirs(
             [
-                dataFolder('fixtures/Loader/Example/Folders/Types/'),
+                dataDir('fixtures/Loader/Example/Folders/Types/'),
             ],
             true
         );
 
         $loader->register();
 
-        $I->assertInstanceOf('Sqlite', new \Sqlite());
-        $I->assertInstanceOf('Integer', new \Integer());
+        $I->assertInstanceOf(
+            Sqlite::class,
+            new Sqlite()
+        );
+
+        $I->assertInstanceOf(
+            Integer::class,
+            new Integer()
+        );
 
         $loader->unregister();
     }
@@ -104,44 +148,97 @@ class LoaderCest
     public function testFiles(UnitTester $I)
     {
         // TEST CASE : Register the file and check if functions in the file is accessible
-        $I->assertFalse(function_exists('noClassFoo'));
-        $I->assertFalse(function_exists('noClassBar'));
-        $I->assertFalse(function_exists('noClass1Foo'));
-        $I->assertFalse(function_exists('noClass1Bar'));
-        $I->assertFalse(function_exists('noClass2Foo'));
-        $I->assertFalse(function_exists('noClass2Bar'));
+
+        $I->assertFalse(
+            function_exists('noClassFoo')
+        );
+
+        $I->assertFalse(
+            function_exists('noClassBar')
+        );
+
+        $I->assertFalse(
+            function_exists('noClass1Foo')
+        );
+
+        $I->assertFalse(
+            function_exists('noClass1Bar')
+        );
+
+        $I->assertFalse(
+            function_exists('noClass2Foo')
+        );
+
+        $I->assertFalse(
+            function_exists('noClass2Bar')
+        );
 
         $loader = new Loader();
+
         $loader->registerFiles(
             [
-                dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClass.php'),
-                dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClassOne.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClass.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassOne.php'),
             ]
         );
         $loader->registerFiles(
             [
-                dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClassTwo.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassTwo.php'),
             ],
             true
         );
         $loader->register();
 
-        $I->assertTrue(function_exists('noClassFoo'));
-        $I->assertTrue(function_exists('noClassBar'));
-        $I->assertTrue(function_exists('noClass1Foo'));
-        $I->assertTrue(function_exists('noClass1Bar'));
-        $I->assertTrue(function_exists('noClass2Foo'));
-        $I->assertTrue(function_exists('noClass2Bar'));
+        $I->assertTrue(
+            function_exists('noClassFoo')
+        );
+
+        $I->assertTrue(
+            function_exists('noClassBar')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass1Foo')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass1Bar')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass2Foo')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass2Bar')
+        );
 
         // TEST CASE : We are going to un-register it, but the functions should still be accessible
         $loader->unregister();
 
-        $I->assertTrue(function_exists('noClassFoo'));
-        $I->assertTrue(function_exists('noClassBar'));
-        $I->assertTrue(function_exists('noClass1Foo'));
-        $I->assertTrue(function_exists('noClass1Bar'));
-        $I->assertTrue(function_exists('noClass2Foo'));
-        $I->assertTrue(function_exists('noClass2Bar'));
+        $I->assertTrue(
+            function_exists('noClassFoo')
+        );
+
+        $I->assertTrue(
+            function_exists('noClassBar')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass1Foo')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass1Bar')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass2Foo')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass2Bar')
+        );
     }
 
     public function testNamespacesForMultipleDirectories(UnitTester $I)
@@ -150,23 +247,26 @@ class LoaderCest
 
         $loader->registerNamespaces(
             [
-                "Example\\Namespaces\\Base" => dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
+                "Example\\Namespaces\\Base" => dataDir('fixtures/Loader/Example/Namespaces/Base/'),
             ]
         );
 
         $expected = [
             "Example\\Namespaces\\Base" => [
-                dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
+                dataDir('fixtures/Loader/Example/Namespaces/Base/'),
             ],
         ];
-        $actual   = $loader->getNamespaces();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $loader->getNamespaces()
+        );
 
         $loader->registerNamespaces(
             [
                 "Example\\Namespaces\\Adapter" => [
-                    dataFolder('fixtures/Loader/Example/Namespaces/Adapter/'),
-                    dataFolder('fixtures/Loader/Example/Namespaces/Plugin/'),
+                    dataDir('fixtures/Loader/Example/Namespaces/Adapter/'),
+                    dataDir('fixtures/Loader/Example/Namespaces/Plugin/'),
                 ],
             ],
             true
@@ -174,21 +274,35 @@ class LoaderCest
 
         $expected = [
             "Example\\Namespaces\\Base"    => [
-                dataFolder('fixtures/Loader/Example/Namespaces/Base/'),
+                dataDir('fixtures/Loader/Example/Namespaces/Base/'),
             ],
             "Example\\Namespaces\\Adapter" => [
-                dataFolder('fixtures/Loader/Example/Namespaces/Adapter/'),
-                dataFolder('fixtures/Loader/Example/Namespaces/Plugin/'),
+                dataDir('fixtures/Loader/Example/Namespaces/Adapter/'),
+                dataDir('fixtures/Loader/Example/Namespaces/Plugin/'),
             ],
         ];
-        $actual   = $loader->getNamespaces();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $loader->getNamespaces()
+        );
 
         $loader->register();
 
-        $I->assertInstanceOf('Example\Namespaces\Adapter\Mongo', new \Example\Namespaces\Adapter\Mongo());
-        $I->assertInstanceOf('Example\Namespaces\Adapter\Another', new \Example\Namespaces\Adapter\Another());
-        $I->assertInstanceOf('Example\Namespaces\Adapter\Redis', new \Example\Namespaces\Adapter\Redis());
+        $I->assertInstanceOf(
+            Mongo::class,
+            new Mongo()
+        );
+
+        $I->assertInstanceOf(
+            Another::class,
+            new Another()
+        );
+
+        $I->assertInstanceOf(
+            Redis::class,
+            new Redis()
+        );
 
         $loader->unregister();
     }
@@ -199,6 +313,7 @@ class LoaderCest
          * @TODO: Check Extensions for this test
          */
         $I->skipTest('TODO: Check Extensions for this test');
+
         $loader = new Loader();
 
         $loader->setExtensions(
@@ -209,15 +324,18 @@ class LoaderCest
         );
         $loader->registerDirs(
             [
-                dataFolder('fixtures/Loader/Example/Folders/Dialects'),
-                dataFolder('fixtures/Loader/Example/Folders/Types'),
-                dataFolder('fixtures/Loader/Example/Namespaces/Adapter'),
+                dataDir('fixtures/Loader/Example/Folders/Dialects'),
+                dataDir('fixtures/Loader/Example/Folders/Types'),
+                dataDir('fixtures/Loader/Example/Namespaces/Adapter'),
             ]
         );
 
         $loader->register();
 
-        $I->assertInstanceOf('Example\Namespaces\Adapter\File', new \Example\Namespaces\Adapter\File());
+        $I->assertInstanceOf(
+            File::class,
+            new File()
+        );
 
         $loader->unregister();
     }
@@ -228,19 +346,27 @@ class LoaderCest
 
         $loader->registerClasses(
             [
-                'One' => dataFolder('fixtures/Loader/Example/Classes/One.php'),
+                'One' => dataDir('fixtures/Loader/Example/Classes/One.php'),
             ]
         );
         $loader->registerClasses(
             [
-                'Two' => dataFolder('fixtures/Loader/Example/Classes/Two.php'),
+                'Two' => dataDir('fixtures/Loader/Example/Classes/Two.php'),
             ],
             true
         );
+
         $loader->register();
 
-        $I->assertInstanceOf('One', new \One());
-        $I->assertInstanceOf('Two', new \Two());
+        $I->assertInstanceOf(
+            One::class,
+            new One()
+        );
+
+        $I->assertInstanceOf(
+            Two::class,
+            new Two()
+        );
 
         $loader->unregister();
     }
@@ -251,49 +377,53 @@ class LoaderCest
 
         $loader->registerDirs(
             [
-                dataFolder('fixtures/Loader/Example/Events/'),
+                dataDir('fixtures/Loader/Example/Events/'),
             ]
         );
 
         $loader->registerClasses(
             [
-                'OtherClass' => dataFolder('fixtures/Loader/Example/Events/Other/'),
+                'OtherClass' => dataDir('fixtures/Loader/Example/Events/Other/'),
             ]
         );
 
         $loader->registerNamespaces(
             [
-                'Other\OtherClass' => dataFolder('fixtures/Loader/Example/Events/Other/'),
+                'Other\OtherClass' => dataDir('fixtures/Loader/Example/Events/Other/'),
             ]
         );
 
         $eventsManager = new Manager();
-        $trace         = [];
+
+        $trace = [];
 
         $eventsManager->attach(
             'loader',
             function ($event, $loader) use (&$trace) {
-                /** @var \Phalcon\Events\Event $event */
+                $type = $event->getType();
+
+                /** @var Event $event */
                 /** @var Loader $loader */
-                if (!isset($trace[$event->getType()])) {
-                    $trace[$event->getType()] = [];
+                if (!isset($trace[$type])) {
+                    $trace[$type] = [];
                 }
-                $trace[$event->getType()][] = $loader->getCheckedPath();
+
+                $trace[$type][] = $loader->getCheckedPath();
             }
         );
 
         $loader->setEventsManager($eventsManager);
         $loader->register();
 
-        $I->assertInstanceOf('LoaderEvent', new \LoaderEvent());
+        $I->assertInstanceOf('LoaderEvent', new LoaderEvent());
 
         $expected = [
             'beforeCheckClass' => [0 => null],
-            'beforeCheckPath'  => [0 => dataFolder('fixtures/Loader/Example/Events/LoaderEvent.php')],
-            'pathFound'        => [0 => dataFolder('fixtures/Loader/Example/Events/LoaderEvent.php')],
+            'beforeCheckPath'  => [0 => dataDir('fixtures/Loader/Example/Events/LoaderEvent.php')],
+            'pathFound'        => [0 => dataDir('fixtures/Loader/Example/Events/LoaderEvent.php')],
         ];
-        $actual   = $trace;
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals($expected, $trace);
 
         $loader->unregister();
     }
@@ -309,6 +439,7 @@ class LoaderCest
     public function shouldNotFindFilesWithFalseCallback(UnitTester $I)
     {
         $loader = new Loader();
+
         $loader->setFileCheckingCallback(
             function ($file) {
                 return false;
@@ -317,21 +448,26 @@ class LoaderCest
 
         $loader->registerFiles(
             [
-                dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClassThree.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassThree.php'),
             ]
         );
 
         $loader->registerNamespaces(
             [
-                'Example' => dataFolder('fixtures/Loader/Example/'),
+                'Example' => dataDir('fixtures/Loader/Example/'),
             ],
             true
         );
 
         $loader->register();
 
-        $I->assertFalse(function_exists('noClass3Foo'));
-        $I->assertFalse(function_exists('noClass3Bar'));
+        $I->assertFalse(
+            function_exists('noClass3Foo')
+        );
+
+        $I->assertFalse(
+            function_exists('noClass3Bar')
+        );
     }
 
     /**
@@ -345,26 +481,35 @@ class LoaderCest
     public function shouldWorkWithCustomFileCheckCallback(UnitTester $I)
     {
         $loader = new Loader();
+
         $loader->setFileCheckingCallback('stream_resolve_include_path');
 
         $loader->registerFiles(
             [
-                dataFolder('fixtures/Loader/Example/Functions/FunctionsNoClassThree.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassThree.php'),
             ]
         );
 
         $loader->registerNamespaces(
             [
-                'Example\Namespaces' => dataFolder('fixtures/Loader/Example/Namespaces'),
+                'Example\Namespaces' => dataDir('fixtures/Loader/Example/Namespaces'),
             ],
             true
         );
 
         $loader->register();
 
-        $I->assertTrue(function_exists('noClass3Foo'));
-        $I->assertTrue(function_exists('noClass3Bar'));
-        $I->assertTrue(class_exists('\Example\Namespaces\Engines\Diesel'));
+        $I->assertTrue(
+            function_exists('noClass3Foo')
+        );
+
+        $I->assertTrue(
+            function_exists('noClass3Bar')
+        );
+
+        $I->assertTrue(
+            class_exists('\Example\Namespaces\Engines\Diesel')
+        );
     }
 
     /**
@@ -373,6 +518,7 @@ class LoaderCest
     protected function _before(UnitTester $I)
     {
         $this->loaders = spl_autoload_functions();
+
         if (!is_array($this->loaders)) {
             $this->loaders = [];
         }
@@ -386,6 +532,7 @@ class LoaderCest
     protected function _after(UnitTester $I)
     {
         $loaders = spl_autoload_functions();
+
         if (is_array($loaders)) {
             foreach ($loaders as $loader) {
                 spl_autoload_unregister($loader);
@@ -396,6 +543,8 @@ class LoaderCest
             spl_autoload_register($loader);
         }
 
-        set_include_path($this->includePath);
+        set_include_path(
+            $this->includePath
+        );
     }
 }

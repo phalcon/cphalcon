@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Router;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
@@ -27,41 +28,38 @@ class RemoveExtraSlashesCest
      *
      * @param IntegrationTester $I
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
-     * @since  2012-12-16
+     * @author       Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since        2012-12-16
+     *
+     * @dataProvider getMatchingWithExtraSlashes
      */
-    public function testRemovingExtraSlashes(IntegrationTester $I)
+    public function testRemovingExtraSlashes(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Mvc\Router - removeExtraSlashes()');
 
-        $examples = $this->getMatchingWithExtraSlashes();
+        $route  = $example[0];
+        $params = $example[1];
 
-        foreach ($examples as $item) {
-            $route  = $item[0];
-            $params = $item[1];
+        $router = $this->getRouter();
 
-            $router = $this->getRouter();
+        $router->removeExtraSlashes(true);
 
-            $router->removeExtraSlashes(true);
-
-            $router->handle($route);
+        $router->handle($route);
 
 
+        $I->assertTrue(
+            $router->wasMatched()
+        );
 
-            $I->assertTrue(
-                $router->wasMatched()
-            );
+        $I->assertEquals(
+            $params['controller'],
+            $router->getControllerName()
+        );
 
-            $I->assertEquals(
-                $params['controller'],
-                $router->getControllerName()
-            );
-
-            $I->assertEquals(
-                $params['action'],
-                $router->getActionName()
-            );
-        }
+        $I->assertEquals(
+            $params['action'],
+            $router->getActionName()
+        );
     }
 
     private function getMatchingWithExtraSlashes(): array
@@ -74,6 +72,7 @@ class RemoveExtraSlashesCest
                     'action'     => '',
                 ],
             ],
+
             [
                 '/session/start/',
                 [
@@ -81,6 +80,7 @@ class RemoveExtraSlashesCest
                     'action'     => 'start',
                 ],
             ],
+
             [
                 '/users/edit/100/',
                 [

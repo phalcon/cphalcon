@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Helper\Number;
 use Phalcon\Helper\Number;
 use UnitTester;
 
-/**
- * Class BetweenCest
- */
 class BetweenCest
 {
     /**
      * Tests Phalcon\Helper\Number :: between()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-17
@@ -32,16 +27,20 @@ class BetweenCest
     {
         $I->wantToTest('Helper\Number - between()');
 
-        $actual = Number::between(5, 1, 10);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            Number::between(5, 1, 10)
+        );
 
-        $actual = Number::between(1, 1, 10);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            Number::between(1, 1, 10)
+        );
 
-        $actual = Number::between(10, 1, 10);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            Number::between(10, 1, 10)
+        );
 
-        $actual = Number::between(1, 5, 10);
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            Number::between(1, 5, 10)
+        );
     }
 }

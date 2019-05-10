@@ -15,17 +15,12 @@ namespace Phalcon\Test\Unit\Config\Adapter\Ini;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class PathCest
- */
 class PathCest
 {
     use ConfigTrait;
 
     /**
      * Tests Phalcon\Config\Adapter\Ini :: path()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -38,8 +33,6 @@ class PathCest
 
     /**
      * Tests Phalcon\Config\Adapter\Ini :: path() - default
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

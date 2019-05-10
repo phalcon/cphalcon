@@ -16,15 +16,10 @@ use Phalcon\Http\Message\Request;
 use Psr\Http\Message\RequestInterface;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Http\Message\Request :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-08
@@ -32,8 +27,12 @@ class ConstructCest
     public function httpMessageRequestConstruct(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Request - __construct()');
+
         $request = new Request();
-        $class   = RequestInterface::class;
-        $I->assertInstanceOf($class, $request);
+
+        $I->assertInstanceOf(
+            RequestInterface::class,
+            $request
+        );
     }
 }

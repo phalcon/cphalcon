@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Reflection;
 
 use UnitTester;
 
-/**
- * Class GetReflectionDataCest
- */
 class GetReflectionDataCest
 {
     /**
      * Tests Phalcon\Annotations\Reflection :: getReflectionData()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetReflectionDataCest
     public function annotationsReflectionGetReflectionData(UnitTester $I)
     {
         $I->wantToTest('Annotations\Reflection - getReflectionData()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -37,7 +37,7 @@ class HasCest
     {
         $I->wantToTest('Session\Manager - has()');
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
 
         $actual = $manager->start();

@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	if (Z_TYPE_P(&container) != IS_OBJECT) {
 		ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_ce, "getdefault", &_1, 0);
 		zephir_check_call_status();
-		if (Z_TYPE_P(&container) != IS_OBJECT) {
+		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(&_2$$4);
 			object_init_ex(&_2$$4, phalcon_di_exception_ce);
 			ZEPHIR_INIT_VAR(&_5$$4);
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 1, &_3$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_2$$4, "phalcon/Di/Injectable.zep", 81 TSRMLS_CC);
+			zephir_throw_exception_debug(&_2$$4, "phalcon/Di/Injectable.zep", 83 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

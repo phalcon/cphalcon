@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 
-	zval *key_param = NULL, path, _0, _1, _2, _3$$3;
+	zval *key_param = NULL, path, _0, _1, _2, _3;
 	zval key;
 	zval *this_ptr = getThis();
 
@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -124,14 +124,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, read) {
 	zephir_prepare_virtual_path(&_1, &key, &_2 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&path);
 	ZEPHIR_CONCAT_VVS(&path, &_0, &_1, ".php");
-	if ((zephir_file_exists(&path TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_3$$3);
-		if (zephir_require_zval_ret(&_3$$3, &path TSRMLS_CC) == FAILURE) {
-			RETURN_MM_NULL();
-		}
-		RETURN_CCTOR(&_3$$3);
+	if (!((zephir_file_exists(&path TSRMLS_CC) == SUCCESS))) {
+		RETURN_MM_NULL();
 	}
-	RETURN_MM_NULL();
+	ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_3);
+	if (zephir_require_zval_ret(&_3, &path TSRMLS_CC) == FAILURE) {
+		RETURN_MM_NULL();
+	}
+	RETURN_CCTOR(&_3);
 
 }
 
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 	ZEPHIR_CONCAT_SVS(&_5, "<?php return ", &_4, "; ");
 	zephir_file_put_contents(&_3, &path, &_5 TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_3)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/Mvc/Model/Metadata/Files.zep", 71);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/Mvc/Model/MetaData/Files.zep", 75);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

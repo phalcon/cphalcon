@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash\Session;
 
 use UnitTester;
 
-/**
- * Class GetMessagesCest
- */
 class GetMessagesCest
 {
     /**
      * Tests Phalcon\Flash\Session :: getMessages()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetMessagesCest
     public function flashSessionGetMessages(UnitTester $I)
     {
         $I->wantToTest('Flash\Session - getMessages()');
+
         $I->skipTest('Need implementation');
     }
 }

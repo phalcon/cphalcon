@@ -16,17 +16,12 @@ use Phalcon\Assets\Asset;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class SetFilterCest
- */
 class SetFilterCest
 {
     use AssetsTrait;
 
     /**
      * Tests Phalcon\Assets\Asset :: setFilter() - css local
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -47,15 +42,13 @@ class SetFilterCest
     /**
      * Tests Phalcon\Assets\Asset :: setFilter() - css remote
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function assetsAssetSetFilterCssRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setFilter() - css remote');
-        $I->skipTest('TODO - Need checking');
+
         $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
 
         $expected = true;
@@ -68,8 +61,6 @@ class SetFilterCest
 
     /**
      * Tests Phalcon\Assets\Asset :: setFilter() - js local
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -89,8 +80,6 @@ class SetFilterCest
 
     /**
      * Tests Phalcon\Assets\Asset :: setFilter() - js remote
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -54,8 +54,10 @@ class SetValidationCest
     public function testCustomValidation(IntegrationTester $I)
     {
         // First element
-        $telephone        = new Text('telephone');
+        $telephone = new Text('telephone');
+
         $customValidation = new Validation();
+
         $customValidation->add(
             'telephone',
             new Regex(
@@ -65,20 +67,35 @@ class SetValidationCest
                 ]
             )
         );
+
         $form    = new Form();
         $address = new Text('address');
+
         $form->add($telephone);
         $form->add($address);
+
         $form->setValidation($customValidation);
 
-        $actual = $form->isValid(['telephone' => '12345', 'address' => 'hello']);
+
+        $actual = $form->isValid(
+            [
+                'telephone' => '12345',
+                'address'   => 'hello',
+            ]
+        );
+
         $I->assertFalse($actual);
+
 
         $actual = $form->get('telephone')->hasMessages();
+
         $I->assertTrue($actual);
 
+
         $actual = $form->get('address')->hasMessages();
+
         $I->assertFalse($actual);
+
 
         $expected = new Messages(
             [
@@ -90,15 +107,21 @@ class SetValidationCest
                 ),
             ]
         );
-        $actual   = $form->get('telephone')->getMessages();
+
+        $actual = $form->get('telephone')->getMessages();
+
         $I->assertEquals($expected, $actual);
+
 
         $expected = $form->getMessages();
         $actual   = $form->get('telephone')->getMessages();
+
         $I->assertEquals($expected, $actual);
+
 
         $expected = new Messages();
         $actual   = $form->get('address')->getMessages();
+
         $I->assertEquals($expected, $actual);
     }
 }

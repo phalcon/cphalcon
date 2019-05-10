@@ -13,14 +13,12 @@ namespace Phalcon\Test\Unit\Translate\Adapter;
 
 use Phalcon\Translate\Adapter\Gettext;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
 class GettextCest
 {
     /**
      * Executed before each test
-     *
-     * @param UnitTester $I
      */
     public function _before(UnitTester $I)
     {
@@ -34,8 +32,6 @@ class GettextCest
     /**
      * Tests translator with array access
      *
-     * @param  UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-16
      */
@@ -47,14 +43,19 @@ class GettextCest
             [
                 'locale'        => 'en_US.utf8',
                 'defaultDomain' => 'messages',
-                'directory'     => dataFolder('assets/translation/gettext'),
+                'directory'     => dataDir('assets/translation/gettext'),
                 'category'      => LC_MESSAGES,
             ]
         );
 
         $I->assertArrayHasKey('你好！', $translator);
+
         $I->assertArrayNotHasKey('Some non-existent string string', $translator);
-        $I->assertEquals($translator['你好！'], 'Hello!');
+
+        $I->assertEquals(
+            'Hello!',
+            $translator['你好！']
+        );
     }
 
     /**
@@ -73,19 +74,29 @@ class GettextCest
             [
                 'locale'        => 'en_US.utf8',
                 'defaultDomain' => 'messages',
-                'directory'     => dataFolder('assets/translation/gettext'),
+                'directory'     => dataDir('assets/translation/gettext'),
                 'category'      => LC_MESSAGES,
             ]
         );
 
-        $I->assertEquals($translator->query('你好！'), 'Hello!');
-        $I->assertEquals($translator->query('你好 %name%！', ['name' => 'Phalcon']), 'Hello Phalcon!');
+        $I->assertEquals(
+            'Hello!',
+            $translator->query('你好！')
+        );
+
+        $I->assertEquals(
+            'Hello Phalcon!',
+            $translator->query(
+                '你好 %name%！',
+                [
+                    'name' => 'Phalcon',
+                ]
+            )
+        );
     }
 
     /**
      * Tests variable substitution in string
-     *
-     * @param  UnitTester $I
      *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-16
@@ -98,12 +109,29 @@ class GettextCest
             [
                 'locale'        => 'en_US.utf8',
                 'defaultDomain' => 'messages',
-                'directory'     => dataFolder('assets/translation/gettext'),
+                'directory'     => dataDir('assets/translation/gettext'),
                 'category'      => LC_MESSAGES,
             ]
         );
 
-        $I->assertEquals($translator->t('你好 %name%！', ['name' => 'Phalcon']), 'Hello Phalcon!');
-        $I->assertEquals($translator->_('你好 %name%！', ['name' => 'Phalcon']), 'Hello Phalcon!');
+        $I->assertEquals(
+            'Hello Phalcon!',
+            $translator->t(
+                '你好 %name%！',
+                [
+                    'name' => 'Phalcon',
+                ]
+            )
+        );
+
+        $I->assertEquals(
+            'Hello Phalcon!',
+            $translator->_(
+                '你好 %name%！',
+                [
+                    'name' => 'Phalcon',
+                ]
+            )
+        );
     }
 }

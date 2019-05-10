@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Collection;
 use Phalcon\Collection;
 use UnitTester;
 
-/**
- * Class GetIteratorCest
- */
 class GetIteratorCest
 {
     /**
      * Tests Phalcon\Collection :: getIterator()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,15 +26,20 @@ class GetIteratorCest
     public function collectionGetIterator(UnitTester $I)
     {
         $I->wantToTest('Collection - getIterator()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Collection($data);
 
         foreach ($collection as $key => $value) {
-            $I->assertEquals($data[$key], $collection[$key]);
+            $I->assertEquals(
+                $data[$key],
+                $collection[$key]
+            );
         }
     }
 }

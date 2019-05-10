@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
 use UnitTester;
 
-/**
- * Class OffsetUnsetCest
- */
 class OffsetUnsetCest
 {
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: offsetUnset()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class OffsetUnsetCest
     public function configAdapterGroupedOffsetUnset(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Grouped - offsetUnset()');
+
         $I->skipTest('Need implementation');
     }
 }

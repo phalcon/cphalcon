@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Bag;
 
-use Phalcon\Session\Bag;
 use IntegrationTester;
+use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
@@ -36,16 +36,20 @@ class JsonSerializeCest
     public function sessionBagJsonSerialize(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - jsonSerialize()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Bag('BagTest');
+
         $collection->init($data);
 
-        $expected = $data;
-        $actual   = $collection->jsonSerialize();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $data,
+            $collection->jsonSerialize()
+        );
     }
 }

@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Collection;
 use Phalcon\Collection;
 use UnitTester;
 
-/**
- * Class RemoveCest
- */
 class RemoveCest
 {
     /**
      * Tests Phalcon\Collection :: remove()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -60,6 +55,15 @@ class RemoveCest
 
         $collection->init($data);
         unset($collection['five']);
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
+
+        $collection->init($data);
+        $collection->__unset('five');
         $expected = [
             'one'   => 'two',
             'three' => 'four',

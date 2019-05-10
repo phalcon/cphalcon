@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
-/**
- * Class GetAttributesCest
- */
 class GetAttributesCest
 {
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getAttributes()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-11
@@ -46,8 +41,6 @@ class GetAttributesCest
 
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getAttributes() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-11

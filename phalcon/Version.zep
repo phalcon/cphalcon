@@ -84,7 +84,7 @@ class Version
      */
     protected static function _getVersion() -> array
     {
-        return [4, 0, 0, 1, 4];
+        return [4, 0, 0, 1, 5];
     }
 
     /**
@@ -92,7 +92,7 @@ class Version
      */
     protected final static function _getSpecial(int special) -> string
     {
-        var suffix = "";
+        string suffix = "";
 
         switch special {
             case 1:
@@ -118,8 +118,8 @@ class Version
      */
     public static function get() -> string
     {
-        var version, major, medium, minor, special, specialNumber, result,
-            suffix;
+        var version, major, medium, minor, special, specialNumber, suffix;
+        string result;
 
         let version = static::_getVersion();
 

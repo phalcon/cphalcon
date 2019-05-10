@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Adapter\Files;
 
 use UnitTester;
 
-/**
- * Class GetPropertyCest
- */
 class GetPropertyCest
 {
     /**
      * Tests Phalcon\Annotations\Adapter\Files :: getProperty()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetPropertyCest
     public function annotationsAdapterFilesGetProperty(UnitTester $I)
     {
         $I->wantToTest('Annotations\Adapter\Files - getProperty()');
+
         $I->skipTest('Need implementation');
     }
 }

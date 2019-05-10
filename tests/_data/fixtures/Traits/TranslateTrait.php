@@ -13,19 +13,15 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Traits;
 
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
 /**
- * Trait TranslateTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait TranslateTrait
 {
     /**
      * Executed before each test
-     *
-     * @param UnitTester $I
      */
     public function _before(UnitTester $I, $scenario)
     {
@@ -36,9 +32,6 @@ trait TranslateTrait
         }
     }
 
-    /**
-     * @return array
-     */
     protected function getArrayConfig(): array
     {
         return [
@@ -67,27 +60,21 @@ trait TranslateTrait
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getCsvConfig(): array
     {
         return [
             'ru' => [
-                'content' => dataFolder('assets/translation/csv/ru_RU.csv'),
+                'content' => dataDir('assets/translation/csv/ru_RU.csv'),
             ],
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getGettextConfig(): array
     {
         return [
             'locale'        => 'en_US.utf8',
             'defaultDomain' => 'messages',
-            'directory'     => dataFolder('assets/translation/gettext'),
+            'directory'     => dataDir('assets/translation/gettext'),
             'category'      => LC_MESSAGES,
         ];
     }

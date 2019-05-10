@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use DateTime;
 use IntegrationTester;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\RawValue;
@@ -177,7 +178,7 @@ class DynamicOperationsCest
         $robot           = new Robots();
         $robot->name     = 'Test';
         $robot->type     = 'mechanical';
-        $robot->datetime = (new \DateTime())->format('Y-m-d');
+        $robot->datetime = (new DateTime())->format('Y-m-d');
         $robot->text     = 'text';
         $robot->year     = 1;
         $robot->save();

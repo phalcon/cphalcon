@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 		if (Z_TYPE_P(&container) != IS_OBJECT) {
 			ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_ce, "getdefault", &_2, 0);
 			zephir_check_call_status();
-			if (Z_TYPE_P(&container) != IS_OBJECT) {
+			if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
 				ZEPHIR_INIT_VAR(&_3$$5);
 				object_init_ex(&_3$$5, phalcon_session_exception_ce);
 				ZEPHIR_INIT_VAR(&_6$$5);
@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 1, &_4$$5);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_3$$5, "phalcon/Session/Bag.zep", 58 TSRMLS_CC);
+				zephir_throw_exception_debug(&_3$$5, "phalcon/Session/Bag.zep", 60 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}

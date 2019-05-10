@@ -248,7 +248,7 @@ class File extends Validator
                 let types = fieldTypes;
             }
 
-            if typeof types != "array" {
+            if unlikely typeof types != "array" {
                 throw new \Phalcon\Validation\Exception(
                     "Option 'allowedTypes' must be an array"
                 );

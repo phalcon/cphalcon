@@ -12,8 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/array.h"
+#include "kernel/object.h"
 
 
 ZEPHIR_INIT_CLASS(phalcon_24__closure) {
@@ -26,21 +27,28 @@ ZEPHIR_INIT_CLASS(phalcon_24__closure) {
 
 PHP_METHOD(phalcon_24__closure, __invoke) {
 
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *escaper, escaper_sub;
+	zend_bool _1;
+	zval *element, element_sub, _0, _2;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&escaper_sub);
+	ZVAL_UNDEF(&element_sub);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &escaper);
+	zephir_fetch_params(1, 1, 0, &element);
 
 
 
-	object_init_ex(return_value, phalcon_html_helper_textarea_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, escaper);
-	zephir_check_call_status();
-	RETURN_MM();
+	ZEPHIR_OBS_VAR(&_0);
+	zephir_array_fetch_long(&_0, element, 0, PH_NOISY, "phalcon/Validation.zep", 47 TSRMLS_CC);
+	_1 = Z_TYPE_P(&_0) != IS_ARRAY;
+	if (!(_1)) {
+		ZEPHIR_OBS_VAR(&_2);
+		zephir_array_fetch_long(&_2, element, 1, PH_NOISY, "phalcon/Validation.zep", 47 TSRMLS_CC);
+		_1 = !(zephir_is_instance_of(&_2, SL("phalcon\\CombinedFieldsValidator") TSRMLS_CC));
+	}
+	RETURN_MM_BOOL(_1);
 
 }
 

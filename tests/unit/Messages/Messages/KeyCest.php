@@ -16,15 +16,10 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use UnitTester;
 
-/**
- * Class KeyCest
- */
 class KeyCest
 {
     /**
      * Tests Phalcon\Messages\Messages :: key()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -32,17 +27,29 @@ class KeyCest
     public function messagesMessagesKey(UnitTester $I)
     {
         $I->wantToTest('Messages\Messages - key()');
+
         $messages = new Messages(
             [
-                0 => new Message('This is a message #1', 'MyField1', 'MyType1', 111),
-                1 => new Message('This is a message #2', 'MyField2', 'MyType2', 222),
+                0 => new Message(
+                    'This is a message #1',
+                    'MyField1',
+                    'MyType1',
+                    111
+                ),
+                1 => new Message(
+                    'This is a message #2',
+                    'MyField2',
+                    'MyType2',
+                    222
+                ),
             ]
         );
 
         $messages->next();
 
-        $expected = 1;
-        $actual   = $messages->key();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $messages->key()
+        );
     }
 }

@@ -128,12 +128,6 @@ PHP_METHOD(Phalcon_Logger_Item, getType) {
 
 /**
  * Phalcon\Logger\Item constructor
- *
- * @param string message
- * @param string name
- * @param int    type
- * @param int    time
- * @param array  context
  */
 PHP_METHOD(Phalcon_Logger_Item, __construct) {
 

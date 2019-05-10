@@ -16,15 +16,10 @@ use Phalcon\Http\Message\Stream\Temp;
 use Psr\Http\Message\StreamInterface;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Http\Message\Stream\Temp :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-19

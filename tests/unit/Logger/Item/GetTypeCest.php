@@ -12,24 +12,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Item;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
-/**
- * Class GetTypeCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class GetTypeCest
 {
     /**
      * Tests Phalcon\Logger\Item :: getType()
      *
      * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function loggerItemGetType(UnitTester $I)
     {

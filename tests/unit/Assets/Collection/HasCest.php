@@ -16,15 +16,10 @@ use Phalcon\Assets\Asset;
 use Phalcon\Assets\Collection;
 use UnitTester;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: has()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

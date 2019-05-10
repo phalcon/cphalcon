@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class SetModuleNameCest
- */
 class SetModuleNameCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: setModuleName()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetModuleNameCest
     public function mvcDispatcherSetModuleName(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - setModuleName()');
+
         $I->skipTest('Need implementation');
     }
 }

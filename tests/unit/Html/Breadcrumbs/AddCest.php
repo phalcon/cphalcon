@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Html\Breadcrumbs;
 use Phalcon\Html\Breadcrumbs;
 use UnitTester;
 
-/**
- * Class AddCest
- */
 class AddCest
 {
     /**
      * Tests Phalcon\Html\Breadcrumbs :: add()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,14 +26,16 @@ class AddCest
     public function htmlBreadcrumbsAdd(UnitTester $I)
     {
         $I->wantToTest('Html\Breadcrumbs - add()');
-        $breadcrumbs = new Breadcrumbs();
-        $breadcrumbs
-            ->add('Home', '/');
 
-        $expected = [
-            '/' => 'Home',
-        ];
-        $actual   = $breadcrumbs->toArray();
-        $I->assertEquals($expected, $actual);
+        $breadcrumbs = new Breadcrumbs();
+
+        $breadcrumbs->add('Home', '/');
+
+        $I->assertEquals(
+            [
+                '/' => 'Home',
+            ],
+            $breadcrumbs->toArray()
+        );
     }
 }

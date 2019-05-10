@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Response;
 use Phalcon\Http\Response;
 use UnitTester;
 
-/**
- * Class SetEtagCest
- */
 class SetEtagCest
 {
     /**
      * Tests Phalcon\Http\Response :: setEtag()
-     *
-     * @param UnitTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17

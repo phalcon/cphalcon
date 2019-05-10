@@ -68,7 +68,7 @@ class StreamFactory implements StreamFactoryInterface
     {
         var stream;
 
-        if typeof phpResource !== "resource"  || "stream" !== get_resource_type(phpResource) {
+        if unlikely (typeof phpResource !== "resource"  || "stream" !== get_resource_type(phpResource)) {
             throw new \InvalidArgumentException(
                 "Invalid stream provided"
             );

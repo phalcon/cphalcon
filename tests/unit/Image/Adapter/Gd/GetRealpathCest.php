@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
 use UnitTester;
 
-/**
- * Class GetRealpathCest
- */
 class GetRealpathCest
 {
     /**
      * Tests Phalcon\Image\Adapter\Gd :: getRealpath()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetRealpathCest
     public function imageAdapterGdGetRealpath(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Gd - getRealpath()');
+
         $I->skipTest('Need implementation');
     }
 }

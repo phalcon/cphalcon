@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Form;
 
 use IntegrationTester;
-use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Form;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -30,6 +30,10 @@ class RenderCest
         $this->newDi();
         $this->setDiEscaper();
         $this->setDiUrl();
+
+        Tag::setDocType(
+            Tag::XHTML5
+        );
     }
 
     /**
@@ -69,17 +73,29 @@ class RenderCest
             $form    = new Form;
             $element = new Text($name);
 
+
             $expected = $name;
             $actual   = $element->getName();
+
             $I->assertEquals($expected, $actual);
+
 
             $form->add($element);
 
-            $expected = sprintf('<input type="text" id="%s" name="%s" />', $name, $name);
-            $actual   = $form->render($name);
+
+            $expected = sprintf(
+                '<input type="text" id="%s" name="%s" />',
+                $name,
+                $name
+            );
+
+            $actual = $form->render($name);
+
             $I->assertEquals($expected, $actual);
 
+
             $actual = $form->getValue($name);
+
             $I->assertNull($actual);
         }
     }
@@ -88,14 +104,25 @@ class RenderCest
     {
         $form = new Form();
 
-        $form->add(new Text("name"));
+        $form->add(
+            new Text("name")
+        );
 
         $expected = '<input type="text" id="name" name="name" />';
         $actual   = $form->render("name");
+
         $I->assertEquals($expected, $actual);
 
+
         $expected = '<input type="text" id="name" name="name" class="big-input" />';
-        $actual   = $form->render("name", ["class" => "big-input"]);
+
+        $actual = $form->render(
+            "name",
+            [
+                "class" => "big-input",
+            ]
+        );
+
         $I->assertEquals($expected, $actual);
     }
 }

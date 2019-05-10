@@ -12,45 +12,49 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use Phalcon\Logger;
+use function logsDir;
+use Phalcon\Logger\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
-use function outputFolder;
+use function outputDir;
 
 /**
- * Trait LoggerTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait LoggerTrait
 {
-    /**
-     * @param UnitTester $I
-     * @param string     $level
-     */
     protected function runLoggerFile(UnitTester $I, string $level)
     {
-        $logPath  = outputFolder('tests/logs/');
+        $logPath  = logsDir();
         $fileName = $I->getNewFileName('log', 'log');
         $adapter  = new Stream($logPath . $fileName);
 
         $logString = "Hello";
 
-        $logger  = new Logger('my-logger', ['one' => $adapter]);
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter,
+            ]
+        );
+
         $logTime = date('D, d M y H:i:s O');
+
         $logger->{$level}($logString);
 
         $logger->getAdapter('one')->close();
 
         $I->amInPath($logPath);
         $I->openFile($fileName);
-        $expected = sprintf(
-            "[%s][%s] " . $logString,
-            $logTime,
-            $level
+
+        $I->seeInThisFile(
+            sprintf(
+                "[%s][%s] " . $logString,
+                $logTime,
+                $level
+            )
         );
 
-        $I->seeInThisFile($expected);
         $I->safeDeleteFile($fileName);
     }
 }

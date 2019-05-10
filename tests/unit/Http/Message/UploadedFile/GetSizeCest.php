@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\UploadedFile;
 use Phalcon\Http\Message\UploadedFile;
 use UnitTester;
 
-/**
- * Class GetSizeCest
- */
 class GetSizeCest
 {
     /**
      * Tests Phalcon\Http\Message\UploadedFile :: getSize()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

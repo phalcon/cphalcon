@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Tag;
 
 use UnitTester;
 
-/**
- * Class CheckFieldCest
- */
 class CheckFieldCest
 {
     /**
      * Tests Phalcon\Tag :: checkField()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class CheckFieldCest
     public function tagCheckField(UnitTester $I)
     {
         $I->wantToTest('Tag - checkField()');
+
         $I->skipTest('Need implementation');
     }
 }

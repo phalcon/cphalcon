@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Adapter\Apcu;
 
 use UnitTester;
 
-/**
- * Class WriteCest
- */
 class WriteCest
 {
     /**
      * Tests Phalcon\Annotations\Adapter\Apcu :: write()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class WriteCest
     public function annotationsAdapterApcuWrite(UnitTester $I)
     {
         $I->wantToTest('Annotations\Adapter\Apcu - write()');
+
         $I->skipTest('Need implementation');
     }
 }

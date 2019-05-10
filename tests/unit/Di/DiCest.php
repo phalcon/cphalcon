@@ -16,17 +16,21 @@
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Config;
 use Phalcon\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Service;
+use Phalcon\DiInterface;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
+use SimpleComponent;
+use SomeComponent;
+use SomeServiceProvider;
+use stdClass;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
 /**
- * Phalcon\Test\Unit\DiTest
- *
  * Tests the \Phalcon\Di component
  *
  * @package   Phalcon\Test\Unit
@@ -34,7 +38,7 @@ use function dataFolder;
 class DiCest
 {
     /**
-     * @var \Phalcon\DiInterface
+     * @var DiInterface
      */
     protected $phDi;
 
@@ -43,12 +47,13 @@ class DiCest
      */
     public function _before(UnitTester $I)
     {
-        require_once dataFolder('fixtures/Di/InjectableComponent.php');
-        require_once dataFolder('fixtures/Di/SomeServiceProvider.php');
-        require_once dataFolder('fixtures/Di/SimpleComponent.php');
-        require_once dataFolder('fixtures/Di/SomeComponent.php');
+        require_once dataDir('fixtures/Di/InjectableComponent.php');
+        require_once dataDir('fixtures/Di/SomeServiceProvider.php');
+        require_once dataDir('fixtures/Di/SimpleComponent.php');
+        require_once dataDir('fixtures/Di/SomeComponent.php');
 
         Di::reset();
+
         $this->phDi = new Di();
     }
 
@@ -60,8 +65,15 @@ class DiCest
      */
     public function testSetString(UnitTester $I)
     {
-        $this->phDi->set('request1', 'Phalcon\Http\Request');
-        $I->assertEquals(get_class($this->phDi->get('request1')), 'Phalcon\Http\Request');
+        $this->phDi->set(
+            'request1',
+            Request::class
+        );
+
+        $I->assertInstanceOf(
+            Request::class,
+            $this->phDi->get('request1')
+        );
     }
 
     /**
@@ -72,10 +84,17 @@ class DiCest
      */
     public function testSetAnonymousFunction(UnitTester $I)
     {
-        $this->phDi->set('request2', function () {
-            return new Request();
-        });
-        $I->assertEquals(get_class($this->phDi->get('request2')), 'Phalcon\Http\Request');
+        $this->phDi->set(
+            'request2',
+            function () {
+                return new Request();
+            }
+        );
+
+        $I->assertInstanceOf(
+            Request::class,
+            $this->phDi->get('request2')
+        );
     }
 
     /**
@@ -86,10 +105,17 @@ class DiCest
      */
     public function testSetArray(UnitTester $I)
     {
-        $this->phDi->set('request3', [
-            'className' => 'Phalcon\Http\Request',
-        ]);
-        $I->assertEquals(get_class($this->phDi->get('request3')), 'Phalcon\Http\Request');
+        $this->phDi->set(
+            'request3',
+            [
+                'className' => Request::class,
+            ]
+        );
+
+        $I->assertInstanceOf(
+            Request::class,
+            $this->phDi->get('request3')
+        );
     }
 
     /**
@@ -100,20 +126,36 @@ class DiCest
      */
     public function testAttempt(UnitTester $I)
     {
-        $this->phDi->set('request4', function () {
-            return new Request();
-        });
+        $this->phDi->set(
+            'request4',
+            function () {
+                return new Request();
+            }
+        );
 
-        $this->phDi->attempt('request4', function () {
-            return new \stdClass();
-        });
+        $this->phDi->attempt(
+            'request4',
+            function () {
+                return new stdClass();
+            }
+        );
 
-        $this->phDi->attempt('request5', function () {
-            return new \stdClass();
-        });
+        $this->phDi->attempt(
+            'request5',
+            function () {
+                return new stdClass();
+            }
+        );
 
-        $I->assertEquals(get_class($this->phDi->get('request4')), 'Phalcon\Http\Request');
-        $I->assertEquals(get_class($this->phDi->get('request5')), 'stdClass');
+        $I->assertInstanceOf(
+            Request::class,
+            $this->phDi->get('request4')
+        );
+
+        $I->assertInstanceOf(
+            stdClass::class,
+            $this->phDi->get('request5')
+        );
     }
 
     /**
@@ -124,12 +166,20 @@ class DiCest
      */
     public function testHas(UnitTester $I)
     {
-        $this->phDi->set('request6', function () {
-            return new Request();
-        });
+        $this->phDi->set(
+            'request6',
+            function () {
+                return new Request();
+            }
+        );
 
-        $I->assertTrue($this->phDi->has('request6'));
-        $I->assertFalse($this->phDi->has('request7'));
+        $I->assertTrue(
+            $this->phDi->has('request6')
+        );
+
+        $I->assertFalse(
+            $this->phDi->has('request7')
+        );
     }
 
     /**
@@ -140,11 +190,16 @@ class DiCest
      */
     public function testGetShared(UnitTester $I)
     {
-        $this->phDi->set('dateObject', function () {
-            $object       = new \stdClass();
-            $object->date = microtime(true);
-            return $object;
-        });
+        $this->phDi->set(
+            'dateObject',
+            function () {
+                $object = new stdClass();
+
+                $object->date = microtime(true);
+
+                return $object;
+            }
+        );
 
         $dateObject = $this->phDi->getShared('dateObject');
         usleep(5000);
@@ -162,8 +217,15 @@ class DiCest
      */
     public function testMagicGetCall(UnitTester $I)
     {
-        $this->phDi->set('request8', 'Phalcon\Http\Request');
-        $I->assertEquals(get_class($this->phDi->getRequest8()), 'Phalcon\Http\Request');
+        $this->phDi->set(
+            'request8',
+            Request::class
+        );
+
+        $I->assertInstanceOf(
+            Request::class,
+            $this->phDi->getRequest8()
+        );
     }
 
     /**
@@ -175,7 +237,11 @@ class DiCest
     public function testMagicSetCall(UnitTester $I)
     {
         $this->phDi->setRequest9('Phalcon\Http\Request');
-        $I->assertEquals(get_class($this->phDi->get('request9')), 'Phalcon\Http\Request');
+
+        $I->assertInstanceOf(
+            Request::class,
+            $this->phDi->get('request9')
+        );
     }
 
     /**
@@ -186,17 +252,40 @@ class DiCest
      */
     public function testSetParameters(UnitTester $I)
     {
-        $this->phDi->set('someComponent1', function ($v) {
-            return new \SomeComponent($v);
-        });
+        $this->phDi->set(
+            'someComponent1',
+            function ($v) {
+                return new SomeComponent($v);
+            }
+        );
 
         $this->phDi->set('someComponent2', 'SomeComponent');
 
-        $someComponent1 = $this->phDi->get('someComponent1', [100]);
-        $I->assertEquals($someComponent1->someProperty, 100);
 
-        $someComponent2 = $this->phDi->get('someComponent2', [500]);
-        $I->assertEquals($someComponent2->someProperty, 500);
+        $someComponent1 = $this->phDi->get(
+            'someComponent1',
+            [
+                100,
+            ]
+        );
+
+        $I->assertEquals(
+            100,
+            $someComponent1->someProperty
+        );
+
+
+        $someComponent2 = $this->phDi->get(
+            'someComponent2',
+            [
+                500,
+            ]
+        );
+
+        $I->assertEquals(
+            500,
+            $someComponent2->someProperty
+        );
     }
 
     /**
@@ -208,22 +297,29 @@ class DiCest
     public function testGetServices(UnitTester $I)
     {
         $expectedServices = [
-            'service1' => Service::__set_state([
-                '_definition'     => 'some-service',
-                '_shared'         => false,
-                '_sharedInstance' => null,
-            ]),
-            'service2' => Service::__set_state([
-                '_definition'     => 'some-other-service',
-                '_shared'         => false,
-                '_sharedInstance' => null,
-            ]),
+            'service1' => Service::__set_state(
+                [
+                    '_definition'     => 'some-service',
+                    '_shared'         => false,
+                    '_sharedInstance' => null,
+                ]
+            ),
+            'service2' => Service::__set_state(
+                [
+                    '_definition'     => 'some-other-service',
+                    '_shared'         => false,
+                    '_sharedInstance' => null,
+                ]
+            ),
         ];
 
         $this->phDi->set('service1', 'some-service');
         $this->phDi->set('service2', 'some-other-service');
 
-        $I->assertEquals($this->phDi->getServices(), $expectedServices);
+        $I->assertEquals(
+            $expectedServices,
+            $this->phDi->getServices()
+        );
     }
 
     /**
@@ -235,7 +331,11 @@ class DiCest
     public function testGetRawService(UnitTester $I)
     {
         $this->phDi->set('service1', 'some-service');
-        $I->assertEquals($this->phDi->getRaw('service1'), 'some-service');
+
+        $I->assertEquals(
+            'some-service',
+            $this->phDi->getRaw('service1')
+        );
     }
 
     /**
@@ -246,8 +346,12 @@ class DiCest
      */
     public function testRegisteringViaArrayAccess(UnitTester $I)
     {
-        $this->phDi['simple'] = 'SimpleComponent';
-        $I->assertEquals(get_class($this->phDi->get('simple')), 'SimpleComponent');
+        $this->phDi['simple'] = SimpleComponent::class;
+
+        $I->assertInstanceOf(
+            SimpleComponent::class,
+            $this->phDi->get('simple')
+        );
     }
 
     /**
@@ -259,7 +363,11 @@ class DiCest
     public function testResolvingViaArrayAccess(UnitTester $I)
     {
         $this->phDi->set('simple', 'SimpleComponent');
-        $I->assertEquals(get_class($this->phDi['simple']), 'SimpleComponent');
+
+        $I->assertInstanceOf(
+            SimpleComponent::class,
+            $this->phDi['simple']
+        );
     }
 
     /**
@@ -271,7 +379,9 @@ class DiCest
     public function testGettingNonExistentService(UnitTester $I)
     {
         $I->expectThrowable(
-            new Exception("Service 'nonExistentService' wasn't found in the dependency injection container"),
+            new Exception(
+                "Service 'nonExistentService' wasn't found in the dependency injection container"
+            ),
             function () {
                 $this->phDi->get('nonExistentService');
             }
@@ -286,8 +396,15 @@ class DiCest
      */
     public function testGettingDiViaGetDefault(UnitTester $I)
     {
-        $I->assertInstanceOf(Di::class, Di::getDefault());
-        $I->assertEquals(Di::getDefault(), $this->phDi);
+        $I->assertInstanceOf(
+            Di::class,
+            Di::getDefault()
+        );
+
+        $I->assertEquals(
+            Di::getDefault(),
+            $this->phDi
+        );
     }
 
     /**
@@ -299,6 +416,7 @@ class DiCest
     public function testComplexInjection(UnitTester $I)
     {
         $response = new Response();
+
         $this->phDi->set('response', $response);
 
         // Injection of parameters in the constructor
@@ -401,29 +519,83 @@ class DiCest
             ]
         );
 
+
         $component = $this->phDi->get('simpleConstructor');
-        $I->assertTrue(is_string($component->getResponse()));
-        $I->assertEquals($component->getResponse(), 'response');
+
+        $I->assertInternalType(
+            'string',
+            $component->getResponse()
+        );
+
+        $I->assertEquals(
+            'response',
+            $component->getResponse()
+        );
+
 
         $component = $this->phDi->get('simpleSetters');
-        $I->assertTrue(is_string($component->getResponse()));
-        $I->assertEquals($component->getResponse(), 'response');
+
+        $I->assertInternalType(
+            'string',
+            $component->getResponse()
+        );
+
+        $I->assertEquals(
+            'response',
+            $component->getResponse()
+        );
+
 
         $component = $this->phDi->get('simpleProperties');
-        $I->assertTrue(is_string($component->getResponse()));
-        $I->assertEquals($component->getResponse(), 'response');
+
+        $I->assertInternalType(
+            'string',
+            $component->getResponse()
+        );
+
+        $I->assertEquals(
+            'response',
+            $component->getResponse()
+        );
+
 
         $component = $this->phDi->get('complexConstructor');
-        $I->assertTrue(is_object($component->getResponse()));
-        $I->assertEquals($component->getResponse(), $response);
+
+        $I->assertInternalType(
+            'object',
+            $component->getResponse()
+        );
+
+        $I->assertEquals(
+            $response,
+            $component->getResponse()
+        );
+
 
         $component = $this->phDi->get('complexSetters');
-        $I->assertTrue(is_object($component->getResponse()));
-        $I->assertEquals($component->getResponse(), $response);
+
+        $I->assertInternalType(
+            'object',
+            $component->getResponse()
+        );
+
+        $I->assertEquals(
+            $response,
+            $component->getResponse()
+        );
+
 
         $component = $this->phDi->get('complexProperties');
-        $I->assertTrue(is_object($component->getResponse()));
-        $I->assertEquals($component->getResponse(), $response);
+
+        $I->assertInternalType(
+            'object',
+            $component->getResponse()
+        );
+
+        $I->assertEquals(
+            $response,
+            $component->getResponse()
+        );
     }
 
     /**
@@ -434,11 +606,22 @@ class DiCest
      */
     public function testRegistersServiceProvider(UnitTester $I)
     {
-        $this->phDi->register(new \SomeServiceProvider());
-        $I->assertEquals($this->phDi['foo'], 'bar');
+        $this->phDi->register(
+            new SomeServiceProvider()
+        );
+
+        $I->assertEquals(
+            'bar',
+            $this->phDi['foo']
+        );
+
 
         $service = $this->phDi->get('fooAction');
-        $I->assertInstanceOf('\SomeComponent', $service);
+
+        $I->assertInstanceOf(
+            SomeComponent::class,
+            $service
+        );
     }
 
     /**
@@ -451,15 +634,38 @@ class DiCest
     {
         $I->checkExtensionIsLoaded('yaml');
 
-        $this->phDi->loadFromYaml(dataFolder('fixtures/Di/services.yml'));
+        $this->phDi->loadFromYaml(
+            dataDir('fixtures/Di/services.yml')
+        );
 
-        $I->assertTrue($this->phDi->has('unit-test'));
-        $I->assertFalse($this->phDi->getService('unit-test')->isShared());
-        $I->assertTrue($this->phDi->has('config'));
-        $I->assertTrue($this->phDi->getService('config')->isShared());
-        $I->assertTrue($this->phDi->has('component'));
-        $I->assertFalse($this->phDi->getService('component')->isShared());
-        $I->assertInstanceOf('Phalcon\Config', $this->phDi->get('component')->someProperty);
+        $I->assertTrue(
+            $this->phDi->has('unit-test')
+        );
+
+        $I->assertFalse(
+            $this->phDi->getService('unit-test')->isShared()
+        );
+
+        $I->assertTrue(
+            $this->phDi->has('config')
+        );
+
+        $I->assertTrue(
+            $this->phDi->getService('config')->isShared()
+        );
+
+        $I->assertTrue(
+            $this->phDi->has('component')
+        );
+
+        $I->assertFalse(
+            $this->phDi->getService('component')->isShared()
+        );
+
+        $I->assertInstanceOf(
+            Config::class,
+            $this->phDi->get('component')->someProperty
+        );
     }
 
     /**
@@ -470,14 +676,35 @@ class DiCest
      */
     public function testPhpLoader(UnitTester $I)
     {
-        $this->phDi->loadFromPhp(dataFolder('fixtures/Di/services.php'));
+        $this->phDi->loadFromPhp(dataDir('fixtures/Di/services.php'));
 
-        $I->assertTrue($this->phDi->has('unit-test'));
-        $I->assertFalse($this->phDi->getService('unit-test')->isShared());
-        $I->assertTrue($this->phDi->has('config'));
-        $I->assertTrue($this->phDi->getService('config')->isShared());
-        $I->assertTrue($this->phDi->has('component'));
-        $I->assertFalse($this->phDi->getService('component')->isShared());
-        $I->assertInstanceOf('Phalcon\Config', $this->phDi->get('component')->someProperty);
+        $I->assertTrue(
+            $this->phDi->has('unit-test')
+        );
+
+        $I->assertFalse(
+            $this->phDi->getService('unit-test')->isShared()
+        );
+
+        $I->assertTrue(
+            $this->phDi->has('config')
+        );
+
+        $I->assertTrue(
+            $this->phDi->getService('config')->isShared()
+        );
+
+        $I->assertTrue(
+            $this->phDi->has('component')
+        );
+
+        $I->assertFalse(
+            $this->phDi->getService('component')->isShared()
+        );
+
+        $I->assertInstanceOf(
+            Config::class,
+            $this->phDi->get('component')->someProperty
+        );
     }
 }

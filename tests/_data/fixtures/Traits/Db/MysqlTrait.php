@@ -17,8 +17,6 @@ use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 
 /**
- * Trait MysqlTrait
- *
  * @package Phalcon\Test\Fixtures\Traits\Db
  */
 trait MysqlTrait
@@ -26,8 +24,6 @@ trait MysqlTrait
     protected $connection = null;
 
     /**
-     * Constructor
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-10-26
      */
@@ -52,8 +48,6 @@ trait MysqlTrait
     /**
      * Returns the database schema; MySql does not have a schema
      *
-     * @return string
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-10-26
      */
@@ -65,15 +59,15 @@ trait MysqlTrait
     /**
      * Return the array of expected columns
      *
-     * @return array
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-10-26
      */
     protected function getExpectedColumns(): array
     {
         $result  = [];
+
         $columns = $this->getColumns();
+
         foreach ($columns as $index => $array) {
             $result[$index] = Column::__set_state($array);
         }
@@ -83,8 +77,6 @@ trait MysqlTrait
 
     /**
      * Return the array of columns
-     *
-     * @return array
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-10-26
@@ -706,8 +698,6 @@ trait MysqlTrait
     /**
      * Return the array of expected indexes
      *
-     * @return array
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-10-26
      */
@@ -748,8 +738,6 @@ trait MysqlTrait
     /**
      * Return the array of expected references
      *
-     * @return array
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-10-26
      */
@@ -783,8 +771,6 @@ trait MysqlTrait
 
     /**
      * Returns the database name
-     *
-     * @return string
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-10-26

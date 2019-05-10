@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class IsStrictHostCheckCest
- */
 class IsStrictHostCheckCest
 {
     /**
      * Tests Phalcon\Http\Request :: isStrictHostCheck()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsStrictHostCheckCest
     public function httpRequestIsStrictHostCheck(UnitTester $I)
     {
         $I->wantToTest('Http\Request - isStrictHostCheck()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -17,13 +17,14 @@ abstract class Factory implements FactoryInterface
 {
     protected static function loadClass(string namespaceClass, var config)
     {
-        var adapter, className;
+        var adapter;
+        string className;
 
         if typeof config == "object" && config instanceof Config {
             let config = config->toArray();
         }
 
-        if typeof config != "array" {
+        if unlikely typeof config != "array" {
             throw new Exception(
                 "Config must be array or Phalcon\\Config object"
             );

@@ -277,7 +277,7 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("cancelable"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_is_true(&_0))) {
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 129);
 		return;
 	}

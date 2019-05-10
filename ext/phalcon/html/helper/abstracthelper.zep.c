@@ -14,12 +14,13 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
-#include "kernel/array.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
-#include "kernel/exception.h"
 #include "kernel/concat.h"
+#include "kernel/operators.h"
 #include "kernel/string.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
+#include "kernel/array.h"
 
 
 /**
@@ -67,20 +68,135 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, __construct) {
 }
 
 /**
+ * Renders an element
+ */
+PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderFullElement) {
+
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zend_bool raw;
+	zval attributes;
+	zval *tag_param = NULL, *text_param = NULL, *attributes_param = NULL, *raw_param = NULL, content, _0, _1;
+	zval tag, text;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&tag);
+	ZVAL_UNDEF(&text);
+	ZVAL_UNDEF(&content);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&attributes);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 2, &tag_param, &text_param, &attributes_param, &raw_param);
+
+	zephir_get_strval(&tag, tag_param);
+	zephir_get_strval(&text, text_param);
+	if (!attributes_param) {
+		ZEPHIR_INIT_VAR(&attributes);
+		array_init(&attributes);
+	} else {
+		zephir_get_arrval(&attributes, attributes_param);
+	}
+	if (!raw_param) {
+		raw = 0;
+	} else {
+		raw = zephir_get_boolval(raw_param);
+	}
+
+
+	if (raw) {
+		ZEPHIR_CPY_WRT(&content, &text);
+	} else {
+		zephir_read_property(&_0, this_ptr, SL("escaper"), PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_METHOD(&content, &_0, "escapehtml", NULL, 0, &text);
+		zephir_check_call_status();
+	}
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "renderelement", NULL, 0, &tag, &attributes);
+	zephir_check_call_status();
+	ZEPHIR_CONCAT_VVSVS(return_value, &_1, &content, "</", &tag, ">");
+	RETURN_MM();
+
+}
+
+/**
+ * Renders an element
+ */
+PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderElement) {
+
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval attributes;
+	zval *tag_param = NULL, *attributes_param = NULL, attrs, escapedAttrs, _0$$3, _1$$3, _2$$3;
+	zval tag;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&tag);
+	ZVAL_UNDEF(&attrs);
+	ZVAL_UNDEF(&escapedAttrs);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&attributes);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &tag_param, &attributes_param);
+
+	if (UNEXPECTED(Z_TYPE_P(tag_param) != IS_STRING && Z_TYPE_P(tag_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tag' must be of the type string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(tag_param) == IS_STRING)) {
+		zephir_get_strval(&tag, tag_param);
+	} else {
+		ZEPHIR_INIT_VAR(&tag);
+		ZVAL_EMPTY_STRING(&tag);
+	}
+	if (!attributes_param) {
+		ZEPHIR_INIT_VAR(&attributes);
+		array_init(&attributes);
+	} else {
+	ZEPHIR_OBS_COPY_OR_DUP(&attributes, attributes_param);
+	}
+
+
+	ZEPHIR_INIT_VAR(&escapedAttrs);
+	ZVAL_STRING(&escapedAttrs, "");
+	if (zephir_fast_count_int(&attributes TSRMLS_CC) > 0) {
+		ZEPHIR_INIT_VAR(&_0$$3);
+		array_init(&_0$$3);
+		ZEPHIR_CALL_METHOD(&attrs, this_ptr, "orderattributes", NULL, 0, &_0$$3, &attributes);
+		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(&_1$$3);
+		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "renderattributes", NULL, 0, &attrs);
+		zephir_check_call_status();
+		zephir_fast_trim(&_1$$3, &_2$$3, NULL , ZEPHIR_TRIM_RIGHT TSRMLS_CC);
+		ZEPHIR_INIT_NVAR(&escapedAttrs);
+		ZEPHIR_CONCAT_SV(&escapedAttrs, " ", &_1$$3);
+	}
+	ZEPHIR_CONCAT_SVVS(return_value, "<", &tag, &escapedAttrs, ">");
+	RETURN_MM();
+
+}
+
+/**
  * Keeps all the attributes sorted - same order all the tome
+ *
+ * @param array overrides
+ * @param array attributes
+ *
+ * @return array
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, orderAttributes) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *overrides_param = NULL, *attributes_param = NULL, __$null, order, intersect, results, _0;
+	zval *overrides_param = NULL, *attributes_param = NULL, __$null, intersect, order, results, _0;
 	zval overrides, attributes;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&overrides);
 	ZVAL_UNDEF(&attributes);
 	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&order);
 	ZVAL_UNDEF(&intersect);
+	ZVAL_UNDEF(&order);
 	ZVAL_UNDEF(&results);
 	ZVAL_UNDEF(&_0);
 
@@ -120,12 +236,12 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, orderAttributes) {
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes) {
 
-	zend_bool _4$$3, _5$$4, _6$$4, _14$$6, _15$$7, _16$$7;
-	zend_string *_3;
-	zend_ulong _2;
-	zephir_fcall_cache_entry *_10 = NULL;
+	zend_bool _3$$3, _4$$4, _5$$4;
+	zend_string *_2;
+	zend_ulong _1;
+	zephir_fcall_cache_entry *_9 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *attributes_param = NULL, key, result, value, *_0, _1, _11$$4, _12$$4, _13$$4, _7$$5, _8$$5, _9$$5, _20$$7, _21$$7, _22$$7, _17$$8, _18$$8, _19$$8;
+	zval *attributes_param = NULL, key, result, value, *_0, _10$$4, _11$$4, _12$$4, _6$$5, _7$$5, _8$$5;
 	zval attributes;
 	zval *this_ptr = getThis();
 
@@ -133,184 +249,69 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes) {
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_10$$4);
 	ZVAL_UNDEF(&_11$$4);
 	ZVAL_UNDEF(&_12$$4);
-	ZVAL_UNDEF(&_13$$4);
+	ZVAL_UNDEF(&_6$$5);
 	ZVAL_UNDEF(&_7$$5);
 	ZVAL_UNDEF(&_8$$5);
-	ZVAL_UNDEF(&_9$$5);
-	ZVAL_UNDEF(&_20$$7);
-	ZVAL_UNDEF(&_21$$7);
-	ZVAL_UNDEF(&_22$$7);
-	ZVAL_UNDEF(&_17$$8);
-	ZVAL_UNDEF(&_18$$8);
-	ZVAL_UNDEF(&_19$$8);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attributes_param);
 
-	zephir_get_arrval(&attributes, attributes_param);
+	ZEPHIR_OBS_COPY_OR_DUP(&attributes, attributes_param);
 
 
 	ZEPHIR_INIT_VAR(&result);
 	ZVAL_STRING(&result, "");
-	zephir_is_iterable(&attributes, 0, "phalcon/Html/Helper/AbstractHelper.zep", 89);
-	if (Z_TYPE_P(&attributes) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&attributes), _2, _3, _0)
-		{
-			ZEPHIR_INIT_NVAR(&key);
-			if (_3 != NULL) { 
-				ZVAL_STR_COPY(&key, _3);
-			} else {
-				ZVAL_LONG(&key, _2);
-			}
-			ZEPHIR_INIT_NVAR(&value);
-			ZVAL_COPY(&value, _0);
-			_4$$3 = Z_TYPE_P(&key) == IS_STRING;
-			if (_4$$3) {
-				_4$$3 = Z_TYPE_P(&value) != IS_NULL;
-			}
-			if (_4$$3) {
-				_5$$4 = Z_TYPE_P(&value) == IS_ARRAY;
-				if (!(_5$$4)) {
-					_5$$4 = Z_TYPE_P(&value) == IS_RESOURCE;
-				}
-				_6$$4 = _5$$4;
-				if (!(_6$$4)) {
-					_6$$4 = Z_TYPE_P(&value) == IS_OBJECT;
-				}
-				if (_6$$4) {
-					ZEPHIR_INIT_NVAR(&_7$$5);
-					object_init_ex(&_7$$5, phalcon_html_exception_ce);
-					ZEPHIR_INIT_NVAR(&_8$$5);
-					zephir_gettype(&_8$$5, &value TSRMLS_CC);
-					ZEPHIR_INIT_LNVAR(_9$$5);
-					ZEPHIR_CONCAT_SVSVS(&_9$$5, "Value at index: '", &key, "' type: '", &_8$$5, "' cannot be rendered");
-					ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", &_10, 1, &_9$$5);
-					zephir_check_call_status();
-					zephir_throw_exception_debug(&_7$$5, "phalcon/Html/Helper/AbstractHelper.zep", 81 TSRMLS_CC);
-					ZEPHIR_MM_RESTORE();
-					return;
-				}
-				zephir_read_property(&_11$$4, this_ptr, SL("escaper"), PH_NOISY_CC | PH_READONLY);
-				ZEPHIR_CALL_METHOD(&_12$$4, &_11$$4, "escapehtmlattr", NULL, 0, &value);
-				zephir_check_call_status();
-				ZEPHIR_INIT_LNVAR(_13$$4);
-				ZEPHIR_CONCAT_VSVS(&_13$$4, &key, "=\"", &_12$$4, "\" ");
-				zephir_concat_self(&result, &_13$$4 TSRMLS_CC);
-			}
-		} ZEND_HASH_FOREACH_END();
-	} else {
-		ZEPHIR_CALL_METHOD(NULL, &attributes, "rewind", NULL, 0);
-		zephir_check_call_status();
-		while (1) {
-			ZEPHIR_CALL_METHOD(&_1, &attributes, "valid", NULL, 0);
-			zephir_check_call_status();
-			if (!zend_is_true(&_1)) {
-				break;
-			}
-			ZEPHIR_CALL_METHOD(&key, &attributes, "key", NULL, 0);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&value, &attributes, "current", NULL, 0);
-			zephir_check_call_status();
-				_14$$6 = Z_TYPE_P(&key) == IS_STRING;
-				if (_14$$6) {
-					_14$$6 = Z_TYPE_P(&value) != IS_NULL;
-				}
-				if (_14$$6) {
-					_15$$7 = Z_TYPE_P(&value) == IS_ARRAY;
-					if (!(_15$$7)) {
-						_15$$7 = Z_TYPE_P(&value) == IS_RESOURCE;
-					}
-					_16$$7 = _15$$7;
-					if (!(_16$$7)) {
-						_16$$7 = Z_TYPE_P(&value) == IS_OBJECT;
-					}
-					if (_16$$7) {
-						ZEPHIR_INIT_NVAR(&_17$$8);
-						object_init_ex(&_17$$8, phalcon_html_exception_ce);
-						ZEPHIR_INIT_NVAR(&_18$$8);
-						zephir_gettype(&_18$$8, &value TSRMLS_CC);
-						ZEPHIR_INIT_LNVAR(_19$$8);
-						ZEPHIR_CONCAT_SVSVS(&_19$$8, "Value at index: '", &key, "' type: '", &_18$$8, "' cannot be rendered");
-						ZEPHIR_CALL_METHOD(NULL, &_17$$8, "__construct", &_10, 1, &_19$$8);
-						zephir_check_call_status();
-						zephir_throw_exception_debug(&_17$$8, "phalcon/Html/Helper/AbstractHelper.zep", 81 TSRMLS_CC);
-						ZEPHIR_MM_RESTORE();
-						return;
-					}
-					zephir_read_property(&_20$$7, this_ptr, SL("escaper"), PH_NOISY_CC | PH_READONLY);
-					ZEPHIR_CALL_METHOD(&_21$$7, &_20$$7, "escapehtmlattr", NULL, 0, &value);
-					zephir_check_call_status();
-					ZEPHIR_INIT_LNVAR(_22$$7);
-					ZEPHIR_CONCAT_VSVS(&_22$$7, &key, "=\"", &_21$$7, "\" ");
-					zephir_concat_self(&result, &_22$$7 TSRMLS_CC);
-				}
-			ZEPHIR_CALL_METHOD(NULL, &attributes, "next", NULL, 0);
-			zephir_check_call_status();
+	zephir_is_iterable(&attributes, 0, "phalcon/Html/Helper/AbstractHelper.zep", 128);
+	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&attributes), _1, _2, _0)
+	{
+		ZEPHIR_INIT_NVAR(&key);
+		if (_2 != NULL) { 
+			ZVAL_STR_COPY(&key, _2);
+		} else {
+			ZVAL_LONG(&key, _1);
 		}
-	}
+		ZEPHIR_INIT_NVAR(&value);
+		ZVAL_COPY(&value, _0);
+		_3$$3 = Z_TYPE_P(&key) == IS_STRING;
+		if (_3$$3) {
+			_3$$3 = Z_TYPE_P(&value) != IS_NULL;
+		}
+		if (_3$$3) {
+			_4$$4 = Z_TYPE_P(&value) == IS_ARRAY;
+			if (!(_4$$4)) {
+				_4$$4 = Z_TYPE_P(&value) == IS_RESOURCE;
+			}
+			_5$$4 = _4$$4;
+			if (!(_5$$4)) {
+				_5$$4 = Z_TYPE_P(&value) == IS_OBJECT;
+			}
+			if (_5$$4) {
+				ZEPHIR_INIT_NVAR(&_6$$5);
+				object_init_ex(&_6$$5, phalcon_html_exception_ce);
+				ZEPHIR_INIT_NVAR(&_7$$5);
+				zephir_gettype(&_7$$5, &value TSRMLS_CC);
+				ZEPHIR_INIT_LNVAR(_8$$5);
+				ZEPHIR_CONCAT_SVSVS(&_8$$5, "Value at index: \"", &key, "\" type: \"", &_7$$5, "\" cannot be rendered");
+				ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", &_9, 1, &_8$$5);
+				zephir_check_call_status();
+				zephir_throw_exception_debug(&_6$$5, "phalcon/Html/Helper/AbstractHelper.zep", 121 TSRMLS_CC);
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			zephir_read_property(&_10$$4, this_ptr, SL("escaper"), PH_NOISY_CC | PH_READONLY);
+			ZEPHIR_CALL_METHOD(&_11$$4, &_10$$4, "escapehtmlattr", NULL, 0, &value);
+			zephir_check_call_status();
+			ZEPHIR_INIT_LNVAR(_12$$4);
+			ZEPHIR_CONCAT_VSVS(&_12$$4, &key, "=\"", &_11$$4, "\" ");
+			zephir_concat_self(&result, &_12$$4 TSRMLS_CC);
+		}
+	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&value);
 	ZEPHIR_INIT_NVAR(&key);
 	RETURN_CCTOR(&result);
-
-}
-
-/**
- * Renders an element
- */
-PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderElement) {
-
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval attributes;
-	zval *tag_param = NULL, *text_param = NULL, *attributes_param = NULL, attrs, escapedAttrs, escapedText, _0, _1$$3, _2$$3, _3$$3;
-	zval tag, text;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&tag);
-	ZVAL_UNDEF(&text);
-	ZVAL_UNDEF(&attrs);
-	ZVAL_UNDEF(&escapedAttrs);
-	ZVAL_UNDEF(&escapedText);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&attributes);
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &tag_param, &text_param, &attributes_param);
-
-	zephir_get_strval(&tag, tag_param);
-	zephir_get_strval(&text, text_param);
-	if (!attributes_param) {
-		ZEPHIR_INIT_VAR(&attributes);
-		array_init(&attributes);
-	} else {
-		zephir_get_arrval(&attributes, attributes_param);
-	}
-
-
-	ZEPHIR_INIT_VAR(&escapedAttrs);
-	ZVAL_STRING(&escapedAttrs, "");
-	zephir_read_property(&_0, this_ptr, SL("escaper"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&escapedText, &_0, "escapehtml", NULL, 0, &text);
-	zephir_check_call_status();
-	if (zephir_fast_count_int(&attributes TSRMLS_CC) > 0) {
-		ZEPHIR_INIT_VAR(&_1$$3);
-		array_init(&_1$$3);
-		ZEPHIR_CALL_METHOD(&attrs, this_ptr, "orderattributes", NULL, 0, &_1$$3, &attributes);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "renderattributes", NULL, 0, &attrs);
-		zephir_check_call_status();
-		zephir_fast_trim(&_2$$3, &_3$$3, NULL , ZEPHIR_TRIM_RIGHT TSRMLS_CC);
-		ZEPHIR_INIT_NVAR(&escapedAttrs);
-		ZEPHIR_CONCAT_SV(&escapedAttrs, " ", &_2$$3);
-	}
-	ZEPHIR_CONCAT_SVVSVSVS(return_value, "<", &tag, &escapedAttrs, ">", &escapedText, "</", &tag, ">");
-	RETURN_MM();
 
 }
 
@@ -336,12 +337,21 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, selfClose) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &tag_param, &attributes_param);
 
-	zephir_get_strval(&tag, tag_param);
+	if (UNEXPECTED(Z_TYPE_P(tag_param) != IS_STRING && Z_TYPE_P(tag_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tag' must be of the type string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(tag_param) == IS_STRING)) {
+		zephir_get_strval(&tag, tag_param);
+	} else {
+		ZEPHIR_INIT_VAR(&tag);
+		ZVAL_EMPTY_STRING(&tag);
+	}
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
 	} else {
-		zephir_get_arrval(&attributes, attributes_param);
+	ZEPHIR_OBS_COPY_OR_DUP(&attributes, attributes_param);
 	}
 
 

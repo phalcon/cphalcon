@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
-/**
- * Class WasFreshInstanceCest
- */
 class WasFreshInstanceCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault :: wasFreshInstance()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultWasFreshInstance(UnitTester $I)
+    public function diFactoryDefaultWasFreshInstance(UnitTester $I)
     {
         $I->wantToTest('Di\FactoryDefault - wasFreshInstance()');
+
         $I->skipTest('Need implementation');
     }
 }

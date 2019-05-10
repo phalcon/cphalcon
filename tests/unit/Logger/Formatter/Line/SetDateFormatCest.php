@@ -15,20 +15,12 @@ namespace Phalcon\Test\Unit\Logger\Formatter\Line;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
-/**
- * Class SetDateFormatCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class SetDateFormatCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Line :: setDateFormat()
      *
      * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function loggerFormatterLineSetDateFormat(UnitTester $I)
     {

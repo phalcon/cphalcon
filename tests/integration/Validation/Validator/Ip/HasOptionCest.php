@@ -34,7 +34,13 @@ class HasOptionCest
     public function validationValidatorIpHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Ip - hasOption()');
-        $validator = new Ip(['message' => 'This is a message']);
+
+        $validator = new Ip(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

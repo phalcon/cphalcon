@@ -40,6 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory) {
 
 	/**
 	 * Data
+	 *
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_annotations_adapter_memory_ce, SL("data"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -80,10 +81,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 	zephir_read_property(&_0, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_fast_strtolower(&_1, &key);
-	if (zephir_array_isset_fetch(&data, &_0, &_1, 1 TSRMLS_CC)) {
-		RETURN_CTOR(&data);
+	if (!(zephir_array_isset_fetch(&data, &_0, &_1, 1 TSRMLS_CC))) {
+		RETURN_MM_BOOL(0);
 	}
-	RETURN_MM_BOOL(0);
+	RETURN_CTOR(&data);
 
 }
 
@@ -117,7 +118,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 
 	ZEPHIR_INIT_VAR(&lowercasedKey);
 	zephir_fast_strtolower(&lowercasedKey, &key);
-	zephir_update_property_array(this_ptr, SL("data"), &lowercasedKey, data);
+	zephir_update_property_array(this_ptr, SL("data"), &lowercasedKey, data TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

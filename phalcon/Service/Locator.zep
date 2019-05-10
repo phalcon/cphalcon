@@ -35,19 +35,7 @@ class Locator implements LocatorInterface
      */
     public function __construct(array! mapper = []) -> void
     {
-        let this->mapper = mapper;
-    }
-
-    /**
-     * Services being called via magic methods
-     */
-    public function __call(string name, array parameters) -> var
-    {
-        var service;
-
-        let service = this->get(name);
-
-        return call_user_func_array(service, parameters);
+        this->init(mapper);
     }
 
     /**
@@ -56,24 +44,17 @@ class Locator implements LocatorInterface
      */
     public function get(string! name) -> object
     {
-        var definition, service;
+        var definition;
 
-        if !this->has(name) {
+        if unlikely !isset this->mapper[name] {
             throw new Exception(
                 "The service " . name . " has not been found in the locator"
             );
         }
 
         if !isset(this->services[name]) {
-            let definition = this->mapper[name];
-
-            if typeof definition == "string" {
-                let service = new {definition}();
-            } else {
-                let service = definition;
-            }
-
-            let this->services[name] = service;
+            let definition           = this->mapper[name],
+                this->services[name] = call_user_func(definition);
         }
 
         return this->services[name];
@@ -95,5 +76,17 @@ class Locator implements LocatorInterface
         let this->mapper[name] = service;
 
         unset this->services[name];
+    }
+
+    /**
+     * Loads the objects in the internal mapper array
+     */
+    protected function init(array! mapper) -> void
+    {
+        var name, service;
+
+        for name, service in mapper {
+            this->set(name, service);
+        }
     }
 }

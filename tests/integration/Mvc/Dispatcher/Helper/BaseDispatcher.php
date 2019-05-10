@@ -29,7 +29,7 @@ use Phalcon\Mvc\Dispatcher;
 abstract class BaseDispatcher
 {
     /**
-     * @var \Phalcon\Di
+     * @var Di
      */
     private $di;
 
@@ -46,9 +46,19 @@ abstract class BaseDispatcher
         $dispatcherListener = new DispatcherListener();
 
         Di::reset();
+
         $this->di = new Di();
-        $this->di->setShared('response', new Response());
-        $this->di->setShared('dispatcherListener', $dispatcherListener);
+
+        $this->di->setShared(
+            'response',
+            new Response()
+        );
+
+        $this->di->setShared(
+            'dispatcherListener',
+            $dispatcherListener
+        );
+
         $this->di->setShared(
             'dispatcher',
             function () use ($dispatcherListener) {
@@ -62,7 +72,12 @@ abstract class BaseDispatcher
 
                 // Ensure this gets called prior to any custom event listening which has a default priority of 100
                 $eventsManager = new EventsManager();
-                $eventsManager->attach('dispatch', $dispatcherListener, 200);
+
+                $eventsManager->attach(
+                    'dispatch',
+                    $dispatcherListener,
+                    200
+                );
 
                 $dispatcher->setEventsManager($eventsManager);
 
@@ -74,7 +89,7 @@ abstract class BaseDispatcher
     /**
      * Returns the current Dependency Injector.
      *
-     * @return \Phalcon\Di
+     * @return Di
      */
     protected function getDI()
     {
@@ -84,7 +99,7 @@ abstract class BaseDispatcher
     /**
      * Returns the current dispatcher instance.
      *
-     * @return \Phalcon\Mvc\Dispatcher
+     * @return Dispatcher
      */
     protected function getDispatcher()
     {
@@ -94,7 +109,7 @@ abstract class BaseDispatcher
     /**
      * Returns the current dispatcher listener instance.
      *
-     * @return \Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherListener
+     * @return DispatcherListener
      */
     protected function getDispatcherListener()
     {

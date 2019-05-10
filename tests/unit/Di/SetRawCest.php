@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
-/**
- * Class SetRawCest
- */
 class SetRawCest
 {
     /**
      * Tests Phalcon\Di :: setRaw()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetRawCest
     public function diSetRaw(UnitTester $I)
     {
         $I->wantToTest('Di - setRaw()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -16,46 +16,51 @@ use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
 use UnitTester;
 
-/**
- * Class GetNoArgumentsDefaultActionCest
- */
 class GetSetNoArgumentsDefaultActionCest
 {
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction()
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Acl\Adapter\Memory ::
+     * getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function aclAdapterMemoryGetSetNoArgumentsDefaultAction(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction()');
+        $I->wantToTest(
+            'Acl\Adapter\Memory - getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction()'
+        );
+
         $acl = new Memory();
 
-        $acl->setNoArgumentsDefaultAction(Acl::ALLOW);
+        $acl->setNoArgumentsDefaultAction(
+            Acl::ALLOW
+        );
 
-        $expected = Acl::ALLOW;
-        $actual   = $acl->getNoArgumentsDefaultAction();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            Acl::ALLOW,
+            $acl->getNoArgumentsDefaultAction()
+        );
     }
 
     /**
-     * Tests Phalcon\Acl\Adapter\Memory :: getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction() - default
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Acl\Adapter\Memory ::
+     * getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction() - default
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function aclAdapterMemoryGetSetNoArgumentsDefaultActionDefault(UnitTester $I)
     {
-        $I->wantToTest('Acl\Adapter\Memory - getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction() - default');
+        $I->wantToTest(
+            'Acl\Adapter\Memory - getNoArgumentsDefaultAction()/setNoArgumentsDefaultAction() - default'
+        );
+
         $acl = new Memory();
 
-        $expected = Acl::DENY;
-        $actual   = $acl->getNoArgumentsDefaultAction();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            Acl::DENY,
+            $acl->getNoArgumentsDefaultAction()
+        );
     }
 }

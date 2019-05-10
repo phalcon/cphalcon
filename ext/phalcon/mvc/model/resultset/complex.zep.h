@@ -12,7 +12,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_complex___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, columnTypes)
 	ZEND_ARG_OBJ_INFO(0, result, Phalcon\\Db\\ResultInterface, 1)
-	ZEND_ARG_OBJ_INFO(0, cache, Phalcon\\Cache\\BackendInterface, 1)
+	ZEND_ARG_OBJ_INFO(0, cache, Phalcon\\Cache\\Adapter\\AdapterInterface, 1)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Di\Service;
 
 use UnitTester;
 
-/**
- * Class SetStateCest
- */
 class SetStateCest
 {
     /**
      * Tests Phalcon\Di\Service :: __set_state()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetStateCest
     public function diServiceSetState(UnitTester $I)
     {
         $I->wantToTest('Di\Service - __set_state()');
+
         $I->skipTest('Need implementation');
     }
 }

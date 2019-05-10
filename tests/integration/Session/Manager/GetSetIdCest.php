@@ -38,7 +38,7 @@ class GetSetIdCest
     {
         $I->wantToTest('Session\Manager - getId()/setId()');
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
 
         $expected = '';

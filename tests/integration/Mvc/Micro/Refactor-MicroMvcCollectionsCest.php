@@ -32,7 +32,6 @@ class MicroMvcCollectionsCest
         $app->mount($collection);
 
 
-
         $app->handle('/');
 
         $I->assertEquals(
@@ -44,7 +43,6 @@ class MicroMvcCollectionsCest
             'index_route',
             $app->getRouter()->getMatchedRoute()->getName()
         );
-
 
 
         $app->handle('/edit/100');

@@ -191,7 +191,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
         let dialect = this->dialect;
 
-        if !dialect->supportsSavePoints() {
+        if unlikely !dialect->supportsSavePoints() {
             throw new Exception(
                 "Savepoints are not supported by this database adapter."
             );
@@ -209,11 +209,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     {
         var columns;
 
-        if !fetch columns, definition["columns"] {
+        if unlikely !fetch columns, definition["columns"] {
             throw new Exception("The table must contain at least one column");
         }
 
-        if !count(columns) {
+        if unlikely !count(columns) {
             throw new Exception("The table must contain at least one column");
         }
 
@@ -231,7 +231,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function createView(string! viewName, array! definition, string schemaName = null) -> bool
     {
-        if !isset definition["sql"] {
+        if unlikely !isset definition["sql"] {
             throw new Exception("The table must contain at least one column");
         }
 
@@ -592,7 +592,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
             return [];
         }
 
-        if typeof fetchMode !== "null" {
+        if fetchMode !== null {
             result->setFetchMode(fetchMode);
         }
 
@@ -764,7 +764,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
         /**
          * A valid array with more than one element is required
          */
-        if !count(values) {
+        if unlikely !count(values) {
             throw new Exception(
                 "Unable to insert into " . table . " without data"
             );
@@ -787,14 +787,14 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
                     let value = (string) value;
                 }
 
-                if typeof value == "null" {
+                if value === null {
                     let placeholders[] = "null";
                 } else {
                     let placeholders[] = "?";
                     let insertValues[] = value;
 
                     if typeof dataTypes == "array" {
-                        if !fetch bindType, dataTypes[position] {
+                        if unlikely !fetch bindType, dataTypes[position] {
                             throw new Exception(
                                 "Incomplete number of bind types"
                             );
@@ -970,7 +970,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
         let dialect = this->dialect;
 
-        if !dialect->supportsSavePoints() {
+        if unlikely !dialect->supportsSavePoints() {
             throw new Exception(
                 "Savepoints are not supported by this database adapter"
             );
@@ -994,7 +994,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
         let dialect = this->dialect;
 
-        if !dialect->supportsSavePoints() {
+        if unlikely !dialect->supportsSavePoints() {
             throw new Exception(
                 "Savepoints are not supported by this database adapter"
             );
@@ -1026,13 +1026,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function setNestedTransactionsWithSavepoints(bool nestedTransactionsWithSavepoints) -> <AdapterInterface>
     {
-        if this->transactionLevel > 0 {
+        if unlikely this->transactionLevel > 0 {
             throw new Exception(
                 "Nested transaction with savepoints behavior cannot be changed while a transaction is open"
             );
         }
 
-        if !this->dialect->supportsSavePoints() {
+        if unlikely !this->dialect->supportsSavePoints() {
             throw new Exception(
                 "Savepoints are not supported by this database adapter"
             );
@@ -1151,8 +1151,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
          * string 'null', everything else is passed as '?'
          */
         for position, value in values {
-
-            if !fetch field, fields[position] {
+            if unlikely !fetch field, fields[position] {
                 throw new Exception(
                     "The number of values in the update is not the same as fields"
                 );
@@ -1167,13 +1166,13 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
                     let value = (string) value;
                 }
 
-                if typeof value == "null" {
+                if value === null {
                     let placeholders[] = escapedField . " = null";
                 } else {
                     let updateValues[] = value;
 
                     if typeof dataTypes == "array" {
-                        if !fetch bindType, dataTypes[position] {
+                        if unlikely !fetch bindType, dataTypes[position] {
                             throw new Exception(
                                 "Incomplete number of bind types"
                             );
@@ -1204,7 +1203,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
                 /**
                  * Array conditions may have bound params and bound types
                  */
-                if typeof whereCondition != "array" {
+                if unlikely typeof whereCondition != "array" {
                     throw new Exception("Invalid WHERE clause conditions");
                 }
 

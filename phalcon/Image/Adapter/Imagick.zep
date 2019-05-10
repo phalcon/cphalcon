@@ -51,7 +51,7 @@ class Imagick extends Adapter
         if file_exists(this->file) {
             let this->realpath = realpath(this->file);
 
-            if !this->image->readImage(this->realpath) {
+            if unlikely !this->image->readImage(this->realpath) {
                  throw new Exception(
                      "Imagick::readImage " . this->file . " failed"
                  );
@@ -72,7 +72,7 @@ class Imagick extends Adapter
                 let this->image = image;
             }
         } else {
-            if !width || !height {
+            if unlikely (!width || !height) {
                 throw new Exception(
                     "Failed to create image from file " . this->file
                 );
@@ -116,7 +116,7 @@ class Imagick extends Adapter
             return true;
         }
 
-        if !class_exists("imagick") {
+        if unlikely !class_exists("imagick") {
             throw new Exception(
                 "Imagick is not installed, or the extension is not loaded"
             );
@@ -194,7 +194,7 @@ class Imagick extends Adapter
                 0
             );
 
-            if ret !== true {
+            if unlikely ret !== true {
                 throw new Exception("Imagick::compositeImage failed");
             }
 
@@ -300,7 +300,7 @@ class Imagick extends Adapter
                 rigidity
             );
 
-            if ret !== true {
+            if unlikely ret !== true {
                 throw new Exception("Imagick::liquidRescale failed");
             }
 
@@ -338,7 +338,7 @@ class Imagick extends Adapter
                 0
             );
 
-            if ret !== true {
+            if unlikely ret !== true {
                 throw new Exception("Imagick::compositeImage failed");
             }
 
@@ -433,7 +433,7 @@ class Imagick extends Adapter
                 0
             );
 
-            if ret !== true {
+            if unlikely ret !== true {
                 throw new Exception("Imagick::compositeImage failed");
             }
 
@@ -478,7 +478,7 @@ class Imagick extends Adapter
                 0
             );
 
-            if ret !== true {
+            if unlikely ret !== true {
                 throw new Exception("Imagick::compositeImage failed");
             }
 
@@ -498,7 +498,7 @@ class Imagick extends Adapter
                 this->height
             );
 
-            if ret !== true {
+            if unlikely ret !== true {
                 throw new Exception("Imagick::compositeImage failed");
             }
 
@@ -826,7 +826,7 @@ class Imagick extends Adapter
                 offsetY
             );
 
-            if ret !== true {
+            if unlikely ret !== true {
                 throw new Exception("Imagick::compositeImage failed");
             }
 

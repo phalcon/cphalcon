@@ -48,9 +48,9 @@ class DestroyCest
 
         $value      = uniqid();
         $serialized = serialize($value);
-        $I->haveInRedis('string', 'test1', $serialized);
+        $I->haveInRedis('string', 'sess-reds-test1', $serialized);
         $actual = $adapter->destroy('test1');
         $I->assertTrue($actual);
-        $I->dontSeeInRedis('test1');
+        $I->dontSeeInRedis('sess-reds-test1');
     }
 }

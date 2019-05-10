@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use UnitTester;
 
-/**
- * Class GetCollectionsCest
- */
 class GetCollectionsCest
 {
     /**
      * Tests Phalcon\Assets\Manager :: getCollections()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetCollectionsCest
     public function assetsManagerGetCollections(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - getCollections()');
+
         $I->skipTest('Need implementation');
     }
 }

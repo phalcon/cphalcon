@@ -20,10 +20,15 @@ class Parts2 extends Model
     {
         $eventsManager = new Manager();
 
-        $eventsManager->attach('model', function ($event, $robot) {
-            return true;
-        });
+        $eventsManager->attach(
+            'model',
+            function ($event, $robot) {
+                return true;
+            }
+        );
+
         $this->setEventsManager($eventsManager);
+
         $this->setSource('parts');
     }
 }

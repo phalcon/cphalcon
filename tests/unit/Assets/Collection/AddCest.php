@@ -16,15 +16,10 @@ use Phalcon\Assets\Asset;
 use Phalcon\Assets\Collection;
 use UnitTester;
 
-/**
- * Class AddCest
- */
 class AddCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: add()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -52,8 +47,6 @@ class AddCest
 
     /**
      * Tests Phalcon\Assets\Collection :: add() - duplicate
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10938
      *

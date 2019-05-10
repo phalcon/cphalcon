@@ -54,7 +54,7 @@ class NativeArray extends Adapter
         let config = this->config,
             items  = config["data"];
 
-        if typeof items != "array" {
+        if unlikely typeof items != "array" {
             throw new Exception("Invalid data for paginator");
         }
 

@@ -17,15 +17,10 @@ use InvalidArgumentException;
 use Phalcon\Http\Message\Uri;
 use UnitTester;
 
-/**
- * Class WithFragmentCest
- */
 class WithFragmentCest
 {
     /**
      * Tests Phalcon\Http\Message\Uri :: withFragment()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09

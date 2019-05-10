@@ -41,6 +41,7 @@ class AddCest
     public function testIssue706(IntegrationTester $I)
     {
         $form = new Form();
+
         $form->add(new Text("name"));
 
         $form->add(new Text("before"), "name", true);
@@ -52,6 +53,7 @@ class AddCest
         foreach ($form as $element) {
             $actual[] = $element->getName();
         }
+
         $I->assertEquals($expected, $actual);
     }
 }

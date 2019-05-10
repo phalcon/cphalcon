@@ -31,14 +31,17 @@ class GetModulesCest
      * @since  2018-11-13
      *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-12-26
+     * @since  2018-12-26
      */
     public function cliConsoleGetModules(CliTester $I)
     {
         $I->wantToTest("Cli\Console - getModules()");
+
         $console = $this->newCliConsole();
-        $expected = [];
-        $actual = $console->getModules();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            [],
+            $console->getModules()
+        );
     }
 }

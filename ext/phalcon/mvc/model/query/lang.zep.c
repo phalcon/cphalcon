@@ -43,7 +43,9 @@
  * parser with a very low memory footprint that is also thread-safe.
  *
  * <code>
- * $intermediate = Phalcon\Mvc\Model\Query\Lang::parsePHQL("SELECT r.* FROM Robots r LIMIT 10");
+ * $intermediate = Phalcon\Mvc\Model\Query\Lang::parsePHQL(
+ *     "SELECT r.* FROM Robots r LIMIT 10"
+ * );
  * </code>
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang) {

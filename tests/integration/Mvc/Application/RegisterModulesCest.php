@@ -13,23 +13,145 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Application;
 
 use IntegrationTester;
+use Phalcon\Di;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\DiInterface;
+use Phalcon\Mvc\Application;
+use Phalcon\Mvc\Router;
+use Phalcon\Mvc\View;
+use Phalcon\Test\Modules\Backend\Module;
 
-/**
- * Class RegisterModulesCest
- */
 class RegisterModulesCest
 {
-    /**
-     * Tests Phalcon\Mvc\Application :: registerModules()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function mvcApplicationRegisterModules(IntegrationTester $I)
+    public function modulesDefinition(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Application - registerModules()');
-        $I->skipTest('Need implementation');
+        $I->wantTo(
+            'handle request and get content by using single modules strategy (standard definition)'
+        );
+
+        Di::reset();
+
+        $di = new FactoryDefault();
+
+        $di->set(
+            'router',
+            function () {
+                $router = new Router(false);
+
+                $router->add(
+                    '/index',
+                    [
+                        'controller' => 'index',
+                        'module'     => 'frontend',
+                        'namespace'  => 'Phalcon\Test\Modules\Frontend\Controllers',
+                    ]
+                );
+
+                return $router;
+            }
+        );
+
+        $application = new Application();
+
+        $application->registerModules(
+            [
+                'frontend' => [
+                    'path'      => dataDir('fixtures/modules/frontend/Module.php'),
+                    'className' => \Phalcon\Test\Modules\Frontend\Module::class,
+                ],
+                'backend'  => [
+                    'path'      => dataDir('fixtures/modules/backend/Module.php'),
+                    'className' => Module::class,
+                ],
+            ]
+        );
+
+        $application->setDI($di);
+
+        $response = $application->handle("/index");
+
+        $I->assertEquals(
+            '<html>here</html>' . PHP_EOL,
+            $response->getContent()
+        );
+    }
+
+    public function modulesClosure(IntegrationTester $I)
+    {
+        $I->wantTo(
+            'handle request and get content by using single modules strategy (closure)'
+        );
+
+        Di::reset();
+
+        $di = new FactoryDefault();
+
+        $di->set(
+            'router',
+            function () {
+                $router = new Router(false);
+
+                $router->add(
+                    '/index',
+                    [
+                        'controller' => 'index',
+                        'module'     => 'frontend',
+                        'namespace'  => 'Phalcon\Test\Modules\Frontend\Controllers',
+                    ]
+                );
+
+                $router->add(
+                    '/login',
+                    [
+                        'controller' => 'login',
+                        'module'     => 'backend',
+                        'namespace'  => 'Phalcon\Test\Modules\Backend\Controllers',
+                    ]
+                );
+
+                return $router;
+            }
+        );
+
+        $application = new Application();
+        $view        = new View();
+
+        $application->registerModules(
+            [
+                'frontend' => function (DiInterface $di) use ($view) {
+                    $di->set(
+                        'view',
+                        function () use ($view) {
+                            $view->setViewsDir(
+                                dataDir('fixtures/modules/frontend/views/')
+                            );
+
+                            return $view;
+                        }
+                    );
+                },
+                'backend'  => function (DiInterface $di) use ($view) {
+                    $di->set(
+                        'view',
+                        function () use ($view) {
+                            $view->setViewsDir(
+                                dataDir('fixtures/modules/backend/views/')
+                            );
+
+                            return $view;
+                        }
+                    );
+                },
+            ]
+        );
+
+        $application->setDI($di);
+
+        $response = $application->handle("/login");
+
+        $I->assertEquals(
+            '<html>here</html>' . PHP_EOL,
+            $response->getContent()
+        );
     }
 }

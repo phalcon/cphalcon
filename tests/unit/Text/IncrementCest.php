@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Text;
 use Phalcon\Text;
 use UnitTester;
 
-/**
- * Class IncrementCest
- */
 class IncrementCest
 {
     /**
      * Tests Phalcon\Text :: increment() - string
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,16 +26,17 @@ class IncrementCest
     public function textIncrementSimpleString(UnitTester $I)
     {
         $I->wantToTest('Text - increment() - string');
-        $source   = 'file';
-        $expected = 'file_1';
-        $actual   = Text::increment($source);
-        $I->assertEquals($expected, $actual);
+
+        $source = 'file';
+
+        $I->assertEquals(
+            'file_1',
+            Text::increment($source)
+        );
     }
 
     /**
      * Tests Phalcon\Text :: increment() - already incremented string
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -48,16 +44,17 @@ class IncrementCest
     public function textIncrementAlreadyIncremented(UnitTester $I)
     {
         $I->wantToTest('Text - increment() - already incremented string');
-        $source   = 'file_1';
-        $expected = 'file_2';
-        $actual   = Text::increment($source);
-        $I->assertEquals($expected, $actual);
+
+        $source = 'file_1';
+
+        $I->assertEquals(
+            'file_2',
+            Text::increment($source)
+        );
     }
 
     /**
      * Tests Phalcon\Text :: increment() - already incremented string twice
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -65,16 +62,17 @@ class IncrementCest
     public function textIncrementAlreadyIncrementedTwice(UnitTester $I)
     {
         $I->wantToTest('Text - increment() - already incremented string twice');
-        $source   = 'file_2';
-        $expected = 'file_3';
-        $actual   = Text::increment($source);
-        $I->assertEquals($expected, $actual);
+
+        $source = 'file_2';
+
+        $I->assertEquals(
+            'file_3',
+            Text::increment($source)
+        );
     }
 
     /**
      * Tests Phalcon\Text :: increment() - string with underscore
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -82,16 +80,17 @@ class IncrementCest
     public function textIncrementStringWithUnderscore(UnitTester $I)
     {
         $I->wantToTest('Text - increment() - string with underscore');
-        $source   = 'file_';
-        $expected = 'file_1';
-        $actual   = Text::increment($source);
-        $I->assertEquals($expected, $actual);
+
+        $source = 'file_';
+
+        $I->assertEquals(
+            'file_1',
+            Text::increment($source)
+        );
     }
 
     /**
      * Tests Phalcon\Text :: increment() - string with a space at the end
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -99,16 +98,17 @@ class IncrementCest
     public function textIncrementStringWithSpace(UnitTester $I)
     {
         $I->wantToTest('Text - increment() - string with a space at the end');
-        $source   = 'file ';
-        $expected = 'file _1';
-        $actual   = Text::increment($source);
-        $I->assertEquals($expected, $actual);
+
+        $source = 'file ';
+
+        $I->assertEquals(
+            'file _1',
+            Text::increment($source)
+        );
     }
 
     /**
      * Tests Phalcon\Text :: increment() - different separator
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -116,9 +116,12 @@ class IncrementCest
     public function textIncrementStringWithDifferentSeparator(UnitTester $I)
     {
         $I->wantToTest('Text - increment() - string with different separator');
-        $source   = 'file';
-        $expected = 'file-1';
-        $actual   = Text::increment($source, '-');
-        $I->assertEquals($expected, $actual);
+
+        $source = 'file';
+
+        $I->assertEquals(
+            'file-1',
+            Text::increment($source, '-')
+        );
     }
 }

@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Html\Breadcrumbs;
 use Phalcon\Html\Breadcrumbs;
 use UnitTester;
 
-/**
- * Class ToArrayCest
- */
 class ToArrayCest
 {
     /**
      * Tests Phalcon\Html\Breadcrumbs :: toArray()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,7 +26,9 @@ class ToArrayCest
     public function htmlBreadcrumbsToArray(UnitTester $I)
     {
         $I->wantToTest('Html\Breadcrumbs - toArray()');
+
         $breadcrumbs = new Breadcrumbs();
+
         $breadcrumbs
             ->add('Home', '/')
             ->add('Users', '/users')
@@ -43,7 +40,10 @@ class ToArrayCest
             '/users' => 'Users',
             ''       => 'Phalcon Team',
         ];
-        $actual   = $breadcrumbs->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $breadcrumbs->toArray()
+        );
     }
 }

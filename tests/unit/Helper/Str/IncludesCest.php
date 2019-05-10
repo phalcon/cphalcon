@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Helper\Str;
 use Phalcon\Helper\Str;
 use UnitTester;
 
-/**
- * Class IncludesCest
- */
 class IncludesCest
 {
     /**
      * Tests Phalcon\Helper\Str :: includes()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06

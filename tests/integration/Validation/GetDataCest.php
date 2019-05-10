@@ -14,16 +14,12 @@ namespace Phalcon\Test\Integration\Validation;
 
 use IntegrationTester;
 use Phalcon\Validation;
+use stdClass;
 
-/**
- * Class GetDataCest
- */
 class GetDataCest
 {
     /**
      * Tests Phalcon\Validation :: getData()
-     *
-     * @param IntegrationTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17
@@ -32,7 +28,7 @@ class GetDataCest
     {
         $I->wantToTest('Validation - getData()');
 
-        $user = new \stdClass();
+        $user = new stdClass();
 
         $data = [
             'name' => 'Sid',

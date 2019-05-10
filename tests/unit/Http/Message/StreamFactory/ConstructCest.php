@@ -16,15 +16,10 @@ use Phalcon\Http\Message\StreamFactory;
 use Psr\Http\Message\StreamFactoryInterface;
 use UnitTester;
 
-/**
- * Class CreateStreamCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Http\Message\StreamFactory :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-08

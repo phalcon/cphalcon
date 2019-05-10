@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Profiler;
 
 use IntegrationTester;
-use Phalcon\Db\Profiler\Item;
 use Phalcon\Events\Manager;
 use Phalcon\Test\Fixtures\Db\ProfilerListener;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -31,7 +30,6 @@ class ResetCest
     }
 
 
-
     /**
      * Tests Phalcon\Db\Profiler :: reset()
      *
@@ -47,7 +45,6 @@ class ResetCest
     }
 
 
-
     public function testDbMysql(IntegrationTester $I)
     {
         $this->setDiMysql();
@@ -56,26 +53,6 @@ class ResetCest
 
         $this->executeTests($I, $connection);
     }
-
-    public function testDbPostgresql(IntegrationTester $I)
-    {
-        $this->setDiPostgresql();
-
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
-    }
-
-    public function testDbSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
-    }
-
-
 
     private function executeTests(IntegrationTester $I, $connection)
     {
@@ -125,5 +102,23 @@ class ResetCest
             0,
             $profiler->getNumberTotalStatements()
         );
+    }
+
+    public function testDbPostgresql(IntegrationTester $I)
+    {
+        $this->setDiPostgresql();
+
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
+    }
+
+    public function testDbSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
     }
 }

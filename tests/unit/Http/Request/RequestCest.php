@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Http;
 
+use Codeception\Example;
 use Phalcon\DiInterface;
 use Phalcon\Http\Request;
 use Phalcon\Test\Fixtures\Http\PhpStream;
@@ -30,8 +31,11 @@ class RequestCest extends HttpBase
     {
         $request   = $this->getRequestObject();
         $container = $request->getDI();
-        $class     = DiInterface::class;
-        $I->assertInstanceOf($class, $container);
+
+        $I->assertInstanceOf(
+            DiInterface::class,
+            $container
+        );
     }
 
     /**
@@ -40,8 +44,11 @@ class RequestCest extends HttpBase
     public function testHttpRequestInstanceOf(UnitTester $I)
     {
         $request = $this->getRequestObject();
-        $class   = Request::class;
-        $I->assertInstanceOf($class, $request);
+
+        $I->assertInstanceOf(
+            Request::class,
+            $request
+        );
     }
 
     /**
@@ -53,8 +60,10 @@ class RequestCest extends HttpBase
     public function testHttpRequestHeaderGetEmpty(UnitTester $I)
     {
         $request = $this->getRequestObject();
-        $actual  = $request->getHeader('LOL');
-        $I->assertEmpty($actual);
+
+        $I->assertEmpty(
+            $request->getHeader('LOL')
+        );
     }
 
     /**
@@ -70,8 +79,10 @@ class RequestCest extends HttpBase
         $actual = $request->getHeader('LOL');
         $this->unsetServerVar('HTTP_LOL');
 
-        $expected = 'zup';
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'zup',
+            $actual
+        );
     }
 
     /**
@@ -94,8 +105,11 @@ class RequestCest extends HttpBase
             'Bla-Bla' => 'boo',
             'Auth'    => 1,
         ];
-        $actual   = $request->getHeaders();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $request->getHeaders()
+        );
     }
 
     /**
@@ -111,14 +125,17 @@ class RequestCest extends HttpBase
 
         $request = $this->getRequestObject();
 
-        $actual = $request->hasHeader('HTTP_FOO');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $request->hasHeader('HTTP_FOO')
+        );
 
-        $actual = $request->hasHeader('AUTH');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $request->hasHeader('AUTH')
+        );
 
-        $actual = $request->hasHeader('HTTP_FOO');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $request->hasHeader('HTTP_FOO')
+        );
     }
 
     /**
@@ -131,8 +148,9 @@ class RequestCest extends HttpBase
     {
         $request = $this->getRequestObject();
 
-        $actual = $request->isAjax();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $request->isAjax()
+        );
     }
 
     /**
@@ -144,6 +162,7 @@ class RequestCest extends HttpBase
     public function testHttpRequestIsAjax(UnitTester $I)
     {
         $request = $this->getRequestObject();
+
         $this->setServerVar('HTTP_X_REQUESTED_WITH', 'XMLHttpRequest');
         $actual = $request->isAjax();
         $this->unsetServerVar('HTTP_X_REQUESTED_WITH');
@@ -161,9 +180,10 @@ class RequestCest extends HttpBase
     {
         $request = $this->getRequestObject();
 
-        $expected = 'http';
-        $actual   = $request->getScheme();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'http',
+            $request->getScheme()
+        );
     }
 
     /**
@@ -175,12 +195,12 @@ class RequestCest extends HttpBase
     public function testHttpRequestGetScheme(UnitTester $I)
     {
         $request = $this->getRequestObject();
+
         $this->setServerVar('HTTPS', 'on');
         $actual = $request->getScheme();
         $this->unsetServerVar('HTTPS');
 
-        $expected = 'https';
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals('https', $actual);
     }
 
     /**
@@ -193,8 +213,9 @@ class RequestCest extends HttpBase
     {
         $request = $this->getRequestObject();
 
-        $actual = $request->isSecure();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $request->isSecure()
+        );
     }
 
     /**
@@ -206,6 +227,7 @@ class RequestCest extends HttpBase
     public function testHttpRequestIsSecure(UnitTester $I)
     {
         $request = $this->getRequestObject();
+
         $this->setServerVar('HTTPS', 'on');
         $actual = $request->isSecure();
         $this->unsetServerVar('HTTPS');
@@ -222,9 +244,10 @@ class RequestCest extends HttpBase
     public function testHttpRequestIsSoapDefault(UnitTester $I)
     {
         $request = $this->getRequestObject();
-        $actual  = $request->isSoap();
 
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $request->isSoap()
+        );
     }
 
     /**
@@ -236,6 +259,7 @@ class RequestCest extends HttpBase
     public function testHttpRequestIsSoap(UnitTester $I)
     {
         $request = $this->getRequestObject();
+
         $this->setServerVar('CONTENT_TYPE', 'application/soap+xml');
         $actual = $request->isSoap();
         $this->unsetServerVar('CONTENT_TYPE');
@@ -253,9 +277,10 @@ class RequestCest extends HttpBase
     {
         $request = $this->getRequestObject();
 
-        $expected = '127.0.0.1';
-        $actual   = $request->getServerAddress();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '127.0.0.1',
+            $request->getServerAddress()
+        );
     }
 
     /**
@@ -267,12 +292,15 @@ class RequestCest extends HttpBase
     public function testHttpRequestGetServerAddress(UnitTester $I)
     {
         $request = $this->getRequestObject();
+
         $this->setServerVar('SERVER_ADDR', '192.168.4.1');
         $actual = $request->getServerAddress();
         $this->unsetServerVar('SERVER_ADDR');
 
-        $expected = '192.168.4.1';
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '192.168.4.1',
+            $actual
+        );
     }
 
     /**
@@ -284,84 +312,117 @@ class RequestCest extends HttpBase
     public function testHttpRequestHttpHost(UnitTester $I)
     {
         $request = $this->getRequestObject();
+
         $this->setServerVar('HTTP_HOST', '');
         $this->setServerVar('SERVER_NAME', '');
         $this->setServerVar('SERVER_ADDR', '');
 
-        $actual = is_string($request->getHttpHost());
-        $I->assertTrue($actual);
 
-        $expected = '';
-        $actual   = $request->getHttpHost();
-        $I->assertEquals($expected, $actual);
+        $I->assertInternalType(
+            'string',
+            $request->getHttpHost()
+        );
 
-        $request = $this->getRequestObject();
-        unset($_SERVER['HTTP_HOST'], $_SERVER['SERVER_NAME'], $_SERVER['SERVER_ADDR']);
+        $I->assertEquals(
+            '',
+            $request->getHttpHost()
+        );
 
-        $expected = '';
-        $actual   = $request->getHttpHost();
-        $I->assertEquals($expected, $actual);
 
         $request = $this->getRequestObject();
+
+        unset(
+            $_SERVER['HTTP_HOST'],
+            $_SERVER['SERVER_NAME'],
+            $_SERVER['SERVER_ADDR']
+        );
+
+        $I->assertEquals(
+            '',
+            $request->getHttpHost()
+        );
+
+
+        $request = $this->getRequestObject();
+
         $this->setServerVar('SERVER_NAME', 'host@name');
 
-        $expected = 'host@name';
-        $actual   = $request->getHttpHost();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'host@name',
+            $request->getHttpHost()
+        );
+
 
         $request = $this->getRequestObject();
+
         $this->setServerVar('HTTPS', 'off');
         $this->setServerVar('SERVER_NAME', 'localhost');
         $this->setServerVar('SERVER_PORT', 80);
 
-        $expected = 'localhost';
-        $actual   = $request->getHttpHost();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'localhost',
+            $request->getHttpHost()
+        );
+
 
         $request = $this->getRequestObject();
+
         $this->setServerVar('HTTPS', 'on');
         $this->setServerVar('SERVER_NAME', 'localhost');
         $this->setServerVar('SERVER_PORT', 80);
 
-        $expected = 'localhost';
-        $actual   = $request->getHttpHost();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'localhost',
+            $request->getHttpHost()
+        );
+
 
         $request = $this->getRequestObject();
+
         $this->setServerVar('HTTPS', 'on');
         $this->setServerVar('SERVER_NAME', 'localhost');
         $this->setServerVar('SERVER_PORT', 443);
 
-        $expected = 'localhost';
-        $actual   = $request->getHttpHost();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'localhost',
+            $request->getHttpHost()
+        );
+
 
         $request = $this->getRequestObject();
+
         $this->setServerVar('HTTP_HOST', '');
         $this->setServerVar('SERVER_NAME', '');
         $this->setServerVar('SERVER_ADDR', '8.8.8.8');
 
-        $expected = '8.8.8.8';
-        $actual   = $request->getHttpHost();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '8.8.8.8',
+            $request->getHttpHost()
+        );
+
 
         $request = $this->getRequestObject();
+
         $this->setServerVar('HTTP_HOST', '');
         $this->setServerVar('SERVER_NAME', 'some.domain');
         $this->setServerVar('SERVER_ADDR', '8.8.8.8');
 
-        $expected = 'some.domain';
-        $actual   = $request->getHttpHost();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'some.domain',
+            $request->getHttpHost()
+        );
+
 
         $request = $this->getRequestObject();
+
         $this->setServerVar('HTTP_HOST', 'example.com');
         $this->setServerVar('SERVER_NAME', 'some.domain');
         $this->setServerVar('SERVER_ADDR', '8.8.8.8');
 
-        $expected = 'example.com';
-        $actual   = $request->getHttpHost();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'example.com',
+            $request->getHttpHost()
+        );
     }
 
     /**
@@ -373,33 +434,48 @@ class RequestCest extends HttpBase
     public function testHttpStrictHostCheck(UnitTester $I)
     {
         $request = $this->getRequestObject();
+
         $request->setStrictHostCheck(true);
+
         $this->setServerVar('SERVER_NAME', 'LOCALHOST:80');
 
-        $expected = 'localhost';
-        $actual   = $request->getHttpHost();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'localhost',
+            $request->getHttpHost()
+        );
 
-        $request = $this->getRequestObject();
-        $request->setStrictHostCheck(false);
-        $this->setServerVar('SERVER_NAME', 'LOCALHOST:80');
-
-        $expected = 'LOCALHOST:80';
-        $actual   = $request->getHttpHost();
-        $I->assertEquals($expected, $actual);
 
         $request = $this->getRequestObject();
 
-        $actual = $request->isStrictHostCheck();
-        $I->assertFalse($actual);
+        $request->setStrictHostCheck(false);
+
+        $this->setServerVar('SERVER_NAME', 'LOCALHOST:80');
+
+        $I->assertEquals(
+            'LOCALHOST:80',
+            $request->getHttpHost()
+        );
+
+
+        $request = $this->getRequestObject();
+
+        $I->assertFalse(
+            $request->isStrictHostCheck()
+        );
+
 
         $request->setStrictHostCheck(true);
-        $actual = $request->isStrictHostCheck();
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $request->isStrictHostCheck()
+        );
+
 
         $request->setStrictHostCheck(false);
-        $actual = $request->isStrictHostCheck();
-        $I->assertFalse($actual);
+
+        $I->assertFalse(
+            $request->isStrictHostCheck()
+        );
     }
 
     /**
@@ -411,75 +487,82 @@ class RequestCest extends HttpBase
     public function testHttpRequestPort(UnitTester $I)
     {
         $request = $this->getRequestObject();
+
         $this->setServerVar('HTTPS', 'on');
         $this->setServerVar('HTTP_HOST', 'example.com');
 
-        $expected = 443;
-        $actual   = $request->getPort();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            443,
+            $request->getPort()
+        );
+
 
         $request = $this->getRequestObject();
+
         $this->setServerVar('HTTPS', 'off');
         $this->setServerVar('HTTP_HOST', 'example.com');
 
-        $expected = 80;
-        $actual   = $request->getPort();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            80,
+            $request->getPort()
+        );
+
 
         $request = $this->getRequestObject();
+
         $this->setServerVar('HTTPS', 'off');
         $this->setServerVar('HTTP_HOST', 'example.com:8080');
 
-        $expected = 8080;
-        $actual   = $request->getPort();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            8080,
+            $request->getPort()
+        );
+
 
         $this->setServerVar('HTTPS', 'on');
         $this->setServerVar('HTTP_HOST', 'example.com:8081');
 
-        $expected = 8081;
-        $actual   = $request->getPort();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            8081,
+            $request->getPort()
+        );
 
-        unset($_SERVER['HTTPS']);
+        unset(
+            $_SERVER['HTTPS']
+        );
+
         $this->setServerVar('HTTP_HOST', 'example.com:8082');
 
-        $expected = 8082;
-        $actual   = $request->getPort();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            8082,
+            $request->getPort()
+        );
     }
 
     /**
      * Tests getHttpHost by using invalid host
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2016-06-26
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2016-06-26
      *
-     * @expectedException UnexpectedValueException
+     * @dataProvider testInvalidHttpRequestHttpHostProvider
      */
-    public function testInvalidHttpRequestHttpHost(UnitTester $I)
+    public function testInvalidHttpRequestHttpHost(UnitTester $I, Example $example)
     {
-        $examples = [
-            'foo±bar±baz',
-            'foo~bar~baz',
-            '<foo-bar-baz>',
-            'foo=bar=baz',
-            'foobar/baz',
-            'foo@bar',
-        ];
+        $host = $example[0];
 
-        foreach ($examples as $host) {
-            $I->expectThrowable(
-                new UnexpectedValueException('Invalid host ' . $host),
-                function () use ($host) {
-                    $request = $this->getRequestObject();
-                    $request->setStrictHostCheck(true);
+        $request = $this->getRequestObject();
 
-                    $this->setServerVar('HTTP_HOST', $host);
-                    $request->getHttpHost();
-                }
-            );
-        }
+        $request->setStrictHostCheck(true);
+
+        $this->setServerVar('HTTP_HOST', $host);
+
+        $I->expectThrowable(
+            new UnexpectedValueException('Invalid host ' . $host),
+            function () use ($request) {
+                $request->getHttpHost();
+            }
+        );
     }
 
     /**
@@ -492,9 +575,12 @@ class RequestCest extends HttpBase
     {
         $this->hasEmpty($I, 'hasPost');
         $this->hasNotEmpty($I, 'hasPost', 'setPostVar');
+
         $this->getEmpty($I, 'getPost');
         $this->getNotEmpty($I, 'getPost', 'setPostVar');
+
         $this->getSanitized($I, 'getPost', 'setPostVar');
+
         $this->getSanitizedArrayFilter($I, 'getPost', ['string'], 'setPostVar');
     }
 
@@ -517,15 +603,21 @@ class RequestCest extends HttpBase
 
         $request = new Request();
 
-        $data     = file_get_contents('php://input');
-        $expected = ['fruit' => 'orange', 'quantity' => '4'];
+        $data = file_get_contents('php://input');
+
+        $expected = [
+            'fruit'    => 'orange',
+            'quantity' => '4',
+        ];
 
         parse_str($data, $actual);
 
         $I->assertEquals($expected, $actual);
 
-        $actual = $request->getPut();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $request->getPut()
+        );
 
         stream_wrapper_restore('php');
     }
@@ -543,20 +635,32 @@ class RequestCest extends HttpBase
         stream_wrapper_unregister('php');
         stream_wrapper_register('php', PhpStream::class);
 
-        file_put_contents('php://input', '{"fruit": "orange", "quantity": "4"}');
+        file_put_contents(
+            'php://input',
+            '{"fruit": "orange", "quantity": "4"}'
+        );
 
         $_SERVER['REQUEST_METHOD'] = 'PUT';
         $_SERVER['CONTENT_TYPE']   = 'application/json';
 
         $request = new Request();
 
-        $expected = ['fruit' => 'orange', 'quantity' => '4'];
-        $actual   = json_decode(file_get_contents('php://input'), true);
+        $expected = [
+            'fruit'    => 'orange',
+            'quantity' => '4',
+        ];
+
+        $actual = json_decode(
+            file_get_contents('php://input'),
+            true
+        );
 
         $I->assertEquals($expected, $actual);
 
-        $actual = $request->getPut();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $request->getPut()
+        );
 
         stream_wrapper_restore('php');
     }
@@ -571,9 +675,12 @@ class RequestCest extends HttpBase
     {
         $this->hasEmpty($I, 'hasQuery');
         $this->hasNotEmpty($I, 'hasQuery', 'setGetVar');
+
         $this->getEmpty($I, 'getQuery');
         $this->getNotEmpty($I, 'getQuery', 'setGetVar');
+
         $this->getSanitized($I, 'getQuery', 'setGetVar');
+
         $this->getSanitizedArrayFilter($I, 'getQuery', ['string'], 'setGetVar');
     }
 
@@ -587,9 +694,12 @@ class RequestCest extends HttpBase
     {
         $this->hasEmpty($I, 'has');
         $this->hasNotEmpty($I, 'has', 'setRequestVar');
+
         $this->getEmpty($I, 'get');
         $this->getNotEmpty($I, 'get', 'setRequestVar');
+
         $this->getSanitized($I, 'get', 'setRequestVar');
+
         $this->getSanitizedArrayFilter($I, 'get', ['string'], 'setRequestVar');
     }
 
@@ -597,50 +707,148 @@ class RequestCest extends HttpBase
     {
         $request = $this->getRequestObject();
 
+
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $I->assertEquals($request->getMethod(), 'POST');
-        $I->assertTrue($request->isPost());
-        $I->assertFalse($request->isGet());
+
+        $I->assertEquals(
+            'POST',
+            $request->getMethod()
+        );
+
+        $I->assertTrue(
+            $request->isPost()
+        );
+
+        $I->assertFalse(
+            $request->isGet()
+        );
+
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $I->assertEquals($request->getMethod(), 'GET');
-        $I->assertTrue($request->isGet());
-        $I->assertFalse($request->isPost());
+
+        $I->assertEquals(
+            'GET',
+            $request->getMethod()
+        );
+
+        $I->assertTrue(
+            $request->isGet()
+        );
+
+        $I->assertFalse(
+            $request->isPost()
+        );
+
 
         $_SERVER['REQUEST_METHOD'] = 'PUT';
-        $I->assertEquals($request->getMethod(), 'PUT');
-        $I->assertTrue($request->isPut());
+
+        $I->assertEquals(
+            'PUT',
+            $request->getMethod()
+        );
+
+        $I->assertTrue(
+            $request->isPut()
+        );
+
 
         $_SERVER['REQUEST_METHOD'] = 'DELETE';
-        $I->assertEquals($request->getMethod(), 'DELETE');
-        $I->assertTrue($request->isDelete());
+
+        $I->assertEquals(
+            'DELETE',
+            $request->getMethod()
+        );
+
+        $I->assertTrue(
+            $request->isDelete()
+        );
+
 
         $_SERVER['REQUEST_METHOD'] = 'OPTIONS';
-        $I->assertEquals($request->getMethod(), 'OPTIONS');
-        $I->assertTrue($request->isOptions());
+
+        $I->assertEquals(
+            'OPTIONS',
+            $request->getMethod()
+        );
+
+        $I->assertTrue(
+            $request->isOptions()
+        );
+
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        $I->assertTrue($request->isMethod('POST'));
-        $I->assertTrue($request->isMethod(['GET', 'POST']));
+
+        $I->assertTrue(
+            $request->isMethod('POST')
+        );
+
+        $I->assertTrue(
+            $request->isMethod(['GET', 'POST'])
+        );
+
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $I->assertTrue($request->isMethod('GET'));
-        $I->assertTrue($request->isMethod(['GET', 'POST']));
+
+        $I->assertTrue(
+            $request->isMethod('GET')
+        );
+
+        $I->assertTrue(
+            $request->isMethod(
+                [
+                    'GET',
+                    'POST',
+                ]
+            )
+        );
+
 
         $_SERVER['REQUEST_METHOD'] = 'CONNECT';
-        $I->assertEquals($request->getMethod(), 'CONNECT');
-        $I->assertTrue($request->isConnect());
-        $I->assertFalse($request->isGet());
+
+        $I->assertEquals(
+            'CONNECT',
+            $request->getMethod()
+        );
+
+        $I->assertTrue(
+            $request->isConnect()
+        );
+
+        $I->assertFalse(
+            $request->isGet()
+        );
+
 
         $_SERVER['REQUEST_METHOD'] = 'TRACE';
-        $I->assertEquals($request->getMethod(), 'TRACE');
-        $I->assertTrue($request->isTrace());
-        $I->assertFalse($request->isGet());
+
+        $I->assertEquals(
+            'TRACE',
+            $request->getMethod()
+        );
+
+        $I->assertTrue(
+            $request->isTrace()
+        );
+
+        $I->assertFalse(
+            $request->isGet()
+        );
+
 
         $_SERVER['REQUEST_METHOD'] = 'PURGE';
-        $I->assertEquals($request->getMethod(), 'PURGE');
-        $I->assertTrue($request->isPurge());
-        $I->assertFalse($request->isGet());
+
+        $I->assertEquals(
+            'PURGE',
+            $request->getMethod()
+        );
+
+        $I->assertTrue(
+            $request->isPurge()
+        );
+
+        $I->assertFalse(
+            $request->isGet()
+        );
     }
 
     /**
@@ -648,59 +856,45 @@ class RequestCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12478
-     * @author Serghei Iakovelv <serghei@phalconphp.com>
-     * @since  2016-12-18
+     * @author       Serghei Iakovelv <serghei@phalconphp.com>
+     * @since        2016-12-18
+     *
+     * @dataProvider overridenMethodProvider
      */
-    public function shouldOverrideHttpRequestMethod(UnitTester $I)
+    public function shouldOverrideHttpRequestMethod(UnitTester $I, Example $example)
     {
-        $examples = $this->overridenMethodProvider();
-        foreach ($examples as $item) {
-            $header   = $item[0];
-            $method   = $item[1];
-            $expected = $item[2];
+        $header   = $example[0];
+        $method   = $example[1];
+        $expected = $example[2];
 
-            $_SERVER['REQUEST_METHOD'] = 'POST';
-            $request                   = $this->getRequestObject();
 
-            $_SERVER[$header] = $method;
+        $_SERVER['REQUEST_METHOD'] = 'POST';
 
-            $actual = $request->getMethod();
-            $I->assertEquals($expected, $actual);
+        $request = $this->getRequestObject();
 
-            $_SERVER[$header] = strtolower($method);
-            $actual           = $request->getMethod();
-            $I->assertEquals($expected, $actual);
 
-            $_SERVER[strtolower($header)] = $method;
-            $actual                       = $request->getMethod();
-            $I->assertEquals($expected, $actual);
-        }
-    }
+        $_SERVER[$header] = $method;
 
-    private function overridenMethodProvider()
-    {
-        return [
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'PUT', 'PUT'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'PAT', 'GET'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'GET', 'GET'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'GOT', 'GET'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'HEAD', 'HEAD'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'HED', 'GET'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'POST', 'POST'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'PAST', 'GET'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'DELETE', 'DELETE'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'DILETE', 'GET'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'OPTIONS', 'OPTIONS'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'OPTION', 'GET'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'PATCH', 'PATCH'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'PUTCH', 'GET'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'PURGE', 'PURGE'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'PURG', 'GET'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'TRACE', 'TRACE'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'RACE', 'GET'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'CONNECT', 'CONNECT'],
-            ['HTTP_X_HTTP_METHOD_OVERRIDE', 'CONECT', 'GET'],
-        ];
+        $I->assertEquals(
+            $expected,
+            $request->getMethod()
+        );
+
+
+        $_SERVER[$header] = strtolower($method);
+
+        $I->assertEquals(
+            $expected,
+            $request->getMethod()
+        );
+
+
+        $_SERVER[strtolower($header)] = $method;
+
+        $I->assertEquals(
+            $expected,
+            $request->getMethod()
+        );
     }
 
     public function testHttpRequestContentType(UnitTester $I)
@@ -709,9 +903,10 @@ class RequestCest extends HttpBase
 
         $this->setServerVar('CONTENT_TYPE', 'application/xhtml+xml');
 
-        $expected = 'application/xhtml+xml';
-        $actual   = $request->getContentType();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'application/xhtml+xml',
+            $request->getContentType()
+        );
 
         $this->unsetServerVar('CONTENT_TYPE');
     }
@@ -722,23 +917,59 @@ class RequestCest extends HttpBase
 
         $_SERVER['HTTP_ACCEPT'] = 'text/html,application/xhtml+xml,application/xml;'
             . 'q=0.9,*/*;q=0.8,application/json; level=2; q=0.7';
-        $accept                 = $request->getAcceptableContent();
+
+        $accept = $request->getAcceptableContent();
+
         $I->assertCount(5, $accept);
 
+
         $firstAccept = $accept[0];
-        $I->assertEquals($firstAccept['accept'], 'text/html');
-        $I->assertEquals($firstAccept['quality'], 1);
+
+        $I->assertEquals(
+            'text/html',
+            $firstAccept['accept']
+        );
+
+        $I->assertEquals(
+            1,
+            $firstAccept['quality']
+        );
+
 
         $fourthAccept = $accept[3];
-        $I->assertEquals($fourthAccept['accept'], '*/*');
-        $I->assertEquals($fourthAccept['quality'], 0.8);
+
+        $I->assertEquals(
+            '*/*',
+            $fourthAccept['accept']
+        );
+
+        $I->assertEquals(
+            0.8,
+            $fourthAccept['quality']
+        );
+
 
         $lastAccept = $accept[4];
-        $I->assertEquals($lastAccept['accept'], 'application/json');
-        $I->assertEquals($lastAccept['quality'], 0.7);
-        $I->assertEquals($lastAccept['level'], 2);
 
-        $I->assertEquals($request->getBestAccept(), 'text/html');
+        $I->assertEquals(
+            'application/json',
+            $lastAccept['accept']
+        );
+
+        $I->assertEquals(
+            0.7,
+            $lastAccept['quality']
+        );
+
+        $I->assertEquals(
+            2,
+            $lastAccept['level']
+        );
+
+        $I->assertEquals(
+            'text/html',
+            $request->getBestAccept()
+        );
     }
 
     public function testHttpRequestAcceptableCharsets(UnitTester $I)
@@ -746,18 +977,42 @@ class RequestCest extends HttpBase
         $request = $this->getRequestObject();
 
         $_SERVER['HTTP_ACCEPT_CHARSET'] = 'iso-8859-5,unicode-1-1;q=0.8';
-        $accept                         = $request->getClientCharsets();
+
+
+        $accept = $request->getClientCharsets();
+
         $I->assertCount(2, $accept);
 
+
         $firstAccept = $accept[0];
-        $I->assertEquals($firstAccept['charset'], 'iso-8859-5');
-        $I->assertEquals($firstAccept['quality'], 1);
+
+        $I->assertEquals(
+            'iso-8859-5',
+            $firstAccept['charset']
+        );
+
+        $I->assertEquals(
+            1,
+            $firstAccept['quality']
+        );
+
 
         $lastAccept = $accept[1];
-        $I->assertEquals($lastAccept['charset'], 'unicode-1-1');
-        $I->assertEquals($lastAccept['quality'], 0.8);
 
-        $I->assertEquals($request->getBestCharset(), 'iso-8859-5');
+        $I->assertEquals(
+            'unicode-1-1',
+            $lastAccept['charset']
+        );
+
+        $I->assertEquals(
+            0.8,
+            $lastAccept['quality']
+        );
+
+        $I->assertEquals(
+            'iso-8859-5',
+            $request->getBestCharset()
+        );
     }
 
     public function testHttpRequestAcceptableLanguage(UnitTester $I)
@@ -765,20 +1020,49 @@ class RequestCest extends HttpBase
         $request = $this->getRequestObject();
 
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'es,es-ar;q=0.8,en;q=0.5,en-us;q=0.3,de-de; q=0.9';
-        $accept                          = $request->getLanguages();
+
+        $accept = $request->getLanguages();
+
         $I->assertCount(5, $accept);
 
+
         $firstAccept = $accept[0];
-        $I->assertEquals($firstAccept['language'], 'es');
-        $I->assertEquals($firstAccept['quality'], 1);
+
+        $I->assertEquals(
+            'es',
+            $firstAccept['language']
+        );
+
+        $I->assertEquals(
+            1,
+            $firstAccept['quality']
+        );
+
 
         $fourthAccept = $accept[3];
-        $I->assertEquals($fourthAccept['language'], 'en-us');
-        $I->assertEquals($fourthAccept['quality'], 0.3);
+
+        $I->assertEquals(
+            'en-us',
+            $fourthAccept['language']
+        );
+
+        $I->assertEquals(
+            0.3,
+            $fourthAccept['quality']
+        );
+
 
         $lastAccept = $accept[4];
-        $I->assertEquals($lastAccept['language'], 'de-de');
-        $I->assertEquals($lastAccept['quality'], 0.9);
+
+        $I->assertEquals(
+            'de-de',
+            $lastAccept['language']
+        );
+
+        $I->assertEquals(
+            0.9,
+            $lastAccept['quality']
+        );
 
         $I->assertEquals($request->getBestLanguage(), 'es');
     }
@@ -787,13 +1071,27 @@ class RequestCest extends HttpBase
     {
         $request = $this->getRequestObject();
 
+
         $_SERVER['REMOTE_ADDR']          = '192.168.0.1';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '192.168.7.21';
-        $I->assertEquals($request->getClientAddress(), '192.168.0.1');
-        $I->assertEquals($request->getClientAddress(true), '192.168.7.21');
+
+        $I->assertEquals(
+            '192.168.0.1',
+            $request->getClientAddress()
+        );
+
+        $I->assertEquals(
+            '192.168.7.21',
+            $request->getClientAddress(true)
+        );
+
 
         $_SERVER['REMOTE_ADDR'] = '86.45.89.47, 214.55.34.56';
-        $I->assertEquals($request->getClientAddress(), '86.45.89.47');
+
+        $I->assertEquals(
+            '86.45.89.47',
+            $request->getClientAddress()
+        );
     }
 
     /**
@@ -840,46 +1138,251 @@ class RequestCest extends HttpBase
         ];
 
         $functions = ['get', 'getQuery', 'getPost'];
+
         foreach ($functions as $function) {
             $request = $this->getRequestObject();
 
-            $I->assertEquals(1, $request->$function('id', 'int', 100));
-            $I->assertEquals(1, $request->$function('num', 'int', 100));
-            $I->assertEmpty($request->$function('age', 'int', 100));
-            $I->assertEmpty($request->$function('phone', 'int', 100));
-            $I->assertEquals(100, $request->$function('phone', 'int', 100, true));
+            $I->assertEquals(
+                1,
+                $request->$function('id', 'int', 100)
+            );
+
+            $I->assertEquals(
+                1,
+                $request->$function('num', 'int', 100)
+            );
+
+            $I->assertEmpty(
+                $request->$function('age', 'int', 100)
+            );
+
+            $I->assertEmpty(
+                $request->$function('phone', 'int', 100)
+            );
+
+            $I->assertEquals(
+                100,
+                $request->$function('phone', 'int', 100, true)
+            );
         }
     }
 
     /**
      * Tests Request::hasFiles
      *
+     * @author       Serghei Iakovelv <serghei@phalconphp.com>
+     * @since        2016-01-31
+     *
+     * @dataProvider filesProvider
+     */
+    public function testRequestHasFiles(UnitTester $I, Example $example)
+    {
+        $files          = $example[0];
+        $all            = $example[1];
+        $onlySuccessful = $example[2];
+
+        $request = $this->getRequestObject();
+        $_FILES  = $files;
+
+        $I->assertEquals(
+            $all,
+            $request->hasFiles(false)
+        );
+
+        $I->assertEquals(
+            $onlySuccessful,
+            $request->hasFiles(true)
+        );
+    }
+
+    /**
+     * Tests uploaded files
+     *
      * @author Serghei Iakovelv <serghei@phalconphp.com>
      * @since  2016-01-31
      */
-    public function testRequestHasFiles(UnitTester $I)
+    public function testGetUploadedFiles(UnitTester $I)
     {
-        $examples = $this->filesProvider();
+        $request = $this->getRequestObject();
+        $_FILES  = [
+            'photo' => [
+                'name'     => ['f0', 'f1', ['f2', 'f3'], [[[['f4']]]]],
+                'type'     => ['text/plain', 'text/csv', ['image/png', 'image/gif'], [[[['application/octet-stream']]]]],
+                'tmp_name' => ['t0', 't1', ['t2', 't3'], [[[['t4']]]]],
+                'error'    => [0, 0, [0, 0], [[[[8]]]]],
+                'size'     => [10, 20, [30, 40], [[[[50]]]]],
+            ],
+        ];
 
-        foreach ($examples as $item) {
-            $files          = $item[0];
-            $all            = $item[1];
-            $onlySuccessful = $item[2];
+        $all        = $request->getUploadedFiles(false);
+        $successful = $request->getUploadedFiles(true);
 
-            $request = $this->getRequestObject();
-            $_FILES  = $files;
+        $I->assertCount(5, $all);
+        $I->assertCount(4, $successful);
 
-            $expected = $all;
-            $actual   = $request->hasFiles(false);
-            $I->assertEquals($expected, $actual);
-
-            $expected = $onlySuccessful;
-            $actual   = $request->hasFiles(true);
-            $I->assertEquals($expected, $actual);
+        for ($i = 0; $i <= 4; ++$i) {
+            $I->assertFalse(
+                $all[$i]->isUploadedFile()
+            );
         }
+
+        $data = ['photo.0', 'photo.1', 'photo.2.0', 'photo.2.1', 'photo.3.0.0.0.0'];
+        for ($i = 0; $i <= 4; ++$i) {
+            $I->assertEquals(
+                $data[$i],
+                $all[$i]->getKey()
+            );
+        }
+
+        $I->assertEquals('f0', $all[0]->getName());
+        $I->assertEquals('f1', $all[1]->getName());
+        $I->assertEquals('f2', $all[2]->getName());
+        $I->assertEquals('f3', $all[3]->getName());
+        $I->assertEquals('f4', $all[4]->getName());
+
+        $I->assertEquals('t0', $all[0]->getTempName());
+        $I->assertEquals('t1', $all[1]->getTempName());
+        $I->assertEquals('t2', $all[2]->getTempName());
+        $I->assertEquals('t3', $all[3]->getTempName());
+        $I->assertEquals('t4', $all[4]->getTempName());
+
+        $I->assertEquals('f0', $successful[0]->getName());
+        $I->assertEquals('f1', $successful[1]->getName());
+        $I->assertEquals('f2', $successful[2]->getName());
+        $I->assertEquals('f3', $successful[3]->getName());
+
+        $I->assertEquals('t0', $successful[0]->getTempName());
+        $I->assertEquals('t1', $successful[1]->getTempName());
+        $I->assertEquals('t2', $successful[2]->getTempName());
+        $I->assertEquals('t3', $successful[3]->getTempName());
     }
 
-    private function filesProvider()
+    private function overridenMethodProvider(): array
+    {
+        return [
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'PUT',
+                'PUT',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'PAT',
+                'GET',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'GET',
+                'GET',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'GOT',
+                'GET',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'HEAD',
+                'HEAD',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'HED',
+                'GET',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'POST',
+                'POST',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'PAST',
+                'GET',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'DELETE',
+                'DELETE',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'DILETE',
+                'GET',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'OPTIONS',
+                'OPTIONS',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'OPTION',
+                'GET',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'PATCH',
+                'PATCH',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'PUTCH',
+                'GET',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'PURGE',
+                'PURGE',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'PURG',
+                'GET',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'TRACE',
+                'TRACE',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'RACE',
+                'GET',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'CONNECT',
+                'CONNECT',
+            ],
+
+            [
+                'HTTP_X_HTTP_METHOD_OVERRIDE',
+                'CONECT',
+                'GET',
+            ],
+        ];
+    }
+
+    private function filesProvider(): array
     {
         return [
             [
@@ -966,60 +1469,32 @@ class RequestCest extends HttpBase
         ];
     }
 
-    /**
-     * Tests uploaded files
-     *
-     * @author Serghei Iakovelv <serghei@phalconphp.com>
-     * @since  2016-01-31
-     */
-    public function testGetUploadedFiles(UnitTester $I)
+    private function testInvalidHttpRequestHttpHostProvider(): array
     {
-        $request = $this->getRequestObject();
-        $_FILES  = [
-            'photo' => [
-                'name'     => ['f0', 'f1', ['f2', 'f3'], [[[['f4']]]]],
-                'type'     => ['text/plain', 'text/csv', ['image/png', 'image/gif'], [[[['application/octet-stream']]]]],
-                'tmp_name' => ['t0', 't1', ['t2', 't3'], [[[['t4']]]]],
-                'error'    => [0, 0, [0, 0], [[[[8]]]]],
-                'size'     => [10, 20, [30, 40], [[[[50]]]]],
+        return [
+            [
+                'foo±bar±baz',
+            ],
+
+            [
+                'foo~bar~baz',
+            ],
+
+            [
+                '<foo-bar-baz>',
+            ],
+
+            [
+                'foo=bar=baz',
+            ],
+
+            [
+                'foobar/baz',
+            ],
+
+            [
+                'foo@bar',
             ],
         ];
-
-        $all        = $request->getUploadedFiles(false);
-        $successful = $request->getUploadedFiles(true);
-
-        $I->assertCount(5, $all);
-        $I->assertCount(4, $successful);
-
-        for ($i = 0; $i <= 4; ++$i) {
-            $I->assertFalse($all[$i]->isUploadedFile());
-        }
-
-        $data = ['photo.0', 'photo.1', 'photo.2.0', 'photo.2.1', 'photo.3.0.0.0.0'];
-        for ($i = 0; $i <= 4; ++$i) {
-            $I->assertEquals($data[$i], $all[$i]->getKey());
-        }
-
-        $I->assertEquals('f0', $all[0]->getName());
-        $I->assertEquals('f1', $all[1]->getName());
-        $I->assertEquals('f2', $all[2]->getName());
-        $I->assertEquals('f3', $all[3]->getName());
-        $I->assertEquals('f4', $all[4]->getName());
-
-        $I->assertEquals('t0', $all[0]->getTempName());
-        $I->assertEquals('t1', $all[1]->getTempName());
-        $I->assertEquals('t2', $all[2]->getTempName());
-        $I->assertEquals('t3', $all[3]->getTempName());
-        $I->assertEquals('t4', $all[4]->getTempName());
-
-        $I->assertEquals('f0', $successful[0]->getName());
-        $I->assertEquals('f1', $successful[1]->getName());
-        $I->assertEquals('f2', $successful[2]->getName());
-        $I->assertEquals('f3', $successful[3]->getName());
-
-        $I->assertEquals('t0', $successful[0]->getTempName());
-        $I->assertEquals('t1', $successful[1]->getTempName());
-        $I->assertEquals('t2', $successful[2]->getTempName());
-        $I->assertEquals('t3', $successful[3]->getTempName());
     }
 }

@@ -163,7 +163,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function join(string! model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
     {
-        var join, mergedJoins, currentJoins;
+        var mergedJoins, currentJoins;
+        array join;
 
         let join = [model, conditions, alias, type];
 
@@ -333,7 +334,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function notBetweenWhere(string! expr, var minimum, var maximum) -> <CriteriaInterface>
     {
-        var hiddenParam, nextHiddenParam, minimumKey, maximumKey;
+        var hiddenParam, nextHiddenParam;
+        string minimumKey, maximumKey;
 
         let hiddenParam = this->hiddenParamNumber;
 
@@ -790,7 +792,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
         let model = this->getModelName();
 
-        if typeof model != "string" {
+        if unlikely typeof model != "string" {
             throw new Exception("Model name must be string");
         }
 

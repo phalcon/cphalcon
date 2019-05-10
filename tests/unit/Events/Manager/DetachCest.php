@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Events\Manager;
 
 use UnitTester;
 
-/**
- * Class DetachCest
- */
 class DetachCest
 {
     /**
      * Tests Phalcon\Events\Manager :: detach()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class DetachCest
     public function eventsManagerDetach(UnitTester $I)
     {
         $I->wantToTest('Events\Manager - detach()');
+
         $I->skipTest('Need implementation');
     }
 }

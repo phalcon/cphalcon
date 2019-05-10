@@ -38,7 +38,10 @@ class RegexCest
             )
         );
 
-        $messages = $validation->validate([]);
+        $messages = $validation->validate(
+            []
+        );
+
         $expected = new Messages(
             [
                 new Message(
@@ -49,13 +52,19 @@ class RegexCest
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['car_plate' => 'XYZ-123']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $messages);
+
+        $messages = $validation->validate(
+            [
+                'car_plate' => 'XYZ-123',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 
     /**
@@ -66,11 +75,13 @@ class RegexCest
      */
     public function validationValidatorMultipleFieldSinglePattern(IntegrationTester $I)
     {
-        $validation         = new Validation();
+        $validation = new Validation();
+
         $validationMessages = [
             'name' => 'Name can be only lowercase letters.',
             'type' => 'Type can be only lowercase letters.',
         ];
+
         $validation->add(
             [
                 'name',
@@ -83,24 +94,47 @@ class RegexCest
                 ]
             )
         );
-        $messages = $validation->validate(['name' => 'somevalue', 'type' => 'somevalue']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'SomeValue', 'type' => 'somevalue']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'name' => 'somevalue',
+                'type' => 'somevalue',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue',
+                'type' => 'somevalue',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
 
         $expected = $validationMessages['name'];
         $actual   = $messages->offsetGet(0)->getMessage();
         $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'SomeValue', 'type' => 'SomeValue']);
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue',
+                'type' => 'SomeValue',
+            ]
+        );
+
+
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
 
         $expected = $validationMessages['name'];
         $actual   = $messages->offsetGet(0)->getMessage();
@@ -119,11 +153,13 @@ class RegexCest
      */
     public function validationValidatorMultipleFieldMultiplePattern(IntegrationTester $I)
     {
-        $validation         = new Validation();
+        $validation = new Validation();
+
         $validationMessages = [
             'name' => 'Name can be only lowercase letters.',
             'type' => 'Type can be only uppercase letters.',
         ];
+
         $validation->add(
             [
                 'name',
@@ -139,41 +175,78 @@ class RegexCest
                 ]
             )
         );
-        $messages = $validation->validate(['name' => 'somevalue', 'type' => 'SOMEVALUE']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'SomeValue', 'type' => 'SOMEVALUE']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'name' => 'somevalue',
+                'type' => 'SOMEVALUE',
+            ]
+        );
 
-        $messages = $validation->validate(['name' => 'somevalue', 'type' => 'somevalue']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
 
-        $expected = $validationMessages['type'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['name' => 'SomeValue', 'type' => 'SomeValue']);
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue',
+                'type' => 'SOMEVALUE',
+            ]
+        );
 
-        $expected = $validationMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
 
-        $expected = $validationMessages['type'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $validationMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'somevalue',
+                'type' => 'somevalue',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['type'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue',
+                'type' => 'SomeValue',
+            ]
+        );
+
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $I->assertEquals(
+            $validationMessages['type'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 
     public function validationValidatorCustomMessage(IntegrationTester $I)
@@ -190,7 +263,11 @@ class RegexCest
             )
         );
 
-        $messages = $validation->validate([]);
+
+        $messages = $validation->validate(
+            []
+        );
+
         $expected = new Messages(
             [
                 new Message(
@@ -201,12 +278,19 @@ class RegexCest
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['car_plate' => 'XYZ-123']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $messages);
+
+
+        $messages = $validation->validate(
+            [
+                'car_plate' => 'XYZ-123',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 }

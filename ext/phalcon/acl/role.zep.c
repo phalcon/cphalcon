@@ -38,12 +38,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Role) {
 
 	/**
 	 * Role name
+	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_acl_role_ce, SL("name"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	/**
 	 * Role description
+	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_acl_role_ce, SL("description"), ZEND_ACC_PRIVATE TSRMLS_CC);
@@ -122,14 +124,12 @@ PHP_METHOD(Phalcon_Acl_Role, __construct) {
 	}
 
 
-	if (ZEPHIR_IS_STRING(&name, "*")) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Role name cannot be '*'", "phalcon/Acl/Role.zep", 40);
+	if (UNEXPECTED(ZEPHIR_IS_STRING(&name, "*"))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Role name cannot be '*'", "phalcon/Acl/Role.zep", 42);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("name"), &name);
-	if (!(Z_TYPE_P(&description) == IS_UNDEF) && Z_STRLEN_P(&description)) {
-		zephir_update_property_zval(this_ptr, SL("description"), &description);
-	}
+	zephir_update_property_zval(this_ptr, SL("description"), &description);
 	ZEPHIR_MM_RESTORE();
 
 }

@@ -15,11 +15,17 @@ class CustomTag extends \Phalcon\Tag
 {
     public static function stylesheetLink($parameters = null, bool $local = true): string
     {
-        return sprintf("<link href=\"%s\">\n", $parameters[0]);
+        return sprintf(
+            "<link href=\"%s\">\n",
+            $parameters[0]
+        );
     }
 
     public static function javascriptInclude($parameters = null, bool $local = true): string
     {
-        return sprintf("<script src=\"%s\" type=\"application/javascript\"></script>\n", $parameters[0]);
+        return sprintf(
+            "<script src=\"%s\" type=\"application/javascript\"></script>\n",
+            $parameters[0]
+        );
     }
 }

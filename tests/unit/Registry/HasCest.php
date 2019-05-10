@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     /**
      * Tests Phalcon\Registry :: has()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,29 +26,37 @@ class HasCest
     public function collectionHas(UnitTester $I)
     {
         $I->wantToTest('Registry - has()');
-        $data     = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $registry = new Registry($data);
 
-        $actual = $registry->has('three');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $registry->has('three')
+        );
 
-        $actual = $registry->has('unknown');
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $registry->has('unknown')
+        );
 
-        $actual = isset($registry['three']);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            isset($registry['three'])
+        );
 
-        $actual = isset($registry['unknown']);
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            isset($registry['unknown'])
+        );
 
-        $actual = $registry->offsetExists('three');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $registry->offsetExists('three')
+        );
 
-        $actual = $registry->offsetExists('unknown');
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $registry->offsetExists('unknown')
+        );
     }
 }

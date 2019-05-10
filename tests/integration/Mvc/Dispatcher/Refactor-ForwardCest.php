@@ -8,7 +8,7 @@ use Phalcon\Events\Manager;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
-use function dataFolder;
+use function dataDir;
 
 /**
  * \Phalcon\Test\Integration\Mvc\Dispatcher\ForwardCest
@@ -37,7 +37,7 @@ class RefactorForwardCest
         $di = new FactoryDefault();
         $di->set('view', function () {
             $view = new View();
-            $view->setViewsDir(dataFolder('fixtures/views/'));
+            $view->setViewsDir(dataDir('fixtures/views/'));
 
             return $view;
         }, true);

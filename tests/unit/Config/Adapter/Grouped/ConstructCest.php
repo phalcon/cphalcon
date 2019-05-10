@@ -16,19 +16,14 @@ use Phalcon\Config\Adapter\Grouped;
 use Phalcon\Factory\Exception;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use ConfigTrait;
 
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: __construct() - complex instance
-     *
-     * @param UnitTester $I
      *
      * @author fenikkusu
      * @since  2017-06-06
@@ -39,9 +34,9 @@ class ConstructCest
         $this->config["test"]["property2"] = "something-else";
 
         $config = [
-            dataFolder('assets/config/config.php'),
+            dataDir('assets/config/config.php'),
             [
-                'filePath' => dataFolder('assets/config/config.json'),
+                'filePath' => dataDir('assets/config/config.json'),
                 'adapter'  => 'json',
             ],
             [
@@ -61,8 +56,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: __construct() - exception
-     *
-     * @param UnitTester $I
      *
      * @author Fenikkusu
      * @since  2017-06-06

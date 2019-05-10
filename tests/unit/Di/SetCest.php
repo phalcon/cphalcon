@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
-/**
- * Class SetCest
- */
 class SetCest
 {
     /**
      * Tests Phalcon\Di :: set()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetCest
     public function diSet(UnitTester $I)
     {
         $I->wantToTest('Di - set()');
+
         $I->skipTest('Need implementation');
     }
 }

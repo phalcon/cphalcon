@@ -36,14 +36,18 @@ class GetSetOptionsCest
     public function sessionManagerGetSetOptionsConstructor(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - getOptions()/setOptions() - constructor');
+
         $options = [
             'test1' => 'option1',
             'test2' => 'option2',
         ];
 
-        $manager  = new Manager($options);
+        $manager = new Manager($options);
+
+
         $expected = $options;
         $actual   = $manager->getOptions();
+
         $I->assertEquals($expected, $actual);
     }
 
@@ -58,18 +62,24 @@ class GetSetOptionsCest
     public function sessionManagerGetSetOptions(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - getOptions()/setOptions()');
+
         $options = [
             'test1' => 'option1',
             'test2' => 'option2',
         ];
 
         $manager = new Manager($options);
+
         $options = [
             'test3' => 'option3',
         ];
+
         $manager->setOptions($options);
-        $expected = $options;
-        $actual   = $manager->getOptions();
-        $I->assertEquals($expected, $actual);
+
+
+        $I->assertEquals(
+            $options,
+            $manager->getOptions()
+        );
     }
 }

@@ -34,7 +34,9 @@ class SetOptionCest
     public function validationValidatorUrlSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url - setOption()');
+
         $validator = new Url();
+
         $this->checkSetOption($I, $validator);
     }
 }

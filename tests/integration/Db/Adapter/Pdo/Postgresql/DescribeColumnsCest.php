@@ -17,9 +17,6 @@ use Phalcon\Db\Column;
 use Phalcon\Test\Fixtures\Traits\Db\PostgresqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class DescribeColumnsCest
- */
 class DescribeColumnsCest
 {
     use DiTrait;
@@ -27,8 +24,6 @@ class DescribeColumnsCest
 
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Postgresql :: describeColumns()
-     *
-     * @param IntegrationTester $I
      *
      * @issue  https://github.com/phalcon/phalcon-devtools/issues/853
      *
@@ -38,6 +33,7 @@ class DescribeColumnsCest
     public function dbAdapterPdoPostgresqlDescribeColumns(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Postgresql - describeColumns()");
+
         $expected = [
             Column::__set_state(
                 [
@@ -81,10 +77,17 @@ class DescribeColumnsCest
             ),
         ];
 
+
         $actual = $this->connection->describeColumns('images');
+
         $I->assertEquals($expected, $actual);
 
-        $actual = $this->connection->describeColumns('images', env('DATA_POSTGRES_SCHEMA'));
+
+        $actual = $this->connection->describeColumns(
+            'images',
+            env('DATA_POSTGRES_SCHEMA')
+        );
+
         $I->assertEquals($expected, $actual);
     }
 }

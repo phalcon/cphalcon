@@ -50,7 +50,7 @@ class Model extends Adapter
             items      = config["data"],
             pageNumber = (int) this->page;
 
-        if typeof items != "object" {
+        if unlikely typeof items != "object" {
             throw new Exception("Invalid data for paginator");
         }
 
@@ -60,7 +60,7 @@ class Model extends Adapter
         }
 
         //Prevents a limit creating a negative or zero first page
-        if show <= 0 {
+        if unlikely show <= 0 {
             throw new Exception("The start page number is zero or less");
         }
 

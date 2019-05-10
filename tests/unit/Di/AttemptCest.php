@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
-/**
- * Class AttemptCest
- */
 class AttemptCest
 {
     /**
      * Tests Phalcon\Di :: attempt()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class AttemptCest
     public function diAttempt(UnitTester $I)
     {
         $I->wantToTest('Di - attempt()');
+
         $I->skipTest('Need implementation');
     }
 }

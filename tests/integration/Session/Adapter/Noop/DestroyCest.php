@@ -43,9 +43,11 @@ class DestroyCest
     public function sessionAdapterNoopDestroy(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Noop - destroy()');
+
         $adapter = $this->getSessionNoop();
 
-        $actual = $adapter->destroy('test1');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->destroy('test1')
+        );
     }
 }

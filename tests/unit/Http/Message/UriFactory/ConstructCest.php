@@ -16,15 +16,10 @@ use Phalcon\Http\Message\UriFactory;
 use Psr\Http\Message\UriFactoryInterface;
 use UnitTester;
 
-/**
- * Class CreateUriCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Http\Message\UriFactory :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-07

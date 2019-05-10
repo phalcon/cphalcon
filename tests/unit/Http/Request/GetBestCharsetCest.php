@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class GetBestCharsetCest
- */
 class GetBestCharsetCest
 {
     /**
      * Tests Phalcon\Http\Request :: getBestCharset()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetBestCharsetCest
     public function httpRequestGetBestCharset(UnitTester $I)
     {
         $I->wantToTest('Http\Request - getBestCharset()');
+
         $I->skipTest('Need implementation');
     }
 }

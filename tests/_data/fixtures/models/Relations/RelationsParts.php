@@ -19,10 +19,15 @@ class RelationsParts extends Model
     {
         $this->setSource("parts");
 
-        $this->hasMany('id', RelationsRobotsParts::class, 'parts_id', [
-            'foreignKey' => [
-                'message' => 'Parts cannot be deleted because is referenced by a Robot',
-            ],
-        ]);
+        $this->hasMany(
+            'id',
+            RelationsRobotsParts::class,
+            'parts_id',
+            [
+                'foreignKey' => [
+                    'message' => 'Parts cannot be deleted because is referenced by a Robot',
+                ],
+            ]
+        );
     }
 }

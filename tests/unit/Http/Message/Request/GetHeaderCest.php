@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Request;
 use Phalcon\Http\Message\Request;
 use UnitTester;
 
-/**
- * Class GetHeaderCest
- */
 class GetHeaderCest
 {
     /**
      * Tests Phalcon\Http\Message\Request :: getHeader() - empty headers
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -31,24 +26,35 @@ class GetHeaderCest
     public function httpMessageRequestGetHeader(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Request - getHeader()');
-        $data    = [
+
+        $data = [
             'Cache-Control' => ['max-age=0'],
             'Accept'        => ['text/html'],
         ];
-        $request = new Request('GET', null, 'php://memory', $data);
+
+        $request = new Request(
+            'GET',
+            null,
+            'php://memory',
+            $data
+        );
 
         $expected = ['text/html'];
-        $actual   = $request->getHeader('accept');
-        $I->assertEquals($expected, $actual);
 
-        $actual = $request->getHeader('aCCepT');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $request->getHeader('accept')
+        );
+
+
+        $I->assertEquals(
+            $expected,
+            $request->getHeader('aCCepT')
+        );
     }
 
     /**
      * Tests Phalcon\Http\Message\Request :: getHeader() - empty headers
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -56,10 +62,12 @@ class GetHeaderCest
     public function httpMessageRequestGetHeaderEmptyHeaders(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Request - getHeader() - empty headers');
+
         $request = new Request();
 
-        $expected = [];
-        $actual   = $request->getHeader('empty');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [],
+            $request->getHeader('empty')
+        );
     }
 }

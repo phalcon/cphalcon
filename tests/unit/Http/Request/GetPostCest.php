@@ -16,15 +16,10 @@ use Phalcon\Di;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
 
-/**
- * Class GetPostCest
- */
 class GetPostCest //extends HttpBase
 {
     /**
      * Tests Phalcon\Http\Request :: getPost()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -42,12 +37,12 @@ class GetPostCest //extends HttpBase
 
         $request = $container['request'];
 
-//        var_dump($container['filter']); die();
-
 //        $request = $this->getRequestObject();
-        $expected = 1234;
-        $actual   = $request->getPost('test', 'absint');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            1234,
+            $request->getPost('test', 'absint')
+        );
 
         $_POST = $oldPost;
     }

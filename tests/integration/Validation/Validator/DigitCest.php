@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Validation\Validator;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Digit;
@@ -26,17 +27,35 @@ class DigitCest
     public function validationValidatorSingleField(IntegrationTester $I)
     {
         $validation = new Validation();
-        $validation->add('amount', new Digit());
 
-        $messages = $validation->validate(['amount' => '123']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $validation->add(
+            'amount',
+            new Digit()
+        );
 
-        $messages = $validation->validate(['amount' => '123abc']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'amount' => '123',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'amount' => '123abc',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
     }
 
     /**
@@ -47,11 +66,13 @@ class DigitCest
      */
     public function validationValidatorMultipleField(IntegrationTester $I)
     {
-        $validation         = new Validation();
+        $validation = new Validation();
+
         $validationMessages = [
             'amount' => 'Amount must be digit.',
             'price'  => 'Price must be digit.',
         ];
+
         $validation->add(
             ['amount', 'price'],
             new Digit(
@@ -61,56 +82,99 @@ class DigitCest
             )
         );
 
-        $messages = $validation->validate(['amount' => '123', 'price' => '123']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['amount' => '123abc', 'price' => '123']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'amount' => '123',
+                'price'  => '123',
+            ]
+        );
 
-        $expected = $validationMessages['amount'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
 
-        $messages = $validation->validate(['amount' => '123abc', 'price' => '123abc']);
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['amount'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'amount' => '123abc',
+                'price'  => '123',
+            ]
+        );
 
-        $expected = $validationMessages['price'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['amount'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'amount' => '123abc',
+                'price'  => '123abc',
+            ]
+        );
+
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['amount'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $I->assertEquals(
+            $validationMessages['price'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 
-    public function validationValidatorShouldValidateIntOrStringOfDigits(IntegrationTester $I)
+    /**
+     * @dataProvider shouldValidateIntOrStringOfDigitsProvider
+     */
+    public function validationValidatorShouldValidateIntOrStringOfDigits(IntegrationTester $I, Example $example)
     {
-        $examples = [
-            '123',
-            123,
-            PHP_INT_MAX,
-            0xFFFFFF,
-            100000,
-            -100000,
+        $digit = $example[0];
+
+        $validation = new Validation();
+
+        $validation->add(
+            'amount',
+            new Digit()
+        );
+
+        $messages = $validation->validate(
+            [
+                'amount' => $digit,
+            ]
+        );
+
+        $I->assertEquals(
             0,
-            "0",
-            "00001233422003400",
+            $messages->count()
+        );
+    }
+
+    private function shouldValidateIntOrStringOfDigitsProvider()
+    {
+        return [
+            ['123'],
+            [123],
+            [PHP_INT_MAX],
+            [0xFFFFFF],
+            [100000],
+            [-100000],
+            [0],
+            ["0"],
+            ["00001233422003400"],
         ];
-
-        foreach ($examples as $digit) {
-            $validation = new Validation();
-            $validation->add('amount', new Digit());
-
-            $messages = $validation->validate(['amount' => $digit]);
-            $expected = 0;
-            $actual   = $messages->count();
-            $I->assertEquals($expected, $actual);
-        }
     }
 }

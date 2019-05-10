@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetSizeCest
- */
 class GetSizeCest
 {
     use DiTrait;
@@ -27,18 +24,21 @@ class GetSizeCest
     /**
      * Tests Phalcon\Db\Column :: getSize()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbColumnGetSize(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - getSize()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['size'], $column->getSize());
+            $I->assertEquals(
+                $columns[$index]['size'],
+                $column->getSize()
+            );
         }
     }
 }

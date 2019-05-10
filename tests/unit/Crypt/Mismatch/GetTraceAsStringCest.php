@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Crypt\Mismatch;
 
 use UnitTester;
 
-/**
- * Class GetTraceAsStringCest
- */
 class GetTraceAsStringCest
 {
     /**
      * Tests Phalcon\Crypt\Mismatch :: getTraceAsString()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16

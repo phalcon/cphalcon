@@ -16,15 +16,10 @@ use Phalcon\Http\Message\Exception;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
 
-/**
- * Class TellCest
- */
 class TellCest
 {
     /**
      * Tests Phalcon\Http\Message\Stream :: tell()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -32,7 +27,7 @@ class TellCest
     public function httpMessageStreamTell(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - tell()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $handle   = fopen($fileName, 'rb');
         $stream   = new Stream($handle);
 
@@ -45,8 +40,6 @@ class TellCest
     /**
      * Tests Phalcon\Http\Message\Stream :: tell() - detached
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -58,7 +51,7 @@ class TellCest
                 'A valid resource is required.'
             ),
             function () {
-                $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+                $fileName = dataDir('/assets/stream/bill-of-rights.txt');
                 $stream   = new Stream($fileName, 'rb');
                 $stream->detach();
 

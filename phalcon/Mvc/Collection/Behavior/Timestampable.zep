@@ -42,7 +42,7 @@ class Timestampable extends Behavior
             /**
              * The field name is required in this behavior
              */
-            if !fetch field, options["field"] {
+            if unlikely !fetch field, options["field"] {
                 throw new Exception("The option 'field' is required");
             }
 

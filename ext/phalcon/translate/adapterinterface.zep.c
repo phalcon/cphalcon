@@ -41,14 +41,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, exists);
 /**
  * Returns the translation related to the given key
  *
- * @param    array placeholders
+ * @param array placeholders
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, query);
 
 /**
  * Returns the translation string of the given key
  *
- * @param    array placeholders
+ * @param array placeholders
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_AdapterInterface, t);
 

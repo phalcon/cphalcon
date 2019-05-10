@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Server\RequestHandler;
 
 use UnitTester;
 
-/**
- * Class HandleCest
- */
 class HandleCest
 {
     /**
      * Tests Phalcon\Http\Server\RequestHandler :: handle()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

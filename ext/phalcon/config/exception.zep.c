@@ -26,7 +26,6 @@
  * Phalcon\Config\Exception
  *
  * Exceptions thrown in Phalcon\Config will use this class
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_Exception) {
 

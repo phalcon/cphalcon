@@ -159,7 +159,9 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
      */
     public function jsonSerialize() -> array
     {
-        var records, message;
+        var message;
+        array records;
+
         let records = [];
 
         for message in this->messages {

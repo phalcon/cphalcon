@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Config\Adapter\Ini;
 
 use UnitTester;
 
-/**
- * Class MergeCest
- */
 class MergeCest
 {
     /**
      * Tests Phalcon\Config\Adapter\Ini :: merge()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

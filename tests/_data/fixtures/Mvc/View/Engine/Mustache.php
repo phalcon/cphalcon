@@ -57,7 +57,11 @@ class Mustache extends Engine implements EngineInterface
             $params['content'] = $this->view->getContent();
         }
 
-        $content = $this->mustache->render(file_get_contents($path), $params);
+        $content = $this->mustache->render(
+            file_get_contents($path),
+            $params
+        );
+
         if ($mustClean) {
             $this->view->setContent($content);
         } else {

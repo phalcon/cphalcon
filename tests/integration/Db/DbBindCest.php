@@ -36,7 +36,9 @@ class DbBindCest
     public function dbBindMySql(IntegrationTester $I)
     {
         $I->wantToTest("Db - Bind - MySql");
+
         $this->setDiMysql();
+
         $connection = $this->getService('db');
 
         $this->executeConvertBindTests($I, $connection);
@@ -153,21 +155,27 @@ class DbBindCest
             ["LOL 1", "A"],
             [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
+
         $I->assertTrue($success);
+
 
         $success = $connection->execute(
             'UPDATE prueba SET nombre = ?, estado = ?',
             ["LOL 11", "R"],
             [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
+
         $I->assertTrue($success);
+
 
         $success = $connection->execute(
             'DELETE FROM prueba WHERE estado = ?',
             ["R"],
             [Column::BIND_PARAM_STR]
         );
+
         $I->assertTrue($success);
+
 
         $success = $connection->insert(
             'prueba',
@@ -175,7 +183,9 @@ class DbBindCest
             null,
             [Column::BIND_SKIP, Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
+
         $I->assertTrue($success);
+
 
         $success = $connection->insert(
             'prueba',
@@ -183,7 +193,9 @@ class DbBindCest
             ['nombre', 'estado'],
             [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
+
         $I->assertTrue($success);
+
 
         $success = $connection->insert(
             'prueba',
@@ -191,7 +203,9 @@ class DbBindCest
             ['nombre', 'estado'],
             [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
+
         $I->assertTrue($success);
+
 
         $success = $connection->insert(
             'prueba',
@@ -199,7 +213,9 @@ class DbBindCest
             ['nombre', 'estado'],
             [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
+
         $I->assertTrue($success);
+
 
         $success = $connection->update(
             'prueba',
@@ -208,7 +224,9 @@ class DbBindCest
             "estado='E'",
             [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
+
         $I->assertTrue($success);
+
 
         $success = $connection->update(
             'prueba',
@@ -217,7 +235,9 @@ class DbBindCest
             "estado='X'",
             [Column::BIND_PARAM_STR]
         );
+
         $I->assertTrue($success);
+
 
         $success = $connection->update(
             'prueba',
@@ -226,6 +246,7 @@ class DbBindCest
             "estado='X'",
             [Column::BIND_PARAM_STR]
         );
+
         $I->assertTrue($success);
     }
 
@@ -240,7 +261,9 @@ class DbBindCest
     public function dbBindPostgresql(IntegrationTester $I)
     {
         $I->wantToTest("Db - Bind - Postgresql");
+
         $this->setDiMysql();
+
         $connection = $this->getService('db');
 
         //$this->executeRawBindTests($I, $connection);
@@ -259,7 +282,9 @@ class DbBindCest
     public function dbBindSqlite(IntegrationTester $I)
     {
         $I->wantToTest("Db - Bind - Sqlite");
+
         $this->setDiSqlite();
+
         $connection = $this->getService('db');
 
         //$this->_executeRawBindTests($connection);
@@ -276,7 +301,10 @@ class DbBindCest
             ]
         );
 
-        $I->assertEquals($conditions, "a=100");
+        $I->assertEquals(
+            "a=100",
+            $conditions
+        );
 
 
         $conditions = $connection->bindParams(
@@ -287,7 +315,10 @@ class DbBindCest
             ]
         );
 
-        $I->assertEquals($conditions, "a=100");
+        $I->assertEquals(
+            "a=100",
+            $conditions
+        );
 
 
         $conditions = $connection->bindParams(
@@ -297,7 +328,10 @@ class DbBindCest
             ]
         );
 
-        $I->assertEquals($conditions, "a=?0");
+        $I->assertEquals(
+            "a=?0",
+            $conditions
+        );
 
 
         $conditions = $connection->bindParams(
@@ -308,7 +342,10 @@ class DbBindCest
             ]
         );
 
-        $I->assertEquals($conditions, "a=50 AND b = 25");
+        $I->assertEquals(
+            "a=50 AND b = 25",
+            $conditions
+        );
 
 
         $conditions = $connection->bindParams(
@@ -319,7 +356,10 @@ class DbBindCest
             ]
         );
 
-        $I->assertEquals($conditions, "a=50 AND b = 25");
+        $I->assertEquals(
+            "a=50 AND b = 25",
+            $conditions
+        );
 
 
         $conditions = $connection->bindParams(
@@ -330,7 +370,10 @@ class DbBindCest
             ]
         );
 
-        $I->assertEquals($conditions, "a=25.1 AND b = 25.10");
+        $I->assertEquals(
+            "a=25.1 AND b = 25.10",
+            $conditions
+        );
 
 
         $conditions = $connection->bindParams(
@@ -342,7 +385,10 @@ class DbBindCest
             ]
         );
 
-        $I->assertEquals($conditions, "a=50 AND b = 25 AND c<>15");
+        $I->assertEquals(
+            "a=50 AND b = 25 AND c<>15",
+            $conditions
+        );
 
 
         $conditions = $connection->bindParams(
@@ -352,7 +398,10 @@ class DbBindCest
             ]
         );
 
-        $I->assertEquals($conditions, "a='no-suprises'");
+        $I->assertEquals(
+            "a='no-suprises'",
+            $conditions
+        );
 
 
         $conditions = $connection->bindParams(
@@ -363,7 +412,10 @@ class DbBindCest
             ]
         );
 
-        $I->assertEquals($conditions, "column1 = 'hello' AND column2='lol'");
+        $I->assertEquals(
+            "column1 = 'hello' AND column2='lol'",
+            $conditions
+        );
     }
 
     protected function executeRawBindTestsMysql(IntegrationTester $I, $connection)
@@ -377,7 +429,10 @@ class DbBindCest
             ]
         );
 
-        $I->assertEquals($conditions, "column3 IN ('hello', 100, '\'hahaha\'')");
+        $I->assertEquals(
+            "column3 IN ('hello', 100, '\'hahaha\'')",
+            $conditions
+        );
 
 
         $conditions = $connection->bindParams(
@@ -390,7 +445,10 @@ class DbBindCest
             ]
         );
 
-        $I->assertEquals($conditions, "column3 IN ('hello', 100, '\'hahaha\'') AND column4 > 'le-nice'");
+        $I->assertEquals(
+            "column3 IN ('hello', 100, '\'hahaha\'') AND column4 > 'le-nice'",
+            $conditions
+        );
     }
 
     protected function executeRawBindTestsPostgresql(IntegrationTester $I, $connection)
@@ -404,7 +462,10 @@ class DbBindCest
             ]
         );
 
-        $I->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''')");
+        $I->assertEquals(
+            "column3 IN ('hello', 100, '''hahaha''')",
+            $conditions
+        );
 
 
         $conditions = $connection->bindParams(
@@ -417,7 +478,10 @@ class DbBindCest
             ]
         );
 
-        $I->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
+        $I->assertEquals(
+            "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'",
+            $conditions
+        );
     }
 
     protected function executeRawBindTestsSqlite(IntegrationTester $I, $connection)
@@ -431,7 +495,10 @@ class DbBindCest
             ]
         );
 
-        $I->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''')");
+        $I->assertEquals(
+            "column3 IN ('hello', 100, '''hahaha''')",
+            $conditions
+        );
 
 
         $conditions = $connection->bindParams(
@@ -444,6 +511,9 @@ class DbBindCest
             ]
         );
 
-        $I->assertEquals($conditions, "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'");
+        $I->assertEquals(
+            "column3 IN ('hello', 100, '''hahaha''') AND column4 > 'le-nice'",
+            $conditions
+        );
     }
 }

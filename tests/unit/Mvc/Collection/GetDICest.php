@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class GetDICest
- */
 class GetDICest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: getDI()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetDICest
     public function mvcCollectionGetDI(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - getDI()');
+
         $I->skipTest('Need implementation');
     }
 }

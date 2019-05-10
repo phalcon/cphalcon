@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class WriteAttributeCest
- */
 class WriteAttributeCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: writeAttribute()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class WriteAttributeCest
     public function mvcCollectionWriteAttribute(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - writeAttribute()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -51,9 +51,9 @@ class WriteCest
         /**
          * Serialize the value because the adapter does not have a serializer
          */
-        $expected = $value;
-        $actual   = $I->grabFromRedis('test1');
+        $expected = serialize($value);
+        $actual   = $I->grabFromRedis('sess-reds-test1');
         $I->assertEquals($expected, $actual);
-        $I->sendCommandToRedis('del', 'test1');
+        $I->sendCommandToRedis('del', 'sess-reds-test1');
     }
 }

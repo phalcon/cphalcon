@@ -3,7 +3,7 @@
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Mvc\Model\Metadata\Memory;
+use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\MetaData\Strategy\Annotations;
 use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
 use Phalcon\Test\Fixtures\Traits\DiTrait;

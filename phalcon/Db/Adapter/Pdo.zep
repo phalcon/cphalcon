@@ -149,7 +149,7 @@ abstract class Pdo extends Adapter
          * Check the transaction nesting level
          */
         let transactionLevel = (int) this->transactionLevel;
-        if !transactionLevel {
+        if unlikely !transactionLevel {
             throw new Exception("There is no active transaction");
         }
 
@@ -344,13 +344,13 @@ abstract class Pdo extends Adapter
         if preg_match_all(bindPattern, sql, matches, setOrder) {
             for placeMatch in matches {
                 if !fetch value, params[placeMatch[1]] {
-                    if isset placeMatch[2] {
-                        if !fetch value, params[placeMatch[2]] {
-                            throw new Exception(
-                                "Matched parameter wasn't found in parameters list"
-                            );
-                        }
-                    } else {
+                    if unlikely !isset placeMatch[2] {
+                        throw new Exception(
+                            "Matched parameter wasn't found in parameters list"
+                        );
+                    }
+
+                    if unlikely !fetch value, params[placeMatch[2]] {
                         throw new Exception(
                             "Matched parameter wasn't found in parameters list"
                         );
@@ -739,11 +739,11 @@ abstract class Pdo extends Adapter
         }
 
         let statement = pdo->prepare(sqlStatement);
-        if typeof statement == "object" {
-            let statement = this->executePrepared(statement, params, types);
-        } else {
+        if unlikely typeof statement != "object" {
             throw new Exception("Cannot prepare statement");
         }
+
+        let statement = this->executePrepared(statement, params, types);
 
         /**
          * Execute the afterQuery event if an EventsManager is available
@@ -781,7 +781,7 @@ abstract class Pdo extends Adapter
          * Check the transaction nesting level
          */
         let transactionLevel = (int) this->transactionLevel;
-        if !transactionLevel {
+        if unlikely !transactionLevel {
             throw new Exception("There is no active transaction");
         }
 

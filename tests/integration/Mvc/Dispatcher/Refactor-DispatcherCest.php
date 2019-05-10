@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
+use DispatcherTestDefaultNoNamespaceController;
 use Exception;
 use IntegrationTester;
 use Phalcon\Dispatcher;
@@ -584,7 +585,7 @@ class DispatcherCest extends BaseDispatcher
 
         $actual = $dispatcher->wasForwarded();
         $I->assertFalse($actual);
-        $class = \DispatcherTestDefaultNoNamespaceController::class;
+        $class = DispatcherTestDefaultNoNamespaceController::class;
         $I->assertInstanceOf($class, $handler);
 
         $expected = [

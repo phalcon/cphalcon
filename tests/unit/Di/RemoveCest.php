@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
-/**
- * Class RemoveCest
- */
 class RemoveCest
 {
     /**
      * Tests Phalcon\Di :: remove()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class RemoveCest
     public function diRemove(UnitTester $I)
     {
         $I->wantToTest('Di - remove()');
+
         $I->skipTest('Need implementation');
     }
 }

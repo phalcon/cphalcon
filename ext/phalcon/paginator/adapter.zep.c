@@ -53,6 +53,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter) {
 
 	/**
 	 * Repository for pagination
+	 *
 	 * @var RepositoryInterface
 	 */
 	zend_declare_property_null(phalcon_paginator_adapter_ce, SL("repository"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -85,17 +86,17 @@ PHP_METHOD(Phalcon_Paginator_Adapter, __construct) {
 
 	zephir_update_property_zval(this_ptr, SL("config"), &config);
 	if (zephir_array_isset_string(&config, SL("limit"))) {
-		zephir_array_fetch_string(&_0$$3, &config, SL("limit"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter.zep", 47 TSRMLS_CC);
+		zephir_array_fetch_string(&_0$$3, &config, SL("limit"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter.zep", 50 TSRMLS_CC);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setlimit", NULL, 0, &_0$$3);
 		zephir_check_call_status();
 	}
 	if (zephir_array_isset_string(&config, SL("page"))) {
-		zephir_array_fetch_string(&_1$$4, &config, SL("page"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter.zep", 51 TSRMLS_CC);
+		zephir_array_fetch_string(&_1$$4, &config, SL("page"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter.zep", 56 TSRMLS_CC);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setcurrentpage", NULL, 0, &_1$$4);
 		zephir_check_call_status();
 	}
 	if (zephir_array_isset_string(&config, SL("repository"))) {
-		zephir_array_fetch_string(&_2$$5, &config, SL("repository"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter.zep", 55 TSRMLS_CC);
+		zephir_array_fetch_string(&_2$$5, &config, SL("repository"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter.zep", 62 TSRMLS_CC);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrepository", NULL, 0, &_2$$5);
 		zephir_check_call_status();
 	}

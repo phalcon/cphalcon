@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Helper\Arr;
 use Phalcon\Helper\Arr;
 use UnitTester;
 
-/**
- * Class OrderCest
- */
 class OrderCest
 {
     /**
      * Tests Phalcon\Helper\Arr :: order()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-06
@@ -31,26 +26,35 @@ class OrderCest
     public function helperArrOrder(UnitTester $I)
     {
         $I->wantToTest('Helper\Arr - order()');
+
         $collection = [
             ['id' => 2, 'name' => 'Joy'],
             ['id' => 3, 'name' => 'Khaja'],
             ['id' => 1, 'name' => 'Raja'],
         ];
 
+
         $expected = [
             ['id' => 1, 'name' => 'Raja'],
             ['id' => 2, 'name' => 'Joy'],
             ['id' => 3, 'name' => 'Khaja'],
         ];
-        $actual   = Arr::order($collection, 'id');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            Arr::order($collection, 'id')
+        );
+
 
         $expected = [
             ['id' => 3, 'name' => 'Khaja'],
             ['id' => 2, 'name' => 'Joy'],
             ['id' => 1, 'name' => 'Raja'],
         ];
-        $actual   = Arr::order($collection, 'id', 'desc');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            Arr::order($collection, 'id', 'desc')
+        );
     }
 }

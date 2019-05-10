@@ -47,11 +47,11 @@ class ReadCest
         $adapter = $this->getSessionRedis();
         $value   = uniqid();
 
-        $I->haveInRedis('string', 'test1', $value);
+        $I->haveInRedis('string', 'sess-reds-test1', $value);
 
         $expected = $value;
         $actual   = $adapter->read('test1');
         $I->assertEquals($expected, $actual);
-        $I->sendCommandToRedis('del', 'test1');
+        $I->sendCommandToRedis('del', 'sess-reds-test1');
     }
 }

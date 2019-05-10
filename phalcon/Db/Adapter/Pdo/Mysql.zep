@@ -56,7 +56,7 @@ class Mysql extends PdoAdapter
             this->dialect->getForeignKeyChecks()
         );
 
-        if !foreignKeyCheck->execute() {
+        if unlikely !foreignKeyCheck->execute() {
             throw new Exception(
                 "DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1"
             );
@@ -82,8 +82,9 @@ class Mysql extends PdoAdapter
      */
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
-        var columns, columnType, field, definition,
-            oldColumn, sizePattern, matches, matchOne, matchTwo, columnName;
+        var columns, columnType, field, oldColumn, sizePattern, matches,
+            matchOne, matchTwo, columnName;
+        array definition;
 
         let oldColumn = null,
             sizePattern = "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#";
@@ -426,7 +427,7 @@ class Mysql extends PdoAdapter
             /**
              * Check if the column is default values
              */
-            if typeof field[4] != "null" {
+            if field[4] !== null {
                 let definition["default"] = field[4];
             }
 

@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
-/**
- * Class RemoveCest
- */
 class RemoveCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault :: remove()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultRemove(UnitTester $I)
+    public function diFactoryDefaultRemove(UnitTester $I)
     {
         $I->wantToTest('Di\FactoryDefault - remove()');
+
         $I->skipTest('Need implementation');
     }
 }

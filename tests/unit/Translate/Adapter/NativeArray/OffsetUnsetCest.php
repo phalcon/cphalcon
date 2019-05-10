@@ -17,9 +17,6 @@ use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\Exception;
 use UnitTester;
 
-/**
- * Class OffsetUnsetCest
- */
 class OffsetUnsetCest
 {
     use TranslateTrait;
@@ -27,19 +24,24 @@ class OffsetUnsetCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: offsetUnset()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function translateAdapterNativearrayOffsetUnset(UnitTester $I)
+    public function translateAdapterNativeArrayOffsetUnset(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - offsetUnset() throws exception');
+
         $I->expectThrowable(
             new Exception('Translate is an immutable ArrayAccess object'),
             function () {
-                $language   = $this->getArrayConfig()['en'];
-                $translator = new NativeArray(['content' => $language]);
+                $language = $this->getArrayConfig()['en'];
+
+                $translator = new NativeArray(
+                    [
+                        'content' => $language,
+                    ]
+                );
+
                 $translator->offsetUnset('hi');
             }
         );

@@ -38,7 +38,7 @@ class GetSetHandlerCest
     {
         $I->wantToTest('Session\Manager - getHandler()/setHandler()');
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
 
         $actual = $manager->getHandler();

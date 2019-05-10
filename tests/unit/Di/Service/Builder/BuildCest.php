@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Di\Service\Builder;
 
 use UnitTester;
 
-/**
- * Class BuildCest
- */
 class BuildCest
 {
     /**
      * Tests Phalcon\Di\Service\Builder :: build()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class BuildCest
     public function diServiceBuilderBuild(UnitTester $I)
     {
         $I->wantToTest('Di\Service\Builder - build()');
+
         $I->skipTest('Need implementation');
     }
 }

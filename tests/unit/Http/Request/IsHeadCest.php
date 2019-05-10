@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class IsHeadCest
- */
 class IsHeadCest
 {
     /**
      * Tests Phalcon\Http\Request :: isHead()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsHeadCest
     public function httpRequestIsHead(UnitTester $I)
     {
         $I->wantToTest('Http\Request - isHead()');
+
         $I->skipTest('Need implementation');
     }
 }

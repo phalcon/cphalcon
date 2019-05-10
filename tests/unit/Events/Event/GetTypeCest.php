@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Events\Event;
 
 use UnitTester;
 
-/**
- * Class GetTypeCest
- */
 class GetTypeCest
 {
     /**
      * Tests Phalcon\Events\Event :: getType()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetTypeCest
     public function eventsEventGetType(UnitTester $I)
     {
         $I->wantToTest('Events\Event - getType()');
+
         $I->skipTest('Need implementation');
     }
 }

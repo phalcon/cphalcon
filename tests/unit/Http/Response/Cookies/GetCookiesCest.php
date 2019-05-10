@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response\Cookies;
 
 use UnitTester;
 
-/**
- * Class GetCookiesCest
- */
 class GetCookiesCest
 {
     /**
      * Tests Phalcon\Http\Response\Cookies :: getCookies()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

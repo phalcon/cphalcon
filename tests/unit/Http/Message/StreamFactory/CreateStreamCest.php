@@ -16,15 +16,10 @@ use Phalcon\Http\Message\Stream;
 use Phalcon\Http\Message\StreamFactory;
 use UnitTester;
 
-/**
- * Class CreateStreamCest
- */
 class CreateStreamCest
 {
     /**
      * Tests Phalcon\Http\Message\StreamFactory :: createStream()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -32,7 +27,7 @@ class CreateStreamCest
     public function httpMessageStreamFactoryCreateStream(UnitTester $I)
     {
         $I->wantToTest('Http\Message\StreamFactory - createStream()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $contents = file_get_contents($fileName);
 
         $factory = new StreamFactory();

@@ -16,13 +16,10 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Regex;
 use UnitTester;
 
-/**
- * Class RegexCest
- */
 class RegexCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\Regex :: __invoke()
      *
      * @dataProvider getData
      *

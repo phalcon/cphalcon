@@ -15,12 +15,9 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
-use function dataFolder;
-use function outputFolder;
+use function dataDir;
+use function outputDir;
 
-/**
- * Class TextCest
- */
 class TextCest
 {
     use ImagickTrait;
@@ -28,15 +25,13 @@ class TextCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: text()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19
      */
     public function imageAdapterImagickText(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - text()');
-        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
+        $image = new Imagick(dataDir('assets/images/phalconphp.jpg'));
         $image->setResourceLimit(6, 1);
 
         $image->text(
@@ -46,11 +41,11 @@ class TextCest
             100,
             '000099',
             12,
-            dataFolder('assets/fonts/Roboto-Thin.ttf')
-        )->save(outputFolder('tests/image/imagick/text.jpg'))
+            dataDir('assets/fonts/Roboto-Thin.ttf')
+        )->save(outputDir('tests/image/imagick/text.jpg'))
         ;
 
-        $I->amInPath(outputFolder('tests/image/imagick/'));
+        $I->amInPath(outputDir('tests/image/imagick/'));
         $I->seeFileFound('text.jpg');
 
         $I->assertEquals(1820, $image->getWidth());

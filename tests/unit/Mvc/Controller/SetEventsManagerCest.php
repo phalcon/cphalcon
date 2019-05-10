@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Controller;
 
 use UnitTester;
 
-/**
- * Class SetEventsManagerCest
- */
 class SetEventsManagerCest
 {
     /**
      * Tests Phalcon\Mvc\Controller :: setEventsManager()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetEventsManagerCest
     public function mvcControllerSetEventsManager(UnitTester $I)
     {
         $I->wantToTest('Mvc\Controller - setEventsManager()');
+
         $I->skipTest('Need implementation');
     }
 }

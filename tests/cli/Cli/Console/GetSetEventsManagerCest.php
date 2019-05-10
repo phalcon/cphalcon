@@ -29,7 +29,7 @@ class GetSetEventsManagerCest
      * @since  2018-11-13
      *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-12-26
+     * @since  2018-12-26
      */
     public function cliConsoleGetSetEventsManager(CliTester $I)
     {
@@ -37,12 +37,14 @@ class GetSetEventsManagerCest
         $I->wantToTest("Cli\Console - setEventsManager()");
 
         $console = $this->newCliConsole();
+
         $eventsManager = $this->newEventsManager();
 
         $console->setEventsManager($eventsManager);
-        $expected = Manager::class;
-        $actual = $console->getEventsManager();
 
-        $I->assertInstanceOf($expected, $actual);
+        $I->assertInstanceOf(
+            Manager::class,
+            $console->getEventsManager()
+        );
     }
 }

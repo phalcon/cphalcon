@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Bag;
 
-use Phalcon\Session\Bag;
 use IntegrationTester;
+use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
@@ -36,7 +36,7 @@ class HasCest
     public function sessionBagHas(IntegrationTester $I)
     {
         $I->wantToTest('Session\Bag - has()');
-        $data       = [
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',

@@ -16,15 +16,10 @@ use UnitTester;
 use Phalcon\Security;
 use Phalcon\Security\Random;
 
-/**
- * Class GetRandomCest
- */
 class GetRandomCest
 {
     /**
      * Tests Phalcon\Security :: getRandom()
-     *
-     * @param UnitTester $I
      *
      * @author Ruud Boon
      * @since  2018-11-13
@@ -34,9 +29,12 @@ class GetRandomCest
         $I->wantToTest('Security - getRandom()');
 
         $security = new Security();
+
         $random = $security->getRandom();
 
-        $class = Random::class;
-        $I->assertInstanceOf($class, $random);
+        $I->assertInstanceOf(
+            Random::class,
+            $random
+        );
     }
 }

@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Html_TagLocatorFactory, newInstance) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(&escaper, this_ptr, "getescaper", NULL, 207);
+	ZEPHIR_CALL_METHOD(&escaper, this_ptr, "getescaper", NULL, 238);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&helpers);
 	zephir_create_array(&helpers, 25, 0 TSRMLS_CC);
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Html_TagLocatorFactory, newInstance) {
 	zephir_array_update_string(&helpers, SL("title"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&factory);
 	object_init_ex(&factory, phalcon_service_locator_ce);
-	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 183, &helpers);
+	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 185, &helpers);
 	zephir_check_call_status();
 	RETURN_CCTOR(&factory);
 
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Html_TagLocatorFactory, newInstance) {
  * Get the escaper service
  *
  * I really don't like this here but it has to be here this way because there
- * is a lot mroe groundwork to be done to refactor the whole DI implementation
+ * is a lot more groundwork to be done to refactor the whole DI implementation
  */
 PHP_METHOD(Phalcon_Html_TagLocatorFactory, getEscaper) {
 

@@ -75,7 +75,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
      */
     public function __construct(bool defaultRoutes = true) -> void
     {
-        var routes;
+        array routes;
 
         let routes = [];
 
@@ -239,13 +239,11 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
             this->matchedRoute = null;
 
         if typeof arguments != "array" {
-
-            if typeof arguments != "string" && typeof arguments != "null" {
+            if unlikely (typeof arguments != "string" && arguments !== null) {
                 throw new Exception("Arguments must be an array or string");
             }
 
             for route in reverse this->routes {
-
                 /**
                  * If the route has parentheses use preg_match
                  */
@@ -261,14 +259,13 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                  * Check for beforeMatch conditions
                  */
                 if routeFound {
-
                     let beforeMatch = route->getBeforeMatch();
-                    if beforeMatch !== null {
 
+                    if beforeMatch !== null {
                         /**
                          * Check first if the callback is callable
                          */
-                        if !is_callable(beforeMatch) {
+                        if unlikely !is_callable(beforeMatch) {
                             throw new Exception(
                                 "Before-Match callback is not callable in matched route"
                             );
@@ -289,7 +286,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                 }
 
                 if routeFound {
-
                     /**
                      * Start from the default paths
                      */
@@ -299,16 +295,13 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                      * Check if the matches has variables
                      */
                     if typeof matches == "array" {
-
                         /**
                          * Get the route converters if any
                          */
                         let converters = route->getConverters();
 
                         for part, position in paths {
-
                             if fetch matchPosition, matches[position] {
-
                                 /**
                                  * Check if the part has a converter
                                  */
@@ -328,7 +321,6 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                                  */
                                 let parts[part] = matchPosition;
                             } else {
-
                                 /**
                                  * Apply the converters anyway
                                  */

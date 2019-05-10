@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Bag;
 
-use Phalcon\Session\Bag;
 use IntegrationTester;
+use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
@@ -48,7 +48,7 @@ class GetCest
         $actual   = $collection->get('three');
         $I->assertEquals($expected, $actual);
 
-        $actual   = $collection->get('THREE');
+        $actual = $collection->get('THREE');
         $I->assertEquals($expected, $actual);
 
         $actual = $collection['three'];

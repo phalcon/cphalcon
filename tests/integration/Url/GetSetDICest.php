@@ -17,8 +17,6 @@ use Phalcon\Di;
 use Phalcon\Url;
 
 /**
- * Class GetSetDICest
- *
  * @package Phalcon\Test\Integration\Url
  */
 class GetSetDICest
@@ -26,24 +24,25 @@ class GetSetDICest
     /**
      * Tests Phalcon\Url :: getDI()/setDI()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function urlGetSetDI(IntegrationTester $I)
     {
         $I->wantToTest("Url - getDI()/setDI()");
+
         $url       = new Url();
         $container = new Di();
 
         $url->setDI($container);
 
-        $class  = Di::class;
         $actual = $url->getDI();
-        $I->assertInstanceOf($class, $actual);
 
-        $expected = $container;
-        $I->assertEquals($expected, $actual);
+        $I->assertInstanceOf(
+            Di::class,
+            $actual
+        );
+
+        $I->assertEquals($container, $actual);
     }
 }

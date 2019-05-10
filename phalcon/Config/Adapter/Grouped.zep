@@ -76,7 +76,9 @@ class Grouped extends Config
     {
         var configName, configInstance, configArray;
 
-        parent::__construct([]);
+        parent::__construct(
+            []
+        );
 
         for configName in arrayConfig {
             let configInstance = configName;
@@ -100,14 +102,14 @@ class Grouped extends Config
             }
 
             if configInstance["adapter"] === "array" {
-                if !isset configInstance["config"] {
+                if unlikely !isset configInstance["config"] {
                     throw new Exception(
                         "To use 'array' adapter you have to specify the 'config' as an array."
                     );
-                } else {
-                    let configArray = configInstance["config"];
-                    let configInstance = new Config(configArray);
                 }
+
+                let configArray = configInstance["config"];
+                let configInstance = new Config(configArray);
             } else {
                 let configInstance = Factory::load(configInstance);
             }

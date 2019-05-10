@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class SetActionSuffixCest
- */
 class SetActionSuffixCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: setActionSuffix()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetActionSuffixCest
     public function mvcDispatcherSetActionSuffix(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - setActionSuffix()');
+
         $I->skipTest('Need implementation');
     }
 }

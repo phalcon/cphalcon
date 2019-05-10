@@ -17,9 +17,6 @@ use Phalcon\Test\Fixtures\Traits\CookieTrait;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-/**
- * Class SetCest
- */
 class SetCest extends HttpBase
 {
     use CookieTrait;
@@ -36,8 +33,6 @@ class SetCest extends HttpBase
     /**
      * Tests Phalcon\Http\Response\Cookies :: set()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -49,8 +44,6 @@ class SetCest extends HttpBase
 
     /**
      * Tests Issue #13464
-     *
-     * @param UnitTester $I
      *
      * @author Cameron Hall <me@chall.id.au>
      * @since  2019-01-20

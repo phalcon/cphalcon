@@ -12,8 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/array.h"
 #include "kernel/memory.h"
+#include "kernel/array.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
 
 
@@ -40,43 +41,107 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_FilterLocatorFactory) {
  */
 PHP_METHOD(Phalcon_Filter_FilterLocatorFactory, newInstance) {
 
-	zval factory, helpers;
+	zval locator, helpers, _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&factory);
+	ZVAL_UNDEF(&locator);
 	ZVAL_UNDEF(&helpers);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(&helpers);
 	zephir_create_array(&helpers, 21, 0 TSRMLS_CC);
-	add_assoc_stringl_ex(&helpers, SL("absint"), SL("Phalcon\\Filter\\Sanitize\\AbsInt"));
-	add_assoc_stringl_ex(&helpers, SL("alnum"), SL("Phalcon\\Filter\\Sanitize\\Alnum"));
-	add_assoc_stringl_ex(&helpers, SL("alpha"), SL("Phalcon\\Filter\\Sanitize\\Alpha"));
-	add_assoc_stringl_ex(&helpers, SL("bool"), SL("Phalcon\\Filter\\Sanitize\\BoolVal"));
-	add_assoc_stringl_ex(&helpers, SL("email"), SL("Phalcon\\Filter\\Sanitize\\Email"));
-	add_assoc_stringl_ex(&helpers, SL("float"), SL("Phalcon\\Filter\\Sanitize\\FloatVal"));
-	add_assoc_stringl_ex(&helpers, SL("int"), SL("Phalcon\\Filter\\Sanitize\\IntVal"));
-	add_assoc_stringl_ex(&helpers, SL("lower"), SL("Phalcon\\Filter\\Sanitize\\Lower"));
-	add_assoc_stringl_ex(&helpers, SL("lowerFirst"), SL("Phalcon\\Filter\\Sanitize\\LowerFirst"));
-	add_assoc_stringl_ex(&helpers, SL("regex"), SL("Phalcon\\Filter\\Sanitize\\Regex"));
-	add_assoc_stringl_ex(&helpers, SL("remove"), SL("Phalcon\\Filter\\Sanitize\\Remove"));
-	add_assoc_stringl_ex(&helpers, SL("replace"), SL("Phalcon\\Filter\\Sanitize\\Replace"));
-	add_assoc_stringl_ex(&helpers, SL("special"), SL("Phalcon\\Filter\\Sanitize\\Special"));
-	add_assoc_stringl_ex(&helpers, SL("specialFull"), SL("Phalcon\\Filter\\Sanitize\\SpecialFull"));
-	add_assoc_stringl_ex(&helpers, SL("string"), SL("Phalcon\\Filter\\Sanitize\\StringVal"));
-	add_assoc_stringl_ex(&helpers, SL("striptags"), SL("Phalcon\\Filter\\Sanitize\\Striptags"));
-	add_assoc_stringl_ex(&helpers, SL("trim"), SL("Phalcon\\Filter\\Sanitize\\Trim"));
-	add_assoc_stringl_ex(&helpers, SL("upper"), SL("Phalcon\\Filter\\Sanitize\\Upper"));
-	add_assoc_stringl_ex(&helpers, SL("upperFirst"), SL("Phalcon\\Filter\\Sanitize\\UpperFirst"));
-	add_assoc_stringl_ex(&helpers, SL("upperWords"), SL("Phalcon\\Filter\\Sanitize\\UpperWords"));
-	add_assoc_stringl_ex(&helpers, SL("url"), SL("Phalcon\\Filter\\Sanitize\\Url"));
-	ZEPHIR_INIT_VAR(&factory);
-	object_init_ex(&factory, phalcon_filter_filterlocator_ce);
-	ZEPHIR_CALL_METHOD(NULL, &factory, "__construct", NULL, 183, &helpers);
+	ZEPHIR_INIT_VAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_1__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("absint"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_2__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("alnum"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_3__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("alpha"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_4__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("bool"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_5__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("email"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_6__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("float"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_7__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("int"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_8__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("lower"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_9__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("lowerFirst"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_10__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("regex"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_11__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("remove"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_12__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("replace"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_13__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("special"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_14__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("specialFull"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_15__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("string"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_16__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("striptags"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_17__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("trim"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_18__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("upper"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_19__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("upperFirst"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_20__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("upperWords"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_21__closure_ce, SL("__invoke"));
+	zephir_array_update_string(&helpers, SL("url"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_VAR(&locator);
+	object_init_ex(&locator, phalcon_filter_filterlocator_ce);
+	ZEPHIR_CALL_METHOD(NULL, &locator, "__construct", NULL, 206, &helpers);
 	zephir_check_call_status();
-	RETURN_CCTOR(&factory);
+	RETURN_CCTOR(&locator);
 
 }
 

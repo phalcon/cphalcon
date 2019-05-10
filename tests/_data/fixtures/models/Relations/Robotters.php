@@ -32,8 +32,13 @@ class Robotters extends Model
     {
         $this->setSource("robots");
 
-        $this->hasMany('code', RobottersDeles::class, 'robottersCode', [
-            'foreignKey' => true,
-        ]);
+        $this->hasMany(
+            'code',
+            RobottersDeles::class,
+            'robottersCode',
+            [
+                'foreignKey' => true,
+            ]
+        );
     }
 }

@@ -32,7 +32,9 @@ class ValidateCest
     public function validationValidatorIpSingleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Ip :: validate() - single field');
+
         $validation = new Validation();
+
         $validation->add(
             'ip',
             new Ip(
@@ -46,27 +48,47 @@ class ValidateCest
             )
         );
 
-        $actual = $validation->validate(['ip' => '127.0.0.1']);
-        $I->assertEmpty($actual);
+        $I->assertEmpty(
+            $validation->validate(
+                [
+                    'ip' => '127.0.0.1',
+                ]
+            )
+        );
 
-        $actual = $validation->validate(['ip' => '']);
-        $I->assertEmpty($actual);
+        $I->assertEmpty(
+            $validation->validate(
+                [
+                    'ip' => '',
+                ]
+            )
+        );
 
-        $actual = $validation->validate(['ip' => '']);
-        $I->assertEmpty($actual);
+        $I->assertEmpty(
+            $validation->validate(
+                [
+                    'ip' => '',
+                ]
+            )
+        );
+
 
         $messages = $validation->validate(
             [
                 'ip' => '2001:cdba:0000:0000:0000:0000:3257:9652',
             ]
         );
+
         $I->assertNotEmpty($messages);
 
-        $expected = 'This is a test message';
-        $actual   = (string) $messages[0];
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'This is a test message',
+            (string) $messages[0]
+        );
+
 
         $validation = new Validation();
+
         $validation->add(
             'ip',
             new Ip(
@@ -80,21 +102,37 @@ class ValidateCest
             )
         );
 
-        $actual = $validation->validate(['ip' => '127.0.0.1']);
-        $I->assertNotEmpty($actual);
-
-        $actual = $validation->validate(['ip' => '']);
-        $I->assertNotEmpty($actual);
-
-        $actual = $validation->validate(['ip' => '']);
-        $I->assertNotEmpty($actual);
-
-        $messages = $validation->validate(
-            [
-                'ip' => '2001:cdba:0000:0000:0000:0000:3257:9652',
-            ]
+        $I->assertNotEmpty(
+            $validation->validate(
+                [
+                    'ip' => '127.0.0.1',
+                ]
+            )
         );
-        $I->assertEmpty($messages);
+
+        $I->assertNotEmpty(
+            $validation->validate(
+                [
+                    'ip' => '',
+                ]
+            )
+        );
+
+        $I->assertNotEmpty(
+            $validation->validate(
+                [
+                    'ip' => '',
+                ]
+            )
+        );
+
+        $I->assertEmpty(
+            $validation->validate(
+                [
+                    'ip' => '2001:cdba:0000:0000:0000:0000:3257:9652',
+                ]
+            )
+        );
     }
 
     /**
@@ -108,7 +146,9 @@ class ValidateCest
     public function validationValidatorIpMultipleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Ip :: validate() - multiple field');
+
         $validation = new Validation();
+
         $validation->add(
             [
                 'ip',
@@ -140,13 +180,16 @@ class ValidateCest
             )
         );
 
+
         $messages = $validation->validate(
             [
                 'ip'        => '127.0.0.1',
                 'anotherIp' => '127.0.0.1',
             ]
         );
+
         $I->assertCount(1, $messages);
+
 
         $messages = $validation->validate(
             [
@@ -154,7 +197,9 @@ class ValidateCest
                 'anotherIp' => '192.168.10.20',
             ]
         );
+
         $I->assertCount(1, $messages);
+
 
         $messages = $validation->validate(
             [
@@ -162,7 +207,9 @@ class ValidateCest
                 'anotherIp' => '',
             ]
         );
+
         $I->assertCount(0, $messages);
+
 
         $messages = $validation->validate(
             [
@@ -170,6 +217,7 @@ class ValidateCest
                 'anotherIp' => '2001:cdba:0000:0000:0000:0000:3257:9652',
             ]
         );
+
         $I->assertCount(1, $messages);
     }
 }

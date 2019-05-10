@@ -63,7 +63,8 @@ class GetModelsCest
         $manager = $this->getService('modelsManager');
         $builder = $manager
             ->createBuilder()
-            ->from(['Stock' => Stock::class]);
+            ->from(['Stock' => Stock::class])
+        ;
 
         $expected = 'Phalcon\\Test\\Models\\Stock';
         $actual   = $builder->getModels();
@@ -85,7 +86,8 @@ class GetModelsCest
         $builder = $manager
             ->createBuilder()
             ->from(['Robots' => Robots::class])
-            ->addFrom(RobotsParts::class, 'RobotsParts');
+            ->addFrom(RobotsParts::class, 'RobotsParts')
+        ;
 
         $expected = [
             'Robots'      => 'Phalcon\Test\Models\Robots',

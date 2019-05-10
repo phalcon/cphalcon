@@ -50,15 +50,15 @@ class GcCest
         /**
          * Add two session keys
          */
-        $I->haveInLibmemcached('gc_1', uniqid(), 1);
-        $I->haveInLibmemcached('gc_2', uniqid(), 1);
+        $I->haveInLibmemcached('sess-memc-gc_1', uniqid(), 1);
+        $I->haveInLibmemcached('sess-memc-gc_2', uniqid(), 1);
         /**
          * Sleep to make sure that the time expired
          */
         sleep(2);
         $actual = $adapter->gc(1);
         $I->assertTrue($actual);
-        $I->dontSeeInLibmemcached('gc_1');
-        $I->dontSeeInLibmemcached('gc_2');
+        $I->dontSeeInLibmemcached('sess-memc-gc_1');
+        $I->dontSeeInLibmemcached('sess-memc-gc_2');
     }
 }

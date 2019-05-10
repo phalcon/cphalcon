@@ -43,8 +43,11 @@ class CloseCest
     public function sessionAdapterNoopClose(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Noop - close()');
+
         $adapter = $this->getSessionNoop();
-        $actual  = $adapter->close();
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->close()
+        );
     }
 }

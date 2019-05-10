@@ -118,7 +118,7 @@ class Crypt implements CryptInterface
             let decryptKey = key;
         }
 
-        if empty decryptKey {
+        if unlikely empty decryptKey {
             throw new Exception("Decryption key cannot be empty");
         }
 
@@ -151,7 +151,7 @@ class Crypt implements CryptInterface
             /**
              * Checkson the decrypted's message digest using the HMAC method.
              */
-            if hash_hmac(hashAlgo, decrypted, decryptKey, true) !== hash {
+            if unlikely hash_hmac(hashAlgo, decrypted, decryptKey, true) !== hash {
                 throw new Mismatch("Hash does not match.");
             }
 
@@ -216,7 +216,7 @@ class Crypt implements CryptInterface
             let encryptKey = key;
         }
 
-        if empty encryptKey {
+        if unlikely empty encryptKey {
             throw new Exception("Encryption key cannot be empty");
         }
 
@@ -443,7 +443,7 @@ class Crypt implements CryptInterface
 
         let availableCiphers = this->getAvailableCiphers();
 
-        if !in_array(cipher, availableCiphers) {
+        if unlikely !in_array(cipher, availableCiphers) {
             throw new Exception(
                 sprintf(
                     "The cipher algorithm \"%s\" is not supported on this system.",
@@ -464,7 +464,7 @@ class Crypt implements CryptInterface
 
         let availableAlgorithms = this->getAvailableHashAlgos();
 
-        if !in_array(hashAlgo, availableAlgorithms) {
+        if unlikely !in_array(hashAlgo, availableAlgorithms) {
             throw new Exception(
                 sprintf(
                     "The hash algorithm \"%s\" is not supported on this system.",
@@ -481,7 +481,7 @@ class Crypt implements CryptInterface
      */
     protected function getIvLength(string! cipher) -> int
     {
-        if !function_exists("openssl_cipher_iv_length") {
+        if unlikely !function_exists("openssl_cipher_iv_length") {
             throw new Exception("openssl extension is required");
         }
 
@@ -495,7 +495,7 @@ class Crypt implements CryptInterface
      */
     protected function initializeAvailableCiphers() -> void
     {
-        if !function_exists("openssl_get_cipher_methods") {
+        if unlikely !function_exists("openssl_get_cipher_methods") {
             throw new Exception("openssl extension is required");
         }
 
@@ -515,7 +515,7 @@ class Crypt implements CryptInterface
         if mode == "cbc" || mode == "ecb" {
             let paddingSize = blockSize - (strlen(text) % blockSize);
 
-            if paddingSize >= 256 {
+            if unlikely paddingSize >= 256 {
                 throw new Exception("Block size is bigger than 256");
             }
 
@@ -562,7 +562,7 @@ class Crypt implements CryptInterface
             return text;
         }
 
-        if paddingSize > blockSize {
+        if unlikely paddingSize > blockSize {
             throw new Exception("Invalid padding size");
         }
 

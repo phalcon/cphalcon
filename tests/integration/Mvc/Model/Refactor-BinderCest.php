@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use Exception;
 use IntegrationTester;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Cache\Frontend\Data;
@@ -15,6 +16,10 @@ use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Test\Models\People;
 use Phalcon\Test\Models\Robots;
 use PHPIntegration\Framework\SkippedTestError;
+use Test10Controller;
+use Test11Controller;
+use Test9Controller;
+use TypeError;
 
 /**
  * \Phalcon\Test\Integration\Mvc\Model\BindingCest
@@ -102,10 +107,11 @@ class BinderCest
     /**
      * Tests dispatcher and single model
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testDispatcherSingleBinding(IntegrationTester $I)
     {
@@ -190,10 +196,11 @@ class BinderCest
     /**
      * Tests dispatcher and multiple model
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testDispatcherMultiBinding(IntegrationTester $I)
     {
@@ -227,10 +234,11 @@ class BinderCest
     /**
      * Tests dispatcher and single model with interface
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testDispatcherSingleBindingWithInterface(IntegrationTester $I)
     {
@@ -261,10 +269,11 @@ class BinderCest
     /**
      * Tests dispatcher and multi model with interface
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testDispatcherMultiBindingWithInterface(IntegrationTester $I)
     {
@@ -298,10 +307,11 @@ class BinderCest
     /**
      * Tests dispatcher and single binding exception
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testDispatcherSingleBindingException(IntegrationTester $I)
     {
@@ -322,13 +332,13 @@ class BinderCest
                 false,
                 'Here must be the exception about passing non model to the controller action'
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // PHP 5.x
             $I->assertEquals(
                 'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given',
                 $e->getMessage()
             );
-        } catch (\TypeError $e) {
+        } catch (TypeError $e) {
             // PHP 7.x
             $I->assertEquals(
                 'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given',
@@ -356,10 +366,11 @@ class BinderCest
     /**
      * Tests micro with handlers and model binder
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testMicroHandlerSingleBinding(IntegrationTester $I)
     {
@@ -410,10 +421,11 @@ class BinderCest
     /**
      * Tests micro with handler and multi binding
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testMicroHandlerMultiBinding(IntegrationTester $I)
     {
@@ -445,10 +457,11 @@ class BinderCest
     /**
      * Tests micro with handler and single binding exception
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testMicroHandlerSingleBindingException(IntegrationTester $I)
     {
@@ -466,13 +479,13 @@ class BinderCest
                 false,
                 'Here must be the exception about passing non model to the micro handler'
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // PHP 5.x
             $I->assertEquals(
                 'Argument 1 passed to Phalcon\Test\Integration\Mvc\Model\BinderCest::Phalcon\Test\Integration\Mvc\Model\{closure}() must be an instance of Phalcon\Test\Models\People, string given',
                 $e->getMessage()
             );
-        } catch (\TypeError $e) {
+        } catch (TypeError $e) {
             // PHP 7.x
             $I->assertEquals(
                 'Argument 1 passed to Phalcon\Test\Integration\Mvc\Model\BinderCest::Phalcon\Test\Integration\Mvc\Model\{closure}() must be an instance of Phalcon\Test\Models\People, string given',
@@ -499,17 +512,18 @@ class BinderCest
     /**
      * Tests micro with controllers and model binder
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testMicroControllerSingleBinding(IntegrationTester $I)
     {
         $micro = $this->createMicro($I);
 
         $test10 = new Collection();
-        $test10->setHandler(new \Test10Controller());
+        $test10->setHandler(new Test10Controller());
         $test10->get('/{people}', 'viewAction');
         $micro->mount($test10);
 
@@ -530,17 +544,18 @@ class BinderCest
     /**
      * Tests micro with controllers and model binder
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testMicroControllerMultiBinding(IntegrationTester $I)
     {
         $micro = $this->createMicro($I);
 
         $test10 = new Collection();
-        $test10->setHandler(new \Test10Controller());
+        $test10->setHandler(new Test10Controller());
         $test10->get('/{people}/robot/{robots}', 'multipleAction');
         $micro->mount($test10);
 
@@ -564,17 +579,18 @@ class BinderCest
     /**
      * Tests micro with controller and single binding using interface
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testMicroControllerSingleBindingWithInterface(IntegrationTester $I)
     {
         $micro = $this->createMicro($I);
 
         $test11 = new Collection();
-        $test11->setHandler(new \Test11Controller());
+        $test11->setHandler(new Test11Controller());
         $test11->get('/{people}', 'viewAction');
         $micro->mount($test11);
 
@@ -594,17 +610,18 @@ class BinderCest
     /**
      * Tests micro with controller and multi binding using interface
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testMicroControllerMultiBindingWithInterface(IntegrationTester $I)
     {
         $micro = $this->createMicro($I);
 
         $test11 = new Collection();
-        $test11->setHandler(new \Test11Controller());
+        $test11->setHandler(new Test11Controller());
         $test11->get('/{people}/robot/{robots}', 'multipleAction');
         $micro->mount($test11);
 
@@ -628,17 +645,18 @@ class BinderCest
     /**
      * Tests micro with controller and single binding exception
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testMicroControllerSingleBindingException(IntegrationTester $I)
     {
         $micro = $this->createMicro($I, false);
 
         $test9 = new Collection();
-        $test9->setHandler(new \Test9Controller());
+        $test9->setHandler(new Test9Controller());
         $test9->get('/{people}', 'viewAction');
         $micro->mount($test9);
 
@@ -649,13 +667,13 @@ class BinderCest
                 false,
                 'Here must be the exception about passing non model to the micro handler'
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // PHP 5.x
             $I->assertEquals(
                 'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given',
                 $e->getMessage()
             );
-        } catch (\TypeError $e) {
+        } catch (TypeError $e) {
             // PHP 7.x
             $I->assertEquals(
                 'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given',
@@ -682,10 +700,11 @@ class BinderCest
     /**
      * Tests micro with lazy controllers and model binder
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testMicroLazySingleBinding(IntegrationTester $I)
     {
@@ -713,10 +732,11 @@ class BinderCest
     /**
      * Tests micro with lazy controllers and model binder
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testMicroLazyMultiBinding(IntegrationTester $I)
     {
@@ -747,10 +767,11 @@ class BinderCest
     /**
      * Tests micro with lazy controllers and model binder
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testMicroLazySingleBindingWithInterface(IntegrationTester $I)
     {
@@ -778,10 +799,11 @@ class BinderCest
     /**
      * Tests micro with lazy controllers and model binder
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testMicroLazyMultiBindingWithInterface(IntegrationTester $I)
     {
@@ -812,10 +834,11 @@ class BinderCest
     /**
      * Tests micro with lazy controllers and model binder
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-10-29
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testMicroLazySingleBindingException(IntegrationTester $I)
     {
@@ -833,13 +856,13 @@ class BinderCest
                 false,
                 'Here must be the exception about passing non model to the micro handler'
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // PHP 5.x
             $I->assertEquals(
                 'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given',
                 $e->getMessage()
             );
-        } catch (\TypeError $e) {
+        } catch (TypeError $e) {
             // PHP 7.x
             $I->assertEquals(
                 'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given',
@@ -866,10 +889,11 @@ class BinderCest
     /**
      * Tests dispatcher and single model original values
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2017-01-19
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testDispatcherSingleBindingOriginalValues(IntegrationTester $I)
     {
@@ -891,10 +915,11 @@ class BinderCest
     /**
      * Tests dispatcher and single model without cache
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2017-01-24
      *
-     * @param IntegrationTester $I
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function testDispatcherSingleBindingNoCache(IntegrationTester $I)
     {

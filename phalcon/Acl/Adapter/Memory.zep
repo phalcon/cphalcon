@@ -198,12 +198,12 @@ class Memory extends Adapter
     public function addInherit(string roleName, var roleToInherits) -> bool
     {
         var roleInheritName, rolesNames, roleToInherit, checkRoleToInherit,
-            checkRoleToInherits, usedRoleToInherits, roleToInheritList,
-            usedRoleToInherit;
+            roleToInheritList, usedRoleToInherit;
+        array checkRoleToInherits, usedRoleToInherits;
 
         let rolesNames = this->rolesNames;
 
-        if !isset rolesNames[roleName] {
+        if unlikely !isset rolesNames[roleName] {
             throw new Exception(
                 "Role '" . roleName . "' does not exist in the role list"
             );
@@ -242,7 +242,7 @@ class Memory extends Adapter
             /**
              * Check if the role to inherit is valid
              */
-            if !isset rolesNames[roleInheritName] {
+            if unlikely !isset rolesNames[roleInheritName] {
                 throw new Exception(
                     "Role '" . roleInheritName . "' (to inherit) does not exist in the role list"
                 );
@@ -273,7 +273,7 @@ class Memory extends Adapter
 
                     let usedRoleToInherits[checkRoleToInherit] = true;
 
-                    if roleName == checkRoleToInherit {
+                    if unlikely roleName == checkRoleToInherit {
                         throw new Exception(
                             "Role '" . roleInheritName . "' (to inherit) is infinite loop "
                         );
@@ -411,13 +411,13 @@ class Memory extends Adapter
         string accessKey;
         bool exists;
 
-        if !isset this->componentsNames[componentName] {
+        if unlikely !isset this->componentsNames[componentName] {
             throw new Exception(
                 "Component '" . componentName . "' does not exist in ACL"
             );
         }
 
-        if typeof accessList != "array" && typeof accessList != "string" {
+        if unlikely (typeof accessList != "array" && typeof accessList != "string") {
             throw new Exception("Invalid value for accessList");
         }
 
@@ -533,7 +533,8 @@ class Memory extends Adapter
      */
     public function dropComponentAccess(string componentName, var accessList) -> void
     {
-        var accessName, accessKey;
+        var accessName;
+        string accessKey;
 
         if typeof accessList == "string" {
             let accessList = [accessList];
@@ -596,7 +597,8 @@ class Memory extends Adapter
             funcList, reflectionFunction, reflectionParameters, parameterNumber,
             parametersForFunction, numberOfRequiredParameters,
             userParametersSizeShouldBe, reflectionClass, parameterToCheck,
-            reflectionParameter, hasRole = false, hasComponent = false;
+            reflectionParameter;
+        bool hasRole = false, hasComponent = false;
 
         if typeof roleName == "object" {
             if roleName instanceof RoleAware {
@@ -730,7 +732,7 @@ class Memory extends Adapter
                      * This is some user defined class, check if his parameter
                      * is instance of it
                      */
-                    if isset parameters[parameterToCheck] && typeof parameters[parameterToCheck] == "object" && !reflectionClass->isInstance(parameters[parameterToCheck]) {
+                    if unlikely (isset parameters[parameterToCheck] && typeof parameters[parameterToCheck] == "object" && !reflectionClass->isInstance(parameters[parameterToCheck])) {
                         throw new Exception(
                             "Your passed parameter doesn't have the same class as the parameter in defined function when check " . roleName . " can " . access . " " . componentName . ". Class passed: " . get_class(parameters[parameterToCheck])." , Class in defined function: " . reflectionClass->getName() . "."
                         );
@@ -822,13 +824,13 @@ class Memory extends Adapter
     {
         var accessList, accessName, accessKey;
 
-        if !isset this->rolesNames[roleName] {
+        if unlikely !isset this->rolesNames[roleName] {
             throw new Exception(
                 "Role '" . roleName . "' does not exist in ACL"
             );
         }
 
-        if !isset this->componentsNames[componentName] {
+        if unlikely !isset this->componentsNames[componentName] {
             throw new Exception(
                 "Component '" . componentName . "' does not exist in ACL"
             );
@@ -840,7 +842,7 @@ class Memory extends Adapter
             for accessName in access {
                 let accessKey = componentName . "!" . accessName;
 
-                if !isset accessList[accessKey] {
+                if unlikely !isset accessList[accessKey] {
                     throw new Exception(
                         "Access '" . accessName . "' does not exist in component '" . componentName . "'"
                     );
@@ -859,7 +861,7 @@ class Memory extends Adapter
             if access != "*" {
                 let accessKey = componentName . "!" . access;
 
-                if !isset accessList[accessKey] {
+                if unlikely !isset accessList[accessKey] {
                     throw new Exception(
                         "Access '" . access . "' does not exist in component '" . componentName . "'"
                     );
@@ -884,8 +886,9 @@ class Memory extends Adapter
      */
     private function canAccess(string roleName, string componentName, string access) -> string | bool
     {
-        var accessList, accessKey,checkRoleToInherit, checkRoleToInherits,
-            usedRoleToInherits, usedRoleToInherit;
+        var accessList, checkRoleToInherit, usedRoleToInherit;
+        array usedRoleToInherits, checkRoleToInherits;
+        string accessKey;
 
         let accessList = this->access;
 

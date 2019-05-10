@@ -10,7 +10,7 @@
 
 namespace Phalcon\Logger\Formatter;
 
-use Phalcon\Logger;
+use Phalcon\Logger\Logger;
 
 abstract class AbstractFormatter implements FormatterInterface
 {
@@ -23,7 +23,8 @@ abstract class AbstractFormatter implements FormatterInterface
      */
     public function interpolate(string message, var context = null)
     {
-        var replace, key, value;
+        var key, value;
+        array replace;
 
         if typeof context == "array" && count(context) > 0 {
             let replace = [];

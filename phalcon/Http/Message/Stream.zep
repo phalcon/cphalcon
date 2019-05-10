@@ -131,7 +131,7 @@ class Stream implements StreamInterface
 
         let data = stream_get_contents(this->handle);
 
-        if false === data {
+        if unlikely false === data {
             throw new Exception("Could not read from the file/stream");
         }
 
@@ -230,7 +230,7 @@ class Stream implements StreamInterface
 
         let data = fread(this->handle, length);
 
-        if false === data {
+        if unlikely false === data {
             throw new Exception("Could not read from the file/stream");
         }
 
@@ -260,7 +260,7 @@ class Stream implements StreamInterface
 
         let seeker = fseek(this->handle, offset, whence);
 
-        if 0 !== seeker {
+        if unlikely 0 !== seeker {
             throw new Exception("Cound not seek on the file pointer");
         }
     }
@@ -286,7 +286,7 @@ class Stream implements StreamInterface
             restore_error_handler();
         }
 
-        if true === this->warning || typeof handle !== "resource" || "stream" !== get_resource_type(handle) {
+        if unlikely (true === this->warning || typeof handle !== "resource" || "stream" !== get_resource_type(handle)) {
             throw new Exception(
                 "The stream provided is not valid (string/resource) or could not be opened."
             );
@@ -307,7 +307,7 @@ class Stream implements StreamInterface
 
         let position = ftell(this->handle);
 
-        if typeof position !== "int" {
+        if unlikely typeof position !== "int" {
             throw new Exception("Could not retrieve the pointer position");
         }
 
@@ -326,7 +326,7 @@ class Stream implements StreamInterface
 
         let bytes = fwrite(this->handle, data);
 
-        if false === bytes {
+        if unlikely false === bytes {
             throw new Exception("Could not write to the file/stream");
         }
 
@@ -338,7 +338,7 @@ class Stream implements StreamInterface
      */
     private function checkHandle() -> void
     {
-        if null === this->handle {
+        if unlikely null === this->handle {
             throw new Exception("A valid resource is required.");
         }
     }
@@ -348,7 +348,7 @@ class Stream implements StreamInterface
      */
     private function checkReadable() -> void
     {
-        if true !== this->isReadable() {
+        if unlikely true !== this->isReadable() {
             throw new Exception("The resource is not readable.");
         }
     }
@@ -358,7 +358,7 @@ class Stream implements StreamInterface
      */
     private function checkSeekable() -> void
     {
-        if true !== this->isSeekable() {
+        if unlikely true !== this->isSeekable() {
             throw new Exception("The resource is not seekable.");
         }
     }
@@ -368,7 +368,7 @@ class Stream implements StreamInterface
      */
     private function checkWritable() -> void
     {
-        if true !== this->isWritable() {
+        if unlikely true !== this->isWritable() {
             throw new Exception("The resource is not writable.");
         }
     }

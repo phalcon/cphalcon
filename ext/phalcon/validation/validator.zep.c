@@ -78,15 +78,14 @@ PHP_METHOD(Phalcon_Validation_Validator, __construct) {
  */
 PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 
-	zend_bool _1$$4;
-	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, options, value, fieldValue, _0;
+	zend_bool _1;
+	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, value, fieldValue, _0;
 	zval key;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&fieldValue);
 	ZVAL_UNDEF(&_0);
@@ -111,23 +110,20 @@ PHP_METHOD(Phalcon_Validation_Validator, getOption) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CPY_WRT(&options, &_0);
-	if (Z_TYPE_P(&options) == IS_ARRAY) {
-		if (zephir_array_isset_fetch(&value, &options, &key, 1 TSRMLS_CC)) {
-			_1$$4 = ZEPHIR_IS_STRING(&key, "attribute");
-			if (_1$$4) {
-				_1$$4 = Z_TYPE_P(&value) == IS_ARRAY;
-			}
-			if (_1$$4) {
-				if (zephir_array_isset_fetch(&fieldValue, &value, &key, 1 TSRMLS_CC)) {
-					RETURN_CTOR(&fieldValue);
-				}
-			}
-			RETURN_CTOR(&value);
+	if (!(zephir_array_isset_fetch(&value, &_0, &key, 1 TSRMLS_CC))) {
+		RETVAL_ZVAL(defaultValue, 1, 0);
+		RETURN_MM();
+	}
+	_1 = ZEPHIR_IS_STRING(&key, "attribute");
+	if (_1) {
+		_1 = Z_TYPE_P(&value) == IS_ARRAY;
+	}
+	if (_1) {
+		if (zephir_array_isset_fetch(&fieldValue, &value, &key, 1 TSRMLS_CC)) {
+			RETURN_CTOR(&fieldValue);
 		}
 	}
-	RETVAL_ZVAL(defaultValue, 1, 0);
-	RETURN_MM();
+	RETURN_CTOR(&value);
 
 }
 
@@ -190,7 +186,7 @@ PHP_METHOD(Phalcon_Validation_Validator, setOption) {
 	}
 
 
-	zephir_update_property_array(this_ptr, SL("options"), &key, value);
+	zephir_update_property_array(this_ptr, SL("options"), &key, value TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -237,7 +233,7 @@ PHP_METHOD(Phalcon_Validation_Validator, prepareCode) {
 	ZEPHIR_CALL_METHOD(&code, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&code) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &code, &field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator.zep", 91 TSRMLS_CC);
+		zephir_array_fetch(&_1$$3, &code, &field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator.zep", 90 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(&code, &_1$$3);
 	}
 	RETURN_CCTOR(&code);
@@ -351,7 +347,7 @@ PHP_METHOD(Phalcon_Validation_Validator, prepareMessage) {
 	ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, &option);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&message) == IS_ARRAY) {
-		zephir_array_fetch(&_0$$3, &message, &field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator.zep", 125 TSRMLS_CC);
+		zephir_array_fetch(&_0$$3, &message, &field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator.zep", 126 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(&message, &_0$$3);
 	}
 	if (ZEPHIR_IS_EMPTY(&message)) {

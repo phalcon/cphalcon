@@ -5,7 +5,7 @@ namespace Phalcon\Test\Integration\Mvc;
 use IntegrationTester;
 use Phalcon\Di;
 use Phalcon\Mvc\Model\Manager;
-use Phalcon\Mvc\Model\Metadata\Memory;
+use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Test\Controllers\ViewRequestController;
 use Test4Controller;
 
@@ -35,31 +35,46 @@ class ControllersCest
 
     /**
      * Executed before each test
-     *
-     * @param IntegrationTester $I
      */
     public function _before(IntegrationTester $I)
     {
-        Di::setDefault($I->getApplication()->getDI());
+        Di::setDefault(
+            $I->getApplication()->getDI()
+        );
 
         $this->modelsManager = $I->getApplication()->getDI()->getShared('modelsManager');
 
-        $I->haveServiceInDi('modelsMetadata', function () {
-            return new Memory;
-        }, true);
+        $I->haveServiceInDi(
+            'modelsMetadata',
+            function () {
+                return new Memory;
+            },
+            true
+        );
     }
 
     public function testControllers(IntegrationTester $I)
     {
         $controller = new ViewRequestController();
-        $controller->setDI(Di::getDefault());
+
+        $controller->setDI(
+            Di::getDefault()
+        );
 
         $view = Di::getDefault()->getShared('view');
 
         $_POST['email'] = ';ans@ecom.com';
-        $I->assertEquals($controller->requestAction(), 'ans@ecom.com');
+
+        $I->assertEquals(
+            'ans@ecom.com',
+            $controller->requestAction()
+        );
 
         $controller->viewAction();
-        $I->assertEquals(count($view->getParamsToView()), 1);
+
+        $I->assertCount(
+            1,
+            $view->getParamsToView()
+        );
     }
 }

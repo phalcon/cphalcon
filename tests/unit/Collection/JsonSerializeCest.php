@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Collection;
 use Phalcon\Collection;
 use UnitTester;
 
-/**
- * Class JsonSerializeCest
- */
 class JsonSerializeCest
 {
     /**
      * Tests Phalcon\Collection :: jsonSerialize()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,15 +26,18 @@ class JsonSerializeCest
     public function collectionJsonSerialize(UnitTester $I)
     {
         $I->wantToTest('Collection - jsonSerialize()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Collection($data);
 
-        $expected = $data;
-        $actual   = $collection->jsonSerialize();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $data,
+            $collection->jsonSerialize()
+        );
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Events\Manager;
 
 use UnitTester;
 
-/**
- * Class GetResponsesCest
- */
 class GetResponsesCest
 {
     /**
      * Tests Phalcon\Events\Manager :: getResponses()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetResponsesCest
     public function eventsManagerGetResponses(UnitTester $I)
     {
         $I->wantToTest('Events\Manager - getResponses()');
+
         $I->skipTest('Need implementation');
     }
 }

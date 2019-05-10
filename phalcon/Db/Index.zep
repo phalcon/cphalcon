@@ -81,11 +81,11 @@ class Index implements IndexInterface
     {
         var indexName, columns, type;
 
-        if !fetch indexName, data["name"] {
+        if unlikely !fetch indexName, data["name"] {
             throw new Exception("name parameter is required");
         }
 
-        if !fetch columns, data["columns"] {
+        if unlikely !fetch columns, data["columns"] {
             throw new Exception("columns parameter is required");
         }
 

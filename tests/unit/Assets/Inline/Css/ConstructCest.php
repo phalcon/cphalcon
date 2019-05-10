@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Assets\Inline\Css;
 use Phalcon\Assets\Inline\Css;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Assets\Asset :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -42,8 +37,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - filter
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -59,8 +52,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - filter set
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -78,8 +69,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - attributes
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -96,8 +85,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - attributes set
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

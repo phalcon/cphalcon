@@ -100,10 +100,10 @@ PHP_METHOD(Phalcon_Session_Adapter_Files, __construct) {
 	if (!(zephir_array_isset_string_fetch(&path, &options, SL("save_path"), 0))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "session.save_path");
-		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 463, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 493, &_2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 258, &path);
+	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 289, &path);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_3))) {
 		ZEPHIR_INIT_VAR(&_4$$4);
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Files, destroy) {
 	ZEPHIR_INIT_VAR(&name);
 	ZEPHIR_CONCAT_VV(&name, &_0, &_1);
 	if ((zephir_file_exists(&name TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 464, &name);
+		ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 494, &name);
 		zephir_check_call_status();
 	}
 	RETURN_MM_BOOL(1);
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Files, gc) {
 	zephir_read_property(&_1, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&pattern);
 	ZEPHIR_CONCAT_VVS(&pattern, &_0, &_1, "*");
-	ZEPHIR_CALL_FUNCTION(&_2, "glob", NULL, 465, &pattern);
+	ZEPHIR_CALL_FUNCTION(&_2, "glob", NULL, 495, &pattern);
 	zephir_check_call_status();
 	zephir_is_iterable(&_2, 0, "phalcon/Session/Adapter/Files.zep", 90);
 	if (Z_TYPE_P(&_2) == IS_ARRAY) {
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Files, gc) {
 				_5$$3 = ZEPHIR_LT(&_7$$3, &_6$$3);
 			}
 			if (_5$$3) {
-				ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_8, 464, &file);
+				ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_8, 494, &file);
 				zephir_check_call_status();
 			}
 		} ZEND_HASH_FOREACH_END();
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Files, gc) {
 					_9$$5 = ZEPHIR_LT(&_11$$5, &_10$$5);
 				}
 				if (_9$$5) {
-					ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_8, 464, &file);
+					ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_8, 494, &file);
 					zephir_check_call_status();
 				}
 			ZEPHIR_CALL_METHOD(NULL, &_2, "next", NULL, 0);

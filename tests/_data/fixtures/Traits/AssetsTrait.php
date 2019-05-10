@@ -16,151 +16,110 @@ use Phalcon\Assets\AssetInterface;
 use UnitTester;
 
 /**
- * Trait AssetsTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait AssetsTrait
 {
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetAssetKey(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getAssetKey();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getAssetKey()
+        );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param array          $expected
-     */
     private function assetGetAttributes(UnitTester $I, AssetInterface $asset, array $expected)
     {
-        $actual = $asset->getAttributes();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getAttributes()
+        );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetContent(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getContent();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getContent()
+        );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param bool           $expected
-     */
     private function assetGetFilter(UnitTester $I, AssetInterface $asset, bool $expected)
     {
-        $actual = $asset->getFilter();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getFilter()
+        );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     */
     private function assetGetLocal(UnitTester $I, AssetInterface $asset)
     {
-        $actual = $asset->getLocal();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $asset->getLocal()
+        );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetPath(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getPath();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getPath()
+        );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param mixed          $expected
-     */
     private function assetGetRealSourcePath(UnitTester $I, AssetInterface $asset, $expected)
     {
-        $actual = $asset->getRealSourcePath();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getRealSourcePath()
+        );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetRealTargetPath(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getRealTargetPath();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getRealTargetPath()
+        );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param mixed          $expected
-     */
     private function assetGetRealTargetUri(UnitTester $I, AssetInterface $asset, $expected)
     {
-        $actual = $asset->getRealTargetUri();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getRealTargetUri()
+        );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetSourcePath(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getSourcePath();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getSourcePath()
+        );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetTargetPath(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getTargetPath();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetPath()
+        );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetTargetUri(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getTargetUri();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetUri()
+        );
     }
 
-    /**
-     * @param UnitTester     $I
-     * @param AssetInterface $asset
-     * @param string         $expected
-     */
     private function assetGetType(UnitTester $I, AssetInterface $asset, string $expected)
     {
-        $actual = $asset->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $asset->getType()
+        );
     }
 }

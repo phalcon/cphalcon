@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Cookie;
 
 use UnitTester;
 
-/**
- * Class IsUsingEncryptionCest
- */
 class IsUsingEncryptionCest
 {
     /**
      * Tests Phalcon\Http\Cookie :: isUsingEncryption()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsUsingEncryptionCest
     public function httpCookieIsUsingEncryption(UnitTester $I)
     {
         $I->wantToTest('Http\Cookie - isUsingEncryption()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class IsUnsignedCest
- */
 class IsUnsignedCest
 {
     use DiTrait;
@@ -27,18 +24,21 @@ class IsUnsignedCest
     /**
      * Tests Phalcon\Db\Column :: isUnsigned()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbColumnIsUnsigned(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - isUnsigned()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['unsigned'], $column->isUnsigned());
+            $I->assertEquals(
+                $columns[$index]['unsigned'],
+                $column->isUnsigned()
+            );
         }
     }
 }

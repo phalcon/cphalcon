@@ -23,8 +23,8 @@ class ApcuCest
     {
         $I->checkExtensionIsLoaded('apcu');
 
-        require_once dataFolder('fixtures/Annotations/TestClass.php');
-        require_once dataFolder('fixtures/Annotations/TestClassNs.php');
+        require_once dataDir('fixtures/Annotations/TestClass.php');
+        require_once dataDir('fixtures/Annotations/TestClassNs.php');
     }
 
     public function testApcAdapter(UnitTester $I)

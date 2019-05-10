@@ -40,19 +40,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Factory) {
 
 PHP_METHOD(Phalcon_Factory, loadClass) {
 
-	zend_class_entry *_3$$5;
+	zend_class_entry *_4$$5;
 	zend_bool _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *namespaceClass_param = NULL, *config = NULL, config_sub, adapter, className, _1$$3, _2$$5;
-	zval namespaceClass;
+	zval *namespaceClass_param = NULL, *config = NULL, config_sub, adapter, _1$$3, _2$$5, _3$$5;
+	zval namespaceClass, className;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&namespaceClass);
+	ZVAL_UNDEF(&className);
 	ZVAL_UNDEF(&config_sub);
 	ZVAL_UNDEF(&adapter);
-	ZVAL_UNDEF(&className);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$5);
+	ZVAL_UNDEF(&_3$$5);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &namespaceClass_param, &config);
@@ -70,25 +71,26 @@ PHP_METHOD(Phalcon_Factory, loadClass) {
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(config, &_1$$3);
 	}
-	if (Z_TYPE_P(config) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Factory.zep", 29);
+	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Factory.zep", 30);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&adapter);
 	if (zephir_array_isset_string_fetch(&adapter, config, SL("adapter"), 0)) {
 		zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
-		ZEPHIR_INIT_VAR(&className);
-		ZEPHIR_CONCAT_VSV(&className, &namespaceClass, "\\", &adapter);
-		zephir_fetch_safe_class(&_2$$5, &className);
-		_3$$5 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_2$$5), Z_STRLEN_P(&_2$$5), ZEND_FETCH_CLASS_AUTO);
-		object_init_ex(return_value, _3$$5);
+		ZEPHIR_INIT_VAR(&_2$$5);
+		ZEPHIR_CONCAT_VSV(&_2$$5, &namespaceClass, "\\", &adapter);
+		zephir_get_strval(&className, &_2$$5);
+		zephir_fetch_safe_class(&_3$$5, &className);
+		_4$$5 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_3$$5), Z_STRLEN_P(&_3$$5), ZEND_FETCH_CLASS_AUTO);
+		object_init_ex(return_value, _4$$5);
 		if (zephir_has_constructor(return_value TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, config);
 			zephir_check_call_status();
 		}
 		RETURN_MM();
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Factory.zep", 41);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Factory.zep", 43);
 	return;
 
 }

@@ -162,9 +162,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_getuseropt
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_getvalidators, 0, 0, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_getvalidators, 0, 0, Phalcon\\Validation\\ValidatorInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_getvalidators, 0, 0, IS_ARRAY, NULL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_getvalidators, 0, 0, IS_OBJECT, "Phalcon\\Validation\\ValidatorInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -188,7 +188,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_prepareatt
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_prepareattributes, 0, 0, IS_ARRAY, NULL, 0)
 #endif
-	ZEND_ARG_ARRAY_INFO(0, attributes, 1)
+	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, useChecked, _IS_BOOL, 0)
 #else

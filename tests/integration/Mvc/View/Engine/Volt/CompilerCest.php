@@ -23,11 +23,12 @@ use Phalcon\Di;
 use Phalcon\Escaper;
 use Phalcon\Forms\Element\Password;
 use Phalcon\Forms\Form;
-use Phalcon\Url;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tag;
+use Phalcon\Url;
+use stdClass;
 
 /**
  * Phalcon\Test\Integration\Mvc\View\Engine\Volt\CompilerCest
@@ -51,15 +52,15 @@ class CompilerCest
         $I->wantToTest('Compile import recursive files');
         $I->skipTest('TODO - Check me');
 
-        $I->safeDeleteFile(dataFolder('fixtures/views/layouts/extends.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/extends/index.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/extends/other.volt.php'));
+        $I->safeDeleteFile(dataDir('fixtures/views/layouts/extends.volt.php'));
+        $I->safeDeleteFile(dataDir('fixtures/views/extends/index.volt.php'));
+        $I->safeDeleteFile(dataDir('fixtures/views/extends/other.volt.php'));
 
         $di = new Di();
 
         $view = new View();
         $view->setDI($di);
-        $view->setViewsDir(dataFolder('fixtures/views/'));
+        $view->setViewsDir(dataDir('fixtures/views/'));
 
         $view->registerEngines([
             '.volt' => Volt::class,
@@ -83,49 +84,83 @@ class CompilerCest
         $view->render('extends', 'index');
         $view->finish();
 
-        $expected = 'Clearly, the song is: Hello Rock n roll!.' . PHP_EOL;
-        $actual   = $view->getContent();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Clearly, the song is: Hello Rock n roll!.' . PHP_EOL,
+            $view->getContent()
+        );
 
         //Refreshing generated view
-        file_put_contents(dataFolder('fixtures/views/extends/other.volt'), '{{song}} {{song}}');
+        file_put_contents(
+            dataDir('fixtures/views/extends/other.volt'),
+            '{{song}} {{song}}'
+        );
 
         $view->setParamToView('song', 'Le Song');
 
         $view->start();
-        $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+
+        $view->setRenderLevel(
+            View::LEVEL_ACTION_VIEW
+        );
+
         $view->render('extends', 'other');
+
         $view->finish();
 
-        $expected = 'Le Song Le Song';
-        $actual   = $view->getContent();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Le Song Le Song',
+            $view->getContent()
+        );
 
         $view->start();
-        $view->setRenderLevel(View::LEVEL_LAYOUT);
+
+        $view->setRenderLevel(
+            View::LEVEL_LAYOUT
+        );
+
         $view->render('extends', 'other');
+
         $view->finish();
 
-        $expected = 'Clearly, the song is: Le Song Le Song.' . PHP_EOL;
-        $actual   = $view->getContent();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Clearly, the song is: Le Song Le Song.' . PHP_EOL,
+            $view->getContent()
+        );
 
 
         //Change the view
-        file_put_contents(dataFolder('fixtures/views/extends/other.volt'), 'Two songs: {{song}} {{song}}');
+        file_put_contents(
+            dataDir('fixtures/views/extends/other.volt'),
+            'Two songs: {{song}} {{song}}'
+        );
 
         $view->start();
-        $view->setRenderLevel(View::LEVEL_LAYOUT);
+
+        $view->setRenderLevel(
+            View::LEVEL_LAYOUT
+        );
+
         $view->render('extends', 'other');
+
         $view->finish();
 
-        $expected = 'Clearly, the song is: Two songs: Le Song Le Song.' . PHP_EOL;
-        $actual   = $view->getContent();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Clearly, the song is: Two songs: Le Song Le Song.' . PHP_EOL,
+            $view->getContent()
+        );
 
-        $I->safeDeleteFile(dataFolder('fixtures/views/layouts/extends.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/extends/index.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/extends/other.volt.php'));
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/layouts/extends.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/extends/index.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/extends/other.volt.php')
+        );
     }
 
     /**
@@ -139,31 +174,64 @@ class CompilerCest
     public function shouldCorrectWorkWithVoltMacros(IntegrationTester $I)
     {
         $I->wantToTest('Volt macros');
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/hello.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/conditionaldate.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/my_input.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/error_messages.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/related_links.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/strtotime.volt.php'));
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/hello.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/conditionaldate.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/my_input.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/error_messages.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/related_links.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/strtotime.volt.php')
+        );
 
         Di::reset();
-        Tag::setDocType(Tag::XHTML5);
+
+        Tag::setDocType(
+            Tag::XHTML5
+        );
 
         $view = new View;
         $di   = new Di;
-        $di->set('escaper', function () {
-            return new Escaper;
-        });
-        $di->set('tag', function () {
-            return new Tag;
-        });
-        $di->set('url', function () {
-            return (new Url)->setBaseUri('/');
-        });
+
+        $di->set(
+            'escaper',
+            function () {
+                return new Escaper;
+            }
+        );
+
+        $di->set(
+            'tag',
+            function () {
+                return new Tag;
+            }
+        );
+
+        $di->set(
+            'url',
+            function () {
+                return (new Url)->setBaseUri('/');
+            }
+        );
 
         $view->setDI($di);
 
-        $view->setViewsDir(dataFolder('fixtures/views/'));
+        $view->setViewsDir(dataDir('fixtures/views/'));
 
         $view->registerEngines([
             '.volt' => function ($view) {
@@ -182,6 +250,7 @@ class CompilerCest
         $actual   = $view->getContent();
         $I->assertEquals($expected, $actual);
 
+
         $view->start();
         $view->render('macro', 'conditionaldate');
         $view->finish();
@@ -189,6 +258,7 @@ class CompilerCest
         $expected = sprintf('from <br/>%s, %s UTC', date('Y-m-d'), date('H:i'));
         $actual   = $view->getContent();
         $I->assertEquals($expected, $actual);
+
 
         $view->start();
         $view->render('macro', 'my_input');
@@ -198,6 +268,7 @@ class CompilerCest
         $actual   = $view->getContent();
         $I->assertEquals($expected, $actual);
 
+
         $view->start();
         $view->render('macro', 'error_messages');
         $view->finish();
@@ -206,6 +277,7 @@ class CompilerCest
             . '<span class="error-message">The name is invalid</span></div>';
         $actual   = $view->getContent();
         $I->assertEquals($expected, $actual);
+
 
         $view->setVar(
             'links',
@@ -225,6 +297,7 @@ class CompilerCest
         $actual   = $view->getContent();
         $I->assertEquals($expected, $actual);
 
+
         $view->setVar('date', new DateTime());
         $view->start();
         $view->render('macro', 'strtotime');
@@ -233,18 +306,35 @@ class CompilerCest
         $content = $view->getContent();
         $content = explode('%', $content);
 
-        $expected = 3;
-        $I->assertCount($expected, $content);
+        $I->assertCount(3, $content);
         $I->assertEquals($content[0], $content[1]);
         $I->assertEquals($content[1], $content[2]);
         $I->assertEquals($content[2], $content[0]);
 
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/hello.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/conditionaldate.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/my_input.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/error_messages.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/related_links.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/strtotime.volt.php'));
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/hello.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/conditionaldate.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/my_input.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/error_messages.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/related_links.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/strtotime.volt.php')
+        );
     }
 
     /**
@@ -258,31 +348,53 @@ class CompilerCest
     public function shouldAcceptObjectToVoltMacros(IntegrationTester $I)
     {
         $I->wantToTest('Volt macros can accept objects');
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/list.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/form_row.volt.php'));
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/list.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/form_row.volt.php')
+        );
 
         Di::reset();
+
         $view = new View;
         $di   = new Di;
-        Tag::setDocType(Tag::XHTML5);
-        $di->set('escaper', function () {
-            return new Escaper;
-        });
-        $di->set('tag', function () {
-            return new Tag;
-        });
-        $di->set('url', function () {
-            return (new Url)->setBaseUri('/');
-        });
+
+        Tag::setDocType(
+            Tag::XHTML5
+        );
+
+        $di->set(
+            'escaper',
+            function () {
+                return new Escaper;
+            }
+        );
+
+        $di->set(
+            'tag',
+            function () {
+                return new Tag;
+            }
+        );
+
+        $di->set(
+            'url',
+            function () {
+                return (new Url)->setBaseUri('/');
+            }
+        );
 
         $view->setDI($di);
-        $view->setViewsDir(dataFolder('fixtures/views/'));
+        $view->setViewsDir(dataDir('fixtures/views/'));
         $view->registerEngines([
             '.volt' => function ($view) {
                 return new Volt($view, $this);
             },
         ]);
-        $object      = new \stdClass();
+        $object      = new stdClass();
         $object->foo = "bar";
         $object->baz = "buz";
         $object->pi  = 3.14;
@@ -293,20 +405,32 @@ class CompilerCest
         $view->render('macro', 'list');
         $view->finish();
         ob_start();
+
         var_dump($object);
+
         $actual = ob_get_clean();
 
         // Trim xdebug first line (file path)
         $actual   = substr($actual, strpos($actual, 'class'));
         $expected = substr($view->getContent(), strpos($view->getContent(), 'class'));
+
         $I->assertEquals($expected, $actual);
 
+
         $form = new Form;
-        $form->add(new Password('password'));
+
+        $form->add(
+            new Password('password')
+        );
+
         $view->setVar('formLogin', $form);
+
         $view->start();
+
         $view->render('macro', 'form_row');
+
         $view->finish();
+
         $expected = <<<FORM
 <div class="form-group">
     <label class="col-sm-2 control-label" for="password">password:</label>
@@ -314,11 +438,18 @@ class CompilerCest
 </div>
 FORM;
 
-        $actual = $view->getContent();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $view->getContent()
+        );
 
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/list.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/macro/form_row.volt.php'));
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/list.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/macro/form_row.volt.php')
+        );
     }
 
     /**
@@ -333,10 +464,17 @@ FORM;
     {
         $I->wantToTest('Volt Loop context');
 
-        $volt     = new Compiler();
-        $compiled = $volt->compileString('{% for i in 1..5 %}{{ loop.self.index }}{% endfor %}');
+        $volt = new Compiler();
+
+        $compiled = $volt->compileString(
+            '{% for i in 1..5 %}{{ loop.self.index }}{% endfor %}'
+        );
+
         ob_start();
-        eval('?>' . $compiled);
+
+        eval(
+            '?>' . $compiled
+        );
 
         $result = ob_get_clean();
 

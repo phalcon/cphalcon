@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class GetBoundModelsCest
- */
 class GetBoundModelsCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getBoundModels()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetBoundModelsCest
     public function mvcDispatcherGetBoundModels(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - getBoundModels()');
+
         $I->skipTest('Need implementation');
     }
 }

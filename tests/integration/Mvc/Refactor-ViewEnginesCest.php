@@ -24,7 +24,7 @@ use Phalcon\Test\Fixtures\Mvc\View\Engine\Mustache;
 use Phalcon\Test\Fixtures\Mvc\View\Engine\Twig;
 use Phalcon\Test\Fixtures\Mvc\View\IteratorObject;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function dataFolder;
+use function dataDir;
 
 class ViewEnginesCest
 {
@@ -72,7 +72,7 @@ class ViewEnginesCest
 
             $actual = $view->getContent();
             $I->assertEquals($expected, $actual);
-            $I->safeDeleteFile(dataFolder('fixtures/views/builtinfunction/index.volt.php'));
+            $I->safeDeleteFile(dataDir('fixtures/views/builtinfunction/index.volt.php'));
         }
     }
 

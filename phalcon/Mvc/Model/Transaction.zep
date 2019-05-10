@@ -76,6 +76,8 @@ class Transaction implements TransactionInterface
 
     protected rollbackOnAbort = false;
 
+    protected rollbackThrowException = false;
+
     /**
      * Phalcon\Mvc\Model\Transaction constructor
      */
@@ -175,7 +177,7 @@ class Transaction implements TransactionInterface
 
         let connection = this->connection;
 
-        if connection->rollback() {
+        if unlikely connection->rollback() {
             if !rollbackMessage {
                 let rollbackMessage = "Transaction aborted";
             }
@@ -184,7 +186,9 @@ class Transaction implements TransactionInterface
                 let this->rollbackRecord = rollbackRecord;
             }
 
-            throw new TxFailed(rollbackMessage, this->rollbackRecord);
+            if this->rollbackThrowException {
+                throw new TxFailed(rollbackMessage, this->rollbackRecord);
+            }
         }
 
         return true;
@@ -220,5 +224,15 @@ class Transaction implements TransactionInterface
     public function setTransactionManager(<ManagerInterface> manager) -> void
     {
         let this->manager = manager;
+    }
+
+    /**
+     * Enables throwing exception
+     */
+    public function throwRollbackException(bool status) -> <TransactionInterface>
+    {
+        let this->rollbackThrowException = status;
+
+        return this;
     }
 }

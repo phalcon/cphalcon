@@ -12,14 +12,14 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
+#include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/fcall.h"
-#include "kernel/operators.h"
-#include "kernel/concat.h"
 #include "kernel/array.h"
+#include "kernel/object.h"
+#include "kernel/concat.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -62,6 +62,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Service_Locator) {
  */
 PHP_METHOD(Phalcon_Service_Locator, __construct) {
 
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *mapper_param = NULL;
 	zval mapper;
 	zval *this_ptr = getThis();
@@ -79,38 +80,9 @@ PHP_METHOD(Phalcon_Service_Locator, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("mapper"), &mapper);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &mapper);
+	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
-}
-
-/**
- * Services being called via magic methods
- */
-PHP_METHOD(Phalcon_Service_Locator, __call) {
-
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval parameters;
-	zval *name_param = NULL, *parameters_param = NULL, service;
-	zval name;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&name);
-	ZVAL_UNDEF(&service);
-	ZVAL_UNDEF(&parameters);
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &name_param, &parameters_param);
-
-	zephir_get_strval(&name, name_param);
-	zephir_get_arrval(&parameters, parameters_param);
-
-
-	ZEPHIR_CALL_METHOD(&service, this_ptr, "get", NULL, 0, &name);
-	zephir_check_call_status();
-	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &service, &parameters);
-	zephir_check_call_status();
-	RETURN_MM();
 
 }
 
@@ -120,23 +92,21 @@ PHP_METHOD(Phalcon_Service_Locator, __call) {
  */
 PHP_METHOD(Phalcon_Service_Locator, get) {
 
-	zend_class_entry *_6$$5;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, definition, service, _0, _3, _7, _8, _1$$3, _4$$4, _5$$5;
+	zval *name_param = NULL, definition, _0, _3, _6, _7, _1$$3, _4$$4, _5$$4;
 	zval name, _2$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&definition);
-	ZVAL_UNDEF(&service);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_4$$4);
-	ZVAL_UNDEF(&_5$$5);
+	ZVAL_UNDEF(&_5$$4);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -153,40 +123,31 @@ PHP_METHOD(Phalcon_Service_Locator, get) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "has", NULL, 0, &name);
-	zephir_check_call_status();
-	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
+	zephir_read_property(&_0, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(!(zephir_array_isset(&_0, &name)))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_service_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "The service ", &name, " has not been found in the locator");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 1, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Service/Locator.zep", 63 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Service/Locator.zep", 52 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	zephir_read_property(&_3, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	if (1 != zephir_array_isset(&_3, &name)) {
+	if (!(zephir_array_isset(&_3, &name))) {
 		zephir_read_property(&_4$$4, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&definition, &_4$$4, &name, PH_NOISY | PH_READONLY, "phalcon/Service/Locator.zep", 67 TSRMLS_CC);
-		if (Z_TYPE_P(&definition) == IS_STRING) {
-			ZEPHIR_INIT_VAR(&service);
-			zephir_fetch_safe_class(&_5$$5, &definition);
-			_6$$5 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_5$$5), Z_STRLEN_P(&_5$$5), ZEND_FETCH_CLASS_AUTO);
-			object_init_ex(&service, _6$$5);
-			if (zephir_has_constructor(&service TSRMLS_CC)) {
-				ZEPHIR_CALL_METHOD(NULL, &service, "__construct", NULL, 0);
-				zephir_check_call_status();
-			}
-		} else {
-			ZEPHIR_CPY_WRT(&service, &definition);
-		}
-		zephir_update_property_array(this_ptr, SL("services"), &name, &service);
+		ZEPHIR_OBS_VAR(&definition);
+		zephir_array_fetch(&definition, &_4$$4, &name, PH_NOISY, "phalcon/Service/Locator.zep", 56 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(&_5$$4);
+		ZEPHIR_CALL_USER_FUNC(&_5$$4, &definition);
+		zephir_check_call_status();
+		zephir_update_property_array(this_ptr, SL("services"), &name, &_5$$4 TSRMLS_CC);
 	}
-	zephir_read_property(&_7, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_8, &_7, &name, PH_NOISY | PH_READONLY, "phalcon/Service/Locator.zep", 78 TSRMLS_CC);
-	RETURN_CTOR(&_8);
+	zephir_read_property(&_6, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch(&_7, &_6, &name, PH_NOISY | PH_READONLY, "phalcon/Service/Locator.zep", 60 TSRMLS_CC);
+	RETURN_CTOR(&_7);
 
 }
 
@@ -250,9 +211,52 @@ PHP_METHOD(Phalcon_Service_Locator, set) {
 	}
 
 
-	zephir_update_property_array(this_ptr, SL("mapper"), &name, service);
+	zephir_update_property_array(this_ptr, SL("mapper"), &name, service TSRMLS_CC);
 	zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_unset(&_0, &name, PH_SEPARATE);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Loads the objects in the internal mapper array
+ */
+PHP_METHOD(Phalcon_Service_Locator, init) {
+
+	zend_string *_2;
+	zend_ulong _1;
+	zephir_fcall_cache_entry *_3 = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *mapper_param = NULL, name, service, *_0;
+	zval mapper;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&mapper);
+	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&service);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &mapper_param);
+
+	ZEPHIR_OBS_COPY_OR_DUP(&mapper, mapper_param);
+
+
+	zephir_is_iterable(&mapper, 0, "phalcon/Service/Locator.zep", 91);
+	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&mapper), _1, _2, _0)
+	{
+		ZEPHIR_INIT_NVAR(&name);
+		if (_2 != NULL) { 
+			ZVAL_STR_COPY(&name, _2);
+		} else {
+			ZVAL_LONG(&name, _1);
+		}
+		ZEPHIR_INIT_NVAR(&service);
+		ZVAL_COPY(&service, _0);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "set", &_3, 0, &name, &service);
+		zephir_check_call_status();
+	} ZEND_HASH_FOREACH_END();
+	ZEPHIR_INIT_NVAR(&service);
+	ZEPHIR_INIT_NVAR(&name);
 	ZEPHIR_MM_RESTORE();
 
 }

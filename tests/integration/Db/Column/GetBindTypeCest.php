@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetBindTypeCest
- */
 class GetBindTypeCest
 {
     use DiTrait;
@@ -27,18 +24,21 @@ class GetBindTypeCest
     /**
      * Tests Phalcon\Db\Column :: getBindType()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbColumnGetBindType(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - getBindType()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['bindType'], $column->getBindType());
+            $I->assertEquals(
+                $columns[$index]['bindType'],
+                $column->getBindType()
+            );
         }
     }
 }

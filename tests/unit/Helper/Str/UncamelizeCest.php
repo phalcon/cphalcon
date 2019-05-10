@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Helper\Str;
 use UnitTester;
 
-/**
- * Class UncamelizeCest
- */
 class UncamelizeCest
 {
     /**

@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Collection;
 use Phalcon\Collection;
 use UnitTester;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     /**
      * Tests Phalcon\Collection :: get()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -42,7 +37,10 @@ class GetCest
         $actual   = $collection->get('three');
         $I->assertEquals($expected, $actual);
 
-        $actual   = $collection->get('THREE');
+        $actual = $collection->get('THREE');
+        $I->assertEquals($expected, $actual);
+
+        $actual = $collection->get('unknown', 'four');
         $I->assertEquals($expected, $actual);
 
         $actual = $collection['three'];

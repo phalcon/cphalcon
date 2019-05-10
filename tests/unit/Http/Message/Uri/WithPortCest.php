@@ -16,15 +16,10 @@ use Codeception\Example;
 use Phalcon\Http\Message\Uri;
 use UnitTester;
 
-/**
- * Class WithPortCest
- */
 class WithPortCest
 {
     /**
      * Tests Phalcon\Http\Message\Uri :: withPort()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
