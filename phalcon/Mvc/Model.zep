@@ -2761,7 +2761,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
             lateStateBinding, castOnHydrate, ignoreUnknownColumns,
             updateSnapshotOnSave, disableAssignSetters,
-            caseInsensitiveColumnMap, prefetchRecords;
+            caseInsensitiveColumnMap, prefetchRecords, lastInsertId;
 
         /**
          * Enables/Disables globally the internal events
@@ -2844,6 +2844,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
         if fetch prefetchRecords, options["prefetchRecords"] {
             globals_set("orm.resultset_prefetch_records", prefetchRecords);
+        }
+	
+        if fetch lastInsertId, options["castLastInsertIdToInt"] {
+            globals_set("orm.cast_last_insert_id_to_int", lastInsertId);
         }
     }
 
@@ -3618,6 +3622,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * Recover the last "insert id" and assign it to the object
              */
             let lastInsertedId = connection->lastInsertId(sequenceName);
+
+            /**
+             * If we want auto casting
+             */
+            if unlikely globals_get("orm.cast_last_insert_id_to_int")
+                let lastInsertedId = intval(lastInsertId, 10);
+            }
 
             let this->{attributeField} = lastInsertedId;
             let snapshot[attributeField] = lastInsertedId;
