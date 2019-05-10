@@ -3627,7 +3627,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * If we want auto casting
              */
             if unlikely globals_get("orm.cast_last_insert_id_to_int") {
-                let lastInsertedId = intval(lastInsertId, 10);
+                let lastInsertedId = intval(lastInsertedId, 10);
             }
 
             let this->{attributeField} = lastInsertedId;
