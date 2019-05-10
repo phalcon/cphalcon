@@ -12,11 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\Validator\Url;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Url;
+use const FILTER_FLAG_PATH_REQUIRED;
+use const FILTER_FLAG_QUERY_REQUIRED;
 
 /**
  * Class ValidateCest
@@ -219,5 +222,66 @@ class ValidateCest
             0,
             $messages->count()
         );
+    }
+
+    /**
+     * Tests Phalcon\Validation\Validator\Url :: validate() - flags
+     *
+     * @dataProvider getExamples
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-05-10
+     */
+    public function validationValidatorUrlFlags(IntegrationTester $I, Example $example)
+    {
+        $I->wantToTest('Validation\Validator\Url :: validate() - flags ' . $example[0]);
+
+        $validation = new Validation();
+
+        $validation->add(
+            'url',
+            new Url(
+                [
+                    'flags' => [
+                        $example[1],
+                    ],
+                ]
+            )
+        );
+
+        $messages = $validation->validate(
+            [
+                'url' => $example[2],
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $expected = new Messages(
+            [
+                new Message(
+                    'Field url must be a url',
+                    'url',
+                    'Url',
+                    0
+                ),
+            ]
+        );
+
+        $I->assertEquals($expected, $messages);
+    }
+
+    /**
+     * @return array
+     */
+    private function getExamples(): array
+    {
+        return [
+            ['path required', FILTER_FLAG_PATH_REQUIRED, 'phalconphp.com'],
+            ['query required', FILTER_FLAG_QUERY_REQUIRED, 'https://'],
+        ];
     }
 }
