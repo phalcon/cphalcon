@@ -51,9 +51,9 @@ class RenderCest
         $I->wantToTest('Mvc\View\Engine\Volt - render() - events');
         $this->setNewFactoryDefault();
         $this->setDiViewSimple();
-        $view = $this->getService('viewSimple');
+        $view          = $this->getService('viewSimple');
         $eventsManager = $this->newEventsManager();
-        $listener = new ViewCompileListener();
+        $listener      = new ViewCompileListener();
         $listener->setTestCase($this, $I);
         $eventsManager->attach('view:afterCompile', $listener);
         $eventsManager->attach('view:beforeCompile', $listener);
@@ -62,7 +62,7 @@ class RenderCest
         $volt = new Volt($view, $this->container);
         $volt->setEventsManager($eventsManager);
 
-        $template = dataFolder('fixtures/views/compiler/partial.volt');
+        $template = dataDir('fixtures/views/compiler/partial.volt');
         $volt->render($template, ['some_var' => 'aaa']);
 
         $expected = 'Before fired';

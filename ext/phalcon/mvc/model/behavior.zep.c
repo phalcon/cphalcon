@@ -110,10 +110,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions) {
 	zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&options, &_0);
 	if (!ZEPHIR_IS_STRING_IDENTICAL(&eventName, "")) {
-		if (zephir_array_isset_fetch(&eventOptions, &options, &eventName, 1 TSRMLS_CC)) {
-			RETURN_CTOR(&eventOptions);
+		if (!(zephir_array_isset_fetch(&eventOptions, &options, &eventName, 1 TSRMLS_CC))) {
+			RETURN_MM_NULL();
 		}
-		RETURN_MM_NULL();
+		RETURN_CTOR(&eventOptions);
 	}
 	RETURN_CCTOR(&options);
 

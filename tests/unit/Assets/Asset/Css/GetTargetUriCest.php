@@ -16,17 +16,12 @@ use Phalcon\Assets\Asset\Css;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetTargetUriCest
- */
 class GetTargetUriCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: getTargetUri() - css local
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getTargetUri() - css local
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -42,9 +37,7 @@ class GetTargetUriCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getTargetUri() - css remote
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getTargetUri() - css remote
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

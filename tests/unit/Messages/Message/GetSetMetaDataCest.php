@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Messages\Message;
 use Phalcon\Messages\Message;
 use UnitTester;
 
-/**
- * Class GetSetMetaDataCest
- */
 class GetSetMetaDataCest
 {
     /**
      * Tests Phalcon\Messages\Message :: getMetaData()/setMetaData()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -43,7 +38,6 @@ class GetSetMetaDataCest
         );
 
 
-
         $expected = [
             'My1' => 'Metadata1',
         ];
@@ -52,7 +46,6 @@ class GetSetMetaDataCest
             $expected,
             $message->getMetaData()
         );
-
 
 
         $expected = [

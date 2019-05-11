@@ -43,7 +43,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             []
         );
@@ -62,7 +61,6 @@ class ValidateCest
         $I->assertEquals($expected, $messages);
 
 
-
         $messages = $validation->validate(
             [
                 'url' => 'x=1',
@@ -70,7 +68,6 @@ class ValidateCest
         );
 
         $I->assertEquals($expected, $messages);
-
 
 
         $messages = $validation->validate(
@@ -209,7 +206,6 @@ class ValidateCest
         $I->assertEquals($expected, $messages);
 
 
-
         $messages = $validation->validate(
             [
                 'url' => 'x=1',
@@ -217,7 +213,6 @@ class ValidateCest
         );
 
         $I->assertEquals($expected, $messages);
-
 
 
         $messages = $validation->validate(

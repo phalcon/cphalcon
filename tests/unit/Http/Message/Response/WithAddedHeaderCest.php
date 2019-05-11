@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Response;
 use Phalcon\Http\Message\Response;
 use UnitTester;
 
-/**
- * Class WithAddedHeaderCest
- */
 class WithAddedHeaderCest
 {
     /**
      * Tests Phalcon\Http\Message\Response :: withAddedHeader()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
@@ -55,8 +50,6 @@ class WithAddedHeaderCest
 
     /**
      * Tests Phalcon\Http\Message\Response :: withAddedHeader() - merge
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09

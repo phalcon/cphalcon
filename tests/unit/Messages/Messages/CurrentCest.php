@@ -16,15 +16,10 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use UnitTester;
 
-/**
- * Class CurrentCest
- */
 class CurrentCest
 {
     /**
      * Tests Phalcon\Messages\Messages :: current()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -64,14 +59,13 @@ class CurrentCest
         );
 
 
-
         $expected = Message::__set_state(
             [
                 '_message'  => 'This is a message #1',
                 '_field'    => 'MyField1',
                 '_type'     => 'MyType1',
                 '_code'     => 111,
-                '_metaData' => ['My1' => 'Metadata1']
+                '_metaData' => ['My1' => 'Metadata1'],
             ]
         );
 

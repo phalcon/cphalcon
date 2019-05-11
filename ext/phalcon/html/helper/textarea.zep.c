@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Html_Helper_TextArea, __invoke) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "textarea");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderelement", NULL, 0, &_0, &text, &attributes);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &_0, &text, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
 

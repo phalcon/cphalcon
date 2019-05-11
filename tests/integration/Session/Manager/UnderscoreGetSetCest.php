@@ -34,15 +34,13 @@ class UnderscoreGetSetCest
 
         $manager = new Manager();
 
-        $files = $this->getSessionFiles();
+        $files = $this->getSessionStream();
 
         $manager->setHandler($files);
 
         $I->assertTrue(
             $manager->start()
         );
-
-
 
         $expected      = 'myval';
         $manager->test = $expected;
@@ -51,8 +49,6 @@ class UnderscoreGetSetCest
             $expected,
             $manager->test
         );
-
-
 
         $manager->destroy();
 

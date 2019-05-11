@@ -12,22 +12,18 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Formatter\Json;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 /**
- * Class InterpolateCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class InterpolateCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Json :: interpolate()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -38,21 +34,19 @@ class InterpolateCest
 
         $formatter = new Json();
 
-        $message = 'The sky is {color}';
-        $context = [
-            'color' => 'blue',
-        ];
-
         $I->assertEquals(
             'The sky is blue',
-            $formatter->interpolate($message, $context)
+            $formatter->interpolate(
+                'The sky is {color}',
+                [
+                    'color' => 'blue',
+                ]
+            )
         );
     }
 
     /**
      * Tests Phalcon\Logger\Formatter\Json :: interpolate() - format
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -84,8 +78,9 @@ class InterpolateCest
             PHP_EOL
         );
 
-        $actual = $formatter->format($item);
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $formatter->format($item)
+        );
     }
 }

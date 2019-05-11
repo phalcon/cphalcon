@@ -45,8 +45,6 @@ class SetCest extends HttpBase
     /**
      * Tests Issue #13464
      *
-     * @param UnitTester $I
-     *
      * @author Cameron Hall <me@chall.id.au>
      * @since  2019-01-20
      * @issue https://github.com/phalcon/cphalcon/issues/13464

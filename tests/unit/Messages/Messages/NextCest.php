@@ -16,15 +16,10 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use UnitTester;
 
-/**
- * Class NextCest
- */
 class NextCest
 {
     /**
      * Tests Phalcon\Messages\Messages :: next()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -66,7 +61,6 @@ class NextCest
         );
 
 
-
         $expected = Message::__set_state(
             [
                 '_message'  => 'This is a message #2',
@@ -75,7 +69,7 @@ class NextCest
                 '_code'     => 222,
                 '_metaData' => [
                     'My2' => 'Metadata2',
-                ]
+                ],
             ]
         );
 

@@ -16,17 +16,10 @@ use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-/**
- * Class TextAreaCest
- *
- * @package Phalcon\Test\Unit\Tag
- */
 class TextAreaCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: textArea() - string as a parameter
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -43,8 +36,6 @@ class TextAreaCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: textArea() - array as a parameter
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -65,8 +56,6 @@ class TextAreaCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: textArea() - array as a parameters and id in it
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -90,8 +79,6 @@ class TextAreaCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: textArea() - name and no id in parameter
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -113,8 +100,6 @@ class TextAreaCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: textArea() - setDefault
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -138,8 +123,6 @@ class TextAreaCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: textArea() - displayTo
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -161,8 +144,6 @@ class TextAreaCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: textArea() - setDefault and element not present
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -186,8 +167,6 @@ class TextAreaCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: textArea() - displayTo and element not present
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -209,8 +188,6 @@ class TextAreaCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: textArea() - displayTo and newline in value
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-03

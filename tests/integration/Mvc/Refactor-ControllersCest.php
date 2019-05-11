@@ -5,7 +5,7 @@ namespace Phalcon\Test\Integration\Mvc;
 use IntegrationTester;
 use Phalcon\Di;
 use Phalcon\Mvc\Model\Manager;
-use Phalcon\Mvc\Model\Metadata\Memory;
+use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Test\Controllers\ViewRequestController;
 use Test4Controller;
 

@@ -16,16 +16,12 @@ use Phalcon\Logger\Adapter\Noop;
 use UnitTester;
 
 /**
- * Class InTransactionCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class InTransactionCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Noop :: inTransaction()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -18,11 +18,9 @@ use Phalcon\Config\Adapter\Json;
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
 /**
- * Trait ConfigTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait ConfigTrait
@@ -72,9 +70,6 @@ trait ConfigTrait
     /**
      * Tests Phalcon\Config\Adapter\* :: __construct()
      *
-     * @param UnitTester $I
-     * @param string     $adapter
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -94,10 +89,6 @@ trait ConfigTrait
 
     /**
      * Returns the message to print out for the test
-     *
-     * @param string $adapter
-     *
-     * @return string
      */
     private function getMessage(string $adapter = ''): string
     {
@@ -113,8 +104,6 @@ trait ConfigTrait
     /**
      * Returns a config object
      *
-     * @param string $adapter
-     *
      * @return Config|Ini|Json|Php|Yaml
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -124,23 +113,30 @@ trait ConfigTrait
     {
         switch ($adapter) {
             case 'Ini':
-                return new Ini(dataFolder('assets/config/config.ini'));
+                return new Ini(
+                    dataDir('assets/config/config.ini')
+                );
+
             case 'Json':
-                return new Json(dataFolder('assets/config/config.json'));
+                return new Json(
+                    dataDir('assets/config/config.json')
+                );
+
             case 'Php':
-                return new Php(dataFolder('assets/config/config.php'));
+                return new Php(
+                    dataDir('assets/config/config.php')
+                );
+
             case 'Yaml':
-                return new Yaml(dataFolder('assets/config/config.yml'));
+                return new Yaml(
+                    dataDir('assets/config/config.yml')
+                );
+
             default:
                 return new Config($this->config);
         }
     }
 
-    /**
-     * @param UnitTester $I
-     * @param array      $actual
-     * @param Config     $expected
-     */
     private function compareConfig(UnitTester $I, array $actual, Config $expected)
     {
         $I->assertEquals(
@@ -162,13 +158,8 @@ trait ConfigTrait
     /**
      * Tests Phalcon\Config\Adapter\* :: count()
      *
-     * @param UnitTester $I
-     * @param string     $adapter
-     *
      * @author Faruk Brbovic <fbrbovic@devstub.com>
      * @since  2014-11-03
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     private function checkCount(UnitTester $I, string $adapter = '')
     {
@@ -189,9 +180,6 @@ trait ConfigTrait
 
     /**
      * Tests Phalcon\Config\Adapter\* :: get()
-     *
-     * @param UnitTester $I
-     * @param string     $adapter
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -215,9 +203,6 @@ trait ConfigTrait
 
     /**
      * Tests Phalcon\Config\Adapter\* :: getPathDelimiter()
-     *
-     * @param UnitTester $I
-     * @param string     $adapter
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -259,9 +244,6 @@ trait ConfigTrait
     /**
      * Tests Phalcon\Config\Adapter\* :: offsetExists()
      *
-     * @param UnitTester $I
-     * @param string     $adapter
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -283,9 +265,6 @@ trait ConfigTrait
 
     /**
      * Tests Phalcon\Config\Adapter\* :: offsetGet()
-     *
-     * @param UnitTester $I
-     * @param string     $adapter
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -309,9 +288,6 @@ trait ConfigTrait
 
     /**
      * Tests Phalcon\Config\Adapter\* :: offsetSet()
-     *
-     * @param UnitTester $I
-     * @param string     $adapter
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -337,9 +313,6 @@ trait ConfigTrait
 
     /**
      * Tests Phalcon\Config\Adapter\* :: offsetUnset()
-     *
-     * @param UnitTester $I
-     * @param string     $adapter
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -369,13 +342,8 @@ trait ConfigTrait
     /**
      * Tests Phalcon\Config\Adapter\* :: path()
      *
-     * @param UnitTester $I
-     * @param string     $adapter
-     *
      * @author michanismus
      * @since  2017-03-29
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     private function checkPath(UnitTester $I, string $adapter = '')
     {
@@ -396,9 +364,6 @@ trait ConfigTrait
 
     /**
      * Tests Phalcon\Config\Adapter\* :: path() - default
-     *
-     * @param UnitTester $I
-     * @param string     $adapter
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -422,9 +387,6 @@ trait ConfigTrait
 
     /**
      * Tests Phalcon\Config\Adapter\* :: setPathDelimiter()
-     *
-     * @param UnitTester $I
-     * @param string     $adapter
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -464,9 +426,6 @@ trait ConfigTrait
 
     /**
      * Tests Phalcon\Config\Adapter\* :: toArray()
-     *
-     * @param UnitTester $I
-     * @param string     $adapter
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

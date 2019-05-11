@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use UnitTester;
 use Phalcon\Security;
+use UnitTester;
 
 class GetSaltBytesCest
 {
@@ -26,9 +26,21 @@ class GetSaltBytesCest
     public function securityGetSaltBytes(UnitTester $I)
     {
         $I->wantToTest('Security - getSaltBytes()');
+
         $security = new Security();
 
-        $I->assertGreaterOrEquals(16, strlen($security->getSaltBytes()));
-        $I->assertGreaterOrEquals(22, strlen($security->getSaltBytes(22)));
+        $I->assertGreaterOrEquals(
+            16,
+            strlen(
+                $security->getSaltBytes()
+            )
+        );
+
+        $I->assertGreaterOrEquals(
+            22,
+            strlen(
+                $security->getSaltBytes(22)
+            )
+        );
     }
 }

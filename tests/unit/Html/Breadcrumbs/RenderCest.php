@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Html\Breadcrumbs;
 use Phalcon\Html\Breadcrumbs;
 use UnitTester;
 
-/**
- * Class RenderCest
- */
 class RenderCest
 {
     /**
      * Tests Phalcon\Html\Breadcrumbs :: render()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

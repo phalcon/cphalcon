@@ -413,7 +413,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException) {
 
 	zephir_read_property(&_0, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_0);
-	if (Z_TYPE_P(&container) != IS_OBJECT) {
+	if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_mvc_dispatcher_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$3);

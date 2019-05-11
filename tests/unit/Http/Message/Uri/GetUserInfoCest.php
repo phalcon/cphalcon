@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Uri;
 use Phalcon\Http\Message\Uri;
 use UnitTester;
 
-/**
- * Class GetUserInfoCest
- */
 class GetUserInfoCest
 {
     /**
      * Tests Phalcon\Http\Message\Uri :: getUserInfo()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
@@ -42,8 +37,6 @@ class GetUserInfoCest
     /**
      * Tests Phalcon\Http\Message\Uri :: getUserInfo() - only user
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-07
      */
@@ -61,8 +54,6 @@ class GetUserInfoCest
     /**
      * Tests Phalcon\Http\Message\Uri :: getUserInfo() - only pass
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-07
      */
@@ -79,8 +70,6 @@ class GetUserInfoCest
 
     /**
      * Tests Phalcon\Http\Message\Uri :: getUserInfo() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-07

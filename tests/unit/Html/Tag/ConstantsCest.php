@@ -15,17 +15,10 @@ namespace Phalcon\Test\Unit\Html\Tag;
 use Phalcon\Html\Tag;
 use UnitTester;
 
-/**
- * Class ConstantsCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class ConstantsCest
 {
     /**
      * Tests Phalcon\Html\Tag :: constants
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05

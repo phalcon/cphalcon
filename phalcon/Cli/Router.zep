@@ -239,7 +239,7 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
             this->matchedRoute = null;
 
         if typeof arguments != "array" {
-            if unlikely (typeof arguments != "string" && typeof arguments != "null") {
+            if unlikely (typeof arguments != "string" && arguments !== null) {
                 throw new Exception("Arguments must be an array or string");
             }
 

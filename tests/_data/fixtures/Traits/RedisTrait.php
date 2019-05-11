@@ -15,8 +15,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 use UnitTester;
 
 /**
- * Trait RedisTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait RedisTrait
@@ -26,8 +24,12 @@ trait RedisTrait
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('redis');
+        $this->options = $this->getOptions();
+    }
 
-        $this->options = [
+    protected function getOptions(): array
+    {
+        return [
             'host'     => env('DATA_REDIS_HOST'),
             'port'     => env('DATA_REDIS_PORT'),
             'index'    => env('DATA_REDIS_NAME'),

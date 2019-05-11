@@ -16,15 +16,10 @@ use Codeception\Example;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
 
-/**
- * Class GetMetadataCest
- */
 class GetMetadataCest
 {
     /**
      * Tests Phalcon\Http\Message\Stream :: getMetadata()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -32,7 +27,7 @@ class GetMetadataCest
     public function httpMessageStreamGetMetadata(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - getMetadata()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $handle   = fopen($fileName, 'rb');
         $stream   = new Stream($handle);
 
@@ -66,7 +61,7 @@ class GetMetadataCest
     public function httpMessageStreamGetMetadataByKey(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Message\Stream - getMetadata() - by key - ' . $example[0]);
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $handle   = fopen($fileName, 'rb');
         $stream   = new Stream($handle);
 
@@ -88,7 +83,7 @@ class GetMetadataCest
             ['mode', 'rb',],
             ['unread_bytes', 0,],
             ['seekable', true,],
-            ['uri', dataFolder('/assets/stream/bill-of-rights.txt'),],
+            ['uri', dataDir('/assets/stream/bill-of-rights.txt'),],
             ['unknown', [],],
         ];
     }

@@ -15,12 +15,12 @@ use Phalcon\Db\RawValue;
 use Phalcon\Db\ResultInterface;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\DiInterface;
+use Phalcon\Helper\Arr;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\QueryInterface;
-use Phalcon\Cache\BackendInterface;
 use Phalcon\Mvc\Model\Query\Status;
 use Phalcon\Mvc\Model\Resultset\Complex;
 use Phalcon\Mvc\Model\Query\StatusInterface;
@@ -30,6 +30,7 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Db\DialectInterface;
+use Phalcon\Cache\Adapter\AdapterInterface;
 
 /**
  * Phalcon\Mvc\Model\Query
@@ -994,27 +995,20 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function _getJoin(<ManagerInterface> manager, array join) -> array
     {
-        var qualified, modelName, realModelName, nsAlias, source, model, schema;
+        var qualified, modelName, source, model, schema;
 
         if fetch qualified, join["qualified"] {
             if qualified["type"] == PHQL_T_QUALIFIED {
                 let modelName = qualified["name"];
 
-                if memstr(modelName, ":") {
-                    let nsAlias = explode(":", modelName);
-                    let realModelName = manager->getNamespaceAlias(nsAlias[0]) . "\\" . nsAlias[1];
-                } else {
-                    let realModelName = modelName;
-                }
-
-                let model = manager->load(realModelName),
+                let model = manager->load(modelName),
                     source = model->getSource(),
                     schema = model->getSchema();
 
                 return [
                     "schema"   : schema,
                     "source"   : source,
-                    "modelName": realModelName,
+                    "modelName": modelName,
                     "model"    : model
                 ];
             }
@@ -1793,20 +1787,20 @@ class Query implements QueryInterface, InjectionAwareInterface
         var sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables,
             columns, sqlAliasesModels, sqlModelsAliases,
             sqlAliasesModelsInstances, models, modelsInstances, selectedModels,
-            manager, metaData, selectedModel, qualifiedName, modelName, nsAlias,
-            realModelName, model, schema, source, completeSource, alias, joins,
-            sqlJoins, selectColumns, sqlColumnAliases, column, sqlColumn,
-            sqlSelect, distinct, having, where, groupBy, order, limit,
-            tempModels, tempModelsInstances, tempSqlAliases,
-            tempSqlModelsAliases, tempSqlAliasesModelsInstances,
-            tempSqlAliasesModels, with, withs, withItem, automaticJoins, number,
-            relation, joinAlias, relationModel, bestAlias, eagerType;
+            manager, metaData, selectedModel, qualifiedName, modelName, model,
+            schema, source, completeSource, alias, joins, sqlJoins,
+            selectColumns, sqlColumnAliases, column, sqlColumn, sqlSelect,
+            distinct, having, where, groupBy, order, limit, tempModels,
+            tempModelsInstances, tempSqlAliases, tempSqlModelsAliases,
+            tempSqlAliasesModelsInstances, tempSqlAliasesModels, with, withs,
+            withItem, automaticJoins, number, relation, joinAlias,
+            relationModel, bestAlias, eagerType;
 
         if empty ast {
             let ast = this->ast;
         }
 
-        if typeof merge == "null" {
+        if merge === null {
             let merge = false;
         }
 
@@ -1901,16 +1895,8 @@ class Query implements QueryInterface, InjectionAwareInterface
             let qualifiedName = selectedModel["qualifiedName"],
                 modelName = qualifiedName["name"];
 
-            // Check if the table has a namespace alias
-            if memstr(modelName, ":") {
-                let nsAlias = explode(":", modelName);
-                let realModelName = manager->getNamespaceAlias(nsAlias[0]) . "\\" . nsAlias[1];
-            } else {
-                let realModelName = modelName;
-            }
-
             // Load a model instance from the models manager
-            let model = manager->load(realModelName);
+            let model = manager->load(modelName);
 
             // Define a complete schema/source
             let schema = model->getSchema(),
@@ -1936,8 +1922,8 @@ class Query implements QueryInterface, InjectionAwareInterface
                 }
 
                 let sqlAliases[alias] = alias,
-                    sqlAliasesModels[alias] = realModelName,
-                    sqlModelsAliases[realModelName] = alias,
+                    sqlAliasesModels[alias] = modelName,
+                    sqlModelsAliases[modelName] = alias,
                     sqlAliasesModelsInstances[alias] = model;
 
                 /**
@@ -1949,14 +1935,14 @@ class Query implements QueryInterface, InjectionAwareInterface
                     let completeSource = [source, null, alias];
                 }
 
-                let models[realModelName] = alias;
+                let models[modelName] = alias;
             } else {
                 let alias = source,
-                    sqlAliases[realModelName] = source,
-                    sqlAliasesModels[realModelName] = realModelName,
-                    sqlModelsAliases[realModelName] = realModelName,
-                    sqlAliasesModelsInstances[realModelName] = model,
-                    models[realModelName] = source;
+                    sqlAliases[modelName] = source,
+                    sqlAliasesModels[modelName] = modelName,
+                    sqlModelsAliases[modelName] = modelName,
+                    sqlAliasesModelsInstances[modelName] = model,
+                    models[modelName] = source;
             }
 
             // Eager load any specified relationship(s)
@@ -1973,7 +1959,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                         relationModel = withItem["name"];
 
                     let relation = manager->getRelationByAlias(
-                        realModelName,
+                        modelName,
                         relationModel
                     );
 
@@ -1983,13 +1969,13 @@ class Query implements QueryInterface, InjectionAwareInterface
                             eagerType = relation->getType();
                     } else {
                         let relation = manager->getRelationsBetween(
-                            realModelName,
+                            modelName,
                             relationModel
                         );
 
                         if unlikely typeof relation != "object" {
                             throw new Exception(
-                                "Can't find a relationship between '" . realModelName . "' and '" . relationModel . "' when preparing: " . this->phql
+                                "Can't find a relationship between '" . modelName . "' and '" . relationModel . "' when preparing: " . this->phql
                             );
                         }
 
@@ -2022,9 +2008,9 @@ class Query implements QueryInterface, InjectionAwareInterface
                 }
             }
 
-            let sqlModels[] = realModelName,
+            let sqlModels[] = modelName,
                 sqlTables[] = completeSource,
-                modelsInstances[realModelName] = model;
+                modelsInstances[modelName] = model;
         }
 
         // Assign Models/Tables information
@@ -2180,9 +2166,9 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function _prepareInsert() -> array
     {
-        var ast, qualifiedName, nsAlias, manager, modelName, model, source,
-            schema, exprValues, exprValue, sqlInsert, metaData, fields,
-            sqlFields, field, name, realModelName;
+        var ast, qualifiedName, manager, modelName, model, source, schema,
+            exprValues, exprValue, sqlInsert, metaData, fields, sqlFields,
+            field, name;
         bool notQuoting;
 
         let ast = this->ast;
@@ -2205,15 +2191,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         let manager = this->manager,
             modelName = qualifiedName["name"];
 
-        // Check if the table have a namespace alias
-        if memstr(modelName, ":") {
-            let nsAlias = explode(":", modelName);
-            let realModelName = manager->getNamespaceAlias(nsAlias[0]) . "\\" . nsAlias[1];
-        } else {
-            let realModelName = modelName;
-        }
-
-        let model = manager->load(realModelName),
+        let model = manager->load(modelName),
             source = model->getSource(),
             schema = model->getSchema();
 
@@ -2271,11 +2249,10 @@ class Query implements QueryInterface, InjectionAwareInterface
     final protected function _prepareUpdate() -> array
     {
         var ast, update, tables, values, modelsInstances, models, sqlTables,
-            sqlAliases, sqlAliasesModelsInstances, updateTables, nsAlias,
-            realModelName, completeSource, sqlModels, manager, table,
-            qualifiedName, modelName, model, source, schema, alias, sqlFields,
-            sqlValues, updateValues, updateValue, exprColumn, sqlUpdate, where,
-            limit;
+            sqlAliases, sqlAliasesModelsInstances, updateTables, completeSource,
+            sqlModels, manager, table, qualifiedName, modelName, model, source,
+            schema, alias, sqlFields, sqlValues, updateValues, updateValue,
+            exprColumn, sqlUpdate, where, limit;
         bool notQuoting;
 
         let ast = this->ast;
@@ -2317,19 +2294,9 @@ class Query implements QueryInterface, InjectionAwareInterface
                 modelName = qualifiedName["name"];
 
             /**
-             * Check if the table have a namespace alias
-             */
-            if memstr(modelName, ":") {
-                let nsAlias = explode(":", modelName);
-                let realModelName = manager->getNamespaceAlias(nsAlias[0]) . "\\" . nsAlias[1];
-            } else {
-                let realModelName = modelName;
-            }
-
-            /**
              * Load a model instance from the models manager
              */
-            let model = manager->load(realModelName),
+            let model = manager->load(modelName),
                 source = model->getSource(),
                 schema = model->getSchema();
 
@@ -2350,16 +2317,16 @@ class Query implements QueryInterface, InjectionAwareInterface
                     completeSource[] = alias,
                     sqlTables[] = completeSource,
                     sqlAliasesModelsInstances[alias] = model,
-                    models[alias] = realModelName;
+                    models[alias] = modelName;
             } else {
-                let sqlAliases[realModelName] = source,
-                    sqlAliasesModelsInstances[realModelName] = model,
+                let sqlAliases[modelName] = source,
+                    sqlAliasesModelsInstances[modelName] = model,
                     sqlTables[] = source,
-                    models[realModelName] = source;
+                    models[modelName] = source;
             }
 
-            let sqlModels[] = realModelName,
-                modelsInstances[realModelName] = model;
+            let sqlModels[] = modelName,
+                modelsInstances[modelName] = model;
         }
 
         /**
@@ -2415,8 +2382,8 @@ class Query implements QueryInterface, InjectionAwareInterface
     {
         var ast, delete, tables, models, modelsInstances, sqlTables, sqlModels,
             sqlAliases, sqlAliasesModelsInstances, deleteTables, manager, table,
-            qualifiedName, modelName, nsAlias, realModelName, model, source,
-            schema, completeSource, alias, sqlDelete, where, limit;
+            qualifiedName, modelName, model, source, schema, completeSource,
+            alias, sqlDelete, where, limit;
 
         let ast = this->ast;
 
@@ -2453,19 +2420,9 @@ class Query implements QueryInterface, InjectionAwareInterface
                 modelName = qualifiedName["name"];
 
             /**
-             * Check if the table have a namespace alias
-             */
-            if memstr(modelName, ":") {
-                let nsAlias = explode(":", modelName);
-                let realModelName = manager->getNamespaceAlias(nsAlias[0]) . "\\" . nsAlias[1];
-            } else {
-                let realModelName = modelName;
-            }
-
-            /**
              * Load a model instance from the models manager
              */
-            let model = manager->load(realModelName),
+            let model = manager->load(modelName),
                 source = model->getSource(),
                 schema = model->getSchema();
 
@@ -2480,16 +2437,16 @@ class Query implements QueryInterface, InjectionAwareInterface
                     completeSource[] = alias,
                     sqlTables[] = completeSource,
                     sqlAliasesModelsInstances[alias] = model,
-                    models[alias] = realModelName;
+                    models[alias] = modelName;
             } else {
-                let sqlAliases[realModelName] = source,
-                    sqlAliasesModelsInstances[realModelName] = model,
+                let sqlAliases[modelName] = source,
+                    sqlAliasesModelsInstances[modelName] = model,
                     sqlTables[] = source,
-                    models[realModelName] = source;
+                    models[modelName] = source;
             }
 
-            let sqlModels[] = realModelName,
-                modelsInstances[realModelName] = model;
+            let sqlModels[] = modelName,
+                modelsInstances[modelName] = model;
         }
 
         /**
@@ -2606,7 +2563,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Returns the current cache backend instance
      */
-    public function getCache() -> <BackendInterface>
+    public function getCache() -> <AdapterInterface>
     {
         return this->cache;
     }
@@ -2753,9 +2710,9 @@ class Query implements QueryInterface, InjectionAwareInterface
                      * We cache required meta-data to make its future access
                      * faster
                      */
-                    let columns1[aliasCopy]["instance"] = instance,
+                    let columns1[aliasCopy]["instance"]   = instance,
                         columns1[aliasCopy]["attributes"] = attributes,
-                        columns1[aliasCopy]["columnMap"] = columnMap;
+                        columns1[aliasCopy]["columnMap"]  = columnMap;
 
                     // Check if the model keeps snapshots
                     let isKeepingSnapshots = (bool) manager->isKeepingSnapshots(instance);
@@ -2915,7 +2872,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                     let columnMap = metaData->getColumnMap(resultObject),
                         typesColumnMap = metaData->getDataTypes(resultObject);
 
-                    if typeof columnMap === "null" {
+                    if columnMap === null {
                         let simpleColumnMap = [];
 
                         for attribute in metaData->getAttributes(resultObject) {
@@ -3416,15 +3373,15 @@ class Query implements QueryInterface, InjectionAwareInterface
          * representation
          */
         let selectIr = [
-            "columns": [
+            "columns" : [
                 [
-                    "type"  : "object",
-                    "model" : get_class(model),
-                    "column": model->getSource()
+                    "type"   : "object",
+                    "model"  : get_class(model),
+                    "column" : model->getSource()
                 ]
             ],
-            "models": intermediate["models"],
-            "tables": intermediate["tables"]
+            "models"  : intermediate["models"],
+            "tables"  : intermediate["tables"]
         ];
 
         /**
@@ -3466,11 +3423,10 @@ class Query implements QueryInterface, InjectionAwareInterface
             preparedResult, defaultBindParams, mergedParams, defaultBindTypes,
             mergedTypes, type, lifetime, intermediate;
 
-        let uniqueRow = this->uniqueRow;
+        let uniqueRow    = this->uniqueRow,
+            cacheOptions = this->cacheOptions;
 
-        let cacheOptions = this->cacheOptions;
-
-        if typeof cacheOptions != "null" {
+        if cacheOptions !== null {
             if unlikely typeof cacheOptions != "array" {
                 throw new Exception("Invalid caching options");
             }
@@ -3487,24 +3443,15 @@ class Query implements QueryInterface, InjectionAwareInterface
             /**
              * By default use use 3600 seconds (1 hour) as cache lifetime
              */
-            if !fetch lifetime, cacheOptions["lifetime"] {
-                let lifetime = 3600;
-            }
-
-            /**
-             * "modelsCache" is the default name for the models cache service
-             */
-            if !fetch cacheService, cacheOptions["service"] {
-                let cacheService = "modelsCache";
-            }
-
-            let cache = this->container->getShared(cacheService);
+            let lifetime     = Arr::get(cacheOptions, "lifetime", 3600),
+                cacheService = Arr::get(cacheOptions, "service", "modelsCache"),
+                cache        = this->container->getShared(cacheService);
 
             if unlikely typeof cache != "object" {
                 throw new Exception("Cache service must be an object");
             }
 
-            let result = cache->get(key, lifetime);
+            let result = cache->get(key);
 
             if !empty result {
                 if unlikely typeof result != "object" {
@@ -3566,11 +3513,11 @@ class Query implements QueryInterface, InjectionAwareInterface
             let mergedTypes = bindTypes;
         }
 
-        if unlikely (typeof mergedParams != "null" && typeof mergedParams != "array") {
+        if unlikely (mergedParams !== null && typeof mergedParams != "array") {
             throw new Exception("Bound parameters must be an array");
         }
 
-        if unlikely (typeof mergedTypes != "null" && typeof mergedTypes != "array") {
+        if unlikely (mergedTypes !== null && typeof mergedTypes != "array") {
             throw new Exception("Bound parameter types must be an array");
         }
 
@@ -3631,7 +3578,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 );
             }
 
-            cache->save(key, result, lifetime);
+            cache->set(key, result, lifetime);
         }
 
         /**

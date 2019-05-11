@@ -46,8 +46,6 @@ class LowerCest
     /**
      * Tests Phalcon\Text :: lower() - multi-bytes encoding
      *
-     * @param UnitTester $I
-     *
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-05-06
      */

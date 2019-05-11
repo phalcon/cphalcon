@@ -14,19 +14,14 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Closure;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Role;
 use Phalcon\Acl\Component;
+use Phalcon\Acl\Role;
 use UnitTester;
 
-/**
- * Class GetActiveFunctionCest
- */
 class GetActiveFunctionCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveFunction()
-     *
-     * @param UnitTester $I
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-01-13
@@ -64,14 +59,12 @@ class GetActiveFunctionCest
         );
 
 
-
         $returnedFunction = $acl->getActiveFunction();
 
         $I->assertInstanceOf(
             Closure::class,
             $returnedFunction
         );
-
 
 
         $I->assertEquals(

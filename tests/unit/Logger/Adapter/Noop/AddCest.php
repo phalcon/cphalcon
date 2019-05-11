@@ -12,22 +12,18 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Noop;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Noop;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 /**
- * Class AddCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class AddCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Noop :: add()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

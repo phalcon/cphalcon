@@ -13,14 +13,16 @@ namespace Phalcon\Test\Integration\Mvc\Model\Query;
 
 use Codeception\Example;
 use IntegrationTester;
+use PDO;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Parts;
 use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\Snapshot\Robots;
-use function outputFolder;
+use function outputDir;
 
 class BuilderCest
 {
@@ -50,7 +52,7 @@ class BuilderCest
                     new Data(
                         ['lifetime' => 20,]
                     ),
-                    ['cacheDir' => outputFolder('tests/cache/')]
+                    ['cacheDir' => outputDir('tests/cache/')]
                 );
             },
             true
@@ -80,7 +82,7 @@ class BuilderCest
             $I->assertInstanceOf(RobotsParts::class, $robotParts);
             $I->assertNotEmpty($robotParts->getSnapshotData());
             $I->assertEquals($robotParts->getSnapshotData(), $robotParts->toArray());
-            $I->seeFileFound(outputFolder("tests/cache/robots-cache-complex"));
+            $I->seeFileFound(outputDir("tests/cache/robots-cache-complex"));
         }
     }
 
@@ -99,14 +101,14 @@ class BuilderCest
             ->where(
                 'id = :id:',
                 [':id:' => 3],
-                [':id:' => \PDO::PARAM_INT]
+                [':id:' => PDO::PARAM_INT]
             )
         ;
 
         $builder->where(
             'name = :name:',
             [':name:' => 'Terminator'],
-            [':name:' => \PDO::PARAM_STR]
+            [':name:' => PDO::PARAM_STR]
         );
 
         $actual   = $builder->getQuery()->getBindTypes();
@@ -137,14 +139,14 @@ class BuilderCest
             ->having(
                 'COUNT(id) > :cnt:',
                 [':cnt:' => 5],
-                [':cnt:' => \PDO::PARAM_INT]
+                [':cnt:' => PDO::PARAM_INT]
             )
         ;
 
         $builder->having(
             "CONCAT('is_', type) = :type:",
             [':type:' => 'mechanical'],
-            [':type:' => \PDO::PARAM_STR]
+            [':type:' => PDO::PARAM_STR]
         );
 
         $actual   = $builder->getQuery()->getBindTypes();
@@ -167,12 +169,11 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from([Robots::class, RobotsParts::class])
-                           ->getPhql()
+                        ->from([Robots::class, RobotsParts::class])
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -181,13 +182,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->columns("*")
-                           ->from(Robots::class)
-                           ->getPhql()
+                        ->columns("*")
+                        ->from(Robots::class)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -196,13 +196,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->columns(["id", "name"])
-                           ->from(Robots::class)
-                           ->getPhql()
+                        ->columns(["id", "name"])
+                        ->from(Robots::class)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -211,13 +210,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->columns("id")
-                           ->from(Robots::class)
-                           ->getPhql()
+                        ->columns("id")
+                        ->from(Robots::class)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -226,13 +224,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->where("Robots.name = 'Voltron'")
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->where("Robots.name = 'Voltron'")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -241,14 +238,13 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->where("Robots.name = 'Voltron'")
-                           ->andWhere("Robots.id > 100")
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->where("Robots.name = 'Voltron'")
+                        ->andWhere("Robots.id > 100")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -257,14 +253,13 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->where("Robots.name = 'Voltron'")
-                           ->orWhere("Robots.id > 100")
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->where("Robots.name = 'Voltron'")
+                        ->orWhere("Robots.id > 100")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -273,13 +268,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->where(100)
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->where(100)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -288,13 +282,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->groupBy("Robots.name")
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->groupBy("Robots.name")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -303,13 +296,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->groupBy(["Robots.name", "Robots.id"])
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->groupBy(["Robots.name", "Robots.id"])
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -318,14 +310,13 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->columns(["Robots.name", "SUM(Robots.price)"])
-                           ->from(Robots::class)
-                           ->groupBy("Robots.name")
-                           ->getPhql()
+                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->from(Robots::class)
+                        ->groupBy("Robots.name")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -334,15 +325,14 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->columns(["Robots.name", "SUM(Robots.price)"])
-                           ->from(Robots::class)
-                           ->groupBy("Robots.name")
-                           ->having("SUM(Robots.price) > 1000")
-                           ->getPhql()
+                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->from(Robots::class)
+                        ->groupBy("Robots.name")
+                        ->having("SUM(Robots.price) > 1000")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -351,16 +341,15 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->columns(["Robots.name", "SUM(Robots.price)"])
-                           ->from(Robots::class)
-                           ->groupBy("Robots.name")
-                           ->having("SUM(Robots.price) > 1000")
-                           ->andHaving("SUM(Robots.price) < 2000")
-                           ->getPhql()
+                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->from(Robots::class)
+                        ->groupBy("Robots.name")
+                        ->having("SUM(Robots.price) > 1000")
+                        ->andHaving("SUM(Robots.price) < 2000")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -369,16 +358,15 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->columns(["Robots.name", "SUM(Robots.price)"])
-                           ->from(Robots::class)
-                           ->groupBy("Robots.name")
-                           ->having("SUM(Robots.price) > 1000")
-                           ->orHaving("SUM(Robots.price) < 500")
-                           ->getPhql()
+                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->from(Robots::class)
+                        ->groupBy("Robots.name")
+                        ->having("SUM(Robots.price) > 1000")
+                        ->orHaving("SUM(Robots.price) < 500")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -387,15 +375,14 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->columns(["Robots.name", "SUM(Robots.price)"])
-                           ->from(Robots::class)
-                           ->groupBy("Robots.name")
-                           ->inHaving("SUM(Robots.price)", [1, 2, 3])
-                           ->getPhql()
+                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->from(Robots::class)
+                        ->groupBy("Robots.name")
+                        ->inHaving("SUM(Robots.price)", [1, 2, 3])
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -404,15 +391,14 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->columns(["Robots.name", "SUM(Robots.price)"])
-                           ->from(Robots::class)
-                           ->groupBy("Robots.name")
-                           ->notInHaving("SUM(Robots.price)", [1, 2, 3])
-                           ->getPhql()
+                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->from(Robots::class)
+                        ->groupBy("Robots.name")
+                        ->notInHaving("SUM(Robots.price)", [1, 2, 3])
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -421,16 +407,15 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->columns(["Robots.name", "SUM(Robots.price)"])
-                           ->from(Robots::class)
-                           ->groupBy("Robots.name")
-                           ->having("SUM(Robots.price) > 100")
-                           ->inHaving("SUM(Robots.price)", [1, 2, 3], Builder::OPERATOR_OR)
-                           ->getPhql()
+                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->from(Robots::class)
+                        ->groupBy("Robots.name")
+                        ->having("SUM(Robots.price) > 100")
+                        ->inHaving("SUM(Robots.price)", [1, 2, 3], Builder::OPERATOR_OR)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -439,16 +424,15 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->columns(["Robots.name", "SUM(Robots.price)"])
-                           ->from(Robots::class)
-                           ->groupBy("Robots.name")
-                           ->having("SUM(Robots.price) > 100")
-                           ->notInHaving("SUM(Robots.price)", [1, 2, 3], Builder::OPERATOR_OR)
-                           ->getPhql()
+                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->from(Robots::class)
+                        ->groupBy("Robots.name")
+                        ->having("SUM(Robots.price) > 100")
+                        ->notInHaving("SUM(Robots.price)", [1, 2, 3], Builder::OPERATOR_OR)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -457,15 +441,14 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->columns(["Robots.name", "SUM(Robots.price)"])
-                           ->from(Robots::class)
-                           ->groupBy("Robots.name")
-                           ->betweenHaving("SUM(Robots.price)", 100, 200)
-                           ->getPhql()
+                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->from(Robots::class)
+                        ->groupBy("Robots.name")
+                        ->betweenHaving("SUM(Robots.price)", 100, 200)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -474,15 +457,14 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->columns(["Robots.name", "SUM(Robots.price)"])
-                           ->from(Robots::class)
-                           ->groupBy("Robots.name")
-                           ->notBetweenHaving("SUM(Robots.price)", 100, 200)
-                           ->getPhql()
+                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->from(Robots::class)
+                        ->groupBy("Robots.name")
+                        ->notBetweenHaving("SUM(Robots.price)", 100, 200)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -491,13 +473,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->join(RobotsParts::class)
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->join(RobotsParts::class)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -506,13 +487,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->join(RobotsParts::class, null, "p")
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->join(RobotsParts::class, null, "p")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -521,13 +501,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->join(RobotsParts::class, "Robots.id = RobotsParts.robots_id", "p")
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->join(RobotsParts::class, "Robots.id = RobotsParts.robots_id", "p")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -536,14 +515,13 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->join(RobotsParts::class, "Robots.id = RobotsParts.robots_id", "p")
-                           ->join(Parts::class, "Parts.id = RobotsParts.parts_id", "t")
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->join(RobotsParts::class, "Robots.id = RobotsParts.robots_id", "p")
+                        ->join(Parts::class, "Parts.id = RobotsParts.parts_id", "t")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -552,15 +530,14 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->leftJoin(RobotsParts::class, "Robots.id = RobotsParts.robots_id")
-                           ->leftJoin(Parts::class, "Parts.id = RobotsParts.parts_id")
-                           ->where("Robots.id > 0")
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->leftJoin(RobotsParts::class, "Robots.id = RobotsParts.robots_id")
+                        ->leftJoin(Parts::class, "Parts.id = RobotsParts.parts_id")
+                        ->where("Robots.id > 0")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -569,12 +546,11 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->addFrom(Robots::class, "r")
-                           ->getPhql()
+                        ->addFrom(Robots::class, "r")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -583,13 +559,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->addFrom(Parts::class, "p")
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->addFrom(Parts::class, "p")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -598,13 +573,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(["r" => Robots::class])
-                           ->addFrom(Parts::class, "p")
-                           ->getPhql()
+                        ->from(["r" => Robots::class])
+                        ->addFrom(Parts::class, "p")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -613,12 +587,11 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(["r" => Robots::class, "p" => Parts::class])
-                           ->getPhql()
+                        ->from(["r" => Robots::class, "p" => Parts::class])
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -627,13 +600,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->orderBy("Robots.name")
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->orderBy("Robots.name")
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -642,13 +614,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->orderBy([1, "Robots.name"])
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->orderBy([1, "Robots.name"])
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -657,13 +628,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->limit(10)
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->limit(10)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -672,13 +642,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->limit(10, 5)
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->limit(10, 5)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -687,14 +656,13 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->where("Robots.name = 'Voltron'")
-                           ->betweenWhere("Robots.id", 0, 50)
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->where("Robots.name = 'Voltron'")
+                        ->betweenWhere("Robots.id", 0, 50)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -703,14 +671,13 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->where("Robots.name = 'Voltron'")
-                           ->inWhere("Robots.id", [1, 2, 3])
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->where("Robots.name = 'Voltron'")
+                        ->inWhere("Robots.id", [1, 2, 3])
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -719,14 +686,13 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->where("Robots.name = 'Voltron'")
-                           ->betweenWhere("Robots.id", 0, 50, Builder::OPERATOR_OR)
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->where("Robots.name = 'Voltron'")
+                        ->betweenWhere("Robots.id", 0, 50, Builder::OPERATOR_OR)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -735,14 +701,13 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->where("Robots.name = 'Voltron'")
-                           ->inWhere("Robots.id", [1, 2, 3], Builder::OPERATOR_OR)
-                           ->getPhql()
+                        ->from(Robots::class)
+                        ->where("Robots.name = 'Voltron'")
+                        ->inWhere("Robots.id", [1, 2, 3], Builder::OPERATOR_OR)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -756,10 +721,10 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->leftJoin(RobotsParts::class, "Robots.id = RobotsParts.robots_id")
-                           ->leftJoin(Parts::class, "Parts.id = RobotsParts.parts_id")
-                           ->where("Robots.id > :1: AND Robots.id < :2:", [1 => 0, 2 => 1000])
+                        ->from(Robots::class)
+                        ->leftJoin(RobotsParts::class, "Robots.id = RobotsParts.robots_id")
+                        ->leftJoin(Parts::class, "Parts.id = RobotsParts.parts_id")
+                        ->where("Robots.id > :1: AND Robots.id < :2:", [1 => 0, 2 => 1000])
         ;
 
         $params = $phql->getQuery()->getBindParams();
@@ -772,7 +737,6 @@ class BuilderCest
             1000,
             $params[2]
         );
-
 
 
         $phql->andWhere(
@@ -822,10 +786,10 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->distinct(true)
-                           ->columns(["Robots.name"])
-                           ->from(Robots::class)
-                           ->getPhql()
+                        ->distinct(true)
+                        ->columns(["Robots.name"])
+                        ->from(Robots::class)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -834,14 +798,13 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->distinct(false)
-                           ->columns(["Robots.name"])
-                           ->from(Robots::class)
-                           ->getPhql()
+                        ->distinct(false)
+                        ->columns(["Robots.name"])
+                        ->from(Robots::class)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -850,15 +813,14 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->distinct(true)
-                           ->distinct(null)
-                           ->columns(["Robots.name"])
-                           ->from(Robots::class)
-                           ->getPhql()
+                        ->distinct(true)
+                        ->distinct(null)
+                        ->columns(["Robots.name"])
+                        ->from(Robots::class)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -867,13 +829,12 @@ class BuilderCest
         );
 
 
-
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                           ->distinct(true)
-                           ->from(Robots::class)
-                           ->getPhql()
+                        ->distinct(true)
+                        ->from(Robots::class)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -970,7 +931,7 @@ class BuilderCest
                         ->where(
                             "year > :min: AND year < :max:",
                             ["min" => "2013-01-01", "max" => "2100-01-01"],
-                            ["min" => \PDO::PARAM_STR, "max" => \PDO::PARAM_STR]
+                            ["min" => PDO::PARAM_STR, "max" => PDO::PARAM_STR]
                         )
         ;
 
@@ -983,7 +944,7 @@ class BuilderCest
                 [
                     "year > :min: AND year < :max:",
                     ["min" => "2013-01-01", "max" => "2100-01-01"],
-                    ["min" => \PDO::PARAM_STR, "max" => \PDO::PARAM_STR],
+                    ["min" => PDO::PARAM_STR, "max" => PDO::PARAM_STR],
                 ],
             ],
         ];
@@ -999,12 +960,12 @@ class BuilderCest
                 [
                     "year > :min:",
                     ["min" => "2000-01-01"],
-                    ["min" => \PDO::PARAM_STR],
+                    ["min" => PDO::PARAM_STR],
                 ],
                 [
                     "year < :max:",
                     ["max" => "2100-01-01"],
-                    ["max" => \PDO::PARAM_STR],
+                    ["max" => PDO::PARAM_STR],
                 ],
             ],
         ];
@@ -1023,7 +984,7 @@ class BuilderCest
         );
 
         $I->assertInstanceOf(
-            \Phalcon\Mvc\Model\Resultset\Simple::class,
+            Simple::class,
             $standardResult
         );
 
@@ -1033,7 +994,7 @@ class BuilderCest
         );
 
         $I->assertInstanceOf(
-            \Phalcon\Mvc\Model\Resultset\Simple::class,
+            Simple::class,
             $singleConditionResult
         );
 
@@ -1043,7 +1004,7 @@ class BuilderCest
         );
 
         $I->assertInstanceOf(
-            \Phalcon\Mvc\Model\Resultset\Simple::class,
+            Simple::class,
             $multipleConditionResult
         );
     }
@@ -1069,8 +1030,8 @@ class BuilderCest
      * Tests work with limit / offset
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12419
-     * @author Serghei Iakovelv <serghei@phalconphp.com>
-     * @since  2016-12-18
+     * @author       Serghei Iakovelv <serghei@phalconphp.com>
+     * @since        2016-12-18
      *
      * @dataProvider limitOffsetProvider
      */

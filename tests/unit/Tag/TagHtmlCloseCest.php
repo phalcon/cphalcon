@@ -16,15 +16,10 @@ use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-/**
- * Class TagHtmlCloseCest
- */
 class TagHtmlCloseCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: tagHtmlClose()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -62,8 +57,6 @@ class TagHtmlCloseCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: tagHtmlClose() - EOL
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05

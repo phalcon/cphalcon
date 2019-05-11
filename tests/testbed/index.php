@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 use Phalcon\Debug;
-use Phalcon\Exception;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Tag;
 
 $_ENV['APP_DEBUG'] = true;
 
@@ -29,6 +29,6 @@ class C
 {
     public function rump()
     {
-        $return = \Phalcon\Tag::displayTo(false, true);
+        $return = Tag::displayTo(false, true);
     }
 }

@@ -13,19 +13,14 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Acl\Component;
 
 use BadMethodCallException;
-use Phalcon\Acl\Exception;
 use Phalcon\Acl\Component;
+use Phalcon\Acl\Exception;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Acl\Component :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -41,8 +36,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Acl\Component :: __construct() - wildcard
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -60,8 +53,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Acl\Component :: __construct() - without name
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

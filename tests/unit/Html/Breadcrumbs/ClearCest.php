@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Html\Breadcrumbs;
 use Phalcon\Html\Breadcrumbs;
 use UnitTester;
 
-/**
- * Class ClearCest
- */
 class ClearCest
 {
     /**
      * Tests Phalcon\Html\Breadcrumbs :: clear()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -23,8 +23,6 @@ class SetAttributesCest
     /**
      * Tests Phalcon\Assets\Inline :: setAttributes() - css
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -41,8 +39,6 @@ class SetAttributesCest
 
     /**
      * Tests Phalcon\Assets\Inline :: setAttributes() - js
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

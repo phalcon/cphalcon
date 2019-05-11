@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Column;
 
 use IntegrationTester;
 
-/**
- * Class SetStateCest
- */
 class SetStateCest
 {
     /**
      * Tests Phalcon\Db\Column :: __set_state()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetStateCest
     public function dbColumnSetState(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - __set_state()");
+
         $I->skipTest("Need implementation");
     }
 }

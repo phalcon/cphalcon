@@ -8,6 +8,18 @@
 - Added `camelize()`, `concat()`, `countVowels()`, `decapitalize()`, `dynamic()`, `endsWith()`, `firstStringBetween()`, `includes()`, `increment()`, `isAnagram()`, `isLower()`, `isPalindrome()`, `isUpper()`, `lower()`, `random()`, `reduceSlashes()`, `startsWith()`, `uncamelize()`, `underscore()`, `upper()` to `Phalcon\Helper\Str` [#13954](https://github.com/phalcon/cphalcon/pull/13954) 
 - Added `Phalcon\Mvc\Model\Query\BuilderInterface::getModels()` returns the models involved in the query
 - Added `addConnect()`, `addPurge()` and `addTrace()` to `Phalcon\Mvc\Router\Group` and its interface. [#14001](https://github.com/phalcon/cphalcon/pull/14001)
+- Added `Phalcon\Mvc\Model\Transaction::throwRollbackException()` which allows a transaction to throw an exception or not on a rollback. [#13949](https://github.com/phalcon/cphalcon/issues/13949)
+- Added `Phalcon\Cache\Cache` class implementing PSR-16. Introducing:
+    - `Phalcon\Cache\Adapter`   
+        - `Phalcon\Cache\Adapter\Apcu`
+        - `Phalcon\Cache\Adapter\Libmemcached`
+        - `Phalcon\Cache\Adapter\Memory`
+        - `Phalcon\Cache\Adapter\Redis`
+        - `Phalcon\Cache\Adapter\Stream`
+    - `Phalcon\Cache\AdapterFactory`: Factory to create adapters
+    - `Phalcon\Cache\CacheFactory`: Factory to create cache objects
+ [#13439](https://github.com/phalcon/cphalcon/issues/13439)
+- Added `Str::dirSeparator()` to ensure a path has a trailing slash [#13439](https://github.com/phalcon/cphalcon/issues/13439)
 
 ## Changed
 - Refactored `Phalcon\Events\Manager` to only use `SplPriorityQueue` to store events. [#13924](https://github.com/phalcon/cphalcon/pull/13924)
@@ -24,6 +36,25 @@
 - Changed `Phalcon\Mvc\Model\Manager::getModelSource()` to use `setModelSource()` internally instead of setting the source manually [#13987](https://github.com/phalcon/cphalcon/pull/13987)
 - The property `options` is always an array in `Phalcon\Mvc\Model\Relation`. [#13989](https://github.com/phalcon/cphalcon/pull/13989)
 - `Phalcon\Logger\Adapter\AbstractAdapter::process()` is now actually abstract. [#14012](https://github.com/phalcon/cphalcon/pull/14012)
+- Changed `Phalcon\Mvc\Model\Transaction::rollback()` to not throw a transaction by default. [#13949](https://github.com/phalcon/cphalcon/issues/13949)
+- Changed `Phalcon\Cache` namespace and relevant classes to handle storing data to different stores. Introducing:
+    - `Phalcon\Storage\Serializer` offering classes that implement the `\Serializable` interface.  
+        - `Phalcon\Storage\Serializer\Base64` 
+        - `Phalcon\Storage\Serializer\Igbinary` 
+        - `Phalcon\Storage\Serializer\Json` 
+        - `Phalcon\Storage\Serializer\Msgpack` 
+        - `Phalcon\Storage\Serializer\None` 
+        - `Phalcon\Storage\Serializer\Php` 
+        - `Phalcon\Storage\Serializer\SerializerInterface` 
+    - `Phalcon\Storage\SerializerFactory`: Factory to create serializers   
+    - `Phalcon\Storage\Adapter` offering classes that implement the `Phalcon\Storage\Adapter\AdapterInterface` interface.  
+        - `Phalcon\Storage\Adapter\Apcu`
+        - `Phalcon\Storage\Adapter\Libmemcached`
+        - `Phalcon\Storage\Adapter\Memory`
+        - `Phalcon\Storage\Adapter\Redis`
+        - `Phalcon\Storage\Adapter\Stream`
+    - `Phalcon\Storage\AdapterFactory`: Factory to create adapters
+ [#13439](https://github.com/phalcon/cphalcon/issues/13439)
 
 ## Fixed
 - Fixed `Mvc\Collection::isInitialized()` now works as intended. [#13931](https://github.com/phalcon/cphalcon/pull/13931)
@@ -37,11 +68,43 @@
 - `Phalcon\Mvc\Model\Relation::isForeignKey()` now returns false if the `foreignKey` option is set to `false`.
 - Fixed `Phalcon\Flash\Session::output()` not to throw an exception when there are no messages stored in session. [#14023](https://github.com/phalcon/cphalcon/issues/14023)
 - Fixed `Phalcon\Config\Adapter\Ini()` to handle arrays correctly in .ini files. [#14025](https://github.com/phalcon/cphalcon/issues/14025)
+- Fixed `Phalcon\Html\Tag::appendTitle()` and `Phalcon\Html\Tag::prependTitle()`to mirror `Phalcon\Tag`. [#14039](https://github.com/phalcon/cphalcon/issues/14039)
 
 ## Removed
 - Removed `arrayHelpers` property from the Volt compiler. [#13925](https://github.com/phalcon/cphalcon/pull/13925)
 - Removed legacy (PHP <5.5) code from GD image adapter.
 - Removed support for HTTP_CONTENT_TYPE header (a bug in PHP 5). [#14013](https://github.com/phalcon/cphalcon/pull/14013)
+- Removed `Mvc\Model\MetaData\Session` adapter (no longer supported) [#13439](https://github.com/phalcon/cphalcon/pull/13439)
+- Removed `Phalcon\Cache`, `Phalcon\Cache\Backend`, `Phalcon\Cache\BackendInterface`, `Phalcon\Cache\Backend\Apcu`, `Phalcon\Cache\Backend\Factory`, `Phalcon\Cache\Backend\File`, `Phalcon\Cache\Backend\Libmemcached`, `Phalcon\Cache\Backend\Memory`, `Phalcon\Cache\Backend\Mongo`, `Phalcon\Cache\Backend\Redis`, `Phalcon\Cache\Frontend`, `Phalcon\Cache\Frontend\Base64`, `Phalcon\Cache\Frontend\Data`, `Phalcon\Cache\Frontend\Factory`, `Phalcon\Cache\Frontend\Igbinary`, `Phalcon\Cache\Frontend\Json`, `Phalcon\Cache\Frontend\Msgpack`, `Phalcon\Cache\Frontend\None`, `Phalcon\Cache\Frontend\Output`, `Phalcon\Cache\FrontendInterface`, `Phalcon\Cache\Multiple` [#13439](https://github.com/phalcon/cphalcon/issues/13439)
+- Removed caching from the view (simple/view)
+    - `Phalcon\Mvc\View::cache()`
+    - `Phalcon\Mvc\View::getCache()`
+    - `Phalcon\Mvc\View\Simple::cache()`
+    - `Phalcon\Mvc\View\Simple::getCache()`
+[#13439](https://github.com/phalcon/cphalcon/issues/13439)
+- Removed multiple Cache Adapter `Phalcon\Cache\Multiple` [#13439](https://github.com/phalcon/cphalcon/issues/13439)
+- Removed old cache classes
+    - `Phalcon\Cache\Backend`
+    - `Phalcon\Cache\BackendInterface`
+    - `Phalcon\Cache\Backend\Apcu`
+    - `Phalcon\Cache\Backend\Factory`
+    - `Phalcon\Cache\Backend\File`
+    - `Phalcon\Cache\Backend\Libmemcached`
+    - `Phalcon\Cache\Backend\Memory`
+    - `Phalcon\Cache\Backend\Mongo`
+    - `Phalcon\Cache\Backend\Redis`
+    - `Phalcon\Cache\Frontend`
+    - `Phalcon\Cache\FrontendInterface`
+    - `Phalcon\Cache\Frontend\Base64`
+    - `Phalcon\Cache\Frontend\Data`
+    - `Phalcon\Cache\Frontend\Factory`
+    - `Phalcon\Cache\Frontend\Igbinary`
+    - `Phalcon\Cache\Frontend\Json`
+    - `Phalcon\Cache\Frontend\Msgpack`
+    - `Phalcon\Cache\Frontend\None`
+    - `Phalcon\Cache\Frontend\Output`
+[#13439](https://github.com/phalcon/cphalcon/issues/13439)
+- Removed model namespace aliases.
 
 # [4.0.0-alpha.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.4) (2019-03-31)
 ## Added

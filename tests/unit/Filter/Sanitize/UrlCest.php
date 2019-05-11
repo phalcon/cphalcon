@@ -16,13 +16,10 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Url;
 use UnitTester;
 
-/**
- * Class UrlCest
- */
 class UrlCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\Url :: __invoke()
      *
      * @dataProvider getData
      *

@@ -39,7 +39,6 @@ use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\ValidationInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
-use Phalcon\Cache\FrontendInterface;
 
 /**
  * Phalcon\Mvc\Model
@@ -3035,7 +3034,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
                         bindParams[] = value;
 
-                    if typeof value == "null" {
+                    if value === null {
                         let numberNull++;
                     }
                 }
@@ -3047,7 +3046,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 let conditions[] = "[" . referencedFields . "] = ?0",
                     bindParams[] = value;
 
-                if typeof value == "null" {
+                if value === null {
                     let validateWithNulls = true;
                 }
             }

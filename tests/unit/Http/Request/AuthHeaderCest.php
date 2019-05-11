@@ -24,8 +24,8 @@ class AuthHeaderCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12480
-     * @author Serghei Iakovelv <serghei@phalconphp.com>
-     * @since  2016-12-18
+     * @author       Serghei Iakovelv <serghei@phalconphp.com>
+     * @since        2016-12-18
      *
      * @dataProvider basicAuthProvider
      */
@@ -34,12 +34,102 @@ class AuthHeaderCest extends HttpBase
         $_SERVER  = $example[0];
         $expected = $example[1];
 
-        $request  = $this->getRequestObject();
-        $actual   = $request->getHeaders();
+        $request = $this->getRequestObject();
+        $actual  = $request->getHeaders();
 
         ksort($actual);
         ksort($expected);
 
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @dataProvider authProvider
+     */
+    public function shouldGetAuthFromHeaders(UnitTester $I, Example $example)
+    {
+        $request = $this->getRequestObject();
+
+        $server   = $example[0];
+        $function = $example[1];
+        $expected = $example[2];
+
+        $_SERVER = $server;
+
+        $I->assertEquals(
+            $expected,
+            $request->$function()
+        );
+    }
+
+    /**
+     * Tests fire authorization events.
+     *
+     * @test
+     * @issue  https://github.com/phalcon/cphalcon/issues/13327
+     * @author Serghei Iakovelv <serghei@phalconphp.com>
+     * @since  2018-03-25
+     */
+    public function shouldFireEventWhenResolveAuthorization(UnitTester $I)
+    {
+        $request       = $this->getRequestObject();
+        $container     = $request->getDI();
+        $eventsManager = $container->getShared('eventsManager');
+        $eventsManager->attach('request', new CustomAuthorizationListener());
+
+        $_SERVER = ['HTTP_CUSTOM_KEY' => 'Custom-Value'];
+
+        $expected = [
+            'Custom-Key'   => 'Custom-Value',
+            'Fired-Before' => 'beforeAuthorizationResolve',
+            'Fired-After'  => 'afterAuthorizationResolve',
+        ];
+        $actual   = $request->getHeaders();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests custom authorization resolver.
+     *
+     * @test
+     * @issue  https://github.com/phalcon/cphalcon/issues/13327
+     * @author Serghei Iakovelv <serghei@phalconphp.com>
+     * @since  2018-03-25
+     */
+    public function shouldEnableCustomAuthorizationResolver(UnitTester $I)
+    {
+        $request       = $this->getRequestObject();
+        $container     = $request->getDI();
+        $eventsManager = $container->getShared('eventsManager');
+        $eventsManager->attach('request', new NegotiateAuthorizationListener());
+
+        $_SERVER['CUSTOM_KERBEROS_AUTH'] = 'Negotiate a87421000492aa874209af8bc028';
+
+        $expected = [
+            'Authorization' => 'Negotiate a87421000492aa874209af8bc028',
+        ];
+        $actual   = $request->getHeaders();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests custom authorization header.
+     *
+     * @test
+     * @issue  https://github.com/phalcon/cphalcon/issues/13327
+     * @author Serghei Iakovelv <serghei@phalconphp.com>
+     * @since  2018-03-25
+     */
+    public function shouldResolveCustomAuthorizationHeaders(UnitTester $I)
+    {
+        $request = $this->getRequestObject();
+
+        $_SERVER['HTTP_AUTHORIZATION'] = 'Enigma Secret';
+
+        $expected = [
+            'Authorization' => 'Enigma Secret',
+        ];
+        $actual   = $request->getHeaders();
         $I->assertEquals($expected, $actual);
     }
 
@@ -164,25 +254,6 @@ class AuthHeaderCest extends HttpBase
         ];
     }
 
-    /**
-     * @dataProvider authProvider
-     */
-    public function shouldGetAuthFromHeaders(UnitTester $I, Example $example)
-    {
-        $request = $this->getRequestObject();
-
-        $server   = $example[0];
-        $function = $example[1];
-        $expected = $example[2];
-
-        $_SERVER = $server;
-
-        $I->assertEquals(
-            $expected,
-            $request->$function()
-        );
-    }
-
     private function authProvider(): array
     {
         return [
@@ -254,76 +325,5 @@ class AuthHeaderCest extends HttpBase
                 ],
             ],
         ];
-    }
-
-    /**
-     * Tests fire authorization events.
-     *
-     * @test
-     * @issue  https://github.com/phalcon/cphalcon/issues/13327
-     * @author Serghei Iakovelv <serghei@phalconphp.com>
-     * @since  2018-03-25
-     */
-    public function shouldFireEventWhenResolveAuthorization(UnitTester $I)
-    {
-        $request       = $this->getRequestObject();
-        $container     = $request->getDI();
-        $eventsManager = $container->getShared('eventsManager');
-        $eventsManager->attach('request', new CustomAuthorizationListener());
-
-        $_SERVER = ['HTTP_CUSTOM_KEY' => 'Custom-Value'];
-
-        $expected = [
-            'Custom-Key'   => 'Custom-Value',
-            'Fired-Before' => 'beforeAuthorizationResolve',
-            'Fired-After'  => 'afterAuthorizationResolve',
-        ];
-        $actual   = $request->getHeaders();
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests custom authorization resolver.
-     *
-     * @test
-     * @issue  https://github.com/phalcon/cphalcon/issues/13327
-     * @author Serghei Iakovelv <serghei@phalconphp.com>
-     * @since  2018-03-25
-     */
-    public function shouldEnableCustomAuthorizationResolver(UnitTester $I)
-    {
-        $request       = $this->getRequestObject();
-        $container     = $request->getDI();
-        $eventsManager = $container->getShared('eventsManager');
-        $eventsManager->attach('request', new NegotiateAuthorizationListener());
-
-        $_SERVER['CUSTOM_KERBEROS_AUTH'] = 'Negotiate a87421000492aa874209af8bc028';
-
-        $expected = [
-            'Authorization' => 'Negotiate a87421000492aa874209af8bc028',
-        ];
-        $actual   = $request->getHeaders();
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests custom authorization header.
-     *
-     * @test
-     * @issue  https://github.com/phalcon/cphalcon/issues/13327
-     * @author Serghei Iakovelv <serghei@phalconphp.com>
-     * @since  2018-03-25
-     */
-    public function shouldResolveCustomAuthorizationHeaders(UnitTester $I)
-    {
-        $request = $this->getRequestObject();
-
-        $_SERVER['HTTP_AUTHORIZATION'] = 'Enigma Secret';
-
-        $expected = [
-            'Authorization' => 'Enigma Secret',
-        ];
-        $actual   = $request->getHeaders();
-        $I->assertEquals($expected, $actual);
     }
 }

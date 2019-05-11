@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Alpha;
 use UnitTester;
 
-/**
- * Class AlphaCest
- */
 class AlphaCest
 {
     /**

@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Application;
 
 use IntegrationTester;
-use Phalcon\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\View;
@@ -34,7 +33,7 @@ class HandleCest
                 $view = new View();
 
                 $view->setViewsDir(
-                    dataFolder('fixtures/views/')
+                    dataDir('fixtures/views/')
                 );
 
                 return $view;

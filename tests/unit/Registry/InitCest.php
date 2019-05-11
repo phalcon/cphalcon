@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-/**
- * Class InitCest
- */
 class InitCest
 {
     /**
      * Tests Phalcon\Registry :: init()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,6 +26,7 @@ class InitCest
     public function collectionInit(UnitTester $I)
     {
         $I->wantToTest('Registry - init()');
+
         $data = [
             'one'   => 'two',
             'three' => 'four',
@@ -39,13 +35,16 @@ class InitCest
 
         $registry = new Registry();
 
-        $expected = 0;
-        $actual   = $registry->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $registry->count()
+        );
 
         $registry->init($data);
-        $expected = $data;
-        $actual   = $registry->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $data,
+            $registry->toArray()
+        );
     }
 }

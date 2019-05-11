@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Helper\Arr;
 use Phalcon\Helper\Arr;
 use UnitTester;
 
-/**
- * Class ValidateAllCest
- */
 class ValidateAllCest
 {
     /**
      * Tests Phalcon\Helper\Arr :: validateAll()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-07

@@ -27,7 +27,6 @@ class IndexCest
         );
 
 
-
         $index2 = $indexes['index2'];
 
         $I->assertEquals(
@@ -41,7 +40,6 @@ class IndexCest
         );
 
 
-
         $index3 = $indexes['PRIMARY'];
 
         $I->assertEquals(
@@ -53,7 +51,6 @@ class IndexCest
             ['column3'],
             $index3->getColumns()
         );
-
 
 
         $index4 = $indexes['index4'];
@@ -72,7 +69,6 @@ class IndexCest
             'UNIQUE',
             $index4->getType()
         );
-
 
 
         $index5 = $indexes['index5'];

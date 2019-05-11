@@ -20,8 +20,6 @@ class ImageInputCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: imageInput() - string as a parameter
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -53,8 +51,6 @@ class ImageInputCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: imageInput() - array as a parameter
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -95,8 +91,6 @@ class ImageInputCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: imageInput() - array as a parameters and id in it
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -142,8 +136,6 @@ class ImageInputCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: imageInput() - name and no id in parameter
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -187,8 +179,6 @@ class ImageInputCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: imageInput() - setDefault
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -236,8 +226,6 @@ class ImageInputCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: imageInput() - displayTo
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -287,8 +275,6 @@ class ImageInputCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: imageInput() - setDefault and element not present
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -336,8 +322,6 @@ class ImageInputCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: imageInput() - displayTo and element not present
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05

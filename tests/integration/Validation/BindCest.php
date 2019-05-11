@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Validation;
 
 use IntegrationTester;
 use Phalcon\Validation;
+use stdClass;
 
 /**
  * Class BindCest
@@ -32,7 +33,7 @@ class BindCest
     {
         $I->wantToTest('Validation - bind()');
 
-        $user = new \stdClass();
+        $user = new stdClass();
 
         $data = [
             'name' => 'Sid',

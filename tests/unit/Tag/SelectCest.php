@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-/**
- * Class SelectCest
- */
 class SelectCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: select()
-     *
-     * @param UnitTester $I
      *
      * @author Cameron Hall <me@chall.id.au>
      * @since  2019-01-27
@@ -31,7 +26,7 @@ class SelectCest extends TagSetup
     public function tagSelect(UnitTester $I)
     {
         $I->wantToTest('Tag - select()');
-        
+
         $this->testFieldParameter(
             $I,
             'select',
@@ -39,8 +34,8 @@ class SelectCest extends TagSetup
                 'potato',
                 [
                     'Phalcon',
-                    'PHP'
-                ]
+                    'PHP',
+                ],
             ],
             "<select id=\"potato\" name=\"potato\">\n\t<option value=\"0\">Phalcon</option>\n\t<option value=\"1\">PHP</option>\n</select"
         );
@@ -48,8 +43,6 @@ class SelectCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: select() with no options
-     *
-     * @param UnitTester $I
      *
      * @author Cameron Hall <me@chall.id.au>
      * @since  2019-01-27

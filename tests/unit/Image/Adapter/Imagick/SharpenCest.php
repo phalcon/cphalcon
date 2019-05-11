@@ -15,8 +15,8 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
-use function dataFolder;
-use function outputFolder;
+use function dataDir;
+use function outputDir;
 
 class SharpenCest
 {
@@ -24,8 +24,6 @@ class SharpenCest
 
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: sharpen()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19
@@ -35,25 +33,27 @@ class SharpenCest
         $I->wantToTest('Image\Adapter\Imagick - sharpen()');
 
         $image = new Imagick(
-            dataFolder('assets/images/phalconphp.jpg')
+            dataDir('assets/images/phalconphp.jpg')
         );
 
         $image->setResourceLimit(6, 1);
 
         // Sharpen the image by 20%
-        $image->sharpen(20)->save(outputFolder('tests/image/imagick/sharpen.jpg'));
+        $image->sharpen(20)->save(outputDir('tests/image/imagick/sharpen.jpg'));
 
         $I->amInPath(
-            outputFolder('tests/image/imagick/')
+            outputDir('tests/image/imagick/')
         );
 
         $I->seeFileFound('sharpen.jpg');
 
-        $I->assertTrue(
-            $image->getWidth() > 200
+        $I->assertGreaterThan(
+            200,
+            $image->getWidth()
         );
-        $I->assertTrue(
-            $image->getHeight() > 200
+        $I->assertGreaterThan(
+            200,
+            $image->getHeight()
         );
 
         $I->safeDeleteFile('sharpen.jpg');

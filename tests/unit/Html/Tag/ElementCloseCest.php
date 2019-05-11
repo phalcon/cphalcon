@@ -15,17 +15,10 @@ namespace Phalcon\Test\Unit\Html\Tag;
 use Phalcon\Html\Tag;
 use UnitTester;
 
-/**
- * Class ElementCloseCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class ElementCloseCest
 {
     /**
      * Tests Phalcon\Html\Tag :: elementClose()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -53,8 +46,6 @@ class ElementCloseCest
     /**
      * Tests Phalcon\Html\Tag :: elementClose() - EOL
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -72,7 +63,6 @@ class ElementCloseCest
         $expected = '</canvas>' . PHP_EOL;
 
 
-
         $tag->setDocType(
             Tag::XHTML10_STRICT
         );
@@ -80,7 +70,6 @@ class ElementCloseCest
         $actual = $tag->elementClose($name, $parameters);
 
         $I->assertEquals($expected, $actual);
-
 
 
         $tag->setDocType(

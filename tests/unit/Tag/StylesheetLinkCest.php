@@ -16,15 +16,10 @@ use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-/**
- * Class StylesheetLinkCest
- */
 class StylesheetLinkCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: stylesheetLink() - string parameter for a local link
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1486
      * @author Phalcon Team <team@phalconphp.com>
@@ -64,8 +59,6 @@ class StylesheetLinkCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: stylesheetLink() - array parameter for a local link
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1486
      * @author Phalcon Team <team@phalconphp.com>
@@ -111,8 +104,6 @@ class StylesheetLinkCest extends TagSetup
      * Tests Phalcon\Tag :: stylesheetLink() - string parameter for a remote
      * link
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
@@ -150,8 +141,6 @@ class StylesheetLinkCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: stylesheetLink() - array parameter for a remote link
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
@@ -188,8 +177,6 @@ class StylesheetLinkCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: stylesheetLink() - overriding the rel link local
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2142
      * @author Phalcon Team <team@phalconphp.com>

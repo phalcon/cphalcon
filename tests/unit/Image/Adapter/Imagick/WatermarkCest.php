@@ -15,20 +15,15 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
-use function dataFolder;
-use function outputFolder;
+use function dataDir;
+use function outputDir;
 
-/**
- * Class WatermarkCest
- */
 class WatermarkCest
 {
     use ImagickTrait;
 
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: watermark()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19
@@ -38,30 +33,32 @@ class WatermarkCest
         $I->wantToTest('Image\Adapter\Imagick - watermark()');
 
         $image = new Imagick(
-            dataFolder('assets/images/phalconphp.jpg')
+            dataDir('assets/images/phalconphp.jpg')
         );
 
         $image->setResourceLimit(6, 1);
 
         $mark = new Imagick(
-            dataFolder('assets/images/logo.png')
+            dataDir('assets/images/logo.png')
         );
 
         // Add a watermark to the bottom right of the image
-        $image->watermark($mark, 10, 10)->save(outputFolder('tests/image/imagick/watermark.jpg'));
+        $image->watermark($mark, 10, 10)->save(outputDir('tests/image/imagick/watermark.jpg'));
 
         $I->amInPath(
-            outputFolder('tests/image/imagick/')
+            outputDir('tests/image/imagick/')
         );
 
         $I->seeFileFound('watermark.jpg');
 
-        $I->assertTrue(
-            $image->getWidth() > 200
+        $I->assertGreaterThan(
+            200,
+            $image->getWidth()
         );
 
-        $I->assertTrue(
-            $image->getHeight() > 200
+        $I->assertGreaterThan(
+            200,
+            $image->getHeight()
         );
 
         $I->safeDeleteFile('watermark.jpg');

@@ -94,7 +94,7 @@ class SetCest
         $I->wantToTest('Helper\Arr - set() - overwrite');
 
         $collection = [
-            1 => 'Phalcon'
+            1 => 'Phalcon',
         ];
 
         $expected = [

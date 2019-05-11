@@ -37,8 +37,6 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - spaces
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
@@ -55,8 +53,6 @@ class FilterCest
 
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - attributes spaces
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
@@ -82,8 +78,6 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - class spaces
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
@@ -102,8 +96,6 @@ class FilterCest
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - class inheritance
      * spaces
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
@@ -121,8 +113,6 @@ class FilterCest
 
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - complex
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
@@ -144,8 +134,6 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - load files
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
@@ -155,8 +143,8 @@ class FilterCest
         $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
-        $sourceFile = dataFolder('/assets/assets/cssmin-01.css');
-        $targetFile = dataFolder('/assets/assets/cssmin-01-result.css');
+        $sourceFile = dataDir('/assets/assets/cssmin-01.css');
+        $targetFile = dataDir('/assets/assets/cssmin-01-result.css');
 
         $I->assertFileExists($sourceFile);
         $I->assertFileExists($targetFile);
@@ -169,8 +157,6 @@ class FilterCest
 
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10

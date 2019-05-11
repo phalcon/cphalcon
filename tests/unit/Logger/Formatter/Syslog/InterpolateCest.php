@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Formatter\Syslog;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Formatter\Syslog;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 /**
@@ -34,22 +34,19 @@ class InterpolateCest
 
         $formatter = new Syslog();
 
-        $message = 'The sky is {color}';
-
-        $context = [
-            'color' => 'blue',
-        ];
-
         $I->assertEquals(
             'The sky is blue',
-            $formatter->interpolate($message, $context)
+            $formatter->interpolate(
+                'The sky is {color}',
+                [
+                    'color' => 'blue',
+                ]
+            )
         );
     }
 
     /**
      * Tests Phalcon\Logger\Formatter\Syslog :: interpolate() - format
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

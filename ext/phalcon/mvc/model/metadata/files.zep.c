@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Files, write) {
 	ZEPHIR_CONCAT_SVS(&_5, "<?php return ", &_4, "; ");
 	zephir_file_put_contents(&_3, &path, &_5 TSRMLS_CC);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_3)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/Mvc/Model/Metadata/Files.zep", 75);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/Mvc/Model/MetaData/Files.zep", 75);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

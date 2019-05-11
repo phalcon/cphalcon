@@ -10,7 +10,7 @@
 
 namespace Phalcon\Logger\Formatter;
 
-use Phalcon\Logger;
+use Phalcon\Logger\Logger;
 
 abstract class AbstractFormatter implements FormatterInterface
 {

@@ -21,8 +21,6 @@ class LinkToCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: linkTo() - string as URL and name
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
@@ -41,8 +39,6 @@ class LinkToCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: linkTo() - string as URL and name
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2002
      * @author Phalcon Team <team@phalconphp.com>
@@ -75,8 +71,6 @@ class LinkToCest extends TagSetup
      * Tests Phalcon\Tag :: linkTo() - empty string as URL and string as name
      * parameter
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
@@ -96,8 +90,6 @@ class LinkToCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: linkTo() - array as a parameter
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
@@ -105,7 +97,7 @@ class LinkToCest extends TagSetup
     {
         $I->wantToTest("Tag - linkTo() - array as a parameter");
 
-        $options  = [
+        $options = [
             'x_url',
             'x_name',
         ];
@@ -119,8 +111,6 @@ class LinkToCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: linkTo() - named array as a parameter
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
@@ -128,7 +118,7 @@ class LinkToCest extends TagSetup
     {
         $I->wantToTest("Tag - linkTo() - named array as a parameter");
 
-        $options  = [
+        $options = [
             'action' => 'x_url',
             'text'   => 'x_name',
             'class'  => 'x_class',
@@ -142,8 +132,6 @@ class LinkToCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: linkTo() - complex local URL
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1679
      * @author Phalcon Team <team@phalconphp.com>
@@ -166,7 +154,7 @@ class LinkToCest extends TagSetup
 
         Tag::resetInput();
 
-        $options  = [
+        $options = [
             "x_action/x_param",
             'x_name',
         ];
@@ -178,7 +166,7 @@ class LinkToCest extends TagSetup
 
         Tag::resetInput();
 
-        $options  = [
+        $options = [
             "x_action/x_param",
             'x_name',
             'class' => 'x_class',
@@ -192,8 +180,6 @@ class LinkToCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: linkTo() - complex remote URL
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1679
      * @author Phalcon Team <team@phalconphp.com>
@@ -216,7 +202,7 @@ class LinkToCest extends TagSetup
 
         Tag::resetInput();
 
-        $options  = [
+        $options = [
             "http://phalconphp.com/en/",
             'x_name',
             false,
@@ -229,7 +215,7 @@ class LinkToCest extends TagSetup
 
         Tag::resetInput();
 
-        $options  = [
+        $options = [
             "http://phalconphp.com/en/",
             'text'  => 'x_name',
             'local' => false,

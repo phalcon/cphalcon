@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Acl_Component, __construct) {
 	}
 
 
-	if (ZEPHIR_IS_STRING(&name, "*")) {
+	if (UNEXPECTED(ZEPHIR_IS_STRING(&name, "*"))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Component name cannot be '*'", "phalcon/Acl/Component.zep", 42);
 		return;
 	}

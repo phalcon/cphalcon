@@ -18,11 +18,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 use UnitTester;
 
-/**
- * Class FriendlyTitleCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class FriendlyTitleCest
 {
     use DiTrait;
@@ -30,8 +25,6 @@ class FriendlyTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: friendlyTitle()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
@@ -50,8 +43,6 @@ class FriendlyTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: friendlyTitle() - separator
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
@@ -76,8 +67,6 @@ class FriendlyTitleCest
     /**
      * Tests Phalcon\Html\Tag :: friendlyTitle() - lowercase
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
@@ -101,8 +90,6 @@ class FriendlyTitleCest
     /**
      * Tests Phalcon\Html\Tag :: friendlyTitle() - replace string
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
@@ -123,8 +110,6 @@ class FriendlyTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: friendlyTitle() - replace array
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
@@ -148,8 +133,6 @@ class FriendlyTitleCest
      * Tests Phalcon\Html\Tag :: friendlyTitle() - special characters and
      * escaping
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
@@ -169,8 +152,6 @@ class FriendlyTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: friendlyTitle() - accented characters replace
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
@@ -194,8 +175,6 @@ class FriendlyTitleCest
      * Tests Phalcon\Html\Tag :: friendlyTitle() - accented characters replace
      * array
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11
      */
@@ -216,8 +195,6 @@ class FriendlyTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: friendlyTitle() - replace exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-11

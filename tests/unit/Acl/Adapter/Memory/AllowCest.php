@@ -15,8 +15,8 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 use Exception;
 use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Test\Fixtures\Acl\TestRoleAware;
 use Phalcon\Test\Fixtures\Acl\TestComponentAware;
+use Phalcon\Test\Fixtures\Acl\TestRoleAware;
 use UnitTester;
 
 class AllowCest
@@ -46,11 +46,9 @@ class AllowCest
         $acl->allow('Member', 'Post', 'update');
 
 
-
         $actual = $acl->isAllowed('Guest', 'Post', 'update');
 
         $I->assertFalse($actual);
-
 
 
         $actual = $acl->isAllowed('Member', 'Post', 'update');
@@ -60,8 +58,6 @@ class AllowCest
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: allow() - function
-     *
-     * @param UnitTester $I
      *
      * @issue   https://github.com/phalcon/cphalcon/issues/11235
      *
@@ -105,11 +101,9 @@ class AllowCest
         $acl->allow('Admins', 'Post', 'update');
 
 
-
         $actual = $acl->isAllowed($guest, $model, 'update');
 
         $I->assertFalse($actual);
-
 
 
         $actual = $acl->isAllowed($member, $model, 'update');
@@ -117,11 +111,9 @@ class AllowCest
         $I->assertTrue($actual);
 
 
-
         $actual = $acl->isAllowed($anotherMember, $model, 'update');
 
         $I->assertFalse($actual);
-
 
 
         $actual = $acl->isAllowed($admin, $model, 'update');

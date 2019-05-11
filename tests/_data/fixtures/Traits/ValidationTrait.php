@@ -16,17 +16,12 @@ use IntegrationTester;
 use Phalcon\Validation\ValidatorInterface;
 
 /**
- * Trait ValidationTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait ValidationTrait
 {
     /**
      * Tests Phalcon\Validation\Validator\* :: __construct()
-     *
-     * @param IntegrationTester  $I
-     * @param ValidatorInterface $validator
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -45,11 +40,6 @@ trait ValidationTrait
 
     /**
      * Formats a message to be displayed in the tests
-     *
-     * @param ValidatorInterface $validator
-     * @param string             $method
-     *
-     * @return string
      */
     private function getMessage(ValidatorInterface $validator, string $method): string
     {
@@ -63,9 +53,6 @@ trait ValidationTrait
 
     /**
      * Tests Phalcon\Validation\Validator\* :: getOption()
-     *
-     * @param IntegrationTester  $I
-     * @param ValidatorInterface $validator
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -89,9 +76,6 @@ trait ValidationTrait
 
     /**
      * Tests Phalcon\Validation\Validator\* :: hasOption()
-     *
-     * @param IntegrationTester  $I
-     * @param ValidatorInterface $validator
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -117,9 +101,6 @@ trait ValidationTrait
 
     /**
      * Tests Phalcon\Validation\Validator\* :: setOption()
-     *
-     * @param IntegrationTester  $I
-     * @param ValidatorInterface $validator
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

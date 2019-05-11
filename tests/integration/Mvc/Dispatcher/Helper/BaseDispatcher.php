@@ -29,7 +29,7 @@ use Phalcon\Mvc\Dispatcher;
 abstract class BaseDispatcher
 {
     /**
-     * @var \Phalcon\Di
+     * @var Di
      */
     private $di;
 
@@ -89,7 +89,7 @@ abstract class BaseDispatcher
     /**
      * Returns the current Dependency Injector.
      *
-     * @return \Phalcon\Di
+     * @return Di
      */
     protected function getDI()
     {
@@ -99,7 +99,7 @@ abstract class BaseDispatcher
     /**
      * Returns the current dispatcher instance.
      *
-     * @return \Phalcon\Mvc\Dispatcher
+     * @return Dispatcher
      */
     protected function getDispatcher()
     {
@@ -109,7 +109,7 @@ abstract class BaseDispatcher
     /**
      * Returns the current dispatcher listener instance.
      *
-     * @return \Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherListener
+     * @return DispatcherListener
      */
     protected function getDispatcherListener()
     {

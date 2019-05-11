@@ -18,10 +18,10 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Regex;
 use Phalcon\Validation\Validator\StringLength;
+use stdClass;
 
 class FormCest
 {
@@ -55,12 +55,10 @@ class FormCest
         }
 
 
-
         $expected = [];
         $actual   = $data;
 
         $I->assertEquals($expected, $actual);
-
 
 
         $form->add(
@@ -74,7 +72,6 @@ class FormCest
         foreach ($form as $key => $value) {
             $data[$key] = $value->getName();
         }
-
 
 
         $expected = [
@@ -102,12 +99,10 @@ class FormCest
         $form->add($telephone);
 
 
-
         $expected = 'name';
         $actual   = $form->getLabel("name");
 
         $I->assertEquals($expected, $actual);
-
 
 
         $expected = 'The Telephone';
@@ -116,19 +111,16 @@ class FormCest
         $I->assertEquals($expected, $actual);
 
 
-
         $expected = "<label for=\"name\">name</label>";
         $actual   = $form->label("name");
 
         $I->assertEquals($expected, $actual);
 
 
-
         $expected = "<label for=\"telephone\">The Telephone</label>";
         $actual   = $form->label("telephone");
 
         $I->assertEquals($expected, $actual);
-
 
 
         // https://github.com/phalcon/cphalcon/issues/1029
@@ -142,7 +134,6 @@ class FormCest
         );
 
         $I->assertEquals($expected, $actual);
-
 
 
         $expected = "<label for=\"telephone\" class=\"form-control\">The Telephone</label>";
@@ -171,12 +162,10 @@ class FormCest
         );
 
 
-
         $I->assertCount(
             1,
             $telephone->getValidators()
         );
-
 
 
         $telephone->addValidators(
@@ -197,12 +186,10 @@ class FormCest
         );
 
 
-
         $I->assertCount(
             3,
             $telephone->getValidators()
         );
-
 
 
         //Second element
@@ -217,12 +204,10 @@ class FormCest
         );
 
 
-
         $I->assertCount(
             3,
             $telephone->getValidators()
         );
-
 
 
         $form = new Form();
@@ -231,13 +216,11 @@ class FormCest
         $form->add($address);
 
 
-
         $actual = $form->isValid(
             []
         );
 
         $I->assertFalse($actual);
-
 
 
         $expected = new Messages(
@@ -274,7 +257,6 @@ class FormCest
         $I->assertEquals($expected, $actual);
 
 
-
         $actual = $form->isValid(
             [
                 'telephone' => '12345',
@@ -283,7 +265,6 @@ class FormCest
         );
 
         $I->assertFalse($actual);
-
 
 
         $expected = new Messages(
@@ -302,7 +283,6 @@ class FormCest
         $I->assertEquals($expected, $actual);
 
 
-
         $actual = $form->isValid(
             [
                 'telephone' => '+44 124 82122',
@@ -318,7 +298,7 @@ class FormCest
      */
     public function testIssue1190(IntegrationTester $I)
     {
-        $object = new \stdClass();
+        $object = new stdClass();
 
         $object->title = 'Hello "world!"';
 
@@ -365,7 +345,6 @@ class FormCest
         $form->add($address);
 
 
-
         $I->assertFalse(
             $form->isValid(
                 [
@@ -376,7 +355,6 @@ class FormCest
         );
 
 
-
         $I->assertTrue(
             $form->get('telephone')->hasMessages()
         );
@@ -384,7 +362,6 @@ class FormCest
         $I->assertFalse(
             $form->get('address')->hasMessages()
         );
-
 
 
         $expected = new Messages(
@@ -403,19 +380,16 @@ class FormCest
         $I->assertEquals($expected, $actual);
 
 
-
         $expected = $form->getMessages();
         $actual   = $form->get('telephone')->getMessages();
 
         $I->assertEquals($expected, $actual);
 
 
-
         $expected = new Messages();
         $actual   = $form->get('address')->getMessages();
 
         $I->assertEquals($expected, $actual);
-
 
 
         $expected = new Messages();

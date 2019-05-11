@@ -12,13 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
-use InvalidArgumentException;
 use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
-/**
- * Class GetProtocolVersionCest
- */
 class GetProtocolVersionCest
 {
 //    /**
@@ -52,8 +48,6 @@ class GetProtocolVersionCest
 
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getProtocolVersion() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-05

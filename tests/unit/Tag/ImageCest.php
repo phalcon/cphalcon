@@ -21,8 +21,6 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - string as a parameter
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -39,8 +37,6 @@ class ImageCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: image() - array as a parameter
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -61,8 +57,6 @@ class ImageCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: image() - array as a parameters and src in it
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -85,8 +79,6 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - name and no src in parameter
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -106,8 +98,6 @@ class ImageCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: image() - setDefault
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -129,8 +119,6 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - displayTo
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -150,8 +138,6 @@ class ImageCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: image() - setDefault and element not present
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -173,8 +159,6 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - displayTo and element not present
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -194,8 +178,6 @@ class ImageCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: image() - string parameter and local link
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -224,8 +206,6 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - string parameter and remote link
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -252,8 +232,6 @@ class ImageCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: image() - array parameter and local link
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -288,8 +266,6 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - array parameter and remote link
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -297,7 +273,7 @@ class ImageCest extends TagSetup
     {
         $I->wantToTest("Tag :: image() - array parameter and remote link");
 
-        $options  = [
+        $options = [
             'http://phalconphp.com/img/hello.gif',
             'alt' => 'Hello',
         ];

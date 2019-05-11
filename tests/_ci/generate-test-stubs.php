@@ -10,8 +10,6 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-use Phalcon\Text;
-
 $template = '<?php
 declare(strict_types=1);
 
@@ -63,7 +61,7 @@ $placeholders = [
     '%d%'  => date('Y-m-d'),
 ];
 
-$outputFolder = dirname(dirname(__FILE__)) . '/nikos/';
+$outputDir = dirname(dirname(__FILE__)) . '/nikos/';
 
 foreach ($phalconClasses as $class) {
     $newClass = str_replace('Phalcon\\', '', $class);
@@ -113,7 +111,7 @@ foreach ($phalconClasses as $class) {
         $dir = str_replace(
             '\\',
             '/',
-            $outputFolder . $class
+            $outputDir . $class
         );
 
         @mkdir($dir, 0777, true);
@@ -125,7 +123,7 @@ foreach ($phalconClasses as $class) {
         $fileName = str_replace(
             '\\',
             '/',
-            $outputFolder . $class . '/' . ucfirst($method) . 'Cest.php'
+            $outputDir . $class . '/' . ucfirst($method) . 'Cest.php'
         );
 
         echo 'Filename: ' . $fileName . PHP_EOL;

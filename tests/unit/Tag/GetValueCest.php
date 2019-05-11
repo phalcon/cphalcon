@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Tag;
 
 use UnitTester;
 
-/**
- * Class GetValueCest
- */
 class GetValueCest
 {
     /**
      * Tests Phalcon\Tag :: getValue()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

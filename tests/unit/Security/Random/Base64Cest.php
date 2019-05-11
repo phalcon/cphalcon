@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Security\Random;
 
 use Codeception\Example;
+use Phalcon\Security\Random;
 use UnitTester;
 
 class Base64Cest
@@ -20,8 +21,8 @@ class Base64Cest
     /**
      * Tests Phalcon\Security\Random :: base64()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider securityRandomBase64Provider
      */
@@ -31,11 +32,7 @@ class Base64Cest
 
         $len = $example[0];
 
-        $random = new \Phalcon\Security\Random();
-
-        $isValid = function ($base64) {
-            return (preg_match("#[^a-z0-9+_=/-]+#i", $base64) === 0);
-        };
+        $random = new Random();
 
         $base64 = $random->base64($len);
 
@@ -50,21 +47,17 @@ class Base64Cest
             $this->checkSize($base64, $expected)
         );
 
-        $I->assertTrue(
-            $isValid($base64)
+        $I->assertRegExp(
+            "#^[a-z0-9+_=/-]+$#i",
+            $base64
         );
     }
 
     /**
      * Size formula: 4 * ($n / 3) and this need to be rounded up to a multiple
      * of 4.
-     *
-     * @param string $string
-     * @param int    $n
-     *
-     * @return bool
      */
-    protected function checkSize($string, $n)
+    protected function checkSize(string $string, int $n): bool
     {
         if (round(4 * ($n / 3)) % 4 === 0) {
             $len = round(4 * ($n / 3));

@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Date, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_5$$5);
 		ZVAL_STRING(&_5$$5, "Date");
-		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 386, &_4$$5, field, &_5$$5, &code);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 401, &_4$$5, field, &_5$$5, &code);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_3$$5);
 		zephir_check_call_status();

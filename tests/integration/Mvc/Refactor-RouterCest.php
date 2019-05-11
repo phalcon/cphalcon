@@ -13,7 +13,6 @@ namespace Phalcon\Test\Integration\Mvc;
 
 use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
@@ -24,8 +23,8 @@ class RouterCest
     /**
      * Tests routing by use Route::convert
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
-     * @since  2012-12-25
+     * @author       Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since        2012-12-25
      *
      * @dataProvider getMatchingWithConverted
      */
@@ -46,29 +45,6 @@ class RouterCest
         $expected = $params['action'];
         $actual   = $router->getActionName();
         $I->assertEquals($expected, $actual);
-    }
-
-    private function getMatchingWithConverted(): array
-    {
-        return [
-            [
-                '/some-controller/my-action-name/this-is-a-country',
-                [
-                    'controller' => 'somecontroller',
-                    'action'     => 'myactionname',
-                    'params'     => ['this-is-a-country'],
-                ],
-            ],
-
-            [
-                '/BINARY/1101',
-                [
-                    'controller' => 'binary',
-                    'action'     => 'index',
-                    'params'     => [1011],
-                ],
-            ],
-        ];
     }
 
     /**
@@ -105,13 +81,11 @@ class RouterCest
         ;
 
 
-
         $router->handle("/");
 
         $I->assertFalse(
             $router->wasMatched()
         );
-
 
 
         $router->handle('/static/route');
@@ -121,13 +95,11 @@ class RouterCest
         );
 
 
-
         $router->handle('/static/route2');
 
         $I->assertTrue(
             $router->wasMatched()
         );
-
 
 
         $I->assertEquals(2, $trace);
@@ -620,8 +592,8 @@ class RouterCest
     /**
      * Tests adding a route to the router by using short path
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
-     * @since  2012-01-16
+     * @author       Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since        2012-01-16
      *
      * @dataProvider getMatchingWithPathProvider
      */
@@ -639,71 +611,6 @@ class RouterCest
             $expected,
             $route->getPaths()
         );
-    }
-
-    private function getMatchingWithPathProvider(): array
-    {
-        return [
-            [
-                '/route0',
-                'Feed',
-                [
-                    'controller' => 'feed',
-                ],
-            ],
-            [
-                '/route1',
-                'Feed::get',
-                [
-                    'controller' => 'feed',
-                    'action'     => 'get',
-                ],
-            ],
-            [
-                '/route2',
-                'News::Posts::show',
-                [
-                    'module'     => 'News',
-                    'controller' => 'posts',
-                    'action'     => 'show',
-                ],
-            ],
-            [
-                '/route3',
-                'MyApp\Controllers\Posts::show',
-                [
-                    'namespace'  => 'MyApp\Controllers',
-                    'controller' => 'posts',
-                    'action'     => 'show',
-                ],
-            ],
-            [
-                '/route3',
-                'MyApp\Controllers\::show',
-                [
-                    'controller' => '',
-                    'action'     => 'show',
-                ],
-            ],
-            [
-                '/route3',
-                'News::MyApp\Controllers\Posts::show',
-                [
-                    'module'     => 'News',
-                    'namespace'  => 'MyApp\\Controllers',
-                    'controller' => 'posts',
-                    'action'     => 'show',
-                ],
-            ],
-            [
-                '/route3',
-                '\Posts::show',
-                [
-                    'controller' => 'posts',
-                    'action'     => 'show',
-                ],
-            ],
-        ];
     }
 
     /**
@@ -1038,5 +945,93 @@ class RouterCest
     protected function _before(IntegrationTester $I)
     {
         Route::reset();
+    }
+
+    private function getMatchingWithConverted(): array
+    {
+        return [
+            [
+                '/some-controller/my-action-name/this-is-a-country',
+                [
+                    'controller' => 'somecontroller',
+                    'action'     => 'myactionname',
+                    'params'     => ['this-is-a-country'],
+                ],
+            ],
+
+            [
+                '/BINARY/1101',
+                [
+                    'controller' => 'binary',
+                    'action'     => 'index',
+                    'params'     => [1011],
+                ],
+            ],
+        ];
+    }
+
+    private function getMatchingWithPathProvider(): array
+    {
+        return [
+            [
+                '/route0',
+                'Feed',
+                [
+                    'controller' => 'feed',
+                ],
+            ],
+            [
+                '/route1',
+                'Feed::get',
+                [
+                    'controller' => 'feed',
+                    'action'     => 'get',
+                ],
+            ],
+            [
+                '/route2',
+                'News::Posts::show',
+                [
+                    'module'     => 'News',
+                    'controller' => 'posts',
+                    'action'     => 'show',
+                ],
+            ],
+            [
+                '/route3',
+                'MyApp\Controllers\Posts::show',
+                [
+                    'namespace'  => 'MyApp\Controllers',
+                    'controller' => 'posts',
+                    'action'     => 'show',
+                ],
+            ],
+            [
+                '/route3',
+                'MyApp\Controllers\::show',
+                [
+                    'controller' => '',
+                    'action'     => 'show',
+                ],
+            ],
+            [
+                '/route3',
+                'News::MyApp\Controllers\Posts::show',
+                [
+                    'module'     => 'News',
+                    'namespace'  => 'MyApp\\Controllers',
+                    'controller' => 'posts',
+                    'action'     => 'show',
+                ],
+            ],
+            [
+                '/route3',
+                '\Posts::show',
+                [
+                    'controller' => 'posts',
+                    'action'     => 'show',
+                ],
+            ],
+        ];
     }
 }

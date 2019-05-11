@@ -507,7 +507,6 @@ class ResponseCest extends HttpBase
         $response->setCache(60);
 
 
-
         $expected = Headers::__set_state(
             [
                 'headers' => [

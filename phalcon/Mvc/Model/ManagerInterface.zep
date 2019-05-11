@@ -176,11 +176,6 @@ interface ManagerInterface
     public function getModelSource(<ModelInterface> model) -> string;
 
     /**
-     * Returns a real namespace from its alias
-     */
-    public function getNamespaceAlias(string! alias) -> string;
-
-    /**
      * Returns the connection to read data related to a model
      */
     public function getReadConnection(<ModelInterface> model) -> <AdapterInterface>;
@@ -279,11 +274,6 @@ interface ManagerInterface
      * Notify the behaviors that are listening in the model
      */
     public function notifyEvent(string! eventName, <ModelInterface> model);
-
-    /**
-     * Registers shorter aliases for namespaces in PHQL statements
-     */
-    public function registerNamespaceAlias(string alias, string namespaceName) -> void;
 
     /**
      * Sets both write and read connection service for a model

@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router;
 
 use IntegrationTester;
-use Phalcon\Mvc\Router;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
 /**
@@ -46,11 +45,9 @@ class AddPurgeCest
         );
 
 
-
         $_SERVER['REQUEST_METHOD'] = 'PURGE';
 
         $router->handle('/docs/index');
-
 
 
         $I->assertEquals(

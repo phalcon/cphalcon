@@ -14,9 +14,6 @@ namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
-/**
- * Class TelFieldCest
- */
 class TelFieldCest extends TagHelper
 {
     protected $function  = 'telField';

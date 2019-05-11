@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Bag;
 
-use Phalcon\Session\Bag;
 use IntegrationTester;
+use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
@@ -46,7 +46,6 @@ class UnserializeCest
         $serialized = serialize($data);
 
         $collection = new Bag('BagTest');
-
 
 
         $collection->unserialize($serialized);

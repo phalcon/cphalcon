@@ -21,9 +21,6 @@ class LoadCest
 {
     use FactoryTrait;
 
-    /**
-     * @param UnitTester $I
-     */
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('gettext');
@@ -34,8 +31,6 @@ class LoadCest
     /**
      * Tests Phalcon\Translate\Factory :: load() - Phalcon\Config
      *
-     * @param UnitTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
@@ -44,34 +39,38 @@ class LoadCest
         $I->wantToTest('Translate\Factory - load() - Config');
 
         $options = $this->config->translate;
+
         /** @var Gettext $translate */
         $translate = Factory::load($options);
 
-        $class  = Gettext::class;
-        $actual = $translate;
-        $I->assertInstanceOf($class, $actual);
+        $I->assertInstanceOf(
+            Gettext::class,
+            $translate
+        );
 
-        $expected = $options->category;
-        $actual   = $translate->getCategory();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $options->category,
+            $translate->getCategory()
+        );
 
-        $expected = $options->locale;
-        $actual   = $translate->getLocale();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $options->locale,
+            $translate->getLocale()
+        );
 
-        $expected = $options->defaultDomain;
-        $actual   = $translate->getDefaultDomain();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $options->defaultDomain,
+            $translate->getDefaultDomain()
+        );
 
-        $expected = $options->directory;
-        $actual   = $translate->getDirectory();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $options->directory,
+            $translate->getDirectory()
+        );
     }
 
     /**
      * Tests Phalcon\Translate\Factory :: load() - array
-     *
-     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02

@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Text, camelize) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "camelize", &_0, 507, &text, delimiter);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "camelize", &_0, 0, &text, delimiter);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "dynamic", &_0, 508, &text, &leftDelimiter, &rightDelimiter, &separator);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "dynamic", &_0, 0, &text, &leftDelimiter, &rightDelimiter, &separator);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Text, endsWith) {
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "endswith", &_0, 213, &text, &end, &_1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "endswith", &_0, 233, &text, &end, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -320,7 +320,7 @@ PHP_METHOD(Phalcon_Text, humanize) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "humanize", &_0, 509, &text);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "humanize", &_0, 0, &text);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Text, increment) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "increment", &_0, 510, &text, &separator);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "increment", &_0, 0, &text, &separator);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -413,7 +413,7 @@ PHP_METHOD(Phalcon_Text, lower) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "lower", &_0, 511, &text, &encoding);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "lower", &_0, 0, &text, &encoding);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -458,7 +458,7 @@ PHP_METHOD(Phalcon_Text, startsWith) {
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "startswith", &_0, 212, &text, &start, &_1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "startswith", &_0, 232, &text, &start, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 

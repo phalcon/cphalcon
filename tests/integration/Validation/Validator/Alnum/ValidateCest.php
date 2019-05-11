@@ -88,7 +88,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name' => 'SomeValue123',
@@ -100,7 +99,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -119,7 +117,6 @@ class ValidateCest
             $validationMessages['name'],
             $messages->offsetGet(0)->getMessage()
         );
-
 
 
         $messages = $validation->validate(

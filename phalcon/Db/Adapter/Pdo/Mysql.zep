@@ -427,7 +427,7 @@ class Mysql extends PdoAdapter
             /**
              * Check if the column is default values
              */
-            if typeof field[4] != "null" {
+            if field[4] !== null {
                 let definition["default"] = field[4];
             }
 

@@ -17,15 +17,10 @@ use Phalcon\Http\Message\ServerRequest;
 use Phalcon\Http\Message\UploadedFile;
 use UnitTester;
 
-/**
- * Class WithUploadedFilesCest
- */
 class WithUploadedFilesCest
 {
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: withUploadedFiles()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -49,8 +44,6 @@ class WithUploadedFilesCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: withUploadedFiles() -
      * exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

@@ -16,15 +16,10 @@ use Phalcon\Http\Request;
 use Phalcon\Http\RequestInterface;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Http\Cookie :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

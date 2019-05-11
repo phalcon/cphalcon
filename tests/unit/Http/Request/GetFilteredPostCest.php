@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 use function ucfirst;
 
-/**
- * Class GetFilteredPostCest
- */
 class GetFilteredPostCest
 {
     use DiTrait;
@@ -58,8 +55,6 @@ class GetFilteredPostCest
 
     /**
      * Tests Phalcon\Http\Request :: getFilteredPost() - default
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-01

@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class IsFirstCest
- */
 class IsFirstCest
 {
     use DiTrait;
@@ -26,8 +23,6 @@ class IsFirstCest
 
     /**
      * Tests Phalcon\Db\Column :: isFirst()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

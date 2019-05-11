@@ -15,8 +15,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 use RuntimeException;
 
 /**
- * Trait CookieTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait CookieTrait
@@ -29,7 +27,7 @@ trait CookieTrait
      *
      * @link  http://tools.ietf.org/html/rfc6265#section-4.1.1
      *
-     * @param  string $name
+     * @param string $name
      *
      * @return string|array|null
      *

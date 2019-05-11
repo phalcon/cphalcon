@@ -16,13 +16,10 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\BoolVal;
 use UnitTester;
 
-/**
- * Class BoolValCest
- */
 class BoolValCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\BoolVal :: __invoke()
      *
      * @dataProvider getData
      *
@@ -52,6 +49,8 @@ class BoolValCest
             [0xFFA, true],
             ['1000', true],
             [null, false],
+            ['on', true],
+            ['off', false],
         ];
     }
 }

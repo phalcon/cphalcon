@@ -34,13 +34,50 @@ abstract class AbstractHelper
     }
 
     /**
+     * Renders an element
+     */
+    protected function renderFullElement(
+        string tag,
+        string text,
+        array attributes = [],
+        bool raw = false
+    ) -> string {
+
+        var content;
+
+        let content = raw ? text : this->escaper->escapeHtml(text);
+
+        return this->renderElement(tag, attributes) . content . "</" . tag . ">";
+    }
+
+    /**
+     * Renders an element
+     */
+    protected function renderElement(string! tag, array! attributes = []) -> string
+    {
+        var attrs, escapedAttrs;
+        
+        let escapedAttrs = "";
+        if count(attributes) > 0 {
+            let attrs        = this->orderAttributes([], attributes),
+                escapedAttrs = " " . rtrim(this->renderAttributes(attrs));
+        }
+
+        return "<" . tag . escapedAttrs . ">";
+    }
+
+    /**
      * Keeps all the attributes sorted - same order all the tome
+     *
+     * @param array overrides
+     * @param array attributes
+     *
+     * @return array
      */
     protected function orderAttributes(array overrides, array attributes) -> array
     {
-        var intersect, results;
-        array order;
-
+        var intersect, order, results;
+        
         let order = [
             "rel"    : null,
             "type"   : null,
@@ -69,18 +106,18 @@ abstract class AbstractHelper
     /**
      * Renders all the attributes
      */
-    protected function renderAttributes(array attributes) -> string
+    protected function renderAttributes(array! attributes) -> string
     {
-        var key, value;
-        string result;
+        var key, result, value;
 
         let result = "";
-
         for key, value in attributes {
-            if typeof key == "string" && value !== null {
-                if unlikely (typeof value == "array" || typeof value == "resource" || typeof value == "object") {
+            if typeof key === "string" && null !== value {
+                if typeof value === "array"    ||
+                   typeof value === "resource" ||
+                   typeof value === "object" {
                     throw new Exception(
-                        "Value at index: '" . key . "' type: '" . gettype(value) . "' cannot be rendered"
+                        "Value at index: \"" . key . "\" type: \"" . gettype(value) . "\" cannot be rendered"
                     );
                 }
 
@@ -92,35 +129,14 @@ abstract class AbstractHelper
     }
 
     /**
-     * Renders an element
-     */
-    protected function renderElement(string tag, string text, array attributes = [])
-    {
-        var attrs, escapedText;
-        string escapedAttrs;
-
-        let escapedAttrs = "",
-            escapedText  = this->escaper->escapeHtml(text);
-
-        if (count(attributes) > 0) {
-            let attrs        = this->orderAttributes([], attributes),
-                escapedAttrs = " " . rtrim(this->renderAttributes(attrs));
-        }
-
-        return "<" . tag . escapedAttrs . ">" . escapedText . "</" . tag. ">";
-    }
-
-    /**
      * Produces a self close tag i.e. <img />
      */
-    protected function selfClose(string tag, array attributes = [])
+    protected function selfClose(string! tag, array! attributes = []) -> string
     {
-        var attrs;
-        string escapedAttrs;
+        var attrs, escapedAttrs;
 
         let escapedAttrs = "";
-
-        if (count(attributes) > 0) {
+        if count(attributes) > 0 {
             let attrs        = this->orderAttributes([], attributes),
                 escapedAttrs = " " . rtrim(this->renderAttributes(attrs));
         }

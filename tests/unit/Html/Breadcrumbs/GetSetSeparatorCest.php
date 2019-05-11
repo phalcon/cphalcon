@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Html\Breadcrumbs;
 use Phalcon\Html\Breadcrumbs;
 use UnitTester;
 
-/**
- * Class GetSetSeparatorCest
- */
 class GetSetSeparatorCest
 {
     /**
      * Tests Phalcon\Html\Breadcrumbs :: getSeparator()/setSeparator()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

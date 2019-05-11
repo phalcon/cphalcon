@@ -13,19 +13,14 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Role;
 use Phalcon\Acl\Component;
+use Phalcon\Acl\Role;
 use UnitTester;
 
-/**
- * Class GetActiveKeyCest
- */
 class GetActiveKeyCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveKey()
-     *
-     * @param UnitTester $I
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-01-13

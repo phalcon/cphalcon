@@ -159,7 +159,8 @@ class DispatcherInitializeMethodCest extends BaseDispatcher
 
                 return null;
             }
-        );
+        )
+        ;
 
         $caughtException = false;
         try {

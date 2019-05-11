@@ -16,15 +16,10 @@ use Phalcon\Http\Message\Stream\Input;
 use Psr\Http\Message\StreamInterface;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Http\Message\Stream\Input :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-19

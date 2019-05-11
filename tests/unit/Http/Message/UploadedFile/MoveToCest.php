@@ -17,15 +17,10 @@ use Phalcon\Http\Message\Stream;
 use Phalcon\Http\Message\UploadedFile;
 use UnitTester;
 
-/**
- * Class MoveToCest
- */
 class MoveToCest
 {
     /**
      * Tests Phalcon\Http\Message\UploadedFile :: moveTo()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -38,7 +33,7 @@ class MoveToCest
 
         $file   = new UploadedFile($stream, 0);
         $target = $I->getNewFileName();
-        $target = outputFolder('tests/stream/' . $target);
+        $target = outputDir('tests/stream/' . $target);
 
         $file->moveTo($target);
 
@@ -53,8 +48,6 @@ class MoveToCest
     /**
      * Tests Phalcon\Http\Message\UploadedFile :: moveTo() - upload error
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -67,7 +60,7 @@ class MoveToCest
                 $stream = new Stream('php://memory', 'w+b');
                 $stream->write('Phalcon Framework');
                 $target = $I->getNewFileName();
-                $target = outputFolder('tests/stream/' . $target);
+                $target = outputDir('tests/stream/' . $target);
 
                 $file = new UploadedFile($stream, 0, UPLOAD_ERR_CANT_WRITE);
                 $file->moveTo($target);
@@ -77,8 +70,6 @@ class MoveToCest
 
     /**
      * Tests Phalcon\Http\Message\UploadedFile :: moveTo() - wrong path
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -101,8 +92,6 @@ class MoveToCest
     /**
      * Tests Phalcon\Http\Message\UploadedFile :: moveTo() - already moved
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -117,7 +106,7 @@ class MoveToCest
 
                 $file   = new UploadedFile($stream, 0);
                 $target = $I->getNewFileName();
-                $target = outputFolder('tests/stream/' . $target);
+                $target = outputDir('tests/stream/' . $target);
 
                 $file->moveTo($target);
                 $file->moveTo($target);

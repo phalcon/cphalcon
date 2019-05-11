@@ -56,7 +56,6 @@ class DeleteCest
         );
 
 
-
         $_SERVER['REQUEST_METHOD'] = 'DELETE';
 
         $I->assertEquals(

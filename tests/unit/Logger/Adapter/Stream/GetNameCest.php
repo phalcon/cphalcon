@@ -15,40 +15,24 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
 
-/**
- * Class GetNameCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class GetNameCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: getName()
      *
      * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function loggerAdapterStreamGetName(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - getName()');
+        $fileName   = $I->getNewFileName('log', 'log');
+        $outputPath = logsDir();
+        $adapter    = new Stream($outputPath . $fileName);
 
-        $fileName = $I->getNewFileName('log', 'log');
+        $expected = $outputPath . $fileName;
+        $actual   = $adapter->getName();
+        $I->assertEquals($expected, $actual);
 
-        $outputPath = outputFolder('tests/logs/');
-
-        $adapter = new Stream(
-            $outputPath . $fileName
-        );
-
-        $I->assertEquals(
-            $outputPath . $fileName,
-            $adapter->getName()
-        );
-
-        $I->safeDeleteFile(
-            $outputPath . $fileName
-        );
+        $I->safeDeleteFile($outputPath . $fileName);
     }
 }

@@ -14,6 +14,7 @@ namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Modules\Frontend\Module;
 
 /**
  * Class RegisterModulesCest
@@ -31,7 +32,7 @@ class RegisterModulesCest
      * @since  2018-11-13
      *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-26-12
+     * @since  2018-26-12
      */
     public function cliConsoleRegisterModules(CliTester $I)
     {
@@ -42,7 +43,7 @@ class RegisterModulesCest
         $console->registerModules(
             [
                 "frontend" => [
-                    "className" => \Phalcon\Test\Modules\Frontend\Module::class,
+                    "className" => Module::class,
                     "path"      => __DIR__ . "/../../../_data/modules/frontend/Module.php",
                 ],
             ]
@@ -80,7 +81,7 @@ class RegisterModulesCest
         $console->registerModules(
             [
                 "frontend" => [
-                    "className" => \Phalcon\Test\Modules\Frontend\Module::class,
+                    "className" => Module::class,
                     "path"      => __DIR__ . "/../../../_data/modules/frontend/Module.php",
                 ],
             ],

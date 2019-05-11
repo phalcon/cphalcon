@@ -52,7 +52,9 @@ class GetSetHasCest
         $I->wantToTest('Service\Locator - get()/set()/has() - get()');
 
         $services = [
-            'helloFilter' => HelloService::class,
+            'helloFilter' => function () {
+                return new HelloService();
+            },
         ];
 
         $locator = new Locator($services);
@@ -78,7 +80,9 @@ class GetSetHasCest
         $I->wantToTest('Service\Locator - get()/set()/has() - get() - same');
 
         $services = [
-            'helloFilter' => HelloService::class,
+            'helloFilter' => function () {
+                return new HelloService();
+            },
         ];
 
         $locator = new Locator($services);

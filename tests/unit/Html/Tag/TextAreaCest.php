@@ -17,11 +17,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 use UnitTester;
 
-/**
- * Class TextAreaCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class TextAreaCest
 {
     use DiTrait;
@@ -29,8 +24,6 @@ class TextAreaCest
 
     /**
      * Tests Phalcon\Html\Tag :: textArea()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -47,8 +40,6 @@ class TextAreaCest
 
     /**
      * Tests Phalcon\Html\Tag :: textArea() - array as a parameters and id in it
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -71,8 +62,6 @@ class TextAreaCest
 
     /**
      * Tests Phalcon\Html\Tag :: textArea() - setAttribute()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -97,8 +86,6 @@ class TextAreaCest
     /**
      * Tests Phalcon\Html\Tag :: textArea() - setAttribute() element not present
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -121,8 +108,6 @@ class TextAreaCest
 
     /**
      * Tests Phalcon\Html\Tag :: textArea() - setAttribute() with newline
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-03

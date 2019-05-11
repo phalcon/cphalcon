@@ -35,8 +35,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Config\Adapter\Ini :: __construct() - constants
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -46,22 +44,22 @@ class ConstructCest
 
         define('TEST_CONST', 'foo');
 
-        $config = new Ini(dataFolder('assets/config/config-with-constants.ini'), INI_SCANNER_NORMAL);
+        $config = new Ini(dataDir('assets/config/config-with-constants.ini'), INI_SCANNER_NORMAL);
 
         $expected = [
             'test'    => 'foo',
             'path'    => 'foo/something/else',
             'section' => [
-                'test'   => 'foo',
-                'path'   => 'foo/another-thing/somewhere',
-                'parent' => [
+                'test'      => 'foo',
+                'path'      => 'foo/another-thing/somewhere',
+                'parent'    => [
                     'property'  => 'foo',
                     'property2' => 'foohello',
                 ],
                 'testArray' => [
                     'value1',
-                    'value2'
-                ]
+                    'value2',
+                ],
             ],
 
         ];

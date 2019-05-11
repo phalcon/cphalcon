@@ -14,15 +14,10 @@ namespace Phalcon\Test\Fixtures\Traits;
 
 use UnitTester;
 
-/**
- * Trait GdTrait
- */
 trait GdTrait
 {
     /**
      * executed before each test
-     *
-     * @param UnitTester $I
      */
     public function _before(UnitTester $I)
     {

@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Form;
 
 use IntegrationTester;
-use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Form;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -74,16 +74,13 @@ class RenderCest
             $element = new Text($name);
 
 
-
             $expected = $name;
             $actual   = $element->getName();
 
             $I->assertEquals($expected, $actual);
 
 
-
             $form->add($element);
-
 
 
             $expected = sprintf(
@@ -95,7 +92,6 @@ class RenderCest
             $actual = $form->render($name);
 
             $I->assertEquals($expected, $actual);
-
 
 
             $actual = $form->getValue($name);
@@ -116,7 +112,6 @@ class RenderCest
         $actual   = $form->render("name");
 
         $I->assertEquals($expected, $actual);
-
 
 
         $expected = '<input type="text" id="name" name="name" class="big-input" />';

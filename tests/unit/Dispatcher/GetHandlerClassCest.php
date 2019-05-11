@@ -23,8 +23,8 @@ class GetHandlerClassCest
      *
      * @dataProvider getTestCases
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function dispatcherGetHandlerClass(UnitTester $I, Example $example)
     {

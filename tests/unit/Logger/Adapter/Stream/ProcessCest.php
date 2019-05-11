@@ -12,44 +12,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Exception;
+use Phalcon\Logger\Logger;
 use Phalcon\Logger\Item;
 use UnitTester;
+use function outputDir;
 
-/**
- * Class ProcessCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class ProcessCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: process()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @throws Exception
      */
     public function loggerAdapterStreamProcess(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - process()');
+        $fileName   = $I->getNewFileName('log', 'log');
+        $outputPath = logsDir();
+        $adapter    = new Stream($outputPath . $fileName);
 
-        $fileName = $I->getNewFileName('log', 'log');
-
-        $outputPath = outputFolder('tests/logs/');
-
-        $adapter = new Stream(
-            $outputPath . $fileName
-        );
-
-        $item = new Item(
-            'Message 1',
-            'debug',
-            Logger::DEBUG
-        );
-
+        $item = new Item('Message 1', 'debug', Logger::DEBUG);
         $adapter->process($item);
 
         $I->amInPath($outputPath);
@@ -57,8 +41,6 @@ class ProcessCest
         $I->openFile($fileName);
         $I->seeInThisFile('Message 1');
 
-        $I->safeDeleteFile(
-            $outputPath . $fileName
-        );
+        $I->safeDeleteFile($outputPath . $fileName);
     }
 }

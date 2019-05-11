@@ -16,15 +16,10 @@ use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Events\Manager;
 use UnitTester;
 
-/**
- * Class GetSetEventsManagerCest
- */
 class GetSetEventsManagerCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getEventsManager()/setEventsManager()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

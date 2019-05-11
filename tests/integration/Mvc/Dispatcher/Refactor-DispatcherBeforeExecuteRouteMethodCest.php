@@ -116,7 +116,8 @@ class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
             function () {
                 return false;
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -160,7 +161,8 @@ class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
 
                 return null;
             }
-        );
+        )
+        ;
 
         $caughtException = false;
 
@@ -216,7 +218,8 @@ class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
                     ]
                 );
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 

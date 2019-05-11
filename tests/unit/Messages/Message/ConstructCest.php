@@ -17,15 +17,10 @@ use TypeError;
 use UnitTester;
 use function substr;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Messages\Message :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -64,8 +59,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Messages\Message :: __construct() - chain
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -106,8 +99,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Messages\Message :: __construct() - exception
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -127,9 +118,9 @@ class ConstructCest
             $actual = $ex->getMessage();
         }
 
-        $expected = 'Argument 1 passed to Phalcon\Messages\Message::__construct() must be of the type string, bool';
-        $actual   = substr($actual, 0, 93);
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Argument 1 passed to Phalcon\Messages\Message::__construct() must be of the type string, bool',
+            substr($actual, 0, 93)
+        );
     }
 }

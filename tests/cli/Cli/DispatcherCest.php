@@ -12,6 +12,7 @@
 namespace Phalcon\Test\Cli\Cli;
 
 use CliTester;
+use Exception;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -24,9 +25,9 @@ class DispatcherCest
         /**
          * @todo Check the loader
          */
-        require_once dataFolder('fixtures/tasks/EchoTask.php');
-        require_once dataFolder('fixtures/tasks/MainTask.php');
-        require_once dataFolder('fixtures/tasks/ParamsTask.php');
+        require_once dataDir('fixtures/tasks/EchoTask.php');
+        require_once dataDir('fixtures/tasks/MainTask.php');
+        require_once dataDir('fixtures/tasks/ParamsTask.php');
 
         $this->setNewCliFactoryDefault();
     }
@@ -46,7 +47,6 @@ class DispatcherCest
         $dispatcher->setDI(
             $this->container
         );
-
 
 
         $dispatcher->dispatch();
@@ -72,7 +72,6 @@ class DispatcherCest
         );
 
 
-
         $dispatcher->setTaskName('echo');
 
         $dispatcher->dispatch();
@@ -96,7 +95,6 @@ class DispatcherCest
             'echoMainAction',
             $dispatcher->getReturnedValue()
         );
-
 
 
         $dispatcher->setTaskName('main');
@@ -125,7 +123,6 @@ class DispatcherCest
         );
 
 
-
         $dispatcher->setActionName('hello');
 
         $dispatcher->setParams(
@@ -145,7 +142,7 @@ class DispatcherCest
         );
 
         $I->assertEquals(
-            array('World', '######'),
+            ['World', '######'],
             $dispatcher->getParams()
         );
 
@@ -153,7 +150,6 @@ class DispatcherCest
             'Hello World######',
             $dispatcher->getReturnedValue()
         );
-
 
 
         $dispatcher->setActionName('hello');
@@ -210,7 +206,7 @@ class DispatcherCest
                 'Hello World!',
                 $dispatcher->getReturnedValue()
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $I->assertEquals(
                 'Dummy\MainTask handler class cannot be loaded',
                 $e->getMessage()

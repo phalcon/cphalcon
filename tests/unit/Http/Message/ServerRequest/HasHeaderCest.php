@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
-/**
- * Class HasHeaderCest
- */
 class HasHeaderCest
 {
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: hasHeader()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -48,8 +43,6 @@ class HasHeaderCest
 
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: hasHeader() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

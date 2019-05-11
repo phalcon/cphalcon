@@ -7,7 +7,7 @@ use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
-use function cacheFolder;
+use function cacheDir;
 
 class ModelsResultsetCacheCest
 {
@@ -16,7 +16,7 @@ class ModelsResultsetCacheCest
     public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
-        $I->cleanDir(cacheFolder());
+        $I->cleanDir(cacheDir());
     }
 
     public function testCacheDefaultDIMysql(IntegrationTester $I)
@@ -35,7 +35,7 @@ class ModelsResultsetCacheCest
                 return new File(
                     $frontCache,
                     [
-                        'cacheDir' => cacheFolder(),
+                        'cacheDir' => cacheDir(),
                     ]
                 );
             },
@@ -118,19 +118,7 @@ class ModelsResultsetCacheCest
 
     private function testCacheDefaultDIBindings(IntegrationTester $I)
     {
-        $this->container->set(
-            'modelsCache',
-            function () {
-                $frontCache = new Data();
-                return new File(
-                    $frontCache,
-                    [
-                        'cacheDir' => cacheFolder(),
-                    ]
-                );
-            },
-            true
-        );
+        $this->getAndSetModelsCacheStream();
 
         $robots = Robots::find([
             'cache'      => ['key' => 'some'],
@@ -182,7 +170,7 @@ class ModelsResultsetCacheCest
                 return new File(
                     $frontCache,
                     [
-                        'cacheDir' => cacheFolder(),
+                        'cacheDir' => cacheDir(),
                     ]
                 );
             },

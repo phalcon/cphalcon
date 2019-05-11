@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use UnitTester;
 
-/**
- * Class CollectionAssetsByTypeCest
- */
 class CollectionAssetsByTypeCest
 {
     /**
      * Tests Phalcon\Assets\Manager :: collectionAssetsByType()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -56,7 +56,6 @@ class PatchCest
         );
 
 
-
         $_SERVER['REQUEST_METHOD'] = 'PATCH';
 
         $I->assertEquals(

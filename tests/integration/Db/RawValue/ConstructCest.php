@@ -33,14 +33,12 @@ class ConstructCest
         $I->wantToTest('Db\RawValue - __construct()');
 
 
-
         $rawValue = new RawValue('hello');
 
         $I->assertEquals(
             'hello',
             $rawValue->getValue()
         );
-
 
 
         $rawValue = new RawValue(null);
@@ -51,14 +49,12 @@ class ConstructCest
         );
 
 
-
         $rawValue = new RawValue(123);
 
         $I->assertEquals(
             '123',
             $rawValue->getValue()
         );
-
 
 
         $rawValue = new RawValue('');

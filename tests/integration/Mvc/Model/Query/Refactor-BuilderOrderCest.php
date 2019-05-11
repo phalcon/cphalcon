@@ -31,8 +31,8 @@ class BuilderOrderCest
      * Tests Builder::orderBy to create correct PHQL query
      *
      * @test
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-11-03
+     * @author       Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since        2017-11-03
      *
      * @dataProvider shouldGenerateCorrectPhqlProvider
      */
@@ -41,7 +41,7 @@ class BuilderOrderCest
         $orderBy  = $example[0];
         $expected = $example[1];
 
-        $builder  = new Builder();
+        $builder = new Builder();
 
         $query = "SELECT r.year, r.name AS robot_name FROM [" . Robots::class . "] AS [r] ";
 
@@ -59,23 +59,11 @@ class BuilderOrderCest
         );
     }
 
-    private function shouldGenerateCorrectPhqlProvider(): array
-    {
-        return [
-            ['robot_name DESC', 'ORDER BY robot_name DESC'],
-            ['r.name DESC', 'ORDER BY r.name DESC'],
-            [['r.name DESC'], 'ORDER BY r.name DESC'],
-            [['robot_name DESC'], 'ORDER BY [robot_name] DESC'],
-            [['robot_name DESC', 'r.name DESC'], 'ORDER BY [robot_name] DESC, r.name DESC'],
-            [[1, 'r.name DESC'], 'ORDER BY 1, r.name DESC'],
-        ];
-    }
-
     /**
      * Tests Builder::orderBy to create correct SQL query
      *
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-11-03
+     * @author       Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since        2017-11-03
      *
      * @dataProvider shouldGenerateCorrectSqlProvider
      */
@@ -84,7 +72,7 @@ class BuilderOrderCest
         $orderBy  = $example[0];
         $expected = $example[1];
 
-        $builder  = new Builder();
+        $builder = new Builder();
 
         $query = "SELECT `r`.`year` AS `r_year`, `r`.`name` AS `robot_name` FROM `robots` AS `r` ";
 
@@ -102,6 +90,18 @@ class BuilderOrderCest
             $query . $expected,
             $phql['sql']
         );
+    }
+
+    private function shouldGenerateCorrectPhqlProvider(): array
+    {
+        return [
+            ['robot_name DESC', 'ORDER BY robot_name DESC'],
+            ['r.name DESC', 'ORDER BY r.name DESC'],
+            [['r.name DESC'], 'ORDER BY r.name DESC'],
+            [['robot_name DESC'], 'ORDER BY [robot_name] DESC'],
+            [['robot_name DESC', 'r.name DESC'], 'ORDER BY [robot_name] DESC, r.name DESC'],
+            [[1, 'r.name DESC'], 'ORDER BY 1, r.name DESC'],
+        ];
     }
 
     private function shouldGenerateCorrectSqlProvider(): array

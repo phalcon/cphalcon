@@ -30,7 +30,7 @@ class AnnotationsCest
 
     public function testRouterFullResources(IntegrationTester $I)
     {
-        require_once dataFolder('fixtures/controllers/NamespacedAnnotationController.php');
+        require_once dataDir('fixtures/controllers/NamespacedAnnotationController.php');
 
         $routes = $this->getRoutes();
         foreach ($routes as $route) {

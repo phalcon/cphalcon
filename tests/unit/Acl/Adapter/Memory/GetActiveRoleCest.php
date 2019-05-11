@@ -21,8 +21,6 @@ class GetActiveRoleCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveRole() - default
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -61,7 +59,6 @@ class GetActiveRoleCest
         );
 
         $acl->allow('Guests', 'Login', '*');
-
 
 
         $I->assertTrue(

@@ -16,15 +16,10 @@ use Phalcon\Http\Message\ResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use UnitTester;
 
-/**
- * Class CreateResponseCest
- */
 class CreateResponseCest
 {
     /**
      * Tests Phalcon\Http\Message\ResponseFactory :: createResponse()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

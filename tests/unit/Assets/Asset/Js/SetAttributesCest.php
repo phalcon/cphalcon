@@ -16,17 +16,12 @@ use Phalcon\Assets\Asset\Js;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class SetAttributesCest
- */
 class SetAttributesCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: setAttributes() - js local
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Js :: setAttributes() - js local
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -42,9 +37,7 @@ class SetAttributesCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: setAttributes() - js remote
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Js :: setAttributes() - js remote
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

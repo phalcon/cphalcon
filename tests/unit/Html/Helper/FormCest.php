@@ -13,17 +13,14 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Html\Helper;
 
 use Codeception\Example;
+use Phalcon\Escaper;
+use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Form;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
-/**
- * Class FormCest
- */
 class FormCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Html\Helper\Form :: __construct()
      *
@@ -32,20 +29,22 @@ class FormCest
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @author       Phalcon Team <team@phalconphp.com>
-     * @since        2019-01-19
+     * @throws Exception
      */
     public function htmlHelperFormConstruct(UnitTester $I, Example $example)
     {
         $I->wantToTest('Html\Helper\Form - __construct()');
-
-        $escaper = $this->newEscaper();
-
+        $escaper = new Escaper();
         $helper  = new Form($escaper);
 
         $expected = $example[0];
         $actual   = $helper($example[1]);
+        $I->assertEquals($expected, $actual);
 
+        $factory  = new TagFactory($escaper);
+        $locator  = $factory->newInstance('form');
+        $expected = $example[0];
+        $actual   = $locator($example[1]);
         $I->assertEquals($expected, $actual);
     }
 
@@ -60,14 +59,14 @@ class FormCest
                 [],
             ],
             [
-                '<form method="post" enctype="multipart/form-data" id="my-id" name="my-name">',
+                '<form id="my-id" name="my-name" method="post" enctype="multipart/form-data">',
                 [
                     'id'   => 'my-id',
                     'name' => 'my-name',
                 ],
             ],
             [
-                '<form method="post" enctype="multipart/form-data" id="my-id" name="my-name" class="my-class">',
+                '<form id="my-id" name="my-name" class="my-class" method="post" enctype="multipart/form-data">',
                 [
                     'class' => 'my-class',
                     'name'  => 'my-name',

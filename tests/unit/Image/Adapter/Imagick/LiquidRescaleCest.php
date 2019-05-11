@@ -15,8 +15,8 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
-use function dataFolder;
-use function outputFolder;
+use function dataDir;
+use function outputDir;
 
 class LiquidRescaleCest
 {
@@ -35,16 +35,16 @@ class LiquidRescaleCest
         $I->skipTest('Check library support');
 
         $image = new Imagick(
-            dataFolder('assets/images/phalconphp.jpg')
+            dataDir('assets/images/phalconphp.jpg')
         );
 
         $image->setResourceLimit(6, 1);
 
         // Resize to 200 pixels on the shortest side
-        $image->liquidRescale(200, 200)->save(outputFolder('tests/image/imagick/liquidRescale.jpg'));
+        $image->liquidRescale(200, 200)->save(outputDir('tests/image/imagick/liquidRescale.jpg'));
 
         $I->amInPath(
-            outputFolder('tests/image/imagick/')
+            outputDir('tests/image/imagick/')
         );
 
         $I->seeFileFound('liquidRescale.jpg');
@@ -53,6 +53,7 @@ class LiquidRescaleCest
             200,
             $image->getWidth()
         );
+
         $I->assertEquals(
             200,
             $image->getHeight()

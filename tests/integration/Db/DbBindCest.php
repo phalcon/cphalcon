@@ -159,7 +159,6 @@ class DbBindCest
         $I->assertTrue($success);
 
 
-
         $success = $connection->execute(
             'UPDATE prueba SET nombre = ?, estado = ?',
             ["LOL 11", "R"],
@@ -169,7 +168,6 @@ class DbBindCest
         $I->assertTrue($success);
 
 
-
         $success = $connection->execute(
             'DELETE FROM prueba WHERE estado = ?',
             ["R"],
@@ -177,7 +175,6 @@ class DbBindCest
         );
 
         $I->assertTrue($success);
-
 
 
         $success = $connection->insert(
@@ -190,7 +187,6 @@ class DbBindCest
         $I->assertTrue($success);
 
 
-
         $success = $connection->insert(
             'prueba',
             ["LOL 2", "E"],
@@ -199,7 +195,6 @@ class DbBindCest
         );
 
         $I->assertTrue($success);
-
 
 
         $success = $connection->insert(
@@ -212,7 +207,6 @@ class DbBindCest
         $I->assertTrue($success);
 
 
-
         $success = $connection->insert(
             'prueba',
             [new RawValue('current_date'), "A"],
@@ -221,7 +215,6 @@ class DbBindCest
         );
 
         $I->assertTrue($success);
-
 
 
         $success = $connection->update(
@@ -235,7 +228,6 @@ class DbBindCest
         $I->assertTrue($success);
 
 
-
         $success = $connection->update(
             'prueba',
             ["nombre"],
@@ -245,7 +237,6 @@ class DbBindCest
         );
 
         $I->assertTrue($success);
-
 
 
         $success = $connection->update(
@@ -316,7 +307,6 @@ class DbBindCest
         );
 
 
-
         $conditions = $connection->bindParams(
             "a=?0",
             [
@@ -331,7 +321,6 @@ class DbBindCest
         );
 
 
-
         $conditions = $connection->bindParams(
             "a=?0",
             [
@@ -343,7 +332,6 @@ class DbBindCest
             "a=?0",
             $conditions
         );
-
 
 
         $conditions = $connection->bindParams(
@@ -360,7 +348,6 @@ class DbBindCest
         );
 
 
-
         $conditions = $connection->bindParams(
             "a=?1 AND b = ?0",
             [
@@ -375,7 +362,6 @@ class DbBindCest
         );
 
 
-
         $conditions = $connection->bindParams(
             "a=?1 AND b = ?0",
             [
@@ -388,7 +374,6 @@ class DbBindCest
             "a=25.1 AND b = 25.10",
             $conditions
         );
-
 
 
         $conditions = $connection->bindParams(
@@ -406,7 +391,6 @@ class DbBindCest
         );
 
 
-
         $conditions = $connection->bindParams(
             "a=:a:",
             [
@@ -418,7 +402,6 @@ class DbBindCest
             "a='no-suprises'",
             $conditions
         );
-
 
 
         $conditions = $connection->bindParams(
@@ -450,7 +433,6 @@ class DbBindCest
             "column3 IN ('hello', 100, '\'hahaha\'')",
             $conditions
         );
-
 
 
         $conditions = $connection->bindParams(
@@ -486,7 +468,6 @@ class DbBindCest
         );
 
 
-
         $conditions = $connection->bindParams(
             "column3 IN (:val1:, :val2:, :val3:) AND column4 > ?2",
             [
@@ -518,7 +499,6 @@ class DbBindCest
             "column3 IN ('hello', 100, '''hahaha''')",
             $conditions
         );
-
 
 
         $conditions = $connection->bindParams(

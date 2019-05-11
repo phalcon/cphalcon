@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class TableOptionsCest
- */
 class TableOptionsCest
 {
     use DiTrait;
@@ -26,8 +23,6 @@ class TableOptionsCest
 
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: tableOptions()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

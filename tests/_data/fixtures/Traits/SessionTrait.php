@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use Phalcon\Session\Adapter\Files;
+use function getOptionsLibmemcached;
+use function getOptionsRedis;
 use Phalcon\Session\Adapter\Libmemcached;
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Adapter\Redis;
+use Phalcon\Session\Adapter\Stream;
+use Phalcon\Storage\AdapterFactory;
+use Phalcon\Storage\SerializerFactory;
 
 /**
  * Trait SessionTrait
@@ -25,15 +29,11 @@ use Phalcon\Session\Adapter\Redis;
 trait SessionTrait
 {
     /**
-     * @return Files
+     * @return Stream
      */
-    protected function getSessionFiles(): Files
+    protected function getSessionStream(): Stream
     {
-        return new Files(
-            [
-                'save_path' => cacheFolder(),
-            ]
-        );
+        return new Stream(getOptionsSessionStream());
     }
 
     /**
@@ -41,16 +41,10 @@ trait SessionTrait
      */
     protected function getSessionLibmemcached(): Libmemcached
     {
-        return new Libmemcached(
-            [
-                'servers' => [
-                    [
-                        'host' => env('DATA_MEMCACHED_HOST'),
-                        'port' => env('DATA_MEMCACHED_PORT'),
-                    ],
-                ],
-            ]
-        );
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+
+        return new Libmemcached($factory, getOptionsLibmemcached());
     }
 
     /**
@@ -66,12 +60,9 @@ trait SessionTrait
      */
     protected function getSessionRedis(): Redis
     {
-        return new Redis(
-            [
-                'host'  => env('DATA_REDIS_HOST'),
-                'port'  => env('DATA_REDIS_PORT'),
-                'index' => env('DATA_REDIS_NAME'),
-            ]
-        );
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+
+        return new Redis($factory, getOptionsRedis());
     }
 }

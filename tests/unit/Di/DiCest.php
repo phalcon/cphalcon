@@ -16,13 +16,19 @@
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Config;
 use Phalcon\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Service;
+use Phalcon\DiInterface;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
+use SimpleComponent;
+use SomeComponent;
+use SomeServiceProvider;
+use stdClass;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
 /**
  * Tests the \Phalcon\Di component
@@ -32,7 +38,7 @@ use function dataFolder;
 class DiCest
 {
     /**
-     * @var \Phalcon\DiInterface
+     * @var DiInterface
      */
     protected $phDi;
 
@@ -41,10 +47,10 @@ class DiCest
      */
     public function _before(UnitTester $I)
     {
-        require_once dataFolder('fixtures/Di/InjectableComponent.php');
-        require_once dataFolder('fixtures/Di/SomeServiceProvider.php');
-        require_once dataFolder('fixtures/Di/SimpleComponent.php');
-        require_once dataFolder('fixtures/Di/SomeComponent.php');
+        require_once dataDir('fixtures/Di/InjectableComponent.php');
+        require_once dataDir('fixtures/Di/SomeServiceProvider.php');
+        require_once dataDir('fixtures/Di/SimpleComponent.php');
+        require_once dataDir('fixtures/Di/SomeComponent.php');
 
         Di::reset();
 
@@ -130,14 +136,14 @@ class DiCest
         $this->phDi->attempt(
             'request4',
             function () {
-                return new \stdClass();
+                return new stdClass();
             }
         );
 
         $this->phDi->attempt(
             'request5',
             function () {
-                return new \stdClass();
+                return new stdClass();
             }
         );
 
@@ -147,7 +153,7 @@ class DiCest
         );
 
         $I->assertInstanceOf(
-            \stdClass::class,
+            stdClass::class,
             $this->phDi->get('request5')
         );
     }
@@ -187,7 +193,7 @@ class DiCest
         $this->phDi->set(
             'dateObject',
             function () {
-                $object = new \stdClass();
+                $object = new stdClass();
 
                 $object->date = microtime(true);
 
@@ -249,12 +255,11 @@ class DiCest
         $this->phDi->set(
             'someComponent1',
             function ($v) {
-                return new \SomeComponent($v);
+                return new SomeComponent($v);
             }
         );
 
         $this->phDi->set('someComponent2', 'SomeComponent');
-
 
 
         $someComponent1 = $this->phDi->get(
@@ -268,7 +273,6 @@ class DiCest
             100,
             $someComponent1->someProperty
         );
-
 
 
         $someComponent2 = $this->phDi->get(
@@ -342,10 +346,10 @@ class DiCest
      */
     public function testRegisteringViaArrayAccess(UnitTester $I)
     {
-        $this->phDi['simple'] = \SimpleComponent::class;
+        $this->phDi['simple'] = SimpleComponent::class;
 
         $I->assertInstanceOf(
-            \SimpleComponent::class,
+            SimpleComponent::class,
             $this->phDi->get('simple')
         );
     }
@@ -361,7 +365,7 @@ class DiCest
         $this->phDi->set('simple', 'SimpleComponent');
 
         $I->assertInstanceOf(
-            \SimpleComponent::class,
+            SimpleComponent::class,
             $this->phDi['simple']
         );
     }
@@ -516,7 +520,6 @@ class DiCest
         );
 
 
-
         $component = $this->phDi->get('simpleConstructor');
 
         $I->assertInternalType(
@@ -528,7 +531,6 @@ class DiCest
             'response',
             $component->getResponse()
         );
-
 
 
         $component = $this->phDi->get('simpleSetters');
@@ -544,7 +546,6 @@ class DiCest
         );
 
 
-
         $component = $this->phDi->get('simpleProperties');
 
         $I->assertInternalType(
@@ -556,7 +557,6 @@ class DiCest
             'response',
             $component->getResponse()
         );
-
 
 
         $component = $this->phDi->get('complexConstructor');
@@ -572,7 +572,6 @@ class DiCest
         );
 
 
-
         $component = $this->phDi->get('complexSetters');
 
         $I->assertInternalType(
@@ -584,7 +583,6 @@ class DiCest
             $response,
             $component->getResponse()
         );
-
 
 
         $component = $this->phDi->get('complexProperties');
@@ -609,7 +607,7 @@ class DiCest
     public function testRegistersServiceProvider(UnitTester $I)
     {
         $this->phDi->register(
-            new \SomeServiceProvider()
+            new SomeServiceProvider()
         );
 
         $I->assertEquals(
@@ -618,11 +616,10 @@ class DiCest
         );
 
 
-
         $service = $this->phDi->get('fooAction');
 
         $I->assertInstanceOf(
-            \SomeComponent::class,
+            SomeComponent::class,
             $service
         );
     }
@@ -638,7 +635,7 @@ class DiCest
         $I->checkExtensionIsLoaded('yaml');
 
         $this->phDi->loadFromYaml(
-            dataFolder('fixtures/Di/services.yml')
+            dataDir('fixtures/Di/services.yml')
         );
 
         $I->assertTrue(
@@ -666,7 +663,7 @@ class DiCest
         );
 
         $I->assertInstanceOf(
-            \Phalcon\Config::class,
+            Config::class,
             $this->phDi->get('component')->someProperty
         );
     }
@@ -679,7 +676,7 @@ class DiCest
      */
     public function testPhpLoader(UnitTester $I)
     {
-        $this->phDi->loadFromPhp(dataFolder('fixtures/Di/services.php'));
+        $this->phDi->loadFromPhp(dataDir('fixtures/Di/services.php'));
 
         $I->assertTrue(
             $this->phDi->has('unit-test')
@@ -706,7 +703,7 @@ class DiCest
         );
 
         $I->assertInstanceOf(
-            \Phalcon\Config::class,
+            Config::class,
             $this->phDi->get('component')->someProperty
         );
     }

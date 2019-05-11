@@ -27,19 +27,16 @@ ZEPHIR_INIT_CLASS(phalcon_13__closure) {
 PHP_METHOD(phalcon_13__closure, __invoke) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *escaper, escaper_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&escaper_sub);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &escaper);
 
-
-
-	object_init_ex(return_value, phalcon_html_helper_formclose_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0, escaper);
-	zephir_check_call_status();
+	object_init_ex(return_value, phalcon_filter_sanitize_special_ce);
+	if (zephir_has_constructor(return_value TSRMLS_CC)) {
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0);
+		zephir_check_call_status();
+	}
 	RETURN_MM();
 
 }

@@ -496,7 +496,7 @@ class Debug
                 let varDump = "Array(" . this->getArrayDump(v, n + 1) . ")";
             } elseif typeof v == "object" {
                 let varDump = "Object(" . get_class(v) . ")";
-            } elseif typeof v == "null" {
+            } elseif v === null {
                 let varDump = "null";
             } else {
                 let varDump = v;
@@ -574,7 +574,7 @@ class Debug
         /**
          * Null variables are represented as "null"
          */
-        if typeof variable == "null" {
+        if variable === null {
             return "null";
         }
 

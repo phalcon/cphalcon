@@ -25,22 +25,18 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Syslog {
         return true;
     }
 
-    use Phalcon\Logger;
     use Phalcon\Logger\Adapter\Syslog;
     use Phalcon\Logger\Item;
+    use Phalcon\Logger\Logger;
     use UnitTester;
 
     /**
-     * Class AddCest
-     *
      * @package Phalcon\Test\Unit\Logger
      */
     class AddCest
     {
         /**
          * Tests Phalcon\Logger\Adapter\Syslog :: add()
-         *
-         * @param UnitTester $I
          *
          * @author Phalcon Team <team@phalconphp.com>
          * @since  2018-11-13

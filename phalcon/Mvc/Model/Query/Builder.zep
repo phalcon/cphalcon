@@ -271,7 +271,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         let models = this->models;
 
         if typeof models != "array" {
-            if typeof models != "null" {
+            if models !== null {
                 let currentModel = models,
                     models = [currentModel];
             } else {
@@ -696,7 +696,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         }
 
         let distinct = this->distinct;
-        if typeof distinct != "null" && typeof distinct == "boolean" {
+        if typeof distinct == "boolean" {
             if distinct {
                 let phql = "SELECT DISTINCT ";
             } else {
@@ -707,7 +707,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         }
 
         let columns = this->columns;
-        if typeof columns !== "null" {
+        if columns !== null {
             /**
              * Generate PHQL for columns
              */

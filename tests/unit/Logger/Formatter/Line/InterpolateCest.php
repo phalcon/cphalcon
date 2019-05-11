@@ -12,22 +12,18 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Formatter\Line;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 /**
- * Class InterpolateCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class InterpolateCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Line :: interpolate()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -38,22 +34,19 @@ class InterpolateCest
 
         $formatter = new Line();
 
-        $message = 'The sky is {color}';
-
-        $context = [
-            'color' => 'blue',
-        ];
-
         $I->assertEquals(
             'The sky is blue',
-            $formatter->interpolate($message, $context)
+            $formatter->interpolate(
+                'The sky is {color}',
+                [
+                    'color' => 'blue',
+                ]
+            )
         );
     }
 
     /**
      * Tests Phalcon\Logger\Formatter\Line :: interpolate() - format
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -81,7 +74,27 @@ class InterpolateCest
         );
 
         $expected = sprintf('[%s][debug] The sky is blue', date('D, d M y H:i:s O', $time)) . PHP_EOL;
-        $actual   = $formatter->format($item);
+
+        $I->assertEquals(
+            $expected,
+            $formatter->format($item)
+        );
+    }
+    /**
+     * Tests Phalcon\Logger\Formatter\Line :: interpolate() - empty
+     *
+     * @param UnitTester $I
+     */
+    public function loggerFormatterLineInterpolateEmpty(UnitTester $I)
+    {
+        $I->wantToTest('Logger\Formatter\Line - interpolate() - empty');
+        $formatter = new Line();
+
+        $message = 'The sky is {color}';
+        $context = [];
+
+        $expected = 'The sky is {color}';
+        $actual   = $formatter->interpolate($message, $context);
         $I->assertEquals($expected, $actual);
     }
 }

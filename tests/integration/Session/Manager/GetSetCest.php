@@ -34,16 +34,14 @@ class GetSetCest
 
         $manager = new Manager();
 
-        $files = $this->getSessionFiles();
+        $files = $this->getSessionStream();
 
         $manager->setHandler($files);
-
 
 
         $I->assertTrue(
             $manager->start()
         );
-
 
 
         $expected = 'myval';
@@ -56,9 +54,7 @@ class GetSetCest
         );
 
 
-
         $manager->destroy();
-
 
 
         $I->assertFalse(

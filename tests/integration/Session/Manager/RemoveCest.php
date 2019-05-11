@@ -36,36 +36,27 @@ class RemoveCest
     public function sessionManagerRemove(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - remove()');
-
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
-
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
 
-        $I->assertTrue(
-            $manager->start()
-        );
+        $actual = $manager->start();
+        $I->assertTrue($actual);
 
-        $I->assertFalse(
-            $manager->has('test')
-        );
+        $actual = $manager->has('test');
+        $I->assertFalse($actual);
 
         $manager->set('test', 'myval');
-
-        $I->assertTrue(
-            $manager->has('test')
-        );
+        $actual = $manager->has('test');
+        $I->assertTrue($actual);
 
         $manager->remove('test');
-
-        $I->assertFalse(
-            $manager->has('test')
-        );
+        $actual = $manager->has('test');
+        $I->assertFalse($actual);
 
         $manager->destroy();
 
-        $I->assertFalse(
-            $manager->exists()
-        );
+        $actual = $manager->exists();
+        $I->assertFalse($actual);
     }
 }

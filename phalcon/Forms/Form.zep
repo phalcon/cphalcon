@@ -53,7 +53,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function __construct(var entity = null, array userOptions = []) -> void
     {
-        if typeof entity != "null" {
+        if entity !== null {
             if unlikely typeof entity != "object" {
                 throw new Exception("The base entity is not valid");
             }

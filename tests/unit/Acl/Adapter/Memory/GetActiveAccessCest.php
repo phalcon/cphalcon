@@ -21,8 +21,6 @@ class GetActiveAccessCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveAccess() - default
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -30,7 +28,7 @@ class GetActiveAccessCest
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveAccess() - default');
 
-        $acl    = new Memory();
+        $acl = new Memory();
 
         $actual = $acl->getActiveAccess();
 
@@ -39,8 +37,6 @@ class GetActiveAccessCest
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveAccess() - default
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -65,11 +61,9 @@ class GetActiveAccessCest
         $acl->allow('Guests', 'Login', '*');
 
 
-
         $actual = $acl->isAllowed('Guests', 'Login', 'index');
 
         $I->assertTrue($actual);
-
 
 
         $expected = 'index';

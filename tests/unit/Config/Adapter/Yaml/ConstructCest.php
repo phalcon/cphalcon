@@ -15,11 +15,8 @@ namespace Phalcon\Test\Unit\Config\Adapter\Yaml;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use ConfigTrait;
@@ -35,8 +32,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Config\Adapter\Yaml :: __construct()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -49,8 +44,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Config\Adapter\Yaml :: __construct() - callbacks
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -59,7 +52,7 @@ class ConstructCest
         $I->wantToTest('Config\Adapter\Yaml - construct - callbacks');
         define('CALLBACK_APPROOT', dirname(__DIR__));
         $config = new Yaml(
-            dataFolder('assets/config/callbacks.yml'),
+            dataDir('assets/config/callbacks.yml'),
             [
                 '!decrypt' => function ($value) {
                     return hash('sha256', $value);

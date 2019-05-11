@@ -12,22 +12,20 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Syslog;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Syslog;
+use Phalcon\Logger\Exception;
+use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 /**
- * Class ProcessCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class ProcessCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Syslog :: process()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -16,15 +16,10 @@ use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Component;
 use UnitTester;
 
-/**
- * Class IsComponentCest
- */
 class IsComponentCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isComponent()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -45,8 +40,6 @@ class IsComponentCest
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isComponent() - unknown
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

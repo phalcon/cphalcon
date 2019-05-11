@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Tag;
 use Phalcon\Tag;
 use UnitTester;
 
-/**
- * Class GetTitleCest
- */
 class GetTitleCest
 {
     /**
      * Tests Phalcon\Tag :: getTitle() - with malicious code
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11185
      * @author Phalcon Team <team@phalconphp.com>

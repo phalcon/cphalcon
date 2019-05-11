@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 115, &params);
+	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 136, &params);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&params, &_0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -443,7 +443,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, throwDispatchException) {
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(&exception, "phalcon/Cli/Dispatcher.zep", 220 TSRMLS_CC);
+	zephir_throw_exception_debug(&exception, "phalcon/Cli/Dispatcher.zep", 226 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

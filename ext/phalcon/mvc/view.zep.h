@@ -10,7 +10,6 @@ PHP_METHOD(Phalcon_Mvc_View, __construct);
 PHP_METHOD(Phalcon_Mvc_View, __get);
 PHP_METHOD(Phalcon_Mvc_View, __isset);
 PHP_METHOD(Phalcon_Mvc_View, __set);
-PHP_METHOD(Phalcon_Mvc_View, cache);
 PHP_METHOD(Phalcon_Mvc_View, cleanTemplateAfter);
 PHP_METHOD(Phalcon_Mvc_View, cleanTemplateBefore);
 PHP_METHOD(Phalcon_Mvc_View, disableLevel);
@@ -21,7 +20,6 @@ PHP_METHOD(Phalcon_Mvc_View, finish);
 PHP_METHOD(Phalcon_Mvc_View, getActionName);
 PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath);
 PHP_METHOD(Phalcon_Mvc_View, getBasePath);
-PHP_METHOD(Phalcon_Mvc_View, getCache);
 PHP_METHOD(Phalcon_Mvc_View, getContent);
 PHP_METHOD(Phalcon_Mvc_View, getControllerName);
 PHP_METHOD(Phalcon_Mvc_View, getLayout);
@@ -34,7 +32,6 @@ PHP_METHOD(Phalcon_Mvc_View, getRender);
 PHP_METHOD(Phalcon_Mvc_View, getVar);
 PHP_METHOD(Phalcon_Mvc_View, getViewsDir);
 PHP_METHOD(Phalcon_Mvc_View, getViewsDirs);
-PHP_METHOD(Phalcon_Mvc_View, isCaching);
 PHP_METHOD(Phalcon_Mvc_View, isDisabled);
 PHP_METHOD(Phalcon_Mvc_View, partial);
 PHP_METHOD(Phalcon_Mvc_View, pick);
@@ -55,7 +52,6 @@ PHP_METHOD(Phalcon_Mvc_View, setVar);
 PHP_METHOD(Phalcon_Mvc_View, setVars);
 PHP_METHOD(Phalcon_Mvc_View, setViewsDir);
 PHP_METHOD(Phalcon_Mvc_View, start);
-PHP_METHOD(Phalcon_Mvc_View, createCache);
 PHP_METHOD(Phalcon_Mvc_View, engineRender);
 PHP_METHOD(Phalcon_Mvc_View, isAbsolutePath);
 PHP_METHOD(Phalcon_Mvc_View, loadTemplateEngines);
@@ -92,14 +88,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view___set, 0, 0, 2)
 	ZEND_ARG_INFO(0, key)
 #endif
 	ZEND_ARG_INFO(0, value)
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_cache, 0, 0, Phalcon\\Mvc\\View, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_cache, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\View", 0)
-#endif
-	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -168,13 +156,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_getbasepath, 0, 0, IS_STRING, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_getbasepath, 0, 0, IS_STRING, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_getcache, 0, 0, Phalcon\\Cache\\BackendInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_getcache, 0, 0, IS_OBJECT, "Phalcon\\Cache\\BackendInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -271,13 +252,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_getviewsdirs, 0, 0, IS_ARRAY, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_getviewsdirs, 0, 0, IS_ARRAY, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_iscaching, 0, 0, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_iscaching, 0, 0, _IS_BOOL, NULL, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -488,14 +462,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_start, 0, 0, IS
 #endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_createcache, 0, 0, Phalcon\\Cache\\BackendInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_createcache, 0, 0, IS_OBJECT, "Phalcon\\Cache\\BackendInterface", 0)
-#endif
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_enginerender, 0, 0, 4)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_enginerender, 0, 0, 3)
 	ZEND_ARG_ARRAY_INFO(0, engines, 0)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, viewPath, IS_STRING, 0)
@@ -512,7 +479,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_enginerender, 0, 0, 4)
 #else
 	ZEND_ARG_INFO(0, mustClean)
 #endif
-	ZEND_ARG_OBJ_INFO(0, cache, Phalcon\\Cache\\BackendInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_isabsolutepath, 0, 0, 1)
@@ -538,7 +504,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_method_entry) {
 	PHP_ME(Phalcon_Mvc_View, __get, arginfo_phalcon_mvc_view___get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, __isset, arginfo_phalcon_mvc_view___isset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, __set, arginfo_phalcon_mvc_view___set, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_View, cache, arginfo_phalcon_mvc_view_cache, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, cleanTemplateAfter, arginfo_phalcon_mvc_view_cleantemplateafter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, cleanTemplateBefore, arginfo_phalcon_mvc_view_cleantemplatebefore, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, disableLevel, arginfo_phalcon_mvc_view_disablelevel, ZEND_ACC_PUBLIC)
@@ -549,7 +514,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_method_entry) {
 	PHP_ME(Phalcon_Mvc_View, getActionName, arginfo_phalcon_mvc_view_getactionname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getActiveRenderPath, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getBasePath, arginfo_phalcon_mvc_view_getbasepath, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_View, getCache, arginfo_phalcon_mvc_view_getcache, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getContent, arginfo_phalcon_mvc_view_getcontent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getControllerName, arginfo_phalcon_mvc_view_getcontrollername, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getLayout, arginfo_phalcon_mvc_view_getlayout, ZEND_ACC_PUBLIC)
@@ -562,7 +526,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_method_entry) {
 	PHP_ME(Phalcon_Mvc_View, getVar, arginfo_phalcon_mvc_view_getvar, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getViewsDir, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getViewsDirs, arginfo_phalcon_mvc_view_getviewsdirs, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Mvc_View, isCaching, arginfo_phalcon_mvc_view_iscaching, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, isDisabled, arginfo_phalcon_mvc_view_isdisabled, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, partial, arginfo_phalcon_mvc_view_partial, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, pick, arginfo_phalcon_mvc_view_pick, ZEND_ACC_PUBLIC)
@@ -583,7 +546,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_method_entry) {
 	PHP_ME(Phalcon_Mvc_View, setVars, arginfo_phalcon_mvc_view_setvars, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, setViewsDir, arginfo_phalcon_mvc_view_setviewsdir, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, start, arginfo_phalcon_mvc_view_start, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_View, createCache, arginfo_phalcon_mvc_view_createcache, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_View, engineRender, arginfo_phalcon_mvc_view_enginerender, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_View, isAbsolutePath, arginfo_phalcon_mvc_view_isabsolutepath, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_View, loadTemplateEngines, arginfo_phalcon_mvc_view_loadtemplateengines, ZEND_ACC_PROTECTED)

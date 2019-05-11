@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Uri;
 use Phalcon\Http\Message\Uri;
 use UnitTester;
 
-/**
- * Class ToStringCest
- */
 class ToStringCest
 {
     /**
      * Tests Phalcon\Http\Message\Uri :: __toString()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
@@ -39,8 +34,6 @@ class ToStringCest
 
     /**
      * Tests Phalcon\Http\Message\Uri :: __toString() - path no lead slash
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-07

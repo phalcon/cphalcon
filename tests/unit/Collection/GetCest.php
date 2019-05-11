@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Collection;
 use Phalcon\Collection;
 use UnitTester;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     /**
      * Tests Phalcon\Collection :: get()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,40 +26,30 @@ class GetCest
     public function collectionGet(UnitTester $I)
     {
         $I->wantToTest('Collection - get()');
-
-        $data = [
+        $data       = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
-
         $collection = new Collection($data);
 
         $expected = 'four';
+        $actual   = $collection->get('three');
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $collection->get('three')
-        );
+        $actual = $collection->get('THREE');
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $collection->get('THREE')
-        );
+        $actual = $collection->get('unknown', 'four');
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $collection['three']
-        );
+        $actual = $collection['three'];
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $collection->three
-        );
+        $actual = $collection->three;
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $collection->offsetGet('three')
-        );
+        $actual = $collection->offsetGet('three');
+        $I->assertEquals($expected, $actual);
     }
 }

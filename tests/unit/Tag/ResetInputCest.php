@@ -25,8 +25,6 @@ class ResetInputCest
      *
      * Note: The Tag::resetInput should not clear $_POST data.
      *
-     * @param UnitTester $I
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/11319
      * @issue  https://github.com/phalcon/cphalcon/issues/12099
      * @author Phalcon Team <team@phalconphp.com>
@@ -48,8 +46,6 @@ class ResetInputCest
 
     /**
      * Tests Phalcon\Tag :: resetInput() - setDefault
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/53
      * @author Phalcon Team <team@phalconphp.com>
@@ -101,8 +97,6 @@ class ResetInputCest
 
     /**
      * Tests Phalcon\Tag :: resetInput() - displayTo
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05

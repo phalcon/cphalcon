@@ -16,13 +16,10 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Replace;
 use UnitTester;
 
-/**
- * Class ReplaceCest
- */
 class ReplaceCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\Replace :: __invoke()
      *
      * @dataProvider getData
      *

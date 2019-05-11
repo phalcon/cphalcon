@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Uri;
 use Phalcon\Http\Message\Uri;
 use UnitTester;
 
-/**
- * Class GetQueryCest
- */
 class GetQueryCest
 {
     /**
      * Tests Phalcon\Http\Message\Uri :: getQuery()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
@@ -41,8 +36,6 @@ class GetQueryCest
 
     /**
      * Tests Phalcon\Http\Message\Uri :: getQuery() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-07

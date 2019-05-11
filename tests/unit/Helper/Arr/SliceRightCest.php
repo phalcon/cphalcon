@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Helper\Arr;
 use Phalcon\Helper\Arr;
 use UnitTester;
 
-/**
- * Class RemoveRightCest
- */
 class SliceRightCest
 {
     /**
@@ -47,7 +44,6 @@ class SliceRightCest
             $expected,
             Arr::sliceRight($collection, 1)
         );
-
 
 
         $expected = [

@@ -33,14 +33,12 @@ class SetArgumentCest
      * @since  2018-11-13
      *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-12-26
+     * @since  2018-12-26
      */
     public function cliConsoleSetArgument(CliTester $I)
     {
-        require_once dataFolder('fixtures/tasks/MainTask.php');
-
+        require_once dataDir('fixtures/tasks/MainTask.php');
         $I->wantToTest("Cli\Console - setArgument()");
-
         $this->setNewCliFactoryDefault();
 
         $this->container->setShared(
@@ -53,47 +51,23 @@ class SetArgumentCest
         );
 
         $console = $this->newCliConsole();
-
-        $console->setDI(
-            $this->container
-        );
+        $console->setDI($this->container);
 
         $dispatcher = $this->container->getShared("dispatcher");
-
-        $console->setArgument(
-            [
-                "php",
-                "--foo=bar",
-                "-bar",
-                "main",
-                "hello",
-                "a",
-                "B",
-            ]
-        )->handle();
-
-        $I->assertEquals(
+        $console->setArgument([
+            "php",
+            "--foo=bar",
+            "-bar",
             "main",
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
             "hello",
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            ["a", "B"],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            [
-                "foo" => "bar",
-                "bar" => true,
-            ],
-            $dispatcher->getOptions()
-        );
+            "a",
+            "B",
+        ])->handle()
+        ;
+        $I->assertEquals("main", $dispatcher->getTaskName());
+        $I->assertEquals("hello", $dispatcher->getActionName());
+        $I->assertEquals(["a", "B"], $dispatcher->getParams());
+        $I->assertEquals(["foo" => "bar", "bar" => true], $dispatcher->getOptions());
     }
 
     public function testArgumentArray(CliTester $I)
@@ -101,8 +75,8 @@ class SetArgumentCest
         /**
          * @todo Check the loader why those are not being autoloaded
          */
-        require_once dataFolder('fixtures/tasks/EchoTask.php');
-        require_once dataFolder('fixtures/tasks/MainTask.php');
+        require_once dataDir('fixtures/tasks/EchoTask.php');
+        require_once dataDir('fixtures/tasks/MainTask.php');
 
         $console = new Console();
 
@@ -117,7 +91,8 @@ class SetArgumentCest
                 'php',
             ],
             false
-        )->handle();
+        )->handle()
+        ;
 
         $I->assertEquals(
             'main',
@@ -145,7 +120,8 @@ class SetArgumentCest
                 'echo',
             ],
             false
-        )->handle();
+        )->handle()
+        ;
 
         $I->assertEquals(
             'echo',
@@ -174,7 +150,8 @@ class SetArgumentCest
                 'hello',
             ],
             false
-        )->handle();
+        )->handle()
+        ;
 
         $I->assertEquals(
             'main',
@@ -205,7 +182,8 @@ class SetArgumentCest
                 '######',
             ],
             false
-        )->handle();
+        )->handle()
+        ;
 
         $I->assertEquals(
             'main',
@@ -242,7 +220,8 @@ class SetArgumentCest
             [],
             false,
             false
-        )->handle();
+        )->handle()
+        ;
 
         $I->assertEquals(
             'main',
@@ -270,7 +249,8 @@ class SetArgumentCest
             ],
             false,
             false
-        )->handle();
+        )->handle()
+        ;
 
         $I->assertEquals(
             'echo',
@@ -294,8 +274,9 @@ class SetArgumentCest
 
         $console->setArgument([
             'main',
-            'hello'
-        ], false, false)->handle();
+            'hello',
+        ], false, false)->handle()
+        ;
 
         $I->assertEquals(
             'main',
@@ -326,7 +307,8 @@ class SetArgumentCest
             ],
             false,
             false
-        )->handle();
+        )->handle()
+        ;
 
         $I->assertEquals(
             'main',
@@ -367,12 +349,12 @@ class SetArgumentCest
         $dispatcher = $console->getDI()->getShared('dispatcher');
 
 
-
         $console->setArgument(
             [
                 'php',
             ]
-        )->handle();
+        )->handle()
+        ;
 
         $I->assertEquals(
             'main',
@@ -395,13 +377,13 @@ class SetArgumentCest
         );
 
 
-
         $console->setArgument(
             [
                 'php',
                 'echo',
             ]
-        )->handle();
+        )->handle()
+        ;
 
         $I->assertEquals(
             'echo',
@@ -424,14 +406,14 @@ class SetArgumentCest
         );
 
 
-
         $console->setArgument(
             [
                 'php',
                 'main',
                 'hello',
             ]
-        )->handle();
+        )->handle()
+        ;
 
         $I->assertEquals(
             'main',
@@ -454,7 +436,6 @@ class SetArgumentCest
         );
 
 
-
         $console->setArgument(
             [
                 'php',
@@ -463,7 +444,8 @@ class SetArgumentCest
                 'World',
                 '######',
             ]
-        )->handle();
+        )->handle()
+        ;
 
         $I->assertEquals(
             'main',

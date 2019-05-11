@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Bag;
 
-use Phalcon\Session\Bag;
 use IntegrationTester;
+use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
@@ -48,12 +48,10 @@ class ToJsonCest
         $collection->init($data);
 
 
-
         $expected = json_encode($data);
         $actual   = $collection->toJson();
 
         $I->assertEquals($expected, $actual);
-
 
 
         $expected = json_encode($data, JSON_PRETTY_PRINT);

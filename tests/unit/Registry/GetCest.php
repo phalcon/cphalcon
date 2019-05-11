@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     /**
      * Tests Phalcon\Registry :: get()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,24 +26,35 @@ class GetCest
     public function collectionGet(UnitTester $I)
     {
         $I->wantToTest('Registry - get()');
-        $data     = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $registry = new Registry($data);
 
         $expected = 'four';
-        $actual   = $registry->get('three');
-        $I->assertEquals($expected, $actual);
 
-        $actual = $registry['three'];
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $registry->get('three')
+        );
 
-        $actual = $registry->three;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $registry['three']
+        );
 
-        $actual = $registry->offsetGet('three');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $registry->three
+        );
+
+        $I->assertEquals(
+            $expected,
+            $registry->offsetGet('three')
+        );
     }
 }

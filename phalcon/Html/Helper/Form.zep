@@ -33,6 +33,6 @@ class Form extends AbstractHelper
 
         let overrides = this->orderAttributes(overrides, attributes);
 
-        return "<form " . rtrim(this->renderAttributes(overrides)) . ">";
+        return this->renderElement("form", overrides);
     }
 }

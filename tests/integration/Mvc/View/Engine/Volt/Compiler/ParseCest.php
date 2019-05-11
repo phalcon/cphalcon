@@ -27,8 +27,8 @@ class ParseCest
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-15
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-01-15
      *
      * @dataProvider getVoltParse
      */
@@ -36,8 +36,8 @@ class ParseCest
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - parse()");
 
-        $param  = $example[0];
-        $count  = $example[1];
+        $param = $example[0];
+        $count = $example[1];
 
         $volt   = new Compiler();
         $actual = $volt->parse($param);
@@ -48,6 +48,62 @@ class ParseCest
         );
 
         $I->assertCount($count, $actual);
+    }
+
+    /**
+     * /**
+     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: parse() - syntax error
+     *
+     * @param IntegrationTester $I
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-01-15
+     *
+     * @dataProvider getVoltSyntaxErrors
+     */
+    public function mvcViewEngineVoltCompilerParseSyntaxError(IntegrationTester $I, Example $example)
+    {
+        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - parse() - syntax error");
+
+        $code    = $example[0];
+        $message = $example[1];
+
+        $volt = new Compiler();
+
+        $I->expectThrowable(
+            new Exception($message),
+            function () use ($volt, $code) {
+                $volt->parse($code);
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: parse() - extends with
+     * error
+     *
+     * @param IntegrationTester $I
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-01-15
+     *
+     * @dataProvider getVoltExtendsError
+     */
+    public function mvcViewEngineVoltCompilerParseExtendsWithError(IntegrationTester $I, Example $example)
+    {
+        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - parse() - extends with error");
+
+        $code    = $example[0];
+        $message = $example[1];
+
+        $volt = new Compiler();
+
+        $I->expectThrowable(
+            new Exception($message),
+            function () use ($volt, $code) {
+                $volt->parse($code);
+            }
+        );
     }
 
     private function getVoltParse(): array
@@ -191,34 +247,6 @@ class ParseCest
     }
 
     /**
-     * /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: parse() - syntax error
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-15
-     *
-     * @dataProvider getVoltSyntaxErrors
-     */
-    public function mvcViewEngineVoltCompilerParseSyntaxError(IntegrationTester $I, Example $example)
-    {
-        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - parse() - syntax error");
-
-        $code    = $example[0];
-        $message = $example[1];
-
-        $volt = new Compiler();
-
-        $I->expectThrowable(
-            new Exception($message),
-            function () use ($volt, $code) {
-                $volt->parse($code);
-            }
-        );
-    }
-
-    /**
      * @return array
      */
     private function getVoltSyntaxErrors(): array
@@ -276,34 +304,6 @@ class ParseCest
                 "Scanning error before 'album.uri, \"<img...' in eval code on line 1",
             ],
         ];
-    }
-
-    /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: parse() - extends with
-     * error
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-15
-     *
-     * @dataProvider getVoltExtendsError
-     */
-    public function mvcViewEngineVoltCompilerParseExtendsWithError(IntegrationTester $I, Example $example)
-    {
-        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - parse() - extends with error");
-
-        $code    = $example[0];
-        $message = $example[1];
-
-        $volt = new Compiler();
-
-        $I->expectThrowable(
-            new Exception($message),
-            function () use ($volt, $code) {
-                $volt->parse($code);
-            }
-        );
     }
 
     /**

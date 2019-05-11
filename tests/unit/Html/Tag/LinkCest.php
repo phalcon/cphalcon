@@ -17,11 +17,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 use UnitTester;
 
-/**
- * Class LinkCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class LinkCest
 {
     use DiTrait;
@@ -29,8 +24,6 @@ class LinkCest
 
     /**
      * Tests Phalcon\Html\Tag :: link()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
@@ -51,8 +44,6 @@ class LinkCest
 
     /**
      * Tests Phalcon\Html\Tag :: link() - params with query
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2002
      *
@@ -85,8 +76,6 @@ class LinkCest
     /**
      * Tests Phalcon\Html\Tag :: link() - empty url
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
      */
@@ -106,8 +95,6 @@ class LinkCest
 
     /**
      * Tests Phalcon\Html\Tag :: link() - named array as a parameter
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-29
@@ -134,8 +121,6 @@ class LinkCest
     /**
      * Tests Phalcon\Html\Tag :: link() - complex url local
      *
-     * @param UnitTester $I
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/1679
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -160,8 +145,6 @@ class LinkCest
 
     /**
      * Tests Phalcon\Html\Tag :: link() - complex url remote
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1679
      *

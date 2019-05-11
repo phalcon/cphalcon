@@ -14,12 +14,10 @@ namespace Phalcon\Test\Fixtures\Traits;
 
 use Phalcon\Config;
 use Phalcon\Config\Adapter\Ini;
-use function dataFolder;
-use function outputFolder;
+use function dataDir;
+use function outputDir;
 
 /**
- * Trait FactoryTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait FactoryTrait
@@ -36,8 +34,10 @@ trait FactoryTrait
      */
     protected function init()
     {
-        $configFile        = dataFolder("assets/config/factory.ini");
-        $this->config      = new Ini($configFile, INI_SCANNER_NORMAL);
+        $configFile = dataDir("assets/config/factory.ini");
+
+        $this->config = new Ini($configFile, INI_SCANNER_NORMAL);
+
         $this->arrayConfig = $this->config->toArray();
     }
 
@@ -52,19 +52,20 @@ trait FactoryTrait
                 'adapters' => [
                     0 => [
                         'adapter' => 'stream',
-                        'name'    => outputFolder('tests/logs/factory.log'),
+                        'name'    => outputDir('tests/logs/factory.log'),
 
                     ],
                     1 => [
                         'adapter' => 'stream',
-                        'name'    => outputFolder('tests/logs/factory.log'),
+                        'name'    => outputDir('tests/logs/factory.log'),
 
                     ],
                 ],
             ],
         ];
 
-        $this->config      = new Config($options);
+        $this->config = new Config($options);
+
         $this->arrayConfig = $this->config->toArray();
     }
 }

@@ -88,3 +88,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setRollbackedRecord);
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, setTransactionManager);
 
+/**
+ * Enables throwing exception
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_TransactionInterface, throwRollbackException);
+

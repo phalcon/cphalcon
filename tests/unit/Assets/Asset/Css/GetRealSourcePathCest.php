@@ -16,17 +16,12 @@ use Phalcon\Assets\Asset\Css;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetRealSourcePathCest
- */
 class GetRealSourcePathCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: getRealSourcePath() - css local
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getRealSourcePath() - css local
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -41,9 +36,7 @@ class GetRealSourcePathCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getRealSourcePath() - css remote
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getRealSourcePath() - css remote
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

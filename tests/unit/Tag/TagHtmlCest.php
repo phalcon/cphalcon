@@ -16,15 +16,10 @@ use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-/**
- * Class TagHtmlCest
- */
 class TagHtmlCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: tagHtml() - name parameter
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -63,8 +58,6 @@ class TagHtmlCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: tagHtml() - name parameter and self close
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -101,8 +94,6 @@ class TagHtmlCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: tagHtml() - name parameter and only start
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -141,8 +132,6 @@ class TagHtmlCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: tagHtml() - name parameter and EOL
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -179,8 +168,6 @@ class TagHtmlCest extends TagSetup
 
     /**
      * Tests Phalcon\Tag :: tagHtml() - array parameter
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05

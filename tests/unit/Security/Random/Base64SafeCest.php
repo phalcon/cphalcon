@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Security\Random;
 
 use Codeception\Example;
+use Phalcon\Security\Random;
 use UnitTester;
 
 class Base64SafeCest
@@ -20,8 +21,8 @@ class Base64SafeCest
     /**
      * Tests Phalcon\Security\Random :: base64Safe()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider securityRandomBase64SafeProvider
      */
@@ -33,16 +34,11 @@ class Base64SafeCest
         $padding = $example[1];
         $pattern = $example[2];
 
-        $random = new \Phalcon\Security\Random();
+        $random = new Random();
 
-        $isValid = function ($base64) use ($pattern) {
-            return (preg_match("#[^$pattern]+#i", $base64) === 0);
-        };
-
-        $actual = $random->base64Safe($len, $padding);
-
-        $I->assertTrue(
-            $isValid($actual)
+        $I->assertRegExp(
+            "#^[" . $pattern . "]+$#i",
+            $random->base64Safe($len, $padding)
         );
     }
 

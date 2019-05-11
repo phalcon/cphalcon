@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Uri;
 use Phalcon\Http\Message\Uri;
 use UnitTester;
 
-/**
- * Class GetFragmentCest
- */
 class GetFragmentCest
 {
     /**
      * Tests Phalcon\Http\Message\Uri :: getFragment()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
@@ -41,8 +36,6 @@ class GetFragmentCest
 
     /**
      * Tests Phalcon\Http\Message\Uri :: getFragment() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-07

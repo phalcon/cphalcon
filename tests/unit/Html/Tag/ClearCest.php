@@ -15,17 +15,10 @@ namespace Phalcon\Test\Unit\Html\Tag;
 use Phalcon\Html\Tag;
 use UnitTester;
 
-/**
- * Class ClearCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class ClearCest
 {
     /**
      * Tests Phalcon\Html\Tag :: clear()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

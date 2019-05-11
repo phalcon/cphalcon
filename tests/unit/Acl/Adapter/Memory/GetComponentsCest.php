@@ -16,15 +16,10 @@ use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Component;
 use UnitTester;
 
-/**
- * Class GetComponentsCest
- */
 class GetComponentsCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getComponents()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -40,7 +35,6 @@ class GetComponentsCest
 
         $acl->addComponent($component1, ['index']);
         $acl->addComponent($component2, ['index']);
-
 
 
         $expected = [$component1, $component2];

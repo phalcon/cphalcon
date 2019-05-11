@@ -25,21 +25,7 @@ class BytesCest
     public function securityRandomBytes(UnitTester $I)
     {
         $I->wantToTest("Security\Random - bytes()");
-        $random = new \Phalcon\Security\Random;
-        $hex    = $random->hex();
 
-        //test forbidden characters
-        $I->assertRegExp("/^[0-9a-f]+$/", $hex);
-
-        //Default length is 16 bytes
-        $I->assertEquals(16, strlen($hex) / 2); //Hex is 2 characters
-
-        $differentString = $random->hex();
-        //Buy lottery ticket if this fails (or fix the bug)
-        $I->assertNotEquals($hex, $differentString);
-
-        $expectedLength = 30;
-        $hex            = $random->hex($expectedLength);
-        $I->assertEquals($expectedLength, strlen($hex) / 2); //Hex is 2 characters
+        $I->skipTest('Need implementation');
     }
 }

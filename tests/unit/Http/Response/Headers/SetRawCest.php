@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response\Headers;
 
+use Phalcon\Http\Response\Headers;
 use UnitTester;
 
 class SetRawCest
@@ -20,12 +21,16 @@ class SetRawCest
      * Tests Phalcon\Http\Response\Headers :: setRaw()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-05-08
      */
     public function httpResponseHeadersSetRaw(UnitTester $I)
     {
         $I->wantToTest('Http\Response\Headers - setRaw()');
 
-        $I->skipTest('Need implementation');
+        $headers = new Headers();
+        $headers->setRaw('Content-Type: text/html');
+
+        $I->assertTrue($headers->has('Content-Type: text/html'));
+        $I->assertFalse($headers->has('Content-Type: text/plain'));
     }
 }

@@ -24,7 +24,7 @@ class FlashBase
     private $notHtml     = false;
     private $classes     = null;
 
-    private $default     = [
+    private $default = [
         'success' => 'successMessage',
         'notice'  => 'noticeMessage',
         'warning' => 'warningMessage',

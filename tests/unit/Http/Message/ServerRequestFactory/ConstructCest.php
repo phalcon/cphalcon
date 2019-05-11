@@ -16,15 +16,10 @@ use Phalcon\Http\Message\ServerRequestFactory;
 use Psr\Http\Message\ServerRequestFactoryInterface;
 use UnitTester;
 
-/**
- * Class CreateServerRequestCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-08

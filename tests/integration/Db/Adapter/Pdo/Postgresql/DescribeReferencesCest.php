@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\PostgresqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class DescribeReferencesCest
- */
 class DescribeReferencesCest
 {
     use DiTrait;
@@ -26,8 +23,6 @@ class DescribeReferencesCest
 
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Postgresql :: describeReferences()
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-09-28

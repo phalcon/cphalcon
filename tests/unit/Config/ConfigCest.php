@@ -168,7 +168,7 @@ class ConfigCest
      */
     public function testIssue13351MergeNonZeroBasedNumericKey(UnitTester $I)
     {
-        $config  = new Config(
+        $config = new Config(
             [
                 1 => 'Apple',
             ]
@@ -183,7 +183,6 @@ class ConfigCest
         $config->merge($config2);
 
 
-
         $expected = [
             1 => 'Apple',
             2 => 'Banana',
@@ -194,8 +193,7 @@ class ConfigCest
         $I->assertEquals($expected, $actual);
 
 
-
-        $config  = new Config(
+        $config = new Config(
             [
                 0 => 'Apple',
             ]
@@ -210,7 +208,6 @@ class ConfigCest
         $config->merge($config2);
 
 
-
         $expected = [
             0 => 'Apple',
             1 => 'Banana',
@@ -221,8 +218,7 @@ class ConfigCest
         $I->assertEquals($expected, $actual);
 
 
-
-        $config  = new Config(
+        $config = new Config(
             [
                 1   => 'Apple',
                 'p' => 'Pineapple',
@@ -238,7 +234,6 @@ class ConfigCest
         $config->merge($config2);
 
 
-
         $expected = [
             1   => 'Apple',
             'p' => 'Pineapple',
@@ -250,8 +245,7 @@ class ConfigCest
         $I->assertEquals($expected, $actual);
 
 
-
-        $config  = new Config(
+        $config = new Config(
             [
                 'One' => [
                     1   => 'Apple',
@@ -275,7 +269,6 @@ class ConfigCest
         );
 
         $config->merge($config2);
-
 
 
         $expected = [

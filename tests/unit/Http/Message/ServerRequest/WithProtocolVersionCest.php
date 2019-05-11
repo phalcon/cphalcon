@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
-/**
- * Class WithProtocolVersionCest
- */
 class WithProtocolVersionCest
 {
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: withProtocolVersion()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

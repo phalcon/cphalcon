@@ -16,15 +16,10 @@ use Phalcon\Http\Message\ServerRequest;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
 
-/**
- * Class GetBodyCest
- */
 class GetBodyCest
 {
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getBody()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -32,7 +27,7 @@ class GetBodyCest
     public function httpMessageServerRequestGetBody(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getBody()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $stream   = new Stream($fileName, 'rb');
         $request  = new ServerRequest('GET', null, [], $stream);
 
@@ -43,8 +38,6 @@ class GetBodyCest
 
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getBody() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

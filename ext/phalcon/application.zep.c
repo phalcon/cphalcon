@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Application, getModule) {
 
 	ZEPHIR_OBS_VAR(&module);
 	zephir_read_property(&_0, this_ptr, SL("modules"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&module, &_0, &name, 0 TSRMLS_CC))) {
+	if (UNEXPECTED(!(zephir_array_isset_fetch(&module, &_0, &name, 0 TSRMLS_CC)))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_application_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);

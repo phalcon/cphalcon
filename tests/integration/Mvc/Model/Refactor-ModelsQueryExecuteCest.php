@@ -672,7 +672,7 @@ class ModelsQueryExecuteCest
                 '_message'  => 'Sorry Marina, but you are not allowed here',
                 '_field'    => null,
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ]);
 
@@ -686,7 +686,7 @@ class ModelsQueryExecuteCest
                 '_message'  => "Field email must be an email address",
                 '_field'    => 'email',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ]);
 
@@ -715,7 +715,10 @@ class ModelsQueryExecuteCest
         );
         $I->assertTrue($status->success());
 
-        $I->assertTrue($status->getModel()->id > 0);
+        $I->assertGreaterThan(
+            0,
+            $status->getModel()->id
+        );
     }
 
     private function testInsertRenamedExecute(IntegrationTester $I)
@@ -737,7 +740,7 @@ class ModelsQueryExecuteCest
                 '_message'  => 'Désolé Marina, mais vous n\'êtes pas autorisé ici',
                 '_field'    => null,
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ]);
 
@@ -754,7 +757,7 @@ class ModelsQueryExecuteCest
                 '_message'  => "Le courrier électronique est invalide",
                 '_field'    => 'courrierElectronique',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ]);
 
@@ -792,7 +795,10 @@ class ModelsQueryExecuteCest
         );
         $I->assertTrue($status->success());
 
-        $I->assertTrue($status->getModel()->code > 0);
+        $I->assertGreaterThan(
+            0,
+            $status->getModel()->code
+        );
     }
 
     private function testUpdateExecute(IntegrationTester $I)

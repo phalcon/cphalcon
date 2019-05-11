@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Helper\Arr;
 use Phalcon\Helper\Arr;
 use UnitTester;
 
-/**
- * Class SplitCest
- */
 class SplitCest
 {
     /**
      * Tests Phalcon\Helper\Arr :: split()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-07
@@ -38,7 +33,7 @@ class SplitCest
 
         $expected = [
             [1, 3],
-            ['Phalcon', 'Framework']
+            ['Phalcon', 'Framework'],
         ];
         $actual   = Arr::split($collection);
         $I->assertEquals($expected, $actual);

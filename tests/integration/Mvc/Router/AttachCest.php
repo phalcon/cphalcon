@@ -40,12 +40,10 @@ class AttachCest
         $router = $this->getRouter(false);
 
 
-
         $I->assertCount(
             0,
             $router->getRoutes()
         );
-
 
 
         $router->attach(
@@ -59,7 +57,6 @@ class AttachCest
             ),
             Router::POSITION_FIRST
         );
-
 
 
         $I->assertCount(

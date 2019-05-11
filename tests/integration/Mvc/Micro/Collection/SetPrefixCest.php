@@ -49,14 +49,12 @@ class SetPrefixCest
         $app->mount($collection);
 
 
-
         $app->handle('/personas');
 
         $I->assertEquals(
             1,
             $controller->getEntered()
         );
-
 
 
         $app->handle('/personas/edit/100');

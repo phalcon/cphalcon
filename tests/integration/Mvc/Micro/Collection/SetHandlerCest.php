@@ -53,14 +53,12 @@ class SetHandlerCest
         $app->mount($collection);
 
 
-
         $app->handle('/');
 
         $I->assertEquals(
             1,
             PersonasLazyController::getEntered()
         );
-
 
 
         $app->handle('/edit/100');

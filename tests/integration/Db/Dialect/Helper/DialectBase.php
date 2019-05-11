@@ -16,8 +16,8 @@ class DialectBase
     /**
      * Tests Dialect::createView
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-02-26
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-02-26
      *
      * @dataProvider getCreateViewFixtures
      */
@@ -45,8 +45,6 @@ class DialectBase
 
     /**
      * Returns the object for the dialect
-     *
-     * @return DialectInterface
      */
     protected function getDialectObject(): DialectInterface
     {
@@ -61,12 +59,11 @@ class DialectBase
     /**
      * Tests Dialect::describeColumns
      *
-     * @param IntegrationTester $I
      * @issue  https://github.com/phalcon/cphalcon/issues/12536
      * @issue  https://github.com/phalcon/cphalcon/issues/11359
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-02-26
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-02-26
      *
      * @dataProvider getDescribeColumnsFixtures
      */
@@ -85,9 +82,6 @@ class DialectBase
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function testDescribeIndexes(IntegrationTester $I)
     {
         $I->skipTest('TODO: Write this test');
@@ -96,46 +90,40 @@ class DialectBase
     /**
      * Tests Dialect::describeReferences
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @dataProvider getDescribeReferencesFixtures
      */
-    public function testDescribeReferences(IntegrationTester $I)
+    public function testDescribeReferences(IntegrationTester $I, Example $example)
     {
-        $data = $this->getDescribeReferencesFixtures();
+        $schema   = $example[0];
+        $expected = $example[1];
 
-        foreach ($data as $item) {
-            $schema   = $item[0];
-            $expected = $item[1];
+        $dialect = $this->getDialectObject();
 
-            $dialect = $this->getDialectObject();
+        $actual = $dialect->describeReferences(
+            'table',
+            $schema
+        );
 
-            $actual = $dialect->describeReferences(
-                'table',
-                $schema
-            );
-
-            $I->assertEquals($expected, $actual);
-        }
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Dialect::dropColumn
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testDropColumn(IntegrationTester $I)
     {
-        $data = $this->getDropColumnFixtures();
+        $examples = $this->getDropColumnFixtures();
 
-        foreach ($data as $item) {
-            $schema   = $item[0];
-            $column   = $item[1];
-            $expected = $item[2];
+        foreach ($examples as $example) {
+            $schema   = $example[0];
+            $column   = $example[1];
+            $expected = $example[2];
 
             $dialect = $this->getDialectObject();
 
@@ -152,21 +140,19 @@ class DialectBase
     /**
      * Tests Dialect::dropForeignKey
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testDropForeignKey(IntegrationTester $I)
     {
-        $data = $this->getDropForeignKeyFixtures();
+        $examples = $this->getDropForeignKeyFixtures();
 
-        foreach ($data as $item) {
-            $schema   = $item[0];
-            $key      = $item[1];
-            $expected = $item[2];
+        foreach ($examples as $example) {
+            $schema   = $example[0];
+            $key      = $example[1];
+            $expected = $example[2];
 
-            $dialect  = $this->getDialectObject();
+            $dialect = $this->getDialectObject();
 
             $actual = $dialect->dropForeignKey(
                 'table',
@@ -181,47 +167,41 @@ class DialectBase
     /**
      * Tests Dialect::dropIndex
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @dataProvider getDropIndexFixtures
      */
-    public function testDropIndex(IntegrationTester $I)
+    public function testDropIndex(IntegrationTester $I, Example $example)
     {
-        $data = $this->getDropIndexFixtures();
+        $schema   = $example[0];
+        $index    = $example[1];
+        $expected = $example[2];
 
-        foreach ($data as $item) {
-            $schema   = $item[0];
-            $index    = $item[1];
-            $expected = $item[2];
+        $dialect = $this->getDialectObject();
 
-            $dialect = $this->getDialectObject();
+        $actual = $dialect->dropIndex(
+            'table',
+            $schema,
+            $index
+        );
 
-            $actual = $dialect->dropIndex(
-                'table',
-                $schema,
-                $index
-            );
-
-            $I->assertEquals($expected, $actual);
-        }
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Dialect::dropPrimaryKey
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testDropPrimaryKey(IntegrationTester $I)
     {
-        $data = $this->getDropPrimaryKeyFixtures();
+        $examples = $this->getDropPrimaryKeyFixtures();
 
-        foreach ($data as $item) {
-            $schema   = $item[0];
-            $expected = $item[1];
+        foreach ($examples as $example) {
+            $schema   = $example[0];
+            $expected = $example[1];
 
             $dialect = $this->getDialectObject();
 
@@ -237,36 +217,30 @@ class DialectBase
     /**
      * Tests Dialect::dropTable
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @dataProvider getDropTableFixtures
      */
-    public function testDropTable(IntegrationTester $I)
+    public function testDropTable(IntegrationTester $I, Example $example)
     {
-        $data = $this->getDropTableFixtures();
+        $schema   = $example[0];
+        $ifExists = $example[1];
+        $expected = $example[2];
 
-        foreach ($data as $item) {
-            $schema   = $item[0];
-            $ifExists = $item[1];
-            $expected = $item[2];
+        $dialect = $this->getDialectObject();
 
-            $dialect = $this->getDialectObject();
+        $actual = $dialect->dropTable(
+            'table',
+            $schema,
+            $ifExists
+        );
 
-            $actual = $dialect->dropTable(
-                'table',
-                $schema,
-                $ifExists
-            );
-
-            $I->assertEquals($expected, $actual);
-        }
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Dialect::dropView
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
@@ -297,9 +271,6 @@ class DialectBase
         }
     }
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function testForUpdate(IntegrationTester $I)
     {
         $I->skipTest('TODO: Write this test');
@@ -308,34 +279,28 @@ class DialectBase
     /**
      * Tests Dialect::getColumnDefinition
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @dataProvider getColumnDefinitionFixtures
      */
-    public function testGetColumnDefinition(IntegrationTester $I)
+    public function testGetColumnDefinition(IntegrationTester $I, Example $example)
     {
-        $data = $this->getColumnDefinitionFixtures();
+        $column   = $example[0];
+        $expected = $example[1];
 
-        foreach ($data as $item) {
-            $column   = $item[0];
-            $expected = $item[1];
+        $columns = $this->getColumns();
+        $dialect = $this->getDialectObject();
 
-            $columns = $this->getColumns();
-            $dialect = $this->getDialectObject();
+        $actual = $dialect->getColumnDefinition(
+            $columns[$column]
+        );
 
-            $actual = $dialect->getColumnDefinition(
-                $columns[$column]
-            );
-
-            $I->assertEquals($expected, $actual);
-        }
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Dialect::getColumnList
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
@@ -361,17 +326,11 @@ class DialectBase
         }
     }
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function testLimit(IntegrationTester $I)
     {
         $I->skipTest('TODO: Write this test');
     }
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function testListTables(IntegrationTester $I)
     {
         $I->skipTest('TODO: Write this test');
@@ -379,8 +338,6 @@ class DialectBase
 
     /**
      * Tests Dialect::listViews
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
@@ -403,8 +360,6 @@ class DialectBase
 
     /**
      * Tests Dialect::modifyColumn
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
@@ -435,8 +390,6 @@ class DialectBase
     /**
      * Tests Dialect::modifyColumn
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-01-20
      * @issue  https://github.com/phalcon/cphalcon/issues/13012
@@ -445,8 +398,7 @@ class DialectBase
     {
         list($oldColumn, $newColumn) = $this->getModifyColumnFixtures13012();
 
-        $dialect  = $this->getDialectObject();
-
+        $dialect = $this->getDialectObject();
 
 
         $expected = $this->getModifyColumnSql();
@@ -463,8 +415,6 @@ class DialectBase
 
     /**
      * Tests Dialect::releaseSavepoint
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
@@ -483,8 +433,6 @@ class DialectBase
     /**
      * Tests Dialect::rollbackSavepoint
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
@@ -499,17 +447,11 @@ class DialectBase
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function testSelect(IntegrationTester $I)
     {
         $I->skipTest('TODO: Write this test');
     }
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function testSharedLock(IntegrationTester $I)
     {
         $I->skipTest('TODO: Write this test');
@@ -518,8 +460,6 @@ class DialectBase
     /**
      * Tests Dialect::supportsReleaseSavepoints
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
@@ -527,15 +467,13 @@ class DialectBase
     {
         $dialect = $this->getDialectObject();
 
-        $actual = $dialect->supportsReleaseSavepoints();
-
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $dialect->supportsReleaseSavepoints()
+        );
     }
 
     /**
      * Tests Dialect::supportsSavepoints
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
@@ -544,15 +482,13 @@ class DialectBase
     {
         $dialect = $this->getDialectObject();
 
-        $actual = $dialect->supportsSavepoints();
-
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $dialect->supportsSavepoints()
+        );
     }
 
     /**
      * Tests Dialect::tableExists
-     *
-     * @param IntegrationTester $I
      */
     public function testTableExists(IntegrationTester $I)
     {
@@ -578,9 +514,6 @@ class DialectBase
         }
     }
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function testTableOptions(IntegrationTester $I)
     {
         $I->skipTest('TODO: Write this test');
@@ -589,33 +522,28 @@ class DialectBase
     /**
      * Tests Dialect::truncateTable
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @dataProvider getTruncateTableFixtures
      */
-    public function testTruncateTable(IntegrationTester $I)
+    public function testTruncateTable(IntegrationTester $I, Example $example)
     {
-        $data = $this->getTruncateTableFixtures();
+        $schema   = $example[0];
+        $expected = $example[1];
 
-        foreach ($data as $item) {
-            $schema   = $item[0];
-            $expected = $item[1];
-            $dialect  = $this->getDialectObject();
+        $dialect = $this->getDialectObject();
 
-            $actual = $dialect->truncateTable(
-                'table',
-                $schema
-            );
+        $actual = $dialect->truncateTable(
+            'table',
+            $schema
+        );
 
-            $I->assertEquals($expected, $actual);
-        }
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Dialect::viewExists
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26

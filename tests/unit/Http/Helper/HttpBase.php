@@ -66,17 +66,15 @@ class HttpBase
     /**
      * Checks the has functions on non defined variables
      *
-     * @param UnitTester $I
-     * @param string     $function
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      */
-    protected function hasEmpty(UnitTester $I, $function)
+    protected function hasEmpty(UnitTester $I, string $function)
     {
         $request = $this->getRequestObject();
-        $actual  = $request->$function('test');
+
+        $actual = $request->$function('test');
 
         $I->assertFalse($actual);
     }
@@ -99,15 +97,11 @@ class HttpBase
     /**
      * Checks the has functions on defined variables
      *
-     * @param UnitTester $I
-     * @param string     $function
-     * @param string     $method
-     *
      * @since  2014-10-05
      *
      * @author Phalcon Team <team@phalconphp.com>
      */
-    protected function hasNotEmpty(UnitTester $I, $function, $method)
+    protected function hasNotEmpty(UnitTester $I, string $function, string $method)
     {
         $request  = $this->getRequestObject();
         $unMethod = "un{$method}";
@@ -122,14 +116,11 @@ class HttpBase
     /**
      * Checks the get functions on undefined variables
      *
-     * @param UnitTester $I
-     * @param string     $function
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
      *
      */
-    protected function getEmpty(UnitTester $I, $function)
+    protected function getEmpty(UnitTester $I, string $function)
     {
         $request = $this->getRequestObject();
 
@@ -141,15 +132,11 @@ class HttpBase
     /**
      * Checks the get functions on defined variables
      *
-     * @param UnitTester $I
-     * @param string     $function
-     * @param string     $method
-     *
      * @since  2014-10-05
      *
      * @author Phalcon Team <team@phalconphp.com>
      */
-    protected function getNotEmpty(UnitTester $I, $function, $method)
+    protected function getNotEmpty(UnitTester $I, string $function, string $method)
     {
         $request  = $this->getRequestObject();
         $unMethod = "un{$method}";
@@ -165,15 +152,11 @@ class HttpBase
     /**
      * Checks the get functions for sanitized data
      *
-     * @param UnitTester $I
-     * @param string     $function
-     * @param string     $method
-     *
      * @since  2014-10-05
      *
      * @author Phalcon Team <team@phalconphp.com>
      */
-    protected function getSanitized(UnitTester $I, $function, $method)
+    protected function getSanitized(UnitTester $I, string $function, string $method)
     {
         $request  = $this->getRequestObject();
         $unMethod = "un{$method}";

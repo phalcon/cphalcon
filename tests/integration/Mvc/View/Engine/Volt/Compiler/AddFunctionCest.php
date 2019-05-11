@@ -26,8 +26,8 @@ class AddFunctionCest
      *
      * @param IntegrationTester $I
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-17
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-01-17
      *
      * @dataProvider getVoltAddFunction
      */
@@ -43,6 +43,40 @@ class AddFunctionCest
         $volt = new Compiler();
 
         $volt->addFunction($name, $funcName);
+
+        $I->assertEquals(
+            $expected,
+            $volt->compileString($voltName)
+        );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: addFunction()
+     *
+     * @param IntegrationTester $I
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-01-17
+     *
+     * @dataProvider getVoltAddFunctionClosure
+     */
+    public function mvcViewEngineVoltCompilerAddFunctionClosure(IntegrationTester $I, Example $example)
+    {
+        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - addFunction() - closure");
+
+        $name     = $example[0];
+        $funcName = $example[1];
+        $voltName = $example[2];
+        $expected = $example[3];
+
+        $volt = new Compiler();
+
+        $volt->addFunction(
+            $name,
+            function ($arguments) use ($funcName) {
+                return $funcName . '(' . $arguments . ')';
+            }
+        );
 
         $I->assertEquals(
             $expected,
@@ -70,40 +104,6 @@ class AddFunctionCest
                 "<?= strtotime('now') ?>",
             ],
         ];
-    }
-
-    /**
-     * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: addFunction()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-01-17
-     *
-     * @dataProvider getVoltAddFunctionClosure
-     */
-    public function mvcViewEngineVoltCompilerAddFunctionClosure(IntegrationTester $I, Example $example)
-    {
-        $I->wantToTest("Mvc\View\Engine\Volt\Compiler - addFunction() - closure");
-
-        $name     = $example[0];
-        $funcName = $example[1];
-        $voltName = $example[2];
-        $expected = $example[3];
-
-        $volt = new Compiler();
-
-        $volt->addFunction(
-            $name,
-            function ($arguments) use ($funcName) {
-                return $funcName . '(' . $arguments . ')';
-            }
-        );
-
-        $I->assertEquals(
-            $expected,
-            $volt->compileString($voltName)
-        );
     }
 
     /**

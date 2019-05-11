@@ -39,9 +39,10 @@ class PostgresqlCest
         $expected   = $this->getReferenceObject();
         $connection = $this->getService('db');
 
-        $actual = $connection->describeReferences('foreign_key_child', 'public');
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $connection->describeReferences('foreign_key_child', 'public')
+        );
     }
 
     private function getReferenceObject()
@@ -84,11 +85,10 @@ class PostgresqlCest
         );
 
         $connection = $this->getService('db');
-        $actual     = $connection->execute($sql);
 
         $I->assertEquals(
             $example['expected'],
-            $actual
+            $connection->execute($sql)
         );
     }
 
@@ -172,7 +172,7 @@ class PostgresqlCest
     {
         $sql = rtrim(
             file_get_contents(
-                dataFolder('fixtures/Db/postgresql/example9.sql')
+                dataDir('fixtures/Db/postgresql/example9.sql')
             )
         );
 
@@ -205,11 +205,10 @@ class PostgresqlCest
         );
 
         $connection = $this->getService('db');
-        $actual     = $connection->execute($sql);
 
         $I->assertEquals(
             $example['expected'],
-            $actual
+            $connection->execute($sql)
         );
     }
 

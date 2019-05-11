@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use DateTime;
 use IntegrationTester;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
@@ -253,7 +254,7 @@ class SnapshotCest
                 'name'     => 'test',
                 'type'     => 'mechanical',
                 'year'     => 2017,
-                'datetime' => (new \DateTime())->format('Y-m-d'),
+                'datetime' => (new DateTime())->format('Y-m-d'),
                 'text'     => 'asd',
             ]
         );
@@ -286,7 +287,7 @@ class SnapshotCest
             [
                 'name'     => 'test',
                 'year'     => 2017,
-                'datetime' => (new \DateTime())->format('Y-m-d'),
+                'datetime' => (new DateTime())->format('Y-m-d'),
                 'text'     => 'asd',
             ]
         );
@@ -327,7 +328,7 @@ class SnapshotCest
                     [
                         'name'     => 'test',
                         'year'     => 2017,
-                        'datetime' => (new \DateTime())->format('Y-m-d'),
+                        'datetime' => (new DateTime())->format('Y-m-d'),
                         'text'     => 'asd',
                     ]
                 );
@@ -354,7 +355,7 @@ class SnapshotCest
                     [
                         'name'     => 'test',
                         'year'     => 2017,
-                        'datetime' => (new \DateTime())->format('Y-m-d'),
+                        'datetime' => (new DateTime())->format('Y-m-d'),
                         'text'     => 'asd',
                     ]
                 );
@@ -433,7 +434,7 @@ class SnapshotCest
             [
                 'name'     => 'test',
                 'year'     => 2017,
-                'datetime' => (new \DateTime())->format('Y-m-d'),
+                'datetime' => (new DateTime())->format('Y-m-d'),
                 'text'     => 'asd',
             ]
         );

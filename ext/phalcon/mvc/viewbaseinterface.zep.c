@@ -34,16 +34,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_ViewBaseInterface) {
 }
 
 /**
- * Cache the actual view render to certain level
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, cache);
-
-/**
- * Returns the cache instance used to cache
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getCache);
-
-/**
  * Returns cached output from another view stage
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ViewBaseInterface, getContent);

@@ -15,8 +15,8 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
-use function dataFolder;
-use function outputFolder;
+use function dataDir;
+use function outputDir;
 
 class ReflectionCest
 {
@@ -33,26 +33,28 @@ class ReflectionCest
         $I->wantToTest('Image\Adapter\Imagick - reflection()');
 
         $image = new Imagick(
-            dataFolder('assets/images/phalconphp.jpg')
+            dataDir('assets/images/phalconphp.jpg')
         );
 
         $image->setResourceLimit(6, 1);
 
         // Create a 50 pixel reflection that fades from 0-100% opacity
-        $image->reflection(50)->save(outputFolder('tests/image/imagick/reflection.jpg'));
+        $image->reflection(50)->save(outputDir('tests/image/imagick/reflection.jpg'));
 
         $I->amInPath(
-            outputFolder('tests/image/imagick/')
+            outputDir('tests/image/imagick/')
         );
 
         $I->seeFileFound('reflection.jpg');
 
-        $I->assertTrue(
-            $image->getWidth() > 200
+        $I->assertGreaterThan(
+            200,
+            $image->getWidth()
         );
 
-        $I->assertTrue(
-            $image->getHeight() > 200
+        $I->assertGreaterThan(
+            200,
+            $image->getHeight()
         );
 
         $I->safeDeleteFile('reflection.jpg');

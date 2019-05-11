@@ -49,8 +49,6 @@ class ValidateCest
         );
 
 
-
-
         $messages = $validation->validate(
             [
                 'name' => 'SomeValue',
@@ -61,7 +59,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -100,7 +97,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name' => 'Something',
@@ -111,7 +107,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $expected = new Messages(
@@ -162,7 +157,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'message' => 'Something',
@@ -173,7 +167,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $expected = new Messages(
@@ -220,7 +213,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name' => 'John',
@@ -231,7 +223,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $expected = new Messages(
@@ -282,7 +273,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'message' => 'Pet',
@@ -293,7 +283,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $expected = new Messages(
@@ -359,7 +348,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name' => 'SomeValue',
@@ -371,7 +359,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -390,7 +377,6 @@ class ValidateCest
             $validationMaximumMessages['name'],
             $messages->offsetGet(0)->getMessage()
         );
-
 
 
         $messages = $validation->validate(
@@ -463,7 +449,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name' => 'SomeValue',
@@ -475,7 +460,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -496,7 +480,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name' => 'SomeValue',
@@ -513,7 +496,6 @@ class ValidateCest
             $validationMaximumMessages['type'],
             $messages->offsetGet(0)->getMessage()
         );
-
 
 
         $messages = $validation->validate(

@@ -15,8 +15,8 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
-use function dataFolder;
-use function outputFolder;
+use function dataDir;
+use function outputDir;
 
 class RotateCest
 {
@@ -33,26 +33,28 @@ class RotateCest
         $I->wantToTest('Image\Adapter\Imagick - rotate()');
 
         $image = new Imagick(
-            dataFolder('assets/images/phalconphp.jpg')
+            dataDir('assets/images/phalconphp.jpg')
         );
 
         $image->setResourceLimit(6, 1);
 
         // Rotate 45 degrees clockwise
-        $image->rotate(45)->save(outputFolder('tests/image/imagick/rotate.jpg'));
+        $image->rotate(45)->save(outputDir('tests/image/imagick/rotate.jpg'));
 
         $I->amInPath(
-            outputFolder('tests/image/imagick/')
+            outputDir('tests/image/imagick/')
         );
 
         $I->seeFileFound('rotate.jpg');
 
-        $I->assertTrue(
-            $image->getWidth() > 200
+        $I->assertGreaterThan(
+            200,
+            $image->getWidth()
         );
 
-        $I->assertTrue(
-            $image->getHeight() > 200
+        $I->assertGreaterThan(
+            200,
+            $image->getHeight()
         );
 
         $I->safeDeleteFile('rotate.jpg');

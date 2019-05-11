@@ -459,7 +459,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getContent) {
 	ZEPHIR_CONCAT_VV(&completePath, &basePath, &sourcePath);
 	zephir_read_property(&_0, this_ptr, SL("local"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
-		if (!((zephir_file_exists(&completePath TSRMLS_CC) == SUCCESS))) {
+		if (UNEXPECTED(!((zephir_file_exists(&completePath TSRMLS_CC) == SUCCESS)))) {
 			ZEPHIR_INIT_VAR(&_1$$5);
 			object_init_ex(&_1$$5, phalcon_assets_exception_ce);
 			ZEPHIR_INIT_VAR(&_2$$5);
@@ -473,14 +473,14 @@ PHP_METHOD(Phalcon_Assets_Asset, getContent) {
 	}
 	ZEPHIR_INIT_VAR(&content);
 	zephir_file_get_contents(&content, &completePath TSRMLS_CC);
-	if (ZEPHIR_IS_FALSE_IDENTICAL(&content)) {
+	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&content))) {
 		ZEPHIR_INIT_VAR(&_3$$6);
 		object_init_ex(&_3$$6, phalcon_assets_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$6);
 		ZEPHIR_CONCAT_SVS(&_4$$6, "Asset's content for '", &completePath, "' cannot be read");
 		ZEPHIR_CALL_METHOD(NULL, &_3$$6, "__construct", NULL, 1, &_4$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$6, "phalcon/Assets/Asset.zep", 203 TSRMLS_CC);
+		zephir_throw_exception_debug(&_3$$6, "phalcon/Assets/Asset.zep", 204 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

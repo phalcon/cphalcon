@@ -34,7 +34,6 @@ class DigitCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'amount' => '123',
@@ -45,7 +44,6 @@ class DigitCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -85,7 +83,6 @@ class DigitCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'amount' => '123',
@@ -97,7 +94,6 @@ class DigitCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -116,7 +112,6 @@ class DigitCest
             $validationMessages['amount'],
             $messages->offsetGet(0)->getMessage()
         );
-
 
 
         $messages = $validation->validate(

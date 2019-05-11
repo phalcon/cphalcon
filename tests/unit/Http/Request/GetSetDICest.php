@@ -16,15 +16,10 @@ use Phalcon\Di;
 use Phalcon\Http\Request;
 use UnitTester;
 
-/**
- * Class GetSetDICest
- */
 class GetSetDICest
 {
     /**
      * Tests Phalcon\Http\Request :: getDI()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

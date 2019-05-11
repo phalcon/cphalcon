@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Assets\Asset\Js;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
-/**
- * Class GetContentCest
- */
 class GetContentCest
 {
     /**
-     * Tests Phalcon\Assets\Asset :: getContent()
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Js :: getContent()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -33,8 +28,8 @@ class GetContentCest
         $I->wantToTest('Assets\Asset - getContent()');
         $asset = new Js('assets/assets/signup.js');
 
-        $expected = file_get_contents(dataFolder('assets/assets/signup.js'));
-        $actual   = $asset->getContent(dataFolder());
+        $expected = file_get_contents(dataDir('assets/assets/signup.js'));
+        $actual   = $asset->getContent(dataDir());
         $I->assertEquals($expected, $actual);
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response\Headers;
 
+use Phalcon\Http\Response\Headers;
 use UnitTester;
 
 class RemoveCest
@@ -20,12 +21,20 @@ class RemoveCest
      * Tests Phalcon\Http\Response\Headers :: remove()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-05-08
      */
     public function httpResponseHeadersRemove(UnitTester $I)
     {
         $I->wantToTest('Http\Response\Headers - remove()');
 
-        $I->skipTest('Need implementation');
+        $headers = new Headers();
+        $headers->set('Content-Type', 'text/html; charset=UTF-8');
+        $headers->set('Content-Encoding', 'gzip');
+
+        $headers->remove('Content-Type');
+        $headers->remove('Content-Encoding');
+
+        $I->assertEmpty($headers->get('Content-Type'));
+        $I->assertEmpty($headers->get('Content-Encoding'));
     }
 }

@@ -23,8 +23,8 @@ class PresenceOfCest
     /**
      * Tests presence of validator with single field
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2016-06-05
+     * @author       Wojciech Ślawski <jurigag@gmail.com>
+     * @since        2016-06-05
      *
      * @dataProvider shouldValidateSingleFieldProvider
      */
@@ -47,21 +47,6 @@ class PresenceOfCest
             $example['expected'],
             $messages->count()
         );
-    }
-
-    private function shouldValidateSingleFieldProvider(): array
-    {
-        return [
-            [
-                'name'     => 'SomeValue',
-                'expected' => 0,
-            ],
-
-            [
-                'name'     => '',
-                'expected' => 1,
-            ],
-        ];
     }
 
     /**
@@ -89,7 +74,6 @@ class PresenceOfCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name' => 'SomeValue',
@@ -103,7 +87,6 @@ class PresenceOfCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name' => '',
@@ -115,7 +98,6 @@ class PresenceOfCest
             1,
             $messages->count()
         );
-
 
 
         $I->assertEquals(
@@ -135,7 +117,6 @@ class PresenceOfCest
         );
 
         $I->assertEquals($expected, $messages);
-
 
 
         $messages = $validation->validate(
@@ -267,5 +248,20 @@ class PresenceOfCest
         );
 
         $I->assertEquals($expected, $actual);
+    }
+
+    private function shouldValidateSingleFieldProvider(): array
+    {
+        return [
+            [
+                'name'     => 'SomeValue',
+                'expected' => 0,
+            ],
+
+            [
+                'name'     => '',
+                'expected' => 1,
+            ],
+        ];
     }
 }

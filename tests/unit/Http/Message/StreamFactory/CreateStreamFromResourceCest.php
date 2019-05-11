@@ -12,19 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\StreamFactory;
 
+use InvalidArgumentException;
 use Phalcon\Http\Message\Stream;
 use Phalcon\Http\Message\StreamFactory;
 use UnitTester;
 
-/**
- * Class CreateStreamFromResourceCest
- */
 class CreateStreamFromResourceCest
 {
     /**
      * Tests Phalcon\Http\Message\StreamFactory :: createStreamFromResource()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -32,7 +28,7 @@ class CreateStreamFromResourceCest
     public function httpMessageStreamFactoryCreateStreamFromResource(UnitTester $I)
     {
         $I->wantToTest('Http\Message\StreamFactory - createStreamFromResource()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $expected = file_get_contents($fileName);
         $resource = fopen($fileName, 'r+b');
 
@@ -47,9 +43,8 @@ class CreateStreamFromResourceCest
     }
 
     /**
-     * Tests Phalcon\Http\Message\StreamFactory :: createStreamFromResource() - exception
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Http\Message\StreamFactory :: createStreamFromResource() -
+     * exception
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -59,7 +54,7 @@ class CreateStreamFromResourceCest
         $I->wantToTest('Http\Message\StreamFactory - createStreamFromResource() - exception');
 
         $I->expectThrowable(
-            new \InvalidArgumentException(
+            new InvalidArgumentException(
                 "Invalid stream provided"
             ),
             function () {

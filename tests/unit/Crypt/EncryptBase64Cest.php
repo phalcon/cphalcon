@@ -27,7 +27,7 @@ class EncryptBase64Cest
     {
         $I->wantToTest('Crypt - encryptBase64()');
 
-        $tests   = [
+        $tests = [
             md5(uniqid())            => str_repeat('x', mt_rand(1, 255)),
             time() . time()          => str_shuffle('abcdefeghijklmnopqrst'),
             'le$ki12432543543543543' => "",

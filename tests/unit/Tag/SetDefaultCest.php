@@ -16,15 +16,10 @@ use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-/**
- * Class SetDefaultCest
- */
 class SetDefaultCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: setDefault()
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2402
      * @author Dmitry Patsura <talk@dmtry.me>

@@ -15,7 +15,6 @@ namespace Phalcon\Test\Integration\Session\Adapter\Libmemcached;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
-use function serialize;
 use function uniqid;
 
 /**
@@ -45,21 +44,14 @@ class WriteCest
     public function sessionAdapterLibmemcachedWrite(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - write()');
-
         $adapter = $this->getSessionLibmemcached();
         $value   = uniqid();
-
         $adapter->write('test1', $value);
-
-
 
         /**
          * Serialize the value because the adapter does not have a serializer
          */
-        $value = serialize($value);
-
-        $I->seeInLibmemcached('test1', $value);
-
-        $I->removeFromLibmemcached('test1');
+        $I->seeInLibmemcached('sess-memc-test1', $value);
+        $I->removeFromLibmemcached('sess-memc-test1');
     }
 }

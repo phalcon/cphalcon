@@ -46,16 +46,18 @@ class GetCest
     {
         $I->wantToTest('Version - getId() to get()');
 
-        $id        = Version::getId();
+        $id = Version::getId();
+
         $major     = intval($id[0]);
         $med       = intval($id[1] . $id[2]);
         $min       = intval($id[3] . $id[4]);
         $special   = $this->numberToSpecial($id[5]);
         $specialNo = ($special) ? $id[6] : '';
 
-        $expected = trim("{$major}.{$med}.{$min}-{$special}.{$specialNo}");
-        $actual   = Version::get();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            trim("{$major}.{$med}.{$min}-{$special}.{$specialNo}"),
+            Version::get()
+        );
     }
 }

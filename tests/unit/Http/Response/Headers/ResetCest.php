@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response\Headers;
 
+use Phalcon\Http\Response\Headers;
 use UnitTester;
 
 class ResetCest
@@ -20,12 +21,19 @@ class ResetCest
      * Tests Phalcon\Http\Response\Headers :: reset()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-05-08
      */
     public function httpResponseHeadersReset(UnitTester $I)
     {
         $I->wantToTest('Http\Response\Headers - reset()');
 
-        $I->skipTest('Need implementation');
+        $headers = new Headers();
+        $headers->set('Content-Type', 'text/html; charset=UTF-8');
+        $headers->set('Content-Encoding', 'gzip');
+
+        $headers->reset();
+
+        $I->assertEmpty($headers->get('Content-Type'));
+        $I->assertEmpty($headers->get('Content-Encoding'));
     }
 }

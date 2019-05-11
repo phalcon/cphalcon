@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-/**
- * Class RemoveCest
- */
 class RemoveCest
 {
     /**
      * Tests Phalcon\Registry :: remove()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,49 +26,70 @@ class RemoveCest
     public function collectionRemove(UnitTester $I)
     {
         $I->wantToTest('Registry - remove()');
-        $data     = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $registry = new Registry($data);
 
-        $expected = $data;
-        $actual   = $registry->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $data,
+            $registry->toArray()
+        );
+
+
 
         $registry->remove('five');
-        $expected = [
-            'one'   => 'two',
-            'three' => 'four',
-        ];
-        $actual   = $registry->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            [
+                'one'   => 'two',
+                'three' => 'four',
+            ],
+            $registry->toArray()
+        );
+
+
 
         $registry->remove('FIVE');
-        $expected = [
-            'one'   => 'two',
-            'three' => 'four',
-        ];
-        $actual   = $registry->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            [
+                'one'   => 'two',
+                'three' => 'four',
+            ],
+            $registry->toArray()
+        );
+
+
 
         $registry->init($data);
+
         unset($registry['five']);
-        $expected = [
-            'one'   => 'two',
-            'three' => 'four',
-        ];
-        $actual   = $registry->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            [
+                'one'   => 'two',
+                'three' => 'four',
+            ],
+            $registry->toArray()
+        );
+
+
 
         $registry->init($data);
+
         $registry->offsetUnset('five');
-        $expected = [
-            'one'   => 'two',
-            'three' => 'four',
-        ];
-        $actual   = $registry->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            [
+                'one'   => 'two',
+                'three' => 'four',
+            ],
+            $registry->toArray()
+        );
     }
 }

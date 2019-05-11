@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Response;
 use Phalcon\Http\Message\Response;
 use UnitTester;
 
-/**
- * Class WithoutHeaderCest
- */
 class WithoutHeaderCest
 {
     /**
      * Tests Phalcon\Http\Message\Response :: withoutHeader()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09

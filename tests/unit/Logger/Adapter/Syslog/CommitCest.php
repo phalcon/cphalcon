@@ -17,16 +17,12 @@ use Phalcon\Logger\Exception;
 use UnitTester;
 
 /**
- * Class CommitCest
- *
  * @package Phalcon\Test\Unit\Logger
  */
 class CommitCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Syslog :: commit()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -54,8 +50,6 @@ class CommitCest
 
     /**
      * Tests Phalcon\Logger\Adapter\Syslog :: commit() - no transaction
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

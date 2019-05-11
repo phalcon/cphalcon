@@ -26,6 +26,6 @@ class Element extends AbstractHelper
      */
     public function __invoke(string! tag, string! text, array attributes = []) -> string
     {
-        return this->renderElement(tag, text, attributes);
+        return this->renderFullElement(tag, text, attributes);
     }
 }

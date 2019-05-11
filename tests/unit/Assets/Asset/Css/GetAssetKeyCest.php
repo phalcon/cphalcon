@@ -16,17 +16,12 @@ use Phalcon\Assets\Asset\Css;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetAssetKeyCest
- */
 class GetAssetKeyCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: getAssetKey() - css local
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getAssetKey() - css local
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -41,9 +36,7 @@ class GetAssetKeyCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getAssetKey() - css remote
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getAssetKey() - css remote
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Bag;
 
-use Phalcon\Session\Bag;
 use IntegrationTester;
+use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
@@ -42,12 +42,10 @@ class SetCest
         $collection->set('three', 'two');
 
 
-
         $expected = 'two';
         $actual   = $collection->get('three');
 
         $I->assertEquals($expected, $actual);
-
 
 
         $collection->three = 'Phalcon';
@@ -58,14 +56,12 @@ class SetCest
         $I->assertEquals($expected, $actual);
 
 
-
         $collection->offsetSet('three', 123);
 
         $expected = 123;
         $actual   = $collection->get('three');
 
         $I->assertEquals($expected, $actual);
-
 
 
         $collection['three'] = true;

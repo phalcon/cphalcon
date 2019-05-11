@@ -16,15 +16,10 @@ use InvalidArgumentException;
 use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
-/**
- * Class GetMethodCest
- */
 class GetMethodCest
 {
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getMethod()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -42,8 +37,6 @@ class GetMethodCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getMethod() - empty
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
@@ -59,8 +52,6 @@ class GetMethodCest
 
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getMethod() - exception
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

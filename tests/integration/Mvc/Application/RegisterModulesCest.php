@@ -14,11 +14,12 @@ namespace Phalcon\Test\Integration\Mvc\Application;
 
 use IntegrationTester;
 use Phalcon\Di;
-use Phalcon\DiInterface;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\DiInterface;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;
+use Phalcon\Test\Modules\Backend\Module;
 
 class RegisterModulesCest
 {
@@ -55,12 +56,12 @@ class RegisterModulesCest
         $application->registerModules(
             [
                 'frontend' => [
-                    'path'      => dataFolder('fixtures/modules/frontend/Module.php'),
+                    'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                     'className' => \Phalcon\Test\Modules\Frontend\Module::class,
                 ],
-                'backend' => [
-                    'path'      => dataFolder('fixtures/modules/backend/Module.php'),
-                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                'backend'  => [
+                    'path'      => dataDir('fixtures/modules/backend/Module.php'),
+                    'className' => Module::class,
                 ],
             ]
         );
@@ -122,19 +123,19 @@ class RegisterModulesCest
                         'view',
                         function () use ($view) {
                             $view->setViewsDir(
-                                dataFolder('fixtures/modules/frontend/views/')
+                                dataDir('fixtures/modules/frontend/views/')
                             );
 
                             return $view;
                         }
                     );
                 },
-                'backend' => function (DiInterface $di) use ($view) {
+                'backend'  => function (DiInterface $di) use ($view) {
                     $di->set(
                         'view',
                         function () use ($view) {
                             $view->setViewsDir(
-                                dataFolder('fixtures/modules/backend/views/')
+                                dataDir('fixtures/modules/backend/views/')
                             );
 
                             return $view;

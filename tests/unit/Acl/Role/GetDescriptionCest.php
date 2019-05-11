@@ -36,8 +36,6 @@ class GetDescriptionCest
     /**
      * Tests Phalcon\Acl\Role :: getDescription() - empty
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

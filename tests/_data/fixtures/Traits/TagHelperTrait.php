@@ -16,8 +16,6 @@ use Phalcon\Html\Tag;
 use UnitTester;
 
 /**
- * Trait TagSetupTrait
- *
  * @package Phalcon\Test\Fixtures\Traits
  */
 trait TagHelperTrait
@@ -55,17 +53,6 @@ trait TagHelperTrait
 
     /**
      * Runs the test for a Tag::$function with $options
-     *
-     * @param UnitTester $I
-     * @param Tag        $tag
-     * @param string     $name
-     * @param string     $function
-     * @param            $options
-     * @param string     $expected
-     * @param bool       $xhtml
-     * @param string     $set
-     *
-     * @return mixed
      */
     abstract protected function testFieldParameter(
         UnitTester $I,

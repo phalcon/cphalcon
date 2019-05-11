@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
 
-/**
- * Class IsSeekableCest
- */
 class IsSeekableCest
 {
     /**
@@ -35,7 +32,7 @@ class IsSeekableCest
     public function httpMessageStreamIsSeekable(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Message\Stream - isSeekable() - ' . $example[0]);
-        $fileName = dataFolder('assets/stream/bill-of-rights-empty.txt');
+        $fileName = dataDir('assets/stream/bill-of-rights-empty.txt');
         $stream   = new Stream($fileName, $example[0]);
         $I->assertEquals($example[1], $stream->isSeekable());
     }
@@ -55,7 +52,7 @@ class IsSeekableCest
     {
         $I->wantToTest('Http\Message\Stream - isSeekable() with "x" - ' . $example[0]);
         $fileName = $I->getNewFileName();
-        $fileName = outputFolder('tests/stream/' . $fileName);
+        $fileName = outputDir('tests/stream/' . $fileName);
         $stream   = new Stream($fileName, $example[0]);
         $I->assertEquals($example[1], $stream->isSeekable());
     }

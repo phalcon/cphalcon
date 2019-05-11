@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 
-/**
- * Class GetRequestTargetCest
- */
 class GetRequestTargetCest
 {
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getRequestTarget()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Stream\Input;
 use Phalcon\Http\Message\Stream\Input;
 use UnitTester;
 
-/**
- * Class IsSeekableCest
- */
 class IsSeekableCest
 {
     /**
      * Tests Phalcon\Http\Message\Stream\Input :: isSeekable()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-19

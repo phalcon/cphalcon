@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Helper\Arr;
 
 use Phalcon\Helper\Arr;
+use stdClass;
 use UnitTester;
 
 class GroupCest
@@ -28,28 +29,28 @@ class GroupCest
         $I->wantToTest('Helper\Arr - group()');
 
         $collection = [
-            ['name' => 'Paul',  'age' => 34],
+            ['name' => 'Paul', 'age' => 34],
             ['name' => 'Peter', 'age' => 31],
-            ['name' => 'John',  'age' => 29],
+            ['name' => 'John', 'age' => 29],
         ];
 
         $expected = [
             34 => [
                 [
                     'name' => 'Paul',
-                    'age' => 34,
+                    'age'  => 34,
                 ],
             ],
             31 => [
                 [
                     'name' => 'Peter',
-                    'age' => 31,
+                    'age'  => 31,
                 ],
             ],
             29 => [
                 [
                     'name' => 'John',
-                    'age' => 29,
+                    'age'  => 29,
                 ],
             ],
         ];
@@ -69,13 +70,13 @@ class GroupCest
     {
         $I->wantToTest('Helper\Arr - group() - object');
 
-        $peter = new \stdClass();
+        $peter       = new stdClass();
         $peter->name = 'Peter';
-        $peter->age = 34;
+        $peter->age  = 34;
 
-        $paul = new \stdClass();
+        $paul       = new stdClass();
         $paul->name = 'Paul';
-        $paul->age = 31;
+        $paul->age  = 31;
 
         $collection = [
             'peter' => $peter,
@@ -108,7 +109,7 @@ class GroupCest
 
         $expected = [
             3 => ['one', 'two'],
-            5 => ['three']
+            5 => ['three'],
         ];
 
         $I->assertEquals(

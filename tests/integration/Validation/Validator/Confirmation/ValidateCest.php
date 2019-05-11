@@ -50,7 +50,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name'     => 'SomeValue',
@@ -62,7 +61,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -114,7 +112,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name'     => 'SomeValue',
@@ -128,7 +125,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -149,7 +145,6 @@ class ValidateCest
             $validationMessages['name'],
             $messages->offsetGet(0)->getMessage()
         );
-
 
 
         $messages = $validation->validate(
@@ -214,7 +209,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'password'  => 'test123',
@@ -226,7 +220,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -242,7 +235,6 @@ class ValidateCest
         );
 
 
-
         $validation = new Validation();
 
         $validation->add(
@@ -256,7 +248,6 @@ class ValidateCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'password'  => 'test123',
@@ -268,7 +259,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -286,7 +276,6 @@ class ValidateCest
         $I->assertEquals($expected, $messages);
 
 
-
         $validation = new Validation();
 
         $validation->add(
@@ -297,7 +286,6 @@ class ValidateCest
                 ]
             )
         );
-
 
 
         $messages = $validation->validate(
@@ -311,7 +299,6 @@ class ValidateCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(

@@ -21,8 +21,8 @@ class GetActiveMethodCest
     /**
      * Tests Phalcon\Dispatcher :: getActiveMethod()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider dispatcherGetActiveMethodProvider
      */
@@ -33,7 +33,6 @@ class GetActiveMethodCest
         $dispatcher = new Dispatcher();
 
         $dispatcher->setActionSuffix('Action');
-
 
 
         $dispatcher->setActionName(

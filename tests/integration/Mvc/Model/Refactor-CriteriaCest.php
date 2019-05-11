@@ -13,6 +13,7 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -21,6 +22,7 @@ use Phalcon\Test\Models\Personas;
 use Phalcon\Test\Models\Personers;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Users;
+use function cacheModelsDir;
 
 class CriteriaCest
 {
@@ -41,20 +43,10 @@ class CriteriaCest
      */
     public function shouldExecuteInWhereQueryWithEmptyArray(IntegrationTester $I)
     {
-        $criteria = Users::query()->inWhere(
-            Users::class . '.id',
-            []
-        );
+        $criteria = Users::query()->inWhere(Users::class . '.id', []);
 
-        $I->assertEquals(
-            Users::class . '.id != ' . Users::class . '.id',
-            $criteria->getWhere()
-        );
-
-        $I->assertInstanceOf(
-            Simple::class,
-            $criteria->execute()
-        );
+        $I->assertEquals(Users::class . '.id != ' . Users::class . '.id', $criteria->getWhere());
+        $I->assertInstanceOf(Simple::class, $criteria->execute());
     }
 
     /**
@@ -67,23 +59,17 @@ class CriteriaCest
     public function shouldCorrectHandleLimitAndOffset(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check the test data');
-
         $examples = $this->getLimitOffset();
-
         foreach ($examples as $item) {
             $limit    = $item[0];
             $offset   = $item[1];
             $expected = $item[2];
-
-            /** @var \Phalcon\Mvc\Model\Criteria $query */
+            /** @var Criteria $query */
             $query = Users::query();
-
             $query->limit($limit, $offset);
 
-            $I->assertEquals(
-                $expected,
-                $query->getLimit()
-            );
+            $actual = $query->getLimit();
+            $I->assertEquals($expected, $actual);
         }
     }
 
@@ -104,34 +90,24 @@ class CriteriaCest
     /**
      * Tests creating builder from criteria
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
+     *
      * @since  2017-05-21
      *
-     * @param IntegrationTester $I
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function createBuilderFromCriteria(IntegrationTester $I)
     {
         $criteria = Robots::query()->where("type='mechanical'");
-
-        $I->assertInstanceOf(
-            Builder::class,
-            $criteria->createBuilder()
-        );
+        $I->assertInstanceOf(Builder::class, $criteria->createBuilder());
     }
 
     public function havingNotOverwritingGroupBy(IntegrationTester $I)
     {
         $query = Personas::query()->groupBy('estado')->having('SUM(cupo) > 1000000');
 
-        $I->assertEquals(
-            'estado',
-            $query->getGroupBy()
-        );
-
-        $I->assertEquals(
-            'SUM(cupo) > 1000000',
-            $query->getHaving()
-        );
+        $I->assertEquals('estado', $query->getGroupBy());
+        $I->assertEquals('SUM(cupo) > 1000000', $query->getHaving());
     }
 
     /**
@@ -142,23 +118,13 @@ class CriteriaCest
      */
     public function where(IntegrationTester $I, Example $example)
     {
-        $this->container->setShared(
-            'db',
-            $example['adapter']
-        );
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()->where("estado='I'")->execute();
         $people   = People::find("estado='I'");
 
-        $I->assertEquals(
-            count($personas->toArray()),
-            count($people->toArray())
-        );
-
-        $I->assertInstanceOf(
-            Simple::class,
-            $personas
-        );
+        $I->assertEquals(count($personas->toArray()), count($people->toArray()));
+        $I->assertInstanceOf(Simple::class, $personas);
     }
 
     /**
@@ -169,15 +135,9 @@ class CriteriaCest
      */
     public function whereRenamed(IntegrationTester $I, Example $example)
     {
-        $this->container->setShared(
-            'db',
-            $example['adapter']
-        );
+        $this->container->setShared('db', $example['adapter']);
 
-        $I->assertInstanceOf(
-            Simple::class,
-            Personers::query()->where("status='I'")->execute()
-        );
+        $I->assertInstanceOf(Simple::class, Personers::query()->where("status='I'")->execute());
     }
 
     /**
@@ -188,18 +148,12 @@ class CriteriaCest
      */
     public function conditions(IntegrationTester $I, Example $example)
     {
-        $this->container->setShared(
-            'db',
-            $example['adapter']
-        );
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()->conditions("estado='I'")->execute();
         $people   = People::find("estado='I'");
 
-        $I->assertEquals(
-            count($personas->toArray()),
-            count($people->toArray())
-        );
+        $I->assertEquals(count($personas->toArray()), count($people->toArray()));
     }
 
     /**
@@ -210,15 +164,9 @@ class CriteriaCest
      */
     public function conditionsRenamed(IntegrationTester $I, Example $example)
     {
-        $this->container->setShared(
-            'db',
-            $example['adapter']
-        );
+        $this->container->setShared('db', $example['adapter']);
 
-        $I->assertInstanceOf(
-            Simple::class,
-            Personers::query()->conditions("status='I'")->execute()
-        );
+        $I->assertInstanceOf(Simple::class, Personers::query()->conditions("status='I'")->execute());
     }
 
     /**
@@ -229,10 +177,7 @@ class CriteriaCest
      */
     public function whereOrderBy(IntegrationTester $I, Example $example)
     {
-        $this->container->setShared(
-            'db',
-            $example['adapter']
-        );
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()
                             ->where("estado='A'")
@@ -240,22 +185,10 @@ class CriteriaCest
                             ->execute()
         ;
 
-        $people = People::find(
-            [
-                "estado='A'",
-                "order" => "nombres",
-            ]
-        );
+        $people = People::find(["estado='A'", "order" => "nombres"]);
 
-        $I->assertEquals(
-            count($personas->toArray()),
-            count($people->toArray())
-        );
-
-        $I->assertEquals(
-            $personas->getFirst()->cedula,
-            $people->getFirst()->cedula
-        );
+        $I->assertEquals(count($personas->toArray()), count($people->toArray()));
+        $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
     }
 
     /**
@@ -266,10 +199,7 @@ class CriteriaCest
      */
     public function whereOrderByRenamed(IntegrationTester $I, Example $example)
     {
-        $this->container->setShared(
-            'db',
-            $example['adapter']
-        );
+        $this->container->setShared('db', $example['adapter']);
 
         $personers = Personers::query()
                               ->where("status='A'")
@@ -277,15 +207,8 @@ class CriteriaCest
                               ->execute()
         ;
 
-        $I->assertInstanceOf(
-            Simple::class,
-            $personers
-        );
-
-        $I->assertInstanceOf(
-            Personers::class,
-            $personers->getFirst()
-        );
+        $I->assertInstanceOf(Simple::class, $personers);
+        $I->assertInstanceOf(Personers::class, $personers->getFirst());
     }
 
     /**
@@ -296,10 +219,7 @@ class CriteriaCest
      */
     public function whereOrderByLimit(IntegrationTester $I, Example $example)
     {
-        $this->container->setShared(
-            'db',
-            $example['adapter']
-        );
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()
                             ->where("estado='A'")
@@ -308,23 +228,14 @@ class CriteriaCest
                             ->execute()
         ;
 
-        $people = People::find(
-            [
-                "estado='A'",
-                "order" => "nombres",
-                "limit" => 100,
-            ]
-        );
+        $people = People::find([
+            "estado='A'",
+            "order" => "nombres",
+            "limit" => 100,
+        ]);
 
-        $I->assertEquals(
-            count($personas->toArray()),
-            count($people->toArray())
-        );
-
-        $I->assertEquals(
-            $personas->getFirst()->cedula,
-            $people->getFirst()->cedula
-        );
+        $I->assertEquals(count($personas->toArray()), count($people->toArray()));
+        $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
     }
 
     /**
@@ -335,10 +246,7 @@ class CriteriaCest
      */
     public function whereOrderByLimitRenamed(IntegrationTester $I, Example $example)
     {
-        $this->container->setShared(
-            'db',
-            $example['adapter']
-        );
+        $this->container->setShared('db', $example['adapter']);
 
         $personers = Personers::query()
                               ->where("status='A'")
@@ -347,15 +255,8 @@ class CriteriaCest
                               ->execute()
         ;
 
-        $I->assertInstanceOf(
-            Simple::class,
-            $personers
-        );
-
-        $I->assertInstanceOf(
-            Personers::class,
-            $personers->getFirst()
-        );
+        $I->assertInstanceOf(Simple::class, $personers);
+        $I->assertInstanceOf(Personers::class, $personers->getFirst());
     }
 
     /**
@@ -366,10 +267,7 @@ class CriteriaCest
      */
     public function bindParamsWithLimit(IntegrationTester $I, Example $example)
     {
-        $this->container->setShared(
-            'db',
-            $example['adapter']
-        );
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()
                             ->where("estado=?1")
@@ -379,26 +277,15 @@ class CriteriaCest
                             ->execute()
         ;
 
-        $people = People::find(
-            [
-                "estado=?1",
-                "bind"  => [
-                    1 => "A",
-                ],
-                "order" => "nombres",
-                "limit" => 100,
-            ]
-        );
+        $people = People::find([
+            "estado=?1",
+            "bind"  => [1 => "A"],
+            "order" => "nombres",
+            "limit" => 100,
+        ]);
 
-        $I->assertEquals(
-            count($personas->toArray()),
-            count($people->toArray())
-        );
-
-        $I->assertEquals(
-            $personas->getFirst()->cedula,
-            $people->getFirst()->cedula
-        );
+        $I->assertEquals(count($personas->toArray()), count($people->toArray()));
+        $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
     }
 
     /**
@@ -409,10 +296,7 @@ class CriteriaCest
      */
     public function bindParamsWithOrderAndLimitRenamed(IntegrationTester $I, Example $example)
     {
-        $this->container->setShared(
-            'db',
-            $example['adapter']
-        );
+        $this->container->setShared('db', $example['adapter']);
 
         $personers = Personers::query()
                               ->where("status=?1")
@@ -422,15 +306,8 @@ class CriteriaCest
                               ->execute()
         ;
 
-        $I->assertInstanceOf(
-            Simple::class,
-            $personers
-        );
-
-        $I->assertInstanceOf(
-            Personers::class,
-            $personers->getFirst()
-        );
+        $I->assertInstanceOf(Simple::class, $personers);
+        $I->assertInstanceOf(Personers::class, $personers->getFirst());
     }
 
     /**
@@ -441,10 +318,7 @@ class CriteriaCest
      */
     public function bindParamsAsPlaceholdersWithOrderAndLimitRenamed(IntegrationTester $I, Example $example)
     {
-        $this->container->setShared(
-            'db',
-            $example['adapter']
-        );
+        $this->container->setShared('db', $example['adapter']);
 
         $personers = Personers::query()
                               ->where("status=:status:")
@@ -454,15 +328,8 @@ class CriteriaCest
                               ->execute()
         ;
 
-        $I->assertInstanceOf(
-            Simple::class,
-            $personers
-        );
-
-        $I->assertInstanceOf(
-            Personers::class,
-            $personers->getFirst()
-        );
+        $I->assertInstanceOf(Simple::class, $personers);
+        $I->assertInstanceOf(Personers::class, $personers->getFirst());
     }
 
     /**
@@ -473,10 +340,7 @@ class CriteriaCest
      */
     public function limitWithOffset(IntegrationTester $I, Example $example)
     {
-        $this->container->setShared(
-            'db',
-            $example['adapter']
-        );
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()
                             ->where("estado=?1")
@@ -486,29 +350,15 @@ class CriteriaCest
                             ->execute()
         ;
 
-        $people = People::find(
-            [
-                "estado=?1",
-                "bind"  => [
-                    1 => "A",
-                ],
-                "order" => "nombres",
-                "limit" => [
-                    'number' => 100,
-                    'offset' => 10,
-                ],
-            ]
-        );
+        $people = People::find([
+            "estado=?1",
+            "bind"  => [1 => "A"],
+            "order" => "nombres",
+            "limit" => ['number' => 100, 'offset' => 10],
+        ]);
 
-        $I->assertEquals(
-            count($personas->toArray()),
-            count($people->toArray())
-        );
-
-        $I->assertEquals(
-            $personas->getFirst()->cedula,
-            $people->getFirst()->cedula
-        );
+        $I->assertEquals(count($personas->toArray()), count($people->toArray()));
+        $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
     }
 
     /**
@@ -519,10 +369,7 @@ class CriteriaCest
      */
     public function bindOrderLimit(IntegrationTester $I, Example $example)
     {
-        $this->container->setShared(
-            'db',
-            $example['adapter']
-        );
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()
                             ->where("estado=:estado:")
@@ -532,26 +379,15 @@ class CriteriaCest
                             ->execute()
         ;
 
-        $people = People::find(
-            [
-                "estado=:estado:",
-                "bind"  => [
-                    "estado" => "A",
-                ],
-                "order" => "nombres",
-                "limit" => 100,
-            ]
-        );
+        $people = People::find([
+            "estado=:estado:",
+            "bind"  => ["estado" => "A"],
+            "order" => "nombres",
+            "limit" => 100,
+        ]);
 
-        $I->assertEquals(
-            count($personas->toArray()),
-            count($people->toArray())
-        );
-
-        $I->assertEquals(
-            $personas->getFirst()->cedula,
-            $people->getFirst()->cedula
-        );
+        $I->assertEquals(count($personas->toArray()), count($people->toArray()));
+        $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
     }
 
     /**
@@ -562,17 +398,11 @@ class CriteriaCest
      */
     public function orderBy(IntegrationTester $I, Example $example)
     {
-        $this->container->setShared(
-            'db',
-            $example['adapter']
-        );
+        $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()->orderBy("nombres");
 
-        $I->assertEquals(
-            "nombres",
-            $personas->getOrderBy()
-        );
+        $I->assertEquals($personas->getOrderBy(), "nombres");
     }
 
     /**
@@ -584,12 +414,9 @@ class CriteriaCest
      */
     public function freshCache(IntegrationTester $I, Example $example)
     {
-        $this->container->setShared(
-            'db',
-            $example['adapter']
-        );
-
-        $this->getAndSetModelsCacheFile();
+        $this->container->setShared('db', $example['adapter']);
+        $cache = $this->getAndSetModelsCacheStream();
+        $cache->clear();
 
         $personas = Personas::query()
                             ->where("estado='I'")
@@ -597,9 +424,7 @@ class CriteriaCest
                             ->execute()
         ;
 
-        $I->assertTrue(
-            $personas->isFresh()
-        );
+        $I->assertTrue($personas->isFresh());
 
         $personas = Personas::query()
                             ->where("estado='I'")
@@ -607,14 +432,9 @@ class CriteriaCest
                             ->execute()
         ;
 
-        $I->assertFalse(
-            $personas->isFresh()
-        );
+        $I->assertFalse($personas->isFresh());
 
-        $I->amInPath(
-            cacheFolder()
-        );
-
+        $I->amInPath(cacheModelsDir());
         $I->safeDeleteFile('cache-for-issue-2131');
         $I->dontSeeFileFound('cache-for-issue-2131');
     }
@@ -624,7 +444,7 @@ class CriteriaCest
      *
      * @return array
      */
-    protected function adapterProvider(): array
+    protected function adapterProvider()
     {
         return [
             [

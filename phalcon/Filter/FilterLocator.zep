@@ -141,7 +141,14 @@ class FilterLocator extends Locator
         return this->sanitizer(value, sanitizers);
     }
 
-    private function processArrayValues(array values, string sanitizerName, array sanitizerParams = []) -> array
+    /**
+     * Processes the array values with the relevant sanitizers
+     */
+    private function processArrayValues(
+        array values,
+        string sanitizerName,
+        array sanitizerParams = []
+    ) -> array
     {
         var arrayValue, itemKey, itemValue;
 
@@ -161,11 +168,15 @@ class FilterLocator extends Locator
     /**
      * Internal sanitize wrapper for recursion
      */
-    private function sanitizer(var value, string! sanitizerName, array sanitizerParams = []) -> var
+    private function sanitizer(
+        var value,
+        string! sanitizerName,
+        array sanitizerParams = []
+    ) -> var
     {
         var sanitizerObject, params;
 
-        if (true === this->has(sanitizerName)) {
+        if this->has(sanitizerName) {
             let sanitizerObject = this->get(sanitizerName),
                 params          = array_merge([value], sanitizerParams);
 

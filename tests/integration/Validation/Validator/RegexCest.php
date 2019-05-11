@@ -177,7 +177,6 @@ class RegexCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name' => 'somevalue',
@@ -189,7 +188,6 @@ class RegexCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -210,7 +208,6 @@ class RegexCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name' => 'somevalue',
@@ -227,7 +224,6 @@ class RegexCest
             $validationMessages['type'],
             $messages->offsetGet(0)->getMessage()
         );
-
 
 
         $messages = $validation->validate(
@@ -268,7 +264,6 @@ class RegexCest
         );
 
 
-
         $messages = $validation->validate(
             []
         );
@@ -285,7 +280,6 @@ class RegexCest
         );
 
         $I->assertEquals($expected, $messages);
-
 
 
         $messages = $validation->validate(

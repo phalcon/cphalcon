@@ -98,7 +98,8 @@ class DispatcherBeforeExecuteRouteCest extends BaseDispatcher
 
                 return false;
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -132,14 +133,16 @@ class DispatcherBeforeExecuteRouteCest extends BaseDispatcher
             function () {
                 throw new Exception('beforeExecuteRoute exception occurred');
             }
-        );
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function () {
                 return false;
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -174,7 +177,8 @@ class DispatcherBeforeExecuteRouteCest extends BaseDispatcher
             function () {
                 throw new Exception('beforeExecuteRoute exception occurred');
             }
-        );
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
@@ -185,7 +189,8 @@ class DispatcherBeforeExecuteRouteCest extends BaseDispatcher
 
                 return null;
             }
-        );
+        )
+        ;
 
         $caughtException = false;
 
@@ -232,7 +237,8 @@ class DispatcherBeforeExecuteRouteCest extends BaseDispatcher
                     throw new Exception('beforeExecuteRoute exception occurred');
                 }
             }
-        );
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
@@ -247,7 +253,8 @@ class DispatcherBeforeExecuteRouteCest extends BaseDispatcher
                     ]
                 );
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 

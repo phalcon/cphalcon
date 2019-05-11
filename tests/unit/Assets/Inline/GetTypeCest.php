@@ -23,8 +23,6 @@ class GetTypeCest
     /**
      * Tests Phalcon\Assets\Inline :: getType() - css
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -40,8 +38,6 @@ class GetTypeCest
 
     /**
      * Tests Phalcon\Assets\Inline :: getType() - js
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

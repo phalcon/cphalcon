@@ -49,8 +49,6 @@ class AddCssCest
     /**
      * Tests Phalcon\Assets\Manager :: addCss() - duplicate
      *
-     * @param UnitTester $I
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/10938
      *
      * @author Phalcon Team <team@phalconphp.com>

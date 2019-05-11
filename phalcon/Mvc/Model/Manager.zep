@@ -131,8 +131,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     protected modelVisibility = [];
 
-    protected namespaceAliases = [];
-
     protected prefix = "";
 
     protected readConnectionServices = [];
@@ -272,19 +270,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function load(string! modelName) -> <ModelInterface>
     {
-        var model, colonPos, namespaceName, namespaceAlias, className;
-
-        /**
-         * Check if a modelName is an alias
-         */
-        let colonPos = strpos(modelName, ":");
-
-        if colonPos !== false {
-            let className = substr(modelName, colonPos + 1);
-            let namespaceAlias = substr(modelName, 0, colonPos);
-            let namespaceName = this->getNamespaceAlias(namespaceAlias);
-            let modelName = namespaceName . "\\" . className;
-        }
+        var model;
 
         /**
          * The model doesn't exist throw an exception
@@ -1841,40 +1827,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
-     * Registers shorter aliases for namespaces in PHQL statements
+     * Destroys the current PHQL cache
      */
-    public function registerNamespaceAlias(string alias, string namespaceName) -> void
-    {
-        let this->namespaceAliases[alias] = namespaceName;
-    }
-
-    /**
-     * Returns a real namespace from its alias
-     */
-    public function getNamespaceAlias(string! alias) -> string
-    {
-        var namespaceName;
-
-        if unlikely !fetch namespaceName, this->namespaceAliases[alias] {
-            throw new Exception(
-                "Namespace alias '" . alias . "' is not registered"
-            );
-        }
-
-        return namespaceName;
-    }
-
-    /**
-     * Returns all the registered namespace aliases
-     */
-    public function getNamespaceAliases() -> array
-    {
-        return this->namespaceAliases;
-    }
-
-    /**
-      * Destroys the current PHQL cache
-      */
     public function __destruct()
     {
         phalcon_orm_destroy_cache();

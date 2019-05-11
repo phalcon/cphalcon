@@ -16,11 +16,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\TagHelperTrait;
 use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 
-/**
- * Class InputMonthCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class InputMonthCest
 {
     use DiTrait;

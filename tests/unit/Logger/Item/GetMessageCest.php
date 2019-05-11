@@ -12,37 +12,25 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Item;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Unit\Logger
- */
 class GetMessageCest
 {
     /**
      * Tests Phalcon\Logger\Item :: getMessage()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @param UnitTester $I
      */
     public function loggerItemGetMessage(UnitTester $I)
     {
         $I->wantToTest('Logger\Item - getMessage()');
-
         $time = time();
+        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
-        $item = new Item(
-            'log message',
-            'debug',
-            Logger::DEBUG,
-            $time
-        );
-
-        $I->assertEquals(
-            'log message',
-            $item->getMessage()
-        );
+        $expected = 'log message';
+        $actual   = $item->getMessage();
+        $I->assertEquals($expected, $actual);
     }
 }

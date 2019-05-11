@@ -16,79 +16,57 @@ use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
 use UnitTester;
 
-/**
- * Class CommitCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class CommitCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: commit()
      *
      * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function loggerAdapterStreamCommit(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - commit()');
-
         $fileName   = $I->getNewFileName('log', 'log');
-
-        $outputPath = outputFolder('tests/logs/');
-
-        $adapter = new Stream($outputPath . $fileName);
+        $outputPath = logsDir();
+        $adapter    = new Stream($outputPath . $fileName);
 
         $adapter->begin();
 
-        $I->assertTrue(
-            $adapter->inTransaction()
-        );
+        $actual = $adapter->inTransaction();
+        $I->assertTrue($actual);
 
         $adapter->commit();
 
-        $I->assertFalse(
-            $adapter->inTransaction()
-        );
+        $actual = $adapter->inTransaction();
+        $I->assertFalse($actual);
 
-        $I->safeDeleteFile(
-            $outputPath . $fileName
-        );
+        $I->safeDeleteFile($outputPath . $fileName);
     }
 
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: commit() - no transaction
      *
      * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function loggerAdapterStreamCommitNoTransaction(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - commit() - no transaction');
+        $fileName   = $I->getNewFileName('log', 'log');
+        $outputPath = logsDir();
 
-        $fileName = $I->getNewFileName('log', 'log');
+        try {
+            $adapter = new Stream($outputPath . $fileName);
 
-        $outputPath = outputFolder('tests/logs/');
+            $actual = $adapter->inTransaction();
+            $I->assertFalse($actual);
 
-        $adapter = new Stream($outputPath . $fileName);
+            $adapter->commit();
+        } catch (Exception $ex) {
+            $expected = 'There is no active transaction';
+            $actual   = $ex->getMessage();
+            $I->assertEquals($expected, $actual);
+        }
 
-        $I->assertFalse(
-            $adapter->inTransaction()
-        );
-
-        $I->expectThrowable(
-            new Exception('There is no active transaction'),
-            function () use ($adapter) {
-                $adapter->commit();
-            }
-        );
-
-        $I->safeDeleteFile(
-            $outputPath . $fileName
-        );
+        $I->safeDeleteFile($outputPath . $fileName);
     }
 }

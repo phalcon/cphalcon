@@ -17,11 +17,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 use UnitTester;
 
-/**
- * Class SelectCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class SelectCest
 {
     use DiTrait;
@@ -29,8 +24,6 @@ class SelectCest
 
     /**
      * Tests Phalcon\Html\Tag :: select()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -56,8 +49,6 @@ class SelectCest
 
     /**
      * Tests Phalcon\Html\Tag :: select() - id
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
      *
@@ -90,8 +81,6 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - name
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -121,8 +110,6 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - value
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -151,8 +138,6 @@ class SelectCest
 
     /**
      * Tests Phalcon\Html\Tag :: select() - setAttribute()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -186,8 +171,6 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - setAttribute() element not present
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -220,8 +203,6 @@ class SelectCest
 
     /**
      * Tests Phalcon\Html\Tag :: select() - optgroup array with id
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
      *
@@ -260,8 +241,6 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - optgroup array without id
      *
-     * @param UnitTester $I
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -298,8 +277,6 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - optgroup array with value
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -334,8 +311,6 @@ class SelectCest
 
     /**
      * Tests Phalcon\Html\Tag :: select() - optgroup setAttribute()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -375,8 +350,6 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - optgroup setAttribute() element not
      * present
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05

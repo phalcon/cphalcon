@@ -16,13 +16,10 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\LowerFirst;
 use UnitTester;
 
-/**
- * Class LowerFirstCest
- */
 class LowerFirstCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\LowerFirst :: __invoke()
      *
      * @dataProvider getData
      *

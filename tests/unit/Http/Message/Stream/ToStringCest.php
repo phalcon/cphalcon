@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Http\Message\Stream;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
 
-/**
- * Class ToStringCest
- */
 class ToStringCest
 {
     /**
      * Tests Phalcon\Http\Message\Stream :: __toString()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
@@ -31,7 +26,7 @@ class ToStringCest
     public function httpMessageStreamToString(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - __toString()');
-        $fileName = dataFolder('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $expected = file_get_contents($fileName);
         $stream   = new Stream($fileName, 'rb');
 
