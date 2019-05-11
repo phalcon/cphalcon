@@ -253,8 +253,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         var modelName, manager, lowerProperty, relation;
         string method;
 
-        let modelName = get_class(this),
-            manager = this->getModelsManager(),
+        let modelName     = get_class(this),
+            manager       = this->getModelsManager(),
             lowerProperty = strtolower(property);
 
         /**
@@ -2162,9 +2162,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             );
         }
 
-        let metaData = this->getModelsMetaData(),
+        let metaData       = this->getModelsMetaData(),
             readConnection = this->getReadConnection(),
-            manager = <ManagerInterface> this->modelsManager;
+            manager        = <ManagerInterface> this->modelsManager;
 
         let schema = this->getSchema(),
             source = this->getSource();
