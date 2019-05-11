@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Employees;
 use Phalcon\Test\Models\Robots;
 use function is_int;
 use function is_string;
@@ -35,15 +36,21 @@ class SaveCest
     /**
      * Tests Phalcon\Mvc\Model :: save()
      *
-     * @param IntegrationTester $I
+     * @dataProvider getFunctions
      *
+<<<<<<< HEAD
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-30
+=======
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-05-10
+>>>>>>> [#13002] - Introducing migrations
      */
-    public function mvcModelSave(IntegrationTester $I)
+    public function mvcModelSave(IntegrationTester $I, Example $function)
     {
         $I->wantToTest('Mvc\Model - save()');
 
+<<<<<<< HEAD
         /**
          * New model
          */
@@ -248,6 +255,24 @@ class SaveCest
         $songs = $album->getSongs();
 
         $I->assertTrue($album->save());
+=======
+        $method = $function[0];
+        $this->$method();
+
+        $first                     = uniqid();
+        $last                      = uniqid();
+        $employee                  = new Employees();
+        $employee->empNameFirst    = $first;
+        $employee->empNameLast     = $last;
+        $employee->empCreatedDate  = '2019-05-10 00:00:00';
+        $employee->empCreatedEmpId = 1;
+
+        $result = $employee->save();
+        $I->assertTrue($result);
+
+        $result = $employee->delete();
+        $I->assertTrue($result);
+>>>>>>> [#13002] - Introducing migrations
     }
 
     /**
@@ -256,7 +281,7 @@ class SaveCest
      * @dataProvider getFunctions
      *
      * @author       Phalcon Team <team@phalconphp.com>
-     * @since        2018-11-13
+     * @since        2019-05-10
      */
     public function mvcModelSaveCastLastInsertId(IntegrationTester $I, Example $function)
     {
@@ -271,24 +296,24 @@ class SaveCest
             ]
         );
 
-        $name            = uniqid();
-        $robot           = new Robots();
-        $robot->name     = $name;
-        $robot->type     = 'Mechanical';
-        $robot->year     = 2019;
-        $robot->datetime = '2019-05-10 00:00:00';
-        $robot->text     = 'Some Text';
+        $first                     = uniqid();
+        $last                      = uniqid();
+        $employee                  = new Employees();
+        $employee->empNameFirst    = $first;
+        $employee->empNameLast     = $last;
+        $employee->empCreatedDate  = '2019-05-10 00:00:00';
+        $employee->empCreatedEmpId = 1;
 
-        $result = $robot->save();
+        $result = $employee->save();
         $I->assertTrue($result);
 
-        $actual = $robot->id;
+        $actual = $employee->empId;
         $I->assertTrue(is_int($actual));
 
         $expected = intval($actual, 10);
         $I->assertEquals($expected, $actual);
 
-        $result = $robot->delete();
+        $result = $employee->delete();
         $I->assertTrue($result);
 
         Robots::setup(
@@ -297,24 +322,24 @@ class SaveCest
             ]
         );
 
-        $name            = uniqid();
-        $robot           = new Robots();
-        $robot->name     = $name;
-        $robot->type     = 'mechanical';
-        $robot->year     = 2019;
-        $robot->datetime = '2019-05-10 00:00:00';
-        $robot->text     = 'Some Text';
+        $first                     = uniqid();
+        $last                      = uniqid();
+        $employee                  = new Employees();
+        $employee->empNameFirst    = $first;
+        $employee->empNameLast     = $last;
+        $employee->empCreatedDate  = '2019-05-10 00:00:00';
+        $employee->empCreatedEmpId = 1;
 
-        $result = $robot->save();
+        $result = $employee->save();
         $I->assertTrue($result);
 
-        $actual = $robot->id;
+        $actual = $employee->empId;
         $I->assertTrue(is_string($actual));
 
         $expected = (string) $actual;
         $I->assertEquals($expected, $actual);
 
-        $result = $robot->delete();
+        $result = $employee->delete();
         $I->assertTrue($result);
     }
 
@@ -325,7 +350,8 @@ class SaveCest
     {
         return [
             ['setDiMysql'],
-            ['setDiPostgresql'],
+//            ['setDiPostgresql'],
+            ['setDiSqlite'],
         ];
     }
 }
