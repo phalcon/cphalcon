@@ -102,9 +102,6 @@ script:
   # Does not ready to work PHP 7.3
   - if [ "$PHP_VERNUM" -ge "70300" ]; then phpenv config-rm xdebug.ini || true; fi
 
-  - vendor/bin/phinx migrate -e mysql
-  - vendor/bin/phinx migrate -e postgres
-  - vendor/bin/phinx migrate -e sqlite
   - vendor/bin/codecept build --quiet
   - vendor/bin/codecept run --ext DotReporter tests/cli/
   - vendor/bin/codecept run --ext DotReporter tests/integration/
