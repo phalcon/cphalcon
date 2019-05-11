@@ -3440,18 +3440,18 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             source, schema, snapshot, lastInsertedId, manager;
         bool useExplicitIdentity;
 
-        let bindSkip = Column::BIND_SKIP,
-            manager  = <ManagerInterface> this->modelsManager;
+        let bindSkip = Column::BIND_SKIP;
+        let manager = <ManagerInterface> this->modelsManager;
 
         let fields = [],
             values = [],
             snapshot = [],
             bindTypes = [];
 
-        let attributes          = metaData->getAttributes(this),
-            bindDataTypes       = metaData->getBindTypes(this),
+        let attributes = metaData->getAttributes(this),
+            bindDataTypes = metaData->getBindTypes(this),
             automaticAttributes = metaData->getAutomaticCreateAttributes(this),
-            defaultValues       = metaData->getDefaultValues(this);
+            defaultValues = metaData->getDefaultValues(this);
 
         if globals_get("orm.column_renaming") {
             let columnMap = metaData->getColumnMap(this);
@@ -3626,12 +3626,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * If we want auto casting
              */
-            if lastInsertedId && globals_get("orm.cast_last_insert_id_to_int") {
+            if unlikely globals_get("orm.cast_last_insert_id_to_int") {
                 let lastInsertedId = intval(lastInsertedId, 10);
             }
 
-            let this->{attributeField}   = lastInsertedId,
-                snapshot[attributeField] = lastInsertedId;
+            let this->{attributeField} = lastInsertedId;
+            let snapshot[attributeField] = lastInsertedId;
 
             /**
              * Since the primary key was modified, we delete the uniqueParams
