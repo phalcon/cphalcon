@@ -9,26 +9,21 @@
 
 namespace Phalcon\Html\Interfaces;
 
+use Phalcon\Html\Attributes;
+
 /**
 * Phalcon\Html\Interfaces\AttributesInterface
 *
 * Interface Phalcon\Html\Interfaces\AttributesInterface
 */
-interface AttributesInterface {
+interface AttributesInterface extends \ArrayAccess, \Countable, \IteratorAggregate {
+    /**
+    * Get Attributes
+    */
+    public function getAttributes() -> <Attributes>;
 
-    public function getAttribute(string name);
-
-    public function getAttributes() -> array;
-
-    public function hasAttribute(string name) -> boolean;
-
-    public function renderAttributes() -> string;
-
-    public function removeAttribute(string name) -> boolean;
-
-    public function resetAttributes() -> <AttributesInterface>;
-
-    public function setAttribute(string name, string value) -> <AttributesInterface>;
-
-    public function setAttributes(array attributes) -> <AttributesInterface>;
+    /**
+    * Set Attributes
+    */
+    public function setAttributes(<Attributes> attributes) -> <AttributesInterface>;
 }
