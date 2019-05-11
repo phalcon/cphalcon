@@ -38,19 +38,15 @@ class SaveCest
      *
      * @dataProvider getFunctions
      *
-<<<<<<< HEAD
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-30
-=======
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-10
->>>>>>> [#13002] - Introducing migrations
      */
     public function mvcModelSave(IntegrationTester $I, Example $function)
     {
         $I->wantToTest('Mvc\Model - save()');
 
-<<<<<<< HEAD
         /**
          * New model
          */
@@ -255,7 +251,6 @@ class SaveCest
         $songs = $album->getSongs();
 
         $I->assertTrue($album->save());
-=======
         $method = $function[0];
         $this->$method();
 
@@ -272,7 +267,6 @@ class SaveCest
 
         $result = $employee->delete();
         $I->assertTrue($result);
->>>>>>> [#13002] - Introducing migrations
     }
 
     /**
