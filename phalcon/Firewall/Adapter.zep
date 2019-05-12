@@ -210,12 +210,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	{
 		var cache;
 
-		let this->internalCache[key] = access;
-
-		let cache = this->cache;
+		let this->internalCache[key] = access,
+		    cache                    = this->cache;
 
 		if cache != null {
-			cache->save("_PHF_", this->internalCache);
+			cache->set("_PHF_", this->internalCache);
 		}
 	}
 
