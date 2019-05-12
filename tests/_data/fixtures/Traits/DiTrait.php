@@ -13,9 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Traits;
 
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
-use Phalcon\Cache\Backend\File;
-use Phalcon\Cache\Backend\Libmemcached;
-use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Crypt;
 use Phalcon\Db\Adapter\Pdo\Mysql;
