@@ -132,9 +132,8 @@ abstract class Resultset
         /**
          * Update the row-count
          */
-        let rowCount = result->numRows();
-
-        let this->count = rowCount;
+        let rowCount    = result->numRows(),
+            this->count = rowCount;
 
         /**
          * Empty result-set
