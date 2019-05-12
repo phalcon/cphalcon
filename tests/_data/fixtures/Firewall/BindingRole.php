@@ -1,0 +1,43 @@
+<?php
+declare(strict_types=1);
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Test\Fixtures\Firewall;
+
+class BindingRole extends RoleObject
+{
+    protected $id;
+
+    public function __construct($roleName, $id)
+    {
+        parent::__construct($roleName);
+        $this->id=$id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     *
+     * @return BindingRole
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+}

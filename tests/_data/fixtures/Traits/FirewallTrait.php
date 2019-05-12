@@ -1,13 +1,16 @@
 <?php
+declare(strict_types=1);
+
 /**
- * Created by PhpStorm.
- * User: User
- * Date: 2017-01-19
- * Time: 13:50
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Firewall\Helper;
-
+namespace Phalcon\Test\Fixtures\Traits;
 
 use Phalcon\Di;
 use Phalcon\Http\Response;
@@ -17,18 +20,25 @@ use Phalcon\Mvc\Micro;
 trait FirewallTrait
 {
     /**
-     * @param $di
-     * @param Dispatcher $dispatcher
-     * @param $controllerName
-     * @param $actionName
-     * @param $roleName
-     * @param array $params
-     * @param string $moduleName
+     * @param Di          $di
+     * @param Dispatcher  $dispatcher
+     * @param string      $controllerName
+     * @param string      $actionName
+     * @param string      $roleName
+     * @param array|null  $params
+     * @param string|null $moduleName
      *
      * @return mixed
      */
-    private function getReturnedValueFor($di, $dispatcher, $controllerName, $actionName, $roleName, $params = null, $moduleName = null)
-    {
+    private function getReturnedValueFor(
+        $di,
+        $dispatcher,
+        $controllerName,
+        $actionName,
+        $roleName,
+        $params = null,
+        $moduleName = null
+    ) {
         $dispatcher->setReturnedValue(null);
         $this->changeRole($di, $roleName);
         $dispatcher->setControllerName($controllerName);
