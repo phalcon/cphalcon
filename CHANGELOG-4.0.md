@@ -20,6 +20,7 @@
     - `Phalcon\Cache\CacheFactory`: Factory to create cache objects
  [#13439](https://github.com/phalcon/cphalcon/issues/13439)
 - Added `Str::dirSeparator()` to ensure a path has a trailing slash [#13439](https://github.com/phalcon/cphalcon/issues/13439)
+- Added setting `orm.resultset_prefetch_records` instructing the ORM (resultset) to prefetch the rows if the rows returned are less or equal to the setting. [#13387](https://github.com/phalcon/cphalcon/issues/13387)
 
 ## Changed
 - Refactored `Phalcon\Events\Manager` to only use `SplPriorityQueue` to store events. [#13924](https://github.com/phalcon/cphalcon/pull/13924)
@@ -57,6 +58,7 @@
         - `Phalcon\Storage\Adapter\Stream`
     - `Phalcon\Storage\AdapterFactory`: Factory to create adapters
  [#13439](https://github.com/phalcon/cphalcon/issues/13439)
+ - Changed `Phalcon\Mvc\Model\Query` to not call `numRows` when selecting data  [#13387](https://github.com/phalcon/cphalcon/issues/13387)
 
 ## Fixed
 - Fixed `Mvc\Collection::isInitialized()` now works as intended. [#13931](https://github.com/phalcon/cphalcon/pull/13931)
