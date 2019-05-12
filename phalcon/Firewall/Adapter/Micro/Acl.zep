@@ -46,16 +46,16 @@ class Acl extends Adapter
 	protected boundModelsKeyMap { get, set };
 
 	/**
+	 * Component name used to acquire access, be default it's Micro
+	 * @var string
+	 */
+	protected componentName = "Micro" { get, set };
+
+	/**
 	 * Micro object
 	 * @var mixed
 	 */
 	protected micro;
-
-	/**
-	 * Resource name used to acquire access, be default it's Micro
-	 * @var string
-	 */
-	protected resourceName = "Micro" { get, set };
 
 	/**
 	 * Function returning string for role cache key
@@ -211,7 +211,7 @@ class Acl extends Adapter
 		}
 
 		/**
-		 * Try role-resource-*
+		 * Try role-component-*
 		 */
 
 		let access = parent::getAccessFromCache(explodedKey[0]."!".explodedKey[1]."!*".roleCacheKey);
@@ -233,8 +233,8 @@ class Acl extends Adapter
 	{
 		var acl, aclAccess, aclRole, aclServiceName, actionName, boundModel,
 		    boundModelKey, boundModelKeyMap, boundModels, boundModelsKeyMap,
-		    cacheKey, container, defaultAccess, modelBinder, originalValues,
-		    parameters, resourceName, role, roleCacheKey, roleCacheCallback,
+		    cacheKey, componentName, container, defaultAccess, modelBinder,
+		    originalValues, parameters, role, roleCacheKey, roleCacheCallback,
 		    route, value;
 
 		let container = micro->getDI();
@@ -260,8 +260,8 @@ class Acl extends Adapter
 			this->callRoleCallback(container);
 		}
 
-		let aclRole      = this->activeRole,
-		    resourceName = this->resourceName;
+		let aclRole       = this->activeRole,
+		    componentName = this->componentName;
 
 		if typeof aclRole != "string" {
 			throw new Exception("When using ACL service as firewall configuration you can pass role only as string or object implementing 'Phalcon\\Acl\\RoleAware'.");
@@ -274,7 +274,7 @@ class Acl extends Adapter
 			let role = aclRole;
 		}
 
-		let cacheKey    = aclRole . "!" . resourceName . "!" . actionName,
+		let cacheKey    = aclRole . "!" . componentName . "!" . actionName,
 		    modelBinder = micro->getModelBinder();
 		if modelBinder != null {
 			let originalValues = modelBinder->getOriginalValues();
@@ -300,12 +300,12 @@ class Acl extends Adapter
 				throw new Exception("Role ".aclRole." doesn't exist in ACL");
 			}
 
-			// if resource doesn't exist check against firewall defaultAccess
-			if !acl->isResource(resourceName) {
+			// if component doesn't exist check against firewall defaultAccess
+			if !acl->isComponent(componentName) {
 				let value = this->fireEventOrThrowException(
 				    aclRole,
 				    actionName,
-				    resourceName,
+				    componentName,
 				    defaultAccess
                 );
 				if roleCacheKey != null {
@@ -329,9 +329,9 @@ class Acl extends Adapter
 			}
 
 			if empty parameters {
-				let aclAccess = acl->isAllowed(role, resourceName, actionName);
+				let aclAccess = acl->isAllowed(role, componentName, actionName);
 			} else {
-				let aclAccess = acl->isAllowed(role, resourceName, actionName, parameters);
+				let aclAccess = acl->isAllowed(role, componentName, actionName, parameters);
 			}
 
 			let cacheKey = acl->getActiveKey();
@@ -348,7 +348,7 @@ class Acl extends Adapter
 			this->saveAccessInCache(cacheKey, aclAccess);
 		}
 
-		let value = this->fireEventOrThrowException(aclRole, actionName, resourceName, aclAccess);
+		let value = this->fireEventOrThrowException(aclRole, actionName, componentName, aclAccess);
 
 		if value === false {
 			return false;

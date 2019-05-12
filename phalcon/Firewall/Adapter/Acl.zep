@@ -157,7 +157,7 @@ class Acl extends Adapter
 			}
 
 			/**
-			 * Try role-resource-*
+			 * Try role-component-*
 			 */
 
 			let access = parent::getAccessFromCache(
@@ -188,7 +188,7 @@ class Acl extends Adapter
 		}
 
 		/**
-		 * Try role-resource-*
+		 * Try role-component-*
 		 */
 		let access = parent::getAccessFromCache(
 		    explodedKey[0] . "!" . explodedKey[1] . "!*" . roleCacheKey
@@ -211,10 +211,9 @@ class Acl extends Adapter
 	{
 		var acl, aclAccess, aclRole, aclServiceName, actionName, boundModel,
             boundModelKey, boundModelKeyMap, boundModels, boundModelsKeyMap,
-            cacheKey, container, controllerName, defaultAccess, modelBinder,
-            moduleName, moduleSeparator, originalValues, parameters,
+            cacheKey, componentName, container, controllerName, defaultAccess,
+            modelBinder, moduleName, moduleSeparator, originalValues, parameters,
             roleCacheKey, roleCacheCallback, role,value;
-		string resourceName; // there were some seg fault when result from ucfirst was assigned to var
 
 		let container = dispatcher->getDI();
 		if typeof container != "object" {
@@ -228,11 +227,11 @@ class Acl extends Adapter
 		    boundModelsKeyMap = this->boundModelsKeyMap;
 
 		if !this->multiModuleConfiguration {
-			let resourceName = ucfirst(dispatcher->getControllerName());
+			let componentName = ucfirst(dispatcher->getControllerName());
 		} else {
 			let moduleSeparator = this->moduleSeparator,
 			    moduleName      = dispatcher->getModuleName(),
-			    resourceName    = moduleName.moduleSeparator.ucfirst(dispatcher->getControllerName());
+			    componentName   = moduleName.moduleSeparator.ucfirst(dispatcher->getControllerName());
 		}
 
 		let actionName = dispatcher->getActionName();
@@ -259,7 +258,7 @@ class Acl extends Adapter
             );
 		}
 
-		let cacheKey    = aclRole . "!" . resourceName . "!" . actionName,
+		let cacheKey    = aclRole . "!" . componentName . "!" . actionName,
 		    modelBinder = dispatcher->getModelBinder();
 		if modelBinder != null {
 			let originalValues = modelBinder->getOriginalValues();
@@ -285,8 +284,8 @@ class Acl extends Adapter
 				throw new Exception("Role ".aclRole." doesn't exist in ACL");
 			}
 
-			// if resource doesn't exist check against firewall defaultAccess
-			if !acl->isResource(resourceName) {
+			// if component doesn't exist check against firewall defaultAccess
+			if !acl->isComponent(componentName) {
 				let value = this->fireEventOrThrowException(
 				    aclRole,
 				    actionName,
@@ -314,9 +313,9 @@ class Acl extends Adapter
 			}
 
 			if empty parameters {
-				let aclAccess = acl->isAllowed(role, resourceName, actionName);
+				let aclAccess = acl->isAllowed(role, componentName, actionName);
 			} else {
-				let aclAccess = acl->isAllowed(role, resourceName, actionName, parameters);
+				let aclAccess = acl->isAllowed(role, componentName, actionName, parameters);
 			}
 
 			let cacheKey = acl->getActiveKey();

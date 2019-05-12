@@ -245,29 +245,33 @@ class Annotations extends Adapter
 		let explodedKey = explode("!", key);
 
 		/**
-		 * Try role-resource-*
+		 * Try role-component-*
 		 */
-		let access = parent::getAccessFromCache(explodedKey[0]."!".explodedKey[1]."!*");
+		let access = parent::getAccessFromCache(
+		    explodedKey[0] . "!" . explodedKey[1] . "!*"
+        );
 
 		if access !== null {
 			return access;
 		}
 
 		/**
-		 * Try *-resource-action
+		 * Try *-component-action
 		 */
 
-		let access = parent::getAccessFromCache("*!".explodedKey[1]."!".explodedKey[2]);
+		let access = parent::getAccessFromCache(
+		    "*!" . explodedKey[1] . "!" . explodedKey[2]
+        );
 
 		if access !== null {
 			return access;
 		}
 
 		/**
-		 * Try *-resource-*
+		 * Try *-component-*
 		 */
 
-		let access = parent::getAccessFromCache("*!".explodedKey[1]."!*");
+		let access = parent::getAccessFromCache("*!" . explodedKey[1] . "!*");
 
 		return access;
 	}
