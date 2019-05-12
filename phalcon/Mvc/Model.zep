@@ -2766,7 +2766,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
             lateStateBinding, castOnHydrate, ignoreUnknownColumns,
             updateSnapshotOnSave, disableAssignSetters,
-            caseInsensitiveColumnMap;
+            caseInsensitiveColumnMap, prefetchRecords;
 
         /**
          * Enables/Disables globally the internal events
@@ -2845,6 +2845,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
         if fetch disableAssignSetters, options["disableAssignSetters"] {
             globals_set("orm.disable_assign_setters", disableAssignSetters);
+        }
+
+        if fetch prefetchRecords, options["prefetchRecords"] {
+            globals_set("orm.resultset_prefetch_records", prefetchRecords);
         }
     }
 
