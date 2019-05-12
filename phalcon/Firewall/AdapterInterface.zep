@@ -38,7 +38,7 @@ interface AdapterInterface
 	/**
 	 * Sets always resolving role option
 	 */
-	public function setAlwaysResolvingRole(bool alwaysResolvingRole) -> <AdapterInterface>;
+	public function setAlwaysResolvingRole(bool alwaysResolvingRole) -> bool
 
 	/**
 	 * Sets cache backend
