@@ -273,9 +273,9 @@ class SaveCest
      */
     public function mvcModelSaveCastLastInsertIdDefault(IntegrationTester $I, Example $function)
     {
-        $I->wantToTest('Mvc\Model - save() - cast lastInsertId to int default');
+        $I->wantToTest('Mvc\Model - save() - cast lastInsertId to int default - ' . $function[0]);
 
-        $method = $function[0];
+        $method = $function[1];
         $this->$method();
 
         Users::setup(
