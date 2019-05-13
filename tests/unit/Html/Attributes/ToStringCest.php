@@ -46,7 +46,7 @@ class ToStringCest
         $attr = new Attributes();
 
         // empty
-        $actual = $attr->__toString();
+        $actual   = $attr->__toString();
         $expected = '';
         $I->assertEquals($expected, $actual);
 
@@ -54,7 +54,7 @@ class ToStringCest
         $attr->set('attr1', 'value1');
 
         // render
-        $actual = $attr->__toString();
+        $actual   = $attr->__toString();
         $expected = ' attr1="value1"';
         $I->assertEquals($expected, $actual);
 
@@ -62,7 +62,7 @@ class ToStringCest
         $attr->set('attr2', 'value2');
 
         // render
-        $actual = $attr->__toString();
+        $actual   = $attr->__toString();
         $expected = ' attr1="value1" attr2="value2"';
         $I->assertEquals($expected, $actual);
 
@@ -70,7 +70,7 @@ class ToStringCest
         $attr->remove('attr1');
 
         // render
-        $actual = $attr->__toString();
+        $actual   = $attr->__toString();
         $expected = ' attr2="value2"';
         $I->assertEquals($expected, $actual);
 
@@ -78,7 +78,7 @@ class ToStringCest
         $attr->set('¿?', '¡!');
 
         // render
-        $actual = $attr->__toString();
+        $actual   = $attr->__toString();
         $expected = ' attr2="value2" ¿?="¡!"';
         $I->assertEquals($expected, $actual);
 
@@ -86,7 +86,7 @@ class ToStringCest
         $attr->set('¿?', '¡!');
 
         // render forcing type
-        $actual = (string) $attr;
+        $actual   = (string)$attr;
         $expected = ' attr2="value2" ¿?="¡!"';
         $I->assertEquals($expected, $actual);
     }

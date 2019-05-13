@@ -46,7 +46,7 @@ class RenderCest
         $attr = new Attributes();
 
         // empty
-        $actual = $attr->render();
+        $actual   = $attr->render();
         $expected = '';
         $I->assertEquals($expected, $actual);
 
@@ -54,7 +54,7 @@ class RenderCest
         $attr->set('attr1', 'value1');
 
         // render
-        $actual = $attr->render();
+        $actual   = $attr->render();
         $expected = ' attr1="value1"';
         $I->assertEquals($expected, $actual);
 
@@ -62,7 +62,7 @@ class RenderCest
         $attr->set('attr2', 'value2');
 
         // render
-        $actual = $attr->render();
+        $actual   = $attr->render();
         $expected = ' attr1="value1" attr2="value2"';
         $I->assertEquals($expected, $actual);
 
@@ -70,7 +70,7 @@ class RenderCest
         $attr->remove('attr1');
 
         // render
-        $actual = $attr->render();
+        $actual   = $attr->render();
         $expected = ' attr2="value2"';
         $I->assertEquals($expected, $actual);
 
@@ -78,7 +78,7 @@ class RenderCest
         $attr->set('¿?', '¡!');
 
         // render
-        $actual = $attr->render();
+        $actual   = $attr->render();
         $expected = ' attr2="value2" ¿?="¡!"';
         $I->assertEquals($expected, $actual);
     }
