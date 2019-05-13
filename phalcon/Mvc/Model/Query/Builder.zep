@@ -922,7 +922,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                     this->bindParams["APL0"] = intval(number, 10),
                     this->bindTypes["APL0"] = Column::BIND_PARAM_INT;
 
-                if is_numeric(offset) {
+                if is_numeric(offset) && offset !== 0 {
                     let phql .= " OFFSET :APL1:",
                         this->bindParams["APL1"] = intval(offset, 10),
                         this->bindTypes["APL1"] = Column::BIND_PARAM_INT;
