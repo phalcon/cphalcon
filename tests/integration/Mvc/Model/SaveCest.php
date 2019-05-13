@@ -39,8 +39,6 @@ class SaveCest
     /**
      * Tests Phalcon\Mvc\Model :: save()
      *
-     * @dataProvider getFunctions
-     *
      * @author       Balázs Németh <https://github.com/zsilbi>
      * @since        2019-04-30
      * @author       Phalcon Team <team@phalconphp.com>
