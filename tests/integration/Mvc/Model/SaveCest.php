@@ -312,9 +312,9 @@ class SaveCest
      */
     public function mvcModelSaveCastLastInsertIdInt(IntegrationTester $I, Example $function)
     {
-        $I->wantToTest('Mvc\Model - save() - cast lastInsertId to int');
+        $I->wantToTest('Mvc\Model - save() - cast lastInsertId to int - ' . $function[0]);
 
-        $method = $function[0];
+        $method = $function[1];
         $this->$method();
 
         Prueba::setup(
@@ -349,9 +349,9 @@ class SaveCest
     private function getFunctions(): array
     {
         return [
-            ['setDiMysql'],
-            ['setDiPostgresql'],
-            ['setDiSqlite'],
+            ['Mysql', 'setDiMysql'],
+            ['Postgresql', 'setDiPostgresql'],
+            ['Sqlite', 'setDiSqlite'],
         ];
     }
 }
