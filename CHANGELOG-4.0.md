@@ -20,6 +20,8 @@
     - `Phalcon\Cache\CacheFactory`: Factory to create cache objects
  [#13439](https://github.com/phalcon/cphalcon/issues/13439)
 - Added `Str::dirSeparator()` to ensure a path has a trailing slash [#13439](https://github.com/phalcon/cphalcon/issues/13439)
+- Added `Attributes` collection class and `AttributesInterface`
+- Added Forms attributes [#14019](https://github.com/phalcon/cphalcon/issues/14019)
 
 ## Changed
 - Refactored `Phalcon\Events\Manager` to only use `SplPriorityQueue` to store events. [#13924](https://github.com/phalcon/cphalcon/pull/13924)
