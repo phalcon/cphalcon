@@ -1323,7 +1323,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize) {
 			ZEPHIR_CALL_METHOD(&data, this_ptr, "read", NULL, 0, &prefixKey);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&data) != IS_NULL) {
-				zephir_update_property_array(this_ptr, SL("metaData"), key, &data TSRMLS_CC);
+				zephir_update_property_array(this_ptr, SL("metaData"), key, &data);
 			} else {
 				if ((zephir_method_exists_ex(model, SL("metadata") TSRMLS_CC) == SUCCESS)) {
 					ZEPHIR_CALL_METHOD(&modelMetadata, model, "metadata", NULL, 0);
@@ -1347,7 +1347,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize) {
 					ZEPHIR_CALL_METHOD(&modelMetadata, &strategy, "getmetadata", NULL, 0, model, &container);
 					zephir_check_call_status();
 				}
-				zephir_update_property_array(this_ptr, SL("metaData"), key, &modelMetadata TSRMLS_CC);
+				zephir_update_property_array(this_ptr, SL("metaData"), key, &modelMetadata);
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &prefixKey, &modelMetadata);
 				zephir_check_call_status();
 			}
@@ -1368,7 +1368,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize) {
 	ZEPHIR_CALL_METHOD(&data, this_ptr, "read", NULL, 0, &prefixKey);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&data) != IS_NULL) {
-		zephir_update_property_array(this_ptr, SL("columnMap"), &keyName, &data TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("columnMap"), &keyName, &data);
 		RETURN_MM_NULL();
 	}
 	if (Z_TYPE_P(&strategy) != IS_OBJECT) {
@@ -1379,7 +1379,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize) {
 	}
 	ZEPHIR_CALL_METHOD(&modelColumnMap, &strategy, "getcolumnmaps", NULL, 0, model, &container);
 	zephir_check_call_status();
-	zephir_update_property_array(this_ptr, SL("columnMap"), &keyName, &modelColumnMap TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("columnMap"), &keyName, &modelColumnMap);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &prefixKey, &modelColumnMap);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -42,7 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Event) {
 	 *
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_events_event_ce, SL("cancelable"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_events_event_ce, SL("cancelable"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * Event data
@@ -158,15 +158,11 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 
 	zephir_update_property_zval(this_ptr, SL("type"), &type);
 	zephir_update_property_zval(this_ptr, SL("source"), source);
-	if (Z_TYPE_P(data) != IS_NULL) {
-		zephir_update_property_zval(this_ptr, SL("data"), data);
-	}
-	if (cancelable != 1) {
-		if (cancelable) {
-			zephir_update_property_zval(this_ptr, SL("cancelable"), &__$true);
-		} else {
-			zephir_update_property_zval(this_ptr, SL("cancelable"), &__$false);
-		}
+	zephir_update_property_zval(this_ptr, SL("data"), data);
+	if (cancelable) {
+		zephir_update_property_zval(this_ptr, SL("cancelable"), &__$true);
+	} else {
+		zephir_update_property_zval(this_ptr, SL("cancelable"), &__$false);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -278,7 +274,7 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 
 	zephir_read_property(&_0, this_ptr, SL("cancelable"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 129);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 123);
 		return;
 	}
 	if (1) {

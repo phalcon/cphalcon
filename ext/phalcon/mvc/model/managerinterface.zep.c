@@ -185,11 +185,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getModelSchema);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getModelSource);
 
 /**
- * Returns a real namespace from its alias
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getNamespaceAlias);
-
-/**
  * Returns the connection to read data related to a model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getReadConnection);
@@ -288,11 +283,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, missingMethod);
  * Notify the behaviors that are listening in the model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, notifyEvent);
-
-/**
- * Registers shorter aliases for namespaces in PHQL statements
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, registerNamespaceAlias);
 
 /**
  * Sets both write and read connection service for a model

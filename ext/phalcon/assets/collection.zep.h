@@ -5,6 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection);
 
 PHP_METHOD(Phalcon_Assets_Collection, getAssets);
 PHP_METHOD(Phalcon_Assets_Collection, getAttributes);
+PHP_METHOD(Phalcon_Assets_Collection, setAutoVersion);
 PHP_METHOD(Phalcon_Assets_Collection, getCodes);
 PHP_METHOD(Phalcon_Assets_Collection, getFilters);
 PHP_METHOD(Phalcon_Assets_Collection, getJoin);
@@ -15,6 +16,8 @@ PHP_METHOD(Phalcon_Assets_Collection, getSourcePath);
 PHP_METHOD(Phalcon_Assets_Collection, getTargetLocal);
 PHP_METHOD(Phalcon_Assets_Collection, getTargetPath);
 PHP_METHOD(Phalcon_Assets_Collection, getTargetUri);
+PHP_METHOD(Phalcon_Assets_Collection, getVersion);
+PHP_METHOD(Phalcon_Assets_Collection, setVersion);
 PHP_METHOD(Phalcon_Assets_Collection, __construct);
 PHP_METHOD(Phalcon_Assets_Collection, add);
 PHP_METHOD(Phalcon_Assets_Collection, addCss);
@@ -27,6 +30,7 @@ PHP_METHOD(Phalcon_Assets_Collection, count);
 PHP_METHOD(Phalcon_Assets_Collection, current);
 PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath);
 PHP_METHOD(Phalcon_Assets_Collection, has);
+PHP_METHOD(Phalcon_Assets_Collection, isAutoVersion);
 PHP_METHOD(Phalcon_Assets_Collection, join);
 PHP_METHOD(Phalcon_Assets_Collection, key);
 PHP_METHOD(Phalcon_Assets_Collection, next);
@@ -54,6 +58,14 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_getattributes, 0, 0, IS_ARRAY, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_getattributes, 0, 0, IS_ARRAY, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_setautoversion, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, autoVersion, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, autoVersion)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -121,6 +133,21 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_gettar
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_getversion, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_getversion, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_collection_setversion, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, version, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, version)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_collection_add, 0, 1, Phalcon\\Assets\\Collection, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_add, 0, 1, IS_OBJECT, "Phalcon\\Assets\\Collection", 0)
@@ -145,6 +172,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_addcss
 	ZEND_ARG_INFO(0, filter)
 #endif
 	ZEND_ARG_INFO(0, attributes)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, version, IS_STRING, 1)
+#else
+	ZEND_ARG_INFO(0, version)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, autoVersion, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, autoVersion)
+#endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -209,17 +246,23 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_addjs,
 #else
 	ZEND_ARG_INFO(0, path)
 #endif
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, local, _IS_BOOL, 1)
-#else
 	ZEND_ARG_INFO(0, local)
-#endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, filter, _IS_BOOL, 0)
 #else
 	ZEND_ARG_INFO(0, filter)
 #endif
 	ZEND_ARG_INFO(0, attributes)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, version, IS_STRING, 1)
+#else
+	ZEND_ARG_INFO(0, version)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, autoVersion, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, autoVersion)
+#endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -254,6 +297,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_has, 0
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_has, 0, 1, _IS_BOOL, NULL, 0)
 #endif
 	ZEND_ARG_OBJ_INFO(0, asset, Phalcon\\Assets\\AssetInterface, 0)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_isautoversion, 0, 0, _IS_BOOL, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_collection_isautoversion, 0, 0, _IS_BOOL, NULL, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -381,6 +431,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_assets_collection_method_entry) {
 	PHP_ME(Phalcon_Assets_Collection, getAssets, arginfo_phalcon_assets_collection_getassets, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, getAttributes, arginfo_phalcon_assets_collection_getattributes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Collection, setAutoVersion, arginfo_phalcon_assets_collection_setautoversion, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, getCodes, arginfo_phalcon_assets_collection_getcodes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, getFilters, arginfo_phalcon_assets_collection_getfilters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, getJoin, arginfo_phalcon_assets_collection_getjoin, ZEND_ACC_PUBLIC)
@@ -391,6 +442,8 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_collection_method_entry) {
 	PHP_ME(Phalcon_Assets_Collection, getTargetLocal, arginfo_phalcon_assets_collection_gettargetlocal, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, getTargetPath, arginfo_phalcon_assets_collection_gettargetpath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, getTargetUri, arginfo_phalcon_assets_collection_gettargeturi, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Collection, getVersion, arginfo_phalcon_assets_collection_getversion, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Collection, setVersion, arginfo_phalcon_assets_collection_setversion, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Assets_Collection, add, arginfo_phalcon_assets_collection_add, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, addCss, arginfo_phalcon_assets_collection_addcss, ZEND_ACC_PUBLIC)
@@ -403,6 +456,7 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_collection_method_entry) {
 	PHP_ME(Phalcon_Assets_Collection, current, arginfo_phalcon_assets_collection_current, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, getRealTargetPath, arginfo_phalcon_assets_collection_getrealtargetpath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, has, arginfo_phalcon_assets_collection_has, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Collection, isAutoVersion, arginfo_phalcon_assets_collection_isautoversion, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, join, arginfo_phalcon_assets_collection_join, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, key, arginfo_phalcon_assets_collection_key, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Collection, next, NULL, ZEND_ACC_PUBLIC)
