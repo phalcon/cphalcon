@@ -7,6 +7,7 @@ PHP_METHOD(Phalcon_Forms_Manager, create);
 PHP_METHOD(Phalcon_Forms_Manager, get);
 PHP_METHOD(Phalcon_Forms_Manager, has);
 PHP_METHOD(Phalcon_Forms_Manager, set);
+zend_object *zephir_init_properties_Phalcon_Forms_Manager(zend_class_entry *class_type TSRMLS_DC);
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_manager_create, 0, 1, Phalcon\\Forms\\Form, 0)

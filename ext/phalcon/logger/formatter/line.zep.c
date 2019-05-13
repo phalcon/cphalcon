@@ -42,14 +42,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line) {
 	 *
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_logger_formatter_line_ce, SL("dateFormat"), "D, d M y H:i:s O", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_formatter_line_ce, SL("dateFormat"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * Format applied to each message
 	 *
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_logger_formatter_line_ce, SL("format"), "[%date%][%type%] %message%", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_formatter_line_ce, SL("format"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 
@@ -125,9 +125,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat) {
 
 /**
  * Phalcon\Logger\Formatter\Line construct
- *
- * @param string format
- * @param string dateFormat
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct) {
 
@@ -143,24 +140,20 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct) {
 
 	if (!format_param) {
 		ZEPHIR_INIT_VAR(&format);
-		ZVAL_STRING(&format, "");
+		ZVAL_STRING(&format, "[%date%][%type%] %message%");
 	} else {
 		zephir_get_strval(&format, format_param);
 	}
 	if (!dateFormat_param) {
 		ZEPHIR_INIT_VAR(&dateFormat);
-		ZVAL_STRING(&dateFormat, "");
+		ZVAL_STRING(&dateFormat, "D, d M y H:i:s O");
 	} else {
 		zephir_get_strval(&dateFormat, dateFormat_param);
 	}
 
 
-	if (!(Z_TYPE_P(&format) == IS_UNDEF) && Z_STRLEN_P(&format)) {
-		zephir_update_property_zval(this_ptr, SL("format"), &format);
-	}
-	if (!(Z_TYPE_P(&dateFormat) == IS_UNDEF) && Z_STRLEN_P(&dateFormat)) {
-		zephir_update_property_zval(this_ptr, SL("dateFormat"), &dateFormat);
-	}
+	zephir_update_property_zval(this_ptr, SL("format"), &format);
+	zephir_update_property_zval(this_ptr, SL("dateFormat"), &dateFormat);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -200,19 +193,19 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 
 	zephir_read_property(&_0, this_ptr, SL("format"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&format, &_0);
-	if (zephir_memnstr_str(&format, SL("%date%"), "phalcon/Logger/Formatter/Line.zep", 65)) {
+	if (zephir_memnstr_str(&format, SL("%date%"), "phalcon/Logger/Formatter/Line.zep", 58)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_read_property(&_2$$3, this_ptr, SL("dateFormat"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_3$$3, item, "gettime", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "date", NULL, 396, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "date", NULL, 395, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "%date%");
 		zephir_fast_str_replace(&_1$$3, &_5$$3, &_4$$3, &format TSRMLS_CC);
 		ZEPHIR_CPY_WRT(&format, &_1$$3);
 	}
-	if (zephir_memnstr_str(&format, SL("%type%"), "phalcon/Logger/Formatter/Line.zep", 79)) {
+	if (zephir_memnstr_str(&format, SL("%type%"), "phalcon/Logger/Formatter/Line.zep", 72)) {
 		ZEPHIR_INIT_VAR(&_6$$4);
 		ZEPHIR_CALL_METHOD(&_7$$4, item, "getname", NULL, 0);
 		zephir_check_call_status();
