@@ -6555,4 +6555,15 @@ INSERT INTO "table_with_string_field" VALUES(1,'String one');
 INSERT INTO "table_with_string_field" VALUES(2,'String two');
 INSERT INTO "table_with_string_field" VALUES(3,'Another one string');
 
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` INTEGER NOT NULL PRIMARY KEY,
+  `name` varchar(128) NOT NULL
+);
+INSERT INTO "users" VALUES (1, 'Andres Gutierrez');
+INSERT INTO "users" VALUES (2, 'Serghei Iakovlev');
+INSERT INTO "users" VALUES (3, 'Nikolaos Dimopoulos');
+INSERT INTO "users" VALUES (4, 'Eduar Carvajal');
+
+
 COMMIT;
