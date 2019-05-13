@@ -37,7 +37,6 @@ class SaveCest
     public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
-        $this->setDiMysql();
     }
 
     /**
@@ -53,6 +52,7 @@ class SaveCest
     public function mvcModelSave(IntegrationTester $I, Example $function)
     {
         $I->wantToTest('Mvc\Model - save()');
+        $this->setDiMysql();
 
         /**
          * New model
@@ -126,6 +126,7 @@ class SaveCest
     public function mvcModelSaveWithRelatedRecords(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model - save() with related records');
+        $this->setDiMysql();
 
         $robotPart = new RobotsParts();
 
@@ -205,6 +206,7 @@ class SaveCest
     public function mvcModelSaveAfterFetchingRelated(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model - save() after fetching related');
+        $this->setDiMysql();
 
         /**
          * @var Albums $album
@@ -239,6 +241,7 @@ class SaveCest
     public function mvcModelSaveAfterUsingRelatedGetters(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model - save() after using related records getters');
+        $this->setDiMysql();
 
         /**
          * @var Albums $album
