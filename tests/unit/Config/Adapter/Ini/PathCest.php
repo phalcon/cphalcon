@@ -28,6 +28,7 @@ class PathCest
     public function configAdapterIniPath(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Ini - path()');
+
         $this->checkPath($I, 'Ini');
     }
 
@@ -40,6 +41,7 @@ class PathCest
     public function configAdapterIniPathDefault(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Ini - path() - default');
+
         $this->checkPathDefault($I, 'Ini');
     }
 }

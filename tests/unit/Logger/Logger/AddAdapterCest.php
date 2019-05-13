@@ -21,8 +21,6 @@ class AddAdapterCest
 {
     /**
      * Tests Phalcon\Logger :: addAdapter()
-     *
-     * @param UnitTester $I
      */
     public function loggerAddAdapter(UnitTester $I)
     {

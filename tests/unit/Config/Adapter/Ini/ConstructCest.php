@@ -29,6 +29,7 @@ class ConstructCest
     public function configAdapterIniConstruct(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Ini - construct');
+
         $this->checkConstruct($I, 'Ini');
     }
 
@@ -44,7 +45,10 @@ class ConstructCest
 
         define('TEST_CONST', 'foo');
 
-        $config = new Ini(dataDir('assets/config/config-with-constants.ini'), INI_SCANNER_NORMAL);
+        $config = new Ini(
+            dataDir('assets/config/config-with-constants.ini'),
+            INI_SCANNER_NORMAL
+        );
 
         $expected = [
             'test'    => 'foo',
@@ -63,7 +67,10 @@ class ConstructCest
             ],
 
         ];
-        $actual   = $config->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $config->toArray()
+        );
     }
 }

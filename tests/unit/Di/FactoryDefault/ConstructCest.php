@@ -46,9 +46,10 @@ class ConstructCest
         $container = new FactoryDefault();
         $services  = $this->getServices();
 
-        $expected = count($services);
-        $actual   = count($container->getServices());
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            count($services),
+            count($container->getServices())
+        );
     }
 
     private function getServices(): array

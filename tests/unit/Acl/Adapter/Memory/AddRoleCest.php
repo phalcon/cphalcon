@@ -28,13 +28,13 @@ class AddRoleCest
     {
         $I->wantToTest('Acl\Adapter\Memory - addRole() - string');
 
-        $acl  = new Memory();
+        $acl = new Memory();
+
         $role = new Role('Administrators', 'Super User access');
 
-
-        $actual = $acl->addRole('Administrators');
-
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $acl->addRole('Administrators')
+        );
     }
 
     /**
@@ -47,12 +47,13 @@ class AddRoleCest
     {
         $I->wantToTest('Acl\Adapter\Memory - addRole() - object');
 
-        $acl  = new Memory();
+        $acl = new Memory();
+
         $role = new Role('Administrators', 'Super User access');
 
-        $actual = $acl->addRole($role);
-
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $acl->addRole($role)
+        );
     }
 
     /**
@@ -65,18 +66,17 @@ class AddRoleCest
     {
         $I->wantToTest('Acl\Adapter\Memory - addRole() - twice string');
 
-        $acl  = new Memory();
+        $acl = new Memory();
+
         $role = new Role('Administrators', 'Super User access');
 
+        $I->assertTrue(
+            $acl->addRole('Administrators')
+        );
 
-        $actual = $acl->addRole('Administrators');
-
-        $I->assertTrue($actual);
-
-
-        $actual = $acl->addRole('Administrators');
-
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $acl->addRole('Administrators')
+        );
     }
 
     /**
@@ -89,18 +89,17 @@ class AddRoleCest
     {
         $I->wantToTest('Acl\Adapter\Memory - addRole() - twice object');
 
-        $acl  = new Memory();
+        $acl = new Memory();
+
         $role = new Role('Administrators', 'Super User access');
 
+        $I->assertTrue(
+            $acl->addRole($role)
+        );
 
-        $actual = $acl->addRole($role);
-
-        $I->assertTrue($actual);
-
-
-        $actual = $acl->addRole($role);
-
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $acl->addRole($role)
+        );
     }
 
     /**
@@ -113,16 +112,16 @@ class AddRoleCest
     {
         $I->wantToTest('Acl\Adapter\Memory - addRole() - numeric key');
 
-        $acl  = new Memory();
+        $acl = new Memory();
+
         $role = new Role('11', 'Super User access');
 
+        $I->assertTrue(
+            $acl->addRole('11')
+        );
 
-        $actual = $acl->addRole('11');
-
-        $I->assertTrue($actual);
-
-        $actual = $acl->isRole('11');
-
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $acl->isRole('11')
+        );
     }
 }

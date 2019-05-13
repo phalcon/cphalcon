@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Sqlite;
 
 use IntegrationTester;
 
-/**
- * Class ViewExistsCest
- */
 class ViewExistsCest
 {
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: viewExists()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

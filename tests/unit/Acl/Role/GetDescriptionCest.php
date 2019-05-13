@@ -26,11 +26,13 @@ class GetDescriptionCest
     public function aclRoleGetDescription(UnitTester $I)
     {
         $I->wantToTest('Acl\Role - getDescription()');
+
         $role = new Role('Administrators', 'The admin unit');
 
-        $expected = 'The admin unit';
-        $actual   = $role->getDescription();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'The admin unit',
+            $role->getDescription()
+        );
     }
 
     /**
@@ -42,9 +44,11 @@ class GetDescriptionCest
     public function aclRoleGetDescriptionEmpty(UnitTester $I)
     {
         $I->wantToTest('Acl\Role - getDescription()');
+
         $role = new Role('Administrators');
 
-        $actual = $role->getDescription();
-        $I->assertEmpty($actual);
+        $I->assertEmpty(
+            $role->getDescription()
+        );
     }
 }

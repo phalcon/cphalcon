@@ -26,10 +26,12 @@ class GetNameCest
     public function aclComponentGetName(UnitTester $I)
     {
         $I->wantToTest('Acl\Component - getName()');
+
         $component = new Component('Customers');
 
-        $expected = 'Customers';
-        $actual   = $component->getName();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Customers',
+            $component->getName()
+        );
     }
 }

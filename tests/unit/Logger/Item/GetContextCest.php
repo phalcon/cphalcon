@@ -20,8 +20,6 @@ class GetContextCest
 {
     /**
      * Tests Phalcon\Logger\Item :: getContext()
-     *
-     * @param UnitTester $I
      */
     public function loggerItemGetContext(UnitTester $I)
     {

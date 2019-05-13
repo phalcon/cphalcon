@@ -22,8 +22,15 @@ class Js extends AssetBase
     /**
      * Phalcon\Assets\Asset\Js
      */
-    public function __construct(string! path, bool local = true, bool filter = true, array attributes = []) -> void
+    public function __construct(
+        string! path,
+        bool local = true,
+        bool filter = true,
+        array attributes = [],
+        string version = null,
+        bool autoVersion = false
+    ) -> void
     {
-        parent::__construct("js", path, local, filter, attributes);
+        parent::__construct("js", path, local, filter, attributes, version, autoVersion);
     }
 }

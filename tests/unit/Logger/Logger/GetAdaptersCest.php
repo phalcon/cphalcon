@@ -20,8 +20,6 @@ class GetAdaptersCest
 {
     /**
      * Tests Phalcon\Logger :: getAdapters()
-     *
-     * @param UnitTester $I
      */
     public function loggerGetAdapters(UnitTester $I)
     {

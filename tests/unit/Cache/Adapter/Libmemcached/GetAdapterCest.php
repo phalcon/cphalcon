@@ -36,8 +36,9 @@ class GetAdapterCest
         $serializer = new SerializerFactory();
         $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
-        $class  = Memcached::class;
-        $actual = $adapter->getAdapter();
-        $I->assertInstanceOf($class, $actual);
+        $I->assertInstanceOf(
+            Memcached::class,
+            $adapter->getAdapter()
+        );
     }
 }

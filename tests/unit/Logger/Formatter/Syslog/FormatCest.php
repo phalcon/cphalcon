@@ -21,8 +21,6 @@ class FormatCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Syslog :: format()
-     *
-     * @param UnitTester $I
      */
     public function loggerFormatterSyslogFormat(UnitTester $I)
     {

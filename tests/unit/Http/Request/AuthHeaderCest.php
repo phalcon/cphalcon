@@ -72,20 +72,31 @@ class AuthHeaderCest extends HttpBase
      */
     public function shouldFireEventWhenResolveAuthorization(UnitTester $I)
     {
-        $request       = $this->getRequestObject();
-        $container     = $request->getDI();
-        $eventsManager = $container->getShared('eventsManager');
-        $eventsManager->attach('request', new CustomAuthorizationListener());
+        $request = $this->getRequestObject();
 
-        $_SERVER = ['HTTP_CUSTOM_KEY' => 'Custom-Value'];
+        $container = $request->getDI();
+
+        $eventsManager = $container->getShared('eventsManager');
+
+        $eventsManager->attach(
+            'request',
+            new CustomAuthorizationListener()
+        );
+
+        $_SERVER = [
+            'HTTP_CUSTOM_KEY' => 'Custom-Value',
+        ];
 
         $expected = [
             'Custom-Key'   => 'Custom-Value',
             'Fired-Before' => 'beforeAuthorizationResolve',
             'Fired-After'  => 'afterAuthorizationResolve',
         ];
-        $actual   = $request->getHeaders();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $request->getHeaders()
+        );
     }
 
     /**
@@ -98,18 +109,27 @@ class AuthHeaderCest extends HttpBase
      */
     public function shouldEnableCustomAuthorizationResolver(UnitTester $I)
     {
-        $request       = $this->getRequestObject();
-        $container     = $request->getDI();
+        $request = $this->getRequestObject();
+
+        $container = $request->getDI();
+
         $eventsManager = $container->getShared('eventsManager');
-        $eventsManager->attach('request', new NegotiateAuthorizationListener());
+
+        $eventsManager->attach(
+            'request',
+            new NegotiateAuthorizationListener()
+        );
 
         $_SERVER['CUSTOM_KERBEROS_AUTH'] = 'Negotiate a87421000492aa874209af8bc028';
 
         $expected = [
             'Authorization' => 'Negotiate a87421000492aa874209af8bc028',
         ];
-        $actual   = $request->getHeaders();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $request->getHeaders()
+        );
     }
 
     /**
@@ -129,8 +149,11 @@ class AuthHeaderCest extends HttpBase
         $expected = [
             'Authorization' => 'Enigma Secret',
         ];
-        $actual   = $request->getHeaders();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $request->getHeaders()
+        );
     }
 
     private function basicAuthProvider(): array

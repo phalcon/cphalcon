@@ -19,8 +19,6 @@ class GetDescriptionCest
     /**
      * Tests Phalcon\Cli\Router\Route :: getDescription()
      *
-     * @param CliTester $I
-     *
      * @since 2019-04-02
      */
     public function cliRouterRouteGetDescription(CliTester $I)

@@ -23,9 +23,6 @@ class UncamelizeCest
      *
      * @dataProvider getSources
      *
-     * @param UnitTester $I
-     * @param Example    $item
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-04-06
      */

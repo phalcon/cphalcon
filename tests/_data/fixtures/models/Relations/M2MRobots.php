@@ -25,7 +25,8 @@ class M2MRobots extends Model
             'robots_id',
             'parts_id',
             M2MParts::class,
-            'id'
+            'id',
+            ['alias' => 'M2MParts']
         );
     }
 }

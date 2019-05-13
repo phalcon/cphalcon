@@ -17,9 +17,6 @@ use Phalcon\Session\Adapter\Files;
 use Phalcon\Session\Factory;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 
-/**
- * Class LoadCest
- */
 class LoadCest
 {
     use FactoryTrait;
@@ -33,8 +30,6 @@ class LoadCest
 
     /**
      * Tests Phalcon\Session\Factory :: load() - Config
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
@@ -69,8 +64,6 @@ class LoadCest
 
     /**
      * Tests Phalcon\Session\Factory :: load() - array
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02

@@ -25,6 +25,7 @@ class DropComponentAccessCest
     public function aclAdapterMemoryDropComponentAccess(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - dropComponentAccess()');
+
         $I->skipTest('Need implementation');
     }
 }

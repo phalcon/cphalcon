@@ -29,6 +29,10 @@ class Asset implements AssetInterface
     /**
      * @var bool
      */
+	protected autoVersion = false { set };
+    /**
+     * @var bool
+     */
     protected filter { get };
 
     /**
@@ -61,6 +65,12 @@ class Asset implements AssetInterface
      */
     protected type { get };
 
+	/**
+	 * Version of resource
+	 * @var string
+	 */
+	protected version { get, set };
+
     /**
      * Phalcon\Assets\Asset constructor
      */
@@ -69,94 +79,30 @@ class Asset implements AssetInterface
         string path,
         bool local = true,
         bool filter = true,
-        array attributes = []
+        array attributes = [],
+        string version = null,
+        bool autoVersion = false
     ) -> void
     {
-        let this->type       = type,
-            this->path       = path,
-            this->local      = local,
-            this->filter     = filter,
-            this->attributes = attributes;
+        let this->type        = type,
+            this->path        = path,
+            this->local       = local,
+            this->filter      = filter,
+            this->attributes  = attributes,
+            this->version     = version,
+            this->autoVersion = autoVersion;
     }
 
     /**
-     * Sets the asset's type
+     * Gets the asset's key.
      */
-    public function setType(string type) -> <AssetInterface>
+    public function getAssetKey() -> string
     {
-        let this->type = type;
+        var key;
 
-        return this;
-    }
+        let key = this->getType() . ":" . this->getPath();
 
-    /**
-     * Sets the asset's path
-     */
-    public function setPath(string path) -> <AssetInterface>
-    {
-        let this->path = path;
-
-        return this;
-    }
-
-    /**
-     * Sets if the asset is local or external
-     */
-    public function setLocal(bool local) -> <AssetInterface>
-    {
-        let this->local = local;
-
-        return this;
-    }
-
-    /**
-     * Sets if the asset must be filtered or not
-     */
-    public function setFilter(bool filter) -> <AssetInterface>
-    {
-        let this->filter = filter;
-
-        return this;
-    }
-
-    /**
-     * Sets extra HTML attributes
-     */
-    public function setAttributes(array attributes) -> <AssetInterface>
-    {
-        let this->attributes = attributes;
-
-        return this;
-    }
-
-    /**
-     * Sets a target uri for the generated HTML
-     */
-    public function setTargetUri(string targetUri) -> <AssetInterface>
-    {
-        let this->targetUri = targetUri;
-
-        return this;
-    }
-
-    /**
-     * Sets the asset's source path
-     */
-    public function setSourcePath(string sourcePath) -> <AssetInterface>
-    {
-        let this->sourcePath = sourcePath;
-
-        return this;
-    }
-
-    /**
-     * Sets the asset's target path
-     */
-    public function setTargetPath(string targetPath) -> <AssetInterface>
-    {
-        let this->targetPath = targetPath;
-
-        return this;
+        return md5(key);
     }
 
     /**
@@ -205,22 +151,6 @@ class Asset implements AssetInterface
         }
 
         return content;
-    }
-
-    /**
-     * Returns the real target uri for the generated HTML
-     */
-    public function getRealTargetUri() -> string
-    {
-        var targetUri;
-
-        let targetUri = this->targetUri;
-
-        if empty targetUri {
-            let targetUri = this->path;
-        }
-
-        return targetUri;
     }
 
     /**
@@ -280,14 +210,117 @@ class Asset implements AssetInterface
     }
 
     /**
-     * Gets the asset's key.
+     * Returns the real target uri for the generated HTML
      */
-    public function getAssetKey() -> string
+    public function getRealTargetUri() -> string
     {
-        var key;
+        var modificationTime, targetUri, version;
 
-        let key = this->getType() . ":" . this->getPath();
+        let targetUri = this->targetUri;
 
-        return md5(key);
+        if empty targetUri {
+            let targetUri = this->path;
+        }
+
+        let version = this->version;
+
+        if this->autoVersion && this->local {
+            let modificationTime = filemtime(this->getRealSourcePath()),
+                version          = version ? version . "." . modificationTime : modificationTime;
+        }
+
+        if version {
+            let targetUri = targetUri . "?ver=" . version;
+        }
+
+        return targetUri;
+    }
+
+    /**
+     * Checks if resource is using auto version
+     */
+	public function isAutoVersion() -> bool
+	{
+		return this->autoVersion;
+	}
+
+    /**
+     * Sets extra HTML attributes
+     */
+    public function setAttributes(array attributes) -> <AssetInterface>
+    {
+        let this->attributes = attributes;
+
+        return this;
+    }
+
+    /**
+     * Sets if the asset must be filtered or not
+     */
+    public function setFilter(bool filter) -> <AssetInterface>
+    {
+        let this->filter = filter;
+
+        return this;
+    }
+
+    /**
+     * Sets if the asset is local or external
+     */
+    public function setLocal(bool local) -> <AssetInterface>
+    {
+        let this->local = local;
+
+        return this;
+    }
+
+    /**
+     * Sets the asset's source path
+     */
+    public function setSourcePath(string sourcePath) -> <AssetInterface>
+    {
+        let this->sourcePath = sourcePath;
+
+        return this;
+    }
+
+    /**
+     * Sets the asset's target path
+     */
+    public function setTargetPath(string targetPath) -> <AssetInterface>
+    {
+        let this->targetPath = targetPath;
+
+        return this;
+    }
+
+    /**
+     * Sets a target uri for the generated HTML
+     */
+    public function setTargetUri(string targetUri) -> <AssetInterface>
+    {
+        let this->targetUri = targetUri;
+
+        return this;
+    }
+
+    /**
+     * Sets the asset's type
+     */
+    public function setType(string type) -> <AssetInterface>
+    {
+        let this->type = type;
+
+        return this;
+    }
+
+    /**
+     * Sets the asset's path
+     */
+    public function setPath(string path) -> <AssetInterface>
+    {
+        let this->path = path;
+
+        return this;
     }
 }

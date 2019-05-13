@@ -40,8 +40,6 @@ class SetStateCest
 
     /**
      * Sets the state on a config object to check __set_state
-     *
-     * @return Config
      */
     private function getSetState(): Config
     {

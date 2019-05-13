@@ -19,8 +19,6 @@ class GetNameCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: getName()
-     *
-     * @param UnitTester $I
      */
     public function loggerAdapterStreamGetName(UnitTester $I)
     {

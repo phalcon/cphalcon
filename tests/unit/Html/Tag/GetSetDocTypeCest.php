@@ -21,9 +21,6 @@ class GetSetDocTypeCest
     /**
      * Tests Phalcon\Html\Tag :: getDocType()/setDocType()
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @dataProvider getDocTypes
      *
      * @author       Phalcon Team <team@phalconphp.com>
@@ -40,9 +37,6 @@ class GetSetDocTypeCest
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getDocTypes(): array
     {
         return [

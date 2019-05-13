@@ -26,12 +26,21 @@ class VariableCest
     public function debugDumpVariable(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - variable()');
+
         $test = 'value';
+
         $dump = new Dump();
 
-        $expected = trim(file_get_contents(dataDir('fixtures/Dump/variable_output.txt')));
-        $actual   = $dump->variable($test);
-        $I->assertEquals($expected, $actual);
+        $expected = trim(
+            file_get_contents(
+                dataDir('fixtures/Dump/variable_output.txt')
+            )
+        );
+
+        $I->assertEquals(
+            $expected,
+            $dump->variable($test)
+        );
     }
 
     /**
@@ -43,11 +52,20 @@ class VariableCest
     public function debugDumpVariableName(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - variable() - name');
+
         $test = 'value';
+
         $dump = new Dump();
 
-        $expected = trim(file_get_contents(dataDir('fixtures/Dump/variable_name_output.txt')));
-        $actual   = $dump->variable($test, 'super');
-        $I->assertEquals($expected, $actual);
+        $expected = trim(
+            file_get_contents(
+                dataDir('fixtures/Dump/variable_name_output.txt')
+            )
+        );
+
+        $I->assertEquals(
+            $expected,
+            $dump->variable($test, 'super')
+        );
     }
 }

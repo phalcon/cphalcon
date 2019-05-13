@@ -47,8 +47,10 @@ class NewInstanceCest
 
         $service = $adapter->newInstance($example[0], $example[2]);
 
-        $class = $example[1];
-        $I->assertInstanceOf($class, $service);
+        $I->assertInstanceOf(
+            $example[1],
+            $service
+        );
     }
 
     /**
@@ -74,9 +76,6 @@ class NewInstanceCest
         );
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

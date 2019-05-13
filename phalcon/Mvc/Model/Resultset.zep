@@ -100,7 +100,7 @@ abstract class Resultset
      */
     public function __construct(result, <AdapterInterface> cache = null) -> void
     {
-        var rowCount, rows;
+        var prefetchRecords, rowCount, rows;
 
         /**
          * 'false' is given as result for empty result-sets
@@ -132,9 +132,8 @@ abstract class Resultset
         /**
          * Update the row-count
          */
-        let rowCount = result->numRows();
-
-        let this->count = rowCount;
+        let rowCount    = result->numRows(),
+            this->count = rowCount;
 
         /**
          * Empty result-set
@@ -148,7 +147,8 @@ abstract class Resultset
         /**
          * Small result-sets with less equals 32 rows are fetched at once
          */
-        if rowCount <= 32 {
+        let prefetchRecords = (int) globals_get("orm.resultset_prefetch_records");
+        if prefetchRecords > 0 && rowCount <= prefetchRecords {
             /**
              * Fetch ALL rows from database
              */

@@ -32,9 +32,6 @@ class GetSetCest
      *
      * @dataProvider getExamples
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @throws Exception
      * @since        2019-03-31
      *
@@ -80,13 +77,18 @@ class GetSetCest
             )
         );
 
-        $key    = uniqid();
-        $result = $adapter->set($key, 'test');
-        $I->assertTrue($result);
+        $key = uniqid();
+
+        $I->assertTrue(
+            $adapter->set($key, 'test')
+        );
 
         $expected = 'test';
-        $actual   = $adapter->get($key);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $adapter->get($key)
+        );
     }
 
     /**
@@ -102,7 +104,8 @@ class GetSetCest
             new Exception('Redis server selected database failed'),
             function () {
                 $serializer = new SerializerFactory();
-                $adapter    = new Redis(
+
+                $adapter = new Redis(
                     $serializer,
                     array_merge(
                         getOptionsRedis(),
@@ -130,7 +133,8 @@ class GetSetCest
             new Exception('Failed to authenticate with the Redis server'),
             function () {
                 $serializer = new SerializerFactory();
-                $adapter    = new Redis(
+
+                $adapter = new Redis(
                     $serializer,
                     array_merge(
                         getOptionsRedis(),
@@ -158,7 +162,8 @@ class GetSetCest
         $I->wantToTest('Cache\Adapter\Redis - get()/set() - custom serializer');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Redis(
+
+        $adapter = new Redis(
             $serializer,
             array_merge(
                 getOptionsRedis(),
@@ -170,16 +175,18 @@ class GetSetCest
 
         $key    = 'cache-data';
         $source = 'Phalcon Framework';
-        $result = $adapter->set($key, $source);
-        $I->assertTrue($result);
 
-        $actual = $adapter->get($key);
-        $I->assertEquals($source, $actual);
+        $I->assertTrue(
+            $adapter->set($key, $source)
+        );
+
+
+        $I->assertEquals(
+            $source,
+            $adapter->get($key)
+        );
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [
