@@ -42,7 +42,7 @@ class Form extends Injectable implements \Countable, \Iterator
 
     protected position;
 
-    protected options = [];
+    protected options;
 
     protected validation { set, get };
 
@@ -53,13 +53,11 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function __construct(var entity = null, array userOptions = []) -> void
     {
-        if entity !== null {
-            if unlikely typeof entity != "object" {
-                throw new Exception("The base entity is not valid");
-            }
-
-            let this->entity = entity;
+        if unlikely (entity !== null && typeof entity != "object") {
+            throw new Exception("The base entity is not valid");
         }
+
+        let this->entity = entity;
 
         /**
          * Update the user options

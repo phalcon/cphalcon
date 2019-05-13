@@ -127,13 +127,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
                 let this->conditions = implode(" AND ", mergedConditions);
 
-                if typeof mergedParams == "array" {
-                    let this->bindParams = mergedParams;
-                }
-
-                if typeof mergedTypes == "array" {
-                    let this->bindTypes  = mergedTypes;
-                }
+                let this->bindParams = mergedParams;
+                let this->bindTypes  = mergedTypes;
             }
 
             /**
