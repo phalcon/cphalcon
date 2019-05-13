@@ -128,9 +128,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     {
         var enableImplicitJoins;
 
-        if phql !== null {
-            let this->phql = phql;
-        }
+        let this->phql = phql;
 
         if typeof container == "object" {
             this->setDI(container);
@@ -1781,7 +1779,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Analyzes a SELECT intermediate code and produces an array to be executed later
      */
-    final protected function _prepareSelect(var ast = null, var merge = null) -> array
+    final protected function _prepareSelect(var ast = null, bool merge = false) -> array
     {
         int position;
         var sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables,
@@ -1798,10 +1796,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
         if empty ast {
             let ast = this->ast;
-        }
-
-        if merge === null {
-            let merge = false;
         }
 
         if !fetch select, ast["select"] {

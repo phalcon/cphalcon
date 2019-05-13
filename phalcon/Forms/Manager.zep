@@ -15,7 +15,7 @@ namespace Phalcon\Forms;
  */
 class Manager
 {
-    protected forms;
+    protected forms = [];
 
     /**
      * Creates a form registering it in the forms manager

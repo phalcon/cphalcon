@@ -68,9 +68,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          */
         let this->headers = new Headers();
 
-        if content !== null {
-            let this->content = content;
-        }
+        let this->content = content;
 
         if code !== null {
             this->setStatusCode(code, status);
