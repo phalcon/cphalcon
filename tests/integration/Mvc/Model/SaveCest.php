@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
-use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Model;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -44,7 +43,7 @@ class SaveCest
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-05-10
      */
-    public function mvcModelSave(IntegrationTester $I, Example $function)
+    public function mvcModelSave(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model - save()');
 
