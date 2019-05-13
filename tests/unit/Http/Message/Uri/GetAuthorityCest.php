@@ -23,49 +23,29 @@ class GetAuthorityCest
      *
      * @dataProvider getExamples
      *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-09
      */
     public function httpMessageUriGetAuthority(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Message\Uri - getAuthority()');
+        $uri = new Uri($example[1]);
 
-        $uri = new Uri(
-            $example[1]
-        );
-
-        $I->assertEquals(
-            $example[2],
-            $uri->getAuthority()
-        );
+        $expected = $example[2];
+        $actual   = $uri->getAuthority();
+        $I->assertEquals($expected, $actual);
     }
 
     private function getExamples(): array
     {
         return [
-            [
-                'default',
-                'https://dev.phalcon.ld',
-                'dev.phalcon.ld',
-            ],
-
-            [
-                'with user info',
-                'https://phalcon:secret@dev.phalcon.ld',
-                'phalcon:secret@dev.phalcon.ld',
-            ],
-
-            [
-                'with port',
-                'https://dev.phalcon.ld:8080',
-                'dev.phalcon.ld:8080',
-            ],
-
-            [
-                'full',
-                'https://phalcon:secret@dev.phalcon.ld:8080',
-                'phalcon:secret@dev.phalcon.ld:8080',
-            ],
+            ['default', 'https://dev.phalcon.ld', 'dev.phalcon.ld'],
+            ['with user info', 'https://phalcon:secret@dev.phalcon.ld', 'phalcon:secret@dev.phalcon.ld'],
+            ['with port', 'https://dev.phalcon.ld:8080', 'dev.phalcon.ld:8080'],
+            ['full', 'https://phalcon:secret@dev.phalcon.ld:8080', 'phalcon:secret@dev.phalcon.ld:8080'],
         ];
     }
 }

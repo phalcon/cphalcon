@@ -14,10 +14,15 @@ namespace Phalcon\Test\Integration\Mvc\Router;
 
 use IntegrationTester;
 
+/**
+ * Class GetRoutesCest
+ */
 class GetRoutesCest
 {
     /**
      * Tests Phalcon\Mvc\Router :: getRoutes()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

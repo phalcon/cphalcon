@@ -27,6 +27,9 @@ class GetFilteredPostCest
      *
      * @dataProvider getExamples
      *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-01
      */
@@ -77,6 +80,9 @@ class GetFilteredPostCest
         $I->assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array
+     */
     private function getExamples(): array
     {
         return [

@@ -15,10 +15,15 @@ namespace Phalcon\Test\Integration\Url;
 use IntegrationTester;
 use Phalcon\Url;
 
+/**
+ * Class GetStaticCest
+ */
 class GetStaticCest
 {
     /**
      * Tests Phalcon\Url :: getStatic()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -23,6 +23,9 @@ class PostgresqlCest extends DialectBase
      */
     protected $adapter = 'Postgresql';
 
+    /**
+     * @return array
+     */
     protected function getAddColumnFixtures(): array
     {
         return [
@@ -228,7 +231,10 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    protected function getAddIndexFixtures(): array
+    /**
+     * @return array
+     */
+    protected function getAddIndexFixtures()
     {
         return [
             ['', 'index1', 'CREATE INDEX "index1" ON "table" ("column1")'],

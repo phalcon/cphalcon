@@ -17,6 +17,9 @@ use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
+/**
+ * Class RemoveCest
+ */
 class RemoveCest
 {
     use DiTrait;
@@ -24,6 +27,8 @@ class RemoveCest
 
     /**
      * Tests Phalcon\Session\Bag :: remove()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -42,69 +47,43 @@ class RemoveCest
 
         $collection->init($data);
 
-        $I->assertEquals(
-            $data,
-            $collection->toArray()
-        );
-
-
+        $expected = $data;
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
 
         $collection->remove('five');
-
         $expected = [
             'one'   => 'two',
             'three' => 'four',
         ];
-
-        $I->assertEquals(
-            $expected,
-            $collection->toArray()
-        );
-
-
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
 
         $collection->remove('FIVE');
-
         $expected = [
             'one'   => 'two',
             'three' => 'four',
         ];
-
-        $I->assertEquals(
-            $expected,
-            $collection->toArray()
-        );
-
-
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
 
         $collection->init($data);
-
         unset($collection['five']);
-
         $expected = [
             'one'   => 'two',
             'three' => 'four',
         ];
-
-        $I->assertEquals(
-            $expected,
-            $collection->toArray()
-        );
-
-
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
 
         $collection->init($data);
-
         $collection->offsetUnset('five');
 
         $expected = [
             'one'   => 'two',
             'three' => 'four',
         ];
-
-        $I->assertEquals(
-            $expected,
-            $collection->toArray()
-        );
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
     }
 }

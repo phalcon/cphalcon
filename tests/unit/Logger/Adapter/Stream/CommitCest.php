@@ -20,6 +20,8 @@ class CommitCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: commit()
+     *
+     * @param UnitTester $I
      */
     public function loggerAdapterStreamCommit(UnitTester $I)
     {
@@ -43,6 +45,8 @@ class CommitCest
 
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: commit() - no transaction
+     *
+     * @param UnitTester $I
      */
     public function loggerAdapterStreamCommitNoTransaction(UnitTester $I)
     {

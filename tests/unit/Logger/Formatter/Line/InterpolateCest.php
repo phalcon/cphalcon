@@ -82,6 +82,8 @@ class InterpolateCest
     }
     /**
      * Tests Phalcon\Logger\Formatter\Line :: interpolate() - empty
+     *
+     * @param UnitTester $I
      */
     public function loggerFormatterLineInterpolateEmpty(UnitTester $I)
     {

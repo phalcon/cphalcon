@@ -2829,11 +2829,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
         /**
          * Check if the query has data
-         *
-         * Previous if [leaving here on purpose]:
-         * if result instanceof ResultInterface && result->numRows() {
          */
-        if result instanceof ResultInterface {
+        if result instanceof ResultInterface && result->numRows() {
             let resultData = result;
         } else {
             let resultData = false;

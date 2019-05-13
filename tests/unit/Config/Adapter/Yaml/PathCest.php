@@ -33,7 +33,6 @@ class PathCest
     public function configAdapterYamlPath(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Yaml - path()');
-
         $this->checkPath($I, 'Yaml');
     }
 
@@ -46,7 +45,6 @@ class PathCest
     public function configAdapterYamlPathDefault(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Yaml - path() - default');
-
         $this->checkPathDefault($I, 'Yaml');
     }
 }

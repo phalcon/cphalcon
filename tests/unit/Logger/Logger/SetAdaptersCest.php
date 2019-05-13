@@ -20,6 +20,8 @@ class SetAdaptersCest
 {
     /**
      * Tests Phalcon\Logger :: setAdapters()
+     *
+     * @param UnitTester $I
      */
     public function loggerSetAdapters(UnitTester $I)
     {
@@ -57,6 +59,8 @@ class SetAdaptersCest
 
     /**
      * Tests Phalcon\Logger :: setAdapters() - constructor
+     *
+     * @param UnitTester $I
      */
     public function loggerSetAdaptersConstructor(UnitTester $I)
     {

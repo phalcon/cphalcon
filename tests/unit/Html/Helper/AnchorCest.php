@@ -26,6 +26,9 @@ class AnchorCest
      *
      * @dataProvider getExamples
      *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
      * @throws Exception
      */
     public function htmlHelperAnchorConstruct(UnitTester $I, Example $example)
@@ -45,6 +48,9 @@ class AnchorCest
         $I->assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array
+     */
     private function getExamples(): array
     {
         return [

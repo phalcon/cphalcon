@@ -28,6 +28,8 @@ class DbBindCest
     /**
      * Tests Phalcon\Db :: Mysql
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -53,15 +55,14 @@ class DbBindCest
         );
 
         $I->assertEquals(
+            $params,
             [
                 'sql'    => 'a=?',
                 'params' => [
                     0 => 100,
                 ],
-            ],
-            $params
+            ]
         );
-
 
 
         $params = $connection->convertBoundParams(
@@ -73,15 +74,14 @@ class DbBindCest
         );
 
         $I->assertEquals(
+            $params,
             [
                 'sql'    => 'a=?',
                 'params' => [
                     0 => 100,
                 ],
-            ],
-            $params
+            ]
         );
-
 
 
         $params = $connection->convertBoundParams(
@@ -93,16 +93,15 @@ class DbBindCest
         );
 
         $I->assertEquals(
+            $params,
             [
                 'sql'    => "a=? AND b = ?",
                 'params' => [
                     0 => 50,
                     1 => 25,
                 ],
-            ],
-            $params
+            ]
         );
-
 
 
         $params = $connection->convertBoundParams(
@@ -114,16 +113,15 @@ class DbBindCest
         );
 
         $I->assertEquals(
+            $params,
             [
                 'sql'    => "a=? AND b = ?",
                 'params' => [
                     0 => '25.10',
                     1 => 25.10,
                 ],
-            ],
-            $params
+            ]
         );
-
 
 
         $params = $connection->convertBoundParams(
@@ -137,6 +135,7 @@ class DbBindCest
         );
 
         $I->assertEquals(
+            $params,
             [
                 'sql'    => "a=? AND b = ? AND c > ? AND d = ?",
                 'params' => [
@@ -145,8 +144,7 @@ class DbBindCest
                     2 => 1000,
                     3 => 400,
                 ],
-            ],
-            $params
+            ]
         );
     }
 
@@ -155,10 +153,7 @@ class DbBindCest
         $success = $connection->execute(
             'INSERT INTO prueba(id, nombre, estado) VALUES (' . $connection->getDefaultIdValue() . ', ?, ?)',
             ["LOL 1", "A"],
-            [
-                Column::BIND_PARAM_STR,
-                Column::BIND_PARAM_STR,
-            ]
+            [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
 
         $I->assertTrue($success);
@@ -167,10 +162,7 @@ class DbBindCest
         $success = $connection->execute(
             'UPDATE prueba SET nombre = ?, estado = ?',
             ["LOL 11", "R"],
-            [
-                Column::BIND_PARAM_STR,
-                Column::BIND_PARAM_STR,
-            ]
+            [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
 
         $I->assertTrue($success);
@@ -179,9 +171,7 @@ class DbBindCest
         $success = $connection->execute(
             'DELETE FROM prueba WHERE estado = ?',
             ["R"],
-            [
-                Column::BIND_PARAM_STR,
-            ]
+            [Column::BIND_PARAM_STR]
         );
 
         $I->assertTrue($success);
@@ -189,17 +179,9 @@ class DbBindCest
 
         $success = $connection->insert(
             'prueba',
-            [
-                $connection->getDefaultIdValue(),
-                "LOL 1",
-                "A",
-            ],
+            [$connection->getDefaultIdValue(), "LOL 1", "A"],
             null,
-            [
-                Column::BIND_SKIP,
-                Column::BIND_PARAM_STR,
-                Column::BIND_PARAM_STR,
-            ]
+            [Column::BIND_SKIP, Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
 
         $I->assertTrue($success);
@@ -209,10 +191,7 @@ class DbBindCest
             'prueba',
             ["LOL 2", "E"],
             ['nombre', 'estado'],
-            [
-                Column::BIND_PARAM_STR,
-                Column::BIND_PARAM_STR,
-            ]
+            [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
 
         $I->assertTrue($success);
@@ -222,10 +201,7 @@ class DbBindCest
             'prueba',
             ["LOL 3", "I"],
             ['nombre', 'estado'],
-            [
-                Column::BIND_PARAM_STR,
-                Column::BIND_PARAM_STR,
-            ]
+            [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
 
         $I->assertTrue($success);
@@ -233,15 +209,9 @@ class DbBindCest
 
         $success = $connection->insert(
             'prueba',
-            [
-                new RawValue('current_date'),
-                "A",
-            ],
+            [new RawValue('current_date'), "A"],
             ['nombre', 'estado'],
-            [
-                Column::BIND_PARAM_STR,
-                Column::BIND_PARAM_STR,
-            ]
+            [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
 
         $I->assertTrue($success);
@@ -252,10 +222,7 @@ class DbBindCest
             ["nombre", "estado"],
             ["LOL 1000", "X"],
             "estado='E'",
-            [
-                Column::BIND_PARAM_STR,
-                Column::BIND_PARAM_STR,
-            ]
+            [Column::BIND_PARAM_STR, Column::BIND_PARAM_STR]
         );
 
         $I->assertTrue($success);
@@ -266,9 +233,7 @@ class DbBindCest
             ["nombre"],
             ["LOL 3000"],
             "estado='X'",
-            [
-                Column::BIND_PARAM_STR,
-            ]
+            [Column::BIND_PARAM_STR]
         );
 
         $I->assertTrue($success);
@@ -277,13 +242,9 @@ class DbBindCest
         $success = $connection->update(
             'prueba',
             ["nombre"],
-            [
-                new RawValue('current_date'),
-            ],
+            [new RawValue('current_date')],
             "estado='X'",
-            [
-                Column::BIND_PARAM_STR,
-            ]
+            [Column::BIND_PARAM_STR]
         );
 
         $I->assertTrue($success);
@@ -291,6 +252,8 @@ class DbBindCest
 
     /**
      * Tests Phalcon\Db :: Postgresql
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -310,6 +273,8 @@ class DbBindCest
 
     /**
      * Tests Phalcon\Db :: Sqlite
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

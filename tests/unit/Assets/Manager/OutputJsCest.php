@@ -22,11 +22,17 @@ class OutputJsCest
 {
     use DiTrait;
 
+    /**
+     * @param UnitTester $I
+     */
     public function _after(UnitTester $I)
     {
         $this->resetDi();
     }
 
+    /**
+     * @param UnitTester $I
+     */
     public function _before(UnitTester $I)
     {
         $this->newDi();
@@ -97,6 +103,8 @@ class OutputJsCest
 
     /**
      * Tests Phalcon\Assets\Manager :: outputJs - custom tag component
+     *
+     * @param UnitTester $I
      */
     public function assetsManagerOutputJsCustomTag(UnitTester $I)
     {

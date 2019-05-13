@@ -20,6 +20,8 @@ class GetMessageCest
 {
     /**
      * Tests Phalcon\Logger\Item :: getMessage()
+     *
+     * @param UnitTester $I
      */
     public function loggerItemGetMessage(UnitTester $I)
     {

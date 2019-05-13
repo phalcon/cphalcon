@@ -18,11 +18,17 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 use function cacheDir;
 use function uniqid;
 
+/**
+ * Class WriteCest
+ */
 class WriteCest
 {
     use DiTrait;
     use SessionTrait;
 
+    /**
+     * @param IntegrationTester $I
+     */
     public function _before(IntegrationTester $I)
     {
         $this->newFactoryDefault();
@@ -30,6 +36,8 @@ class WriteCest
 
     /**
      * Tests Phalcon\Session\Adapter\Stream :: write()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -25,6 +25,9 @@ class SerializeCest
      *
      * @dataProvider getExamples
      *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-03-30
      */
@@ -38,6 +41,9 @@ class SerializeCest
         $I->assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array
+     */
     private function getExamples(): array
     {
         return [

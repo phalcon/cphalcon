@@ -21,6 +21,8 @@ class NoticeCest
 
     /**
      * Tests Phalcon\Logger :: notice()
+     *
+     * @param UnitTester $I
      */
     public function loggerNotice(UnitTester $I)
     {

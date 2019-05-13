@@ -21,6 +21,8 @@ class CloseCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: close()
+     *
+     * @param UnitTester $I
      */
     public function loggerAdapterStreamClose(UnitTester $I)
     {

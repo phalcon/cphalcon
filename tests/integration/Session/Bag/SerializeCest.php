@@ -17,6 +17,9 @@ use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
+/**
+ * Class SerializeCest
+ */
 class SerializeCest
 {
     use DiTrait;
@@ -24,6 +27,8 @@ class SerializeCest
 
     /**
      * Tests Phalcon\Session\Bag :: serialize()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -42,9 +47,10 @@ class SerializeCest
 
         $collection->init($data);
 
-        $I->assertEquals(
-            serialize($data),
-            $collection->serialize()
-        );
+
+        $expected = serialize($data);
+        $actual   = $collection->serialize();
+
+        $I->assertEquals($expected, $actual);
     }
 }

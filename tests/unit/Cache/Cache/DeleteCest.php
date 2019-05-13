@@ -37,36 +37,23 @@ class DeleteCest
 
         $adapter = new Cache($instance);
 
-
-
         $key1 = uniqid();
         $key2 = uniqid();
-
         $adapter->set($key1, 'test');
-
-        $I->assertTrue(
-            $adapter->has($key1)
-        );
-
-
+        $actual = $adapter->has($key1);
+        $I->assertTrue($actual);
 
         $adapter->set($key2, 'test');
+        $actual = $adapter->has($key2);
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $adapter->has($key2)
-        );
+        $actual = $adapter->delete($key1);
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $adapter->delete($key1)
-        );
-
-        $I->assertFalse(
-            $adapter->has($key1)
-        );
-
-        $I->assertTrue(
-            $adapter->has($key2)
-        );
+        $actual = $adapter->has($key1);
+        $I->assertFalse($actual);
+        $actual = $adapter->has($key2);
+        $I->assertTrue($actual);
     }
 
     /**

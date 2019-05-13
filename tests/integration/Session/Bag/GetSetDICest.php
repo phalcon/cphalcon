@@ -18,6 +18,9 @@ use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
+/**
+ * Class GetSetDICest
+ */
 class GetSetDICest
 {
     use DiTrait;
@@ -25,6 +28,8 @@ class GetSetDICest
 
     /**
      * Tests Phalcon\Session\Bag :: getDI()/setDI()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

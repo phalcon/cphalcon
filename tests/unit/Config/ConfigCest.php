@@ -145,7 +145,6 @@ class ConfigCest
         );
 
 
-
         $expected = [
             'a' => [
                 [
@@ -155,10 +154,9 @@ class ConfigCest
             ],
         ];
 
-        $I->assertEquals(
-            $expected,
-            $config->toArray()
-        );
+        $actual = $config->toArray();
+
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -190,10 +188,9 @@ class ConfigCest
             2 => 'Banana',
         ];
 
-        $I->assertEquals(
-            $expected,
-            $config->toArray()
-        );
+        $actual = $config->toArray();
+
+        $I->assertEquals($expected, $actual);
 
 
         $config = new Config(
@@ -216,10 +213,9 @@ class ConfigCest
             1 => 'Banana',
         ];
 
-        $I->assertEquals(
-            $expected,
-            $config->toArray()
-        );
+        $actual = $config->toArray();
+
+        $I->assertEquals($expected, $actual);
 
 
         $config = new Config(
@@ -244,10 +240,9 @@ class ConfigCest
             2   => 'Banana',
         ];
 
-        $I->assertEquals(
-            $expected,
-            $config->toArray()
-        );
+        $actual = $config->toArray();
+
+        $I->assertEquals($expected, $actual);
 
 
         $config = new Config(
@@ -288,9 +283,8 @@ class ConfigCest
             ],
         ];
 
-        $I->assertEquals(
-            $expected,
-            $config->toArray()
-        );
+        $actual = $config->toArray();
+
+        $I->assertEquals($expected, $actual);
     }
 }

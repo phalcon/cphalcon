@@ -33,7 +33,6 @@ class PathCest
     public function configAdapterJsonPath(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Json - path()');
-
         $this->checkPath($I, 'Json');
     }
 
@@ -46,7 +45,6 @@ class PathCest
     public function configAdapterJsonPathDefault(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Json - path() - default');
-
         $this->checkPathDefault($I, 'Json');
     }
 }

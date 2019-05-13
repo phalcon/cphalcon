@@ -17,6 +17,9 @@ use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
+/**
+ * Class RegenerateIdCest
+ */
 class RegenerateIdCest
 {
     use DiTrait;
@@ -25,29 +28,23 @@ class RegenerateIdCest
     /**
      * Tests Phalcon\Session\Manager :: regenerateId()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionManagerRegenerateId(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - regenerateId()');
-
         $manager = new Manager();
-
-        $files = $this->getSessionStream();
-
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
         $manager->start();
 
         $current = $manager->getId();
-
         $manager->regenerateId(true);
-
-        $I->assertNotEquals(
-            $current,
-            $manager->getId()
-        );
-
+        $actual = $manager->getId();
+        $I->assertNotEquals($current, $actual);
         $manager->destroy();
     }
 }

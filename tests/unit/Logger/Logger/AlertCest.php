@@ -21,6 +21,8 @@ class AlertCest
 
     /**
      * Tests Phalcon\Logger :: alert()
+     *
+     * @param UnitTester $I
      */
     public function loggerAlert(UnitTester $I)
     {

@@ -38,6 +38,8 @@ class DirSeparatorCest
 
     /**
      * Tests Phalcon\Helper\Str :: dirSeparator() - empty string
+     *
+     * @param UnitTester $I
      */
     public function helperStrFolderSeparatorEmptyString(UnitTester $I)
     {

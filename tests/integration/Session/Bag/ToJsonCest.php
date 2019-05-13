@@ -17,6 +17,9 @@ use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
+/**
+ * Class ToJsonCest
+ */
 class ToJsonCest
 {
     use DiTrait;
@@ -24,6 +27,8 @@ class ToJsonCest
 
     /**
      * Tests Phalcon\Session\Bag :: toJson()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -42,14 +47,16 @@ class ToJsonCest
 
         $collection->init($data);
 
-        $I->assertEquals(
-            json_encode($data),
-            $collection->toJson()
-        );
 
-        $I->assertEquals(
-            json_encode($data, JSON_PRETTY_PRINT),
-            $collection->toJson(JSON_PRETTY_PRINT)
-        );
+        $expected = json_encode($data);
+        $actual   = $collection->toJson();
+
+        $I->assertEquals($expected, $actual);
+
+
+        $expected = json_encode($data, JSON_PRETTY_PRINT);
+        $actual   = $collection->toJson(JSON_PRETTY_PRINT);
+
+        $I->assertEquals($expected, $actual);
     }
 }

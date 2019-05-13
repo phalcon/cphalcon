@@ -36,18 +36,14 @@ class DeleteCest
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
+        $actual = $adapter->has($key);
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $adapter->has($key)
-        );
+        $actual = $adapter->delete($key);
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $adapter->delete($key)
-        );
-
-        $I->assertFalse(
-            $adapter->has($key)
-        );
+        $actual = $adapter->has($key);
+        $I->assertFalse($actual);
     }
 
     /**
@@ -65,18 +61,14 @@ class DeleteCest
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
+        $actual = $adapter->has($key);
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $adapter->has($key)
-        );
+        $actual = $adapter->delete($key);
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $adapter->delete($key)
-        );
-
-        $I->assertFalse(
-            $adapter->delete($key)
-        );
+        $actual = $adapter->delete($key);
+        $I->assertFalse($actual);
     }
 
     /**
@@ -92,10 +84,8 @@ class DeleteCest
         $serializer = new SerializerFactory();
         $adapter    = new Apcu($serializer);
 
-        $key = 'cache-data';
-
-        $I->assertFalse(
-            $adapter->delete($key)
-        );
+        $key    = 'cache-data';
+        $actual = $adapter->delete($key);
+        $I->assertFalse($actual);
     }
 }

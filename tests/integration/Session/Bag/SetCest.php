@@ -17,6 +17,9 @@ use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
+/**
+ * Class SetCest
+ */
 class SetCest
 {
     use DiTrait;
@@ -24,6 +27,8 @@ class SetCest
 
     /**
      * Tests Phalcon\Session\Bag :: set()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -36,27 +41,27 @@ class SetCest
 
         $collection->set('three', 'two');
 
-        $I->assertEquals(
-            'two',
-            $collection->get('three')
-        );
 
+        $expected = 'two';
+        $actual   = $collection->get('three');
+
+        $I->assertEquals($expected, $actual);
 
 
         $collection->three = 'Phalcon';
 
-        $I->assertEquals(
-            'Phalcon',
-            $collection->get('three')
-        );
+        $expected = 'Phalcon';
+        $actual   = $collection->get('three');
+
+        $I->assertEquals($expected, $actual);
 
 
         $collection->offsetSet('three', 123);
 
-        $I->assertEquals(
-            123,
-            $collection->get('three')
-        );
+        $expected = 123;
+        $actual   = $collection->get('three');
+
+        $I->assertEquals($expected, $actual);
 
 
         $collection['three'] = true;

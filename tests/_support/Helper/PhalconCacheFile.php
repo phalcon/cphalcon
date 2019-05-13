@@ -67,6 +67,9 @@ class PhalconCacheFile extends Filesystem
     /**
      * File Constructor.
      *
+     * @param ModuleContainer $container
+     * @param array|null      $config
+     *
      * @throws ModuleConfigException
      */
     public function __construct(ModuleContainer $container, array $config = [])
@@ -253,9 +256,11 @@ class PhalconCacheFile extends Filesystem
     }
 
     /**
+     * @param string $dir
+     *
      * @throws ModuleConfigException
      */
-    protected function initializeCachePath(string $dir)
+    protected function initializeCachePath($dir)
     {
         $cacheDir = $this->absolutizePath($dir);
 
@@ -270,9 +275,11 @@ class PhalconCacheFile extends Filesystem
     }
 
     /**
+     * @param $className
+     *
      * @throws ModuleConfigException
      */
-    protected function initializeFrontend(string $className)
+    protected function initializeFrontend($className)
     {
         if (!class_exists($className)) {
             throw new ModuleConfigException(

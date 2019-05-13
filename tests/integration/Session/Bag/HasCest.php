@@ -17,6 +17,9 @@ use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
+/**
+ * Class HasCest
+ */
 class HasCest
 {
     use DiTrait;
@@ -24,6 +27,8 @@ class HasCest
 
     /**
      * Tests Phalcon\Session\Bag :: has()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

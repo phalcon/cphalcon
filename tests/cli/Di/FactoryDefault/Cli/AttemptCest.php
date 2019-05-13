@@ -14,10 +14,15 @@ namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
 
+/**
+ * Class AttemptCest
+ */
 class AttemptCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault\Cli :: attempt()
+     *
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

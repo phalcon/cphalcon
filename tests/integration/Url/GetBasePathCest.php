@@ -14,10 +14,15 @@ namespace Phalcon\Test\Integration\Url;
 
 use IntegrationTester;
 
+/**
+ * Class GetBasePathCest
+ */
 class GetBasePathCest
 {
     /**
      * Tests Phalcon\Url :: getBasePath()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16

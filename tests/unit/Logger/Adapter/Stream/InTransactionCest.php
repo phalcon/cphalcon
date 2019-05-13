@@ -19,6 +19,8 @@ class InTransactionCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: inTransaction()
+     *
+     * @param UnitTester $I
      */
     public function loggerAdapterStreamInTransaction(UnitTester $I)
     {

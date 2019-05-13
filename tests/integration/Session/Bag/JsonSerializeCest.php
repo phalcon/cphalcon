@@ -17,6 +17,9 @@ use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
+/**
+ * Class JsonSerializeCest
+ */
 class JsonSerializeCest
 {
     use DiTrait;
@@ -24,6 +27,8 @@ class JsonSerializeCest
 
     /**
      * Tests Phalcon\Session\Bag :: jsonSerialize()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

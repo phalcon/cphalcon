@@ -15,10 +15,15 @@ namespace Phalcon\Test\Integration\Url;
 use IntegrationTester;
 use Phalcon\Url;
 
+/**
+ * Class PathCest
+ */
 class PathCest
 {
     /**
      * Tests Phalcon\Url :: path()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

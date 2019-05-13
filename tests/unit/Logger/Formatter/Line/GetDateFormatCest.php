@@ -19,6 +19,8 @@ class GetDateFormatCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Line :: getDateFormat()
+     *
+     * @param UnitTester $I
      */
     public function loggerFormatterLineGetDateFormat(UnitTester $I)
     {
@@ -32,6 +34,8 @@ class GetDateFormatCest
 
     /**
      * Tests Phalcon\Logger\Formatter\Line :: getDateFormat() - custom
+     *
+     * @param UnitTester $I
      */
     public function loggerFormatterLineGetDateFormatCustom(UnitTester $I)
     {

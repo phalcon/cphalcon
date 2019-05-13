@@ -22,81 +22,31 @@ class FilesCest
         require_once dataDir('fixtures/Annotations/TestClass.php');
         require_once dataDir('fixtures/Annotations/TestClassNs.php');
 
-        $adapter = new Files(
-            [
-                'annotationsDir' => outputDir('tests/annotations/'),
-            ]
-        );
-
-
+        $adapter = new Files(['annotationsDir' => outputDir('tests/annotations/')]);
 
         $classAnnotations = $adapter->get('TestClass');
-
         $I->assertInternalType('object', $classAnnotations);
-
-        $I->assertInstanceOf(
-            \Phalcon\Annotations\Reflection::class,
-            $classAnnotations
-        );
-
-        $I->assertInstanceOf(
-            \Phalcon\Annotations\Collection::class,
-            $classAnnotations->getClassAnnotations()
-        );
-
-
+        $I->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
+        $I->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
 
         $classAnnotations = $adapter->get('TestClass');
-
         $I->assertInternalType('object', $classAnnotations);
-
-        $I->assertInstanceOf(
-            \Phalcon\Annotations\Reflection::class,
-            $classAnnotations
-        );
-
-        $I->assertInstanceOf(
-            \Phalcon\Annotations\Collection::class,
-            $classAnnotations->getClassAnnotations()
-        );
-
-
+        $I->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
+        $I->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
 
         $classAnnotations = $adapter->get('User\TestClassNs');
-
         $I->assertInternalType('object', $classAnnotations);
-
-        $I->assertInstanceOf(
-            \Phalcon\Annotations\Reflection::class,
-            $classAnnotations
-        );
-
-        $I->assertInstanceOf(
-            \Phalcon\Annotations\Collection::class,
-            $classAnnotations->getClassAnnotations()
-        );
-
-
+        $I->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
+        $I->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
 
         $classAnnotations = $adapter->get('User\TestClassNs');
-
         $I->assertInternalType('object', $classAnnotations);
-
-        $I->assertInstanceOf(
-            \Phalcon\Annotations\Reflection::class,
-            $classAnnotations
-        );
-
-        $I->assertInstanceOf(
-            \Phalcon\Annotations\Collection::class,
-            $classAnnotations->getClassAnnotations()
-        );
+        $I->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
+        $I->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
 
         unset($adapter);
 
-        $I->amInPath(
-            outputDir('tests/annotations/')
-        );
+        $I->amInPath(outputDir('tests/annotations/'));
 
         $I->safeDeleteFile('testclass.php');
         $I->safeDeleteFile('user_testclassns.php');

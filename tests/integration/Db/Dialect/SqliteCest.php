@@ -26,6 +26,8 @@ class SqliteCest extends DialectBase
 
     /**
      * Tests Dialect::modifyColumn
+     *
+     * @param IntegrationTester $I
      */
     public function testModifyColumn(IntegrationTester $I)
     {
@@ -36,6 +38,8 @@ class SqliteCest extends DialectBase
 
     /**
      * Tests Dialect::modifyColumn
+     *
+     * @param IntegrationTester $I
      */
     public function testModifyColumn13012(IntegrationTester $I)
     {
@@ -44,6 +48,9 @@ class SqliteCest extends DialectBase
          */
     }
 
+    /**
+     * @return array
+     */
     protected function getAddColumnFixtures(): array
     {
         return [
@@ -230,12 +237,18 @@ class SqliteCest extends DialectBase
         ];
     }
 
+    /**
+     * @return array
+     */
     protected function getAddForeignKeyFixtures(): array
     {
         return [];
     }
 
-    protected function getAddIndexFixtures(): array
+    /**
+     * @return array
+     */
+    protected function getAddIndexFixtures()
     {
         return [
             ['', 'index1', 'CREATE INDEX "index1" ON "table" ("column1")'],
@@ -245,11 +258,17 @@ class SqliteCest extends DialectBase
         ];
     }
 
+    /**
+     * @return array
+     */
     protected function getAddPrimaryKeyFixtures(): array
     {
         return [];
     }
 
+    /**
+     * @return array
+     */
     protected function getColumnDefinitionFixtures(): array
     {
         return [
@@ -274,6 +293,9 @@ class SqliteCest extends DialectBase
         ];
     }
 
+    /**
+     * @return array
+     */
     protected function getColumnListFixtures(): array
     {
         return [
@@ -288,6 +310,9 @@ class SqliteCest extends DialectBase
         ];
     }
 
+    /**
+     * @return array
+     */
     protected function getCreateTableFixtures(): array
     {
         return [
@@ -458,11 +483,17 @@ class SqliteCest extends DialectBase
         ];
     }
 
+    /**
+     * @return string
+     */
     protected function getCreateSavepointSql(): string
     {
         return 'SAVEPOINT PH_SAVEPOINT_1';
     }
 
+    /**
+     * @return array
+     */
     protected function getCreateViewFixtures(): array
     {
         return [
@@ -471,6 +502,9 @@ class SqliteCest extends DialectBase
         ];
     }
 
+    /**
+     * @return array
+     */
     protected function getDescribeColumnsFixtures(): array
     {
         return [
@@ -480,7 +514,10 @@ class SqliteCest extends DialectBase
         ];
     }
 
-    protected function getDescribeReferencesFixtures(): array
+    /**
+     * @return array
+     */
+    protected function getDescribeReferencesFixtures()
     {
         return [
             ['', "PRAGMA foreign_key_list('table')"],
@@ -488,17 +525,26 @@ class SqliteCest extends DialectBase
         ];
     }
 
+    /**
+     * @return array
+     */
     protected function getDropColumnFixtures(): array
     {
         return [];
     }
 
+    /**
+     * @return array
+     */
     protected function getDropForeignKeyFixtures(): array
     {
         return [];
     }
 
-    protected function getDropIndexFixtures(): array
+    /**
+     * @return array
+     */
+    protected function getDropIndexFixtures()
     {
         return [
             ['', 'index1', 'DROP INDEX "index1"'],
@@ -506,11 +552,17 @@ class SqliteCest extends DialectBase
         ];
     }
 
+    /**
+     * @return array
+     */
     protected function getDropPrimaryKeyFixtures(): array
     {
         return [];
     }
 
+    /**
+     * @return array
+     */
     protected function getDropTableFixtures(): array
     {
         return [
@@ -521,6 +573,9 @@ class SqliteCest extends DialectBase
         ];
     }
 
+    /**
+     * @return array
+     */
     protected function getDropViewFixtures(): array
     {
         return [
@@ -531,6 +586,9 @@ class SqliteCest extends DialectBase
         ];
     }
 
+    /**
+     * @return array
+     */
     protected function getListViewFixtures(): array
     {
         return [
@@ -539,11 +597,17 @@ class SqliteCest extends DialectBase
         ];
     }
 
+    /**
+     * @return array
+     */
     protected function getModifyColumnFixtures(): array
     {
         return [];
     }
 
+    /**
+     * @return array
+     */
     protected function getModifyColumnFixtures13012(): array
     {
         return [
@@ -552,26 +616,41 @@ class SqliteCest extends DialectBase
         ];
     }
 
+    /**
+     * @return string
+     */
     protected function getModifyColumnSql(): string
     {
         return '';
     }
 
+    /**
+     * @return string
+     */
     protected function getReleaseSavepointSql(): string
     {
         return 'RELEASE SAVEPOINT PH_SAVEPOINT_1';
     }
 
+    /**
+     * @return string
+     */
     protected function getRollbackSavepointSql(): string
     {
         return 'ROLLBACK TO SAVEPOINT PH_SAVEPOINT_1';
     }
 
+    /**
+     * @return array
+     */
     protected function getTableExistsFixtures(): array
     {
         return [];
     }
 
+    /**
+     * @return array
+     */
     protected function getTruncateTableFixtures(): array
     {
         return [
@@ -580,6 +659,9 @@ class SqliteCest extends DialectBase
         ];
     }
 
+    /**
+     * @return array
+     */
     protected function getViewExistsFixtures(): array
     {
         return [

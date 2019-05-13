@@ -17,11 +17,17 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 use function uniqid;
 
+/**
+ * Class DestroyCest
+ */
 class DestroyCest
 {
     use DiTrait;
     use SessionTrait;
 
+    /**
+     * @param IntegrationTester $I
+     */
     public function _before(IntegrationTester $I)
     {
         $this->newFactoryDefault();
@@ -30,26 +36,21 @@ class DestroyCest
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: destroy()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionAdapterLibmemcachedDestroy(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - destroy()');
-
         $adapter = $this->getSessionLibmemcached();
 
-        $value = uniqid();
-
-        $I->haveInLibmemcached(
-            'sess-memc-test1',
-            serialize($value)
-        );
-
-        $I->assertTrue(
-            $adapter->destroy('test1')
-        );
-
+        $value      = uniqid();
+        $serialized = serialize($value);
+        $I->haveInLibmemcached('sess-memc-test1', $serialized);
+        $actual = $adapter->destroy('test1');
+        $I->assertTrue($actual);
         $I->dontSeeInLibmemcached('sess-memc-test1');
     }
 }

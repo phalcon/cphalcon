@@ -21,6 +21,8 @@ class CriticalCest
 
     /**
      * Tests Phalcon\Logger :: critical()
+     *
+     * @param UnitTester $I
      */
     public function loggerCritical(UnitTester $I)
     {

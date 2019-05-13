@@ -28,13 +28,10 @@ class ConstructCest
     public function aclRoleConstruct(UnitTester $I)
     {
         $I->wantToTest('Acl\Role - __construct()');
+        $actual = new Role('Administrator');
 
-        $role = new Role('Administrator');
-
-        $I->assertInstanceOf(
-            Role::class,
-            $role
-        );
+        $class = Role::class;
+        $I->assertInstanceOf($class, $actual);
     }
 
     /**
@@ -46,7 +43,6 @@ class ConstructCest
     public function aclRoleConstructWithWildcardThrowsException(UnitTester $I)
     {
         $I->wantToTest('Acl\Role - __construct() - exception with "*"');
-
         $I->expectThrowable(
             new Exception("Role name cannot be '*'"),
             function () {
@@ -64,7 +60,6 @@ class ConstructCest
     public function aclRoleConstructWithoutName(UnitTester $I)
     {
         $I->wantToTest('Acl\Role - __construct() - exception params');
-
         $I->expectThrowable(
             new BadMethodCallException('Wrong number of parameters'),
             function () {

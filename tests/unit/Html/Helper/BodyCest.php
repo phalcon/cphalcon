@@ -26,6 +26,9 @@ class BodyCest
      *
      * @dataProvider getExamples
      *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
      * @throws Exception
      */
     public function htmlHelperBodyConstruct(UnitTester $I, Example $example)
@@ -45,6 +48,9 @@ class BodyCest
         $I->assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array
+     */
     private function getExamples(): array
     {
         return [

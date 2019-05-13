@@ -14,10 +14,15 @@ namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
 
+/**
+ * Class WasForwardedCest
+ */
 class WasForwardedCest
 {
     /**
      * Tests Phalcon\Cli\Dispatcher :: wasForwarded()
+     *
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

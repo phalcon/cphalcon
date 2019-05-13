@@ -42,6 +42,9 @@ class WithHostCest
      *
      * @dataProvider getExamples
      *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-07
      */
@@ -60,6 +63,9 @@ class WithHostCest
         );
     }
 
+    /**
+     * @return array
+     */
     private function getExamples(): array
     {
         return [

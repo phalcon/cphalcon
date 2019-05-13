@@ -30,9 +30,9 @@ class GetActiveRoleCest
 
         $acl = new Memory();
 
-        $I->assertNull(
-            $acl->getActiveRole()
-        );
+        $actual = $acl->getActiveRole();
+
+        $I->assertNull($actual);
     }
 
     /**

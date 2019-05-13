@@ -26,12 +26,10 @@ class GetNameCest
     public function aclRoleGetName(UnitTester $I)
     {
         $I->wantToTest('Acl\Role - getName()');
-
         $role = new Role('Administrators');
 
-        $I->assertEquals(
-            'Administrators',
-            $role->getName()
-        );
+        $expected = 'Administrators';
+        $actual   = $role->getName();
+        $I->assertEquals($expected, $actual);
     }
 }

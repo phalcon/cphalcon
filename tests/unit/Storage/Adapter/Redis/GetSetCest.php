@@ -32,6 +32,9 @@ class GetSetCest
      *
      * @dataProvider getExamples
      *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
      * @throws Exception
      * @since        2019-03-31
      *
@@ -174,6 +177,9 @@ class GetSetCest
         $I->assertEquals($source, $actual);
     }
 
+    /**
+     * @return array
+     */
     private function getExamples(): array
     {
         return [

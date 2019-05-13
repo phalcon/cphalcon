@@ -22,6 +22,8 @@ class SetDICest
     /**
      * Tests Phalcon\Cli\Dispatcher :: setDI()
      *
+     * @param CliTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

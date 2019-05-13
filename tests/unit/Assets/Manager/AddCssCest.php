@@ -26,7 +26,6 @@ class AddCssCest
     public function assetsManagerAddCss(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - addCss()');
-
         $assets = new Manager();
 
         $assets->addCss('/css/style1.css');
@@ -34,18 +33,17 @@ class AddCssCest
 
         $collection = $assets->get('css');
 
-        $number = 0;
-
+        $number   = 0;
+        $expected = 'css';
         foreach ($collection as $resource) {
-            $I->assertEquals(
-                'css',
-                $resource->getType()
-            );
-
+            $actual = $resource->getType();
+            $I->assertEquals($expected, $actual);
             $number++;
         }
 
-        $I->assertEquals(2, $number);
+        $expected = 2;
+        $actual   = $number;
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -59,7 +57,6 @@ class AddCssCest
     public function assetsManagerAddCssDuplicate(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - addCss() - duplicate');
-
         $assets = new Manager();
 
         for ($i = 0; $i < 10; $i++) {
@@ -69,15 +66,12 @@ class AddCssCest
             ;
         }
 
-        $I->assertCount(
-            1,
-            $assets->getCss()
-        );
-
-        $I->assertCount(
-            1,
-            $assets->getJs()
-        );
+        $expected = 1;
+        $actual   = count($assets->getCss());
+        $I->assertEquals($expected, $actual);
+        $expected = 1;
+        $actual   = count($assets->getJs());
+        $I->assertEquals($expected, $actual);
 
         for ($i = 0; $i < 2; $i++) {
             $assets
@@ -86,14 +80,11 @@ class AddCssCest
             ;
         }
 
-        $I->assertCount(
-            3,
-            $assets->getCss()
-        );
-
-        $I->assertCount(
-            3,
-            $assets->getJs()
-        );
+        $expected = 3;
+        $actual   = count($assets->getCss());
+        $I->assertEquals($expected, $actual);
+        $expected = 3;
+        $actual   = count($assets->getJs());
+        $I->assertEquals($expected, $actual);
     }
 }

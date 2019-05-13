@@ -16,12 +16,17 @@ use CliTester;
 use Phalcon\Application\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
+/**
+ * Class GetModuleCest
+ */
 class GetModuleCest
 {
     use DiTrait;
 
     /**
      * Tests Phalcon\Cli\Console :: getModule()
+     *
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

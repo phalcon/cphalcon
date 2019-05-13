@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
-use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;
@@ -26,29 +25,29 @@ class CreateTableCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: createTable()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-02-
+     * @param IntegrationTester $I
      *
-     * @dataProvider getCreateTableFixtures
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2017-02-26
      */
-    public function dbDialectSqliteCreateTable(IntegrationTester $I, Example $example)
+    public function dbDialectSqliteCreateTable(IntegrationTester $I)
     {
         $I->wantToTest("Db\Dialect\Sqlite - createTable()");
+        $data = $this->getCreateTableFixtures();
+        foreach ($data as $item) {
+            $schema     = $item[0];
+            $definition = $item[1];
+            $expected   = $item[2];
+            $dialect    = $this->getDialectSqlite();
+            $actual     = $dialect->createTable('table', $schema, $definition);
 
-        $schema     = $example[0];
-        $definition = $example[1];
-        $expected   = $example[2];
-        $dialect    = $this->getDialectSqlite();
-
-        $actual = $dialect->createTable(
-            'table',
-            $schema,
-            $definition
-        );
-
-        $I->assertEquals($expected, $actual);
+            $I->assertEquals($expected, $actual);
+        }
     }
 
+    /**
+     * @return array
+     */
     protected function getCreateTableFixtures(): array
     {
         return [

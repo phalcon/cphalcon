@@ -35,6 +35,8 @@ class DirFromFileCest
 
     /**
      * Tests Phalcon\Helper\Str :: dirFromFile() - empty string
+     *
+     * @param UnitTester $I
      */
     public function helperStrFolderFromFileEmptyString(UnitTester $I)
     {

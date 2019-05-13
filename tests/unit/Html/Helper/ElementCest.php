@@ -26,6 +26,9 @@ class ElementCest
      *
      * @dataProvider getExamples
      *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
      * @throws Exception
      */
     public function htmlHelperElementConstruct(UnitTester $I, Example $example)
@@ -45,6 +48,9 @@ class ElementCest
         $I->assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array
+     */
     private function getExamples(): array
     {
         return [

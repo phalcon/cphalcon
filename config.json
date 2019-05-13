@@ -41,6 +41,10 @@
             "type": "bool",
             "default": false
         },
+        "orm.parser_cache": {
+            "type": "hash",
+            "default": "NULL"
+        },
         "orm.ast_cache": {
             "type": "hash",
             "default": "NULL"
@@ -49,31 +53,23 @@
             "type": "int",
             "default": 3
         },
-        "orm.case_insensitive_column_map": {
-            "type": "bool",
-            "default": false
+        "orm.unique_cache_id": {
+            "type": "int",
+            "default": 3
         },
-        "orm.cast_on_hydrate": {
+        "orm.events": {
             "type": "bool",
-            "default": false
+            "default": true
+        },
+        "orm.virtual_foreign_keys": {
+            "type": "bool",
+            "default": true
         },
         "orm.column_renaming": {
             "type": "bool",
             "default": true
         },
-        "orm.disable_assign_setters": {
-            "type": "bool",
-            "default": false
-        },
-        "orm.enable_implicit_joins": {
-            "type": "bool",
-            "default": true
-        },
-        "orm.enable_literals": {
-            "type": "bool",
-            "default": true
-        },
-        "orm.events": {
+        "orm.not_null_validations": {
             "type": "bool",
             "default": true
         },
@@ -81,45 +77,45 @@
             "type": "bool",
             "default": false
         },
-        "orm.ignore_unknown_columns": {
+        "orm.enable_literals": {
             "type": "bool",
-            "default": false
+            "default": true
         },
         "orm.late_state_binding": {
             "type": "bool",
             "default": false
         },
-        "orm.not_null_validations": {
+        "orm.enable_implicit_joins": {
             "type": "bool",
             "default": true
         },
-        "orm.parser_cache": {
-            "type": "hash",
-            "default": "NULL"
+        "orm.cast_on_hydrate": {
+            "type": "bool",
+            "default": false
         },
-        "orm.resultset_prefetch_records": {
-            "type": "int",
-            "default": 0
-        },
-        "orm.unique_cache_id": {
-            "type": "int",
-            "default": 3
+        "orm.ignore_unknown_columns": {
+            "type": "bool",
+            "default": false
         },
         "orm.update_snapshot_on_save": {
             "type": "bool",
             "default": true
         },
-        "orm.virtual_foreign_keys": {
+        "orm.disable_assign_setters": {
             "type": "bool",
-            "default": true
+            "default": false
+        },
+        "orm.case_insensitive_column_map": {
+            "type": "bool",
+            "default": false
         }
     },
     "destructors": {
         "request": [
-        {
-            "include": "phalcon/mvc/model/orm.h",
-            "code": "phalcon_orm_destroy_cache(TSRMLS_C)"
-        }
-      ]
+            {
+                "include": "phalcon/mvc/model/orm.h",
+                "code": "phalcon_orm_destroy_cache(TSRMLS_C)"
+            }
+        ]
     }
 }

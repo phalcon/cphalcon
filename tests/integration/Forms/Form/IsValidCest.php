@@ -23,6 +23,9 @@ use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Regex;
 
+/**
+ * Class IsValidCest
+ */
 class IsValidCest
 {
     use DiTrait;
@@ -85,22 +88,24 @@ class IsValidCest
 
         $form->setValidation($customValidation);
 
-        $I->assertFalse(
-            $form->isValid(
-                [
-                    'address' => 'hello',
-                ]
-            )
+
+        $actual = $form->isValid(
+            [
+                'address' => 'hello',
+            ]
         );
 
-        $I->assertTrue(
-            $form->get('telephone')->hasMessages()
-        );
+        $I->assertFalse($actual);
 
-        $I->assertFalse(
-            $form->get('address')->hasMessages()
-        );
 
+        $actual = $form->get('telephone')->hasMessages();
+
+        $I->assertTrue($actual);
+
+
+        $actual = $form->get('address')->hasMessages();
+
+        $I->assertFalse($actual);
 
 
         $expected = new Messages(
@@ -120,25 +125,20 @@ class IsValidCest
             ]
         );
 
-        $I->assertEquals(
-            $expected,
-            $form->get('telephone')->getMessages()
-        );
+        $actual = $form->get('telephone')->getMessages();
+
+        $I->assertEquals($expected, $actual);
 
 
         $expected = $form->getMessages();
+        $actual   = $form->get('telephone')->getMessages();
 
-        $I->assertEquals(
-            $expected,
-            $form->get('telephone')->getMessages()
-        );
+        $I->assertEquals($expected, $actual);
 
 
         $expected = new Messages();
+        $actual   = $form->get('address')->getMessages();
 
-        $I->assertEquals(
-            $expected,
-            $form->get('address')->getMessages()
-        );
+        $I->assertEquals($expected, $actual);
     }
 }

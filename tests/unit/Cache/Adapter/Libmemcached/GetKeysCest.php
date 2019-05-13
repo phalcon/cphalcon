@@ -35,22 +35,18 @@ class GetKeysCest
         $serializer = new SerializerFactory();
         $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
-        $I->assertTrue(
-            $adapter->clear()
-        );
+        $actual = $adapter->clear();
+        $I->assertTrue($actual);
 
         $key = 'key-1';
         $adapter->set($key, 'test');
-        $I->assertTrue(
-            $adapter->has($key)
-        );
+        $actual = $adapter->has($key);
+        $I->assertTrue($actual);
 
         $key = 'key-2';
         $adapter->set($key, 'test');
-
-        $I->assertTrue(
-            $adapter->has($key)
-        );
+        $actual = $adapter->has($key);
+        $I->assertTrue($actual);
 
         $expected = [
             'ph-memc-key-1',

@@ -19,6 +19,8 @@ class SetDescriptionCest
     /**
      * Tests Phalcon\Cli\Router\Route :: setDescription()
      *
+     * @param CliTester $I
+     *
      * @since 2019-04-02
      */
     public function cliRouterRouteSetDescription(CliTester $I)
