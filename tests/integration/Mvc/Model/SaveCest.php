@@ -278,28 +278,24 @@ class SaveCest
         $method = $function[0];
         $this->$method();
 
-        Prueba::setup(
+        Users::setup(
             [
                 'castLastInsertIdToInt' => false,
             ]
         );
 
-        $name         = uniqid();
-        $test         = new Prueba();
-        $test->nombre = $name;
-        $test->estado = 'A';
+        $user       = new Users();
+        $user->name = 'New User';
+        $I->assertTrue($user->save());
 
-        $result = $test->save();
+        $newId = $user->id;
+        $result = $user->delete();
         $I->assertTrue($result);
 
-        $actual = $test->id;
-        $I->assertTrue(is_string($actual));
+        $I->assertTrue(is_string($newId));
 
-        $expected = intval($actual, 10);
-        $I->assertEquals($expected, $actual);
-
-        $result = $test->delete();
-        $I->assertTrue($result);
+        $expected = intval($newId, 10);
+        $I->assertEquals($expected, $newId);
     }
 
     /**
@@ -317,28 +313,24 @@ class SaveCest
         $method = $function[1];
         $this->$method();
 
-        Prueba::setup(
+        Users::setup(
             [
                 'castLastInsertIdToInt' => true,
             ]
         );
 
-        $name         = uniqid();
-        $test         = new Prueba();
-        $test->nombre = $name;
-        $test->estado = 'A';
+        $user       = new Users();
+        $user->name = 'New User';
+        $I->assertTrue($user->save());
 
-        $result = $test->save();
+        $newId = $user->id;
+        $result = $user->delete();
         $I->assertTrue($result);
 
-        $actual = $test->id;
-        $I->assertTrue(is_int($actual));
+        $I->assertTrue(is_int($newId));
 
-        $expected = intval($actual, 10);
-        $I->assertEquals($expected, $actual);
-
-        $result = $test->delete();
-        $I->assertTrue($result);
+        $expected = intval($newId, 10);
+        $I->assertEquals($expected, $newId);
     }
 
     /**
