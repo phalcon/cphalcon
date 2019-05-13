@@ -681,8 +681,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public static function fromInput(<DiInterface> container, string! modelName, array! data, string! operator = "AND") -> <CriteriaInterface>
     {
-        var attribute, field, value, type, metaData, model, dataTypes, criteria,
-            columnMap;
+        var attribute, field, value, type, metaData, model, dataTypes,
+            criteria, columnMap;
         array conditions, bind;
 
         let conditions = [];
