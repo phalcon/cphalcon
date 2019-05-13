@@ -264,6 +264,45 @@ class SaveCest
     }
 
     /**
+     * Tests Phalcon\Mvc\Model :: save() - cast lastInsertId to int - default
+     *
+     * @dataProvider getFunctions
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-05-10
+     */
+    public function mvcModelSaveCastLastInsertIdDefault(IntegrationTester $I, Example $function)
+    {
+        $I->wantToTest('Mvc\Model - save() - cast lastInsertId to int default');
+
+        $method = $function[0];
+        $this->$method();
+
+        Prueba::setup(
+            [
+                'castLastInsertIdToInt' => false,
+            ]
+        );
+
+        $name         = uniqid();
+        $test         = new Prueba();
+        $test->nombre = $name;
+        $test->estado = 'A';
+
+        $result = $test->save();
+        $I->assertTrue($result);
+
+        $actual = $test->id;
+        $I->assertTrue(is_string($actual));
+
+        $expected = intval($actual, 10);
+        $I->assertEquals($expected, $actual);
+
+        $result = $test->delete();
+        $I->assertTrue($result);
+    }
+
+    /**
      * Tests Phalcon\Mvc\Model :: save() - cast lastInsertId to int
      *
      * @dataProvider getFunctions
@@ -271,7 +310,7 @@ class SaveCest
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-05-10
      */
-    public function mvcModelSaveCastLastInsertId(IntegrationTester $I, Example $function)
+    public function mvcModelSaveCastLastInsertIdInt(IntegrationTester $I, Example $function)
     {
         $I->wantToTest('Mvc\Model - save() - cast lastInsertId to int');
 
@@ -300,39 +339,18 @@ class SaveCest
 
         $result = $test->delete();
         $I->assertTrue($result);
-
-        Prueba::setup(
-            [
-                'castLastInsertIdToInt' => false,
-            ]
-        );
-
-        $name         = uniqid();
-        $test         = new Prueba();
-        $test->nombre = $name;
-        $test->estado = 'A';
-
-        $result = $test->save();
-        $I->assertTrue($result);
-
-        $actual = $test->id;
-        $I->assertTrue(is_string($actual));
-
-        $expected = intval($actual, 10);
-        $I->assertEquals($expected, $actual);
-
-        $result = $test->delete();
-        $I->assertTrue($result);
     }
 
     /**
+     * Database providers
+     *
      * @return array
      */
     private function getFunctions(): array
     {
         return [
             ['setDiMysql'],
-            //            ['setDiPostgresql'],
+            ['setDiPostgresql'],
             ['setDiSqlite'],
         ];
     }
