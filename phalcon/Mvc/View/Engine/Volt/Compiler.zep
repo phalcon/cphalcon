@@ -57,9 +57,7 @@ class Compiler implements InjectionAwareInterface
      */
     public function __construct(<ViewBaseInterface> view = null)
     {
-        if typeof view == "object" {
-            let this->view = view;
-        }
+        let this->view = view;
     }
 
     /**
