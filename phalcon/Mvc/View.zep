@@ -117,11 +117,7 @@ class View extends Injectable implements ViewInterface
      */
     public function __get(string! key) -> var | null
     {
-        var value;
-        if fetch value, this->viewParams[key] {
-            return value;
-        }
-        return null;
+        return this->getVar(key);
     }
 
     /**
@@ -145,7 +141,7 @@ class View extends Injectable implements ViewInterface
      */
     public function __set(string! key, var value)
     {
-        let this->viewParams[key] = value;
+        this->setVar(key, value);
     }
 
     /**
