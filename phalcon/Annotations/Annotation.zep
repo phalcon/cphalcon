@@ -23,7 +23,7 @@ class Annotation
     /**
      * Annotation Arguments
      *
-     * @var string
+     * @var array
      */
     protected arguments;
 
