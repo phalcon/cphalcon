@@ -16,7 +16,7 @@ use Phalcon\Html\Attributes;
 *
 * Interface Phalcon\Html\Interfaces\AttributesInterface
 */
-interface AttributesInterface extends \ArrayAccess, \Countable, \IteratorAggregate {
+interface AttributesInterface {
     /**
     * Get Attributes
     */

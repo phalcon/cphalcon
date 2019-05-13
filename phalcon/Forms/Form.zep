@@ -28,7 +28,7 @@ use Phalcon\Service\LocatorInterface;
  *
  * This component allows to build forms using an object-oriented interface
  */
-class Form extends Injectable implements \Countable, \Iterator
+class Form extends Injectable implements \Countable, \Iterator, AttributesInterface
 {
     protected attributes;
 
