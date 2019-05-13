@@ -12,10 +12,17 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Mvc\Model;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Employees;
+use Phalcon\Test\Models\AlbumORama\Albums;
+use Phalcon\Test\Models\AlbumORama\Artists;
+use Phalcon\Test\Models\Parts;
+use Phalcon\Test\Models\Prueba;
 use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\RobotsParts;
+use Phalcon\Test\Models\Users;
 use function is_int;
 use function is_string;
 use function uniqid;
@@ -38,10 +45,10 @@ class SaveCest
      *
      * @dataProvider getFunctions
      *
-     * @author Balázs Németh <https://github.com/zsilbi>
-     * @since  2019-04-30
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-10
+     * @author       Balázs Németh <https://github.com/zsilbi>
+     * @since        2019-04-30
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-05-10
      */
     public function mvcModelSave(IntegrationTester $I, Example $function)
     {
@@ -50,8 +57,8 @@ class SaveCest
         /**
          * New model
          */
-        $user = new Models\Users();
-        $user->id = 54321;
+        $user       = new Users();
+        $user->id   = 54321;
         $user->name = null;
 
         $I->assertFalse($user->save());
@@ -63,7 +70,7 @@ class SaveCest
         /**
          * Saved model
          */
-        $user = Models\Users::findFirst(54321);
+        $user = Users::findFirst(54321);
 
         $I->assertEquals(
             [
@@ -80,7 +87,7 @@ class SaveCest
         /**
          * Modified saved model
          */
-        $user = Models\Users::findFirst(54321);
+        $user = Users::findFirst(54321);
 
         $I->assertEquals(
             [
@@ -99,7 +106,7 @@ class SaveCest
          */
         $I->assertEquals(
             1,
-            Models\Users::count(['id = 54321'])
+            Users::count(['id = 54321'])
         );
 
         /**
@@ -120,9 +127,9 @@ class SaveCest
     {
         $I->wantToTest('Mvc\Model - save() with related records');
 
-        $robotPart = new Models\RobotsParts();
+        $robotPart = new RobotsParts();
 
-        $robotPart->robot = new Models\Robots();
+        $robotPart->robot = new Robots();
         $robotPart->robot->assign([
             'name'     => 'Test Robots',
             'type'     => 'mechanical',
@@ -131,7 +138,7 @@ class SaveCest
             'text'     => 'Test text',
         ]);
 
-        $part = new Models\Parts();
+        $part       = new Parts();
         $part->name = 'Test Parts';
 
         $robotPart->part = $part;
@@ -190,7 +197,7 @@ class SaveCest
      *
      * @param IntegrationTester $I
      *
-     * @see https://github.com/phalcon/cphalcon/issues/13964
+     * @see    https://github.com/phalcon/cphalcon/issues/13964
      *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-26
@@ -200,19 +207,19 @@ class SaveCest
         $I->wantToTest('Mvc\Model - save() after fetching related');
 
         /**
-         * @var Models\AlbumORama\Albums $album
+         * @var Albums $album
          */
-        $album = Models\AlbumORama\Albums::findFirst();
+        $album = Albums::findFirst();
 
         /**
-         * @var Models\AlbumORama\Artists $artist
+         * @var Artists $artist
          */
         $artist = $album->artist;
 
         $I->assertTrue($album->save());
 
         /**
-         * @var \Phalcon\Mvc\Model\Resultset\Simple $songs
+         * @var Model\Resultset\Simple $songs
          */
         $songs = $album->songs;
 
@@ -224,7 +231,7 @@ class SaveCest
      *
      * @param IntegrationTester $I
      *
-     * @see https://github.com/phalcon/cphalcon/issues/13964
+     * @see    https://github.com/phalcon/cphalcon/issues/13964
      *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-26
@@ -234,39 +241,23 @@ class SaveCest
         $I->wantToTest('Mvc\Model - save() after using related records getters');
 
         /**
-         * @var Models\AlbumORama\Albums $album
+         * @var Albums $album
          */
-        $album = Models\AlbumORama\Albums::findFirst();
+        $album = Albums::findFirst();
 
         /**
-         * @var Models\AlbumORama\Artists $artist
+         * @var Artists $artist
          */
         $artist = $album->getArtist();
 
         $I->assertTrue($album->save());
 
         /**
-         * @var \Phalcon\Mvc\Model\Resultset\Simple $songs
+         * @var \Model\Resultset\Simple $songs
          */
         $songs = $album->getSongs();
 
         $I->assertTrue($album->save());
-        $method = $function[0];
-        $this->$method();
-
-        $first                     = uniqid();
-        $last                      = uniqid();
-        $employee                  = new Employees();
-        $employee->empNameFirst    = $first;
-        $employee->empNameLast     = $last;
-        $employee->empCreatedDate  = '2019-05-10 00:00:00';
-        $employee->empCreatedEmpId = 1;
-
-        $result = $employee->save();
-        $I->assertTrue($result);
-
-        $result = $employee->delete();
-        $I->assertTrue($result);
     }
 
     /**
@@ -284,67 +275,61 @@ class SaveCest
         $method = $function[0];
         $this->$method();
 
-        Robots::setup(
+        Prueba::setup(
             [
                 'castLastInsertIdToInt' => true,
             ]
         );
 
-        $first                     = uniqid();
-        $last                      = uniqid();
-        $employee                  = new Employees();
-        $employee->empNameFirst    = $first;
-        $employee->empNameLast     = $last;
-        $employee->empCreatedDate  = '2019-05-10 00:00:00';
-        $employee->empCreatedEmpId = 1;
+        $name         = uniqid();
+        $test         = new Prueba();
+        $test->nombre = $name;
+        $test->estado = 'A';
 
-        $result = $employee->save();
+        $result = $test->save();
         $I->assertTrue($result);
 
-        $actual = $employee->empId;
+        $actual = $test->id;
         $I->assertTrue(is_int($actual));
 
         $expected = intval($actual, 10);
         $I->assertEquals($expected, $actual);
 
-        $result = $employee->delete();
+        $result = $test->delete();
         $I->assertTrue($result);
 
-        Robots::setup(
+        Prueba::setup(
             [
                 'castLastInsertIdToInt' => false,
             ]
         );
 
-        $first                     = uniqid();
-        $last                      = uniqid();
-        $employee                  = new Employees();
-        $employee->empNameFirst    = $first;
-        $employee->empNameLast     = $last;
-        $employee->empCreatedDate  = '2019-05-10 00:00:00';
-        $employee->empCreatedEmpId = 1;
+        $name         = uniqid();
+        $test         = new Prueba();
+        $test->nombre = $name;
+        $test->estado = 'A';
 
-        $result = $employee->save();
+        $result = $test->save();
         $I->assertTrue($result);
 
-        $actual = $employee->empId;
+        $actual = $test->id;
         $I->assertTrue(is_string($actual));
 
-        $expected = (string) $actual;
+        $expected = intval($actual, 10);
         $I->assertEquals($expected, $actual);
 
-        $result = $employee->delete();
+        $result = $test->delete();
         $I->assertTrue($result);
     }
 
     /**
      * @return array
      */
-    public function getFunctions(): array
+    private function getFunctions(): array
     {
         return [
             ['setDiMysql'],
-//            ['setDiPostgresql'],
+            //            ['setDiPostgresql'],
             ['setDiSqlite'],
         ];
     }
