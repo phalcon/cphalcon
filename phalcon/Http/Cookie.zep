@@ -78,13 +78,9 @@ class Cookie implements CookieInterface, InjectionAwareInterface
 
         let this->path = path;
 
-        if secure !== null {
-            let this->secure = secure;
-        }
+        let this->secure = secure;
 
-        if domain !== null {
-            let this->domain = domain;
-        }
+        let this->domain = domain;
 
         let this->httpOnly = httpOnly;
     }
