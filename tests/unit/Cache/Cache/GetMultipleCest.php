@@ -39,18 +39,13 @@ class GetMultipleCest
 
         $key1 = uniqid();
         $key2 = uniqid();
-
         $adapter->set($key1, 'test1');
-
-        $I->assertTrue(
-            $adapter->has($key1)
-        );
+        $actual = $adapter->has($key1);
+        $I->assertTrue($actual);
 
         $adapter->set($key2, 'test2');
-
-        $I->assertTrue(
-            $adapter->has($key2)
-        );
+        $actual = $adapter->has($key2);
+        $I->assertTrue($actual);
 
         $expected = [
             $key1 => 'test1',
@@ -79,9 +74,7 @@ class GetMultipleCest
         $I->wantToTest('Cache\Cache - getMultiple() - exception');
 
         $I->expectThrowable(
-            new InvalidArgumentException(
-                'The keys need to be an array or instance of Traversable'
-            ),
+            new InvalidArgumentException('The keys need to be an array or instance of Traversable'),
             function () {
                 $serializer = new SerializerFactory();
                 $factory    = new AdapterFactory($serializer);

@@ -16,11 +16,17 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
+/**
+ * Class OpenCest
+ */
 class OpenCest
 {
     use DiTrait;
     use SessionTrait;
 
+    /**
+     * @param IntegrationTester $I
+     */
     public function _before(IntegrationTester $I)
     {
         $this->newFactoryDefault();
@@ -28,6 +34,8 @@ class OpenCest
 
     /**
      * Tests Phalcon\Session\Adapter\Noop :: open()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

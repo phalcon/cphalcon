@@ -16,12 +16,16 @@ use IntegrationTester;
 use Phalcon\Url;
 
 /**
+ * Class GetStaticBaseUriCest
+ *
  * @package Phalcon\Test\Integration\Url
  */
 class GetSetStaticBaseUriCest
 {
     /**
      * Tests Phalcon\Url :: getStaticBaseUri()/setStaticBaseUri()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -45,6 +49,8 @@ class GetSetStaticBaseUriCest
     /**
      * Tests Phalcon\Url :: getStaticBaseUri()/setStaticBaseUri() -
      * getBaseUrl()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

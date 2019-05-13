@@ -61,6 +61,8 @@ class GettextCest
     /**
      * Tests the query Gettext::query
      *
+     * @param  UnitTester $I
+     *
      * @author Serghei Iakovlev <serghei@phalconphp.com>
      * @since  2016-01-16
      */

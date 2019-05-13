@@ -27,29 +27,22 @@ class AddCest
     public function assetsCollectionAdd(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - add()');
-
         $collection = new Collection();
 
-        $collection->add(
-            new Asset('js', 'js/jquery.js')
-        );
+        $collection->add(new Asset('js', 'js/jquery.js'));
+        $collection->add(new Asset('js', 'js/jquery-ui.js'));
 
-        $collection->add(
-            new Asset('js', 'js/jquery-ui.js')
-        );
-
-        $number = 0;
-
+        $number   = 0;
+        $expected = 'js';
         foreach ($collection as $asset) {
-            $I->assertEquals(
-                'js',
-                $asset->getType()
-            );
-
+            $actual = $asset->getType();
+            $I->assertEquals($expected, $actual);
             $number++;
         }
 
-        $I->assertEquals(2, $number);
+        $expected = 2;
+        $actual   = $number;
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -63,22 +56,15 @@ class AddCest
     public function assetsCollectionAddDuplicate(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - add()');
-
         $collection = new Collection();
 
         for ($i = 0; $i < 10; $i++) {
-            $collection->add(
-                new Asset('js', 'js/jquery.js')
-            );
-
-            $collection->add(
-                new Asset('js', 'js/jquery-ui.js')
-            );
+            $collection->add(new Asset('js', 'js/jquery.js'));
+            $collection->add(new Asset('js', 'js/jquery-ui.js'));
         }
 
-        $I->assertCount(
-            2,
-            $collection->getAssets()
-        );
+        $expected = 2;
+        $actual   = count($collection->getAssets());
+        $I->assertEquals($expected, $actual);
     }
 }

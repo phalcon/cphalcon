@@ -79,7 +79,12 @@ if (!function_exists('loadFolders')) {
  * Returns the cache folder
  */
 if (!function_exists('cacheDir')) {
-    function cacheDir(string $fileName = ''): string
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
+    function cacheDir(string $fileName = '')
     {
         return codecept_output_dir() . 'tests/cache/' . $fileName;
     }
@@ -89,7 +94,12 @@ if (!function_exists('cacheDir')) {
  * Returns the output folder
  */
 if (!function_exists('dataDir')) {
-    function dataDir(string $fileName = ''): string
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
+    function dataDir(string $fileName = '')
     {
         return codecept_data_dir() . $fileName;
     }
@@ -99,7 +109,12 @@ if (!function_exists('dataDir')) {
  * Returns the output folder
  */
 if (true !== function_exists('logsDir')) {
-    function logsDir(string $fileName = ''): string
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
+    function logsDir(string $fileName = '')
     {
         return codecept_output_dir() . 'tests/logs/' . $fileName;
     }
@@ -109,7 +124,12 @@ if (true !== function_exists('logsDir')) {
  * Returns the output folder
  */
 if (true !== function_exists('outputDir')) {
-    function outputDir(string $fileName = ''): string
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
+    function outputDir(string $fileName = '')
     {
         return codecept_output_dir() . $fileName;
     }
@@ -119,7 +139,12 @@ if (true !== function_exists('outputDir')) {
  * Returns the output folder
  */
 if (true !== function_exists('cacheModelsDir')) {
-    function cacheModelsDir(string $fileName = ''): string
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
+    function cacheModelsDir(string $fileName = '')
     {
         return codecept_output_dir() . 'tests/cache/models/' . $fileName;
     }
@@ -129,6 +154,9 @@ if (true !== function_exists('cacheModelsDir')) {
  * Options
  *******************************************************************************/
 if (true !== function_exists('getOptionsLibmemcached')) {
+    /**
+     * @return array
+     */
     function getOptionsLibmemcached(): array
     {
         return [
@@ -145,6 +173,9 @@ if (true !== function_exists('getOptionsLibmemcached')) {
 }
 
 if (true !== function_exists('getOptionsRedis')) {
+    /**
+     * @return array
+     */
     function getOptionsRedis(): array
     {
         return [
@@ -157,9 +188,12 @@ if (true !== function_exists('getOptionsRedis')) {
 
 if (true !== function_exists('getOptionsSessionStream')) {
     /**
+     * @return array
+     */
+    /**
      * Get Session Stream options
      */
-    function getOptionsSessionStream(): array
+    function getOptionsSessionStream()
     {
         if (!is_dir(cacheDir('sessions'))) {
             mkdir(cacheDir('sessions'));

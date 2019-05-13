@@ -23,6 +23,9 @@ class IsWritableCest
      *
      * @dataProvider getExamples
      *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-10
      */
@@ -39,21 +42,24 @@ class IsWritableCest
      *
      * @dataProvider getExamplesX
      *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-10
      */
     public function httpMessageStreamIsWritableWithX(UnitTester $I, Example $example)
     {
-        $I->wantToTest(
-            'Http\Message\Stream - isWritable() with "x" - ' . $example[0]
-        );
-
+        $I->wantToTest('Http\Message\Stream - isWritable() with "x" - ' . $example[0]);
         $fileName = $I->getNewFileName();
         $fileName = outputDir('tests/stream/' . $fileName);
         $stream   = new Stream($fileName, $example[0]);
         $I->assertEquals($example[1], $stream->isWritable());
     }
 
+    /**
+     * @return array
+     */
     private function getExamplesX(): array
     {
         return [
@@ -68,6 +74,9 @@ class IsWritableCest
         ];
     }
 
+    /**
+     * @return array
+     */
     private function getExamples(): array
     {
         return [

@@ -17,6 +17,9 @@ use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
+/**
+ * Class ToArrayCest
+ */
 class ToArrayCest
 {
     use DiTrait;
@@ -24,6 +27,8 @@ class ToArrayCest
 
     /**
      * Tests Phalcon\Session\Bag :: toArray()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -42,9 +47,10 @@ class ToArrayCest
 
         $collection->init($data);
 
-        $I->assertEquals(
-            $data,
-            $collection->toArray()
-        );
+
+        $expected = $data;
+        $actual   = $collection->toArray();
+
+        $I->assertEquals($expected, $actual);
     }
 }

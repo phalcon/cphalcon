@@ -14,10 +14,15 @@ namespace Phalcon\Test\Integration\Mvc\Router;
 
 use IntegrationTester;
 
+/**
+ * Class GetKeyRouteIdsCest
+ */
 class GetKeyRouteIdsCest
 {
     /**
      * Tests Phalcon\Mvc\Router :: getKeyRouteIds()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

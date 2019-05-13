@@ -22,32 +22,30 @@ class AddForeignKeyCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: addForeignKey()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function testAddForeignKey(IntegrationTester $I)
     {
         $I->wantToTest("Db\Dialect\Sqlite - addForeignKey()");
-
         $data = $this->getAddForeignKeyFixtures();
-
         foreach ($data as $item) {
             $schema     = $item[0];
             $reference  = $item[1];
             $expected   = $item[2];
             $dialect    = $this->getDialectSqlite();
             $references = $this->getReferences();
-
-            $actual = $dialect->addForeignKey(
-                'table',
-                $schema,
-                $references[$reference]
-            );
+            $actual     = $dialect->addForeignKey('table', $schema, $references[$reference]);
 
             $I->assertEquals($expected, $actual);
         }
     }
 
+    /**
+     * @return array
+     */
     protected function getAddForeignKeyFixtures(): array
     {
         return [];

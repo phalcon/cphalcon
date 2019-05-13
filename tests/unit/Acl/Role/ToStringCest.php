@@ -26,17 +26,14 @@ class ToStringCest
     public function aclRoleToString(UnitTester $I)
     {
         $I->wantToTest('Acl\Role - __toString()');
-
         $role = new Role('Administrator');
 
-        $I->assertEquals(
-            'Administrator',
-            $role->__toString()
-        );
+        $expected = 'Administrator';
+        $actual   = $role->__toString();
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            'Administrator',
-            (string) $role
-        );
+        $expected = 'Administrator';
+        $actual   = (string) $role;
+        $I->assertEquals($expected, $actual);
     }
 }

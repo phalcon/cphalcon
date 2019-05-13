@@ -35,47 +35,29 @@ class IncrementCest
         $serializer = new SerializerFactory();
         $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
-        $key = 'cache-data';
-
-        $I->assertTrue(
-            $adapter->set($key, 1)
-        );
+        $key    = 'cache-data';
+        $result = $adapter->set($key, 1);
+        $I->assertTrue($result);
 
         $expected = 2;
+        $actual   = $adapter->increment($key);
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $adapter->increment($key)
-        );
-
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
-
-
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
 
         $expected = 10;
+        $actual   = $adapter->increment($key, 8);
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $adapter->increment($key, 8)
-        );
-
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
-
-
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
 
         /**
          * unknown key
          */
-        $key = 'unknown';
-
-        $I->assertFalse(
-            $adapter->increment($key)
-        );
+        $key    = 'unknown';
+        $result = $adapter->increment($key);
+        $I->assertFalse($result);
     }
 }

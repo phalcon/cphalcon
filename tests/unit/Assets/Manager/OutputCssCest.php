@@ -151,6 +151,8 @@ class OutputCssCest
 
     /**
      * Tests Phalcon\Assets\Manager :: outputCss() - custom tag component
+     *
+     * @param UnitTester $I
      */
     public function assetsManagerOutputCssCustomTag(UnitTester $I)
     {

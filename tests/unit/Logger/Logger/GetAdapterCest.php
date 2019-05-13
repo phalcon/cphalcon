@@ -21,6 +21,8 @@ class GetAdapterCest
 {
     /**
      * Tests Phalcon\Logger :: getAdapter()
+     *
+     * @param UnitTester $I
      */
     public function loggerGetAdapter(UnitTester $I)
     {
@@ -46,6 +48,8 @@ class GetAdapterCest
 
     /**
      * Tests Phalcon\Logger :: getAdapter() - unknown
+     *
+     * @param UnitTester $I
      */
     public function loggerGetAdapterUnknown(UnitTester $I)
     {

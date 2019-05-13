@@ -37,38 +37,22 @@ class DecrementCest
         $serializer = new SerializerFactory();
         $adapter    = new Apcu($serializer);
 
-        $key = uniqid();
-
-        $I->assertTrue(
-            $adapter->set($key, 100)
-        );
-
-
+        $key    = uniqid();
+        $result = $adapter->set($key, 100);
+        $I->assertTrue($result);
 
         $expected = 99;
+        $actual   = $adapter->decrement($key);
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $adapter->decrement($key)
-        );
-
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
-
-
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
 
         $expected = 90;
+        $actual   = $adapter->decrement($key, 9);
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $adapter->decrement($key, 9)
-        );
-
-        $I->assertEquals(
-            $expected,
-            $adapter->get($key)
-        );
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
     }
 }

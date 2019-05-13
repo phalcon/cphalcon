@@ -40,6 +40,8 @@ class ConcatCest
 
     /**
      * Tests Phalcon\Helper\Str :: concat() - exception
+     *
+     * @param UnitTester $I
      */
     public function helperStrConcatException(UnitTester $I)
     {

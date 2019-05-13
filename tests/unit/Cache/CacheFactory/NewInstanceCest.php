@@ -36,14 +36,10 @@ class NewInstanceCest
         $cacheFactory   = new CacheFactory($adapterFactory);
         $adapter        = $cacheFactory->newInstance('apcu');
 
-        $I->assertInstanceOf(
-            Cache::class,
-            $adapter
-        );
+        $class = Cache::class;
+        $I->assertInstanceOf($class, $adapter);
 
-        $I->assertInstanceOf(
-            CacheInterface::class,
-            $adapter
-        );
+        $class = CacheInterface::class;
+        $I->assertInstanceOf($class, $adapter);
     }
 }

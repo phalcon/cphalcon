@@ -20,6 +20,8 @@ class GetTypeCest
 {
     /**
      * Tests Phalcon\Logger\Item :: getType()
+     *
+     * @param UnitTester $I
      */
     public function loggerItemGetType(UnitTester $I)
     {

@@ -19,6 +19,8 @@ class SetFormatCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Line :: setFormat()
+     *
+     * @param UnitTester $I
      */
     public function loggerFormatterLineSetFormat(UnitTester $I)
     {

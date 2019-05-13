@@ -21,6 +21,9 @@ class ConstructCest
 {
     use ConfigTrait;
 
+    /**
+     * @param UnitTester $I
+     */
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('yaml');
@@ -35,7 +38,6 @@ class ConstructCest
     public function configAdapterYamlConstruct(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Yaml - construct');
-
         $this->checkConstruct($I, 'Yaml');
     }
 
@@ -48,12 +50,7 @@ class ConstructCest
     public function configAdapterYamlConstructCallbacks(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Yaml - construct - callbacks');
-
-        define(
-            'CALLBACK_APPROOT',
-            dirname(__DIR__)
-        );
-
+        define('CALLBACK_APPROOT', dirname(__DIR__));
         $config = new Yaml(
             dataDir('assets/config/callbacks.yml'),
             [
@@ -66,14 +63,12 @@ class ConstructCest
             ]
         );
 
-        $I->assertEquals(
-            CALLBACK_APPROOT . '/app/controllers/',
-            $config->application->controllersDir
-        );
+        $expected = CALLBACK_APPROOT . '/app/controllers/';
+        $actual   = $config->application->controllersDir;
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            '9f7030891b235f3e06c4bff74ae9dc1b9b59d4f2e4e6fd94eeb2b91caee5d223',
-            $config->database->password
-        );
+        $expected = '9f7030891b235f3e06c4bff74ae9dc1b9b59d4f2e4e6fd94eeb2b91caee5d223';
+        $actual   = $config->database->password;
+        $I->assertEquals($expected, $actual);
     }
 }

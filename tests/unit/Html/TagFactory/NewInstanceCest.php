@@ -35,6 +35,9 @@ class NewInstanceCest
      * Tests Phalcon\Filter\FilterFactory :: newInstance() - services
      *
      * @dataProvider getData
+     *
+     * @param UnitTester $I
+     * @param Example    $example
      */
     public function filterFilterFactoryNewInstanceServices(UnitTester $I, Example $example)
     {

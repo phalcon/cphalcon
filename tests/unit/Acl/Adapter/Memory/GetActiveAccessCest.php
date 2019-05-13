@@ -30,9 +30,9 @@ class GetActiveAccessCest
 
         $acl = new Memory();
 
-        $I->assertNull(
-            $acl->getActiveAccess()
-        );
+        $actual = $acl->getActiveAccess();
+
+        $I->assertNull($actual);
     }
 
     /**
@@ -60,13 +60,15 @@ class GetActiveAccessCest
 
         $acl->allow('Guests', 'Login', '*');
 
-        $I->assertTrue(
-            $acl->isAllowed('Guests', 'Login', 'index')
-        );
 
-        $I->assertEquals(
-            'index',
-            $acl->getActiveAccess()
-        );
+        $actual = $acl->isAllowed('Guests', 'Login', 'index');
+
+        $I->assertTrue($actual);
+
+
+        $expected = 'index';
+        $actual   = $acl->getActiveAccess();
+
+        $I->assertEquals($expected, $actual);
     }
 }

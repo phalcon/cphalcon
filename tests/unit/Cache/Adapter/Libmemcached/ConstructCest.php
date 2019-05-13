@@ -38,15 +38,11 @@ class ConstructCest
         $serializer = new SerializerFactory();
         $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
-        $I->assertInstanceOf(
-            Libmemcached::class,
-            $adapter
-        );
+        $class = Libmemcached::class;
+        $I->assertInstanceOf($class, $adapter);
 
-        $I->assertInstanceOf(
-            AdapterInterface::class,
-            $adapter
-        );
+        $class = AdapterInterface::class;
+        $I->assertInstanceOf($class, $adapter);
     }
 
     /**
@@ -72,11 +68,8 @@ class ConstructCest
                 ],
             ],
         ];
-
-        $I->assertEquals(
-            $expected,
-            $adapter->getOptions()
-        );
+        $actual   = $adapter->getOptions();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -95,21 +88,17 @@ class ConstructCest
         $serializer = new SerializerFactory();
         $adapter    = new Libmemcached($serializer);
 
-        $I->assertEquals(
-            3600,
-            $adapter->getTtl(null)
-        );
+        $expected = 3600;
+        $actual   = $adapter->getTtl(null);
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            20,
-            $adapter->getTtl(20)
-        );
+        $expected = 20;
+        $actual   = $adapter->getTtl(20);
+        $I->assertEquals($expected, $actual);
 
-        $time = new DateInterval('PT5S');
-
-        $I->assertEquals(
-            5,
-            $adapter->getTtl($time)
-        );
+        $time     = new DateInterval('PT5S');
+        $expected = 5;
+        $actual   = $adapter->getTtl($time);
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -32,14 +32,10 @@ class ConstructCest
         $serializer = new SerializerFactory();
         $adapter    = new Memory($serializer);
 
-        $I->assertInstanceOf(
-            Memory::class,
-            $adapter
-        );
+        $class = Memory::class;
+        $I->assertInstanceOf($class, $adapter);
 
-        $I->assertInstanceOf(
-            AdapterInterface::class,
-            $adapter
-        );
+        $class = AdapterInterface::class;
+        $I->assertInstanceOf($class, $adapter);
     }
 }

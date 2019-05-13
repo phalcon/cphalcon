@@ -88,8 +88,8 @@ class Manager implements InjectionAwareInterface
         var collection;
 
         if !fetch collection, this->collections[type] {
-            let collection              = new Collection(),
-                this->collections[type] = collection;
+            let collection = new Collection();
+            let this->collections[type] = collection;
         }
 
         /**
@@ -108,18 +108,11 @@ class Manager implements InjectionAwareInterface
     * $assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
     *</code>
     */
-    public function addCss(
-        string! path,
-        var local = true,
-        bool filter = true,
-        var attributes = null,
-        string version = null,
-        bool autoVersion = false
-    ) -> <Manager>
+    public function addCss(string! path, local = true, filter = true, var attributes = null) -> <Manager>
     {
         this->addAssetByType(
             "css",
-            new AssetCss(path, local, filter, attributes, version, autoVersion)
+            new AssetCss(path, local, filter, attributes)
         );
 
         return this;
@@ -192,18 +185,11 @@ class Manager implements InjectionAwareInterface
      * $assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
      *</code>
      */
-    public function addJs(
-        string! path,
-        var local = true,
-        bool filter = true,
-        var attributes = null,
-        string version = null,
-        bool autoVersion = false
-    ) -> <Manager>
+    public function addJs(string! path, local = true, filter = true, attributes = null) -> <Manager>
     {
         this->addAssetByType(
             "js",
-            new AssetJs(path, local, filter, attributes, version, autoVersion)
+            new AssetJs(path, local, filter, attributes)
         );
 
         return this;
@@ -229,8 +215,7 @@ class Manager implements InjectionAwareInterface
      */
     public function collectionAssetsByType(array assets, string type) -> array
     {
-        var asset;
-        array filtered = [];
+        var $filtered = [], asset;
 
         for asset in assets {
             if asset->getType() == type {
@@ -342,17 +327,17 @@ class Manager implements InjectionAwareInterface
      */
     public function output(<Collection> collection, callback, type) -> string | null
     {
-        string output;
-        var asset, assets, attributes, autoVersion, collectionSourcePath,
-            collectionTargetPath, completeSourcePath, completeTargetPath,
-            content, filter, filters, filteredContent, filteredJoinedContent,
-            filterNeeded, html, join, local, modificationTime, mustFilter,
-            options, parameters, path, prefixedPath, sourceBasePath = null,
-            sourcePath,  targetBasePath = null, targetPath, targetUri, typeCss,
-            useImplicitOutput, version;
+        var output, assets, filters, prefix, sourceBasePath = null,
+            targetBasePath = null, options, collectionSourcePath,
+            completeSourcePath, collectionTargetPath, completeTargetPath,
+            filteredJoinedContent, join, asset, filterNeeded, local, sourcePath,
+            targetPath, path, prefixedPath, attributes, parameters, html,
+            useImplicitOutput, content, mustFilter, filter, filteredContent,
+            typeCss, targetUri;
 
-        let useImplicitOutput = this->implicitOutput,
-            output            = "";
+        let useImplicitOutput = this->implicitOutput;
+
+        let output = "";
 
         /**
          * Get the assets as an array
@@ -365,8 +350,14 @@ class Manager implements InjectionAwareInterface
         /**
          * Get filters in the collection
          */
-        let filters = collection->getFilters(),
-            typeCss = "css";
+        let filters = collection->getFilters();
+
+        /**
+         * Get the collection's prefix
+         */
+        let prefix = collection->getPrefix();
+
+        let typeCss = "css";
 
         /**
          * Prepare options if the collection must be filtered
@@ -457,8 +448,8 @@ class Manager implements InjectionAwareInterface
          */
         for asset in assets {
 
-            let filterNeeded = false,
-                type         = asset->getType();
+            let filterNeeded = false;
+            let type = asset->getType();
 
             /**
              * Is the asset local?
@@ -541,22 +532,13 @@ class Manager implements InjectionAwareInterface
                 /**
                  * If there are not filters, just print/buffer the HTML
                  */
-                let path         = asset->getRealTargetUri(),
-                    prefixedPath = this->getPrefixedPath(collection, path);
+                let path = asset->getRealTargetUri();
 
-                if null === asset->getVersion() && asset->isAutoVersion() {
-					let version     = collection->getVersion(),
-					    autoVersion = collection->isAutoVersion();
-
-				    if autoVersion && local {
-				        let modificationTime = filemtime(asset->getRealSourcePath()),
-				            version          = version ? version . "." . modificationTime : modificationTime;
-				    }
-
-					if version {
-						let prefixedPath = prefixedPath . "?ver=" . version;
-					}
-				}
+                if prefix {
+                    let prefixedPath = prefix . path;
+                } else {
+                    let prefixedPath = path;
+                }
 
                 /**
                  * Gets extra HTML attributes in the asset
@@ -622,7 +604,7 @@ class Manager implements InjectionAwareInterface
                          * filtered version of the content
                          */
                         let filteredContent = filter->filter(content),
-                            content         = filteredContent;
+                            content = filteredContent;
                     }
                     /**
                      * Update the joined filtered content
@@ -660,23 +642,13 @@ class Manager implements InjectionAwareInterface
                 /**
                  * Generate the HTML using the original path in the asset
                  */
-                let path         = asset->getRealTargetUri(),
-                    prefixedPath = this->getPrefixedPath(collection, path);
+                let path = asset->getRealTargetUri();
 
-                if null === asset->getVersion() && asset->isAutoVersion() {
-
-					let version     = collection->getVersion(),
-					    autoVersion = collection->isAutoVersion();
-
-				    if autoVersion && local {
-				        let modificationTime = filemtime(asset->getRealSourcePath()),
-				            version          = version ? version . "." . modificationTime : modificationTime;
-				    }
-
-					if version {
-						let prefixedPath = prefixedPath . "?ver=" . version;
-					}
-				}
+                if prefix {
+                    let prefixedPath = prefix . path;
+                } else {
+                    let prefixedPath = path;
+                }
 
                 /**
                  * Gets extra HTML attributes in the asset
@@ -729,18 +701,12 @@ class Manager implements InjectionAwareInterface
                 /**
                  * Generate the HTML using the original path in the asset
                  */
-                let targetUri    = collection->getTargetUri(),
-                    prefixedPath = this->getPrefixedPath(collection, targetUri),
-                    version      = collection->getVersion(),
-                    autoVersion  = collection->isAutoVersion();
+                let targetUri = collection->getTargetUri();
 
-                if autoVersion && local {
-                    let modificationTime = filemtime(completeTargetPath),
-                        version          = version ? version . "." . modificationTime : modificationTime;
-                }
-
-                if version {
-                    let prefixedPath = prefixedPath . "?ver=" . version;
+                if prefix {
+                    let prefixedPath = prefix . targetUri;
+                } else {
+                    let prefixedPath = targetUri;
                 }
 
                 /**
@@ -758,8 +724,8 @@ class Manager implements InjectionAwareInterface
                  */
                 let parameters = [];
                 if typeof attributes == "array" {
-                    let attributes[0] = prefixedPath,
-                        parameters[]  = attributes;
+                    let attributes[0] = prefixedPath;
+                    let parameters[] = attributes;
                 } else {
                     let parameters[] = prefixedPath;
                 }
@@ -789,8 +755,7 @@ class Manager implements InjectionAwareInterface
      */
     public function outputCss(string collectionName = null) -> string
     {
-        array callback;
-        var collection, container, tag;
+        var collection, container, tag, callback;
 
         if !collectionName {
             let collection = this->getCss();
@@ -798,12 +763,14 @@ class Manager implements InjectionAwareInterface
             let collection = this->get(collectionName);
         }
 
-        let callback  = ["Phalcon\\Tag", "stylesheetLink"],
-            container = this->container;
+        let callback = ["Phalcon\\Tag", "stylesheetLink"];
+
+        let container = this->container;
 
         if typeof container == "object" && container->has("tag") {
-            let tag      = container->getShared("tag"),
-                callback = [tag, "stylesheetLink"];
+            let tag = container->getShared("tag");
+
+            let callback = [tag, "stylesheetLink"];
         }
 
         return this->output(collection, callback, "css");
@@ -816,15 +783,16 @@ class Manager implements InjectionAwareInterface
      */
     public function outputInline(<Collection> collection, type) -> string
     {
-        string html, joinedContent, output;
-        var attributes, code, codes, content, filter, filters, join;
+        var output, html, codes, filters, filter, code, attributes, content,
+            join, joinedContent;
 
-        let output        = "",
-            html          = "",
-            joinedContent = "",
-            codes         = collection->getCodes(),
-            filters       = collection->getFilters(),
-            join          = collection->getJoin() ;
+        let output = "",
+            html = "",
+            joinedContent = "";
+
+        let codes = collection->getCodes(),
+            filters = collection->getFilters(),
+            join = collection->getJoin() ;
 
         if count(codes) {
             for code in codes {
@@ -849,16 +817,12 @@ class Manager implements InjectionAwareInterface
                 if join {
                     let joinedContent .= content;
                 } else {
-                    let html .= Tag::tagHtml(type, attributes, false, true)
-                              . content
-                              . Tag::tagHtmlClose(type, true);
+                    let html .= Tag::tagHtml(type, attributes, false, true) . content . Tag::tagHtmlClose(type, true);
                 }
             }
 
             if join {
-                let html .= Tag::tagHtml(type, attributes, false, true)
-                          . joinedContent
-                          . Tag::tagHtmlClose(type, true);
+                let html .= Tag::tagHtml(type, attributes, false, true) . joinedContent . Tag::tagHtmlClose(type, true);
             }
 
             /**
@@ -911,8 +875,7 @@ class Manager implements InjectionAwareInterface
      */
     public function outputJs(string collectionName = null) -> string
     {
-        array callback;
-        var collection, container, tag;
+        var collection, container, tag, callback;
 
         if !collectionName {
             let collection = this->getJs();
@@ -924,8 +887,8 @@ class Manager implements InjectionAwareInterface
 
         let container = this->container;
         if typeof container == "object" && container->has("tag") {
-            let tag      = container->getShared("tag"),
-                callback = [tag, "javascriptInclude"];
+            let tag = container->getShared("tag");
+            let callback = [tag, "javascriptInclude"];
         }
 
         return this->output(collection, callback, "js");
@@ -971,22 +934,5 @@ class Manager implements InjectionAwareInterface
         let this->implicitOutput = implicitOutput;
 
         return this;
-    }
-
-    /**
-     * Returns the prefixed path
-     */
-    private function getPrefixedPath(<Collection> collection, string path) -> string
-    {
-        var prefix;
-
-        let prefix = collection->getPrefix();
-
-
-        if prefix {
-            return prefix . path;
-        } else {
-            return path;
-        }
     }
 }

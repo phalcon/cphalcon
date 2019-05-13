@@ -28,13 +28,10 @@ class ConstructCest
     public function aclComponentConstruct(UnitTester $I)
     {
         $I->wantToTest('Acl\Component - __construct()');
+        $actual = new Component('Customers');
 
-        $component = new Component('Customers');
-
-        $I->assertInstanceOf(
-            Component::class,
-            $component
-        );
+        $class = Component::class;
+        $I->assertInstanceOf($class, $actual);
     }
 
     /**
@@ -46,7 +43,6 @@ class ConstructCest
     public function aclComponentConstructWithWildcardThrowsException(UnitTester $I)
     {
         $I->wantToTest('Acl\Component - __construct() - exception with "*"');
-
         $I->expectThrowable(
             new Exception("Component name cannot be '*'"),
             function () {
@@ -64,7 +60,6 @@ class ConstructCest
     public function aclComponentConstructWithoutName(UnitTester $I)
     {
         $I->wantToTest('Acl\Component - __construct() - exception parameters');
-
         $I->expectThrowable(
             new BadMethodCallException('Wrong number of parameters'),
             function () {

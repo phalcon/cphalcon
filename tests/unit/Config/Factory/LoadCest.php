@@ -35,16 +35,13 @@ class LoadCest
     public function configFactoryLoadConfig(UnitTester $I)
     {
         $I->wantToTest('Config\Factory - load() - Config');
-
         $options = $this->config->config;
-
         /** @var Ini $ini */
         $ini = Factory::load($options);
 
-        $I->assertInstanceOf(
-            Ini::class,
-            $ini
-        );
+        $expected = Ini::class;
+        $actual   = $ini;
+        $I->assertInstanceOf($expected, $actual);
     }
 
     /**
@@ -56,16 +53,13 @@ class LoadCest
     public function configFactoryLoadArray(UnitTester $I)
     {
         $I->wantToTest('Config\Factory - load() - array');
-
         $options = $this->arrayConfig["config"];
-
         /** @var Ini $ini */
         $ini = Factory::load($options);
 
-        $I->assertInstanceOf(
-            Ini::class,
-            $ini
-        );
+        $expected = Ini::class;
+        $actual   = $ini;
+        $I->assertInstanceOf($expected, $actual);
     }
 
     /**
@@ -77,15 +71,12 @@ class LoadCest
     public function configFactoryLoadString(UnitTester $I)
     {
         $I->wantToTest('Config\Factory - load() - string');
-
         $filePath = $this->arrayConfig['config']['filePathExtension'];
-
         /** @var Ini $ini */
         $ini = Factory::load($filePath);
 
-        $I->assertInstanceOf(
-            Ini::class,
-            $ini
-        );
+        $expected = Ini::class;
+        $actual   = $ini;
+        $I->assertInstanceOf($expected, $actual);
     }
 }

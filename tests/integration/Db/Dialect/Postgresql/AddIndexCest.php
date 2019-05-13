@@ -22,6 +22,8 @@ class AddIndexCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: addIndex()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */

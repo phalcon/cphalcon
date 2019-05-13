@@ -20,11 +20,17 @@ use function file_put_contents;
 use function sleep;
 use function uniqid;
 
+/**
+ * Class GcCest
+ */
 class GcCest
 {
     use DiTrait;
     use SessionTrait;
 
+    /**
+     * @param IntegrationTester $I
+     */
     public function _before(IntegrationTester $I)
     {
         $this->newFactoryDefault();
@@ -33,40 +39,29 @@ class GcCest
     /**
      * Tests Phalcon\Session\Adapter\Stream :: gc()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionAdapterStreamGc(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Stream - gc()');
-
         $adapter = $this->getSessionStream();
 
         /**
          * Add two session files
          */
-        $I->assertNotFalse(
-            file_put_contents(
-                cacheDir('sessions/gc_1'),
-                uniqid()
-            )
-        );
-
-        $I->assertNotFalse(
-            file_put_contents(
-                cacheDir('sessions/gc_2'),
-                uniqid()
-            )
-        );
-
+        $actual = file_put_contents(cacheDir('sessions/gc_1'), uniqid());
+        $I->assertNotFalse($actual);
+        $actual = file_put_contents(cacheDir('sessions/gc_2'), uniqid());
+        $I->assertNotFalse($actual);
         /**
          * Sleep to make sure that the time expired
          */
         sleep(2);
-
-        $I->assertTrue(
-            $adapter->gc(1)
-        );
+        $actual = $adapter->gc(1);
+        $I->assertTrue($actual);
 
         $I->dontSeeFileFound('gc_1', cacheDir('sessions'));
         $I->dontSeeFileFound('gc_2', cacheDir('sessions'));

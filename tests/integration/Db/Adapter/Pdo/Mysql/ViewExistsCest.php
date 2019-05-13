@@ -14,10 +14,15 @@ namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
 
 use IntegrationTester;
 
+/**
+ * Class ViewExistsCest
+ */
 class ViewExistsCest
 {
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: viewExists()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

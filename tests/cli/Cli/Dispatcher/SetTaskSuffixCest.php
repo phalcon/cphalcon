@@ -14,10 +14,15 @@ namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
 
+/**
+ * Class SetTaskSuffixCest
+ */
 class SetTaskSuffixCest
 {
     /**
      * Tests Phalcon\Cli\Dispatcher :: setTaskSuffix()
+     *
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

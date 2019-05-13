@@ -26,12 +26,10 @@ class GetContentCest
     public function assetsAssetJsGetContent(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getContent()');
-
         $asset = new Js('assets/assets/signup.js');
 
-        $I->assertEquals(
-            file_get_contents(dataDir('assets/assets/signup.js')),
-            $asset->getContent(dataDir())
-        );
+        $expected = file_get_contents(dataDir('assets/assets/signup.js'));
+        $actual   = $asset->getContent(dataDir());
+        $I->assertEquals($expected, $actual);
     }
 }

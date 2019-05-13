@@ -19,6 +19,8 @@ class GetNameCest
 {
     /**
      * Tests Phalcon\Logger :: getName()
+     *
+     * @param UnitTester $I
      */
     public function loggerGetName(UnitTester $I)
     {

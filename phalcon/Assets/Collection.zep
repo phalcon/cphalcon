@@ -35,12 +35,6 @@ class Collection implements \Countable, \Iterator
      */
     protected attributes = [] { get };
 
-	/**
-	 * Should version be determined from file modification time
-	 * @var bool
-	 */
-	protected autoVersion = false { set };
-
     /**
      * @var array
      */
@@ -90,12 +84,6 @@ class Collection implements \Countable, \Iterator
      */
     protected targetUri { get };
 
-	/**
-	 * Version of resource
-	 * @var string
-	 */
-	protected version { get, set };
-
     /**
      * Phalcon\Assets\Collection constructor
      */
@@ -117,15 +105,8 @@ class Collection implements \Countable, \Iterator
     /**
      * Adds a CSS asset to the collection
      */
-    public function addCss(
-        string! path,
-        var local = null,
-        bool filter = true,
-        var attributes = null,
-        string version = null,
-        bool autoVersion = false
-	) -> <Collection>
-	{
+    public function addCss(string! path, var local = null, bool filter = true, attributes = null) -> <Collection>
+    {
         var collectionLocal, collectionAttributes;
 
         if typeof local == "boolean" {
@@ -141,7 +122,7 @@ class Collection implements \Countable, \Iterator
         }
 
         this->add(
-            new AssetCss(path, collectionLocal, filter, collectionAttributes, version, autoVersion)
+            new AssetCss(path, collectionLocal, filter, collectionAttributes)
         );
 
         return this;
@@ -212,14 +193,7 @@ class Collection implements \Countable, \Iterator
      *
      * @param array attributes
      */
-    public function addJs(
-        string! path,
-        var local = null,
-        bool filter = true,
-        var attributes = null,
-        string version = null,
-        bool autoVersion = false
-    ) -> <Collection>
+    public function addJs(string! path, bool local = null, bool filter = true, attributes = null) -> <Collection>
     {
         var collectionLocal, collectionAttributes;
 
@@ -236,7 +210,7 @@ class Collection implements \Countable, \Iterator
         }
 
         this->add(
-            new AssetJs(path, collectionLocal, filter, collectionAttributes, version, autoVersion)
+            new AssetJs(path, collectionLocal, filter, collectionAttributes)
         );
 
         return this;
@@ -308,14 +282,6 @@ class Collection implements \Countable, \Iterator
 
         return in_array(key, assets);
     }
-
-    /**
-     * Checks if collection is using auto version
-     */
-	public function isAutoVersion() -> bool
-	{
-	    return this->autoVersion;
-	}
 
     /**
      * Sets if all filtered assets in the collection must be joined in a single

@@ -16,12 +16,16 @@ use IntegrationTester;
 use Phalcon\Url;
 
 /**
+ * Class GetSetBasePathCest
+ *
  * @package Phalcon\Test\Integration\Url
  */
 class GetSetBasePathCest
 {
     /**
      * Tests Phalcon\Url :: getBasePath()/setBasePath()
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

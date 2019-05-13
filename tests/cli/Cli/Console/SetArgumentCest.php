@@ -17,12 +17,17 @@ use Phalcon\Cli\Console;
 use Phalcon\Cli\Router;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
+/**
+ * Class SetArgumentCest
+ */
 class SetArgumentCest
 {
     use DiTrait;
 
     /**
      * Tests Phalcon\Cli\Console :: setArgument()
+     *
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -59,29 +64,10 @@ class SetArgumentCest
             "B",
         ])->handle()
         ;
-
-        $I->assertEquals(
-            "main",
-            $dispatcher->getTaskName()
-        );
-
-        $I->assertEquals(
-            "hello",
-            $dispatcher->getActionName()
-        );
-
-        $I->assertEquals(
-            ["a", "B"],
-            $dispatcher->getParams()
-        );
-
-        $I->assertEquals(
-            [
-                "foo" => "bar",
-                "bar" => true,
-            ],
-            $dispatcher->getOptions()
-        );
+        $I->assertEquals("main", $dispatcher->getTaskName());
+        $I->assertEquals("hello", $dispatcher->getActionName());
+        $I->assertEquals(["a", "B"], $dispatcher->getParams());
+        $I->assertEquals(["foo" => "bar", "bar" => true], $dispatcher->getOptions());
     }
 
     public function testArgumentArray(CliTester $I)

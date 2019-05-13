@@ -33,16 +33,11 @@ class HasCest
 
         $key = uniqid();
 
-        $I->assertFalse(
-            $adapter->has($key)
-        );
-
-
+        $actual = $adapter->has($key);
+        $I->assertFalse($actual);
 
         $adapter->set($key, 'test');
-
-        $I->assertTrue(
-            $adapter->has($key)
-        );
+        $actual = $adapter->has($key);
+        $I->assertTrue($actual);
     }
 }

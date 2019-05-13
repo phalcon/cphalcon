@@ -91,16 +91,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     protected container;
 
     protected dirtyState = 1;
-    
-    protected dirtyRelated = [];
 
     protected errorMessages = [];
 
     protected modelsManager;
 
     protected modelsMetaData;
-    
-    protected related = [];
+
+    protected related;
 
     protected operationMade = 0;
 
@@ -245,11 +243,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Magic method to get related records using the relation alias as a
      * property
      *
-     * @return mixed
+     * @return \Phalcon\Mvc\Model\Resultset|Phalcon\Mvc\Model
      */
     public function __get(string! property)
     {
-        var modelName, manager, lowerProperty, relation, method;
+        var modelName, manager, lowerProperty, relation, result, method;
 
         let modelName = get_class(this),
             manager = this->getModelsManager(),
@@ -264,17 +262,39 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         );
 
         if typeof relation == "object" {
-            /**
-             * There might be unsaved related records that can be returned
-             */
-            if isset this->dirtyRelated[lowerProperty] {
-                return this->dirtyRelated[lowerProperty];
-            }
 
+            /*
+             Not fetch a relation if it is on CamelCase
+             */
+            if isset this->{lowerProperty} && typeof this->{lowerProperty} == "object" {
+                return this->{lowerProperty};
+            }
             /**
              * Get the related records
              */
-            return this->getRelated(lowerProperty);
+            let result = manager->getRelationRecords(
+                relation,
+                null,
+                this,
+                null
+            );
+
+            /**
+             * Assign the result to the object
+             */
+            if typeof result == "object" {
+                /**
+                 * We assign the result to the instance avoiding future queries
+                 */
+                let this->{lowerProperty} = result;
+
+                /**
+                 * We store relationship objects in the related bag
+                 */
+                let this->related[lowerProperty] = result;
+            }
+
+            return result;
         }
 
         /**
@@ -325,98 +345,73 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function __set(string property, value)
     {
-        var lowerProperty, related, modelName, manager,
-            relation, referencedModel, item, dirtyState;
+        var lowerProperty, related, modelName, manager, lowerKey, relation,
+            referencedModel, key, item, dirtyState;
+        bool haveRelation;
 
         /**
          * Values are probably relationships if they are objects
          */
         if typeof value == "object" && value instanceof ModelInterface {
-            let lowerProperty = strtolower(property),
-                modelName = get_class(this),
-                manager = this->getModelsManager();
+            let dirtyState = this->dirtyState;
 
-            let relation = <RelationInterface> manager->getRelationByAlias(
-                    modelName,
-                    lowerProperty
-                );
-
-            if typeof relation == "object" {
-                let dirtyState = this->dirtyState;
-
-                if (value->getDirtyState() != dirtyState) {
-                    let dirtyState = self::DIRTY_STATE_TRANSIENT;
-                }
-
-                unset this->related[lowerProperty];
-
-                let this->dirtyRelated[lowerProperty] = value,
-                    this->dirtyState = dirtyState;
-
-                return value;
+            if value->getDirtyState() != dirtyState {
+                let dirtyState = self::DIRTY_STATE_TRANSIENT;
             }
+
+            let lowerProperty = strtolower(property),
+                this->{lowerProperty} = value,
+                this->related[lowerProperty] = value,
+                this->dirtyState = dirtyState;
+
+            return value;
         }
 
         /**
          * Check if the value is an array
          */
-        elseif typeof value == "array" {
+        if typeof value == "array" {
             let lowerProperty = strtolower(property),
                 modelName = get_class(this),
                 manager = this->getModelsManager();
 
-            let relation = <RelationInterface> manager->getRelationByAlias(
-                    modelName,
-                    lowerProperty
-                );
+            let haveRelation = false;
+            let related = [];
 
-            if typeof relation == "object" {
-                switch relation->getType() {
-                    case Relation::BELONGS_TO:
-                    case Relation::HAS_ONE:
-                        /**
-                         * Load referenced model from local cache if its possible
-                         */
-                         let referencedModel = manager->load(
-                                relation->getReferencedModel()
-                            );
+            for key, item in value {
+                if typeof item == "object" {
+                    if item instanceof ModelInterface {
+                        let related[] = item;
+                        let haveRelation = true;
+                    }
+                } else {
+                    let lowerKey = strtolower(key),
+                        this->{lowerKey} = item;
 
-                        if typeof referencedModel == "object" {
-                            referencedModel->assign(value);
+                    let relation = <RelationInterface> manager->getRelationByAlias(
+                        modelName,
+                        lowerProperty
+                    );
 
-                            unset this->related[lowerProperty];
+                    if typeof relation == "object" {
+                        let referencedModel = manager->load(
+                            relation->getReferencedModel()
+                        );
 
-                            let this->dirtyRelated[lowerProperty] = referencedModel,
-                                this->dirtyState = self::DIRTY_STATE_TRANSIENT;
+                        referencedModel->writeAttribute(lowerKey, item);
 
-                            return value;
-                        }
-
-                        break;
-
-                    case Relation::HAS_MANY:
-                    case Relation::HAS_MANY_THROUGH:
-                        let related = [];
-
-                        for item in value {
-                            if typeof item == "object" {
-                                if item instanceof ModelInterface {
-                                    let related[] = item;
-                                }
-                            }
-                        }
-
-                        if count(related) > 0 {
-                            unset this->related[lowerProperty];
-
-                            let this->dirtyRelated[lowerProperty] = related,
-                                this->dirtyState = self::DIRTY_STATE_TRANSIENT;
-
-                            return value;
-                        }
-
-                        break;
+                        let haveRelation = true;
+                    }
                 }
+            }
+
+            if count(related) > 0 {
+                let this->related[lowerProperty] = related,
+                    this->dirtyState = self::DIRTY_STATE_TRANSIENT;
+            }
+
+            if haveRelation {
+                return value;
             }
         }
 
@@ -1737,7 +1732,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
     /**
      * Returns the DependencyInjection connection service name used to read data
-     * related the model
+     related the model
      */
     final public function getReadConnectionService() -> string
     {
@@ -1748,22 +1743,20 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Returns related records based on defined relations
      *
      * @param array arguments
-     * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
      */
-    public function getRelated(string alias, arguments = null)
+    public function getRelated(string alias, arguments = null) -> <ResultsetInterface>
     {
-        var relation, className, manager, result, lowerAlias;
+        var relation, className, manager;
 
         /**
          * Query the relation by alias
          */
         let className = get_class(this),
-            manager = <ManagerInterface> this->modelsManager,
-            lowerAlias = strtolower(alias);
+            manager = <ManagerInterface> this->modelsManager;
 
         let relation = <RelationInterface> manager->getRelationByAlias(
             className,
-            lowerAlias
+            alias
         );
 
         if unlikely typeof relation != "object" {
@@ -1773,60 +1766,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         }
 
         /**
-         * If there are any arguments, Manager with handle the caching of the records
+         * Call the 'getRelationRecords' in the models manager
          */
-        if arguments === null {
-            /**
-             * If the related records are already in cache and the relation is reusable,
-             * we return the cached records.
-             */
-            if relation->isReusable() && this->isRelationshipLoaded(lowerAlias) {
-                let result = this->related[lowerAlias];
-            } else {
-                /**
-                 * Call the 'getRelationRecords' in the models manager.
-                 */
-                let result = manager->getRelationRecords(relation, null, this, arguments);
-
-                /**
-                 * We store relationship objects in the related cache if there were no arguments.
-                 */
-                let this->related[lowerAlias] = result;
-            }
-        } else {
-            /**
-             * Individually queried related records are handled by Manager.
-             * The Manager also checks and stores reusable records.
-             */
-            let result = manager->getRelationRecords(relation, null, this, arguments);
-        }
-
-        return result;
+        return manager->getRelationRecords(relation, null, this, arguments);
     }
 
-    /**
-     * Checks if saved related records have already been loaded.
-     *
-     * Only returns true if the records were previously fetched
-     * through the model without any additional parameters.
-     *
-     * <code>
-     * $robot = Robots::findFirst();
-     * var_dump($robot->isRelationshipLoaded('robotsParts')); // false
-     *
-     * $robotsParts = $robot->getRobotsParts(['id > 0']);
-     * var_dump($robot->isRelationshipLoaded('robotsParts')); // false
-     *
-     * $robotsParts = $robot->getRobotsParts(); // or $robot->robotsParts
-     * var_dump($robot->isRelationshipLoaded('robotsParts')); // true
-     *
-     * $robot->robotsParts = [new RobotsParts()];
-     * var_dump($robot->isRelationshipLoaded('robotsParts')); // false
-     * </code>
-     */
     public function isRelationshipLoaded(string relationshipAlias) -> bool
     {
-        return isset this->related[strtolower(relationshipAlias)];
+        return isset this->related[relationshipAlias];
     }
 
     /**
@@ -2277,9 +2224,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function save() -> bool
     {
-        var metaData, schema, writeConnection, readConnection, source, table,
-            identityField, exists, success, dirtyRelated;
-        bool hasDirtyRelated;
+        var metaData, related, schema, writeConnection, readConnection, source,
+            table, identityField, exists, success;
 
         let metaData = this->getModelsMetaData();
 
@@ -2294,17 +2240,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         this->fireEvent("prepareSave");
 
         /**
-         * Load unsaved related records
+         * Save related records in belongsTo relationships
          */
-        let dirtyRelated = this->dirtyRelated;
+        let related = this->related;
 
-        /**
-         * Does it have unsaved related records
-         */
-        let hasDirtyRelated = count(dirtyRelated) > 0;
-
-        if hasDirtyRelated {
-            if this->_preSaveRelatedRecords(writeConnection, dirtyRelated) === false {
+        if typeof related == "array" {
+            if this->_preSaveRelatedRecords(writeConnection, related) === false {
                 return false;
             }
         }
@@ -2351,7 +2292,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Rollback the current transaction if there was validation errors
              */
-            if hasDirtyRelated {
+            if typeof related == "array" {
                 writeConnection->rollback(false);
             }
 
@@ -2393,7 +2334,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
         }
 
-        if hasDirtyRelated {
+        if typeof related == "array" {
             /**
              * Rollbacks the implicit transaction if the master save has failed
              */
@@ -2405,7 +2346,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                  */
                 let success = this->_postSaveRelatedRecords(
                     writeConnection,
-                    dirtyRelated
+                    related
                 );
             }
         }
@@ -2420,13 +2361,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         if success === false {
             this->_cancelOperation();
         } else {
-            if hasDirtyRelated {
-                /**
-                 * Clear unsaved related records storage
-                 */
-                let this->dirtyRelated = [];
-            }
-
             this->fireEvent("afterSave");
         }
 
@@ -2766,7 +2700,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
             lateStateBinding, castOnHydrate, ignoreUnknownColumns,
             updateSnapshotOnSave, disableAssignSetters,
-            caseInsensitiveColumnMap, prefetchRecords;
+            caseInsensitiveColumnMap;
 
         /**
          * Enables/Disables globally the internal events
@@ -2845,10 +2779,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
         if fetch disableAssignSetters, options["disableAssignSetters"] {
             globals_set("orm.disable_assign_setters", disableAssignSetters);
-        }
-
-        if fetch prefetchRecords, options["prefetchRecords"] {
-            globals_set("orm.resultset_prefetch_records", prefetchRecords);
         }
     }
 
@@ -4056,62 +3986,50 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function _getRelatedRecords(string! modelName, string! method, var arguments)
     {
-        var manager, relation, queryMethod, extraArgs, alias;
+        var manager, relation, queryMethod, extraArgs;
 
         let manager = <ManagerInterface> this->modelsManager;
 
         let relation = false,
             queryMethod = null;
 
-        fetch extraArgs, arguments[0];
-
         /**
          * Calling find/findFirst if the method starts with "get"
          */
         if starts_with(method, "get") {
-            let alias = substr(method, 3);
             let relation = <RelationInterface> manager->getRelationByAlias(
-                    modelName,
-                    alias
-                );
-
-            /**
-             * Return if the relation was not found because getRelated() throws an exception if the relation is unknown
-             */
-            if typeof relation != "object" {
-                return null;
-            }
-
-            return this->getRelated(alias, extraArgs);
+                modelName,
+                substr(method, 3)
+            );
         }
 
         /**
          * Calling count if the method starts with "count"
          */
-        if starts_with(method, "count") {
+        elseif starts_with(method, "count") {
             let queryMethod = "count";
 
             let relation = <RelationInterface> manager->getRelationByAlias(
-                    modelName,
-                    substr(method, 5)
-                );
-
-            /**
-             * If the relation was found perform the query via the models manager
-             */
-            if typeof relation != "object" {
-                return null;
-            }
-
-            return manager->getRelationRecords(
-                relation,
-                queryMethod,
-                this,
-                extraArgs
+                modelName,
+                substr(method, 5)
             );
         }
 
-        return null;
+        /**
+         * If the relation was found perform the query via the models manager
+         */
+        if typeof relation != "object" {
+            return null;
+        }
+
+        fetch extraArgs, arguments[0];
+
+        return manager->getRelationRecords(
+            relation,
+            queryMethod,
+            this,
+            extraArgs
+        );
     }
 
     /**
@@ -4874,6 +4792,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                             return false;
                         }
                     }
+
                 }
             } else {
                 if unlikely typeof record != "array" {

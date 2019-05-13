@@ -45,17 +45,14 @@ class ClearCest
         $actual = $adapter->has($key1);
         $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $adapter->clear()
-        );
+        $actual = $adapter->clear();
+        $I->assertTrue($actual);
 
-        $I->assertFalse(
-            $adapter->has($key1)
-        );
+        $actual = $adapter->has($key1);
+        $I->assertFalse($actual);
 
-        $I->assertFalse(
-            $adapter->has($key2)
-        );
+        $actual = $adapter->has($key2);
+        $I->assertFalse($actual);
     }
 
     /**
@@ -81,12 +78,10 @@ class ClearCest
         $actual = $adapter->has($key);
         $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $adapter->clear()
-        );
+        $actual = $adapter->clear();
+        $I->assertTrue($actual);
 
-        $I->assertTrue(
-            $adapter->clear()
-        );
+        $actual = $adapter->clear();
+        $I->assertTrue($actual);
     }
 }

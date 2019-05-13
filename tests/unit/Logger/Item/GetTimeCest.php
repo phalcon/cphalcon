@@ -20,6 +20,8 @@ class GetTimeCest
 {
     /**
      * Tests Phalcon\Logger\Item :: getTime()
+     *
+     * @param UnitTester $I
      */
     public function loggerItemGetTime(UnitTester $I)
     {

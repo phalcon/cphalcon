@@ -15,12 +15,17 @@ namespace Phalcon\Test\Cli\Cli\Console;
 use CliTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
+/**
+ * Class GetModulesCest
+ */
 class GetModulesCest
 {
     use DiTrait;
 
     /**
      * Tests Phalcon\Cli\Console :: getModules()
+     *
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -22,21 +22,24 @@ class CreateSavepointCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: createSavepoint()
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function dbDialectSqliteCreateSavepoint(IntegrationTester $I)
     {
         $I->wantToTest("Db\Dialect\Sqlite - createSavepoint()");
-
         $dialect  = $this->getDialectSqlite();
+        $expected = $this->getCreateSavepointSql();
+        $actual   = $dialect->createSavepoint('PH_SAVEPOINT_1');
 
-        $I->assertEquals(
-            $this->getCreateSavepointSql(),
-            $dialect->createSavepoint('PH_SAVEPOINT_1')
-        );
+        $I->assertEquals($expected, $actual);
     }
 
+    /**
+     * @return string
+     */
     protected function getCreateSavepointSql(): string
     {
         return 'SAVEPOINT PH_SAVEPOINT_1';

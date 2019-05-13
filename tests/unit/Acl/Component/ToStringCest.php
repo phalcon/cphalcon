@@ -26,17 +26,14 @@ class ToStringCest
     public function aclComponentToString(UnitTester $I)
     {
         $I->wantToTest('Acl\Component - __toString()');
-
         $component = new Component('Customers');
 
-        $I->assertEquals(
-            'Customers',
-            $component->__toString()
-        );
+        $expected = 'Customers';
+        $actual   = $component->__toString();
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            'Customers',
-            (string) $component
-        );
+        $expected = 'Customers';
+        $actual   = (string) $component;
+        $I->assertEquals($expected, $actual);
     }
 }

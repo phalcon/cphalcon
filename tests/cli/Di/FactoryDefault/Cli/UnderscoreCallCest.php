@@ -14,10 +14,15 @@ namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
 
+/**
+ * Class UnderscoreCallCest
+ */
 class UnderscoreCallCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault\Cli :: __call()
+     *
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

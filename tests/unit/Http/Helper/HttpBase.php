@@ -118,6 +118,7 @@ class HttpBase
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
+     *
      */
     protected function getEmpty(UnitTester $I, string $function)
     {
@@ -141,10 +142,11 @@ class HttpBase
         $unMethod = "un{$method}";
 
         $this->$method('test', 1);
-        $actual = $request->$function('test');
+        $expected = 1;
+        $actual   = $request->$function('test');
         $this->$unMethod('test');
 
-        $I->assertEquals(1, $actual);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -179,7 +181,7 @@ class HttpBase
      * @since  2014-10-05
      *
      */
-    protected function getSanitizedArrayFilter(UnitTester $I, string $function, $filter, string $method)
+    protected function getSanitizedArrayFilter(UnitTester $I, $function, $filter, $method)
     {
         $request  = $this->getRequestObject();
         $unMethod = "un{$method}";

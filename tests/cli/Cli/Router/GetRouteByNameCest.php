@@ -14,10 +14,15 @@ namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
 
+/**
+ * Class GetRouteByNameCest
+ */
 class GetRouteByNameCest
 {
     /**
      * Tests Phalcon\Cli\Router :: getRouteByName()
+     *
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -14,10 +14,15 @@ namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
 
+/**
+ * Class SetParamCest
+ */
 class SetParamCest
 {
     /**
      * Tests Phalcon\Cli\Dispatcher :: setParam()
+     *
+     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

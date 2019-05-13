@@ -31,39 +31,22 @@ class DbDescribeCest
     /**
      * Tests Phalcon\Db :: Mysql
      *
+     * @param IntegrationTester $I
+     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbMySql(IntegrationTester $I)
     {
         $I->wantToTest("Db - MySql");
-
         $this->setDiMysql();
-
         $connection = $this->getService('db');
 
-
-
         //Table exist
-        $I->assertEquals(
-            1,
-            $connection->tableExists('personas')
-        );
-
-        $I->assertEquals(
-            0,
-            $connection->tableExists('noexist')
-        );
-
-        $I->assertEquals(
-            1,
-            $connection->tableExists('personas', env('DATA_MYSQL_NAME'))
-        );
-
-        $I->assertEquals(
-            0,
-            $connection->tableExists('personas', 'test')
-        );
+        $I->assertEquals($connection->tableExists('personas'), 1);
+        $I->assertEquals($connection->tableExists('noexist'), 0);
+        $I->assertEquals($connection->tableExists('personas', env('DATA_MYSQL_NAME')), 1);
+        $I->assertEquals($connection->tableExists('personas', 'test'), 0);
 
         /**
          * @TODO - Check this after refactoring
@@ -83,10 +66,8 @@ class DbDescribeCest
             'table_collation' => 'utf8_unicode_ci',
         ];
 
-        $I->assertEquals(
-            $expectedOptions,
-            $connection->tableOptions('personas', env('DATA_MYSQL_NAME'))
-        );
+        $options = $connection->tableOptions('personas', env('DATA_MYSQL_NAME'));
+        $I->assertEquals($options, $expectedOptions);
 
         //Indexes
         $expectedIndexes = [
@@ -105,15 +86,11 @@ class DbDescribeCest
             ]),
         ];
 
-        $I->assertEquals(
-            $expectedIndexes,
-            $connection->describeIndexes('robots_parts')
-        );
+        $describeIndexes = $connection->describeIndexes('robots_parts');
+        $I->assertEquals($describeIndexes, $expectedIndexes);
 
-        $I->assertEquals(
-            $expectedIndexes,
-            $connection->describeIndexes('robots_parts', env('DATA_MYSQL_NAME'))
-        );
+        $describeIndexes = $connection->describeIndexes('robots_parts', env('DATA_MYSQL_NAME'));
+        $I->assertEquals($describeIndexes, $expectedIndexes);
 
         //Indexes
         $expectedIndexes = [
@@ -129,15 +106,11 @@ class DbDescribeCest
             ]),
         ];
 
-        $I->assertEquals(
-            $expectedIndexes,
-            $connection->describeIndexes('issue_11036')
-        );
+        $describeIndexes = $connection->describeIndexes('issue_11036');
+        $I->assertEquals($describeIndexes, $expectedIndexes);
 
-        $I->assertEquals(
-            $expectedIndexes,
-            $connection->describeIndexes('issue_11036', env('DATA_MYSQL_NAME'))
-        );
+        $describeIndexes = $connection->describeIndexes('issue_11036', env('DATA_MYSQL_NAME'));
+        $I->assertEquals($describeIndexes, $expectedIndexes);
 
         //References
         $expectedReferences = [
@@ -165,19 +138,17 @@ class DbDescribeCest
             ),
         ];
 
-        $I->assertEquals(
-            $expectedReferences,
-            $connection->describeReferences('robots_parts')
-        );
+        $describeReferences = $connection->describeReferences('robots_parts');
+        $I->assertEquals($describeReferences, $expectedReferences);
 
-        $I->assertEquals(
-            $expectedReferences,
-            $connection->describeReferences('robots_parts', env('DATA_MYSQL_NAME'))
-        );
+        $describeReferences = $connection->describeReferences('robots_parts', env('DATA_MYSQL_NAME'));
+        $I->assertEquals($describeReferences, $expectedReferences);
     }
 
     /**
      * Tests Phalcon\Db :: Postgresql
+     *
+     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -185,27 +156,22 @@ class DbDescribeCest
     public function dbPostgresql(IntegrationTester $I)
     {
         $I->wantToTest("Db - Postgresql");
-
         $this->setDiPostgresql();
         $connection = $this->getService('db');
 
-        // Columns
+        //Columns
         $expectedDescribe = $this->getExpectedColumnsPostgresql();
 
-        $I->assertEquals(
-            $expectedDescribe,
-            $connection->describeColumns('personas')
-        );
+        $describe = $connection->describeColumns('personas');
+        $I->assertEquals($describe, $expectedDescribe);
 
-        $I->assertEquals(
-            $expectedDescribe,
-            $connection->describeColumns('personas', 'public')
-        );
+        $describe = $connection->describeColumns('personas', 'public');
+        $I->assertEquals($describe, $expectedDescribe);
 
         /**
          * @todo Check the references (SQL dump file)
          */
-//        // Indexes
+//        //Indexes
 //        $expectedIndexes = [
 //            'robots_parts_parts_id'  => Index::__set_state([
 //                'name'    => 'robots_parts_parts_id',
@@ -465,58 +431,28 @@ class DbDescribeCest
             'tipo_documento',
         ];
 
+        $tables = $connection->listTables();
 
-        $I->assertEquals(
-            $expectedTables,
-            $connection->listTables()
-        );
+        $I->assertEquals($expectedTables, $tables);
 
-        $I->assertEquals(
-            $expectedTables,
-            $connection->listTables('public')
-        );
-
-
+        $tables = $connection->listTables('public');
+        $I->assertEquals($tables, $expectedTables);
 
         //Table exist
-        $I->assertEquals(
-            1,
-            $connection->tableExists('personas')
-        );
+        $I->assertEquals($connection->tableExists('personas'), 1);
+        $I->assertEquals($connection->tableExists('noexist'), 0);
+        $I->assertEquals($connection->tableExists('personas', 'public'), 1);
+        $I->assertEquals($connection->tableExists('personas', 'test'), 1);
 
-        $I->assertEquals(
-            0,
-            $connection->tableExists('noexist')
-        );
-
-        $I->assertEquals(
-            1,
-            $connection->tableExists('personas', 'public')
-        );
-
-        $I->assertEquals(
-            1,
-            $connection->tableExists('personas', 'test')
-        );
-
-
-
-        // Columns
+        //Columns
         $expectedDescribe = $this->getExpectedColumnsSqlite();
+        $describe         = $connection->describeColumns('personas');
+        $I->assertEquals($describe, $expectedDescribe);
 
-        $I->assertEquals(
-            $expectedDescribe,
-            $connection->describeColumns('personas')
-        );
+        $describe = $connection->describeColumns('personas', 'main');
+        $I->assertEquals($describe, $expectedDescribe);
 
-        $I->assertEquals(
-            $expectedDescribe,
-            $connection->describeColumns('personas', 'main')
-        );
-
-
-
-        // Indexes
+        //Indexes
         $expectedIndexes = [
             'sqlite_autoindex_COMPANY_1' => Index::__set_state([
                 'name'    => 'sqlite_autoindex_COMPANY_1',
@@ -534,19 +470,13 @@ class DbDescribeCest
             ]),
         ];
 
-        $I->assertEquals(
-            $expectedIndexes,
-            $connection->describeIndexes('COMPANY')
-        );
+        $describeIndexes = $connection->describeIndexes('COMPANY');
+        $I->assertEquals($describeIndexes, $expectedIndexes);
 
-        $I->assertEquals(
-            $expectedIndexes,
-            $connection->describeIndexes('company', 'main')
-        );
+        $describeIndexes = $connection->describeIndexes('company', 'main');
+        $I->assertEquals($describeIndexes, $expectedIndexes);
 
-
-
-        // References
+        //References
         $expectedReferences = [
             'foreign_key_0' => Reference::__set_state(
                 [
@@ -568,10 +498,8 @@ class DbDescribeCest
             ),
         ];
 
-        $I->assertEquals(
-            $expectedReferences,
-            $connection->describeReferences('robots_parts')
-        );
+        $describeReferences = $connection->describeReferences('robots_parts');
+        $I->assertEquals($describeReferences, $expectedReferences);
     }
 
     private function getExpectedColumnsSqlite()

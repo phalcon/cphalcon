@@ -36,9 +36,8 @@ class GetAdapterCest
 
         $adapter = new Cache($instance);
 
-        $I->assertInstanceOf(
-            AdapterInterface::class,
-            $adapter->getAdapter()
-        );
+        $class  = AdapterInterface::class;
+        $actual = $adapter->getAdapter();
+        $I->assertInstanceOf($class, $actual);
     }
 }

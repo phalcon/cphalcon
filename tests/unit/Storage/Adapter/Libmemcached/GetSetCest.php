@@ -30,6 +30,9 @@ class GetSetCest
      *
      * @dataProvider getExamples
      *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
      * @throws Exception
      * @since        2019-03-31
      *
@@ -78,17 +81,16 @@ class GetSetCest
 
         $key    = 'cache-data';
         $source = 'Phalcon Framework';
+        $result = $adapter->set($key, $source);
+        $I->assertTrue($result);
 
-        $I->assertTrue(
-            $adapter->set($key, $source)
-        );
-
-        $I->assertEquals(
-            $source,
-            $adapter->get($key)
-        );
+        $actual = $adapter->get($key);
+        $I->assertEquals($source, $actual);
     }
 
+    /**
+     * @return array
+     */
     private function getExamples(): array
     {
         return [

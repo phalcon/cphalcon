@@ -24,6 +24,7 @@ class ValidationCest
      * Tests the get
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10405
+     * @param IntegrationTester $I
      *
      * @since  2016-06-27
      *

@@ -33,27 +33,15 @@ class GetKeysCest
 
         $adapter->clear();
 
-
-
         $key = 'key-1';
-
         $adapter->set($key, 'test');
-
-        $I->assertTrue(
-            $adapter->has($key)
-        );
-
-
+        $actual = $adapter->has($key);
+        $I->assertTrue($actual);
 
         $key = 'key-2';
-
         $adapter->set($key, 'test');
-
-        $I->assertTrue(
-            $adapter->has($key)
-        );
-
-
+        $actual = $adapter->has($key);
+        $I->assertTrue($actual);
 
         $expected = [
             'ph-memo-key-1',

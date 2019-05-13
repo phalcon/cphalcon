@@ -33,9 +33,7 @@ class AllowCest
 
         $acl = new Memory();
 
-        $acl->setDefaultAction(
-            Acl::DENY
-        );
+        $acl->setDefaultAction(Acl::DENY);
 
         $acl->addRole('Guests');
         $acl->addRole('Member');
@@ -47,17 +45,15 @@ class AllowCest
 
         $acl->allow('Member', 'Post', 'update');
 
-        $I->assertFalse(
-            $acl->isAllowed('Guest', 'Post', 'update')
-        );
 
-        $I->assertFalse(
-            $acl->isAllowed('Guest', 'Post', 'update')
-        );
+        $actual = $acl->isAllowed('Guest', 'Post', 'update');
 
-        $I->assertTrue(
-            $acl->isAllowed('Member', 'Post', 'update')
-        );
+        $I->assertFalse($actual);
+
+
+        $actual = $acl->isAllowed('Member', 'Post', 'update');
+
+        $I->assertTrue($actual);
     }
 
     /**
@@ -104,22 +100,25 @@ class AllowCest
 
         $acl->allow('Admins', 'Post', 'update');
 
-        $I->assertFalse(
-            $acl->isAllowed($guest, $model, 'update')
-        );
 
-        $I->assertTrue(
-            $acl->isAllowed($member, $model, 'update')
-        );
+        $actual = $acl->isAllowed($guest, $model, 'update');
+
+        $I->assertFalse($actual);
 
 
-        $I->assertFalse(
-            $acl->isAllowed($anotherMember, $model, 'update')
-        );
+        $actual = $acl->isAllowed($member, $model, 'update');
 
-        $I->assertTrue(
-            $acl->isAllowed($admin, $model, 'update')
-        );
+        $I->assertTrue($actual);
+
+
+        $actual = $acl->isAllowed($anotherMember, $model, 'update');
+
+        $I->assertFalse($actual);
+
+
+        $actual = $acl->isAllowed($admin, $model, 'update');
+
+        $I->assertTrue($actual);
     }
 
     /**
@@ -138,17 +137,10 @@ class AllowCest
                 "'update' 'Post'. We will use default action when no arguments.",
                 1024
             ),
-            function () use ($I) {
+            function () {
                 $acl = new Memory;
-
-                $acl->setDefaultAction(
-                    Acl::ALLOW
-                );
-
-                $acl->setNoArgumentsDefaultAction(
-                    Acl::DENY
-                );
-
+                $acl->setDefaultAction(Acl::ALLOW);
+                $acl->setNoArgumentsDefaultAction(Acl::DENY);
                 $acl->addRole('Guests');
                 $acl->addRole('Members', 'Guests');
                 $acl->addRole('Admins', 'Members');
@@ -180,21 +172,14 @@ class AllowCest
 
                 $acl->allow('Admins', 'Post', 'update');
 
-                $I->assertFalse(
-                    $acl->isAllowed($guest, $model, 'update')
-                );
-
-                $I->assertFalse(
-                    $acl->isAllowed($member, $model, 'update')
-                );
-
-                $I->assertFalse(
-                    $acl->isAllowed($anotherMember, $model, 'update')
-                );
-
-                $I->assertTrue(
-                    $acl->isAllowed($admin, $model, 'update')
-                );
+                $actual = $acl->isAllowed($guest, $model, 'update');
+                $I->assertFalse($actual);
+                $actual = $acl->isAllowed($member, $model, 'update');
+                $I->assertFalse($actual);
+                $actual = $acl->isAllowed($anotherMember, $model, 'update');
+                $I->assertFalse($actual);
+                $actual = $acl->isAllowed($admin, $model, 'update');
+                $I->assertTrue($actual);
             }
         );
     }

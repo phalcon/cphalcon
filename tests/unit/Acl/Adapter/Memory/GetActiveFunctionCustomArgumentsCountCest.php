@@ -26,7 +26,6 @@ class GetActiveFunctionCustomArgumentsCountCest
     public function aclAdapterMemoryGetActiveFunctionCustomArgumentsCount(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveFunctionCustomArgumentsCount()');
-
         $I->skipTest('Need implementation');
     }
 }
