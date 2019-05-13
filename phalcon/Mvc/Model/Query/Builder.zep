@@ -298,13 +298,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *     ]
      * );
      *</code>
-     *
-     * @param string conditions
-     * @param array bindParams
-     * @param array bindTypes
-     * @return \Phalcon\Mvc\Model\Query\Builder
      */
-    public function andHaving(string! conditions, var bindParams = null, var bindTypes = null) -> <BuilderInterface>
+    public function andHaving(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
         var currentConditions;
 
@@ -1031,42 +1026,33 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *     ]
      * );
      *</code>
-     *
-     * @param mixed conditions
-     * @param array bindParams
-     * @param array bindTypes
-     * @return \Phalcon\Mvc\Model\Query\Builder
      */
-    public function having(var conditions, var bindParams = null, var bindTypes = null) -> <BuilderInterface>
+    public function having(var conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
         var currentBindParams, currentBindTypes;
 
         let this->having = conditions;
 
+        let currentBindParams = this->bindParams;
+
         /**
          * Merge the bind params to the current ones
          */
-        if typeof bindParams == "array" {
-            let currentBindParams = this->bindParams;
-
-            if typeof currentBindParams == "array" {
-                let this->bindParams = currentBindParams + bindParams;
-            } else {
-                let this->bindParams = bindParams;
-            }
+        if typeof currentBindParams == "array" {
+            let this->bindParams = currentBindParams + bindParams;
+        } else {
+            let this->bindParams = bindParams;
         }
+
+        let currentBindTypes = this->bindTypes;
 
         /**
          * Merge the bind types to the current ones
          */
-        if typeof bindTypes == "array" {
-            let currentBindTypes = this->bindTypes;
-
-            if typeof currentBindTypes == "array" {
-                let this->bindTypes = currentBindTypes + bindTypes;
-            } else {
-                let this->bindTypes = bindTypes;
-            }
+        if typeof currentBindTypes == "array" {
+            let this->bindTypes = currentBindTypes + bindTypes;
+        } else {
+            let this->bindTypes = bindTypes;
         }
 
         return this;
@@ -1277,13 +1263,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *     ]
      * );
      *</code>
-     *
-     * @param string conditions
-     * @param array bindParams
-     * @param array bindTypes
-     * @return \Phalcon\Mvc\Model\Query\Builder
      */
-    public function orHaving(string! conditions, var bindParams = null, var bindTypes = null) -> <BuilderInterface>
+    public function orHaving(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
         var currentConditions;
 
