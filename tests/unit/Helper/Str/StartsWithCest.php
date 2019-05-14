@@ -26,13 +26,13 @@ class StartsWithCest
     public function helperStrStartsWith(UnitTester $I)
     {
         $I->wantToTest('Helper\Str - startsWith()');
-        $actual = Str::startsWith("Hello", "H");
+        $actual = Str::startsWith('Hello', 'H');
         $I->assertTrue($actual);
 
-        $actual = Str::startsWith("Hello", "He");
+        $actual = Str::startsWith('Hello', 'He');
         $I->assertTrue($actual);
 
-        $actual = Str::startsWith("Hello", "Hello");
+        $actual = Str::startsWith('Hello', 'Hello');
         $I->assertTrue($actual);
     }
 
@@ -45,7 +45,7 @@ class StartsWithCest
     public function helperStrStartsWithEmpty(UnitTester $I)
     {
         $I->wantToTest('Helper\Str - startsWith() - empty strings');
-        $actual = Str::startsWith("", "");
+        $actual = Str::startsWith('', '');
         $I->assertFalse($actual);
     }
 
@@ -58,7 +58,7 @@ class StartsWithCest
     public function helperStrStartsWithEmptySearchString(UnitTester $I)
     {
         $I->wantToTest('Helper\Str - startsWith() - search empty string');
-        $actual = Str::startsWith("", "hello");
+        $actual = Str::startsWith('', 'hello');
         $I->assertFalse($actual);
     }
 
@@ -72,13 +72,13 @@ class StartsWithCest
     public function helperStrStartsWithCaseInsensitive(UnitTester $I)
     {
         $I->wantToTest('Helper\Str - startsWith() - case insensitive flag');
-        $actual = Str::startsWith("Hello", "h");
+        $actual = Str::startsWith('Hello', 'h');
         $I->assertTrue($actual);
 
-        $actual = Str::startsWith("Hello", "he");
+        $actual = Str::startsWith('Hello', 'he');
         $I->assertTrue($actual);
 
-        $actual = Str::startsWith("Hello", "hello");
+        $actual = Str::startsWith('Hello', 'hello');
         $I->assertTrue($actual);
     }
 
@@ -91,13 +91,13 @@ class StartsWithCest
     public function helperStrStartsWithCaseSensitive(UnitTester $I)
     {
         $I->wantToTest('Helper\Str - startsWith() - case sensitive flag');
-        $actual = Str::startsWith("Hello", "hello", true);
+        $actual = Str::startsWith('Hello', 'hello', true);
         $I->assertTrue($actual);
 
-        $actual = Str::startsWith("Hello", "hello", false);
+        $actual = Str::startsWith('Hello', 'hello', false);
         $I->assertFalse($actual);
 
-        $actual = Str::startsWith("Hello", "h", false);
+        $actual = Str::startsWith('Hello', 'h', false);
         $I->assertFalse($actual);
     }
 }

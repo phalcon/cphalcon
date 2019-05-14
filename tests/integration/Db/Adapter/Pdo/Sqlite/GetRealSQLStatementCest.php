@@ -22,8 +22,6 @@ class GetRealSQLStatementCest
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: getRealSQLStatement()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

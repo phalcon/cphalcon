@@ -42,11 +42,11 @@ class ValidateCest
             'user',
             new Callback(
                 [
-                    "callback"   => function ($data) {
+                    'callback'   => function ($data) {
                         return empty($data['admin']);
                     },
-                    "message"    => "You cant provide both admin and user.",
-                    "allowEmpty" => true,
+                    'message'    => 'You cant provide both admin and user.',
+                    'allowEmpty' => true,
                 ]
             )
         );
@@ -54,8 +54,8 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                "user"  => "user",
-                "admin" => null,
+                'user'  => 'user',
+                'admin' => null,
             ]
         );
 
@@ -64,8 +64,8 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                "user"  => null,
-                "admin" => "admin",
+                'user'  => null,
+                'admin' => 'admin',
             ]
         );
 
@@ -74,8 +74,8 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                "user"  => "user",
-                "admin" => "admin",
+                'user'  => 'user',
+                'admin' => 'admin',
             ]
         );
 
@@ -115,12 +115,12 @@ class ValidateCest
             'user',
             new Callback(
                 [
-                    "callback" => function ($data) {
+                    'callback' => function ($data) {
                         if (empty($data['admin'])) {
                             return new StringLength(
                                 [
-                                    "min"            => 4,
-                                    "messageMinimum" => "User name should be minimum 4 characters.",
+                                    'min'            => 4,
+                                    'messageMinimum' => 'User name should be minimum 4 characters.',
                                 ]
                             );
                         }
@@ -195,8 +195,8 @@ class ValidateCest
             ['user', 'admin'],
             new Callback(
                 [
-                    "message"  => "There must be only an user or admin set",
-                    "callback" => function ($data) {
+                    'message'  => 'There must be only an user or admin set',
+                    'callback' => function ($data) {
                         if (!empty($data['user']) && !empty($data['admin'])) {
                             return false;
                         }
@@ -275,12 +275,12 @@ class ValidateCest
             ['user', 'admin'],
             new Callback(
                 [
-                    "message"  => "There must be only an user or admin set",
-                    "callback" => function ($data) {
+                    'message'  => 'There must be only an user or admin set',
+                    'callback' => function ($data) {
                         if (empty($data['user']) && empty($data['admin'])) {
                             return new PresenceOf(
                                 [
-                                    "message" => "You must provide admin or user",
+                                    'message' => 'You must provide admin or user',
                                 ]
                             );
                         }
@@ -397,7 +397,7 @@ class ValidateCest
                     'user',
                     new Callback(
                         [
-                            "callback" => function ($data) {
+                            'callback' => function ($data) {
                                 return new Validation();
                             },
                         ]

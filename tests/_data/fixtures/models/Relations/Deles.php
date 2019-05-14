@@ -25,7 +25,7 @@ class Deles extends Model
 
     public function initialize()
     {
-        $this->setSource("parts");
+        $this->setSource('parts');
 
         $this->hasMany(
             'code',

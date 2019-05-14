@@ -36,7 +36,7 @@ class DbDescribeCest
      */
     public function dbMySql(IntegrationTester $I)
     {
-        $I->wantToTest("Db - MySql");
+        $I->wantToTest('Db - MySql');
 
         $this->setDiMysql();
 
@@ -44,7 +44,7 @@ class DbDescribeCest
 
 
 
-        //Table exist
+        // Table exist
         $I->assertEquals(
             1,
             $connection->tableExists('personas')
@@ -90,19 +90,25 @@ class DbDescribeCest
 
         //Indexes
         $expectedIndexes = [
-            'PRIMARY'   => Index::__set_state([
-                'name'    => 'PRIMARY',
-                'columns' => ['id'],
-                'type'    => 'PRIMARY',
-            ]),
-            'robots_id' => Index::__set_state([
-                'name'    => 'robots_id',
-                'columns' => ['robots_id'],
-            ]),
-            'parts_id'  => Index::__set_state([
-                'name'    => 'parts_id',
-                'columns' => ['parts_id'],
-            ]),
+            'PRIMARY'   => Index::__set_state(
+                [
+                    'name'    => 'PRIMARY',
+                    'columns' => ['id'],
+                    'type'    => 'PRIMARY',
+                ]
+            ),
+            'robots_id' => Index::__set_state(
+                [
+                    'name'    => 'robots_id',
+                    'columns' => ['robots_id'],
+                ]
+            ),
+            'parts_id'  => Index::__set_state(
+                [
+                    'name'    => 'parts_id',
+                    'columns' => ['parts_id'],
+                ]
+            ),
         ];
 
         $I->assertEquals(
@@ -117,16 +123,20 @@ class DbDescribeCest
 
         //Indexes
         $expectedIndexes = [
-            'PRIMARY'                  => Index::__set_state([
-                'name'    => 'PRIMARY',
-                'columns' => ['id'],
-                'type'    => 'PRIMARY',
-            ]),
-            'issue_11036_token_UNIQUE' => Index::__set_state([
-                'name'    => 'issue_11036_token_UNIQUE',
-                'columns' => ['token'],
-                'type'    => 'UNIQUE',
-            ]),
+            'PRIMARY'                  => Index::__set_state(
+                [
+                    'name'    => 'PRIMARY',
+                    'columns' => ['id'],
+                    'type'    => 'PRIMARY',
+                ]
+            ),
+            'issue_11036_token_UNIQUE' => Index::__set_state(
+                [
+                    'name'    => 'issue_11036_token_UNIQUE',
+                    'columns' => ['token'],
+                    'type'    => 'UNIQUE',
+                ]
+            ),
         ];
 
         $I->assertEquals(
@@ -184,9 +194,10 @@ class DbDescribeCest
      */
     public function dbPostgresql(IntegrationTester $I)
     {
-        $I->wantToTest("Db - Postgresql");
+        $I->wantToTest('Db - Postgresql');
 
         $this->setDiPostgresql();
+
         $connection = $this->getService('db');
 
         // Columns
@@ -434,15 +445,15 @@ class DbDescribeCest
     /**
      * Tests Phalcon\Db :: Sqlite
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbSqlite(IntegrationTester $I)
     {
-        $I->wantToTest("Db - Sqlite");
+        $I->wantToTest('Db - Sqlite');
+
         $this->setDiSqlite();
+
         $connection = $this->getService('db');
 
         //List tables
@@ -518,20 +529,26 @@ class DbDescribeCest
 
         // Indexes
         $expectedIndexes = [
-            'sqlite_autoindex_COMPANY_1' => Index::__set_state([
-                'name'    => 'sqlite_autoindex_COMPANY_1',
-                'columns' => ['ID'],
-                'type'    => 'PRIMARY',
-            ]),
-            'salary_index'               => Index::__set_state([
-                'name'    => 'salary_index',
-                'columns' => ['SALARY'],
-            ]),
-            'name_index'                 => Index::__set_state([
-                'name'    => 'name_index',
-                'columns' => ['NAME'],
-                'type'    => 'UNIQUE',
-            ]),
+            'sqlite_autoindex_COMPANY_1' => Index::__set_state(
+                [
+                    'name'    => 'sqlite_autoindex_COMPANY_1',
+                    'columns' => ['ID'],
+                    'type'    => 'PRIMARY',
+                ]
+            ),
+            'salary_index'               => Index::__set_state(
+                [
+                    'name'    => 'salary_index',
+                    'columns' => ['SALARY'],
+                ]
+            ),
+            'name_index'                 => Index::__set_state(
+                [
+                    'name'    => 'name_index',
+                    'columns' => ['NAME'],
+                    'type'    => 'UNIQUE',
+                ]
+            ),
         ];
 
         $I->assertEquals(

@@ -19,7 +19,7 @@ class Subscribers extends PhalconModel
 {
     public function initialize()
     {
-        $this->setSource("subscriptores");
+        $this->setSource('subscriptores');
 
         $this->addBehavior(
             new Timestampable(

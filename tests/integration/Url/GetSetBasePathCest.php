@@ -15,9 +15,6 @@ namespace Phalcon\Test\Integration\Url;
 use IntegrationTester;
 use Phalcon\Url;
 
-/**
- * @package Phalcon\Test\Integration\Url
- */
 class GetSetBasePathCest
 {
     /**
@@ -28,7 +25,7 @@ class GetSetBasePathCest
      */
     public function urlGetSetBasePath(IntegrationTester $I)
     {
-        $I->wantToTest("Url - getBasePath()/setBasePath()");
+        $I->wantToTest('Url - getBasePath()/setBasePath()');
         $url = new Url();
 
         $path = '/en/team';

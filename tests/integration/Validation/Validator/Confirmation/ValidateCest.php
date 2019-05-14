@@ -27,8 +27,6 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Confirmation :: validate() - single
      * field
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -79,8 +77,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Confirmation :: validate() - multiple
      * field
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -175,8 +171,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Confirmation :: validate() - empty
      * value
-     *
-     * @param IntegrationTester $I
      *
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-09-06

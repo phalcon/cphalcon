@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Manager;
 
+use function dataDir;
+use function filemtime;
 use Phalcon\Assets\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
-use function dataDir;
-use function filemtime;
 
 class SetAutoVersionCest
 {

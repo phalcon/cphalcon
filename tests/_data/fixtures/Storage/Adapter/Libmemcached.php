@@ -21,9 +21,6 @@ use Phalcon\Storage\Adapter\Libmemcached as StorageLibmemcached;
  */
 class Libmemcached extends StorageLibmemcached
 {
-    /**
-     * @return array
-     */
     public function getOptions(): array
     {
         return $this->options;

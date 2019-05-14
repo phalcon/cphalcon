@@ -25,8 +25,6 @@ class SetHandlerCest
     /**
      * Tests Phalcon\Mvc\Micro\Collection :: setHandler()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

@@ -45,7 +45,7 @@ class HandleCest
 
         $application->setDI($di);
 
-        $response = $application->handle("/micro");
+        $response = $application->handle('/micro');
 
         $I->assertEquals(
             '<html>We are here</html>' . PHP_EOL,

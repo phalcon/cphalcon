@@ -27,8 +27,6 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\StringLength :: validate() - single
      * field
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -75,8 +73,6 @@ class ValidateCest
 
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: validate() - minimum
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2013-03-09
@@ -132,8 +128,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: validate() - minimum
      * custom message
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2013-03-09
@@ -192,8 +186,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: validate() - maximum
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2013-03-09
      */
@@ -248,8 +240,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: validate() - maximum
      * custom message
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2013-03-09
@@ -308,8 +298,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: validate()
      * multiple field and single min, max
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -405,8 +393,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: validate()
      * multiple field and min, max
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05

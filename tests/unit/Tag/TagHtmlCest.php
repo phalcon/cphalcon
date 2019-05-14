@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Tag;
 
+use Codeception\Example;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
@@ -23,36 +24,42 @@ class TagHtmlCest extends TagSetup
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
+     *
+     * @dataProvider tagHtmlNameProvider
      */
-    public function tagTagHtmlName(UnitTester $I)
+    public function tagTagHtmlName(UnitTester $I, Example $example)
     {
-        $I->wantToTest("Tag - tagHtml() - name parameter");
+        $I->wantToTest('Tag - tagHtml() - name parameter');
 
         Tag::resetInput();
 
-        $name     = 'aside';
-        $expected = '<aside>';
+        $name = $example['name'];
 
         Tag::setDocType(
-            Tag::XHTML10_STRICT
+            $example['docType']
         );
 
-        $actual = Tag::tagHtml($name);
-
-        $I->assertEquals($expected, $actual);
-
-        Tag::resetInput();
-
-        $name     = 'aside';
-        $expected = '<aside></aside>';
-
-        Tag::setDocType(
-            Tag::HTML5
+        $I->assertEquals(
+            $example['expected'],
+            Tag::tagHtml($name)
         );
+    }
 
-        $actual = Tag::tagHtml($name);
+    private function tagHtmlNameProvider(): array
+    {
+        return [
+            [
+                'name'     => 'aside',
+                'docType'  => Tag::XHTML10_STRICT,
+                'expected' => '<aside>',
+            ],
 
-        $I->assertEquals($expected, $actual);
+            [
+                'name'     => 'aside',
+                'docType'  => Tag::HTML5,
+                'expected' => '<aside></aside>',
+            ],
+        ];
     }
 
     /**
@@ -63,7 +70,7 @@ class TagHtmlCest extends TagSetup
      */
     public function tagNameSelfClose(UnitTester $I)
     {
-        $I->wantToTest("Tag - tagHtml() - name parameter self close");
+        $I->wantToTest('Tag - tagHtml() - name parameter self close');
 
         Tag::resetInput();
 
@@ -100,7 +107,7 @@ class TagHtmlCest extends TagSetup
      */
     public function tagTagHtmlNameOnlyStart(UnitTester $I)
     {
-        $I->wantToTest("Tag - tagHtml() - name parameter only start");
+        $I->wantToTest('Tag - tagHtml() - name parameter only start');
 
         Tag::resetInput();
 
@@ -137,7 +144,7 @@ class TagHtmlCest extends TagSetup
      */
     public function tagTagHtmlNameEol(UnitTester $I)
     {
-        $I->wantToTest("Tag - tagHtml() - name parameter EOL");
+        $I->wantToTest('Tag - tagHtml() - name parameter EOL');
 
         Tag::resetInput();
 
@@ -174,7 +181,7 @@ class TagHtmlCest extends TagSetup
      */
     public function tagTagHtmlWithArray(UnitTester $I)
     {
-        $I->wantToTest("Tag - tagHtml() - array");
+        $I->wantToTest('Tag - tagHtml() - array');
 
         Tag::resetInput();
 

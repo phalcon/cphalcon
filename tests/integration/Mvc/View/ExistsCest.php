@@ -26,8 +26,6 @@ class ExistsCest
     /**
      * Tests Phalcon\Mvc\View :: exists()
      *
-     * @param IntegrationTester $I
-     *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
      */

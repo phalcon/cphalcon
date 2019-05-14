@@ -12,8 +12,8 @@
 namespace Phalcon\Test\Fixtures\Helpers;
 
 use Codeception\Example;
-use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Test\Fixtures\Traits\TranslateTrait;
+use Phalcon\Translate\Adapter\NativeArray;
 use UnitTester;
 
 class TranslateQueryHelper
@@ -24,9 +24,6 @@ class TranslateQueryHelper
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: query()
-     *
-     * @param UnitTester $I
-     * @param Example    $data
      *
      * @dataProvider getQueryProvider
      *
@@ -62,9 +59,6 @@ class TranslateQueryHelper
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: query() -
      * variable substitution in string with no variables
-     *
-     * @param UnitTester $I
-     * @param Example    $data
      *
      * @dataProvider getQueryProvider
      *
@@ -105,9 +99,6 @@ class TranslateQueryHelper
      * Tests Phalcon\Translate\Adapter\NativeArray :: query() -
      * variable substitution in string (one variable)
      *
-     * @param UnitTester $I
-     * @param Example    $data
-     *
      * @dataProvider getQueryOneVariable
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -139,9 +130,6 @@ class TranslateQueryHelper
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: query() -
      * variable substitution in string (two variables)
-     *
-     * @param UnitTester $I
-     * @param Example    $data
      *
      * @dataProvider getQueryTwoVariables
      *
@@ -181,8 +169,6 @@ class TranslateQueryHelper
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: query() - array access and UTF8 strings
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
@@ -210,8 +196,6 @@ class TranslateQueryHelper
 
     /**
      * Data provider for the query tests
-     *
-     * @return array
      */
     private function getQueryProvider(): array
     {
@@ -245,8 +229,6 @@ class TranslateQueryHelper
 
     /**
      * Data provider for the query one variable substitution
-     *
-     * @return array
      */
     private function getQueryOneVariable(): array
     {
@@ -277,8 +259,6 @@ class TranslateQueryHelper
 
     /**
      * Data provider for the query one variable substitution
-     *
-     * @return array
      */
     private function getQueryTwoVariables(): array
     {

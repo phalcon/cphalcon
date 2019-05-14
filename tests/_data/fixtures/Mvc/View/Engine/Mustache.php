@@ -14,8 +14,8 @@ namespace Phalcon\Test\Fixtures\Mvc\View\Engine;
 use Mustache_Engine;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\View\Engine;
-use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Mvc\View\EngineInterface;
+use Phalcon\Mvc\ViewBaseInterface;
 
 class Mustache extends Engine implements EngineInterface
 {
@@ -33,9 +33,6 @@ class Mustache extends Engine implements EngineInterface
 
     /**
      * Mustache constructor.
-     *
-     * @param ViewBaseInterface $view
-     * @param DiInterface|null $dependencyInjector
      */
     public function __construct(ViewBaseInterface $view, DiInterface $dependencyInjector = null)
     {
@@ -48,7 +45,6 @@ class Mustache extends Engine implements EngineInterface
      * Renders a view using the template engine
      *
      * @param string $path
-     * @param mixed $params
      * @param bool $mustClean
      */
     public function render($path, $params, $mustClean = false)

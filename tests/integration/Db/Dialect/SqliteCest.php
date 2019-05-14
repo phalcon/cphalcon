@@ -585,12 +585,12 @@ class SqliteCest extends DialectBase
         return [
             [
                 null,
-                "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END " .
+                'SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END ' .
                 "FROM sqlite_master WHERE type='view' AND tbl_name='view'",
             ],
             [
                 'schema',
-                "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END " .
+                'SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END ' .
                 "FROM sqlite_master WHERE type='view' AND tbl_name='view'",
             ],
         ];

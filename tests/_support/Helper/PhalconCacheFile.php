@@ -2,6 +2,7 @@
 
 namespace Helper;
 
+use function cacheDir;
 use Codeception\Configuration;
 use Codeception\Exception\ModuleConfigException;
 use Codeception\Lib\ModuleContainer;
@@ -10,7 +11,6 @@ use Phalcon\Cache\Backend\File as FileBackend;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Cache\Frontend\Igbinary;
 use Phalcon\Cache\FrontendInterface;
-use function cacheDir;
 
 /**
  * Phalcon\Test\Module\Cache\Backend\File
@@ -19,7 +19,6 @@ use function cacheDir;
  *
  * @copyright (c) 2011-2017 Phalcon Team
  * @link          https://phalconphp.com
- * @package       Phalcon\Test\Module\Cache\Backend
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -133,10 +132,10 @@ class PhalconCacheFile extends Filesystem
     /**
      * Stores an item `$value` with `$key` on the cache backend.
      *
-     * @param string  $key
-     * @param string  $content
-     * @param int     $lifetime
-     * @param boolean $stopBuffer
+     * @param string $key
+     * @param string $content
+     * @param int    $lifetime
+     * @param bool   $stopBuffer
      */
     public function haveInCacheStorage($key, $content = null, $lifetime = null, $stopBuffer = true)
     {
@@ -184,7 +183,6 @@ class PhalconCacheFile extends Filesystem
      * ```
      *
      * @param string $key
-     * @param mixed  $value
      * @param int    $lifetime
      */
     public function seeInCacheStorage($key, $value = null, $lifetime = null)
@@ -213,12 +211,12 @@ class PhalconCacheFile extends Filesystem
 
         $serialized = call_user_func_array($serializeCallback, [$value]);
 
-        $this->assertEquals(
+        $this->assertSame(
             $serialized,
             $this->file
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             $serialized,
             $this->frontend->beforeStore($value)
         );

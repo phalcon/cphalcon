@@ -25,8 +25,6 @@ class CompileStringCest
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileString()
      *
-     * @param IntegrationTester $I
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2017-01-17
      *
@@ -51,8 +49,6 @@ class CompileStringCest
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileString() - syntax
      * error
      *
-     * @param IntegrationTester $I
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2017-01-17
      *
@@ -75,9 +71,7 @@ class CompileStringCest
         );
     }
 
-    /**
-     * @return array
-     */
+
     private function getVoltCompileString(): array
     {
         return [
@@ -92,15 +86,15 @@ class CompileStringCest
             ['{{ "hello" }}-{{ "hello" }}', "<?= 'hello' ?>-<?= 'hello' ?>"],
             ['-{{ "hello" }}{{ "hello" }}-', "-<?= 'hello' ?><?= 'hello' ?>-"],
             ['-{{ "hello" }}-{{ "hello" }}-', "-<?= 'hello' ?>-<?= 'hello' ?>-"],
-            ['Some = {{ 100+50 }}', "Some = <?= 100 + 50 ?>"],
-            ['Some = {{ 100-50 }}', "Some = <?= 100 - 50 ?>"],
-            ['Some = {{ 100*50 }}', "Some = <?= 100 * 50 ?>"],
-            ['Some = {{ 100/50 }}', "Some = <?= 100 / 50 ?>"],
-            ['Some = {{ 100%50 }}', "Some = <?= 100 % 50 ?>"],
-            ['Some = {{ 100~50 }}', "Some = <?= 100 . 50 ?>"],
+            ['Some = {{ 100+50 }}', 'Some = <?= 100 + 50 ?>'],
+            ['Some = {{ 100-50 }}', 'Some = <?= 100 - 50 ?>'],
+            ['Some = {{ 100*50 }}', 'Some = <?= 100 * 50 ?>'],
+            ['Some = {{ 100/50 }}', 'Some = <?= 100 / 50 ?>'],
+            ['Some = {{ 100%50 }}', 'Some = <?= 100 % 50 ?>'],
+            ['Some = {{ 100~50 }}', 'Some = <?= 100 . 50 ?>'],
             //Unary operators
-            ['{{ -10 }}', "<?= -10 ?>"],
-            ['{{ !10 }}', "<?= !10 ?>"],
+            ['{{ -10 }}', '<?= -10 ?>'],
+            ['{{ !10 }}', '<?= !10 ?>'],
             ['{{ !a }}', '<?= !$a ?>'],
             ['{{ not a }}', '<?= !$a ?>'],
             //Arrays
@@ -278,9 +272,7 @@ class CompileStringCest
         ];
     }
 
-    /**
-     * @return array
-     */
+
     private function getVoltCompileStringErrors(): array
     {
         return [

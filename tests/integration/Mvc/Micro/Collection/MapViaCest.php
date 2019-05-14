@@ -24,8 +24,6 @@ class MapViaCest
 {
     /**
      * Tests Phalcon\Mvc\Micro\Collection :: mapVia()
-     *
-     * @param IntegrationTester $I
      */
     public function testMicroCollectionVia(IntegrationTester $I)
     {
@@ -37,16 +35,16 @@ class MapViaCest
         $collection->setHandler(new MicroController());
 
         $collection->mapVia(
-            "/test",
+            '/test',
             'indexAction',
-            ["POST", "GET"],
-            "test"
+            ['POST', 'GET'],
+            'test'
         );
 
         $app->mount($collection);
 
-        $expected = ["POST", "GET"];
-        $actual   = $app->getRouter()->getRouteByName("test")->getHttpMethods();
+        $expected = ['POST', 'GET'];
+        $actual   = $app->getRouter()->getRouteByName('test')->getHttpMethods();
 
         $I->assertEquals($expected, $actual);
     }

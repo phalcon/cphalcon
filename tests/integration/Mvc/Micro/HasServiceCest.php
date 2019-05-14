@@ -22,8 +22,6 @@ class HasServiceCest
     /**
      * Tests Phalcon\Mvc\Micro :: hasService()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

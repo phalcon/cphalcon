@@ -22,8 +22,6 @@ class GetLastInitializedCest
     /**
      * Tests Phalcon\Mvc\Model\Manager :: getLastInitialized()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

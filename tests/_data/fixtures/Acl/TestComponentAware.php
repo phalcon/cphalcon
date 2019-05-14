@@ -47,9 +47,6 @@ class TestComponentAware implements ComponentAware
         return $this->user;
     }
 
-    /**
-     * @return string
-     */
     public function getComponentName(): string
     {
         return $this->resourceName;

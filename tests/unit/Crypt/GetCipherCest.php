@@ -27,7 +27,7 @@ class GetCipherCest
     {
         $I->wantToTest('Crypt - getCipher()');
 
-        $cipher = "aes-256-cfb";
+        $cipher = 'aes-256-cfb';
         $crypt  = new Crypt($cipher);
         $I->assertEquals($cipher, $crypt->getCipher());
     }

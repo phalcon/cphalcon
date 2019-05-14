@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Http\Server;
 
+use Phalcon\Http\Server\AbstractRequestHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Phalcon\Http\Server\AbstractRequestHandler;
 
 /**
  * Class MiddlewareFixture

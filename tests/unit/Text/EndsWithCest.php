@@ -28,15 +28,15 @@ class EndsWithCest
         $I->wantToTest('Text - endsWith()');
 
         $I->assertTrue(
-            Text::endsWith("Hello", "o")
+            Text::endsWith('Hello', 'o')
         );
 
         $I->assertTrue(
-            Text::endsWith("Hello", "lo")
+            Text::endsWith('Hello', 'lo')
         );
 
         $I->assertTrue(
-            Text::endsWith("Hello", "Hello")
+            Text::endsWith('Hello', 'Hello')
         );
     }
 
@@ -51,7 +51,7 @@ class EndsWithCest
         $I->wantToTest('Text - endsWith() - empty strings');
 
         $I->assertFalse(
-            Text::endsWith("", "")
+            Text::endsWith('', '')
         );
     }
 
@@ -66,7 +66,7 @@ class EndsWithCest
         $I->wantToTest('Text - endsWith() - search empty string');
 
         $I->assertFalse(
-            Text::endsWith("", "hello")
+            Text::endsWith('', 'hello')
         );
     }
 
@@ -82,15 +82,15 @@ class EndsWithCest
         $I->wantToTest('Text - endsWith() - case insensitive flag');
 
         $I->assertTrue(
-            Text::endsWith("Hello", "O")
+            Text::endsWith('Hello', 'O')
         );
 
         $I->assertTrue(
-            Text::endsWith("Hello", "LO")
+            Text::endsWith('Hello', 'LO')
         );
 
         $I->assertTrue(
-            Text::endsWith("Hello", "hello")
+            Text::endsWith('Hello', 'hello')
         );
     }
 
@@ -105,15 +105,15 @@ class EndsWithCest
         $I->wantToTest('Text - endsWith() - case sensitive flag');
 
         $I->assertTrue(
-            Text::endsWith("Hello", "hello", true)
+            Text::endsWith('Hello', 'hello', true)
         );
 
         $I->assertFalse(
-            Text::endsWith("Hello", "hello", false)
+            Text::endsWith('Hello', 'hello', false)
         );
 
         $I->assertFalse(
-            Text::endsWith("Hello", "O", false)
+            Text::endsWith('Hello', 'O', false)
         );
     }
 }

@@ -22,8 +22,6 @@ class SetupCest
     /**
      * Tests Phalcon\Mvc\Model :: setup()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

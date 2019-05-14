@@ -11,15 +11,15 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model;
 use Phalcon\Db\Column;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\MetaData;
 
 class Robotto extends Model
 {
     public function initialize()
     {
-        $this->setSource("robots");
+        $this->setSource('robots');
     }
 
     public function metaData()

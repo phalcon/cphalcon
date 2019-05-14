@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Filter\Sanitize;
 
-
 /**
  * Class IPv4
  */
@@ -20,10 +19,6 @@ class IPv4
 {
     /**
      * Sanitizes IP addresses
-     *
-     * @param mixed $ip
-     *
-     * @return mixed
      */
     public function __invoke($ip)
     {

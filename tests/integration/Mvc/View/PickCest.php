@@ -29,8 +29,6 @@ class PickCest
     /**
      * Tests Phalcon\Mvc\View :: pick()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2013-01-07
      */

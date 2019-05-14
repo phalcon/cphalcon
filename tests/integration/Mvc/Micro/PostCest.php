@@ -23,8 +23,6 @@ class PostCest
     /**
      * Tests Phalcon\Mvc\Micro :: post()
      *
-     * @param IntegrationTester $I
-     *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17
      */

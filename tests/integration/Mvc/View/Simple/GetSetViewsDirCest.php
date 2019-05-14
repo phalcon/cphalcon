@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
-use IntegrationTester;
-use Phalcon\Mvc\View\Simple;
 use function dataDir;
 use const DIRECTORY_SEPARATOR;
+use IntegrationTester;
+use Phalcon\Mvc\View\Simple;
 
 /**
  * Class GetSetViewsDirCest
@@ -24,8 +24,6 @@ class GetSetViewsDirCest
 {
     /**
      * Tests Phalcon\Mvc\View\Simple :: getViewsDir()/setViewsDir()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

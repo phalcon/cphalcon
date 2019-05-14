@@ -127,7 +127,7 @@ class FriendlyTitleCest extends TagSetup
     public function testFriendlyTitleWithSpecialCharactersAndEscaping(UnitTester $I)
     {
         $options = "Mess'd up --text-- just (to) stress /test/ ?our! "
-            . "`little` \\clean\\ url fun.ction!?-->";
+            . '`little` \\clean\\ url fun.ction!?-->';
 
         $I->assertEquals(
             'messd-up-text-just-to-stress-test-our-little-clean-url-function',
@@ -150,7 +150,7 @@ class FriendlyTitleCest extends TagSetup
             'perche-l-erba-e-verde',
             Tag::friendlyTitle(
                 $options,
-                "-",
+                '-',
                 true,
                 "'"
             )
@@ -172,7 +172,7 @@ class FriendlyTitleCest extends TagSetup
             'P_rch_l_rb_v_rd',
             Tag::friendlyTitle(
                 $options,
-                "_",
+                '_',
                 false,
                 ['e', 'a']
             )

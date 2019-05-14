@@ -14,9 +14,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Fixtures\Traits
- */
 trait RedisTrait
 {
     protected $options = [];

@@ -26,11 +26,11 @@ class SetTitleSeparatorCest
      */
     public function tagSetTitleSeparator(UnitTester $I)
     {
-        $I->wantToTest("Tag - setTitleSeparator()");
+        $I->wantToTest('Tag - setTitleSeparator()');
         Tag::resetInput();
         Tag::setTitleSeparator('-');
 
-        $expected = "-";
+        $expected = '-';
         $actual   = Tag::getTitleSeparator();
         $I->assertEquals($expected, $actual);
     }

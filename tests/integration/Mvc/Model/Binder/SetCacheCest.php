@@ -22,8 +22,6 @@ class SetCacheCest
     /**
      * Tests Phalcon\Mvc\Model\Binder :: setCache()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

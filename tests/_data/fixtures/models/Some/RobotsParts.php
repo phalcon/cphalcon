@@ -17,7 +17,7 @@ class RobotsParts extends Model
 {
     public function initialize()
     {
-        $this->setSource("robots_parts");
+        $this->setSource('robots_parts');
 
         $this->belongsTo(
             'parts_id',

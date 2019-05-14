@@ -14,9 +14,6 @@ namespace Phalcon\Test\Unit\Kernel;
 
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Unit\Kernel
- */
 class PreComputeHashKeyCest
 {
     /**
@@ -27,8 +24,8 @@ class PreComputeHashKeyCest
      */
     public function kernelPreComputeHashKey(UnitTester $I)
     {
-        $I->wantToTest("Kernel - preComputeHashKey()");
+        $I->wantToTest('Kernel - preComputeHashKey()');
 
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

@@ -30,7 +30,7 @@ class JavascriptCest
      */
     public function htmlTagJavascriptLocal(UnitTester $I)
     {
-        $I->wantToTest("Tag - javascript() - local");
+        $I->wantToTest('Tag - javascript() - local');
         $tag = new Tag();
         $tag->setDI($this->container);
 
@@ -49,7 +49,7 @@ class JavascriptCest
      */
     public function htmlTagJavascriptRemote(UnitTester $I)
     {
-        $I->wantToTest("Tag - javascript() - remote link");
+        $I->wantToTest('Tag - javascript() - remote link');
         $tag = new Tag();
         $tag->setDI($this->container);
 
@@ -70,7 +70,7 @@ class JavascriptCest
      */
     public function htmlTagJavascriptHtml5(UnitTester $I)
     {
-        $I->wantToTest("Tag - javascript() - HTML5");
+        $I->wantToTest('Tag - javascript() - HTML5');
         $tag = new Tag();
         $tag->setDI($this->container);
         $tag->setDocType(Tag::HTML32);

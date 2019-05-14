@@ -221,14 +221,14 @@ class FlashBase
 
         $I->assertEquals(
             '&lt;h1&gt;Hello World!&lt;/h1&gt;',
-            $flash->success("<h1>Hello World!</h1>")
+            $flash->success('<h1>Hello World!</h1>')
         );
 
         $flash->setAutoescape(false);
 
         $I->assertEquals(
             '<h1>Hello World!</h1>',
-            $flash->success("<h1>Hello World!</h1>")
+            $flash->success('<h1>Hello World!</h1>')
         );
     }
 

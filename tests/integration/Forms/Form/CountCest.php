@@ -24,8 +24,6 @@ class CountCest
     /**
      * Tests Phalcon\Forms\Form :: count()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-18
      */
@@ -38,11 +36,11 @@ class CountCest
         $I->assertCount(0, $form);
 
         $form->add(
-            new Text("name")
+            new Text('name')
         );
 
         $form->add(
-            new Text("telephone")
+            new Text('telephone')
         );
 
         $I->assertCount(2, $form);

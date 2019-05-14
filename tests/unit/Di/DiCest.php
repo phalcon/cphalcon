@@ -16,6 +16,7 @@
 
 namespace Phalcon\Test\Unit\Di;
 
+use function dataDir;
 use Phalcon\Config;
 use Phalcon\Di;
 use Phalcon\Di\Exception;
@@ -28,12 +29,9 @@ use SomeComponent;
 use SomeServiceProvider;
 use stdClass;
 use UnitTester;
-use function dataDir;
 
 /**
  * Tests the \Phalcon\Di component
- *
- * @package   Phalcon\Test\Unit
  */
 class DiCest
 {
@@ -423,7 +421,7 @@ class DiCest
         $this->phDi->set(
             'simpleConstructor',
             [
-                'className' => 'InjectableComponent',
+                'className' => \InjectableComponent::class,
                 'arguments' => [
                     [
                         'type'  => 'parameter',
@@ -437,7 +435,7 @@ class DiCest
         $this->phDi->set(
             'simpleSetters',
             [
-                'className' => 'InjectableComponent',
+                'className' => \InjectableComponent::class,
                 'calls'     => [
                     [
                         'method'    => 'setResponse',
@@ -456,7 +454,7 @@ class DiCest
         $this->phDi->set(
             'simpleProperties',
             [
-                'className'  => 'InjectableComponent',
+                'className'  => \InjectableComponent::class,
                 'properties' => [
                     [
                         'name'  => 'response',
@@ -473,7 +471,7 @@ class DiCest
         $this->phDi->set(
             'complexConstructor',
             [
-                'className' => 'InjectableComponent',
+                'className' => \InjectableComponent::class,
                 'arguments' => [
                     [
                         'type' => 'service',
@@ -487,7 +485,7 @@ class DiCest
         $this->phDi->set(
             'complexSetters',
             [
-                'className' => 'InjectableComponent',
+                'className' => \InjectableComponent::class,
                 'calls'     => [
                     [
                         'method'    => 'setResponse',
@@ -506,7 +504,7 @@ class DiCest
         $this->phDi->set(
             'complexProperties',
             [
-                'className'  => 'InjectableComponent',
+                'className'  => \InjectableComponent::class,
                 'properties' => [
                     [
                         'name'  => 'response',
@@ -676,7 +674,9 @@ class DiCest
      */
     public function testPhpLoader(UnitTester $I)
     {
-        $this->phDi->loadFromPhp(dataDir('fixtures/Di/services.php'));
+        $this->phDi->loadFromPhp(
+            dataDir('fixtures/Di/services.php')
+        );
 
         $I->assertTrue(
             $this->phDi->has('unit-test')

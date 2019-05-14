@@ -16,8 +16,8 @@ use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
 use function uniqid;
+use UnitTester;
 
 class GetMultipleCest
 {

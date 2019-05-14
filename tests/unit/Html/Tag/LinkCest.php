@@ -133,7 +133,7 @@ class LinkCest
         $tag = new Tag();
         $tag->setDI($this->container);
 
-        $url      = "x_action/x_param";
+        $url      = 'x_action/x_param';
         $name     = 'x_name';
         $params   = [
             'class' => 'x_class',
@@ -158,7 +158,7 @@ class LinkCest
         $tag = new Tag();
         $tag->setDI($this->container);
 
-        $url      = "http://phalconphp.com/en/";
+        $url      = 'http://phalconphp.com/en/';
         $name     = 'x_name';
         $params   = [
             'local' => false,
@@ -168,7 +168,7 @@ class LinkCest
         $actual   = $tag->link($url, $name, $params);
         $I->assertEquals($expected, $actual);
 
-        $url      = "http://phalconphp.com/en/";
+        $url      = 'http://phalconphp.com/en/';
         $name     = 'x_name';
         $params   = [
             'local' => false,
@@ -179,7 +179,7 @@ class LinkCest
         $actual   = $tag->link($url, $name, $params);
         $I->assertEquals($expected, $actual);
 
-        $url      = "mailto:someone@phalconphp.com";
+        $url      = 'mailto:someone@phalconphp.com';
         $name     = 'someone@phalconphp.com';
         $params   = [
             'local' => false,

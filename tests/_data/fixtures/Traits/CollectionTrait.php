@@ -20,8 +20,6 @@ use PHPUnit\Framework\SkippedTestError;
 
 /**
  * Collection Initializer
- *
- * @package Helper
  */
 trait CollectionTrait
 {

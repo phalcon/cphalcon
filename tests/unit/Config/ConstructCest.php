@@ -27,7 +27,7 @@ class ConstructCest
      */
     public function configConstruct(UnitTester $I)
     {
-        $I->wantToTest("Config - __construct()");
+        $I->wantToTest('Config - __construct()');
         $this->checkOffsetGet($I);
     }
 }

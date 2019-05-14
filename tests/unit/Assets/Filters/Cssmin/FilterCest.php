@@ -63,13 +63,13 @@ class FilterCest
         $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
-        $source   = ".social-link {display: inline-block; width: 44px; "
-            . "height: 44px; text-align: left; text-indent: "
-            . "-9999px; overflow: hidden; background: "
+        $source   = '.social-link {display: inline-block; width: 44px; '
+            . 'height: 44px; text-align: left; text-indent: '
+            . '-9999px; overflow: hidden; background: '
             . "url('../images/social-links.png'); }";
-        $expected = ".social-link{display: inline-block;width: 44px;"
-            . "height: 44px;text-align: left;text-indent: "
-            . "-9999px;overflow: hidden;background: "
+        $expected = '.social-link{display: inline-block;width: 44px;'
+            . 'height: 44px;text-align: left;text-indent: '
+            . '-9999px;overflow: hidden;background: '
             . "url('../images/social-links.png');}";
         $actual   = $cssmin->filter($source);
         $I->assertEquals($expected, $actual);
@@ -87,8 +87,8 @@ class FilterCest
         $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
-        $expected = "h2:after{border-width: 1px;}";
-        $actual   = $cssmin->filter("h2:after         { border-width:         1px; }");
+        $expected = 'h2:after{border-width: 1px;}';
+        $actual   = $cssmin->filter('h2:after         { border-width:         1px; }');
         $I->assertEquals($expected, $actual);
     }
 
@@ -123,10 +123,10 @@ class FilterCest
         $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
-        $source   = ".navbar .nav>li>a { color: #111; "
-            . "text-decoration: underline; }";
-        $expected = ".navbar .nav>li>a{color: #111;"
-            . "text-decoration: underline;}";
+        $source   = '.navbar .nav>li>a { color: #111; '
+            . 'text-decoration: underline; }';
+        $expected = '.navbar .nav>li>a{color: #111;'
+            . 'text-decoration: underline;}';
         $actual   = $cssmin->filter($source);
         $I->assertEquals($expected, $actual);
     }

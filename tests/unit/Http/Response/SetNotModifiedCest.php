@@ -37,7 +37,7 @@ class SetNotModifiedCest
         );
 
         $I->assertEquals(
-            "Not modified",
+            'Not modified',
             $response->getReasonPhrase()
         );
     }

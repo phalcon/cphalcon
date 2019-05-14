@@ -12,16 +12,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Apcu;
 
-use IntegrationTester;
-use Phalcon\Mvc\Model\MetaData\Apcu;
-use Phalcon\Mvc\Model\MetaDataInterface;
-use Phalcon\Cache\AdapterFactory;
-use Phalcon\Storage\SerializerFactory;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
 use function apcu_clear_cache;
 use function apcu_fetch;
 use function dataDir;
+use IntegrationTester;
+use Phalcon\Cache\AdapterFactory;
+use Phalcon\Mvc\Model\MetaData\Apcu;
+use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Storage\SerializerFactory;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Robots;
 use function serialize;
 
 /**
@@ -43,6 +43,7 @@ class ConstructCest
             function () {
                 $serializer = new SerializerFactory();
                 $factory    = new AdapterFactory($serializer);
+
                 return new Apcu(
                     $factory,
                     [
@@ -59,8 +60,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Mvc\Model\MetaData\Apcu :: __construct()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

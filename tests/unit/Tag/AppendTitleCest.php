@@ -26,7 +26,7 @@ class AppendTitleCest extends TagSetup
      */
     public function tagAppendTitle(UnitTester $I)
     {
-        $I->wantToTest("Tag - appendTitle()");
+        $I->wantToTest('Tag - appendTitle()');
 
         Tag::resetInput();
 
@@ -35,17 +35,17 @@ class AppendTitleCest extends TagSetup
         Tag::appendTitle('Class');
 
         $I->assertEquals(
-            "Title",
+            'Title',
             Tag::getTitle(false, false)
         );
 
         $I->assertEquals(
-            "TitleClass",
+            'TitleClass',
             Tag::getTitle(false, true)
         );
 
         $I->assertEquals(
-            "<title>TitleClass</title>" . PHP_EOL,
+            '<title>TitleClass</title>' . PHP_EOL,
             Tag::renderTitle()
         );
     }
@@ -58,7 +58,7 @@ class AppendTitleCest extends TagSetup
      */
     public function tagAppendTitleSeparator(UnitTester $I)
     {
-        $I->wantToTest("Tag - appendTitle() - separator");
+        $I->wantToTest('Tag - appendTitle() - separator');
 
         Tag::resetInput();
 
@@ -68,17 +68,17 @@ class AppendTitleCest extends TagSetup
         Tag::appendTitle('Class');
 
         $I->assertEquals(
-            "Title",
+            'Title',
             Tag::getTitle(false, false)
         );
 
         $I->assertEquals(
-            "Title|Class",
+            'Title|Class',
             Tag::getTitle(false, true)
         );
 
         $I->assertEquals(
-            "<title>Title|Class</title>" . PHP_EOL,
+            '<title>Title|Class</title>' . PHP_EOL,
             Tag::renderTitle()
         );
     }
@@ -91,7 +91,7 @@ class AppendTitleCest extends TagSetup
      */
     public function tagAppendTitleDoubleCall(UnitTester $I)
     {
-        $I->wantToTest("Tag - appendTitle() - double call");
+        $I->wantToTest('Tag - appendTitle() - double call');
 
         Tag::resetInput();
 
@@ -102,17 +102,17 @@ class AppendTitleCest extends TagSetup
         Tag::appendTitle('Title');
 
         $I->assertEquals(
-            "Main",
+            'Main',
             Tag::getTitle(false, false)
         );
 
         $I->assertEquals(
-            "Main - Category - Title",
+            'Main - Category - Title',
             Tag::getTitle(false, true)
         );
 
         $I->assertEquals(
-            "<title>Main - Category - Title</title>" . PHP_EOL,
+            '<title>Main - Category - Title</title>' . PHP_EOL,
             Tag::renderTitle()
         );
     }
@@ -125,7 +125,7 @@ class AppendTitleCest extends TagSetup
      */
     public function tagAppendTitleArray(UnitTester $I)
     {
-        $I->wantToTest("Tag - appendTitle() - array");
+        $I->wantToTest('Tag - appendTitle() - array');
 
         Tag::resetInput();
 
@@ -135,17 +135,17 @@ class AppendTitleCest extends TagSetup
         Tag::appendTitle(['Category', 'Title']);
 
         $I->assertEquals(
-            "Main",
+            'Main',
             Tag::getTitle(false, false)
         );
 
         $I->assertEquals(
-            "Main - Category - Title",
+            'Main - Category - Title',
             Tag::getTitle(false, true)
         );
 
         $I->assertEquals(
-            "<title>Main - Category - Title</title>" . PHP_EOL,
+            '<title>Main - Category - Title</title>' . PHP_EOL,
             Tag::renderTitle()
         );
     }
@@ -158,7 +158,7 @@ class AppendTitleCest extends TagSetup
      */
     public function tagAppendTitleEmptyArray(UnitTester $I)
     {
-        $I->wantToTest("Tag - appendTitle() - empty array");
+        $I->wantToTest('Tag - appendTitle() - empty array');
 
         Tag::resetInput();
 
@@ -169,17 +169,17 @@ class AppendTitleCest extends TagSetup
         Tag::appendTitle([]);
 
         $I->assertEquals(
-            "Main",
+            'Main',
             Tag::getTitle(false, false)
         );
 
         $I->assertEquals(
-            "Main",
+            'Main',
             Tag::getTitle(false, true)
         );
 
         $I->assertEquals(
-            "<title>Main</title>" . PHP_EOL,
+            '<title>Main</title>' . PHP_EOL,
             Tag::renderTitle()
         );
     }

@@ -12,12 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use UnitTester;
 use function dataDir;
+use UnitTester;
 
-/**
- * @package Phalcon\Test\Fixtures\Traits
- */
 trait TranslateTrait
 {
     /**
@@ -28,7 +25,7 @@ trait TranslateTrait
         $I->checkExtensionIsLoaded('gettext');
 
         if (!setlocale(LC_ALL, 'en_US.utf8')) {
-            $scenario->skip("Locale en_US.utf8 not enabled");
+            $scenario->skip('Locale en_US.utf8 not enabled');
         }
     }
 

@@ -20,10 +20,10 @@ use UnitTester;
 
 class ThirdListener
 {
-    /** @var  ManagerCest */
+    /** @var ManagerCest */
     protected $testCase;
 
-    /** @var  UnitTester */
+    /** @var UnitTester */
     protected $tester;
 
     protected $before = 0;

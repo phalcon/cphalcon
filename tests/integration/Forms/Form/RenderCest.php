@@ -69,7 +69,7 @@ class RenderCest
         ];
 
         foreach ($names as $name) {
-            $form    = new Form;
+            $form    = new Form();
             $element = new Text($name);
 
 
@@ -104,11 +104,11 @@ class RenderCest
         $form = new Form();
 
         $form->add(
-            new Text("name")
+            new Text('name')
         );
 
         $expected = '<input type="text" id="name" name="name" />';
-        $actual   = $form->render("name");
+        $actual   = $form->render('name');
 
         $I->assertEquals($expected, $actual);
 
@@ -116,9 +116,9 @@ class RenderCest
         $expected = '<input type="text" id="name" name="name" class="big-input" />';
 
         $actual = $form->render(
-            "name",
+            'name',
             [
-                "class" => "big-input",
+                'class' => 'big-input',
             ]
         );
 
@@ -137,12 +137,12 @@ class RenderCest
         $form = new Form($object);
 
         $form->add(
-            new Text("title")
+            new Text('title')
         );
 
         $I->assertEquals(
             '<input type="text" id="title" name="title" value="Hello &quot;world!&quot;" />',
-            $form->render("title")
+            $form->render('title')
         );
     }
 }

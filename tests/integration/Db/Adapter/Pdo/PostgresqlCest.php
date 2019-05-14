@@ -12,11 +12,11 @@
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo;
 
 use Codeception\Example;
+use function env;
 use IntegrationTester;
 use Phalcon\Db\Dialect\Postgresql as DialectPostgresql;
 use Phalcon\Db\Reference;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function env;
 
 class PostgresqlCest
 {

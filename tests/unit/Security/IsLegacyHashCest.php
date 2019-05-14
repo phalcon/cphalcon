@@ -36,7 +36,7 @@ class IsLegacyHashCest
         );
 
         $I->assertFalse(
-            $security->isLegacyHash("Phalcon")
+            $security->isLegacyHash('Phalcon')
         );
     }
 }

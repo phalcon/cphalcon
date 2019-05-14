@@ -22,8 +22,6 @@ class FindFirstCest
     /**
      * Tests Phalcon\Mvc\Collection :: findFirst()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

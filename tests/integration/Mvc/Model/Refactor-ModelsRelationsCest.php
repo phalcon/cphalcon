@@ -48,35 +48,35 @@ class ModelsRelationsCest
         $I->assertEquals(3, $partsCount);
 
         /** Passing parameters to magic methods **/
-        $robotsParts = $robot->getRelationsRobotsParts("parts_id = 1");
+        $robotsParts = $robot->getRelationsRobotsParts('parts_id = 1');
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotsParts);
         $I->assertCount(1, $robotsParts);
 
         /** Passing parameters to magic methods **/
-        $parts = $robot->getRelationsParts("RelationsParts.id = 1");
+        $parts = $robot->getRelationsParts('RelationsParts.id = 1');
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $parts);
         $I->assertCount(1, $parts);
 
         $robotsParts = $robot->getRelationsRobotsParts([
-            "parts_id > :parts_id:",
-            "bind" => ["parts_id" => 1],
+            'parts_id > :parts_id:',
+            'bind' => ['parts_id' => 1],
         ]);
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotsParts);
         $I->assertCount(2, $robotsParts);
         $I->assertEquals($robotsParts->getFirst()->parts_id, 2);
 
         $parts = $robot->getRelationsParts([
-            "RelationsParts.id > :id:",
-            "bind" => ["id" => 1],
+            'RelationsParts.id > :id:',
+            'bind' => ['id' => 1],
         ]);
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $parts);
         $I->assertCount(2, $parts);
         $I->assertEquals($parts->getFirst()->id, 2);
 
         $robotsParts = $robot->getRelationsRobotsParts([
-            "parts_id > :parts_id:",
-            "bind"  => ["parts_id" => 1],
-            "order" => "parts_id DESC",
+            'parts_id > :parts_id:',
+            'bind'  => ['parts_id' => 1],
+            'order' => 'parts_id DESC',
         ]);
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotsParts);
         $I->assertCount(2, $robotsParts);
@@ -113,14 +113,14 @@ class ModelsRelationsCest
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotsParts);
         $I->assertCount(3, $robotsParts);
 
-        $robotsParts = $robot->getRobotsParts("parts_id = 1");
+        $robotsParts = $robot->getRobotsParts('parts_id = 1');
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotsParts);
         $I->assertCount(1, $robotsParts);
 
         $robotsParts = $robot->getRobotsParts([
-            "parts_id > :parts_id:",
-            "bind"  => ["parts_id" => 1],
-            "order" => "parts_id DESC",
+            'parts_id > :parts_id:',
+            'bind'  => ['parts_id' => 1],
+            'order' => 'parts_id DESC',
         ]);
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotsParts);
         $I->assertCount(2, $robotsParts);

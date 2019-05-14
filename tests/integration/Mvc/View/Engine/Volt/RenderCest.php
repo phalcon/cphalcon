@@ -27,8 +27,6 @@ class RenderCest
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt :: render()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -40,8 +38,6 @@ class RenderCest
 
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt :: render() - events
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-13

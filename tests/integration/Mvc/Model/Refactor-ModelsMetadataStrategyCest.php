@@ -87,6 +87,7 @@ class ModelsMetadataStrategyCest
         $this->container['modelsMetadata'] = function () {
             $metaData = new Memory();
             $metaData->setStrategy(new Introspection());
+
             return $metaData;
         };
 
@@ -106,6 +107,7 @@ class ModelsMetadataStrategyCest
         $this->container['modelsMetadata'] = function () {
             $metaData = new Memory();
             $metaData->setStrategy(new Annotations());
+
             return $metaData;
         };
 

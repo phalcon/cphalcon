@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Messages\Message;
 
 use Phalcon\Messages\Message;
+use function substr;
 use TypeError;
 use UnitTester;
-use function substr;
 
 class ConstructCest
 {

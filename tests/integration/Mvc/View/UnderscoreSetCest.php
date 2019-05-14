@@ -22,14 +22,12 @@ class UnderscoreSetCest
     /**
      * Tests Phalcon\Mvc\View :: __set()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function mvcViewUnderscoreSet(IntegrationTester $I)
     {
         $I->wantToTest("Mvc\View - __set()");
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

@@ -65,7 +65,7 @@ class ManagerCest
         $tm = $this->container->getShared('transactionManager');
         $db = $this->container->getShared('db');
 
-        $db->delete("personas", "cedula LIKE 'T-Cx%'");
+        $db->delete('personas', "cedula LIKE 'T-Cx%'");
 
         $numPersonas = Personas::count();
         $transaction = $tm->get();

@@ -24,8 +24,6 @@ use Phalcon\Test\Fixtures\Micro\RestHandler;
  * Phalcon\Test\Integration\Mvc\MicroTest
  *
  * Tests the Phalcon\Mvc\Micro component
- *
- * @package   Phalcon\Test\Integration\Mvc
  */
 class MicroCest
 {
@@ -183,14 +181,14 @@ class MicroCest
 
         $app = new Micro();
 
-        $app->get("/api/site", [$handler, "find"]);
-        $app->post("/api/site/save", [$handler, "save"]);
-        $app->delete("/api/site/delete/1", [$handler, "delete"]);
+        $app->get('/api/site', [$handler, 'find']);
+        $app->post('/api/site/save', [$handler, 'save']);
+        $app->delete('/api/site/delete/1', [$handler, 'delete']);
 
         //Getting the url from _url using GET
-        $_SERVER["REQUEST_METHOD"] = "GET";
+        $_SERVER['REQUEST_METHOD'] = 'GET';
 
-        $app->handle("/api/site");
+        $app->handle('/api/site');
 
         $expected = 1;
         $actual   = $handler->getNumberAccess();
@@ -201,9 +199,9 @@ class MicroCest
         $I->assertEquals($expected, $actual);
 
         //Getting the url from _url using POST
-        $_SERVER["REQUEST_METHOD"] = "POST";
+        $_SERVER['REQUEST_METHOD'] = 'POST';
 
-        $app->handle("/api/site/save");
+        $app->handle('/api/site/save');
 
         $expected = 2;
         $actual   = $handler->getNumberAccess();
@@ -214,9 +212,9 @@ class MicroCest
         $I->assertEquals($expected, $actual);
 
         //Passing directly a URI
-        $_SERVER["REQUEST_METHOD"] = "DELETE";
+        $_SERVER['REQUEST_METHOD'] = 'DELETE';
 
-        $app->handle("/api/site/delete/1");
+        $app->handle('/api/site/delete/1');
 
         $expected = 3;
         $actual   = $handler->getNumberAccess();
@@ -244,12 +242,12 @@ class MicroCest
         $app->setEventsManager($eventsManager);
 
         $app->map(
-            "/blog",
+            '/blog',
             function () {
             }
         );
 
-        $app->handle("/blog");
+        $app->handle('/blog');
 
         $expected = [
             'beforeHandleRoute'  => true,
@@ -265,7 +263,7 @@ class MicroCest
     {
         $app = new Micro();
         $app->map(
-            "/api/site",
+            '/api/site',
             function () {
                 return true;
             }
@@ -309,7 +307,7 @@ class MicroCest
             }
         );
 
-        $app->handle("/api/site");
+        $app->handle('/api/site');
         $I->assertEquals(6, $trace);
     }
 
@@ -318,7 +316,7 @@ class MicroCest
         $app = new Micro();
 
         $app->map(
-            "/api/site",
+            '/api/site',
             function () {
                 return true;
             }
@@ -335,7 +333,7 @@ class MicroCest
         $app->finish($middleware);
         $app->finish($middleware);
 
-        $app->handle("/api/site");
+        $app->handle('/api/site');
 
         $actual = $middleware->getNumber();
         $I->assertEquals(6, $actual);
@@ -345,7 +343,7 @@ class MicroCest
     {
         $app = new Micro();
         $app->map(
-            "/api/site",
+            '/api/site',
             function () {
                 return true;
             }
@@ -362,7 +360,7 @@ class MicroCest
         $app->finish($middleware);
         $app->finish($middleware);
 
-        $app->handle("/api/site");
+        $app->handle('/api/site');
 
         $actual = $middleware->getNumber();
         $I->assertEquals(1, $actual);

@@ -13,14 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Traits;
 
 use function logsDir;
-use Phalcon\Logger\Logger;
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Logger;
 use UnitTester;
-use function outputDir;
 
-/**
- * @package Phalcon\Test\Fixtures\Traits
- */
 trait LoggerTrait
 {
     protected function runLoggerFile(UnitTester $I, string $level)
@@ -29,7 +25,7 @@ trait LoggerTrait
         $fileName = $I->getNewFileName('log', 'log');
         $adapter  = new Stream($logPath . $fileName);
 
-        $logString = "Hello";
+        $logString = 'Hello';
 
         $logger = new Logger(
             'my-logger',
@@ -49,7 +45,7 @@ trait LoggerTrait
 
         $I->seeInThisFile(
             sprintf(
-                "[%s][%s] " . $logString,
+                '[%s][%s] ' . $logString,
                 $logTime,
                 $level
             )

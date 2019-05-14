@@ -17,7 +17,7 @@ class M2MRobots extends Model
 {
     public function initialize()
     {
-        $this->setSource("m2m_robots");
+        $this->setSource('m2m_robots');
 
         $this->hasManyToMany(
             'id',

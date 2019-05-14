@@ -22,8 +22,6 @@ class GetFiltersCest
     /**
      * Tests Phalcon\Forms\Element\Text :: getFilters()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

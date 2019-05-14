@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Logger\Formatter\Line;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Unit\Logger
- */
 class GetFormatCest
 {
     /**

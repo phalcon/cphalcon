@@ -12,9 +12,9 @@
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models;
-use Phalcon\Mvc\Model;
 
 class UnderscoreSetCest
 {
@@ -28,8 +28,6 @@ class UnderscoreSetCest
 
     /**
      * Tests Phalcon\Mvc\Model :: __set()
-     *
-     * @param IntegrationTester $I
      *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
@@ -65,8 +63,6 @@ class UnderscoreSetCest
     /**
      * Tests Phalcon\Mvc\Model :: __set() whether it is using setters correctly
      *
-     * @param IntegrationTester $I
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
      */
@@ -84,7 +80,7 @@ class UnderscoreSetCest
 
         $associativeArray = [
             'firstName' => 'First name',
-            'lastName'  => 'Last name'
+            'lastName'  => 'Last name',
         ];
 
         $model->name = $associativeArray;
@@ -105,7 +101,7 @@ class UnderscoreSetCest
             [
                 'sel_id'   => 123,
                 'sel_name' => $associativeArray,
-                'sel_text' => 'MyText'
+                'sel_text' => 'MyText',
             ],
             $model->toArray()
         );
@@ -113,8 +109,6 @@ class UnderscoreSetCest
 
     /**
      * Tests Phalcon\Mvc\Model :: __set() with belongs-to related record
-     *
-     * @param IntegrationTester $I
      *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
@@ -141,8 +135,6 @@ class UnderscoreSetCest
 
     /**
      * Tests Phalcon\Mvc\Model :: __set() with an array as properties of a belongs-to related record
-     *
-     * @param IntegrationTester $I
      *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
@@ -175,8 +167,6 @@ class UnderscoreSetCest
     /**
      * Tests Phalcon\Mvc\Model :: __set() with has-one related record
      *
-     * @param IntegrationTester $I
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
      */
@@ -202,8 +192,6 @@ class UnderscoreSetCest
 
     /**
      * Tests Phalcon\Mvc\Model :: __set() with an array as properties of a has-one related record
-     *
-     * @param IntegrationTester $I
      *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
@@ -236,8 +224,6 @@ class UnderscoreSetCest
     /**
      * Tests Phalcon\Mvc\Model :: __set() with has-many related records
      *
-     * @param IntegrationTester $I
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
      */
@@ -248,7 +234,7 @@ class UnderscoreSetCest
         $robot = new Models\Robots();
         $robot->robotsParts = [
             new Models\RobotsParts(),
-            new Models\RobotsParts()
+            new Models\RobotsParts(),
         ];
 
         $robotsParts = $robot->robotsParts;
@@ -277,8 +263,6 @@ class UnderscoreSetCest
     /**
      * Tests Phalcon\Mvc\Model :: __set() with has-many-to-many related records
      *
-     * @param IntegrationTester $I
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
      */
@@ -289,7 +273,7 @@ class UnderscoreSetCest
         $robot = new Models\Relations\M2MRobots();
         $robot->M2MParts = [
             new Models\Relations\M2MParts(),
-            new Models\Relations\M2MParts()
+            new Models\Relations\M2MParts(),
         ];
 
         $robotParts = $robot->M2MParts;
@@ -318,8 +302,6 @@ class UnderscoreSetCest
     /**
      * Tests Phalcon\Mvc\Model :: __set() with associative array
      *
-     * @param IntegrationTester $I
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
      */
@@ -329,7 +311,7 @@ class UnderscoreSetCest
 
         $associativeArray = [
             'firstName' => 'First name',
-            'lastName'  => 'Last name'
+            'lastName'  => 'Last name',
         ];
 
         $user = new Models\Users();
@@ -339,7 +321,7 @@ class UnderscoreSetCest
         $I->assertEquals(
             [
                 'id'   => 999,
-                'name' => $associativeArray
+                'name' => $associativeArray,
             ],
             $user->toArray()
         );
@@ -347,8 +329,6 @@ class UnderscoreSetCest
 
     /**
      * Tests Phalcon\Mvc\Model :: __set() undefined property with associative array
-     *
-     * @param IntegrationTester $I
      *
      * @see https://github.com/phalcon/cphalcon/issues/14021
      *
@@ -361,7 +341,7 @@ class UnderscoreSetCest
 
         $associativeArray = [
             'id'   => 123,
-            'name' => 'My Name'
+            'name' => 'My Name',
         ];
 
         $user = new Models\Users();
@@ -370,7 +350,7 @@ class UnderscoreSetCest
         $I->assertEquals(
             [
                 'id'   => null,
-                'name' => null
+                'name' => null,
             ],
             $user->toArray()
         );

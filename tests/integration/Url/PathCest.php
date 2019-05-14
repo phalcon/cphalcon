@@ -25,7 +25,7 @@ class PathCest
      */
     public function urlPath(IntegrationTester $I)
     {
-        $I->wantToTest("Url - path()");
+        $I->wantToTest('Url - path()');
         $url = new Url();
 
         $url->setBasePath('/en');

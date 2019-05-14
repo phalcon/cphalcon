@@ -28,15 +28,15 @@ class StartsWithCest
         $I->wantToTest('Text - startsWith()');
 
         $I->assertTrue(
-            Text::startsWith("Hello", "H")
+            Text::startsWith('Hello', 'H')
         );
 
         $I->assertTrue(
-            Text::startsWith("Hello", "He")
+            Text::startsWith('Hello', 'He')
         );
 
         $I->assertTrue(
-            Text::startsWith("Hello", "Hello")
+            Text::startsWith('Hello', 'Hello')
         );
     }
 
@@ -51,7 +51,7 @@ class StartsWithCest
         $I->wantToTest('Text - startsWith() - empty strings');
 
         $I->assertFalse(
-            Text::startsWith("", "")
+            Text::startsWith('', '')
         );
     }
 
@@ -66,7 +66,7 @@ class StartsWithCest
         $I->wantToTest('Text - startsWith() - search empty string');
 
         $I->assertFalse(
-            Text::startsWith("", "hello")
+            Text::startsWith('', 'hello')
         );
     }
 
@@ -82,15 +82,15 @@ class StartsWithCest
         $I->wantToTest('Text - startsWith() - case insensitive flag');
 
         $I->assertTrue(
-            Text::startsWith("Hello", "h")
+            Text::startsWith('Hello', 'h')
         );
 
         $I->assertTrue(
-            Text::startsWith("Hello", "he")
+            Text::startsWith('Hello', 'he')
         );
 
         $I->assertTrue(
-            Text::startsWith("Hello", "hello")
+            Text::startsWith('Hello', 'hello')
         );
     }
 
@@ -105,15 +105,15 @@ class StartsWithCest
         $I->wantToTest('Text - startsWith() - case sensitive flag');
 
         $I->assertTrue(
-            Text::startsWith("Hello", "hello", true)
+            Text::startsWith('Hello', 'hello', true)
         );
 
         $I->assertFalse(
-            Text::startsWith("Hello", "hello", false)
+            Text::startsWith('Hello', 'hello', false)
         );
 
         $I->assertFalse(
-            Text::startsWith("Hello", "h", false)
+            Text::startsWith('Hello', 'h', false)
         );
     }
 }

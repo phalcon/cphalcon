@@ -25,6 +25,6 @@ class MergeCest
     public function configAdapterJsonMerge(UnitTester $I)
     {
         $I->wantToTest("Config\Adapter\Json - merge()");
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

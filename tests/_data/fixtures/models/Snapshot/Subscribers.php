@@ -25,7 +25,7 @@ class Subscribers extends Model
 {
     public function initialize()
     {
-        $this->setSource("subscriptores");
+        $this->setSource('subscriptores');
 
         $this->keepSnapshots(true);
 

@@ -30,9 +30,9 @@ class RouterCest
     public function testRouters(CliTester $I)
     {
         $this->container->set(
-            "data",
+            'data',
             function () {
-                return "data";
+                return 'data';
             }
         );
 
@@ -63,7 +63,7 @@ class RouterCest
 
         $router->handle(
             [
-                "task" => "main",
+                'task' => 'main',
             ]
         );
 
@@ -72,7 +72,7 @@ class RouterCest
         );
 
         $I->assertEquals(
-            "main",
+            'main',
             $router->getTaskName()
         );
 
@@ -88,7 +88,7 @@ class RouterCest
 
         $router->handle(
             [
-                "task" => "echo",
+                'task' => 'echo',
             ]
         );
 
@@ -97,7 +97,7 @@ class RouterCest
         );
 
         $I->assertEquals(
-            "echo",
+            'echo',
             $router->getTaskName()
         );
 
@@ -113,8 +113,8 @@ class RouterCest
 
         $router->handle(
             [
-                "task"   => "main",
-                "action" => "hello",
+                'task'   => 'main',
+                'action' => 'hello',
             ]
         );
 
@@ -123,13 +123,13 @@ class RouterCest
         );
 
         $I->assertEquals(
-            "main",
+            'main',
             $router->getTaskName()
         );
 
         $I->assertEquals(
             $router->getActionName(),
-            "hello"
+            'hello'
         );
 
         $I->assertEquals(
@@ -140,10 +140,10 @@ class RouterCest
 
         $router->handle(
             [
-                "task"   => "main",
-                "action" => "hello",
-                "arg1",
-                "arg2",
+                'task'   => 'main',
+                'action' => 'hello',
+                'arg1',
+                'arg2',
             ]
         );
 
@@ -152,79 +152,79 @@ class RouterCest
         );
 
         $I->assertEquals(
-            "main",
+            'main',
             $router->getTaskName()
         );
 
         $I->assertEquals(
-            "hello",
+            'hello',
             $router->getActionName()
         );
 
         $I->assertEquals(
-            ["arg1", "arg2"],
+            ['arg1', 'arg2'],
             $router->getParams()
         );
 
 
         $router->handle(
             [
-                "module" => "devtools",
-                "task"   => "main",
-                "action" => "hello",
-                "arg1",
-                "arg2",
+                'module' => 'devtools',
+                'task'   => 'main',
+                'action' => 'hello',
+                'arg1',
+                'arg2',
             ]
         );
 
         $I->assertEquals(
-            "devtools",
+            'devtools',
             $router->getModuleName()
         );
 
         $I->assertEquals(
-            "main",
+            'main',
             $router->getTaskName()
         );
 
         $I->assertEquals(
-            "hello",
+            'hello',
             $router->getActionName()
         );
 
         $I->assertEquals(
-            ["arg1", "arg2"],
+            ['arg1', 'arg2'],
             $router->getParams()
         );
 
 
         $router->handle(
             [
-                "module" => "devtools",
-                "task"   => "echo",
-                "action" => "hello",
-                "arg1",
-                "arg2",
+                'module' => 'devtools',
+                'task'   => 'echo',
+                'action' => 'hello',
+                'arg1',
+                'arg2',
             ]
         );
 
         $I->assertEquals(
-            "devtools",
+            'devtools',
             $router->getModuleName()
         );
 
         $I->assertEquals(
-            "echo",
+            'echo',
             $router->getTaskName()
         );
 
         $I->assertEquals(
-            "hello",
+            'hello',
             $router->getActionName()
         );
 
         $I->assertEquals(
-            ["arg1", "arg2"],
+            ['arg1', 'arg2'],
             $router->getParams()
         );
     }
@@ -315,22 +315,22 @@ class RouterCest
 
         $router->add(
             "feed {lang:[a-z]+} blog {blog:[a-z\-]+}\.{type:[a-z\-]+}",
-            "Feed::get"
+            'Feed::get'
         );
 
         $router->add(
             "posts {year:[0-9]+} s {title:[a-z\-]+}",
-            "Posts::show"
+            'Posts::show'
         );
 
         $router->add(
-            "posts delete {id}",
-            "Posts::delete"
+            'posts delete {id}',
+            'Posts::delete'
         );
 
         $router->add(
             "show {id:video([0-9]+)} {title:[a-z\-]+}",
-            "Videos::show"
+            'Videos::show'
         );
 
         $this->runTests($I, $router, $example);
@@ -487,7 +487,7 @@ class RouterCest
         $router = new Router(false);
 
 
-        $route = $router->add("route0", "Feed");
+        $route = $router->add('route0', 'Feed');
 
         $I->assertEquals(
             [
@@ -497,7 +497,7 @@ class RouterCest
         );
 
 
-        $route = $router->add("route1", "Feed::get");
+        $route = $router->add('route1', 'Feed::get');
 
         $I->assertEquals(
             [
@@ -508,7 +508,7 @@ class RouterCest
         );
 
 
-        $route = $router->add("route2", "News::Posts::show");
+        $route = $router->add('route2', 'News::Posts::show');
 
         $I->assertEquals(
             [
@@ -520,7 +520,7 @@ class RouterCest
         );
 
 
-        $route = $router->add("route3", "MyApp\\Tasks\\Posts::show");
+        $route = $router->add('route3', 'MyApp\\Tasks\\Posts::show');
 
         $I->assertEquals(
             [
@@ -532,7 +532,7 @@ class RouterCest
         );
 
 
-        $route = $router->add("route3", "News::MyApp\\Tasks\\Posts::show");
+        $route = $router->add('route3', 'News::MyApp\\Tasks\\Posts::show');
 
         $I->assertEquals(
             [
@@ -545,7 +545,7 @@ class RouterCest
         );
 
 
-        $route = $router->add("route3", "\\Posts::show");
+        $route = $router->add('route3', '\\Posts::show');
 
         $I->assertEquals(
             [
@@ -559,13 +559,13 @@ class RouterCest
     public function testShortPaths2(CliTester $I)
     {
         $I->expectThrowable(
-            new Exception("The route contains invalid paths"),
+            new Exception('The route contains invalid paths'),
             function () {
                 Route::reset();
 
                 $router = new Router(false);
 
-                $route = $router->add("route3", "MyApp\\Tasks\\::show");
+                $route = $router->add('route3', 'MyApp\\Tasks\\::show');
             }
         );
     }
@@ -711,22 +711,22 @@ class RouterCest
 
         $router->add(
             "/feed/{lang:[a-z]+}/blog/{blog:[a-z\-]+}\.{type:[a-z\-]+}",
-            "Feed::get"
+            'Feed::get'
         );
 
         $router->add(
             "/posts/{year:[0-9]+}/s/{title:[a-z\-]+}",
-            "Posts::show"
+            'Posts::show'
         );
 
         $router->add(
-            "/posts/delete/{id}",
-            "Posts::delete"
+            '/posts/delete/{id}',
+            'Posts::delete'
         );
 
         $router->add(
             "/show/{id:video([0-9]+)}/{title:[a-z\-]+}",
-            "Videos::show"
+            'Videos::show'
         );
 
         $this->runTests($I, $router, $example);
@@ -934,16 +934,16 @@ class RouterCest
     {
         return [
             [
-                "route" => 'some-controller my-action-name this-is-a-country',
-                "paths" => [
+                'route' => 'some-controller my-action-name this-is-a-country',
+                'paths' => [
                     'task'   => 'somecontroller',
                     'action' => 'myactionname',
                     'params' => ['this-is-a-country'],
                 ],
             ],
             [
-                "route" => 'BINARY 1101',
-                "paths" => [
+                'route' => 'BINARY 1101',
+                'paths' => [
                     'task'   => 'binary',
                     'action' => 'index',
                     'params' => [1011],

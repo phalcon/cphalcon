@@ -15,9 +15,6 @@ namespace Phalcon\Test\Integration\Url;
 use IntegrationTester;
 use Phalcon\Url;
 
-/**
- * @package Phalcon\Test\Integration\Url
- */
 class GetSetStaticBaseUriCest
 {
     /**
@@ -28,7 +25,7 @@ class GetSetStaticBaseUriCest
      */
     public function urlGetSetStaticBaseUri(IntegrationTester $I)
     {
-        $I->wantToTest("Url - getStaticBaseUri()/setStaticBaseUri()");
+        $I->wantToTest('Url - getStaticBaseUri()/setStaticBaseUri()');
 
         $url = new Url();
 
@@ -51,7 +48,7 @@ class GetSetStaticBaseUriCest
      */
     public function urlGetSetStaticBaseUriGetBaseUri(IntegrationTester $I)
     {
-        $I->wantToTest("Url - getStaticBaseUri()/setStaticBaseUri() - getBaseUri()");
+        $I->wantToTest('Url - getStaticBaseUri()/setStaticBaseUri() - getBaseUri()');
 
         $url = new Url();
 

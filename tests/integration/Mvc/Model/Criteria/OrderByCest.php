@@ -22,8 +22,6 @@ class OrderByCest
     /**
      * Tests Phalcon\Mvc\Model\Criteria :: orderBy()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

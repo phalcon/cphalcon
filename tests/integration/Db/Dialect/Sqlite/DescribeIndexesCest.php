@@ -22,8 +22,6 @@ class DescribeIndexesCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: describeIndexes()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

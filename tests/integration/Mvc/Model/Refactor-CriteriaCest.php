@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use function cacheModelsDir;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Criteria;
@@ -22,7 +23,6 @@ use Phalcon\Test\Models\Personas;
 use Phalcon\Test\Models\Personers;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Users;
-use function cacheModelsDir;
 
 class CriteriaCest
 {
@@ -77,20 +77,18 @@ class CriteriaCest
     {
         return [
             [-7, null, 7],
-            ["-7234", null, 7234],
-            ["18", null, 18],
-            ["18", 2, ['number' => 18, 'offset' => 2]],
-            ["-1000", -200, ['number' => 1000, 'offset' => 200]],
-            ["1000", "-200", ['number' => 1000, 'offset' => 200]],
-            ["0", "-200", null],
-            ["%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E", 50, null],
+            ['-7234', null, 7234],
+            ['18', null, 18],
+            ['18', 2, ['number' => 18, 'offset' => 2]],
+            ['-1000', -200, ['number' => 1000, 'offset' => 200]],
+            ['1000', '-200', ['number' => 1000, 'offset' => 200]],
+            ['0', '-200', null],
+            ['%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E', 50, null],
         ];
     }
 
     /**
      * Tests creating builder from criteria
-     *
-     * @param IntegrationTester $I
      *
      * @since  2017-05-21
      *
@@ -111,9 +109,6 @@ class CriteriaCest
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Example           $example
-     *
      * @dataprovider adapterProvider
      */
     public function where(IntegrationTester $I, Example $example)
@@ -128,9 +123,6 @@ class CriteriaCest
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Example           $example
-     *
      * @dataprovider adapterProvider
      */
     public function whereRenamed(IntegrationTester $I, Example $example)
@@ -141,9 +133,6 @@ class CriteriaCest
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Example           $example
-     *
      * @dataprovider adapterProvider
      */
     public function conditions(IntegrationTester $I, Example $example)
@@ -157,9 +146,6 @@ class CriteriaCest
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Example           $example
-     *
      * @dataprovider adapterProvider
      */
     public function conditionsRenamed(IntegrationTester $I, Example $example)
@@ -170,9 +156,6 @@ class CriteriaCest
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Example           $example
-     *
      * @dataprovider adapterProvider
      */
     public function whereOrderBy(IntegrationTester $I, Example $example)
@@ -181,20 +164,17 @@ class CriteriaCest
 
         $personas = Personas::query()
                             ->where("estado='A'")
-                            ->orderBy("nombres")
+                            ->orderBy('nombres')
                             ->execute()
         ;
 
-        $people = People::find(["estado='A'", "order" => "nombres"]);
+        $people = People::find(["estado='A'", 'order' => 'nombres']);
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
         $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Example           $example
-     *
      * @dataprovider adapterProvider
      */
     public function whereOrderByRenamed(IntegrationTester $I, Example $example)
@@ -203,7 +183,7 @@ class CriteriaCest
 
         $personers = Personers::query()
                               ->where("status='A'")
-                              ->orderBy("navnes")
+                              ->orderBy('navnes')
                               ->execute()
         ;
 
@@ -212,9 +192,6 @@ class CriteriaCest
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Example           $example
-     *
      * @dataprovider adapterProvider
      */
     public function whereOrderByLimit(IntegrationTester $I, Example $example)
@@ -223,15 +200,15 @@ class CriteriaCest
 
         $personas = Personas::query()
                             ->where("estado='A'")
-                            ->orderBy("nombres")
+                            ->orderBy('nombres')
                             ->limit(100)
                             ->execute()
         ;
 
         $people = People::find([
             "estado='A'",
-            "order" => "nombres",
-            "limit" => 100,
+            'order' => 'nombres',
+            'limit' => 100,
         ]);
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
@@ -239,9 +216,6 @@ class CriteriaCest
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Example           $example
-     *
      * @dataprovider adapterProvider
      */
     public function whereOrderByLimitRenamed(IntegrationTester $I, Example $example)
@@ -250,7 +224,7 @@ class CriteriaCest
 
         $personers = Personers::query()
                               ->where("status='A'")
-                              ->orderBy("navnes")
+                              ->orderBy('navnes')
                               ->limit(100)
                               ->execute()
         ;
@@ -260,9 +234,6 @@ class CriteriaCest
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Example           $example
-     *
      * @dataprovider adapterProvider
      */
     public function bindParamsWithLimit(IntegrationTester $I, Example $example)
@@ -270,18 +241,18 @@ class CriteriaCest
         $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()
-                            ->where("estado=?1")
-                            ->bind([1 => "A"])
-                            ->orderBy("nombres")
+                            ->where('estado=?1')
+                            ->bind([1 => 'A'])
+                            ->orderBy('nombres')
                             ->limit(100)
                             ->execute()
         ;
 
         $people = People::find([
-            "estado=?1",
-            "bind"  => [1 => "A"],
-            "order" => "nombres",
-            "limit" => 100,
+            'estado=?1',
+            'bind'  => [1 => 'A'],
+            'order' => 'nombres',
+            'limit' => 100,
         ]);
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
@@ -289,9 +260,6 @@ class CriteriaCest
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Example           $example
-     *
      * @dataprovider adapterProvider
      */
     public function bindParamsWithOrderAndLimitRenamed(IntegrationTester $I, Example $example)
@@ -299,9 +267,9 @@ class CriteriaCest
         $this->container->setShared('db', $example['adapter']);
 
         $personers = Personers::query()
-                              ->where("status=?1")
-                              ->bind([1 => "A"])
-                              ->orderBy("navnes")
+                              ->where('status=?1')
+                              ->bind([1 => 'A'])
+                              ->orderBy('navnes')
                               ->limit(100)
                               ->execute()
         ;
@@ -311,9 +279,6 @@ class CriteriaCest
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Example           $example
-     *
      * @dataprovider adapterProvider
      */
     public function bindParamsAsPlaceholdersWithOrderAndLimitRenamed(IntegrationTester $I, Example $example)
@@ -321,9 +286,9 @@ class CriteriaCest
         $this->container->setShared('db', $example['adapter']);
 
         $personers = Personers::query()
-                              ->where("status=:status:")
-                              ->bind(["status" => "A"])
-                              ->orderBy("navnes")
+                              ->where('status=:status:')
+                              ->bind(['status' => 'A'])
+                              ->orderBy('navnes')
                               ->limit(100)
                               ->execute()
         ;
@@ -333,9 +298,6 @@ class CriteriaCest
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Example           $example
-     *
      * @dataprovider adapterProvider
      */
     public function limitWithOffset(IntegrationTester $I, Example $example)
@@ -343,18 +305,18 @@ class CriteriaCest
         $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()
-                            ->where("estado=?1")
-                            ->bind([1 => "A"])
-                            ->orderBy("nombres")
+                            ->where('estado=?1')
+                            ->bind([1 => 'A'])
+                            ->orderBy('nombres')
                             ->limit(100, 10)
                             ->execute()
         ;
 
         $people = People::find([
-            "estado=?1",
-            "bind"  => [1 => "A"],
-            "order" => "nombres",
-            "limit" => ['number' => 100, 'offset' => 10],
+            'estado=?1',
+            'bind'  => [1 => 'A'],
+            'order' => 'nombres',
+            'limit' => ['number' => 100, 'offset' => 10],
         ]);
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
@@ -362,9 +324,6 @@ class CriteriaCest
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Example           $example
-     *
      * @dataprovider adapterProvider
      */
     public function bindOrderLimit(IntegrationTester $I, Example $example)
@@ -372,18 +331,18 @@ class CriteriaCest
         $this->container->setShared('db', $example['adapter']);
 
         $personas = Personas::query()
-                            ->where("estado=:estado:")
-                            ->bind(["estado" => "A"])
-                            ->orderBy("nombres")
+                            ->where('estado=:estado:')
+                            ->bind(['estado' => 'A'])
+                            ->orderBy('nombres')
                             ->limit(100)
                             ->execute()
         ;
 
         $people = People::find([
-            "estado=:estado:",
-            "bind"  => ["estado" => "A"],
-            "order" => "nombres",
-            "limit" => 100,
+            'estado=:estado:',
+            'bind'  => ['estado' => 'A'],
+            'order' => 'nombres',
+            'limit' => 100,
         ]);
 
         $I->assertEquals(count($personas->toArray()), count($people->toArray()));
@@ -391,24 +350,18 @@ class CriteriaCest
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Example           $example
-     *
      * @dataprovider adapterProvider
      */
     public function orderBy(IntegrationTester $I, Example $example)
     {
         $this->container->setShared('db', $example['adapter']);
 
-        $personas = Personas::query()->orderBy("nombres");
+        $personas = Personas::query()->orderBy('nombres');
 
-        $I->assertEquals($personas->getOrderBy(), "nombres");
+        $I->assertEquals($personas->getOrderBy(), 'nombres');
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Example           $example
-     *
      * @issue        https://github.com/phalcon/cphalcon/issues/2131
      * @dataprovider adapterProvider
      */

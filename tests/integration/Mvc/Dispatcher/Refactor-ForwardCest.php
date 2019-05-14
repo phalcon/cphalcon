@@ -2,13 +2,13 @@
 
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
+use function dataDir;
 use IntegrationTester;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
-use function dataDir;
 
 /**
  * \Phalcon\Test\Integration\Mvc\Dispatcher\ForwardCest
@@ -17,7 +17,6 @@ use function dataDir;
  * @copyright (c) 2011-2017 Phalcon Team
  * @link          http://www.phalconphp.com
  * @author        Phalcon Team <team@phalconphp.com>
- * @package       Phalcon\Test\Integration\Mvc\Dispatcher
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -30,7 +29,6 @@ class RefactorForwardCest
 {
     /**
      * @issue https://github.com/phalcon/cphalcon/issues/11819
-     * @param IntegrationTester $I
      */
     public function handlingException(IntegrationTester $I)
     {
@@ -63,7 +61,7 @@ class RefactorForwardCest
         $application->setEventsManager(new Manager());
         $application->setDI($di);
 
-        $response = $application->handle("/exception");
-        $I->assertSame("I should be displayed", $response->getContent());
+        $response = $application->handle('/exception');
+        $I->assertSame('I should be displayed', $response->getContent());
     }
 }

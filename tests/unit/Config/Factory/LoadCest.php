@@ -57,7 +57,7 @@ class LoadCest
     {
         $I->wantToTest('Config\Factory - load() - array');
 
-        $options = $this->arrayConfig["config"];
+        $options = $this->arrayConfig['config'];
 
         /** @var Ini $ini */
         $ini = Factory::load($options);

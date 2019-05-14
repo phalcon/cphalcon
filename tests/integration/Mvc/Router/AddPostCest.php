@@ -40,9 +40,11 @@ class AddPostCest
         );
 
 
+
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
         $router->handle('/docs/index');
+
 
 
         $I->assertEquals(

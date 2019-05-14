@@ -74,8 +74,8 @@ class ConstructCest
 
         $time = time();
         $logger->debug('This is a message');
-        $logger->log(Logger::ERROR, "This is an error");
-        $logger->error("This is another error");
+        $logger->log(Logger::ERROR, 'This is an error');
+        $logger->error('This is another error');
 
         $I->amInPath($outputPath);
         $I->openFile($fileName);

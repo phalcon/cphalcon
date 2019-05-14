@@ -22,8 +22,6 @@ class GetReferencedColumnsCest
     /**
      * Tests Phalcon\Db\Reference :: getReferencedColumns()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

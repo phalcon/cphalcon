@@ -28,6 +28,7 @@ class ConstructCest
         $I->wantToTest('Crypt - __construct()');
 
 
+
         $crypt = new Crypt();
 
         $I->assertInstanceOf(
@@ -36,7 +37,8 @@ class ConstructCest
         );
 
 
-        $crypt = new Crypt("aes-256-cfb", true);
+
+        $crypt = new Crypt('aes-256-cfb', true);
 
         $I->assertInstanceOf(
             Crypt::class,

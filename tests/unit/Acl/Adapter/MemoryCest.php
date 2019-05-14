@@ -48,14 +48,14 @@ class MemoryCest
         foreach ($aclComponents as $component => $actions) {
             $acl->addComponent(new Component($component), $actions);
         }
-        $acl->allow("*", "welcome", "index");
+        $acl->allow('*', 'welcome', 'index');
 
         foreach ($aclRoles as $Role => $object) {
             $actual = $acl->isAllowed($Role, 'welcome', 'index');
             $I->assertTrue($actual);
         }
 
-        $acl->deny("*", "welcome", "index");
+        $acl->deny('*', 'welcome', 'index');
         foreach ($aclRoles as $Role => $object) {
             $actual = $acl->isAllowed($Role, 'welcome', 'index');
             $I->assertFalse($actual);
@@ -168,7 +168,7 @@ class MemoryCest
      */
     public function testAclNegationOfInheritedRoles(UnitTester $I)
     {
-        $acl = new Memory;
+        $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
 
         $acl->addRole('Guests');
@@ -207,36 +207,36 @@ class MemoryCest
 
         $acl->setDefaultAction(Acl::DENY);
 
-        $RoleGuest      = new Role("guest");
-        $RoleUser       = new Role("user");
-        $RoleAdmin      = new Role("admin");
-        $RoleSuperAdmin = new Role("superadmin");
+        $RoleGuest      = new Role('guest');
+        $RoleUser       = new Role('user');
+        $RoleAdmin      = new Role('admin');
+        $RoleSuperAdmin = new Role('superadmin');
 
         $acl->addRole($RoleGuest);
         $acl->addRole($RoleUser, $RoleGuest);
         $acl->addRole($RoleAdmin, $RoleUser);
         $acl->addRole($RoleSuperAdmin, $RoleAdmin);
 
-        $acl->addComponent("payment", ["paypal", "facebook",]);
+        $acl->addComponent('payment', ['paypal', 'facebook',]);
 
-        $acl->allow($RoleGuest->getName(), "payment", "paypal");
-        $acl->allow($RoleGuest->getName(), "payment", "facebook");
-        $acl->allow($RoleUser->getName(), "payment", "*");
+        $acl->allow($RoleGuest->getName(), 'payment', 'paypal');
+        $acl->allow($RoleGuest->getName(), 'payment', 'facebook');
+        $acl->allow($RoleUser->getName(), 'payment', '*');
 
         $I->assertTrue(
-            $acl->isAllowed($RoleUser->getName(), "payment", "notSet")
+            $acl->isAllowed($RoleUser->getName(), 'payment', 'notSet')
         );
 
         $I->assertTrue(
-            $acl->isAllowed($RoleUser->getName(), "payment", "*")
+            $acl->isAllowed($RoleUser->getName(), 'payment', '*')
         );
 
         $I->assertTrue(
-            $acl->isAllowed($RoleAdmin->getName(), "payment", "notSet")
+            $acl->isAllowed($RoleAdmin->getName(), 'payment', 'notSet')
         );
 
         $I->assertTrue(
-            $acl->isAllowed($RoleAdmin->getName(), "payment", "*")
+            $acl->isAllowed($RoleAdmin->getName(), 'payment', '*')
         );
     }
 
@@ -253,7 +253,7 @@ class MemoryCest
         $acl = new Memory();
 
         $acl->addRole(
-            new Role("Guests")
+            new Role('Guests')
         );
 
         $acl->addComponent(
@@ -295,7 +295,7 @@ class MemoryCest
         $acl = new Memory();
 
         $acl->addRole(
-            new Role("Guests")
+            new Role('Guests')
         );
 
         $acl->addComponent(
@@ -332,7 +332,7 @@ class MemoryCest
      */
     public function testAclNegationOfMultipleInheritedRoles(UnitTester $I)
     {
-        $acl = new Memory;
+        $acl = new Memory();
         $acl->setDefaultAction(Acl::DENY);
 
         $acl->addRole('Guests');
@@ -366,7 +366,7 @@ class MemoryCest
      */
     public function testAclNegationOfMultilayerInheritedRoles(UnitTester $I)
     {
-        $acl = new Memory;
+        $acl = new Memory();
 
         $acl->setDefaultAction(
             Acl::DENY

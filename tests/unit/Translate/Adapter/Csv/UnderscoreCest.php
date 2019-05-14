@@ -26,6 +26,6 @@ class UnderscoreCest
     {
         $I->wantToTest("Translate\Adapter\Csv - _()");
 
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

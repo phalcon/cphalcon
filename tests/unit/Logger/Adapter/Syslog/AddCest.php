@@ -30,9 +30,6 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Syslog {
     use Phalcon\Logger\Logger;
     use UnitTester;
 
-    /**
-     * @package Phalcon\Test\Unit\Logger
-     */
     class AddCest
     {
         /**

@@ -192,7 +192,7 @@ class DateCest
             ['', 'Y-m-d'],
             [false, 'Y-m-d'],
             [null, 'Y-m-d'],
-            [new stdClass, 'Y-m-d'],
+            [new stdClass(), 'Y-m-d'],
             ['2015-13-01', 'Y-m-d'],
             ['2015-01-32', 'Y-m-d'],
             ['2015-01', 'Y-m-d'],

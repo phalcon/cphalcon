@@ -16,9 +16,6 @@ use DirectoryIterator;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\ViewBaseInterface;
 
-/**
- * @package Phalcon\Test\Fixtures\Traits
- */
 trait ViewTrait
 {
     protected $level;
@@ -82,7 +79,7 @@ trait ViewTrait
 
             $view->finish();
 
-            $this->assertEquals(
+            $this->assertSame(
                 $param['expected'],
                 $view->getContent(),
                 $errorMessage

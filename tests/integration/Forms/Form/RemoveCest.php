@@ -22,8 +22,6 @@ class RemoveCest
     /**
      * Tests Phalcon\Forms\Form :: remove()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

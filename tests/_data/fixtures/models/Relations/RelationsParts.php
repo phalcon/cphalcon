@@ -17,7 +17,7 @@ class RelationsParts extends Model
 {
     public function initialize()
     {
-        $this->setSource("parts");
+        $this->setSource('parts');
 
         $this->hasMany(
             'id',

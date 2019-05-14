@@ -12,15 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
+use function dataDir;
 use IntegrationTester;
+use function ob_end_clean;
+use function ob_get_level;
+use function ob_start;
 use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\ViewTrait;
-use function dataDir;
-use function ob_end_clean;
-use function ob_get_level;
-use function ob_start;
 use function sprintf;
 
 class RenderCest
@@ -46,8 +46,6 @@ class RenderCest
     /**
      * Tests Phalcon\Mvc\View\Simple :: render()
      *
-     * @param IntegrationTester $I
-     *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
      */
@@ -63,8 +61,6 @@ class RenderCest
 
     /**
      * Tests Phalcon\Mvc\View\Simple :: render() - standard
-     *
-     * @param IntegrationTester $I
      *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
@@ -86,8 +82,6 @@ class RenderCest
 
     /**
      * Tests Phalcon\Mvc\View\Simple :: render() - with mustache
-     *
-     * @param IntegrationTester $I
      *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
@@ -122,8 +116,6 @@ class RenderCest
     /**
      * Tests Phalcon\Mvc\View\Simple :: render() - missing view
      *
-     * @param IntegrationTester $I
-     *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
      */
@@ -148,8 +140,6 @@ class RenderCest
 
     /**
      * Tests Phalcon\Mvc\View\Simple :: render() - with partials
-     *
-     * @param IntegrationTester $I
      *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
@@ -176,8 +166,6 @@ class RenderCest
 
     /**
      * Tests Phalcon\Mvc\View\Simple :: render() - filename missing engine
-     *
-     * @param IntegrationTester $I
      *
      * @author Kamil Skowron <git@hedonsoftware.com>
      * @since  2014-05-28
