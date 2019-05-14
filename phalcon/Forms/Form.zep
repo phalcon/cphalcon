@@ -97,6 +97,7 @@ class Form extends Injectable implements \Countable, \Iterator
             let this->elements[name] = element;
         } else {
             let elements = [];
+
             /**
              * Walk elements and add the element to a particular position
              */
@@ -145,8 +146,8 @@ class Form extends Injectable implements \Countable, \Iterator
         }
 
         let filter = null;
-        for key, value in data {
 
+        for key, value in data {
             /**
              * Get the element
              */
@@ -364,16 +365,6 @@ class Form extends Injectable implements \Countable, \Iterator
      *
      * <code>
      * if ($form->isValid($_POST) == false) {
-     *     // Get messages separated by the item name
-     *     // $messages is an array of Messages object
-     *     $messages = $form->getMessages(true);
-     *
-     *     foreach ($messages as $message) {
-     *         echo $message, "<br>";
-     *     }
-     *
-     *     // Default behavior.
-     *     // $messages is a Messages object
      *     $messages = $form->getMessages();
      *
      *     foreach ($messages as $message) {
@@ -382,46 +373,18 @@ class Form extends Injectable implements \Countable, \Iterator
      * }
      * </code>
      */
-    public function getMessages(bool byItemName = false) -> <Messages> | array
+    public function getMessages() -> <Messages> | array
     {
         var messages, elementMessage, fieldName;
         array messagesByItem;
 
         let messages = this->messages;
 
-        if typeof messages == "object" && messages instanceof Messages {
-            /**
-             * @deprecated This part of code is for backward compatibility, it should be removed in next major version
-             */
-            if unlikely byItemName {
-                let messagesByItem = [];
-
-                messages->rewind();
-
-                while messages->valid() {
-                    let elementMessage = messages->current(),
-                        fieldName = elementMessage->getField();
-
-                        if !isset messagesByItem[fieldName] {
-                            let messagesByItem[fieldName] = [];
-                        }
-
-                        let messagesByItem[fieldName][] = new Messages(
-                            [
-                                elementMessage
-                            ]
-                        );
-
-                        messages->next();
-                }
-
-                return messagesByItem;
-            }
-
-            return messages;
+        if !(typeof messages == "object" && messages instanceof Messages) {
+            return new Messages();
         }
 
-        return new Messages();
+        return messages;
     }
 
     /**
@@ -429,11 +392,11 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function getMessagesFor(string! name) -> <Messages>
     {
-        if this->has(name) {
-            return this->get(name)->getMessages();
+        if !this->has(name) {
+            return new Messages();
         }
 
-        return new Messages();
+        return this->get(name)->getMessages();
     }
 
     /**
