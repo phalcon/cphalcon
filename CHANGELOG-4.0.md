@@ -63,7 +63,9 @@
 - Changed `Phalcon\Mvc\Model\Query` to not call `numRows` when selecting data  [#13387](https://github.com/phalcon/cphalcon/issues/13387)
 - Changed `Phalcon\Validation\Validator\Url` to work with passed options. (`FILTER_FLAG_PATH_REQUIRED`, `FILTER_FLAG_QUERY_REQUIRED`) [#13548](https://github.com/phalcon/cphalcon/issues/13548)
 - `Phalcon\Mvc\Model\Query\Builder` will now omit offsets if they are set as 0.
-- `Phalcon\Mvc\Model\Transaction::__construct()` service parameter must be a string or omitted, `Phalcon\Logger\Formatter\Line::__construct()` parameters must be a string or omitted, `Phalcon\Logger\Formatter\Json::__construct()` parameters must be a string or omitted.
+- `Phalcon\Mvc\Model\Transaction::__construct()` service parameter must be a string or omitted.
+- `Phalcon\Logger\Formatter\Line::__construct()` service parameters must be a string or omitted.
+- `Phalcon\Logger\Formatter\Json::__construct()` service parameters must be a string or omitted.
 - Removed deprecated code from `Phalcon\Forms\Form::getMessages()`.
 
 ## Fixed
