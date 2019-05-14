@@ -14,7 +14,7 @@ return [
             [
                 'type' => 'service',
                 'name' => 'config',
-            ]
+            ],
         ],
     ],
 ];

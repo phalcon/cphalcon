@@ -133,9 +133,10 @@ class Binder implements BinderInterface
      */
     protected function getParamsFromReflection(object handler, array params, string cacheKey, string! methodName) -> array
     {
-        var methodParams, reflection, paramKey, methodParam, paramsCache,
-            className, realClasses = null, boundModel, cache, handlerClass,
+        var methodParams, reflection, paramKey, methodParam, className,
+            realClasses = null, boundModel, cache, handlerClass,
             reflectionClass, paramsKeys, paramValue;
+        array paramsCache;
 
         let paramsCache = [];
 

@@ -31,7 +31,7 @@ class ConstructCest
     {
         $I->wantToTest('Http\Message\Stream - __construct()');
 
-        $request = new Stream("php://temp");
+        $request = new Stream('php://temp');
 
         $I->assertInstanceOf(
             StreamInterface::class,

@@ -26,7 +26,7 @@ class GetDataCest
     public function storageSerializerPhpGetData(UnitTester $I)
     {
         $I->wantToTest('Storage\Serializer\Php - getData()');
-        $data       = ["Phalcon Framework"];
+        $data       = ['Phalcon Framework'];
         $serializer = new Php($data);
 
         $expected = $data;

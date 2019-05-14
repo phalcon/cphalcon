@@ -77,7 +77,7 @@ class LoadCest
     {
         $I->wantToTest("Db\Adapter\Pdo\Factory - load() - array");
 
-        $options = $this->arrayConfig["database"];
+        $options = $this->arrayConfig['database'];
         $data    = $options;
 
         $this->runTests($I, $options, $data);

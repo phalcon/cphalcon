@@ -11,14 +11,14 @@ class Issue787Task extends Task
         $this->dispatcher;
         $this->dispatcher;
 
-        self::$output .= "beforeExecuteRoute" . PHP_EOL;
+        self::$output .= 'beforeExecuteRoute' . PHP_EOL;
 
         return true;
     }
 
     public function initialize()
     {
-        self::$output .= "initialize" . PHP_EOL;
+        self::$output .= 'initialize' . PHP_EOL;
     }
 
     public function mainAction()

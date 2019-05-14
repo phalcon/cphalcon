@@ -6,7 +6,6 @@
  * @link          http://www.phalconphp.com
  * @author        Andres Gutierrez <andres@phalconphp.com>
  * @author        Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package       Phalcon\Test\Models
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -72,7 +71,7 @@ return [
         11 => [],
         12 => [
             'type'    => 'mechanical',
-            'year'    => "1900",
+            'year'    => '1900',
             'deleted' => null,
         ],
         13 => [],

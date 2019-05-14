@@ -15,7 +15,6 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models;
-use Phalcon\Mvc\Model;
 
 /**
  * Class UnderscoreGetCest
@@ -32,8 +31,6 @@ class UnderscoreGetCest
 
     /**
      * Tests Phalcon\Mvc\Model :: __get()
-     *
-     * @param IntegrationTester $I
      *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-07
@@ -61,8 +58,6 @@ class UnderscoreGetCest
     /**
      * Tests Phalcon\Mvc\Model :: __get() whether it is using getters correctly
      *
-     * @param IntegrationTester $I
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-07
      */
@@ -80,7 +75,7 @@ class UnderscoreGetCest
 
         $associativeArray = [
             'firstName' => 'First name',
-            'lastName'  => 'Last name'
+            'lastName'  => 'Last name',
         ];
 
         $model->setName($associativeArray);
@@ -100,8 +95,6 @@ class UnderscoreGetCest
 
     /**
      * Tests Phalcon\Mvc\Model :: __get() related records
-     *
-     * @param IntegrationTester $I
      *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-07
@@ -150,8 +143,6 @@ class UnderscoreGetCest
     /**
      * Tests Phalcon\Mvc\Model :: __get() dirty related records
      *
-     * @param IntegrationTester $I
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-07
      */
@@ -176,7 +167,7 @@ class UnderscoreGetCest
          */
         $robot->robotsParts = [
             new Models\RobotsParts(),
-            new Models\RobotsParts()
+            new Models\RobotsParts(),
         ];
 
         /**

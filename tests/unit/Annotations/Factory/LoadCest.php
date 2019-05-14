@@ -68,7 +68,7 @@ class LoadCest
         $I->wantToTest('Annotations\Factory - load() - array');
 
         /** @var Apc $annotations */
-        $options = $this->arrayConfig["annotations"];
+        $options = $this->arrayConfig['annotations'];
 
         $this->runTests($I, $options);
     }

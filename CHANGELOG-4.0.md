@@ -66,6 +66,7 @@
 - `Phalcon\Logger\Formatter\Line::__construct()` parameters must be a string or omitted
 - `Phalcon\Logger\Formatter\Json::__construct()` parameters must be a string or omitted
 - Bind parameters and bind types are now always arrays in `Phalcon\Mvc\Model\Query`.
+- Removed deprecated code from `Phalcon\Forms\Form::getMessages()`.
 
 ## Fixed
 - Fixed `Mvc\Collection::isInitialized()` now works as intended. [#13931](https://github.com/phalcon/cphalcon/pull/13931)

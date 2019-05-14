@@ -159,7 +159,7 @@ class ValidateCest
 
         $input = $example[0];
 
-        $validation = new Validation;
+        $validation = new Validation();
 
         $validation->add(
             'name',
@@ -205,7 +205,7 @@ class ValidateCest
 
         $input = $example[0];
 
-        $validation = new Validation;
+        $validation = new Validation();
 
         $validation->add(
             'name',
@@ -232,8 +232,6 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - Non Latin
      * Characters
      *
-     * @param IntegrationTester $I
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2016-06-10
      *
@@ -245,7 +243,7 @@ class ValidateCest
 
         $input = $example[0];
 
-        $validation = new Validation;
+        $validation = new Validation();
 
         $validation->add(
             'name',

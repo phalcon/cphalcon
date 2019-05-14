@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Events;
 use Codeception\Example;
 use ComponentX;
 use ComponentY;
+use function dataDir;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Test\Fixtures\Listener\FirstListener;
@@ -21,7 +22,6 @@ use Phalcon\Test\Fixtures\Listener\SecondListener;
 use Phalcon\Test\Fixtures\Listener\ThirdListener;
 use stdClass;
 use UnitTester;
-use function dataDir;
 
 class ManagerCest
 {

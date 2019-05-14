@@ -22,8 +22,6 @@ class NextCest
     /**
      * Tests Phalcon\Mvc\Model\Resultset\Complex :: next()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

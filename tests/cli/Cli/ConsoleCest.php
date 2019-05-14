@@ -12,6 +12,7 @@
 namespace Phalcon\Test\Cli\Cli;
 
 use CliTester;
+use function dataDir;
 use Issue787Task;
 use Phalcon\Cli\Console;
 use Phalcon\Cli\Console\Exception as ConsoleException;
@@ -19,7 +20,6 @@ use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
 use Phalcon\Cli\Router;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function dataDir;
 
 class ConsoleCest
 {
@@ -40,7 +40,7 @@ class ConsoleCest
                 $this->container->set(
                     'data',
                     function () {
-                        return "data";
+                        return 'data';
                     }
                 );
 
@@ -69,7 +69,7 @@ class ConsoleCest
         $this->container->set(
             'data',
             function () {
-                return "data";
+                return 'data';
             }
         );
 
@@ -107,7 +107,7 @@ class ConsoleCest
         $this->container->set(
             'data',
             function () {
-                return "data";
+                return 'data';
             }
         );
 
@@ -193,7 +193,7 @@ class ConsoleCest
         );
 
         $I->assertEquals(
-            "beforeExecuteRoute" . PHP_EOL . "initialize" . PHP_EOL,
+            'beforeExecuteRoute' . PHP_EOL . 'initialize' . PHP_EOL,
             Issue787Task::$output
         );
     }

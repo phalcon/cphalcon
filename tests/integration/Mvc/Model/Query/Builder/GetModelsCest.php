@@ -33,8 +33,6 @@ class GetModelsCest
     /**
      * Tests Phalcon\Mvc\Model\Query\Builder :: getModels()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-04-8
      */
@@ -51,8 +49,6 @@ class GetModelsCest
 
     /**
      * Tests Phalcon\Mvc\Model\Query\Builder :: getModels()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-04-8
@@ -73,8 +69,6 @@ class GetModelsCest
 
     /**
      * Tests Phalcon\Mvc\Model\Query\Builder :: getModels()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-04-8

@@ -22,8 +22,6 @@ class CountCest
     /**
      * Tests Phalcon\Mvc\Collection :: count()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

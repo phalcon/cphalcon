@@ -32,7 +32,7 @@ class OneCest
         $dump = new Dump();
 
         $expected = "<pre style='background-color:#f3f3f3; font-size:11px; "
-            . "padding:10px; border:1px solid #ccc; text-align:left; "
+            . 'padding:10px; border:1px solid #ccc; text-align:left; '
             . "color:#333'><b style='color:teal'>String</b> "
             . "(<span style='color:teal'>5</span>) \""
             . "<span style='color:teal'>value</span>\"</pre>";
@@ -58,7 +58,7 @@ class OneCest
         $dump = new Dump();
 
         $expected = "<pre style='background-color:#f3f3f3; font-size:11px; "
-            . "padding:10px; border:1px solid #ccc; text-align:left; "
+            . 'padding:10px; border:1px solid #ccc; text-align:left; '
             . "color:#333'>super <b style='color:teal'>String</b> "
             . "(<span style='color:teal'>5</span>) \""
             . "<span style='color:teal'>value</span>\"</pre>";

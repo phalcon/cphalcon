@@ -22,8 +22,6 @@ class AddPrimaryKeyCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: addPrimaryKey()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
@@ -43,9 +41,7 @@ class AddPrimaryKeyCest
         }
     }
 
-    /**
-     * @return array
-     */
+
     protected function getAddPrimaryKeyFixtures(): array
     {
         return [

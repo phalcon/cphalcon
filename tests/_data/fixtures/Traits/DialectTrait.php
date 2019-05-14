@@ -19,9 +19,6 @@ use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 
-/**
- * @package Phalcon\Test\Fixtures\Traits
- */
 trait DialectTrait
 {
     /**

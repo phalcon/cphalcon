@@ -26,8 +26,6 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Url :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

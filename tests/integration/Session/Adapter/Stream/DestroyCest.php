@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Stream;
 
+use function cacheDir;
+use function file_put_contents;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
-use function cacheDir;
-use function file_put_contents;
 use function uniqid;
 
 class DestroyCest

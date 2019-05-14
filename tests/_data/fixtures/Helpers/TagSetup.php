@@ -21,9 +21,6 @@ class TagSetup
 
     protected $doctype = Tag::HTML5;
 
-    /**
-     * @param UnitTester $I
-     */
     public function _before(UnitTester $I)
     {
         $this->newDi();
@@ -42,8 +39,6 @@ class TagSetup
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
-     *
-     * @param $doctype
      *
      * @return string
      */
@@ -122,9 +117,6 @@ class TagSetup
         }
     }
 
-    /**
-     * @param UnitTester $I
-     */
     public function _after(UnitTester $I)
     {
         Tag::setDocType($this->doctype);
@@ -134,9 +126,6 @@ class TagSetup
 
     /**
      * Runs a doctype test, one for each doctype
-     *
-     * @param UnitTester $I
-     * @param int        $doctype
      */
     protected function runDoctypeTest(UnitTester $I, int $doctype)
     {
@@ -145,8 +134,11 @@ class TagSetup
         Tag::setDocType($doctype);
 
         $expected = $this->docTypeToString($doctype);
-        $actual   = Tag::getDocType();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            Tag::getDocType()
+        );
     }
 
     /**
@@ -154,8 +146,6 @@ class TagSetup
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-04
-     *
-     * @param int $doctype
      *
      * @return string
      */
@@ -220,12 +210,10 @@ class TagSetup
     /**
      * Runs the test for a Tag::$function with $options
      *
-     * @param \UnitTester $I
-     * @param string      $function
-     * @param mixed       $options
-     * @param string      $expected
-     * @param boolean     $xhtml
-     * @param string      $set
+     * @param string     $function
+     * @param string     $expected
+     * @param bool       $xhtml
+     * @param string     $set
      */
     protected function testFieldParameter(UnitTester $I, $function, $options, $expected, $xhtml = false, $set = '')
     {

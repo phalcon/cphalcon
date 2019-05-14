@@ -22,8 +22,6 @@ class SetFiltersCest
     /**
      * Tests Phalcon\Forms\Element\Password :: setFilters()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

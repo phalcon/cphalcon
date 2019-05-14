@@ -249,7 +249,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function __get(string! property)
     {
-        var modelName, manager, lowerProperty, relation, method;
+        var modelName, manager, lowerProperty, relation;
+        string method;
 
         let modelName = get_class(this),
             manager = this->getModelsManager(),
@@ -325,8 +326,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function __set(string property, value)
     {
-        var lowerProperty, related, modelName, manager,
-            relation, referencedModel, item, dirtyState;
+        var lowerProperty, modelName, manager, relation, referencedModel, item,
+            dirtyState;
+        array related;
 
         /**
          * Values are probably relationships if they are objects
@@ -555,7 +557,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <ModelInterface>
     {
         var key, keyMapped, value, attribute, attributeField, metaData,
-            columnMap, dataMapped, disableAssignSetters;
+            columnMap, disableAssignSetters;
+        array dataMapped;
 
         let disableAssignSetters = globals_get("orm.disable_assign_setters");
 
@@ -830,7 +833,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode)
     {
-        var hydrateArray, hydrateObject, key, value, attribute, attributeName;
+        var key, value, attribute, attributeName, hydrateObject;
+        array hydrateArray;
 
         /**
          * If there is no column map and the hydration mode is arrays return the
@@ -1010,9 +1014,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function delete() -> bool
     {
-        var metaData, writeConnection, values, bindTypes, primaryKeys,
-            bindDataTypes, columnMap, attributeField, conditions, primaryKey,
-            bindType, value, schema, source, table, success;
+        var metaData, writeConnection, primaryKeys, bindDataTypes, columnMap,
+            attributeField, primaryKey, bindType, value, schema, source, table,
+            success;
+        array values, bindTypes, conditions;
 
         let metaData = this->getModelsMetaData(),
             writeConnection = this->getWriteConnection();
@@ -1527,7 +1532,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getChangedFields() -> array
     {
-        var metaData, changed, name, snapshot, columnMap, allAttributes, value;
+        var metaData, name, snapshot, columnMap, allAttributes, value;
+        array changed;
 
         let snapshot = this->snapshot;
 
@@ -1645,7 +1651,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getMessages(var filter = null) -> <MessageInterface[]>
     {
-        var filtered, message;
+        var message;
+        array filtered;
 
         if typeof filter == "string" && !empty filter {
             let filtered = [];
@@ -1871,7 +1878,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function getUpdatedFields() -> array
     {
-        var updated, name, snapshot, oldSnapshot, value;
+        var name, snapshot, oldSnapshot, value;
+        array updated;
 
         let snapshot = this->snapshot;
         let oldSnapshot = this->oldSnapshot;
@@ -2161,7 +2169,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     public function refresh() -> <ModelInterface>
     {
         var metaData, readConnection, schema, source, table, uniqueKey, tables,
-            uniqueParams, dialect, row, fields, attribute, manager, columnMap;
+            uniqueParams, dialect, row, attribute, manager, columnMap;
+        array fields;
 
         if unlikely this->dirtyState != self::DIRTY_STATE_PERSISTENT {
             throw new Exception(
@@ -2596,7 +2605,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function setOldSnapshotData(array! data, columnMap = null)
     {
-        var key, value, snapshot, attribute;
+        var key, value, attribute;
+        array snapshot;
 
         /**
          * Build the snapshot based on a column map
@@ -2655,7 +2665,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function setSnapshotData(array! data, columnMap = null) -> void
     {
-        var key, value, snapshot, attribute;
+        var key, value, attribute;
+        array snapshot;
 
         /**
          * Build the snapshot based on a column map
@@ -2918,7 +2929,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function toArray(columns = null) -> array
     {
-        var data, metaData, columnMap, attribute, attributeField, value;
+        var metaData, columnMap, attribute, attributeField, value;
+        array data;
 
         let data = [],
             metaData = this->getModelsMetaData(),
@@ -3028,9 +3040,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     final protected function _checkForeignKeysRestrict() -> bool
     {
-        var manager, belongsTo, foreignKey, relation, conditions, position,
-            bindParams, extraConditions, message, fields, referencedFields,
-            field, referencedModel, value, allowNulls;
+        var manager, belongsTo, foreignKey, relation, position, bindParams,
+            extraConditions, message, fields, referencedFields, field,
+            referencedModel, value, allowNulls;
+        array conditions;
         int action, numberNull;
         bool error, validateWithNulls;
 
@@ -5202,7 +5215,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function skipAttributesOnCreate(array! attributes) -> void
     {
-        var keysAttributes, attribute;
+        var attribute;
+        array keysAttributes;
 
         let keysAttributes = [];
 
@@ -5236,7 +5250,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function skipAttributesOnUpdate(array! attributes) -> void
     {
-        var keysAttributes, attribute;
+        var attribute;
+        array keysAttributes;
 
         let keysAttributes = [];
 

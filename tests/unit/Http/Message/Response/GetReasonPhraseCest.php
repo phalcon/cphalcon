@@ -45,10 +45,10 @@ class GetReasonPhraseCest
     {
         $I->wantToTest('Http\Message\Response - getReasonPhrase() - other port');
 
-        $response = new Response("php://memory", 420);
+        $response = new Response('php://memory', 420);
 
         $I->assertEquals(
-            "Enhance Your Calm",
+            'Enhance Your Calm',
             $response->getReasonPhrase()
         );
     }

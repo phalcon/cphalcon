@@ -22,8 +22,6 @@ class SetStateCest
     /**
      * Tests Phalcon\Db\Reference :: __set_state()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

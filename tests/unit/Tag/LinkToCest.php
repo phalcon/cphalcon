@@ -26,7 +26,7 @@ class LinkToCest extends TagSetup
      */
     public function tagLinkToWithStringAsURLAndName(UnitTester $I)
     {
-        $I->wantToTest("Tag - linkTo() - string as URL and name");
+        $I->wantToTest('Tag - linkTo() - string as URL and name');
 
         $url  = 'x_url';
         $name = 'x_name';
@@ -47,7 +47,7 @@ class LinkToCest extends TagSetup
      */
     public function tagLinkToWithQueryParam(UnitTester $I)
     {
-        $I->wantToTest("Tag - linkTo() - string as URL and name");
+        $I->wantToTest('Tag - linkTo() - string as URL and name');
 
         $actual = Tag::linkTo(
             [
@@ -76,7 +76,7 @@ class LinkToCest extends TagSetup
      */
     public function tagLinkToWithEmptyStringAsURLAndStringAsName(UnitTester $I)
     {
-        $I->wantToTest("Tag - linkTo() - empty string as URL and string as name parameter");
+        $I->wantToTest('Tag - linkTo() - empty string as URL and string as name parameter');
 
         $url  = '';
         $name = 'x_name';
@@ -95,7 +95,7 @@ class LinkToCest extends TagSetup
      */
     public function tagLinkToArrayParameter(UnitTester $I)
     {
-        $I->wantToTest("Tag - linkTo() - array as a parameter");
+        $I->wantToTest('Tag - linkTo() - array as a parameter');
 
         $options = [
             'x_url',
@@ -116,7 +116,7 @@ class LinkToCest extends TagSetup
      */
     public function tagLinkToNamedArrayParameter(UnitTester $I)
     {
-        $I->wantToTest("Tag - linkTo() - named array as a parameter");
+        $I->wantToTest('Tag - linkTo() - named array as a parameter');
 
         $options = [
             'action' => 'x_url',
@@ -140,11 +140,11 @@ class LinkToCest extends TagSetup
      */
     public function tagLinkToWithComplexLocalUrl(UnitTester $I)
     {
-        $I->wantToTest("Tag - linkTo() - complex local URL");
+        $I->wantToTest('Tag - linkTo() - complex local URL');
 
         Tag::resetInput();
 
-        $url  = "x_action/x_param";
+        $url  = 'x_action/x_param';
         $name = 'x_name';
 
         $I->assertEquals(
@@ -155,7 +155,7 @@ class LinkToCest extends TagSetup
         Tag::resetInput();
 
         $options = [
-            "x_action/x_param",
+            'x_action/x_param',
             'x_name',
         ];
 
@@ -167,7 +167,7 @@ class LinkToCest extends TagSetup
         Tag::resetInput();
 
         $options = [
-            "x_action/x_param",
+            'x_action/x_param',
             'x_name',
             'class' => 'x_class',
         ];
@@ -188,11 +188,11 @@ class LinkToCest extends TagSetup
      */
     public function tagLinkToWithComplexRemoteUrl(UnitTester $I)
     {
-        $I->wantToTest("Tag - linkTo() - complex remote URL");
+        $I->wantToTest('Tag - linkTo() - complex remote URL');
 
         Tag::resetInput();
 
-        $url  = "http://phalconphp.com/en/";
+        $url  = 'http://phalconphp.com/en/';
         $name = 'x_name';
 
         $I->assertEquals(
@@ -203,7 +203,7 @@ class LinkToCest extends TagSetup
         Tag::resetInput();
 
         $options = [
-            "http://phalconphp.com/en/",
+            'http://phalconphp.com/en/',
             'x_name',
             false,
         ];
@@ -216,7 +216,7 @@ class LinkToCest extends TagSetup
         Tag::resetInput();
 
         $options = [
-            "http://phalconphp.com/en/",
+            'http://phalconphp.com/en/',
             'text'  => 'x_name',
             'local' => false,
         ];
@@ -228,7 +228,7 @@ class LinkToCest extends TagSetup
 
         Tag::resetInput();
 
-        $url  = "mailto:someone@phalconphp.com";
+        $url  = 'mailto:someone@phalconphp.com';
         $name = 'someone@phalconphp.com';
 
         $I->assertEquals(

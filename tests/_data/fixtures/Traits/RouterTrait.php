@@ -15,12 +15,8 @@ namespace Phalcon\Test\Fixtures\Traits;
 use Phalcon\Di;
 use Phalcon\Http\Request;
 use Phalcon\Mvc\Router;
+use Phalcon\Mvc\Router\Route;
 
-/**
- * Routing trait
- *
- * @package Helper\Mvc
- */
 trait RouterTrait
 {
     /**
@@ -44,12 +40,12 @@ trait RouterTrait
     {
         $router = new Router($defaultRoutes);
 
-        $di = new Di;
+        $di = new Di();
 
         $di->setShared(
             'request',
             function () {
-                return new Request;
+                return new Request();
             }
         );
 
@@ -61,7 +57,7 @@ trait RouterTrait
     /**
      * Add method and return route
      */
-    protected function getRouteAndSetRouteMethod(Router $router, array $data): \Phalcon\Mvc\Router\Route
+    protected function getRouteAndSetRouteMethod(Router $router, array $data): Route
     {
         $methodName = $data['methodName'];
 

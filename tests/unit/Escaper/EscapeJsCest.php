@@ -25,18 +25,18 @@ class EscapeJsCest
      */
     public function escaperEscapeJs(UnitTester $I)
     {
-        $I->wantToTest("Escaper - escapeJs()");
+        $I->wantToTest('Escaper - escapeJs()');
 
         $escaper = new Escaper();
 
-        $source = "function createtoc () {"
+        $source = 'function createtoc () {'
             . "var h2s = document.getElementsByTagName('H2');"
             . "l = toc.appendChild(document.createElement('ol'));"
-            . "for (var i=0; i<h2s.length; i++) {"
-            . "var h2 = h2s[i].firstChild.innerHTML;"
+            . 'for (var i=0; i<h2s.length; i++) {'
+            . 'var h2 = h2s[i].firstChild.innerHTML;'
             . "var h = document.createElement('li');"
-            . "l.appendChild(h);"
-            . "}}";
+            . 'l.appendChild(h);'
+            . '}}';
 
         $expected = 'function createtoc () {'
             . 'var h2s \x3d document.getElementsByTagName(\x27H2\x27);'

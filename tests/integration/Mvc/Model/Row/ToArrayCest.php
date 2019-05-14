@@ -22,8 +22,6 @@ class ToArrayCest
     /**
      * Tests Phalcon\Mvc\Model\Row :: toArray()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

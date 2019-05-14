@@ -94,7 +94,7 @@ class Route implements RouteInterface
      */
     public function compilePattern(string! pattern) -> string
     {
-        var idPattern;
+        string idPattern;
 
         // If a pattern contains ':', maybe there are placeholders to replace
         if memstr(pattern, ":") {

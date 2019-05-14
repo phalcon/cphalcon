@@ -17,17 +17,12 @@ use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class AttachCest
- */
 class AttachCest
 {
     use RouterTrait;
 
     /**
      * Tests Phalcon\Mvc\Router :: attach()
-     *
-     * @param IntegrationTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/13326
      * @author Phalcon Team <team@phalconphp.com>
@@ -40,23 +35,26 @@ class AttachCest
         $router = $this->getRouter(false);
 
 
+
         $I->assertCount(
             0,
             $router->getRoutes()
         );
 
 
+
         $router->attach(
             new Route(
-                "/about",
-                "About::index",
+                '/about',
+                'About::index',
                 [
-                    "GET",
-                    "HEAD",
+                    'GET',
+                    'HEAD',
                 ]
             ),
             Router::POSITION_FIRST
         );
+
 
 
         $I->assertCount(

@@ -22,8 +22,6 @@ class GetOrCreateTransactionCest
     /**
      * Tests Phalcon\Mvc\Model\Transaction\Manager :: getOrCreateTransaction()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

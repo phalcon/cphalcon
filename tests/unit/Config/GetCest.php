@@ -27,7 +27,7 @@ class GetCest
      */
     public function configGet(UnitTester $I)
     {
-        $I->wantToTest("Config - get()");
+        $I->wantToTest('Config - get()');
         $this->checkGet($I);
     }
 }

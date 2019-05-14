@@ -18,14 +18,12 @@ use Phalcon\Mvc\Model;
  * @property string from_locale
  * @property string lang
  * @property string locale
- *
- * @package Phalcon\Test\Models
  */
 class LanguageI18n extends Model
 {
     public function initialize()
     {
-        $this->setSource("languagei18n");
+        $this->setSource('languagei18n');
 
         $this->belongsTo(
             ['from_lang', 'from_lang'],

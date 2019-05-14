@@ -25,7 +25,7 @@ class SetTitleCest
      */
     public function tagSetTitle(UnitTester $I)
     {
-        $I->wantToTest("Tag - setTitle()");
+        $I->wantToTest('Tag - setTitle()');
 
         Tag::resetInput();
 

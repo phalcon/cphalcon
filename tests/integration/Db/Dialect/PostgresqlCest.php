@@ -159,9 +159,7 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getAddForeignKeyFixtures(): array
     {
         return [
@@ -242,9 +240,7 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getAddPrimaryKeyFixtures(): array
     {
         return [
@@ -253,9 +249,7 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getColumnDefinitionFixtures(): array
     {
         return [
@@ -278,9 +272,7 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getColumnListFixtures(): array
     {
         return [
@@ -295,9 +287,7 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getCreateTableFixtures(): array
     {
         return [
@@ -453,13 +443,13 @@ class PostgresqlCest extends DialectBase
                         ]),
                         new Column('column17', [
                             'type'    => Column::TYPE_BOOLEAN,
-                            'default' => "false",
+                            'default' => 'false',
                             'notNull' => true,
                             'after'   => 'track_id',
                         ]),
                         new Column('column18', [
                             'type'    => Column::TYPE_BOOLEAN,
-                            'default' => "true",
+                            'default' => 'true',
                             'notNull' => true,
                             'after'   => 'like',
                         ]),
@@ -470,17 +460,13 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return string
-     */
+
     protected function getCreateSavepointSql(): string
     {
         return 'SAVEPOINT PH_SAVEPOINT_1';
     }
 
-    /**
-     * @return array
-     */
+
     protected function getCreateViewFixtures(): array
     {
         return [
@@ -489,65 +475,63 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDescribeColumnsFixtures(): array
     {
         return [
             [
                 'schema.name.with.dots',
-                "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, " .
-                "c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, " .
-                "c.numeric_scale AS NumericScale, c.is_nullable AS Null, " .
+                'SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, ' .
+                'c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, ' .
+                'c.numeric_scale AS NumericScale, c.is_nullable AS Null, ' .
                 "CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, " .
                 "CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' " .
                 "THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, " .
-                "c.column_default FROM information_schema.columns c " .
-                "LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema " .
-                "FROM information_schema.table_constraints tc " .
-                "INNER JOIN information_schema.key_column_usage kcu on " .
-                "(kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name " .
+                'c.column_default FROM information_schema.columns c ' .
+                'LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema ' .
+                'FROM information_schema.table_constraints tc ' .
+                'INNER JOIN information_schema.key_column_usage kcu on ' .
+                '(kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name ' .
                 "and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc " .
-                "ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND " .
+                'ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND ' .
                 "c.table_name=pkc.table_name) WHERE c.table_schema='schema.name.with.dots' AND " .
                 "c.table_name='table' ORDER BY c.ordinal_position",
             ],
             [
                 null,
-                "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, " .
-                "c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, " .
-                "c.numeric_scale AS NumericScale, c.is_nullable AS Null, " .
+                'SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, ' .
+                'c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, ' .
+                'c.numeric_scale AS NumericScale, c.is_nullable AS Null, ' .
                 "CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, " .
                 "CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' " .
                 "THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, " .
-                "c.column_default FROM information_schema.columns c " .
-                "LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema " .
-                "FROM information_schema.table_constraints tc " .
-                "INNER JOIN information_schema.key_column_usage kcu on " .
-                "(kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and " .
+                'c.column_default FROM information_schema.columns c ' .
+                'LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema ' .
+                'FROM information_schema.table_constraints tc ' .
+                'INNER JOIN information_schema.key_column_usage kcu on ' .
+                '(kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and ' .
                 "kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc " .
-                "ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND " .
+                'ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND ' .
                 "c.table_name=pkc.table_name) WHERE c.table_schema='public' AND c.table_name='table' " .
-                "ORDER BY c.ordinal_position",
+                'ORDER BY c.ordinal_position',
             ],
             [
                 'schema',
-                "SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, " .
-                "c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, " .
-                "c.numeric_scale AS NumericScale, c.is_nullable AS Null, " .
+                'SELECT DISTINCT c.column_name AS Field, c.data_type AS Type, ' .
+                'c.character_maximum_length AS Size, c.numeric_precision AS NumericSize, ' .
+                'c.numeric_scale AS NumericScale, c.is_nullable AS Null, ' .
                 "CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, " .
                 "CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' " .
                 "THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, " .
-                "c.column_default FROM information_schema.columns c " .
-                "LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema " .
-                "FROM information_schema.table_constraints tc " .
-                "INNER JOIN information_schema.key_column_usage kcu on " .
-                "(kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and " .
+                'c.column_default FROM information_schema.columns c ' .
+                'LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema ' .
+                'FROM information_schema.table_constraints tc ' .
+                'INNER JOIN information_schema.key_column_usage kcu on ' .
+                '(kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and ' .
                 "kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc " .
-                "ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND " .
+                'ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND ' .
                 "c.table_name=pkc.table_name) WHERE c.table_schema='schema' AND c.table_name='table' " .
-                "ORDER BY c.ordinal_position",
+                'ORDER BY c.ordinal_position',
             ],
         ];
     }
@@ -569,9 +553,7 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDropColumnFixtures(): array
     {
         return [
@@ -580,9 +562,7 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDropForeignKeyFixtures(): array
     {
         return [
@@ -602,9 +582,7 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDropPrimaryKeyFixtures(): array
     {
         return [
@@ -613,9 +591,7 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDropTableFixtures(): array
     {
         return [
@@ -626,9 +602,7 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDropViewFixtures(): array
     {
         return [
@@ -639,9 +613,7 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getListViewFixtures(): array
     {
         return [
@@ -650,9 +622,7 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getModifyColumnFixtures(): array
     {
         return [
@@ -863,9 +833,7 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getModifyColumnFixtures13012(): array
     {
         return [
@@ -874,54 +842,44 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return string
-     */
+
     protected function getModifyColumnSql(): string
     {
         return 'ALTER TABLE "database"."table" RENAME COLUMN "old" TO "new";';
     }
 
-    /**
-     * @return string
-     */
+
     protected function getReleaseSavepointSql(): string
     {
         return 'RELEASE SAVEPOINT PH_SAVEPOINT_1';
     }
 
-    /**
-     * @return string
-     */
+
     protected function getRollbackSavepointSql(): string
     {
         return 'ROLLBACK TO SAVEPOINT PH_SAVEPOINT_1';
     }
 
-    /**
-     * @return array
-     */
+
     protected function getTableExistsFixtures(): array
     {
         return [
             [
                 null,
-                "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END " .
-                "FROM information_schema.tables " .
+                'SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END ' .
+                'FROM information_schema.tables ' .
                 "WHERE table_schema = 'public' AND table_name='table'",
             ],
             [
                 'schema',
-                "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END " .
-                "FROM information_schema.tables " .
+                'SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END ' .
+                'FROM information_schema.tables ' .
                 "WHERE table_schema = 'schema' AND table_name='table'",
             ],
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getTruncateTableFixtures(): array
     {
         return [
@@ -930,9 +888,7 @@ class PostgresqlCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getViewExistsFixtures(): array
     {
         return [

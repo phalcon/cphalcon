@@ -47,7 +47,7 @@ class EofCest
     {
         $I->wantToTest('Http\Message\Stream - eof() - detached stream');
         $fileName = dataDir('/assets/stream/bill-of-rights.txt');
-        $stream   = new Stream($fileName, "rb");
+        $stream   = new Stream($fileName, 'rb');
         $stream->detach();
 
         $actual = $stream->eof();
@@ -64,7 +64,7 @@ class EofCest
     {
         $I->wantToTest('Http\Message\Stream - eof() - not at eof');
         $fileName = dataDir('/assets/stream/bill-of-rights.txt');
-        $stream   = new Stream($fileName, "rb");
+        $stream   = new Stream($fileName, 'rb');
         $stream->seek(10);
 
         $actual = $stream->eof();

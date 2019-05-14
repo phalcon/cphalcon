@@ -91,7 +91,7 @@ class TextAreaCest
      */
     public function htmlTagTextAreaSetAttributeElementNotPresent(UnitTester $I)
     {
-        $I->wantToTest("Tag - textArea() - setAttribute() element not present");
+        $I->wantToTest('Tag - textArea() - setAttribute() element not present');
         $tag = new Tag();
         $tag->setDI($this->container);
         $options  = [
@@ -114,7 +114,7 @@ class TextAreaCest
      */
     public function htmlTagTextAreaSetAttributeNewLine(UnitTester $I)
     {
-        $I->wantToTest("Tag - textArea() - setAttribute() with newline");
+        $I->wantToTest('Tag - textArea() - setAttribute() with newline');
         $tag = new Tag();
         $tag->setDI($this->container);
         $options  = 'x_name';

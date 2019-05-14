@@ -22,8 +22,6 @@ class GetOnUpdateCest
     /**
      * Tests Phalcon\Db\Reference :: getOnUpdate()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

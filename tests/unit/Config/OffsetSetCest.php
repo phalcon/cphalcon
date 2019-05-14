@@ -27,7 +27,7 @@ class OffsetSetCest
      */
     public function configOffsetSet(UnitTester $I)
     {
-        $I->wantToTest("Config - offsetSet()");
+        $I->wantToTest('Config - offsetSet()');
         $this->checkOffsetSet($I);
     }
 }

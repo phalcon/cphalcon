@@ -22,8 +22,6 @@ class DestructCest
     /**
      * Tests Phalcon\Mvc\Model\Manager :: __destruct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

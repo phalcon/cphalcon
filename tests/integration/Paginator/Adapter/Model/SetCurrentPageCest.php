@@ -22,8 +22,6 @@ class SetCurrentPageCest
     /**
      * Tests Phalcon\Paginator\Adapter\Model :: setCurrentPage()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

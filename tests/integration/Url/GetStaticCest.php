@@ -25,7 +25,7 @@ class GetStaticCest
      */
     public function urlGetStatic(IntegrationTester $I)
     {
-        $I->wantToTest("Url - getStatic()");
+        $I->wantToTest('Url - getStatic()');
         $url = new Url();
 
         $url->setStaticBaseUri('https://phalconphp.com');

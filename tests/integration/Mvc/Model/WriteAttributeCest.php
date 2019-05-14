@@ -32,8 +32,6 @@ class WriteAttributeCest
     /**
      * Tests Phalcon\Mvc\Model :: writeAttribute()
      *
-     * @param IntegrationTester $I
-     *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-18
      */
@@ -68,8 +66,6 @@ class WriteAttributeCest
     /**
      * Tests Phalcon\Mvc\Model :: writeAttribute() with associative array
      *
-     * @param IntegrationTester $I
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-30
      */
@@ -79,7 +75,7 @@ class WriteAttributeCest
 
         $associativeArray = [
             'firstName' => 'First name',
-            'lastName' => 'Last name'
+            'lastName' => 'Last name',
         ];
 
         $user = new Users();
@@ -94,7 +90,7 @@ class WriteAttributeCest
         $I->assertEquals(
             [
                 'id'   => 123,
-                'name' => $associativeArray
+                'name' => $associativeArray,
             ],
             $user->toArray()
         );
@@ -102,8 +98,6 @@ class WriteAttributeCest
 
     /**
      * Tests Phalcon\Mvc\Model :: writeAttribute() undefined property with associative array
-     *
-     * @param IntegrationTester $I
      *
      * @see https://github.com/phalcon/cphalcon/issues/14021
      *
@@ -116,7 +110,7 @@ class WriteAttributeCest
 
         $associativeArray = [
             'id' => 123,
-            'name' => 'My Name'
+            'name' => 'My Name',
         ];
 
         $user = new Users();
@@ -125,7 +119,7 @@ class WriteAttributeCest
         $I->assertEquals(
             [
                 'id'   => null,
-                'name' => null
+                'name' => null,
             ],
             $user->toArray()
         );

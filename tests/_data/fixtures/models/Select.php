@@ -17,7 +17,7 @@ class Select extends Model
 {
     public function initialize()
     {
-        $this->setSource("ph_select");
+        $this->setSource('ph_select');
     }
 
     public function getId()

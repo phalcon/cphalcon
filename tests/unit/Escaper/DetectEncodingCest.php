@@ -28,7 +28,7 @@ class DetectEncodingCest
      */
     public function escaperDetectEncoding(UnitTester $I, Example $example)
     {
-        $I->wantToTest("Escaper - detectEncoding()");
+        $I->wantToTest('Escaper - detectEncoding()');
 
         $escaper = new Escaper();
 

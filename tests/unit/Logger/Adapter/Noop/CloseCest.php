@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Noop;
 use Phalcon\Logger\Adapter\Noop;
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Unit\Logger
- */
 class CloseCest
 {
     /**

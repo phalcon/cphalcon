@@ -22,8 +22,6 @@ class GetPatternCest
     /**
      * Tests Phalcon\Mvc\Router\Route :: getPattern()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

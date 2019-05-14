@@ -22,8 +22,6 @@ class GetModelCest
     /**
      * Tests Phalcon\Mvc\Model\ValidationFailed :: getModel()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

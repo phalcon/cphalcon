@@ -9,5 +9,4 @@ use Codeception\Module;
 
 class Integration extends Module
 {
-
 }

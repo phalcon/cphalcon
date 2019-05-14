@@ -13,10 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
+use function dataDir;
 use Exception;
 use Phalcon\Events\Event;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function dataDir;
 
 class HandleCest
 {
@@ -37,7 +37,7 @@ class HandleCest
         $container->set(
             'data',
             function () {
-                return "data";
+                return 'data';
             }
         );
 
@@ -133,22 +133,22 @@ class HandleCest
         $console->setDI($this->container);
         $console->registerModules(
             [
-                "frontend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
-                    "path"      => dataDir("/fixtures/modules/frontend/Module.php"),
+                'frontend' => [
+                    'className' => 'Phalcon\\Test\\Modules\\Frontend\\Module',
+                    'path'      => dataDir('/fixtures/modules/frontend/Module.php'),
                 ],
-                "backend"  => [
-                    "className" => "Phalcon\\Test\\Modules\\Backend\\Module",
-                    "path"      => dataDir("fixtures/modules/backend/Module.php"),
+                'backend'  => [
+                    'className' => 'Phalcon\\Test\\Modules\\Backend\\Module',
+                    'path'      => dataDir('fixtures/modules/backend/Module.php'),
                 ],
             ]
         );
-        $console->dispatcher->setNamespaceName("Phalcon\\Test\\Modules\\Backend\\Tasks");
+        $console->dispatcher->setNamespaceName('Phalcon\\Test\\Modules\\Backend\\Tasks');
 
-        $I->expectThrowable(new Exception("Task Run"), function () use ($console) {
+        $I->expectThrowable(new Exception('Task Run'), function () use ($console) {
             $console->handle([
-                "module" => "backend",
-                "action" => "throw",
+                'module' => 'backend',
+                'action' => 'throw',
             ]);
         });
         $dispatcher = $console->dispatcher;
@@ -178,13 +178,13 @@ class HandleCest
         $eventsManager->attach(
             'console:boot',
             function (Event $event, $console) {
-                throw new Exception("Console Boot Event Fired");
+                throw new Exception('Console Boot Event Fired');
             }
         );
         $console = $this->newCliConsole();
         $console->setDI($this->container);
         $console->setEventsManager($eventsManager);
-        $I->expectThrowable(new Exception("Console Boot Event Fired"), function () use ($console) {
+        $I->expectThrowable(new Exception('Console Boot Event Fired'), function () use ($console) {
             $console->handle([]);
         });
     }
@@ -215,33 +215,33 @@ class HandleCest
         $eventsManager->attach(
             'console:beforeStartModule',
             function (Event $event, $console, $moduleName) {
-                throw new Exception("Console Before Start Module Event Fired");
+                throw new Exception('Console Before Start Module Event Fired');
             }
         );
 
         $console->registerModules(
             [
-                "frontend" => [
-                    "className" => \Phalcon\Test\Modules\Frontend\Module::class,
-                    "path"      => dataDir("fixtures/modules/frontend/Module.php"),
+                'frontend' => [
+                    'className' => \Phalcon\Test\Modules\Frontend\Module::class,
+                    'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
-                "backend"  => [
-                    "className" => \Phalcon\Test\Modules\Backend\Module::class,
+                'backend'  => [
+                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
                 ],
             ]
         );
 
         $console->dispatcher->setNamespaceName(
-            "Phalcon\\Test\\Modules\\Backend\\Tasks"
+            'Phalcon\\Test\\Modules\\Backend\\Tasks'
         );
 
         $I->expectThrowable(
-            new Exception("Console Before Start Module Event Fired"),
+            new Exception('Console Before Start Module Event Fired'),
             function () use ($console) {
                 $console->handle(
                     [
-                        "module" => "backend",
-                        "action" => "noop",
+                        'module' => 'backend',
+                        'action' => 'noop',
                     ]
                 );
             }
@@ -273,12 +273,12 @@ class HandleCest
 
         $console->registerModules(
             [
-                "frontend" => [
-                    "className" => \Phalcon\Test\Modules\Frontend\Module::class,
-                    "path"      => dataDir("fixtures/modules/frontend/Module.php"),
+                'frontend' => [
+                    'className' => \Phalcon\Test\Modules\Frontend\Module::class,
+                    'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
-                "backend"  => [
-                    "className" => \Phalcon\Test\Modules\Backend\Module::class,
+                'backend'  => [
+                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
                 ],
             ]
         );
@@ -286,17 +286,17 @@ class HandleCest
         $eventsManager->attach(
             'console:afterStartModule',
             function (Event $event, $console, $moduleObject) {
-                throw new Exception("Console After Start Module Event Fired");
+                throw new Exception('Console After Start Module Event Fired');
             }
         );
 
         $I->expectThrowable(
-            new Exception("Console After Start Module Event Fired"),
+            new Exception('Console After Start Module Event Fired'),
             function () use ($console) {
                 $console->handle(
                     [
-                        "module" => "backend",
-                        "action" => "noop",
+                        'module' => 'backend',
+                        'action' => 'noop',
                     ]
                 );
             }
@@ -328,12 +328,12 @@ class HandleCest
         $eventsManager->attach(
             'console:beforeHandleTask',
             function (Event $event, $console, $moduleObject) {
-                throw new Exception("Console Before Handle Task Event Fired");
+                throw new Exception('Console Before Handle Task Event Fired');
             }
         );
 
         $I->expectThrowable(
-            new Exception("Console Before Handle Task Event Fired"),
+            new Exception('Console Before Handle Task Event Fired'),
             function () use ($console) {
                 $console->handle([]);
             }
@@ -366,31 +366,31 @@ class HandleCest
         $eventsManager->attach(
             'console:afterHandleTask',
             function (Event $event, $console, $moduleObject) {
-                throw new Exception("Console After Handle Task Event Fired");
+                throw new Exception('Console After Handle Task Event Fired');
             }
         );
 
         $console->registerModules(
             [
-                "frontend" => [
-                    "className" => \Phalcon\Test\Modules\Frontend\Module::class,
-                    "path"      => dataDir("fixtures/modules/frontend/Module.php"),
+                'frontend' => [
+                    'className' => \Phalcon\Test\Modules\Frontend\Module::class,
+                    'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
-                "backend"  => [
-                    "className" => \Phalcon\Test\Modules\Backend\Module::class,
+                'backend'  => [
+                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
                 ],
             ]
         );
 
         $I->expectThrowable(
             new Exception(
-                "Console After Handle Task Event Fired"
+                'Console After Handle Task Event Fired'
             ),
             function () use ($console) {
                 $console->handle(
                     [
-                        "module" => "backend",
-                        "action" => "noop",
+                        'module' => 'backend',
+                        'action' => 'noop',
                     ]
                 );
             }
@@ -421,17 +421,17 @@ class HandleCest
 
         $console->registerModules(
             [
-                "backend" => [
-                    "className" => \Phalcon\Test\Modules\Backend\Module::class,
-                    "path"      => dataDir("fixtures/modules/backend/Module.php"),
+                'backend' => [
+                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                    'path'      => dataDir('fixtures/modules/backend/Module.php'),
                 ],
             ]
         );
 
         $console->handle(
             [
-                "module" => "backend",
-                "action" => "noop",
+                'module' => 'backend',
+                'action' => 'noop',
             ]
         );
 
@@ -445,17 +445,17 @@ class HandleCest
 
         $console->registerModules(
             [
-                "backend" => [
-                    "className" => \Phalcon\Test\Modules\Backend\Module::class,
-                    "path"      => dataDir("fixtures/modules/backend/Module.php"),
+                'backend' => [
+                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                    'path'      => dataDir('fixtures/modules/backend/Module.php'),
                 ],
             ]
         );
 
         $console->handle(
             [
-                "module" => "backend",
-                "action" => "noop",
+                'module' => 'backend',
+                'action' => 'noop',
             ]
         );
     }

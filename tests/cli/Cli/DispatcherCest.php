@@ -34,11 +34,10 @@ class DispatcherCest
 
     public function testDispatcher(CliTester $I)
     {
-
         $this->container->set(
             'data',
             function () {
-                return "data";
+                return 'data';
             }
         );
 
@@ -218,7 +217,7 @@ class DispatcherCest
     {
         $dispatcher = new Dispatcher();
 
-        $this->container->setShared("dispatcher", $dispatcher);
+        $this->container->setShared('dispatcher', $dispatcher);
 
         $dispatcher->setDI(
             $this->container

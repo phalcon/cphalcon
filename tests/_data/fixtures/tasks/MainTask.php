@@ -4,7 +4,7 @@ class MainTask extends \Phalcon\CLI\Task
 {
     public function mainAction()
     {
-        return "mainAction";
+        return 'mainAction';
     }
 
     public function requestRegistryAction()
@@ -12,9 +12,9 @@ class MainTask extends \Phalcon\CLI\Task
         return $this->di['registry']->data;
     }
 
-    public function helloAction($world = "", $symbol = "!")
+    public function helloAction($world = '', $symbol = '!')
     {
-        return "Hello " . $world . $symbol;
+        return 'Hello ' . $world . $symbol;
     }
 
     public function noopAction()

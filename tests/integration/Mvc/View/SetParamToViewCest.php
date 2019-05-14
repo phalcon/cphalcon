@@ -22,8 +22,6 @@ class SetParamToViewCest
     /**
      * Tests Phalcon\Mvc\View :: setParamToView()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

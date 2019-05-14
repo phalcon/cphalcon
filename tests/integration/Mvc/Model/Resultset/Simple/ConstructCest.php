@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\Resultset\Simple;
 
+use function cacheModelsDir;
 use IntegrationTester;
 use Phalcon\Helper\Str;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
-use function cacheModelsDir;
 
 /**
  * Class ConstructCest
@@ -26,9 +26,7 @@ class ConstructCest
 {
     use DiTrait;
 
-    /**
-     * @param IntegrationTester $I
-     */
+
     public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
@@ -40,8 +38,6 @@ class ConstructCest
      * Tests Phalcon\Mvc\Model\Resultset\Simple :: __construct()
      * Work with Simple Resultset by load data from the file cache (complete
      * PHQL option).
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-27
@@ -84,8 +80,6 @@ class ConstructCest
      * Tests Phalcon\Mvc\Model\Resultset\Simple :: __construct()
      * Work with Simple Resultset by load data from the file cache (incomplete
      * PHQL option).
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-27

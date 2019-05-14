@@ -22,8 +22,6 @@ class BeforeCest
 {
     /**
      * Tests Phalcon\Mvc\Micro :: before()
-     *
-     * @param IntegrationTester $I
      */
     public function testMicroBeforeHandlers(IntegrationTester $I)
     {
@@ -52,13 +50,13 @@ class BeforeCest
         );
 
         $app->map(
-            "/blog",
+            '/blog',
             function () use (&$trace) {
                 $trace[] = 1;
             }
         );
 
-        $app->handle("/blog");
+        $app->handle('/blog');
 
         $I->assertCount(1, $trace);
     }

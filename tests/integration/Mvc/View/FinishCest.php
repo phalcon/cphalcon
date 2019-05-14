@@ -22,8 +22,6 @@ class FinishCest
     /**
      * Tests Phalcon\Mvc\View :: finish()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

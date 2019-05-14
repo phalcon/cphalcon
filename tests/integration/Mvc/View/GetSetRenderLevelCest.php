@@ -36,11 +36,11 @@ class GetSetRenderLevelCest
     {
         $I->wantToTest('Mvc\View - setRenderLevel()');
 
-        $listener      = new AfterRenderListener;
-        $eventsManager = new Manager;
+        $listener      = new AfterRenderListener();
+        $eventsManager = new Manager();
         $eventsManager->attach('view', $listener);
 
-        $view = new View;
+        $view = new View();
         $view->setViewsDir(dataDir('fixtures/views' . DIRECTORY_SEPARATOR));
         $view->setEventsManager($eventsManager);
 
@@ -48,7 +48,7 @@ class GetSetRenderLevelCest
         $view->render('currentrender', 'other');
         $view->finish();
 //        $I->assertEquals("lolhere\n", $view->getContent());
-        $I->assertEquals("lolhere", $view->getContent());
+        $I->assertEquals('lolhere', $view->getContent());
 //        $I->assertEquals('1,3,5', $listener->getLevels());
         $I->assertEquals('1,3', $listener->getLevels());
 
@@ -58,7 +58,7 @@ class GetSetRenderLevelCest
         $view->render('currentrender', 'other');
         $view->finish();
 //        $I->assertEquals("zuplolhere\n", $view->getContent());
-        $I->assertEquals("zuplolhere", $view->getContent());
+        $I->assertEquals('zuplolhere', $view->getContent());
 //        $I->assertEquals('1,3,4,5', $listener->getLevels());
         $I->assertEquals('1,3,4', $listener->getLevels());
 
@@ -70,7 +70,7 @@ class GetSetRenderLevelCest
         $view->finish();
 
 //        $I->assertEquals("lolhere\n", $view->getContent());
-        $I->assertEquals("lolhere", $view->getContent());
+        $I->assertEquals('lolhere', $view->getContent());
 //        $I->assertEquals('1,3,5', $listener->getLevels());
         $I->assertEquals('1,3', $listener->getLevels());
 

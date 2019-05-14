@@ -84,9 +84,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     {
         var conditions, columns, groupClause, havingClause, limitClause,
             forUpdate, sharedLock, orderClause, offsetClause, joinsClause,
-            singleConditionArray, limit, offset, fromClause, mergedConditions,
-            mergedParams, mergedTypes, singleCondition, singleParams,
-            singleTypes, distinct, bind, bindTypes;
+            singleConditionArray, limit, offset, fromClause, singleCondition,
+            singleParams, singleTypes, distinct, bind, bindTypes;
+        array mergedConditions, mergedParams, mergedTypes;
 
         if typeof params == "array" {
             /**
@@ -591,12 +591,12 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     final public function getPhql() -> string
     {
         var container, models, conditions, model, metaData, modelInstance,
-            primaryKeys, firstPrimaryKey, columnMap, modelAlias, attributeField,
-            phql, column, columns, selectedColumns, selectedColumn,
-            selectedModel, selectedModels, columnAlias, modelColumnAlias, joins,
-            join, joinModel, joinConditions, joinAlias, joinType, group,
-            groupItems, groupItem, having, order, orderItems, orderItem, limit,
-            number, offset, forUpdate, distinct;
+            primaryKeys, firstPrimaryKey, columnMap, modelAlias,
+            attributeField, phql, column, columns, selectedColumns,
+            selectedColumn, selectedModel, selectedModels, columnAlias,
+            modelColumnAlias, joins, join, joinModel, joinConditions,
+            joinAlias, joinType, group, groupItems, groupItem, having, order,
+            orderItems, orderItem, limit, number, offset, forUpdate, distinct;
         bool noPrimary;
 
         let container = this->container;

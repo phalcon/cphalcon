@@ -16,8 +16,8 @@ use BadMethodCallException;
 use Phalcon\Html\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
-use UnitTester;
 use const PHP_EOL;
+use UnitTester;
 
 class ElementCest
 {
@@ -88,7 +88,7 @@ class ElementCest
      */
     public function htmlTagElementSelfClose(UnitTester $I)
     {
-        $I->wantToTest("Tag - tagHtml() - self close");
+        $I->wantToTest('Tag - tagHtml() - self close');
         $tag = new Tag();
         $tag->setDI($this->container);
         $name       = 'aside';
@@ -120,7 +120,7 @@ class ElementCest
      */
     public function htmlTagElementOnlyStart(UnitTester $I)
     {
-        $I->wantToTest("Tag - tagHtml() - only start");
+        $I->wantToTest('Tag - tagHtml() - only start');
         $tag = new Tag();
         $tag->setDI($this->container);
         $name       = 'aside';
@@ -151,7 +151,7 @@ class ElementCest
      */
     public function htmlTagElementEol(UnitTester $I)
     {
-        $I->wantToTest("Tag - tagHtml() - name parameter EOL");
+        $I->wantToTest('Tag - tagHtml() - name parameter EOL');
 
         $tag = new Tag();
 

@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models;
-use Phalcon\Mvc\Model\Exception;
 
 /**
  * Class GetRelatedCest
@@ -32,8 +32,6 @@ class GetRelatedCest
 
     /**
      * Tests Phalcon\Mvc\Model :: getRelated()
-     *
-     * @param IntegrationTester $I
      *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-07
@@ -58,7 +56,7 @@ class GetRelatedCest
             'part',
             [
                 'id < 0',
-                'order' => 'id DESC'
+                'order' => 'id DESC',
             ]
         );
 
@@ -80,7 +78,7 @@ class GetRelatedCest
             'user',
             [
                 'id < 0',
-                'order' => 'id DESC'
+                'order' => 'id DESC',
             ]
         );
 
@@ -102,7 +100,7 @@ class GetRelatedCest
             'robotsParts',
             [
                 'id < 0',
-                'order' => 'id DESC'
+                'order' => 'id DESC',
             ]
         );
 

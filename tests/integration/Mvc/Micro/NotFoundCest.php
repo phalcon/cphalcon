@@ -34,8 +34,8 @@ class NotFoundCest
 
         $app = new Micro();
 
-        $app->get("/api/site", [$handler, "find"]);
-        $app->post("/api/site/save", [$handler, "save"]);
+        $app->get('/api/site', [$handler, 'find']);
+        $app->post('/api/site/save', [$handler, 'save']);
 
         $flag = false;
 
@@ -45,9 +45,9 @@ class NotFoundCest
             }
         );
 
-        $_SERVER["REQUEST_METHOD"] = "GET";
+        $_SERVER['REQUEST_METHOD'] = 'GET';
 
-        $app->handle("/fourohfour");
+        $app->handle('/fourohfour');
 
         $I->assertTrue($flag);
     }

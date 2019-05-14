@@ -25,8 +25,6 @@ class ParseCest
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: parse()
      *
-     * @param IntegrationTester $I
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2017-01-15
      *
@@ -54,8 +52,6 @@ class ParseCest
      * /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: parse() - syntax error
      *
-     * @param IntegrationTester $I
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2017-01-15
      *
@@ -81,8 +77,6 @@ class ParseCest
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: parse() - extends with
      * error
-     *
-     * @param IntegrationTester $I
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2017-01-15
@@ -246,9 +240,7 @@ class ParseCest
         ];
     }
 
-    /**
-     * @return array
-     */
+
     private function getVoltSyntaxErrors(): array
     {
         return [
@@ -306,9 +298,7 @@ class ParseCest
         ];
     }
 
-    /**
-     * @return array
-     */
+
     private function getVoltExtendsError(): array
     {
         return [

@@ -31,8 +31,6 @@ class ClearCest
 {
     /**
      * Executed before each test
-     *
-     * @param IntegrationTester $I
      */
     public function _before(IntegrationTester $I)
     {
@@ -45,8 +43,6 @@ class ClearCest
 
     /**
      * Tests Phalcon\Forms\Form :: clear()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -62,7 +58,6 @@ class ClearCest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12165
      * @issue  https://github.com/phalcon/cphalcon/issues/12099
-     * @param IntegrationTester $I
      *
      * @since  2016-10-01
      *
@@ -77,7 +72,7 @@ class ClearCest
 
         $text->setDefault('Serghei Iakovlev');
 
-        $form = new Form;
+        $form = new Form();
 
         $form
             ->add($eml)
@@ -199,7 +194,6 @@ class ClearCest
      * Tests clearing the Form Elements and using Form::isValid
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11978
-     * @param IntegrationTester $I
      *
      * @since  2016-10-01
      *
@@ -231,7 +225,7 @@ class ClearCest
             ]
         );
 
-        $form = new Form;
+        $form = new Form();
 
         $form->add($password);
 
@@ -301,7 +295,6 @@ class ClearCest
      * Tests clearing the Form Elements by using Form::bind
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11978
-     * @param IntegrationTester $I
      *
      * @since  2016-10-01
      *
@@ -312,7 +305,7 @@ class ClearCest
         $name = new Text('sel_name');
         $text = new Text('sel_text');
 
-        $form = new Form;
+        $form = new Form();
 
         $form
             ->add($name)

@@ -22,8 +22,6 @@ class AfterCest
 {
     /**
      * Tests Phalcon\Mvc\Micro :: after()
-     *
-     * @param IntegrationTester $I
      */
     public function testMicroAfterHandlers(IntegrationTester $I)
     {
@@ -44,21 +42,19 @@ class AfterCest
         );
 
         $app->map(
-            "/blog",
+            '/blog',
             function () use (&$trace) {
                 $trace[] = 1;
             }
         );
 
-        $app->handle("/blog");
+        $app->handle('/blog');
 
         $I->assertCount(3, $trace);
     }
 
     /**
      * Tests Phalcon\Mvc\Micro :: after()
-     *
-     * @param IntegrationTester $I
      */
     public function testMicroAfterHandlersIfOneStop(IntegrationTester $I)
     {

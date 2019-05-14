@@ -22,8 +22,6 @@ class GetRouteByIdCest
     /**
      * Tests Phalcon\Mvc\Router\Annotations :: getRouteById()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

@@ -22,8 +22,6 @@ class GetDICest
     /**
      * Tests Phalcon\Validation :: getDI()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16
      */

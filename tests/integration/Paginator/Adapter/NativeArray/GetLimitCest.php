@@ -23,8 +23,6 @@ class GetLimitCest
     /**
      * Tests Phalcon\Paginator\Adapter\NativeArray :: getLimit()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

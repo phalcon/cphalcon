@@ -123,9 +123,6 @@ class PhalconLibmemcached extends Module
      * $users_count = $I->grabValueFromLibmemcached('users_count');
      * </code>
      *
-     * @param mixed $key
-     *
-     * @return mixed
      * @throws ModuleException
      */
     public function grabValueFromLibmemcached($key)
@@ -153,7 +150,6 @@ class PhalconLibmemcached extends Module
      * </code>
      *
      * @param string $key
-     * @param mixed  $value
      * @param int    $expiration
      *
      * @throws ModuleException
@@ -185,9 +181,6 @@ class PhalconLibmemcached extends Module
      * $I->dontSeeInLibmemcached('users_count', 200);
      * </code>
      *
-     * @param mixed $key
-     * @param mixed $value
-     *
      * @throws ModuleException
      */
     public function dontSeeInLibmemcached($key, $value = null)
@@ -212,7 +205,7 @@ class PhalconLibmemcached extends Module
             $this->fail("Cannot find key '$key' in the Memcached");
         }
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $actual,
             "The key '$key' exists in Memcached with the provided value"
@@ -229,8 +222,6 @@ class PhalconLibmemcached extends Module
      * // Checks a 'users_count' exists and has the value 200
      * $I->seeInLibmemcached('users_count', 200);
      * </code>
-     *
-     * @param mixed $key
      *
      * @throws ModuleException
      */
@@ -265,9 +256,6 @@ class PhalconLibmemcached extends Module
      * $I->seeInLibmemcached('users_count', 200);
      * </code>
      *
-     * @param mixed $key
-     * @param mixed $value
-     *
      * @throws ModuleException
      */
     public function seeInLibmemcached($key, $value = null)
@@ -285,7 +273,7 @@ class PhalconLibmemcached extends Module
         }
 
         if ($value !== null) {
-            $this->assertEquals(
+            $this->assertSame(
                 $value,
                 $actual,
                 "Cannot find key '$key' in the Memcached with the provided value"

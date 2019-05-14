@@ -22,8 +22,6 @@ class GetBeforeMatchCest
     /**
      * Tests Phalcon\Mvc\Router\Route :: getBeforeMatch()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

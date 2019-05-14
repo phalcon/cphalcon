@@ -36,9 +36,7 @@ class UncamelizeCest
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
+
     private function getSources(): array
     {
         return [
@@ -51,15 +49,15 @@ class UncamelizeCest
             ['Camelize', 'camelize', null],
             ['camel_ize', 'camel_ize', null],
             ['CameLize', 'came_lize', null],
-            ["Camelize", 'camelize', null],
-            ["=Camelize", '=_camelize', "_"],
-            ["Camelize", 'camelize', "_"],
-            ["CameLiZe", 'came_li_ze', "_"],
-            ["CameLiZe", 'came#li#ze', "#"],
-            ["CameLiZe", 'came li ze', " "],
-            ["CameLiZe", 'came.li.ze', "."],
-            ["CameLiZe", 'came-li-ze', "-"],
-            ["CAMELIZE", 'c/a/m/e/l/i/z/e', "/"],
+            ['Camelize', 'camelize', null],
+            ['=Camelize', '=_camelize', '_'],
+            ['Camelize', 'camelize', '_'],
+            ['CameLiZe', 'came_li_ze', '_'],
+            ['CameLiZe', 'came#li#ze', '#'],
+            ['CameLiZe', 'came li ze', ' '],
+            ['CameLiZe', 'came.li.ze', '.'],
+            ['CameLiZe', 'came-li-ze', '-'],
+            ['CAMELIZE', 'c/a/m/e/l/i/z/e', '/'],
         ];
     }
 }

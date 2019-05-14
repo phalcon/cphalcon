@@ -16,8 +16,6 @@ use UnitTester;
 
 /**
  * Trait RedisTrait
- *
- * @package Phalcon\Test\Fixtures\Traits
  */
 trait ApcuTrait
 {

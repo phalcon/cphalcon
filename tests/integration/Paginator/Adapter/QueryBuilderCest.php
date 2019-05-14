@@ -43,7 +43,7 @@ class QueryBuilderCest
 
         $builder = $manager
             ->createBuilder()
-            ->columns("name, COUNT(*) as stock_count")
+            ->columns('name, COUNT(*) as stock_count')
             ->from(['Stock' => Stock::class])
             ->groupBy('name')
             ->having('SUM(Stock.stock) > 0')
@@ -51,9 +51,9 @@ class QueryBuilderCest
 
         $paginate = (new QueryBuilder(
             [
-                "builder" => $builder,
-                "limit"   => 1,
-                "page"    => 2,
+                'builder' => $builder,
+                'limit'   => 1,
+                'page'    => 2,
             ]
         ))->paginate();
 
@@ -81,16 +81,16 @@ class QueryBuilderCest
 
                 $builder = $manager
                     ->createBuilder()
-                    ->columns("COUNT(*) as stock_count")
+                    ->columns('COUNT(*) as stock_count')
                     ->from(['Stock' => Stock::class])
                     ->having('SUM(Stock.stock) > 0')
                 ;
 
                 $paginate = (new QueryBuilder(
                     [
-                        "builder" => $builder,
-                        "limit"   => 1,
-                        "page"    => 2,
+                        'builder' => $builder,
+                        'limit'   => 1,
+                        'page'    => 2,
                     ]
                 ))->paginate();
             }
@@ -125,17 +125,17 @@ class QueryBuilderCest
 
         $builder = $manager
             ->createBuilder()
-            ->columns("*, COUNT(*) as stock_count")
+            ->columns('*, COUNT(*) as stock_count')
             ->from(['Stock' => Stock::class])
             ->having('stock > 0')
         ;
 
         $paginate = (new QueryBuilder(
             [
-                "builder" => $builder,
-                "limit"   => 1,
-                "page"    => 2,
-                "columns" => "id,stock",
+                'builder' => $builder,
+                'limit'   => 1,
+                'page'    => 2,
+                'columns' => 'id,stock',
             ]
         ))->paginate();
 
@@ -162,7 +162,7 @@ class QueryBuilderCest
         );
 
         $builder = $modelsManager->createBuilder()
-                                 ->columns("COUNT(*) as robos_count")
+                                 ->columns('COUNT(*) as robos_count')
                                  ->from(['Robos' => Robos::class])
                                  ->groupBy('type')
                                  ->having('MAX(Robos.year) > 1970')
@@ -170,9 +170,9 @@ class QueryBuilderCest
 
         $paginate = (new QueryBuilder(
             [
-                "builder" => $builder,
-                "limit"   => 1,
-                "page"    => 2,
+                'builder' => $builder,
+                'limit'   => 1,
+                'page'    => 2,
             ]
         ))->paginate();
 
@@ -194,18 +194,18 @@ class QueryBuilderCest
         $modelsManager = $this->getService('modelsManager');
 
         $builder = $modelsManager->createBuilder()
-                                 ->columns("Robots.*")
+                                 ->columns('Robots.*')
                                  ->from(['Robots' => Robots::class])
-                                 ->join(RobotsParts::class, "RobotsParts.robots_id = Robots.id", "RobotsParts", "LEFT")
+                                 ->join(RobotsParts::class, 'RobotsParts.robots_id = Robots.id', 'RobotsParts', 'LEFT')
                                  ->groupBy('Robots.id, RobotsParts.id, RobotsParts.parts_id')
                                  ->having('Robots.id > 2')
         ;
 
         $paginate = (new QueryBuilder(
             [
-                "builder" => $builder,
-                "limit"   => 10,
-                "page"    => 1,
+                'builder' => $builder,
+                'limit'   => 10,
+                'page'    => 1,
             ]
         ))->paginate();
 

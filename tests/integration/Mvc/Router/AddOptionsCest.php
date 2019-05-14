@@ -15,17 +15,12 @@ namespace Phalcon\Test\Integration\Mvc\Router;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class AddOptionsCest
- */
 class AddOptionsCest
 {
     use RouterTrait;
 
     /**
      * Tests Phalcon\Mvc\Router :: addOptions()
-     *
-     * @param IntegrationTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17
@@ -45,9 +40,11 @@ class AddOptionsCest
         );
 
 
+
         $_SERVER['REQUEST_METHOD'] = 'OPTIONS';
 
         $router->handle('/docs/index');
+
 
 
         $I->assertEquals(

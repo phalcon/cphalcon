@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset;
 
+use function dataDir;
+use function filemtime;
 use Phalcon\Assets\Asset;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
-use function dataDir;
-use function filemtime;
 
 class GetTargetUriCest
 {

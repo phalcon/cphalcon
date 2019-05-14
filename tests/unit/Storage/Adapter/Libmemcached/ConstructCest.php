@@ -14,12 +14,12 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 
 use DateInterval;
 use Exception;
+use function getOptionsLibmemcached;
 use Phalcon\Storage\Adapter\AdapterInterface;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Storage\Adapter\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
-use function getOptionsLibmemcached;
 
 class ConstructCest
 {
@@ -62,9 +62,9 @@ class ConstructCest
         $expected = [
             'servers' => [
                 0 => [
-                    "host"   => "127.0.0.1",
-                    "port"   => 11211,
-                    "weight" => 1,
+                    'host'   => '127.0.0.1',
+                    'port'   => 11211,
+                    'weight' => 1,
                 ],
             ],
         ];

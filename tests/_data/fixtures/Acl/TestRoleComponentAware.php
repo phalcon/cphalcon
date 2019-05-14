@@ -47,17 +47,11 @@ class TestRoleComponentAware implements RoleAware, ComponentAware
         $this->roleName      = $roleName;
     }
 
-    /**
-     * @return string
-     */
     public function getComponentName(): string
     {
         return $this->componentName;
     }
 
-    /**
-     * @return string
-     */
     public function getRoleName(): string
     {
         return $this->roleName;

@@ -14,10 +14,9 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
-use Phalcon\Logger\Logger;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
-use function outputDir;
 
 class ProcessCest
 {

@@ -61,7 +61,7 @@ $placeholders = [
     '%d%'  => date('Y-m-d'),
 ];
 
-$outputDir = dirname(dirname(__FILE__)) . '/nikos/';
+$outputDir = dirname(__DIR__) . '/nikos/';
 
 foreach ($phalconClasses as $class) {
     $newClass = str_replace('Phalcon\\', '', $class);
@@ -79,30 +79,39 @@ foreach ($phalconClasses as $class) {
         switch ($method) {
             case '__construct':
                 $method = 'construct';
+
                 break;
             case '__destruct':
                 $method = 'destruct';
+
                 break;
             case '__toString':
                 $method = 'toString';
+
                 break;
             case '__get':
                 $method = 'underscoreGet';
+
                 break;
             case '__set':
                 $method = 'underscoreSet';
+
                 break;
             case '__isset':
                 $method = 'underscoreIsSet';
+
                 break;
             case '__unset':
                 $method = 'underscoreUnset';
+
                 break;
             case '__wakeup':
                 $method = 'wakeup';
+
                 break;
             case '__set_state':
                 $method = 'setState';
+
                 break;
         }
 

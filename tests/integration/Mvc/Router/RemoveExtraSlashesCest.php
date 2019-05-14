@@ -16,17 +16,12 @@ use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class RemoveExtraSlashesCest
- */
 class RemoveExtraSlashesCest
 {
     use RouterTrait;
 
     /**
      * Tests removing extra slashes
-     *
-     * @param IntegrationTester $I
      *
      * @author       Andy Gutierrez <andres.gutierrez@phalconphp.com>
      * @since        2012-12-16
@@ -45,7 +40,6 @@ class RemoveExtraSlashesCest
         $router->removeExtraSlashes(true);
 
         $router->handle($route);
-
 
         $I->assertTrue(
             $router->wasMatched()

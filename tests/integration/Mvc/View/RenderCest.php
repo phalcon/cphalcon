@@ -12,12 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View;
 
-use function dataDir;
 use IntegrationTester;
-use Phalcon\Di;
-use Phalcon\Helper\Str;
-use Phalcon\Mvc\View;
-use Phalcon\Mvc\View\Exception;
 
 /**
  * Class RenderCest
@@ -26,8 +21,6 @@ class RenderCest
 {
     /**
      * Tests Phalcon\Mvc\View :: render()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -22,8 +22,6 @@ class GetCompiledPatternCest
     /**
      * Tests Phalcon\Mvc\Router\Route :: getCompiledPattern()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

@@ -59,7 +59,7 @@ class ConstructCest
         );
 
         $I->expectThrowable(
-            new Exception("Invalid stream or file passed"),
+            new Exception('Invalid stream or file passed'),
             function () use ($example) {
                 $file = new UploadedFile($example[1], 100);
             }

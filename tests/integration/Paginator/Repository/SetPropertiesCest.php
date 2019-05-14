@@ -22,8 +22,6 @@ class SetPropertiesCest
     /**
      * Tests Phalcon\Paginator\Repository :: setProperties()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

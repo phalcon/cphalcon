@@ -80,8 +80,8 @@ class GetIdCest
         // Now the version itself
         $verChunks = explode('.', $chunks[0]);
         $major     = intval($verChunks[0]);
-        $med       = substr("00" . intval($verChunks[1]), -2);
-        $min       = substr("00" . intval($verChunks[2]), -2);
+        $med       = substr('00' . intval($verChunks[1]), -2);
+        $min       = substr('00' . intval($verChunks[2]), -2);
 
         $I->assertEquals(
             "{$major}{$med}{$min}{$special}{$specialNo}",

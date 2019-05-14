@@ -13,12 +13,12 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Escaper;
 
 use Codeception\Example;
-use Phalcon\Escaper;
-use UnitTester;
 use const ENT_HTML401;
 use const ENT_HTML5;
 use const ENT_XHTML;
 use const ENT_XML1;
+use Phalcon\Escaper;
+use UnitTester;
 
 class EscapeHtmlAttrCest
 {
@@ -32,7 +32,7 @@ class EscapeHtmlAttrCest
      */
     public function escaperEscapeHtmlAttr(UnitTester $I, Example $example)
     {
-        $I->wantToTest("Escaper - escapeHtmlAttr()");
+        $I->wantToTest('Escaper - escapeHtmlAttr()');
 
         $escaper = new Escaper();
 
@@ -53,25 +53,25 @@ class EscapeHtmlAttrCest
         return [
             [
                 'htmlQuoteType' => ENT_HTML401,
-                'expected'      => "That&#039;s right",
+                'expected'      => 'That&#039;s right',
                 'text'          => "That's right",
             ],
 
             [
                 'htmlQuoteType' => ENT_XML1,
-                'expected'      => "That&#039;s right",
+                'expected'      => 'That&#039;s right',
                 'text'          => "That's right",
             ],
 
             [
                 'htmlQuoteType' => ENT_XHTML,
-                'expected'      => "That&#039;s right",
+                'expected'      => 'That&#039;s right',
                 'text'          => "That's right",
             ],
 
             [
                 'htmlQuoteType' => ENT_HTML5,
-                'expected'      => "That&#039;s right",
+                'expected'      => 'That&#039;s right',
                 'text'          => "That's right",
             ],
         ];

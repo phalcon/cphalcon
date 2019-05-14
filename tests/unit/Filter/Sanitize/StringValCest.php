@@ -44,7 +44,7 @@ class StringValCest
                 'abcdefghijklmnopqrstuvwzyx1234567890!@#$%^&*()_ `~=+',
             ],
             [
-                "{[<within french quotes>]}",
+                '{[<within french quotes>]}',
                 '{[]}',
             ],
             [

@@ -16,9 +16,6 @@ use Phalcon\Db\Column;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 
-/**
- * @package Phalcon\Test\Fixtures\Traits\Db
- */
 trait MysqlTrait
 {
     protected $connection = null;

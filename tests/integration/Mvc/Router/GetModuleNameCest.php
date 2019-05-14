@@ -22,8 +22,6 @@ class GetModuleNameCest
     /**
      * Tests Phalcon\Mvc\Router :: getModuleName()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

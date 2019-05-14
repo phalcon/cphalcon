@@ -28,7 +28,7 @@ class StylesheetLinkCest extends TagSetup
      */
     public function tagStylesheetLinkStringParameterLocal(UnitTester $I)
     {
-        $I->wantToTest("Tag - stylesheetLink() - string parameter for a local link");
+        $I->wantToTest('Tag - stylesheetLink() - string parameter for a local link');
 
         Tag::resetInput();
 
@@ -67,7 +67,7 @@ class StylesheetLinkCest extends TagSetup
      */
     public function tagStylesheetLinkArrayParameterLocal(UnitTester $I)
     {
-        $I->wantToTest("Tag - stylesheetLink() - array parameter for a local link");
+        $I->wantToTest('Tag - stylesheetLink() - array parameter for a local link');
 
         Tag::resetInput();
 
@@ -109,7 +109,7 @@ class StylesheetLinkCest extends TagSetup
      */
     public function tagStylesheetLinkStringParameterRemote(UnitTester $I)
     {
-        $I->wantToTest("Tag - stylesheetLink() - string parameter for a remote");
+        $I->wantToTest('Tag - stylesheetLink() - string parameter for a remote');
 
         Tag::resetInput();
 
@@ -146,7 +146,7 @@ class StylesheetLinkCest extends TagSetup
      */
     public function tagStylesheetLinkArrayParameterRemote(UnitTester $I)
     {
-        $I->wantToTest("Tag - stylesheetLink() - array parameter for a remote link");
+        $I->wantToTest('Tag - stylesheetLink() - array parameter for a remote link');
 
         Tag::resetInput();
 
@@ -185,7 +185,7 @@ class StylesheetLinkCest extends TagSetup
      */
     public function tagStylesheetLinkOverrideRelLink(UnitTester $I)
     {
-        $I->wantToTest("Tag - stylesheetLink() - overriding the rel link local");
+        $I->wantToTest('Tag - stylesheetLink() - overriding the rel link local');
 
         Tag::resetInput();
 

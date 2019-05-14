@@ -14,8 +14,8 @@
  +------------------------------------------------------------------------+
  */
 
-use Phalcon\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
+use Phalcon\DiInterface;
 
 class SomeServiceProvider implements ServiceProviderInterface
 {

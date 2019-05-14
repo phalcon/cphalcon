@@ -50,7 +50,7 @@ class CookieCest extends HttpBase
         $I->checkExtensionIsLoaded('xdebug');
 
         $I->expectThrowable(
-            new Exception("Hash does not match."),
+            new Exception('Hash does not match.'),
             function () use ($I) {
                 $this->setDiCrypt();
 

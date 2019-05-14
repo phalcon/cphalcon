@@ -17,7 +17,7 @@ if (function_exists('mb_substitute_character')) {
 
 clearstatcache();
 
-$root = dirname(realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+$root = dirname(realpath(__DIR__) . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 /**
  * Setting this in the $_ENV so that DotLoad sets everything up properly
  */

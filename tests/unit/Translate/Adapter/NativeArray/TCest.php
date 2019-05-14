@@ -14,9 +14,6 @@ namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 
 use Phalcon\Test\Fixtures\Helpers\TranslateQueryHelper;
 
-/**
- * @package Phalcon\Test\Unit\Translate\Adapter\NativeArray
- */
 class TCest extends TranslateQueryHelper
 {
     protected $function = 't';

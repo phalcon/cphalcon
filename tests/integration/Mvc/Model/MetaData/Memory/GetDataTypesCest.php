@@ -22,8 +22,6 @@ class GetDataTypesCest
     /**
      * Tests Phalcon\Mvc\Model\MetaData\Memory :: getDataTypes()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

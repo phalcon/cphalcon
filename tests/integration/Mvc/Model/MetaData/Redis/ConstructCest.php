@@ -12,15 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Redis;
 
+use function dataDir;
+use function env;
 use IntegrationTester;
+use Phalcon\Cache\AdapterFactory;
 use Phalcon\Mvc\Model\MetaData\Redis;
 use Phalcon\Mvc\Model\MetaDataInterface;
-use Phalcon\Cache\AdapterFactory;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
-use function dataDir;
-use function env;
 
 /**
  * Class ConstructCest
@@ -41,6 +41,7 @@ class ConstructCest
             function () {
                 $serializer = new SerializerFactory();
                 $factory    = new AdapterFactory($serializer);
+
                 return new Redis(
                     $factory,
                     [
@@ -57,8 +58,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Mvc\Model\MetaData\Redis :: __construct()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -77,12 +76,12 @@ class ConstructCest
 
         $I->assertEquals(
             $this->data['meta-robots-robots'],
-            $md->read("meta-phalcon\\test\\models\\robots-robots")
+            $md->read('meta-phalcon\\test\\models\\robots-robots')
         );
 
         $I->assertEquals(
             $this->data['map-robots'],
-            $md->read("map-phalcon\\test\\models\\robots")
+            $md->read('map-phalcon\\test\\models\\robots')
         );
 
         $I->assertFalse($md->isEmpty());

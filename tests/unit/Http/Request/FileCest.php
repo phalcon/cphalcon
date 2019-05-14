@@ -11,10 +11,9 @@
 
 namespace Phalcon\Test\Unit\Http\Request;
 
-use Phalcon\Http\Request\File;
-use Phalcon\Test\Module\UnitTest;
-use UnitTester;
 use function dataDir;
+use Phalcon\Http\Request\File;
+use UnitTester;
 
 class FileCest
 {

@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Unit\Annotations\Adapter;
 
+use function outputDir;
 use Phalcon\Annotations\Adapter\Files;
 use UnitTester;
-use function outputDir;
 
 class FilesCest
 {

@@ -29,14 +29,12 @@ class DbCest
     /**
      * Tests Phalcon\Db :: Mysql
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbMySql(IntegrationTester $I)
     {
-        $I->wantToTest("Db - MySql");
+        $I->wantToTest('Db - MySql');
 
         $this->setDiMysql();
 
@@ -47,7 +45,7 @@ class DbCest
 
     private function executeTests(IntegrationTester $I, $connection)
     {
-        $result = $connection->query("SELECT * FROM personas LIMIT 3");
+        $result = $connection->query('SELECT * FROM personas LIMIT 3');
 
         $I->assertInternalType('object', $result);
 
@@ -68,7 +66,7 @@ class DbCest
 
 
         $number = 0;
-        $result = $connection->query("SELECT * FROM personas LIMIT 5");
+        $result = $connection->query('SELECT * FROM personas LIMIT 5');
         $I->assertInternalType('object', $result);
 
         while ($row = $result->fetch()) {
@@ -78,7 +76,7 @@ class DbCest
 
 
 
-        $result = $connection->query("SELECT * FROM personas LIMIT 5");
+        $result = $connection->query('SELECT * FROM personas LIMIT 5');
         $result->setFetchMode(Db::FETCH_NUM);
         $row = $result->fetch();
         $I->assertInternalType('array', $row);
@@ -89,7 +87,7 @@ class DbCest
 
 
 
-        $result = $connection->query("SELECT * FROM personas LIMIT 5");
+        $result = $connection->query('SELECT * FROM personas LIMIT 5');
         $result->setFetchMode(Db::FETCH_ASSOC);
         $row = $result->fetch();
         $I->assertInternalType('array', $row);
@@ -100,7 +98,7 @@ class DbCest
 
 
 
-        $result = $connection->query("SELECT * FROM personas LIMIT 5");
+        $result = $connection->query('SELECT * FROM personas LIMIT 5');
         $result->setFetchMode(Db::FETCH_OBJ);
         $row = $result->fetch();
         $I->assertInternalType('object', $row);
@@ -108,7 +106,7 @@ class DbCest
 
 
 
-        $result = $connection->query("SELECT * FROM personas LIMIT 5");
+        $result = $connection->query('SELECT * FROM personas LIMIT 5');
         $result->setFetchMode(Db::FETCH_BOTH);
         $result->dataSeek(4);
         $row = $result->fetch();
@@ -118,15 +116,15 @@ class DbCest
 
 
         $I->assertTrue(
-            $connection->execute("DELETE FROM prueba")
+            $connection->execute('DELETE FROM prueba')
         );
 
         $I->assertTrue(
             $connection->execute(
                 'INSERT INTO prueba(id, nombre, estado) VALUES (' . $connection->getDefaultIdValue() . ', ?, ?)',
                 [
-                    "LOL 1",
-                    "A",
+                    'LOL 1',
+                    'A',
                 ]
             )
         );
@@ -135,8 +133,8 @@ class DbCest
             $connection->execute(
                 'UPDATE prueba SET nombre = ?, estado = ?',
                 [
-                    "LOL 11",
-                    "R",
+                    'LOL 11',
+                    'R',
                 ]
             )
         );
@@ -145,7 +143,7 @@ class DbCest
             $connection->execute(
                 'DELETE FROM prueba WHERE estado = ?',
                 [
-                    "R",
+                    'R',
                 ]
             )
         );
@@ -155,8 +153,8 @@ class DbCest
                 'prueba',
                 [
                     $connection->getDefaultIdValue(),
-                    "LOL 1",
-                    "A",
+                    'LOL 1',
+                    'A',
                 ]
             )
         );
@@ -165,8 +163,8 @@ class DbCest
             $connection->insert(
                 'prueba',
                 [
-                    "LOL 2",
-                    "E",
+                    'LOL 2',
+                    'E',
                 ],
                 [
                     'nombre',
@@ -179,8 +177,8 @@ class DbCest
             $connection->insert(
                 'prueba',
                 [
-                    "LOL 3",
-                    "I",
+                    'LOL 3',
+                    'I',
                 ],
                 [
                     'nombre',
@@ -194,7 +192,7 @@ class DbCest
                 'prueba',
                 [
                     new RawValue('current_date'),
-                    "A",
+                    'A',
                 ],
                 [
                     'nombre',
@@ -208,8 +206,8 @@ class DbCest
                 $connection->insert(
                     'prueba',
                     [
-                        "LOL " . $i,
-                        "F",
+                        'LOL ' . $i,
+                        'F',
                     ],
                     [
                         'nombre',
@@ -223,12 +221,12 @@ class DbCest
             $connection->update(
                 'prueba',
                 [
-                    "nombre",
-                    "estado",
+                    'nombre',
+                    'estado',
                 ],
                 [
-                    "LOL 1000",
-                    "X",
+                    'LOL 1000',
+                    'X',
                 ],
                 "estado='E'"
             )
@@ -238,10 +236,10 @@ class DbCest
             $connection->update(
                 'prueba',
                 [
-                    "nombre",
+                    'nombre',
                 ],
                 [
-                    "LOL 3000",
+                    'LOL 3000',
                 ],
                 "estado='X'"
             )
@@ -251,7 +249,7 @@ class DbCest
             $connection->update(
                 'prueba',
                 [
-                    "nombre",
+                    'nombre',
                 ],
                 [
                     new RawValue('current_date'),
@@ -265,8 +263,8 @@ class DbCest
             $connection->insert(
                 'prueba',
                 [
-                    "LOL array syntax",
-                    "E",
+                    'LOL array syntax',
+                    'E',
                 ],
                 [
                     'nombre',
@@ -277,11 +275,11 @@ class DbCest
 
         $success = $connection->update(
             'prueba',
-            ["nombre", 'estado'],
-            ["LOL array syntax 2", 'X'],
+            ['nombre', 'estado'],
+            ['LOL array syntax 2', 'X'],
             [
-                'conditions' => "nombre=? and estado = ?",
-                'bind'       => ["LOL array syntax", "E"],
+                'conditions' => 'nombre=? and estado = ?',
+                'bind'       => ['LOL array syntax', 'E'],
                 'bindTypes'  => [PDO::PARAM_STR, PDO::PARAM_STR],
             ],
             [PDO::PARAM_STR, PDO::PARAM_STR]
@@ -292,7 +290,7 @@ class DbCest
             'select count(*) as cnt from prueba where nombre=? and estado=?',
             Db::FETCH_ASSOC,
             [
-                "LOL array syntax 2", "X",
+                'LOL array syntax 2', 'X',
             ]
         );
         $I->assertEquals(1, $row['cnt']);
@@ -300,18 +298,18 @@ class DbCest
         $success = $connection->update(
             'prueba',
             [
-                "nombre",
+                'nombre',
                 'estado',
             ],
             [
-                "LOL array syntax 3",
+                'LOL array syntax 3',
                 'E',
             ],
             [
-                'conditions' => "nombre=? and estado = ?",
+                'conditions' => 'nombre=? and estado = ?',
                 'bind'       => [
-                    "LOL array syntax 2",
-                    "X",
+                    'LOL array syntax 2',
+                    'X',
                 ],
             ]
         );
@@ -321,7 +319,7 @@ class DbCest
             'select count(*) as cnt from prueba where nombre=? and estado=?',
             Db::FETCH_ASSOC,
             [
-                "LOL array syntax 3", "E",
+                'LOL array syntax 3', 'E',
             ]
         );
         $I->assertEquals(1, $row['cnt']);
@@ -330,8 +328,8 @@ class DbCest
         $success = $connection->insertAsDict(
             'prueba',
             [
-                'nombre' => "LOL insertAsDict",
-                'estado' => "E",
+                'nombre' => 'LOL insertAsDict',
+                'estado' => 'E',
             ]
         );
 
@@ -341,7 +339,7 @@ class DbCest
             'select count(*) as cnt from prueba where nombre=? and estado=?',
             Db::FETCH_ASSOC,
             [
-                "LOL insertAsDict", "E",
+                'LOL insertAsDict', 'E',
             ]
         );
         $I->assertEquals(1, $row['cnt']);
@@ -350,8 +348,8 @@ class DbCest
             $connection->updateAsDict(
                 'prueba',
                 [
-                    'nombre' => "LOL updateAsDict",
-                    'estado' => "X",
+                    'nombre' => 'LOL updateAsDict',
+                    'estado' => 'X',
                 ],
                 "nombre='LOL insertAsDict' and estado = 'E'"
             )
@@ -361,17 +359,17 @@ class DbCest
             'select count(*) as cnt from prueba where nombre=? and estado=?',
             Db::FETCH_ASSOC,
             [
-                "LOL updateAsDict", "X",
+                'LOL updateAsDict', 'X',
             ]
         );
         $I->assertEquals(1, $row['cnt']);
 
         $I->assertTrue(
-            $connection->delete("prueba", "estado='X'")
+            $connection->delete('prueba', "estado='X'")
         );
 
         $I->assertTrue(
-            $connection->delete("prueba")
+            $connection->delete('prueba')
         );
 
         $I->assertEquals(
@@ -381,36 +379,43 @@ class DbCest
 
         $I->assertCount(
             11,
-            $connection->fetchOne("SELECT * FROM personas")
+            $connection->fetchOne('SELECT * FROM personas')
         );
 
         $I->assertCount(
             11,
-            $connection->fetchOne("SELECT * FROM personas", Db::FETCH_NUM)
+            $connection->fetchOne('SELECT * FROM personas', Db::FETCH_NUM)
         );
 
         $I->assertCount(
             10,
-            $connection->fetchAll("SELECT * FROM personas LIMIT 10")
+            $connection->fetchAll('SELECT * FROM personas LIMIT 10')
         );
 
-        $rows = $connection->fetchAll("SELECT * FROM personas LIMIT 10", Db::FETCH_NUM);
+        $rows = $connection->fetchAll(
+            'SELECT * FROM personas LIMIT 10',
+            Db::FETCH_NUM
+        );
         $I->assertCount(10, $rows);
         $I->assertCount(11, $rows[0]);
 
         $I->assertEquals(
             3,
-            $connection->fetchColumn("SELECT id FROM robots ORDER BY year DESC")
+            $connection->fetchColumn('SELECT id FROM robots ORDER BY year DESC')
         );
 
         $I->assertEquals(
             'mechanical',
-            $connection->fetchColumn("SELECT * FROM robots where id=?", [1], 2)
+            $connection->fetchColumn('SELECT * FROM robots where id=?', [1], 2)
         );
 
         $I->assertEquals(
             'mechanical',
-            $connection->fetchColumn("SELECT * FROM robots where id=?", [1], 'type')
+            $connection->fetchColumn(
+                'SELECT * FROM robots where id=?',
+                [1],
+                'type'
+            )
         );
 
         //Auto-Increment/Serial Columns
@@ -420,8 +425,8 @@ class DbCest
                 $sql,
                 [
                     'shirley@garbage.com',
-                    "2011-01-01 12:59:13",
-                    "P",
+                    '2011-01-01 12:59:13',
+                    'P',
                 ]
             )
         );
@@ -455,7 +460,7 @@ class DbCest
         $I->assertContains('phalcon_test_view', $views);
 
         // Execute created view
-        $row = $connection->fetchOne("SELECT * FROM phalcon_test_view");
+        $row = $connection->fetchOne('SELECT * FROM phalcon_test_view');
         $I->assertCount(3, $row);
         $I->assertArrayHasKey('one', $row);
         $I->assertEquals(2, $row['two']);
@@ -582,7 +587,7 @@ class DbCest
      */
     public function dbPostgresql(IntegrationTester $I)
     {
-        $I->wantToTest("Db - Postgresql");
+        $I->wantToTest('Db - Postgresql');
 
         $this->setDiPostgresql();
 
@@ -594,14 +599,12 @@ class DbCest
     /**
      * Tests Phalcon\Db :: Sqlite
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbSqlite(IntegrationTester $I)
     {
-        $I->wantToTest("Db - Sqlite");
+        $I->wantToTest('Db - Sqlite');
 
         $this->setDiSqlite();
 

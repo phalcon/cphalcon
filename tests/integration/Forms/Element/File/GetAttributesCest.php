@@ -22,8 +22,6 @@ class GetAttributesCest
     /**
      * Tests Phalcon\Forms\Element\File :: getAttributes()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

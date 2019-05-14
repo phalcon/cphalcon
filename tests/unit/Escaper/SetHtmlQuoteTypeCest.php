@@ -25,14 +25,14 @@ class SetHtmlQuoteTypeCest
      */
     public function escaperSetHtmlQuoteType(UnitTester $I)
     {
-        $I->wantToTest("Escaper - setHtmlQuoteType()");
+        $I->wantToTest('Escaper - setHtmlQuoteType()');
 
         $escaper = new Escaper();
 
         $escaper->setHtmlQuoteType(ENT_HTML401);
 
         $I->assertEquals(
-            "That&#039;s right",
+            'That&#039;s right',
             $escaper->escapeHtmlAttr("That's right")
         );
     }

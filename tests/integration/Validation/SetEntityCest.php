@@ -24,8 +24,6 @@ class SetEntityCest
     /**
      * Tests Phalcon\Validation :: setEntity()
      *
-     * @param IntegrationTester $I
-     *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17
      */

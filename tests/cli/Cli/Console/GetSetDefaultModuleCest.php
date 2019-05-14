@@ -36,10 +36,10 @@ class GetSetDefaultModuleCest
 
         $console = $this->newCliConsole();
 
-        $console->setDefaultModule("moduleName");
+        $console->setDefaultModule('moduleName');
 
         $I->assertEquals(
-            "moduleName",
+            'moduleName',
             $console->getDefaultModule()
         );
     }
