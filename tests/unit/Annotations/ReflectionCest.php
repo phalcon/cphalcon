@@ -29,15 +29,15 @@ class ReflectionCest
     {
         $reflection = new Reflection();
 
-        $I->assertNull(
+        $I->assertFalse(
             $reflection->getClassAnnotations()
         );
 
-        $I->assertNull(
+        $I->assertFalse(
             $reflection->getMethodsAnnotations()
         );
 
-        $I->assertNull(
+        $I->assertFalse(
             $reflection->getPropertiesAnnotations()
         );
     }
