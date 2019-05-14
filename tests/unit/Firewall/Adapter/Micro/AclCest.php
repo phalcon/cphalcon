@@ -48,8 +48,6 @@ class AclCest
         $this->setNewFactoryDefault();
         $this->setDiMysql();
 
-        require_once dataDir('fixtures/models/AlbumORama/Albums.php');
-
         $micro = new Micro($this->container);
         $micro->get(
             '/test',
