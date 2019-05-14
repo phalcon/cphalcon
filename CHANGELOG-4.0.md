@@ -25,6 +25,7 @@
 - Added `Phalcon\Mvc\View::toString()` to return the rendered view as a string [#13825](https://github.com/phalcon/cphalcon/issues/13825)
 - Added `Phalcon\Helper\Arr::arrayToObject()` to convert arrays to objects.
 - Added `Phalcon\Firewall` component  [#13648](https://github.com/phalcon/cphalcon/issues/13648)
+- Added `saslAuuthData` as option to `Phalcon\Storage\Adapter\Libmemcached` to authenticate using SASL [#13394](https://github.com/phalcon/cphalcon/issues/13394)
 
 ## Changed
 - Refactored `Phalcon\Events\Manager` to only use `SplPriorityQueue` to store events. [#13924](https://github.com/phalcon/cphalcon/pull/13924)
