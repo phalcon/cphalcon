@@ -61,8 +61,8 @@ class Url extends Validator
 
         let value = validation->getValue(field);
 
-        if fetch options, this->options["flags"] {
-            let result = filter_var(value, FILTER_VALIDATE_URL, ["flags" : options]);
+        if fetch options, this->options["options"] {
+            let result = filter_var(value, FILTER_VALIDATE_URL, options);
         } else {
             let result = filter_var(value, FILTER_VALIDATE_URL);
         }
