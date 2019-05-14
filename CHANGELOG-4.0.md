@@ -23,6 +23,8 @@
 - Added assets versioning `Phalcon\Assets\Manager:addCss`, `Phalcon\Assets\Manager::addJs`, `Phalcon\Assets\Collection:addCss`,  `Phalcon\Assets\Collection:addJs` accepts two additional parameters - `version` and `autoVersion`  [#12591](https://github.com/phalcon/cphalcon/pull/12591)
 - Added setting `orm.resultset_prefetch_records` instructing the ORM (resultset) to prefetch the rows if the rows returned are less or equal to the setting. [#13387](https://github.com/phalcon/cphalcon/issues/13387)
 - Added `Phalcon\Mvc\View::toString()` to return the rendered view as a string [#13825](https://github.com/phalcon/cphalcon/issues/13825)
+- Added `Attributes` collection class and `AttributesInterface`
+- Added Forms attributes [#14019](https://github.com/phalcon/cphalcon/issues/14019)
 
 ## Changed
 - Refactored `Phalcon\Events\Manager` to only use `SplPriorityQueue` to store events. [#13924](https://github.com/phalcon/cphalcon/pull/13924)
