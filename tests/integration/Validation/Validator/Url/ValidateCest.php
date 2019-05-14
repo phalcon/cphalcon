@@ -225,56 +225,6 @@ class ValidateCest
     }
 
     /**
-     * Tests Phalcon\Validation\Validator\Url :: validate() - options
-     *
-     * @dataProvider getExamples
-     *
-     * @author       Phalcon Team <team@phalconphp.com>
-     * @since        2019-05-10
-     */
-    public function validationValidatorUrlOptions(IntegrationTester $I, Example $example)
-    {
-        $I->wantToTest('Validation\Validator\Url :: validate() - options ' . $example[0]);
-
-        $validation = new Validation();
-
-        $validation->add(
-            'url',
-            new Url(
-                [
-                    'options' => [
-                        $example[1],
-                    ],
-                ]
-            )
-        );
-
-        $messages = $validation->validate(
-            [
-                'url' => $example[2],
-            ]
-        );
-
-        $I->assertEquals(
-            1,
-            $messages->count()
-        );
-
-        $expected = new Messages(
-            [
-                new Message(
-                    'Field url must be a url',
-                    'url',
-                    'Url',
-                    0
-                ),
-            ]
-        );
-
-        $I->assertEquals($expected, $messages);
-    }
-
-    /**
      * Tests Phalcon\Validation\Validator\Url :: validate() - flags
      *
      * @dataProvider getExamples
@@ -292,11 +242,7 @@ class ValidateCest
             'url',
             new Url(
                 [
-                    'options' => [
-                        'flags' => [
-                            $example[1],
-                        ],
-                    ],
+                    'options' => $example[1]
                 ]
             )
         );
@@ -332,8 +278,44 @@ class ValidateCest
     private function getExamples(): array
     {
         return [
-            ['path required', FILTER_FLAG_PATH_REQUIRED, 'phalconphp.com'],
-            ['query required', FILTER_FLAG_QUERY_REQUIRED, 'https://'],
+            [
+                'path required no array',
+                FILTER_FLAG_PATH_REQUIRED,
+                'phalconphp.com'
+            ],
+            [
+                'query required no array',
+                FILTER_FLAG_QUERY_REQUIRED,
+                'https://'
+            ],
+            [
+                'path required',
+                [
+                    'flags' => [
+                        FILTER_FLAG_PATH_REQUIRED,
+                    ],
+                ],
+                'phalconphp.com'
+            ],
+            [
+                'query required',
+                [
+                    'flags' => [
+                        FILTER_FLAG_QUERY_REQUIRED,
+                    ],
+                ],
+                'https://'
+            ],
+            [
+                'query and path required',
+                [
+                    'flags' => [
+                        FILTER_FLAG_PATH_REQUIRED,
+                        FILTER_FLAG_QUERY_REQUIRED,
+                    ],
+                ],
+                'phalconphp'
+            ],
         ];
     }
 }
