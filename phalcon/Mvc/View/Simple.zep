@@ -345,7 +345,8 @@ class Simple extends Injectable implements ViewBaseInterface
     }
 
     /**
-     * Loads registered template engines, if none is registered it will use Phalcon\Mvc\View\Engine\Php
+     * Loads registered template engines, if none are registered it will use
+     * Phalcon\Mvc\View\Engine\Php
      */
     protected function loadTemplateEngines() -> array
     {

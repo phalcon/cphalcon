@@ -28,7 +28,9 @@ use Phalcon\Service\LocatorInterface;
  * use Phalcon\Cli\Dispatcher;
  *
  * $di = new Di();
+ *
  * $dispatcher = new Dispatcher();
+ *
  * $dispatcher->setDi($di);
  *
  * $dispatcher->setTaskName("posts");
@@ -67,7 +69,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
     {
         var params;
 
-        // This is to make sure that the paramters are zero-indexed and
+        // This is to make sure that the parameters are zero-indexed and
         // their order isn't overriden by any options when we merge the array.
         let params = array_values(params);
         let params = array_merge(params, this->options);

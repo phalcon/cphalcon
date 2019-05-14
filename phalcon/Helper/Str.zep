@@ -547,8 +547,11 @@ class Str
      * Reduces multiple slashes in a string to single slashes
      *
      * <code>
-     * echo Phalcon\Helper\Str::reduceSlashes("foo//bar/baz");              // foo/bar/baz
-     * echo Phalcon\Helper\Str::reduceSlashes("http://foo.bar///baz/buz");  // http://foo.bar/baz/buz
+     * // foo/bar/baz
+     * echo Phalcon\Helper\Str::reduceSlashes("foo//bar/baz");
+     *
+     * // http://foo.bar/baz/buz
+     * echo Phalcon\Helper\Str::reduceSlashes("http://foo.bar///baz/buz");
      * </code>
      *
      * @param string $text

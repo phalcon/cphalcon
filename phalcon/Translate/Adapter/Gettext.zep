@@ -235,7 +235,10 @@ class Gettext extends Adapter implements \ArrayAccess
             throw new Exception("Parameter 'directory' is required");
         }
 
-        let options = array_merge(this->getOptionsDefault(), options);
+        let options = array_merge(
+            this->getOptionsDefault(),
+            options
+        );
 
         this->setLocale(
             options["category"],

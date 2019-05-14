@@ -562,7 +562,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let eventsManager = this->eventsManager;
 
         if typeof eventsManager == "object" {
-            let status = eventsManager->fire("model:" . eventName, model);
+            let status = eventsManager->fire(
+                "model:" . eventName,
+                model
+            );
 
             if status === false {
                 return status;
@@ -573,7 +576,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * A model can has a specific events manager for it
          */
         if fetch customEventsManager, this->customEventsManager[get_class_lower(model)] {
-            let status = customEventsManager->fire("model:" . eventName, model);
+            let status = customEventsManager->fire(
+                "model:" . eventName,
+                model
+            );
 
             if status === false {
                 return false;
@@ -702,7 +708,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Setup a 1-1 relation between two models
      *
-     * @param    array options
+     * @param array options
      */
     public function addHasOne(<ModelInterface> model, var fields, string! referencedModel,
         var referencedFields, var options = null) -> <RelationInterface>
@@ -1211,6 +1217,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                     } else {
                         let findParams[0] = "(" . findParams[0] . ") AND (" . value . ")";
                     }
+
                     continue;
                 }
 
@@ -1658,7 +1665,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getHasOneAndHasMany(<ModelInterface> model) -> <RelationInterface[]>
     {
-        return array_merge(this->getHasOne(model), this->getHasMany(model));
+        return array_merge(
+            this->getHasOne(model),
+            this->getHasMany(model)
+        );
     }
 
     /**

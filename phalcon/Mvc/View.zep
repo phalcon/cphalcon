@@ -888,7 +888,12 @@ class View extends Injectable implements ViewInterface
 
         this->start();
 
-        let result = this->processRender(controllerName, actionName, params, false);
+        let result = this->processRender(
+            controllerName,
+            actionName,
+            params,
+            false
+        );
 
         this->finish();
 
