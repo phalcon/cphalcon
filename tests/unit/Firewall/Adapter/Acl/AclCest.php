@@ -2,7 +2,7 @@
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
 
-use function getOptionsModelCacheStream;
+use Codeception\Example;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Cache\Adapter\Stream as StorageStream;
@@ -17,7 +17,7 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use UnitTester;
-use function dataDir;
+use function getOptionsModelCacheStream;
 
 class AclCest
 {
@@ -68,10 +68,12 @@ class AclCest
     /**
      * Tests Acl firewall before execute
      *
+     * @dataProvider getBeforeExecute
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-01-19
      */
-    public function testBeforeExecute(UnitTester $I)
+    public function testBeforeExecute(UnitTester $I, Example $example)
     {
         $acl = new Memory();
         $acl->setDefaultAction(PhAcl::DENY);
@@ -94,95 +96,25 @@ class AclCest
         $dispatcher = $this->dispatcher;
         $this->container->set('dispatcher', $dispatcher);
 
-        $returnedValue = $this->getReturnedValueFor($this->container, $dispatcher, "one", "firstRole", "ROLE1");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($this->container, $dispatcher, "one", "firstRole", "ROLE2");
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($this->container, $dispatcher, "one", "firstRole", "ROLE3");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($this->container, $dispatcher, "one", "firstRole", "ROLE4");
-        $I->assertNull($returnedValue);
         $returnedValue = $this->getReturnedValueFor(
             $this->container,
             $dispatcher,
-            "one",
-            "firstRole",
-            new RoleObject("ROLE1")
+            $example[0],
+            $example[1],
+            $example[2]
         );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "one",
-            "firstRole",
-            new RoleObject("ROLE2")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "one",
-            "firstRole",
-            new RoleObject("ROLE3")
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "one",
-            "firstRole",
-            new RoleObject("ROLE4")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($this->container, $dispatcher, "one", "secondRole", "ROLE1");
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($this->container, $dispatcher, "one", "secondRole", "ROLE2");
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($this->container, $dispatcher, "one", "secondRole", "ROLE3");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($this->container, $dispatcher, "one", "secondRole", "ROLE4");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "one",
-            "secondRole",
-            new RoleObject("ROLE1")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "one",
-            "secondRole",
-            new RoleObject("ROLE2")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "one",
-            "secondRole",
-            new RoleObject("ROLE3")
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "one",
-            "secondRole",
-            new RoleObject("ROLE4")
-        );
-        $I->assertEquals($returnedValue, "allowed");
+        $I->assertEquals($returnedValue, $example[3]);
     }
 
     /**
      * Tests Acl firewall after binding
      *
+     * @dataProvider getAfterBinding
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-01-19
      */
-    public function testAfterBinding(UnitTester $I)
+    public function testAfterBinding(UnitTester $I, Example $example)
     {
         $acl = new Memory();
         $acl->setDefaultAction(PhAcl::DENY);
@@ -213,75 +145,12 @@ class AclCest
         $returnedValue = $this->getReturnedValueFor(
             $this->container,
             $dispatcher,
-            "four",
-            "first",
-            new BindingRole("ROLE1", 1),
-            ['album' => 1]
+            $example[0],
+            $example[1],
+            $example[2],
+            $example[3]
         );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "first",
-            new BindingRole("ROLE1", 2),
-            ['album' => 1]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "first",
-            new BindingRole("ROLE2", 1),
-            ['album' => 1]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "first",
-            new BindingRole("ROLE2", 2),
-            ['album' => 1]
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "second",
-            new BindingRole("ROLE1", 1),
-            ['album' => 1]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "second",
-            new BindingRole("ROLE1", 2),
-            ['album' => 1]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "second",
-            new BindingRole("ROLE2", 1),
-            ['album' => 1]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "second",
-            new BindingRole("ROLE2", 2),
-            ['album' => 1]
-        );
-        $I->assertEquals($returnedValue, "allowed");
+        $I->assertEquals($returnedValue, $example[4]);
     }
 
     /**
@@ -330,10 +199,12 @@ class AclCest
     /**
      * Tests Acl firewall multi module
      *
+     * @dataProvider getMultiModule
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-01-18
      */
-    public function testMultiModule(UnitTester $I)
+    public function testMultiModule(UnitTester $I, Example $example)
     {
         $acl = new Memory();
         $acl->setDefaultAction(PhAcl::DENY);
@@ -361,92 +232,24 @@ class AclCest
         $returnedValue = $this->getReturnedValueFor(
             $this->container,
             $dispatcher,
-            "one",
-            "firstRole",
-            "ROLE1",
-            null,
-            "Module1"
+            $example[0],
+            $example[1],
+            $example[2],
+            $example[3],
+            $example[4]
         );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "one",
-            "firstRole",
-            "ROLE2",
-            null,
-            "Module1"
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "one",
-            "secondRole",
-            "ROLE1",
-            null,
-            "Module1"
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "one",
-            "secondRole",
-            "ROLE2",
-            null,
-            "Module1"
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "one",
-            "firstRole",
-            "ROLE1",
-            null,
-            "Module2"
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "one",
-            "firstRole",
-            "ROLE2",
-            null,
-            "Module2"
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "one",
-            "secondRole",
-            "ROLE1",
-            null,
-            "Module2"
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "one",
-            "secondRole",
-            "ROLE2",
-            null,
-            "Module2"
-        );
-        $I->assertNull($returnedValue);
+        $I->assertEquals($returnedValue, $example[5]);
     }
 
     /**
      * Tests Acl firewall cache
      *
+     * @dataProvider getCache
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-01-19
      */
-    public function testCache(UnitTester $I)
+    public function testCache(UnitTester $I, Example $example)
     {
         $acl = new Memory();
         $acl->setDefaultAction(PhAcl::DENY);
@@ -509,131 +312,81 @@ class AclCest
         $returnedValue = $this->getReturnedValueFor(
             $this->container,
             $dispatcher,
-            "four",
-            "first",
-            new BindingRole("ROLE1", 1),
-            ['album' => 1]
+            $example[0],
+            $example[1],
+            $example[2],
+            $example[3]
         );
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertTrue($cache->has("_PHF_"));
-        $I->assertTrue($cache->get("_PHF_")['ROLE1!Four!first']);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "first",
-            new BindingRole("ROLE1", 2),
-            ['album' => 1]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertTrue($cache->get("_PHF_")['ROLE1!Four!first']);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "first",
-            new BindingRole("ROLE2", 1),
-            ['album' => 1]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertTrue($cache->get("_PHF_")['ROLE2!Four!first!1!1']);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "first",
-            new BindingRole("ROLE2", 2),
-            ['album' => 1]
-        );
-        $I->assertNull($returnedValue);
-        $I->assertFalse($cache->get("_PHF_")['ROLE2!Four!first!1!2']);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "second",
-            new BindingRole("ROLE1", 1),
-            ['album' => 1]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertTrue($cache->get("_PHF_")['ROLE1!Four!second']);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "second",
-            new BindingRole("ROLE1", 2),
-            ['album' => 1]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertTrue($cache->get("_PHF_")['ROLE1!Four!second']);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "second",
-            new BindingRole("ROLE2", 1),
-            ['album' => 1]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertTrue($cache->get("_PHF_")['ROLE2!Four!second']);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "second",
-            new BindingRole("ROLE2", 2),
-            ['album' => 1]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertTrue($cache->get("_PHF_")['ROLE2!Four!second']);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "three",
-            "deny",
-            new BindingRole("ROLE1", 2),
-            ['album' => 1]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertTrue($cache->get("_PHF_")['ROLE1!Three!*']);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "first",
-            new BindingRole("ROLE4", 1),
-            ['album' => 1]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertTrue($cache->get("_PHF_")['ROLE4!Four!*!1!1']);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "four",
-            "first",
-            new BindingRole("ROLE4", 2),
-            ['album' => 1]
-        );
-        $I->assertNull($returnedValue);
-        $I->assertFalse($cache->get("_PHF_")['ROLE4!Four!*!1!2']);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "three",
-            "deny",
-            new BindingRole("ROLE5", 2)
-        );
-        $I->assertNull($returnedValue);
-        $I->assertFalse($cache->get("_PHF_")['ROLE5!*!*!2']);
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            "three",
-            "deny",
-            new BindingRole("ROLE5", 3)
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertTrue($cache->get("_PHF_")['ROLE5!*!*!3']);
+        $I->assertEquals($returnedValue, $example[4]);
+        $I->assertEquals($cache->get("_PHF_")[$example[5]], $example[6]);
+    }
+
+    private function getAfterBinding(): array
+    {
+        return [
+            ["four", "first", new BindingRole("ROLE1", 1), ['album' => 1], "allowed"],
+            ["four", "first", new BindingRole("ROLE1", 2), ['album' => 1], "allowed"],
+            ["four", "first", new BindingRole("ROLE2", 1), ['album' => 1], "allowed"],
+            ["four", "first", new BindingRole("ROLE2", 2), ['album' => 1], null],
+            ["four", "second", new BindingRole("ROLE1", 1), ['album' => 1], "allowed"],
+            ["four", "second", new BindingRole("ROLE1", 2), ['album' => 1], "allowed"],
+            ["four", "second", new BindingRole("ROLE2", 1), ['album' => 1], "allowed"],
+            ["four", "second", new BindingRole("ROLE2", 2), ['album' => 1], "allowed"],
+        ];
+    }
+
+    private function getBeforeExecute(): array
+    {
+        return [
+            ["one", "firstRole", "ROLE1", "allowed"],
+            ["one", "firstRole", "ROLE2", null],
+            ["one", "firstRole", "ROLE3", "allowed"],
+            ["one", "firstRole", "ROLE4", null],
+            ["one", "firstRole", new RoleObject("ROLE1"), "allowed"],
+            ["one", "firstRole", new RoleObject("ROLE2"), null],
+            ["one", "firstRole", new RoleObject("ROLE3"), "allowed"],
+            ["one", "firstRole", new RoleObject("ROLE4"), null],
+            ["one", "secondRole", "ROLE1", null],
+            ["one", "secondRole", "ROLE2", null],
+            ["one", "secondRole", "ROLE3", "allowed"],
+            ["one", "secondRole", "ROLE4", "allowed"],
+            ["one", "secondRole", new RoleObject("ROLE1"), null],
+            ["one", "secondRole", new RoleObject("ROLE2"), null],
+            ["one", "secondRole", new RoleObject("ROLE3"), "allowed"],
+            ["one", "secondRole", new RoleObject("ROLE4"), "allowed"],
+        ];
+    }
+
+    private function getMultiModule(): array
+    {
+        return [
+            ["one", "firstRole", "ROLE1", null, "Module1", "allowed"],
+            ["one", "firstRole", "ROLE2", null, "Module1", null],
+            ["one", "secondRole", "ROLE1", null, "Module1", null],
+            ["one", "secondRole", "ROLE2", null, "Module1", "allowed"],
+            ["one", "firstRole", "ROLE1", null, "Module2", null],
+            ["one", "firstRole", "ROLE2", null, "Module2", "allowed"],
+            ["one", "secondRole", "ROLE1", null, "Module2", "allowed"],
+            ["one", "secondRole", "ROLE2", null, "Module2", null],
+        ];
+    }
+
+    private function getCache(): array
+    {
+        return [
+            ["four", "first", new BindingRole("ROLE1", 1), ['album' => 1], "allowed", 'ROLE1!Four!first', true],
+            ["four", "first", new BindingRole("ROLE1", 2), ['album' => 1], "allowed", 'ROLE1!Four!first', true],
+            ["four", "first", new BindingRole("ROLE2", 1), ['album' => 1], "allowed", 'ROLE2!Four!first!1!1', true],
+            ["four", "first", new BindingRole("ROLE2", 2), ['album' => 1], null, 'ROLE2!Four!first!1!2', false],
+            ["four", "second", new BindingRole("ROLE1", 1), ['album' => 1], "allowed", 'ROLE1!Four!second', true],
+            ["four", "second", new BindingRole("ROLE1", 2), ['album' => 1], "allowed", 'ROLE1!Four!second', true],
+            ["four", "second", new BindingRole("ROLE2", 1), ['album' => 1], "allowed", 'ROLE2!Four!second', true],
+            ["four", "second", new BindingRole("ROLE2", 2), ['album' => 1], "allowed", 'ROLE2!Four!second', true],
+            ["three", "deny", new BindingRole("ROLE1", 2), ['album' => 1], "allowed", 'ROLE1!Three!*', true],
+            ["four", "first", new BindingRole("ROLE4", 1), ['album' => 1], "allowed", 'ROLE4!Four!*!1!1', true],
+            ["four", "first", new BindingRole("ROLE4", 2), ['album' => 1], null, 'ROLE4!Four!*!1!2', false],
+            ["three", "deny", new BindingRole("ROLE5", 2), ['album' => 1], null, 'ROLE5!*!*!2', false],
+            ["three", "deny", new BindingRole("ROLE5", 3), ['album' => 1], "allowed", 'ROLE5!*!*!3', true],
+        ];
     }
 }
