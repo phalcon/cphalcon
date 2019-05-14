@@ -26,13 +26,13 @@ class EndsWithCest
     public function helperStrEndsWith(UnitTester $I)
     {
         $I->wantToTest('Helper\Str - endsWith()');
-        $actual = Str::endsWith("Hello", "o");
+        $actual = Str::endsWith('Hello', 'o');
         $I->assertTrue($actual);
 
-        $actual = Str::endsWith("Hello", "lo");
+        $actual = Str::endsWith('Hello', 'lo');
         $I->assertTrue($actual);
 
-        $actual = Str::endsWith("Hello", "Hello");
+        $actual = Str::endsWith('Hello', 'Hello');
         $I->assertTrue($actual);
     }
 
@@ -45,7 +45,7 @@ class EndsWithCest
     public function helperStrEndsWithEmpty(UnitTester $I)
     {
         $I->wantToTest('Helper\Str - endsWith() - empty strings');
-        $actual = Str::endsWith("", "");
+        $actual = Str::endsWith('', '');
         $I->assertFalse($actual);
     }
 
@@ -58,7 +58,7 @@ class EndsWithCest
     public function helperStrEndsWithEmptySearchString(UnitTester $I)
     {
         $I->wantToTest('Helper\Str - endsWith() - search empty string');
-        $actual = Str::endsWith("", "hello");
+        $actual = Str::endsWith('', 'hello');
         $I->assertFalse($actual);
     }
 
@@ -72,13 +72,13 @@ class EndsWithCest
     public function helperStrEndsWithCaseInsensitive(UnitTester $I)
     {
         $I->wantToTest('Helper\Str - endsWith() - case insensitive flag');
-        $actual = Str::endsWith("Hello", "O");
+        $actual = Str::endsWith('Hello', 'O');
         $I->assertTrue($actual);
 
-        $actual = Str::endsWith("Hello", "LO");
+        $actual = Str::endsWith('Hello', 'LO');
         $I->assertTrue($actual);
 
-        $actual = Str::endsWith("Hello", "hello");
+        $actual = Str::endsWith('Hello', 'hello');
         $I->assertTrue($actual);
     }
 
@@ -91,13 +91,13 @@ class EndsWithCest
     public function helperStrEndsWithCaseSensitive(UnitTester $I)
     {
         $I->wantToTest('Helper\Str - endsWith() - case sensitive flag');
-        $actual = Str::endsWith("Hello", "hello", true);
+        $actual = Str::endsWith('Hello', 'hello', true);
         $I->assertTrue($actual);
 
-        $actual = Str::endsWith("Hello", "hello", false);
+        $actual = Str::endsWith('Hello', 'hello', false);
         $I->assertFalse($actual);
 
-        $actual = Str::endsWith("Hello", "O", false);
+        $actual = Str::endsWith('Hello', 'O', false);
         $I->assertFalse($actual);
     }
 }

@@ -14,11 +14,11 @@
 #include "kernel/main.h"
 #include "ext/spl/spl_iterators.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
@@ -50,6 +50,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("attributes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	/**
+	 * Should version be determined from file modification time
+	 * @var bool
+	 */
+	zend_declare_property_bool(phalcon_assets_collection_ce, SL("autoVersion"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * @var array
@@ -100,6 +106,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 	 */
 	zend_declare_property_null(phalcon_assets_collection_ce, SL("targetUri"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * Version of resource
+	 * @var string
+	 */
+	zend_declare_property_null(phalcon_assets_collection_ce, SL("version"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	phalcon_assets_collection_ce->create_object = zephir_init_properties_Phalcon_Assets_Collection;
 
 	zend_class_implements(phalcon_assets_collection_ce TSRMLS_CC, 1, spl_ce_Countable);
@@ -127,6 +139,32 @@ PHP_METHOD(Phalcon_Assets_Collection, getAttributes) {
 
 
 	RETURN_MEMBER(getThis(), "attributes");
+
+}
+
+/**
+ * Should version be determined from file modification time
+ */
+PHP_METHOD(Phalcon_Assets_Collection, setAutoVersion) {
+
+	zval *autoVersion_param = NULL, __$true, __$false;
+	zend_bool autoVersion;
+	zval *this_ptr = getThis();
+
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_BOOL(&__$false, 0);
+
+	zephir_fetch_params(0, 1, 0, &autoVersion_param);
+
+	autoVersion = zephir_get_boolval(autoVersion_param);
+
+
+	if (autoVersion) {
+		zephir_update_property_zval(this_ptr, SL("autoVersion"), &__$true);
+	} else {
+		zephir_update_property_zval(this_ptr, SL("autoVersion"), &__$false);
+	}
+	RETURN_THISW();
 
 }
 
@@ -239,6 +277,40 @@ PHP_METHOD(Phalcon_Assets_Collection, getTargetUri) {
 }
 
 /**
+ * Version of resource
+ */
+PHP_METHOD(Phalcon_Assets_Collection, getVersion) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "version");
+
+}
+
+/**
+ * Version of resource
+ */
+PHP_METHOD(Phalcon_Assets_Collection, setVersion) {
+
+	zval *version_param = NULL;
+	zval version;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&version);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &version_param);
+
+	zephir_get_strval(&version, version_param);
+
+
+	zephir_update_property_zval(this_ptr, SL("version"), &version);
+	RETURN_THIS();
+
+}
+
+/**
  * Phalcon\Assets\Collection constructor
  */
 PHP_METHOD(Phalcon_Assets_Collection, __construct) {
@@ -285,12 +357,13 @@ PHP_METHOD(Phalcon_Assets_Collection, add) {
 PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool filter;
-	zval *path_param = NULL, *local = NULL, local_sub, *filter_param = NULL, *attributes = NULL, attributes_sub, __$null, collectionLocal, collectionAttributes, _0, _1;
-	zval path;
+	zend_bool filter, autoVersion;
+	zval *path_param = NULL, *local = NULL, local_sub, *filter_param = NULL, *attributes = NULL, attributes_sub, *version_param = NULL, *autoVersion_param = NULL, __$null, collectionLocal, collectionAttributes, _0, _1, _2;
+	zval path, version;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&path);
+	ZVAL_UNDEF(&version);
 	ZVAL_UNDEF(&local_sub);
 	ZVAL_UNDEF(&attributes_sub);
 	ZVAL_NULL(&__$null);
@@ -298,9 +371,10 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 	ZVAL_UNDEF(&collectionAttributes);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &path_param, &local, &filter_param, &attributes);
+	zephir_fetch_params(1, 1, 5, &path_param, &local, &filter_param, &attributes, &version_param, &autoVersion_param);
 
 	if (UNEXPECTED(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be of the type string") TSRMLS_CC);
@@ -325,6 +399,17 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 		attributes = &attributes_sub;
 		attributes = &__$null;
 	}
+	if (!version_param) {
+		ZEPHIR_INIT_VAR(&version);
+		ZVAL_STRING(&version, "");
+	} else {
+		zephir_get_strval(&version, version_param);
+	}
+	if (!autoVersion_param) {
+		autoVersion = 0;
+	} else {
+		autoVersion = zephir_get_boolval(autoVersion_param);
+	}
 
 
 	if (((Z_TYPE_P(local) == IS_TRUE || Z_TYPE_P(local) == IS_FALSE) == 1)) {
@@ -346,7 +431,12 @@ PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 127, &path, &collectionLocal, &_1, &collectionAttributes);
+	if (autoVersion) {
+		ZVAL_BOOL(&_2, 1);
+	} else {
+		ZVAL_BOOL(&_2, 0);
+	}
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 127, &path, &collectionLocal, &_1, &collectionAttributes, &version, &_2);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "add", NULL, 0, &_0);
 	zephir_check_call_status();
@@ -368,7 +458,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addFilter) {
 
 
 
-	zephir_update_property_array_append(this_ptr, SL("filters"), filter TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("filters"), filter);
 	RETURN_THISW();
 
 }
@@ -443,7 +533,8 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 	}
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 128, &content, &_1, &collectionAttributes);
 	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("codes"), &_0 TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("codes"), &_0);
+	ZEPHIR_INIT_NVAR(&_0);
 	RETURN_THIS();
 
 }
@@ -496,7 +587,8 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 	}
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 129, &content, &_1, &collectionAttributes);
 	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("codes"), &_0 TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("codes"), &_0);
+	ZEPHIR_INIT_NVAR(&_0);
 	RETURN_THIS();
 
 }
@@ -509,21 +601,24 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zend_bool local, filter;
-	zval *path_param = NULL, *local_param = NULL, *filter_param = NULL, *attributes = NULL, attributes_sub, __$null, collectionLocal, collectionAttributes, _0, _1;
-	zval path;
+	zend_bool filter, autoVersion;
+	zval *path_param = NULL, *local = NULL, local_sub, *filter_param = NULL, *attributes = NULL, attributes_sub, *version_param = NULL, *autoVersion_param = NULL, __$null, collectionLocal, collectionAttributes, _0, _1, _2;
+	zval path, version;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&path);
+	ZVAL_UNDEF(&version);
+	ZVAL_UNDEF(&local_sub);
 	ZVAL_UNDEF(&attributes_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&collectionLocal);
 	ZVAL_UNDEF(&collectionAttributes);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &path_param, &local_param, &filter_param, &attributes);
+	zephir_fetch_params(1, 1, 5, &path_param, &local, &filter_param, &attributes, &version_param, &autoVersion_param);
 
 	if (UNEXPECTED(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be of the type string") TSRMLS_CC);
@@ -535,10 +630,9 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 		ZEPHIR_INIT_VAR(&path);
 		ZVAL_EMPTY_STRING(&path);
 	}
-	if (!local_param) {
-		local = 0;
-	} else {
-		local = zephir_get_boolval(local_param);
+	if (!local) {
+		local = &local_sub;
+		local = &__$null;
 	}
 	if (!filter_param) {
 		filter = 1;
@@ -549,11 +643,21 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 		attributes = &attributes_sub;
 		attributes = &__$null;
 	}
+	if (!version_param) {
+		ZEPHIR_INIT_VAR(&version);
+		ZVAL_STRING(&version, "");
+	} else {
+		zephir_get_strval(&version, version_param);
+	}
+	if (!autoVersion_param) {
+		autoVersion = 0;
+	} else {
+		autoVersion = zephir_get_boolval(autoVersion_param);
+	}
 
 
-	if (1 == 1) {
-		ZEPHIR_INIT_VAR(&collectionLocal);
-		ZVAL_BOOL(&collectionLocal, local);
+	if (((Z_TYPE_P(local) == IS_TRUE || Z_TYPE_P(local) == IS_FALSE) == 1)) {
+		ZEPHIR_CPY_WRT(&collectionLocal, local);
 	} else {
 		ZEPHIR_OBS_NVAR(&collectionLocal);
 		zephir_read_property(&collectionLocal, this_ptr, SL("local"), PH_NOISY_CC);
@@ -571,7 +675,12 @@ PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 130, &path, &collectionLocal, &_1, &collectionAttributes);
+	if (autoVersion) {
+		ZVAL_BOOL(&_2, 1);
+	} else {
+		ZVAL_BOOL(&_2, 0);
+	}
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 130, &path, &collectionLocal, &_1, &collectionAttributes, &version, &_2);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "add", NULL, 0, &_0);
 	zephir_check_call_status();
@@ -612,7 +721,7 @@ PHP_METHOD(Phalcon_Assets_Collection, current) {
 	zephir_read_property(&_0, this_ptr, SL("assets"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_VAR(&_2);
 	zephir_read_property(&_2, this_ptr, SL("position"), PH_NOISY_CC);
-	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY | PH_READONLY, "phalcon/Assets/Collection.zep", 232 TSRMLS_CC);
+	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY | PH_READONLY, "phalcon/Assets/Collection.zep", 258 TSRMLS_CC);
 	RETURN_CTOR(&_1);
 
 }
@@ -696,6 +805,18 @@ PHP_METHOD(Phalcon_Assets_Collection, has) {
 	ZEPHIR_OBS_VAR(&assets);
 	zephir_read_property(&assets, this_ptr, SL("includedAssets"), PH_NOISY_CC);
 	RETURN_MM_BOOL(zephir_fast_in_array(&key, &assets TSRMLS_CC));
+
+}
+
+/**
+ * Checks if collection is using auto version
+ */
+PHP_METHOD(Phalcon_Assets_Collection, isAutoVersion) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "autoVersion");
 
 }
 
@@ -1037,13 +1158,14 @@ PHP_METHOD(Phalcon_Assets_Collection, addAsset) {
 		RETURN_MM_BOOL(0);
 	}
 	if (zephir_instance_of_ev(asset, phalcon_assets_asset_ce TSRMLS_CC)) {
-		zephir_update_property_array_append(this_ptr, SL("assets"), asset TSRMLS_CC);
+		zephir_update_property_array_append(this_ptr, SL("assets"), asset);
 	} else {
-		zephir_update_property_array_append(this_ptr, SL("codes"), asset TSRMLS_CC);
+		zephir_update_property_array_append(this_ptr, SL("codes"), asset);
 	}
 	ZEPHIR_CALL_METHOD(&_1, asset, "getassetkey", NULL, 0);
 	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("includedAssets"), &_1 TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("includedAssets"), &_1);
+	ZEPHIR_INIT_NVAR(&_1);
 	RETURN_MM_BOOL(1);
 
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
 
-/**
- * Class WasMatchedCest
- */
 class WasMatchedCest
 {
     /**
      * Tests Phalcon\Cli\Router :: wasMatched()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

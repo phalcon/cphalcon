@@ -26,11 +26,13 @@ class GetDescriptionCest
     public function aclComponentGetDescription(UnitTester $I)
     {
         $I->wantToTest('Acl\Component - getDescription()');
+
         $component = new Component('Customers', 'Customer management');
 
-        $expected = 'Customer management';
-        $actual   = $component->getDescription();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Customer management',
+            $component->getDescription()
+        );
     }
 
     /**
@@ -42,9 +44,11 @@ class GetDescriptionCest
     public function aclComponentGetDescriptionEmpty(UnitTester $I)
     {
         $I->wantToTest("Acl\Component - getDescription() - empty");
+
         $component = new Component('Customers');
 
-        $actual = $component->getDescription();
-        $I->assertEmpty($actual);
+        $I->assertEmpty(
+            $component->getDescription()
+        );
     }
 }

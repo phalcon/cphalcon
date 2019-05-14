@@ -21,8 +21,6 @@ class RemoveAdapterCest
 {
     /**
      * Tests Phalcon\Logger :: removeAdapter()
-     *
-     * @param UnitTester $I
      */
     public function loggerRemoveAdapter(UnitTester $I)
     {
@@ -57,8 +55,6 @@ class RemoveAdapterCest
 
     /**
      * Tests Phalcon\Logger :: removeAdapter() - unknown
-     *
-     * @param UnitTester $I
      */
     public function loggerRemoveAdapterUnknown(UnitTester $I)
     {

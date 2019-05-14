@@ -24,6 +24,6 @@ class UnderscoreCallCest
      */
     public function testUnderscoreCall(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

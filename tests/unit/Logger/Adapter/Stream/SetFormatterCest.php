@@ -16,14 +16,11 @@ use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
-use function outputDir;
 
 class SetFormatterCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: setFormatter()
-     *
-     * @param UnitTester $I
      */
     public function loggerAdapterStreamSetFormatter(UnitTester $I)
     {

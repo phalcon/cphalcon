@@ -14,9 +14,9 @@ namespace Phalcon\Test\Unit\Storage\Serializer\Php;
 
 use Codeception\Example;
 use Phalcon\Storage\Serializer\Php;
+use function serialize;
 use stdClass;
 use UnitTester;
-use function serialize;
 
 class SerializeCest
 {
@@ -24,9 +24,6 @@ class SerializeCest
      * Tests Phalcon\Storage\Serializer\Php :: serialize()
      *
      * @dataProvider getExamples
-     *
-     * @param UnitTester $I
-     * @param Example    $example
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-03-30
@@ -41,9 +38,6 @@ class SerializeCest
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [
@@ -80,7 +74,7 @@ class SerializeCest
             [
                 'array',
                 ['Phalcon Framework'],
-                serialize(["Phalcon Framework"]),
+                serialize(['Phalcon Framework']),
             ],
             [
                 'object',

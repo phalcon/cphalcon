@@ -24,8 +24,6 @@ class GetFormCest
     /**
      * Tests Phalcon\Forms\Element :: getForm()
      *
-     * @param IntegrationTester $I
-     *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-25
      */
@@ -47,8 +45,6 @@ class GetFormCest
 
     /**
      * Tests Phalcon\Forms\Element :: getForm()
-     *
-     * @param IntegrationTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-25

@@ -65,7 +65,7 @@ class WriteCest
                 $stream   = new Stream($fileName, 'wb');
                 $stream->detach();
 
-                $stream->write("abc");
+                $stream->write('abc');
             }
         );
     }

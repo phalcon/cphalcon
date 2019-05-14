@@ -104,13 +104,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval service;
 	zend_bool autoBegin;
-	zval *container, container_sub, *autoBegin_param = NULL, *service_param = NULL, connection, _0, _1$$4;
+	zval *container, container_sub, *autoBegin_param = NULL, *service_param = NULL, connection, _0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_UNDEF(&connection);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&service);
 
 	ZEPHIR_MM_GROW();
@@ -123,7 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 	}
 	if (!service_param) {
 		ZEPHIR_INIT_VAR(&service);
-		ZVAL_STRING(&service, "");
+		ZVAL_STRING(&service, "db");
 	} else {
 		zephir_get_strval(&service, service_param);
 	}
@@ -132,15 +131,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval(this_ptr, SL("messages"), &_0);
-	if (!(Z_TYPE_P(&service) == IS_UNDEF) && Z_STRLEN_P(&service)) {
-		ZEPHIR_CALL_METHOD(&connection, container, "get", NULL, 0, &service);
-		zephir_check_call_status();
-	} else {
-		ZEPHIR_INIT_VAR(&_1$$4);
-		ZVAL_STRING(&_1$$4, "db");
-		ZEPHIR_CALL_METHOD(&connection, container, "get", NULL, 0, &_1$$4);
-		zephir_check_call_status();
-	}
+	ZEPHIR_CALL_METHOD(&connection, container, "get", NULL, 0, &service);
+	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("connection"), &connection);
 	if (autoBegin) {
 		ZEPHIR_CALL_METHOD(NULL, &connection, "begin", NULL, 0);
@@ -338,7 +330,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 			zephir_read_property(&_4$$7, this_ptr, SL("rollbackRecord"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(NULL, &_3$$7, "__construct", NULL, 473, &rollbackMessage, &_4$$7);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_3$$7, "phalcon/Mvc/Model/Transaction.zep", 190 TSRMLS_CC);
+			zephir_throw_exception_debug(&_3$$7, "phalcon/Mvc/Model/Transaction.zep", 186 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

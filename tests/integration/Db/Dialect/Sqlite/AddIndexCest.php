@@ -22,31 +22,33 @@ class AddIndexCest
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: addIndex()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
     public function dbDialectSqliteAddIndex(IntegrationTester $I)
     {
         $I->wantToTest("Db\Dialect\Sqlite - addIndex()");
+
         $data = $this->getAddIndexFixtures();
+
         foreach ($data as $item) {
             $schema   = $item[0];
             $index    = $item[1];
             $expected = $item[2];
             $dialect  = $this->getDialectSqlite();
             $indexes  = $this->getIndexes();
-            $actual   = $dialect->addIndex('table', $schema, $indexes[$index]);
+
+            $actual = $dialect->addIndex(
+                'table',
+                $schema,
+                $indexes[$index]
+            );
 
             $I->assertEquals($expected, $actual);
         }
     }
 
-    /**
-     * @return array
-     */
-    protected function getAddIndexFixtures()
+    protected function getAddIndexFixtures(): array
     {
         return [
             ['', 'index1', 'CREATE INDEX "index1" ON "table" ("column1")'],

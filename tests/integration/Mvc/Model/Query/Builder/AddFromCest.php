@@ -22,8 +22,6 @@ class AddFromCest
     /**
      * Tests Phalcon\Mvc\Model\Query\Builder :: addFrom()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

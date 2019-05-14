@@ -37,7 +37,7 @@ class Base64SafeCest
         $random = new Random();
 
         $I->assertRegExp(
-            "#^[" . $pattern . "]+$#i",
+            '#^[' . $pattern . ']+$#i',
             $random->base64Safe($len, $padding)
         );
     }

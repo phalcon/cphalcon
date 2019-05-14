@@ -156,6 +156,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getReadConnectionService);
  * Returns related records based on defined relations
  *
  * @param array arguments
+ * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getRelated);
 

@@ -15,7 +15,7 @@ use Phalcon\Mvc\Model;
 
 class Robots extends Model
 {
-    const setterEpilogue = " setText";
+    const setterEpilogue = ' setText';
 
     /**
      * @Primary

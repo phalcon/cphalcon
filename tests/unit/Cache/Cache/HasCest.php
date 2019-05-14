@@ -16,8 +16,8 @@ use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
 use function uniqid;
+use UnitTester;
 
 class HasCest
 {
@@ -39,12 +39,15 @@ class HasCest
 
         $key = uniqid();
 
-        $actual = $adapter->has($key);
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->has($key)
+        );
 
         $adapter->set($key, 'test');
-        $actual = $adapter->has($key);
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->has($key)
+        );
     }
 
     /**

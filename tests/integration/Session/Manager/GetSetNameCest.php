@@ -29,8 +29,6 @@ class GetSetNameCest
     /**
      * Tests Phalcon\Session\Manager :: getName()/setName()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -54,8 +52,6 @@ class GetSetNameCest
     /**
      * Tests Phalcon\Session\Manager :: getName()/setName() - not valid name
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -77,8 +73,6 @@ class GetSetNameCest
     /**
      * Tests Phalcon\Session\Manager :: getName()/setName() - session started
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -89,6 +83,7 @@ class GetSetNameCest
         $manager = new Manager();
         $files   = $this->getSessionStream();
         $manager->setHandler($files);
+
         try {
             $manager->start();
             $manager->setName('%-gga34');

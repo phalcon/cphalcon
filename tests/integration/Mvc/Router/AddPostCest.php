@@ -15,17 +15,12 @@ namespace Phalcon\Test\Integration\Mvc\Router;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class AddPostCest
- */
 class AddPostCest
 {
     use RouterTrait;
 
     /**
      * Tests Phalcon\Mvc\Router :: addPost()
-     *
-     * @param IntegrationTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17
@@ -45,9 +40,11 @@ class AddPostCest
         );
 
 
+
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
         $router->handle('/docs/index');
+
 
 
         $I->assertEquals(

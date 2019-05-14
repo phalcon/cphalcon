@@ -15,14 +15,11 @@ namespace Phalcon\Test\Unit\Logger\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Logger;
 use UnitTester;
-use function outputDir;
 
 class AddAdapterCest
 {
     /**
      * Tests Phalcon\Logger :: addAdapter()
-     *
-     * @param UnitTester $I
      */
     public function loggerAddAdapter(UnitTester $I)
     {

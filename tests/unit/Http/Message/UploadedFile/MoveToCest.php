@@ -37,8 +37,7 @@ class MoveToCest
 
         $file->moveTo($target);
 
-        $actual = file_exists($target);
-        $I->assertTrue($actual);
+        $I->seeFileFound($target);
 
         $expected = (string) $stream;
         $actual   = file_get_contents($target);

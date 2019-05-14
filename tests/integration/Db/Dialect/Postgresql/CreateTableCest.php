@@ -25,8 +25,6 @@ class CreateTableCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: createTable()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
@@ -45,9 +43,7 @@ class CreateTableCest
         }
     }
 
-    /**
-     * @return array
-     */
+
     protected function getCreateTableFixtures(): array
     {
         return [
@@ -203,13 +199,13 @@ class CreateTableCest
                         ]),
                         new Column('column17', [
                             'type'    => Column::TYPE_BOOLEAN,
-                            'default' => "false",
+                            'default' => 'false',
                             'notNull' => true,
                             'after'   => 'track_id',
                         ]),
                         new Column('column18', [
                             'type'    => Column::TYPE_BOOLEAN,
-                            'default' => "true",
+                            'default' => 'true',
                             'notNull' => true,
                             'after'   => 'like',
                         ]),

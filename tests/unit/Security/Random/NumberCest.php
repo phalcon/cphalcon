@@ -26,7 +26,7 @@ class NumberCest
     {
         $I->wantToTest("Security\Random - number()");
 
-        $random = new \Phalcon\Security\Random;
+        $random = new \Phalcon\Security\Random();
 
 
 

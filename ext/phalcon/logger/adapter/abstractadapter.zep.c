@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, add) {
 
 
 
-	zephir_update_property_array_append(this_ptr, SL("queue"), item TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("queue"), item);
 	RETURN_THISW();
 
 }
@@ -136,8 +136,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, begin) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit) {
 
-	zval inTransaction, item, queue, _0, *_1, _3;
-	zephir_fcall_cache_entry *_2 = NULL;
+	zval inTransaction, item, queue, _0, *_1, _2, _4;
+	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -145,7 +145,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit) {
 	ZVAL_UNDEF(&item);
 	ZVAL_UNDEF(&queue);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_4);
 
 	ZEPHIR_MM_GROW();
 
@@ -158,19 +159,37 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit) {
 		return;
 	}
 	zephir_is_iterable(&queue, 0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 103);
-	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&queue), _1)
-	{
-		ZEPHIR_INIT_NVAR(&item);
-		ZVAL_COPY(&item, _1);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "process", &_2, 0, &item);
+	if (Z_TYPE_P(&queue) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&queue), _1)
+		{
+			ZEPHIR_INIT_NVAR(&item);
+			ZVAL_COPY(&item, _1);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "process", &_3, 0, &item);
+			zephir_check_call_status();
+		} ZEND_HASH_FOREACH_END();
+	} else {
+		ZEPHIR_CALL_METHOD(NULL, &queue, "rewind", NULL, 0);
 		zephir_check_call_status();
-	} ZEND_HASH_FOREACH_END();
+		while (1) {
+			ZEPHIR_CALL_METHOD(&_2, &queue, "valid", NULL, 0);
+			zephir_check_call_status();
+			if (!zend_is_true(&_2)) {
+				break;
+			}
+			ZEPHIR_CALL_METHOD(&item, &queue, "current", NULL, 0);
+			zephir_check_call_status();
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "process", &_3, 0, &item);
+				zephir_check_call_status();
+			ZEPHIR_CALL_METHOD(NULL, &queue, "next", NULL, 0);
+			zephir_check_call_status();
+		}
+	}
 	ZEPHIR_INIT_NVAR(&item);
 	ZEPHIR_INIT_NVAR(&inTransaction);
 	ZVAL_BOOL(&inTransaction, 0);
-	ZEPHIR_INIT_VAR(&_3);
-	array_init(&_3);
-	zephir_update_property_zval(this_ptr, SL("queue"), &_3);
+	ZEPHIR_INIT_VAR(&_4);
+	array_init(&_4);
+	zephir_update_property_zval(this_ptr, SL("queue"), &_4);
 	zephir_update_property_zval(this_ptr, SL("inTransaction"), &inTransaction);
 	RETURN_THIS();
 

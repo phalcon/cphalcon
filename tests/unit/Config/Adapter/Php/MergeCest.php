@@ -25,6 +25,6 @@ class MergeCest
     public function configAdapterPhpMerge(UnitTester $I)
     {
         $I->wantToTest("Config\Adapter\Php - merge()");
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

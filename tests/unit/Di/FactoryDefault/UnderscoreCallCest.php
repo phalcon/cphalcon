@@ -25,6 +25,6 @@ class UnderscoreCallCest
     public function diFactorydefaultUnderscoreCall(UnitTester $I)
     {
         $I->wantToTest("Di\FactoryDefault - __call()");
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

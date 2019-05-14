@@ -76,7 +76,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     protected service = "db";
 
-    protected transactions;
+    /**
+     * @var array
+     */
+    protected transactions = [];
 
     /**
      * Phalcon\Mvc\Model\Transaction\Manager constructor
@@ -107,13 +110,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
         let transactions = this->transactions;
 
-        if count(transactions) {
-            for _ in transactions {
-                let this->number--;
-            }
-
-            let this->transactions = null;
+        for _ in transactions {
+            let this->number--;
         }
+
+        let this->transactions = [];
     }
 
     /**
@@ -125,13 +126,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
         let transactions = this->transactions;
 
-        if typeof transactions == "array" {
-            for transaction in transactions {
-                let connection = transaction->getConnection();
+        for transaction in transactions {
+            let connection = transaction->getConnection();
 
-                if connection->isUnderTransaction() {
-                    connection->commit();
-                }
+            if connection->isUnderTransaction() {
+                connection->commit();
             }
         }
     }
@@ -194,13 +193,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         if this->number {
             let transactions = this->transactions;
 
-            if typeof transactions == "array" {
-                for transaction in reverse transactions {
-                    if typeof transaction == "object" {
-                        transaction->setIsNewTransaction(false);
+            for transaction in reverse transactions {
+                if typeof transaction == "object" {
+                    transaction->setIsNewTransaction(false);
 
-                        return transaction;
-                    }
+                    return transaction;
                 }
             }
         }
@@ -256,18 +253,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
         let transactions = this->transactions;
 
-        if typeof transactions == "array" {
-            for transaction in transactions {
-                let connection = transaction->getConnection();
+        for transaction in transactions {
+            let connection = transaction->getConnection();
 
-                if connection->isUnderTransaction() {
-                    connection->rollback();
-                    connection->close();
-                }
+            if connection->isUnderTransaction() {
+                connection->rollback();
+                connection->close();
+            }
 
-                if collect {
-                    this->collectTransaction(transaction);
-                }
+            if collect {
+                this->collectTransaction(transaction);
             }
         }
     }
@@ -314,22 +309,19 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      */
     protected function collectTransaction(<TransactionInterface> transaction) -> void
     {
-        var transactions, newTransactions, managedTransaction;
+        var managedTransaction;
+        array newTransactions;
 
-        let transactions = this->transactions;
+        let newTransactions = [];
 
-        if count(transactions) {
-            let newTransactions = [];
-
-            for managedTransaction in transactions {
-                if managedTransaction != transaction {
-                    let newTransactions[] = transaction;
-                } else {
-                    let this->number--;
-                }
+        for managedTransaction in this->transactions {
+            if managedTransaction != transaction {
+                let newTransactions[] = transaction;
+            } else {
+                let this->number--;
             }
-
-            let this->transactions = newTransactions;
         }
+
+        let this->transactions = newTransactions;
     }
 }

@@ -25,7 +25,7 @@ class SubmitButtonCest extends TagSetup
      */
     public function tagSubmitButtonStringParameter(UnitTester $I)
     {
-        $I->wantToTest("Tag - submitButton() - string as parameter");
+        $I->wantToTest('Tag - submitButton() - string as parameter');
 
         $options  = 'x_name';
         $expected = '<input type="submit" value="x_name"';
@@ -42,7 +42,7 @@ class SubmitButtonCest extends TagSetup
      */
     public function tagSubmitButtonArrayParameter(UnitTester $I)
     {
-        $I->wantToTest("Tag - submitButton() - array as parameter");
+        $I->wantToTest('Tag - submitButton() - array as parameter');
 
         $options = [
             'x_name',
@@ -63,7 +63,7 @@ class SubmitButtonCest extends TagSetup
      */
     public function tagSubmitButtonArrayParameterWithId(UnitTester $I)
     {
-        $I->wantToTest("Tag - submitButton() - array as parameter with id");
+        $I->wantToTest('Tag - submitButton() - array as parameter with id');
 
         $options = [
             'x_name',
@@ -86,7 +86,7 @@ class SubmitButtonCest extends TagSetup
      */
     public function tagSubmitButtonArrayParameterWithNameNoId(UnitTester $I)
     {
-        $I->wantToTest("Tag - submitButton() - name and no id in parameters");
+        $I->wantToTest('Tag - submitButton() - name and no id in parameters');
 
         $options = [
             'x_name',
@@ -109,7 +109,7 @@ class SubmitButtonCest extends TagSetup
      */
     public function tagSubmitButtonWithSetDefault(UnitTester $I)
     {
-        $I->wantToTest("Tag - submitButton() - setDefault()");
+        $I->wantToTest('Tag - submitButton() - setDefault()');
 
         $options = [
             'x_name',
@@ -132,7 +132,7 @@ class SubmitButtonCest extends TagSetup
      */
     public function tagSubmitButtonWithDisplayTo(UnitTester $I)
     {
-        $I->wantToTest("Tag - submitButton() - displayTo()");
+        $I->wantToTest('Tag - submitButton() - displayTo()');
 
         $options = [
             'x_name',
@@ -155,7 +155,7 @@ class SubmitButtonCest extends TagSetup
      */
     public function tagSubmitButtonWithSetDefaultElementNotPresent(UnitTester $I)
     {
-        $I->wantToTest("Tag - submitButton() - setDefault() and element not present");
+        $I->wantToTest('Tag - submitButton() - setDefault() and element not present');
 
         $options = [
             'x_name',
@@ -178,7 +178,7 @@ class SubmitButtonCest extends TagSetup
      */
     public function tagSubmitButtonWithDisplayToElementNotPresent(UnitTester $I)
     {
-        $I->wantToTest("Tag - submitButton() - displayTo() and element not present");
+        $I->wantToTest('Tag - submitButton() - displayTo() and element not present');
 
         $options = [
             'x_name',

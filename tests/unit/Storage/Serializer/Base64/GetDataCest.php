@@ -26,11 +26,13 @@ class GetDataCest
     public function storageSerializerBase64GetData(UnitTester $I)
     {
         $I->wantToTest('Storage\Serializer\Base64 - getData()');
-        $data       = ["Phalcon Framework"];
+
+        $data       = ['Phalcon Framework'];
         $serializer = new Base64($data);
 
-        $expected = $data;
-        $actual   = $serializer->getData();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $data,
+            $serializer->getData()
+        );
     }
 }

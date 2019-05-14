@@ -25,8 +25,6 @@ use Phalcon\Mvc\View\Engine\Volt\Compiler;
  * Phalcon\Test\Integration\Mvc\View\Engine\Volt\CompilerFilesCest
  *
  * Test working Compiler with files
- *
- * @package Phalcon\Test\Integration\Mvc\View\Engine\Volt
  */
 class CompilerFilesCest
 {

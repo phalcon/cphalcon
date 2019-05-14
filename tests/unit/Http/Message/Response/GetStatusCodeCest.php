@@ -51,7 +51,7 @@ class GetStatusCodeCest
                 "Invalid status code '847', (allowed values 100-599)"
             ),
             function () {
-                $response = new Response("php://memory", 847);
+                $response = new Response('php://memory', 847);
             }
         );
     }

@@ -17,7 +17,7 @@ class M2MRobots extends Model
 {
     public function initialize()
     {
-        $this->setSource("m2m_robots");
+        $this->setSource('m2m_robots');
 
         $this->hasManyToMany(
             'id',
@@ -25,7 +25,8 @@ class M2MRobots extends Model
             'robots_id',
             'parts_id',
             M2MParts::class,
-            'id'
+            'id',
+            ['alias' => 'M2MParts']
         );
     }
 }

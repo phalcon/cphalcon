@@ -28,7 +28,8 @@ class AddComponentCest
     {
         $I->wantToTest('Acl\Adapter\Memory - addComponent() - string');
 
-        $acl       = new Memory();
+        $acl = new Memory();
+
         $component = new Component('Customer', 'Customer component');
 
         $actual = $acl->addComponent(
@@ -49,7 +50,8 @@ class AddComponentCest
     {
         $I->wantToTest('Acl\Adapter\Memory - addComponent() - object');
 
-        $acl       = new Memory();
+        $acl = new Memory();
+
         $component = new Component('Customer', 'Customer component');
 
         $actual = $acl->addComponent(
@@ -70,9 +72,9 @@ class AddComponentCest
     {
         $I->wantToTest('Acl\Adapter\Memory - addComponent() - numeric key');
 
-        $acl       = new Memory();
-        $component = new Component('11', 'Customer component');
+        $acl = new Memory();
 
+        $component = new Component('11', 'Customer component');
 
         $actual = $acl->addComponent(
             $component,
@@ -81,9 +83,8 @@ class AddComponentCest
 
         $I->assertTrue($actual);
 
-
-        $actual = $acl->isComponent('11');
-
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $acl->isComponent('11')
+        );
     }
 }

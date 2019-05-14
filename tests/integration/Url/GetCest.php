@@ -15,22 +15,17 @@ namespace Phalcon\Test\Integration\Url;
 use IntegrationTester;
 use Phalcon\Url;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     /**
      * Tests Phalcon\Url :: get()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function urlGet(IntegrationTester $I)
     {
-        $I->wantToTest("Url - get()");
+        $I->wantToTest('Url - get()');
 
         $url = new Url();
 

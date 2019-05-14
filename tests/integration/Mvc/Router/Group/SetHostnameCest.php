@@ -22,8 +22,6 @@ class SetHostnameCest
     /**
      * Tests Phalcon\Mvc\Router\Group :: setHostname()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

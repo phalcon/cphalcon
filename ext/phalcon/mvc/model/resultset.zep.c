@@ -125,8 +125,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct) {
 
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *result, result_sub, *cache = NULL, cache_sub, __$null, rowCount, rows, _2, _0$$3, _1$$3, _3$$5, _4$$8;
+	zend_bool _4;
+	zend_long ZEPHIR_LAST_CALL_STATUS, prefetchRecords = 0;
+	zval *result, result_sub, *cache = NULL, cache_sub, __$null, rowCount, rows, _2, _0$$3, _1$$3, _3$$5, _5$$8;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&result_sub);
@@ -138,7 +139,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct) {
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_4$$8);
+	ZVAL_UNDEF(&_5$$8);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &result, &cache);
@@ -174,15 +175,20 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct) {
 		zephir_update_property_zval(this_ptr, SL("rows"), &_3$$5);
 		RETURN_MM_NULL();
 	}
-	if (ZEPHIR_LE_LONG(&rowCount, 32)) {
+	prefetchRecords = ZEPHIR_GLOBAL(orm).resultset_prefetch_records;
+	_4 = prefetchRecords > 0;
+	if (_4) {
+		_4 = ZEPHIR_LE_LONG(&rowCount, prefetchRecords);
+	}
+	if (_4) {
 		ZEPHIR_CALL_METHOD(&rows, result, "fetchall", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&rows) == IS_ARRAY) {
 			zephir_update_property_zval(this_ptr, SL("rows"), &rows);
 		} else {
-			ZEPHIR_INIT_VAR(&_4$$8);
-			array_init(&_4$$8);
-			zephir_update_property_zval(this_ptr, SL("rows"), &_4$$8);
+			ZEPHIR_INIT_VAR(&_5$$8);
+			array_init(&_5$$8);
+			zephir_update_property_zval(this_ptr, SL("rows"), &_5$$8);
 		}
 	}
 	ZEPHIR_MM_RESTORE();

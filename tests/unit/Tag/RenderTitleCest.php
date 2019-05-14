@@ -25,7 +25,7 @@ class RenderTitleCest
      */
     public function tatRenderTitleWithMaliciousContent(UnitTester $I)
     {
-        $I->wantToTest("Tag - renderTitle() - with malicious code");
+        $I->wantToTest('Tag - renderTitle() - with malicious code');
 
         Tag::resetInput();
 

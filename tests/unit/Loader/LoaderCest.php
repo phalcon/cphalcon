@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit;
 
+use function dataDir;
 use Example\Namespaces\Adapter\Another;
 use Example\Namespaces\Adapter\File;
 use Example\Namespaces\Adapter\Mongo;
@@ -27,7 +28,6 @@ use Phalcon\Loader;
 use Sqlite;
 use Two;
 use UnitTester;
-use function dataDir;
 
 class LoaderCest
 {
@@ -247,12 +247,12 @@ class LoaderCest
 
         $loader->registerNamespaces(
             [
-                "Example\\Namespaces\\Base" => dataDir('fixtures/Loader/Example/Namespaces/Base/'),
+                'Example\\Namespaces\\Base' => dataDir('fixtures/Loader/Example/Namespaces/Base/'),
             ]
         );
 
         $expected = [
-            "Example\\Namespaces\\Base" => [
+            'Example\\Namespaces\\Base' => [
                 dataDir('fixtures/Loader/Example/Namespaces/Base/'),
             ],
         ];
@@ -264,7 +264,7 @@ class LoaderCest
 
         $loader->registerNamespaces(
             [
-                "Example\\Namespaces\\Adapter" => [
+                'Example\\Namespaces\\Adapter' => [
                     dataDir('fixtures/Loader/Example/Namespaces/Adapter/'),
                     dataDir('fixtures/Loader/Example/Namespaces/Plugin/'),
                 ],
@@ -273,10 +273,10 @@ class LoaderCest
         );
 
         $expected = [
-            "Example\\Namespaces\\Base"    => [
+            'Example\\Namespaces\\Base'    => [
                 dataDir('fixtures/Loader/Example/Namespaces/Base/'),
             ],
-            "Example\\Namespaces\\Adapter" => [
+            'Example\\Namespaces\\Adapter' => [
                 dataDir('fixtures/Loader/Example/Namespaces/Adapter/'),
                 dataDir('fixtures/Loader/Example/Namespaces/Plugin/'),
             ],
@@ -413,9 +413,13 @@ class LoaderCest
         );
 
         $loader->setEventsManager($eventsManager);
+
         $loader->register();
 
-        $I->assertInstanceOf('LoaderEvent', new LoaderEvent());
+        $I->assertInstanceOf(
+            LoaderEvent::class,
+            new LoaderEvent()
+        );
 
         $expected = [
             'beforeCheckClass' => [0 => null],

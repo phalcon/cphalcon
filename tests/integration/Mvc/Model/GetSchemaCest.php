@@ -22,8 +22,6 @@ class GetSchemaCest
     /**
      * Tests Phalcon\Mvc\Model :: getSchema()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

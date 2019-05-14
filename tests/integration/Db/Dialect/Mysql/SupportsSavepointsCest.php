@@ -22,8 +22,6 @@ class SupportsSavepointsCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: supportsSavepoints()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

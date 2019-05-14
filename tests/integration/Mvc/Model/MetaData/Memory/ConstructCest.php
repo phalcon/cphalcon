@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Memory;
 
+use function dataDir;
 use IntegrationTester;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Robotto;
-use function dataDir;
 
 /**
  * Class ConstructCest
@@ -47,8 +47,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Mvc\Model\MetaData\Memory :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -72,8 +70,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Mvc\Model\MetaData\Memory :: __construct() - manual
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

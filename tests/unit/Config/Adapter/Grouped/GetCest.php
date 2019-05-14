@@ -25,6 +25,6 @@ class GetCest
     public function configAdapterGroupedGet(UnitTester $I)
     {
         $I->wantToTest("Config\Adapter\Grouped - get()");
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

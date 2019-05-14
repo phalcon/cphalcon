@@ -211,7 +211,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_criteriainterf
 	ZEND_ARG_INFO(0, limit)
 #endif
 #if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, offset, IS_LONG, 1)
+	ZEND_ARG_TYPE_INFO(0, offset, IS_LONG, 0)
 #else
 	ZEND_ARG_INFO(0, offset)
 #endif

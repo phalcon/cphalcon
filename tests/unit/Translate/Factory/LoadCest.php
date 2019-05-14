@@ -79,7 +79,7 @@ class LoadCest
     {
         $I->wantToTest('Translate\Factory - load() - array');
 
-        $options = $this->arrayConfig["translate"];
+        $options = $this->arrayConfig['translate'];
 
         /** @var Gettext $translate */
         $translate = Factory::load($options);

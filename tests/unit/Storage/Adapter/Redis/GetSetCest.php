@@ -12,16 +12,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Redis;
 
+use function array_merge;
 use Codeception\Example;
+use function getOptionsRedis;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use stdClass;
-use UnitTester;
-use function array_merge;
-use function getOptionsRedis;
 use function uniqid;
+use UnitTester;
 
 class GetSetCest
 {
@@ -31,9 +31,6 @@ class GetSetCest
      * Tests Phalcon\Storage\Adapter\Redis :: get()
      *
      * @dataProvider getExamples
-     *
-     * @param UnitTester $I
-     * @param Example    $example
      *
      * @throws Exception
      * @since        2019-03-31
@@ -177,9 +174,6 @@ class GetSetCest
         $I->assertEquals($source, $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

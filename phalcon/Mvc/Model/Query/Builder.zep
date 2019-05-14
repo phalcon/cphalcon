@@ -84,9 +84,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     {
         var conditions, columns, groupClause, havingClause, limitClause,
             forUpdate, sharedLock, orderClause, offsetClause, joinsClause,
-            singleConditionArray, limit, offset, fromClause, mergedConditions,
-            mergedParams, mergedTypes, singleCondition, singleParams,
-            singleTypes, distinct, bind, bindTypes;
+            singleConditionArray, limit, offset, fromClause, singleCondition,
+            singleParams, singleTypes, distinct, bind, bindTypes;
+        array mergedConditions, mergedParams, mergedTypes;
 
         if typeof params == "array" {
             /**
@@ -127,13 +127,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
                 let this->conditions = implode(" AND ", mergedConditions);
 
-                if typeof mergedParams == "array" {
-                    let this->bindParams = mergedParams;
-                }
-
-                if typeof mergedTypes == "array" {
-                    let this->bindTypes  = mergedTypes;
-                }
+                let this->bindParams = mergedParams;
+                let this->bindTypes  = mergedTypes;
             }
 
             /**
@@ -601,12 +596,12 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     final public function getPhql() -> string
     {
         var container, models, conditions, model, metaData, modelInstance,
-            primaryKeys, firstPrimaryKey, columnMap, modelAlias, attributeField,
-            phql, column, columns, selectedColumns, selectedColumn,
-            selectedModel, selectedModels, columnAlias, modelColumnAlias, joins,
-            join, joinModel, joinConditions, joinAlias, joinType, group,
-            groupItems, groupItem, having, order, orderItems, orderItem, limit,
-            number, offset, forUpdate, distinct;
+            primaryKeys, firstPrimaryKey, columnMap, modelAlias,
+            attributeField, phql, column, columns, selectedColumns,
+            selectedColumn, selectedModel, selectedModels, columnAlias,
+            modelColumnAlias, joins, join, joinModel, joinConditions,
+            joinAlias, joinType, group, groupItems, groupItem, having, order,
+            orderItems, orderItem, limit, number, offset, forUpdate, distinct;
         bool noPrimary;
 
         let container = this->container;
@@ -922,7 +917,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                     this->bindParams["APL0"] = intval(number, 10),
                     this->bindTypes["APL0"] = Column::BIND_PARAM_INT;
 
-                if is_numeric(offset) {
+                if is_numeric(offset) && offset !== 0 {
                     let phql .= " OFFSET :APL1:",
                         this->bindParams["APL1"] = intval(offset, 10),
                         this->bindTypes["APL1"] = Column::BIND_PARAM_INT;

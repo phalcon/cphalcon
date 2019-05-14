@@ -22,8 +22,6 @@ class AddPrimaryKeyCest
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Postgresql :: addPrimaryKey()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

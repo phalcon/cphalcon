@@ -17,6 +17,6 @@ class M2MParts extends Model
 {
     public function initialize()
     {
-        $this->setSource("m2m_parts");
+        $this->setSource('m2m_parts');
     }
 }

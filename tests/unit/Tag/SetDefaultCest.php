@@ -27,7 +27,7 @@ class SetDefaultCest extends TagSetup
      */
     public function tagSetDefault(UnitTester $I)
     {
-        $I->wantToTest("Tag - setDefault()");
+        $I->wantToTest('Tag - setDefault()');
 
         Tag::setDefault('property1', 'testVal1');
         Tag::setDefault('property2', 'testVal2');

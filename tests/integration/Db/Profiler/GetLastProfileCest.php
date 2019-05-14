@@ -34,8 +34,6 @@ class GetLastProfileCest
     /**
      * Tests Phalcon\Db\Profiler :: getLastProfile()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -64,7 +62,7 @@ class GetLastProfileCest
 
         $connection->setEventsManager($eventsManager);
 
-        $connection->query("SELECT * FROM personas LIMIT 3");
+        $connection->query('SELECT * FROM personas LIMIT 3');
 
         $profiler = $listener->getProfiler();
 
@@ -81,7 +79,7 @@ class GetLastProfileCest
         );
 
         $I->assertEquals(
-            "SELECT * FROM personas LIMIT 3",
+            'SELECT * FROM personas LIMIT 3',
             $profile->getSQLStatement()
         );
 
@@ -104,7 +102,7 @@ class GetLastProfileCest
             $profile->getFinalTime() > $profile->getInitialTime()
         );
 
-        $connection->query("SELECT * FROM personas LIMIT 100");
+        $connection->query('SELECT * FROM personas LIMIT 100');
 
         $I->assertEquals(
             2,
@@ -119,7 +117,7 @@ class GetLastProfileCest
         );
 
         $I->assertEquals(
-            "SELECT * FROM personas LIMIT 100",
+            'SELECT * FROM personas LIMIT 100',
             $profile->getSQLStatement()
         );
 

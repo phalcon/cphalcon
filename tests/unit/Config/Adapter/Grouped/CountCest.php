@@ -25,6 +25,6 @@ class CountCest
     public function configAdapterGroupedCount(UnitTester $I)
     {
         $I->wantToTest("Config\Adapter\Grouped - count()");
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

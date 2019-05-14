@@ -26,8 +26,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Logger :: __construct() - implement PSR
-     *
-     * @param UnitTester $I
      */
     public function loggerConstructImplementPsr(UnitTester $I)
     {
@@ -58,8 +56,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Logger :: __construct() - file with json formatter
-     *
-     * @param UnitTester $I
      */
     public function loggerConstructStreamWithJsonConstants(UnitTester $I)
     {
@@ -78,8 +74,8 @@ class ConstructCest
 
         $time = time();
         $logger->debug('This is a message');
-        $logger->log(Logger::ERROR, "This is an error");
-        $logger->error("This is another error");
+        $logger->log(Logger::ERROR, 'This is an error');
+        $logger->error('This is another error');
 
         $I->amInPath($outputPath);
         $I->openFile($fileName);
@@ -99,8 +95,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Logger :: __construct() - read only mode exception
-     *
-     * @param UnitTester $I
      */
     public function loggerConstructStreamReadOnlyModeException(UnitTester $I)
     {
@@ -118,8 +112,6 @@ class ConstructCest
 
     /**
      * Tests Phalcon\Logger :: __construct() - no adapter exception
-     *
-     * @param UnitTester $I
      */
     public function loggerConstructNoAdapterException(UnitTester $I)
     {

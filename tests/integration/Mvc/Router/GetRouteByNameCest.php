@@ -25,8 +25,6 @@ class GetRouteByNameCest
     /**
      * Tests Phalcon\Mvc\Router :: getRouteByName()
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2018-06-28
      */

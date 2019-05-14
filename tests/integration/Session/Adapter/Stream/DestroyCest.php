@@ -12,24 +12,18 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Adapter\Stream;
 
+use function cacheDir;
+use function file_put_contents;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
-use function cacheDir;
-use function file_put_contents;
 use function uniqid;
 
-/**
- * Class DestroyCest
- */
 class DestroyCest
 {
     use DiTrait;
     use SessionTrait;
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function _before(IntegrationTester $I)
     {
         $this->newFactoryDefault();
@@ -37,8 +31,6 @@ class DestroyCest
 
     /**
      * Tests Phalcon\Session\Adapter\Stream :: destroy()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

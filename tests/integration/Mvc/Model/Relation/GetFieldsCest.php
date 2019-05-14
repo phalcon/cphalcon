@@ -23,8 +23,6 @@ class GetFieldsCest
     /**
      * Tests Phalcon\Mvc\Model\Relation :: getFields()
      *
-     * @param IntegrationTester $I
-     *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-18
      */
@@ -51,8 +49,6 @@ class GetFieldsCest
 
     /**
      * Tests Phalcon\Mvc\Model\Relation :: getFields()
-     *
-     * @param IntegrationTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-18

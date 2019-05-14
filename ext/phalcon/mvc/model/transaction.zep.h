@@ -25,7 +25,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction___construct, 0, 0, 
 	ZEND_ARG_INFO(0, autoBegin)
 #endif
 #if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, service, IS_STRING, 1)
+	ZEND_ARG_TYPE_INFO(0, service, IS_STRING, 0)
 #else
 	ZEND_ARG_INFO(0, service)
 #endif

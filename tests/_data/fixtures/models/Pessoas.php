@@ -17,7 +17,7 @@ class Pessoas extends Model
 {
     public function initialize()
     {
-        $this->setSource("personnes");
+        $this->setSource('personnes');
     }
 
     public function columnMap()

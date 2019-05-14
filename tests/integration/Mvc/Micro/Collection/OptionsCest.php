@@ -22,8 +22,6 @@ class OptionsCest
     /**
      * Tests Phalcon\Mvc\Micro\Collection :: options()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

@@ -12,8 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 
@@ -139,7 +139,7 @@ PHP_METHOD(Phalcon_Filter_FilterLocatorFactory, newInstance) {
 	zephir_array_update_string(&helpers, SL("url"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&locator);
 	object_init_ex(&locator, phalcon_filter_filterlocator_ce);
-	ZEPHIR_CALL_METHOD(NULL, &locator, "__construct", NULL, 206, &helpers);
+	ZEPHIR_CALL_METHOD(NULL, &locator, "__construct", NULL, 207, &helpers);
 	zephir_check_call_status();
 	RETURN_CCTOR(&locator);
 

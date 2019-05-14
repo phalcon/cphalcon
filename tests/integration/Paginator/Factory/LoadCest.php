@@ -33,7 +33,7 @@ class LoadCest
     {
         $I->wantToTest("Paginator\Factory - load() - Config");
 
-        $I->skipTest("TODO: need to check this");
+        $I->skipTest('TODO: need to check this');
 
         $this->setNewFactoryDefault();
 
@@ -42,9 +42,9 @@ class LoadCest
             ->container
             ->get('modelsManager')
             ->createBuilder()
-            ->columns("id,name")
-            ->from("Robots")
-            ->orderBy("name")
+            ->columns('id,name')
+            ->from('Robots')
+            ->orderBy('name')
         ;
 
         /** @var QueryBuilder $paginator */
@@ -69,8 +69,6 @@ class LoadCest
     /**
      * Tests Phalcon\Paginator\Factory :: load() - array
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
@@ -78,18 +76,18 @@ class LoadCest
     {
         $I->wantToTest("Paginator\Factory - load() - array");
 
-        $I->skipTest("TODO: need to check this");
+        $I->skipTest('TODO: need to check this');
 
         $this->setNewFactoryDefault();
 
-        $options            = $this->arrayConfig["paginator"];
-        $options["builder"] = $this
+        $options            = $this->arrayConfig['paginator'];
+        $options['builder'] = $this
             ->container
             ->get('modelsManager')
             ->createBuilder()
-            ->columns("id,name")
-            ->from("Robots")
-            ->orderBy("name")
+            ->columns('id,name')
+            ->from('Robots')
+            ->orderBy('name')
         ;
 
         /** @var QueryBuilder $paginator */
@@ -101,12 +99,12 @@ class LoadCest
         );
 
         $I->assertEquals(
-            $options["limit"],
+            $options['limit'],
             $paginator->getLimit()
         );
 
         $I->assertEquals(
-            $options["page"],
+            $options['page'],
             $paginator->getCurrentPage()
         );
     }

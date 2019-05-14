@@ -421,6 +421,8 @@ int zephir_call_user_function(zval *object_pp, zend_class_entry *obj_ce, zephir_
 	}
 	else if (FAILURE == status || EG(exception)) {
 		ZVAL_NULL(retval_ptr);
+	} else if (Z_TYPE_P(retval_ptr) == IS_ARRAY) {
+		SEPARATE_ARRAY(retval_ptr);
 	}
 
 	return status;

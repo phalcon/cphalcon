@@ -26,16 +26,19 @@ class SetDataCest
     public function storageSerializerBase64SetData(UnitTester $I)
     {
         $I->wantToTest('Storage\Serializer\Base64 - setData()');
-        $data       = ["Phalcon Framework"];
+
+        $data       = ['Phalcon Framework'];
         $serializer = new Base64();
 
-        $actual = $serializer->getData();
-        $I->assertNull($actual);
+        $I->assertNull(
+            $serializer->getData()
+        );
 
         $serializer->setData($data);
 
-        $expected = $data;
-        $actual   = $serializer->getData();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $data,
+            $serializer->getData()
+        );
     }
 }

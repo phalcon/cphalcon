@@ -570,6 +570,10 @@ int zephir_update_property_zval(zval *object, const char *property_name, unsigne
 
 	ZVAL_STRINGL(&property, property_name, property_length);
 
+	if (Z_TYPE_P(value) == IS_ARRAY) {
+		SEPARATE_ARRAY(value);
+	}
+
 	/* write_property will add 1 to refcount, so no Z_TRY_ADDREF_P(value); is necessary */
 	Z_OBJ_HT_P(object)->write_property(object, &property, value, 0);
 	zval_ptr_dtor(&property);

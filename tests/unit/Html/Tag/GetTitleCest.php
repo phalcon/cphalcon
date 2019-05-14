@@ -33,7 +33,7 @@ class GetTitleCest
         $I->wantToTest('Html\Tag - getTitle()');
         $tag = new Tag();
         $tag->setDI($this->container);
-        $value = "Hello Title";
+        $value = 'Hello Title';
 
         $tag->setTitle($value);
         $expected = 'Hello Title';

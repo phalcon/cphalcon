@@ -14,15 +14,10 @@ namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
 
-/**
- * Class SetRawCest
- */
 class SetRawCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault\Cli :: setRaw()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

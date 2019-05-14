@@ -22,8 +22,6 @@ class SetAttributesCest
     /**
      * Tests Phalcon\Forms\Element\Check :: setAttributes()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

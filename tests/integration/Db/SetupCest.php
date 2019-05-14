@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db;
 
 use IntegrationTester;
 
-/**
- * Class SetupCest
- */
 class SetupCest
 {
     /**
      * Tests Phalcon\Db :: setup()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetupCest
     public function dbSetup(IntegrationTester $I)
     {
         $I->wantToTest('Db - setup()');
+
         $I->skipTest('Need implementation');
     }
 }

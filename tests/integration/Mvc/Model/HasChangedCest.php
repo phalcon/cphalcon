@@ -22,8 +22,6 @@ class HasChangedCest
     /**
      * Tests Phalcon\Mvc\Model :: hasChanged()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

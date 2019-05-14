@@ -25,7 +25,7 @@ class ImageInputCest extends TagSetup
      */
     public function tagImageInputStringParameter(UnitTester $I)
     {
-        $I->wantToTest("Tag :: imageInput() - string as a parameter");
+        $I->wantToTest('Tag :: imageInput() - string as a parameter');
         $options  = 'x_name';
         $expected = '<input type="image" value="x_name"';
 
@@ -57,7 +57,7 @@ class ImageInputCest extends TagSetup
      */
     public function tagImageInputArrayParameter(UnitTester $I)
     {
-        $I->wantToTest("Tag :: imageInput() - array as a parameter");
+        $I->wantToTest('Tag :: imageInput() - array as a parameter');
         $options  = [
             'x_name',
             'class' => 'x_class',
@@ -97,7 +97,7 @@ class ImageInputCest extends TagSetup
      */
     public function tagImageInputArrayParameterWithId(UnitTester $I)
     {
-        $I->wantToTest("Tag :: imageInput() - array as a parameters and id in it");
+        $I->wantToTest('Tag :: imageInput() - array as a parameters and id in it');
         $options  = [
             'x_name',
             'id'    => 'x_id',
@@ -141,7 +141,7 @@ class ImageInputCest extends TagSetup
      */
     public function tagImageInputArrayParameterWithNameNoId(UnitTester $I)
     {
-        $I->wantToTest("Tag :: imageInput() - name and no id in parameter");
+        $I->wantToTest('Tag :: imageInput() - name and no id in parameter');
         $options  = [
             'x_name',
             'name'  => 'x_other',
@@ -185,7 +185,7 @@ class ImageInputCest extends TagSetup
      */
     public function tagImageInputWithSetDefault(UnitTester $I)
     {
-        $I->wantToTest("Tag :: imageInput() - setDefault()");
+        $I->wantToTest('Tag :: imageInput() - setDefault()');
         $options  = [
             'x_name',
             'name'  => 'x_other',
@@ -232,7 +232,7 @@ class ImageInputCest extends TagSetup
      */
     public function tagImageInputWithDisplayTo(UnitTester $I)
     {
-        $I->wantToTest("Tag :: imageInput() - displayTo()");
+        $I->wantToTest('Tag :: imageInput() - displayTo()');
         $options  = [
             'x_name',
             'name'  => 'x_other',
@@ -280,7 +280,7 @@ class ImageInputCest extends TagSetup
      */
     public function tagImageInputWithSetDefaultElementNotPresent(UnitTester $I)
     {
-        $I->wantToTest("Tag :: imageInput() - setDefault() and element not present");
+        $I->wantToTest('Tag :: imageInput() - setDefault() and element not present');
         $options  = [
             'x_name',
             'name'  => 'x_other',
@@ -328,7 +328,7 @@ class ImageInputCest extends TagSetup
      */
     public function tagImageInputWithDisplayToElementNotPresent(UnitTester $I)
     {
-        $I->wantToTest("Tag :: imageInput() - displayTo() and element not present");
+        $I->wantToTest('Tag :: imageInput() - displayTo() and element not present');
 
         $options = [
             'x_name',

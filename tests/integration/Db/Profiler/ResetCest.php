@@ -17,9 +17,6 @@ use Phalcon\Events\Manager;
 use Phalcon\Test\Fixtures\Db\ProfilerListener;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class ResetCest
- */
 class ResetCest
 {
     use DiTrait;
@@ -32,8 +29,6 @@ class ResetCest
 
     /**
      * Tests Phalcon\Db\Profiler :: reset()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -65,11 +60,11 @@ class ResetCest
 
         $profiler = $listener->getProfiler();
 
-        $connection->query("SELECT * FROM personas LIMIT 3");
-        $connection->query("SELECT * FROM personas LIMIT 100");
-        $connection->query("SELECT * FROM personas LIMIT 5");
-        $connection->query("SELECT * FROM personas LIMIT 10");
-        $connection->query("SELECT * FROM personas LIMIT 15");
+        $connection->query('SELECT * FROM personas LIMIT 3');
+        $connection->query('SELECT * FROM personas LIMIT 100');
+        $connection->query('SELECT * FROM personas LIMIT 5');
+        $connection->query('SELECT * FROM personas LIMIT 10');
+        $connection->query('SELECT * FROM personas LIMIT 15');
 
         $I->assertCount(
             5,

@@ -25,29 +25,22 @@ class Line extends AbstractFormatter
      *
      * @var string
      */
-    protected dateFormat = "D, d M y H:i:s O" { get, set };
+    protected dateFormat { get, set };
 
     /**
      * Format applied to each message
      *
      * @var string
      */
-    protected format = "[%date%][%type%] %message%" { get, set };
+    protected format { get, set };
 
     /**
      * Phalcon\Logger\Formatter\Line construct
-     *
-     * @param string format
-     * @param string dateFormat
      */
-    public function __construct(string format = "", string dateFormat = "") -> void
+    public function __construct(string format = "[%date%][%type%] %message%", string dateFormat = "D, d M y H:i:s O") -> void
     {
-        if format {
-            let this->format = format;
-        }
-        if dateFormat {
-            let this->dateFormat = dateFormat;
-        }
+        let this->format = format;
+        let this->dateFormat = dateFormat;
     }
 
     /**

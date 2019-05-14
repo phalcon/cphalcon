@@ -25,18 +25,14 @@ class Json extends AbstractFormatter
      *
      * @var string
      */
-    protected dateFormat = "D, d M y H:i:s O" { get, set };
+    protected dateFormat { get, set };
 
     /**
      * Phalcon\Logger\Formatter\Json construct
-     *
-     * @param string dateFormat
      */
-    public function __construct(string dateFormat = "") -> void
+    public function __construct(string dateFormat = "D, d M y H:i:s O") -> void
     {
-        if dateFormat {
-            let this->dateFormat = dateFormat;
-        }
+        let this->dateFormat = dateFormat;
     }
 
     /**

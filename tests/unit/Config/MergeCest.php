@@ -29,25 +29,14 @@ class MergeCest
      */
     public function configMergeConfig(UnitTester $I)
     {
-        $I->wantToTest("Config - merge() - Config");
+        $I->wantToTest('Config - merge() - Config');
+
         $config = $this->getConfig();
 
-        $expected = $this->getMergedByConfig();
-        $actual   = $config;
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Merges the reference config object into an empty config object.
-     *
-     * @return Config
-     */
-    private function getMergedByConfig(): Config
-    {
-        $config = new Config();
-        $config->merge($this->getConfig());
-
-        return $config;
+        $I->assertEquals(
+            $this->getMergedByConfig(),
+            $config
+        );
     }
 
     /**
@@ -58,25 +47,14 @@ class MergeCest
      */
     public function configMergeArr(UnitTester $I)
     {
-        $I->wantToTest("Config - merge() - array");
+        $I->wantToTest('Config - merge() - array');
+
         $config = $this->getConfig();
 
-        $expected = $this->getMergedByArray();
-        $actual   = $config;
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Merges the reference config array data into an empty config object.
-     *
-     * @return Config
-     */
-    private function getMergedByArray(): Config
-    {
-        $config = new Config();
-        $config->merge(require dataDir('assets/config/config.php'));
-
-        return $config;
+        $I->assertEquals(
+            $this->getMergedByArray(),
+            $config
+        );
     }
 
     /**
@@ -95,6 +73,8 @@ class MergeCest
                 ],
             ]
         );
+
+
 
         $expected = Config::__set_state(
             [
@@ -117,6 +97,8 @@ class MergeCest
         );
 
         $I->assertEquals($expected, $actual);
+
+
 
         $config = new Config(
             [
@@ -234,8 +216,34 @@ class MergeCest
             ]
         );
 
-        $actual = $config1;
+        $I->assertEquals($expected, $config1);
+    }
 
-        $I->assertEquals($expected, $actual);
+    /**
+     * Merges the reference config object into an empty config object.
+     */
+    private function getMergedByConfig(): Config
+    {
+        $config = new Config();
+
+        $config->merge(
+            $this->getConfig()
+        );
+
+        return $config;
+    }
+
+    /**
+     * Merges the reference config array data into an empty config object.
+     */
+    private function getMergedByArray(): Config
+    {
+        $config = new Config();
+
+        $config->merge(
+            require dataDir('assets/config/config.php')
+        );
+
+        return $config;
     }
 }

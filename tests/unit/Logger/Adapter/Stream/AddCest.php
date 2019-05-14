@@ -21,8 +21,6 @@ class AddCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: add()
-     *
-     * @param UnitTester $I
      */
     public function loggerAdapterStreamAdd(UnitTester $I)
     {

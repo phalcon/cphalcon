@@ -29,7 +29,7 @@ class CreateServerRequestCest
         $I->wantToTest('Http\Message\ServerRequestFactory - createServerRequest()');
 
         $factory = new ServerRequestFactory();
-        $request = $factory->createServerRequest("GET", "");
+        $request = $factory->createServerRequest('GET', '');
         $class   = ServerRequestInterface::class;
         $I->assertInstanceOf($class, $request);
     }

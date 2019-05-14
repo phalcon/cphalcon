@@ -13,11 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
+#include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 
@@ -59,10 +59,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_AdapterFactory) {
  */
 PHP_METHOD(Phalcon_Cache_AdapterFactory, __construct) {
 
-	zend_string *_3;
-	zend_ulong _2;
+	zend_string *_4;
+	zend_ulong _3;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval services;
-	zval *factory, factory_sub, *services_param = NULL, adapters, name, service, _0, *_1, _4$$3;
+	zval *factory, factory_sub, *services_param = NULL, adapters, name, service, _0, *_1, _2, _5$$3, _6$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
@@ -70,7 +71,9 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, __construct) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&service);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_5$$3);
+	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&services);
 
 	ZEPHIR_MM_GROW();
@@ -96,20 +99,41 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, __construct) {
 	zephir_fast_array_merge(&_0, &adapters, &services TSRMLS_CC);
 	ZEPHIR_CPY_WRT(&adapters, &_0);
 	zephir_is_iterable(&adapters, 0, "phalcon/Cache/AdapterFactory.zep", 57);
-	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&adapters), _2, _3, _1)
-	{
-		ZEPHIR_INIT_NVAR(&name);
-		if (_3 != NULL) { 
-			ZVAL_STR_COPY(&name, _3);
-		} else {
-			ZVAL_LONG(&name, _2);
+	if (Z_TYPE_P(&adapters) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&adapters), _3, _4, _1)
+		{
+			ZEPHIR_INIT_NVAR(&name);
+			if (_4 != NULL) { 
+				ZVAL_STR_COPY(&name, _4);
+			} else {
+				ZVAL_LONG(&name, _3);
+			}
+			ZEPHIR_INIT_NVAR(&service);
+			ZVAL_COPY(&service, _1);
+			zephir_update_property_array(this_ptr, SL("mapper"), &name, &service);
+			zephir_read_property(&_5$$3, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
+			zephir_array_unset(&_5$$3, &name, PH_SEPARATE);
+		} ZEND_HASH_FOREACH_END();
+	} else {
+		ZEPHIR_CALL_METHOD(NULL, &adapters, "rewind", NULL, 0);
+		zephir_check_call_status();
+		while (1) {
+			ZEPHIR_CALL_METHOD(&_2, &adapters, "valid", NULL, 0);
+			zephir_check_call_status();
+			if (!zend_is_true(&_2)) {
+				break;
+			}
+			ZEPHIR_CALL_METHOD(&name, &adapters, "key", NULL, 0);
+			zephir_check_call_status();
+			ZEPHIR_CALL_METHOD(&service, &adapters, "current", NULL, 0);
+			zephir_check_call_status();
+				zephir_update_property_array(this_ptr, SL("mapper"), &name, &service);
+				zephir_read_property(&_6$$4, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
+				zephir_array_unset(&_6$$4, &name, PH_SEPARATE);
+			ZEPHIR_CALL_METHOD(NULL, &adapters, "next", NULL, 0);
+			zephir_check_call_status();
 		}
-		ZEPHIR_INIT_NVAR(&service);
-		ZVAL_COPY(&service, _1);
-		zephir_update_property_array(this_ptr, SL("mapper"), &name, &service TSRMLS_CC);
-		zephir_read_property(&_4$$3, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_unset(&_4$$3, &name, PH_SEPARATE);
-	} ZEND_HASH_FOREACH_END();
+	}
 	ZEPHIR_INIT_NVAR(&service);
 	ZEPHIR_INIT_NVAR(&name);
 	ZEPHIR_MM_RESTORE();
@@ -188,7 +212,8 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, newInstance) {
 			ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", NULL, 0, &_8$$4, &options);
 			zephir_check_call_status();
 		}
-		zephir_update_property_array(this_ptr, SL("services"), &name, &_5$$4 TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("services"), &name, &_5$$4);
+		ZEPHIR_INIT_NVAR(&_5$$4);
 	}
 	zephir_read_property(&_9, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_10, &_9, &name, PH_NOISY | PH_READONLY, "phalcon/Cache/AdapterFactory.zep", 75 TSRMLS_CC);

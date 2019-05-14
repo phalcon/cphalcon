@@ -22,8 +22,6 @@ class EnableCest
     /**
      * Tests Phalcon\Mvc\View :: enable()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

@@ -18,14 +18,12 @@ class UnderscoreGetConnectionServiceCest
     /**
      * Tests Phalcon\Mvc\Model\Manager :: _getConnectionService()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function mvcModelManagerUnderscoreGetConnectionService(IntegrationTester $I)
     {
         $I->wantToTest("Mvc\Model\Manager - _getConnectionService()");
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

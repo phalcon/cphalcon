@@ -20,6 +20,9 @@ use Phalcon\Mvc\Model\BehaviorInterface;
  */
 abstract class Behavior implements BehaviorInterface
 {
+    /**
+     * @var array
+     */
     protected options;
 
     /**

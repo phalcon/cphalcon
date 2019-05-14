@@ -27,7 +27,7 @@ class GetPathDelimiterCest
      */
     public function configGetPathDelimiter(UnitTester $I)
     {
-        $I->wantToTest("Config - getPathDelimiter()");
+        $I->wantToTest('Config - getPathDelimiter()');
         $this->checkGetPathDelimiter($I);
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Mvc\Router;
 
 use IntegrationTester;
 
-/**
- * Class SetDefaultActionCest
- */
 class SetDefaultActionCest
 {
     /**
      * Tests Phalcon\Mvc\Router :: setDefaultAction()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

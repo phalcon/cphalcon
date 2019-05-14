@@ -15,8 +15,8 @@ namespace Phalcon\Test\Unit\Http\Request;
 use Codeception\Example;
 use Phalcon\Http\Request;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use UnitTester;
 use function ucfirst;
+use UnitTester;
 
 class GetFilteredPostCest
 {
@@ -26,9 +26,6 @@ class GetFilteredPostCest
      * Tests Phalcon\Http\Request :: getFilteredPost()
      *
      * @dataProvider getExamples
-     *
-     * @param UnitTester $I
-     * @param Example    $example
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-01
@@ -80,9 +77,6 @@ class GetFilteredPostCest
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

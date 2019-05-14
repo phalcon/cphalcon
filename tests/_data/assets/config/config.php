@@ -1,23 +1,23 @@
 <?php
 
 return [
-    "phalcon"     => [
-        "baseuri" => "/phalcon/",
+    'phalcon'     => [
+        'baseuri' => '/phalcon/',
     ],
-    "models"      => [
-        "metadata" => "memory",
+    'models'      => [
+        'metadata' => 'memory',
     ],
-    "database"    => [
-        "adapter"  => "mysql",
-        "host"     => "localhost",
-        "username" => "user",
-        "password" => "passwd",
-        "name"     => "demo",
+    'database'    => [
+        'adapter'  => 'mysql',
+        'host'     => 'localhost',
+        'username' => 'user',
+        'password' => 'passwd',
+        'name'     => 'demo',
     ],
-    "test"        => [
-        "parent" => [
-            "property"  => 1,
-            "property2" => "yeah",
+    'test'        => [
+        'parent' => [
+            'property'  => 1,
+            'property2' => 'yeah',
         ],
     ],
     'issue-12725' => [

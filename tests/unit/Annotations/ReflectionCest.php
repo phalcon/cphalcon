@@ -29,9 +29,17 @@ class ReflectionCest
     {
         $reflection = new Reflection();
 
-        $I->assertEquals(null, $reflection->getClassAnnotations());
-        $I->assertEquals(null, $reflection->getMethodsAnnotations());
-        $I->assertEquals(null, $reflection->getPropertiesAnnotations());
+        $I->assertFalse(
+            $reflection->getClassAnnotations()
+        );
+
+        $I->assertFalse(
+            $reflection->getMethodsAnnotations()
+        );
+
+        $I->assertFalse(
+            $reflection->getPropertiesAnnotations()
+        );
     }
 
     /**
@@ -42,15 +50,25 @@ class ReflectionCest
      */
     public function testParsingARealClass(UnitTester $I)
     {
-        $reader     = new Reader();
-        $reflection = new Reflection($reader->parse('TestClass'));
+        $reader = new Reader();
+
+        $reflection = new Reflection(
+            $reader->parse('TestClass')
+        );
 
         $classAnnotations = $reflection->getClassAnnotations();
-        $I->assertEquals('Phalcon\Annotations\Collection', get_class($classAnnotations));
+        $I->assertInstanceOf(
+            \Phalcon\Annotations\Collection::class,
+            $classAnnotations
+        );
 
         $number = 0;
         foreach ($classAnnotations as $annotation) {
-            $I->assertEquals('Phalcon\Annotations\Annotation', get_class($annotation));
+            $I->assertInstanceOf(
+                \Phalcon\Annotations\Annotation::class,
+                $annotation
+            );
+
             $number++;
         }
 
@@ -66,21 +84,31 @@ class ReflectionCest
      */
     public function testClassAnnotations(UnitTester $I)
     {
-        $reader     = new Reader();
-        $reflection = new Reflection($reader->parse('TestClass'));
+        $reader = new Reader();
+
+        $reflection = new Reflection(
+            $reader->parse('TestClass')
+        );
 
         $methodsAnnotations = $reflection->getMethodsAnnotations();
 
-        $I->assertEquals('array', gettype($methodsAnnotations));
-        $I->assertEquals('Phalcon\Annotations\Collection', get_class($methodsAnnotations['testMethod1']));
+        $I->assertInternalType('array', $methodsAnnotations);
+        $I->assertInstanceOf(
+            \Phalcon\Annotations\Collection::class,
+            $methodsAnnotations['testMethod1']
+        );
 
         $total = 0;
         foreach ($methodsAnnotations as $method => $annotations) {
-            $I->assertEquals('string', gettype($method));
+            $I->assertInternalType('string', $method);
 
             $number = 0;
             foreach ($annotations as $annotation) {
-                $I->assertEquals('Phalcon\Annotations\Annotation', get_class($annotation));
+                $I->assertInstanceOf(
+                    \Phalcon\Annotations\Annotation::class,
+                    $annotation
+                );
+
                 $number++;
                 $total++;
             }
@@ -117,6 +145,7 @@ class ReflectionCest
         );
 
         $total = 0;
+
         foreach ($propertiesAnnotations as $property => $annotations) {
             $I->assertInstanceOf(
                 Collection::class,
@@ -124,6 +153,7 @@ class ReflectionCest
             );
 
             $number = 0;
+
             foreach ($annotations as $annotation) {
                 $I->assertInstanceOf(
                     Annotation::class,

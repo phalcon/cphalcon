@@ -81,7 +81,7 @@ class RouterCest
         ;
 
 
-        $router->handle("/");
+        $router->handle('/');
 
         $I->assertFalse(
             $router->wasMatched()

@@ -15,7 +15,6 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
 use UnitTester;
-use function outputDir;
 
 class RollbackCest
 {
@@ -46,8 +45,6 @@ class RollbackCest
 
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: rollback() - exception
-     *
-     * @param UnitTester $I
      */
     public function loggerAdapterStreamRollbackException(UnitTester $I)
     {

@@ -26,9 +26,6 @@ class ButtonCest
      *
      * @dataProvider getExamples
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @throws Exception
      */
     public function htmlHelperTextareaConstruct(UnitTester $I, Example $example)
@@ -48,9 +45,6 @@ class ButtonCest
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

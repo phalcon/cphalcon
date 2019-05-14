@@ -31,22 +31,39 @@ class DbDescribeCest
     /**
      * Tests Phalcon\Db :: Mysql
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbMySql(IntegrationTester $I)
     {
-        $I->wantToTest("Db - MySql");
+        $I->wantToTest('Db - MySql');
+
         $this->setDiMysql();
+
         $connection = $this->getService('db');
 
-        //Table exist
-        $I->assertEquals($connection->tableExists('personas'), 1);
-        $I->assertEquals($connection->tableExists('noexist'), 0);
-        $I->assertEquals($connection->tableExists('personas', env('DATA_MYSQL_NAME')), 1);
-        $I->assertEquals($connection->tableExists('personas', 'test'), 0);
+
+
+        // Table exist
+        $I->assertEquals(
+            1,
+            $connection->tableExists('personas')
+        );
+
+        $I->assertEquals(
+            0,
+            $connection->tableExists('noexist')
+        );
+
+        $I->assertEquals(
+            1,
+            $connection->tableExists('personas', env('DATA_MYSQL_NAME'))
+        );
+
+        $I->assertEquals(
+            0,
+            $connection->tableExists('personas', 'test')
+        );
 
         /**
          * @TODO - Check this after refactoring
@@ -66,51 +83,71 @@ class DbDescribeCest
             'table_collation' => 'utf8_unicode_ci',
         ];
 
-        $options = $connection->tableOptions('personas', env('DATA_MYSQL_NAME'));
-        $I->assertEquals($options, $expectedOptions);
+        $I->assertEquals(
+            $expectedOptions,
+            $connection->tableOptions('personas', env('DATA_MYSQL_NAME'))
+        );
 
         //Indexes
         $expectedIndexes = [
-            'PRIMARY'   => Index::__set_state([
-                'name'    => 'PRIMARY',
-                'columns' => ['id'],
-                'type'    => 'PRIMARY',
-            ]),
-            'robots_id' => Index::__set_state([
-                'name'    => 'robots_id',
-                'columns' => ['robots_id'],
-            ]),
-            'parts_id'  => Index::__set_state([
-                'name'    => 'parts_id',
-                'columns' => ['parts_id'],
-            ]),
+            'PRIMARY'   => Index::__set_state(
+                [
+                    'name'    => 'PRIMARY',
+                    'columns' => ['id'],
+                    'type'    => 'PRIMARY',
+                ]
+            ),
+            'robots_id' => Index::__set_state(
+                [
+                    'name'    => 'robots_id',
+                    'columns' => ['robots_id'],
+                ]
+            ),
+            'parts_id'  => Index::__set_state(
+                [
+                    'name'    => 'parts_id',
+                    'columns' => ['parts_id'],
+                ]
+            ),
         ];
 
-        $describeIndexes = $connection->describeIndexes('robots_parts');
-        $I->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals(
+            $expectedIndexes,
+            $connection->describeIndexes('robots_parts')
+        );
 
-        $describeIndexes = $connection->describeIndexes('robots_parts', env('DATA_MYSQL_NAME'));
-        $I->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals(
+            $expectedIndexes,
+            $connection->describeIndexes('robots_parts', env('DATA_MYSQL_NAME'))
+        );
 
         //Indexes
         $expectedIndexes = [
-            'PRIMARY'                  => Index::__set_state([
-                'name'    => 'PRIMARY',
-                'columns' => ['id'],
-                'type'    => 'PRIMARY',
-            ]),
-            'issue_11036_token_UNIQUE' => Index::__set_state([
-                'name'    => 'issue_11036_token_UNIQUE',
-                'columns' => ['token'],
-                'type'    => 'UNIQUE',
-            ]),
+            'PRIMARY'                  => Index::__set_state(
+                [
+                    'name'    => 'PRIMARY',
+                    'columns' => ['id'],
+                    'type'    => 'PRIMARY',
+                ]
+            ),
+            'issue_11036_token_UNIQUE' => Index::__set_state(
+                [
+                    'name'    => 'issue_11036_token_UNIQUE',
+                    'columns' => ['token'],
+                    'type'    => 'UNIQUE',
+                ]
+            ),
         ];
 
-        $describeIndexes = $connection->describeIndexes('issue_11036');
-        $I->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals(
+            $expectedIndexes,
+            $connection->describeIndexes('issue_11036')
+        );
 
-        $describeIndexes = $connection->describeIndexes('issue_11036', env('DATA_MYSQL_NAME'));
-        $I->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals(
+            $expectedIndexes,
+            $connection->describeIndexes('issue_11036', env('DATA_MYSQL_NAME'))
+        );
 
         //References
         $expectedReferences = [
@@ -138,40 +175,48 @@ class DbDescribeCest
             ),
         ];
 
-        $describeReferences = $connection->describeReferences('robots_parts');
-        $I->assertEquals($describeReferences, $expectedReferences);
+        $I->assertEquals(
+            $expectedReferences,
+            $connection->describeReferences('robots_parts')
+        );
 
-        $describeReferences = $connection->describeReferences('robots_parts', env('DATA_MYSQL_NAME'));
-        $I->assertEquals($describeReferences, $expectedReferences);
+        $I->assertEquals(
+            $expectedReferences,
+            $connection->describeReferences('robots_parts', env('DATA_MYSQL_NAME'))
+        );
     }
 
     /**
      * Tests Phalcon\Db :: Postgresql
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbPostgresql(IntegrationTester $I)
     {
-        $I->wantToTest("Db - Postgresql");
+        $I->wantToTest('Db - Postgresql');
+
         $this->setDiPostgresql();
+
         $connection = $this->getService('db');
 
-        //Columns
+        // Columns
         $expectedDescribe = $this->getExpectedColumnsPostgresql();
 
-        $describe = $connection->describeColumns('personas');
-        $I->assertEquals($describe, $expectedDescribe);
+        $I->assertEquals(
+            $expectedDescribe,
+            $connection->describeColumns('personas')
+        );
 
-        $describe = $connection->describeColumns('personas', 'public');
-        $I->assertEquals($describe, $expectedDescribe);
+        $I->assertEquals(
+            $expectedDescribe,
+            $connection->describeColumns('personas', 'public')
+        );
 
         /**
          * @todo Check the references (SQL dump file)
          */
-//        //Indexes
+//        // Indexes
 //        $expectedIndexes = [
 //            'robots_parts_parts_id'  => Index::__set_state([
 //                'name'    => 'robots_parts_parts_id',
@@ -400,15 +445,15 @@ class DbDescribeCest
     /**
      * Tests Phalcon\Db :: Sqlite
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbSqlite(IntegrationTester $I)
     {
-        $I->wantToTest("Db - Sqlite");
+        $I->wantToTest('Db - Sqlite');
+
         $this->setDiSqlite();
+
         $connection = $this->getService('db');
 
         //List tables
@@ -431,52 +476,94 @@ class DbDescribeCest
             'tipo_documento',
         ];
 
-        $tables = $connection->listTables();
 
-        $I->assertEquals($expectedTables, $tables);
+        $I->assertEquals(
+            $expectedTables,
+            $connection->listTables()
+        );
 
-        $tables = $connection->listTables('public');
-        $I->assertEquals($tables, $expectedTables);
+        $I->assertEquals(
+            $expectedTables,
+            $connection->listTables('public')
+        );
+
+
 
         //Table exist
-        $I->assertEquals($connection->tableExists('personas'), 1);
-        $I->assertEquals($connection->tableExists('noexist'), 0);
-        $I->assertEquals($connection->tableExists('personas', 'public'), 1);
-        $I->assertEquals($connection->tableExists('personas', 'test'), 1);
+        $I->assertEquals(
+            1,
+            $connection->tableExists('personas')
+        );
 
-        //Columns
+        $I->assertEquals(
+            0,
+            $connection->tableExists('noexist')
+        );
+
+        $I->assertEquals(
+            1,
+            $connection->tableExists('personas', 'public')
+        );
+
+        $I->assertEquals(
+            1,
+            $connection->tableExists('personas', 'test')
+        );
+
+
+
+        // Columns
         $expectedDescribe = $this->getExpectedColumnsSqlite();
-        $describe         = $connection->describeColumns('personas');
-        $I->assertEquals($describe, $expectedDescribe);
 
-        $describe = $connection->describeColumns('personas', 'main');
-        $I->assertEquals($describe, $expectedDescribe);
+        $I->assertEquals(
+            $expectedDescribe,
+            $connection->describeColumns('personas')
+        );
 
-        //Indexes
+        $I->assertEquals(
+            $expectedDescribe,
+            $connection->describeColumns('personas', 'main')
+        );
+
+
+
+        // Indexes
         $expectedIndexes = [
-            'sqlite_autoindex_COMPANY_1' => Index::__set_state([
-                'name'    => 'sqlite_autoindex_COMPANY_1',
-                'columns' => ['ID'],
-                'type'    => 'PRIMARY',
-            ]),
-            'salary_index'               => Index::__set_state([
-                'name'    => 'salary_index',
-                'columns' => ['SALARY'],
-            ]),
-            'name_index'                 => Index::__set_state([
-                'name'    => 'name_index',
-                'columns' => ['NAME'],
-                'type'    => 'UNIQUE',
-            ]),
+            'sqlite_autoindex_COMPANY_1' => Index::__set_state(
+                [
+                    'name'    => 'sqlite_autoindex_COMPANY_1',
+                    'columns' => ['ID'],
+                    'type'    => 'PRIMARY',
+                ]
+            ),
+            'salary_index'               => Index::__set_state(
+                [
+                    'name'    => 'salary_index',
+                    'columns' => ['SALARY'],
+                ]
+            ),
+            'name_index'                 => Index::__set_state(
+                [
+                    'name'    => 'name_index',
+                    'columns' => ['NAME'],
+                    'type'    => 'UNIQUE',
+                ]
+            ),
         ];
 
-        $describeIndexes = $connection->describeIndexes('COMPANY');
-        $I->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals(
+            $expectedIndexes,
+            $connection->describeIndexes('COMPANY')
+        );
 
-        $describeIndexes = $connection->describeIndexes('company', 'main');
-        $I->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals(
+            $expectedIndexes,
+            $connection->describeIndexes('company', 'main')
+        );
 
-        //References
+
+
+        // References
         $expectedReferences = [
             'foreign_key_0' => Reference::__set_state(
                 [
@@ -498,8 +585,10 @@ class DbDescribeCest
             ),
         ];
 
-        $describeReferences = $connection->describeReferences('robots_parts');
-        $I->assertEquals($describeReferences, $expectedReferences);
+        $I->assertEquals(
+            $expectedReferences,
+            $connection->describeReferences('robots_parts')
+        );
     }
 
     private function getExpectedColumnsSqlite()

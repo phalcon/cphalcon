@@ -26,7 +26,7 @@ class Base62Cest
     {
         $I->wantToTest("Security\Random - base62()");
 
-        $random = new \Phalcon\Security\Random;
+        $random = new \Phalcon\Security\Random();
 
 
 
@@ -34,7 +34,7 @@ class Base62Cest
 
         // Test forbidden characters
         $I->assertRegExp(
-            "/^[0-9A-Za-z]+$/",
+            '/^[0-9A-Za-z]+$/',
             $base62
         );
 

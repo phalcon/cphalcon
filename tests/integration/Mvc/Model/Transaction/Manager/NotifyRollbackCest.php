@@ -22,8 +22,6 @@ class NotifyRollbackCest
     /**
      * Tests Phalcon\Mvc\Model\Transaction\Manager :: notifyRollback()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

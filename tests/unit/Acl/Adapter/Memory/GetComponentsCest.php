@@ -38,8 +38,10 @@ class GetComponentsCest
 
 
         $expected = [$component1, $component2];
-        $actual   = $acl->getComponents();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $acl->getComponents()
+        );
     }
 }

@@ -65,7 +65,7 @@ class LoadCest
      */
     public function imageFactoryLoadArray(UnitTester $I)
     {
-        $options = $this->arrayConfig["image"];
+        $options = $this->arrayConfig['image'];
 
         /** @var Imagick $image */
         $image = Factory::load($options);
@@ -77,7 +77,7 @@ class LoadCest
 
 
         $expected = realpath(
-            $options["file"]
+            $options['file']
         );
 
         $I->assertEquals(

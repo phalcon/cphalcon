@@ -13,6 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\AdapterFactory;
 
 use Codeception\Example;
+use function getOptionsLibmemcached;
+use function getOptionsRedis;
+use function outputDir;
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Cache\Adapter\Memory;
@@ -22,9 +25,6 @@ use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Exception\Exception;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
-use function getOptionsLibmemcached;
-use function getOptionsRedis;
-use function outputDir;
 
 class NewInstanceCest
 {
@@ -47,8 +47,10 @@ class NewInstanceCest
 
         $service = $adapter->newInstance($example[0], $example[2]);
 
-        $class = $example[1];
-        $I->assertInstanceOf($class, $service);
+        $I->assertInstanceOf(
+            $example[1],
+            $service
+        );
     }
 
     /**
@@ -74,9 +76,6 @@ class NewInstanceCest
         );
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

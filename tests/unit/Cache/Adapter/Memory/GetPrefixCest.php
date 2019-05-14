@@ -29,11 +29,18 @@ class GetPrefixCest
         $I->wantToTest('Cache\Adapter\Memory - getPrefix()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Memory($serializer, ['prefix' => 'my-prefix']);
 
-        $expected = 'my-prefix';
-        $actual   = $adapter->getPrefix();
-        $I->assertEquals($expected, $actual);
+        $adapter = new Memory(
+            $serializer,
+            [
+                'prefix' => 'my-prefix',
+            ]
+        );
+
+        $I->assertEquals(
+            'my-prefix',
+            $adapter->getPrefix()
+        );
     }
 
     /**
@@ -49,8 +56,9 @@ class GetPrefixCest
         $serializer = new SerializerFactory();
         $adapter    = new Memory($serializer);
 
-        $expected = 'ph-memo-';
-        $actual   = $adapter->getPrefix();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'ph-memo-',
+            $adapter->getPrefix()
+        );
     }
 }

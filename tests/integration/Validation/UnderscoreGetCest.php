@@ -22,8 +22,6 @@ class UnderscoreGetCest
     /**
      * Tests Phalcon\Validation :: __get()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16
      */

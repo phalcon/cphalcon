@@ -26,11 +26,13 @@ class GetContentCest
     public function assetsAssetGetContentCss(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getContent()');
+
         $asset = new Asset('css', 'assets/assets/1198.css');
 
-        $expected = file_get_contents(dataDir('assets/assets/1198.css'));
-        $actual   = $asset->getContent(dataDir());
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            file_get_contents(dataDir('assets/assets/1198.css')),
+            $asset->getContent(dataDir())
+        );
     }
 
     /**
@@ -42,10 +44,12 @@ class GetContentCest
     public function assetsAssetGetContentJs(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getContent()');
+
         $asset = new Asset('js', 'assets/assets/signup.js');
 
-        $expected = file_get_contents(dataDir('assets/assets/signup.js'));
-        $actual   = $asset->getContent(dataDir());
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            file_get_contents(dataDir('assets/assets/signup.js')),
+            $asset->getContent(dataDir())
+        );
     }
 }

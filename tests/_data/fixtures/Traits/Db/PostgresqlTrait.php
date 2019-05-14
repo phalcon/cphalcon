@@ -12,9 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits\Db;
 
-/**
- * @package Phalcon\Test\Fixtures\Traits\Db
- */
 trait PostgresqlTrait
 {
     protected $connection = null;

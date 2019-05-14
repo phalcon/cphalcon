@@ -30,7 +30,7 @@ class Robotters extends Model
 
     public function initialize()
     {
-        $this->setSource("robots");
+        $this->setSource('robots');
 
         $this->hasMany(
             'code',

@@ -27,14 +27,16 @@ class UnserializeCest
     public function storageSerializerBase64Unserialize(UnitTester $I)
     {
         $I->wantToTest('Storage\Serializer\Base64 - unserialize()');
+
         $data       = 'Phalcon Framework';
         $serializer = new Base64($data);
         $serialized = base64_encode($data);
         $serializer->unserialize($serialized);
 
-        $expected = $data;
-        $actual   = $serializer->getData();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $data,
+            $serializer->getData()
+        );
     }
 
     /**
@@ -47,7 +49,9 @@ class UnserializeCest
     {
         $I->wantToTest('Storage\Serializer\Base64 - unserialize() - exception');
         $I->expectThrowable(
-            new InvalidArgumentException('Data for the unserializer must of type string'),
+            new InvalidArgumentException(
+                'Data for the unserializer must of type string'
+            ),
             function () {
                 $serializer = new Base64();
                 $serializer->unserialize(1234);

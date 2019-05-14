@@ -23,8 +23,6 @@ class GetParamsCest
     /**
      * Tests Phalcon\Mvc\Model\Relation :: getParams()
      *
-     * @param IntegrationTester $I
-     *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-18
      */
@@ -59,8 +57,6 @@ class GetParamsCest
 
     /**
      * Tests Phalcon\Mvc\Model\Relation :: getParams() when none are set
-     *
-     * @param IntegrationTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-18

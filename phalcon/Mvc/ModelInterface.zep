@@ -149,8 +149,9 @@ interface ModelInterface
      * Returns related records based on defined relations
      *
      * @param array arguments
+     * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
      */
-    public function getRelated(string alias, arguments = null) -> <ResultsetInterface>;
+    public function getRelated(string alias, arguments = null);
 
     /**
      * Returns schema name where table mapped is located

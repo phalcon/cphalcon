@@ -38,6 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Manager) {
 
 	zend_declare_property_null(phalcon_forms_manager_ce, SL("forms"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	phalcon_forms_manager_ce->create_object = zephir_init_properties_Phalcon_Forms_Manager;
 	return SUCCESS;
 
 }
@@ -71,9 +72,9 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
 
 	ZEPHIR_INIT_VAR(&form);
 	object_init_ex(&form, phalcon_forms_form_ce);
-	ZEPHIR_CALL_METHOD(NULL, &form, "__construct", NULL, 217, entity);
+	ZEPHIR_CALL_METHOD(NULL, &form, "__construct", NULL, 218, entity);
 	zephir_check_call_status();
-	zephir_update_property_array(this_ptr, SL("forms"), &name, &form TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("forms"), &name, &form);
 	RETURN_CCTOR(&form);
 
 }
@@ -158,8 +159,31 @@ PHP_METHOD(Phalcon_Forms_Manager, set) {
 	zephir_get_strval(&name, name_param);
 
 
-	zephir_update_property_array(this_ptr, SL("forms"), &name, form TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("forms"), &name, form);
 	RETURN_THIS();
+
+}
+
+zend_object *zephir_init_properties_Phalcon_Forms_Manager(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval _0, _1$$3;
+		ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval local_this_ptr, *this_ptr = &local_this_ptr;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		zephir_read_property(&_0, this_ptr, SL("forms"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_1$$3);
+			array_init(&_1$$3);
+			zephir_update_property_zval(this_ptr, SL("forms"), &_1$$3);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJ_P(this_ptr);
+	}
 
 }
 

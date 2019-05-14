@@ -12,7 +12,6 @@
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo;
 
 use Codeception\Example;
-use Helper\Dialect\MysqlTrait;
 use IntegrationTester;
 use PDOException;
 use Phalcon\Db\Adapter\Pdo\Mysql;
@@ -41,7 +40,7 @@ class MysqlCest extends MysqlHelper
             );
         } catch (PDOException $e) {
             $I->skipTest(
-                "Unable to connect to the database: " . $e->getMessage()
+                'Unable to connect to the database: ' . $e->getMessage()
             );
         }
     }
@@ -226,23 +225,23 @@ class MysqlCest extends MysqlHelper
     {
         return [
             [
-                "identifier" => "robots",
-                "expected"   => "`robots`",
+                'identifier' => 'robots',
+                'expected'   => '`robots`',
             ],
 
             [
-                "identifier" => ["schema", "robots"],
-                "expected"   => "`schema`.`robots`",
+                'identifier' => ['schema', 'robots'],
+                'expected'   => '`schema`.`robots`',
             ],
 
             [
-                "identifier" => "`robots`",
-                "expected"   => "```robots```",
+                'identifier' => '`robots`',
+                'expected'   => '```robots```',
             ],
 
             [
-                "identifier" => ["`schema`", "rob`ots"],
-                "expected"   => "```schema```.`rob``ots`",
+                'identifier' => ['`schema`', 'rob`ots'],
+                'expected'   => '```schema```.`rob``ots`',
             ],
         ];
     }

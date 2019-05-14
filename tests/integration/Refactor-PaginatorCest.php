@@ -107,10 +107,10 @@ class PaginatorCest
 
         $personnes = Personnes::find(
             [
-                "conditions" => "cedula >=:d1: AND cedula>=:d2: ",
-                "bind"       => ["d1" => '1', "d2" => "5"],
-                "order"      => "cedula, nombres",
-                "limit"      => "33",
+                'conditions' => 'cedula >=:d1: AND cedula>=:d2: ',
+                'bind'       => ['d1' => '1', 'd2' => '5'],
+                'order'      => 'cedula, nombres',
+                'limit'      => '33',
             ]
         );
 
@@ -155,9 +155,9 @@ class PaginatorCest
 
         $paginator = new QueryBuilder(
             [
-                "builder" => $builder,
-                "limit"   => 10,
-                "page"    => 1,
+                'builder' => $builder,
+                'limit'   => 10,
+                'page'    => 1,
             ]
         );
 
@@ -261,7 +261,7 @@ class PaginatorCest
 
         $database->query(
             "SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE," .
-            "NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER," .
+            'NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,' .
             "NO_ENGINE_SUBSTITUTION'"
         );
 
@@ -289,9 +289,9 @@ class PaginatorCest
 
         $paginator = new QueryBuilder(
             [
-                "builder" => $builder,
-                "limit"   => 10,
-                "page"    => 1,
+                'builder' => $builder,
+                'limit'   => 10,
+                'page'    => 1,
             ]
         );
 
@@ -331,9 +331,9 @@ class PaginatorCest
     {
         $paginator = new QueryBuilder(
             [
-                "builder" => $builder,
-                "limit"   => 10,
-                "page"    => 1,
+                'builder' => $builder,
+                'limit'   => 10,
+                'page'    => 1,
             ]
         );
 

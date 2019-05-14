@@ -85,9 +85,9 @@ class Annotations extends Router
     {
         var annotationsService, handlers, controllerSuffix, scope, prefix,
             container, handler, controllerName, lowerControllerName,
-            namespaceName, moduleName, sufixed, handlerAnnotations,
-            classAnnotations, annotations, annotation, methodAnnotations,
-            method, collection;
+            namespaceName, moduleName, handlerAnnotations, classAnnotations,
+            annotations, annotation, methodAnnotations, method, collection;
+        string sufixed;
 
         let container = <DiInterface> this->container;
 

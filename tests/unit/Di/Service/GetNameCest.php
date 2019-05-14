@@ -23,6 +23,6 @@ class GetNameCest
      */
     public function testGetName(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

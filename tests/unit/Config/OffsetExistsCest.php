@@ -27,7 +27,7 @@ class OffsetExistsCest
      */
     public function configOffsetExists(UnitTester $I)
     {
-        $I->wantToTest("Config - offsetExists()");
+        $I->wantToTest('Config - offsetExists()');
         $this->checkOffsetExists($I);
     }
 }

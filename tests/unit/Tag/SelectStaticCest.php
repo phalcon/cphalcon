@@ -26,7 +26,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticStringParameter(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - string as a parameter");
+        $I->wantToTest('Tag - selectStatic() - string as a parameter');
 
         Tag::resetInput();
 
@@ -56,7 +56,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticArrayParameter(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - array as a parameter");
+        $I->wantToTest('Tag - selectStatic() - array as a parameter');
 
         Tag::resetInput();
 
@@ -91,7 +91,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticArrayParameterWithId(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - array as a parameters and id");
+        $I->wantToTest('Tag - selectStatic() - array as a parameters and id');
 
         Tag::resetInput();
 
@@ -127,7 +127,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticArrayParameterWithNameNoId(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - name and no id in parameter");
+        $I->wantToTest('Tag - selectStatic() - name and no id in parameter');
 
         Tag::resetInput();
 
@@ -162,7 +162,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticArrayParameterWithValue(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - value in parameters");
+        $I->wantToTest('Tag - selectStatic() - value in parameters');
 
         Tag::resetInput();
 
@@ -197,7 +197,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticWithSetDefault(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - setDefault()");
+        $I->wantToTest('Tag - selectStatic() - setDefault()');
 
         Tag::resetInput();
 
@@ -234,7 +234,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticWithDisplayTo(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - displayTo()");
+        $I->wantToTest('Tag - selectStatic() - displayTo()');
 
         Tag::resetInput();
 
@@ -271,7 +271,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticWithSetDefaultElementNotPresent(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - setDefault() and element not present");
+        $I->wantToTest('Tag - selectStatic() - setDefault() and element not present');
 
         Tag::resetInput();
 
@@ -309,7 +309,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticWithDisplayToElementNotPresent(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - displayTo() and element not present");
+        $I->wantToTest('Tag - selectStatic() - displayTo() and element not present');
 
         Tag::resetInput();
 
@@ -347,18 +347,18 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticOptGroupArrayParameter(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - opt group array as a parameter");
+        $I->wantToTest('Tag - selectStatic() - opt group array as a parameter');
 
         Tag::resetInput();
 
         $params = [
-            "x_name",
+            'x_name',
             [
-                "Active" => [
+                'Active' => [
                     'A1' => 'A One',
                     'A2' => 'A Two',
                 ],
-                "B"      => "B One",
+                'B'      => 'B One',
             ],
         ];
 
@@ -386,7 +386,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticOptGroupArrayParameterWithId(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - opt group array as a parameters and id");
+        $I->wantToTest('Tag - selectStatic() - opt group array as a parameters and id');
 
         Tag::resetInput();
 
@@ -397,11 +397,11 @@ class SelectStaticCest extends TagSetup
         ];
 
         $options = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
 
         $expected = '<select id="x_id" name="x_name" class="x_class">' . PHP_EOL
@@ -429,7 +429,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticOptGroupArrayParameterWithNameNoId(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - name and no id in parameter");
+        $I->wantToTest('Tag - selectStatic() - name and no id in parameter');
 
         Tag::resetInput();
 
@@ -440,11 +440,11 @@ class SelectStaticCest extends TagSetup
         ];
 
         $options = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
 
         $expected = '<select id="x_id" name="x_name" class="x_class">' . PHP_EOL
@@ -470,7 +470,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticOptGroupArrayParameterWithValue(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - opt group value in parameters");
+        $I->wantToTest('Tag - selectStatic() - opt group value in parameters');
 
         Tag::resetInput();
 
@@ -481,11 +481,11 @@ class SelectStaticCest extends TagSetup
         ];
 
         $options = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
 
         $expected = '<select id="x_name" name="x_name" class="x_class">' . PHP_EOL
@@ -511,7 +511,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticOptGroupWithSetDefault(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - opt group setDefault()");
+        $I->wantToTest('Tag - selectStatic() - opt group setDefault()');
 
         Tag::resetInput();
 
@@ -522,11 +522,11 @@ class SelectStaticCest extends TagSetup
         ];
 
         $options = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
 
         $expected = '<select id="x_name" name="x_name" class="x_class" size="10">' . PHP_EOL
@@ -554,7 +554,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticOptGroupWithDisplayTo(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - opt group displayTo()");
+        $I->wantToTest('Tag - selectStatic() - opt group displayTo()');
 
         Tag::resetInput();
 
@@ -565,11 +565,11 @@ class SelectStaticCest extends TagSetup
         ];
 
         $options = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
 
         $expected = '<select id="x_name" name="x_name" class="x_class" size="10">' . PHP_EOL
@@ -597,7 +597,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticOptGroupWithSetDefaultElementNotPresent(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - opt group setDefault() and element not present");
+        $I->wantToTest('Tag - selectStatic() - opt group setDefault() and element not present');
 
         Tag::resetInput();
 
@@ -609,11 +609,11 @@ class SelectStaticCest extends TagSetup
         ];
 
         $options = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
 
         $expected = '<select id="x_name" name="x_other" class="x_class" size="10">' . PHP_EOL
@@ -641,7 +641,7 @@ class SelectStaticCest extends TagSetup
      */
     public function tagSelectStaticOptGroupWithDisplayToElementNotPresent(UnitTester $I)
     {
-        $I->wantToTest("Tag - selectStatic() - opt group displayTo() and element not present");
+        $I->wantToTest('Tag - selectStatic() - opt group displayTo() and element not present');
 
         Tag::resetInput();
 
@@ -653,11 +653,11 @@ class SelectStaticCest extends TagSetup
         ];
 
         $options = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
 
         $expected = '<select id="x_name" name="x_other" class="x_class" size="10">' . PHP_EOL

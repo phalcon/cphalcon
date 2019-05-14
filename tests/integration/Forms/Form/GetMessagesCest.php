@@ -47,14 +47,10 @@ class GetMessagesCest
     }
 
     /**
-     * Tests Form::getMessages(true)
+     * Tests Form::getMessages()
      *
      * @author Mohamad Rostami <rostami@outlook.com>
      * @issue  https://github.com/phalcon/cphalcon/issues/13294
-     *
-     * This should be removed in next major version
-     * We should not return multiple type of result in a single method!
-     * (form->getMessages(true) vs form->getMessages())
      */
     public function testGetElementMessagesFromForm(IntegrationTester $I)
     {
@@ -88,6 +84,7 @@ class GetMessagesCest
 
         $form->add($telephone);
         $form->add($address);
+
         $form->setValidation($customValidation);
 
         $actual = $form->isValid(
@@ -98,33 +95,26 @@ class GetMessagesCest
 
         $I->assertFalse($actual);
 
-        $expected = [
-            'telephone' => [
-                new Messages(
-                    [
-                        new Message(
-                            'The telephone has an invalid format',
-                            'telephone',
-                            'Regex',
-                            0
-                        ),
-                    ]
+        $expected = new Messages(
+            [
+                new Message(
+                    'The telephone has an invalid format',
+                    'telephone',
+                    'Regex',
+                    0
                 ),
-                new Messages(
-                    [
-                        new Message(
-                            'The telephone is required',
-                            'telephone',
-                            'PresenceOf',
-                            0
-                        ),
-                    ]
+                new Message(
+                    'The telephone is required',
+                    'telephone',
+                    'PresenceOf',
+                    0
                 ),
-            ],
-        ];
+            ]
+        );
 
-        $actual = $form->getMessages(true);
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $form->getMessages()
+        );
     }
 }

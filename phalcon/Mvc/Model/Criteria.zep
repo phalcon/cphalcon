@@ -511,7 +511,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * $criteria->limit("100", "200");
      * </code>
      */
-    public function limit(int limit, int offset = null) -> <CriteriaInterface>
+    public function limit(int limit, int offset = 0) -> <CriteriaInterface>
     {
         let limit = abs(limit);
 
@@ -519,16 +519,10 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
             return this;
         }
 
-        if is_numeric(offset) {
-            let offset = abs(offset);
-
-            let this->params["limit"] = [
-                "number": limit,
-                "offset": offset
-            ];
-        } else {
-            let this->params["limit"] = limit;
-        }
+        let this->params["limit"] = [
+            "number": limit,
+            "offset": offset
+        ];
 
         return this;
     }
@@ -681,8 +675,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public static function fromInput(<DiInterface> container, string! modelName, array! data, string! operator = "AND") -> <CriteriaInterface>
     {
-        var attribute, field, value, type, metaData, model, dataTypes, criteria,
-            columnMap;
+        var attribute, field, value, type, metaData, model, dataTypes,
+            criteria, columnMap;
         array conditions, bind;
 
         let conditions = [];

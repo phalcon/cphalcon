@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Filter\Sanitize;
 
 use Codeception\Example;
+use function number_format;
 use Phalcon\Filter\Sanitize\FloatVal;
 use UnitTester;
-use function number_format;
 
 class FloatValCest
 {
@@ -23,9 +23,6 @@ class FloatValCest
      * Tests Phalcon\Filter\Sanitize\FloatVal :: __invoke()
      *
      * @dataProvider getData
-     *
-     * @param UnitTester $I
-     * @param Example    $example
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
@@ -58,9 +55,6 @@ class FloatValCest
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getData(): array
     {
         return [

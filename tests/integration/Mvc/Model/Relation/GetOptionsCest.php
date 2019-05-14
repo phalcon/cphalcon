@@ -23,8 +23,6 @@ class GetOptionsCest
     /**
      * Tests Phalcon\Mvc\Model\Relation :: getOptions()
      *
-     * @param IntegrationTester $I
-     *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-18
      */

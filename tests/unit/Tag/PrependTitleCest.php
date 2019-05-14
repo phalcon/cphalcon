@@ -25,7 +25,7 @@ class PrependTitleCest
      */
     public function tagPrependTitle(UnitTester $I)
     {
-        $I->wantToTest("Tag - prependTitle()");
+        $I->wantToTest('Tag - prependTitle()');
 
         Tag::resetInput();
 
@@ -34,17 +34,17 @@ class PrependTitleCest
         Tag::prependTitle('Class');
 
         $I->assertEquals(
-            "Title",
+            'Title',
             Tag::getTitle(false, false)
         );
 
         $I->assertEquals(
-            "ClassTitle",
+            'ClassTitle',
             Tag::getTitle(true, false)
         );
 
         $I->assertEquals(
-            "<title>ClassTitle</title>" . PHP_EOL,
+            '<title>ClassTitle</title>' . PHP_EOL,
             Tag::renderTitle()
         );
     }
@@ -57,7 +57,7 @@ class PrependTitleCest
      */
     public function tagPrependTitleSeparator(UnitTester $I)
     {
-        $I->wantToTest("Tag - prependTitle() - separator");
+        $I->wantToTest('Tag - prependTitle() - separator');
 
         Tag::resetInput();
 
@@ -67,17 +67,17 @@ class PrependTitleCest
         Tag::prependTitle('Class');
 
         $I->assertEquals(
-            "Title",
+            'Title',
             Tag::getTitle(false, false)
         );
 
         $I->assertEquals(
-            "Class|Title",
+            'Class|Title',
             Tag::getTitle(true, false)
         );
 
         $I->assertEquals(
-            "<title>Class|Title</title>" . PHP_EOL,
+            '<title>Class|Title</title>' . PHP_EOL,
             Tag::renderTitle()
         );
     }
@@ -90,7 +90,7 @@ class PrependTitleCest
      */
     public function tagPrependTitleDoubleCall(UnitTester $I)
     {
-        $I->wantToTest("Tag - prependTitle() - double call");
+        $I->wantToTest('Tag - prependTitle() - double call');
 
         Tag::resetInput();
 
@@ -101,17 +101,17 @@ class PrependTitleCest
         Tag::prependTitle('Title');
 
         $I->assertEquals(
-            "Main",
+            'Main',
             Tag::getTitle(false, false)
         );
 
         $I->assertEquals(
-            "Title - Category - Main",
+            'Title - Category - Main',
             Tag::getTitle(true, false)
         );
 
         $I->assertEquals(
-            "<title>Title - Category - Main</title>" . PHP_EOL,
+            '<title>Title - Category - Main</title>' . PHP_EOL,
             Tag::renderTitle()
         );
     }
@@ -124,7 +124,7 @@ class PrependTitleCest
      */
     public function tagPrependTitleArray(UnitTester $I)
     {
-        $I->wantToTest("Tag - prependTitle() - array");
+        $I->wantToTest('Tag - prependTitle() - array');
 
         Tag::resetInput();
 
@@ -136,17 +136,17 @@ class PrependTitleCest
         );
 
         $I->assertEquals(
-            "Main",
+            'Main',
             Tag::getTitle(false, false)
         );
 
         $I->assertEquals(
-            "Title - Category - Main",
+            'Title - Category - Main',
             Tag::getTitle(true, false)
         );
 
         $I->assertEquals(
-            "<title>Title - Category - Main</title>" . PHP_EOL,
+            '<title>Title - Category - Main</title>' . PHP_EOL,
             Tag::renderTitle()
         );
     }
@@ -159,7 +159,7 @@ class PrependTitleCest
      */
     public function tagPrependTitleEmptyArray(UnitTester $I)
     {
-        $I->wantToTest("Tag - prependTitle() - empty array");
+        $I->wantToTest('Tag - prependTitle() - empty array');
 
         Tag::resetInput();
 
@@ -173,17 +173,17 @@ class PrependTitleCest
         );
 
         $I->assertEquals(
-            "Main",
+            'Main',
             Tag::getTitle(false, false)
         );
 
         $I->assertEquals(
-            "Main",
+            'Main',
             Tag::getTitle(true, false)
         );
 
         $I->assertEquals(
-            "<title>Main</title>" . PHP_EOL,
+            '<title>Main</title>' . PHP_EOL,
             Tag::renderTitle()
         );
     }

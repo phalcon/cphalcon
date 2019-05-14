@@ -22,8 +22,6 @@ class CreateBuilderCest
     /**
      * Tests Phalcon\Mvc\Model\Criteria :: createBuilder()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

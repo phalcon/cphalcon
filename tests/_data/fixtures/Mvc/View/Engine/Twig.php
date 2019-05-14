@@ -11,12 +11,12 @@
 
 namespace Phalcon\Test\Fixtures\Mvc\View\Engine;
 
-use Twig_Environment;
 use Phalcon\DiInterface;
-use Twig_Loader_Filesystem;
 use Phalcon\Mvc\View\Engine;
-use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Mvc\View\EngineInterface;
+use Phalcon\Mvc\ViewBaseInterface;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
 
 class Twig extends Engine implements EngineInterface
 {
@@ -24,9 +24,6 @@ class Twig extends Engine implements EngineInterface
 
     /**
      * Twig constructor.
-     *
-     * @param ViewBaseInterface $view
-     * @param DiInterface|null $dependencyInjector
      */
     public function __construct(ViewBaseInterface $view, DiInterface $dependencyInjector = null)
     {
@@ -43,7 +40,6 @@ class Twig extends Engine implements EngineInterface
      * Renders a view using the template engine
      *
      * @param string $path
-     * @param mixed $params
      * @param bool $mustClean
      */
     public function render($path, $params, $mustClean = false)

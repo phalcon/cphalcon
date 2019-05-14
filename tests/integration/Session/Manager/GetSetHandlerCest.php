@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 use SessionHandlerInterface;
 
-/**
- * Class GetSetHandlerCest
- */
 class GetSetHandlerCest
 {
     use DiTrait;
@@ -28,8 +25,6 @@ class GetSetHandlerCest
 
     /**
      * Tests Phalcon\Session\Manager :: getHandler()/setHandler()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

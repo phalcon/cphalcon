@@ -6,7 +6,7 @@ class MainTask extends \Phalcon\CLI\Task
 {
     public function throwAction()
     {
-        throw new \Exception("Task Run");
+        throw new \Exception('Task Run');
     }
 
     public function noopAction()

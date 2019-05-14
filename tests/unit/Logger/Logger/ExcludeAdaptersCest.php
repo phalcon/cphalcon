@@ -20,8 +20,6 @@ class ExcludeAdaptersCest
 {
     /**
      * Tests Phalcon\Logger :: excludeAdapters()
-     *
-     * @param UnitTester $I
      */
     public function loggerExcludeAdapters(UnitTester $I)
     {

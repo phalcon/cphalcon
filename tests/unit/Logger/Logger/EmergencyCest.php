@@ -21,8 +21,6 @@ class EmergencyCest
 
     /**
      * Tests Phalcon\Logger :: emergency()
-     *
-     * @param UnitTester $I
      */
     public function loggerEmergency(UnitTester $I)
     {

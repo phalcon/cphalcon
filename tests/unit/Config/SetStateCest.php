@@ -28,7 +28,7 @@ class SetStateCest
      */
     public function configSetState(UnitTester $I)
     {
-        $I->wantToTest("Config - __set_state()");
+        $I->wantToTest('Config - __set_state()');
 
         $config = $this->getConfig();
 
@@ -40,8 +40,6 @@ class SetStateCest
 
     /**
      * Sets the state on a config object to check __set_state
-     *
-     * @return Config
      */
     private function getSetState(): Config
     {

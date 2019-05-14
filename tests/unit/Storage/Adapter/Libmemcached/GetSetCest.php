@@ -13,13 +13,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 
 use Codeception\Example;
+use function getOptionsLibmemcached;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use stdClass;
 use UnitTester;
-use function getOptionsLibmemcached;
 
 class GetSetCest
 {
@@ -29,9 +29,6 @@ class GetSetCest
      * Tests Phalcon\Storage\Adapter\Libmemcached :: get()/set()
      *
      * @dataProvider getExamples
-     *
-     * @param UnitTester $I
-     * @param Example    $example
      *
      * @throws Exception
      * @since        2019-03-31
@@ -81,16 +78,17 @@ class GetSetCest
 
         $key    = 'cache-data';
         $source = 'Phalcon Framework';
-        $result = $adapter->set($key, $source);
-        $I->assertTrue($result);
 
-        $actual = $adapter->get($key);
-        $I->assertEquals($source, $actual);
+        $I->assertTrue(
+            $adapter->set($key, $source)
+        );
+
+        $I->assertEquals(
+            $source,
+            $adapter->get($key)
+        );
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

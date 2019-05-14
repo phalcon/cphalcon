@@ -23,7 +23,7 @@ class Event implements EventInterface
      *
      * @var bool
      */
-    protected cancelable = true;
+    protected cancelable;
 
     /**
      * Event data
@@ -61,15 +61,9 @@ class Event implements EventInterface
     public function __construct(string! type, source, var data = null, bool cancelable = true) -> void
     {
         let this->type = type,
-            this->source = source;
-
-        if data !== null {
-            let this->data = data;
-        }
-
-        if cancelable !== true {
-            let this->cancelable = cancelable;
-        }
+            this->source = source,
+            this->data = data,
+            this->cancelable = cancelable;
     }
 
     /**

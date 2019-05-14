@@ -17,9 +17,6 @@ use Phalcon\Logger\Item;
 use Phalcon\Logger\Logger;
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Unit\Logger
- */
 class InterpolateCest
 {
     /**
@@ -82,8 +79,6 @@ class InterpolateCest
     }
     /**
      * Tests Phalcon\Logger\Formatter\Line :: interpolate() - empty
-     *
-     * @param UnitTester $I
      */
     public function loggerFormatterLineInterpolateEmpty(UnitTester $I)
     {

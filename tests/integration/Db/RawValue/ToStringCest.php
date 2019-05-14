@@ -23,8 +23,6 @@ class ToStringCest
     /**
      * Tests Phalcon\Db\RawValue :: __toString()
      *
-     * @param IntegrationTester $I
-     *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17
      */

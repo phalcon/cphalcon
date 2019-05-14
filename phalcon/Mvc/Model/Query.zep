@@ -128,9 +128,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     {
         var enableImplicitJoins;
 
-        if phql !== null {
-            let this->phql = phql;
-        }
+        let this->phql = phql;
 
         if typeof container == "object" {
             this->setDI(container);
@@ -470,9 +468,10 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function _getExpression(array expr, bool quoting = true) -> string
     {
-        var exprType, exprLeft, exprRight, left = null, right = null, listItems,
-            exprListItem, exprReturn, tempNotQuoting, value, escapedValue,
+        var exprType, exprLeft, exprRight, left = null, right = null,
+            listItems, exprListItem, exprReturn, value, escapedValue,
             exprValue, valueParts, name, bindType, bind;
+        bool tempNotQuoting;
 
         if fetch exprType, expr["type"] {
             let tempNotQuoting = true;
@@ -1156,11 +1155,12 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function _getMultiJoin(string! joinType, joinSource, string modelAlias, string joinAlias, <RelationInterface> relation) -> array
     {
-        var sqlJoins, fields, referencedFields, intermediateModelName,
+        var fields, referencedFields, intermediateModelName,
             intermediateModel, intermediateSource, intermediateSchema,
             intermediateFields, intermediateReferencedFields,
             referencedModelName, manager, field, position, intermediateField,
             sqlEqualsJoinCondition;
+        array sqlJoins;
 
         let sqlJoins = [];
 
@@ -1339,13 +1339,14 @@ class Query implements QueryInterface, InjectionAwareInterface
     final protected function _getJoins(array select) -> array
     {
         var models, sqlAliases, sqlAliasesModels, sqlModelsAliases,
-            sqlAliasesModelsInstances, modelsInstances, fromModels, sqlJoins,
-            joinModels, joinSources, joinTypes, joinPreCondition, joinPrepared,
+            sqlAliasesModelsInstances, modelsInstances, fromModels,
             manager, selectJoins, joinItem, joins, joinData, schema, source,
             model, realModelName, completeSource, joinType, aliasExpr, alias,
             joinAliasName, joinExpr, fromModelName, joinAlias, joinModel,
             joinSource, preCondition, modelNameAlias, relation, relations,
             modelAlias, sqlJoin, sqlJoinItem, selectTables, tables, tableItem;
+        array sqlJoins, joinModels, joinSources, joinTypes, joinPreCondition,
+            joinPrepared;
 
         let models = this->models,
             sqlAliases = this->sqlAliases,
@@ -1700,8 +1701,8 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function _getOrderClause(order) -> array
     {
-        var orderColumns, orderParts, orderItem, orderPartExpr, orderSort,
-            orderPartSort;
+        var orderColumns, orderItem, orderPartExpr, orderSort;
+        array orderParts, orderPartSort;
 
         if !isset order[0] {
             let orderColumns = [order];
@@ -1740,7 +1741,8 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     final protected function _getGroupClause(array! group) -> array
     {
-        var groupItem, groupParts;
+        var groupItem;
+        array groupParts;
 
         if isset group[0] {
             /**
@@ -1781,27 +1783,24 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Analyzes a SELECT intermediate code and produces an array to be executed later
      */
-    final protected function _prepareSelect(var ast = null, var merge = null) -> array
+    final protected function _prepareSelect(var ast = null, bool merge = false) -> array
     {
         int position;
-        var sqlModels, sqlTables, sqlAliases, sqlColumns, select, tables,
-            columns, sqlAliasesModels, sqlModelsAliases,
-            sqlAliasesModelsInstances, models, modelsInstances, selectedModels,
-            manager, metaData, selectedModel, qualifiedName, modelName, model,
-            schema, source, completeSource, alias, joins, sqlJoins,
-            selectColumns, sqlColumnAliases, column, sqlColumn, sqlSelect,
-            distinct, having, where, groupBy, order, limit, tempModels,
-            tempModelsInstances, tempSqlAliases, tempSqlModelsAliases,
+        var select, tables, columns, selectedModels, manager, metaData,
+            selectedModel, qualifiedName, modelName, model, schema, source,
+            completeSource, alias, joins, sqlJoins, selectColumns,
+            sqlColumnAliases, column, sqlColumn, sqlSelect, distinct, having,
+            where, groupBy, order, limit, tempModels, tempModelsInstances,
+            tempSqlAliases, tempSqlModelsAliases,
             tempSqlAliasesModelsInstances, tempSqlAliasesModels, with, withs,
             withItem, automaticJoins, number, relation, joinAlias,
             relationModel, bestAlias, eagerType;
+        array sqlModels, sqlTables, sqlAliases, sqlColumns, sqlAliasesModels,
+            sqlModelsAliases, sqlAliasesModelsInstances, models,
+            modelsInstances;
 
         if empty ast {
             let ast = this->ast;
-        }
-
-        if merge === null {
-            let merge = false;
         }
 
         if !fetch select, ast["select"] {
@@ -2829,8 +2828,11 @@ class Query implements QueryInterface, InjectionAwareInterface
 
         /**
          * Check if the query has data
+         *
+         * Previous if [leaving here on purpose]:
+         * if result instanceof ResultInterface && result->numRows() {
          */
-        if result instanceof ResultInterface && result->numRows() {
+        if result instanceof ResultInterface {
             let resultData = result;
         } else {
             let resultData = false;

@@ -11,8 +11,8 @@
 
 namespace Phalcon\Test\Models\Dynamic;
 
-use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Mvc\Model as PhalconModel;
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 /**
  * @property string $borgerId

@@ -168,7 +168,7 @@ interface CriteriaInterface
     /**
      * Sets the limit parameter to the criteria
      */
-    public function limit(int limit, int offset = null) -> <CriteriaInterface>;
+    public function limit(int limit, int offset = 0) -> <CriteriaInterface>;
 
     /**
      * Appends a NOT BETWEEN condition to the current conditions

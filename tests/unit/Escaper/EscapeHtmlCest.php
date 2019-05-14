@@ -25,13 +25,13 @@ class EscapeHtmlCest
      */
     public function escaperEscapeHtml(UnitTester $I)
     {
-        $I->wantToTest("Escaper - escapeHtml()");
+        $I->wantToTest('Escaper - escapeHtml()');
 
         $escaper = new Escaper();
 
         $I->assertEquals(
             '&lt;h1&gt;&lt;/h1&gt;',
-            $escaper->escapeHtml("<h1></h1>")
+            $escaper->escapeHtml('<h1></h1>')
         );
     }
 }

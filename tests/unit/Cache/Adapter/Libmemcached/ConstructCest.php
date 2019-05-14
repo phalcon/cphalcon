@@ -14,12 +14,12 @@ namespace Phalcon\Test\Unit\Cache\Adapter\Libmemcached;
 
 use DateInterval;
 use Exception;
+use function getOptionsLibmemcached;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Cache\Adapter\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
-use function getOptionsLibmemcached;
 
 class ConstructCest
 {
@@ -38,11 +38,15 @@ class ConstructCest
         $serializer = new SerializerFactory();
         $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
-        $class = Libmemcached::class;
-        $I->assertInstanceOf($class, $adapter);
+        $I->assertInstanceOf(
+            Libmemcached::class,
+            $adapter
+        );
 
-        $class = AdapterInterface::class;
-        $I->assertInstanceOf($class, $adapter);
+        $I->assertInstanceOf(
+            AdapterInterface::class,
+            $adapter
+        );
     }
 
     /**
@@ -62,14 +66,17 @@ class ConstructCest
         $expected = [
             'servers' => [
                 0 => [
-                    "host"   => "127.0.0.1",
-                    "port"   => 11211,
-                    "weight" => 1,
+                    'host'   => '127.0.0.1',
+                    'port'   => 11211,
+                    'weight' => 1,
                 ],
             ],
         ];
-        $actual   = $adapter->getOptions();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $adapter->getOptions()
+        );
     }
 
     /**
@@ -88,17 +95,21 @@ class ConstructCest
         $serializer = new SerializerFactory();
         $adapter    = new Libmemcached($serializer);
 
-        $expected = 3600;
-        $actual   = $adapter->getTtl(null);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            3600,
+            $adapter->getTtl(null)
+        );
 
-        $expected = 20;
-        $actual   = $adapter->getTtl(20);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            20,
+            $adapter->getTtl(20)
+        );
 
-        $time     = new DateInterval('PT5S');
-        $expected = 5;
-        $actual   = $adapter->getTtl($time);
-        $I->assertEquals($expected, $actual);
+        $time = new DateInterval('PT5S');
+
+        $I->assertEquals(
+            5,
+            $adapter->getTtl($time)
+        );
     }
 }

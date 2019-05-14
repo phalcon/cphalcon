@@ -27,7 +27,7 @@ class CountCest
      */
     public function configCount(UnitTester $I)
     {
-        $I->wantToTest("Config - count()");
+        $I->wantToTest('Config - count()');
         $this->checkCount($I);
     }
 }

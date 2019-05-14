@@ -23,8 +23,6 @@ class HelloService
     private $count = 0;
 
     /**
-     * @param string $name
-     *
      * @return string
      */
     public function __invoke(string $name)

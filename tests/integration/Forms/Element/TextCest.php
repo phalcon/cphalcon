@@ -79,15 +79,15 @@ class TextCest
 
     public function testIssue2045(IntegrationTester $I)
     {
-        $element = new Text("name");
+        $element = new Text('name');
 
         $element->setAttributes(
             [
-                "class" => "big-input",
+                'class' => 'big-input',
             ]
         );
 
-        $element->setAttribute("id", null);
+        $element->setAttribute('id', null);
 
         $I->assertEquals(
             '<input type="text" name="name" class="big-input" />',
@@ -97,18 +97,18 @@ class TextCest
 
     public function testPrepareAttributesNoDefault(IntegrationTester $I)
     {
-        $element1 = new Text("name");
+        $element1 = new Text('name');
 
-        $element1->setLabel("name");
+        $element1->setLabel('name');
 
         $expected = [
-            "name",
-            "class" => "big-input",
+            'name',
+            'class' => 'big-input',
         ];
 
         $actual = $element1->prepareAttributes(
             [
-                "class" => "big-input",
+                'class' => 'big-input',
             ]
         );
 
@@ -117,7 +117,7 @@ class TextCest
 
     public function testFormElementEmpty(IntegrationTester $I)
     {
-        $element = new Text("name");
+        $element = new Text('name');
 
         $I->assertEquals(
             [],
@@ -127,7 +127,7 @@ class TextCest
 
     public function testFormElement(IntegrationTester $I)
     {
-        $element = new Text("name");
+        $element = new Text('name');
 
         $element->setLabel('name');
 
@@ -183,7 +183,7 @@ class TextCest
 
     public function testFormPrepareAttributes(IntegrationTester $I)
     {
-        $element1 = new Text("name");
+        $element1 = new Text('name');
 
         $element1->setLabel('name');
 
@@ -197,7 +197,7 @@ class TextCest
 
     public function testFormPrepareAttributesDefault(IntegrationTester $I)
     {
-        $element1 = new Text("name");
+        $element1 = new Text('name');
 
         $element1->setLabel('name');
 
@@ -220,7 +220,7 @@ class TextCest
 
     public function testFormOptions(IntegrationTester $I)
     {
-        $element1 = new Text("name");
+        $element1 = new Text('name');
 
         $element1->setAttributes(
             [

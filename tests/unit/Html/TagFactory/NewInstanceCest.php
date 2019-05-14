@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Html\TagFactory;
 
 use Codeception\Example;
 use Phalcon\Escaper;
+use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Anchor;
 use Phalcon\Html\Helper\AnchorRaw;
 use Phalcon\Html\Helper\Body;
@@ -26,7 +27,6 @@ use Phalcon\Html\Helper\Img;
 use Phalcon\Html\Helper\Label;
 use Phalcon\Html\Helper\TextArea;
 use Phalcon\Html\TagFactory;
-use Phalcon\Html\Exception;
 use UnitTester;
 
 class NewInstanceCest
@@ -35,9 +35,6 @@ class NewInstanceCest
      * Tests Phalcon\Filter\FilterFactory :: newInstance() - services
      *
      * @dataProvider getData
-     *
-     * @param UnitTester $I
-     * @param Example    $example
      */
     public function filterFilterFactoryNewInstanceServices(UnitTester $I, Example $example)
     {

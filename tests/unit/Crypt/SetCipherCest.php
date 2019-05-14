@@ -28,7 +28,7 @@ class SetCipherCest
     {
         $I->wantToTest('Crypt - setCipher()');
 
-        $cipher = "aes-256-cfb";
+        $cipher = 'aes-256-cfb';
 
         $crypt = new Crypt();
 

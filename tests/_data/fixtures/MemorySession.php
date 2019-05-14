@@ -38,8 +38,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * MemorySession constructor.
-     *
-     * @param array|null $options
      */
     public function __construct(array $options = null)
     {
@@ -60,10 +58,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * Alias: Gets a session variable from an application context
-     *
-     * @param string $index
-     *
-     * @return mixed
      */
     public function __get(string $index)
     {
@@ -72,9 +66,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * Alias: Sets a session variable in an application context
-     *
-     * @param string $index
-     * @param mixed  $value
      */
     public function __set(string $index, $value)
     {
@@ -119,9 +110,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * @inheritdoc
-     *
-     * @param string $index
-     * @param mixed  $value
      */
     public function set(string $index, $value)
     {
@@ -130,8 +118,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * Alias: Check whether a session variable is set in an application context
-     *
-     * @param string $index
      *
      * @return bool
      */
@@ -142,10 +128,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * @inheritdoc
-     *
-     * @param string $index
-     *
-     * @return bool
      */
     public function has(string $index): bool
     {
@@ -156,8 +138,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * Alias: Removes a session variable from an application context
-     *
-     * @param string $index
      */
     public function __unset(string $index)
     {
@@ -166,8 +146,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * @inheritdoc
-     *
-     * @param string $index
      */
     public function remove(string $index)
     {
@@ -228,8 +206,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * @inheritdoc
-     *
-     * @param string $name
      */
     public function setName(string $name)
     {
@@ -246,8 +222,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * @inheritdoc
-     *
-     * @param array $options
      */
     public function setOptions(array $options)
     {
@@ -274,8 +248,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * @inheritdoc
-     *
-     * @param string $name
      */
     public function setId(string $id)
     {
@@ -307,8 +279,6 @@ class MemorySession implements ManagerInterface
      * }
      * ?>
      * ```
-     *
-     * @return int
      */
     public function status(): int
     {
@@ -335,8 +305,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * Returns the stored session handler
-     *
-     * @return SessionHandlerInterface
      */
     public function getHandler(): SessionHandlerInterface
     {
@@ -345,10 +313,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * Set the handler for the session
-     *
-     * @param SessionHandlerInterface $handler
-     *
-     * @return ManagerInterface
      */
     public function setHandler(SessionHandlerInterface $handler): ManagerInterface
     {
@@ -357,10 +321,6 @@ class MemorySession implements ManagerInterface
 
     /**
      * Registers a handler with the session
-     *
-     * @param SessionHandlerInterface $handler
-     *
-     * @return bool
      */
     public function registerHandler(SessionHandlerInterface $handler): bool
     {

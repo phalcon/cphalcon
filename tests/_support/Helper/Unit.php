@@ -3,10 +3,10 @@
 namespace Helper;
 
 use Codeception\Module;
-use PHPUnit\Framework\SkippedTestError;
-use ReflectionClass;
 use function file_exists;
 use function is_file;
+use PHPUnit\Framework\SkippedTestError;
+use ReflectionClass;
 use ReflectionException;
 use function unlink;
 
@@ -19,10 +19,7 @@ class Unit extends Module
      * Calls private or protected method.
      *
      * @param string|object $obj
-     * @param mixed         $method,... Method with a variable number of
-     *                                  arguments
      *
-     * @return mixed
      * @throws ReflectionException
      */
     public function callProtectedMethod($obj, $method)
@@ -100,10 +97,6 @@ class Unit extends Module
     }
 
     /**
-     * @param $obj
-     * @param $prop
-     *
-     * @return mixed
      * @throws ReflectionException
      */
     public function getProtectedProperty($obj, $prop)
@@ -118,10 +111,6 @@ class Unit extends Module
     }
 
     /**
-     * @param $obj
-     * @param $prop
-     * @param $value
-     *
      * @throws ReflectionException
      */
     public function setProtectedProperty($obj, $prop, $value)
@@ -133,7 +122,7 @@ class Unit extends Module
         $property->setAccessible(true);
         $property->setValue($obj, $value);
 
-        $this->assertEquals(
+        $this->assertSame(
             $value,
             $property->getValue($obj)
         );

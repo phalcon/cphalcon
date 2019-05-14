@@ -57,14 +57,20 @@ class Url extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, message, label, replacePairs, code;
+        var code, label, message, options, replacePairs, result, value;
 
         let value = validation->getValue(field);
 
-        if !filter_var(value, FILTER_VALIDATE_URL) {
-            let label = this->prepareLabel(validation, field),
+        if fetch options, this->options["options"] {
+            let result = filter_var(value, FILTER_VALIDATE_URL, options);
+        } else {
+            let result = filter_var(value, FILTER_VALIDATE_URL);
+        }
+
+        if !result {
+            let label   = this->prepareLabel(validation, field),
                 message = this->prepareMessage(validation, field, "Url"),
-                code = this->prepareCode(field);
+                code    = this->prepareCode(field);
 
             let replacePairs = [
                 ":field": label

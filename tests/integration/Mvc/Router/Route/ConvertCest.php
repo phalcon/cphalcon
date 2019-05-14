@@ -22,8 +22,6 @@ class ConvertCest
     /**
      * Tests Phalcon\Mvc\Router\Route :: convert()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

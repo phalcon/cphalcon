@@ -22,8 +22,6 @@ class BetweenWhereCest
     /**
      * Tests Phalcon\Mvc\Model\Query\Builder :: betweenWhere()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

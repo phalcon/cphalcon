@@ -15,9 +15,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 use Phalcon\Html\Tag;
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Fixtures\Traits
- */
 trait TagSetupTrait
 {
     /**

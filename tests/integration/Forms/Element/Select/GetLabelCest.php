@@ -22,8 +22,6 @@ class GetLabelCest
     /**
      * Tests Phalcon\Forms\Element\Select :: getLabel()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

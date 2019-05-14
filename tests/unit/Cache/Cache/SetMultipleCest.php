@@ -16,8 +16,8 @@ use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
 use function uniqid;
+use UnitTester;
 
 class SetMultipleCest
 {
@@ -46,10 +46,13 @@ class SetMultipleCest
             ]
         );
 
-        $actual = $adapter->has($key1);
-        $I->assertTrue($actual);
-        $actual = $adapter->has($key2);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->has($key1)
+        );
+
+        $I->assertTrue(
+            $adapter->has($key2)
+        );
 
         $expected = [
             $key1     => 'test1',
@@ -89,7 +92,9 @@ class SetMultipleCest
         );
 
         $I->expectThrowable(
-            new InvalidArgumentException('The keys need to be an array or instance of Traversable'),
+            new InvalidArgumentException(
+                'The keys need to be an array or instance of Traversable'
+            ),
             function () {
                 $serializer = new SerializerFactory();
                 $factory    = new AdapterFactory($serializer);

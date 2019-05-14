@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Helper\Str;
 
-use Phalcon\Helper\Str;
 use Phalcon\Helper\Exception;
+use Phalcon\Helper\Str;
 use UnitTester;
 
 class ConcatCest
@@ -40,8 +40,6 @@ class ConcatCest
 
     /**
      * Tests Phalcon\Helper\Str :: concat() - exception
-     *
-     * @param UnitTester $I
      */
     public function helperStrConcatException(UnitTester $I)
     {

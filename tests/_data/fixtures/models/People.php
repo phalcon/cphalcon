@@ -17,6 +17,6 @@ class People extends Model
 {
     public function initialize()
     {
-        $this->setSource("personas");
+        $this->setSource('personas');
     }
 }

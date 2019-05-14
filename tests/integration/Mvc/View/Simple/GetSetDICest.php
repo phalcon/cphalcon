@@ -27,8 +27,6 @@ class GetSetDICest
     /**
      * Tests Phalcon\Mvc\View\Simple :: getDI()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

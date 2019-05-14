@@ -47,7 +47,7 @@ class FormsCest
 
     public function testFormElementRender(IntegrationTester $I)
     {
-        $element1 = new Text("name");
+        $element1 = new Text('name');
 
         $element1->setAttributes(
             [
@@ -94,7 +94,7 @@ class FormsCest
             )
         );
 
-        $telephone = new Text("telephone");
+        $telephone = new Text('telephone');
 
         $telephone->addValidator(
             new PresenceOf(
@@ -135,7 +135,7 @@ class FormsCest
             )
         );
 
-        $telephone = new Text("telephone");
+        $telephone = new Text('telephone');
 
         $telephone->addValidator(
             new PresenceOf(
@@ -176,7 +176,7 @@ class FormsCest
             )
         );
 
-        $telephone = new Text("telephone");
+        $telephone = new Text('telephone');
 
         $telephone->addValidator(
             new PresenceOf(
@@ -216,7 +216,7 @@ class FormsCest
             )
         );
 
-        $telephone = new Text("telephone");
+        $telephone = new Text('telephone');
 
         $telephone->addValidator(
             new PresenceOf(
@@ -260,7 +260,7 @@ class FormsCest
             )
         );
 
-        $telephone = new Text("telephone");
+        $telephone = new Text('telephone');
 
         $telephone->addValidator(
             new PresenceOf(

@@ -12,14 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use Phalcon\Config;
-use Phalcon\Config\Adapter\Ini;
 use function dataDir;
 use function outputDir;
+use Phalcon\Config;
+use Phalcon\Config\Adapter\Ini;
 
-/**
- * @package Phalcon\Test\Fixtures\Traits
- */
 trait FactoryTrait
 {
     protected $config;
@@ -34,7 +31,7 @@ trait FactoryTrait
      */
     protected function init()
     {
-        $configFile = dataDir("assets/config/factory.ini");
+        $configFile = dataDir('assets/config/factory.ini');
 
         $this->config = new Ini($configFile, INI_SCANNER_NORMAL);
 

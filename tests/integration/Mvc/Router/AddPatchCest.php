@@ -15,17 +15,12 @@ namespace Phalcon\Test\Integration\Mvc\Router;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class AddPatchCest
- */
 class AddPatchCest
 {
     use RouterTrait;
 
     /**
      * Tests Phalcon\Mvc\Router :: addPatch()
-     *
-     * @param IntegrationTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17
@@ -45,9 +40,11 @@ class AddPatchCest
         );
 
 
+
         $_SERVER['REQUEST_METHOD'] = 'PATCH';
 
         $router->handle('/docs/index');
+
 
 
         $I->assertEquals(
