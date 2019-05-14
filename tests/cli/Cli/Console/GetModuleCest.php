@@ -37,31 +37,31 @@ class GetModuleCest
 
         $console->registerModules(
             [
-                "frontend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
-                    "path"      => __DIR__ . "/../../../_data/modules/frontend/Module.php",
+                'frontend' => [
+                    'className' => 'Phalcon\\Test\\Modules\\Frontend\\Module',
+                    'path'      => __DIR__ . '/../../../_data/modules/frontend/Module.php',
                 ],
-                "backend"  => [
-                    "className" => "Phalcon\\Test\\Modules\\Backend\\Module",
-                    "path"      => __DIR__ . "/../../../_data/modules/backend/Module.php",
+                'backend'  => [
+                    'className' => 'Phalcon\\Test\\Modules\\Backend\\Module',
+                    'path'      => __DIR__ . '/../../../_data/modules/backend/Module.php',
                 ],
             ]
         );
 
         $expected = [
-            "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
-            "path"      => __DIR__ . "/../../../_data/modules/frontend/Module.php",
+            'className' => 'Phalcon\\Test\\Modules\\Frontend\\Module',
+            'path'      => __DIR__ . '/../../../_data/modules/frontend/Module.php',
         ];
 
         $I->assertEquals(
             $expected,
-            $console->getModule("frontend")
+            $console->getModule('frontend')
         );
 
         $I->expectThrowable(
             new Exception("Module 'foo' isn't registered in the application container"),
             function () use ($console) {
-                $console->getModule("foo");
+                $console->getModule('foo');
             }
         );
     }

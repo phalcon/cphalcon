@@ -15,9 +15,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 use IntegrationTester;
 use Phalcon\Validation\ValidatorInterface;
 
-/**
- * @package Phalcon\Test\Fixtures\Traits
- */
 trait ValidationTrait
 {
     /**

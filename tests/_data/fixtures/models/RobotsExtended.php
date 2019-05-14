@@ -16,8 +16,6 @@ use Phalcon\Mvc\ModelInterface;
 
 /**
  * Class RobotsExtended
- *
- * @package Phalcon\Test\Models
  */
 class RobotsExtended extends Robots
 {
@@ -37,6 +35,6 @@ class RobotsExtended extends Robots
 
     public function initialize()
     {
-        $this->setSource("robots");
+        $this->setSource('robots');
     }
 }

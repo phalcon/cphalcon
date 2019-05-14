@@ -25,6 +25,6 @@ class MergeCest
     public function configAdapterIniMerge(UnitTester $I)
     {
         $I->wantToTest("Config\Adapter\Ini - merge()");
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

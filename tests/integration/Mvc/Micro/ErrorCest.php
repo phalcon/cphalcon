@@ -37,7 +37,7 @@ class ErrorCest
             function ($name) use ($response) {
                 if (is_numeric($name)) {
                     throw new \Exception(
-                        "Not a human name."
+                        'Not a human name.'
                     );
                 }
 
@@ -48,7 +48,7 @@ class ErrorCest
         $app->error(
             function ($exception) use ($response) {
                 $response->setContent(
-                    "ERROR: " . $exception->getMessage()
+                    'ERROR: ' . $exception->getMessage()
                 );
 
                 return false;

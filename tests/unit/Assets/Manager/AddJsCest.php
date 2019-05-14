@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Manager;
 
+use function dataDir;
 use Phalcon\Assets\Manager;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
-use function dataDir;
 
 class AddJsCest
 {

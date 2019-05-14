@@ -68,7 +68,6 @@ class HttpBase
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
-     *
      */
     protected function hasEmpty(UnitTester $I, string $function)
     {
@@ -170,14 +169,10 @@ class HttpBase
     /**
      * Checks the get functions for sanitized data (array filters)
      *
-     * @param UnitTester $I
-     * @param string     $function
      * @param array      $filter
-     * @param string     $method
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
-     *
      */
     protected function getSanitizedArrayFilter(UnitTester $I, string $function, $filter, string $method)
     {
@@ -196,11 +191,9 @@ class HttpBase
      * Sets a server variable ($_SERVER)
      *
      * @param string $var
-     * @param mixed  $value
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
-     *
      */
     protected function setServerVar($var, $value)
     {
@@ -225,11 +218,9 @@ class HttpBase
      * Sets a get variable ($_GET)
      *
      * @param string $var
-     * @param mixed  $value
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
-     *
      */
     protected function setGetVar($var, $value)
     {
@@ -254,11 +245,9 @@ class HttpBase
      * Sets a post variable ($_POST)
      *
      * @param string $var
-     * @param mixed  $value
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
-     *
      */
     protected function setPostVar($var, $value)
     {
@@ -283,11 +272,9 @@ class HttpBase
      * Sets a request variable ($_REQUEST)
      *
      * @param string $var
-     * @param mixed  $value
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
-     *
      */
     protected function setRequestVar($var, $value)
     {

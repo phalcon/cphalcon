@@ -19,11 +19,6 @@ use Phalcon\Translate\Adapter\NativeArray;
  */
 class NativeAdapter extends NativeArray
 {
-    /**
-     * @param string $index
-     *
-     * @return string
-     */
     public function notFound(string $index): string
     {
         return '';

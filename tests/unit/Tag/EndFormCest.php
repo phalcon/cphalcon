@@ -26,7 +26,7 @@ class EndFormCest extends TagSetup
      */
     public function tagEndForm(UnitTester $I)
     {
-        $I->wantToTest("Tag - endForm()");
+        $I->wantToTest('Tag - endForm()');
         $expected = '</form>';
         $actual   = Tag::endForm();
         $I->assertEquals($expected, $actual);

@@ -11,15 +11,15 @@
 
 namespace Phalcon\Test\Models\Some;
 
-use Phalcon\Mvc\Model;
 use Phalcon\Db\Column;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\MetaData;
 
 class Products extends Model
 {
     public function initialize()
     {
-        $this->setSource("le_products");
+        $this->setSource('le_products');
     }
 
     public function metaData()

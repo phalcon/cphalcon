@@ -16,7 +16,7 @@ $container = new FactoryDefault();
 /**
  * Load environment
  */
-$root = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR;
+$root = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR;
 
 loadEnvironment($root);
 

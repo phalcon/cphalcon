@@ -220,11 +220,11 @@ class SelectCest
             'class' => 'x_class',
         ];
         $data     = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
         $expected = '<select id="x_id" name="x_name" class="x_class">' . PHP_EOL
             . chr(9) . '<optgroup label="Active">' . PHP_EOL
@@ -256,11 +256,11 @@ class SelectCest
             'class' => 'x_class',
         ];
         $data     = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
         $expected = '<select id="x_name" name="x_name" class="x_class">' . PHP_EOL
             . chr(9) . '<optgroup label="Active">' . PHP_EOL
@@ -291,11 +291,11 @@ class SelectCest
             'class' => 'x_class',
         ];
         $data     = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
         $expected = '<select id="x_name" name="x_name" class="x_class">' . PHP_EOL
             . chr(9) . '<optgroup label="Active">' . PHP_EOL
@@ -326,11 +326,11 @@ class SelectCest
             'size'  => '10',
         ];
         $data     = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
         $expected = '<select id="x_name" name="x_name" class="x_class" size="10">' . PHP_EOL
             . chr(9) . '<optgroup label="Active">' . PHP_EOL
@@ -366,11 +366,11 @@ class SelectCest
             'size'  => '10',
         ];
         $data     = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
         $expected = '<select id="x_name" name="x_other" class="x_class" size="10">' . PHP_EOL
             . chr(9) . '<optgroup label="Active">' . PHP_EOL

@@ -26,8 +26,6 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Email :: hasOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

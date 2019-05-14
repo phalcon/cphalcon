@@ -16,9 +16,6 @@ use Phalcon\Logger\Adapter\Noop;
 use Phalcon\Logger\Exception;
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Unit\Logger
- */
 class CommitCest
 {
     /**

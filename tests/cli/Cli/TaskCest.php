@@ -34,10 +34,10 @@ class TaskCest
         require_once dataDir('fixtures/tasks/EchoTask.php');
         require_once dataDir('fixtures/tasks/MainTask.php');
 
-        $this->container["registry"] = function () {
+        $this->container['registry'] = function () {
             $registry = new Registry();
 
-            $registry->data = "data";
+            $registry->data = 'data';
 
             return $registry;
         };
@@ -49,18 +49,18 @@ class TaskCest
         );
 
         $I->assertEquals(
-            "data",
+            'data',
             $task->requestRegistryAction()
         );
 
         $I->assertEquals(
-            "Hello !",
+            'Hello !',
             $task->helloAction()
         );
 
         $I->assertEquals(
-            "Hello World!",
-            $task->helloAction("World")
+            'Hello World!',
+            $task->helloAction('World')
         );
 
         $task2 = new EchoTask();
@@ -70,7 +70,7 @@ class TaskCest
         );
 
         $I->assertEquals(
-            "echoMainAction",
+            'echoMainAction',
             $task2->mainAction()
         );
     }

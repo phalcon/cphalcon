@@ -20,7 +20,6 @@ use UnitTester;
  * @link          https://phalconphp.com
  * @author        Andres Gutierrez <andres@phalconphp.com>
  * @author        Phalcon Team <team@phalconphp.com>
- * @package       Phalcon\Test\Unit\Http\Response
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt

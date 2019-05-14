@@ -23,22 +23,15 @@ use Phalcon\Storage\SerializerFactory;
 
 /**
  * Trait SessionTrait
- *
- * @package Phalcon\Test\Fixtures\Traits
  */
 trait SessionTrait
 {
-    /**
-     * @return Stream
-     */
     protected function getSessionStream(): Stream
     {
         return new Stream(getOptionsSessionStream());
     }
 
-    /**
-     * @return Libmemcached
-     */
+
     protected function getSessionLibmemcached(): Libmemcached
     {
         $serializer = new SerializerFactory();
@@ -47,17 +40,13 @@ trait SessionTrait
         return new Libmemcached($factory, getOptionsLibmemcached());
     }
 
-    /**
-     * @return Noop
-     */
+
     protected function getSessionNoop(): Noop
     {
         return new Noop();
     }
 
-    /**
-     * @return Redis
-     */
+
     protected function getSessionRedis(): Redis
     {
         $serializer = new SerializerFactory();

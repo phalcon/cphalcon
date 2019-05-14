@@ -25,6 +25,6 @@ class MergeCest
     public function configAdapterYamlMerge(UnitTester $I)
     {
         $I->wantToTest("Config\Adapter\Yaml - merge()");
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

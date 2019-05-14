@@ -22,8 +22,6 @@ class GetColumnsCest
     /**
      * Tests Phalcon\Mvc\Model\Criteria :: getColumns()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

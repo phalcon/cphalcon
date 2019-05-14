@@ -15,17 +15,12 @@ namespace Phalcon\Test\Integration\Mvc\Router;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class NotFoundCest
- */
 class NotFoundCest
 {
     use RouterTrait;
 
     /**
      * Tests setting notFound handler
-     *
-     * @param IntegrationTester $I
      *
      * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
      * @since  2013-03-01
@@ -45,7 +40,7 @@ class NotFoundCest
             ]
         );
 
-        $router->handle("/");
+        $router->handle('/');
 
 
         $I->assertEquals(

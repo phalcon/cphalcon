@@ -27,7 +27,7 @@ class SetDataCest
     {
         $I->wantToTest('Storage\Serializer\Base64 - setData()');
 
-        $data       = ["Phalcon Framework"];
+        $data       = ['Phalcon Framework'];
         $serializer = new Base64();
 
         $I->assertNull(

@@ -22,8 +22,6 @@ class GetPrimaryKeyAttributesCest
     /**
      * Tests Phalcon\Mvc\Model\MetaData\Apcu :: getPrimaryKeyAttributes()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

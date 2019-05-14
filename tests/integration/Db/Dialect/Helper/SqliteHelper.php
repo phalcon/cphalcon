@@ -34,9 +34,7 @@ class SqliteHelper
 //    }
 
 
-    /**
-     * @return array
-     */
+
     protected function getColumnDefinitionFixtures(): array
     {
         return [
@@ -61,9 +59,7 @@ class SqliteHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getColumnListFixtures(): array
     {
         return [
@@ -79,9 +75,7 @@ class SqliteHelper
     }
 
 
-    /**
-     * @return array
-     */
+
     protected function getCreateViewFixtures(): array
     {
         return [
@@ -103,9 +97,7 @@ class SqliteHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDescribeColumnsFixtures(): array
     {
         return [
@@ -126,17 +118,13 @@ class SqliteHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDropColumnFixtures(): array
     {
         return [];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDropForeignKeyFixtures(): array
     {
         return [];
@@ -153,17 +141,13 @@ class SqliteHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDropPrimaryKeyFixtures(): array
     {
         return [];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDropTableFixtures(): array
     {
         return [
@@ -174,9 +158,7 @@ class SqliteHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDropViewFixtures(): array
     {
         return [
@@ -187,9 +169,7 @@ class SqliteHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getListViewFixtures(): array
     {
         return [
@@ -198,17 +178,13 @@ class SqliteHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getModifyColumnFixtures(): array
     {
         return [];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getModifyColumnFixtures13012(): array
     {
         return [
@@ -227,41 +203,31 @@ class SqliteHelper
         ];
     }
 
-    /**
-     * @return string
-     */
+
     protected function getModifyColumnSql(): string
     {
         return '';
     }
 
-    /**
-     * @return string
-     */
+
     protected function getReleaseSavepointSql(): string
     {
         return 'RELEASE SAVEPOINT PH_SAVEPOINT_1';
     }
 
-    /**
-     * @return string
-     */
+
     protected function getRollbackSavepointSql(): string
     {
         return 'ROLLBACK TO SAVEPOINT PH_SAVEPOINT_1';
     }
 
-    /**
-     * @return array
-     */
+
     protected function getTableExistsFixtures(): array
     {
         return [];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getTruncateTableFixtures(): array
     {
         return [
@@ -270,20 +236,18 @@ class SqliteHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getViewExistsFixtures(): array
     {
         return [
             [
                 null,
-                "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END " .
+                'SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END ' .
                 "FROM sqlite_master WHERE type='view' AND tbl_name='view'",
             ],
             [
                 'schema',
-                "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END " .
+                'SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END ' .
                 "FROM sqlite_master WHERE type='view' AND tbl_name='view'",
             ],
         ];
@@ -291,8 +255,6 @@ class SqliteHelper
 
     /**
      * Returns the object for the dialect
-     *
-     * @return Sqlite
      */
     protected function getDialectObject(): Sqlite
     {

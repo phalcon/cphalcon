@@ -22,8 +22,6 @@ class GetVarCest
     /**
      * Tests Phalcon\Mvc\View :: getVar()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

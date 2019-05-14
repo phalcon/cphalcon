@@ -22,8 +22,6 @@ class NotifyCest
     /**
      * Tests Phalcon\Mvc\Model\Behavior :: notify()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

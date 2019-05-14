@@ -51,7 +51,7 @@ class SetCest extends HttpBase
      */
     public function httpCookieSetHttpOnly(UnitTester $I)
     {
-        $I->wantToTest("Issue #13464");
+        $I->wantToTest('Issue #13464');
         $I->checkExtensionIsLoaded('xdebug');
 
         $this->setDiCrypt();

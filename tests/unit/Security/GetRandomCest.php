@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use UnitTester;
 use Phalcon\Security;
 use Phalcon\Security\Random;
+use UnitTester;
 
 class GetRandomCest
 {

@@ -7,7 +7,6 @@ use Phalcon\Di;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Test\Controllers\ViewRequestController;
-use Test4Controller;
 
 /**
  * \Phalcon\Test\Integration\Mvc\ControllerCest
@@ -17,7 +16,6 @@ use Test4Controller;
  * @link          http://www.phalconphp.com
  * @author        Andres Gutierrez <andres@phalconphp.com>
  * @author        Phalcon Team <team@phalconphp.com>
- * @package       Phalcon\Test\Integration\Mvc
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -47,7 +45,7 @@ class ControllersCest
         $I->haveServiceInDi(
             'modelsMetadata',
             function () {
-                return new Memory;
+                return new Memory();
             },
             true
         );

@@ -22,8 +22,6 @@ class SetEventsManagerCest
     /**
      * Tests Phalcon\Validation :: setEventsManager()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16
      */

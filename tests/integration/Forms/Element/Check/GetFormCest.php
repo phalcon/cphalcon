@@ -22,8 +22,6 @@ class GetFormCest
     /**
      * Tests Phalcon\Forms\Element\Check :: getForm()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

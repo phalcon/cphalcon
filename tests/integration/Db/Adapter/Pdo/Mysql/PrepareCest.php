@@ -22,8 +22,6 @@ class PrepareCest
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: prepare()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

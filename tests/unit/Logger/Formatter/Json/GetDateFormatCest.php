@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Logger\Formatter\Json;
 use Phalcon\Logger\Formatter\Json;
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Unit\Logger
- */
 class GetDateFormatCest
 {
     /**

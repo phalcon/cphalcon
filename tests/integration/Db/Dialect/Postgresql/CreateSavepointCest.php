@@ -22,8 +22,6 @@ class CreateSavepointCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: createSavepoint()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
@@ -37,9 +35,7 @@ class CreateSavepointCest
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return string
-     */
+
     protected function getCreateSavepointSql(): string
     {
         return 'SAVEPOINT PH_SAVEPOINT_1';

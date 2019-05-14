@@ -15,8 +15,6 @@ use IntegrationTester;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\AlbumORama\Albums;
-use Phalcon\Test\Models\AlbumORama\Artists;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\People;
 use Phalcon\Test\Models\Relations\RobotsParts;
@@ -78,12 +76,12 @@ class ManagerCest
         $robots = new People(null, null, $manager);
 
         $I->assertEquals(
-            "personas",
+            'personas',
             $robots->getSource()
         );
 
         $I->assertEquals(
-            "personas",
+            'personas',
             $robots->getModelsManager()->getModelSource($robots)
         );
     }
@@ -134,7 +132,7 @@ class ManagerCest
         foreach ($examples as $item) {
             $property = $item[0];
             $expected = $item[1];
-            $actual   = $manager->isVisibleModelProperty(new Customers, $property);
+            $actual   = $manager->isVisibleModelProperty(new Customers(), $property);
             $I->assertEquals($expected, $actual);
         }
     }

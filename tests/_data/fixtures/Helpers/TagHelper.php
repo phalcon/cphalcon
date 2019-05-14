@@ -11,7 +11,6 @@
 
 namespace Phalcon\Test\Fixtures\Helpers;
 
-use Phalcon\Tag;
 use UnitTester;
 
 class TagHelper extends TagSetup

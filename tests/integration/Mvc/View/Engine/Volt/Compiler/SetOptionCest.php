@@ -24,8 +24,6 @@ class SetOptionCest
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: setOption() - autoescape
      *
-     * @param IntegrationTester $I
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2017-01-17
      *
@@ -48,9 +46,7 @@ class SetOptionCest
         );
     }
 
-    /**
-     * @return array
-     */
+
     private function getVoltSetOptionAutoescape(): array
     {
         return [

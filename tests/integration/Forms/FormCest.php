@@ -169,11 +169,11 @@ class FormCest
         $I->assertEquals($expected, $actual);
 
         $form->add(
-            new Text("name")
+            new Text('name')
         );
 
         $form->add(
-            new Text("telephone")
+            new Text('telephone')
         );
 
         foreach ($form as $key => $value) {
@@ -181,8 +181,8 @@ class FormCest
         }
 
         $expected = [
-            0 => "name",
-            1 => "telephone",
+            0 => 'name',
+            1 => 'telephone',
         ];
         $actual   = $data;
         $I->assertEquals($expected, $actual);
@@ -193,7 +193,7 @@ class FormCest
         $form = new Form();
 
         $form->add(
-            new Text("name")
+            new Text('name')
         );
 
         $telephone = new Text("telephone");

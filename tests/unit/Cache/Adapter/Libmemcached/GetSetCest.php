@@ -13,13 +13,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Adapter\Libmemcached;
 
 use Codeception\Example;
+use function getOptionsLibmemcached;
 use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use stdClass;
 use UnitTester;
-use function getOptionsLibmemcached;
 
 class GetSetCest
 {

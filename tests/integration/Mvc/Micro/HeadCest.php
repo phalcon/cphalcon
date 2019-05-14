@@ -23,8 +23,6 @@ class HeadCest
     /**
      * Tests Phalcon\Mvc\Micro :: head()
      *
-     * @param IntegrationTester $I
-     *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17
      */

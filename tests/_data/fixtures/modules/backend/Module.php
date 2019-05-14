@@ -3,9 +3,9 @@
 namespace Phalcon\Test\Modules\Backend;
 
 use function dataDir;
-use Phalcon\Mvc\View;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
+use Phalcon\Mvc\View;
 
 /**
  * \Phalcon\Test\Modules\Backend\Module
@@ -15,7 +15,6 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Modules\Backend
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt

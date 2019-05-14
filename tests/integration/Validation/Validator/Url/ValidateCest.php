@@ -26,8 +26,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Url :: validate() - single field
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -84,8 +82,6 @@ class ValidateCest
 
     /**
      * Tests Phalcon\Validation\Validator\Url :: validate() - multiple field
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -167,8 +163,6 @@ class ValidateCest
 
     /**
      * Tests Phalcon\Validation\Validator\Url :: validate() - custom message
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05

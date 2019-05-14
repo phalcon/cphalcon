@@ -19,7 +19,6 @@ namespace Phalcon\Test\Fixtures\Http;
  * @link http://php.net/manual/en/stream.streamwrapper.example-1.php
  *
  * @codingStandardsIgnoreFile
- * @package Helper
  */
 class PhpStream
 {

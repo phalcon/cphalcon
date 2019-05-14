@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Syslog;
 use Phalcon\Logger\Adapter\Syslog;
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Unit\Logger
- */
 class CloseCest
 {
     /**

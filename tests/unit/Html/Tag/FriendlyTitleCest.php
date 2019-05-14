@@ -143,7 +143,7 @@ class FriendlyTitleCest
         $tag = new Tag();
 
         $text     = "Mess'd up --text-- just (to) stress /test/ ?our! "
-            . "`little` \\clean\\ url fun.ction!?-->";
+            . '`little` \\clean\\ url fun.ction!?-->';
         $expected = 'messd-up-text-just-to-stress-test-our-little-'
             . 'clean-url-function';
         $actual   = $tag->friendlyTitle($text);

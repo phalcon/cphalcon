@@ -17,6 +17,6 @@ class M2MRobotsParts extends Model
 {
     public function initialize()
     {
-        $this->setSource("m2m_robots_parts");
+        $this->setSource('m2m_robots_parts');
     }
 }

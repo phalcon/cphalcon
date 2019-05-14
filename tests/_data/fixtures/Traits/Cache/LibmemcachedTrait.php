@@ -18,9 +18,6 @@ use Phalcon\Cache\Frontend\Output;
 use Phalcon\Cache\FrontendInterface;
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Fixtures\Traits\Cache
- */
 trait LibmemcachedTrait
 {
     public function _before(UnitTester $I)

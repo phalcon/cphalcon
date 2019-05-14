@@ -22,8 +22,6 @@ class SetActionCest
     /**
      * Tests Phalcon\Forms\Form :: setAction()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

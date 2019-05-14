@@ -26,7 +26,7 @@ class GetDataCest
     public function storageSerializerNoneGetData(UnitTester $I)
     {
         $I->wantToTest('Storage\Serializer\None - getData()');
-        $data       = ["Phalcon Framework"];
+        $data       = ['Phalcon Framework'];
         $serializer = new None($data);
 
         $expected = $data;

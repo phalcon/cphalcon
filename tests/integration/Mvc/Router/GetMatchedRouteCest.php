@@ -22,8 +22,6 @@ class GetMatchedRouteCest
     /**
      * Tests Phalcon\Mvc\Router :: getMatchedRoute()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

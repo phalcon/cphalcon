@@ -29,7 +29,7 @@ class MergeCest
      */
     public function configMergeConfig(UnitTester $I)
     {
-        $I->wantToTest("Config - merge() - Config");
+        $I->wantToTest('Config - merge() - Config');
 
         $config = $this->getConfig();
 
@@ -47,7 +47,8 @@ class MergeCest
      */
     public function configMergeArr(UnitTester $I)
     {
-        $I->wantToTest("Config - merge() - array");
+        $I->wantToTest('Config - merge() - array');
+
         $config = $this->getConfig();
 
         $I->assertEquals(

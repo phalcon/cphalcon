@@ -34,8 +34,6 @@ use stdClass;
  * Phalcon\Test\Integration\Mvc\View\Engine\Volt\CompilerCest
  *
  * Test Compiler template engine
- *
- * @package Phalcon\Test\Integration\Mvc\View\Engine\Volt
  */
 class CompilerCest
 {
@@ -205,27 +203,27 @@ class CompilerCest
             Tag::XHTML5
         );
 
-        $view = new View;
-        $di   = new Di;
+        $view = new View();
+        $di   = new Di();
 
         $di->set(
             'escaper',
             function () {
-                return new Escaper;
+                return new Escaper();
             }
         );
 
         $di->set(
             'tag',
             function () {
-                return new Tag;
+                return new Tag();
             }
         );
 
         $di->set(
             'url',
             function () {
-                return (new Url)->setBaseUri('/');
+                return (new Url())->setBaseUri('/');
             }
         );
 
@@ -238,6 +236,7 @@ class CompilerCest
                 $volt     = new Volt($view, $this);
                 $compiler = $volt->getCompiler();
                 $compiler->addFunction('strtotime', 'strtotime');
+
                 return $volt;
             },
         ]);
@@ -359,8 +358,8 @@ class CompilerCest
 
         Di::reset();
 
-        $view = new View;
-        $di   = new Di;
+        $view = new View();
+        $di   = new Di();
 
         Tag::setDocType(
             Tag::XHTML5
@@ -369,21 +368,21 @@ class CompilerCest
         $di->set(
             'escaper',
             function () {
-                return new Escaper;
+                return new Escaper();
             }
         );
 
         $di->set(
             'tag',
             function () {
-                return new Tag;
+                return new Tag();
             }
         );
 
         $di->set(
             'url',
             function () {
-                return (new Url)->setBaseUri('/');
+                return (new Url())->setBaseUri('/');
             }
         );
 
@@ -395,10 +394,10 @@ class CompilerCest
             },
         ]);
         $object      = new stdClass();
-        $object->foo = "bar";
-        $object->baz = "buz";
+        $object->foo = 'bar';
+        $object->baz = 'buz';
         $object->pi  = 3.14;
-        $object->ary = ["some array"];
+        $object->ary = ['some array'];
         $object->obj = clone $object;
         $view->setVar('object', $object);
         $view->start();
@@ -417,7 +416,7 @@ class CompilerCest
         $I->assertEquals($expected, $actual);
 
 
-        $form = new Form;
+        $form = new Form();
 
         $form->add(
             new Password('password')

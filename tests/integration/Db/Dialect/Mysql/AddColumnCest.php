@@ -22,8 +22,6 @@ class AddColumnCest
     /**
      * Tests Dialect::addColumn
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
@@ -42,9 +40,7 @@ class AddColumnCest
         }
     }
 
-    /**
-     * @return array
-     */
+
     protected function getAddColumnFixtures(): array
     {
         return [

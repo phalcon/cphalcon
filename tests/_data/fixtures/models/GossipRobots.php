@@ -19,7 +19,7 @@ class GossipRobots extends Model
 
     public function initialize()
     {
-        $this->setSource("robots");
+        $this->setSource('robots');
     }
 
     public function beforeValidation()

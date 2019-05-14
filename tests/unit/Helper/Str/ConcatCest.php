@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Helper\Str;
 
-use Phalcon\Helper\Str;
 use Phalcon\Helper\Exception;
+use Phalcon\Helper\Str;
 use UnitTester;
 
 class ConcatCest

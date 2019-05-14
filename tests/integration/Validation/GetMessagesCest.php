@@ -22,8 +22,6 @@ class GetMessagesCest
     /**
      * Tests Phalcon\Validation :: getMessages()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16
      */

@@ -22,8 +22,6 @@ class GetLineCest
     /**
      * Tests Phalcon\Mvc\Model\Transaction\Failed :: getLine()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

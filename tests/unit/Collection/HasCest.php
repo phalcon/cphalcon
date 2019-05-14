@@ -26,38 +26,49 @@ class HasCest
     public function collectionHas(UnitTester $I)
     {
         $I->wantToTest('Collection - has()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Collection($data);
 
-        $actual = $collection->has('three');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $collection->has('three')
+        );
 
-        $actual = $collection->has('THREE');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $collection->has('THREE')
+        );
 
-        $actual = $collection->has('THREE', false);
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $collection->has('THREE', false)
+        );
 
-        $actual = $collection->has('unknown');
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $collection->has('unknown')
+        );
 
-        $actual = $collection->__isset('three');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $collection->__isset('three')
+        );
 
-        $actual = isset($collection['three']);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            isset($collection['three'])
+        );
 
-        $actual = isset($collection['unknown']);
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            isset($collection['unknown'])
+        );
 
-        $actual = $collection->offsetExists('three');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $collection->offsetExists('three')
+        );
 
-        $actual = $collection->offsetExists('unknown');
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $collection->offsetExists('unknown')
+        );
     }
 }

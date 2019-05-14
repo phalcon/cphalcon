@@ -24,8 +24,6 @@ class AddFunctionCest
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: addFunction()
      *
-     * @param IntegrationTester $I
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2017-01-17
      *
@@ -52,8 +50,6 @@ class AddFunctionCest
 
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: addFunction()
-     *
-     * @param IntegrationTester $I
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2017-01-17
@@ -84,9 +80,7 @@ class AddFunctionCest
         );
     }
 
-    /**
-     * @return array
-     */
+
     private function getVoltAddFunction(): array
     {
         return [
@@ -106,9 +100,7 @@ class AddFunctionCest
         ];
     }
 
-    /**
-     * @return array
-     */
+
     private function getVoltAddFunctionClosure(): array
     {
         return [

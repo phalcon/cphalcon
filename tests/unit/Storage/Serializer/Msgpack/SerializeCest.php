@@ -13,10 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Serializer\Msgpack;
 
 use Codeception\Example;
+use function msgpack_pack;
 use Phalcon\Storage\Serializer\Msgpack;
 use stdClass;
 use UnitTester;
-use function msgpack_pack;
 
 class SerializeCest
 {
@@ -74,7 +74,7 @@ class SerializeCest
             [
                 'array',
                 ['Phalcon Framework'],
-                msgpack_pack(["Phalcon Framework"]),
+                msgpack_pack(['Phalcon Framework']),
             ],
             [
                 'object',

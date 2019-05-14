@@ -21,7 +21,6 @@ use Phalcon\Test\Models\Snapshot\Requests;
 use Phalcon\Test\Models\Snapshot\Robots;
 use Phalcon\Test\Models\Snapshot\Robotters;
 use Phalcon\Test\Models\Snapshot\Subscribers;
-use Phalcon\Test\Module\IntegrationTest;
 
 class SnapshotCest
 {
@@ -263,7 +262,7 @@ class SnapshotCest
         $I->assertNotEmpty($robots->getSnapshotData());
         $I->assertEquals($robots->toArray(), $robots->getSnapshotData());
 
-        $robots->name = "testabc";
+        $robots->name = 'testabc';
         $I->assertTrue($robots->hasChanged('name'));
         $I->assertTrue($robots->update());
         $I->assertEquals('testabc', $robots->name);
@@ -471,11 +470,12 @@ class SnapshotCest
     {
         $personas = Personas::findFirst();
         $I->assertEquals([], $personas->getChangedFields());
+
         try {
             $personas->getUpdatedFields();
         } catch (\Exception $e) {
             $I->assertEquals($e->getMessage())->equals(
-                "Change checking cannot be performed because the object has not been persisted or is deleted"
+                'Change checking cannot be performed because the object has not been persisted or is deleted'
             )
             ;
         }

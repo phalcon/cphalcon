@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Tag;
 use Phalcon\Tag;
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Unit\Tag
- */
 class ResetInputCest
 {
     /**
@@ -32,7 +29,7 @@ class ResetInputCest
      */
     public function tagResetInputShouldNotClearPOST(UnitTester $I)
     {
-        $I->wantToTest("Tag - resetInput() - should not clear POST data");
+        $I->wantToTest('Tag - resetInput() - should not clear POST data');
 
         $_POST = ['a' => '1', 'b' => '2'];
 
@@ -53,7 +50,7 @@ class ResetInputCest
      */
     public function tagResetInputSetDefault(UnitTester $I)
     {
-        $I->wantToTest("Tag - resetInput() - setDefault()");
+        $I->wantToTest('Tag - resetInput() - setDefault()');
 
         Tag::setDocType(
             Tag::XHTML10_STRICT
@@ -103,7 +100,7 @@ class ResetInputCest
      */
     public function tagResetInputDisplayTo(UnitTester $I)
     {
-        $I->wantToTest("Tag - resetInput() - displayTo()");
+        $I->wantToTest('Tag - resetInput() - displayTo()');
         Tag::setDocType(Tag::XHTML10_STRICT);
         $options  = 'x_name';
         $expected = '<input type="text" id="x_name" name="x_name" '

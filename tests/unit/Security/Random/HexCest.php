@@ -26,7 +26,7 @@ class HexCest
     {
         $I->wantToTest("Security\Random - hex()");
 
-        $random = new \Phalcon\Security\Random;
+        $random = new \Phalcon\Security\Random();
 
 
 
@@ -34,7 +34,7 @@ class HexCest
 
         // Test forbidden characters
         $I->assertRegExp(
-            "/^[0-9a-f]+$/",
+            '/^[0-9a-f]+$/',
             $hex
         );
 

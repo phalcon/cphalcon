@@ -25,7 +25,7 @@ class SetEncodingCest
      */
     public function escaperSetEncoding(UnitTester $I)
     {
-        $I->wantToTest("Escaper - setEncoding()");
+        $I->wantToTest('Escaper - setEncoding()');
 
         $escaper = new Escaper();
 

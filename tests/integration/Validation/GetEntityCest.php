@@ -24,8 +24,6 @@ class GetEntityCest
     /**
      * Tests Phalcon\Validation :: getEntity()
      *
-     * @param IntegrationTester $I
-     *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17
      */

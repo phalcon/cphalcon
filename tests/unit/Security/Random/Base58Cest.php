@@ -27,14 +27,14 @@ class Base58Cest
     {
         $I->wantToTest("Security\Random - base58()");
 
-        $random = new Random;
+        $random = new Random();
 
 
         $base58 = $random->base58();
 
         // Test forbidden characters
         $I->assertRegExp(
-            "/^[1-9A-Za-z][^OIl0]+$/",
+            '/^[1-9A-Za-z][^OIl0]+$/',
             $base58
         );
 

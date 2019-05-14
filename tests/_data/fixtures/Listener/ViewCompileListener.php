@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Listener;
 
-use ComponentX;
 use IntegrationTester;
 use Phalcon\Events\Event;
 use Phalcon\Test\Integration\Mvc\View\Engine\Volt\RenderCest;
@@ -23,10 +22,10 @@ use UnitTester;
  */
 class ViewCompileListener
 {
-    /** @var  RenderCest */
+    /** @var RenderCest */
     protected $testCase;
 
-    /** @var  UnitTester */
+    /** @var UnitTester */
     protected $tester;
 
     protected $before = '';
@@ -49,7 +48,7 @@ class ViewCompileListener
             $event
         );
 
-        $this->before = "Before fired";
+        $this->before = 'Before fired';
     }
 
     /**
@@ -63,7 +62,7 @@ class ViewCompileListener
             $event
         );
 
-        $this->after = "After fired";
+        $this->after = 'After fired';
     }
 
     public function getAfter(): string

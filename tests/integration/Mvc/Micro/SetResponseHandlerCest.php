@@ -22,8 +22,6 @@ class SetResponseHandlerCest
 {
     /**
      * Tests Phalcon\Mvc\Micro :: setResponseHandler()
-     *
-     * @param IntegrationTester $I
      */
     public function testMicroResponseHandler(IntegrationTester $I)
     {
@@ -38,13 +36,13 @@ class SetResponseHandlerCest
         );
 
         $app->map(
-            "/blog",
+            '/blog',
             function () use (&$trace) {
                 $trace[] = 1;
             }
         );
 
-        $app->handle("/blog");
+        $app->handle('/blog');
 
         $I->assertCount(2, $trace);
     }

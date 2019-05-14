@@ -24,8 +24,6 @@ class AddCest
     /**
      * Tests Phalcon\Forms\Form :: add()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -42,12 +40,12 @@ class AddCest
     {
         $form = new Form();
 
-        $form->add(new Text("name"));
+        $form->add(new Text('name'));
 
-        $form->add(new Text("before"), "name", true);
-        $form->add(new Text("after"), "name");
+        $form->add(new Text('before'), 'name', true);
+        $form->add(new Text('after'), 'name');
 
-        $expected = ["before", "name", "after"];
+        $expected = ['before', 'name', 'after'];
         $actual   = [];
 
         foreach ($form as $element) {

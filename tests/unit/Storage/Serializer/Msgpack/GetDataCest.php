@@ -26,7 +26,7 @@ class GetDataCest
     public function storageSerializerMsgpackGetData(UnitTester $I)
     {
         $I->wantToTest('Storage\Serializer\Msgpack - getData()');
-        $data       = ["Phalcon Framework"];
+        $data       = ['Phalcon Framework'];
         $serializer = new Msgpack($data);
 
         $expected = $data;

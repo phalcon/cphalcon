@@ -24,8 +24,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Ip :: validate() - single field
      *
-     * @param IntegrationTester $I
-     *
      * @author Gorka Guridi <gorka.guridi@gmail.com>
      * @since  2016-12-17
      */
@@ -137,8 +135,6 @@ class ValidateCest
 
     /**
      * Tests Phalcon\Validation\Validator\Ip :: validate() - multiple field
-     *
-     * @param IntegrationTester $I
      *
      * @author Gorka Guridi <gorka.guridi@gmail.com>
      * @since  2016-12-17

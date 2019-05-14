@@ -22,8 +22,6 @@ class SetUserOptionCest
     /**
      * Tests Phalcon\Forms\Element\TextArea :: setUserOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

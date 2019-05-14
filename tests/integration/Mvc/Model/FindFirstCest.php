@@ -28,8 +28,6 @@ class FindFirstCest
     /**
      * Tests Phalcon\Mvc\Model :: findFirst()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -56,8 +54,6 @@ class FindFirstCest
     /**
      * Tests Phalcon\Mvc\Model :: findFirst() - extended
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -79,8 +75,6 @@ class FindFirstCest
     /**
      * Tests Phalcon\Mvc\Model :: findFirst() - exception
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -91,7 +85,7 @@ class FindFirstCest
         $this->setDiMysql();
 
         $I->expectThrowable(
-            new Exception("Parameters passed must be of type array, string, numeric or null"),
+            new Exception('Parameters passed must be of type array, string, numeric or null'),
             function () {
                 Robots::findFirst(false);
             }

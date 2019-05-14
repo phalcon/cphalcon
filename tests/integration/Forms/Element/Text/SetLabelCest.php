@@ -41,7 +41,7 @@ class SetLabelCest
 
     public function testFormElementEmpty(IntegrationTester $I)
     {
-        $element = new Text("name");
+        $element = new Text('name');
 
         $I->assertNull(
             $element->getLabel()
@@ -50,9 +50,9 @@ class SetLabelCest
 
     public function testIssue1210(IntegrationTester $I)
     {
-        $element = new Text("test");
+        $element = new Text('test');
 
-        $element->setLabel("Test");
+        $element->setLabel('Test');
 
         $I->assertEquals(
             '<label for="test">Test</label>',

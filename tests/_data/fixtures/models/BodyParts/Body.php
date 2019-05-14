@@ -29,9 +29,9 @@ class Body extends Model
             'id',
             [
                 'alias'      => 'head1',
-                "foreignKey" => [
-                    "allowNulls" => true,
-                    "message"    => "First head does not exists",
+                'foreignKey' => [
+                    'allowNulls' => true,
+                    'message'    => 'First head does not exists',
                 ],
             ]
         );
@@ -42,9 +42,9 @@ class Body extends Model
             'id',
             [
                 'alias'      => 'head2',
-                "foreignKey" => [
-                    "allowNulls" => true,
-                    "message"    => "Second head does not exists",
+                'foreignKey' => [
+                    'allowNulls' => true,
+                    'message'    => 'Second head does not exists',
                 ],
             ]
         );

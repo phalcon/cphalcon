@@ -23,21 +23,21 @@ class RestHandler
     {
         $this->access++;
 
-        $this->trace[] = "find";
+        $this->trace[] = 'find';
     }
 
     public function save()
     {
         $this->access++;
 
-        $this->trace[] = "save";
+        $this->trace[] = 'save';
     }
 
     public function delete()
     {
         $this->access++;
 
-        $this->trace[] = "delete";
+        $this->trace[] = 'delete';
     }
 
 

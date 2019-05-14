@@ -22,8 +22,6 @@ class SetDefaultCest
     /**
      * Tests Phalcon\Forms\Element\TextArea :: setDefault()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

@@ -12,22 +12,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Http\Server;
 
+use Phalcon\Http\Server\AbstractMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Phalcon\Http\Server\AbstractMiddleware;
 
 /**
  * Class MiddlewareFixture
  */
 class MiddlewareFixture extends AbstractMiddleware
 {
-    /**
-     * @param ServerRequestInterface  $request
-     * @param RequestHandlerInterface $handler
-     *
-     * @return ResponseInterface
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
     }

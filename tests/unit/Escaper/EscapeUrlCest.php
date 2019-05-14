@@ -25,13 +25,13 @@ class EscapeUrlCest
      */
     public function escaperEscapeUrl(UnitTester $I)
     {
-        $I->wantToTest("Escaper - escapeUrl()");
+        $I->wantToTest('Escaper - escapeUrl()');
 
         $escaper = new Escaper();
 
         $I->assertEquals(
             'http%3A%2F%2Fphalconphp.com%2Fa.php%3Fc%3Dd%26e%3Df',
-            $escaper->escapeUrl("http://phalconphp.com/a.php?c=d&e=f")
+            $escaper->escapeUrl('http://phalconphp.com/a.php?c=d&e=f')
         );
     }
 }

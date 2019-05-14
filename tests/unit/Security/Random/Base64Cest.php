@@ -48,7 +48,7 @@ class Base64Cest
         );
 
         $I->assertRegExp(
-            "#^[a-z0-9+_=/-]+$#i",
+            '#^[a-z0-9+_=/-]+$#i',
             $base64
         );
     }

@@ -15,7 +15,6 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Memory;
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
-use function getOptionsMemory;
 
 class GetSetDefaultSerializerCest
 {

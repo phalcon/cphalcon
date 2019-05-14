@@ -57,3 +57,5 @@ php_test_results_*.txt
 docker-compose.yml
 build/gccarch
 tests/_cache
+
+.php_cs.cache

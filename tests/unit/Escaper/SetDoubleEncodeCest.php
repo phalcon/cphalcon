@@ -25,11 +25,11 @@ class SetDoubleEncodeCest
      */
     public function escaperSetDoubleEncode(UnitTester $I)
     {
-        $I->wantToTest("Escaper - setDoubleEncode()");
+        $I->wantToTest('Escaper - setDoubleEncode()');
 
         $escaper = new Escaper();
 
-        $source = "<h1>&amp;</h1>";
+        $source = '<h1>&amp;</h1>';
 
         $I->assertEquals(
             '&lt;h1&gt;&amp;amp;&lt;/h1&gt;',

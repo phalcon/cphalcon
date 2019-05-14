@@ -22,8 +22,6 @@ class AppendMessageCest
     /**
      * Tests Phalcon\Validation :: appendMessage()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16
      */

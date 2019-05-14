@@ -12,12 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Filter\FilterLocator;
 
-use Closure;
-use Codeception\Example;
 use Phalcon\Filter\FilterLocator;
 use Phalcon\Test\Fixtures\Filter\Sanitize\IPv4;
 use UnitTester;
-use function func_get_args;
 
 class CustomCest
 {
@@ -30,6 +27,7 @@ class CustomCest
     public function filterFilterLocatorCustomHas(UnitTester $I)
     {
         $I->wantToTest('Filter\FilterLocator - custom has()');
+
         $services = [
             'ipv4' => function () {
                 return new IPv4();
@@ -38,8 +36,9 @@ class CustomCest
 
         $locator = new FilterLocator($services);
 
-        $actual = $locator->has('ipv4');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $locator->has('ipv4')
+        );
     }
 
     /**
@@ -51,6 +50,7 @@ class CustomCest
     public function filterFilterLocatorCustomSanitizer(UnitTester $I)
     {
         $I->wantToTest('Filter\FilterLocator - custom sanitizer');
+
         $services = [
             'ipv4' => function () {
                 return new IPv4();
@@ -61,13 +61,19 @@ class CustomCest
 
         /** @var IPv4 $sanitizer */
         $sanitizer = $locator->get('ipv4');
-        $I->assertInstanceOf(IPv4::class, $sanitizer);
 
-        $expected = '127.0.0.1';
-        $actual   = $sanitizer('127.0.0.1');
-        $I->assertEquals($expected, $actual);
+        $I->assertInstanceOf(
+            IPv4::class,
+            $sanitizer
+        );
 
-        $actual   = $sanitizer('127.0.0');
-        $I->assertFalse($actual);
+        $I->assertEquals(
+            '127.0.0.1',
+            $sanitizer('127.0.0.1')
+        );
+
+        $I->assertFalse(
+            $sanitizer('127.0.0')
+        );
     }
 }

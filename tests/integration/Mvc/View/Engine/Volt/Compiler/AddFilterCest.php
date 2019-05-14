@@ -24,8 +24,6 @@ class AddFilterCest
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: addFilter()
      *
-     * @param IntegrationTester $I
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
      *
@@ -51,8 +49,6 @@ class AddFilterCest
 
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: addFilter() - closure
-     *
-     * @param IntegrationTester $I
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
@@ -83,9 +79,7 @@ class AddFilterCest
         );
     }
 
-    /**
-     * @return array
-     */
+
     private function getVoltAddFilter(): array
     {
         return [
@@ -98,9 +92,7 @@ class AddFilterCest
         ];
     }
 
-    /**
-     * @return array
-     */
+
     private function getVoltAddFilterClosure(): array
     {
         return [

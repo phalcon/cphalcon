@@ -23,7 +23,6 @@ use stdClass;
  * @link          http://www.phalconphp.com
  * @author        Andres Gutierrez <andres@phalconphp.com>
  * @author        Phalcon Team <team@phalconphp.com>
- * @package       Phalcon\Test\Integration
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -67,7 +66,6 @@ class ValidationCest
      * Tests the get
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10405
-     * @param IntegrationTester $I
      *
      * @since  2016-06-27
      *

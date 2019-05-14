@@ -139,7 +139,7 @@ class AllowCest
                 1024
             ),
             function () use ($I) {
-                $acl = new Memory;
+                $acl = new Memory();
 
                 $acl->setDefaultAction(
                     Acl::ALLOW
