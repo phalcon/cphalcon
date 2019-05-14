@@ -173,7 +173,11 @@ class Loader implements EventsAwareInterface
                         if typeof eventsManager == "object" {
                             let this->foundPath = filePath;
 
-                            eventsManager->fire("loader:pathFound", this, filePath);
+                            eventsManager->fire(
+                                "loader:pathFound",
+                                this,
+                                filePath
+                            );
                         }
 
                         /**
@@ -336,7 +340,11 @@ class Loader implements EventsAwareInterface
         for filePath in this->files {
             if typeof this->eventsManager == "object" {
                 let this->checkedPath = filePath;
-                    this->eventsManager->fire("loader:beforeCheckPath", this, filePath);
+                    this->eventsManager->fire(
+                        "loader:beforeCheckPath",
+                        this,
+                        filePath
+                    );
             }
 
             /**

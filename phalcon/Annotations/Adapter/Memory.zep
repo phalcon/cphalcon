@@ -16,7 +16,8 @@ use Phalcon\Annotations\Reflection;
 /**
  * Phalcon\Annotations\Adapter\Memory
  *
- * Stores the parsed annotations in memory. This adapter is the suitable development/testing
+ * Stores the parsed annotations in memory. This adapter is the suitable
+ * development/testing
  */
 class Memory extends Adapter
 {

@@ -32,8 +32,9 @@ class Complex extends Resultset implements ResultsetInterface
     protected columnTypes;
 
     /**
-    * Unserialised result-set hydrated all rows already. unserialise() sets _disableHydration to true
-    */
+     * Unserialised result-set hydrated all rows already. unserialise() sets
+     * _disableHydration to true
+     */
     protected disableHydration = false;
 
     /**
@@ -172,7 +173,11 @@ class Complex extends Resultset implements ResultsetInterface
                             }
 
                             let value = {modelName}::cloneResultMap(
-                                column["instance"], rowModel, columnMap, dirtyState, keepSnapshots
+                                column["instance"],
+                                rowModel,
+                                columnMap,
+                                dirtyState,
+                                keepSnapshots
                             );
 
                         } else {
@@ -182,7 +187,11 @@ class Complex extends Resultset implements ResultsetInterface
                              * attributes using a column map
                              */
                             let value = Model::cloneResultMap(
-                                column["instance"], rowModel, columnMap, dirtyState, keepSnapshots
+                                column["instance"],
+                                rowModel,
+                                columnMap,
+                                dirtyState,
+                                keepSnapshots
                             );
                         }
 
@@ -190,7 +199,12 @@ class Complex extends Resultset implements ResultsetInterface
 
                     default:
                         // Other kinds of hydration
-                        let value = Model::cloneResultMapHydrate(rowModel, columnMap, hydrateMode);
+                        let value = Model::cloneResultMapHydrate(
+                            rowModel,
+                            columnMap,
+                            hydrateMode
+                        );
+
                         break;
                 }
 
@@ -247,8 +261,8 @@ class Complex extends Resultset implements ResultsetInterface
     }
 
     /**
-     * Returns a complete resultset as an array, if the resultset has a big number of rows
-     * it could consume more memory than currently it does.
+     * Returns a complete resultset as an array, if the resultset has a big
+     * number of rows it could consume more memory than currently it does.
      */
     public function toArray() -> array
     {
@@ -288,11 +302,14 @@ class Complex extends Resultset implements ResultsetInterface
         let container = Di::getDefault();
 
         if unlikely typeof container != "object" {
-            throw new Exception("The dependency injector container is not valid");
+            throw new Exception(
+                "The dependency injector container is not valid"
+            );
         }
 
         if container->has("serializer") {
             let serializer = <SerializerInterface> container->getShared("serializer");
+
             serializer->setData(
                 [
                     "cache"       : cache,
@@ -301,6 +318,7 @@ class Complex extends Resultset implements ResultsetInterface
                     "hydrateMode" : hydrateMode
                 ]
             );
+
             return serializer->serialize();
         }
 

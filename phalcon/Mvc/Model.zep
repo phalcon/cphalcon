@@ -4343,6 +4343,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         var notNull, columnMap, dataTypeNumeric, automaticAttributes,
             defaultValues, field, attributeField, value, emptyStringValues;
         bool error, isNull;
+        string eventName;
 
         /**
          * Run Validation Callbacks Before
@@ -4358,14 +4359,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Call the specific beforeValidation event for the current action
              */
-            if !exists {
-                if this->fireEventCancel("beforeValidationOnCreate") === false {
-                    return false;
-                }
+            if exists {
+                let eventName = "beforeValidationOnUpdate";
             } else {
-                if this->fireEventCancel("beforeValidationOnUpdate") === false {
-                    return false;
-                }
+                let eventName = "beforeValidationOnCreate";
+            }
+
+            if this->fireEventCancel(eventName) === false {
+                return false;
             }
         }
 
@@ -4524,14 +4525,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Run Validation Callbacks After
              */
-            if !exists {
-                if this->fireEventCancel("afterValidationOnCreate") === false {
-                    return false;
-                }
+            if exists {
+                let eventName = "afterValidationOnUpdate";
             } else {
-                if this->fireEventCancel("afterValidationOnUpdate") === false {
-                    return false;
-                }
+                let eventName = "afterValidationOnCreate";
+            }
+
+            if this->fireEventCancel(eventName) === false {
+                return false;
             }
 
             if this->fireEventCancel("afterValidation") === false {
@@ -4551,13 +4552,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * The operation can be skipped here
              */
             if exists {
-                if this->fireEventCancel("beforeUpdate") === false {
-                    return false;
-                }
+                let eventName = "beforeUpdate";
             } else {
-                if this->fireEventCancel("beforeCreate") === false {
-                    return false;
-                }
+                let eventName = "beforeCreate";
+            }
+
+            if this->fireEventCancel(eventName) === false {
+                return false;
             }
 
             /**
@@ -4961,7 +4962,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * {
      *     public function initialize()
      *     {
-     *         $this->belongsTo("robots_id", "Robots", "id");
+     *         $this->belongsTo(
+     *             "robots_id",
+     *             Robots::class,
+     *             "id"
+     *         );
      *     }
      * }
      *</code>
@@ -5042,7 +5047,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * {
      *     public function initialize()
      *     {
-     *         $this->hasMany("id", "RobotsParts", "robots_id");
+     *         $this->hasMany(
+     *             "id",
+     *             RobotsParts::class,
+     *             "robots_id"
+     *         );
      *     }
      * }
      *</code>
@@ -5070,10 +5079,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         // Setup a many-to-many relation to Parts through RobotsParts
      *         $this->hasManyToMany(
      *             "id",
-     *             "RobotsParts",
+     *             RobotsParts::class,
      *             "robots_id",
      *             "parts_id",
-     *             "Parts",
+     *             Parts::class,
      *             "id",
      *         );
      *     }
@@ -5109,7 +5118,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * {
      *     public function initialize()
      *     {
-     *         $this->hasOne("id", "RobotsDescription", "robots_id");
+     *         $this->hasOne(
+     *             "id",
+     *             RobotsDescription::class,
+     *             "robots_id"
+     *         );
      *     }
      * }
      *</code>
