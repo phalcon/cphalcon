@@ -17,6 +17,7 @@ use Phalcon\Db\RawValue;
 use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Helper\Arr;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model\BehaviorInterface;
@@ -833,7 +834,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode)
     {
-        var key, value, attribute, attributeName, hydrateObject;
+        var key, value, attribute, attributeName;
         array hydrateArray;
 
         /**
@@ -847,13 +848,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         }
 
         /**
-         * Create the destination object according to the hydration mode
+         * Create the destination object
          */
-        if hydrationMode == Resultset::HYDRATE_ARRAYS {
-            let hydrateArray = [];
-        } else {
-            let hydrateObject = new \stdclass();
-        }
+        let hydrateArray = [];
 
         for key, value in data {
             if typeof key != "string" {
@@ -888,25 +885,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     let attributeName = attribute;
                 }
 
-                if hydrationMode == Resultset::HYDRATE_ARRAYS {
-                    let hydrateArray[attributeName] = value;
-                } else {
-                    let hydrateObject->{attributeName} = value;
-                }
+                let hydrateArray[attributeName] = value;
             } else {
-                if hydrationMode == Resultset::HYDRATE_ARRAYS {
-                    let hydrateArray[key] = value;
-                } else {
-                    let hydrateObject->{key} = value;
-                }
+                let hydrateArray[key] = value;
             }
         }
 
-        if hydrationMode == Resultset::HYDRATE_ARRAYS {
-            return hydrateArray;
+        if hydrationMode != Resultset::HYDRATE_ARRAYS {
+            return Arr::arrayToObject(hydrateArray);
         }
 
-        return hydrateObject;
+        return hydrateArray;
     }
 
     /**
