@@ -629,26 +629,18 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function addBehavior(<ModelInterface> model, <BehaviorInterface> behavior) -> void
     {
-        var entityName, modelsBehaviors;
+        var entityName;
 
         let entityName = get_class_lower(model);
 
-        /**
-         * Get the current behaviors
-         */
-        if !fetch modelsBehaviors, this->behaviors[entityName] {
-            let modelsBehaviors = [];
+        if !isset this->behaviors[entityName] {
+            let this->behaviors[entityName] = [];
         }
 
         /**
          * Append the behavior to the list of behaviors
          */
-        let modelsBehaviors[] = behavior;
-
-        /**
-         * Update the behaviors list
-         */
-        let this->behaviors[entityName] = modelsBehaviors;
+        let this->behaviors[entityName][] = behavior;
     }
 
     /**
