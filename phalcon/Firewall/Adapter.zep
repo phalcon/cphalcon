@@ -160,7 +160,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	/**
 	 * Handles a user exception
 	 */
-	protected function handleException(<\Exception> exception) -> bool
+	protected function handleException(<\Exception> exception)
 	{
 		var eventsManager;
 		let eventsManager = <ManagerInterface> this->eventsManager;
@@ -179,7 +179,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	    string actionName,
 	    string controllerName,
 	    bool access
-    ) -> void
+    )
 	{
 		var eventsManager, roleName;
 

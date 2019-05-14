@@ -39,11 +39,6 @@ class AclCest
         $this->setNewFactoryDefault();
         $this->setDiMysql();
 
-        require_once dataDir('fixtures/models/AlbumORama/Albums.php');
-        require_once dataDir('fixtures/controllers/Firewall/OneController.php');
-        require_once dataDir('fixtures/controllers/Firewall/ThreeController.php');
-        require_once dataDir('fixtures/controllers/Firewall/FourController.php');
-
         $dispatcher = new Dispatcher();
         $dispatcher->setDefaultNamespace(
             'Phalcon\Test\Controllers\Firewall'
