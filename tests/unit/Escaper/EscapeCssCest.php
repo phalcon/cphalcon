@@ -25,7 +25,7 @@ class EscapeCssCest
      */
     public function escaperEscapeCss(UnitTester $I)
     {
-        $I->wantToTest("Escaper - escapeCss()");
+        $I->wantToTest('Escaper - escapeCss()');
 
         $escaper = new Escaper();
 

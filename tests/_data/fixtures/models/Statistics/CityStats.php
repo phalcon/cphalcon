@@ -17,6 +17,6 @@ class CityStats extends Model
 {
     public function initialize()
     {
-        $this->setSource("stats");
+        $this->setSource('stats');
     }
 }

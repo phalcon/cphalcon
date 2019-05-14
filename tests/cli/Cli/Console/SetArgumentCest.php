@@ -48,37 +48,37 @@ class SetArgumentCest
         $console = $this->newCliConsole();
         $console->setDI($this->container);
 
-        $dispatcher = $this->container->getShared("dispatcher");
+        $dispatcher = $this->container->getShared('dispatcher');
         $console->setArgument([
-            "php",
-            "--foo=bar",
-            "-bar",
-            "main",
-            "hello",
-            "a",
-            "B",
+            'php',
+            '--foo=bar',
+            '-bar',
+            'main',
+            'hello',
+            'a',
+            'B',
         ])->handle()
         ;
 
         $I->assertEquals(
-            "main",
+            'main',
             $dispatcher->getTaskName()
         );
 
         $I->assertEquals(
-            "hello",
+            'hello',
             $dispatcher->getActionName()
         );
 
         $I->assertEquals(
-            ["a", "B"],
+            ['a', 'B'],
             $dispatcher->getParams()
         );
 
         $I->assertEquals(
             [
-                "foo" => "bar",
-                "bar" => true,
+                'foo' => 'bar',
+                'bar' => true,
             ],
             $dispatcher->getOptions()
         );

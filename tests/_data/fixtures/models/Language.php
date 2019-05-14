@@ -19,13 +19,12 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  * @property string locale
  * @property Simple translations
  * @method Simple getTranslations()
- * @package Phalcon\Test\Models
  */
 class Language extends Model
 {
     public function initialize()
     {
-        $this->setSource("language");
+        $this->setSource('language');
 
         $this->hasMany(
             [

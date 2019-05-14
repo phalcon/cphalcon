@@ -22,8 +22,6 @@ class MapCest
     /**
      * Tests Phalcon\Mvc\Micro\Collection :: map()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

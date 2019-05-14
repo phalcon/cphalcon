@@ -19,8 +19,6 @@ class GetReturnedValueCest
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getReturnedValue()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Unit\Translate\Adapter;
 
+use function dataDir;
 use Phalcon\Translate\Adapter\Csv;
 use UnitTester;
-use function dataDir;
 
 class CsvCest
 {
@@ -32,12 +32,11 @@ class CsvCest
             // the next delimiter is a tab character
             'options' => [
                 'content'   => dataDir('assets/translation/csv/fr_FR_options.csv'),
-                'delimiter' => "	",
+                'delimiter' => '	',
                 'enclosure' => "'",
             ],
         ];
     }
-
 
     /**
      * Translate into russian
@@ -63,9 +62,9 @@ class CsvCest
         $actual = $translator->query(
             'Hello %fname% %mname% %lname%!',
             [
-                "fname" => "TestFname",
-                "mname" => "TestMname",
-                "lname" => "TestLname",
+                'fname' => 'TestFname',
+                'mname' => 'TestMname',
+                'lname' => 'TestLname',
             ]
         );
 
@@ -74,7 +73,7 @@ class CsvCest
             $actual
         );
     }
-    
+
     /**
      * Translate into French with a CSV using non standard delimiter and enclosure
      */
@@ -94,9 +93,9 @@ class CsvCest
         $actual = $translator->query(
             'Hello %fname% %mname% %lname%!',
             [
-                "fname" => "TestFname",
-                "mname" => "TestMname",
-                "lname" => "TestLname",
+                'fname' => 'TestFname',
+                'mname' => 'TestMname',
+                'lname' => 'TestLname',
             ]
         );
 

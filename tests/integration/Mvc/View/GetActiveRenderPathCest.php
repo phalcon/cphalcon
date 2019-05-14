@@ -14,10 +14,10 @@ namespace Phalcon\Test\Integration\Mvc\View;
 
 use function dataDir;
 use const DIRECTORY_SEPARATOR;
+use IntegrationTester;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\View;
 use Phalcon\Test\Fixtures\Mvc\View\AfterRenderListener;
-use IntegrationTester;
 
 /**
  * Class GetActiveRenderPathCest
@@ -36,10 +36,10 @@ class GetActiveRenderPathCest
     {
         $I->wantToTest('Mvc\View - getActiveRenderPath()');
 
-        $eventsManager = new Manager;
+        $eventsManager = new Manager();
         $eventsManager->attach('view', new AfterRenderListener());
 
-        $view = new View;
+        $view = new View();
         $view->setViewsDir(dataDir('views' . DIRECTORY_SEPARATOR));
         $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
         $view->setEventsManager($eventsManager);

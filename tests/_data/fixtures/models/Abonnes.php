@@ -11,8 +11,8 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model;
 use Phalcon\Messages\Message;
+use Phalcon\Mvc\Model;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 use Phalcon\Validation\Validator\ExclusionIn as ExclusionInValidator;
@@ -26,7 +26,7 @@ class Abonnes extends Model
 {
     public function initialize()
     {
-        $this->setSource("subscriptores");
+        $this->setSource('subscriptores');
     }
 
     public function beforeValidation()
@@ -60,7 +60,7 @@ class Abonnes extends Model
             'creeA',
             new PresenceOfValidator(
                 [
-                    'message' => "La date de création est nécessaire",
+                    'message' => 'La date de création est nécessaire',
                 ]
             )
         );
@@ -121,8 +121,8 @@ class Abonnes extends Model
                 [
                     'min'            => '7',
                     'max'            => '50',
-                    'messageMinimum' => "Le courrier électronique est trop court",
-                    'messageMaximum' => "Le courrier électronique est trop long",
+                    'messageMinimum' => 'Le courrier électronique est trop court',
+                    'messageMaximum' => 'Le courrier électronique est trop long',
                 ]
             )
         );

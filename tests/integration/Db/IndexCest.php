@@ -4,7 +4,6 @@ namespace Phalcon\Test\Integration\Db;
 
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
-use Phalcon\Test\Module\IntegrationTest;
 
 class IndexCest
 {

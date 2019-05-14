@@ -21,7 +21,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Regex;
 use Phalcon\Validation\Validator\StringLength;
-use stdClass;
 
 class FormCest
 {
@@ -62,11 +61,11 @@ class FormCest
 
 
         $form->add(
-            new Text("name")
+            new Text('name')
         );
 
         $form->add(
-            new Text("telephone")
+            new Text('telephone')
         );
 
         foreach ($form as $key => $value) {
@@ -75,8 +74,8 @@ class FormCest
 
 
         $expected = [
-            0 => "name",
-            1 => "telephone",
+            0 => 'name',
+            1 => 'telephone',
         ];
 
         $actual = $data;
@@ -89,59 +88,59 @@ class FormCest
         $form = new Form();
 
         $form->add(
-            new Text("name")
+            new Text('name')
         );
 
-        $telephone = new Text("telephone");
+        $telephone = new Text('telephone');
 
-        $telephone->setLabel("The Telephone");
+        $telephone->setLabel('The Telephone');
 
         $form->add($telephone);
 
 
         $expected = 'name';
-        $actual   = $form->getLabel("name");
+        $actual   = $form->getLabel('name');
 
         $I->assertEquals($expected, $actual);
 
 
         $expected = 'The Telephone';
-        $actual   = $form->getLabel("telephone");
+        $actual   = $form->getLabel('telephone');
 
         $I->assertEquals($expected, $actual);
 
 
-        $expected = "<label for=\"name\">name</label>";
-        $actual   = $form->label("name");
+        $expected = '<label for="name">name</label>';
+        $actual   = $form->label('name');
 
         $I->assertEquals($expected, $actual);
 
 
-        $expected = "<label for=\"telephone\">The Telephone</label>";
-        $actual   = $form->label("telephone");
+        $expected = '<label for="telephone">The Telephone</label>';
+        $actual   = $form->label('telephone');
 
         $I->assertEquals($expected, $actual);
 
 
         // https://github.com/phalcon/cphalcon/issues/1029
-        $expected = "<label for=\"name\" class=\"form-control\">name</label>";
+        $expected = '<label for="name" class="form-control">name</label>';
 
         $actual = $form->label(
-            "name",
+            'name',
             [
-                "class" => "form-control",
+                'class' => 'form-control',
             ]
         );
 
         $I->assertEquals($expected, $actual);
 
 
-        $expected = "<label for=\"telephone\" class=\"form-control\">The Telephone</label>";
+        $expected = '<label for="telephone" class="form-control">The Telephone</label>';
 
         $actual = $form->label(
-            "telephone",
+            'telephone',
             [
-                "class" => "form-control",
+                'class' => 'form-control',
             ]
         );
 
@@ -151,7 +150,7 @@ class FormCest
     public function testFormValidator(IntegrationTester $I)
     {
         //First element
-        $telephone = new Text("telephone");
+        $telephone = new Text('telephone');
 
         $telephone->addValidator(
             new PresenceOf(

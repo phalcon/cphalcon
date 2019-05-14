@@ -22,8 +22,6 @@ class CreateCest
     /**
      * Tests Phalcon\Forms\Manager :: create()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

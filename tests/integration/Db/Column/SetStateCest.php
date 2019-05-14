@@ -26,6 +26,6 @@ class SetStateCest
     {
         $I->wantToTest("Db\Column - __set_state()");
 
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

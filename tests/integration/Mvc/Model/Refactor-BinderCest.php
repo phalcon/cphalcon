@@ -15,7 +15,6 @@ use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Test\Models\People;
 use Phalcon\Test\Models\Robots;
-use PHPIntegration\Framework\SkippedTestError;
 use Test10Controller;
 use Test11Controller;
 use Test9Controller;
@@ -30,7 +29,6 @@ use TypeError;
  * @author        Andres Gutierrez <andres@phalconphp.com>
  * @author        Phalcon Team <team@phalconphp.com>
  * @author        Wojciech Ślawski <jurigag@gmail.com>
- * @package       Phalcon\Test\Integration\Mvc\Model
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -68,8 +66,6 @@ class BinderCest
 
     /**
      * Executed before each test
-     *
-     * @param IntegrationTester $I
      */
     public function _before(IntegrationTester $I)
     {
@@ -98,7 +94,7 @@ class BinderCest
         $I->haveServiceInDi(
             'modelsMetadata',
             function () {
-                return new Memory;
+                return new Memory();
             },
             true
         );
@@ -106,8 +102,6 @@ class BinderCest
 
     /**
      * Tests dispatcher and single model
-     *
-     * @param IntegrationTester $I
      *
      * @since  2016-10-29
      *
@@ -144,7 +138,7 @@ class BinderCest
     private function createDispatcher($useModelBinder = true)
     {
         $this->cache->flush();
-        $dispatcher = new Dispatcher;
+        $dispatcher = new Dispatcher();
         if ($useModelBinder) {
             $dispatcher->setModelBinder($this->modelBinder);
         }
@@ -155,7 +149,6 @@ class BinderCest
 
     /**
      * @param                   $dispatcher
-     * @param IntegrationTester $I
      */
     private function assertDispatcher($dispatcher, IntegrationTester $I)
     {
@@ -164,13 +157,10 @@ class BinderCest
     }
 
     /**
-     * @param Dispatcher $dispatcher
      * @param            $controllerName
      * @param            $actionName
      * @param            $params
      * @param bool       $returnValue
-     *
-     * @return mixed
      */
     private function returnDispatcherValueForAction(
         Dispatcher $dispatcher,
@@ -195,8 +185,6 @@ class BinderCest
 
     /**
      * Tests dispatcher and multiple model
-     *
-     * @param IntegrationTester $I
      *
      * @since  2016-10-29
      *
@@ -234,8 +222,6 @@ class BinderCest
     /**
      * Tests dispatcher and single model with interface
      *
-     * @param IntegrationTester $I
-     *
      * @since  2016-10-29
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
@@ -268,8 +254,6 @@ class BinderCest
 
     /**
      * Tests dispatcher and multi model with interface
-     *
-     * @param IntegrationTester $I
      *
      * @since  2016-10-29
      *
@@ -306,8 +290,6 @@ class BinderCest
 
     /**
      * Tests dispatcher and single binding exception
-     *
-     * @param IntegrationTester $I
      *
      * @since  2016-10-29
      *
@@ -366,8 +348,6 @@ class BinderCest
     /**
      * Tests micro with handlers and model binder
      *
-     * @param IntegrationTester $I
-     *
      * @since  2016-10-29
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
@@ -399,7 +379,6 @@ class BinderCest
     }
 
     /**
-     * @param IntegrationTester $I
      * @param bool              $useModelBinder
      *
      * @return Micro
@@ -420,8 +399,6 @@ class BinderCest
 
     /**
      * Tests micro with handler and multi binding
-     *
-     * @param IntegrationTester $I
      *
      * @since  2016-10-29
      *
@@ -457,8 +434,6 @@ class BinderCest
     /**
      * Tests micro with handler and single binding exception
      *
-     * @param IntegrationTester $I
-     *
      * @since  2016-10-29
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
@@ -472,6 +447,7 @@ class BinderCest
                 return $people;
             }
         );
+
         try {
             $micro->handle('/' . $this->people->cedula);
 
@@ -512,8 +488,6 @@ class BinderCest
     /**
      * Tests micro with controllers and model binder
      *
-     * @param IntegrationTester $I
-     *
      * @since  2016-10-29
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
@@ -543,8 +517,6 @@ class BinderCest
 
     /**
      * Tests micro with controllers and model binder
-     *
-     * @param IntegrationTester $I
      *
      * @since  2016-10-29
      *
@@ -579,8 +551,6 @@ class BinderCest
     /**
      * Tests micro with controller and single binding using interface
      *
-     * @param IntegrationTester $I
-     *
      * @since  2016-10-29
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
@@ -609,8 +579,6 @@ class BinderCest
 
     /**
      * Tests micro with controller and multi binding using interface
-     *
-     * @param IntegrationTester $I
      *
      * @since  2016-10-29
      *
@@ -644,8 +612,6 @@ class BinderCest
 
     /**
      * Tests micro with controller and single binding exception
-     *
-     * @param IntegrationTester $I
      *
      * @since  2016-10-29
      *
@@ -700,8 +666,6 @@ class BinderCest
     /**
      * Tests micro with lazy controllers and model binder
      *
-     * @param IntegrationTester $I
-     *
      * @since  2016-10-29
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
@@ -731,8 +695,6 @@ class BinderCest
 
     /**
      * Tests micro with lazy controllers and model binder
-     *
-     * @param IntegrationTester $I
      *
      * @since  2016-10-29
      *
@@ -767,8 +729,6 @@ class BinderCest
     /**
      * Tests micro with lazy controllers and model binder
      *
-     * @param IntegrationTester $I
-     *
      * @since  2016-10-29
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
@@ -798,8 +758,6 @@ class BinderCest
 
     /**
      * Tests micro with lazy controllers and model binder
-     *
-     * @param IntegrationTester $I
      *
      * @since  2016-10-29
      *
@@ -833,8 +791,6 @@ class BinderCest
 
     /**
      * Tests micro with lazy controllers and model binder
-     *
-     * @param IntegrationTester $I
      *
      * @since  2016-10-29
      *
@@ -889,8 +845,6 @@ class BinderCest
     /**
      * Tests dispatcher and single model original values
      *
-     * @param IntegrationTester $I
-     *
      * @since  2017-01-19
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
@@ -914,8 +868,6 @@ class BinderCest
 
     /**
      * Tests dispatcher and single model without cache
-     *
-     * @param IntegrationTester $I
      *
      * @since  2017-01-24
      *

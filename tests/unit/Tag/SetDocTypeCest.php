@@ -26,7 +26,7 @@ class SetDocTypeCest extends TagSetup
      */
     public function tagSetDocType(UnitTester $I)
     {
-        $I->wantToTest("Tag - setDocType()");
+        $I->wantToTest('Tag - setDocType()');
         $this->runDoctypeTest($I, Tag::HTML32);
     }
 }

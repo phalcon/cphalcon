@@ -40,9 +40,11 @@ class AddGetCest
         );
 
 
+
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
         $router->handle('/docs/index');
+
 
 
         $I->assertEquals(

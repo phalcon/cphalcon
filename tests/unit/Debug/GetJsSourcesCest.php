@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Debug;
 
 use Phalcon\Debug;
-use UnitTester;
 use function sprintf;
+use UnitTester;
 
 class GetJsSourcesCest
 {

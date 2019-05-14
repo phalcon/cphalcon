@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Di;
 use Phalcon\Url;
 
-/**
- * @package Phalcon\Test\Integration\Url
- */
 class GetSetDICest
 {
     /**
@@ -29,7 +26,7 @@ class GetSetDICest
      */
     public function urlGetSetDI(IntegrationTester $I)
     {
-        $I->wantToTest("Url - getDI()/setDI()");
+        $I->wantToTest('Url - getDI()/setDI()');
 
         $url       = new Url();
         $container = new Di();

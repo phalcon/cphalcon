@@ -22,8 +22,6 @@ class IsExactControllerNameCest
     /**
      * Tests Phalcon\Mvc\Router\Annotations :: isExactControllerName()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

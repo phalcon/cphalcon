@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Unit\Translate\Adapter;
 
+use function dataDir;
 use Phalcon\Translate\Adapter\Gettext;
 use UnitTester;
-use function dataDir;
 
 class GettextCest
 {
@@ -25,7 +25,7 @@ class GettextCest
         $I->checkExtensionIsLoaded('gettext');
 
         if (!setlocale(LC_ALL, 'en_US.utf8')) {
-            $I->skipTest("Locale en_US.utf8 not enabled");
+            $I->skipTest('Locale en_US.utf8 not enabled');
         }
     }
 
@@ -37,7 +37,7 @@ class GettextCest
      */
     public function arrayAccess(UnitTester $I)
     {
-        $I->wantTo("get access the translations by using array access");
+        $I->wantTo('get access the translations by using array access');
 
         $translator = new Gettext(
             [
@@ -66,7 +66,7 @@ class GettextCest
      */
     public function query(UnitTester $I)
     {
-        $I->wantTo("translate by using Gettext::query");
+        $I->wantTo('translate by using Gettext::query');
 
         $translator = new Gettext(
             [
@@ -101,7 +101,7 @@ class GettextCest
      */
     public function substitution(UnitTester $I)
     {
-        $I->wantTo("translate by using variable substitution in string");
+        $I->wantTo('translate by using variable substitution in string');
 
         $translator = new Gettext(
             [

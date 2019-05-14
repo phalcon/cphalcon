@@ -10,10 +10,6 @@ class MysqlHelper
     use DialectTrait;
 
     /**
-     * @param string $foreignKeyName
-     * @param string $onUpdate
-     * @param string $onDelete
-     *
      * @return string
      */
     protected function addForeignKeySql(string $foreignKeyName = '', string $onUpdate = '', string $onDelete = '')
@@ -38,8 +34,6 @@ class MysqlHelper
     }
 
     /**
-     * @param string $foreignKeyName
-     *
      * @return string
      */
     protected function dropForeignKeySql(string $foreignKeyName)
@@ -49,9 +43,7 @@ class MysqlHelper
         return $sql;
     }
 
-    /**
-     * @return array
-     */
+
     protected function getColumnDefinitionFixtures(): array
     {
         return [
@@ -71,9 +63,7 @@ class MysqlHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getColumnListFixtures(): array
     {
         return [
@@ -90,9 +80,7 @@ class MysqlHelper
     }
 
 
-    /**
-     * @return array
-     */
+
     protected function getCreateViewFixtures(): array
     {
         return [
@@ -114,9 +102,7 @@ class MysqlHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDescribeColumnsFixtures(): array
     {
         return [
@@ -145,37 +131,35 @@ class MysqlHelper
         return [
             [
                 null,
-                "SELECT DISTINCT KCU.TABLE_NAME, KCU.COLUMN_NAME, " .
-                "KCU.CONSTRAINT_NAME, KCU.REFERENCED_TABLE_SCHEMA, " .
-                "KCU.REFERENCED_TABLE_NAME, KCU.REFERENCED_COLUMN_NAME, " .
-                "RC.UPDATE_RULE, RC.DELETE_RULE " .
-                "FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KCU " .
-                "LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS RC " .
-                "ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME AND " .
-                "RC.CONSTRAINT_SCHEMA = KCU.CONSTRAINT_SCHEMA " .
-                "WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND " .
+                'SELECT DISTINCT KCU.TABLE_NAME, KCU.COLUMN_NAME, ' .
+                'KCU.CONSTRAINT_NAME, KCU.REFERENCED_TABLE_SCHEMA, ' .
+                'KCU.REFERENCED_TABLE_NAME, KCU.REFERENCED_COLUMN_NAME, ' .
+                'RC.UPDATE_RULE, RC.DELETE_RULE ' .
+                'FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KCU ' .
+                'LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS RC ' .
+                'ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME AND ' .
+                'RC.CONSTRAINT_SCHEMA = KCU.CONSTRAINT_SCHEMA ' .
+                'WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND ' .
                 "KCU.CONSTRAINT_SCHEMA = DATABASE() AND KCU.TABLE_NAME = 'table'",
             ],
 
             [
                 'schema',
-                "SELECT DISTINCT KCU.TABLE_NAME, KCU.COLUMN_NAME, " .
-                "KCU.CONSTRAINT_NAME, KCU.REFERENCED_TABLE_SCHEMA, " .
-                "KCU.REFERENCED_TABLE_NAME, KCU.REFERENCED_COLUMN_NAME, " .
-                "RC.UPDATE_RULE, RC.DELETE_RULE " .
-                "FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KCU " .
-                "LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS RC " .
-                "ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME AND " .
-                "RC.CONSTRAINT_SCHEMA = KCU.CONSTRAINT_SCHEMA " .
-                "WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND " .
+                'SELECT DISTINCT KCU.TABLE_NAME, KCU.COLUMN_NAME, ' .
+                'KCU.CONSTRAINT_NAME, KCU.REFERENCED_TABLE_SCHEMA, ' .
+                'KCU.REFERENCED_TABLE_NAME, KCU.REFERENCED_COLUMN_NAME, ' .
+                'RC.UPDATE_RULE, RC.DELETE_RULE ' .
+                'FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KCU ' .
+                'LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS RC ' .
+                'ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME AND ' .
+                'RC.CONSTRAINT_SCHEMA = KCU.CONSTRAINT_SCHEMA ' .
+                'WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND ' .
                 "KCU.CONSTRAINT_SCHEMA = 'schema' AND KCU.TABLE_NAME = 'table'",
             ],
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDropColumnFixtures(): array
     {
         return [
@@ -193,9 +177,7 @@ class MysqlHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDropForeignKeyFixtures(): array
     {
         return [
@@ -233,9 +215,7 @@ class MysqlHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDropPrimaryKeyFixtures(): array
     {
         return [
@@ -251,9 +231,7 @@ class MysqlHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDropTableFixtures(): array
     {
         return [
@@ -283,9 +261,7 @@ class MysqlHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getDropViewFixtures(): array
     {
         return [
@@ -316,8 +292,6 @@ class MysqlHelper
     }
 
     /**
-     * @param string $foreignKeyName
-     *
      * @return string
      */
     protected function getForeignKeySql(string $foreignKeyName)
@@ -333,9 +307,7 @@ class MysqlHelper
         return $sql;
     }
 
-    /**
-     * @return array
-     */
+
     protected function getListViewFixtures(): array
     {
         return [
@@ -347,15 +319,13 @@ class MysqlHelper
 
             [
                 'schema',
-                "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` " .
+                'SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` ' .
                 "WHERE `TABLE_SCHEMA` = 'schema' ORDER BY view_name",
             ],
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getModifyColumnFixtures(): array
     {
         return [
@@ -547,9 +517,7 @@ class MysqlHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getModifyColumnFixtures13012(): array
     {
         return [
@@ -568,53 +536,43 @@ class MysqlHelper
         ];
     }
 
-    /**
-     * @return string
-     */
+
     protected function getModifyColumnSql(): string
     {
         return 'ALTER TABLE `database`.`table` CHANGE COLUMN `old` `new` VARCHAR(0)';
     }
 
-    /**
-     * @return string
-     */
+
     protected function getReleaseSavepointSql(): string
     {
         return 'RELEASE SAVEPOINT PH_SAVEPOINT_1';
     }
 
-    /**
-     * @return string
-     */
+
     protected function getRollbackSavepointSql(): string
     {
         return 'ROLLBACK TO SAVEPOINT PH_SAVEPOINT_1';
     }
 
-    /**
-     * @return array
-     */
+
     protected function getTableExistsFixtures(): array
     {
         return [
             [
                 null,
-                "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` " .
+                'SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` ' .
                 "WHERE `TABLE_NAME` = 'table' AND `TABLE_SCHEMA` = DATABASE()",
             ],
 
             [
                 'schema',
-                "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` " .
+                'SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`TABLES` ' .
                 "WHERE `TABLE_NAME`= 'table' AND `TABLE_SCHEMA` = 'schema'",
             ],
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getTruncateTableFixtures(): array
     {
         return [
@@ -630,21 +588,19 @@ class MysqlHelper
         ];
     }
 
-    /**
-     * @return array
-     */
+
     protected function getViewExistsFixtures(): array
     {
         return [
             [
                 null,
-                "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` " .
+                'SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` ' .
                 "WHERE `TABLE_NAME`='view' AND `TABLE_SCHEMA` = DATABASE()",
             ],
 
             [
                 'schema',
-                "SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` " .
+                'SELECT IF(COUNT(*) > 0, 1, 0) FROM `INFORMATION_SCHEMA`.`VIEWS` ' .
                 "WHERE `TABLE_NAME`= 'view' AND `TABLE_SCHEMA`='schema'",
             ],
         ];
@@ -652,8 +608,6 @@ class MysqlHelper
 
     /**
      * Returns the object for the dialect
-     *
-     * @return Mysql
      */
     protected function getDialectObject(): Mysql
     {

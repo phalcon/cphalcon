@@ -37,9 +37,9 @@ class RegisterModulesCest
 
         $console->registerModules(
             [
-                "frontend" => [
-                    "className" => Module::class,
-                    "path"      => __DIR__ . "/../../../_data/modules/frontend/Module.php",
+                'frontend' => [
+                    'className' => Module::class,
+                    'path'      => __DIR__ . '/../../../_data/modules/frontend/Module.php',
                 ],
             ]
         );
@@ -50,15 +50,15 @@ class RegisterModulesCest
         );
 
         $I->assertArrayHasKey(
-            "frontend",
+            'frontend',
             $console->getModules()
         );
 
         $console->registerModules(
             [
-                "backend" => [
-                    "className" => \Phalcon\Test\Modules\Backend\Module::class,
-                    "path"      => __DIR__ . "/../../../_data/modules/backend/Module.php",
+                'backend' => [
+                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                    'path'      => __DIR__ . '/../../../_data/modules/backend/Module.php',
                 ],
             ]
         );
@@ -69,15 +69,15 @@ class RegisterModulesCest
         );
 
         $I->assertArrayHasKey(
-            "backend",
+            'backend',
             $console->getModules()
         );
 
         $console->registerModules(
             [
-                "frontend" => [
-                    "className" => Module::class,
-                    "path"      => __DIR__ . "/../../../_data/modules/frontend/Module.php",
+                'frontend' => [
+                    'className' => Module::class,
+                    'path'      => __DIR__ . '/../../../_data/modules/frontend/Module.php',
                 ],
             ],
             $merge = true
@@ -89,12 +89,12 @@ class RegisterModulesCest
         );
 
         $I->assertArrayHasKey(
-            "frontend",
+            'frontend',
             $console->getModules()
         );
 
         $I->assertArrayHasKey(
-            "backend",
+            'backend',
             $console->getModules()
         );
     }

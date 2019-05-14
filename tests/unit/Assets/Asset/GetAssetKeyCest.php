@@ -29,7 +29,9 @@ class GetAssetKeyCest
     public function assetsAssetGetAssetKeyCssLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getAssetKey() - css local');
-        $asset    = new Asset('css', 'css/docs.css');
+
+        $asset = new Asset('css', 'css/docs.css');
+
         $expected = md5('css:css/docs.css');
 
         $this->assetGetAssetKey($I, $asset, $expected);
@@ -44,7 +46,9 @@ class GetAssetKeyCest
     public function assetsAssetGetAssetKeyCssRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getAssetKey() - css remote');
-        $asset    = new Asset('css', 'https://phalcon.ld/css/docs.css');
+
+        $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
+
         $expected = md5('css:https://phalcon.ld/css/docs.css');
 
         $this->assetGetAssetKey($I, $asset, $expected);
@@ -59,7 +63,9 @@ class GetAssetKeyCest
     public function assetsAssetGetAssetKeyJsLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getAssetKey() - js local');
-        $asset    = new Asset('js', 'js/jquery.js');
+
+        $asset = new Asset('js', 'js/jquery.js');
+
         $expected = md5('js:js/jquery.js');
 
         $this->assetGetAssetKey($I, $asset, $expected);
@@ -74,7 +80,9 @@ class GetAssetKeyCest
     public function assetsAssetGetAssetKeyJsRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getAssetKey() - js remote');
-        $asset    = new Asset('js', 'https://phalcon.ld/js/jquery.js', false);
+
+        $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js', false);
+
         $expected = md5('js:https://phalcon.ld/js/jquery.js');
 
         $this->assetGetAssetKey($I, $asset, $expected);

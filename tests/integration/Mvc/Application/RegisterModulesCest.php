@@ -68,7 +68,7 @@ class RegisterModulesCest
 
         $application->setDI($di);
 
-        $response = $application->handle("/index");
+        $response = $application->handle('/index');
 
         $I->assertEquals(
             '<html>here</html>' . PHP_EOL,
@@ -147,7 +147,7 @@ class RegisterModulesCest
 
         $application->setDI($di);
 
-        $response = $application->handle("/login");
+        $response = $application->handle('/login');
 
         $I->assertEquals(
             '<html>here</html>' . PHP_EOL,

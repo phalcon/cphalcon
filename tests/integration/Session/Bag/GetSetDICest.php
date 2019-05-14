@@ -33,7 +33,7 @@ class GetSetDICest
     {
         $I->wantToTest("Session\Bag - getDI()/setDI()");
 
-        $session = new Bag("DiTest");
+        $session = new Bag('DiTest');
 
         $di = new FactoryDefault();
 

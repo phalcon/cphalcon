@@ -29,10 +29,20 @@ class GetAttributesCest
     public function assetsAssetGetAttributesCssLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getAttributes() - css local');
-        $asset = new Asset('css', 'css/docs.css', true, false, ['data-key' => 'phalcon']);
 
-        $expected = ['data-key' => 'phalcon'];
-        $this->assetGetAttributes($I, $asset, $expected);
+        $attributes = [
+            'data-key' => 'phalcon',
+        ];
+
+        $asset = new Asset(
+            'css',
+            'css/docs.css',
+            true,
+            false,
+            $attributes
+        );
+
+        $this->assetGetAttributes($I, $asset, $attributes);
     }
 
     /**

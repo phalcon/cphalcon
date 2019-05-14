@@ -22,8 +22,6 @@ class SetReadConnectionServiceCest
     /**
      * Tests Phalcon\Mvc\Model :: setReadConnectionService()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

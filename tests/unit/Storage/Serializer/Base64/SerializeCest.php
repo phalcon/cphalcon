@@ -28,7 +28,7 @@ class SerializeCest
     {
         $I->wantToTest('Storage\Serializer\Base64 - serialize()');
 
-        $data       = "Phalcon Framework";
+        $data       = 'Phalcon Framework';
         $serializer = new Base64($data);
 
         $I->assertEquals(

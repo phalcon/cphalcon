@@ -26,7 +26,7 @@ class SetDataCest
     public function storageSerializerIgbinarySetData(UnitTester $I)
     {
         $I->wantToTest('Storage\Serializer\Igbinary - setData()');
-        $data       = ["Phalcon Framework"];
+        $data       = ['Phalcon Framework'];
         $serializer = new Igbinary();
 
         $actual = $serializer->getData();

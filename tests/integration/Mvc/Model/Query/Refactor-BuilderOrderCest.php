@@ -43,7 +43,7 @@ class BuilderOrderCest
 
         $builder = new Builder();
 
-        $query = "SELECT r.year, r.name AS robot_name FROM [" . Robots::class . "] AS [r] ";
+        $query = 'SELECT r.year, r.name AS robot_name FROM [' . Robots::class . '] AS [r] ';
 
         $phql = $builder
             ->setDi($this->container)
@@ -74,7 +74,7 @@ class BuilderOrderCest
 
         $builder = new Builder();
 
-        $query = "SELECT `r`.`year` AS `r_year`, `r`.`name` AS `robot_name` FROM `robots` AS `r` ";
+        $query = 'SELECT `r`.`year` AS `r_year`, `r`.`name` AS `robot_name` FROM `robots` AS `r` ';
 
         $phql = $builder
             ->setDi($this->container)

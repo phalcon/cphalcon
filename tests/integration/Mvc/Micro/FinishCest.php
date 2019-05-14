@@ -22,8 +22,6 @@ class FinishCest
 {
     /**
      * Tests Phalcon\Mvc\Micro :: finish()
-     *
-     * @param IntegrationTester $I
      */
     public function testMicroFinishHandlers(IntegrationTester $I)
     {
@@ -44,21 +42,19 @@ class FinishCest
         );
 
         $app->map(
-            "/blog",
+            '/blog',
             function () use (&$trace) {
                 $trace[] = 1;
             }
         );
 
-        $app->handle("/blog");
+        $app->handle('/blog');
 
         $I->assertCount(3, $trace);
     }
 
     /**
      * Tests Phalcon\Mvc\Micro :: finish()
-     *
-     * @param IntegrationTester $I
      */
     public function testMicroFinishHandlersIfOneStop(IntegrationTester $I)
     {

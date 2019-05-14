@@ -12,16 +12,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Adapter\Redis;
 
+use function array_merge;
 use Codeception\Example;
+use function getOptionsRedis;
 use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use stdClass;
-use UnitTester;
-use function array_merge;
-use function getOptionsRedis;
 use function uniqid;
+use UnitTester;
 
 class GetSetCest
 {

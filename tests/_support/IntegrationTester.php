@@ -42,7 +42,7 @@ class IntegrationTester extends Actor
             if (is_string($path)) {
                 return $path;
             } else {
-                return "";
+                return '';
             }
         }
 

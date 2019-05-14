@@ -15,5 +15,4 @@ use Phalcon\Mvc\Model;
 
 class Prueba extends Model
 {
-
 }

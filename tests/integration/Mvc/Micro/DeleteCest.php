@@ -23,8 +23,6 @@ class DeleteCest
     /**
      * Tests Phalcon\Mvc\Micro :: delete()
      *
-     * @param IntegrationTester $I
-     *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17
      */

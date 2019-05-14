@@ -13,6 +13,7 @@ namespace Phalcon\Test\Integration\Mvc\Model\Query;
 
 use Codeception\Example;
 use IntegrationTester;
+use function outputDir;
 use PDO;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
@@ -22,7 +23,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Parts;
 use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\Snapshot\Robots;
-use function outputDir;
 
 class BuilderCest
 {
@@ -43,7 +43,7 @@ class BuilderCest
      */
     public function shouldSaveToUseComplexSnapshotCache(IntegrationTester $I)
     {
-        $I->wantToTest("Saving snapshot using complex resultset while using modelsCache");
+        $I->wantToTest('Saving snapshot using complex resultset while using modelsCache');
         $I->skipTest('TODO - Check me');
         $I->addServiceToContainer(
             'modelsCache',
@@ -82,7 +82,7 @@ class BuilderCest
             $I->assertInstanceOf(RobotsParts::class, $robotParts);
             $I->assertNotEmpty($robotParts->getSnapshotData());
             $I->assertEquals($robotParts->getSnapshotData(), $robotParts->toArray());
-            $I->seeFileFound(outputDir("tests/cache/robots-cache-complex"));
+            $I->seeFileFound(outputDir('tests/cache/robots-cache-complex'));
         }
     }
 
@@ -164,7 +164,7 @@ class BuilderCest
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "]",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . ']',
             $phql
         );
 
@@ -177,7 +177,7 @@ class BuilderCest
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].*, [" . RobotsParts::class . "].* FROM [" . Robots::class . "], [" . RobotsParts::class . "]",
+            'SELECT [' . Robots::class . '].*, [' . RobotsParts::class . '].* FROM [' . Robots::class . '], [' . RobotsParts::class . ']',
             $phql
         );
 
@@ -185,13 +185,13 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->columns("*")
+                        ->columns('*')
                         ->from(Robots::class)
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT * FROM [" . Robots::class . "]",
+            'SELECT * FROM [' . Robots::class . ']',
             $phql
         );
 
@@ -199,13 +199,13 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->columns(["id", "name"])
+                        ->columns(['id', 'name'])
                         ->from(Robots::class)
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT id, name FROM [" . Robots::class . "]",
+            'SELECT id, name FROM [' . Robots::class . ']',
             $phql
         );
 
@@ -213,27 +213,13 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->columns("id")
+                        ->columns('id')
                         ->from(Robots::class)
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT id FROM [" . Robots::class . "]",
-            $phql
-        );
-
-
-        $builder = new Builder();
-
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
-                        ->where("Robots.name = 'Voltron'")
-                        ->getPhql()
-        ;
-
-        $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] WHERE Robots.name = 'Voltron'",
+            'SELECT id FROM [' . Robots::class . ']',
             $phql
         );
 
@@ -243,12 +229,11 @@ class BuilderCest
         $phql = $builder->setDi($this->container)
                         ->from(Robots::class)
                         ->where("Robots.name = 'Voltron'")
-                        ->andWhere("Robots.id > 100")
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] WHERE (Robots.name = 'Voltron') AND (Robots.id > 100)",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . "] WHERE Robots.name = 'Voltron'",
             $phql
         );
 
@@ -258,12 +243,27 @@ class BuilderCest
         $phql = $builder->setDi($this->container)
                         ->from(Robots::class)
                         ->where("Robots.name = 'Voltron'")
-                        ->orWhere("Robots.id > 100")
+                        ->andWhere('Robots.id > 100')
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] WHERE (Robots.name = 'Voltron') OR (Robots.id > 100)",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . "] WHERE (Robots.name = 'Voltron') AND (Robots.id > 100)",
+            $phql
+        );
+
+
+        $builder = new Builder();
+
+        $phql = $builder->setDi($this->container)
+                        ->from(Robots::class)
+                        ->where("Robots.name = 'Voltron'")
+                        ->orWhere('Robots.id > 100')
+                        ->getPhql()
+        ;
+
+        $I->assertEquals(
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . "] WHERE (Robots.name = 'Voltron') OR (Robots.id > 100)",
             $phql
         );
 
@@ -277,7 +277,7 @@ class BuilderCest
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] WHERE [" . Robots::class . "].[id] = 100",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] WHERE [' . Robots::class . '].[id] = 100',
             $phql
         );
 
@@ -286,12 +286,12 @@ class BuilderCest
 
         $phql = $builder->setDi($this->container)
                         ->from(Robots::class)
-                        ->groupBy("Robots.name")
+                        ->groupBy('Robots.name')
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] GROUP BY Robots.name",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] GROUP BY Robots.name',
             $phql
         );
 
@@ -300,12 +300,12 @@ class BuilderCest
 
         $phql = $builder->setDi($this->container)
                         ->from(Robots::class)
-                        ->groupBy(["Robots.name", "Robots.id"])
+                        ->groupBy(['Robots.name', 'Robots.id'])
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] GROUP BY Robots.name, Robots.id",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] GROUP BY Robots.name, Robots.id',
             $phql
         );
 
@@ -313,14 +313,14 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
-                        ->groupBy("Robots.name")
+                        ->groupBy('Robots.name')
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name",
+            'SELECT Robots.name, SUM(Robots.price) FROM [' . Robots::class . '] GROUP BY Robots.name',
             $phql
         );
 
@@ -328,15 +328,15 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
-                        ->groupBy("Robots.name")
-                        ->having("SUM(Robots.price) > 1000")
+                        ->groupBy('Robots.name')
+                        ->having('SUM(Robots.price) > 1000')
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING SUM(Robots.price) > 1000",
+            'SELECT Robots.name, SUM(Robots.price) FROM [' . Robots::class . '] GROUP BY Robots.name HAVING SUM(Robots.price) > 1000',
             $phql
         );
 
@@ -344,16 +344,16 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
-                        ->groupBy("Robots.name")
-                        ->having("SUM(Robots.price) > 1000")
-                        ->andHaving("SUM(Robots.price) < 2000")
+                        ->groupBy('Robots.name')
+                        ->having('SUM(Robots.price) > 1000')
+                        ->andHaving('SUM(Robots.price) < 2000')
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING (SUM(Robots.price) > 1000) AND (SUM(Robots.price) < 2000)",
+            'SELECT Robots.name, SUM(Robots.price) FROM [' . Robots::class . '] GROUP BY Robots.name HAVING (SUM(Robots.price) > 1000) AND (SUM(Robots.price) < 2000)',
             $phql
         );
 
@@ -361,16 +361,16 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
-                        ->groupBy("Robots.name")
-                        ->having("SUM(Robots.price) > 1000")
-                        ->orHaving("SUM(Robots.price) < 500")
+                        ->groupBy('Robots.name')
+                        ->having('SUM(Robots.price) > 1000')
+                        ->orHaving('SUM(Robots.price) < 500')
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING (SUM(Robots.price) > 1000) OR (SUM(Robots.price) < 500)",
+            'SELECT Robots.name, SUM(Robots.price) FROM [' . Robots::class . '] GROUP BY Robots.name HAVING (SUM(Robots.price) > 1000) OR (SUM(Robots.price) < 500)',
             $phql
         );
 
@@ -378,15 +378,15 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
-                        ->groupBy("Robots.name")
-                        ->inHaving("SUM(Robots.price)", [1, 2, 3])
+                        ->groupBy('Robots.name')
+                        ->inHaving('SUM(Robots.price)', [1, 2, 3])
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING SUM(Robots.price) IN (:AP0:, :AP1:, :AP2:)",
+            'SELECT Robots.name, SUM(Robots.price) FROM [' . Robots::class . '] GROUP BY Robots.name HAVING SUM(Robots.price) IN (:AP0:, :AP1:, :AP2:)',
             $phql
         );
 
@@ -394,15 +394,15 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
-                        ->groupBy("Robots.name")
-                        ->notInHaving("SUM(Robots.price)", [1, 2, 3])
+                        ->groupBy('Robots.name')
+                        ->notInHaving('SUM(Robots.price)', [1, 2, 3])
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING SUM(Robots.price) NOT IN (:AP0:, :AP1:, :AP2:)",
+            'SELECT Robots.name, SUM(Robots.price) FROM [' . Robots::class . '] GROUP BY Robots.name HAVING SUM(Robots.price) NOT IN (:AP0:, :AP1:, :AP2:)',
             $phql
         );
 
@@ -410,16 +410,16 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
-                        ->groupBy("Robots.name")
-                        ->having("SUM(Robots.price) > 100")
-                        ->inHaving("SUM(Robots.price)", [1, 2, 3], Builder::OPERATOR_OR)
+                        ->groupBy('Robots.name')
+                        ->having('SUM(Robots.price) > 100')
+                        ->inHaving('SUM(Robots.price)', [1, 2, 3], Builder::OPERATOR_OR)
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING (SUM(Robots.price) > 100) OR (SUM(Robots.price) IN (:AP0:, :AP1:, :AP2:))",
+            'SELECT Robots.name, SUM(Robots.price) FROM [' . Robots::class . '] GROUP BY Robots.name HAVING (SUM(Robots.price) > 100) OR (SUM(Robots.price) IN (:AP0:, :AP1:, :AP2:))',
             $phql
         );
 
@@ -427,16 +427,16 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
-                        ->groupBy("Robots.name")
-                        ->having("SUM(Robots.price) > 100")
-                        ->notInHaving("SUM(Robots.price)", [1, 2, 3], Builder::OPERATOR_OR)
+                        ->groupBy('Robots.name')
+                        ->having('SUM(Robots.price) > 100')
+                        ->notInHaving('SUM(Robots.price)', [1, 2, 3], Builder::OPERATOR_OR)
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING (SUM(Robots.price) > 100) OR (SUM(Robots.price) NOT IN (:AP0:, :AP1:, :AP2:))",
+            'SELECT Robots.name, SUM(Robots.price) FROM [' . Robots::class . '] GROUP BY Robots.name HAVING (SUM(Robots.price) > 100) OR (SUM(Robots.price) NOT IN (:AP0:, :AP1:, :AP2:))',
             $phql
         );
 
@@ -444,15 +444,15 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
-                        ->groupBy("Robots.name")
-                        ->betweenHaving("SUM(Robots.price)", 100, 200)
+                        ->groupBy('Robots.name')
+                        ->betweenHaving('SUM(Robots.price)', 100, 200)
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING SUM(Robots.price) BETWEEN :AP0: AND :AP1:",
+            'SELECT Robots.name, SUM(Robots.price) FROM [' . Robots::class . '] GROUP BY Robots.name HAVING SUM(Robots.price) BETWEEN :AP0: AND :AP1:',
             $phql
         );
 
@@ -460,15 +460,15 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->columns(["Robots.name", "SUM(Robots.price)"])
+                        ->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
-                        ->groupBy("Robots.name")
-                        ->notBetweenHaving("SUM(Robots.price)", 100, 200)
+                        ->groupBy('Robots.name')
+                        ->notBetweenHaving('SUM(Robots.price)', 100, 200)
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT Robots.name, SUM(Robots.price) FROM [" . Robots::class . "] GROUP BY Robots.name HAVING SUM(Robots.price) NOT BETWEEN :AP0: AND :AP1:",
+            'SELECT Robots.name, SUM(Robots.price) FROM [' . Robots::class . '] GROUP BY Robots.name HAVING SUM(Robots.price) NOT BETWEEN :AP0: AND :AP1:',
             $phql
         );
 
@@ -482,7 +482,7 @@ class BuilderCest
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] JOIN [" . RobotsParts::class . "]",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] JOIN [' . RobotsParts::class . ']',
             $phql
         );
 
@@ -491,12 +491,12 @@ class BuilderCest
 
         $phql = $builder->setDi($this->container)
                         ->from(Robots::class)
-                        ->join(RobotsParts::class, null, "p")
+                        ->join(RobotsParts::class, null, 'p')
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] JOIN [" . RobotsParts::class . "] AS [p]",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] JOIN [' . RobotsParts::class . '] AS [p]',
             $phql
         );
 
@@ -505,12 +505,12 @@ class BuilderCest
 
         $phql = $builder->setDi($this->container)
                         ->from(Robots::class)
-                        ->join(RobotsParts::class, "Robots.id = RobotsParts.robots_id", "p")
+                        ->join(RobotsParts::class, 'Robots.id = RobotsParts.robots_id', 'p')
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] JOIN [" . RobotsParts::class . "] AS [p] ON Robots.id = RobotsParts.robots_id",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] JOIN [' . RobotsParts::class . '] AS [p] ON Robots.id = RobotsParts.robots_id',
             $phql
         );
 
@@ -519,13 +519,13 @@ class BuilderCest
 
         $phql = $builder->setDi($this->container)
                         ->from(Robots::class)
-                        ->join(RobotsParts::class, "Robots.id = RobotsParts.robots_id", "p")
-                        ->join(Parts::class, "Parts.id = RobotsParts.parts_id", "t")
+                        ->join(RobotsParts::class, 'Robots.id = RobotsParts.robots_id', 'p')
+                        ->join(Parts::class, 'Parts.id = RobotsParts.parts_id', 't')
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] JOIN [" . RobotsParts::class . "] AS [p] ON Robots.id = RobotsParts.robots_id JOIN [" . Parts::class . "] AS [t] ON Parts.id = RobotsParts.parts_id",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] JOIN [' . RobotsParts::class . '] AS [p] ON Robots.id = RobotsParts.robots_id JOIN [' . Parts::class . '] AS [t] ON Parts.id = RobotsParts.parts_id',
             $phql
         );
 
@@ -534,14 +534,14 @@ class BuilderCest
 
         $phql = $builder->setDi($this->container)
                         ->from(Robots::class)
-                        ->leftJoin(RobotsParts::class, "Robots.id = RobotsParts.robots_id")
-                        ->leftJoin(Parts::class, "Parts.id = RobotsParts.parts_id")
-                        ->where("Robots.id > 0")
+                        ->leftJoin(RobotsParts::class, 'Robots.id = RobotsParts.robots_id')
+                        ->leftJoin(Parts::class, 'Parts.id = RobotsParts.parts_id')
+                        ->where('Robots.id > 0')
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] LEFT JOIN [" . RobotsParts::class . "] ON Robots.id = RobotsParts.robots_id LEFT JOIN [" . Parts::class . "] ON Parts.id = RobotsParts.parts_id WHERE Robots.id > 0",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] LEFT JOIN [' . RobotsParts::class . '] ON Robots.id = RobotsParts.robots_id LEFT JOIN [' . Parts::class . '] ON Parts.id = RobotsParts.parts_id WHERE Robots.id > 0',
             $phql
         );
 
@@ -549,53 +549,12 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->addFrom(Robots::class, "r")
+                        ->addFrom(Robots::class, 'r')
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT [r].* FROM [" . Robots::class . "] AS [r]",
-            $phql
-        );
-
-
-        $builder = new Builder();
-
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
-                        ->addFrom(Parts::class, "p")
-                        ->getPhql()
-        ;
-
-        $I->assertEquals(
-            "SELECT [" . Robots::class . "].*, [p].* FROM [" . Robots::class . "], [" . Parts::class . "] AS [p]",
-            $phql
-        );
-
-
-        $builder = new Builder();
-
-        $phql = $builder->setDi($this->container)
-                        ->from(["r" => Robots::class])
-                        ->addFrom(Parts::class, "p")
-                        ->getPhql()
-        ;
-
-        $I->assertEquals(
-            "SELECT [r].*, [p].* FROM [" . Robots::class . "] AS [r], [" . Parts::class . "] AS [p]",
-            $phql
-        );
-
-
-        $builder = new Builder();
-
-        $phql = $builder->setDi($this->container)
-                        ->from(["r" => Robots::class, "p" => Parts::class])
-                        ->getPhql()
-        ;
-
-        $I->assertEquals(
-            "SELECT [r].*, [p].* FROM [" . Robots::class . "] AS [r], [" . Parts::class . "] AS [p]",
+            'SELECT [r].* FROM [' . Robots::class . '] AS [r]',
             $phql
         );
 
@@ -604,12 +563,39 @@ class BuilderCest
 
         $phql = $builder->setDi($this->container)
                         ->from(Robots::class)
-                        ->orderBy("Robots.name")
+                        ->addFrom(Parts::class, 'p')
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] ORDER BY Robots.name",
+            'SELECT [' . Robots::class . '].*, [p].* FROM [' . Robots::class . '], [' . Parts::class . '] AS [p]',
+            $phql
+        );
+
+
+        $builder = new Builder();
+
+        $phql = $builder->setDi($this->container)
+                        ->from(['r' => Robots::class])
+                        ->addFrom(Parts::class, 'p')
+                        ->getPhql()
+        ;
+
+        $I->assertEquals(
+            'SELECT [r].*, [p].* FROM [' . Robots::class . '] AS [r], [' . Parts::class . '] AS [p]',
+            $phql
+        );
+
+
+        $builder = new Builder();
+
+        $phql = $builder->setDi($this->container)
+                        ->from(['r' => Robots::class, 'p' => Parts::class])
+                        ->getPhql()
+        ;
+
+        $I->assertEquals(
+            'SELECT [r].*, [p].* FROM [' . Robots::class . '] AS [r], [' . Parts::class . '] AS [p]',
             $phql
         );
 
@@ -618,12 +604,26 @@ class BuilderCest
 
         $phql = $builder->setDi($this->container)
                         ->from(Robots::class)
-                        ->orderBy([1, "Robots.name"])
+                        ->orderBy('Robots.name')
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] ORDER BY 1, Robots.name",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] ORDER BY Robots.name',
+            $phql
+        );
+
+
+        $builder = new Builder();
+
+        $phql = $builder->setDi($this->container)
+                        ->from(Robots::class)
+                        ->orderBy([1, 'Robots.name'])
+                        ->getPhql()
+        ;
+
+        $I->assertEquals(
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] ORDER BY 1, Robots.name',
             $phql
         );
 
@@ -637,7 +637,7 @@ class BuilderCest
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] LIMIT :APL0:",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] LIMIT :APL0:',
             $phql
         );
 
@@ -651,7 +651,7 @@ class BuilderCest
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] LIMIT :APL0: OFFSET :APL1:',
             $phql
         );
 
@@ -661,12 +661,12 @@ class BuilderCest
         $phql = $builder->setDi($this->container)
                         ->from(Robots::class)
                         ->where("Robots.name = 'Voltron'")
-                        ->betweenWhere("Robots.id", 0, 50)
+                        ->betweenWhere('Robots.id', 0, 50)
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] WHERE (Robots.name = 'Voltron') AND (Robots.id BETWEEN :AP0: AND :AP1:)",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . "] WHERE (Robots.name = 'Voltron') AND (Robots.id BETWEEN :AP0: AND :AP1:)",
             $phql
         );
 
@@ -676,12 +676,12 @@ class BuilderCest
         $phql = $builder->setDi($this->container)
                         ->from(Robots::class)
                         ->where("Robots.name = 'Voltron'")
-                        ->inWhere("Robots.id", [1, 2, 3])
+                        ->inWhere('Robots.id', [1, 2, 3])
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] WHERE (Robots.name = 'Voltron') AND (Robots.id IN (:AP0:, :AP1:, :AP2:))",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . "] WHERE (Robots.name = 'Voltron') AND (Robots.id IN (:AP0:, :AP1:, :AP2:))",
             $phql
         );
 
@@ -691,12 +691,12 @@ class BuilderCest
         $phql = $builder->setDi($this->container)
                         ->from(Robots::class)
                         ->where("Robots.name = 'Voltron'")
-                        ->betweenWhere("Robots.id", 0, 50, Builder::OPERATOR_OR)
+                        ->betweenWhere('Robots.id', 0, 50, Builder::OPERATOR_OR)
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] WHERE (Robots.name = 'Voltron') OR (Robots.id BETWEEN :AP0: AND :AP1:)",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . "] WHERE (Robots.name = 'Voltron') OR (Robots.id BETWEEN :AP0: AND :AP1:)",
             $phql
         );
 
@@ -706,12 +706,12 @@ class BuilderCest
         $phql = $builder->setDi($this->container)
                         ->from(Robots::class)
                         ->where("Robots.name = 'Voltron'")
-                        ->inWhere("Robots.id", [1, 2, 3], Builder::OPERATOR_OR)
+                        ->inWhere('Robots.id', [1, 2, 3], Builder::OPERATOR_OR)
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] WHERE (Robots.name = 'Voltron') OR (Robots.id IN (:AP0:, :AP1:, :AP2:))",
+            'SELECT [' . Robots::class . '].* FROM [' . Robots::class . "] WHERE (Robots.name = 'Voltron') OR (Robots.id IN (:AP0:, :AP1:, :AP2:))",
             $phql
         );
     }
@@ -722,9 +722,9 @@ class BuilderCest
 
         $phql = $builder->setDi($this->container)
                         ->from(Robots::class)
-                        ->leftJoin(RobotsParts::class, "Robots.id = RobotsParts.robots_id")
-                        ->leftJoin(Parts::class, "Parts.id = RobotsParts.parts_id")
-                        ->where("Robots.id > :1: AND Robots.id < :2:", [1 => 0, 2 => 1000])
+                        ->leftJoin(RobotsParts::class, 'Robots.id = RobotsParts.robots_id')
+                        ->leftJoin(Parts::class, 'Parts.id = RobotsParts.parts_id')
+                        ->where('Robots.id > :1: AND Robots.id < :2:', [1 => 0, 2 => 1000])
         ;
 
         $params = $phql->getQuery()->getBindParams();
@@ -740,9 +740,9 @@ class BuilderCest
 
 
         $phql->andWhere(
-            "Robots.name = :name:",
+            'Robots.name = :name:',
             [
-                "name" => "Voltron",
+                'name' => 'Voltron',
             ]
         );
 
@@ -759,8 +759,8 @@ class BuilderCest
         );
 
         $I->assertEquals(
-            "Voltron",
-            $params["name"]
+            'Voltron',
+            $params['name']
         );
     }
 
@@ -769,14 +769,14 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->columns(["Robots.name"])
+                        ->columns(['Robots.name'])
                         ->from(Robots::class)
-                        ->having("Robots.price > 1000")
+                        ->having('Robots.price > 1000')
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT Robots.name FROM [" . Robots::class . "] HAVING Robots.price > 1000",
+            'SELECT Robots.name FROM [' . Robots::class . '] HAVING Robots.price > 1000',
             $phql
         );
     }
@@ -787,13 +787,13 @@ class BuilderCest
 
         $phql = $builder->setDi($this->container)
                         ->distinct(true)
-                        ->columns(["Robots.name"])
+                        ->columns(['Robots.name'])
                         ->from(Robots::class)
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT DISTINCT Robots.name FROM [" . Robots::class . "]",
+            'SELECT DISTINCT Robots.name FROM [' . Robots::class . ']',
             $phql
         );
 
@@ -802,13 +802,13 @@ class BuilderCest
 
         $phql = $builder->setDi($this->container)
                         ->distinct(false)
-                        ->columns(["Robots.name"])
+                        ->columns(['Robots.name'])
                         ->from(Robots::class)
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT ALL Robots.name FROM [" . Robots::class . "]",
+            'SELECT ALL Robots.name FROM [' . Robots::class . ']',
             $phql
         );
 
@@ -818,13 +818,13 @@ class BuilderCest
         $phql = $builder->setDi($this->container)
                         ->distinct(true)
                         ->distinct(null)
-                        ->columns(["Robots.name"])
+                        ->columns(['Robots.name'])
                         ->from(Robots::class)
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT Robots.name FROM [" . Robots::class . "]",
+            'SELECT Robots.name FROM [' . Robots::class . ']',
             $phql
         );
 
@@ -838,7 +838,7 @@ class BuilderCest
         ;
 
         $I->assertEquals(
-            "SELECT DISTINCT [" . Robots::class . "].* FROM [" . Robots::class . "]",
+            'SELECT DISTINCT [' . Robots::class . '].* FROM [' . Robots::class . ']',
             $phql
         );
     }
@@ -850,22 +850,22 @@ class BuilderCest
     public function testConstructor(IntegrationTester $I)
     {
         $params = [
-            "models"     => Robots::class,
-            "columns"    => ["id", "name", "status"],
-            "conditions" => "a > 5",
-            "group"      => ["type", "source"],
-            "having"     => "b < 5",
-            "order"      => ["name", "created"],
-            "limit"      => 10,
-            "offset"     => 15,
+            'models'     => Robots::class,
+            'columns'    => ['id', 'name', 'status'],
+            'conditions' => 'a > 5',
+            'group'      => ['type', 'source'],
+            'having'     => 'b < 5',
+            'order'      => ['name', 'created'],
+            'limit'      => 10,
+            'offset'     => 15,
         ];
 
         $builder = new Builder($params, $this->container);
 
-        $expectedPhql = "SELECT id, name, status FROM [" . Robots::class . "] "
-            . "WHERE a > 5 GROUP BY [type], [source] "
-            . "HAVING b < 5 ORDER BY [name], [created] "
-            . "LIMIT :APL0: OFFSET :APL1:";
+        $expectedPhql = 'SELECT id, name, status FROM [' . Robots::class . '] '
+            . 'WHERE a > 5 GROUP BY [type], [source] '
+            . 'HAVING b < 5 ORDER BY [name], [created] '
+            . 'LIMIT :APL0: OFFSET :APL1:';
 
         $I->assertEquals($expectedPhql, $builder->getPhql());
         $I->assertEquals($this->container, $builder->getDI());
@@ -881,9 +881,9 @@ class BuilderCest
     {
         // separate limit and offset
         $params = [
-            "models" => Robots::class,
-            "limit"  => 10,
-            "offset" => 15,
+            'models' => Robots::class,
+            'limit'  => 10,
+            'offset' => 15,
         ];
 
         $builderLimitAndOffset = new Builder($params);
@@ -891,13 +891,13 @@ class BuilderCest
         // separate limit with offset
 
         $params = [
-            "models" => Robots::class,
-            "limit"  => [10, 15],
+            'models' => Robots::class,
+            'limit'  => [10, 15],
         ];
 
         $builderLimitWithOffset = new Builder($params);
 
-        $expectedPhql = "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:";
+        $expectedPhql = 'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] LIMIT :APL0: OFFSET :APL1:';
 
         $I->assertEquals(
             $expectedPhql,
@@ -929,9 +929,9 @@ class BuilderCest
 
         $standardBuilder->from(Robots::class)
                         ->where(
-                            "year > :min: AND year < :max:",
-                            ["min" => "2013-01-01", "max" => "2100-01-01"],
-                            ["min" => PDO::PARAM_STR, "max" => PDO::PARAM_STR]
+                            'year > :min: AND year < :max:',
+                            ['min' => '2013-01-01', 'max' => '2100-01-01'],
+                            ['min' => PDO::PARAM_STR, 'max' => PDO::PARAM_STR]
                         )
         ;
 
@@ -939,12 +939,12 @@ class BuilderCest
 
         // --------------- test for single condition ------------------
         $params = [
-            "models"     => Robots::class,
-            "conditions" => [
+            'models'     => Robots::class,
+            'conditions' => [
                 [
-                    "year > :min: AND year < :max:",
-                    ["min" => "2013-01-01", "max" => "2100-01-01"],
-                    ["min" => PDO::PARAM_STR, "max" => PDO::PARAM_STR],
+                    'year > :min: AND year < :max:',
+                    ['min' => '2013-01-01', 'max' => '2100-01-01'],
+                    ['min' => PDO::PARAM_STR, 'max' => PDO::PARAM_STR],
                 ],
             ],
         ];
@@ -955,17 +955,17 @@ class BuilderCest
         // ------------- test for multiple conditions ----------------
 
         $params = [
-            "models"     => Robots::class,
-            "conditions" => [
+            'models'     => Robots::class,
+            'conditions' => [
                 [
-                    "year > :min:",
-                    ["min" => "2000-01-01"],
-                    ["min" => PDO::PARAM_STR],
+                    'year > :min:',
+                    ['min' => '2000-01-01'],
+                    ['min' => PDO::PARAM_STR],
                 ],
                 [
-                    "year < :max:",
-                    ["max" => "2100-01-01"],
-                    ["max" => PDO::PARAM_STR],
+                    'year < :max:',
+                    ['max' => '2100-01-01'],
+                    ['max' => PDO::PARAM_STR],
                 ],
             ],
         ];
@@ -974,7 +974,7 @@ class BuilderCest
         $builderMultipleConditions = new Builder($params);
         $multipleConditionResult   = $builderMultipleConditions->getQuery()->execute();
 
-        $expectedPhql = "SELECT [" . Robots::class . "].* FROM [" . Robots::class . "] WHERE year > :min: AND year < :max:";
+        $expectedPhql = 'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] WHERE year > :min: AND year < :max:';
 
         /* ------------ ASSERTING --------- */
 
@@ -1014,14 +1014,14 @@ class BuilderCest
         $builder = new Builder();
 
         $phql = $builder->setDi($this->container)
-                        ->columns(["name", "SUM(price)"])
+                        ->columns(['name', 'SUM(price)'])
                         ->from(Robots::class)
-                        ->groupBy("id, name")
+                        ->groupBy('id, name')
                         ->getPhql()
         ;
 
         $I->assertEquals(
-            "SELECT name, SUM(price) FROM [" . Robots::class . "] GROUP BY [id], [name]",
+            'SELECT name, SUM(price) FROM [' . Robots::class . '] GROUP BY [id], [name]',
             $phql
         );
     }
@@ -1060,7 +1060,7 @@ class BuilderCest
     protected function limitOffsetProvider(): array
     {
         return [
-            [-7, null, "[" . Robots::class . "] LIMIT :APL0:"],
+            [-7, null, '[' . Robots::class . '] LIMIT :APL0:'],
             /**
              * @todo Check these examples
              */

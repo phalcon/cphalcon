@@ -25,7 +25,7 @@ class NormalizeEncodingCest
      */
     public function escaperNormalizeEncoding(UnitTester $I)
     {
-        $I->wantToTest("Escaper - normalizeEncoding()");
+        $I->wantToTest('Escaper - normalizeEncoding()');
 
         $I->checkExtensionIsLoaded('mbstring');
 

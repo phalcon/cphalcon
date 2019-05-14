@@ -63,7 +63,7 @@ class ConstructCest
         $I->wantToTest('Translate\Adapter\NativeArray - constructor without content throws exception');
 
         $I->expectThrowable(
-            new Exception("Translation content was not provided"),
+            new Exception('Translation content was not provided'),
             function () {
                 new NativeArray(
                     []

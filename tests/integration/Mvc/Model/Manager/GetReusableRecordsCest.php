@@ -22,8 +22,6 @@ class GetReusableRecordsCest
     /**
      * Tests Phalcon\Mvc\Model\Manager :: getReusableRecords()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

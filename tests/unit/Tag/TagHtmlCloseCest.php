@@ -63,7 +63,7 @@ class TagHtmlCloseCest extends TagSetup
      */
     public function tagTagHtmlCloseEol(UnitTester $I)
     {
-        $I->wantToTest("Tag - tagHtmlClose() - EOL");
+        $I->wantToTest('Tag - tagHtmlClose() - EOL');
 
         Tag::resetInput();
 

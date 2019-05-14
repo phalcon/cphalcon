@@ -22,8 +22,6 @@ class SetValidatorsCest
     /**
      * Tests Phalcon\Validation :: setValidators()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16
      */

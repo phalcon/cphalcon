@@ -15,17 +15,12 @@ namespace Phalcon\Test\Integration\Mvc\Router;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class AddHeadCest
- */
 class AddHeadCest
 {
     use RouterTrait;
 
     /**
      * Tests Phalcon\Mvc\Router :: addHead()
-     *
-     * @param IntegrationTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17
@@ -45,9 +40,11 @@ class AddHeadCest
         );
 
 
+
         $_SERVER['REQUEST_METHOD'] = 'HEAD';
 
         $router->handle('/docs/index');
+
 
 
         $I->assertEquals(

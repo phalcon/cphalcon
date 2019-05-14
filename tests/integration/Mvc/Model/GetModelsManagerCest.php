@@ -22,8 +22,6 @@ class GetModelsManagerCest
     /**
      * Tests Phalcon\Mvc\Model :: getModelsManager()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

@@ -26,8 +26,6 @@ class GetRenderCest
     /**
      * Tests Phalcon\Mvc\View :: getRender()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -46,7 +44,7 @@ class GetRenderCest
             'partials',
             'partial',
             [
-                'cool_var' => 'abcde'
+                'cool_var' => 'abcde',
             ]
         );
         $I->assertEquals($expected, $actual);

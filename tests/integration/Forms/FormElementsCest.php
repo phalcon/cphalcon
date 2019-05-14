@@ -19,7 +19,6 @@ use Phalcon\Validation\Validator\StringLength;
  * @link          http://www.phalconphp.com
  * @author        Andres Gutierrez <andres@phalconphp.com>
  * @author        Phalcon Team <team@phalconphp.com>
- * @package       Phalcon\Test\Integration\Forms
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -32,8 +31,6 @@ class FormElementsCest
 {
     /**
      * Executed before each test
-     *
-     * @param IntegrationTester $I
      */
     public function _before(IntegrationTester $I)
     {
@@ -48,7 +45,6 @@ class FormElementsCest
      * Tests canceling validation on first fail
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/13149
-     * @param IntegrationTester $I
      *
      * @since  2017-11-19
      *
@@ -64,9 +60,9 @@ class FormElementsCest
 
         $lastName->setFilters(
             [
-                "string",
-                "striptags",
-                "trim",
+                'string',
+                'striptags',
+                'trim',
             ]
         );
 
@@ -96,9 +92,9 @@ class FormElementsCest
 
         $firstName->setFilters(
             [
-                "string",
-                "striptags",
-                "trim",
+                'string',
+                'striptags',
+                'trim',
             ]
         );
 

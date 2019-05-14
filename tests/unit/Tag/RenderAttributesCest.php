@@ -24,6 +24,6 @@ class RenderAttributesCest
      */
     public function testRenderAttributes(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

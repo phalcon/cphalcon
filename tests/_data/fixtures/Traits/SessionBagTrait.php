@@ -14,9 +14,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Fixtures\Traits
- */
 trait SessionBagTrait
 {
     public function _before(UnitTester $I)
@@ -25,13 +22,9 @@ trait SessionBagTrait
         $this->setDiSessionFiles();
     }
 
-    /**
-     * @return mixed
-     */
+
     abstract protected function setNewFactoryDefault();
 
-    /**
-     * @return mixed
-     */
+
     abstract protected function setDiSessionFiles();
 }

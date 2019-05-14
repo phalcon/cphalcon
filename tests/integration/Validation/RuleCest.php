@@ -22,8 +22,6 @@ class RuleCest
     /**
      * Tests Phalcon\Validation :: rule()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16
      */

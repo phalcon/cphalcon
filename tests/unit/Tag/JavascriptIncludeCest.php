@@ -26,7 +26,7 @@ class JavascriptIncludeCest extends TagSetup
      */
     public function tagJavascriptIncludeLocal(UnitTester $I)
     {
-        $I->wantToTest("Tag - javascriptInclude() - string as a parameter local");
+        $I->wantToTest('Tag - javascriptInclude() - string as a parameter local');
 
         $options = 'js/phalcon.js';
 
@@ -48,7 +48,7 @@ class JavascriptIncludeCest extends TagSetup
      */
     public function tagJavascriptIncludeWithArrayLocal(UnitTester $I)
     {
-        $I->wantToTest("Tag - javascriptInclude()");
+        $I->wantToTest('Tag - javascriptInclude()');
 
         $options = ['js/phalcon.js'];
 
@@ -70,7 +70,7 @@ class JavascriptIncludeCest extends TagSetup
      */
     public function tagJavascriptIncludeRemote(UnitTester $I)
     {
-        $I->wantToTest("Tag - javascriptInclude() - remote link");
+        $I->wantToTest('Tag - javascriptInclude() - remote link');
 
         $options = 'http://my.local.com/js/phalcon.js';
 
@@ -93,7 +93,7 @@ class JavascriptIncludeCest extends TagSetup
      */
     public function tagJavascriptIncludeWithArrayRemote(UnitTester $I)
     {
-        $I->wantToTest("Tag - javascriptInclude() - array parameter for a remote");
+        $I->wantToTest('Tag - javascriptInclude() - array parameter for a remote');
 
         $options = ['http://my.local.com/js/phalcon.js'];
 
@@ -115,7 +115,7 @@ class JavascriptIncludeCest extends TagSetup
      */
     public function tagJavascriptIncludeHtml5(UnitTester $I)
     {
-        $I->wantToTest("Tag - javascript() - HTML5");
+        $I->wantToTest('Tag - javascript() - HTML5');
 
         $url = 'js/phalcon.js';
 

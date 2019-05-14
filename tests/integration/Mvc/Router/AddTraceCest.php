@@ -15,17 +15,12 @@ namespace Phalcon\Test\Integration\Mvc\Router;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class AddTraceCest
- */
 class AddTraceCest
 {
     use RouterTrait;
 
     /**
      * Tests Phalcon\Mvc\Router :: addTrace()
-     *
-     * @param IntegrationTester $I
      *
      * @author Sid Roberts <sid@sidroberts.co.uk>
      * @since  2019-04-17
@@ -45,9 +40,11 @@ class AddTraceCest
         );
 
 
+
         $_SERVER['REQUEST_METHOD'] = 'TRACE';
 
         $router->handle('/docs/index');
+
 
 
         $I->assertEquals(

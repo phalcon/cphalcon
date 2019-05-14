@@ -83,6 +83,7 @@ class GetSetNameCest
         $manager = new Manager();
         $files   = $this->getSessionStream();
         $manager->setHandler($files);
+
         try {
             $manager->start();
             $manager->setName('%-gga34');

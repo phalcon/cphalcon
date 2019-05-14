@@ -11,8 +11,8 @@
 
 namespace Phalcon\Test\Fixtures\Mvc\View;
 
-use Phalcon\Mvc\View;
 use Phalcon\Events\Event;
+use Phalcon\Mvc\View;
 
 /**
  * The View afterRenderView listener

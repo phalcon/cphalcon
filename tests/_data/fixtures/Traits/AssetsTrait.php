@@ -15,9 +15,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 use Phalcon\Assets\AssetInterface;
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Fixtures\Traits
- */
 trait AssetsTrait
 {
     private function assetGetAssetKey(UnitTester $I, AssetInterface $asset, string $expected)

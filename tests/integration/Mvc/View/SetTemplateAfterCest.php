@@ -22,8 +22,6 @@ class SetTemplateAfterCest
     /**
      * Tests Phalcon\Mvc\View :: setTemplateAfter()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

@@ -60,11 +60,11 @@ class ResetCest
 
         $profiler = $listener->getProfiler();
 
-        $connection->query("SELECT * FROM personas LIMIT 3");
-        $connection->query("SELECT * FROM personas LIMIT 100");
-        $connection->query("SELECT * FROM personas LIMIT 5");
-        $connection->query("SELECT * FROM personas LIMIT 10");
-        $connection->query("SELECT * FROM personas LIMIT 15");
+        $connection->query('SELECT * FROM personas LIMIT 3');
+        $connection->query('SELECT * FROM personas LIMIT 100');
+        $connection->query('SELECT * FROM personas LIMIT 5');
+        $connection->query('SELECT * FROM personas LIMIT 10');
+        $connection->query('SELECT * FROM personas LIMIT 15');
 
         $I->assertCount(
             5,

@@ -14,13 +14,9 @@ namespace Phalcon\Test\Fixtures\Traits;
 
 use function cacheDir;
 use function env;
-use function is_dir;
-use function mkdir;
 
 /**
  * Trait DiTrait
- *
- * @package Phalcon\Test\Fixtures\Traits
  */
 trait OptionsTrait
 {

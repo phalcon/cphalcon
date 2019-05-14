@@ -17,7 +17,6 @@ use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
  * @link          http://www.phalconphp.com
  * @author        Andres Gutierrez <andres@phalconphp.com>
  * @author        Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package       Phalcon\Test\Integration\Mvc\Dispatcher
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -91,6 +90,7 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
             'dispatch:afterDispatch',
             function () use ($dispatcherListener) {
                 $dispatcherListener->trace('afterDispatch: custom return false');
+
                 return false;
             }
         )
@@ -180,12 +180,14 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
             'dispatch:beforeException',
             function () use ($dispatcherListener) {
                 $dispatcherListener->trace('beforeException: custom before exception bubble');
+
                 return null;
             }
         )
         ;
 
         $caughtException = false;
+
         try {
             $dispatcher->dispatch();
         } catch (Exception $exception) {
@@ -227,6 +229,7 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
         $dispatcher->getEventsManager()->attach('dispatch:afterDispatch', function () use (&$forwarded) {
             if ($forwarded === false) {
                 $forwarded = true;
+
                 throw new Exception('afterDispatch exception occurred');
             }
         })

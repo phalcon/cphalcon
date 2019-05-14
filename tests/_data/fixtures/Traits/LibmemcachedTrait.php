@@ -16,22 +16,15 @@ use UnitTester;
 
 /**
  * Trait FileTrait
- *
- * @package Phalcon\Test\Fixtures\Traits\Cache
  */
 trait LibmemcachedTrait
 {
-    /**
-     * @param UnitTester $I
-     */
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('memcached');
     }
 
-    /**
-     * @return array
-     */
+
     protected function getOptions(): array
     {
         return [

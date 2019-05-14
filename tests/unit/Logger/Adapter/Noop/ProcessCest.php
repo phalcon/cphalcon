@@ -17,9 +17,6 @@ use Phalcon\Logger\Item;
 use Phalcon\Logger\Logger;
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Unit\Logger
- */
 class ProcessCest
 {
     /**

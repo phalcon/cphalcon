@@ -95,7 +95,7 @@ class ResponseCest extends HttpBase
     {
         $response = $this->getResponseObject();
         $response->resetHeaders();
-        $response->setStatusCode(404, "Not Found");
+        $response->setStatusCode(404, 'Not Found');
         $expected = Headers::__set_state(
             [
                 'headers' => [
@@ -180,8 +180,8 @@ class ResponseCest extends HttpBase
         $expected = Headers::__set_state(
             [
                 'headers' => [
-                    "HTTP/1.1 418 My own message" => '',
-                    'Status'                      => "418 My own message",
+                    'HTTP/1.1 418 My own message' => '',
+                    'Status'                      => '418 My own message',
                 ],
             ]
         );
@@ -199,7 +199,7 @@ class ResponseCest extends HttpBase
     {
         $response = $this->getResponseObject();
         $response->resetHeaders();
-        $response->setRawHeader("HTTP/1.1 404 Not Found");
+        $response->setRawHeader('HTTP/1.1 404 Not Found');
 
         $expected = Headers::__set_state(
             [
@@ -335,7 +335,7 @@ class ResponseCest extends HttpBase
     {
         $response = $this->getResponseObject();
         $response->resetHeaders();
-        $response->redirect("some/local/uri");
+        $response->redirect('some/local/uri');
 
         $expected = Headers::__set_state(
             [
@@ -360,7 +360,7 @@ class ResponseCest extends HttpBase
     {
         $response = $this->getResponseObject();
         $response->resetHeaders();
-        $response->redirect("http://google.com", true);
+        $response->redirect('http://google.com', true);
 
         $expected = Headers::__set_state(
             [
@@ -412,7 +412,7 @@ class ResponseCest extends HttpBase
     {
         $response = $this->getResponseObject();
         $response->resetHeaders();
-        $response->redirect("http://google.com", true, 301);
+        $response->redirect('http://google.com', true, 301);
 
         $expected = Headers::__set_state(
             [
@@ -499,10 +499,10 @@ class ResponseCest extends HttpBase
         $expiry = new DateTime();
 
         $expiry->setTimezone(
-            new DateTimeZone("UTC")
+            new DateTimeZone('UTC')
         );
 
-        $expiry->modify("+60 minutes");
+        $expiry->modify('+60 minutes');
 
         $response->setCache(60);
 
@@ -510,8 +510,8 @@ class ResponseCest extends HttpBase
         $expected = Headers::__set_state(
             [
                 'headers' => [
-                    "Expires"       => $expiry->format("D, d M Y H:i:s") . " GMT",
-                    "Cache-Control" => "max-age=3600",
+                    'Expires'       => $expiry->format('D, d M Y H:i:s') . ' GMT',
+                    'Cache-Control' => 'max-age=3600',
                 ],
             ]
         );

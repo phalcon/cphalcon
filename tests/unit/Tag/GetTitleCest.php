@@ -26,7 +26,7 @@ class GetTitleCest
      */
     public function tagGetTitleWithMaliciousContent(UnitTester $I)
     {
-        $I->wantToTest("Tag - getTitle() - with malicious code");
+        $I->wantToTest('Tag - getTitle() - with malicious code');
 
         Tag::resetInput();
 

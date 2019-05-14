@@ -17,7 +17,7 @@ class GenderStats extends Model
 {
     public function initialize()
     {
-        $this->setSource("stats");
+        $this->setSource('stats');
     }
 
     public function getResultsetClass()

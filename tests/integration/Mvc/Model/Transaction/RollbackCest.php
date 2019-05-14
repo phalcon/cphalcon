@@ -49,8 +49,6 @@ class RollbackCest
      *
      * @dataProvider getFunctions
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -90,8 +88,6 @@ class RollbackCest
      * Tests Phalcon\Mvc\Model\Transaction :: rollback() - exception
      *
      * @dataProvider getFunctions
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -134,15 +130,13 @@ class RollbackCest
                 "The transaction's rollback didn't throw an expected exception. Emergency stop"
             );
         } catch (Failed $e) {
-            $I->assertEquals($e->getMessage(), "Transaction aborted");
+            $I->assertEquals($e->getMessage(), 'Transaction aborted');
         }
 
         $I->assertEquals($count, Personas::count());
     }
 
-    /**
-     * @return array
-     */
+
     private function getFunctions(): array
     {
         return [

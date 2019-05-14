@@ -22,8 +22,6 @@ class GetIdCest
     /**
      * Tests Phalcon\Mvc\Collection :: getId()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

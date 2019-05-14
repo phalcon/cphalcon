@@ -22,8 +22,6 @@ class AddBelongsToCest
     /**
      * Tests Phalcon\Mvc\Model\Manager :: addBelongsTo()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

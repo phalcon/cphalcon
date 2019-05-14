@@ -17,9 +17,6 @@ use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
-/**
- * @package Phalcon\Test\Unit\Logger
- */
 class SetFormatterCest
 {
     /**

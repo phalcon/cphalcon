@@ -24,7 +24,7 @@ class RadioFieldCest
      */
     public function testRadioField(UnitTester $I)
     {
-        $I->wantToTest("Tag - radioField()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Tag - radioField()');
+        $I->skipTest('Need implementation');
     }
 }

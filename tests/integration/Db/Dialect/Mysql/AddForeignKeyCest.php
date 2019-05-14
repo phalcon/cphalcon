@@ -22,8 +22,6 @@ class AddForeignKeyCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: addForeignKey()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
@@ -43,9 +41,7 @@ class AddForeignKeyCest
         }
     }
 
-    /**
-     * @return array
-     */
+
     protected function getAddForeignKeyFixtures(): array
     {
         return [

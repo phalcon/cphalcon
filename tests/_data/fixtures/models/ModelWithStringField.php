@@ -26,7 +26,7 @@ class ModelWithStringField extends Model
 
     public function initialize()
     {
-        $this->setSource("table_with_string_field");
+        $this->setSource('table_with_string_field');
     }
 
     public function allowEmptyStringValue()

@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets;
 
+use function dataDir;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\None;
 use Phalcon\Assets\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use UnitTester;
-use function dataDir;
 use function uniqid;
+use UnitTester;
 
 class ManagerCest
 {
@@ -183,7 +183,7 @@ class ManagerCest
         $assets->useImplicitOutput(false);
         $assets->collection('js')
                ->addJs(dataDir('assets/assets/jquery.js'), false, false)
-               ->setTargetPath(outputDir("tests/assets/combined.js"))
+               ->setTargetPath(outputDir('tests/assets/combined.js'))
                ->setTargetUri('production/combined.js')
         ;
 
@@ -209,7 +209,7 @@ class ManagerCest
         $assets->useImplicitOutput(false);
         $assets->collection('js')
                ->addJs(dataDir('assets/assets/jquery.js'), false, false)
-               ->setTargetPath(outputDir("tests/assets/combined.js"))
+               ->setTargetPath(outputDir('tests/assets/combined.js'))
                ->setTargetUri('production/combined.js')
                ->join(true)
         ;
@@ -236,7 +236,7 @@ class ManagerCest
         $assets->useImplicitOutput(false);
         $assets->collection('js')
                ->addJs(dataDir('assets/assets/jquery.js'), false, false)
-               ->setTargetPath(outputDir("assets/combined.js"))
+               ->setTargetPath(outputDir('assets/combined.js'))
                ->setTargetUri('production/combined.js')
                ->join(false)
         ;
@@ -263,7 +263,7 @@ class ManagerCest
         $assets->useImplicitOutput(false);
         $assets->collection('js')
                ->addJs($jsFile, false, false)
-               ->setTargetPath(outputDir("assets/combined.js"))
+               ->setTargetPath(outputDir('assets/combined.js'))
                ->setTargetUri('production/combined.js')
                ->join(false)
                ->addFilter(new None())

@@ -22,8 +22,6 @@ class CurrentCest
     /**
      * Tests Phalcon\Mvc\Model\Resultset\Simple :: current()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

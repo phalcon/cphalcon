@@ -27,8 +27,6 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\CreditCard :: validate() - single
      * field
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
@@ -65,8 +63,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\CreditCard :: validate() - multiple
      * field
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -153,8 +149,6 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\CreditCard :: validate() - valid card
      * numbers
      *
-     * @param IntegrationTester $I
-     *
      * @author Caio Almeida <caio.f.r.amd@gmail.com>
      * @since  2015-09-06
      */
@@ -192,8 +186,6 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\CreditCard :: validate() - invalid
      * card numbers
-     *
-     * @param IntegrationTester $I
      *
      * @author Caio Almeida <caio.f.r.amd@gmail.com>
      * @since  2015-09-06

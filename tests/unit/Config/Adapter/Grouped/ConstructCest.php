@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
+use function dataDir;
 use Phalcon\Config\Adapter\Grouped;
 use Phalcon\Factory\Exception;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
-use function dataDir;
 
 class ConstructCest
 {
@@ -32,7 +32,7 @@ class ConstructCest
     {
         $I->wantToTest("Config\Adapter\Grouped - construct - complex");
 
-        $this->config["test"]["property2"] = "something-else";
+        $this->config['test']['property2'] = 'something-else';
 
         $config = [
             dataDir('assets/config/config.php'),
@@ -43,8 +43,8 @@ class ConstructCest
             [
                 'adapter' => 'array',
                 'config'  => [
-                    "test" => [
-                        "property2" => "something-else",
+                    'test' => [
+                        'property2' => 'something-else',
                     ],
                 ],
             ],

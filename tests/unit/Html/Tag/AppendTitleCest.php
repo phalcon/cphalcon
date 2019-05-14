@@ -41,17 +41,17 @@ class AppendTitleCest
         ;
 
         $I->assertEquals(
-            "Title",
+            'Title',
             $tag->getTitle(false, false)
         );
 
         $I->assertEquals(
-            "TitleClass",
+            'TitleClass',
             $tag->getTitle(false, true)
         );
 
         $I->assertEquals(
-            "<title>TitleClass</title>" . PHP_EOL,
+            '<title>TitleClass</title>' . PHP_EOL,
             $tag->renderTitle()
         );
     }
@@ -75,17 +75,17 @@ class AppendTitleCest
         ;
 
         $I->assertEquals(
-            "Title",
+            'Title',
             $tag->getTitle(false, false)
         );
 
         $I->assertEquals(
-            "TitleClass",
+            'TitleClass',
             $tag->getTitle(false, true)
         );
 
         $I->assertEquals(
-            "<title>TitleClass</title>" . PHP_EOL,
+            '<title>TitleClass</title>' . PHP_EOL,
             $tag->renderTitle()
         );
     }
@@ -110,17 +110,17 @@ class AppendTitleCest
         ;
 
         $I->assertEquals(
-            "Title",
+            'Title',
             $tag->getTitle(false, false)
         );
 
         $I->assertEquals(
-            "Title|Class",
+            'Title|Class',
             $tag->getTitle(false, true)
         );
 
         $I->assertEquals(
-            "<title>Title|Class</title>" . PHP_EOL,
+            '<title>Title|Class</title>' . PHP_EOL,
             $tag->renderTitle()
         );
     }
@@ -145,15 +145,15 @@ class AppendTitleCest
             ->appendTitle('Title')
         ;
 
-        $expected = "Main";
+        $expected = 'Main';
         $actual   = $tag->getTitle(false, false);
         $I->assertEquals($expected, $actual);
 
-        $expected = "Main - Category - Title";
+        $expected = 'Main - Category - Title';
         $actual   = $tag->getTitle(false, true);
         $I->assertEquals($expected, $actual);
 
-        $expected = "<title>Main - Category - Title</title>" . PHP_EOL;
+        $expected = '<title>Main - Category - Title</title>' . PHP_EOL;
         $actual   = $tag->renderTitle();
         $I->assertEquals($expected, $actual);
     }
@@ -177,15 +177,15 @@ class AppendTitleCest
             ->appendTitle(['Category', 'Title'])
         ;
 
-        $expected = "Main";
+        $expected = 'Main';
         $actual   = $tag->getTitle(false, false);
         $I->assertEquals($expected, $actual);
 
-        $expected = "Main - Category - Title";
+        $expected = 'Main - Category - Title';
         $actual   = $tag->getTitle(false, true);
         $I->assertEquals($expected, $actual);
 
-        $expected = "<title>Main - Category - Title</title>" . PHP_EOL;
+        $expected = '<title>Main - Category - Title</title>' . PHP_EOL;
         $actual   = $tag->renderTitle();
         $I->assertEquals($expected, $actual);
     }
@@ -209,15 +209,15 @@ class AppendTitleCest
             ->appendTitle([])
         ;
 
-        $expected = "Main";
+        $expected = 'Main';
         $actual   = $tag->getTitle(false, false);
         $I->assertEquals($expected, $actual);
 
-        $expected = "Main";
+        $expected = 'Main';
         $actual   = $tag->getTitle(false, true);
         $I->assertEquals($expected, $actual);
 
-        $expected = "<title>Main</title>" . PHP_EOL;
+        $expected = '<title>Main</title>' . PHP_EOL;
         $actual   = $tag->renderTitle();
         $I->assertEquals($expected, $actual);
     }

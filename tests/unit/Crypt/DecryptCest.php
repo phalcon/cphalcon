@@ -28,7 +28,9 @@ class DecryptCest
      */
     public function shouldNotThrowExceptionIfKeyMismatch(UnitTester $I)
     {
-        $I->wantToTest('Crypt - decrypt() not throwing Exception on key mismatch');
+        $I->wantToTest(
+            'Crypt - decrypt() not throwing Exception on key mismatch'
+        );
 
         $crypt = new Crypt();
 

@@ -22,8 +22,6 @@ class SetPathsCest
     /**
      * Tests Phalcon\Mvc\Router\Group :: setPaths()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

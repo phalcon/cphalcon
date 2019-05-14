@@ -25,7 +25,7 @@ class GetCest
      */
     public function urlGet(IntegrationTester $I)
     {
-        $I->wantToTest("Url - get()");
+        $I->wantToTest('Url - get()');
 
         $url = new Url();
 

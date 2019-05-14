@@ -22,8 +22,6 @@ class SetPrefixCest
     /**
      * Tests Phalcon\Mvc\Router\Group :: setPrefix()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

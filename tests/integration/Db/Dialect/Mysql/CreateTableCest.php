@@ -28,8 +28,6 @@ class CreateTableCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: createTable()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
@@ -48,9 +46,7 @@ class CreateTableCest
         }
     }
 
-    /**
-     * @return array
-     */
+
     protected function getCreateTableFixtures(): array
     {
         return [

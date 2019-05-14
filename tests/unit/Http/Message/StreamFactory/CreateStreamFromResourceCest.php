@@ -55,7 +55,7 @@ class CreateStreamFromResourceCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                "Invalid stream provided"
+                'Invalid stream provided'
             ),
             function () {
                 $factory = new StreamFactory();
