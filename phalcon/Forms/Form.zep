@@ -375,8 +375,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function getMessages() -> <Messages> | array
     {
-        var messages, elementMessage, fieldName;
-        array messagesByItem;
+        var messages;
 
         let messages = this->messages;
 
