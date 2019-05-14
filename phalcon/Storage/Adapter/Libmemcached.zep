@@ -110,11 +110,12 @@ class Libmemcached extends AbstractAdapter
     public function getAdapter() -> var
     {
         var client, connection, failover, options, persistentId, 
-	        servers, serverList;
+	        sasl, saslPass, saslUser, servers, serverList;
 
         if null === this->adapter {
             let options      = this->options,
                 persistentId = Arr::get(options, "persistentId", "ph-mcid-"),
+                sasl         = Arr::get(options, "saslAuthData", []),
                 connection   = new \Memcached(persistentId),
                 serverList   = connection->getServerList();
 
@@ -123,6 +124,8 @@ class Libmemcached extends AbstractAdapter
             if count(serverList) < 1 {
                 let servers  = Arr::get(options, "servers", []),
                     client   = Arr::get(options, "client", []),
+                    saslUser = Arr::get(sasl, "user", ""),
+                    saslPass = Arr::get(sasl, "pass", ""),
                     failover = [
                         \Memcached::OPT_CONNECT_TIMEOUT       : 10,
                         \Memcached::OPT_DISTRIBUTION          : \Memcached::DISTRIBUTION_CONSISTENT,
@@ -138,6 +141,10 @@ class Libmemcached extends AbstractAdapter
 
                 if !connection->addServers(servers) {
                     throw new Exception("Cannot connect to the Memcached server(s)");
+                }
+
+                if !empty saslUser {
+                    connection->setSaslAuthData(saslUser, saslPass);
                 }
             }
 
