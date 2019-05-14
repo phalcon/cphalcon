@@ -242,7 +242,7 @@ class ValidateCest
             'url',
             new Url(
                 [
-                    'flags' => [
+                    'options' => [
                         $example[1],
                     ],
                 ]
