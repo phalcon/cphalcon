@@ -43,6 +43,21 @@ interface CryptInterface
     public function getAvailableCiphers() -> array;
 
     /**
+     * Returns the authentication tag
+     */
+    public function getAuthTag() -> string;
+
+    /**
+     * Returns authentication data
+     */
+    public function getAuthData() -> string;
+
+    /**
+     * Returns the authentication tag length
+     */
+    public function getAuthTagLength() -> int;
+
+    /**
      * Returns the current cipher
      */
     public function getCipher() -> string;
@@ -51,6 +66,21 @@ interface CryptInterface
      * Returns the encryption key
      */
     public function getKey() -> string;
+
+    /**
+     * Sets the authentication tag
+     */
+    public function setAuthTag(string! tag) -> <CryptInterface>;
+
+    /**
+     * Sets authentication data
+     */
+    public function setAuthData(string! data) -> <CryptInterface>;
+
+    /**
+     * Sets the authentication tag length
+     */
+    public function setAuthTagLength(int! length) -> <CryptInterface>;
 
     /**
      * Sets the cipher algorithm
