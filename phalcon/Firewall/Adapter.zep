@@ -51,7 +51,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * Default access
 	 * @var int
 	 */
-	protected defaultAccess = Acl::DENY { get, set };
+	protected defaultAccess = Acl::DENY { get };
 
 	/**
 	 * Events manager
@@ -94,6 +94,30 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	public function isAlwaysResolvingRole() -> bool
 	{
 		return this->alwaysResolvingRole;
+	}
+
+    /**
+     * Sets the cache adapter
+     */
+	public function setCache(<CacheAdapterInterface> cache) -> <AdapterInterface>
+	{
+		let this->cache = cache;
+
+		if this->internalCache === null {
+			let this->internalCache = cache->get("_PHF_");
+		}
+
+		return this;
+	}
+
+	/**
+	 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+	 */
+	public function setDefaultAccess(int defaultAccess) -> <AdapterInterface>
+	{
+	    let this->defaultAccess = defaultAccess;
+
+	    return this;
 	}
 
 	/**
@@ -216,17 +240,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 		if cache != null {
 			cache->set("_PHF_", this->internalCache);
 		}
-	}
-
-	public function setCache(<CacheAdapterInterface> cache) -> <AdapterInterface>
-	{
-		let this->cache = cache;
-
-		if this->internalCache === null {
-			let this->internalCache = cache->get("_PHF_");
-		}
-
-		return this;
 	}
 
 	/**
