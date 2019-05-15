@@ -110,9 +110,12 @@ class RegisterModulesCest
     public function cliConsoleRegisterModulesBadPathThrowsAnException(CliTester $I)
     {
         $I->wantToTest("Cli\Console - registerModules() - bad path throws exception");
-        $I->skipTest('This needs to be checked');
+
+        $container = $this->newCliFactoryDefault();
 
         $console = $this->newCliConsole();
+
+        $console->setDI($container);
 
         $console->registerModules(
             [
@@ -125,12 +128,13 @@ class RegisterModulesCest
 
         $I->expectThrowable(
             new Exception(
-                "Module definition path 'not-a-real-file.php' doesn't exist"
+                "Module definition path '" . dataDir('not-a-real-file.php') . "' doesn't exist"
             ),
             function () use ($console) {
                 $console->handle(
                     [
-                        'task' => 'echo',
+                        'module' => 'frontend',
+                        'task'   => 'echo',
                     ]
                 );
             }
