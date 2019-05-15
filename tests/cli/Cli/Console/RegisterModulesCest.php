@@ -39,7 +39,7 @@ class RegisterModulesCest
             [
                 'frontend' => [
                     'className' => Module::class,
-                    'path'      => __DIR__ . '/../../../_data/modules/frontend/Module.php',
+                    'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
             ]
         );
@@ -58,7 +58,7 @@ class RegisterModulesCest
             [
                 'backend' => [
                     'className' => \Phalcon\Test\Modules\Backend\Module::class,
-                    'path'      => __DIR__ . '/../../../_data/modules/backend/Module.php',
+                    'path'      => dataDir('fixtures/modules/backend/Module.php'),
                 ],
             ]
         );
@@ -77,7 +77,7 @@ class RegisterModulesCest
             [
                 'frontend' => [
                     'className' => Module::class,
-                    'path'      => __DIR__ . '/../../../_data/modules/frontend/Module.php',
+                    'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
             ],
             $merge = true
@@ -96,6 +96,33 @@ class RegisterModulesCest
         $I->assertArrayHasKey(
             'backend',
             $console->getModules()
+        );
+    }
+
+    public function badPathThrowsAnException(CliTester $I)
+    {
+        $console = $this->newCliConsole();
+
+        $console->registerModules(
+            [
+                'frontend' => [
+                    'path'      => dataDir('not-a-real-file.php'),
+                    'className' => \Phalcon\Test\Modules\Frontend\Module::class,
+                ],
+            ]
+        );
+
+        $I->expectException(
+            new \Phalcon\Cli\Console\Exception(
+                "Module definition path 'not-a-real-file.php' doesn't exist"
+            ),
+            function () use ($console) {
+                $console->handle(
+                    [
+                        'task' => 'echo',
+                    ]
+                );
+            }
         );
     }
 }

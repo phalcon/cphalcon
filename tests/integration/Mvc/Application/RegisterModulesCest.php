@@ -154,4 +154,42 @@ class RegisterModulesCest
             $response->getContent()
         );
     }
+
+    public function badPathThrowsAnException(IntegrationTester $I)
+    {
+        Di::reset();
+
+        $di = new FactoryDefault();
+
+        $di->set(
+            'router',
+            function () {
+                $router = new Router(false);
+
+                return $router;
+            }
+        );
+
+        $application = new Application();
+
+        $application->registerModules(
+            [
+                'frontend' => [
+                    'path'      => dataDir('not-a-real-file.php'),
+                    'className' => \Phalcon\Test\Modules\Frontend\Module::class,
+                ],
+            ]
+        );
+
+        $application->setDI($di);
+
+        $I->expectException(
+            new \Phalcon\Mvc\Application\Exception(
+                "Module definition path 'not-a-real-file.php' doesn't exist"
+            ),
+            function () use ($application) {
+                $response = $application->handle('/');
+            }
+        );
+    }
 }
