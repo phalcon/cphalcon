@@ -13,10 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Firewall\Adapter\Annotations;
 
 use Codeception\Example;
-use Phalcon\Cache\Adapter\Memory as CacheMemory;
 use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Cache\AdapterFactory;
-use Phalcon\Cache\CacheFactory;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Annotations;
 use Phalcon\Mvc\Dispatcher;
@@ -25,6 +23,8 @@ use Phalcon\Test\Fixtures\Firewall\RoleObject;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use UnitTester;
+use function ob_end_clean;
+use function ob_start;
 
 class AnnotationsCest
 {
@@ -43,10 +43,12 @@ class AnnotationsCest
 
     public function _before()
     {
+        ob_start();
+
         $this->setNewFactoryDefault();
         $this->setDiMysql();
 
-        $di = $this->container;
+        $di         = $this->container;
         $dispatcher = new Dispatcher();
         $dispatcher->setDefaultNamespace(
             'Phalcon\Test\Controllers\Firewall'
@@ -71,6 +73,11 @@ class AnnotationsCest
         $dispatcher->setEventsManager($eventsManager);
         $this->dispatcher = $dispatcher;
         $this->firewall   = $firewall;
+    }
+
+    public function _after()
+    {
+        ob_end_clean();
     }
 
     /**
@@ -102,16 +109,16 @@ class AnnotationsCest
      *
      * @dataProvider getCache
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-01-18
+     * @author       Wojciech Ślawski <jurigag@gmail.com>
+     * @since        2017-01-18
      */
     public function testCache(UnitTester $I, Example $example)
     {
-        $serializer   = new SerializerFactory();
-        $factory      = new AdapterFactory($serializer);
-        $cache        = $factory->newInstance('memory');
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+        $cache      = $factory->newInstance('memory');
 
-        $di = $this->container;
+        $di            = $this->container;
         $eventsManager = new Manager();
         $eventsManager->attach(
             'firewall:beforeException',
@@ -121,12 +128,13 @@ class AnnotationsCest
         );
         $firewall = new Annotations(new Memory());
         $firewall->setEventsManager($eventsManager)
-            ->setRoleCallback(
-                function ($di) {
-                    return $di->get('myrole');
-                }
-            )
-            ->setAlwaysResolvingRole(true);
+                 ->setRoleCallback(
+                        function ($di) {
+                            return $di->get('myrole');
+                        }
+                 )
+                 ->setAlwaysResolvingRole(true)
+        ;
         $firewall->setCache($cache);
         $eventsManager->attach('dispatch:beforeExecuteRoute', $firewall);
         $this->dispatcher->setEventsManager($eventsManager);
