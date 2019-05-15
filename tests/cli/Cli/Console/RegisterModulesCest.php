@@ -104,11 +104,8 @@ class RegisterModulesCest
     /**
      * Tests Phalcon\Cli\Console :: registerModules() - bad path throws exception
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     *
-     * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since  2018-26-12
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-05-15
      */
     public function cliConsoleRegisterModulesBadPathThrowsAnException(CliTester $I)
     {
