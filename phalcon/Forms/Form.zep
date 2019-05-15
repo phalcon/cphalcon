@@ -15,6 +15,8 @@ use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\ElementInterface;
+use Phalcon\Html\Attributes;
+use Phalcon\Html\Interfaces\AttributesInterface;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Validation;
@@ -26,9 +28,9 @@ use Phalcon\Service\LocatorInterface;
  *
  * This component allows to build forms using an object-oriented interface
  */
-class Form extends Injectable implements \Countable, \Iterator
+class Form extends Injectable implements \Countable, \Iterator, AttributesInterface
 {
-    protected action;
+    protected attributes;
 
     protected data;
 
@@ -70,6 +72,11 @@ class Form extends Injectable implements \Countable, \Iterator
         if method_exists(this, "initialize") {
             this->{"initialize"}(entity, userOptions);
         }
+
+        /**
+        * Set form attributes
+        */
+        this->setAttributes(new Attributes());
     }
 
     /**
@@ -314,7 +321,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function getAction() -> string
     {
-        return this->action;
+        return (string) this->getAttributes()->get("action");
     }
 
     /**
@@ -733,10 +740,12 @@ class Form extends Injectable implements \Countable, \Iterator
 
     /**
      * Sets the form's action
+     *
+     * @return Form
      */
     public function setAction(string! action) -> <Form>
     {
-        let this->action = action;
+        this->getAttributes()->set("action", action);
 
         return this;
     }
@@ -779,5 +788,23 @@ class Form extends Injectable implements \Countable, \Iterator
     public function valid() -> bool
     {
         return isset this->elementsIndexed[this->position];
+    }
+
+    /**
+    * Get Form attributes collection
+    */
+    public function getAttributes() -> <Attributes>
+    {
+        return this->attributes;
+    }
+
+    /**
+    * Set form attributes collection
+    */
+    public function setAttributes(<Attributes> attributes) -> <AttributesInterface>
+    {
+        let this->attributes = attributes;
+
+        return this;
     }
 }
