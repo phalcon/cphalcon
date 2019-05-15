@@ -20,7 +20,8 @@ use UnitTester;
 class GetSetEventsManagerCest
 {
     /**
-     * Tests Phalcon\Firewall\Adapter\Annotations :: getEventsManager()/setEventsManager()
+     * Tests Phalcon\Firewall\Adapter\Annotations ::
+     * getEventsManager()/setEventsManager()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
@@ -29,7 +30,7 @@ class GetSetEventsManagerCest
     {
         $I->wantToTest('Firewall\Adapter\Annotations - getEventsManager()/setEventsManager()');
 
-        $firewall = new Annotations(new Memory());
+        $firewall      = new Annotations(new Memory());
         $eventsManager = new Manager();
 
         $firewall->setEventsManager($eventsManager);

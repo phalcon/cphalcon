@@ -15,6 +15,7 @@ namespace Phalcon\Test\Cli\Cli\Console;
 use CliTester;
 use Phalcon\Application\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Modules\Frontend\Module;
 
 class GetModuleCest
 {
@@ -38,7 +39,7 @@ class GetModuleCest
         $console->registerModules(
             [
                 'frontend' => [
-                    'className' => \Phalcon\Test\Modules\Frontend\Module::class,
+                    'className' => Module::class,
                     'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
                 'backend'  => [
@@ -49,7 +50,7 @@ class GetModuleCest
         );
 
         $expected = [
-            'className' => \Phalcon\Test\Modules\Frontend\Module::class,
+            'className' => Module::class,
             'path'      => dataDir('fixtures/modules/frontend/Module.php'),
         ];
 

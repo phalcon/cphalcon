@@ -19,7 +19,8 @@ use UnitTester;
 class GetSetEventsManagerCest
 {
     /**
-     * Tests Phalcon\Firewall\Adapter\Micro\Acl :: getEventsManager()/setEventsManager()
+     * Tests Phalcon\Firewall\Adapter\Micro\Acl ::
+     * getEventsManager()/setEventsManager()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
@@ -28,7 +29,7 @@ class GetSetEventsManagerCest
     {
         $I->wantToTest('Firewall\Adapter\Micro\Acl - getEventsManager()/setEventsManager()');
 
-        $firewall = new Acl('acl');
+        $firewall      = new Acl('acl');
         $eventsManager = new Manager();
 
         $firewall->setEventsManager($eventsManager);

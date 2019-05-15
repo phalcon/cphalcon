@@ -12,9 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
 
-use Codeception\Example;
-use function ob_end_clean;
-use function ob_start;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Events\Manager;
@@ -24,6 +21,8 @@ use Phalcon\Test\Fixtures\Firewall\RoleObject;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use UnitTester;
+use function ob_end_clean;
+use function ob_start;
 
 class BeforeExecuteRouteCest
 {
@@ -91,7 +90,7 @@ class BeforeExecuteRouteCest
 
         $acl = new Memory();
         $acl->setDefaultAction(PhAcl::DENY);
-        $acl->addComponent("One", ['firstRole', 'secondRole']);
+        $acl->addComponent('One', ['firstRole', 'secondRole']);
         $acl->addRole('ROLE1');
         $acl->addRole('ROLE2');
         $acl->addRole('ROLE3');
@@ -111,22 +110,22 @@ class BeforeExecuteRouteCest
         $this->container->set('dispatcher', $dispatcher);
 
         $examples = [
-            ["one", "firstRole", "ROLE1", "allowed"],
-            ["one", "firstRole", "ROLE2", null],
-            ["one", "firstRole", "ROLE3", "allowed"],
-            ["one", "firstRole", "ROLE4", null],
-            ["one", "firstRole", new RoleObject("ROLE1"), "allowed"],
-            ["one", "firstRole", new RoleObject("ROLE2"), null],
-            ["one", "firstRole", new RoleObject("ROLE3"), "allowed"],
-            ["one", "firstRole", new RoleObject("ROLE4"), null],
-            ["one", "secondRole", "ROLE1", null],
-            ["one", "secondRole", "ROLE2", null],
-            ["one", "secondRole", "ROLE3", "allowed"],
-            ["one", "secondRole", "ROLE4", "allowed"],
-            ["one", "secondRole", new RoleObject("ROLE1"), null],
-            ["one", "secondRole", new RoleObject("ROLE2"), null],
-            ["one", "secondRole", new RoleObject("ROLE3"), "allowed"],
-            ["one", "secondRole", new RoleObject("ROLE4"), "allowed"],
+            ['one', 'firstRole', 'ROLE1', 'allowed'],
+            ['one', 'firstRole', 'ROLE2', null],
+            ['one', 'firstRole', 'ROLE3', 'allowed'],
+            ['one', 'firstRole', 'ROLE4', null],
+            ['one', 'firstRole', new RoleObject('ROLE1'), 'allowed'],
+            ['one', 'firstRole', new RoleObject('ROLE2'), null],
+            ['one', 'firstRole', new RoleObject('ROLE3'), 'allowed'],
+            ['one', 'firstRole', new RoleObject('ROLE4'), null],
+            ['one', 'secondRole', 'ROLE1', null],
+            ['one', 'secondRole', 'ROLE2', null],
+            ['one', 'secondRole', 'ROLE3', 'allowed'],
+            ['one', 'secondRole', 'ROLE4', 'allowed'],
+            ['one', 'secondRole', new RoleObject('ROLE1'), null],
+            ['one', 'secondRole', new RoleObject('ROLE2'), null],
+            ['one', 'secondRole', new RoleObject('ROLE3'), 'allowed'],
+            ['one', 'secondRole', new RoleObject('ROLE4'), 'allowed'],
         ];
 
         foreach ($examples as $example) {

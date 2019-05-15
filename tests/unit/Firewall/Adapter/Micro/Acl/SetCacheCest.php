@@ -12,9 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Micro\Acl;
 
-use Codeception\Example;
-use function ob_end_clean;
-use function ob_start;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Cache\AdapterFactory;
@@ -27,8 +24,9 @@ use Phalcon\Test\Fixtures\Firewall\BindingRole;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
-use function sleep;
 use UnitTester;
+use function ob_end_clean;
+use function ob_start;
 
 class SetCacheCest
 {
@@ -56,28 +54,28 @@ class SetCacheCest
         $micro->get(
             '/test',
             function () {
-                return "allowed";
+                return 'allowed';
             }
         )->setName('test')
         ;
         $micro->get(
             '/test2',
             function () {
-                return "allowed";
+                return 'allowed';
             }
         )->setName('test2')
         ;
         $micro->get(
             '/album/{album}',
             function (Albums $album) {
-                return "allowed";
+                return 'allowed';
             }
         )->setName('album-get')
         ;
         $micro->get(
             '/album/update/{album}',
             function (Albums $album) {
-                return "allowed";
+                return 'allowed';
             }
         )->setName('album-update')
         ;
@@ -165,13 +163,13 @@ class SetCacheCest
         $micro = $this->micro;
 
         $examples = [
-            ['/album/1', new BindingRole("ROLE1", 1), "allowed", 'ROLE1!Micro!album-get!1!1', true],
-            ['/album/1', new BindingRole("ROLE1", 2), false, 'ROLE1!Micro!album-get!1!2', false],
-            ['/album/1', new BindingRole("ROLE2", 1), "allowed", 'ROLE2!Micro!*!1!1', true],
-            ['/album/1', new BindingRole("ROLE2", 2), false, 'ROLE2!Micro!*!1!2', false],
-            ['/album/1', new BindingRole("ROLE3", 2), "allowed", 'ROLE3!*!*', true],
-            ['/album/1', new BindingRole("ROLE4", 2), "allowed", 'ROLE4!Micro!*', true],
-            ['/album/1', new BindingRole("ROLE5", 2), "allowed", 'ROLE5!Micro!album-get', true],
+            ['/album/1', new BindingRole('ROLE1', 1), 'allowed', 'ROLE1!Micro!album-get!1!1', true],
+            ['/album/1', new BindingRole('ROLE1', 2), false, 'ROLE1!Micro!album-get!1!2', false],
+            ['/album/1', new BindingRole('ROLE2', 1), 'allowed', 'ROLE2!Micro!*!1!1', true],
+            ['/album/1', new BindingRole('ROLE2', 2), false, 'ROLE2!Micro!*!1!2', false],
+            ['/album/1', new BindingRole('ROLE3', 2), 'allowed', 'ROLE3!*!*', true],
+            ['/album/1', new BindingRole('ROLE4', 2), 'allowed', 'ROLE4!Micro!*', true],
+            ['/album/1', new BindingRole('ROLE5', 2), 'allowed', 'ROLE5!Micro!album-get', true],
         ];
 
         foreach ($examples as $example) {

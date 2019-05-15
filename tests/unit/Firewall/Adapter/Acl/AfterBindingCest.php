@@ -13,8 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
 
 use Codeception\Example;
-use function ob_end_clean;
-use function ob_start;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Events\Manager;
@@ -26,6 +24,8 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use UnitTester;
+use function ob_end_clean;
+use function ob_start;
 
 class AfterBindingCest
 {
@@ -86,8 +86,8 @@ class AfterBindingCest
      *
      * @dataProvider getAfterBinding
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-01-19
+     * @author       Wojciech Ślawski <jurigag@gmail.com>
+     * @since        2017-01-19
      */
     public function firewallAdapterAclAfterBinding(UnitTester $I, Example $example)
     {
@@ -95,7 +95,7 @@ class AfterBindingCest
 
         $acl = new Memory();
         $acl->setDefaultAction(PhAcl::DENY);
-        $acl->addComponent("Four", ['first', 'second']);
+        $acl->addComponent('Four', ['first', 'second']);
         $acl->addRole('ROLE1');
         $acl->addRole('ROLE2');
         $acl->allow('ROLE1', 'Four', 'first');
@@ -133,14 +133,14 @@ class AfterBindingCest
     private function getAfterBinding(): array
     {
         return [
-            ["four", "first", new BindingRole("ROLE1", 1), ['album' => 1], "allowed"],
-            ["four", "first", new BindingRole("ROLE1", 2), ['album' => 1], "allowed"],
-            ["four", "first", new BindingRole("ROLE2", 1), ['album' => 1], "allowed"],
-            ["four", "first", new BindingRole("ROLE2", 2), ['album' => 1], null],
-            ["four", "second", new BindingRole("ROLE1", 1), ['album' => 1], "allowed"],
-            ["four", "second", new BindingRole("ROLE1", 2), ['album' => 1], "allowed"],
-            ["four", "second", new BindingRole("ROLE2", 1), ['album' => 1], "allowed"],
-            ["four", "second", new BindingRole("ROLE2", 2), ['album' => 1], "allowed"],
+            ['four', 'first', new BindingRole('ROLE1', 1), ['album' => 1], 'allowed'],
+            ['four', 'first', new BindingRole('ROLE1', 2), ['album' => 1], 'allowed'],
+            ['four', 'first', new BindingRole('ROLE2', 1), ['album' => 1], 'allowed'],
+            ['four', 'first', new BindingRole('ROLE2', 2), ['album' => 1], null],
+            ['four', 'second', new BindingRole('ROLE1', 1), ['album' => 1], 'allowed'],
+            ['four', 'second', new BindingRole('ROLE1', 2), ['album' => 1], 'allowed'],
+            ['four', 'second', new BindingRole('ROLE2', 1), ['album' => 1], 'allowed'],
+            ['four', 'second', new BindingRole('ROLE2', 2), ['album' => 1], 'allowed'],
         ];
     }
 }

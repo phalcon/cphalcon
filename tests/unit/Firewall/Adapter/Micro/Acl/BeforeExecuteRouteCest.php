@@ -12,9 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Micro\Acl;
 
-use Codeception\Example;
-use function ob_end_clean;
-use function ob_start;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Events\Manager;
@@ -24,6 +21,8 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use UnitTester;
+use function ob_end_clean;
+use function ob_start;
 
 class BeforeExecuteRouteCest
 {
@@ -51,28 +50,28 @@ class BeforeExecuteRouteCest
         $micro->get(
             '/test',
             function () {
-                return "allowed";
+                return 'allowed';
             }
         )->setName('test')
         ;
         $micro->get(
             '/test2',
             function () {
-                return "allowed";
+                return 'allowed';
             }
         )->setName('test2')
         ;
         $micro->get(
             '/album/{album}',
             function (Albums $album) {
-                return "allowed";
+                return 'allowed';
             }
         )->setName('album-get')
         ;
         $micro->get(
             '/album/update/{album}',
             function (Albums $album) {
-                return "allowed";
+                return 'allowed';
             }
         )->setName('album-update')
         ;
@@ -131,14 +130,14 @@ class BeforeExecuteRouteCest
         $micro = $this->micro;
 
         $examples = [
-            ['/test', 'ROLE1', "allowed"],
+            ['/test', 'ROLE1', 'allowed'],
             ['/test', 'ROLE2', null],
-            ['/test', 'ROLE3', "allowed"],
-            ['/test', 'ROLE4', "allowed"],
+            ['/test', 'ROLE3', 'allowed'],
+            ['/test', 'ROLE4', 'allowed'],
             ['/test2', 'ROLE1', null],
-            ['/test2', 'ROLE2', "allowed"],
-            ['/test', 'ROLE3', "allowed"],
-            ['/test', 'ROLE4', "allowed"],
+            ['/test2', 'ROLE2', 'allowed'],
+            ['/test', 'ROLE3', 'allowed'],
+            ['/test', 'ROLE4', 'allowed'],
         ];
 
         foreach ($examples as $example) {

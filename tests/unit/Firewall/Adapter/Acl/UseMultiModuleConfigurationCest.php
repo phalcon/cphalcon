@@ -12,9 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
 
-use Codeception\Example;
-use function ob_end_clean;
-use function ob_start;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Events\Manager;
@@ -23,6 +20,8 @@ use Phalcon\Mvc\Dispatcher;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use UnitTester;
+use function ob_end_clean;
+use function ob_start;
 
 class UseMultiModuleConfigurationCest
 {
@@ -90,8 +89,8 @@ class UseMultiModuleConfigurationCest
 
         $acl = new Memory();
         $acl->setDefaultAction(PhAcl::DENY);
-        $acl->addComponent("Module1:One", ['firstRole', 'secondRole']);
-        $acl->addComponent("Module2:One", ['firstRole', 'secondRole']);
+        $acl->addComponent('Module1:One', ['firstRole', 'secondRole']);
+        $acl->addComponent('Module2:One', ['firstRole', 'secondRole']);
         $acl->addRole('ROLE1');
         $acl->addRole('ROLE2');
         $acl->allow('ROLE1', 'Module1:One', 'firstRole');
@@ -112,14 +111,14 @@ class UseMultiModuleConfigurationCest
         $this->container->set('dispatcher', $dispatcher);
 
         $examples = [
-            ["one", "firstRole", "ROLE1", null, "Module1", "allowed"],
-            ["one", "firstRole", "ROLE2", null, "Module1", null],
-            ["one", "secondRole", "ROLE1", null, "Module1", null],
-            ["one", "secondRole", "ROLE2", null, "Module1", "allowed"],
-            ["one", "firstRole", "ROLE1", null, "Module2", null],
-            ["one", "firstRole", "ROLE2", null, "Module2", "allowed"],
-            ["one", "secondRole", "ROLE1", null, "Module2", "allowed"],
-            ["one", "secondRole", "ROLE2", null, "Module2", null],
+            ['one', 'firstRole', 'ROLE1', null, 'Module1', 'allowed'],
+            ['one', 'firstRole', 'ROLE2', null, 'Module1', null],
+            ['one', 'secondRole', 'ROLE1', null, 'Module1', null],
+            ['one', 'secondRole', 'ROLE2', null, 'Module1', 'allowed'],
+            ['one', 'firstRole', 'ROLE1', null, 'Module2', null],
+            ['one', 'firstRole', 'ROLE2', null, 'Module2', 'allowed'],
+            ['one', 'secondRole', 'ROLE1', null, 'Module2', 'allowed'],
+            ['one', 'secondRole', 'ROLE2', null, 'Module2', null],
         ];
 
         foreach ($examples as $example) {

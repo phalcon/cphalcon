@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
 
-use function ob_end_clean;
-use function ob_start;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Events\Manager;
@@ -25,6 +23,8 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use UnitTester;
+use function ob_end_clean;
+use function ob_start;
 
 class SetBoundModelsKeyMapCest
 {
@@ -92,7 +92,7 @@ class SetBoundModelsKeyMapCest
 
         $acl = new Memory();
         $acl->setDefaultAction(PhAcl::DENY);
-        $acl->addComponent("Four", ['first', 'second']);
+        $acl->addComponent('Four', ['first', 'second']);
         $acl->addRole('ROLE2');
         $acl->allow(
             'ROLE2',
@@ -117,11 +117,11 @@ class SetBoundModelsKeyMapCest
         $returnedValue = $this->getReturnedValueFor(
             $this->container,
             $dispatcher,
-            "four",
-            "first",
-            new BindingRole("ROLE2", 1),
+            'four',
+            'first',
+            new BindingRole('ROLE2', 1),
             ['album' => 1]
         );
-        $I->assertEquals($returnedValue, "allowed");
+        $I->assertEquals($returnedValue, 'allowed');
     }
 }

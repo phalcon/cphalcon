@@ -23,8 +23,14 @@ use Phalcon\Events\ManagerInterface;
  */
 class Console extends BaseApplication
 {
+    /**
+     * @var array
+     */
     protected arguments = [];
 
+    /**
+     * @var array
+     */
     protected options = [];
 
     /**
@@ -32,8 +38,8 @@ class Console extends BaseApplication
      */
     public function handle(array arguments = null)
     {
-        var container, router, eventsManager, moduleName, modules, module, path,
-            className, moduleObject, dispatcher, task;
+        var className, container, dispatcher, eventsManager, module, moduleName,
+            moduleObject, modules, path, router, task;
 
         let container = this->container;
 

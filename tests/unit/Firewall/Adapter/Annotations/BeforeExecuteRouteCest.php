@@ -13,8 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Firewall\Adapter\Annotations;
 
 use Codeception\Example;
-use function ob_end_clean;
-use function ob_start;
 use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Annotations;
@@ -23,6 +21,8 @@ use Phalcon\Test\Fixtures\Firewall\RoleObject;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use UnitTester;
+use function ob_end_clean;
+use function ob_start;
 
 class BeforeExecuteRouteCest
 {
@@ -83,8 +83,8 @@ class BeforeExecuteRouteCest
      *
      * @dataProvider getBeforeExecute
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-12
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-05-12
      */
     public function firewallAdapterAnnotationsBeforeExecuteRoute(UnitTester $I, Example $example)
     {
@@ -107,68 +107,68 @@ class BeforeExecuteRouteCest
     private function getBeforeExecute(): array
     {
         return [
-            ["one", "firstRole", "ROLE1", "allowed"],
-            ["one", "firstRole", "ROLE2", null],
-            ["one", "firstRole", "ROLE3", null],
-            ["one", "firstRole", new RoleObject("ROLE1"), "allowed"],
-            ["one", "firstRole", new RoleObject("ROLE2"), null],
-            ["one", "firstRole", new RoleObject("ROLE3"), null],
-            ["one", "firstRole", ["ROLE1", "ROLE2"], "allowed"],
-            ["one", "firstRole", ["ROLE2", "ROLE3"], null],
-            ["one", "firstRole", ["ROLE3", "ROLE4"], null],
-            ["one", "secondRole", "ROLE1", null],
-            ["one", "secondRole", "ROLE2", "allowed"],
-            ["one", "secondRole", "ROLE3", "allowed"],
-            ["one", "secondRole", new RoleObject("ROLE1"), null],
-            ["one", "secondRole", new RoleObject("ROLE2"), "allowed"],
-            ["one", "secondRole", new RoleObject("ROLE3"), "allowed"],
-            ["one", "secondRole", ["ROLE1", "ROLE2"], null],
-            ["one", "secondRole", ["ROLE2", "ROLE3"], "allowed"],
-            ["one", "secondRole", ["ROLE3", "ROLE4"], "allowed"],
-            ["one", "firstArray", "ROLE1", "allowed"],
-            ["one", "firstArray", "ROLE2", "allowed"],
-            ["one", "firstArray", "ROLE3", null],
-            ["one", "firstArray", new RoleObject("ROLE1"), "allowed"],
-            ["one", "firstArray", new RoleObjecT("ROLE2"), "allowed"],
-            ["one", "firstArray", new RoleObject("ROLE3"), null],
-            ["one", "firstArray", ["ROLE1", "ROLE2"], "allowed"],
-            ["one", "firstArray", ["ROLE2", "ROLE3"], "allowed"],
-            ["one", "firstArray", ["ROLE3", "ROLE4"], null],
-            ["one", "secondArray", "ROLE1", null],
-            ["one", "secondArray", "ROLE2", null],
-            ["one", "secondArray", "ROLE3", "allowed"],
-            ["one", "secondArray", new RoleObject("ROLE1"), null],
-            ["one", "secondArray", new RoleObject("ROLE2"), null],
-            ["one", "secondArray", new RoleObject("ROLE3"), "allowed"],
-            ["one", "secondArray", ["ROLE1", "ROLE2"], null],
-            ["one", "secondArray", ["ROLE2", "ROLE3"], null],
-            ["one", "allowEveryone", "ROLE1", "allowed"],
-            ["one", "allowEveryone", "ROLE2", "allowed"],
-            ["one", "allowEveryone", "ROLE3", "allowed"],
-            ["one", "allowEveryone", new RoleObject("ROLE1"), "allowed"],
-            ["one", "allowEveryone", new RoleObject("ROLE2"), "allowed"],
-            ["one", "allowEveryone", new RoleObject("ROLE3"), "allowed"],
-            ["one", "allowEveryone", ["ROLE1", "ROLE2"], "allowed"],
-            ["one", "allowEveryone", ["ROLE2", "ROLE3"], "allowed"],
-            ["one", "allowEveryone", ["ROLE3", "ROLE4"], "allowed"],
-            ["one", "denyEveryone", "ROLE1", null],
-            ["one", "denyEveryone", "ROLE2", null],
-            ["one", "denyEveryone", "ROLE3", null],
-            ["one", "denyEveryone", new RoleObject("ROLE1"), null],
-            ["one", "denyEveryone", new RoleObject("ROLE2"), null],
-            ["one", "denyEveryone", new RoleObject("ROLE3"), null],
-            ["one", "denyEveryone", ["ROLE1", "ROLE2"], null],
-            ["one", "denyEveryone", ["ROLE2", "ROLE3"], null],
-            ["one", "denyEveryone", ["ROLE3", "ROLE4"], null],
-            ["three", "deny", "ROLE1", null],
-            ["three", "deny", "ROLE2", null],
-            ["three", "deny", "ROLE3", null],
-            ["three", "deny", new RoleObject("ROLE1"), null],
-            ["three", "deny", new RoleObject("ROLE2"), null],
-            ["three", "deny", new RoleObject("ROLE3"), null],
-            ["three", "deny", ["ROLE1", "ROLE2"], null],
-            ["three", "deny", ["ROLE2", "ROLE3"], null],
-            ["three", "deny", ["ROLE3", "ROLE4"], null],
+            ['one', 'firstRole', 'ROLE1', 'allowed'],
+            ['one', 'firstRole', 'ROLE2', null],
+            ['one', 'firstRole', 'ROLE3', null],
+            ['one', 'firstRole', new RoleObject('ROLE1'), 'allowed'],
+            ['one', 'firstRole', new RoleObject('ROLE2'), null],
+            ['one', 'firstRole', new RoleObject('ROLE3'), null],
+            ['one', 'firstRole', ['ROLE1', 'ROLE2'], 'allowed'],
+            ['one', 'firstRole', ['ROLE2', 'ROLE3'], null],
+            ['one', 'firstRole', ['ROLE3', 'ROLE4'], null],
+            ['one', 'secondRole', 'ROLE1', null],
+            ['one', 'secondRole', 'ROLE2', 'allowed'],
+            ['one', 'secondRole', 'ROLE3', 'allowed'],
+            ['one', 'secondRole', new RoleObject('ROLE1'), null],
+            ['one', 'secondRole', new RoleObject('ROLE2'), 'allowed'],
+            ['one', 'secondRole', new RoleObject('ROLE3'), 'allowed'],
+            ['one', 'secondRole', ['ROLE1', 'ROLE2'], null],
+            ['one', 'secondRole', ['ROLE2', 'ROLE3'], 'allowed'],
+            ['one', 'secondRole', ['ROLE3', 'ROLE4'], 'allowed'],
+            ['one', 'firstArray', 'ROLE1', 'allowed'],
+            ['one', 'firstArray', 'ROLE2', 'allowed'],
+            ['one', 'firstArray', 'ROLE3', null],
+            ['one', 'firstArray', new RoleObject('ROLE1'), 'allowed'],
+            ['one', 'firstArray', new RoleObjecT('ROLE2'), 'allowed'],
+            ['one', 'firstArray', new RoleObject('ROLE3'), null],
+            ['one', 'firstArray', ['ROLE1', 'ROLE2'], 'allowed'],
+            ['one', 'firstArray', ['ROLE2', 'ROLE3'], 'allowed'],
+            ['one', 'firstArray', ['ROLE3', 'ROLE4'], null],
+            ['one', 'secondArray', 'ROLE1', null],
+            ['one', 'secondArray', 'ROLE2', null],
+            ['one', 'secondArray', 'ROLE3', 'allowed'],
+            ['one', 'secondArray', new RoleObject('ROLE1'), null],
+            ['one', 'secondArray', new RoleObject('ROLE2'), null],
+            ['one', 'secondArray', new RoleObject('ROLE3'), 'allowed'],
+            ['one', 'secondArray', ['ROLE1', 'ROLE2'], null],
+            ['one', 'secondArray', ['ROLE2', 'ROLE3'], null],
+            ['one', 'allowEveryone', 'ROLE1', 'allowed'],
+            ['one', 'allowEveryone', 'ROLE2', 'allowed'],
+            ['one', 'allowEveryone', 'ROLE3', 'allowed'],
+            ['one', 'allowEveryone', new RoleObject('ROLE1'), 'allowed'],
+            ['one', 'allowEveryone', new RoleObject('ROLE2'), 'allowed'],
+            ['one', 'allowEveryone', new RoleObject('ROLE3'), 'allowed'],
+            ['one', 'allowEveryone', ['ROLE1', 'ROLE2'], 'allowed'],
+            ['one', 'allowEveryone', ['ROLE2', 'ROLE3'], 'allowed'],
+            ['one', 'allowEveryone', ['ROLE3', 'ROLE4'], 'allowed'],
+            ['one', 'denyEveryone', 'ROLE1', null],
+            ['one', 'denyEveryone', 'ROLE2', null],
+            ['one', 'denyEveryone', 'ROLE3', null],
+            ['one', 'denyEveryone', new RoleObject('ROLE1'), null],
+            ['one', 'denyEveryone', new RoleObject('ROLE2'), null],
+            ['one', 'denyEveryone', new RoleObject('ROLE3'), null],
+            ['one', 'denyEveryone', ['ROLE1', 'ROLE2'], null],
+            ['one', 'denyEveryone', ['ROLE2', 'ROLE3'], null],
+            ['one', 'denyEveryone', ['ROLE3', 'ROLE4'], null],
+            ['three', 'deny', 'ROLE1', null],
+            ['three', 'deny', 'ROLE2', null],
+            ['three', 'deny', 'ROLE3', null],
+            ['three', 'deny', new RoleObject('ROLE1'), null],
+            ['three', 'deny', new RoleObject('ROLE2'), null],
+            ['three', 'deny', new RoleObject('ROLE3'), null],
+            ['three', 'deny', ['ROLE1', 'ROLE2'], null],
+            ['three', 'deny', ['ROLE2', 'ROLE3'], null],
+            ['three', 'deny', ['ROLE3', 'ROLE4'], null],
         ];
     }
 }
