@@ -164,7 +164,6 @@ class RegisterModulesCest
     public function mvcApplicationRegisterModulesBadPathThrowsAnException(IntegrationTester $I)
     {
         $I->wantToTest("Mvc\Application - registerModules() - bad path throws exception");
-        $I->skipTest('This needs to be checked');
 
         Di::reset();
 
@@ -174,6 +173,15 @@ class RegisterModulesCest
             'router',
             function () {
                 $router = new Router(false);
+
+                $router->add(
+                    '/index',
+                    [
+                        'controller' => 'index',
+                        'module'     => 'frontend',
+                        'namespace'  => 'Phalcon\Test\Modules\Frontend\Controllers',
+                    ]
+                );
 
                 return $router;
             }
@@ -194,10 +202,10 @@ class RegisterModulesCest
 
         $I->expectException(
             new \Phalcon\Mvc\Application\Exception(
-                "Module definition path 'not-a-real-file.php' doesn't exist"
+                "Module definition path '" . dataDir('not-a-real-file.php') . "' doesn't exist"
             ),
             function () use ($application) {
-                $response = $application->handle('/');
+                $application->handle('/index');
             }
         );
     }
