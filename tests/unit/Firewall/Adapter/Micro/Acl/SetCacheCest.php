@@ -27,6 +27,7 @@ use Phalcon\Test\Fixtures\Firewall\BindingRole;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
+use function sleep;
 use UnitTester;
 
 class SetCacheCest
@@ -173,6 +174,11 @@ class SetCacheCest
         );
         $I->assertEquals($returnedValue, $example[2]);
         $I->assertEquals($cache->get('_PHF_')[$example[3]], $example[4]);
+
+        /**
+         * Hack to remove the too many connections
+         */
+        sleep(1);
     }
 
     /**
