@@ -47,6 +47,18 @@ class Crypt implements CryptInterface
     /**
      * @var string
      */
+    protected authTag { get };
+    /**
+     * @var string
+     */
+    protected authData = "" { get };
+    /**
+     * @var int
+     */
+    protected authTagLength = 16 { get };
+    /**
+     * @var string
+     */
     protected key;
 
     /**
@@ -109,8 +121,8 @@ class Crypt implements CryptInterface
      */
     public function decrypt(string! text, string! key = null) -> string
     {
-        var decryptKey, ivLength, cipher, mode, blockSize, decrypted,
-            ciphertext, hashAlgo, hashLength, iv, hash;
+        var authData, authTag, decryptKey, ivLength, cipher, mode, blockSize,
+            decrypted, ciphertext, hashAlgo, hashLength, iv, hash;
 
         if likely empty key {
             let decryptKey = this->key;
@@ -122,8 +134,10 @@ class Crypt implements CryptInterface
             throw new Exception("Decryption key cannot be empty");
         }
 
-        let cipher = this->cipher;
-        let mode = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher)));
+        let cipher   = this->cipher,
+            mode     = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher))),
+            authData = this->authData,
+            authTag  = this->authTag;
 
         this->assertCipherIsAvailable(cipher);
 
@@ -138,13 +152,32 @@ class Crypt implements CryptInterface
         let iv = mb_substr(text, 0, ivLength, "8bit");
 
         if this->useSigning {
-            let hashAlgo = this->getHashAlgo();
-            let hashLength = strlen(hash(hashAlgo, "", true));
-            let hash = mb_substr(text, ivLength, hashLength, "8bit");
-            let ciphertext = mb_substr(text, ivLength + hashLength, null, "8bit");
-            let decrypted = openssl_decrypt(ciphertext, cipher, decryptKey, OPENSSL_RAW_DATA, iv);
+            let hashAlgo   = this->getHashAlgo(),
+                hashLength = strlen(hash(hashAlgo, "", true)),
+                hash       = mb_substr(text, ivLength, hashLength, "8bit"),
+                ciphertext = mb_substr(text, ivLength + hashLength, null, "8bit");
 
-            if mode == "cbc" || mode == "ecb" {
+            if ("-gcm" === mode || "-ccm" === mode) && !empty this->authData {
+                let decrypted = openssl_decrypt(
+                    ciphertext,
+                    cipher,
+                    decryptKey,
+                    OPENSSL_RAW_DATA,
+                    iv,
+                    authTag,
+                    authData
+                );
+            } else {
+                let decrypted = openssl_decrypt(
+                    ciphertext,
+                    cipher,
+                    decryptKey,
+                    OPENSSL_RAW_DATA,
+                    iv
+                );
+            }
+
+            if mode == "-cbc" || mode == "-ecb" {
                 let decrypted = this->cryptUnpadText(decrypted, mode, blockSize, this->padding);
             }
 
@@ -159,9 +192,28 @@ class Crypt implements CryptInterface
         }
 
         let ciphertext = mb_substr(text, ivLength, null, "8bit");
-        let decrypted = openssl_decrypt(ciphertext, cipher, decryptKey, OPENSSL_RAW_DATA, iv);
 
-        if mode == "cbc" || mode == "ecb" {
+        if ("-gcm" === mode || "-ccm" === mode) && !empty this->authData {
+            let decrypted = openssl_decrypt(
+                ciphertext,
+                cipher,
+                decryptKey,
+                OPENSSL_RAW_DATA,
+                iv,
+                authTag,
+                authData
+            );
+        } else {
+            let decrypted = openssl_decrypt(
+                ciphertext,
+                cipher,
+                decryptKey,
+                OPENSSL_RAW_DATA,
+                iv
+            );
+        }
+
+        if mode == "-cbc" || mode == "-ecb" {
             let decrypted = this->cryptUnpadText(
                 decrypted,
                 mode,
@@ -207,8 +259,8 @@ class Crypt implements CryptInterface
      */
     public function encrypt(string! text, string! key = null) -> string
     {
-        var encryptKey, ivLength, iv, cipher, mode, blockSize, paddingType,
-            padded, encrypted;
+        var authData, authTag, authTagLength, encryptKey, ivLength, iv,
+            cipher, mode, blockSize, paddingType, padded, encrypted;
 
         if likely empty key {
             let encryptKey = this->key;
@@ -245,22 +297,45 @@ class Crypt implements CryptInterface
             );
         }
 
-        let iv = openssl_random_pseudo_bytes(ivLength);
-        let paddingType = this->padding;
+        let iv          = openssl_random_pseudo_bytes(ivLength),
+            paddingType = this->padding;
 
-        if paddingType != 0 && (mode == "cbc" || mode == "ecb") {
+        if paddingType != 0 && (mode == "-cbc" || mode == "-ecb") {
             let padded = this->cryptPadText(text, mode, blockSize, paddingType);
         } else {
             let padded = text;
         }
 
-        let encrypted = openssl_encrypt(
-            padded,
-            cipher,
-            encryptKey,
-            OPENSSL_RAW_DATA,
-            iv
-        );
+        /**
+         * If the mode is "gcm" or "ccm" and auth data has been passed call it
+         * with that data
+         */
+        if ("-gcm" === mode || "-ccm" === mode) && !empty this->authData {
+            let authData      = this->authData,
+                authTag       = this->authTag,
+                authTagLength = this->authTagLength;
+
+            let encrypted = openssl_encrypt(
+                padded,
+                cipher,
+                encryptKey,
+                OPENSSL_RAW_DATA,
+                iv,
+                authTag,
+                authData,
+                authTagLength
+            );
+
+            let this->authTag = authTag;
+        } else {
+            let encrypted = openssl_encrypt(
+                padded,
+                cipher,
+                encryptKey,
+                OPENSSL_RAW_DATA,
+                iv
+            );
+        }
 
         if this->useSigning {
             var digest, hashAlgo;
@@ -302,7 +377,8 @@ class Crypt implements CryptInterface
      */
     public function getAvailableCiphers() -> array
     {
-        var availableCiphers;
+        var availableCiphers, cipher;
+        array allowedCiphers;
 
         let availableCiphers = this->availableCiphers;
 
@@ -312,7 +388,18 @@ class Crypt implements CryptInterface
             let availableCiphers = this->availableCiphers;
         }
 
-        return availableCiphers;
+        let allowedCiphers = [];
+        for cipher in availableCiphers {
+            if !(starts_with(strtolower(cipher), "des") ||
+                 starts_with(strtolower(cipher), "rc2") ||
+                 starts_with(strtolower(cipher), "rc4") ||
+                 starts_with(strtolower(cipher), "des") ||
+                 ends_with(strtolower(cipher), "ecb")) {
+                let allowedCiphers[] = cipher;
+            }
+        }
+
+        return allowedCiphers;
     }
 
     /**
@@ -353,6 +440,27 @@ class Crypt implements CryptInterface
     public function getKey() -> string
     {
         return this->key;
+    }
+
+    public function setAuthTag(string! tag) -> <CryptInterface>
+    {
+        let this->authTag = tag;
+
+        return this;
+    }
+
+    public function setAuthData(string! data) -> <CryptInterface>
+    {
+        let this->authData = data;
+
+        return this;
+    }
+
+    public function setAuthTagLength(int! length) -> <CryptInterface>
+    {
+        let this->authTagLength = length;
+
+        return this;
     }
 
     /**
