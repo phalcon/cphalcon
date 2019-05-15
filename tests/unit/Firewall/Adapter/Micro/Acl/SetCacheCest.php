@@ -110,12 +110,10 @@ class SetCacheCest
     /**
      * Tests Phalcon\Firewall\Adapter\Micro\Acl :: setCache()
      *
-     * @dataProvider getCache
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
      */
-    public function firewallAdapterMicroAclSetCache(UnitTester $I, Example $example)
+    public function firewallAdapterMicroAclSetCache(UnitTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Micro\Acl - setCache()');
 
@@ -166,27 +164,7 @@ class SetCacheCest
         $this->micro->setModelBinder($binder);
         $micro = $this->micro;
 
-        $returnedValue = $this->getMicroValueFor(
-            $this->container,
-            $micro,
-            $example[0],
-            $example[1]
-        );
-        $I->assertEquals($returnedValue, $example[2]);
-        $I->assertEquals($cache->get('_PHF_')[$example[3]], $example[4]);
-
-        /**
-         * Hack to remove the too many connections
-         */
-        sleep(1);
-    }
-
-    /**
-     * @return array
-     */
-    private function getCache(): array
-    {
-        return [
+        $examples = [
             ['/album/1', new BindingRole("ROLE1", 1), "allowed", 'ROLE1!Micro!album-get!1!1', true],
             ['/album/1', new BindingRole("ROLE1", 2), false, 'ROLE1!Micro!album-get!1!2', false],
             ['/album/1', new BindingRole("ROLE2", 1), "allowed", 'ROLE2!Micro!*!1!1', true],
@@ -195,5 +173,16 @@ class SetCacheCest
             ['/album/1', new BindingRole("ROLE4", 2), "allowed", 'ROLE4!Micro!*', true],
             ['/album/1', new BindingRole("ROLE5", 2), "allowed", 'ROLE5!Micro!album-get', true],
         ];
+
+        foreach ($examples as $example) {
+            $returnedValue = $this->getMicroValueFor(
+                $this->container,
+                $micro,
+                $example[0],
+                $example[1]
+            );
+            $I->assertEquals($returnedValue, $example[2]);
+            $I->assertEquals($cache->get('_PHF_')[$example[3]], $example[4]);
+        }
     }
 }

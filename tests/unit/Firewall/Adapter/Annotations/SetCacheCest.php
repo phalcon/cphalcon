@@ -82,12 +82,10 @@ class SetCacheCest
     /**
      * Tests Phalcon\Firewall\Adapter\Annotations :: setCache()
      *
-     * @dataProvider getCache
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
      */
-    public function firewallAdapterAnnotationsSetCache(UnitTester $I, Example $example)
+    public function firewallAdapterAnnotationsSetCache(UnitTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Annotations - setCache()');
 
@@ -104,40 +102,37 @@ class SetCacheCest
             }
         );
         $firewall = new Annotations(new Memory());
-        $firewall->setEventsManager($eventsManager)
-                 ->setRoleCallback(
-                     function ($di) {
-                         return $di->get('myrole');
-                     }
-                 )
-                 ->setAlwaysResolvingRole(true)
+        $firewall
+            ->setEventsManager($eventsManager)
+            ->setRoleCallback(
+                function ($di) {
+                    return $di->get('myrole');
+                }
+            )
+            ->setAlwaysResolvingRole(true)
         ;
         $firewall->setCache($cache);
         $eventsManager->attach('dispatch:beforeExecuteRoute', $firewall);
         $this->dispatcher->setEventsManager($eventsManager);
         $dispatcher = $this->dispatcher;
-
         $di->set('dispatcher', $dispatcher);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            $example[0],
-            $example[1],
-            $example[2]
-        );
-        $I->assertEquals($returnedValue, $example[3]);
-        $I->assertEquals($cache->get('_PHF_')[$example[4]], $example[5]);
-    }
 
-    /**
-     * @return array
-     */
-    private function getCache(): array
-    {
-        return [
+        $examples = [
             ["one", "firstRole", "ROLE1", "allowed", 'ROLE1!one!firstRole', true],
             ["one", "allowEveryone", "ROLE1", "allowed", '*!one!allowEveryone', true],
             ["one", "firstRole", "ROLE2", null, 'ROLE2!one!firstRole', false],
         ];
+
+        foreach ($examples as $example) {
+            $returnedValue = $this->getReturnedValueFor(
+                $di,
+                $dispatcher,
+                $example[0],
+                $example[1],
+                $example[2]
+            );
+            $I->assertEquals($returnedValue, $example[3]);
+            $I->assertEquals($cache->get('_PHF_')[$example[4]], $example[5]);
+        }
     }
 }
