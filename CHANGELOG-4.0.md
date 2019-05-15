@@ -68,6 +68,7 @@
 - `Phalcon\Logger\Formatter\Line::__construct()` service parameters must be a string or omitted.
 - `Phalcon\Logger\Formatter\Json::__construct()` service parameters must be a string or omitted.
 - Removed deprecated code from `Phalcon\Forms\Form::getMessages()`.
+- Loading a Module (either MVC or CLI) now throws an exception if the path does not exists regardless of whether the class is already loaded.
 
 ## Fixed
 - Fixed `Mvc\Collection::isInitialized()` now works as intended. [#13931](https://github.com/phalcon/cphalcon/pull/13931)

@@ -38,19 +38,19 @@ class GetModuleCest
         $console->registerModules(
             [
                 'frontend' => [
-                    'className' => 'Phalcon\\Test\\Modules\\Frontend\\Module',
-                    'path'      => __DIR__ . '/../../../_data/modules/frontend/Module.php',
+                    'className' => \Phalcon\Test\Modules\Frontend\Module::class,
+                    'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
                 'backend'  => [
-                    'className' => 'Phalcon\\Test\\Modules\\Backend\\Module',
-                    'path'      => __DIR__ . '/../../../_data/modules/backend/Module.php',
+                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                    'path'      => dataDir('fixtures/modules/backend/Module.php'),
                 ],
             ]
         );
 
         $expected = [
-            'className' => 'Phalcon\\Test\\Modules\\Frontend\\Module',
-            'path'      => __DIR__ . '/../../../_data/modules/frontend/Module.php',
+            'className' => \Phalcon\Test\Modules\Frontend\Module::class,
+            'path'      => dataDir('fixtures/modules/frontend/Module.php'),
         ];
 
         $I->assertEquals(
