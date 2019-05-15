@@ -104,6 +104,9 @@ class AclCest
     public function _after()
     {
         ob_end_clean();
+        if ($this->container->has('db')) {
+            $this->container->has('db')->close();
+        }
     }
 
     /**
