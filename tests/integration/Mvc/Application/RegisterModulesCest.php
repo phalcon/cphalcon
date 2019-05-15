@@ -155,8 +155,17 @@ class RegisterModulesCest
         );
     }
 
-    public function badPathThrowsAnException(IntegrationTester $I)
+    /**
+     * Tests Phalcon\Mvc\Application :: registerModules() - bad path throws exception
+     *
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-05-15
+     */
+    public function mvcApplicationRegisterModulesBadPathThrowsAnException(IntegrationTester $I)
     {
+        $I->wantToTest("Mvc\Application - registerModules() - bad path throws exception");
+        $I->skipTest('This needs to be checked');
+
         Di::reset();
 
         $di = new FactoryDefault();
