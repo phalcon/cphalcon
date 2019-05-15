@@ -12,9 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Annotations;
 
-use function getOptionsModelCacheStream;
-use Phalcon\Cache\Adapter\Memory;
-use Phalcon\Cache\Adapter\Stream as StorageStream;
+use Codeception\Example;
+use Phalcon\Cache\Adapter\Memory as CacheMemory;
+use Phalcon\Annotations\Adapter\Memory;
+use Phalcon\Cache\AdapterFactory;
+use Phalcon\Cache\CacheFactory;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Annotations;
 use Phalcon\Mvc\Dispatcher;
@@ -44,14 +46,13 @@ class AnnotationsCest
         $this->setNewFactoryDefault();
         $this->setDiMysql();
 
-        $serializer = new SerializerFactory();
-        $cache      = new Memory($serializer);
-
+        $di = $this->container;
         $dispatcher = new Dispatcher();
         $dispatcher->setDefaultNamespace(
             'Phalcon\Test\Controllers\Firewall'
         );
-        $dispatcher->setDI($this->container);
+        $dispatcher->setDI($di);
+
         $eventsManager = new Manager();
         $eventsManager->attach(
             'firewall:beforeException',
@@ -59,453 +60,56 @@ class AnnotationsCest
                 return false;
             }
         );
-        $firewall = new Annotations($cache);
-        $firewall->setEventsManager($eventsManager)
-            ->setRoleCallback(
-                function ($di) {
-                    return $di->get('myrole');
-                }
-            )
-            ->setAlwaysResolvingRole(true);
+        $firewall = new Annotations(new Memory());
+        $firewall->setEventsManager($eventsManager);
+        $firewall->setRoleCallback(
+            function () use ($di) {
+                return $di->get('myrole');
+            }
+        );
         $eventsManager->attach('dispatch:beforeExecuteRoute', $firewall);
         $dispatcher->setEventsManager($eventsManager);
         $this->dispatcher = $dispatcher;
-        $this->firewall = $firewall;
+        $this->firewall   = $firewall;
     }
 
     /**
      * Tests Annotations firewall before execute
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-01-18
+     * @dataProvider getBeforeExecute
+     *
+     * @author       Wojciech Ślawski <jurigag@gmail.com>
+     * @since        2017-01-18
      */
-    public function testBeforeExecute(UnitTester $I)
+    public function testBeforeExecute(UnitTester $I, Example $example)
     {
         $dispatcher = $this->dispatcher;
-        $di = $this->container;
-        
+        $di         = $this->container;
+
         $di->set('dispatcher', $this->dispatcher);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "firstRole", "ROLE1");
-        
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "firstRole", "ROLE2");
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "firstRole", "ROLE3");
-        $I->assertNull($returnedValue);
         $returnedValue = $this->getReturnedValueFor(
             $di,
             $dispatcher,
-            "one",
-            "firstRole",
-            new RoleObject("ROLE1")
+            $example[0],
+            $example[1],
+            $example[2]
         );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "firstRole",
-            new RoleObject("ROLE2")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "firstRole",
-            new RoleObject("ROLE3")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "firstRole",
-            ["ROLE1", "ROLE2"]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "firstRole",
-            ["ROLE2", "ROLE3"]
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "firstRole",
-            ["ROLE3", "ROLE4"]
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "secondRole", "ROLE1");
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "secondRole", "ROLE2");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "secondRole", "ROLE3");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "secondRole",
-            new RoleObject("ROLE1")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "secondRole",
-            new RoleObject("ROLE2")
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "secondRole",
-            new RoleObject("ROLE3")
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "secondRole",
-            ["ROLE1", "ROLE2"]
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "secondRole",
-            ["ROLE2", "ROLE3"]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "secondRole",
-            ["ROLE3", "ROLE4"]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "firstArray", "ROLE1");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "firstArray", "ROLE2");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "firstArray", "ROLE3");
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "firstArray",
-            new RoleObject("ROLE1")
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "firstArray",
-            new RoleObjecT("ROLE2")
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "firstArray",
-            new RoleObject("ROLE3")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "firstArray",
-            ["ROLE1", "ROLE2"]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "firstArray",
-            ["ROLE2", "ROLE3"]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "firstArray",
-            ["ROLE3", "ROLE4"]
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "secondArray", "ROLE1");
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "secondArray", "ROLE2");
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "secondArray", "ROLE3");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "secondArray",
-            new RoleObject("ROLE1")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "secondArray",
-            new RoleObject("ROLE2")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "secondArray",
-            new RoleObject("ROLE3")
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "secondArray",
-            ["ROLE1", "ROLE2"]
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "secondArray",
-            ["ROLE2", "ROLE3"]
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "secondArray",
-            ["ROLE3", "ROLE4"]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "allowEveryone", "ROLE1");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "allowEveryone", "ROLE2");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "allowEveryone", "ROLE3");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "allowEveryone",
-            new RoleObject("ROLE1")
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "allowEveryone",
-            new RoleObject("ROLE2")
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "allowEveryone",
-            new RoleObject("ROLE3")
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "allowEveryone",
-            ["ROLE1", "ROLE2"]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "allowEveryone",
-            ["ROLE2", "ROLE3"]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "allowEveryone",
-            ["ROLE3", "ROLE4"]
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "denyEveryone", "ROLE1");
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "denyEveryone", "ROLE2");
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "denyEveryone", "ROLE3");
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "denyEveryone",
-            new RoleObject("ROLE1")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "denyEveryone",
-            new RoleObject("ROLE2")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "denyEveryone",
-            new RoleObject("ROLE3")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "denyEveryone",
-            ["ROLE1", "ROLE2"]
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "denyEveryone",
-            ["ROLE2", "ROLE3"]
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "one",
-            "denyEveryone",
-            ["ROLE3", "ROLE4"]
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "two", "allow", "ROLE1");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "two", "allow", "ROLE2");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "two", "allow", "ROLE3");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "two",
-            "allow",
-            new RoleObject("ROLE1")
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "two",
-            "allow",
-            new RoleObject("ROLE2")
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "two",
-            "allow",
-            new RoleObject("ROLE3")
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "two", "allow", ["ROLE1", "ROLE2"]);
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "two", "allow", ["ROLE2", "ROLE3"]);
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "two", "allow", ["ROLE3", "ROLE4"]);
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "two", "allow", "ROLE1");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "two", "allow", "ROLE2");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "two", "allow", "ROLE3");
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "two", "allow", ["ROLE1", "ROLE2"]);
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "two", "allow", ["ROLE2", "ROLE3"]);
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "two", "allow", ["ROLE3", "ROLE4"]);
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "three", "deny", "ROLE1");
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "three", "deny", "ROLE2");
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "three", "deny", "ROLE3");
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "three",
-            "deny",
-            new RoleObject("ROLE1")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "three",
-            "deny",
-            new RoleObject("ROLE2")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor(
-            $di,
-            $dispatcher,
-            "three",
-            "deny",
-            new RoleObject("ROLE3")
-        );
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "three", "deny", ["ROLE1", "ROLE2"]);
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "three", "deny", ["ROLE2", "ROLE3"]);
-        $I->assertNull($returnedValue);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "three", "deny", ["ROLE3", "ROLE4"]);
-        $I->assertNull($returnedValue);
+        $I->assertEquals($returnedValue, $example[3]);
     }
 
     /**
      * Tests Annotations firewall with cache
      *
+     * @dataProvider getCache
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-01-18
      */
-    public function testCache(UnitTester $I)
+    public function testCache(UnitTester $I, Example $example)
     {
-        $serializer = new SerializerFactory();
-        $cache      = new Memory($serializer);
+        $serializer   = new SerializerFactory();
+        $factory      = new AdapterFactory($serializer);
+        $cache        = $factory->newInstance('memory');
 
         $di = $this->container;
         $eventsManager = new Manager();
@@ -515,7 +119,7 @@ class AnnotationsCest
                 return false;
             }
         );
-        $firewall = new Annotations($cache);
+        $firewall = new Annotations(new Memory());
         $firewall->setEventsManager($eventsManager)
             ->setRoleCallback(
                 function ($di) {
@@ -529,18 +133,94 @@ class AnnotationsCest
         $dispatcher = $this->dispatcher;
 
         $di->set('dispatcher', $dispatcher);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "firstRole", "ROLE1");
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertTrue($cache->has('_PHF_'));
-        $I->assertTrue($cache->get('_PHF_')['ROLE1!one!firstRole']);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "allowEveryone", "ROLE1");
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertTrue($cache->get('_PHF_')['*!one!allowEveryone']);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "one", "firstRole", "ROLE2");
-        $I->assertNull($returnedValue);
-        $I->assertFalse($cache->get('_PHF_')['ROLE2!one!firstRole']);
-        $returnedValue = $this->getReturnedValueFor($di, $dispatcher, "two", "allow", "ROLE1");
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertTrue($cache->get('_PHF_')['*!two!*']);
+        $returnedValue = $this->getReturnedValueFor(
+            $di,
+            $dispatcher,
+            $example[0],
+            $example[1],
+            $example[2]
+        );
+        $I->assertEquals($returnedValue, $example[3]);
+        $I->assertEquals($cache->get('_PHF_')[$example[4]], $example[5]);
+    }
+
+    private function getBeforeExecute(): array
+    {
+        return [
+            ["one", "firstRole", "ROLE1", "allowed"],
+            ["one", "firstRole", "ROLE2", null],
+            ["one", "firstRole", "ROLE3", null],
+            ["one", "firstRole", new RoleObject("ROLE1"), "allowed"],
+            ["one", "firstRole", new RoleObject("ROLE2"), null],
+            ["one", "firstRole", new RoleObject("ROLE3"), null],
+            ["one", "firstRole", ["ROLE1", "ROLE2"], "allowed"],
+            ["one", "firstRole", ["ROLE2", "ROLE3"], null],
+            ["one", "firstRole", ["ROLE3", "ROLE4"], null],
+            ["one", "secondRole", "ROLE1", null],
+            ["one", "secondRole", "ROLE2", "allowed"],
+            ["one", "secondRole", "ROLE3", "allowed"],
+            ["one", "secondRole", new RoleObject("ROLE1"), null],
+            ["one", "secondRole", new RoleObject("ROLE2"), "allowed"],
+            ["one", "secondRole", new RoleObject("ROLE3"), "allowed"],
+            ["one", "secondRole", ["ROLE1", "ROLE2"], null],
+            ["one", "secondRole", ["ROLE2", "ROLE3"], "allowed"],
+            ["one", "secondRole", ["ROLE3", "ROLE4"], "allowed"],
+            ["one", "firstArray", "ROLE1", "allowed"],
+            ["one", "firstArray", "ROLE2", "allowed"],
+            ["one", "firstArray", "ROLE3", null],
+            ["one", "firstArray", new RoleObject("ROLE1"), "allowed"],
+            ["one", "firstArray", new RoleObjecT("ROLE2"), "allowed"],
+            ["one", "firstArray", new RoleObject("ROLE3"), null],
+            ["one", "firstArray", ["ROLE1", "ROLE2"], "allowed"],
+            ["one", "firstArray", ["ROLE2", "ROLE3"], "allowed"],
+            ["one", "firstArray", ["ROLE3", "ROLE4"], null],
+            ["one", "secondArray", "ROLE1", null],
+            ["one", "secondArray", "ROLE2", null],
+            ["one", "secondArray", "ROLE3", "allowed"],
+            ["one", "secondArray", new RoleObject("ROLE1"), null],
+            ["one", "secondArray", new RoleObject("ROLE2"), null],
+            ["one", "secondArray", new RoleObject("ROLE3"), "allowed"],
+            ["one", "secondArray", ["ROLE1", "ROLE2"], null],
+            ["one", "secondArray", ["ROLE2", "ROLE3"], null],
+            ["one", "allowEveryone", "ROLE1", "allowed"],
+            ["one", "allowEveryone", "ROLE2", "allowed"],
+            ["one", "allowEveryone", "ROLE3", "allowed"],
+            ["one", "allowEveryone", new RoleObject("ROLE1"), "allowed"],
+            ["one", "allowEveryone", new RoleObject("ROLE2"), "allowed"],
+            ["one", "allowEveryone", new RoleObject("ROLE3"), "allowed"],
+            ["one", "allowEveryone", ["ROLE1", "ROLE2"], "allowed"],
+            ["one", "allowEveryone", ["ROLE2", "ROLE3"], "allowed"],
+            ["one", "allowEveryone", ["ROLE3", "ROLE4"], "allowed"],
+            ["one", "denyEveryone", "ROLE1", null],
+            ["one", "denyEveryone", "ROLE2", null],
+            ["one", "denyEveryone", "ROLE3", null],
+            ["one", "denyEveryone", new RoleObject("ROLE1"), null],
+            ["one", "denyEveryone", new RoleObject("ROLE2"), null],
+            ["one", "denyEveryone", new RoleObject("ROLE3"), null],
+            ["one", "denyEveryone", ["ROLE1", "ROLE2"], null],
+            ["one", "denyEveryone", ["ROLE2", "ROLE3"], null],
+            ["one", "denyEveryone", ["ROLE3", "ROLE4"], null],
+            ["three", "deny", "ROLE1", null],
+            ["three", "deny", "ROLE2", null],
+            ["three", "deny", "ROLE3", null],
+            ["three", "deny", new RoleObject("ROLE1"), null],
+            ["three", "deny", new RoleObject("ROLE2"), null],
+            ["three", "deny", new RoleObject("ROLE3"), null],
+            ["three", "deny", ["ROLE1", "ROLE2"], null],
+            ["three", "deny", ["ROLE2", "ROLE3"], null],
+            ["three", "deny", ["ROLE3", "ROLE4"], null],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getCache(): array
+    {
+        return [
+            ["one", "firstRole", "ROLE1", "allowed", 'ROLE1!one!firstRole', true],
+            ["one", "allowEveryone", "ROLE1", "allowed", '*!one!allowEveryone', true],
+            ["one", "firstRole", "ROLE2", null, 'ROLE2!one!firstRole', false],
+        ];
     }
 }

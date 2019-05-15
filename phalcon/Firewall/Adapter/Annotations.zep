@@ -11,7 +11,6 @@
 namespace Phalcon\Firewall\Adapter;
 
 use Phalcon\Annotations\AdapterInterface;
-use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Events\Event;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Firewall\Adapter;
