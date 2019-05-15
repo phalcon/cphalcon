@@ -12,9 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
 
+use Phalcon\Acl as PhAcl;
+use Phalcon\Firewall\Adapter\Acl;
 use UnitTester;
 
-class GetDefaultAccessCest
+class GetSetDefaultAccessCest
 {
     /**
      * Tests Phalcon\Firewall\Adapter\Acl :: getDefaultAccess()
@@ -26,6 +28,10 @@ class GetDefaultAccessCest
     {
         $I->wantToTest('Firewall\Adapter\Acl - getDefaultAccess()');
 
-        $I->skipTest('Need implementation');
+        $firewall = new Acl('acl');
+        $firewall->setDefaultAccess(PhAcl::ALLOW);
+
+        $actual = $firewall->getDefaultAccess();
+        $I->assertEquals(PhAcl::ALLOW, $actual);
     }
 }
