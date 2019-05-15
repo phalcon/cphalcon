@@ -12,20 +12,130 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
 
+use Codeception\Example;
+use function ob_end_clean;
+use function ob_start;
+use Phalcon\Acl as PhAcl;
+use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Events\Manager;
+use Phalcon\Firewall\Adapter\Acl;
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use UnitTester;
 
 class UseMultiModuleConfigurationCest
 {
+    use DiTrait;
+    use FirewallTrait;
+
+    /**
+     * @var Dispatcher
+     */
+    protected $dispatcher;
+
+    /**
+     * @var Acl
+     */
+    protected $firewall;
+
+    public function _before()
+    {
+        ob_start();
+
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+
+        $dispatcher = new Dispatcher();
+        $dispatcher->setDefaultNamespace(
+            'Phalcon\Test\Controllers\Firewall'
+        );
+        $dispatcher->setDI($this->container);
+        $eventsManager = new Manager();
+        $eventsManager->attach(
+            'firewall:beforeException',
+            function () {
+                return false;
+            }
+        );
+        $firewall = new Acl('acl');
+        $firewall
+            ->setEventsManager($eventsManager)
+            ->setRoleCallback(
+                function ($di) {
+                    return $di->get('myrole');
+                }
+            )
+            ->setAlwaysResolvingRole(true)
+        ;
+        $dispatcher->setEventsManager($eventsManager);
+        $this->dispatcher = $dispatcher;
+        $this->firewall   = $firewall;
+    }
+
+    public function _after()
+    {
+        ob_end_clean();
+    }
+
     /**
      * Tests Phalcon\Firewall\Adapter\Acl :: useMultiModuleConfiguration()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-12
+     * @dataProvider getMultiModule
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-01-19
      */
-    public function firewallAdapterAclUseMultiModuleConfiguration(UnitTester $I)
+    public function firewallAdapterAclUseMultiModuleConfiguration(UnitTester $I, Example $example)
     {
         $I->wantToTest('Firewall\Adapter\Acl - useMultiModuleConfiguration()');
 
-        $I->skipTest('Need implementation');
+        $acl = new Memory();
+        $acl->setDefaultAction(PhAcl::DENY);
+        $acl->addComponent("Module1:One", ['firstRole', 'secondRole']);
+        $acl->addComponent("Module2:One", ['firstRole', 'secondRole']);
+        $acl->addRole('ROLE1');
+        $acl->addRole('ROLE2');
+        $acl->allow('ROLE1', 'Module1:One', 'firstRole');
+        $acl->deny('ROLE1', 'Module1:One', 'secondRole');
+        $acl->deny('ROLE1', 'Module2:One', 'firstRole');
+        $acl->allow('ROLE1', 'Module2:One', 'secondRole');
+        $acl->deny('ROLE2', 'Module1:One', 'firstRole');
+        $acl->allow('ROLE2', 'Module1:One', 'secondRole');
+        $acl->allow('ROLE2', 'Module2:One', 'firstRole');
+        $acl->deny('ROLE2', 'Module2:One', 'secondRole');
+
+        $this->container->set('acl', $acl);
+        $eventsManager = new Manager();
+        $this->firewall->useMultiModuleConfiguration(true);
+        $eventsManager->attach('dispatch:beforeExecuteRoute', $this->firewall);
+        $this->dispatcher->setEventsManager($eventsManager);
+        $dispatcher = $this->dispatcher;
+        $this->container->set('dispatcher', $dispatcher);
+
+        $returnedValue = $this->getReturnedValueFor(
+            $this->container,
+            $dispatcher,
+            $example[0],
+            $example[1],
+            $example[2],
+            $example[3],
+            $example[4]
+        );
+        $I->assertEquals($returnedValue, $example[5]);
+    }
+
+    private function getMultiModule(): array
+    {
+        return [
+            ["one", "firstRole", "ROLE1", null, "Module1", "allowed"],
+            ["one", "firstRole", "ROLE2", null, "Module1", null],
+            ["one", "secondRole", "ROLE1", null, "Module1", null],
+            ["one", "secondRole", "ROLE2", null, "Module1", "allowed"],
+            ["one", "firstRole", "ROLE1", null, "Module2", null],
+            ["one", "firstRole", "ROLE2", null, "Module2", "allowed"],
+            ["one", "secondRole", "ROLE1", null, "Module2", "allowed"],
+            ["one", "secondRole", "ROLE2", null, "Module2", null],
+        ];
     }
 }
