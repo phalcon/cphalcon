@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
 
 use Codeception\Example;
+use function ob_start;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Cache\Adapter\Stream as StorageStream;
