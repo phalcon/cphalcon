@@ -39,7 +39,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	 * Should role always be resolved using role callback or just once?
 	 * @var bool
 	 */
-	protected alwaysResolvingRole = false { set };
+	protected alwaysResolvingRole = false;
 
 	/**
 	 * Cache for caching access
@@ -94,6 +94,14 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 	public function isAlwaysResolvingRole() -> bool
 	{
 		return this->alwaysResolvingRole;
+	}
+
+	/**
+	 * Sets always resolving role option
+	 */
+	public function setAlwaysResolvingRole(bool alwaysResolvingRole) -> bool
+	{
+	    let this->alwaysResolvingRole = alwaysResolvingRole;
 	}
 
 	/**
