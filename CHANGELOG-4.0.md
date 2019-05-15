@@ -25,6 +25,9 @@
 - Added `Phalcon\Mvc\View::toString()` to return the rendered view as a string [#13825](https://github.com/phalcon/cphalcon/issues/13825)
 - Added `Attributes` collection class and `AttributesInterface`
 - Added Forms attributes [#14019](https://github.com/phalcon/cphalcon/issues/14019)
+- Added `Phalcon\Helper\Arr::arrayToObject()` to convert arrays to objects.
+- Added `Phalcon\Firewall` component  [#13648](https://github.com/phalcon/cphalcon/issues/13648)
+- Added `orm.cast_last_insert_id_to_int` option for `Phalcon\Mvc\Model::setup()` (`castLastInsertIdToInt`) to cast the `lastInsertId` on `save()` to `int` [#13002](https://github.com/phalcon/cphalcon/issues/13002)
 
 ## Changed
 - Refactored `Phalcon\Events\Manager` to only use `SplPriorityQueue` to store events. [#13924](https://github.com/phalcon/cphalcon/pull/13924)
@@ -62,10 +65,14 @@
         - `Phalcon\Storage\Adapter\Stream`
     - `Phalcon\Storage\AdapterFactory`: Factory to create adapters
  [#13439](https://github.com/phalcon/cphalcon/issues/13439)
- - Changed `Phalcon\Mvc\Model\Query` to not call `numRows` when selecting data  [#13387](https://github.com/phalcon/cphalcon/issues/13387)
+- Changed `Phalcon\Mvc\Model\Query` to not call `numRows` when selecting data  [#13387](https://github.com/phalcon/cphalcon/issues/13387)
+- Changed `Phalcon\Validation\Validator\Url` to work with passed options. (`FILTER_FLAG_PATH_REQUIRED`, `FILTER_FLAG_QUERY_REQUIRED`) [#13548](https://github.com/phalcon/cphalcon/issues/13548)
 - `Phalcon\Mvc\Model\Query\Builder` will now omit offsets if they are set as 0.
- - `Phalcon\Mvc\Model\Transaction::__construct()` service parameter must be a string or omitted, `Phalcon\Logger\Formatter\Line::__construct()` parameters must be a string or omitted, `Phalcon\Logger\Formatter\Json::__construct()` parameters must be a string or omitted.
+- `Phalcon\Mvc\Model\Transaction::__construct()` service parameter must be a string or omitted.
+- `Phalcon\Logger\Formatter\Line::__construct()` service parameters must be a string or omitted.
+- `Phalcon\Logger\Formatter\Json::__construct()` service parameters must be a string or omitted.
 - Removed deprecated code from `Phalcon\Forms\Form::getMessages()`.
+- Loading a Module (either MVC or CLI) now throws an exception if the path does not exists regardless of whether the class is already loaded.
 
 ## Fixed
 - Fixed `Mvc\Collection::isInitialized()` now works as intended. [#13931](https://github.com/phalcon/cphalcon/pull/13931)

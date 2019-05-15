@@ -15,10 +15,23 @@ use Phalcon\Helper\Exception;
 /**
  * Phalcon\Helper\Arr
  *
- * This class offers quick array functions throught the framework
+ * This class offers quick array functions throughout the framework
  */
 class Arr
 {
+    final public static function arrayToObject(array! collection)
+    {
+        var returnObject, key, value;
+
+        let returnObject = new \stdClass();
+
+        for key, value in collection {
+            let returnObject->{key} = value;
+        }
+
+        return returnObject;
+    }
+
     /**
      * Chunks an array into smaller arrays of a specified size.
      *

@@ -207,13 +207,13 @@ class Application extends BaseApplication
                  * If developer specify a path try to include the file
                  */
                 if fetch path, module["path"] {
-                    if !class_exists(className, false) {
-                        if unlikely !file_exists(path) {
-                            throw new Exception(
-                                "Module definition path '" . path . "' doesn't exist"
-                            );
-                        }
+                    if unlikely !file_exists(path) {
+                        throw new Exception(
+                            "Module definition path '" . path . "' doesn't exist"
+                        );
+                    }
 
+                    if !class_exists(className, false) {
                         require path;
                     }
                 }

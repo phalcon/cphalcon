@@ -21,11 +21,12 @@ use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 /**
  * Phalcon\Mvc\Model\MetaData
  *
- * <p>Because Phalcon\Mvc\Model requires meta-data like field names, data types, primary keys, etc.
- * this component collect them and store for further querying by Phalcon\Mvc\Model.
- * Phalcon\Mvc\Model\MetaData can also use adapters to store temporarily or permanently the meta-data.</p>
+ * Because Phalcon\Mvc\Model requires meta-data like field names, data types,
+ * primary keys, etc. This component collect them and store for further
+ * querying by Phalcon\Mvc\Model. Phalcon\Mvc\Model\MetaData can also use
+ * adapters to store temporarily or permanently the meta-data.
  *
- * <p>A standard Phalcon\Mvc\Model\MetaData can be used to query model attributes:</p>
+ * A standard Phalcon\Mvc\Model\MetaData can be used to query model attributes:
  *
  * <code>
  * $metaData = new \Phalcon\Mvc\Model\MetaData\Memory();
@@ -108,7 +109,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         var data;
 
-        let data = this->readMetaDataIndex(model, self::MODELS_AUTOMATIC_DEFAULT_INSERT);
+        let data = this->readMetaDataIndex(
+            model,
+            self::MODELS_AUTOMATIC_DEFAULT_INSERT
+        );
 
         if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
@@ -132,7 +136,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         var data;
 
-        let data = this->readMetaDataIndex(model, self::MODELS_AUTOMATIC_DEFAULT_UPDATE);
+        let data = this->readMetaDataIndex(
+            model,
+            self::MODELS_AUTOMATIC_DEFAULT_UPDATE
+        );
 
         if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
@@ -156,7 +163,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         var data;
 
-        let data = this->readMetaDataIndex(model, self::MODELS_DATA_TYPES_BIND);
+        let data = this->readMetaDataIndex(
+            model,
+            self::MODELS_DATA_TYPES_BIND
+        );
 
         if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
@@ -252,7 +262,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         var data;
 
-        let data = this->readMetaDataIndex(model, self::MODELS_DATA_TYPES_NUMERIC);
+        let data = this->readMetaDataIndex(
+            model,
+            self::MODELS_DATA_TYPES_NUMERIC
+        );
 
         if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
@@ -284,7 +297,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         var data;
 
-        let data = this->readMetaDataIndex(model, self::MODELS_EMPTY_STRING_VALUES);
+        let data = this->readMetaDataIndex(
+            model,
+            self::MODELS_EMPTY_STRING_VALUES
+        );
 
         if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
@@ -399,7 +415,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         var data;
 
-        let data = this->readColumnMapIndex(model, self::MODELS_REVERSE_COLUMN_MAP);
+        let data = this->readColumnMapIndex(
+            model,
+            self::MODELS_REVERSE_COLUMN_MAP
+        );
 
         if unlikely (data !== null && typeof data != "array") {
             throw new Exception("The meta-data is invalid or is corrupt");
@@ -695,7 +714,9 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         let result = this->adapter->set(key, data);
 
         if !result {
-            throw new Exception("Failed to store metaData to the cache adapter.");
+            throw new Exception(
+                "Failed to store metaData to the cache adapter."
+            );
         }
     }
 
@@ -780,7 +801,10 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
                          */
                         let container = this->container,
                             strategy = this->getStrategy(),
-                            modelMetadata = strategy->getMetaData(model, container);
+                            modelMetadata = strategy->getMetaData(
+                                model,
+                                container
+                            );
                     }
 
                     /**

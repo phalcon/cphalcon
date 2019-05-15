@@ -318,7 +318,9 @@ class Query implements QueryInterface, InjectionAwareInterface
             let models = this->models;
 
             if unlikely typeof models != "array" {
-                throw new Exception("The models list was not loaded correctly");
+                throw new Exception(
+                    "The models list was not loaded correctly"
+                );
             }
 
             /**
@@ -497,35 +499,83 @@ class Query implements QueryInterface, InjectionAwareInterface
              */
             switch exprType {
                 case PHQL_T_LESS:
-                    let exprReturn = ["type": "binary-op", "op": "<", "left": left, "right": right];
+                    let exprReturn = [
+                            "type":  "binary-op",
+                            "op":    "<",
+                            "left":  left,
+                            "right": right
+                        ];
+
                     break;
 
                 case PHQL_T_EQUALS:
-                    let exprReturn = ["type": "binary-op", "op": "=", "left": left, "right": right];
+                    let exprReturn = [
+                            "type":  "binary-op",
+                            "op":    "=",
+                            "left":  left,
+                            "right": right
+                        ];
+
                     break;
 
                 case PHQL_T_GREATER:
-                    let exprReturn = ["type": "binary-op", "op": ">", "left": left, "right": right];
+                    let exprReturn = [
+                            "type":  "binary-op",
+                            "op":    ">",
+                            "left":  left,
+                            "right": right
+                        ];
+
                     break;
 
                 case PHQL_T_NOTEQUALS:
-                    let exprReturn = ["type": "binary-op", "op": "<>", "left": left, "right": right];
+                    let exprReturn = [
+                            "type":  "binary-op",
+                            "op":    "<>",
+                            "left":  left,
+                            "right": right
+                        ];
+
                     break;
 
                 case PHQL_T_LESSEQUAL:
-                    let exprReturn = ["type": "binary-op", "op": "<=", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "<=",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_GREATEREQUAL:
-                    let exprReturn = ["type": "binary-op", "op": ">=", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    ">=",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_AND:
-                    let exprReturn = ["type": "binary-op", "op": "AND", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "AND",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_OR:
-                    let exprReturn = ["type": "binary-op", "op": "OR", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "OR",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_QUALIFIED:
@@ -533,54 +583,117 @@ class Query implements QueryInterface, InjectionAwareInterface
                     break;
 
                 case PHQL_T_ADD:
-                    let exprReturn = ["type": "binary-op", "op": "+", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "+",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_SUB:
-                    let exprReturn = ["type": "binary-op", "op": "-", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "-",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_MUL:
-                    let exprReturn = ["type": "binary-op", "op": "*", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "*",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_DIV:
-                    let exprReturn = ["type": "binary-op", "op": "/", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "/",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_MOD:
-                    let exprReturn = ["type": "binary-op", "op": "%", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "%",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_BITWISE_AND:
-                    let exprReturn = ["type": "binary-op", "op": "&", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "&",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_BITWISE_OR:
-                    let exprReturn = ["type": "binary-op", "op": "|", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "|",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_ENCLOSED:
                 case PHQL_T_SUBQUERY:
-                    let exprReturn = ["type": "parentheses", "left": left];
+                    let exprReturn = [
+                        "type": "parentheses",
+                        "left": left
+                    ];
+
                     break;
 
                 case PHQL_T_MINUS:
-                    let exprReturn = ["type": "unary-op", "op": "-", "right": right];
+                    let exprReturn = [
+                        "type":  "unary-op",
+                        "op":    "-",
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_INTEGER:
                 case PHQL_T_DOUBLE:
                 case PHQL_T_HINTEGER:
-                    let exprReturn = ["type": "literal", "value": expr["value"]];
+                    let exprReturn = [
+                        "type":  "literal",
+                        "value": expr["value"]
+                    ];
+
                     break;
 
                 case PHQL_T_TRUE:
-                    let exprReturn = ["type": "literal", "value": "TRUE"];
+                    let exprReturn = [
+                        "type": "literal",
+                        "value": "TRUE"
+                    ];
+
                     break;
 
                 case PHQL_T_FALSE:
-                    let exprReturn = ["type": "literal", "value": "FALSE"];
+                    let exprReturn = [
+                        "type":  "literal",
+                        "value": "FALSE"
+                    ];
+
                     break;
 
                 case PHQL_T_STRING:
@@ -602,7 +715,11 @@ class Query implements QueryInterface, InjectionAwareInterface
                         let exprValue = value;
                     }
 
-                    let exprReturn = ["type": "literal", "value": exprValue];
+                    let exprReturn = [
+                        "type":  "literal",
+                        "value": exprValue
+                    ];
+
                     break;
 
                 case PHQL_T_NPLACEHOLDER:
@@ -623,8 +740,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
                 case PHQL_T_BPLACEHOLDER:
                     let value = expr["value"];
-                    if memstr(value, ":") {
 
+                    if memstr(value, ":") {
                         let valueParts = explode(":", value),
                             name = valueParts[0],
                             bindType = valueParts[1];
@@ -633,38 +750,67 @@ class Query implements QueryInterface, InjectionAwareInterface
 
                             case "str":
                                 let this->bindTypes[name] = Column::BIND_PARAM_STR;
-                                let exprReturn = ["type": "placeholder", "value": ":" . name];
+
+                                let exprReturn = [
+                                    "type":  "placeholder",
+                                    "value": ":" . name
+                                ];
+
                                 break;
 
                             case "int":
                                 let this->bindTypes[name] = Column::BIND_PARAM_INT;
-                                let exprReturn = ["type": "placeholder", "value": ":" . name];
+
+                                let exprReturn = [
+                                    "type":  "placeholder",
+                                    "value": ":" . name
+                                ];
+
                                 break;
 
                             case "double":
                                 let this->bindTypes[name] = Column::BIND_PARAM_DECIMAL;
-                                let exprReturn = ["type": "placeholder", "value": ":" . name];
+
+                                let exprReturn = [
+                                    "type":  "placeholder",
+                                    "value": ":" . name
+                                ];
+
                                 break;
 
                             case "bool":
                                 let this->bindTypes[name] = Column::BIND_PARAM_BOOL;
-                                let exprReturn = ["type": "placeholder", "value": ":" . name];
+
+                                let exprReturn = [
+                                    "type":  "placeholder",
+                                    "value": ":" . name
+                                ];
+
                                 break;
 
                             case "blob":
                                 let this->bindTypes[name] = Column::BIND_PARAM_BLOB;
-                                let exprReturn = ["type": "placeholder", "value": ":" . name];
+
+                                let exprReturn = [
+                                    "type":  "placeholder",
+                                    "value": ":" . name
+                                ];
+
                                 break;
 
                             case "null":
                                 let this->bindTypes[name] = Column::BIND_PARAM_NULL;
-                                let exprReturn = ["type": "placeholder", "value": ":" . name];
+
+                                let exprReturn = [
+                                    "type":  "placeholder",
+                                    "value": ":" . name
+                                ];
+
                                 break;
 
                             case "array":
                             case "array-str":
                             case "array-int":
-
                                 if unlikely !fetch bind, this->bindParams[name] {
                                     throw new Exception(
                                         "Bind value is required for array type placeholder: " . name
@@ -684,11 +830,12 @@ class Query implements QueryInterface, InjectionAwareInterface
                                 }
 
                                 let exprReturn = [
-                                    "type": "placeholder",
-                                    "value": ":" . name,
+                                    "type":     "placeholder",
+                                    "value":    ":" . name,
                                     "rawValue": name,
-                                    "times": count(bind)
+                                    "times":    count(bind)
                                 ];
+
                                 break;
 
                             default:
@@ -696,86 +843,182 @@ class Query implements QueryInterface, InjectionAwareInterface
                                     "Unknown bind type: " . bindType
                                 );
                         }
-
                     } else {
-                        let exprReturn = ["type": "placeholder", "value": ":" . value];
+                        let exprReturn = [
+                            "type":  "placeholder",
+                            "value": ":" . value
+                        ];
                     }
+
                     break;
 
                 case PHQL_T_NULL:
-                    let exprReturn = ["type": "literal", "value": "NULL"];
+                    let exprReturn = [
+                        "type":  "literal",
+                        "value": "NULL"
+                    ];
+
                     break;
 
                 case PHQL_T_LIKE:
-                    let exprReturn = ["type": "binary-op", "op": "LIKE", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "LIKE",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_NLIKE:
-                    let exprReturn = ["type": "binary-op", "op": "NOT LIKE", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "NOT LIKE",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_ILIKE:
-                    let exprReturn = ["type": "binary-op", "op": "ILIKE", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "ILIKE",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_NILIKE:
-                    let exprReturn = ["type": "binary-op", "op": "NOT ILIKE", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "NOT ILIKE",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_NOT:
-                    let exprReturn = ["type": "unary-op", "op": "NOT ", "right": right];
+                    let exprReturn = [
+                        "type":  "unary-op",
+                        "op":    "NOT ",
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_ISNULL:
-                    let exprReturn = ["type": "unary-op", "op": " IS NULL", "left": left];
+                    let exprReturn = [
+                        "type":  "unary-op",
+                        "op":    " IS NULL",
+                        "left":  left
+                    ];
+
                     break;
 
                 case PHQL_T_ISNOTNULL:
-                    let exprReturn = ["type": "unary-op", "op": " IS NOT NULL", "left": left];
+                    let exprReturn = [
+                        "type":  "unary-op",
+                        "op":    " IS NOT NULL",
+                        "left":  left
+                    ];
+
                     break;
 
                 case PHQL_T_IN:
-                    let exprReturn = ["type": "binary-op", "op": "IN", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "IN",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_NOTIN:
-                    let exprReturn = ["type": "binary-op", "op": "NOT IN", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "binary-op",
+                        "op":    "NOT IN",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_EXISTS:
-                    let exprReturn = ["type": "unary-op", "op": "EXISTS", "right": right];
+                    let exprReturn = [
+                        "type":  "unary-op",
+                        "op":    "EXISTS",
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_DISTINCT:
-                    let exprReturn = ["type": "unary-op", "op": "DISTINCT ", "right": right];
+                    let exprReturn = [
+                        "type": "unary-op",
+                        "op":   "DISTINCT ",
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_BETWEEN:
-                    let exprReturn = ["type": "binary-op", "op": "BETWEEN", "left": left, "right": right];
+                    let exprReturn = [
+                        "type": "binary-op",
+                        "op":   "BETWEEN",
+                        "left": left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_AGAINST:
-                    let exprReturn = ["type": "binary-op", "op": "AGAINST", "left": left, "right": right];
+                    let exprReturn = [
+                        "type": "binary-op",
+                        "op":   "AGAINST",
+                        "left": left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_CAST:
-                    let exprReturn = ["type": "cast", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "cast",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_CONVERT:
-                    let exprReturn = ["type": "convert", "left": left, "right": right];
+                    let exprReturn = [
+                        "type":  "convert",
+                        "left":  left,
+                        "right": right
+                    ];
+
                     break;
 
                 case PHQL_T_RAW_QUALIFIED:
-                    let exprReturn = ["type": "literal", "value": expr["name"]];
+                    let exprReturn = [
+                        "type":  "literal",
+                        "value": expr["name"]
+                    ];
+
                     break;
 
                 case PHQL_T_FCALL:
                     let exprReturn = this->_getFunctionCall(expr);
+
                     break;
 
                 case PHQL_T_CASE:
                     let exprReturn = this->_getCaseExpression(expr);
+
                     break;
 
                 case PHQL_T_SELECT:
@@ -820,8 +1063,8 @@ class Query implements QueryInterface, InjectionAwareInterface
     }
 
     /**
-     * Resolves a column from its intermediate representation into an array used
-     * to determine if the resultset produced is simple or complex
+     * Resolves a column from its intermediate representation into an array
+     * used to determine if the resultset produced is simple or complex
      */
     final protected function _getSelectColumn(array! column) -> array
     {
@@ -1550,8 +1793,8 @@ class Query implements QueryInterface, InjectionAwareInterface
                     joinSource = joinSources[joinAliasName],
                     preCondition = joinPreCondition[joinAliasName],
                     sqlJoins[] = [
-                        "type": joinType,
-                        "source": joinSource,
+                        "type":        joinType,
+                        "source":     joinSource,
                         "conditions": [preCondition]
                     ];
             }
@@ -1758,6 +2001,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 this->_getExpression(group)
             ];
         }
+
         return groupParts;
     }
 
@@ -3570,7 +3814,6 @@ class Query implements QueryInterface, InjectionAwareInterface
          * We store the resultset in the cache if any
          */
         if cacheOptions !== null {
-
             /**
              * Only PHQL SELECTs can be cached
              */

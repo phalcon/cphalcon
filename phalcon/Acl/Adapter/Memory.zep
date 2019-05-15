@@ -592,18 +592,19 @@ class Memory extends Adapter
      */
     public function isAllowed(var roleName, var componentName, string access, array parameters = null) -> bool
     {
-        var eventsManager, accessList, accessKey, haveAccess = null, rolesNames,
-            funcAccess = null, componentObject = null, roleObject = null,
-            funcList, reflectionFunction, reflectionParameters, parameterNumber,
-            parametersForFunction, numberOfRequiredParameters,
-            userParametersSizeShouldBe, reflectionClass, parameterToCheck,
-            reflectionParameter;
-        bool hasRole = false, hasComponent = false;
+        var accessKey, accessList, componentObject = null, haveAccess = null,
+            eventsManager, funcAccess = null, funcList, numberOfRequiredParameters,
+            reflectionFunction, reflectionParameters, parameterNumber,
+            parameterToCheck, parametersForFunction, reflectionClass,
+            reflectionParameter, rolesNames, roleObject = null,
+            userParametersSizeShouldBe;
+
+        bool hasComponent = false, hasRole = false;
 
         if typeof roleName == "object" {
             if roleName instanceof RoleAware {
-                let roleObject = roleName;
-                let roleName = roleObject->getRoleName();
+                let roleObject = roleName,
+                    roleName   = roleObject->getRoleName();
             } elseif roleName instanceof RoleInterface {
                 let roleName = roleName->getName();
             } else {
@@ -615,8 +616,8 @@ class Memory extends Adapter
 
         if typeof componentName == "object" {
             if componentName instanceof ComponentAware {
-                let componentObject = componentName;
-                let componentName = componentObject->getComponentName();
+                let componentObject = componentName,
+                    componentName   = componentObject->getComponentName();
             } elseif componentName instanceof ComponentInterface {
                 let componentName = componentName->getName();
             } else {
@@ -626,16 +627,17 @@ class Memory extends Adapter
             }
         }
 
-        let this->activeRole = roleName;
-        let this->activeComponent = componentName;
-        let this->activeAccess = access;
-        let this->activeKey = null;
-        let this->activeFunction = null;
-        let this->activeFunctionCustomArgumentsCount = 0;
+        let this->activeRole      = roleName,
+            this->activeComponent = componentName,
+            this->activeAccess    = access,
+            this->activeKey       = null,
+            this->activeKey       = null,
+            this->activeFunction  = null,
+            accessList            = this->access,
+            eventsManager         = <EventsManager> this->eventsManager,
+            funcList              = this->func;
 
-        let accessList = this->access;
-        let eventsManager = <EventsManager> this->eventsManager;
-        let funcList = this->func;
+        let this->activeFunctionCustomArgumentsCount = 0;
 
         if typeof eventsManager == "object" {
             if eventsManager->fire("acl:beforeCheckAccess", this) === false {
@@ -672,8 +674,8 @@ class Memory extends Adapter
             eventsManager->fire("acl:afterCheckAccess", this);
         }
 
-        let this->activeKey = accessKey;
-        let this->activeFunction = funcAccess;
+        let this->activeKey      = accessKey,
+            this->activeFunction = funcAccess;
 
         if haveAccess == null {
             /**
@@ -689,9 +691,9 @@ class Memory extends Adapter
          * If we have funcAccess then do all the checks for it
          */
         if is_callable(funcAccess) {
-            let reflectionFunction = new \ReflectionFunction(funcAccess);
-            let reflectionParameters = reflectionFunction->getParameters();
-            let parameterNumber = count(reflectionParameters);
+            let reflectionFunction   = new \ReflectionFunction(funcAccess),
+                reflectionParameters = reflectionFunction->getParameters(),
+                parameterNumber      = count(reflectionParameters);
 
             /**
              * No parameters, just return haveAccess and call function without
@@ -701,19 +703,19 @@ class Memory extends Adapter
                 return haveAccess == Acl::ALLOW && call_user_func(funcAccess);
             }
 
-            let parametersForFunction = [];
-            let numberOfRequiredParameters = reflectionFunction->getNumberOfRequiredParameters();
-            let userParametersSizeShouldBe = parameterNumber;
+            let parametersForFunction      = [],
+                numberOfRequiredParameters = reflectionFunction->getNumberOfRequiredParameters(),
+                userParametersSizeShouldBe = parameterNumber;
 
             for reflectionParameter in reflectionParameters {
-                let reflectionClass = reflectionParameter->getClass();
-                let parameterToCheck = reflectionParameter->getName();
+                let reflectionClass  = reflectionParameter->getClass(),
+                    parameterToCheck = reflectionParameter->getName();
 
                 if reflectionClass !== null {
                     // roleObject is this class
                     if roleObject !== null && reflectionClass->isInstance(roleObject) && !hasRole {
-                        let hasRole = true;
-                        let parametersForFunction[] = roleObject;
+                        let hasRole                 = true,
+                            parametersForFunction[] = roleObject;
                         let userParametersSizeShouldBe--;
 
                         continue;
@@ -721,8 +723,8 @@ class Memory extends Adapter
 
                     // componentObject is this class
                     if componentObject !== null && reflectionClass->isInstance(componentObject) && !hasComponent {
-                        let hasComponent = true;
-                        let parametersForFunction[] = componentObject;
+                        let hasComponent            = true,
+                            parametersForFunction[] = componentObject;
                         let userParametersSizeShouldBe--;
 
                         continue;

@@ -65,8 +65,11 @@
       "Zephir\\Optimizers\\": "optimizers/",
       "Phalcon\\Test\\Unit\\": "tests/unit/",
       "Phalcon\\Test\\Integration\\": "tests/integration/",
+      "Phalcon\\Test\\Controllers\\": "tests/_data/fixtures/controllers/",
       "Phalcon\\Test\\Fixtures\\": "tests/_data/fixtures/",
+      "Phalcon\\Test\\Models\\": "tests/_data/fixtures/models/",
       "Phalcon\\Test\\Module\\": "tests/_support/Module/",
+      "Phalcon\\Test\\Models\\": "tests/_data/fixtures/models/",
       "Phalcon\\Test\\Listener\\": "tests/_data/listener/",
       "Phalcon\\Test\\Db\\": "tests/_data/db/"
     }

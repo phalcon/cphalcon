@@ -12,7 +12,6 @@
 namespace Phalcon\Test\Cli\Cli;
 
 use CliTester;
-use function dataDir;
 use Issue787Task;
 use Phalcon\Cli\Console;
 use Phalcon\Cli\Console\Exception as ConsoleException;
@@ -20,6 +19,7 @@ use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
 use Phalcon\Cli\Router;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use function dataDir;
 
 class ConsoleCest
 {

@@ -10,21 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Cli\Cli\Dispatcher;
+namespace Phalcon\Test\Unit\Firewall\Adapter\Annotations;
 
-use CliTester;
+use UnitTester;
 
-class GetEventsManagerCest
+class GetDispatcherCest
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: getEventsManager()
+     * Tests Phalcon\Firewall\Adapter\Annotations :: getDispatcher()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-05-12
      */
-    public function cliDispatcherGetEventsManager(CliTester $I)
+    public function firewallAdapterAnnotationsGetDispatcher(UnitTester $I)
     {
-        $I->wantToTest('Cli\Dispatcher - getEventsManager()');
+        $I->wantToTest('Firewall\Adapter\Annotations - getDispatcher()');
+
         $I->skipTest('Need implementation');
     }
 }
