@@ -105,12 +105,10 @@ class BeforeExecuteRouteCest
     /**
      * Tests Phalcon\Firewall\Adapter\Micro\Acl :: beforeExecuteRoute()
      *
-     * @dataProvider getBeforeExecute
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
      */
-    public function firewallAdapterMicroAclBeforeExecuteRoute(UnitTester $I, Example $example)
+    public function firewallAdapterMicroAclBeforeExecuteRoute(UnitTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Micro\Acl - beforeExecuteRoute()');
 
@@ -132,21 +130,7 @@ class BeforeExecuteRouteCest
         $this->micro->setEventsManager($eventsManager);
         $micro = $this->micro;
 
-        $returnedValue = $this->getMicroValueFor(
-            $this->container,
-            $micro,
-            $example[0],
-            $example[1]
-        );
-        $I->assertEquals($returnedValue, $example[2]);
-    }
-
-    /**
-     * @return array
-     */
-    private function getBeforeExecute(): array
-    {
-        return [
+        $examples = [
             ['/test', 'ROLE1', "allowed"],
             ['/test', 'ROLE2', null],
             ['/test', 'ROLE3', "allowed"],
@@ -156,5 +140,15 @@ class BeforeExecuteRouteCest
             ['/test', 'ROLE3', "allowed"],
             ['/test', 'ROLE4', "allowed"],
         ];
+
+        foreach ($examples as $example) {
+            $returnedValue = $this->getMicroValueFor(
+                $this->container,
+                $micro,
+                $example[0],
+                $example[1]
+            );
+            $I->assertEquals($returnedValue, $example[2]);
+        }
     }
 }

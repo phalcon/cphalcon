@@ -86,12 +86,10 @@ class SetCacheCest
     /**
      * Tests Phalcon\Firewall\Adapter\Acl :: setCache()
      *
-     * @dataProvider getCache
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
      */
-    public function firewallAdapterAclSetCache(UnitTester $I, Example $example)
+    public function firewallAdapterAclSetCache(UnitTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Acl - setCache()');
 
@@ -154,21 +152,7 @@ class SetCacheCest
         $dispatcher = $this->dispatcher;
         $this->container->set('dispatcher', $dispatcher);
 
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            $example[0],
-            $example[1],
-            $example[2],
-            $example[3]
-        );
-        $I->assertEquals($returnedValue, $example[4]);
-        $I->assertEquals($cache->get("_PHF_")[$example[5]], $example[6]);
-    }
-
-    private function getCache(): array
-    {
-        return [
+        $examples = [
             ["four", "first", new BindingRole("ROLE1", 1), ['album' => 1], "allowed", 'ROLE1!Four!first', true],
             ["four", "first", new BindingRole("ROLE1", 2), ['album' => 1], "allowed", 'ROLE1!Four!first', true],
             ["four", "first", new BindingRole("ROLE2", 1), ['album' => 1], "allowed", 'ROLE2!Four!first!1!1', true],
@@ -183,5 +167,18 @@ class SetCacheCest
             ["three", "deny", new BindingRole("ROLE5", 2), ['album' => 1], null, 'ROLE5!*!*!2', false],
             ["three", "deny", new BindingRole("ROLE5", 3), ['album' => 1], "allowed", 'ROLE5!*!*!3', true],
         ];
+
+        foreach ($examples as $example) {
+            $returnedValue = $this->getReturnedValueFor(
+                $this->container,
+                $dispatcher,
+                $example[0],
+                $example[1],
+                $example[2],
+                $example[3]
+            );
+            $I->assertEquals($returnedValue, $example[4]);
+            $I->assertEquals($cache->get("_PHF_")[$example[5]], $example[6]);
+        }
     }
 }

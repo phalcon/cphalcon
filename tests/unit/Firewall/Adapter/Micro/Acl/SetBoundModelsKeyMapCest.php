@@ -107,12 +107,10 @@ class SetBoundModelsKeyMapCest
     /**
      * Tests Phalcon\Firewall\Adapter\Micro\Acl :: setBoundModelsKeyMap()
      *
-     * @dataProvider getAfterBindingKeyMap
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
      */
-    public function firewallAdapterMicroAclSetBoundModelsKeyMap(UnitTester $I, Example $example)
+    public function firewallAdapterMicroAclSetBoundModelsKeyMap(UnitTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Micro\Acl - setBoundModelsKeyMap()');
 
@@ -148,21 +146,7 @@ class SetBoundModelsKeyMapCest
         $this->micro->setModelBinder($binder);
         $micro = $this->micro;
 
-        $returnedValue = $this->getMicroValueFor(
-            $this->container,
-            $micro,
-            $example[0],
-            $example[1]
-        );
-        $I->assertEquals($returnedValue, $example[2]);
-    }
-
-    /**
-     * @return array
-     */
-    private function getAfterBindingKeyMap(): array
-    {
-        return [
+        $examples = [
             ['/album/1', new BindingRole("ROLE1", 1), "allowed"],
             ['/album/1', new BindingRole("ROLE1", 2), false],
             ['/album/1', new BindingRole("ROLE2", 1), false],
@@ -170,5 +154,15 @@ class SetBoundModelsKeyMapCest
             ['/album/update/1', new BindingRole("ROLE2", 2), false],
             ['/album/update/1', new BindingRole("ROLE1", 1), false],
         ];
+
+        foreach ($examples as $example) {
+            $returnedValue = $this->getMicroValueFor(
+                $this->container,
+                $micro,
+                $example[0],
+                $example[1]
+            );
+            $I->assertEquals($returnedValue, $example[2]);
+        }
     }
 }

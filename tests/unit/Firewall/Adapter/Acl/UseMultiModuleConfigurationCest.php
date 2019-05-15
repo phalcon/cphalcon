@@ -81,12 +81,10 @@ class UseMultiModuleConfigurationCest
     /**
      * Tests Phalcon\Firewall\Adapter\Acl :: useMultiModuleConfiguration()
      *
-     * @dataProvider getMultiModule
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-01-19
      */
-    public function firewallAdapterAclUseMultiModuleConfiguration(UnitTester $I, Example $example)
+    public function firewallAdapterAclUseMultiModuleConfiguration(UnitTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Acl - useMultiModuleConfiguration()');
 
@@ -113,21 +111,7 @@ class UseMultiModuleConfigurationCest
         $dispatcher = $this->dispatcher;
         $this->container->set('dispatcher', $dispatcher);
 
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            $example[0],
-            $example[1],
-            $example[2],
-            $example[3],
-            $example[4]
-        );
-        $I->assertEquals($returnedValue, $example[5]);
-    }
-
-    private function getMultiModule(): array
-    {
-        return [
+        $examples = [
             ["one", "firstRole", "ROLE1", null, "Module1", "allowed"],
             ["one", "firstRole", "ROLE2", null, "Module1", null],
             ["one", "secondRole", "ROLE1", null, "Module1", null],
@@ -137,5 +121,18 @@ class UseMultiModuleConfigurationCest
             ["one", "secondRole", "ROLE1", null, "Module2", "allowed"],
             ["one", "secondRole", "ROLE2", null, "Module2", null],
         ];
+
+        foreach ($examples as $example) {
+            $returnedValue = $this->getReturnedValueFor(
+                $this->container,
+                $dispatcher,
+                $example[0],
+                $example[1],
+                $example[2],
+                $example[3],
+                $example[4]
+            );
+            $I->assertEquals($returnedValue, $example[5]);
+        }
     }
 }

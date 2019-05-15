@@ -107,12 +107,10 @@ class AfterBindingCest
     /**
      * Tests Phalcon\Firewall\Adapter\Micro\Acl :: afterBinding()
      *
-     * @dataProvider getAfterBinding
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
      */
-    public function firewallAdapterMicroAclAfterBinding(UnitTester $I, Example $example)
+    public function firewallAdapterMicroAclAfterBinding(UnitTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Micro\Acl - afterBinding()');
 
@@ -164,21 +162,7 @@ class AfterBindingCest
         $this->micro->setModelBinder($binder);
         $micro = $this->micro;
 
-        $returnedValue = $this->getMicroValueFor(
-            $this->container,
-            $micro,
-            $example[0],
-            $example[1]
-        );
-        $I->assertEquals($returnedValue, $example[2]);
-    }
-
-    /**
-     * @return array
-     */
-    private function getAfterBinding(): array
-    {
-        return [
+        $examples = [
             ['/album/1', new BindingRole("ROLE1", 1), "allowed"],
             ['/album/1', new BindingRole("ROLE1", 2), false],
             ['/album/1', new BindingRole("ROLE2", 1), false],
@@ -206,5 +190,15 @@ class AfterBindingCest
             ['/album/update/1', new BindingRole("ROLE7", 1), "allowed"],
             ['/album/update/1', new BindingRole("ROLE7", 2), "allowed"],
         ];
+
+        foreach ($examples as $example) {
+            $returnedValue = $this->getMicroValueFor(
+                $this->container,
+                $micro,
+                $example[0],
+                $example[1]
+            );
+            $I->assertEquals($returnedValue, $example[2]);
+        }
     }
 }

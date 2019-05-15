@@ -82,12 +82,10 @@ class BeforeExecuteRouteCest
     /**
      * Tests Phalcon\Firewall\Adapter\Acl :: beforeExecuteRoute()
      *
-     * @dataProvider getBeforeExecute
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-01-19
      */
-    public function firewallAdapterAclBeforeExecuteRoute(UnitTester $I, Example $example)
+    public function firewallAdapterAclBeforeExecuteRoute(UnitTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Acl - beforeExecuteRoute()');
 
@@ -112,19 +110,7 @@ class BeforeExecuteRouteCest
         $dispatcher = $this->dispatcher;
         $this->container->set('dispatcher', $dispatcher);
 
-        $returnedValue = $this->getReturnedValueFor(
-            $this->container,
-            $dispatcher,
-            $example[0],
-            $example[1],
-            $example[2]
-        );
-        $I->assertEquals($returnedValue, $example[3]);
-    }
-
-    private function getBeforeExecute(): array
-    {
-        return [
+        $examples = [
             ["one", "firstRole", "ROLE1", "allowed"],
             ["one", "firstRole", "ROLE2", null],
             ["one", "firstRole", "ROLE3", "allowed"],
@@ -142,5 +128,16 @@ class BeforeExecuteRouteCest
             ["one", "secondRole", new RoleObject("ROLE3"), "allowed"],
             ["one", "secondRole", new RoleObject("ROLE4"), "allowed"],
         ];
+
+        foreach ($examples as $example) {
+            $returnedValue = $this->getReturnedValueFor(
+                $this->container,
+                $dispatcher,
+                $example[0],
+                $example[1],
+                $example[2]
+            );
+            $I->assertEquals($returnedValue, $example[3]);
+        }
     }
 }

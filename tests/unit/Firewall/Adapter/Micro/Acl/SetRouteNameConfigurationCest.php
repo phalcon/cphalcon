@@ -105,12 +105,10 @@ class SetRouteNameConfigurationCest
     /**
      * Tests Phalcon\Firewall\Adapter\Micro\Acl :: setRouteNameConfiguration()
      *
-     * @dataProvider getPatternBeforeExecute
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
      */
-    public function firewallAdapterMicroAclSetRouteNameConfiguration(UnitTester $I, Example $example)
+    public function firewallAdapterMicroAclSetRouteNameConfiguration(UnitTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Micro\Acl - setRouteNameConfiguration()');
 
@@ -133,21 +131,7 @@ class SetRouteNameConfigurationCest
         $this->micro->setEventsManager($eventsManager);
         $micro = $this->micro;
 
-        $returnedValue = $this->getMicroValueFor(
-            $this->container,
-            $micro,
-            $example[0],
-            $example[1]
-        );
-        $I->assertEquals($returnedValue, $example[2]);
-    }
-
-    /**
-     * @return array
-     */
-    private function getPatternBeforeExecute(): array
-    {
-        return [
+        $examples = [
             ['/test', 'ROLE1', "allowed"],
             ['/test', 'ROLE2', false],
             ['/test', 'ROLE3', "allowed"],
@@ -157,5 +141,15 @@ class SetRouteNameConfigurationCest
             ['/test', 'ROLE3', "allowed"],
             ['/test', 'ROLE4', "allowed"],
         ];
+
+        foreach ($examples as $example) {
+            $returnedValue = $this->getMicroValueFor(
+                $this->container,
+                $micro,
+                $example[0],
+                $example[1]
+            );
+            $I->assertEquals($returnedValue, $example[2]);
+        }
     }
 }
