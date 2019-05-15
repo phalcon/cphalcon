@@ -6,6 +6,7 @@ use Codeception\Example;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Cache\Adapter\Stream as StorageStream;
+use Phalcon\Cache\AdapterFactory;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Acl;
 use Phalcon\Mvc\Dispatcher;
@@ -295,8 +296,9 @@ class AclCest
         $this->container->set('acl', $acl);
         $eventsManager = new Manager();
 
-        $serializer = new SerializerFactory();
-        $cache      = new StorageStream($serializer, getOptionsModelCacheStream());
+        $serializer   = new SerializerFactory();
+        $factory      = new AdapterFactory($serializer);
+        $cache        = $factory->newInstance('memory');
 
         $this->firewall->setCache($cache);
         $this->firewall->setRoleCacheCallback(

@@ -16,6 +16,7 @@ use Codeception\Example;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Cache\Adapter\Stream as StorageStream;
+use Phalcon\Cache\AdapterFactory;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Micro\Acl;
 use Phalcon\Mvc\Micro;
@@ -321,8 +322,9 @@ class AclCest
         $this->container->set('acl', $acl);
         $eventsManager = new Manager();
 
-        $serializer = new SerializerFactory();
-        $cache      = new StorageStream($serializer, getOptionsModelCacheStream());
+        $serializer   = new SerializerFactory();
+        $factory      = new AdapterFactory($serializer);
+        $cache        = $factory->newInstance('memory');
 
         $this->firewall->setRoleCacheCallback(
             function (BindingRole $user) {
@@ -353,10 +355,10 @@ class AclCest
     {
         return [
             ['/test', 'ROLE1', "allowed"],
-            ['/test', 'ROLE2', false],
+            ['/test', 'ROLE2', null],
             ['/test', 'ROLE3', "allowed"],
             ['/test', 'ROLE4', "allowed"],
-            ['/test2', 'ROLE1'. false],
+            ['/test2', 'ROLE1', null],
             ['/test2', 'ROLE2', "allowed"],
             ['/test', 'ROLE3', "allowed"],
             ['/test', 'ROLE4', "allowed"],
