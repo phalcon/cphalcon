@@ -53,13 +53,14 @@ class AclCest
             }
         );
         $firewall = new Acl('acl');
-        $firewall->setEventsManager($eventsManager)
-                 ->setRoleCallback(
-                     function ($di) {
-                         return $di->get('myrole');
-                     }
-                 )
-                 ->setAlwaysResolvingRole(true)
+        $firewall
+            ->setEventsManager($eventsManager)
+            ->setRoleCallback(
+                function ($di) {
+                    return $di->get('myrole');
+                }
+            )
+            ->setAlwaysResolvingRole(true)
         ;
         $dispatcher->setEventsManager($eventsManager);
         $this->dispatcher = $dispatcher;
