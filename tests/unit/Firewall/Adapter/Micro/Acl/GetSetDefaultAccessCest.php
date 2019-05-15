@@ -19,7 +19,8 @@ use UnitTester;
 class GetSetDefaultAccessCest
 {
     /**
-     * Tests Phalcon\Firewall\Adapter\Micro\Acl :: getDefaultAccess()/setDefaultAccess()
+     * Tests Phalcon\Firewall\Adapter\Micro\Acl ::
+     * getDefaultAccess()/setDefaultAccess()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12

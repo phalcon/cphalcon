@@ -12,9 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Annotations;
 
-use Codeception\Example;
-use function ob_end_clean;
-use function ob_start;
 use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Events\Manager;
@@ -24,6 +21,8 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use UnitTester;
+use function ob_end_clean;
+use function ob_start;
 
 class SetCacheCest
 {
@@ -118,9 +117,9 @@ class SetCacheCest
         $di->set('dispatcher', $dispatcher);
 
         $examples = [
-            ["one", "firstRole", "ROLE1", "allowed", 'ROLE1!one!firstRole', true],
-            ["one", "allowEveryone", "ROLE1", "allowed", '*!one!allowEveryone', true],
-            ["one", "firstRole", "ROLE2", null, 'ROLE2!one!firstRole', false],
+            ['one', 'firstRole', 'ROLE1', 'allowed', 'ROLE1!one!firstRole', true],
+            ['one', 'allowEveryone', 'ROLE1', 'allowed', '*!one!allowEveryone', true],
+            ['one', 'firstRole', 'ROLE2', null, 'ROLE2!one!firstRole', false],
         ];
 
         foreach ($examples as $example) {

@@ -12,9 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
 
-use Codeception\Example;
-use function ob_end_clean;
-use function ob_start;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Cache\AdapterFactory;
@@ -28,6 +25,8 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use UnitTester;
+use function ob_end_clean;
+use function ob_start;
 
 class SetCacheCest
 {
@@ -95,8 +94,8 @@ class SetCacheCest
 
         $acl = new Memory();
         $acl->setDefaultAction(PhAcl::DENY);
-        $acl->addComponent("Four", ['first', 'second']);
-        $acl->addComponent("Three", ['deny',]);
+        $acl->addComponent('Four', ['first', 'second']);
+        $acl->addComponent('Three', ['deny',]);
         $acl->addRole('ROLE1');
         $acl->addRole('ROLE2');
         $acl->addRole('ROLE3');
@@ -153,19 +152,19 @@ class SetCacheCest
         $this->container->set('dispatcher', $dispatcher);
 
         $examples = [
-            ["four", "first", new BindingRole("ROLE1", 1), ['album' => 1], "allowed", 'ROLE1!Four!first', true],
-            ["four", "first", new BindingRole("ROLE1", 2), ['album' => 1], "allowed", 'ROLE1!Four!first', true],
-            ["four", "first", new BindingRole("ROLE2", 1), ['album' => 1], "allowed", 'ROLE2!Four!first!1!1', true],
-            ["four", "first", new BindingRole("ROLE2", 2), ['album' => 1], null, 'ROLE2!Four!first!1!2', false],
-            ["four", "second", new BindingRole("ROLE1", 1), ['album' => 1], "allowed", 'ROLE1!Four!second', true],
-            ["four", "second", new BindingRole("ROLE1", 2), ['album' => 1], "allowed", 'ROLE1!Four!second', true],
-            ["four", "second", new BindingRole("ROLE2", 1), ['album' => 1], "allowed", 'ROLE2!Four!second', true],
-            ["four", "second", new BindingRole("ROLE2", 2), ['album' => 1], "allowed", 'ROLE2!Four!second', true],
-            ["three", "deny", new BindingRole("ROLE1", 2), ['album' => 1], "allowed", 'ROLE1!Three!*', true],
-            ["four", "first", new BindingRole("ROLE4", 1), ['album' => 1], "allowed", 'ROLE4!Four!*!1!1', true],
-            ["four", "first", new BindingRole("ROLE4", 2), ['album' => 1], null, 'ROLE4!Four!*!1!2', false],
-            ["three", "deny", new BindingRole("ROLE5", 2), ['album' => 1], null, 'ROLE5!*!*!2', false],
-            ["three", "deny", new BindingRole("ROLE5", 3), ['album' => 1], "allowed", 'ROLE5!*!*!3', true],
+            ['four', 'first', new BindingRole('ROLE1', 1), ['album' => 1], 'allowed', 'ROLE1!Four!first', true],
+            ['four', 'first', new BindingRole('ROLE1', 2), ['album' => 1], 'allowed', 'ROLE1!Four!first', true],
+            ['four', 'first', new BindingRole('ROLE2', 1), ['album' => 1], 'allowed', 'ROLE2!Four!first!1!1', true],
+            ['four', 'first', new BindingRole('ROLE2', 2), ['album' => 1], null, 'ROLE2!Four!first!1!2', false],
+            ['four', 'second', new BindingRole('ROLE1', 1), ['album' => 1], 'allowed', 'ROLE1!Four!second', true],
+            ['four', 'second', new BindingRole('ROLE1', 2), ['album' => 1], 'allowed', 'ROLE1!Four!second', true],
+            ['four', 'second', new BindingRole('ROLE2', 1), ['album' => 1], 'allowed', 'ROLE2!Four!second', true],
+            ['four', 'second', new BindingRole('ROLE2', 2), ['album' => 1], 'allowed', 'ROLE2!Four!second', true],
+            ['three', 'deny', new BindingRole('ROLE1', 2), ['album' => 1], 'allowed', 'ROLE1!Three!*', true],
+            ['four', 'first', new BindingRole('ROLE4', 1), ['album' => 1], 'allowed', 'ROLE4!Four!*!1!1', true],
+            ['four', 'first', new BindingRole('ROLE4', 2), ['album' => 1], null, 'ROLE4!Four!*!1!2', false],
+            ['three', 'deny', new BindingRole('ROLE5', 2), ['album' => 1], null, 'ROLE5!*!*!2', false],
+            ['three', 'deny', new BindingRole('ROLE5', 3), ['album' => 1], 'allowed', 'ROLE5!*!*!3', true],
         ];
 
         foreach ($examples as $example) {
@@ -178,7 +177,7 @@ class SetCacheCest
                 $example[3]
             );
             $I->assertEquals($returnedValue, $example[4]);
-            $I->assertEquals($cache->get("_PHF_")[$example[5]], $example[6]);
+            $I->assertEquals($cache->get('_PHF_')[$example[5]], $example[6]);
         }
     }
 }

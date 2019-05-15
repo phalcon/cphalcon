@@ -12,9 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Micro\Acl;
 
-use Codeception\Example;
-use function ob_end_clean;
-use function ob_start;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Events\Manager;
@@ -26,6 +23,8 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use UnitTester;
+use function ob_end_clean;
+use function ob_start;
 
 class AfterBindingCest
 {
@@ -53,28 +52,28 @@ class AfterBindingCest
         $micro->get(
             '/test',
             function () {
-                return "allowed";
+                return 'allowed';
             }
         )->setName('test')
         ;
         $micro->get(
             '/test2',
             function () {
-                return "allowed";
+                return 'allowed';
             }
         )->setName('test2')
         ;
         $micro->get(
             '/album/{album}',
             function (Albums $album) {
-                return "allowed";
+                return 'allowed';
             }
         )->setName('album-get')
         ;
         $micro->get(
             '/album/update/{album}',
             function (Albums $album) {
-                return "allowed";
+                return 'allowed';
             }
         )->setName('album-update')
         ;
@@ -163,32 +162,32 @@ class AfterBindingCest
         $micro = $this->micro;
 
         $examples = [
-            ['/album/1', new BindingRole("ROLE1", 1), "allowed"],
-            ['/album/1', new BindingRole("ROLE1", 2), false],
-            ['/album/1', new BindingRole("ROLE2", 1), false],
-            ['/album/update/1', new BindingRole("ROLE3", 1), "allowed"],
-            ['/album/1', new BindingRole("ROLE3", 1), "allowed"],
-            ['/album/update/1', new BindingRole("ROLE3", 2), false],
-            ['/album/1', new BindingRole("ROLE3", 2), false],
-            ['/album/update/1', new BindingRole("ROLE2", 1), "allowed"],
-            ['/album/update/1', new BindingRole("ROLE2", 2), false],
-            ['/album/update/1', new BindingRole("ROLE1", 1), false],
-            ['/album/1', new BindingRole("ROLE4", 1), "allowed"],
-            ['/album/1', new BindingRole("ROLE4", 2), "allowed"],
-            ['/album/update/1', new BindingRole("ROLE4", 1), "allowed"],
-            ['/album/update/1', new BindingRole("ROLE4", 2), "allowed"],
-            ['/album/1', new BindingRole("ROLE5", 1), "allowed"],
-            ['/album/1', new BindingRole("ROLE5", 2), "allowed"],
-            ['/album/update/1', new BindingRole("ROLE5", 1), "allowed"],
-            ['/album/update/1', new BindingRole("ROLE5", 2), "allowed"],
-            ['/album/1', new BindingRole("ROLE6", 1), "allowed"],
-            ['/album/1', new BindingRole("ROLE6", 2), "allowed"],
-            ['/album/update/1', new BindingRole("ROLE6", 1), false],
-            ['/album/update/1', new BindingRole("ROLE6", 2), false],
-            ['/album/1', new BindingRole("ROLE7", 1), false],
-            ['/album/1', new BindingRole("ROLE7", 2), false],
-            ['/album/update/1', new BindingRole("ROLE7", 1), "allowed"],
-            ['/album/update/1', new BindingRole("ROLE7", 2), "allowed"],
+            ['/album/1', new BindingRole('ROLE1', 1), 'allowed'],
+            ['/album/1', new BindingRole('ROLE1', 2), false],
+            ['/album/1', new BindingRole('ROLE2', 1), false],
+            ['/album/update/1', new BindingRole('ROLE3', 1), 'allowed'],
+            ['/album/1', new BindingRole('ROLE3', 1), 'allowed'],
+            ['/album/update/1', new BindingRole('ROLE3', 2), false],
+            ['/album/1', new BindingRole('ROLE3', 2), false],
+            ['/album/update/1', new BindingRole('ROLE2', 1), 'allowed'],
+            ['/album/update/1', new BindingRole('ROLE2', 2), false],
+            ['/album/update/1', new BindingRole('ROLE1', 1), false],
+            ['/album/1', new BindingRole('ROLE4', 1), 'allowed'],
+            ['/album/1', new BindingRole('ROLE4', 2), 'allowed'],
+            ['/album/update/1', new BindingRole('ROLE4', 1), 'allowed'],
+            ['/album/update/1', new BindingRole('ROLE4', 2), 'allowed'],
+            ['/album/1', new BindingRole('ROLE5', 1), 'allowed'],
+            ['/album/1', new BindingRole('ROLE5', 2), 'allowed'],
+            ['/album/update/1', new BindingRole('ROLE5', 1), 'allowed'],
+            ['/album/update/1', new BindingRole('ROLE5', 2), 'allowed'],
+            ['/album/1', new BindingRole('ROLE6', 1), 'allowed'],
+            ['/album/1', new BindingRole('ROLE6', 2), 'allowed'],
+            ['/album/update/1', new BindingRole('ROLE6', 1), false],
+            ['/album/update/1', new BindingRole('ROLE6', 2), false],
+            ['/album/1', new BindingRole('ROLE7', 1), false],
+            ['/album/1', new BindingRole('ROLE7', 2), false],
+            ['/album/update/1', new BindingRole('ROLE7', 1), 'allowed'],
+            ['/album/update/1', new BindingRole('ROLE7', 2), 'allowed'],
         ];
 
         foreach ($examples as $example) {
