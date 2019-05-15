@@ -3,10 +3,8 @@
 namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
 
 use Codeception\Example;
-use function ob_start;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Cache\Adapter\Stream as StorageStream;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Acl;
@@ -19,7 +17,8 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use UnitTester;
-use function getOptionsModelCacheStream;
+use function ob_end_clean;
+use function ob_start;
 
 class AclCest
 {
@@ -38,6 +37,8 @@ class AclCest
 
     public function _before()
     {
+        ob_start();
+
         $this->setNewFactoryDefault();
         $this->setDiMysql();
 
@@ -68,13 +69,18 @@ class AclCest
         $this->firewall   = $firewall;
     }
 
+    public function _after()
+    {
+        ob_end_clean();
+    }
+
     /**
      * Tests Acl firewall before execute
      *
      * @dataProvider getBeforeExecute
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-01-19
+     * @author       Wojciech Ślawski <jurigag@gmail.com>
+     * @since        2017-01-19
      */
     public function testBeforeExecute(UnitTester $I, Example $example)
     {
@@ -114,8 +120,8 @@ class AclCest
      *
      * @dataProvider getAfterBinding
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-01-19
+     * @author       Wojciech Ślawski <jurigag@gmail.com>
+     * @since        2017-01-19
      */
     public function testAfterBinding(UnitTester $I, Example $example)
     {
@@ -204,8 +210,8 @@ class AclCest
      *
      * @dataProvider getMultiModule
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-01-18
+     * @author       Wojciech Ślawski <jurigag@gmail.com>
+     * @since        2017-01-18
      */
     public function testMultiModule(UnitTester $I, Example $example)
     {
@@ -249,8 +255,8 @@ class AclCest
      *
      * @dataProvider getCache
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-01-19
+     * @author       Wojciech Ślawski <jurigag@gmail.com>
+     * @since        2017-01-19
      */
     public function testCache(UnitTester $I, Example $example)
     {
@@ -298,9 +304,9 @@ class AclCest
         $this->container->set('acl', $acl);
         $eventsManager = new Manager();
 
-        $serializer   = new SerializerFactory();
-        $factory      = new AdapterFactory($serializer);
-        $cache        = $factory->newInstance('memory');
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+        $cache      = $factory->newInstance('memory');
 
         $this->firewall->setCache($cache);
         $this->firewall->setRoleCacheCallback(

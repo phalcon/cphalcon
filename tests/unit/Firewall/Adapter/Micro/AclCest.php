@@ -15,7 +15,6 @@ namespace Phalcon\Test\Unit\Firewall\Adapter\Micro;
 use Codeception\Example;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Cache\Adapter\Stream as StorageStream;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Micro\Acl;
@@ -27,7 +26,8 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use UnitTester;
-use function getOptionsModelCacheStream;
+use function ob_end_clean;
+use function ob_start;
 
 class AclCest
 {
@@ -46,6 +46,8 @@ class AclCest
 
     public function _before(UnitTester $I)
     {
+        ob_start();
+
         $this->setNewFactoryDefault();
         $this->setDiMysql();
 
@@ -97,6 +99,11 @@ class AclCest
             ->setAlwaysResolvingRole(true)
         ;
         $this->firewall = $firewall;
+    }
+
+    public function _after()
+    {
+        ob_end_clean();
     }
 
     /**
@@ -323,9 +330,9 @@ class AclCest
         $this->container->set('acl', $acl);
         $eventsManager = new Manager();
 
-        $serializer   = new SerializerFactory();
-        $factory      = new AdapterFactory($serializer);
-        $cache        = $factory->newInstance('memory');
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+        $cache      = $factory->newInstance('memory');
 
         $this->firewall->setRoleCacheCallback(
             function (BindingRole $user) {
@@ -446,6 +453,6 @@ class AclCest
             ['/album/1', new BindingRole("ROLE3", 2), "allowed", 'ROLE3!*!*', true],
             ['/album/1', new BindingRole("ROLE4", 2), "allowed", 'ROLE4!Micro!*', true],
             ['/album/1', new BindingRole("ROLE5", 2), "allowed", 'ROLE5!Micro!album-get', true],
-         ];
+        ];
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use function ob_end_clean;
 use Phalcon\Di;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Dispatcher;
@@ -51,6 +52,7 @@ trait FirewallTrait
         }
         $dispatcher->setDI($di);
         $dispatcher->dispatch();
+
         return $dispatcher->getReturnedValue();
     }
 
