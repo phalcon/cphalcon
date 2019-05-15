@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Micro;
 
-use function dataDir;
+use Codeception\Example;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Cache\Adapter\Stream as StorageStream;
@@ -97,7 +97,13 @@ class AclCest
         $this->firewall = $firewall;
     }
 
-    public function testBeforeExecute(UnitTester $I)
+    /**
+     * @dataProvider getBeforeExecute
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     */
+    public function testBeforeExecute(UnitTester $I, Example $example)
     {
         $acl = new Memory();
         $acl->addComponent('Micro', ['test', 'test2']);
@@ -120,62 +126,19 @@ class AclCest
         $returnedValue = $this->getMicroValueFor(
             $this->container,
             $micro,
-            '/test',
-            'ROLE1'
+            $example[0],
+            $example[1]
         );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor(
-            $this->container,
-            $micro,
-            '/test',
-            'ROLE2'
-        );
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor(
-            $this->container,
-            $micro,
-            '/test',
-            'ROLE3'
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor(
-            $this->container,
-            $micro,
-            '/test',
-            'ROLE4'
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor(
-            $this->container,
-            $micro,
-            '/test2',
-            'ROLE1'
-        );
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor(
-            $this->container,
-            $micro,
-            '/test2',
-            'ROLE2'
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor(
-            $this->container,
-            $micro,
-            '/test',
-            'ROLE3'
-        );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor(
-            $this->container,
-            $micro,
-            '/test',
-            'ROLE4'
-        );
-        $I->assertEquals($returnedValue, "allowed");
+        $I->assertEquals($returnedValue, $example[2]);
     }
 
-    public function testAfterBinding(UnitTester $I)
+    /**
+     * @dataProvider getAfterBinding
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     */
+    public function testAfterBinding(UnitTester $I, Example $example)
     {
         $acl = new Memory();
         $acl->addComponent('Micro', ['album-get', 'album-update']);
@@ -225,66 +188,22 @@ class AclCest
         $this->micro->setModelBinder($binder);
         $micro = $this->micro;
 
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE1", 1));
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE1", 2));
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE2", 1));
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/update/1', new BindingRole("ROLE3", 1));
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE3", 1));
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/update/1', new BindingRole("ROLE3", 2));
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE3", 2));
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/update/1', new BindingRole("ROLE2", 1));
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/update/1', new BindingRole("ROLE2", 2));
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/update/1', new BindingRole("ROLE1", 1));
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE4", 1));
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE4", 2));
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/update/1', new BindingRole("ROLE4", 1));
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/update/1', new BindingRole("ROLE4", 2));
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE5", 1));
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE5", 2));
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/update/1', new BindingRole("ROLE5", 1));
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/update/1', new BindingRole("ROLE5", 2));
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE6", 1));
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE6", 2));
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/update/1', new BindingRole("ROLE6", 1));
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/update/1', new BindingRole("ROLE6", 2));
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE7", 1));
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE7", 2));
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/update/1', new BindingRole("ROLE7", 1));
-        $I->assertEquals($returnedValue, "allowed");
         $returnedValue = $this->getMicroValueFor(
             $this->container,
             $micro,
-            '/album/update/1',
-            new BindingRole("ROLE7", 2)
+            $example[0],
+            $example[1]
         );
-        $I->assertEquals($returnedValue, "allowed");
+        $I->assertEquals($returnedValue, $example[2]);
     }
 
-    public function testAfterBindingKeyMap(UnitTester $I)
+    /**
+     * @dataProvider getAfterBindingKeyMap
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     */
+    public function testAfterBindingKeyMap(UnitTester $I, Example $example)
     {
         $acl = new Memory();
         $acl->addComponent('Micro', ['album-get', 'album-update']);
@@ -321,23 +240,19 @@ class AclCest
         $returnedValue = $this->getMicroValueFor(
             $this->container,
             $micro,
-            '/album/1',
-            new BindingRole("ROLE1", 1)
+            $example[0],
+            $example[1]
         );
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE1", 2));
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE2", 1));
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/update/1', new BindingRole("ROLE2", 1));
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/update/1', new BindingRole("ROLE2", 2));
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/update/1', new BindingRole("ROLE1", 1));
-        $I->assertFalse($returnedValue);
+        $I->assertEquals($returnedValue, $example[2]);
     }
 
-    public function testPatternBeforeExecute(UnitTester $I)
+    /**
+     * @dataProvider getPatternBeforeExecute
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     */
+    public function testPatternBeforeExecute(UnitTester $I, Example $example)
     {
         $acl = new Memory();
         $acl->addComponent('Micro', ['/test', '/test2']);
@@ -358,25 +273,22 @@ class AclCest
         $this->micro->setEventsManager($eventsManager);
         $micro = $this->micro;
 
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/test', 'ROLE1');
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/test', 'ROLE2');
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/test', 'ROLE3');
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/test', 'ROLE4');
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/test2', 'ROLE1');
-        $I->assertFalse($returnedValue);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/test2', 'ROLE2');
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/test', 'ROLE3');
-        $I->assertEquals($returnedValue, "allowed");
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/test', 'ROLE4');
-        $I->assertEquals($returnedValue, "allowed");
+        $returnedValue = $this->getMicroValueFor(
+            $this->container,
+            $micro,
+            $example[0],
+            $example[1]
+        );
+        $I->assertEquals($returnedValue, $example[2]);
     }
 
-    public function testCache(UnitTester $I)
+    /**
+     * @dataProvider getCache
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     */
+    public function testCache(UnitTester $I, Example $example)
     {
         $acl = new Memory();
         $acl->addComponent('Micro', ['album-get']);
@@ -424,27 +336,113 @@ class AclCest
         $this->micro->setModelBinder($binder);
         $micro = $this->micro;
 
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE1", 1));
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertTrue($cache->has('_PHF_'));
-        $I->assertEquals($cache->get('_PHF_')['ROLE1!Micro!album-get!1!1'], true);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE1", 2));
-        $I->assertFalse($returnedValue);
-        $I->assertEquals($cache->get('_PHF_')['ROLE1!Micro!album-get!1!2'], false);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE2", 1));
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertEquals($cache->get('_PHF_')['ROLE2!Micro!*!1!1'], true);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE2", 2));
-        $I->assertFalse($returnedValue);
-        $I->assertEquals($cache->get('_PHF_')['ROLE2!Micro!*!1!2'], false);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE3", 2));
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertEquals($cache->get('_PHF_')['ROLE3!*!*'], true);
-        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE4", 2));
-        $I->assertEquals($returnedValue, "allowed");
-        $I->assertEquals($cache->get('_PHF_')['ROLE4!Micro!*'], true);
-//        $returnedValue = $this->getMicroValueFor($this->container, $micro, '/album/1', new BindingRole("ROLE5", 2));
-//        $I->assertEquals($returnedValue, "allowed");
-        $I->assertEquals($cache->get('_PHF_')['ROLE5!Micro!album-get'], true);
+        $returnedValue = $this->getMicroValueFor(
+            $this->container,
+            $micro,
+            $example[0],
+            $example[1]
+        );
+        $I->assertEquals($returnedValue, $example[2]);
+        $I->assertEquals($cache->get('_PHF_')[$example[3]], $example[4]);
+    }
+
+    /**
+     * @return array
+     */
+    private function getBeforeExecute(): array
+    {
+        return [
+            ['/test', 'ROLE1', "allowed"],
+            ['/test', 'ROLE2', false],
+            ['/test', 'ROLE3', "allowed"],
+            ['/test', 'ROLE4', "allowed"],
+            ['/test2', 'ROLE1'. false],
+            ['/test2', 'ROLE2', "allowed"],
+            ['/test', 'ROLE3', "allowed"],
+            ['/test', 'ROLE4', "allowed"],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getAfterBinding(): array
+    {
+        return [
+            ['/album/1', new BindingRole("ROLE1", 1), "allowed"],
+            ['/album/1', new BindingRole("ROLE1", 2), false],
+            ['/album/1', new BindingRole("ROLE2", 1), false],
+            ['/album/update/1', new BindingRole("ROLE3", 1), "allowed"],
+            ['/album/1', new BindingRole("ROLE3", 1), "allowed"],
+            ['/album/update/1', new BindingRole("ROLE3", 2), false],
+            ['/album/1', new BindingRole("ROLE3", 2), false],
+            ['/album/update/1', new BindingRole("ROLE2", 1), "allowed"],
+            ['/album/update/1', new BindingRole("ROLE2", 2), false],
+            ['/album/update/1', new BindingRole("ROLE1", 1), false],
+            ['/album/1', new BindingRole("ROLE4", 1), "allowed"],
+            ['/album/1', new BindingRole("ROLE4", 2), "allowed"],
+            ['/album/update/1', new BindingRole("ROLE4", 1), "allowed"],
+            ['/album/update/1', new BindingRole("ROLE4", 2), "allowed"],
+            ['/album/1', new BindingRole("ROLE5", 1), "allowed"],
+            ['/album/1', new BindingRole("ROLE5", 2), "allowed"],
+            ['/album/update/1', new BindingRole("ROLE5", 1), "allowed"],
+            ['/album/update/1', new BindingRole("ROLE5", 2), "allowed"],
+            ['/album/1', new BindingRole("ROLE6", 1), "allowed"],
+            ['/album/1', new BindingRole("ROLE6", 2), "allowed"],
+            ['/album/update/1', new BindingRole("ROLE6", 1), false],
+            ['/album/update/1', new BindingRole("ROLE6", 2), false],
+            ['/album/1', new BindingRole("ROLE7", 1), false],
+            ['/album/1', new BindingRole("ROLE7", 2), false],
+            ['/album/update/1', new BindingRole("ROLE7", 1), "allowed"],
+            ['/album/update/1', new BindingRole("ROLE7", 2), "allowed"],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getAfterBindingKeyMap(): array
+    {
+        return [
+            ['/album/1', new BindingRole("ROLE1", 1), "allowed"],
+            ['/album/1', new BindingRole("ROLE1", 2), false],
+            ['/album/1', new BindingRole("ROLE2", 1), false],
+            ['/album/update/1', new BindingRole("ROLE2", 1), "allowed"],
+            ['/album/update/1', new BindingRole("ROLE2", 2), false],
+            ['/album/update/1', new BindingRole("ROLE1", 1), false],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getPatternBeforeExecute(): array
+    {
+        return [
+            ['/test', 'ROLE1', "allowed"],
+            ['/test', 'ROLE2', false],
+            ['/test', 'ROLE3', "allowed"],
+            ['/test', 'ROLE4', "allowed"],
+            ['/test2', 'ROLE1', false],
+            ['/test2', 'ROLE2', "allowed"],
+            ['/test', 'ROLE3', "allowed"],
+            ['/test', 'ROLE4', "allowed"],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getCache(): array
+    {
+        return [
+            ['/album/1', new BindingRole("ROLE1", 1), "allowed", 'ROLE1!Micro!album-get!1!1', true],
+            ['/album/1', new BindingRole("ROLE1", 2), false, 'ROLE1!Micro!album-get!1!2', false],
+            ['/album/1', new BindingRole("ROLE2", 1), "allowed", 'ROLE2!Micro!*!1!1', true],
+            ['/album/1', new BindingRole("ROLE2", 2), false, 'ROLE2!Micro!*!1!2', false],
+            ['/album/1', new BindingRole("ROLE3", 2), "allowed", 'ROLE3!*!*', true],
+            ['/album/1', new BindingRole("ROLE4", 2), "allowed", 'ROLE4!Micro!*', true],
+            ['/album/1', new BindingRole("ROLE5", 2), "allowed", 'ROLE5!Micro!album-get', true],
+         ];
     }
 }

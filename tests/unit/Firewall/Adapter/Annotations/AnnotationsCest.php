@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Firewall\Adapter\Annotations;
 
 use function getOptionsModelCacheStream;
-use Phalcon\Annotations\Adapter\Memory;
+use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Cache\Adapter\Stream as StorageStream;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Annotations;
@@ -44,6 +44,9 @@ class AnnotationsCest
         $this->setNewFactoryDefault();
         $this->setDiMysql();
 
+        $serializer = new SerializerFactory();
+        $cache      = new Memory($serializer);
+
         $dispatcher = new Dispatcher();
         $dispatcher->setDefaultNamespace(
             'Phalcon\Test\Controllers\Firewall'
@@ -56,7 +59,7 @@ class AnnotationsCest
                 return false;
             }
         );
-        $firewall = new Annotations(new Memory());
+        $firewall = new Annotations($cache);
         $firewall->setEventsManager($eventsManager)
             ->setRoleCallback(
                 function ($di) {
@@ -502,9 +505,7 @@ class AnnotationsCest
     public function testCache(UnitTester $I)
     {
         $serializer = new SerializerFactory();
-        $cache      = new StorageStream($serializer, getOptionsModelCacheStream());
-
-        $this->firewall->setCache($cache);
+        $cache      = new Memory($serializer);
 
         $di = $this->container;
         $eventsManager = new Manager();
@@ -514,7 +515,7 @@ class AnnotationsCest
                 return false;
             }
         );
-        $firewall = new Annotations(new Memory());
+        $firewall = new Annotations($cache);
         $firewall->setEventsManager($eventsManager)
             ->setRoleCallback(
                 function ($di) {
