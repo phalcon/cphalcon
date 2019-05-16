@@ -18,6 +18,7 @@ use Phalcon\Forms\Form;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Forms\ValidationForm;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
@@ -140,5 +141,30 @@ class IsValidCest
             $expected,
             $form->get('address')->getMessages()
         );
+    }
+
+    /**
+     * Tests Form::isValid()
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/13149
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function formsFormRemoveIsValidCancelOnFail(IntegrationTester $I)
+    {
+        $form = new ValidationForm();
+
+        $data = [
+            'fullname' => '',
+            'email'    => '',
+            'subject'  => '',
+            'message'  => '',
+        ];
+
+        $actual = $form->isValid($data);
+        $I->assertFalse($actual);
+
+        $messages = $form->getMessages();
+        $I->assertCount(6, $messages);
     }
 }
