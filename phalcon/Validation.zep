@@ -440,7 +440,7 @@ class Validation extends Injectable implements ValidationInterface
      */
     public function validate(var data = null, var entity = null) -> <Messages>
     {
-        var combinedFieldsValidators, field, messages, status, validator,
+        var combinedFieldsValidators, field, messages, scope, status, validator,
             validatorData, validators;
 
         let validatorData            = this->validators,
@@ -486,12 +486,6 @@ class Validation extends Injectable implements ValidationInterface
         }
 
         for field, validators in validatorData {
-//            if unlikely typeof scope != "array" {
-//                throw new Exception("The validator scope is not valid");
-//            }
-//
-//            let field = scope[0],
-//                validator = scope[1];
             for validator in validators {
                 if unlikely typeof validator != "object" {
                     throw new Exception("One of the validators is not valid");
@@ -516,33 +510,32 @@ class Validation extends Injectable implements ValidationInterface
             }
         }
 
-        for validator in combinedFieldsValidators {
-//            if unlikely typeof scope != "array" {
-//                throw new Exception("The validator scope is not valid");
-//            }
-//
-//            let field = scope[0],
-//                validator = scope[1];
-            for validator in validators {
-                if unlikely typeof validator != "object" {
-                    throw new Exception("One of the validators is not valid");
-                }
+        for scope in combinedFieldsValidators {
+            if unlikely typeof scope != "array" {
+                throw new Exception("The validator scope is not valid");
+            }
 
-                /**
-                 * Call internal validations, if it returns true, then skip the
-                 * current validator
-                 */
-                if this->preChecking(field, validator) {
-                    continue;
-                }
+            let field     = scope[0],
+                validator = scope[1];
 
-                /**
-                 * Check if the validation must be canceled if this validator fails
-                 */
-                if validator->validate(this, field) === false {
-                    if validator->getOption("cancelOnFail") {
-                        break;
-                    }
+            if unlikely typeof validator != "object" {
+                throw new Exception("One of the validators is not valid");
+            }
+
+            /**
+             * Call internal validations, if it returns true, then skip the
+             * current validator
+             */
+            if this->preChecking(field, validator) {
+                continue;
+            }
+
+            /**
+             * Check if the validation must be canceled if this validator fails
+             */
+            if validator->validate(this, field) === false {
+                if validator->getOption("cancelOnFail") {
+                    break;
                 }
             }
         }
