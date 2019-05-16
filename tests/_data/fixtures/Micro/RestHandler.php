@@ -13,8 +13,14 @@ namespace Phalcon\Test\Fixtures\Micro;
 
 class RestHandler
 {
+    /**
+     * @var int
+     */
     protected $access = 0;
 
+    /**
+     * @var array
+     */
     protected $trace = [];
 
 
@@ -42,12 +48,12 @@ class RestHandler
 
 
 
-    public function getNumberAccess()
+    public function getNumberAccess(): int
     {
         return $this->access;
     }
 
-    public function getTrace()
+    public function getTrace(): array
     {
         return $this->trace;
     }

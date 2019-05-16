@@ -26,8 +26,6 @@ class ToStringCest
     /**
      * Tests Phalcon\Mvc\View :: toString()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -46,7 +44,7 @@ class ToStringCest
             'currentrender',
             'query',
             [
-                'name' => 'phalcon'
+                'name' => 'phalcon',
             ]
         );
         $I->assertEquals($expected, $actual);

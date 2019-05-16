@@ -22,9 +22,6 @@ use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\Users;
 
-/**
- * Class SaveCest
- */
 class SaveCest
 {
     use DiTrait;
@@ -111,8 +108,6 @@ class SaveCest
     /**
      * Tests Phalcon\Mvc\Model :: save() with related records
      *
-     * @param IntegrationTester $I
-     *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-30
      */
@@ -188,8 +183,6 @@ class SaveCest
     /**
      * Tests Phalcon\Mvc\Model :: save() after fetching related records
      *
-     * @param IntegrationTester $I
-     *
      * @see    https://github.com/phalcon/cphalcon/issues/13964
      *
      * @author Balázs Németh <https://github.com/zsilbi>
@@ -200,29 +193,31 @@ class SaveCest
         $I->wantToTest('Mvc\Model - save() after fetching related');
 
         /**
-         * @var Albums $album
+         * @var Albums
          */
         $album = Albums::findFirst();
 
         /**
-         * @var Artists $artist
+         * @var Artists
          */
         $artist = $album->artist;
 
-        $I->assertTrue($album->save());
+        $I->assertTrue(
+            $album->save()
+        );
 
         /**
-         * @var Model\Resultset\Simple $songs
+         * @var Model\Resultset\Simple
          */
         $songs = $album->songs;
 
-        $I->assertTrue($album->save());
+        $I->assertTrue(
+            $album->save()
+        );
     }
 
     /**
      * Tests Phalcon\Mvc\Model :: save() after using related records getters
-     *
-     * @param IntegrationTester $I
      *
      * @see    https://github.com/phalcon/cphalcon/issues/13964
      *
@@ -234,19 +229,19 @@ class SaveCest
         $I->wantToTest('Mvc\Model - save() after using related records getters');
 
         /**
-         * @var Albums $album
+         * @var Albums
          */
         $album = Albums::findFirst();
 
         /**
-         * @var Artists $artist
+         * @var Artists
          */
         $artist = $album->getArtist();
 
         $I->assertTrue($album->save());
 
         /**
-         * @var \Model\Resultset\Simple $songs
+         * @var \Model\Resultset\Simple
          */
         $songs = $album->getSongs();
 

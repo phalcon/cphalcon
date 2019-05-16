@@ -19,9 +19,12 @@ use Phalcon\Mvc\View;
  */
 class AfterRenderListener
 {
+    /**
+     * @var array
+     */
     protected $levels = [];
 
-    public function afterRenderView(Event $event, View $view)
+    public function afterRenderView(Event $event, View $view): bool
     {
         if ('afterRenderView' == $event->getType()) {
             $this->levels[] = $view->getCurrentRenderLevel();
@@ -35,7 +38,7 @@ class AfterRenderListener
         $this->levels = [];
     }
 
-    public function getLevels()
+    public function getLevels(): string
     {
         return join(',', $this->levels);
     }

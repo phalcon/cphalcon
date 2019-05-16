@@ -29,6 +29,7 @@ class GetRealTargetPathCest
     public function assetsAssetCssGetAssetKeyLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getRealTargetPath() - css local');
+
         $asset = new Css('css/docs.css');
 
         $expected = 'css/docs.css';
@@ -44,6 +45,7 @@ class GetRealTargetPathCest
     public function assetsAssetCssGetAssetKeyRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getRealTargetPath() - css remote');
+
         $asset = new Css('https://phalcon.ld/css/docs.css', false);
 
         $expected = 'https://phalcon.ld/css/docs.css';

@@ -12,8 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Micro\Acl;
 
-use Phalcon\Acl as PhAcl;
+use function ob_end_clean;
+use function ob_start;
 use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl as PhAcl;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Micro\Acl;
 use Phalcon\Mvc\Micro;
@@ -21,8 +23,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use UnitTester;
-use function ob_end_clean;
-use function ob_start;
 
 class SetRouteNameConfigurationCest
 {

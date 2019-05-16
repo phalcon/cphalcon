@@ -19,25 +19,19 @@ class BindingRole extends RoleObject
     public function __construct($roleName, $id)
     {
         parent::__construct($roleName);
-        $this->id=$id;
+
+        $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @param mixed $id
-     *
-     * @return BindingRole
-     */
-    public function setId($id)
+    public function setId($id): BindingRole
     {
         $this->id = $id;
+
         return $this;
     }
 }

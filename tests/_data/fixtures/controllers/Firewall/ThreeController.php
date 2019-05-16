@@ -16,8 +16,8 @@ use Phalcon\Mvc\Controller;
 
 class ThreeController extends Controller
 {
-	public function denyAction()
-	{
-		return "allowed";
-	}
+    public function denyAction()
+    {
+        return 'allowed';
+    }
 }

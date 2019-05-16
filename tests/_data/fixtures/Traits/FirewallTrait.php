@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use function ob_end_clean;
 use Phalcon\Di;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Dispatcher;
@@ -28,8 +27,6 @@ trait FirewallTrait
      * @param string      $roleName
      * @param array|null  $params
      * @param string|null $moduleName
-     *
-     * @return mixed
      */
     private function getReturnedValueFor(
         $di,
@@ -73,7 +70,6 @@ trait FirewallTrait
      * @param Micro $micro
      * @param string $url
      * @param string $role
-     * @return mixed
      */
     private function getMicroValueFor($di, $micro, $url, $role)
     {
@@ -81,6 +77,7 @@ trait FirewallTrait
         $di->remove('response');
         $di->setShared('response', new Response());
         $micro->setDI($di);
+
         return $micro->handle($url);
     }
 }

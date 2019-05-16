@@ -27,10 +27,17 @@ class GetContentCest
     public function assetsAssetCssGetContent(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getContent()');
+
         $asset = new Css('assets/assets/1198.css');
 
-        $expected = file_get_contents(dataDir('assets/assets/1198.css'));
-        $actual   = $asset->getContent(dataDir());
+        $expected = file_get_contents(
+            dataDir('assets/assets/1198.css')
+        );
+
+        $actual = $asset->getContent(
+            dataDir()
+        );
+
         $I->assertEquals($expected, $actual);
     }
 }

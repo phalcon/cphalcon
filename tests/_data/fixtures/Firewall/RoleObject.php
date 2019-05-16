@@ -16,15 +16,18 @@ use Phalcon\Acl\RoleAware;
 
 class RoleObject implements RoleAware
 {
-	protected $roleName;
-	
-	public function __construct($roleName)
-	{
-		$this->roleName = $roleName;
-	}
+    /**
+     * @var string
+     */
+    protected $roleName;
 
-	public function getRoleName(): string
-	{
-		return $this->roleName;
-	}
+    public function __construct(string $roleName)
+    {
+        $this->roleName = $roleName;
+    }
+
+    public function getRoleName(): string
+    {
+        return $this->roleName;
+    }
 }

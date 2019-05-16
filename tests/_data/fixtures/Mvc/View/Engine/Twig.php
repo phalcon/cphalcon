@@ -38,11 +38,8 @@ class Twig extends Engine implements EngineInterface
 
     /**
      * Renders a view using the template engine
-     *
-     * @param string $path
-     * @param bool $mustClean
      */
-    public function render($path, $params, $mustClean = false)
+    public function render(string $path, $params, bool $mustClean = false)
     {
         if (!isset($params['content'])) {
             $params['content'] = $this->view->getContent();

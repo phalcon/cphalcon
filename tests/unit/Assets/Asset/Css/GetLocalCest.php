@@ -29,7 +29,9 @@ class GetLocalCest
     public function assetsAssetCssGetLocalLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getLocal() - css local');
-        $asset    = new Css('css/docs.css');
+
+        $asset = new Css('css/docs.css');
+
         $expected = md5('css:css/docs.css');
 
         $this->assetGetLocal($I, $asset, $expected);
@@ -44,7 +46,9 @@ class GetLocalCest
     public function assetsAssetCssGetLocalRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getLocal() - css remote');
-        $asset    = new Css('https://phalcon.ld/css/docs.css');
+
+        $asset = new Css('https://phalcon.ld/css/docs.css');
+
         $expected = md5('css:https://phalcon.ld/css/docs.css');
 
         $this->assetGetLocal($I, $asset, $expected);

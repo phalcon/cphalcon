@@ -12,8 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Micro\Acl;
 
-use Phalcon\Acl as PhAcl;
+use function ob_end_clean;
+use function ob_start;
 use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl as PhAcl;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Micro\Acl;
 use Phalcon\Mvc\Micro;
@@ -21,8 +23,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use UnitTester;
-use function ob_end_clean;
-use function ob_start;
 
 class BeforeExecuteRouteCest
 {
@@ -47,6 +47,7 @@ class BeforeExecuteRouteCest
         $this->setDiMysql();
 
         $micro = new Micro($this->container);
+
         $micro->get(
             '/test',
             function () {
@@ -54,6 +55,7 @@ class BeforeExecuteRouteCest
             }
         )->setName('test')
         ;
+
         $micro->get(
             '/test2',
             function () {
@@ -61,6 +63,7 @@ class BeforeExecuteRouteCest
             }
         )->setName('test2')
         ;
+
         $micro->get(
             '/album/{album}',
             function (Albums $album) {
@@ -68,6 +71,7 @@ class BeforeExecuteRouteCest
             }
         )->setName('album-get')
         ;
+
         $micro->get(
             '/album/update/{album}',
             function (Albums $album) {
@@ -75,15 +79,20 @@ class BeforeExecuteRouteCest
             }
         )->setName('album-update')
         ;
-        $this->micro   = $micro;
+
+        $this->micro = $micro;
+
         $eventsManager = new Manager();
+
         $eventsManager->attach(
             'firewall:beforeException',
             function () {
                 return false;
             }
         );
+
         $firewall = new Acl('acl');
+
         $firewall
             ->setEventsManager($eventsManager)
             ->setRoleCallback(
@@ -93,6 +102,7 @@ class BeforeExecuteRouteCest
             )
             ->setAlwaysResolvingRole(true)
         ;
+
         $this->firewall = $firewall;
     }
 
@@ -112,21 +122,35 @@ class BeforeExecuteRouteCest
         $I->wantToTest('Firewall\Adapter\Micro\Acl - beforeExecuteRoute()');
 
         $acl = new Memory();
-        $acl->addComponent('Micro', ['test', 'test2']);
+
+        $acl->addComponent(
+            'Micro',
+            [
+                'test',
+                'test2',
+            ]
+        );
+
         $acl->setDefaultAction(PhAcl::DENY);
+
         $acl->addRole('ROLE1');
         $acl->addRole('ROLE2');
         $acl->addRole('ROLE3');
         $acl->addRole('ROLE4');
+
         $acl->allow('ROLE1', 'Micro', 'test');
         $acl->allow('ROLE2', 'Micro', 'test2');
         $acl->allow('ROLE3', 'Micro', '*');
         $acl->allow('ROLE4', '*', '*');
 
         $this->container->set('acl', $acl);
+
         $eventsManager = new Manager();
+
         $eventsManager->attach('micro:beforeExecuteRoute', $this->firewall);
+
         $this->micro->setEventsManager($eventsManager);
+
         $micro = $this->micro;
 
         $examples = [
@@ -147,7 +171,11 @@ class BeforeExecuteRouteCest
                 $example[0],
                 $example[1]
             );
-            $I->assertEquals($returnedValue, $example[2]);
+
+            $I->assertEquals(
+                $example[2],
+                $returnedValue
+            );
         }
     }
 }

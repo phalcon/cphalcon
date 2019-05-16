@@ -12,8 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Micro\Acl;
 
-use Phalcon\Acl as PhAcl;
+use function ob_end_clean;
+use function ob_start;
 use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl as PhAcl;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Micro\Acl;
 use Phalcon\Mvc\Micro;
@@ -23,8 +25,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use UnitTester;
-use function ob_end_clean;
-use function ob_start;
 
 class AfterBindingCest
 {
@@ -85,7 +85,9 @@ class AfterBindingCest
                 return false;
             }
         );
+
         $firewall = new Acl('acl');
+
         $firewall
             ->setEventsManager($eventsManager)
             ->setRoleCallback(
@@ -95,6 +97,7 @@ class AfterBindingCest
             )
             ->setAlwaysResolvingRole(true)
         ;
+
         $this->firewall = $firewall;
     }
 
@@ -114,8 +117,17 @@ class AfterBindingCest
         $I->wantToTest('Firewall\Adapter\Micro\Acl - afterBinding()');
 
         $acl = new Memory();
-        $acl->addComponent('Micro', ['album-get', 'album-update']);
+
+        $acl->addComponent(
+            'Micro',
+            [
+                'album-get',
+                'album-update',
+            ]
+        );
+
         $acl->setDefaultAction(PhAcl::DENY);
+
         $acl->addRole('ROLE1');
         $acl->addRole('ROLE2');
         $acl->addRole('ROLE3');
@@ -123,6 +135,7 @@ class AfterBindingCest
         $acl->addRole('ROLE5');
         $acl->addRole('ROLE6');
         $acl->addRole('ROLE7');
+
         $acl->allow(
             'ROLE1',
             'Micro',
@@ -131,6 +144,7 @@ class AfterBindingCest
                 return $user->getId() == $album->artists_id;
             }
         );
+
         $acl->allow(
             'ROLE2',
             'Micro',
@@ -139,6 +153,7 @@ class AfterBindingCest
                 return $user->getId() == $album->artists_id;
             }
         );
+
         $acl->allow(
             'ROLE3',
             'Micro',
@@ -147,6 +162,7 @@ class AfterBindingCest
                 return $user->getId() == $album->artists_id;
             }
         );
+
         $acl->allow('ROLE4', '*', '*');
         $acl->allow('ROLE5', 'Micro', '*');
         $acl->allow('ROLE6', 'Micro', 'album-get');
@@ -155,10 +171,15 @@ class AfterBindingCest
         $this->container->set('acl', $acl);
 
         $eventsManager = new Manager();
+
         $eventsManager->attach('micro:afterBinding', $this->firewall);
+
         $this->micro->setEventsManager($eventsManager);
+
         $binder = new Binder();
+
         $this->micro->setModelBinder($binder);
+
         $micro = $this->micro;
 
         $examples = [
@@ -197,7 +218,11 @@ class AfterBindingCest
                 $example[0],
                 $example[1]
             );
-            $I->assertEquals($returnedValue, $example[2]);
+
+            $I->assertEquals(
+                $example[2],
+                $returnedValue
+            );
         }
     }
 }

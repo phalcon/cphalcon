@@ -13,13 +13,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation\Validator\Url;
 
 use Codeception\Example;
+use const FILTER_FLAG_PATH_REQUIRED;
+use const FILTER_FLAG_QUERY_REQUIRED;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Url;
-use const FILTER_FLAG_PATH_REQUIRED;
-use const FILTER_FLAG_QUERY_REQUIRED;
 
 /**
  * Class ValidateCest
@@ -242,7 +242,7 @@ class ValidateCest
             'url',
             new Url(
                 [
-                    'options' => $example[1]
+                    'options' => $example[1],
                 ]
             )
         );
@@ -272,21 +272,18 @@ class ValidateCest
         $I->assertEquals($expected, $messages);
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [
             [
                 'path required no array',
                 FILTER_FLAG_PATH_REQUIRED,
-                'phalconphp.com'
+                'phalconphp.com',
             ],
             [
                 'query required no array',
                 FILTER_FLAG_QUERY_REQUIRED,
-                'https://'
+                'https://',
             ],
             [
                 'path required',
@@ -295,7 +292,7 @@ class ValidateCest
                         FILTER_FLAG_PATH_REQUIRED,
                     ],
                 ],
-                'phalconphp.com'
+                'phalconphp.com',
             ],
             [
                 'query required',
@@ -304,7 +301,7 @@ class ValidateCest
                         FILTER_FLAG_QUERY_REQUIRED,
                     ],
                 ],
-                'https://'
+                'https://',
             ],
             [
                 'query and path required',
@@ -314,7 +311,7 @@ class ValidateCest
                         FILTER_FLAG_QUERY_REQUIRED,
                     ],
                 ],
-                'phalconphp'
+                'phalconphp',
             ],
         ];
     }

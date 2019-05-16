@@ -29,10 +29,13 @@ class GetTargetPathCest
     public function assetsAssetCssGetTargetPathLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getTargetPath() - css local');
+
         $asset = new Css('css/docs.css');
 
         $expected = '/phalcon/path';
+
         $asset->setTargetPath($expected);
+
         $this->assetGetTargetPath($I, $asset, $expected);
     }
 
@@ -45,10 +48,13 @@ class GetTargetPathCest
     public function assetsAssetCssGetTargetPathRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getTargetPath() - css remote');
+
         $asset = new Css('https://phalcon.ld/css/docs.css', false);
 
         $expected = '/phalcon/path';
+
         $asset->setTargetPath($expected);
+
         $this->assetGetTargetPath($I, $asset, $expected);
     }
 }

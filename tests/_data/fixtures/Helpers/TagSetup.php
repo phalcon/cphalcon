@@ -209,13 +209,8 @@ class TagSetup
 
     /**
      * Runs the test for a Tag::$function with $options
-     *
-     * @param string     $function
-     * @param string     $expected
-     * @param bool       $xhtml
-     * @param string     $set
      */
-    protected function testFieldParameter(UnitTester $I, $function, $options, $expected, $xhtml = false, $set = '')
+    protected function testFieldParameter(UnitTester $I, string $function, $options, string $expected, bool $xhtml = false, string $set = '')
     {
         if ($xhtml) {
             Tag::setDocType(

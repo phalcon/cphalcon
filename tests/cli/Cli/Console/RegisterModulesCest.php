@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
-use Phalcon\Cli\Console;
 use Phalcon\Cli\Console\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Modules\Frontend\Module;
