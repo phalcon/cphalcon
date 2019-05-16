@@ -66,6 +66,7 @@
     - `Phalcon\Storage\AdapterFactory`: Factory to create adapters
  [#13439](https://github.com/phalcon/cphalcon/issues/13439)
 - Changed `Phalcon\Mvc\Model\Query` to not call `numRows` when selecting data  [#13387](https://github.com/phalcon/cphalcon/issues/13387)
+- Bind parameters and bind types are now always arrays in `Phalcon\Mvc\Model\Query`.
 - Changed `Phalcon\Validation\Validator\Url` to work with passed options. (`FILTER_FLAG_PATH_REQUIRED`, `FILTER_FLAG_QUERY_REQUIRED`) [#13548](https://github.com/phalcon/cphalcon/issues/13548)
 - `Phalcon\Mvc\Model\Query\Builder` will now omit offsets if they are set as 0.
 - `Phalcon\Mvc\Model\Transaction::__construct()` service parameter must be a string or omitted.
