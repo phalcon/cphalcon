@@ -231,14 +231,17 @@ class PresenceOfCest
                 new Message(
                     'The name is required',
                     'name',
-                    'PresenceOf',
-                    0
+                    'PresenceOf'
                 ),
                 new Message(
                     'The email is required',
                     'email',
-                    'PresenceOf',
-                    0
+                    'PresenceOf'
+                ),
+                new Message(
+                    'The login is required',
+                    'login',
+                    'PresenceOf'
                 ),
             ]
         );
