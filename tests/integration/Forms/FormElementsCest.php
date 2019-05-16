@@ -133,8 +133,12 @@ class FormElementsCest
                 new Message(
                     'user.lastName.presenceOf',
                     'lastName',
-                    'PresenceOf',
-                    0
+                    'PresenceOf'
+                ),
+                new Message(
+                    'user.firstName.presenceOf',
+                    'firstName',
+                    'PresenceOf'
                 ),
             ]
         );

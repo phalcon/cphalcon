@@ -40,12 +40,7 @@ class ValidationForm extends Form
                 ]
             ),
         ];
-        $field      = new Text(
-            'fullname',
-            [
-                'placeholder' => 'First & Last Name',
-            ]
-        );
+        $field      = new Text('fullname');
 
         $field->addValidators($validators);
 
@@ -61,7 +56,6 @@ class ValidationForm extends Form
             new PresenceOf(
                 [
                     'message'      => 'valid :field is required',
-                    'cancelOnFail' => true,
                 ]
             ),
         ];
@@ -76,7 +70,6 @@ class ValidationForm extends Form
             new PresenceOf(
                 [
                     'message'      => 'your :field is required',
-                    'cancelOnFail' => true,
                 ]
             ),
         ];
@@ -100,7 +93,6 @@ class ValidationForm extends Form
                     'messageMaximum' => "your message can't be longer than 300 characters",
                     'min'            => 4,
                     'messageMinimum' => 'Tell us what we can do for you',
-                    'cancelOnFail'   => true,
                 ]
             ),
         ];
