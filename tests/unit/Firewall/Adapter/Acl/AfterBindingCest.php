@@ -13,8 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
 
 use Codeception\Example;
-use Phalcon\Acl as PhAcl;
+use function ob_end_clean;
+use function ob_start;
 use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl as PhAcl;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Acl;
 use Phalcon\Mvc\Dispatcher;
@@ -24,8 +26,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use UnitTester;
-use function ob_end_clean;
-use function ob_start;
 
 class AfterBindingCest
 {
@@ -127,7 +127,11 @@ class AfterBindingCest
             $example[2],
             $example[3]
         );
-        $I->assertEquals($returnedValue, $example[4]);
+
+        $I->assertEquals(
+            $example[4],
+            $returnedValue
+        );
     }
 
     private function getAfterBinding(): array

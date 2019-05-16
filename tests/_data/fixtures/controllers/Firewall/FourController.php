@@ -19,11 +19,11 @@ class FourController extends Controller
 {
     public function firstAction(Albums $album)
     {
-        return "allowed";
+        return 'allowed';
     }
 
     public function secondAction(Albums $album)
     {
-        return "allowed";
+        return 'allowed';
     }
 }

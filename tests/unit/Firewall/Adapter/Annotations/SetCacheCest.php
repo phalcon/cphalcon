@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Annotations;
 
+use function ob_end_clean;
+use function ob_start;
 use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Events\Manager;
@@ -21,8 +23,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use UnitTester;
-use function ob_end_clean;
-use function ob_start;
 
 class SetCacheCest
 {

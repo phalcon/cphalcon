@@ -16,6 +16,9 @@ use Phalcon\Mvc\Micro\MiddlewareInterface;
 
 class MyMiddlewareStop implements MiddlewareInterface
 {
+    /**
+     * @var int
+     */
     protected $number = 0;
 
     public function call(Micro $application)
@@ -25,7 +28,7 @@ class MyMiddlewareStop implements MiddlewareInterface
         $this->number++;
     }
 
-    public function getNumber()
+    public function getNumber(): int
     {
         return $this->number;
     }

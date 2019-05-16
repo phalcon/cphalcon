@@ -13,10 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
+use function dataDir;
 use Exception;
 use Phalcon\Events\Event;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function dataDir;
 use Phalcon\Test\Modules\Backend\Module;
 
 class HandleCest

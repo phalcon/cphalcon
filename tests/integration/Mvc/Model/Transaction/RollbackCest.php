@@ -81,7 +81,11 @@ class RollbackCest
         }
 
         $transaction->rollback();
-        $I->assertEquals($count, Personas::count());
+
+        $I->assertEquals(
+            $count,
+            Personas::count()
+        );
     }
 
     /**
@@ -120,20 +124,28 @@ class RollbackCest
             $result = $persona->save();
 
             $this->records[] = $persona->cedula;
+
             $I->assertTrue($result);
         }
 
         try {
             $transaction->rollback();
+
             $I->assertTrue(
                 false,
                 "The transaction's rollback didn't throw an expected exception. Emergency stop"
             );
         } catch (Failed $e) {
-            $I->assertEquals($e->getMessage(), 'Transaction aborted');
+            $I->assertEquals(
+                'Transaction aborted',
+                $e->getMessage()
+            );
         }
 
-        $I->assertEquals($count, Personas::count());
+        $I->assertEquals(
+            $count,
+            Personas::count()
+        );
     }
 
 

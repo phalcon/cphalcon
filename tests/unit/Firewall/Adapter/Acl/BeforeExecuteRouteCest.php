@@ -12,8 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
 
-use Phalcon\Acl as PhAcl;
+use function ob_end_clean;
+use function ob_start;
 use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl as PhAcl;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Acl;
 use Phalcon\Mvc\Dispatcher;
@@ -21,8 +23,6 @@ use Phalcon\Test\Fixtures\Firewall\RoleObject;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use UnitTester;
-use function ob_end_clean;
-use function ob_start;
 
 class BeforeExecuteRouteCest
 {
@@ -68,7 +68,9 @@ class BeforeExecuteRouteCest
             )
             ->setAlwaysResolvingRole(true)
         ;
+
         $dispatcher->setEventsManager($eventsManager);
+
         $this->dispatcher = $dispatcher;
         $this->firewall   = $firewall;
     }
@@ -89,12 +91,16 @@ class BeforeExecuteRouteCest
         $I->wantToTest('Firewall\Adapter\Acl - beforeExecuteRoute()');
 
         $acl = new Memory();
+
         $acl->setDefaultAction(PhAcl::DENY);
+
         $acl->addComponent('One', ['firstRole', 'secondRole']);
+
         $acl->addRole('ROLE1');
         $acl->addRole('ROLE2');
         $acl->addRole('ROLE3');
         $acl->addRole('ROLE4');
+
         $acl->allow('ROLE1', 'One', 'firstRole');
         $acl->deny('ROLE1', 'One', 'secondRole');
         $acl->deny('ROLE2', 'One', ['firstRole', 'secondRole']);
@@ -103,10 +109,18 @@ class BeforeExecuteRouteCest
         $acl->allow('ROLE4', 'One', 'secondRole');
 
         $this->container->set('acl', $acl);
+
         $eventsManager = new Manager();
-        $eventsManager->attach('dispatch:beforeExecuteRoute', $this->firewall);
+
+        $eventsManager->attach(
+            'dispatch:beforeExecuteRoute',
+            $this->firewall
+        );
+
         $this->dispatcher->setEventsManager($eventsManager);
+
         $dispatcher = $this->dispatcher;
+
         $this->container->set('dispatcher', $dispatcher);
 
         $examples = [
@@ -136,7 +150,11 @@ class BeforeExecuteRouteCest
                 $example[1],
                 $example[2]
             );
-            $I->assertEquals($returnedValue, $example[3]);
+
+            $I->assertEquals(
+                $example[3],
+                $returnedValue
+            );
         }
     }
 }

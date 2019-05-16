@@ -16,51 +16,51 @@ use Phalcon\Mvc\Controller;
 
 class OneController extends Controller
 {
-	/**
-	 * @Allow("ROLE1")
-	 */
-	public function firstRoleAction()
-	{
-		return "allowed";
-	}
+    /**
+     * @Allow("ROLE1")
+     */
+    public function firstRoleAction()
+    {
+        return 'allowed';
+    }
 
-	/**
-	 * @Deny("ROLE1")
-	 */
-	public function secondRoleAction()
-	{
-		return "allowed";
-	}
-	
-	/**
-	 * @Allow({"ROLE1","ROLE2"})
-	 */
-	public function firstArrayAction()
-	{
-		return "allowed";
-	}
+    /**
+     * @Deny("ROLE1")
+     */
+    public function secondRoleAction()
+    {
+        return 'allowed';
+    }
 
-	/**
-	 * @Deny({"ROLE1","ROLE2"})
-	 */
-	public function secondArrayAction()
-	{
-		return "allowed";
-	}
+    /**
+     * @Allow({"ROLE1","ROLE2"})
+     */
+    public function firstArrayAction()
+    {
+        return 'allowed';
+    }
 
-	/**
-	 * @Allow()
-	 */
-	public function allowEveryoneAction()
-	{
-		return "allowed";
-	}
+    /**
+     * @Deny({"ROLE1","ROLE2"})
+     */
+    public function secondArrayAction()
+    {
+        return 'allowed';
+    }
 
-	/**
-	 * @Deny()
-	 */
-	public function denyEveryoneAction()
-	{
-		return "allowed";
-	}
+    /**
+     * @Allow()
+     */
+    public function allowEveryoneAction()
+    {
+        return 'allowed';
+    }
+
+    /**
+     * @Deny()
+     */
+    public function denyEveryoneAction()
+    {
+        return 'allowed';
+    }
 }

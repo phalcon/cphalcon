@@ -47,7 +47,6 @@ class FormCest
 
     /**
      * Test form attributes
-     * @param IntegrationTester $I
      */
     public function testAttributes(IntegrationTester $I)
     {

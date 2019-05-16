@@ -29,7 +29,9 @@ class GetAssetKeyCest
     public function assetsAssetCssGetAssetKeyLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getAssetKey() - css local');
-        $asset    = new Css('css/docs.css');
+
+        $asset = new Css('css/docs.css');
+
         $expected = md5('css:css/docs.css');
 
         $this->assetGetAssetKey($I, $asset, $expected);
@@ -44,7 +46,9 @@ class GetAssetKeyCest
     public function assetsAssetCssGetAssetKeyRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getAssetKey() - css remote');
-        $asset    = new Css('https://phalcon.ld/css/docs.css');
+
+        $asset = new Css('https://phalcon.ld/css/docs.css');
+
         $expected = md5('css:https://phalcon.ld/css/docs.css');
 
         $this->assetGetAssetKey($I, $asset, $expected);

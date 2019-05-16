@@ -45,15 +45,31 @@ class ManagerCest
 
     private function testGetNewExistingTransactionOnce(IntegrationTester $I)
     {
-        $tm          = $this->container->getShared('transactionManager');
-        $db          = $this->container->getShared('db');
+        $tm = $this->container->getShared('transactionManager');
+        $db = $this->container->getShared('db');
+
         $transaction = $tm->get();
 
-        $I->assertInstanceOf(Transaction::class, $transaction);
-        $I->assertSame($transaction, $tm->get(true));
-        $I->assertSame($transaction, $tm->get(false));
+        $I->assertInstanceOf(
+            Transaction::class,
+            $transaction
+        );
 
-        $I->assertInstanceOf('Phalcon\Db\AdapterInterface', $transaction->getConnection());
+        $I->assertSame(
+            $transaction,
+            $tm->get(true)
+        );
+
+        $I->assertSame(
+            $transaction,
+            $tm->get(false)
+        );
+
+        $I->assertInstanceOf(
+            \Phalcon\Db\AdapterInterface::class,
+            $transaction->getConnection()
+        );
+
         /**
          * @todo - Check why this returns different Ids in db and TM
          */
@@ -72,8 +88,10 @@ class ManagerCest
 
         for ($i = 0; $i < 10; $i++) {
             $persona = new Personas();
+
             $persona->setDI($this->container);
             $persona->setTransaction($transaction);
+
             $persona->cedula            = 'T-Cx' . $i;
             $persona->tipo_documento_id = 1;
             $persona->nombres           = 'LOST LOST';
@@ -81,40 +99,78 @@ class ManagerCest
             $persona->cupo              = 0;
             $persona->estado            = 'A';
 
-            $I->assertNotFalse($persona->save());
+            $I->assertNotFalse(
+                $persona->save()
+            );
         }
 
-        $I->assertTrue($transaction->commit());
-        $I->assertEquals($numPersonas + 10, Personas::count());
+        $I->assertTrue(
+            $transaction->commit()
+        );
+
+        $I->assertEquals(
+            $numPersonas + 10,
+            Personas::count()
+        );
     }
 
     private function testTransactionRemovedOnCommit(IntegrationTester $I)
     {
-        $tm          = $this->container->getShared('transactionManager');
+        $tm = $this->container->getShared('transactionManager');
+
         $transaction = $tm->get();
 
         $select = new Select();
+
         $select->setTransaction($transaction);
-        $select->assign(['name' => 'Crack of Dawn']);
+
+        $select->assign(
+            [
+                'name' => 'Crack of Dawn',
+            ]
+        );
+
         $select->create();
 
-        $I->assertEquals(1, $I->getProtectedProperty($tm, 'number'));
-        $I->assertCount(1, $I->getProtectedProperty($tm, 'transactions'));
+        $I->assertEquals(
+            1,
+            $I->getProtectedProperty($tm, 'number')
+        );
+
+        $I->assertCount(
+            1,
+            $I->getProtectedProperty($tm, 'transactions')
+        );
 
         $transaction->commit();
 
-        $I->assertEquals(0, $I->getProtectedProperty($tm, 'number'));
-        $I->assertCount(0, $I->getProtectedProperty($tm, 'transactions'));
+        $I->assertEquals(
+            0,
+            $I->getProtectedProperty($tm, 'number')
+        );
+
+        $I->assertCount(
+            0,
+            $I->getProtectedProperty($tm, 'transactions')
+        );
     }
 
     private function testTransactionRemovedOnRollback(IntegrationTester $I)
     {
-        $tm          = $this->container->getShared('transactionManager');
+        $tm = $this->container->getShared('transactionManager');
+
         $transaction = $tm->get();
 
         $select = new Select();
+
         $select->setTransaction($transaction);
-        $select->assign(['name' => 'Crack of Dawn']);
+
+        $select->assign(
+            [
+                'name' => 'Crack of Dawn',
+            ]
+        );
+
         $select->create();
 
 
@@ -127,8 +183,15 @@ class ManagerCest
             // do nothing
         }
 
-        $I->assertEquals(0, $I->getProtectedProperty($tm, 'number'));
-        $I->assertCount(0, $I->getProtectedProperty($tm, 'transactions'));
+        $I->assertEquals(
+            0,
+            $I->getProtectedProperty($tm, 'number')
+        );
+
+        $I->assertCount(
+            0,
+            $I->getProtectedProperty($tm, 'transactions')
+        );
     }
 
     /**
@@ -156,6 +219,7 @@ class ManagerCest
     public function checkTransactionSqlite(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check Sqlite locking');
+
         $this->setDiSqlite();
 
         $this->testGetNewExistingTransactionOnce($I);

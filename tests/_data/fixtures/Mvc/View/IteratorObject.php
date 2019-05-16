@@ -23,7 +23,7 @@ class IteratorObject implements \Iterator, \Countable
      */
     private $pointer = 0;
 
-    public function __construct($data)
+    public function __construct(array $data)
     {
         $this->data = $data;
     }

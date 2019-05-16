@@ -12,8 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
 
-use Phalcon\Acl as PhAcl;
+use function ob_end_clean;
+use function ob_start;
 use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl as PhAcl;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Acl;
@@ -25,8 +27,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use UnitTester;
-use function ob_end_clean;
-use function ob_start;
 
 class SetCacheCest
 {

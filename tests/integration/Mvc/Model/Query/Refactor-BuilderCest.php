@@ -72,17 +72,41 @@ class BuilderCest
                                )
                                ->getSingleResult()
             ;
+
             /** @var Robots $robot */
             $robot = $result['r'];
             /** @var RobotsParts $robotParts */
+
             $robotParts = $result['rp'];
-            $I->assertInstanceOf(Robots::class, $robot);
-            $I->assertNotEmpty($robot->getSnapshotData());
-            $I->assertEquals($robot->getSnapshotData(), $robot->toArray());
+
+            $I->assertInstanceOf(
+                Robots::class,
+                $robot
+            );
+
+            $I->assertNotEmpty(
+                $robot->getSnapshotData()
+            );
+
+            $I->assertEquals(
+                $robot->toArray(),
+                $robot->getSnapshotData()
+            );
+
             $I->assertInstanceOf(RobotsParts::class, $robotParts);
-            $I->assertNotEmpty($robotParts->getSnapshotData());
-            $I->assertEquals($robotParts->getSnapshotData(), $robotParts->toArray());
-            $I->seeFileFound(outputDir('tests/cache/robots-cache-complex'));
+
+            $I->assertNotEmpty(
+                $robotParts->getSnapshotData()
+            );
+
+            $I->assertEquals(
+                $robotParts->toArray(),
+                $robotParts->getSnapshotData()
+            );
+
+            $I->seeFileFound(
+                outputDir('tests/cache/robots-cache-complex')
+            );
         }
     }
 
@@ -111,10 +135,15 @@ class BuilderCest
             [':name:' => PDO::PARAM_STR]
         );
 
-        $actual   = $builder->getQuery()->getBindTypes();
-        $expected = [':id:' => 1, ':name:' => 2];
+        $expected = [
+            ':id:'   => 1,
+            ':name:' => 2,
+        ];
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $builder->getQuery()->getBindTypes()
+        );
     }
 
     /**

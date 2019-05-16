@@ -13,8 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Http;
 
 /**
- * Helper\Http\PhpStream
- *
  * @link http://php.net/manual/en/class.streamwrapper.php
  * @link http://php.net/manual/en/stream.streamwrapper.example-1.php
  *
@@ -22,9 +20,20 @@ namespace Phalcon\Test\Fixtures\Http;
  */
 class PhpStream
 {
-    protected $index  = 0;
+    /**
+     * @var int
+     */
+    protected $index = 0;
+
+    /**
+     * @var int
+     */
     protected $length = 0;
-    protected $data   = '';
+
+    /**
+     * @var string
+     */
+    protected $data = '';
 
     public function __construct()
     {
@@ -38,7 +47,7 @@ class PhpStream
         $this->length = strlen($this->data);
     }
 
-    protected function getBufferFilename()
+    protected function getBufferFilename(): string
     {
         return codecept_output_dir('tests/stream/php_input.txt');
     }
