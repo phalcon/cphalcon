@@ -164,7 +164,35 @@ class IsValidCest
         $actual = $form->isValid($data);
         $I->assertFalse($actual);
 
+        /**
+         * 6 validators in total
+         */
         $messages = $form->getMessages();
-        $I->assertCount(6, $messages);
+        $I->assertCount(4, $messages);
+
+        $data = [
+            'fullname' => '',
+            'email'    => 'team@phalconphp.com',
+            'subject'  => 'Some subject',
+            'message'  => 'Some message',
+        ];
+
+        $actual = $form->isValid($data);
+        $I->assertFalse($actual);
+
+        $messages = $form->getMessages();
+        $I->assertCount(1, $messages);
+
+        $expected = new Messages(
+            [
+                new Message(
+                    'your fullname is required',
+                    'fullname',
+                    'PresenceOf'
+                )
+            ]
+        );
+
+        $I->assertEquals($expected, $messages);
     }
 }

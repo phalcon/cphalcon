@@ -432,7 +432,7 @@ class Form extends Injectable implements \Countable, \Iterator, AttributesInterf
      */
     public function getValue(string! name) -> var | null
     {
-        var entity, value, data, $internal, element;
+        var entity, value, data, internalEntity, element;
         array forbidden;
         string method;
 
@@ -490,8 +490,8 @@ class Form extends Injectable implements \Countable, \Iterator, AttributesInterf
         /**
          * Check if the method is internal
          */
-        let $internal = strtolower(name);
-        if isset forbidden[$internal] {
+        let internalEntity = strtolower(name);
+        if isset forbidden[internalEntity] {
             return null;
         }
 
