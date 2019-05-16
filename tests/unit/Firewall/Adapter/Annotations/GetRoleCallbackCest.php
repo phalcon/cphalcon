@@ -10,24 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Cli\Cli\Dispatcher;
+namespace Phalcon\Test\Unit\Firewall\Adapter\Annotations;
 
-use CliTester;
+use UnitTester;
 
-/**
- * Class SetDICest
- */
-class SetDICest
+class GetRoleCallbackCest
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: setDI()
+     * Tests Phalcon\Firewall\Adapter\Annotations :: getRoleCallback()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-05-12
      */
-    public function cliDispatcherSetDI(CliTester $I)
+    public function firewallAdapterAnnotationsGetRoleCallback(UnitTester $I)
     {
-        $I->wantToTest('Cli\Dispatcher - setDI()');
+        $I->wantToTest('Firewall\Adapter\Annotations - getRoleCallback()');
+
         $I->skipTest('Need implementation');
     }
 }

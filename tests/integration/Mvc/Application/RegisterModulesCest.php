@@ -154,4 +154,59 @@ class RegisterModulesCest
             $response->getContent()
         );
     }
+
+    /**
+     * Tests Phalcon\Mvc\Application :: registerModules() - bad path throws exception
+     *
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-05-15
+     */
+    public function mvcApplicationRegisterModulesBadPathThrowsAnException(IntegrationTester $I)
+    {
+        $I->wantToTest("Mvc\Application - registerModules() - bad path throws exception");
+
+        Di::reset();
+
+        $di = new FactoryDefault();
+
+        $di->set(
+            'router',
+            function () {
+                $router = new Router(false);
+
+                $router->add(
+                    '/index',
+                    [
+                        'controller' => 'index',
+                        'module'     => 'frontend',
+                        'namespace'  => 'Phalcon\Test\Modules\Frontend\Controllers',
+                    ]
+                );
+
+                return $router;
+            }
+        );
+
+        $application = new Application();
+
+        $application->registerModules(
+            [
+                'frontend' => [
+                    'path'      => dataDir('not-a-real-file.php'),
+                    'className' => \Phalcon\Test\Modules\Frontend\Module::class,
+                ],
+            ]
+        );
+
+        $application->setDI($di);
+
+        $I->expectException(
+            new \Phalcon\Mvc\Application\Exception(
+                "Module definition path '" . dataDir('not-a-real-file.php') . "' doesn't exist"
+            ),
+            function () use ($application) {
+                $application->handle('/index');
+            }
+        );
+    }
 }

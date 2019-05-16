@@ -10,21 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Cli\Cli\Dispatcher;
+namespace Phalcon\Test\Unit\Firewall\Adapter\Micro\Acl;
 
-use CliTester;
+use UnitTester;
 
-class SetEventsManagerCest
+class SetRoleCacheCallbackCest
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: setEventsManager()
+     * Tests Phalcon\Firewall\Adapter\Micro\Acl :: setRoleCacheCallback()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-05-12
      */
-    public function cliDispatcherSetEventsManager(CliTester $I)
+    public function firewallAdapterMicroAclSetRoleCacheCallback(UnitTester $I)
     {
-        $I->wantToTest('Cli\Dispatcher - setEventsManager()');
+        $I->wantToTest('Firewall\Adapter\Micro\Acl - setRoleCacheCallback()');
+
         $I->skipTest('Need implementation');
     }
 }

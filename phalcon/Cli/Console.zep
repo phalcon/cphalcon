@@ -23,8 +23,14 @@ use Phalcon\Events\ManagerInterface;
  */
 class Console extends BaseApplication
 {
+    /**
+     * @var array
+     */
     protected arguments = [];
 
+    /**
+     * @var array
+     */
     protected options = [];
 
     /**
@@ -32,8 +38,8 @@ class Console extends BaseApplication
      */
     public function handle(array arguments = null)
     {
-        var container, router, eventsManager, moduleName, modules, module, path,
-            className, moduleObject, dispatcher, task;
+        var className, container, dispatcher, eventsManager, module, moduleName,
+            moduleObject, modules, path, router, task;
 
         let container = this->container;
 
@@ -98,13 +104,13 @@ class Console extends BaseApplication
             }
 
             if fetch path, module["path"] {
-                if !class_exists(className, false) {
-                    if unlikely !file_exists(path) {
-                        throw new Exception(
-                            "Module definition path '" . path . "' doesn't exist"
-                        );
-                    }
+                if unlikely !file_exists(path) {
+                    throw new Exception(
+                        "Module definition path '" . path . "' doesn't exist"
+                    );
+                }
 
+                if !class_exists(className, false) {
                     require path;
                 }
             }

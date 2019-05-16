@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
+use Phalcon\Cli\Console;
+use Phalcon\Cli\Console\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Modules\Frontend\Module;
 
@@ -39,7 +41,7 @@ class RegisterModulesCest
             [
                 'frontend' => [
                     'className' => Module::class,
-                    'path'      => __DIR__ . '/../../../_data/modules/frontend/Module.php',
+                    'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
             ]
         );
@@ -58,7 +60,7 @@ class RegisterModulesCest
             [
                 'backend' => [
                     'className' => \Phalcon\Test\Modules\Backend\Module::class,
-                    'path'      => __DIR__ . '/../../../_data/modules/backend/Module.php',
+                    'path'      => dataDir('fixtures/modules/backend/Module.php'),
                 ],
             ]
         );
@@ -77,7 +79,7 @@ class RegisterModulesCest
             [
                 'frontend' => [
                     'className' => Module::class,
-                    'path'      => __DIR__ . '/../../../_data/modules/frontend/Module.php',
+                    'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
             ],
             $merge = true
@@ -96,6 +98,46 @@ class RegisterModulesCest
         $I->assertArrayHasKey(
             'backend',
             $console->getModules()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Cli\Console :: registerModules() - bad path throws exception
+     *
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-05-15
+     */
+    public function cliConsoleRegisterModulesBadPathThrowsAnException(CliTester $I)
+    {
+        $I->wantToTest("Cli\Console - registerModules() - bad path throws exception");
+
+        $container = $this->newCliFactoryDefault();
+
+        $console = $this->newCliConsole();
+
+        $console->setDI($container);
+
+        $console->registerModules(
+            [
+                'frontend' => [
+                    'path'      => dataDir('not-a-real-file.php'),
+                    'className' => Module::class,
+                ],
+            ]
+        );
+
+        $I->expectThrowable(
+            new Exception(
+                "Module definition path '" . dataDir('not-a-real-file.php') . "' doesn't exist"
+            ),
+            function () use ($console) {
+                $console->handle(
+                    [
+                        'module' => 'frontend',
+                        'task'   => 'echo',
+                    ]
+                );
+            }
         );
     }
 }

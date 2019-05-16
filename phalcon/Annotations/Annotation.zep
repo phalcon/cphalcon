@@ -114,8 +114,8 @@ class Annotation
         var value, item, resolvedItem, arrayValue, name, type;
 
         let type = expr["type"];
-        switch type {
 
+        switch type {
             case PHANNOT_T_INTEGER:
             case PHANNOT_T_DOUBLE:
             case PHANNOT_T_STRING:

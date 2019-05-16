@@ -52,7 +52,8 @@ class Timestampable extends Behavior
         let timestamp = this->getTimestamp(options);
 
         /**
-         * Assign the value to the field, use writeAttribute() if the property is protected
+         * Assign the value to the field, use writeAttribute() if the property
+         * is protected
          */
         if unlikely typeof field == "array" {
             for singleField in field {

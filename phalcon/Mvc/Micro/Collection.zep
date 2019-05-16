@@ -123,7 +123,12 @@ class Collection implements CollectionInterface
      * Maps a route to a handler via methods.
      *
      * <code>
-     * $collection->mapVia("/test", "indexAction", ["POST", "GET"], "test");
+     * $collection->mapVia(
+     *     "/test",
+     *     "indexAction",
+     *     ["POST", "GET"],
+     *     "test"
+     * );
      * </code>
      *
      * @param callable handler
@@ -137,7 +142,8 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Maps a route to a handler that only matches if the HTTP method is OPTIONS.
+     * Maps a route to a handler that only matches if the HTTP method is
+     * OPTIONS.
      *
      * @param callable|string handler
      */

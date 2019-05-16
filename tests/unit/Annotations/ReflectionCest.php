@@ -29,15 +29,15 @@ class ReflectionCest
     {
         $reflection = new Reflection();
 
-        $I->assertNull(
+        $I->assertFalse(
             $reflection->getClassAnnotations()
         );
 
-        $I->assertNull(
+        $I->assertFalse(
             $reflection->getMethodsAnnotations()
         );
 
-        $I->assertNull(
+        $I->assertFalse(
             $reflection->getPropertiesAnnotations()
         );
     }
@@ -57,15 +57,17 @@ class ReflectionCest
         );
 
         $classAnnotations = $reflection->getClassAnnotations();
+
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Collection::class,
+            Collection::class,
             $classAnnotations
         );
 
         $number = 0;
+
         foreach ($classAnnotations as $annotation) {
             $I->assertInstanceOf(
-                \Phalcon\Annotations\Annotation::class,
+                Annotation::class,
                 $annotation
             );
 
@@ -93,25 +95,29 @@ class ReflectionCest
         $methodsAnnotations = $reflection->getMethodsAnnotations();
 
         $I->assertInternalType('array', $methodsAnnotations);
+
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Collection::class,
+            Collection::class,
             $methodsAnnotations['testMethod1']
         );
 
         $total = 0;
+
         foreach ($methodsAnnotations as $method => $annotations) {
             $I->assertInternalType('string', $method);
 
             $number = 0;
+
             foreach ($annotations as $annotation) {
                 $I->assertInstanceOf(
-                    \Phalcon\Annotations\Annotation::class,
+                    Annotation::class,
                     $annotation
                 );
 
                 $number++;
                 $total++;
             }
+
             $I->assertGreaterThan(0, $number);
         }
 

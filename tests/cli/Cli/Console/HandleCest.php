@@ -13,10 +13,11 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
-use function dataDir;
 use Exception;
 use Phalcon\Events\Event;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use function dataDir;
+use Phalcon\Test\Modules\Backend\Module;
 
 class HandleCest
 {
@@ -226,7 +227,7 @@ class HandleCest
                     'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
                 'backend'  => [
-                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                    'className' => Module::class,
                 ],
             ]
         );
@@ -278,7 +279,7 @@ class HandleCest
                     'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
                 'backend'  => [
-                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                    'className' => Module::class,
                 ],
             ]
         );
@@ -377,7 +378,7 @@ class HandleCest
                     'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
                 'backend'  => [
-                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                    'className' => Module::class,
                 ],
             ]
         );
@@ -412,7 +413,6 @@ class HandleCest
         $I->wantToTest("Cli\Console - handle() - Issue #13724");
 
 
-
         $console = $this->newCliConsole();
 
         $this->setNewCliFactoryDefault();
@@ -422,7 +422,7 @@ class HandleCest
         $console->registerModules(
             [
                 'backend' => [
-                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                    'className' => Module::class,
                     'path'      => dataDir('fixtures/modules/backend/Module.php'),
                 ],
             ]
@@ -436,7 +436,6 @@ class HandleCest
         );
 
 
-
         $console = $this->newCliConsole();
 
         $this->setNewCliFactoryDefault();
@@ -446,7 +445,7 @@ class HandleCest
         $console->registerModules(
             [
                 'backend' => [
-                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                    'className' => Module::class,
                     'path'      => dataDir('fixtures/modules/backend/Module.php'),
                 ],
             ]

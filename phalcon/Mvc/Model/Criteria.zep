@@ -46,7 +46,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
     protected model;
 
-    protected params;
+    protected params = [];
 
     /**
      * Sets the DependencyInjector container
@@ -88,20 +88,12 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function bind(array! bindParams, bool merge = false) -> <CriteriaInterface>
     {
-        var bind;
+        if !isset this->params["bind"] {
+            let this->params["bind"] = [];
+        }
 
-        if merge {
-            if isset this->params["bind"] {
-                let bind = this->params["bind"];
-            } else {
-                let bind = null;
-            }
-
-            if typeof bind == "array" {
-                let this->params["bind"] = bind + bindParams;
-            } else {
-                let this->params["bind"] = bindParams;
-            }
+        if typeof this->params["bind"] == "array" && merge {
+            let this->params["bind"] = this->params["bind"] + bindParams;
         } else {
             let this->params["bind"] = bindParams;
         }
@@ -155,10 +147,27 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Adds an INNER join to the query
      *
      *<code>
-     * $criteria->join("Robots");
-     * $criteria->join("Robots", "r.id = RobotsParts.robots_id");
-     * $criteria->join("Robots", "r.id = RobotsParts.robots_id", "r");
-     * $criteria->join("Robots", "r.id = RobotsParts.robots_id", "r", "LEFT");
+     * $criteria->join(
+     *     Robots::class
+     * );
+     *
+     * $criteria->join(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id"
+     * );
+     *
+     * $criteria->join(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r"
+     * );
+     *
+     * $criteria->join(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r",
+     *     "LEFT"
+     * );
      *</code>
      */
     public function join(string! model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
@@ -187,9 +196,20 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Adds an INNER join to the query
      *
      *<code>
-     * $criteria->innerJoin("Robots");
-     * $criteria->innerJoin("Robots", "r.id = RobotsParts.robots_id");
-     * $criteria->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+     * $criteria->innerJoin(
+     *     Robots::class
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id"
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r"
+     * );
      *</code>
      */
     public function innerJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
@@ -201,7 +221,11 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Adds a LEFT join to the query
      *
      *<code>
-     * $criteria->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+     * $criteria->leftJoin(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r"
+     * );
      *</code>
      */
     public function leftJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
@@ -213,7 +237,11 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * Adds a RIGHT join to the query
      *
      *<code>
-     * $criteria->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+     * $criteria->rightJoin(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r"
+     * );
      *</code>
      */
     public function rightJoin(string! model, conditions = null, alias = null) -> <CriteriaInterface>
@@ -235,7 +263,10 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
          */
         if typeof bindParams == "array" {
             if fetch currentBindParams, this->params["bind"] {
-                let this->params["bind"] = array_merge(currentBindParams, bindParams);
+                let this->params["bind"] = array_merge(
+                    currentBindParams,
+                    bindParams
+                );
             } else {
                 let this->params["bind"] = bindParams;
             }
@@ -246,7 +277,10 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
          */
         if typeof bindTypes == "array" {
             if fetch currentBindTypes, this->params["bindTypes"] {
-                let this->params["bindTypes"] = array_merge(currentBindTypes, bindTypes);
+                let this->params["bindTypes"] = array_merge(
+                    currentBindTypes,
+                    bindTypes
+                );
             } else {
                 let this->params["bindTypes"] = bindTypes;
             }
@@ -412,7 +446,10 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
          * Create a standard IN condition with bind params
          * Append the IN to the current conditions using and "and"
          */
-        this->andWhere(expr . " IN (" . join(", ", bindKeys) . ")", bindParams);
+        this->andWhere(
+            expr . " IN (" . join(", ", bindKeys) . ")",
+            bindParams
+        );
 
         let this->hiddenParamNumber = hiddenParam;
 
