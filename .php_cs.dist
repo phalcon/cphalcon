@@ -2,7 +2,8 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->in('tests/')
-    ->exclude('syntax/volt/');
+    ->exclude('syntax/volt/')
+    ->exclude('_data/fixtures/Annotations/');
 
 return PhpCsFixer\Config::create()
     ->setRules(
