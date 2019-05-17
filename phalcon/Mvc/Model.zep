@@ -3437,7 +3437,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         var bindSkip, fields, values, bindTypes, attributes, bindDataTypes,
             automaticAttributes, field, columnMap, value, attributeField,
             success, bindType, defaultValue, sequenceName, defaultValues,
-            source, schema, snapshot, lastInsertedId, manager;
+            unsetDefaultValues, source, schema, snapshot, lastInsertedId,
+            manager;
         bool useExplicitIdentity;
 
         let bindSkip = Column::BIND_SKIP;
@@ -3446,7 +3447,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         let fields = [],
             values = [],
             snapshot = [],
-            bindTypes = [];
+            bindTypes = [],
+            unsetDefaultValues = [];
 
         let attributes = metaData->getAttributes(this),
             bindDataTypes = metaData->getBindTypes(this),
@@ -3487,8 +3489,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                      */
                     if fetch value, this->{attributeField} {
                         if value === null && isset defaultValues[field] {
-                            let snapshot[attributeField] = null;
                             let value = connection->getDefaultValue();
+
+                            let snapshot[attributeField] = defaultValues[field],
+                                unsetDefaultValues[attributeField] = defaultValues[field];
                         } else {
                             let snapshot[attributeField] = value;
                         }
@@ -3509,11 +3513,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         if isset defaultValues[field] {
                             let values[] = connection->getDefaultValue();
 
-                            /**
-                             * This is default value so we set null, keep in
-                             * mind its value in database!
-                             */
-                            let snapshot[attributeField] = null;
+                            let snapshot[attributeField] = defaultValues[field],
+                                unsetDefaultValues[attributeField] = defaultValues[field];
                         } else {
                             let values[] = value;
                             let snapshot[attributeField] = value;
@@ -3646,17 +3647,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * written to the model attributes upon successful
              * insert.
              */
-            for attributeField, defaultValue in defaultValues {
-                if fetch value, this->{attributeField} {
-                    if value === null {
-                        let this->{attributeField} = defaultValue;
-                    }
-                }
+            for attributeField, defaultValue in unsetDefaultValues {
+                let this->{attributeField} = defaultValue;
             }
-        }
 
-        if success && manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
-            let this->snapshot = snapshot;
+            if manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
+                let this->snapshot = snapshot;
+            }
         }
 
         return success;
