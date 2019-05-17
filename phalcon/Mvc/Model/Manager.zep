@@ -1701,6 +1701,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
             }
         }
 
+        /**
+         * Get many-to-many relations
+         */
+        if fetch relations, this->this->hasManyToMany[entityName] {
+            for relation in relations {
+                let allRelations[] = relation;
+            }
+        }
+
         return allRelations;
     }
 
