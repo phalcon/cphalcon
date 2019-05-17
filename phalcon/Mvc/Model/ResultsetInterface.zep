@@ -49,7 +49,7 @@ interface ResultsetInterface
     /**
      * Get first row in the resultset
      */
-    public function getFirst() -> <ModelInterface> | bool;
+    public function getFirst() -> <ModelInterface> | null;
 
     /**
      * Returns the current hydration mode
@@ -59,7 +59,7 @@ interface ResultsetInterface
     /**
      * Get last row in the resultset
      */
-    public function getLast() -> <ModelInterface> | bool;
+    public function getLast() -> <ModelInterface> | null;
 
     /**
      * Returns the error messages produced by a batch operation
