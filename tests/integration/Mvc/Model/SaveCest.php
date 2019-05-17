@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\AlbumORama\Artists;
@@ -21,7 +22,6 @@ use Phalcon\Test\Models\Parts;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\Users;
-use Phalcon\Mvc\Model\MetaData;
 
 class SaveCest
 {
@@ -268,19 +268,19 @@ class SaveCest
          *  'year' => 1900,
          *  'type' => "mechanical"
          */
-        $testData = [
+        $robotData = [
             'name'     => 'Default Robot',
             'datetime' => (new \DateTime())->format('Y-m-d'),
             'text'     => 'Test text',
         ];
 
-        $robot->assign($testData);
+        $robot->assign($robotData);
 
         /**
          * Verify that default values are not present
          */
         $I->assertEquals(
-            $testData,
+            $robotData,
             $robot->toArray()
         );
 
@@ -294,14 +294,14 @@ class SaveCest
         /**
          * @var array
          */
-        $defaultData = $metaData->getDefaultValues($robot);
+        $defaultValues = $metaData->getDefaultValues($robot);
 
-        $completeData = array_merge($defaultData, $testData);
-
-        $I->assertEquals(
-            $completeData,
-            $robot->toArray()
-        );
+        foreach($defaultValues as $attribute => $value) {
+            $I->assertEquals(
+                $value,
+                $robot->{$attribute}
+            );
+        }
 
         /**
          * Cleanup
