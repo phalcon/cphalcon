@@ -21,6 +21,7 @@ use Phalcon\Test\Models\Parts;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\Users;
+use Phalcon\Mvc\Model\MetaData;
 
 class SaveCest
 {
@@ -246,5 +247,65 @@ class SaveCest
         $songs = $album->getSongs();
 
         $I->assertTrue($album->save());
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: save() when default values are not set
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/13781
+     *
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2019-05-17
+     */
+    public function mvcModelSaveAfterWithoutDefaultValues(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model - save() when default values are not set');
+
+        $robot = new Robots();
+
+        /**
+         * Default values are not set:
+         *  'year' => 1900,
+         *  'type' => "mechanical"
+         */
+        $testData = [
+            'name'     => 'Default Robot',
+            'datetime' => (new \DateTime())->format('Y-m-d'),
+            'text'     => 'Test text',
+        ];
+
+        $robot->assign($testData);
+
+        /**
+         * Verify that default values are not present
+         */
+        $I->assertEquals(
+            $testData,
+            $robot->toArray()
+        );
+
+        $I->asserTrue($robot->save());
+
+        /**
+         * @var MetaData
+         */
+        $metaData = $robot->getModelsMetaData();
+
+        /**
+         * @var array
+         */
+        $defaultData = $metaData->getDefaultValues($robot);
+
+        $completeData = array_merge($defaultData, $testData);
+
+        $I->assertEquals(
+            $completeData,
+            $robot->toArray()
+        );
+
+        /**
+         * Cleanup
+         */
+        $I->assertTrue($robot->delete());
     }
 }
