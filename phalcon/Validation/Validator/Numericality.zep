@@ -64,7 +64,7 @@ class Numericality extends Validator
         let value   = validation->getValue(field),
             value   = (string) value,
             value   = str_replace(" ", "", value),
-            pattern = "/(^[-0-9,]+(.[0-9]+)?$)|(^[-0-9.]+(,[0-9]+)?$)/";
+            pattern = "/((^[-]?[0-9,]+(.[0-9]+)?$)|(^[-]?[0-9.]+(,[0-9]+)?$))/";
 
         if !preg_match(pattern, value) {
             let label = this->prepareLabel(validation, field);
