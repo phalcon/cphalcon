@@ -288,7 +288,7 @@ class SaveCest
          */
         $defaultValues = $metaData->getDefaultValues($robot);
 
-        foreach($defaultValues as $attribute => $value) {
+        foreach ($defaultValues as $attribute => $value) {
             $I->assertEquals(
                 $value,
                 $robot->{$attribute}
