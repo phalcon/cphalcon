@@ -16,6 +16,7 @@
         "optimizers"
     ],
     "prototype-dir": {
+        "memcached": "prototypes/memcached"
     },
     "constants-sources": [
         "ext/phalcon/mvc/model/query/scanner.h",
