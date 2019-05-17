@@ -3061,7 +3061,6 @@ class Query implements QueryInterface, InjectionAwareInterface
          * Execute the query
          */
         let result = connection->query(sqlSelect, processed, processedTypes);
-
         /**
          * Check if the query has data
          *

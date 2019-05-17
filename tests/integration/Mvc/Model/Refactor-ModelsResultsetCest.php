@@ -361,13 +361,13 @@ class ModelsResultsetCest
         $robots->seek(1);
         $robots->valid();
         $robot = $robots->current();
-        $I->assertFalse($robot);
+        $I->assertNull($robot);
 
         $robot = $robots->getFirst();
-        $I->assertFalse($robot);
+        $I->assertNull($robot);
 
         $robot = $robots->getLast();
-        $I->assertFalse($robot);
+        $I->assertNull($robot);
 
         /**
          * @todo Check the code below
@@ -466,7 +466,7 @@ class ModelsResultsetCest
         // invalid element
         $personas->seek(33);
         $I->assertFalse($personas->valid());
-        $I->assertFalse($personas->current());
+        $I->assertNull($personas->current());
 
         /**
          * @todo Check the code below
