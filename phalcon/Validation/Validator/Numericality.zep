@@ -57,11 +57,16 @@ class Numericality extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, message, label, replacePairs, code;
+        var code, label, message, replacePairs, value;
+        string pattern;
 
-        let value = validation->getValue(field);
+        // Dump spaces in the string if we have any
+        let value   = validation->getValue(field),
+            value   = (string) value,
+            value   = str_replace(" ", "", value),
+            pattern = "/((^[-]?[0-9,]+(.[0-9]+)?$)|(^[-]?[0-9.]+(,[0-9]+)?$))/";
 
-        if !preg_match("/^-?\d+(?:[\.,]\d+)?$/", value) || !is_numeric(value) {
+        if !preg_match(pattern, value) {
             let label = this->prepareLabel(validation, field);
 
             let message = this->prepareMessage(
