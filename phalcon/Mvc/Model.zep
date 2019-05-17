@@ -3640,6 +3640,21 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let this->uniqueParams = null;
         }
 
+        if success {
+            /**
+             * Default values from the database should be
+             * written to the model attributes upon successful
+             * insert.
+             */
+            for attributeField, defaultValue in defaultValues {
+                if fetch value, this->{attributeField} {
+                    if value === null {
+                        let this->{attributeField} = defaultValue;
+                    }
+                }
+            }
+        }
+
         if success && manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
             let this->snapshot = snapshot;
         }
