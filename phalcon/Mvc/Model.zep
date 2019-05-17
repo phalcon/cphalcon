@@ -17,6 +17,7 @@ use Phalcon\Db\RawValue;
 use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Helper\Arr;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model\BehaviorInterface;
@@ -738,72 +739,72 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         instance->setDirtyState(dirtyState);
 
         for key, value in data {
-            if typeof key == "string" {
-                // Only string keys in the data are valid
-                if typeof columnMap != "array" {
-                    let instance->{key} = value;
-
-                    continue;
-                }
-
-                // Every field must be part of the column map
-                if !fetch attribute, columnMap[key] {
-                    if unlikely !globals_get("orm.ignore_unknown_columns") {
-                        throw new Exception(
-                            "Column '" . key . "' doesn't make part of the column map"
-                        );
-                    }
-
-                    continue;
-                }
-
-                if typeof attribute != "array" {
-                    let instance->{attribute} = value;
-
-                    continue;
-                }
-
-                if value != "" && value !== null {
-                    switch attribute[1] {
-
-                        case Column::TYPE_INTEGER:
-                            let castValue = intval(value, 10);
-                            break;
-
-                        case Column::TYPE_DOUBLE:
-                        case Column::TYPE_DECIMAL:
-                        case Column::TYPE_FLOAT:
-                            let castValue = doubleval(value);
-                            break;
-
-                        case Column::TYPE_BOOLEAN:
-                            let castValue = (bool) value;
-                            break;
-
-                        default:
-                            let castValue = value;
-                            break;
-                    }
-                } else {
-                    switch attribute[1] {
-
-                        case Column::TYPE_INTEGER:
-                        case Column::TYPE_DOUBLE:
-                        case Column::TYPE_DECIMAL:
-                        case Column::TYPE_FLOAT:
-                        case Column::TYPE_BOOLEAN:
-                            let castValue = null;
-                            break;
-
-                        default:
-                            let castValue = value;
-                            break;
-                    }
-                }
-
-                let attributeName = attribute[0],
-                    instance->{attributeName} = castValue;
+            // Only string keys in the data are valid
+            if typeof key !== "string" {
+                continue;
             }
+
+            if typeof columnMap != "array" {
+                let instance->{key} = value;
+
+                continue;
+            }
+
+            // Every field must be part of the column map
+            if !fetch attribute, columnMap[key] {
+                if unlikely !globals_get("orm.ignore_unknown_columns") {
+                    throw new Exception(
+                        "Column '" . key . "' doesn't make part of the column map"
+                    );
+                }
+
+                continue;
+            }
+
+            if typeof attribute != "array" {
+                let instance->{attribute} = value;
+
+                continue;
+            }
+
+            if value != "" && value !== null {
+                switch attribute[1] {
+                    case Column::TYPE_INTEGER:
+                        let castValue = intval(value, 10);
+                        break;
+
+                    case Column::TYPE_DOUBLE:
+                    case Column::TYPE_DECIMAL:
+                    case Column::TYPE_FLOAT:
+                        let castValue = doubleval(value);
+                        break;
+
+                    case Column::TYPE_BOOLEAN:
+                        let castValue = (bool) value;
+                        break;
+
+                    default:
+                        let castValue = value;
+                        break;
+                }
+            } else {
+                switch attribute[1] {
+                    case Column::TYPE_INTEGER:
+                    case Column::TYPE_DOUBLE:
+                    case Column::TYPE_DECIMAL:
+                    case Column::TYPE_FLOAT:
+                    case Column::TYPE_BOOLEAN:
+                        let castValue = null;
+                        break;
+
+                    default:
+                        let castValue = value;
+                        break;
+                }
+            }
+
+            let attributeName = attribute[0],
+                instance->{attributeName} = castValue;
         }
 
         /**
@@ -833,7 +834,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode)
     {
-        var key, value, attribute, attributeName, hydrateObject;
+        var key, value, attribute, attributeName;
         array hydrateArray;
 
         /**
@@ -847,13 +848,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         }
 
         /**
-         * Create the destination object according to the hydration mode
+         * Create the destination object
          */
-        if hydrationMode == Resultset::HYDRATE_ARRAYS {
-            let hydrateArray = [];
-        } else {
-            let hydrateObject = new \stdclass();
-        }
+        let hydrateArray = [];
 
         for key, value in data {
             if typeof key != "string" {
@@ -874,9 +871,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         throw new Exception(
                             "Column '" . key . "' doesn't make part of the column map"
                         );
-                    } else {
-                        continue;
                     }
+
+                    continue;
                 }
 
                 /**
@@ -888,25 +885,17 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                     let attributeName = attribute;
                 }
 
-                if hydrationMode == Resultset::HYDRATE_ARRAYS {
-                    let hydrateArray[attributeName] = value;
-                } else {
-                    let hydrateObject->{attributeName} = value;
-                }
+                let hydrateArray[attributeName] = value;
             } else {
-                if hydrationMode == Resultset::HYDRATE_ARRAYS {
-                    let hydrateArray[key] = value;
-                } else {
-                    let hydrateObject->{key} = value;
-                }
+                let hydrateArray[key] = value;
             }
         }
 
-        if hydrationMode == Resultset::HYDRATE_ARRAYS {
-            return hydrateArray;
+        if hydrationMode != Resultset::HYDRATE_ARRAYS {
+            return Arr::arrayToObject(hydrateArray);
         }
 
-        return hydrateObject;
+        return hydrateArray;
     }
 
     /**
@@ -1449,8 +1438,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         } elseif typeof parameters === "array" {
             let params = parameters;
         } elseif typeof parameters === "string" || is_numeric(parameters) {
-            let params   = [];
-            let params[] = parameters;
+            let params = [parameters];
         } else {
             throw new Exception(
                 "Parameters passed must be of type array, string, numeric or null"
@@ -1998,11 +1986,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public function hasSnapshotData() -> bool
     {
-        var snapshot;
-
-        let snapshot = this->snapshot;
-
-        return typeof snapshot == "array";
+        return typeof this->snapshot == "array";
     }
 
     /**
@@ -3076,10 +3060,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Try to find a different action in the foreign key's options
              */
-            if typeof foreignKey == "array" {
-                if isset foreignKey["action"] {
-                    let action = (int) foreignKey["action"];
-                }
+            if isset foreignKey["action"] {
+                let action = (int) foreignKey["action"];
             }
 
             /**
@@ -4343,6 +4325,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         var notNull, columnMap, dataTypeNumeric, automaticAttributes,
             defaultValues, field, attributeField, value, emptyStringValues;
         bool error, isNull;
+        string eventName;
 
         /**
          * Run Validation Callbacks Before
@@ -4358,14 +4341,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Call the specific beforeValidation event for the current action
              */
-            if !exists {
-                if this->fireEventCancel("beforeValidationOnCreate") === false {
-                    return false;
-                }
+            if exists {
+                let eventName = "beforeValidationOnUpdate";
             } else {
-                if this->fireEventCancel("beforeValidationOnUpdate") === false {
-                    return false;
-                }
+                let eventName = "beforeValidationOnCreate";
+            }
+
+            if this->fireEventCancel(eventName) === false {
+                return false;
             }
         }
 
@@ -4524,14 +4507,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * Run Validation Callbacks After
              */
-            if !exists {
-                if this->fireEventCancel("afterValidationOnCreate") === false {
-                    return false;
-                }
+            if exists {
+                let eventName = "afterValidationOnUpdate";
             } else {
-                if this->fireEventCancel("afterValidationOnUpdate") === false {
-                    return false;
-                }
+                let eventName = "afterValidationOnCreate";
+            }
+
+            if this->fireEventCancel(eventName) === false {
+                return false;
             }
 
             if this->fireEventCancel("afterValidation") === false {
@@ -4551,13 +4534,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * The operation can be skipped here
              */
             if exists {
-                if this->fireEventCancel("beforeUpdate") === false {
-                    return false;
-                }
+                let eventName = "beforeUpdate";
             } else {
-                if this->fireEventCancel("beforeCreate") === false {
-                    return false;
-                }
+                let eventName = "beforeCreate";
+            }
+
+            if this->fireEventCancel(eventName) === false {
+                return false;
             }
 
             /**
@@ -4961,7 +4944,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * {
      *     public function initialize()
      *     {
-     *         $this->belongsTo("robots_id", "Robots", "id");
+     *         $this->belongsTo(
+     *             "robots_id",
+     *             Robots::class,
+     *             "id"
+     *         );
      *     }
      * }
      *</code>
@@ -5042,7 +5029,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * {
      *     public function initialize()
      *     {
-     *         $this->hasMany("id", "RobotsParts", "robots_id");
+     *         $this->hasMany(
+     *             "id",
+     *             RobotsParts::class,
+     *             "robots_id"
+     *         );
      *     }
      * }
      *</code>
@@ -5070,10 +5061,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         // Setup a many-to-many relation to Parts through RobotsParts
      *         $this->hasManyToMany(
      *             "id",
-     *             "RobotsParts",
+     *             RobotsParts::class,
      *             "robots_id",
      *             "parts_id",
-     *             "Parts",
+     *             Parts::class,
      *             "id",
      *         );
      *     }
@@ -5109,7 +5100,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * {
      *     public function initialize()
      *     {
-     *         $this->hasOne("id", "RobotsDescription", "robots_id");
+     *         $this->hasOne(
+     *             "id",
+     *             RobotsDescription::class,
+     *             "robots_id"
+     *         );
      *     }
      * }
      *</code>

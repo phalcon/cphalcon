@@ -84,8 +84,13 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
      *     function(Event $event, Dispatcher $dispatcher, array $forward) use ($modules) {
      *         $metadata = $modules[$forward["module"]]["metadata"];
      *
-     *         $dispatcher->setModuleName($forward["module"]);
-     *         $dispatcher->setNamespaceName($metadata["controllersNamespace"]);
+     *         $dispatcher->setModuleName(
+     *             $forward["module"]
+     *         );
+     *
+     *         $dispatcher->setNamespaceName(
+     *             $metadata["controllersNamespace"]
+     *         );
      *     }
      * );
      *

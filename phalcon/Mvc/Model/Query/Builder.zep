@@ -26,7 +26,9 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
  *
  *<code>
  * $params = [
- *     "models"     => ["Users"],
+ *     "models"     => [
+ *         Users::class,
+ *     ],
  *     "columns"    => ["id", "name", "status"],
  *     "conditions" => [
  *         [
@@ -448,19 +450,21 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * Sets the models who makes part of the query
      *
      *<code>
-     * $builder->from("Robots");
+     * $builder->from(
+     *     Robots::class
+     * );
      *
      * $builder->from(
      *     [
-     *         "Robots",
-     *         "RobotsParts",
+     *         Robots::class,
+     *         RobotsParts::class,
      *     ]
      * );
      *
      * $builder->from(
      *     [
-     *         "r"  => "Robots",
-     *         "rp" => "RobotsParts",
+     *         "r"  => Robots::class,
+     *         "rp" => RobotsParts::class,
      *     ]
      * );
      *</code>
@@ -691,6 +695,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         }
 
         let distinct = this->distinct;
+
         if typeof distinct == "boolean" {
             if distinct {
                 let phql = "SELECT DISTINCT ";
@@ -702,6 +707,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         }
 
         let columns = this->columns;
+
         if columns !== null {
             /**
              * Generate PHQL for columns
@@ -762,7 +768,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             }
 
             let phql .= " FROM " . join(", ", selectedModels);
-
         } else {
             let phql .= " FROM " . this->autoescape(models);
         }
@@ -771,6 +776,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
          * Check if joins were passed to the builders
          */
         let joins = this->joins;
+
         if typeof joins == "array" {
             for join in joins {
                 /**
@@ -853,6 +859,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
          * Process order clause
          */
         let order = this->order;
+
         if order !== null {
             if typeof order == "array" {
                 let orderItems = [];
@@ -926,6 +933,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         }
 
         let forUpdate = this->forUpdate;
+
         if typeof forUpdate === "boolean" {
             if forUpdate {
                 let phql .= " FOR UPDATE";
@@ -945,6 +953,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         let phql = this->getPhql();
 
         let container = <DiInterface> this->container;
+
         if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
@@ -1089,13 +1098,21 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *
      *<code>
      * // Inner Join model 'Robots' with automatic conditions and alias
-     * $builder->innerJoin("Robots");
+     * $builder->innerJoin(
+     *     Robots::class);
      *
      * // Inner Join model 'Robots' specifying conditions
-     * $builder->innerJoin("Robots", "Robots.id = RobotsParts.robots_id");
+     * $builder->innerJoin(
+     *     Robots::class,
+     *     "Robots.id = RobotsParts.robots_id"
+     * );
      *
      * // Inner Join model 'Robots' specifying conditions and alias
-     * $builder->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+     * $builder->innerJoin(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r"
+     * );
      *</code>
      */
     public function innerJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
@@ -1125,16 +1142,30 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *
      *<code>
      * // Inner Join model 'Robots' with automatic conditions and alias
-     * $builder->join("Robots");
+     * $builder->join(
+     *     Robots::class
+     * );
      *
      * // Inner Join model 'Robots' specifying conditions
-     * $builder->join("Robots", "Robots.id = RobotsParts.robots_id");
+     * $builder->join(
+     *     Robots::class,
+     *     "Robots.id = RobotsParts.robots_id"
+     * );
      *
      * // Inner Join model 'Robots' specifying conditions and alias
-     * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r");
+     * $builder->join(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r"
+     * );
      *
      * // Left Join model 'Robots' specifying conditions, alias and type of join
-     * $builder->join("Robots", "r.id = RobotsParts.robots_id", "r", "LEFT");
+     * $builder->join(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r",
+     *     "LEFT"
+     * );
      *</code>
      */
     public function join(string! model, string conditions = null, string alias = null, string type = null) -> <BuilderInterface>
@@ -1148,7 +1179,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * Adds a LEFT join to the query
      *
      *<code>
-     * $builder->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+     * $builder->leftJoin(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r"
+     * );
      *</code>
      */
     public function leftJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
@@ -1193,7 +1228,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function notBetweenHaving(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
-        return this->conditionNotBetween("Having", operator, expr, minimum, maximum);
+        return this->conditionNotBetween(
+            "Having",
+            operator,
+            expr,
+            minimum,
+            maximum
+        );
     }
 
     /**
@@ -1205,7 +1246,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     public function notBetweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
-        return this->conditionNotBetween("Where", operator, expr, minimum, maximum);
+        return this->conditionNotBetween(
+            "Where",
+            operator,
+            expr,
+            minimum,
+            maximum
+        );
     }
 
     /**
@@ -1334,7 +1381,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      * Adds a RIGHT join to the query
      *
      *<code>
-     * $builder->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+     * $builder->rightJoin(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r"
+     * );
      *</code>
      */
     public function rightJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>

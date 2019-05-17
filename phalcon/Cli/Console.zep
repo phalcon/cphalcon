@@ -98,13 +98,13 @@ class Console extends BaseApplication
             }
 
             if fetch path, module["path"] {
-                if !class_exists(className, false) {
-                    if unlikely !file_exists(path) {
-                        throw new Exception(
-                            "Module definition path '" . path . "' doesn't exist"
-                        );
-                    }
+                if unlikely !file_exists(path) {
+                    throw new Exception(
+                        "Module definition path '" . path . "' doesn't exist"
+                    );
+                }
 
+                if !class_exists(className, false) {
                     require path;
                 }
             }
