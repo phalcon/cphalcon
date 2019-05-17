@@ -47,8 +47,10 @@ class HasChangedCest
          */
         $robot = new Robots();
 
-        $robot->type = 'mechanical';
-        $robot->name = 'Astro Boy';
+        $robot->type     = 'mechanical';
+        $robot->name     = 'Astro Boy';
+        $robot->datetime = (new \DateTime())->format('Y-m-d');
+        $robot->text     = 'Test text';
 
         $I->assertTrue(
             $robot->create()
