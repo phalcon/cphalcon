@@ -26,7 +26,7 @@
 - Added `Phalcon\Helper\Arr::arrayToObject()` to convert arrays to objects.
 - Added `Phalcon\Firewall` component  [#13648](https://github.com/phalcon/cphalcon/issues/13648)
 - Added `orm.cast_last_insert_id_to_int` option for `Phalcon\Mvc\Model::setup()` (`castLastInsertIdToInt`) to cast the `lastInsertId` on `save()` to `int` [#13002](https://github.com/phalcon/cphalcon/issues/13002)
-- Added `Attributes` collection class like a new Html component
+- Added `Attributes` collection class like a new Html component [#13646](https://github.com/phalcon/cphalcon/issues/13646)
 - Added `Attributes` into `Phalcon\Forms\Form` [#13646](https://github.com/phalcon/cphalcon/issues/13646)
 
 ## Changed
@@ -93,6 +93,7 @@
 - Fixed `Phalcon\Mvc\Model::writeAttribute()` to handle associative arrays correctly. [#14021](https://github.com/phalcon/cphalcon/issues/14021)
 - Fixed `Phalcon\Html\Tag::appendTitle()` and `Phalcon\Html\Tag::prependTitle()`to mirror `Phalcon\Tag`. [#14039](https://github.com/phalcon/cphalcon/issues/14039)
 - Fixed `Phalcon\Validation::validate()` with `cancelOnFail`. The validator will validate all elements and will stop processing validators on a per element basis if `cancelOnFail` is present. [#13149](https://github.com/phalcon/cphalcon/issues/13149)
+- Fixed `Phalcon\Mvc\Models\Manager::getRelations()` to return the many-to-many relationships also. [#10839](https://github.com/phalcon/cphalcon/issues/10839)
 - Fixed `Phalcon\Validation\Validator\Numericality::validate()` to parse non `en` locale numbers. [#13843](https://github.com/phalcon/cphalcon/issues/13843)
 
 ## Removed
