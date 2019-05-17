@@ -15,6 +15,7 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\RobotsExtended;
 
@@ -68,6 +69,22 @@ class FindFirstCest
                 'conditions' => 'id < 0',
             ]
         );
+        $I->assertNull($robot);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: findFirstBy() - not found
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function mvcModelFindFirstByNotFound(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model - findFirstBy() - not found');
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+
+        $robot = Customers::findFirstByEmail('unknown');
         $I->assertNull($robot);
     }
 

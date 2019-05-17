@@ -228,17 +228,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public static function __callStatic(string method, array arguments)
     {
-        var records;
-
-        let records = self::_invokeFinder(method, arguments);
-
-        if unlikely records === null {
-            throw new Exception(
-                "The static method '" . method . "' doesn't exist"
-            );
-        }
-
-        return records;
+        return self::_invokeFinder(method, arguments);
     }
 
 
