@@ -276,15 +276,7 @@ class SaveCest
 
         $robot->assign($robotData);
 
-        /**
-         * Verify that default values are not present
-         */
-        $I->assertEquals(
-            $robotData,
-            $robot->toArray()
-        );
-
-        $I->asserTrue($robot->save());
+        $I->assertTrue($robot->save());
 
         /**
          * @var MetaData
