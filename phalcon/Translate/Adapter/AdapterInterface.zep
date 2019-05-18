@@ -27,7 +27,7 @@ interface AdapterInterface
      *
      * @param array placeholders
      */
-    public function query(string! index, placeholders = null) -> string;
+    public function query(string! translateKey, placeholders = null) -> string;
 
     /**
      * Returns the translation string of the given key
