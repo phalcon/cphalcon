@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Unit\Translate\Adapter;
 
-use function dataDir;
 use Phalcon\Translate\Adapter\Gettext;
 use UnitTester;
+use function dataDir;
 
 class GettextCest
 {

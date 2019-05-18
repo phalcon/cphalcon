@@ -17,30 +17,37 @@ use Phalcon\Translate\Adapter\Csv;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
-class OffsetGetCest
+class ArrayAccessCest
 {
     use TranslateCsvTrait;
 
     /**
-     * Tests Phalcon\Translate\Adapter\Csv :: offsetGet()
+     * Tests Phalcon\Translate\Adapter\Csv :: array access
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @since  2014-09-12
      */
-    public function translateAdapterCsvOffsetGet(UnitTester $I)
+    public function translateAdapterCsvWithArrayAccess(UnitTester $I)
     {
-        $I->wantToTest('Translate\Adapter\Csv - offsetGet()');
+        $I->wantToTest('Translate\Adapter\Csv - array access');
 
-        $language = $this->getCsvConfig()['en'];
+        $language = $this->getCsvConfig()['ru'];
 
         $translator = new Csv(
             new InterpolatorFactory(),
             $language
         );
 
-        $I->assertEquals(
-            'Hello',
-            $translator->offsetGet('hi')
+        $I->assertTrue(
+            isset(
+                $translator['Hello!']
+            )
+        );
+
+        $I->assertFalse(
+            isset(
+                $translator['Hi there!']
+            )
         );
     }
 }

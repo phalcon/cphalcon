@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 
-use Phalcon\Test\Fixtures\Helpers\TranslateQueryHelper;
+use Phalcon\Test\Fixtures\Helpers\TranslateNativeArrayHelper;
 
-class TCest extends TranslateQueryHelper
+class TCest extends TranslateNativeArrayHelper
 {
     protected $function = 't';
 }
