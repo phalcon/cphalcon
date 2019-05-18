@@ -11,7 +11,8 @@
 namespace Phalcon\Translate\Adapter;
 
 use Phalcon\Translate\Exception;
-use Phalcon\Translate\Adapter;
+use Phalcon\Translate\Adapter\AbstractAdapter;
+use Phalcon\Translate\InterpolatorFactory;
 
 /**
  * Phalcon\Translate\Adapter\Gettext
@@ -31,7 +32,7 @@ use Phalcon\Translate\Adapter;
  *
  * Allows translate using gettext
  */
-class Gettext extends Adapter implements \ArrayAccess
+class Gettext extends AbstractAdapter implements \ArrayAccess
 {
     /**
      * @var int
@@ -56,7 +57,7 @@ class Gettext extends Adapter implements \ArrayAccess
     /**
      * Phalcon\Translate\Adapter\Gettext constructor
      */
-    public function __construct(array! options) -> void
+    public function __construct(<InterpolatorFactory> interpolator, array! options) -> void
     {
         if unlikely !function_exists("gettext") {
             throw new Exception(
@@ -64,7 +65,7 @@ class Gettext extends Adapter implements \ArrayAccess
             );
         }
 
-        parent::__construct(options);
+        parent::__construct(interpolator, options);
 
         this->prepareOptions(options);
     }

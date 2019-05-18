@@ -8,33 +8,34 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Translate;
+namespace Phalcon\Translate\Adapter;
 
+use Phalcon\Helper\Arr;
 use Phalcon\Translate\Exception;
-use Phalcon\Translate\InterpolatorInterface;
-use Phalcon\Translate\Interpolator\AssociativeArray;
+use Phalcon\Translate\Adapter\AdapterInterface;
+use Phalcon\Translate\InterpolatorFactory;
 
 /**
  * Phalcon\Translate\Adapter
  *
  * Base class for Phalcon\Translate adapters
  */
-abstract class Adapter implements AdapterInterface
+abstract class AbstractAdapter implements AdapterInterface
 {
     /**
-    * @var Phalcon\Translate\InterpolatorInterface
+     * @var string
+     */
+    protected defaultInterpolator = "";
+
+    /**
+    * @var InterpolatorFactory
     */
-    protected interpolator;
+    protected interpolatorFactory;
 
-    public function __construct(array! options)
+    public function __construct(<InterpolatorFactory> interpolator, array! options)
     {
-        var interpolator;
-
-        if !fetch interpolator, options["interpolator"] {
-            let interpolator = new AssociativeArray();
-        }
-
-        this->setInterpolator(interpolator);
+        let this->defaultInterpolator = Arr::get(options, "defaultInterpolator", "associativeArray"),
+            this->interpolatorFactory = interpolator;
     }
 
     /**
@@ -81,13 +82,6 @@ abstract class Adapter implements AdapterInterface
         throw new Exception("Translate is an immutable ArrayAccess object");
     }
 
-    public function setInterpolator(<InterpolatorInterface> interpolator) -> <Adapter>
-    {
-        let this->interpolator = interpolator;
-
-        return this;
-    }
-
     /**
      * Returns the translation string of the given key
      *
@@ -103,7 +97,11 @@ abstract class Adapter implements AdapterInterface
      */
     protected function replacePlaceholders(string! translation, placeholders = null) -> string
     {
-        return this->interpolator->{"replacePlaceholders"}(
+        var interpolator;
+
+        let interpolator = this->interpolatorFactory->newInstance(this->defaultInterpolator);
+
+        return interpolator->replacePlaceholders(
             translation,
             placeholders
         );

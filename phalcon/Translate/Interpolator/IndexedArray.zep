@@ -10,7 +10,7 @@
 
 namespace Phalcon\Translate\Interpolator;
 
-use Phalcon\Translate\InterpolatorInterface;
+use Phalcon\Translate\Interpolator\InterpolatorInterface;
 
 class IndexedArray implements InterpolatorInterface
 {
