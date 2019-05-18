@@ -458,7 +458,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addFilter) {
 
 
 
-	zephir_update_property_array_append(this_ptr, SL("filters"), filter);
+	zephir_update_property_array_append(this_ptr, SL("filters"), filter TSRMLS_CC);
 	RETURN_THISW();
 
 }
@@ -533,8 +533,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 	}
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 128, &content, &_1, &collectionAttributes);
 	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("codes"), &_0);
-	ZEPHIR_INIT_NVAR(&_0);
+	zephir_update_property_array_append(this_ptr, SL("codes"), &_0 TSRMLS_CC);
 	RETURN_THIS();
 
 }
@@ -587,8 +586,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 	}
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 129, &content, &_1, &collectionAttributes);
 	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("codes"), &_0);
-	ZEPHIR_INIT_NVAR(&_0);
+	zephir_update_property_array_append(this_ptr, SL("codes"), &_0 TSRMLS_CC);
 	RETURN_THIS();
 
 }
@@ -1158,14 +1156,13 @@ PHP_METHOD(Phalcon_Assets_Collection, addAsset) {
 		RETURN_MM_BOOL(0);
 	}
 	if (zephir_instance_of_ev(asset, phalcon_assets_asset_ce TSRMLS_CC)) {
-		zephir_update_property_array_append(this_ptr, SL("assets"), asset);
+		zephir_update_property_array_append(this_ptr, SL("assets"), asset TSRMLS_CC);
 	} else {
-		zephir_update_property_array_append(this_ptr, SL("codes"), asset);
+		zephir_update_property_array_append(this_ptr, SL("codes"), asset TSRMLS_CC);
 	}
 	ZEPHIR_CALL_METHOD(&_1, asset, "getassetkey", NULL, 0);
 	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("includedAssets"), &_1);
-	ZEPHIR_INIT_NVAR(&_1);
+	zephir_update_property_array_append(this_ptr, SL("includedAssets"), &_1 TSRMLS_CC);
 	RETURN_MM_BOOL(1);
 
 }

@@ -12,12 +12,12 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/array.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
+#include "kernel/array.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/operators.h"
 
@@ -56,10 +56,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_SerializerFactory) {
  */
 PHP_METHOD(Phalcon_Storage_SerializerFactory, __construct) {
 
-	zend_string *_4;
-	zend_ulong _3;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *services_param = NULL, helpers, name, service, _0, *_1, _2, _5$$3, _6$$4;
+	zend_string *_3;
+	zend_ulong _2;
+	zval *services_param = NULL, helpers, name, service, _0, *_1, _4$$3;
 	zval services;
 	zval *this_ptr = getThis();
 
@@ -68,9 +67,7 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, __construct) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&service);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_6$$4);
+	ZVAL_UNDEF(&_4$$3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &services_param);
@@ -95,41 +92,20 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, __construct) {
 	zephir_fast_array_merge(&_0, &helpers, &services TSRMLS_CC);
 	ZEPHIR_CPY_WRT(&helpers, &_0);
 	zephir_is_iterable(&helpers, 0, "phalcon/Storage/SerializerFactory.zep", 51);
-	if (Z_TYPE_P(&helpers) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&helpers), _3, _4, _1)
-		{
-			ZEPHIR_INIT_NVAR(&name);
-			if (_4 != NULL) { 
-				ZVAL_STR_COPY(&name, _4);
-			} else {
-				ZVAL_LONG(&name, _3);
-			}
-			ZEPHIR_INIT_NVAR(&service);
-			ZVAL_COPY(&service, _1);
-			zephir_update_property_array(this_ptr, SL("mapper"), &name, &service);
-			zephir_read_property(&_5$$3, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-			zephir_array_unset(&_5$$3, &name, PH_SEPARATE);
-		} ZEND_HASH_FOREACH_END();
-	} else {
-		ZEPHIR_CALL_METHOD(NULL, &helpers, "rewind", NULL, 0);
-		zephir_check_call_status();
-		while (1) {
-			ZEPHIR_CALL_METHOD(&_2, &helpers, "valid", NULL, 0);
-			zephir_check_call_status();
-			if (!zend_is_true(&_2)) {
-				break;
-			}
-			ZEPHIR_CALL_METHOD(&name, &helpers, "key", NULL, 0);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&service, &helpers, "current", NULL, 0);
-			zephir_check_call_status();
-				zephir_update_property_array(this_ptr, SL("mapper"), &name, &service);
-				zephir_read_property(&_6$$4, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-				zephir_array_unset(&_6$$4, &name, PH_SEPARATE);
-			ZEPHIR_CALL_METHOD(NULL, &helpers, "next", NULL, 0);
-			zephir_check_call_status();
+	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&helpers), _2, _3, _1)
+	{
+		ZEPHIR_INIT_NVAR(&name);
+		if (_3 != NULL) { 
+			ZVAL_STR_COPY(&name, _3);
+		} else {
+			ZVAL_LONG(&name, _2);
 		}
-	}
+		ZEPHIR_INIT_NVAR(&service);
+		ZVAL_COPY(&service, _1);
+		zephir_update_property_array(this_ptr, SL("mapper"), &name, &service TSRMLS_CC);
+		zephir_read_property(&_4$$3, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
+		zephir_array_unset(&_4$$3, &name, PH_SEPARATE);
+	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&service);
 	ZEPHIR_INIT_NVAR(&name);
 	ZEPHIR_MM_RESTORE();
@@ -201,8 +177,7 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, newInstance) {
 			ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
-		zephir_update_property_array(this_ptr, SL("services"), &name, &_5$$4);
-		ZEPHIR_INIT_NVAR(&_5$$4);
+		zephir_update_property_array(this_ptr, SL("services"), &name, &_5$$4 TSRMLS_CC);
 	}
 	zephir_read_property(&_8, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_9, &_8, &name, PH_NOISY | PH_READONLY, "phalcon/Storage/SerializerFactory.zep", 72 TSRMLS_CC);

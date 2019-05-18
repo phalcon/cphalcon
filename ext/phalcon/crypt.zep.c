@@ -792,27 +792,21 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
  */
 PHP_METHOD(Phalcon_Crypt, getAvailableCiphers) {
 
-	zend_bool _5$$4, _7$$4, _9$$4, _11$$4, _14$$6, _16$$6, _18$$6, _20$$6;
+	zend_bool _4$$4, _6$$4, _8$$4, _10$$4;
 	zval allowedCiphers;
-	zval availableCiphers, cipher, _0, *_2, _3, _1$$3, _4$$4, _6$$4, _8$$4, _10$$4, _12$$4, _13$$6, _15$$6, _17$$6, _19$$6, _21$$6;
+	zval availableCiphers, cipher, _0, *_2, _1$$3, _3$$4, _5$$4, _7$$4, _9$$4, _11$$4;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&availableCiphers);
 	ZVAL_UNDEF(&cipher);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_4$$4);
-	ZVAL_UNDEF(&_6$$4);
-	ZVAL_UNDEF(&_8$$4);
-	ZVAL_UNDEF(&_10$$4);
-	ZVAL_UNDEF(&_12$$4);
-	ZVAL_UNDEF(&_13$$6);
-	ZVAL_UNDEF(&_15$$6);
-	ZVAL_UNDEF(&_17$$6);
-	ZVAL_UNDEF(&_19$$6);
-	ZVAL_UNDEF(&_21$$6);
+	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_5$$4);
+	ZVAL_UNDEF(&_7$$4);
+	ZVAL_UNDEF(&_9$$4);
+	ZVAL_UNDEF(&_11$$4);
 	ZVAL_UNDEF(&allowedCiphers);
 
 	ZEPHIR_MM_GROW();
@@ -828,85 +822,40 @@ PHP_METHOD(Phalcon_Crypt, getAvailableCiphers) {
 	ZEPHIR_INIT_VAR(&allowedCiphers);
 	array_init(&allowedCiphers);
 	zephir_is_iterable(&availableCiphers, 0, "phalcon/Crypt.zep", 402);
-	if (Z_TYPE_P(&availableCiphers) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&availableCiphers), _2)
-		{
-			ZEPHIR_INIT_NVAR(&cipher);
-			ZVAL_COPY(&cipher, _2);
-			ZEPHIR_INIT_NVAR(&_4$$4);
-			zephir_fast_strtolower(&_4$$4, &cipher);
-			_5$$4 = zephir_start_with_str(&_4$$4, SL("des"));
-			if (!(_5$$4)) {
-				ZEPHIR_INIT_NVAR(&_6$$4);
-				zephir_fast_strtolower(&_6$$4, &cipher);
-				_5$$4 = zephir_start_with_str(&_6$$4, SL("rc2"));
-			}
-			_7$$4 = _5$$4;
-			if (!(_7$$4)) {
-				ZEPHIR_INIT_NVAR(&_8$$4);
-				zephir_fast_strtolower(&_8$$4, &cipher);
-				_7$$4 = zephir_start_with_str(&_8$$4, SL("rc4"));
-			}
-			_9$$4 = _7$$4;
-			if (!(_9$$4)) {
-				ZEPHIR_INIT_NVAR(&_10$$4);
-				zephir_fast_strtolower(&_10$$4, &cipher);
-				_9$$4 = zephir_start_with_str(&_10$$4, SL("des"));
-			}
-			_11$$4 = _9$$4;
-			if (!(_11$$4)) {
-				ZEPHIR_INIT_NVAR(&_12$$4);
-				zephir_fast_strtolower(&_12$$4, &cipher);
-				_11$$4 = zephir_end_with_str(&_12$$4, SL("ecb"));
-			}
-			if (!(_11$$4)) {
-				zephir_array_append(&allowedCiphers, &cipher, PH_SEPARATE, "phalcon/Crypt.zep", 398);
-			}
-		} ZEND_HASH_FOREACH_END();
-	} else {
-		ZEPHIR_CALL_METHOD(NULL, &availableCiphers, "rewind", NULL, 0);
-		zephir_check_call_status();
-		while (1) {
-			ZEPHIR_CALL_METHOD(&_3, &availableCiphers, "valid", NULL, 0);
-			zephir_check_call_status();
-			if (!zend_is_true(&_3)) {
-				break;
-			}
-			ZEPHIR_CALL_METHOD(&cipher, &availableCiphers, "current", NULL, 0);
-			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&_13$$6);
-				zephir_fast_strtolower(&_13$$6, &cipher);
-				_14$$6 = zephir_start_with_str(&_13$$6, SL("des"));
-				if (!(_14$$6)) {
-					ZEPHIR_INIT_NVAR(&_15$$6);
-					zephir_fast_strtolower(&_15$$6, &cipher);
-					_14$$6 = zephir_start_with_str(&_15$$6, SL("rc2"));
-				}
-				_16$$6 = _14$$6;
-				if (!(_16$$6)) {
-					ZEPHIR_INIT_NVAR(&_17$$6);
-					zephir_fast_strtolower(&_17$$6, &cipher);
-					_16$$6 = zephir_start_with_str(&_17$$6, SL("rc4"));
-				}
-				_18$$6 = _16$$6;
-				if (!(_18$$6)) {
-					ZEPHIR_INIT_NVAR(&_19$$6);
-					zephir_fast_strtolower(&_19$$6, &cipher);
-					_18$$6 = zephir_start_with_str(&_19$$6, SL("des"));
-				}
-				_20$$6 = _18$$6;
-				if (!(_20$$6)) {
-					ZEPHIR_INIT_NVAR(&_21$$6);
-					zephir_fast_strtolower(&_21$$6, &cipher);
-					_20$$6 = zephir_end_with_str(&_21$$6, SL("ecb"));
-				}
-				if (!(_20$$6)) {
-					zephir_array_append(&allowedCiphers, &cipher, PH_SEPARATE, "phalcon/Crypt.zep", 398);
-				}
-			ZEPHIR_CALL_METHOD(NULL, &availableCiphers, "next", NULL, 0);
-			zephir_check_call_status();
+	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&availableCiphers), _2)
+	{
+		ZEPHIR_INIT_NVAR(&cipher);
+		ZVAL_COPY(&cipher, _2);
+		ZEPHIR_INIT_NVAR(&_3$$4);
+		zephir_fast_strtolower(&_3$$4, &cipher);
+		_4$$4 = zephir_start_with_str(&_3$$4, SL("des"));
+		if (!(_4$$4)) {
+			ZEPHIR_INIT_NVAR(&_5$$4);
+			zephir_fast_strtolower(&_5$$4, &cipher);
+			_4$$4 = zephir_start_with_str(&_5$$4, SL("rc2"));
 		}
-	}
+		_6$$4 = _4$$4;
+		if (!(_6$$4)) {
+			ZEPHIR_INIT_NVAR(&_7$$4);
+			zephir_fast_strtolower(&_7$$4, &cipher);
+			_6$$4 = zephir_start_with_str(&_7$$4, SL("rc4"));
+		}
+		_8$$4 = _6$$4;
+		if (!(_8$$4)) {
+			ZEPHIR_INIT_NVAR(&_9$$4);
+			zephir_fast_strtolower(&_9$$4, &cipher);
+			_8$$4 = zephir_start_with_str(&_9$$4, SL("des"));
+		}
+		_10$$4 = _8$$4;
+		if (!(_10$$4)) {
+			ZEPHIR_INIT_NVAR(&_11$$4);
+			zephir_fast_strtolower(&_11$$4, &cipher);
+			_10$$4 = zephir_end_with_str(&_11$$4, SL("ecb"));
+		}
+		if (!(_10$$4)) {
+			zephir_array_append(&allowedCiphers, &cipher, PH_SEPARATE, "phalcon/Crypt.zep", 398);
+		}
+	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&cipher);
 	RETURN_CTOR(&allowedCiphers);
 

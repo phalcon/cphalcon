@@ -505,8 +505,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter, saveAccessInCache) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_BOOL(&_0, access);
-	zephir_update_property_array(this_ptr, SL("internalCache"), &key, &_0);
-	ZEPHIR_INIT_NVAR(&_0);
+	zephir_update_property_array(this_ptr, SL("internalCache"), &key, &_0 TSRMLS_CC);
 	zephir_read_property(&_1, this_ptr, SL("cache"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&cache, &_1);
 	if (Z_TYPE_P(&cache) != IS_NULL) {
