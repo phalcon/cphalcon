@@ -15,8 +15,9 @@ namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 use ArrayAccess;
 use Phalcon\Test\Fixtures\Traits\TranslateTrait;
 use Phalcon\Translate\Adapter\NativeArray;
-use Phalcon\Translate\AdapterInterface;
+use Phalcon\Translate\Adapter\AdapterInterface;
 use Phalcon\Translate\Exception;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 class ConstructCest
@@ -36,6 +37,7 @@ class ConstructCest
         $language = $this->getArrayConfig()['en'];
 
         $translator = new NativeArray(
+            new InterpolatorFactory(),
             [
                 'content' => $language,
             ]
@@ -66,6 +68,7 @@ class ConstructCest
             new Exception('Translation content was not provided'),
             function () {
                 new NativeArray(
+                    new InterpolatorFactory(),
                     []
                 );
             }

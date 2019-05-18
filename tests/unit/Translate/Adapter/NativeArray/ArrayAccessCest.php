@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 
 use Phalcon\Test\Fixtures\Traits\TranslateTrait;
 use Phalcon\Translate\Adapter\NativeArray;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 class ArrayAccessCest
@@ -33,6 +34,7 @@ class ArrayAccessCest
         $language = $this->getArrayConfig()['ru'];
 
         $translator = new NativeArray(
+            new InterpolatorFactory(),
             [
                 'content' => $language,
             ]
