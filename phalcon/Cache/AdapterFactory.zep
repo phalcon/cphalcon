@@ -34,7 +34,7 @@ class AdapterFactory
     /**
      * AdapterFactory constructor.
      */
-    public function __construct(<SerializerFactory> factory, array! services = [])
+    public function __construct(<SerializerFactory> factory = null, array! services = [])
     {
         var adapters, name, service;
         
