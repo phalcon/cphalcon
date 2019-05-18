@@ -10,21 +10,21 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
+namespace Phalcon\Test\Unit\Translate\TranslateFactory;
 
 use UnitTester;
 
-class SetInterpolatorCest
+class ConstructCest
 {
     /**
-     * Tests Phalcon\Translate\Adapter\Csv :: setInterpolator()
+     * Tests Phalcon\Translate\TranslateFactory :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-05-18
      */
-    public function translateAdapterCsvSetInterpolator(UnitTester $I)
+    public function translateTranslateFactoryConstruct(UnitTester $I)
     {
-        $I->wantToTest('Translate\Adapter\Csv - setInterpolator()');
+        $I->wantToTest('Translate\TranslateFactory - __construct()');
 
         $I->skipTest('Need implementation');
     }

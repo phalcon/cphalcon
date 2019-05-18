@@ -10,21 +10,21 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
+namespace Phalcon\Test\Unit\Translate\InterpolatorFactory;
 
 use UnitTester;
 
-class SetInterpolatorCest
+class ConstructCest
 {
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: setInterpolator()
+     * Tests Phalcon\Translate\InterpolatorFactory :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-05-18
      */
-    public function translateAdapterGettextSetInterpolator(UnitTester $I)
+    public function translateInterpolatorFactoryConstruct(UnitTester $I)
     {
-        $I->wantToTest('Translate\Adapter\Gettext - setInterpolator()');
+        $I->wantToTest('Translate\InterpolatorFactory - __construct()');
 
         $I->skipTest('Need implementation');
     }
