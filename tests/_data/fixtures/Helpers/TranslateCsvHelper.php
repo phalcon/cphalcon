@@ -12,42 +12,40 @@
 namespace Phalcon\Test\Fixtures\Helpers;
 
 use Codeception\Example;
-use Phalcon\Test\Fixtures\Traits\TranslateTrait;
-use Phalcon\Translate\Adapter\NativeArray;
+use Phalcon\Test\Fixtures\Traits\TranslateCsvTrait;
+use Phalcon\Translate\Adapter\Csv;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
-class TranslateQueryHelper
+class TranslateCsvHelper
 {
-    use TranslateTrait;
+    use TranslateCsvTrait;
 
     protected $function = '_';
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: query()
+     * Tests Phalcon\Translate\Adapter\Csv :: query()
      *
      * @dataProvider getQueryProvider
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Ivan Zubok <chi_no@ukr.net>
+     * @since  2014-11-04
      */
-    public function translateAdapterNativearrayQuery(UnitTester $I, Example $data)
+    public function translateAdapterCsvQuery(UnitTester $I, Example $data)
     {
         $I->wantToTest(
             sprintf(
-                'Translate\Adapter\NativeArray - %s - %s',
+                'Translate\Adapter\Csv - %s - %s',
                 $this->function,
                 $data['language']
             )
         );
 
-        $language = $this->getArrayConfig()[$data['code']];
+        $language = $this->getCsvConfig()[$data['code']];
 
-        $translator = new NativeArray(
+        $translator = new Csv(
             new InterpolatorFactory(),
-            [
-                'content' => $language,
-            ]
+            $language
         );
 
         foreach ($data['tests'] as $key => $expected) {
@@ -59,7 +57,7 @@ class TranslateQueryHelper
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: query() -
+     * Tests Phalcon\Translate\Adapter\Csv :: query() -
      * variable substitution in string with no variables
      *
      * @dataProvider getQueryProvider
@@ -67,22 +65,20 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function translateAdapterNativearrayVariableSubstitutionNoVariables(UnitTester $I, Example $data)
+    public function translateAdapterCsvVariableSubstitutionNoVariables(UnitTester $I, Example $data)
     {
         $I->wantToTest(
             sprintf(
-                'Translate\Adapter\NativeArray - variable substitution no variables - %s',
+                'Translate\Adapter\Csv - variable substitution no variables - %s',
                 $data['language']
             )
         );
 
-        $language = $this->getArrayConfig()[$data['code']];
+        $language = $this->getCsvConfig()[$data['code']];
 
-        $translator = new NativeArray(
+        $translator = new Csv(
             new InterpolatorFactory(),
-            [
-                'content' => $language,
-            ]
+            $language
         );
 
         foreach ($data['tests'] as $key => $expected) {
@@ -99,7 +95,7 @@ class TranslateQueryHelper
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: query() -
+     * Tests Phalcon\Translate\Adapter\Csv :: query() -
      * variable substitution in string (one variable)
      *
      * @dataProvider getQueryOneVariable
@@ -107,22 +103,20 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function translateAdapterNativearrayVariableSubstitutionOneVariable(UnitTester $I, Example $data)
+    public function translateAdapterCsvVariableSubstitutionOneVariable(UnitTester $I, Example $data)
     {
         $I->wantToTest(
             sprintf(
-                'Translate\Adapter\NativeArray - variable substitution one variable - %s',
+                'Translate\Adapter\Csv - variable substitution one variable - %s',
                 $data['language']
             )
         );
 
-        $language = $this->getArrayConfig()[$data['code']];
+        $language = $this->getCsvConfig()[$data['code']];
 
-        $translator = new NativeArray(
+        $translator = new Csv(
             new InterpolatorFactory(),
-            [
-                'content' => $language,
-            ]
+            $language
         );
 
         foreach ($data['tests'] as $key => $expected) {
@@ -132,7 +126,7 @@ class TranslateQueryHelper
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: query() -
+     * Tests Phalcon\Translate\Adapter\Csv :: query() -
      * variable substitution in string (two variables)
      *
      * @dataProvider getQueryTwoVariables
@@ -140,22 +134,20 @@ class TranslateQueryHelper
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
-    public function translateAdapterNativearrayVariableSubstitutionTwoVariable(UnitTester $I, Example $data)
+    public function translateAdapterCsvVariableSubstitutionTwoVariable(UnitTester $I, Example $data)
     {
         $I->wantToTest(
             sprintf(
-                'Translate\Adapter\NativeArray - variable substitution two variables - %s',
+                'Translate\Adapter\Csv - variable substitution two variables - %s',
                 $data['language']
             )
         );
 
-        $language = $this->getArrayConfig()[$data['code']];
+        $language = $this->getCsvConfig()[$data['code']];
 
-        $translator = new NativeArray(
+        $translator = new Csv(
             new InterpolatorFactory(),
-            [
-                'content' => $language,
-            ]
+            $language
         );
 
         $vars = [
@@ -172,20 +164,18 @@ class TranslateQueryHelper
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: query() - array access and UTF8 strings
+     * Tests Phalcon\Translate\Adapter\Csv :: query() - array access and UTF8 strings
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
     public function testWithArrayAccessAndUTF8Strings(UnitTester $I)
     {
-        $language = $this->getArrayConfig()['ru'];
+        $language = $this->getCsvConfig()['ru'];
 
-        $translator = new NativeArray(
+        $translator = new Csv(
             new InterpolatorFactory(),
-            [
-                'content' => $language,
-            ]
+            $language
         );
 
         $vars = [

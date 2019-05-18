@@ -13,16 +13,16 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 
 use ArrayAccess;
-use Phalcon\Test\Fixtures\Traits\TranslateTrait;
-use Phalcon\Translate\Adapter\NativeArray;
+use Phalcon\Test\Fixtures\Traits\TranslateArrayTrait;
 use Phalcon\Translate\Adapter\AdapterInterface;
+use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 class ConstructCest
 {
-    use TranslateTrait;
+    use TranslateArrayTrait;
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: __construct()

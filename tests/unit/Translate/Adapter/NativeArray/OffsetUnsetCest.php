@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 
-use Phalcon\Test\Fixtures\Traits\TranslateTrait;
+use Phalcon\Test\Fixtures\Traits\TranslateArrayTrait;
 use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\InterpolatorFactory;
@@ -20,7 +20,7 @@ use UnitTester;
 
 class OffsetUnsetCest
 {
-    use TranslateTrait;
+    use TranslateArrayTrait;
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: offsetUnset()

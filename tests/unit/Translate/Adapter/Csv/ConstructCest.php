@@ -13,13 +13,17 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
 
 use ArrayAccess;
+use Phalcon\Test\Fixtures\Traits\TranslateCsvTrait;
+use Phalcon\Translate\Adapter\AdapterInterface;
 use Phalcon\Translate\Adapter\Csv;
-use Phalcon\Translate\AdapterInterface;
 use Phalcon\Translate\Exception;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 class ConstructCest
 {
+    use TranslateCsvTrait;
+
     /**
      * Tests Phalcon\Translate\Adapter\Csv :: __construct()
      *
@@ -30,10 +34,11 @@ class ConstructCest
     {
         $I->wantToTest('Translate\Adapter\Csv - constructor');
 
+        $language = $this->getCsvConfig()['en'];
+
         $translator = new Csv(
-            [
-                'content' => dataDir('assets/translation/csv/ru_RU.csv'),
-            ]
+            new InterpolatorFactory(),
+            $language
         );
 
         $I->assertInstanceOf(
@@ -55,12 +60,13 @@ class ConstructCest
      */
     public function translateAdapterCsvContentParamExist(UnitTester $I)
     {
-        $I->wantToTest('Translate\Adapter\Csv - constructor without "content" throws exception');
+        $I->wantToTest('Translate\Adapter\Csv - constructor without content throws exception');
 
         $I->expectThrowable(
-            new Exception("Parameter 'content' is required"),
+            new Exception('Parameter \'content\' is required'),
             function () {
                 new Csv(
+                    new InterpolatorFactory(),
                     []
                 );
             }

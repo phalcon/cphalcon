@@ -15,20 +15,8 @@ namespace Phalcon\Test\Fixtures\Traits;
 use function dataDir;
 use UnitTester;
 
-trait TranslateTrait
+trait TranslateArrayTrait
 {
-    /**
-     * Executed before each test
-     */
-    public function _before(UnitTester $I, $scenario)
-    {
-        $I->checkExtensionIsLoaded('gettext');
-
-        if (!setlocale(LC_ALL, 'en_US.utf8')) {
-            $scenario->skip('Locale en_US.utf8 not enabled');
-        }
-    }
-
     protected function getArrayConfig(): array
     {
         return [
@@ -54,25 +42,6 @@ trait TranslateTrait
                 'Hello!'                         => 'Привет!',
                 'Hello %fname% %mname% %lname%!' => 'Привет, %fname% %mname% %lname%!',
             ],
-        ];
-    }
-
-    protected function getCsvConfig(): array
-    {
-        return [
-            'ru' => [
-                'content' => dataDir('assets/translation/csv/ru_RU.csv'),
-            ],
-        ];
-    }
-
-    protected function getGettextConfig(): array
-    {
-        return [
-            'locale'        => 'en_US.utf8',
-            'defaultDomain' => 'messages',
-            'directory'     => dataDir('assets/translation/gettext'),
-            'category'      => LC_MESSAGES,
         ];
     }
 }

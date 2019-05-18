@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
 
 use Phalcon\Test\Fixtures\Helpers\TranslateCsvHelper;
 
-class QueryCest extends TranslateCsvHelper
+class UnderscoreCest extends TranslateCsvHelper
 {
-    protected $function = 'query';
+    protected $function = '_';
 }
