@@ -11,44 +11,20 @@
 namespace Phalcon\Image;
 
 use Phalcon\Config;
+use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
 
 /**
  * Phalcon\Image/ImageFactory
  */
-class ImageFactory
+class ImageFactory extends AbstractFactory
 {
-    /**
-     * @var array
-     */
-    private mapper = [];
-
-    /**
-     * @var array
-     */
-    private services = [];
-
     /**
      * TagFactory constructor.
      */
     public function __construct(array! services = [])
     {
-        var adapters, name, service;
-        
-        /**
-         * Available adapters
-         */
-        let adapters = [
-            "gd"      : "\\Phalcon\\Image\\Adapter\\Gd",
-            "imagick" : "\\Phalcon\\Image\\Adapter\\Imagick"
-        ];
-
-        let adapters = array_merge(adapters, services);
-
-        for name, service in adapters {
-            let this->mapper[name] = service;
-            unset(this->services[name]);
-        }
+        this->init(services);
     }
 
     /**
@@ -103,9 +79,7 @@ class ImageFactory
     {
         var definition;
 
-        if !isset this->mapper[name] {
-            throw new Exception("Service " . name . " is not registered");
-        }
+        this->checkService(name);
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
@@ -113,5 +87,13 @@ class ImageFactory
         }
 
         return this->services[name];
+    }
+
+    protected function getAdapters() -> array
+    {
+        return [
+            "gd"      : "\\Phalcon\\Image\\Adapter\\Gd",
+            "imagick" : "\\Phalcon\\Image\\Adapter\\Imagick"
+        ];
     }
 }

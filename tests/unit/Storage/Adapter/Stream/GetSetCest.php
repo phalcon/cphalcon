@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
-use function file_put_contents;
-use function outputDir;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
-use function sleep;
 use UnitTester;
+use function file_put_contents;
+use function outputDir;
+use function sleep;
 
 class GetSetCest
 {

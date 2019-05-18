@@ -12,13 +12,12 @@ namespace Phalcon\Html;
 
 use Phalcon\Escaper;
 use Phalcon\EscaperInterface;
+use Phalcon\Factory\AbstractFactory;
 
 /**
- * Phalcon\Html\TagLocator
- *
  * ServiceLocator implementation for Tag helpers
  */
-class TagFactory
+class TagFactory extends AbstractFactory
 {
     /**
      * @var <EscaperInterface>
@@ -26,47 +25,13 @@ class TagFactory
     private escaper;
 
     /**
-     * @var array
-     */
-    private mapper = [];
-
-    /**
-     * @var array
-     */
-    private services = [];
-
-    /**
      * TagFactory constructor.
      */
     public function __construct(<EscaperInterface> escaper, array! services = [])
     {
-        var helpers, name, service;
-        
         let this->escaper = escaper;
 
-        /**
-         * Available helpers
-         */
-        let helpers = [
-            "a"          : "\\Phalcon\\Html\\Helper\\Anchor",
-            "aRaw"       : "\\Phalcon\\Html\\Helper\\AnchorRaw",
-            "body"       : "\\Phalcon\\Html\\Helper\\Body",
-            "button"     : "\\Phalcon\\Html\\Helper\\Button",
-            "close"      : "\\Phalcon\\Html\\Helper\\Close",
-            "element"    : "\\Phalcon\\Html\\Helper\\Element",
-            "elementRaw" : "\\Phalcon\\Html\\Helper\\ElementRaw",
-            "form"       : "\\Phalcon\\Html\\Helper\\Form",
-            "img"        : "\\Phalcon\\Html\\Helper\\Img",
-            "label"      : "\\Phalcon\\Html\\Helper\\Label",
-            "textarea"   : "\\Phalcon\\Html\\Helper\\TextArea"
-        ];
-
-        let helpers = array_merge(helpers, services);
-
-        for name, service in helpers {
-            let this->mapper[name] = service;
-            unset(this->services[name]);
-        }
+        this->init(services);
     }
 
     /**
@@ -79,9 +44,7 @@ class TagFactory
     {
         var definition;
 
-        if !isset this->mapper[name] {
-            throw new Exception("Service " . name . " is not registered");
-        }
+        this->checkService(name);
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
@@ -89,5 +52,22 @@ class TagFactory
         }
 
         return this->services[name];
+    }
+
+    protected function getAdapters() -> array
+    {
+        return [
+            "a"          : "\\Phalcon\\Html\\Helper\\Anchor",
+            "aRaw"       : "\\Phalcon\\Html\\Helper\\AnchorRaw",
+            "body"       : "\\Phalcon\\Html\\Helper\\Body",
+            "button"     : "\\Phalcon\\Html\\Helper\\Button",
+            "close"      : "\\Phalcon\\Html\\Helper\\Close",
+            "element"    : "\\Phalcon\\Html\\Helper\\Element",
+            "elementRaw" : "\\Phalcon\\Html\\Helper\\ElementRaw",
+            "form"       : "\\Phalcon\\Html\\Helper\\Form",
+            "img"        : "\\Phalcon\\Html\\Helper\\Img",
+            "label"      : "\\Phalcon\\Html\\Helper\\Label",
+            "textarea"   : "\\Phalcon\\Html\\Helper\\TextArea"
+        ];
     }
 }
