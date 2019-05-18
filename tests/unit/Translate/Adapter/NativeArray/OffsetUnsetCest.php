@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 use Phalcon\Test\Fixtures\Traits\TranslateTrait;
 use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\Exception;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 class OffsetUnsetCest
@@ -37,6 +38,7 @@ class OffsetUnsetCest
                 $language = $this->getArrayConfig()['en'];
 
                 $translator = new NativeArray(
+                    new InterpolatorFactory(),
                     [
                         'content' => $language,
                     ]
