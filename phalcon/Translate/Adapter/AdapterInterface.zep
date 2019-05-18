@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Translate;
+namespace Phalcon\Translate\Adapter;
 
 /**
  * Phalcon\Translate\AdapterInterface
