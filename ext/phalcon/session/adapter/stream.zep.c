@@ -101,10 +101,10 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct) {
 	if (!(zephir_array_isset_string_fetch(&path, &options, SL("savePath"), 0))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "session.save_path");
-		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 504, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 505, &_2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 306, &path);
+	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 307, &path);
 	zephir_check_call_status();
 	if (UNEXPECTED(!zephir_is_true(&_3))) {
 		ZEPHIR_INIT_VAR(&_4$$4);
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy) {
 	ZEPHIR_CONCAT_VV(&file, &_0, &_1);
 	_2 = (zephir_file_exists(&file TSRMLS_CC) == SUCCESS);
 	if (_2) {
-		ZEPHIR_CALL_FUNCTION(&_3, "is_file", NULL, 505, &file);
+		ZEPHIR_CALL_FUNCTION(&_3, "is_file", NULL, 506, &file);
 		zephir_check_call_status();
 		_2 = zephir_is_true(&_3);
 	}
@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc) {
 			ZVAL_COPY(&file, _4);
 			_6$$3 = (zephir_file_exists(&file TSRMLS_CC) == SUCCESS);
 			if (_6$$3) {
-				ZEPHIR_CALL_FUNCTION(&_7$$3, "is_file", &_8, 505, &file);
+				ZEPHIR_CALL_FUNCTION(&_7$$3, "is_file", &_8, 506, &file);
 				zephir_check_call_status();
 				_6$$3 = zephir_is_true(&_7$$3);
 			}
@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc) {
 			zephir_check_call_status();
 				_12$$5 = (zephir_file_exists(&file TSRMLS_CC) == SUCCESS);
 				if (_12$$5) {
-					ZEPHIR_CALL_FUNCTION(&_13$$5, "is_file", &_8, 505, &file);
+					ZEPHIR_CALL_FUNCTION(&_13$$5, "is_file", &_8, 506, &file);
 					zephir_check_call_status();
 					_12$$5 = zephir_is_true(&_13$$5);
 				}

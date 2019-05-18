@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 	zephir_read_property(&_2, this_ptr, SL("file"), PH_NOISY_CC | PH_READONLY);
 	if ((zephir_file_exists(&_2 TSRMLS_CC) == SUCCESS)) {
 		zephir_read_property(&_3$$4, this_ptr, SL("file"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_4$$4, "realpath", NULL, 64, &_3$$4);
+		ZEPHIR_CALL_FUNCTION(&_4$$4, "realpath", NULL, 67, &_3$$4);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("realpath"), &_4$$4);
 		zephir_read_property(&_5$$4, this_ptr, SL("image"), PH_NOISY_CC | PH_READONLY);
@@ -1416,7 +1416,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSave) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_10$$3);
 		ZVAL_STRING(&_10$$3, "w");
-		ZEPHIR_CALL_FUNCTION(&fp, "fopen", NULL, 58, &file, &_10$$3);
+		ZEPHIR_CALL_FUNCTION(&fp, "fopen", NULL, 61, &file, &_10$$3);
 		zephir_check_call_status();
 		zephir_read_property(&_11$$3, this_ptr, SL("image"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_11$$3, "writeimagesfile", NULL, 0, &fp);

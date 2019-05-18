@@ -26,6 +26,7 @@ typedef struct _zephir_struct_orm {
 	HashTable*  ast_cache;
 	int cache_level;
 	zend_bool case_insensitive_column_map;
+	zend_bool cast_last_insert_id_to_int;
 	zend_bool cast_on_hydrate;
 	zend_bool column_renaming;
 	zend_bool disable_assign_setters;

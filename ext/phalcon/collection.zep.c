@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Collection, getIterator) {
 	ZEPHIR_MM_GROW();
 
 	object_init_ex(return_value, zephir_get_internal_ce(SL("arrayiterator")));
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 65, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 22, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -663,7 +663,7 @@ PHP_METHOD(Phalcon_Collection, serialize) {
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 66, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 23, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -777,7 +777,7 @@ PHP_METHOD(Phalcon_Collection, unserialize) {
 
 	zephir_get_strval(&_0, serialized);
 	ZEPHIR_CPY_WRT(serialized, &_0);
-	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 67, serialized);
+	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 24, serialized);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &data);
 	zephir_check_call_status();

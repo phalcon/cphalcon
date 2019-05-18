@@ -41,8 +41,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, cache);
 /**
  * Executes a parsed PHQL statement
  *
- * @param array bindParams
- * @param array bindTypes
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, execute);
@@ -69,9 +67,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, getSql);
 
 /**
  * Executes the query returning the first result
- *
- * @param array bindParams
- * @param array bindTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_QueryInterface, getSingleResult);
 

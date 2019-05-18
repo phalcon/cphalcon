@@ -300,7 +300,12 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map) {
  * Maps a route to a handler via methods.
  *
  * <code>
- * $collection->mapVia("/test", "indexAction", ["POST", "GET"], "test");
+ * $collection->mapVia(
+ *     "/test",
+ *     "indexAction",
+ *     ["POST", "GET"],
+ *     "test"
+ * );
  * </code>
  *
  * @param callable handler
@@ -346,7 +351,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia) {
 }
 
 /**
- * Maps a route to a handler that only matches if the HTTP method is OPTIONS.
+ * Maps a route to a handler that only matches if the HTTP method is
+ * OPTIONS.
  *
  * @param callable|string handler
  */

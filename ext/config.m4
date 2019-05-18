@@ -34,6 +34,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/annotations/adapterinterface.zep.c
 	phalcon/db/adapter.zep.c
 	phalcon/db/dialectinterface.zep.c
+	phalcon/firewall/adapterinterface.zep.c
 	phalcon/logger/adapter/adapterinterface.zep.c
 	phalcon/logger/formatter/formatterinterface.zep.c
 	phalcon/mvc/entityinterface.zep.c
@@ -42,9 +43,11 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/translate/adapterinterface.zep.c
 	phalcon/annotations/adapter.zep.c
 	phalcon/assets/filterinterface.zep.c
+	phalcon/collection.zep.c
 	phalcon/db/adapter/pdo.zep.c
 	phalcon/db/dialect.zep.c
 	phalcon/diinterface.zep.c
+	phalcon/firewall/adapter.zep.c
 	phalcon/flashinterface.zep.c
 	phalcon/http/message/stream.zep.c
 	phalcon/image/adapterinterface.zep.c
@@ -62,7 +65,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/application/exception.zep.c
 	phalcon/assets/asset.zep.c
 	phalcon/assets/inline.zep.c
-	phalcon/collection.zep.c
 	phalcon/di.zep.c
 	phalcon/dispatcher.zep.c
 	phalcon/flash.zep.c
@@ -95,6 +97,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/escaperinterface.zep.c
 	phalcon/events/eventinterface.zep.c
 	phalcon/events/managerinterface.zep.c
+	phalcon/html/interfaces/attributesinterface.zep.c
+	phalcon/html/interfaces/renderinterface.zep.c
 	phalcon/http/cookieinterface.zep.c
 	phalcon/http/request/fileinterface.zep.c
 	phalcon/http/requestinterface.zep.c
@@ -245,6 +249,10 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/filter/sanitize/upperfirst.zep.c
 	phalcon/filter/sanitize/upperwords.zep.c
 	phalcon/filter/sanitize/url.zep.c
+	phalcon/firewall/adapter/acl.zep.c
+	phalcon/firewall/adapter/annotations.zep.c
+	phalcon/firewall/adapter/micro/acl.zep.c
+	phalcon/firewall/exception.zep.c
 	phalcon/flash/direct.zep.c
 	phalcon/flash/exception.zep.c
 	phalcon/flash/session.zep.c
@@ -267,6 +275,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/helper/exception.zep.c
 	phalcon/helper/number.zep.c
 	phalcon/helper/str.zep.c
+	phalcon/html/attributes.zep.c
 	phalcon/html/breadcrumbs.zep.c
 	phalcon/html/exception.zep.c
 	phalcon/html/helper/anchor.zep.c

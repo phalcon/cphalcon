@@ -740,7 +740,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns) {
 				ZVAL_STRING(&_52$$38, "/^'|'?::[[:alnum:][:space:]]+$/");
 				ZEPHIR_INIT_NVAR(&_53$$38);
 				ZVAL_STRING(&_53$$38, "");
-				ZEPHIR_CALL_FUNCTION(&_54$$38, "preg_replace", &_55, 22, &_52$$38, &_53$$38, &_51$$38);
+				ZEPHIR_CALL_FUNCTION(&_54$$38, "preg_replace", &_55, 25, &_52$$38, &_53$$38, &_51$$38);
 				zephir_check_call_status();
 				zephir_array_update_string(&definition, SL("default"), &_54$$38, PH_COPY | PH_SEPARATE);
 				zephir_array_fetch_string(&_56$$38, &definition, SL("default"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 507 TSRMLS_CC);
@@ -1034,7 +1034,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns) {
 					ZVAL_STRING(&_109$$75, "/^'|'?::[[:alnum:][:space:]]+$/");
 					ZEPHIR_INIT_NVAR(&_110$$75);
 					ZVAL_STRING(&_110$$75, "");
-					ZEPHIR_CALL_FUNCTION(&_111$$75, "preg_replace", &_55, 22, &_109$$75, &_110$$75, &_108$$75);
+					ZEPHIR_CALL_FUNCTION(&_111$$75, "preg_replace", &_55, 25, &_109$$75, &_110$$75, &_108$$75);
 					zephir_check_call_status();
 					zephir_array_update_string(&definition, SL("default"), &_111$$75, PH_COPY | PH_SEPARATE);
 					zephir_array_fetch_string(&_112$$75, &definition, SL("default"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 507 TSRMLS_CC);

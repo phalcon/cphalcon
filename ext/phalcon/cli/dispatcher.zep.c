@@ -41,7 +41,9 @@
  * use Phalcon\Cli\Dispatcher;
  *
  * $di = new Di();
+ *
  * $dispatcher = new Dispatcher();
+ *
  * $dispatcher->setDi($di);
  *
  * $dispatcher->setTaskName("posts");
@@ -443,7 +445,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, throwDispatchException) {
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(&exception, "phalcon/Cli/Dispatcher.zep", 226 TSRMLS_CC);
+	zephir_throw_exception_debug(&exception, "phalcon/Cli/Dispatcher.zep", 228 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

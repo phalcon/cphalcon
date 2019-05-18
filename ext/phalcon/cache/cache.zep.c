@@ -32,8 +32,8 @@
 /**
  * Phalcon\Cache
  *
- * This component offers caching capabilities for your application. Phalcon\Cache
- * implements PSR-16.
+ * This component offers caching capabilities for your application.
+ * Phalcon\Cache implements PSR-16.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Cache) {
 

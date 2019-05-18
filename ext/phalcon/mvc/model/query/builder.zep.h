@@ -88,8 +88,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_
 #else
 	ZEND_ARG_INFO(0, conditions)
 #endif
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -276,8 +276,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_h
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_having, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
 #endif
 	ZEND_ARG_INFO(0, conditions)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -504,8 +504,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_
 #else
 	ZEND_ARG_INFO(0, conditions)
 #endif
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200

@@ -601,7 +601,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, convertBoundParams) {
 		ZEPHIR_INIT_NVAR(&placeMatch);
 		ZEPHIR_INIT_VAR(&_9$$3);
 		ZVAL_STRING(&_9$$3, "?");
-		ZEPHIR_CALL_FUNCTION(&boundSql, "preg_replace", NULL, 22, &bindPattern, &_9$$3, &sql);
+		ZEPHIR_CALL_FUNCTION(&boundSql, "preg_replace", NULL, 25, &bindPattern, &_9$$3, &sql);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&boundSql, &sql);
@@ -866,7 +866,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 							do {
 								if (ZEPHIR_IS_LONG(&type, 1)) {
 									ZVAL_LONG(&_6$$12, 10);
-									ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_7, 23, &value, &_6$$12);
+									ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_7, 26, &value, &_6$$12);
 									zephir_check_call_status();
 									break;
 								}
@@ -1047,7 +1047,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, executePrepared) {
 								do {
 									if (ZEPHIR_IS_LONG(&type, 1)) {
 										ZVAL_LONG(&_26$$43, 10);
-										ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_7, 23, &value, &_26$$43);
+										ZEPHIR_CALL_FUNCTION(&castValue, "intval", &_7, 26, &value, &_26$$43);
 										zephir_check_call_status();
 										break;
 									}
@@ -1495,7 +1495,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, query) {
 			zephir_check_call_status();
 		}
 		object_init_ex(return_value, phalcon_db_result_pdo_ce);
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 24, this_ptr, &statement, &sqlStatement, bindParams, bindTypes);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 27, this_ptr, &statement, &sqlStatement, bindParams, bindTypes);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

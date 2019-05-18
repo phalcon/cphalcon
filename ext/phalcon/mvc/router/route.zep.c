@@ -183,8 +183,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, beforeMatch) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern) {
 
-	zval *pattern_param = NULL, idPattern, _0$$4, _1$$4, _2$$5, _3$$5, _4$$6, _5$$6, _6$$7, _7$$7, _8$$8, _9$$8, _10$$8, _11$$9, _12$$9, _13$$9;
-	zval pattern;
+	zval *pattern_param = NULL, _0$$4, _1$$4, _2$$5, _3$$5, _4$$6, _5$$6, _6$$7, _7$$7, _8$$8, _9$$8, _10$$8, _11$$9, _12$$9, _13$$9;
+	zval pattern, idPattern;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&pattern);

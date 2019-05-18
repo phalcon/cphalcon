@@ -248,11 +248,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate) {
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_VAR(&_16$$12);
 		object_init_ex(&_16$$12, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_17$$12, "strtr", NULL, 63, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_17$$12, "strtr", NULL, 66, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_18$$12);
 		ZVAL_STRING(&_18$$12, "Ip");
-		ZEPHIR_CALL_METHOD(NULL, &_16$$12, "__construct", NULL, 400, &_17$$12, field, &_18$$12);
+		ZEPHIR_CALL_METHOD(NULL, &_16$$12, "__construct", NULL, 401, &_17$$12, field, &_18$$12);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_16$$12);
 		zephir_check_call_status();

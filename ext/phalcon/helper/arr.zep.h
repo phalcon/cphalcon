@@ -3,6 +3,7 @@ extern zend_class_entry *phalcon_helper_arr_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Helper_Arr);
 
+PHP_METHOD(Phalcon_Helper_Arr, arrayToObject);
 PHP_METHOD(Phalcon_Helper_Arr, chunk);
 PHP_METHOD(Phalcon_Helper_Arr, first);
 PHP_METHOD(Phalcon_Helper_Arr, firstKey);
@@ -22,6 +23,10 @@ PHP_METHOD(Phalcon_Helper_Arr, split);
 PHP_METHOD(Phalcon_Helper_Arr, validateAll);
 PHP_METHOD(Phalcon_Helper_Arr, validateAny);
 PHP_METHOD(Phalcon_Helper_Arr, filterCollection);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_helper_arr_arraytoobject, 0, 0, 1)
+	ZEND_ARG_ARRAY_INFO(0, collection, 0)
+ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_arr_chunk, 0, 2, IS_ARRAY, 0)
@@ -205,6 +210,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_arr_filtercollect
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_helper_arr_method_entry) {
+	PHP_ME(Phalcon_Helper_Arr, arrayToObject, arginfo_phalcon_helper_arr_arraytoobject, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Helper_Arr, chunk, arginfo_phalcon_helper_arr_chunk, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Helper_Arr, first, arginfo_phalcon_helper_arr_first, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Helper_Arr, firstKey, arginfo_phalcon_helper_arr_firstkey, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)

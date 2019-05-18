@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey) {
 	}
 	ZEPHIR_CALL_METHOD(&_5, reference, "getcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "getcolumnlist", NULL, 39, &_5);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "getcolumnlist", NULL, 42, &_5);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_7, reference, "getreferencedtable", NULL, 0);
 	zephir_check_call_status();
@@ -234,7 +234,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_10, reference, "getreferencedcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_9, this_ptr, "getcolumnlist", NULL, 39, &_10);
+	ZEPHIR_CALL_METHOD(&_9, this_ptr, "getcolumnlist", NULL, 42, &_10);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_11);
 	ZEPHIR_CONCAT_SVSVSVS(&_11, " FOREIGN KEY (", &_4, ") REFERENCES ", &_6, "(", &_9, ")");
@@ -321,7 +321,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addIndex) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_4, index, "getcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getcolumnlist", NULL, 39, &_4);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getcolumnlist", NULL, 42, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	ZEPHIR_CONCAT_SVSVS(&_5, "`", &_2, "` (", &_3, ")");
@@ -376,7 +376,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addPrimaryKey) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, index, "getcolumns", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getcolumnlist", NULL, 39, &_2);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getcolumnlist", NULL, 42, &_2);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_SVSVS(return_value, "ALTER TABLE ", &_0, " ADD PRIMARY KEY (", &_1, ")");
 	RETURN_MM();
@@ -641,7 +641,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable) {
 				if (ZEPHIR_IS_STRING(&indexName, "PRIMARY")) {
 					ZEPHIR_CALL_METHOD(&_27$$23, &index, "getcolumns", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_26$$23, this_ptr, "getcolumnlist", &_28, 39, &_27$$23);
+					ZEPHIR_CALL_METHOD(&_26$$23, this_ptr, "getcolumnlist", &_28, 42, &_27$$23);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&indexSql);
 					ZEPHIR_CONCAT_SVS(&indexSql, "PRIMARY KEY (", &_26$$23, ")");
@@ -650,13 +650,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable) {
 					if (!(ZEPHIR_IS_EMPTY(&indexType))) {
 						ZEPHIR_CALL_METHOD(&_30$$25, &index, "getcolumns", NULL, 0);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&_29$$25, this_ptr, "getcolumnlist", &_28, 39, &_30$$25);
+						ZEPHIR_CALL_METHOD(&_29$$25, this_ptr, "getcolumnlist", &_28, 42, &_30$$25);
 						zephir_check_call_status();
 						ZEPHIR_CONCAT_VSVSVS(&indexSql, &indexType, " KEY `", &indexName, "` (", &_29$$25, ")");
 					} else {
 						ZEPHIR_CALL_METHOD(&_32$$26, &index, "getcolumns", NULL, 0);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&_31$$26, this_ptr, "getcolumnlist", &_28, 39, &_32$$26);
+						ZEPHIR_CALL_METHOD(&_31$$26, this_ptr, "getcolumnlist", &_28, 42, &_32$$26);
 						zephir_check_call_status();
 						ZEPHIR_CONCAT_SVSVS(&indexSql, "KEY `", &indexName, "` (", &_31$$26, ")");
 					}
@@ -681,7 +681,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable) {
 					if (ZEPHIR_IS_STRING(&indexName, "PRIMARY")) {
 						ZEPHIR_CALL_METHOD(&_34$$28, &index, "getcolumns", NULL, 0);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&_33$$28, this_ptr, "getcolumnlist", &_28, 39, &_34$$28);
+						ZEPHIR_CALL_METHOD(&_33$$28, this_ptr, "getcolumnlist", &_28, 42, &_34$$28);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&indexSql);
 						ZEPHIR_CONCAT_SVS(&indexSql, "PRIMARY KEY (", &_33$$28, ")");
@@ -690,13 +690,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable) {
 						if (!(ZEPHIR_IS_EMPTY(&indexType))) {
 							ZEPHIR_CALL_METHOD(&_36$$30, &index, "getcolumns", NULL, 0);
 							zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(&_35$$30, this_ptr, "getcolumnlist", &_28, 39, &_36$$30);
+							ZEPHIR_CALL_METHOD(&_35$$30, this_ptr, "getcolumnlist", &_28, 42, &_36$$30);
 							zephir_check_call_status();
 							ZEPHIR_CONCAT_VSVSVS(&indexSql, &indexType, " KEY `", &indexName, "` (", &_35$$30, ")");
 						} else {
 							ZEPHIR_CALL_METHOD(&_38$$31, &index, "getcolumns", NULL, 0);
 							zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(&_37$$31, this_ptr, "getcolumnlist", &_28, 39, &_38$$31);
+							ZEPHIR_CALL_METHOD(&_37$$31, this_ptr, "getcolumnlist", &_28, 42, &_38$$31);
 							zephir_check_call_status();
 							ZEPHIR_CONCAT_SVSVS(&indexSql, "KEY `", &indexName, "` (", &_37$$31, ")");
 						}
@@ -720,13 +720,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable) {
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&_43$$33, &reference, "getcolumns", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_42$$33, this_ptr, "getcolumnlist", &_28, 39, &_43$$33);
+				ZEPHIR_CALL_METHOD(&_42$$33, this_ptr, "getcolumnlist", &_28, 42, &_43$$33);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&_44$$33, &reference, "getreferencedtable", NULL, 0);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&_46$$33, &reference, "getreferencedcolumns", NULL, 0);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_45$$33, this_ptr, "getcolumnlist", &_28, 39, &_46$$33);
+				ZEPHIR_CALL_METHOD(&_45$$33, this_ptr, "getcolumnlist", &_28, 42, &_46$$33);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&referenceSql);
 				ZEPHIR_CONCAT_SVSVSSVSVS(&referenceSql, "CONSTRAINT `", &_41$$33, "` FOREIGN KEY (", &_42$$33, ")", " REFERENCES `", &_44$$33, "`(", &_45$$33, ")");
@@ -761,13 +761,13 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable) {
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&_51$$36, &reference, "getcolumns", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_50$$36, this_ptr, "getcolumnlist", &_28, 39, &_51$$36);
+					ZEPHIR_CALL_METHOD(&_50$$36, this_ptr, "getcolumnlist", &_28, 42, &_51$$36);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&_52$$36, &reference, "getreferencedtable", NULL, 0);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&_54$$36, &reference, "getreferencedcolumns", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_53$$36, this_ptr, "getcolumnlist", &_28, 39, &_54$$36);
+					ZEPHIR_CALL_METHOD(&_53$$36, this_ptr, "getcolumnlist", &_28, 42, &_54$$36);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&referenceSql);
 					ZEPHIR_CONCAT_SVSVSSVSVS(&referenceSql, "CONSTRAINT `", &_49$$36, "` FOREIGN KEY (", &_50$$36, ")", " REFERENCES `", &_52$$36, "`(", &_53$$36, ")");

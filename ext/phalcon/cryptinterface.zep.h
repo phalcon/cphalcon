@@ -71,6 +71,27 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cryptinterface_getavaila
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cryptinterface_getauthtag, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cryptinterface_getauthtag, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cryptinterface_getauthdata, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cryptinterface_getauthdata, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cryptinterface_getauthtaglength, 0, 0, IS_LONG, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cryptinterface_getauthtaglength, 0, 0, IS_LONG, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cryptinterface_getcipher, 0, 0, IS_STRING, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cryptinterface_getcipher, 0, 0, IS_STRING, NULL, 0)
@@ -81,6 +102,42 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cryptinterface_getkey, 0, 0, IS_STRING, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cryptinterface_getkey, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cryptinterface_setauthtag, 0, 1, Phalcon\\CryptInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cryptinterface_setauthtag, 0, 1, IS_OBJECT, "Phalcon\\CryptInterface", 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, tag, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, tag)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cryptinterface_setauthdata, 0, 1, Phalcon\\CryptInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cryptinterface_setauthdata, 0, 1, IS_OBJECT, "Phalcon\\CryptInterface", 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, data)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cryptinterface_setauthtaglength, 0, 1, Phalcon\\CryptInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cryptinterface_setauthtaglength, 0, 1, IS_OBJECT, "Phalcon\\CryptInterface", 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, length, IS_LONG, 0)
+#else
+	ZEND_ARG_INFO(0, length)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -126,8 +183,14 @@ ZEPHIR_INIT_FUNCS(phalcon_cryptinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_CryptInterface, encrypt, arginfo_phalcon_cryptinterface_encrypt)
 	PHP_ABSTRACT_ME(Phalcon_CryptInterface, encryptBase64, arginfo_phalcon_cryptinterface_encryptbase64)
 	PHP_ABSTRACT_ME(Phalcon_CryptInterface, getAvailableCiphers, arginfo_phalcon_cryptinterface_getavailableciphers)
+	PHP_ABSTRACT_ME(Phalcon_CryptInterface, getAuthTag, arginfo_phalcon_cryptinterface_getauthtag)
+	PHP_ABSTRACT_ME(Phalcon_CryptInterface, getAuthData, arginfo_phalcon_cryptinterface_getauthdata)
+	PHP_ABSTRACT_ME(Phalcon_CryptInterface, getAuthTagLength, arginfo_phalcon_cryptinterface_getauthtaglength)
 	PHP_ABSTRACT_ME(Phalcon_CryptInterface, getCipher, arginfo_phalcon_cryptinterface_getcipher)
 	PHP_ABSTRACT_ME(Phalcon_CryptInterface, getKey, arginfo_phalcon_cryptinterface_getkey)
+	PHP_ABSTRACT_ME(Phalcon_CryptInterface, setAuthTag, arginfo_phalcon_cryptinterface_setauthtag)
+	PHP_ABSTRACT_ME(Phalcon_CryptInterface, setAuthData, arginfo_phalcon_cryptinterface_setauthdata)
+	PHP_ABSTRACT_ME(Phalcon_CryptInterface, setAuthTagLength, arginfo_phalcon_cryptinterface_setauthtaglength)
 	PHP_ABSTRACT_ME(Phalcon_CryptInterface, setCipher, arginfo_phalcon_cryptinterface_setcipher)
 	PHP_ABSTRACT_ME(Phalcon_CryptInterface, setKey, arginfo_phalcon_cryptinterface_setkey)
 	PHP_ABSTRACT_ME(Phalcon_CryptInterface, setPadding, arginfo_phalcon_cryptinterface_setpadding)

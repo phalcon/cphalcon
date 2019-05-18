@@ -42,7 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Annotation) {
 	/**
 	 * Annotation Arguments
 	 *
-	 * @var string
+	 * @var array
 	 */
 	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("arguments"), ZEND_ACC_PROTECTED TSRMLS_CC);
 

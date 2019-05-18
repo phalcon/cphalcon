@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Forms_Element, __construct) {
 	zephir_fast_trim(&_0, &name, NULL , ZEPHIR_TRIM_BOTH TSRMLS_CC);
 	zephir_get_strval(&name, &_0);
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&name))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Form element name is required", "phalcon/Forms/Element.zep", 53);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Form element name is required", "phalcon/Forms/Element.zep", 54);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("name"), &name);
@@ -766,7 +766,7 @@ PHP_METHOD(Phalcon_Forms_Element, setFilters) {
 		_0 = Z_TYPE_P(filters) != IS_ARRAY;
 	}
 	if (UNEXPECTED(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Wrong filter type added", "phalcon/Forms/Element.zep", 433);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Wrong filter type added", "phalcon/Forms/Element.zep", 434);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("filters"), filters);

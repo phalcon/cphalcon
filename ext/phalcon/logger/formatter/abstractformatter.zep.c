@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, interpolate) {
 		}
 		ZEPHIR_INIT_NVAR(&value);
 		ZEPHIR_INIT_NVAR(&key);
-		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 63, &message, &replace);
+		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 66, &message, &replace);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

@@ -562,13 +562,13 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 		ZVAL_LONG(&_2$$3, 6);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "en_US.UTF-8");
-		ZEPHIR_CALL_FUNCTION(&locale, "setlocale", NULL, 251, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&locale, "setlocale", NULL, 252, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "UTF-8");
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "ASCII//TRANSLIT");
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "iconv", NULL, 252, &_3$$3, &_4$$3, &text);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "iconv", NULL, 253, &_3$$3, &_4$$3, &text);
 		zephir_check_call_status();
 		zephir_get_strval(&text, &_5$$3);
 	}
@@ -627,7 +627,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	ZVAL_STRING(&_0, "/[^a-zA-Z0-9\\/_|+ -]/");
 	ZEPHIR_INIT_VAR(&_15);
 	ZVAL_STRING(&_15, "");
-	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 22, &_0, &_15, &text);
+	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 25, &_0, &_15, &text);
 	zephir_check_call_status();
 	if (lowercase) {
 		ZEPHIR_INIT_VAR(&_16$$10);
@@ -636,7 +636,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "/[\\/_|+ -]+/");
-	ZEPHIR_CALL_FUNCTION(&_17, "preg_replace", NULL, 22, &_0, &separator, &friendly);
+	ZEPHIR_CALL_FUNCTION(&_17, "preg_replace", NULL, 25, &_0, &separator, &friendly);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&friendly, &_17);
 	ZEPHIR_INIT_NVAR(&_0);
@@ -648,7 +648,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	zephir_check_call_status();
 	if (zephir_is_true(&_17)) {
 		ZVAL_LONG(&_18$$11, 6);
-		ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 251, &_18$$11, &locale);
+		ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 252, &_18$$11, &locale);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(&friendly);
@@ -972,7 +972,7 @@ PHP_METHOD(Phalcon_Tag, getTitle) {
 		zephir_read_static_property_ce(&_6$$3, phalcon_tag_ce, SL("documentPrependTitle"), PH_NOISY_CC);
 		ZEPHIR_CPY_WRT(&documentPrependTitle, &_6$$3);
 		if (!(ZEPHIR_IS_EMPTY(&documentPrependTitle))) {
-			ZEPHIR_CALL_FUNCTION(&tmp$$5, "array_reverse", NULL, 254, &documentPrependTitle);
+			ZEPHIR_CALL_FUNCTION(&tmp$$5, "array_reverse", NULL, 255, &documentPrependTitle);
 			zephir_check_call_status();
 			zephir_is_iterable(&tmp$$5, 0, "phalcon/Tag.zep", 479);
 			if (Z_TYPE_P(&tmp$$5) == IS_ARRAY) {

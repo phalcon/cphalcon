@@ -562,7 +562,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale) {
 	zephir_check_call_status();
 	zephir_read_property(&_9, this_ptr, SL("locale"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_10, 6);
-	ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 251, &_10, &_9);
+	ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 252, &_10, &_9);
 	zephir_check_call_status();
 	RETURN_MM_MEMBER(getThis(), "locale");
 
@@ -621,17 +621,17 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, prepareOptions) {
 	zephir_check_call_status();
 	zephir_fast_array_merge(&_0, &_1, &options TSRMLS_CC);
 	ZEPHIR_CPY_WRT(&options, &_0);
-	zephir_array_fetch_string(&_2, &options, SL("category"), PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Gettext.zep", 241 TSRMLS_CC);
-	zephir_array_fetch_string(&_3, &options, SL("locale"), PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Gettext.zep", 243 TSRMLS_CC);
+	zephir_array_fetch_string(&_2, &options, SL("category"), PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Gettext.zep", 244 TSRMLS_CC);
+	zephir_array_fetch_string(&_3, &options, SL("locale"), PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Gettext.zep", 246 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setlocale", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
-	zephir_array_fetch_string(&_4, &options, SL("defaultDomain"), PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Gettext.zep", 247 TSRMLS_CC);
+	zephir_array_fetch_string(&_4, &options, SL("defaultDomain"), PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Gettext.zep", 250 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setdefaultdomain", NULL, 0, &_4);
 	zephir_check_call_status();
-	zephir_array_fetch_string(&_5, &options, SL("directory"), PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Gettext.zep", 251 TSRMLS_CC);
+	zephir_array_fetch_string(&_5, &options, SL("directory"), PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Gettext.zep", 254 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setdirectory", NULL, 0, &_5);
 	zephir_check_call_status();
-	zephir_array_fetch_string(&_6, &options, SL("defaultDomain"), PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Gettext.zep", 255 TSRMLS_CC);
+	zephir_array_fetch_string(&_6, &options, SL("defaultDomain"), PH_NOISY | PH_READONLY, "phalcon/Translate/Adapter/Gettext.zep", 258 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setdomain", NULL, 0, &_6);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

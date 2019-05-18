@@ -762,7 +762,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 	ZEPHIR_INIT_VAR(&completePath);
 	ZEPHIR_CONCAT_VV(&completePath, &basePath, &targetPath);
 	if ((zephir_file_exists(&completePath TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 64, &completePath);
+		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 67, &completePath);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

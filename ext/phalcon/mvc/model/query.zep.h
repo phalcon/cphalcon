@@ -300,8 +300,8 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__executeselect, 0, 0, 3)
 	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, simulate, _IS_BOOL, 0)
 #else
@@ -315,8 +315,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query__executei
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query__executeinsert, 0, 3, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\StatusInterface", 0)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -325,8 +325,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query__executeu
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query__executeupdate, 0, 3, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\StatusInterface", 0)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -335,8 +335,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query__executed
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query__executedelete, 0, 3, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\StatusInterface", 0)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -346,13 +346,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query__getrela
 #endif
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_execute, 0, 0, 0)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -360,8 +360,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_getsingle
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getsingleresult, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\ModelInterface", 0)
 #endif
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -479,8 +479,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getreadc
 #endif
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, intermediate, 1)
-	ZEND_ARG_ARRAY_INFO(0, bindParams, 1)
-	ZEND_ARG_ARRAY_INFO(0, bindTypes, 1)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -490,8 +490,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getwrite
 #endif
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, intermediate, 1)
-	ZEND_ARG_ARRAY_INFO(0, bindParams, 1)
-	ZEND_ARG_ARRAY_INFO(0, bindTypes, 1)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200

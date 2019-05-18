@@ -32,7 +32,8 @@
 /**
  * Phalcon\Annotations\Adapter\Memory
  *
- * Stores the parsed annotations in memory. This adapter is the suitable development/testing
+ * Stores the parsed annotations in memory. This adapter is the suitable
+ * development/testing
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory) {
 
