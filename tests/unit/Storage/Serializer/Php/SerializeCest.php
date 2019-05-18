@@ -14,9 +14,9 @@ namespace Phalcon\Test\Unit\Storage\Serializer\Php;
 
 use Codeception\Example;
 use Phalcon\Storage\Serializer\Php;
-use function serialize;
 use stdClass;
 use UnitTester;
+use function serialize;
 
 class SerializeCest
 {

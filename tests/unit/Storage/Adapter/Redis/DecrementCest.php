@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Redis;
 
-use function getOptionsRedis;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
+use function getOptionsRedis;
 
 class DecrementCest
 {

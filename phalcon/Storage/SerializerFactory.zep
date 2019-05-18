@@ -10,20 +10,11 @@
 
 namespace Phalcon\Storage;
 
+use Phalcon\Factory\AbstractFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
-class SerializerFactory
+class SerializerFactory extends AbstractFactory
 {
-    /**
-     * @var array
-     */
-    private mapper = [];
-
-    /**
-     * @var array
-     */
-    private services = [];
-
     /**
      * SerializerFactory constructor.
      *
@@ -31,23 +22,7 @@ class SerializerFactory
      */
     public function __construct(array! services = [])
     {
-        var serializers, name, service;
-
-        let serializers = [
-            "base64"   : "\\Phalcon\\Storage\\Serializer\\Base64",
-            "igbinary" : "\\Phalcon\\Storage\\Serializer\\Igbinary",
-            "json"     : "\\Phalcon\\Storage\\Serializer\\Json",
-            "msgpack"  : "\\Phalcon\\Storage\\Serializer\\Msgpack",
-            "none"     : "\\Phalcon\\Storage\\Serializer\\None",
-            "php"      : "\\Phalcon\\Storage\\Serializer\\Php"
-        ];
-
-        let serializers = array_merge(serializers, services);
-
-        for name, service in serializers {
-            let this->mapper[name] = service;
-            unset(this->services[name]);
-        }
+        this->init(services);
     }
 
     /**
@@ -60,9 +35,7 @@ class SerializerFactory
     {
         var definition;
 
-        if !isset this->mapper[name] {
-            throw new Exception("Service " . name . " is not registered");
-        }
+        this->checkService(name);
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
@@ -70,5 +43,17 @@ class SerializerFactory
         }
 
         return this->services[name];
+    }
+
+    protected function getAdapters() -> array
+    {
+        return [
+            "base64"   : "\\Phalcon\\Storage\\Serializer\\Base64",
+            "igbinary" : "\\Phalcon\\Storage\\Serializer\\Igbinary",
+            "json"     : "\\Phalcon\\Storage\\Serializer\\Json",
+            "msgpack"  : "\\Phalcon\\Storage\\Serializer\\Msgpack",
+            "none"     : "\\Phalcon\\Storage\\Serializer\\None",
+            "php"      : "\\Phalcon\\Storage\\Serializer\\Php"
+        ];
     }
 }

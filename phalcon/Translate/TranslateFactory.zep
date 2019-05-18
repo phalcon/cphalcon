@@ -11,21 +11,12 @@
 namespace Phalcon\Translate;
 
 use Phalcon\Config;
+use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
 use Phalcon\Translate\InterpolatorFactory;
 
-class TranslateFactory
+class TranslateFactory extends AbstractFactory
 {
-    /**
-     * @var array
-     */
-    private mapper   = [];
-
-    /**
-     * @var array
-     */
-    private services = [];
-
     /**
      * @var InterpolatorFactory
      */
@@ -36,22 +27,9 @@ class TranslateFactory
      */
     public function __construct(<InterpolatorFactory> interpolator, array! services = [])
     {
-        var adapters, name, service;
-
         let this->interpolator = interpolator;
 
-        let adapters = [
-            "csv"     : "\\Phalcon\\Translate\\Adapter\\Csv",
-            "gettext" : "\\Phalcon\\Translate\\Adapter\\Gettext",
-            "array"   : "\\Phalcon\\Translate\\Adapter\\NativeArray"
-        ];
-
-        let adapters = array_merge(adapters, services);
-
-        for name, service in adapters {
-            let this->mapper[name] = service;
-            unset this->services[name];
-        }
+        this->init(services);
     }
 
     /**
@@ -90,9 +68,7 @@ class TranslateFactory
     {
         var definition;
 
-        if !isset this->mapper[name] {
-            throw new Exception("Service " . name . " is not registered");
-        }
+        this->checkService(name);
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
@@ -100,5 +76,14 @@ class TranslateFactory
         }
 
         return this->services[name];
+    }
+
+    protected function getAdapters() -> array
+    {
+        return [
+            "csv"     : "\\Phalcon\\Translate\\Adapter\\Csv",
+            "gettext" : "\\Phalcon\\Translate\\Adapter\\Gettext",
+            "array"   : "\\Phalcon\\Translate\\Adapter\\NativeArray"
+        ];
     }
 }

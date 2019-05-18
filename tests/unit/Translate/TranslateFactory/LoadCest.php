@@ -19,10 +19,6 @@ use Phalcon\Translate\InterpolatorFactory;
 use Phalcon\Translate\TranslateFactory;
 use UnitTester;
 
-
-
-
-
 class LoadCest
 {
     use FactoryTrait;

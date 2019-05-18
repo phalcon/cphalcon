@@ -10,21 +10,12 @@
 
 namespace Phalcon\Storage;
 
+use Phalcon\Factory\AbstractFactory;
 use Phalcon\Storage\Adapter\AbstractAdapter;
 use Phalcon\Storage\SerializerFactory;
 
-class AdapterFactory
+class AdapterFactory extends AbstractFactory
 {
-    /**
-     * @var array
-     */
-    private mapper   = [];
-
-    /**
-     * @var array
-     */
-    private services = [];
-
     /**
      * @var <SerializerFactory>
      */
@@ -35,24 +26,9 @@ class AdapterFactory
      */
     public function __construct(<SerializerFactory> factory = null, array! services = [])
     {
-        var adapters, name, service;
-        
         let this->serializerFactory = factory;
 
-        let adapters = [
-            "apcu"         : "\\Phalcon\\Storage\\Adapter\\Apcu",
-            "libmemcached" : "\\Phalcon\\Storage\\Adapter\\Libmemcached",
-            "memory"       : "\\Phalcon\\Storage\\Adapter\\Memory",
-            "redis"        : "\\Phalcon\\Storage\\Adapter\\Redis",
-            "stream"       : "\\Phalcon\\Storage\\Adapter\\Stream"
-        ];
-
-        let adapters = array_merge(adapters, services);
-
-        for name, service in adapters {
-            let this->mapper[name] = service;
-            unset this->services[name];
-        }
+        this->init(services);
     }
 
     /**
@@ -62,9 +38,7 @@ class AdapterFactory
     {
         var definition;
 
-        if !isset this->mapper[name] {
-            throw new Exception("Service " . name . " is not registered");
-        }
+        this->checkService(name);
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
@@ -72,5 +46,16 @@ class AdapterFactory
         }
 
         return this->services[name];
+    }
+
+    protected function getAdapters() -> array
+    {
+        return [
+            "apcu"         : "\\Phalcon\\Storage\\Adapter\\Apcu",
+            "libmemcached" : "\\Phalcon\\Storage\\Adapter\\Libmemcached",
+            "memory"       : "\\Phalcon\\Storage\\Adapter\\Memory",
+            "redis"        : "\\Phalcon\\Storage\\Adapter\\Redis",
+            "stream"       : "\\Phalcon\\Storage\\Adapter\\Stream"
+        ];
     }
 }
