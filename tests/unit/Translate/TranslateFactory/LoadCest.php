@@ -15,7 +15,13 @@ namespace Phalcon\Test\Unit\Translate\Factory;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\Factory;
+use Phalcon\Translate\InterpolatorFactory;
+use Phalcon\Translate\TranslateFactory;
 use UnitTester;
+
+
+
+
 
 class LoadCest
 {
@@ -38,34 +44,34 @@ class LoadCest
     {
         $I->wantToTest('Translate\Factory - load() - Config');
 
-        $options = $this->config->translate;
-
-        /** @var Gettext $translate */
-        $translate = Factory::load($options);
+        $options      = $this->config->translate;
+        $interpolator = new InterpolatorFactory();
+        $factory      = new TranslateFactory($interpolator);
+        $adapter      = $factory->load($options);
 
         $I->assertInstanceOf(
             Gettext::class,
-            $translate
+            $adapter
         );
 
         $I->assertEquals(
-            $options->category,
-            $translate->getCategory()
+            $options->options->category,
+            $adapter->getCategory()
         );
 
         $I->assertEquals(
-            $options->locale,
-            $translate->getLocale()
+            $options->options->locale,
+            $adapter->getLocale()
         );
 
         $I->assertEquals(
-            $options->defaultDomain,
-            $translate->getDefaultDomain()
+            $options->options->defaultDomain,
+            $adapter->getDefaultDomain()
         );
 
         $I->assertEquals(
-            $options->directory,
-            $translate->getDirectory()
+            $options->options->directory,
+            $adapter->getDirectory()
         );
     }
 
@@ -79,34 +85,34 @@ class LoadCest
     {
         $I->wantToTest('Translate\Factory - load() - array');
 
-        $options = $this->arrayConfig['translate'];
-
-        /** @var Gettext $translate */
-        $translate = Factory::load($options);
+        $options      = $this->arrayConfig['translate'];
+        $interpolator = new InterpolatorFactory();
+        $factory      = new TranslateFactory($interpolator);
+        $adapter      = $factory->load($options);
 
         $I->assertInstanceOf(
             Gettext::class,
-            $translate
+            $adapter
         );
 
         $I->assertEquals(
-            $options['category'],
-            $translate->getCategory()
+            $options['options']['category'],
+            $adapter->getCategory()
         );
 
         $I->assertEquals(
-            $options['locale'],
-            $translate->getLocale()
+            $options['options']['locale'],
+            $adapter->getLocale()
         );
 
         $I->assertEquals(
-            $options['defaultDomain'],
-            $translate->getDefaultDomain()
+            $options['options']['defaultDomain'],
+            $adapter->getDefaultDomain()
         );
 
         $I->assertEquals(
-            $options['directory'],
-            $translate->getDirectory()
+            $options['options']['directory'],
+            $adapter->getDirectory()
         );
     }
 }

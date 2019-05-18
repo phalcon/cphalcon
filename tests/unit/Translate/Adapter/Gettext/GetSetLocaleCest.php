@@ -12,20 +12,38 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
+use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
+use Phalcon\Translate\Adapter\Gettext;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
-class GetLocaleCest
+class GetSetLocaleCest
 {
+    use TranslateGettextTrait;
+
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: getLocale()
+     * Tests Phalcon\Translate\Adapter\Gettext :: getLocale()/setLocale()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function translateAdapterGettextGetLocale(UnitTester $I)
+    public function translateAdapterGettextGetSetLocale(UnitTester $I)
     {
-        $I->wantToTest('Translate\Adapter\Gettext - getLocale()');
+        $I->wantToTest('Translate\Adapter\Gettext - getLocale()/setLocale()');
 
-        $I->skipTest('Need implementation');
+        $params     = $this->getGettextConfig();
+        $translator = new Gettext(new InterpolatorFactory(), $params);
+
+        $I->assertEquals(
+            'en_US.utf8',
+            $translator->getLocale()
+        );
+
+        $translator->setLocale(1, 'ru');
+
+        $I->assertEquals(
+            '',
+            $translator->getLocale()
+        );
     }
 }

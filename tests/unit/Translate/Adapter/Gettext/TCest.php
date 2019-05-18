@@ -12,20 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
-use UnitTester;
+use Phalcon\Test\Fixtures\Helpers\TranslateGettextHelper;
 
-class TCest
+class TCest extends TranslateGettextHelper
 {
-    /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: t()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function translateAdapterGettextT(UnitTester $I)
-    {
-        $I->wantToTest('Translate\Adapter\Gettext - t()');
-
-        $I->skipTest('Need implementation');
-    }
+    protected $function = 't';
 }
