@@ -10,10 +10,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Image\Factory;
+namespace Phalcon\Test\Unit\Image\ImageFactory;
 
 use Phalcon\Image\Adapter\Imagick;
-use Phalcon\Image\Factory;
+use Phalcon\Image\ImageFactory;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
@@ -29,17 +29,20 @@ class LoadCest
     }
 
     /**
-     * Tests Phalcon\Image\Factory :: load() - Phalcon\Config
+     * Tests Phalcon\Image\ImageFactory :: load()
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-03-02
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-05-18
      */
-    public function imageFactoryLoadConfig(UnitTester $I)
+    public function imageImageFactoryLoad(UnitTester $I)
     {
+        $I->wantToTest('Image\ImageFactory - load()');
+
         $options = $this->config->image;
+        $factory = new ImageFactory();
 
         /** @var Imagick $image */
-        $image = Factory::load($options);
+        $image = $factory->load($options);
 
         $I->assertInstanceOf(
             Imagick::class,
@@ -58,17 +61,20 @@ class LoadCest
     }
 
     /**
-     * Tests Phalcon\Image\Factory :: load() - array
+     * Tests Phalcon\Image\ImageFactory :: load()
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-03-02
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-05-18
      */
-    public function imageFactoryLoadArray(UnitTester $I)
+    public function imageImageFactoryLoadArray(UnitTester $I)
     {
+        $I->wantToTest('Image\ImageFactory - load()');
+
         $options = $this->arrayConfig['image'];
+        $factory = new ImageFactory();
 
         /** @var Imagick $image */
-        $image = Factory::load($options);
+        $image = $factory->load($options);
 
         $I->assertInstanceOf(
             Imagick::class,
