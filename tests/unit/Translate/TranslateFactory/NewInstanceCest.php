@@ -12,10 +12,17 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\TranslateFactory;
 
+use Phalcon\Test\Fixtures\Traits\TranslateCsvTrait;
+use Phalcon\Translate\Adapter\Csv;
+use Phalcon\Translate\Adapter\AdapterInterface;
+use Phalcon\Translate\InterpolatorFactory;
+use Phalcon\Translate\TranslateFactory;
 use UnitTester;
 
 class NewInstanceCest
 {
+    use TranslateCsvTrait;
+
     /**
      * Tests Phalcon\Translate\TranslateFactory :: newInstance()
      *
@@ -26,6 +33,19 @@ class NewInstanceCest
     {
         $I->wantToTest('Translate\TranslateFactory - newInstance()');
 
-        $I->skipTest('Need implementation');
+        $interpolator = new InterpolatorFactory();
+        $factory      = new TranslateFactory($interpolator);
+        $language     = $this->getCsvConfig()['ru'];
+        $adapter      = $factory->newInstance('csv', $language);
+
+        $I->assertInstanceOf(
+            Csv::class,
+            $adapter
+        );
+
+        $I->assertInstanceOf(
+            AdapterInterface::class,
+            $adapter
+        );
     }
 }

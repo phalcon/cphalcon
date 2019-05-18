@@ -10,7 +10,7 @@
 
 namespace Phalcon\Translate;
 
-use Phalcon\Translate\Interpolator\InterpolatorFactory;
+use Phalcon\Translate\InterpolatorFactory;
 
 class TranslateFactory
 {
