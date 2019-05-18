@@ -35,11 +35,11 @@ class AdapterFactory
      */
     public function __construct(<SerializerFactory> factory = null, array! services = [])
     {
-        var helpers, name, service;
+        var adapters, name, service;
         
         let this->serializerFactory = factory;
 
-        let helpers = [
+        let adapters = [
             "apcu"         : "\\Phalcon\\Storage\\Adapter\\Apcu",
             "libmemcached" : "\\Phalcon\\Storage\\Adapter\\Libmemcached",
             "memory"       : "\\Phalcon\\Storage\\Adapter\\Memory",
@@ -47,9 +47,9 @@ class AdapterFactory
             "stream"       : "\\Phalcon\\Storage\\Adapter\\Stream"
         ];
 
-        let helpers = array_merge(helpers, services);
+        let adapters = array_merge(adapters, services);
 
-        for name, service in helpers {
+        for name, service in adapters {
             let this->mapper[name] = service;
             unset this->services[name];
         }

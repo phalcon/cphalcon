@@ -31,9 +31,9 @@ class SerializerFactory
      */
     public function __construct(array! services = [])
     {
-        var helpers, name, service;
+        var serializers, name, service;
 
-        let helpers = [
+        let serializers = [
             "base64"   : "\\Phalcon\\Storage\\Serializer\\Base64",
             "igbinary" : "\\Phalcon\\Storage\\Serializer\\Igbinary",
             "json"     : "\\Phalcon\\Storage\\Serializer\\Json",
@@ -42,9 +42,9 @@ class SerializerFactory
             "php"      : "\\Phalcon\\Storage\\Serializer\\Php"
         ];
 
-        let helpers = array_merge(helpers, services);
+        let serializers = array_merge(serializers, services);
 
-        for name, service in helpers {
+        for name, service in serializers {
             let this->mapper[name] = service;
             unset(this->services[name]);
         }

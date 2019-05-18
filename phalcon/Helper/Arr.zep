@@ -115,7 +115,7 @@ class Arr
     /**
      * Helper method to get an array element or a default
      */
-    final public static function get(array! collection, var index, var defaultValue) -> var
+    final public static function get(array! collection, var index, var defaultValue = null) -> var
     {
         var value;
 
