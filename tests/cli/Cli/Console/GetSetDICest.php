@@ -16,9 +16,6 @@ use CliTester;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetSetDICest
- */
 class GetSetDICest
 {
     use DiTrait;
@@ -26,21 +23,22 @@ class GetSetDICest
     /**
      * Tests Phalcon\Cli\Console :: getDI()/setDI()
      *
-     * @param CliTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function cliConsoleGetSetDI(CliTester $I)
     {
         $I->wantToTest('Cli\Console - getDI()/setDI()');
+
         $container = $this->newCliFactoryDefault();
 
         $console = $this->newCliConsole();
+
         $console->setDI($container);
 
-        $expected = Dispatcher::class;
-        $actual   = $console->getDI()->getShared('dispatcher');
-        $I->assertInstanceOf($expected, $actual);
+        $I->assertInstanceOf(
+            Dispatcher::class,
+            $console->getDI()->getShared('dispatcher')
+        );
     }
 }

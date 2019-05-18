@@ -12,24 +12,76 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Router;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class RemoveExtraSlashesCest
- */
 class RemoveExtraSlashesCest
 {
+    use RouterTrait;
+
     /**
-     * Tests Phalcon\Mvc\Router :: removeExtraSlashes()
+     * Tests removing extra slashes
      *
-     * @param IntegrationTester $I
+     * @author       Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since        2012-12-16
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider getMatchingWithExtraSlashes
      */
-    public function mvcRouterRemoveExtraSlashes(IntegrationTester $I)
+    public function testRemovingExtraSlashes(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Mvc\Router - removeExtraSlashes()');
-        $I->skipTest('Need implementation');
+
+        $route  = $example[0];
+        $params = $example[1];
+
+        $router = $this->getRouter();
+
+        $router->removeExtraSlashes(true);
+
+        $router->handle($route);
+
+        $I->assertTrue(
+            $router->wasMatched()
+        );
+
+        $I->assertEquals(
+            $params['controller'],
+            $router->getControllerName()
+        );
+
+        $I->assertEquals(
+            $params['action'],
+            $router->getActionName()
+        );
+    }
+
+    private function getMatchingWithExtraSlashes(): array
+    {
+        return [
+            [
+                '/index/',
+                [
+                    'controller' => 'index',
+                    'action'     => '',
+                ],
+            ],
+
+            [
+                '/session/start/',
+                [
+                    'controller' => 'session',
+                    'action'     => 'start',
+                ],
+            ],
+
+            [
+                '/users/edit/100/',
+                [
+                    'controller' => 'users',
+                    'action'     => 'edit',
+                ],
+            ],
+        ];
     }
 }

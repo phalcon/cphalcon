@@ -16,17 +16,12 @@ use Phalcon\Assets\Asset\Js;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetPathCest
- */
 class GetPathCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: getPath() - js local
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Js :: getPath() - js local
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -41,9 +36,7 @@ class GetPathCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getPath() - js remote
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Js :: getPath() - js remote
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

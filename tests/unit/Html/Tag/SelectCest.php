@@ -17,11 +17,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 use UnitTester;
 
-/**
- * Class SelectCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class SelectCest
 {
     use DiTrait;
@@ -29,8 +24,6 @@ class SelectCest
 
     /**
      * Tests Phalcon\Html\Tag :: select()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -56,8 +49,6 @@ class SelectCest
 
     /**
      * Tests Phalcon\Html\Tag :: select() - id
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
      *
@@ -90,8 +81,6 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - name
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -121,8 +110,6 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - value
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -151,8 +138,6 @@ class SelectCest
 
     /**
      * Tests Phalcon\Html\Tag :: select() - setAttribute()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -185,8 +170,6 @@ class SelectCest
 
     /**
      * Tests Phalcon\Html\Tag :: select() - setAttribute() element not present
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -221,8 +204,6 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - optgroup array with id
      *
-     * @param UnitTester $I
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -239,11 +220,11 @@ class SelectCest
             'class' => 'x_class',
         ];
         $data     = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
         $expected = '<select id="x_id" name="x_name" class="x_class">' . PHP_EOL
             . chr(9) . '<optgroup label="Active">' . PHP_EOL
@@ -260,8 +241,6 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - optgroup array without id
      *
-     * @param UnitTester $I
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -277,11 +256,11 @@ class SelectCest
             'class' => 'x_class',
         ];
         $data     = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
         $expected = '<select id="x_name" name="x_name" class="x_class">' . PHP_EOL
             . chr(9) . '<optgroup label="Active">' . PHP_EOL
@@ -298,8 +277,6 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - optgroup array with value
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -314,11 +291,11 @@ class SelectCest
             'class' => 'x_class',
         ];
         $data     = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
         $expected = '<select id="x_name" name="x_name" class="x_class">' . PHP_EOL
             . chr(9) . '<optgroup label="Active">' . PHP_EOL
@@ -335,8 +312,6 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - optgroup setAttribute()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -351,11 +326,11 @@ class SelectCest
             'size'  => '10',
         ];
         $data     = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
         $expected = '<select id="x_name" name="x_name" class="x_class" size="10">' . PHP_EOL
             . chr(9) . '<optgroup label="Active">' . PHP_EOL
@@ -376,8 +351,6 @@ class SelectCest
      * Tests Phalcon\Html\Tag :: select() - optgroup setAttribute() element not
      * present
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
      */
@@ -393,11 +366,11 @@ class SelectCest
             'size'  => '10',
         ];
         $data     = [
-            "Active" => [
+            'Active' => [
                 'A1' => 'A One',
                 'A2' => 'A Two',
             ],
-            "B"      => "B One",
+            'B'      => 'B One',
         ];
         $expected = '<select id="x_name" name="x_other" class="x_class" size="10">' . PHP_EOL
             . chr(9) . '<optgroup label="Active">' . PHP_EOL

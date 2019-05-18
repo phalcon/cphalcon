@@ -22,14 +22,13 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Uniqueness :: validate()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorUniquenessValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Uniqueness - validate()');
+
         $I->skipTest('Need implementation');
     }
 }

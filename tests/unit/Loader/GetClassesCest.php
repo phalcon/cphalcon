@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Loader;
 
 use UnitTester;
 
-/**
- * Class GetClassesCest
- */
 class GetClassesCest
 {
     /**
      * Tests Phalcon\Loader :: getClasses()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetClassesCest
     public function loaderGetClasses(UnitTester $I)
     {
         $I->wantToTest('Loader - getClasses()');
+
         $I->skipTest('Need implementation');
     }
 }

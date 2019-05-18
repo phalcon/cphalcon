@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
-/**
- * Class RegisterCest
- */
 class RegisterCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault :: register()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultRegister(UnitTester $I)
+    public function diFactoryDefaultRegister(UnitTester $I)
     {
         $I->wantToTest('Di\FactoryDefault - register()');
+
         $I->skipTest('Need implementation');
     }
 }

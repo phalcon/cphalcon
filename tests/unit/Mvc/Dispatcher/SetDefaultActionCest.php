@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class SetDefaultActionCest
- */
 class SetDefaultActionCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: setDefaultAction()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetDefaultActionCest
     public function mvcDispatcherSetDefaultAction(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - setDefaultAction()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -13,6 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Micro\Collection;
 
 use IntegrationTester;
+use Phalcon\Mvc\Micro;
+use Phalcon\Mvc\Micro\Collection;
+use Phalcon\Test\Controllers\Micro\Collections\PersonasController;
 
 /**
  * Class SetPrefixCest
@@ -22,14 +25,41 @@ class SetPrefixCest
     /**
      * Tests Phalcon\Mvc\Micro\Collection :: setPrefix()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcMicroCollectionSetPrefix(IntegrationTester $I)
+    public function testMicroCollectionsPrefixed(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Micro\Collection - setPrefix()');
-        $I->skipTest('Need implementation');
+
+        $app        = new Micro();
+        $collection = new Collection();
+
+        $collection->setPrefix('/personas');
+
+        $controller = new PersonasController();
+
+        $collection->setHandler($controller);
+
+        $collection->map('/', 'index');
+        $collection->map('/edit/{number}', 'edit');
+
+        $app->mount($collection);
+
+
+        $app->handle('/personas');
+
+        $I->assertEquals(
+            1,
+            $controller->getEntered()
+        );
+
+
+        $app->handle('/personas/edit/100');
+
+        $I->assertEquals(
+            101,
+            $controller->getEntered()
+        );
     }
 }

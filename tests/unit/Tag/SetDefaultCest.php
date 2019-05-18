@@ -16,15 +16,10 @@ use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-/**
- * Class SetDefaultCest
- */
 class SetDefaultCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: setDefault()
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2402
      * @author Dmitry Patsura <talk@dmtry.me>
@@ -32,18 +27,41 @@ class SetDefaultCest extends TagSetup
      */
     public function tagSetDefault(UnitTester $I)
     {
-        $I->wantToTest("Tag - setDefault()");
+        $I->wantToTest('Tag - setDefault()');
+
         Tag::setDefault('property1', 'testVal1');
         Tag::setDefault('property2', 'testVal2');
         Tag::setDefault('property3', 'testVal3');
 
-        $I->assertTrue(Tag::hasValue('property1'));
-        $I->assertTrue(Tag::hasValue('property2'));
-        $I->assertTrue(Tag::hasValue('property3'));
-        $I->assertFalse(Tag::hasValue('property4'));
+        $I->assertTrue(
+            Tag::hasValue('property1')
+        );
 
-        $I->assertEquals('testVal1', Tag::getValue('property1'));
-        $I->assertEquals('testVal2', Tag::getValue('property2'));
-        $I->assertEquals('testVal3', Tag::getValue('property3'));
+        $I->assertTrue(
+            Tag::hasValue('property2')
+        );
+
+        $I->assertTrue(
+            Tag::hasValue('property3')
+        );
+
+        $I->assertFalse(
+            Tag::hasValue('property4')
+        );
+
+        $I->assertEquals(
+            'testVal1',
+            Tag::getValue('property1')
+        );
+
+        $I->assertEquals(
+            'testVal2',
+            Tag::getValue('property2')
+        );
+
+        $I->assertEquals(
+            'testVal3',
+            Tag::getValue('property3')
+        );
     }
 }

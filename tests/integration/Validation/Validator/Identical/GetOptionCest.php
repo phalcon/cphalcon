@@ -26,15 +26,15 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Identical :: getOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorIdenticalGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Identical - getOption()');
+
         $validator = new Identical();
+
         $this->checkGetOption($I, $validator);
     }
 }

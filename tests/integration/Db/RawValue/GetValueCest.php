@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\RawValue;
 
 use IntegrationTester;
+use Phalcon\Db\RawValue;
 
 /**
  * Class GetValueCest
@@ -22,14 +23,18 @@ class GetValueCest
     /**
      * Tests Phalcon\Db\RawValue :: getValue()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-17
      */
     public function dbRawvalueGetValue(IntegrationTester $I)
     {
         $I->wantToTest('Db\RawValue - getValue()');
-        $I->skipTest('Need implementation');
+
+        $rawValue = new RawValue('example string');
+
+        $I->assertEquals(
+            'example string',
+            $rawValue->getValue()
+        );
     }
 }

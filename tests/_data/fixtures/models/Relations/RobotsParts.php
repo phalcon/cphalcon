@@ -19,8 +19,6 @@ use Phalcon\Mvc\Model\Row;
  *
  * @method static RobotsParts findFirst($parameters = null)
  * @method Row getRobots($parameters = null)
- *
- * @package Phalcon\Test\Models\Relations
  */
 class RobotsParts extends Model
 {

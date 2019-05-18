@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
 use UnitTester;
 
-/**
- * Class CountCest
- */
 class CountCest
 {
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: count()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,6 @@ class CountCest
     public function configAdapterGroupedCount(UnitTester $I)
     {
         $I->wantToTest("Config\Adapter\Grouped - count()");
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

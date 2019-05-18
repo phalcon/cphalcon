@@ -26,15 +26,15 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\Between :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorBetweenConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Between - __construct()');
+
         $validator = new Between();
+
         $this->checkConstruct($I, $validator);
     }
 }

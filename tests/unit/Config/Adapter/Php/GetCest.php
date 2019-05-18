@@ -15,17 +15,12 @@ namespace Phalcon\Test\Unit\Config\Adapter\Php;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     use ConfigTrait;
 
     /**
      * Tests Phalcon\Config\Adapter\Php :: get()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -29,14 +29,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_StrategyInterface) {
 }
 
 /**
- * The meta-data is obtained by reading the column descriptions from the database information schema
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaData_StrategyInterface, getMetaData);
-
-/**
  * Read the model's column map, this can't be inferred
  *
  * @todo Not implemented
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaData_StrategyInterface, getColumnMaps);
+
+/**
+ * The meta-data is obtained by reading the column descriptions from the database information schema
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaData_StrategyInterface, getMetaData);
 

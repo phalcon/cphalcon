@@ -15,25 +15,14 @@ namespace Phalcon\Test\Fixtures\Traits;
 use Phalcon\Di;
 use Phalcon\Http\Request;
 use Phalcon\Mvc\Router;
+use Phalcon\Mvc\Router\Route;
 
-/**
- * Helper\Mvc\RouterTrait
- *
- * Routing trait
- *
- * @package Helper\Mvc
- */
 trait RouterTrait
 {
     /**
      * get router and set methods
-     *
-     * @param array $settings
-     * @param bool  $defaultRoutes
-     *
-     * @return Router
      */
-    protected function getRouterAndSetRoutes(array $settings, $defaultRoutes = true)
+    protected function getRouterAndSetRoutes(array $settings, bool $defaultRoutes = true): Router
     {
         $router = $this->getRouter($defaultRoutes);
 
@@ -46,19 +35,19 @@ trait RouterTrait
 
     /**
      * set new router, params and get it
-     *
-     * @param bool $defaultRoutes
-     *
-     * @return Router
      */
-    protected function getRouter($defaultRoutes = true)
+    protected function getRouter(bool $defaultRoutes = true): Router
     {
         $router = new Router($defaultRoutes);
 
-        $di = new Di;
-        $di->setShared('request', function () {
-            return new Request;
-        });
+        $di = new Di();
+
+        $di->setShared(
+            'request',
+            function () {
+                return new Request();
+            }
+        );
 
         $router->setDI($di);
 
@@ -67,32 +56,27 @@ trait RouterTrait
 
     /**
      * Add method and return route
-     *
-     * @param Router $router
-     * @param array  $data
-     *
-     * @return \Phalcon\Mvc\Router\Route
      */
-    protected function getRouteAndSetRouteMethod($router, array $data)
+    protected function getRouteAndSetRouteMethod(Router $router, array $data): Route
     {
         $methodName = $data['methodName'];
 
         if (isset($data[1])) {
-            return $router->$methodName($data[0], $data[1]);
+            return $router->$methodName(
+                $data[0],
+                $data[1]
+            );
         }
 
-        return $router->$methodName($data[0]);
+        return $router->$methodName(
+            $data[0]
+        );
     }
 
     /**
      * get router and set methods and set host name
-     *
-     * @param array $settings
-     * @param bool  $defaultRoutes
-     *
-     * @return Router
      */
-    protected function getRouterAndSetRoutesAndHostNames(array $settings, $defaultRoutes = true)
+    protected function getRouterAndSetRoutesAndHostNames(array $settings, bool $defaultRoutes = true): Router
     {
         $router = $this->getRouter($defaultRoutes);
 
@@ -100,7 +84,9 @@ trait RouterTrait
             $route = $this->getRouteAndSetRouteMethod($router, $data);
 
             if (isset($data['hostname'])) {
-                $route->setHostname($data['hostname']);
+                $route->setHostname(
+                    $data['hostname']
+                );
             }
         }
 
@@ -110,34 +96,48 @@ trait RouterTrait
     /**
      * get router and set params for
      * Phalcon\Test\Unit\Mvc\RouterTest::testUsingRouteConverters() test
-     *
-     * @return Router
      */
-    protected function getRouterAndSetData()
+    protected function getRouterAndSetData(): Router
     {
         $router = $this->getRouter();
 
-        $router->add('/{controller:[a-z\-]+}/{action:[a-z\-]+}/this-is-a-country')
-               ->convert('controller', function ($controller) {
-                   return str_replace('-', '', $controller);
-               })
-               ->convert('action', function ($action) {
-                   return str_replace('-', '', $action);
-               })
-        ;
+        $router->add(
+            '/{controller:[a-z\-]+}/{action:[a-z\-]+}/this-is-a-country'
+        )->convert(
+            'controller',
+            function ($controller) {
+                return str_replace('-', '', $controller);
+            }
+        )->convert(
+            'action',
+            function ($action) {
+                return str_replace('-', '', $action);
+            }
+        );
 
-        $router->add('/([A-Z]+)/([0-9]+)', [
-            'controller' => 1,
-            'action'     => 'default',
-            'id'         => 2,
-        ])->convert('controller', function ($controller) {
-            return strtolower($controller);
-        })->convert('action', function ($action) {
-            return $action == 'default' ? 'index' : $action;
-        })->convert('id', function ($id) {
-            return strrev($id);
-        })
-        ;
+        $router->add(
+            '/([A-Z]+)/([0-9]+)',
+            [
+                'controller' => 1,
+                'action'     => 'default',
+                'id'         => 2,
+            ]
+        )->convert(
+            'controller',
+            function (string $controller) {
+                return strtolower($controller);
+            }
+        )->convert(
+            'action',
+            function (string $action) {
+                return $action == 'default' ? 'index' : $action;
+            }
+        )->convert(
+            'id',
+            function ($id) {
+                return strrev($id);
+            }
+        );
 
         return $router;
     }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Loader;
 
 use UnitTester;
 
-/**
- * Class RegisterNamespacesCest
- */
 class RegisterNamespacesCest
 {
     /**
      * Tests Phalcon\Loader :: registerNamespaces()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class RegisterNamespacesCest
     public function loaderRegisterNamespaces(UnitTester $I)
     {
         $I->wantToTest('Loader - registerNamespaces()');
+
         $I->skipTest('Need implementation');
     }
 }

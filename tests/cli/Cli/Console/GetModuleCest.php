@@ -15,10 +15,8 @@ namespace Phalcon\Test\Cli\Cli\Console;
 use CliTester;
 use Phalcon\Application\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Modules\Frontend\Module;
 
-/**
- * Class GetModuleCest
- */
 class GetModuleCest
 {
     use DiTrait;
@@ -26,42 +24,45 @@ class GetModuleCest
     /**
      * Tests Phalcon\Cli\Console :: getModule()
      *
-     * @param CliTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      *
      * @author Nathan Edwards <https://github.com/npfedwards>
-     * @since 2018-12-26
+     * @since  2018-12-26
      */
     public function cliConsoleGetModule(CliTester $I)
     {
         $I->wantToTest("Cli\Console - getModule()");
+
         $console = $this->newCliConsole();
 
         $console->registerModules(
             [
-                "frontend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
-                    "path" => __DIR__ . "/../../../_data/modules/frontend/Module.php",
+                'frontend' => [
+                    'className' => Module::class,
+                    'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
-                "backend" => [
-                    "className" => "Phalcon\\Test\\Modules\\Backend\\Module",
-                    "path" => __DIR__ . "/../../../_data/modules/backend/Module.php",
-                ]
+                'backend'  => [
+                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                    'path'      => dataDir('fixtures/modules/backend/Module.php'),
+                ],
             ]
         );
+
         $expected = [
-            "className" => "Phalcon\\Test\\Modules\\Frontend\\Module",
-            "path" => __DIR__ . "/../../../_data/modules/frontend/Module.php",
+            'className' => Module::class,
+            'path'      => dataDir('fixtures/modules/frontend/Module.php'),
         ];
-        $actual = $console->getModule("frontend");
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $console->getModule('frontend')
+        );
 
         $I->expectThrowable(
             new Exception("Module 'foo' isn't registered in the application container"),
             function () use ($console) {
-                $console->getModule("foo");
+                $console->getModule('foo');
             }
         );
     }

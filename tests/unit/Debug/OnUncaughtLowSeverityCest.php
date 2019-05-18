@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Debug;
 
 use UnitTester;
 
-/**
- * Class OnUncaughtLowSeverityCest
- */
 class OnUncaughtLowSeverityCest
 {
     /**
      * Tests Phalcon\Debug :: onUncaughtLowSeverity()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class OnUncaughtLowSeverityCest
     public function debugOnUncaughtLowSeverity(UnitTester $I)
     {
         $I->wantToTest('Debug - onUncaughtLowSeverity()');
+
         $I->skipTest('Need implementation');
     }
 }

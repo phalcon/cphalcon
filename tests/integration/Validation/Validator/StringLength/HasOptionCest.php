@@ -26,15 +26,19 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: hasOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorStringLengthHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength - hasOption()');
-        $validator = new StringLength(['message' => 'This is a message']);
+
+        $validator = new StringLength(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

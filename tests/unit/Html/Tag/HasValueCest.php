@@ -15,17 +15,10 @@ namespace Phalcon\Test\Unit\Html\Tag;
 use Phalcon\Html\Tag;
 use UnitTester;
 
-/**
- * Class HasValueCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class HasValueCest
 {
     /**
      * Tests Phalcon\Html\Tag :: hasValue()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -43,8 +36,6 @@ class HasValueCest
 
     /**
      * Tests Phalcon\Html\Tag :: hasValue() - POST
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

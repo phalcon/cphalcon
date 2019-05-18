@@ -26,15 +26,19 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Date :: hasOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorDateHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Date - hasOption()');
-        $validator = new Date(['message' => 'This is a message']);
+
+        $validator = new Date(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

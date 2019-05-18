@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Application\Exception;
 
 use UnitTester;
 
-/**
- * Class ToStringCest
- */
 class ToStringCest
 {
     /**
      * Tests Phalcon\Application\Exception :: __toString()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ToStringCest
     public function applicationExceptionToString(UnitTester $I)
     {
         $I->wantToTest('Application\Exception - __toString()');
+
         $I->skipTest('Need implementation');
     }
 }

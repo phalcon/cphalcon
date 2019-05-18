@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
 use UnitTester;
 
-/**
- * Class GetHeightCest
- */
 class GetHeightCest
 {
     /**
      * Tests Phalcon\Image\Adapter\Gd :: getHeight()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetHeightCest
     public function imageAdapterGdGetHeight(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Gd - getHeight()');
+
         $I->skipTest('Need implementation');
     }
 }

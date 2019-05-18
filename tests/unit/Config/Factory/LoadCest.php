@@ -17,16 +17,10 @@ use Phalcon\Config\Factory;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
-/**
- * Class LoadCest
- */
 class LoadCest
 {
     use FactoryTrait;
 
-    /**
-     * @param UnitTester $I
-     */
     public function _before(UnitTester $I)
     {
         $this->init();
@@ -35,27 +29,26 @@ class LoadCest
     /**
      * Tests Phalcon\Config\Factory :: load() - Config
      *
-     * @param UnitTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
     public function configFactoryLoadConfig(UnitTester $I)
     {
         $I->wantToTest('Config\Factory - load() - Config');
+
         $options = $this->config->config;
+
         /** @var Ini $ini */
         $ini = Factory::load($options);
 
-        $expected = Ini::class;
-        $actual   = $ini;
-        $I->assertInstanceOf($expected, $actual);
+        $I->assertInstanceOf(
+            Ini::class,
+            $ini
+        );
     }
 
     /**
      * Tests Phalcon\Config\Factory :: load() - array
-     *
-     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
@@ -63,19 +56,20 @@ class LoadCest
     public function configFactoryLoadArray(UnitTester $I)
     {
         $I->wantToTest('Config\Factory - load() - array');
-        $options = $this->arrayConfig["config"];
+
+        $options = $this->arrayConfig['config'];
+
         /** @var Ini $ini */
         $ini = Factory::load($options);
 
-        $expected = Ini::class;
-        $actual   = $ini;
-        $I->assertInstanceOf($expected, $actual);
+        $I->assertInstanceOf(
+            Ini::class,
+            $ini
+        );
     }
 
     /**
      * Tests Phalcon\Config\Factory :: load() - string
-     *
-     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-11-24
@@ -83,12 +77,15 @@ class LoadCest
     public function configFactoryLoadString(UnitTester $I)
     {
         $I->wantToTest('Config\Factory - load() - string');
+
         $filePath = $this->arrayConfig['config']['filePathExtension'];
+
         /** @var Ini $ini */
         $ini = Factory::load($filePath);
 
-        $expected = Ini::class;
-        $actual   = $ini;
-        $I->assertInstanceOf($expected, $actual);
+        $I->assertInstanceOf(
+            Ini::class,
+            $ini
+        );
     }
 }

@@ -26,15 +26,19 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Uniqueness :: hasOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorUniquenessHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Uniqueness - hasOption()');
-        $validator = new Uniqueness(['message' => 'This is a message']);
+
+        $validator = new Uniqueness(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

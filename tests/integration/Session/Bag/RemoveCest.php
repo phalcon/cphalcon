@@ -17,9 +17,6 @@ use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
-/**
- * Class RemoveCest
- */
 class RemoveCest
 {
     use DiTrait;
@@ -28,20 +25,86 @@ class RemoveCest
     /**
      * Tests Phalcon\Session\Bag :: remove()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionBagRemove(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Bag - remove()");
-        $session = new Bag("RemoveTest");
+        $I->wantToTest('Session\Bag - remove()');
 
-        $testValue = "TestValue";
-        $session->set("test", $testValue);
-        $session->remove("test");
+        $data = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
 
-        $I->assertFalse($session->has("test"));
+        $collection = new Bag('BagTest');
+
+        $collection->init($data);
+
+        $I->assertEquals(
+            $data,
+            $collection->toArray()
+        );
+
+
+
+        $collection->remove('five');
+
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $collection->toArray()
+        );
+
+
+
+        $collection->remove('FIVE');
+
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $collection->toArray()
+        );
+
+
+
+        $collection->init($data);
+
+        unset($collection['five']);
+
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $collection->toArray()
+        );
+
+
+
+        $collection->init($data);
+
+        $collection->offsetUnset('five');
+
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $collection->toArray()
+        );
     }
 }

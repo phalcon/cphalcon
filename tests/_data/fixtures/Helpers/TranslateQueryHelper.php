@@ -12,8 +12,8 @@
 namespace Phalcon\Test\Fixtures\Helpers;
 
 use Codeception\Example;
-use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Test\Fixtures\Traits\TranslateTrait;
+use Phalcon\Translate\Adapter\NativeArray;
 use UnitTester;
 
 class TranslateQueryHelper
@@ -24,9 +24,6 @@ class TranslateQueryHelper
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: query()
-     *
-     * @param UnitTester $I
-     * @param Example    $data
      *
      * @dataProvider getQueryProvider
      *
@@ -42,20 +39,26 @@ class TranslateQueryHelper
                 $data['language']
             )
         );
-        $language   = $this->getArrayConfig()[$data['code']];
-        $translator = new NativeArray(['content' => $language]);
+
+        $language = $this->getArrayConfig()[$data['code']];
+
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
+
         foreach ($data['tests'] as $key => $expected) {
-            $actual   = $translator->{$this->function}($key);
-            $I->assertEquals($expected, $actual);
+            $I->assertEquals(
+                $expected,
+                $translator->{$this->function}($key)
+            );
         }
     }
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: query() -
      * variable substitution in string with no variables
-     *
-     * @param UnitTester $I
-     * @param Example    $data
      *
      * @dataProvider getQueryProvider
      *
@@ -70,20 +73,31 @@ class TranslateQueryHelper
                 $data['language']
             )
         );
-        $language   = $this->getArrayConfig()[$data['code']];
-        $translator = new NativeArray(['content' => $language]);
+
+        $language = $this->getArrayConfig()[$data['code']];
+
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
+
         foreach ($data['tests'] as $key => $expected) {
-            $actual   = $translator->{$this->function}($key, ['name' => 'my friend']);
-            $I->assertEquals($expected, $actual);
+            $I->assertEquals(
+                $expected,
+                $translator->{$this->function}(
+                    $key,
+                    [
+                        'name' => 'my friend',
+                    ]
+                )
+            );
         }
     }
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: query() -
      * variable substitution in string (one variable)
-     *
-     * @param UnitTester $I
-     * @param Example    $data
      *
      * @dataProvider getQueryOneVariable
      *
@@ -98,8 +112,15 @@ class TranslateQueryHelper
                 $data['language']
             )
         );
-        $language   = $this->getArrayConfig()[$data['code']];
-        $translator = new NativeArray(['content' => $language]);
+
+        $language = $this->getArrayConfig()[$data['code']];
+
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
+
         foreach ($data['tests'] as $key => $expected) {
             $actual   = $translator->{$this->function}($key, ['name' => 'my friend']);
             $I->assertEquals($expected, $actual);
@@ -109,9 +130,6 @@ class TranslateQueryHelper
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: query() -
      * variable substitution in string (two variables)
-     *
-     * @param UnitTester $I
-     * @param Example    $data
      *
      * @dataProvider getQueryTwoVariables
      *
@@ -126,30 +144,43 @@ class TranslateQueryHelper
                 $data['language']
             )
         );
-        $language   = $this->getArrayConfig()[$data['code']];
-        $translator = new NativeArray(['content' => $language]);
-        $vars       = [
+
+        $language = $this->getArrayConfig()[$data['code']];
+
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
+
+        $vars = [
             'song'   => 'Dust in the wind',
             'artist' => 'Kansas',
         ];
+
         foreach ($data['tests'] as $key => $expected) {
-            $actual   = $translator->{$this->function}($key, $vars);
-            $I->assertEquals($expected, $actual);
+            $I->assertEquals(
+                $expected,
+                $translator->{$this->function}($key, $vars)
+            );
         }
     }
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: query() - array access and UTF8 strings
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
     public function testWithArrayAccessAndUTF8Strings(UnitTester $I)
     {
-        $language   = $this->getArrayConfig()['ru'];
-        $translator = new NativeArray(['content' => $language]);
+        $language = $this->getArrayConfig()['ru'];
+
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
 
         $vars = [
             'fname' => 'John',
@@ -157,15 +188,14 @@ class TranslateQueryHelper
             'mname' => 'D.',
         ];
 
-        $expected = 'Привет, John D. Doe!';
-        $actual   = $translator->{$this->function}('Hello %fname% %mname% %lname%!', $vars);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Привет, John D. Doe!',
+            $translator->{$this->function}('Hello %fname% %mname% %lname%!', $vars)
+        );
     }
 
     /**
      * Data provider for the query tests
-     *
-     * @return array
      */
     private function getQueryProvider(): array
     {
@@ -199,8 +229,6 @@ class TranslateQueryHelper
 
     /**
      * Data provider for the query one variable substitution
-     *
-     * @return array
      */
     private function getQueryOneVariable(): array
     {
@@ -231,8 +259,6 @@ class TranslateQueryHelper
 
     /**
      * Data provider for the query one variable substitution
-     *
-     * @return array
      */
     private function getQueryTwoVariables(): array
     {

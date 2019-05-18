@@ -16,15 +16,10 @@ use Phalcon\Crypt;
 use Phalcon\Crypt\Exception;
 use UnitTester;
 
-/**
- * Class SetCipherCest
- */
 class SetCipherCest
 {
     /**
      * Tests Phalcon\Crypt :: setCipher()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -33,10 +28,16 @@ class SetCipherCest
     {
         $I->wantToTest('Crypt - setCipher()');
 
-        $cipher = "aes-256-cfb";
-        $crypt  = new Crypt();
+        $cipher = 'aes-256-cfb';
+
+        $crypt = new Crypt();
+
         $crypt->setCipher($cipher);
-        $I->assertEquals($cipher, $crypt->getCipher());
+
+        $I->assertEquals(
+            $cipher,
+            $crypt->getCipher()
+        );
     }
 
     /**
@@ -45,7 +46,7 @@ class SetCipherCest
      * @author                   Phalcon Team <team@phalconphp.com>
      * @since                    2018-05-06
      *
-     * @expectedException        \Phalcon\Crypt\Exception
+     * @expectedException        Exception
      * @expectedExceptionMessage The cipher algorithm "xxx-yyy-zzz" is not
      *                           supported on this system.
      */
@@ -55,6 +56,7 @@ class SetCipherCest
             Exception::class,
             function () {
                 $crypt = new Crypt();
+
                 $crypt->setCipher('xxx-yyy-zzz');
             }
         );

@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
-/**
- * Class SetCest
- */
 class SetCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault :: set()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultSet(UnitTester $I)
+    public function diFactoryDefaultSet(UnitTester $I)
     {
         $I->wantToTest('Di\FactoryDefault - set()');
+
         $I->skipTest('Need implementation');
     }
 }

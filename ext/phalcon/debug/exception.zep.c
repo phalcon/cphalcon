@@ -26,7 +26,6 @@
  * Phalcon\Debug\Exception
  *
  * Exceptions thrown in Phalcon\Debug will use this class
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Debug_Exception) {
 

@@ -15,16 +15,10 @@ namespace Phalcon\Test\Unit\Config\Adapter\Yaml;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class GetPathDelimiterCest
- */
 class GetPathDelimiterCest
 {
     use ConfigTrait;
 
-    /**
-     * @param UnitTester $I
-     */
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('yaml');
@@ -32,8 +26,6 @@ class GetPathDelimiterCest
 
     /**
      * Tests Phalcon\Config\Adapter\Yaml :: getPathDelimiter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

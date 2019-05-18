@@ -23,6 +23,6 @@ class IsAllowEmptyCest
      */
     public function validationValidatorFileIsAllowEmpty(IntegrationTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

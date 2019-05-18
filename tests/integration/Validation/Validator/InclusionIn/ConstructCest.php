@@ -26,15 +26,15 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\InclusionIn :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorInclusionInConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\InclusionIn - __construct()');
+
         $validator = new InclusionIn();
+
         $this->checkConstruct($I, $validator);
     }
 }

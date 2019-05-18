@@ -24,6 +24,7 @@ PHP_METHOD(Phalcon_Flash, warning);
 PHP_METHOD(Phalcon_Flash, getTemplate);
 PHP_METHOD(Phalcon_Flash, prepareEscapedMessage);
 PHP_METHOD(Phalcon_Flash, prepareHtmlMessage);
+zend_object *zephir_init_properties_Phalcon_Flash(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_flash___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, cssClasses)
@@ -130,7 +131,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_flash_setdi, 0, 1, Phalco
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_setdi, 0, 1, IS_OBJECT, "Phalcon\\Flash", 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200

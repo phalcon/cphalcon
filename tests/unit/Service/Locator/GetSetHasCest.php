@@ -16,15 +16,10 @@ use Phalcon\Service\Locator;
 use Phalcon\Test\Fixtures\Service\HelloService;
 use UnitTester;
 
-/**
- * Class GetSetHasCest
- */
 class GetSetHasCest
 {
     /**
      * Tests Phalcon\Service\Locator :: get()/set()/has() - has()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-01-19
@@ -32,6 +27,7 @@ class GetSetHasCest
     public function serviceLocatorGetSetHasHas(UnitTester $I)
     {
         $I->wantToTest('Service\Locator - get()/set()/has() - has()');
+
         $services = [
             'helloFilter' => function () {
                 return new HelloService();
@@ -40,14 +36,13 @@ class GetSetHasCest
 
         $locator = new Locator($services);
 
-        $actual = $locator->has('helloFilter');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $locator->has('helloFilter')
+        );
     }
 
     /**
      * Tests Phalcon\Service\Locator :: get()/set()/has() - get()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -55,23 +50,27 @@ class GetSetHasCest
     public function serviceLocatorGetSetHasGet(UnitTester $I)
     {
         $I->wantToTest('Service\Locator - get()/set()/has() - get()');
+
         $services = [
-            'helloFilter' => HelloService::class,
+            'helloFilter' => function () {
+                return new HelloService();
+            },
         ];
 
         $locator = new Locator($services);
-        $actual  = $locator->has('helloFilter');
-        $I->assertTrue($actual);
 
-        $class  = HelloService::class;
-        $actual = $locator->get('helloFilter');
-        $I->assertInstanceOf($class, $actual);
+        $I->assertTrue(
+            $locator->has('helloFilter')
+        );
+
+        $I->assertInstanceOf(
+            HelloService::class,
+            $locator->get('helloFilter')
+        );
     }
 
     /**
      * Tests Phalcon\Service\Locator :: get()/set()/has() - get() same
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -79,28 +78,32 @@ class GetSetHasCest
     public function serviceLocatorGetSetHasGetSame(UnitTester $I)
     {
         $I->wantToTest('Service\Locator - get()/set()/has() - get() - same');
+
         $services = [
-            'helloFilter' => HelloService::class,
+            'helloFilter' => function () {
+                return new HelloService();
+            },
         ];
 
         $locator = new Locator($services);
-        $actual  = $locator->has('helloFilter');
-        $I->assertTrue($actual);
 
-        /** @var object $service */
-        $expected = 'Hello Phalcon [count: 1]';
-        $actual   = $locator->get('helloFilter')('Phalcon');
-        $I->assertEquals($expected, $actual);
+        $I->assertTrue(
+            $locator->has('helloFilter')
+        );
 
-        $expected = 'Hello Phalcon [count: 2]';
-        $actual   = $locator->get('helloFilter')('Phalcon');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Hello Phalcon [count: 1]',
+            $locator->get('helloFilter')('Phalcon')
+        );
+
+        $I->assertEquals(
+            'Hello Phalcon [count: 2]',
+            $locator->get('helloFilter')('Phalcon')
+        );
     }
 
     /**
      * Tests Phalcon\Service\Locator :: get()/set()/has() - set()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -108,10 +111,12 @@ class GetSetHasCest
     public function serviceLocatorGetSetHasSet(UnitTester $I)
     {
         $I->wantToTest('Service\Locator - get()/set()/has() - set()');
+
         $locator = new Locator();
 
-        $actual = $locator->has('helloFilter');
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $locator->has('helloFilter')
+        );
 
         $locator->set(
             'helloFilter',
@@ -119,7 +124,9 @@ class GetSetHasCest
                 return new HelloService();
             }
         );
-        $actual = $locator->has('helloFilter');
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $locator->has('helloFilter')
+        );
     }
 }

@@ -34,7 +34,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Binder_BindableInterface) {
 }
 
 /**
- * Return the model name or models names and parameters keys associated with this class
+ * Return the model name or models names and parameters keys associated with
+ * this class
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Binder_BindableInterface, getModelName);
 

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class GetLastControllerCest
- */
 class GetLastControllerCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getLastController()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetLastControllerCest
     public function mvcDispatcherGetLastController(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - getLastController()');
+
         $I->skipTest('Need implementation');
     }
 }

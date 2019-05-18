@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/string.h"
-#include "kernel/operators.h"
 #include "kernel/array.h"
 
 
@@ -76,25 +76,27 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Numericality) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 
-	zend_bool _4;
+	zval pattern, _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, value, message, label, replacePairs, code, _0, _1, _2, _3, _5$$3, _6$$3, _7$$3;
+	zval *validation, validation_sub, *field, field_sub, code, label, message, replacePairs, value, _1, _2, _3, _4, _5$$3, _6$$3, _7$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
 	ZVAL_UNDEF(&field_sub);
-	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&message);
-	ZVAL_UNDEF(&label);
-	ZVAL_UNDEF(&replacePairs);
 	ZVAL_UNDEF(&code);
-	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&label);
+	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&replacePairs);
+	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_6$$3);
 	ZVAL_UNDEF(&_7$$3);
+	ZVAL_UNDEF(&pattern);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
@@ -103,18 +105,21 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_0);
+	zephir_get_strval(&_0, &value);
+	ZEPHIR_CPY_WRT(&value, &_0);
 	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "/^-?\\d+(?:[\\.,]\\d+)?$/");
 	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, " ");
 	ZEPHIR_INIT_VAR(&_3);
-	ZVAL_STRING(&_3, "/^-?\\d+(?:[\\.,]\\d+)?$/");
-	zephir_preg_match(&_2, &_3, &value, &_0, 0, 0 , 0  TSRMLS_CC);
-	_4 = !zephir_is_true(&_2);
-	if (!(_4)) {
-		_4 = !(zephir_is_numeric(&value));
-	}
-	if (_4) {
+	ZVAL_STRING(&_3, "");
+	zephir_fast_str_replace(&_1, &_2, &_3, &value TSRMLS_CC);
+	ZEPHIR_CPY_WRT(&value, &_1);
+	ZEPHIR_INIT_VAR(&pattern);
+	ZVAL_STRING(&pattern, "/((^[-]?[0-9,]+(.[0-9]+)?$)|(^[-]?[0-9.]+(,[0-9]+)?$))/");
+	ZEPHIR_INIT_VAR(&_4);
+	ZEPHIR_INIT_NVAR(&_1);
+	zephir_preg_match(&_1, &pattern, &value, &_4, 0, 0 , 0  TSRMLS_CC);
+	if (!(zephir_is_true(&_1))) {
 		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, field);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_5$$3);
@@ -128,11 +133,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_5$$3);
 		object_init_ex(&_5$$3, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_6$$3, "strtr", NULL, 48, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_6$$3, "strtr", NULL, 66, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "Numericality");
-		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 300, &_6$$3, field, &_7$$3, &code);
+		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 401, &_6$$3, field, &_7$$3, &code);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_5$$3);
 		zephir_check_call_status();

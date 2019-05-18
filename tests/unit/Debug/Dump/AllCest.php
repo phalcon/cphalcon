@@ -16,15 +16,10 @@ use Phalcon\Debug\Dump;
 use stdClass;
 use UnitTester;
 
-/**
- * Class AllCest
- */
 class AllCest
 {
     /**
      * Tests Phalcon\Debug\Dump :: all()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -37,7 +32,7 @@ class AllCest
         $test3 = new stdClass();
         $dump  = new Dump();
 
-        $expected = trim(file_get_contents(dataFolder('fixtures/Dump/variables_output.txt')));
+        $expected = trim(file_get_contents(dataDir('fixtures/Dump/variables_output.txt')));
         $actual   = $dump->all($test1, $test2, $test3);
         $I->assertEquals($expected, $actual);
     }

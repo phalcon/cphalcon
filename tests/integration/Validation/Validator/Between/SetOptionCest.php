@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Between :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorBetweenSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Between - setOption()');
+
         $validator = new Between();
+
         $this->checkSetOption($I, $validator);
     }
 }

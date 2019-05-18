@@ -15,26 +15,23 @@ namespace Phalcon\Test\Unit\Escaper;
 use Phalcon\Escaper;
 use UnitTester;
 
-/**
- * Class EscapeHtmlCest
- */
 class EscapeHtmlCest
 {
     /**
      * Tests Phalcon\Escaper :: escapeHtml()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
     public function escaperEscapeHtml(UnitTester $I)
     {
-        $I->wantToTest("Escaper - escapeHtml()");
+        $I->wantToTest('Escaper - escapeHtml()');
+
         $escaper = new Escaper();
 
-        $expected = '&lt;h1&gt;&lt;/h1&gt;';
-        $actual   = $escaper->escapeHtml("<h1></h1>");
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '&lt;h1&gt;&lt;/h1&gt;',
+            $escaper->escapeHtml('<h1></h1>')
+        );
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash;
 
 use UnitTester;
 
-/**
- * Class SetDICest
- */
 class SetDICest
 {
     /**
      * Tests Phalcon\Flash :: setDI()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetDICest
     public function flashSetDI(UnitTester $I)
     {
         $I->wantToTest('Flash - setDI()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -85,9 +85,6 @@ run.config:
     - wget --no-clobber -O /data/bin/zephir https://github.com/phalcon/zephir/releases/download/0.11.8/zephir.phar
     - chmod +x /data/bin/zephir
 
-data.beanstalkd:
-  image: schickling/beanstalkd
-
 data.memcached:
   image: nanobox/memcached:1.4
 
@@ -100,5 +97,5 @@ data.mysql:
 data.postgres:
   image: nanobox/postgresql:9.5
 
-data.redis :
-  image : nanobox/redis:3.2
+data.redis:
+  image: nanobox/redis:3.2

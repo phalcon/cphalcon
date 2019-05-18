@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Html\Breadcrumbs;
 use Phalcon\Html\Breadcrumbs;
 use UnitTester;
 
-/**
- * Class RemoveCest
- */
 class RemoveCest
 {
     /**
      * Tests Phalcon\Html\Breadcrumbs :: remove()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,27 +26,32 @@ class RemoveCest
     public function htmlBreadcrumbsRemove(UnitTester $I)
     {
         $I->wantToTest('Html\Breadcrumbs - remove()');
+
         $breadcrumbs = new Breadcrumbs();
+
         $breadcrumbs
             ->add('Home', '/')
             ->add('Users', '/users')
             ->add('Phalcon Team')
         ;
 
-        $expected = [
-            '/'      => 'Home',
-            '/users' => 'Users',
-            ''       => 'Phalcon Team',
-        ];
-        $actual   = $breadcrumbs->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [
+                '/'      => 'Home',
+                '/users' => 'Users',
+                ''       => 'Phalcon Team',
+            ],
+            $breadcrumbs->toArray()
+        );
 
         $breadcrumbs->remove('/');
-        $expected = [
-            '/users' => 'Users',
-            ''       => 'Phalcon Team',
-        ];
-        $actual   = $breadcrumbs->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            [
+                '/users' => 'Users',
+                ''       => 'Phalcon Team',
+            ],
+            $breadcrumbs->toArray()
+        );
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Libmemcached;
 
 use IntegrationTester;
 
-/**
- * Class SetDICest
- */
 class SetDICest
 {
     /**
      * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: setDI()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

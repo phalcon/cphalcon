@@ -12,21 +12,30 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset;
 
+use function dataDir;
+use function filemtime;
 use Phalcon\Assets\Asset;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-/**
- * Class GetTargetUriCest
- */
 class GetTargetUriCest
 {
     use AssetsTrait;
+    use DiTrait;
+
+    /**
+     * executed before each test
+     */
+    public function _before(UnitTester $I)
+    {
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+    }
 
     /**
      * Tests Phalcon\Assets\Asset :: getTargetUri() - css local
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -44,8 +53,6 @@ class GetTargetUriCest
     /**
      * Tests Phalcon\Assets\Asset :: getTargetUri() - css remote
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -61,8 +68,6 @@ class GetTargetUriCest
 
     /**
      * Tests Phalcon\Assets\Asset :: getTargetUri() - js local
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -80,8 +85,6 @@ class GetTargetUriCest
     /**
      * Tests Phalcon\Assets\Asset :: getTargetUri() - js remote
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -91,6 +94,58 @@ class GetTargetUriCest
         $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js', false);
 
         $expected = '/phalcon/path';
+        $asset->setTargetUri($expected);
+        $this->assetGetTargetUri($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: getTargetUri() - js versioning
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetGetTargetUriJsVersioning(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - getTargetUri() - js versioning');
+
+        $source = dataDir('assets/assets/assets-version-1.js');
+        $asset  = new Asset(
+            'js',
+            $source,
+            true,
+            false,
+            [],
+            '1.0.0'
+        );
+
+        $expected = 'js/jquery.js?ver=1.0.0';
+        $asset->setTargetUri($expected);
+        $this->assetGetTargetUri($I, $asset, $expected);
+    }
+
+    /**
+     * Tests Phalcon\Assets\Asset :: getTargetUri() - js automatic versioning
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function assetsAssetGetTargetUriJsAutoVersioning(UnitTester $I)
+    {
+        $I->wantToTest('Assets\Asset - getTargetUri() - js automatic versioning');
+
+        $source = dataDir('assets/assets/assets-version-1.js');
+        $asset  = new Asset(
+            'js',
+            $source,
+            true,
+            false,
+            [],
+            null,
+            true
+        );
+
+        $modificationTime = filemtime($source);
+        $expected         = $source . '?ver=' . $modificationTime;
         $asset->setTargetUri($expected);
         $this->assetGetTargetUri($I, $asset, $expected);
     }

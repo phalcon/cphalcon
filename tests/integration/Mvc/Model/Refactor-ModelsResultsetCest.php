@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use AppendIterator;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Personas;
@@ -360,13 +361,13 @@ class ModelsResultsetCest
         $robots->seek(1);
         $robots->valid();
         $robot = $robots->current();
-        $I->assertFalse($robot);
+        $I->assertNull($robot);
 
         $robot = $robots->getFirst();
-        $I->assertFalse($robot);
+        $I->assertNull($robot);
 
         $robot = $robots->getLast();
-        $I->assertFalse($robot);
+        $I->assertNull($robot);
 
         /**
          * @todo Check the code below
@@ -393,7 +394,7 @@ class ModelsResultsetCest
         $this->setDiMysql();
 
         // see http://php.net/manual/en/appenditerator.construct.php
-        $iterator      = new \AppendIterator();
+        $iterator      = new AppendIterator();
         $robots_first  = Robots::find(['limit' => 2]);
         $robots_second = Robots::find(['limit' => 1, 'offset' => 2]);
 
@@ -465,7 +466,7 @@ class ModelsResultsetCest
         // invalid element
         $personas->seek(33);
         $I->assertFalse($personas->valid());
-        $I->assertFalse($personas->current());
+        $I->assertNull($personas->current());
 
         /**
          * @todo Check the code below

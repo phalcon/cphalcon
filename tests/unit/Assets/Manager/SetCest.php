@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use UnitTester;
 
-/**
- * Class SetCest
- */
 class SetCest
 {
     /**
      * Tests Phalcon\Assets\Manager :: set()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetCest
     public function assetsManagerSet(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - set()');
+
         $I->skipTest('Need implementation');
     }
 }

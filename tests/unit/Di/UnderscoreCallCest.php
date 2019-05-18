@@ -14,9 +14,6 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
-/**
- * Class UnderscoreCallCest
- */
 class UnderscoreCallCest
 {
     /**
@@ -27,6 +24,6 @@ class UnderscoreCallCest
      */
     public function testUnderscoreCall(UnitTester $I)
     {
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

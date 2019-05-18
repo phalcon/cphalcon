@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Events\Event;
 
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Events\Event :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ConstructCest
     public function eventsEventConstruct(UnitTester $I)
     {
         $I->wantToTest('Events\Event - __construct()');
+
         $I->skipTest('Need implementation');
     }
 }

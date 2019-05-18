@@ -13,23 +13,45 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router\Group;
 
 use IntegrationTester;
+use Phalcon\Mvc\Router\Group;
 
-/**
- * Class GetPrefixCest
- */
 class GetPrefixCest
 {
     /**
      * Tests Phalcon\Mvc\Router\Group :: getPrefix()
      *
-     * @param IntegrationTester $I
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-17
+     */
+    public function mvcRouterGroupGetPrefixEmpty(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Router\Group - empty getPrefix()');
+
+        $group = new Group();
+
+        $I->assertEquals(
+            '',
+            $group->getPrefix()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Router\Group :: getPrefix() when nothing is set
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-17
      */
     public function mvcRouterGroupGetPrefix(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Router\Group - getPrefix()');
-        $I->skipTest('Need implementation');
+
+        $group = new Group();
+
+        $group->setPrefix('/blog');
+
+        $I->assertEquals(
+            '/blog',
+            $group->getPrefix()
+        );
     }
 }

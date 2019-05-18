@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
+use DispatcherTestDefaultNoNamespaceController;
 use Exception;
 use IntegrationTester;
 use Phalcon\Dispatcher;
@@ -21,7 +22,6 @@ use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultTwoContr
  * @link          http://www.phalconphp.com
  * @author        Andres Gutierrez <andres@phalconphp.com>
  * @author        Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package       Phalcon\Test\Integration\Mvc\Dispatcher
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -584,7 +584,7 @@ class DispatcherCest extends BaseDispatcher
 
         $actual = $dispatcher->wasForwarded();
         $I->assertFalse($actual);
-        $class = \DispatcherTestDefaultNoNamespaceController::class;
+        $class = DispatcherTestDefaultNoNamespaceController::class;
         $I->assertInstanceOf($class, $handler);
 
         $expected = [

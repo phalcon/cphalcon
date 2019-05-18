@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Cookie;
 
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Http\Cookie :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ConstructCest
     public function httpCookieConstruct(UnitTester $I)
     {
         $I->wantToTest('Http\Cookie - __construct()');
+
         $I->skipTest('Need implementation');
     }
 }

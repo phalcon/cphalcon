@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class GetURICest
- */
 class GetURICest
 {
     /**
      * Tests Phalcon\Http\Request :: getURI()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetURICest
     public function httpRequestGetURI(UnitTester $I)
     {
         $I->wantToTest('Http\Request - getURI()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -22,14 +22,13 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Regex :: validate()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorRegexValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Regex - validate()');
+
         $I->skipTest('Need implementation');
     }
 }

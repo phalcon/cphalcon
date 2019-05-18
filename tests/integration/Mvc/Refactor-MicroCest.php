@@ -16,7 +16,6 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Micro;
-use Phalcon\Test\Controllers\MicroController;
 use Phalcon\Test\Fixtures\Micro\MyMiddleware;
 use Phalcon\Test\Fixtures\Micro\MyMiddlewareStop;
 use Phalcon\Test\Fixtures\Micro\RestHandler;
@@ -25,8 +24,6 @@ use Phalcon\Test\Fixtures\Micro\RestHandler;
  * Phalcon\Test\Integration\Mvc\MicroTest
  *
  * Tests the Phalcon\Mvc\Micro component
- *
- * @package   Phalcon\Test\Integration\Mvc
  */
 class MicroCest
 {
@@ -48,12 +45,16 @@ class MicroCest
             }
         );
         $micro->setEventsManager($manager);
+
         $micro->get(
             '/test',
             function () {
                 return 'test';
             }
         );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
         $actual = $micro->handle('/test');
         $I->assertEmpty($actual);
     }
@@ -80,6 +81,8 @@ class MicroCest
             }
         );
 
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
         $expected = 'test';
         $actual   = $micro->handle('/test');
         $I->assertEquals($expected, $actual);
@@ -103,6 +106,8 @@ class MicroCest
             }
         );
 
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
         $actual = $micro->handle('/test');
         $I->assertEmpty($actual);
     }
@@ -123,6 +128,9 @@ class MicroCest
                 return 'test';
             }
         );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
         $actual = $micro->handle('/test');
         $I->assertEmpty($actual);
 
@@ -152,6 +160,9 @@ class MicroCest
                 return 'test';
             }
         );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
         $actual = $micro->handle('/test');
         $I->assertEmpty($actual);
 
@@ -170,14 +181,14 @@ class MicroCest
 
         $app = new Micro();
 
-        $app->get("/api/site", [$handler, "find"]);
-        $app->post("/api/site/save", [$handler, "save"]);
-        $app->delete("/api/site/delete/1", [$handler, "delete"]);
+        $app->get('/api/site', [$handler, 'find']);
+        $app->post('/api/site/save', [$handler, 'save']);
+        $app->delete('/api/site/delete/1', [$handler, 'delete']);
 
         //Getting the url from _url using GET
-        $_SERVER["REQUEST_METHOD"] = "GET";
+        $_SERVER['REQUEST_METHOD'] = 'GET';
 
-        $app->handle("/api/site");
+        $app->handle('/api/site');
 
         $expected = 1;
         $actual   = $handler->getNumberAccess();
@@ -188,9 +199,9 @@ class MicroCest
         $I->assertEquals($expected, $actual);
 
         //Getting the url from _url using POST
-        $_SERVER["REQUEST_METHOD"] = "POST";
+        $_SERVER['REQUEST_METHOD'] = 'POST';
 
-        $app->handle("/api/site/save");
+        $app->handle('/api/site/save');
 
         $expected = 2;
         $actual   = $handler->getNumberAccess();
@@ -201,9 +212,9 @@ class MicroCest
         $I->assertEquals($expected, $actual);
 
         //Passing directly a URI
-        $_SERVER["REQUEST_METHOD"] = "DELETE";
+        $_SERVER['REQUEST_METHOD'] = 'DELETE';
 
-        $app->handle("/api/site/delete/1");
+        $app->handle('/api/site/delete/1');
 
         $expected = 3;
         $actual   = $handler->getNumberAccess();
@@ -212,197 +223,6 @@ class MicroCest
         $expected = ['find', 'save', 'delete'];
         $actual   = $handler->getTrace();
         $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests the notFound
-     *
-     * @issue  T169
-     * @author Nikos Dimopoulos <nikos@niden.net>
-     * @since  2012-11-06
-     */
-    public function testMicroNotFoundT169(IntegrationTester $I)
-    {
-        $handler = new RestHandler();
-
-        $app = new Micro();
-
-        $app->get("/api/site", [$handler, "find"]);
-        $app->post("/api/site/save", [$handler, "save"]);
-
-        $flag = false;
-
-        $app->notFound(
-            function () use (&$flag) {
-                $flag = true;
-            }
-        );
-
-        $_SERVER["REQUEST_METHOD"] = "GET";
-
-        $app->handle("/fourohfour");
-
-        $I->assertTrue($flag);
-    }
-
-    public function testMicroBeforeHandlers(IntegrationTester $I)
-    {
-        $trace = [];
-        $app   = new Micro();
-
-        $app->before(
-            function () use ($app, &$trace) {
-                $trace[] = 1;
-                $app->stop();
-
-                return false;
-            }
-        );
-
-        $app->before(
-            function () use ($app, &$trace) {
-                $trace[] = 1;
-                $app->stop();
-
-                return false;
-            }
-        );
-
-        $app->map(
-            "/blog",
-            function () use (&$trace) {
-                $trace[] = 1;
-            }
-        );
-
-        $app->handle("/blog");
-        $I->assertCount(1, $trace);
-    }
-
-    public function testMicroAfterHandlers(IntegrationTester $I)
-    {
-        $trace = [];
-        $app   = new Micro();
-
-        $app->after(
-            function () use (&$trace) {
-                $trace[] = 1;
-            }
-        );
-
-        $app->after(
-            function () use (&$trace) {
-                $trace[] = 1;
-            }
-        );
-
-        $app->map(
-            "/blog",
-            function () use (&$trace) {
-                $trace[] = 1;
-            }
-        );
-
-        $app->handle("/blog");
-        $I->assertCount(3, $trace);
-    }
-
-    public function testMicroAfterHandlersIfOneStop(IntegrationTester $I)
-    {
-        $trace = [];
-        $app   = new Micro();
-
-        $app->after(
-            function () use (&$trace) {
-                $trace[] = 1;
-            }
-        );
-
-        $app->after(
-            function () use ($app, &$trace) {
-                $trace[] = 1;
-                $app->stop();
-            }
-        );
-
-        $app->after(
-            function () use (&$trace) {
-                $trace[] = 1;
-            }
-        );
-
-        $app->map(
-            '/blog',
-            function () use (&$trace) {
-                $trace[] = 1;
-            }
-        );
-
-        $app->handle('/blog');
-        $I->assertCount(3, $trace);
-    }
-
-    public function testMicroFinishHandlers(IntegrationTester $I)
-    {
-        $trace = [];
-        $app   = new Micro();
-
-        $app->finish(
-            function () use (&$trace) {
-                $trace[] = 1;
-            }
-        );
-
-        $app->finish(
-            function () use (&$trace) {
-                $trace[] = 1;
-            }
-        );
-
-        $app->map(
-            "/blog",
-            function () use (&$trace) {
-                $trace[] = 1;
-            }
-        );
-
-        $app->handle("/blog");
-        $I->assertCount(3, $trace);
-    }
-
-    public function testMicroFinishHandlersIfOneStop(IntegrationTester $I)
-    {
-        $trace = [];
-        $app   = new Micro();
-
-        $app->finish(
-            function () use (&$trace) {
-                $trace[] = 1;
-            }
-        );
-
-        $app->finish(
-            function () use ($app, &$trace) {
-                $trace[] = 1;
-                $app->stop();
-            }
-        );
-
-        $app->finish(
-            function () use (&$trace) {
-                $trace[] = 1;
-            }
-        );
-
-        $app->map(
-            '/blog',
-            function () use (&$trace) {
-                $trace[] = 1;
-            }
-        );
-
-        $app->handle('/blog');
-        $I->assertCount(3, $trace);
     }
 
     public function testMicroEvents(IntegrationTester $I)
@@ -422,12 +242,12 @@ class MicroCest
         $app->setEventsManager($eventsManager);
 
         $app->map(
-            "/blog",
+            '/blog',
             function () {
             }
         );
 
-        $app->handle("/blog");
+        $app->handle('/blog');
 
         $expected = [
             'beforeHandleRoute'  => true,
@@ -443,7 +263,7 @@ class MicroCest
     {
         $app = new Micro();
         $app->map(
-            "/api/site",
+            '/api/site',
             function () {
                 return true;
             }
@@ -486,7 +306,8 @@ class MicroCest
                 $trace++;
             }
         );
-        $app->handle("/api/site");
+
+        $app->handle('/api/site');
         $I->assertEquals(6, $trace);
     }
 
@@ -495,7 +316,7 @@ class MicroCest
         $app = new Micro();
 
         $app->map(
-            "/api/site",
+            '/api/site',
             function () {
                 return true;
             }
@@ -512,7 +333,7 @@ class MicroCest
         $app->finish($middleware);
         $app->finish($middleware);
 
-        $app->handle("/api/site");
+        $app->handle('/api/site');
 
         $actual = $middleware->getNumber();
         $I->assertEquals(6, $actual);
@@ -522,7 +343,7 @@ class MicroCest
     {
         $app = new Micro();
         $app->map(
-            "/api/site",
+            '/api/site',
             function () {
                 return true;
             }
@@ -539,7 +360,7 @@ class MicroCest
         $app->finish($middleware);
         $app->finish($middleware);
 
-        $app->handle("/api/site");
+        $app->handle('/api/site');
 
         $actual = $middleware->getNumber();
         $I->assertEquals(1, $actual);
@@ -588,45 +409,5 @@ class MicroCest
         $expected = 'success';
         $actual   = $app->handle('/api');
         $I->assertEquals($expected, $actual);
-    }
-
-    public function testMicroCollectionVia(IntegrationTester $I)
-    {
-        $app        = new Micro();
-        $collection = new Micro\Collection();
-        $collection->setHandler(new MicroController());
-        $collection->mapVia(
-            "/test",
-            'indexAction',
-            ["POST", "GET"],
-            "test"
-        );
-        $app->mount($collection);
-
-        $expected = ["POST", "GET"];
-        $actual   = $app->getRouter()->getRouteByName("test")->getHttpMethods();
-        $I->assertEquals($expected, $actual);
-    }
-
-    public function testMicroResponseHandler(IntegrationTester $I)
-    {
-        $trace = [];
-        $app   = new Micro();
-        $app->setResponseHandler(
-            function () use (&$trace) {
-                $trace[] = 1;
-            }
-        );
-
-        $app->map(
-            "/blog",
-            function () use (&$trace) {
-                $trace[] = 1;
-            }
-        );
-
-        $app->handle("/blog");
-
-        $I->assertCount(2, $trace);
     }
 }

@@ -14,7 +14,6 @@ use Phalcon\Events\Event;
  * @link          http://www.phalconphp.com
  * @author        Andres Gutierrez <andres@phalconphp.com>
  * @author        Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package       Phalcon\Test\Integration\Mvc\Dispatcher\Helper
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -92,6 +91,8 @@ class DispatcherListener
 
     public function beforeException(Event $event, DispatcherInterface $dispatcher, Exception $exception)
     {
-        $this->trace('beforeException: ' . $exception->getMessage());
+        $this->trace(
+            'beforeException: ' . $exception->getMessage()
+        );
     }
 }

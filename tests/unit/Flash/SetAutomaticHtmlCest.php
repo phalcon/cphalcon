@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash;
 
 use UnitTester;
 
-/**
- * Class SetAutomaticHtmlCest
- */
 class SetAutomaticHtmlCest
 {
     /**
      * Tests Phalcon\Flash :: setAutomaticHtml()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetAutomaticHtmlCest
     public function flashSetAutomaticHtml(UnitTester $I)
     {
         $I->wantToTest('Flash - setAutomaticHtml()');
+
         $I->skipTest('Need implementation');
     }
 }

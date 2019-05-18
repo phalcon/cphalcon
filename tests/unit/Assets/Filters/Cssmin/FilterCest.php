@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Assets\Filters\Cssmin;
 use Phalcon\Assets\Filters\Cssmin;
 use UnitTester;
 
-/**
- * Class FilterCest
- */
 class FilterCest
 {
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
@@ -42,8 +37,6 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - spaces
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
@@ -61,8 +54,6 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - attributes spaces
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
@@ -72,13 +63,13 @@ class FilterCest
         $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
-        $source   = ".social-link {display: inline-block; width: 44px; "
-            . "height: 44px; text-align: left; text-indent: "
-            . "-9999px; overflow: hidden; background: "
+        $source   = '.social-link {display: inline-block; width: 44px; '
+            . 'height: 44px; text-align: left; text-indent: '
+            . '-9999px; overflow: hidden; background: '
             . "url('../images/social-links.png'); }";
-        $expected = ".social-link{display: inline-block;width: 44px;"
-            . "height: 44px;text-align: left;text-indent: "
-            . "-9999px;overflow: hidden;background: "
+        $expected = '.social-link{display: inline-block;width: 44px;'
+            . 'height: 44px;text-align: left;text-indent: '
+            . '-9999px;overflow: hidden;background: '
             . "url('../images/social-links.png');}";
         $actual   = $cssmin->filter($source);
         $I->assertEquals($expected, $actual);
@@ -86,8 +77,6 @@ class FilterCest
 
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - class spaces
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
@@ -98,16 +87,14 @@ class FilterCest
         $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
-        $expected = "h2:after{border-width: 1px;}";
-        $actual   = $cssmin->filter("h2:after         { border-width:         1px; }");
+        $expected = 'h2:after{border-width: 1px;}';
+        $actual   = $cssmin->filter('h2:after         { border-width:         1px; }');
         $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - class inheritance
      * spaces
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
@@ -127,8 +114,6 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - complex
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
      */
@@ -138,18 +123,16 @@ class FilterCest
         $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
-        $source   = ".navbar .nav>li>a { color: #111; "
-            . "text-decoration: underline; }";
-        $expected = ".navbar .nav>li>a{color: #111;"
-            . "text-decoration: underline;}";
+        $source   = '.navbar .nav>li>a { color: #111; '
+            . 'text-decoration: underline; }';
+        $expected = '.navbar .nav>li>a{color: #111;'
+            . 'text-decoration: underline;}';
         $actual   = $cssmin->filter($source);
         $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - load files
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10
@@ -160,8 +143,8 @@ class FilterCest
         $I->skipTest('Need Phalcon implementation');
         $cssmin = new Cssmin();
 
-        $sourceFile = dataFolder('/assets/assets/cssmin-01.css');
-        $targetFile = dataFolder('/assets/assets/cssmin-01-result.css');
+        $sourceFile = dataDir('/assets/assets/cssmin-01.css');
+        $targetFile = dataDir('/assets/assets/cssmin-01-result.css');
 
         $I->assertFileExists($sourceFile);
         $I->assertFileExists($targetFile);
@@ -174,8 +157,6 @@ class FilterCest
 
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - empty
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-10

@@ -21,52 +21,66 @@ use Phalcon\Validation\Validator\Exception;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
 
-/**
- * Class ValidateCest
- */
 class ValidateCest
 {
     /**
      * Tests Phalcon\Validation\Validator\Callback :: validate() - single field
      * using boolean
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
     public function validationValidatorCallbackValidateSingleFieldBoolean(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Callback - validate() - single field using boolean");
+        $I->wantToTest(
+            "Validation\Validator\Callback - validate() - single field using boolean"
+        );
+
         $validation = new Validation();
+
         $validation->add(
             'user',
             new Callback(
                 [
-                    "callback"   => function ($data) {
+                    'callback'   => function ($data) {
                         return empty($data['admin']);
                     },
-                    "message"    => "You cant provide both admin and user.",
-                    "allowEmpty" => true,
+                    'message'    => 'You cant provide both admin and user.',
+                    'allowEmpty' => true,
                 ]
             )
         );
 
-        $messages = $validation->validate(["user" => "user", "admin" => null]);
 
-        $expected = 0;
-        $actual   = count($messages);
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'user'  => 'user',
+                'admin' => null,
+            ]
+        );
 
-        $messages = $validation->validate(["user" => null, "admin" => "admin"]);
-        $expected = 0;
-        $actual   = count($messages);
-        $I->assertEquals($expected, $actual);
+        $I->assertCount(0, $messages);
 
-        $messages = $validation->validate(["user" => "user", "admin" => "admin"]);
-        $expected = 1;
-        $actual   = count($messages);
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'user'  => null,
+                'admin' => 'admin',
+            ]
+        );
+
+        $I->assertCount(0, $messages);
+
+
+        $messages = $validation->validate(
+            [
+                'user'  => 'user',
+                'admin' => 'admin',
+            ]
+        );
+
+        $I->assertCount(1, $messages);
+
 
         $expected = new Messages(
             [
@@ -78,33 +92,35 @@ class ValidateCest
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals($expected, $messages);
     }
 
     /**
      * Tests Phalcon\Validation\Validator\Callback :: validate() - single field
      * using validator
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
     public function validationValidatorCallbackValidateSingleFieldValidator(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Callback - validate() - single field using validator");
+        $I->wantToTest(
+            "Validation\Validator\Callback - validate() - single field using validator"
+        );
+
         $validation = new Validation();
+
         $validation->add(
             'user',
             new Callback(
                 [
-                    "callback" => function ($data) {
+                    'callback' => function ($data) {
                         if (empty($data['admin'])) {
                             return new StringLength(
                                 [
-                                    "min"            => 4,
-                                    "messageMinimum" => "User name should be minimum 4 characters.",
+                                    'min'            => 4,
+                                    'messageMinimum' => 'User name should be minimum 4 characters.',
                                 ]
                             );
                         }
@@ -114,23 +130,37 @@ class ValidateCest
                 ]
             )
         );
-        $messages = $validation->validate(['user' => 'u', 'admin' => 'admin']);
 
-        $expected = 0;
-        $actual   = count($messages);
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['user' => 'user', 'admin' => null]);
+        $messages = $validation->validate(
+            [
+                'user'  => 'u',
+                'admin' => 'admin',
+            ]
+        );
 
-        $expected = 0;
-        $actual   = count($messages);
-        $I->assertEquals($expected, $actual);
+        $I->assertCount(0, $messages);
 
-        $messages = $validation->validate(['user' => 'u', 'admin' => null]);
 
-        $expected = 1;
-        $actual   = count($messages);
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'user'  => 'user',
+                'admin' => null,
+            ]
+        );
+
+        $I->assertCount(0, $messages);
+
+
+        $messages = $validation->validate(
+            [
+                'user'  => 'u',
+                'admin' => null,
+            ]
+        );
+
+        $I->assertCount(1, $messages);
+
 
         $expected = new Messages(
             [
@@ -142,29 +172,31 @@ class ValidateCest
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals($expected, $messages);
     }
 
     /**
      * Tests Phalcon\Validation\Validator\Callback :: validate() - multiple
      * field returning boolean
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
     public function validationValidatorCallbackValidateMultipleFieldBoolean(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Callback - validate() - multiple field returning boolean");
+        $I->wantToTest(
+            "Validation\Validator\Callback - validate() - multiple field returning boolean"
+        );
+
         $validation = new Validation();
+
         $validation->add(
             ['user', 'admin'],
             new Callback(
                 [
-                    "message"  => "There must be only an user or admin set",
-                    "callback" => function ($data) {
+                    'message'  => 'There must be only an user or admin set',
+                    'callback' => function ($data) {
                         if (!empty($data['user']) && !empty($data['admin'])) {
                             return false;
                         }
@@ -175,22 +207,36 @@ class ValidateCest
             )
         );
 
-        $messages = $validation->validate(['user' => null, 'admin' => 'admin']);
 
-        $expected = 0;
-        $actual   = count($messages);
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'user'  => null,
+                'admin' => 'admin',
+            ]
+        );
 
-        $messages = $validation->validate(['user' => 'user', 'admin' => null]);
+        $I->assertCount(0, $messages);
 
-        $expected = 0;
-        $actual   = count($messages);
-        $I->assertEquals($expected, $actual);
-        $messages = $validation->validate(['user' => 'user', 'admin' => 'admin']);
 
-        $expected = 2;
-        $actual   = count($messages);
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'user'  => 'user',
+                'admin' => null,
+            ]
+        );
+
+        $I->assertCount(0, $messages);
+
+
+        $messages = $validation->validate(
+            [
+                'user'  => 'user',
+                'admin' => 'admin',
+            ]
+        );
+
+        $I->assertCount(2, $messages);
+
 
         $expected = new Messages(
             [
@@ -208,15 +254,13 @@ class ValidateCest
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals($expected, $messages);
     }
 
     /**
      * Tests Phalcon\Validation\Validator\Callback :: validate() - multiple
      * field validator
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
@@ -224,17 +268,19 @@ class ValidateCest
     public function validationValidatorCallbackValidateMultipleFieldValidator(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Callback - validate() - multiple field validator");
+
         $validation = new Validation();
+
         $validation->add(
             ['user', 'admin'],
             new Callback(
                 [
-                    "message"  => "There must be only an user or admin set",
-                    "callback" => function ($data) {
+                    'message'  => 'There must be only an user or admin set',
+                    'callback' => function ($data) {
                         if (empty($data['user']) && empty($data['admin'])) {
                             return new PresenceOf(
                                 [
-                                    "message" => "You must provide admin or user",
+                                    'message' => 'You must provide admin or user',
                                 ]
                             );
                         }
@@ -249,11 +295,16 @@ class ValidateCest
             )
         );
 
-        $messages = $validation->validate(['admin' => null, 'user' => null]);
 
-        $expected = 2;
-        $actual   = count($messages);
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'admin' => null,
+                'user'  => null,
+            ]
+        );
+
+        $I->assertCount(2, $messages);
+
 
         $expected = new Messages(
             [
@@ -271,23 +322,39 @@ class ValidateCest
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['admin' => 'admin', 'user' => null]);
-        $expected = 0;
-        $actual   = count($messages);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $messages);
 
-        $messages = $validation->validate(['admin' => null, 'user' => 'user']);
-        $expected = 0;
-        $actual   = count($messages);
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['admin' => 'admin', 'user' => 'user']);
-        $expected = 2;
-        $actual   = count($messages);
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'admin' => 'admin',
+                'user'  => null,
+            ]
+        );
+
+        $I->assertCount(0, $messages);
+
+
+        $messages = $validation->validate(
+            [
+                'admin' => null,
+                'user'  => 'user',
+            ]
+        );
+
+        $I->assertCount(0, $messages);
+
+
+        $messages = $validation->validate(
+            [
+                'admin' => 'admin',
+                'user'  => 'user',
+            ]
+        );
+
+        $I->assertCount(2, $messages);
+
 
         $expected = new Messages(
             [
@@ -305,37 +372,43 @@ class ValidateCest
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals($expected, $messages);
     }
 
     /**
      * Tests Phalcon\Validation\Validator\Callback :: validate() - exception
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-10-29
      */
     public function validationValidatorCallbackValidateException(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Callback - validate() - exception");
+        $I->wantToTest(
+            "Validation\Validator\Callback - validate() - exception"
+        );
+
         $I->expectThrowable(
             new Exception('Callback must return bool or Phalcon\Validation\Validator object'),
             function () {
                 $validation = new Validation();
+
                 $validation->add(
                     'user',
                     new Callback(
                         [
-                            "callback" => function ($data) {
+                            'callback' => function ($data) {
                                 return new Validation();
                             },
                         ]
                     )
                 );
 
-                $validation->validate(['user' => 'user']);
+                $validation->validate(
+                    [
+                        'user' => 'user',
+                    ]
+                );
             }
         );
     }

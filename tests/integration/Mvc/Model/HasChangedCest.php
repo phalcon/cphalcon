@@ -13,23 +13,91 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Test\Models\Snapshot\Robots;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
  * Class HasChangedCest
  */
 class HasChangedCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model :: hasChanged()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2019-05-17
      */
     public function mvcModelHasChanged(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model - hasChanged()');
-        $I->skipTest('Need implementation');
+
+        /**
+         * Robot has default values set:
+         *  'year' => 1900,
+         *  'type' => "mechanical"
+         */
+        $robot = new Robots();
+
+        $robot->type     = 'mechanical';
+        $robot->name     = 'Astro Boy';
+        $robot->datetime = (new \DateTime())->format('Y-m-d');
+        $robot->text     = 'Test text';
+
+        $I->assertTrue(
+            $robot->create()
+        );
+
+        $I->assertFalse(
+            $robot->hasChanged('name')
+        );
+
+        $robot->type = 'hydraulic';
+
+        $I->assertTrue(
+            $robot->hasChanged('type')
+        );
+
+        /**
+         * Testing that default value is unchanged
+         */
+        $I->assertFalse(
+            $robot->hasChanged('year')
+        );
+
+        /**
+         * Any of multiple fields
+         */
+        $I->assertTrue(
+            $robot->hasChanged(['type', 'name'])
+        );
+
+        /**
+         * All of multiple fields
+         */
+        $I->assertFalse(
+            $robot->hasChanged(['type', 'name'], true)
+        );
+
+        $robot->name = 'My Astro Boy';
+
+        $I->assertTrue(
+            $robot->hasChanged(['type', 'name'], true)
+        );
+
+        /**
+         * Clean up
+         */
+        $I->assertTrue(
+            $robot->delete()
+        );
     }
 }

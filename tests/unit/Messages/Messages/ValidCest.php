@@ -16,15 +16,10 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use UnitTester;
 
-/**
- * Class ValidCest
- */
 class ValidCest
 {
     /**
      * Tests Phalcon\Messages\Messages :: valid()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -32,6 +27,7 @@ class ValidCest
     public function messagesMessagesValid(UnitTester $I)
     {
         $I->wantToTest('Messages\Messages - valid()');
+
         $messages = new Messages(
             [
                 new Message('This is a message #1', 'MyField1', 'MyType1', 111),
@@ -39,17 +35,28 @@ class ValidCest
             ]
         );
 
+
+
         $messages->rewind();
 
-        $actual = $messages->valid();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $messages->valid()
+        );
+
+
 
         $messages->next();
-        $actual = $messages->valid();
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $messages->valid()
+        );
+
+
 
         $messages->next();
-        $actual = $messages->valid();
-        $I->assertFalse($actual);
+
+        $I->assertFalse(
+            $messages->valid()
+        );
     }
 }

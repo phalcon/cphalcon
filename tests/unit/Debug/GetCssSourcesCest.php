@@ -13,18 +13,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Debug;
 
 use Phalcon\Debug;
-use UnitTester;
 use function sprintf;
+use UnitTester;
 
-/**
- * Class GetCssSourcesCest
- */
 class GetCssSourcesCest
 {
     /**
      * Tests Phalcon\Debug :: getCssSources()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

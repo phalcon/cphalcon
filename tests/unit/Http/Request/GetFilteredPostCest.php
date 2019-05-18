@@ -15,13 +15,9 @@ namespace Phalcon\Test\Unit\Http\Request;
 use Codeception\Example;
 use Phalcon\Http\Request;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function strtoupper;
 use function ucfirst;
 use UnitTester;
 
-/**
- * Class GetFilteredPostCest
- */
 class GetFilteredPostCest
 {
     use DiTrait;
@@ -31,18 +27,15 @@ class GetFilteredPostCest
      *
      * @dataProvider getExamples
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-01
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-02-01
      */
     public function httpRequestGetFilteredPost1(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Request - getFiltered*() - ' . $example[0]);
         $container = $this->newFactoryDefault();
         /** @var Request $request */
-        $request   = $container->get('request');
+        $request = $container->get('request');
         $request->setParameterFilters($example[1], $example[2], $example[3]);
 
         if ('query' === $example[0]) {
@@ -60,8 +53,6 @@ class GetFilteredPostCest
     /**
      * Tests Phalcon\Http\Request :: getFilteredPost() - default
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-01
      */
@@ -70,10 +61,9 @@ class GetFilteredPostCest
         $I->wantToTest('Http\Request - getFiltered*() - default');
         $container = $this->newFactoryDefault();
         /** @var Request $request */
-        $request   = $container->get('request');
+        $request = $container->get('request');
         $request
-            ->setParameterFilters('id', ['absint'], ['post', 'get'])
-        ;
+            ->setParameterFilters('id', ['absint'], ['post', 'get']);
 
         $_GET  = ['no-id' => '24'];
         $_POST = ['no-id' => '24'];
@@ -87,9 +77,6 @@ class GetFilteredPostCest
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

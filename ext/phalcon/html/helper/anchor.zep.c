@@ -12,12 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/array.h"
 #include "kernel/memory.h"
+#include "kernel/array.h"
 #include "kernel/fcall.h"
-#include "kernel/object.h"
-#include "kernel/concat.h"
-#include "kernel/string.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
@@ -53,17 +50,14 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
-	zval *href_param = NULL, *text_param = NULL, *attributes_param = NULL, escapedText, overrides, _0, _1, _2;
+	zval *href_param = NULL, *text_param = NULL, *attributes_param = NULL, overrides, _0;
 	zval href, text;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&href);
 	ZVAL_UNDEF(&text);
-	ZVAL_UNDEF(&escapedText);
 	ZVAL_UNDEF(&overrides);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&attributes);
 
 	ZEPHIR_MM_GROW();
@@ -101,17 +95,13 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke) {
 	zephir_create_array(&overrides, 1, 0 TSRMLS_CC);
 	zephir_array_update_string(&overrides, SL("href"), &href, PH_COPY | PH_SEPARATE);
 	zephir_array_unset_string(&attributes, SL("href"), PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "orderattributes", NULL, 0, &overrides, &attributes);
-	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_fast_array_merge(&_0, &overrides, &attributes TSRMLS_CC);
 	ZEPHIR_CPY_WRT(&overrides, &_0);
-	zephir_read_property(&_1, this_ptr, SL("escaper"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&escapedText, &_1, "escapehtml", NULL, 0, &text);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZVAL_STRING(&_0, "a");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &_0, &text, &overrides);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_2);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "renderattributes", NULL, 0, &overrides);
-	zephir_check_call_status();
-	zephir_fast_trim(&_2, &_0, NULL , ZEPHIR_TRIM_RIGHT TSRMLS_CC);
-	ZEPHIR_CONCAT_SVSVS(return_value, "<a ", &_2, ">", &escapedText, "</a>");
 	RETURN_MM();
 
 }

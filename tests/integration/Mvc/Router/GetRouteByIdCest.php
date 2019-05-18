@@ -13,23 +13,60 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
 /**
  * Class GetRouteByIdCest
  */
 class GetRouteByIdCest
 {
+    use RouterTrait;
+
     /**
      * Tests Phalcon\Mvc\Router :: getRouteById()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2018-06-28
      */
-    public function mvcRouterGetRouteById(IntegrationTester $I)
+    public function testGetRouteById(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Router - getRouteById()');
-        $I->skipTest('Need implementation');
+
+        $router = $this->getRouter(false);
+
+        $router->add(
+            '/test',
+            [
+                'controller' => 'test',
+                'action'     => 'test',
+            ]
+        );
+
+        $router->add(
+            '/test2',
+            [
+                'controller' => 'test',
+                'action'     => 'test',
+            ]
+        );
+
+        $router->add(
+            '/test3',
+            [
+                'controller' => 'test',
+                'action'     => 'test',
+            ]
+        );
+
+
+        /**
+         * We reverse routes so we first check last added route
+         */
+        foreach (array_reverse($router->getRoutes()) as $route) {
+            $expected = $router->getRoutebyId($route->getId());
+            $actual   = $route;
+
+            $I->assertEquals($expected, $actual);
+        }
     }
 }

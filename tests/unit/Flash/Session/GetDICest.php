@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash\Session;
 
 use UnitTester;
 
-/**
- * Class GetDICest
- */
 class GetDICest
 {
     /**
      * Tests Phalcon\Flash\Session :: getDI()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetDICest
     public function flashSessionGetDI(UnitTester $I)
     {
         $I->wantToTest('Flash\Session - getDI()');
+
         $I->skipTest('Need implementation');
     }
 }

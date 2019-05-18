@@ -16,17 +16,12 @@ use Phalcon\Assets\Asset;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetRealTargetPathCest
- */
 class GetRealTargetPathCest
 {
     use AssetsTrait;
 
     /**
      * Tests Phalcon\Assets\Asset :: getRealTargetPath() - css local
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -43,8 +38,6 @@ class GetRealTargetPathCest
     /**
      * Tests Phalcon\Assets\Asset :: getRealTargetPath() - css remote
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -60,8 +53,6 @@ class GetRealTargetPathCest
     /**
      * Tests Phalcon\Assets\Asset :: getRealTargetPath() - js local
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -76,8 +67,6 @@ class GetRealTargetPathCest
 
     /**
      * Tests Phalcon\Assets\Asset :: getRealTargetPath() - js
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

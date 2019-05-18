@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class SetHandlerSuffixCest
- */
 class SetHandlerSuffixCest
 {
     /**
      * Tests Phalcon\Dispatcher :: setHandlerSuffix()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

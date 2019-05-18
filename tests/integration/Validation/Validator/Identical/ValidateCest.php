@@ -22,14 +22,13 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Identical :: validate()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorIdenticalValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Identical - validate()');
+
         $I->skipTest('Need implementation');
     }
 }

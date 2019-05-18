@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\File :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorFileSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\File - setOption()');
+
         $validator = new File();
+
         $this->checkSetOption($I, $validator);
     }
 }

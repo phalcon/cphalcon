@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash\Session;
 
 use UnitTester;
 
-/**
- * Class ClearCest
- */
 class ClearCest
 {
     /**
      * Tests Phalcon\Flash\Session :: clear()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ClearCest
     public function flashSessionClear(UnitTester $I)
     {
         $I->wantToTest('Flash\Session - clear()');
+
         $I->skipTest('Need implementation');
     }
 }

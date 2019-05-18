@@ -13,7 +13,7 @@ namespace Phalcon\Test\Controllers\Micro\Collections;
 
 class PersonasLazyController
 {
-    static protected $entered = 0;
+    protected static $entered = 0;
 
     public static function getEntered()
     {

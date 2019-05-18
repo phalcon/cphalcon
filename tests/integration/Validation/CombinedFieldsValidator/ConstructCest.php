@@ -22,14 +22,13 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\CombinedFieldsValidator :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationCombinedfieldsvalidatorConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\CombinedFieldsValidator - __construct()');
+
         $I->skipTest('Need implementation');
     }
 }

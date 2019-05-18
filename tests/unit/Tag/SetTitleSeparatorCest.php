@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Tag;
 use Phalcon\Tag;
 use UnitTester;
 
-/**
- * Class SetTitleSeparatorCest
- */
 class SetTitleSeparatorCest
 {
     /**
      * Tests Phalcon\Tag :: setTitleSeparator()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-09-05
@@ -31,11 +26,11 @@ class SetTitleSeparatorCest
      */
     public function tagSetTitleSeparator(UnitTester $I)
     {
-        $I->wantToTest("Tag - setTitleSeparator()");
+        $I->wantToTest('Tag - setTitleSeparator()');
         Tag::resetInput();
         Tag::setTitleSeparator('-');
 
-        $expected = "-";
+        $expected = '-';
         $actual   = Tag::getTitleSeparator();
         $I->assertEquals($expected, $actual);
     }

@@ -18,9 +18,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 use function uniqid;
 
-/**
- * Class GetSetIdCest
- */
 class GetSetIdCest
 {
     use DiTrait;
@@ -29,27 +26,35 @@ class GetSetIdCest
     /**
      * Tests Phalcon\Session\Manager :: getId()/setId()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionManagerGetSetId(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - getId()/setId()');
+
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+
+        $files = $this->getSessionStream();
+
         $manager->setHandler($files);
 
-        $expected = '';
-        $actual   = $manager->getId();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '',
+            $manager->getId()
+        );
+
+
 
         $id = uniqid();
+
         $manager->setId($id);
-        $expected = $id;
-        $actual   = $manager->getId();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $id,
+            $manager->getId()
+        );
+
         $manager->destroy();
     }
 }

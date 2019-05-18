@@ -26,15 +26,19 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Digit :: hasOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorDigitHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Digit - hasOption()');
-        $validator = new Digit(['message' => 'This is a message']);
+
+        $validator = new Digit(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

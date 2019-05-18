@@ -12,7 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 
 
@@ -26,21 +26,22 @@ ZEPHIR_INIT_CLASS(phalcon_0__closure) {
 
 PHP_METHOD(phalcon_0__closure, __invoke) {
 
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *escaper, escaper_sub;
+	zval *error, error_sub, __$true, __$false;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&escaper_sub);
+	ZVAL_UNDEF(&error_sub);
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_BOOL(&__$false, 0);
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &escaper);
+	zephir_fetch_params(0, 1, 0, &error);
 
 
 
-	object_init_ex(return_value, phalcon_html_helper_anchor_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 457, escaper);
-	zephir_check_call_status();
-	RETURN_MM();
+	if (1) {
+		zephir_update_property_zval(this_ptr, SL("warning"), &__$true);
+	} else {
+		zephir_update_property_zval(this_ptr, SL("warning"), &__$false);
+	}
 
 }
 

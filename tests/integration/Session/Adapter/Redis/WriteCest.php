@@ -17,17 +17,11 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 use function uniqid;
 
-/**
- * Class WriteCest
- */
 class WriteCest
 {
     use DiTrait;
     use SessionTrait;
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function _before(IntegrationTester $I)
     {
         $this->newFactoryDefault();
@@ -35,8 +29,6 @@ class WriteCest
 
     /**
      * Tests Phalcon\Session\Adapter\Redis :: write()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -51,9 +43,9 @@ class WriteCest
         /**
          * Serialize the value because the adapter does not have a serializer
          */
-        $expected = $value;
-        $actual   = $I->grabFromRedis('test1');
+        $expected = serialize($value);
+        $actual   = $I->grabFromRedis('sess-reds-test1');
         $I->assertEquals($expected, $actual);
-        $I->sendCommandToRedis('del', 'test1');
+        $I->sendCommandToRedis('del', 'sess-reds-test1');
     }
 }

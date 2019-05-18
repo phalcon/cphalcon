@@ -15,32 +15,32 @@ namespace Phalcon\Test\Unit\Tag;
 use Phalcon\Tag;
 use UnitTester;
 
-/**
- * Class SetTitleCest
- */
 class SetTitleCest
 {
     /**
      * Tests Phalcon\Tag :: setTitle()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function tagSetTitle(UnitTester $I)
     {
-        $I->wantToTest("Tag - setTitle()");
+        $I->wantToTest('Tag - setTitle()');
+
         Tag::resetInput();
+
         $value = 'This is my title';
+
         Tag::setTitle($value);
 
-        $expected = "<title>{$value}</title>" . PHP_EOL;
-        $actual   = Tag::renderTitle();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "<title>{$value}</title>" . PHP_EOL,
+            Tag::renderTitle()
+        );
 
-        $expected = "{$value}";
-        $actual   = Tag::getTitle();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            "{$value}",
+            Tag::getTitle()
+        );
     }
 }

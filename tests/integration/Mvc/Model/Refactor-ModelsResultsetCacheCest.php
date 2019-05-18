@@ -2,12 +2,12 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use function cacheDir;
 use IntegrationTester;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
-use function cacheFolder;
 
 class ModelsResultsetCacheCest
 {
@@ -16,7 +16,7 @@ class ModelsResultsetCacheCest
     public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
-        $I->cleanDir(cacheFolder());
+        $I->cleanDir(cacheDir());
     }
 
     public function testCacheDefaultDIMysql(IntegrationTester $I)
@@ -32,10 +32,11 @@ class ModelsResultsetCacheCest
             'modelsCache',
             function () {
                 $frontCache = new Data();
+
                 return new File(
                     $frontCache,
                     [
-                        'cacheDir' => cacheFolder(),
+                        'cacheDir' => cacheDir(),
                     ]
                 );
             },
@@ -69,7 +70,7 @@ class ModelsResultsetCacheCest
         //Is the ORM working with postgresql, is the database structure incorrect or
         //I'm using the wrong code?
         //Skip this test until someone can shed some light on this
-        if (!$this->container->get("db") instanceof Phalcon\Db\Adapter\Pdo\Postgresql) {
+        if (!$this->container->get('db') instanceof Phalcon\Db\Adapter\Pdo\Postgresql) {
             //Aggregate functions like sum, count, etc
             $robotscount = Robots::count([
                 'cache' => ['key' => 'some-count'],
@@ -78,8 +79,8 @@ class ModelsResultsetCacheCest
 
             //Create a temporary robot to test if the count is cached or fresh
             $newrobot           = new Robots();
-            $newrobot->name     = "Not cached robot";
-            $newrobot->type     = "notcached";
+            $newrobot->name     = 'Not cached robot';
+            $newrobot->type     = 'notcached';
             $newrobot->year     = 2014;
             $newrobot->datetime = '2015-03-05 04:16:17';
             $newrobot->text     = 'Not cached robot';
@@ -118,19 +119,7 @@ class ModelsResultsetCacheCest
 
     private function testCacheDefaultDIBindings(IntegrationTester $I)
     {
-        $this->container->set(
-            'modelsCache',
-            function () {
-                $frontCache = new Data();
-                return new File(
-                    $frontCache,
-                    [
-                        'cacheDir' => cacheFolder(),
-                    ]
-                );
-            },
-            true
-        );
+        $this->getAndSetModelsCacheStream();
 
         $robots = Robots::find([
             'cache'      => ['key' => 'some'],
@@ -179,10 +168,11 @@ class ModelsResultsetCacheCest
             'otherCache',
             function () {
                 $frontCache = new Data();
+
                 return new File(
                     $frontCache,
                     [
-                        'cacheDir' => cacheFolder(),
+                        'cacheDir' => cacheDir(),
                     ]
                 );
             },

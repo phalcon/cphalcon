@@ -123,11 +123,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 	ZEPHIR_CALL_METHOD(&maximum, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&minimum) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &minimum, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 79 TSRMLS_CC);
+		zephir_array_fetch(&_1$$3, &minimum, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Between.zep", 78 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(&minimum, &_1$$3);
 	}
 	if (Z_TYPE_P(&maximum) == IS_ARRAY) {
-		zephir_array_fetch(&_2$$4, &maximum, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/between.zep", 83 TSRMLS_CC);
+		zephir_array_fetch(&_2$$4, &maximum, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Between.zep", 82 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(&maximum, &_2$$4);
 	}
 	_3 = ZEPHIR_LT(&value, &minimum);
@@ -150,11 +150,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 		zephir_array_update_string(&replacePairs, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_4$$5);
 		object_init_ex(&_4$$5, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_5$$5, "strtr", NULL, 48, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_5$$5, "strtr", NULL, 66, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_6$$5);
 		ZVAL_STRING(&_6$$5, "Between");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$5, "__construct", NULL, 300, &_5$$5, field, &_6$$5, &code);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$5, "__construct", NULL, 401, &_5$$5, field, &_6$$5, &code);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_4$$5);
 		zephir_check_call_status();

@@ -17,9 +17,6 @@ use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
-/**
- * Class ExistsDestroyCest
- */
 class ExistsDestroyCest
 {
     use DiTrait;
@@ -28,8 +25,6 @@ class ExistsDestroyCest
     /**
      * Tests Phalcon\Session\Manager :: exists()/destroy()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -37,7 +32,7 @@ class ExistsDestroyCest
     {
         $I->wantToTest('Session\Manager - exists()/destroy()');
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
 
         $actual = $manager->start();
@@ -55,8 +50,6 @@ class ExistsDestroyCest
     /**
      * Tests Phalcon\Session\Manager :: destroy() - clean $_SESSION
      *
-     * @param IntegrationTester $I
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/12326
      * @issue  https://github.com/phalcon/cphalcon/issues/12835
      *
@@ -67,7 +60,7 @@ class ExistsDestroyCest
     {
         $I->wantToTest('Session\Manager - destroy() - clean $_SESSION');
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
 
         $actual = $manager->start();

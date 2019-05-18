@@ -26,15 +26,15 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\Numericality :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorNumericalityConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Numericality - __construct()');
+
         $validator = new Numericality();
+
         $this->checkConstruct($I, $validator);
     }
 }

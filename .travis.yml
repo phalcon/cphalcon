@@ -19,7 +19,6 @@ branches:
 addons:
   apt:
     packages:
-      - beanstalkd
       - gdb
       - lcov
   postgresql: "9.4"
@@ -40,7 +39,6 @@ cache:
 
 services:
   - mysql
-  - beanstalkd
   - mongodb
   - redis-server
   - postgresql
@@ -93,7 +91,7 @@ install:
 
 before_script:
   - |
-    # Setting up Tavis' PHP
+    # Setting up Travis' PHP
     echo 'variables_order = EGPCS'    >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     echo 'session.save_path = "/tmp"' >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     echo 'opcache.enable_cli = 1'     >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini

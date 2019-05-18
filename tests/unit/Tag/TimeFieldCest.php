@@ -14,11 +14,6 @@ namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Test\Fixtures\Helpers\TagHelper;
 
-/**
- * Class TimeFieldCest
- *
- * @package Phalcon\Test\Unit\Tag
- */
 class TimeFieldCest extends TagHelper
 {
     protected $function  = 'timeField';

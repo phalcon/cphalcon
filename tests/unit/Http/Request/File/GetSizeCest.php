@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request\File;
 
 use UnitTester;
 
-/**
- * Class GetSizeCest
- */
 class GetSizeCest
 {
     /**
      * Tests Phalcon\Http\Request\File :: getSize()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetSizeCest
     public function httpRequestFileGetSize(UnitTester $I)
     {
         $I->wantToTest('Http\Request\File - getSize()');
+
         $I->skipTest('Need implementation');
     }
 }

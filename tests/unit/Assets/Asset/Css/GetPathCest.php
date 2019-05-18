@@ -16,17 +16,12 @@ use Phalcon\Assets\Asset\Css;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetPathCest
- */
 class GetPathCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: getPath() - css local
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getPath() - css local
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -34,6 +29,7 @@ class GetPathCest
     public function assetsAssetCssGetPathLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getPath() - css local');
+
         $asset = new Css('css/docs.css');
 
         $expected = 'css/docs.css';
@@ -41,9 +37,7 @@ class GetPathCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getPath() - css remote
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getPath() - css remote
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -51,6 +45,7 @@ class GetPathCest
     public function assetsAssetCssGetPathRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getPath() - css remote');
+
         $asset = new Css('https://phalcon.ld/css/docs.css');
 
         $expected = 'https://phalcon.ld/css/docs.css';

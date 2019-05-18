@@ -3,12 +3,18 @@ extern zend_class_entry *phalcon_di_service_builder_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Di_Service_Builder);
 
-PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameter);
-PHP_METHOD(Phalcon_Di_Service_Builder, _buildParameters);
 PHP_METHOD(Phalcon_Di_Service_Builder, build);
+PHP_METHOD(Phalcon_Di_Service_Builder, buildParameter);
+PHP_METHOD(Phalcon_Di_Service_Builder, buildParameters);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_builder__buildparameter, 0, 0, 3)
-	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_builder_build, 0, 0, 2)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\DiInterface, 0)
+	ZEND_ARG_ARRAY_INFO(0, definition, 0)
+	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_builder_buildparameter, 0, 0, 3)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\DiInterface, 0)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, position, IS_LONG, 0)
 #else
@@ -18,23 +24,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_builder__buildparameter, 0, 0,
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_service_builder__buildparameters, 0, 2, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_service_builder_buildparameters, 0, 2, IS_ARRAY, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_service_builder__buildparameters, 0, 2, IS_ARRAY, NULL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_service_builder_buildparameters, 0, 2, IS_ARRAY, NULL, 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\DiInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_builder_build, 0, 0, 2)
-	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
-	ZEND_ARG_ARRAY_INFO(0, definition, 0)
-	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_di_service_builder_method_entry) {
-	PHP_ME(Phalcon_Di_Service_Builder, _buildParameter, arginfo_phalcon_di_service_builder__buildparameter, ZEND_ACC_PRIVATE)
-	PHP_ME(Phalcon_Di_Service_Builder, _buildParameters, arginfo_phalcon_di_service_builder__buildparameters, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Di_Service_Builder, build, arginfo_phalcon_di_service_builder_build, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Di_Service_Builder, buildParameter, arginfo_phalcon_di_service_builder_buildparameter, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Di_Service_Builder, buildParameters, arginfo_phalcon_di_service_builder_buildparameters, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

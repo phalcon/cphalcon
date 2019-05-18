@@ -12,18 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Messages\Message;
 
+use JsonSerializable;
 use Phalcon\Messages\Message;
 use UnitTester;
 
-/**
- * Class JsonSerializeCest
- */
 class JsonSerializeCest
 {
     /**
      * Tests Phalcon\Messages\Message :: jsonSerialize()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,20 +27,36 @@ class JsonSerializeCest
     public function messagesMessageJsonSerialize(UnitTester $I)
     {
         $I->wantToTest('Messages\Message - jsonSerialize()');
-        $message = new Message('This is a message #1', 'MyField', 'MyType', 111, ['My1' => 'Metadata1']);
 
-        $expected = '\JsonSerializable';
-        $actual   = $message;
-        $I->assertInstanceOf($expected, $actual);
+        $message = new Message(
+            'This is a message #1',
+            'MyField',
+            'MyType',
+            111,
+            [
+                'My1' => 'Metadata1',
+            ]
+        );
+
+
+        $I->assertInstanceOf(
+            JsonSerializable::class,
+            $message
+        );
+
 
         $expected = [
             'field'    => 'MyField',
             'message'  => 'This is a message #1',
             'type'     => 'MyType',
             'code'     => 111,
-            'metaData' => ['My1' => 'Metadata1']
+            'metaData' => [
+                'My1' => 'Metadata1',
+            ],
         ];
-        $actual   = $message->jsonSerialize();
+
+        $actual = $message->jsonSerialize();
+
         $I->assertEquals($expected, $actual);
     }
 }

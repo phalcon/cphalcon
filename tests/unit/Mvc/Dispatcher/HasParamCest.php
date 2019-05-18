@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class HasParamCest
- */
 class HasParamCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: hasParam()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class HasParamCest
     public function mvcDispatcherHasParam(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - hasParam()');
+
         $I->skipTest('Need implementation');
     }
 }

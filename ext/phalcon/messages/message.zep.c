@@ -17,8 +17,8 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
-#include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 
 
 /**
@@ -68,6 +68,61 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_Message) {
 	zend_class_implements(phalcon_messages_message_ce TSRMLS_CC, 1, phalcon_messages_messageinterface_ce);
 	zend_class_implements(phalcon_messages_message_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("jsonserializable")));
 	return SUCCESS;
+
+}
+
+/**
+ */
+PHP_METHOD(Phalcon_Messages_Message, getCode) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "code");
+
+}
+
+/**
+ */
+PHP_METHOD(Phalcon_Messages_Message, getField) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "field");
+
+}
+
+/**
+ */
+PHP_METHOD(Phalcon_Messages_Message, getMessage) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "message");
+
+}
+
+/**
+ */
+PHP_METHOD(Phalcon_Messages_Message, getType) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "type");
+
+}
+
+/**
+ */
+PHP_METHOD(Phalcon_Messages_Message, getMetaData) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "metaData");
 
 }
 
@@ -137,35 +192,9 @@ PHP_METHOD(Phalcon_Messages_Message, __construct) {
 }
 
 /**
- * Returns the message code
+ * Magic __toString method returns verbose message
  */
-PHP_METHOD(Phalcon_Messages_Message, getCode) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "code");
-
-}
-
-/**
- * Returns field name related to message
- *
- * @return mixed
- */
-PHP_METHOD(Phalcon_Messages_Message, getField) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "field");
-
-}
-
-/**
- * Returns verbose message
- */
-PHP_METHOD(Phalcon_Messages_Message, getMessage) {
+PHP_METHOD(Phalcon_Messages_Message, __toString) {
 
 	zval *this_ptr = getThis();
 
@@ -175,26 +204,37 @@ PHP_METHOD(Phalcon_Messages_Message, getMessage) {
 }
 
 /**
- * Returns message type
+ * Magic __set_state helps to re-build messages variable exporting
  */
-PHP_METHOD(Phalcon_Messages_Message, getType) {
+PHP_METHOD(Phalcon_Messages_Message, __set_state) {
 
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *message_param = NULL, _0, _1, _2, _3, _4;
+	zval message;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
 
-	RETURN_MEMBER(getThis(), "type");
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &message_param);
 
-}
-
-/**
- * Returns message metadata
- */
-PHP_METHOD(Phalcon_Messages_Message, getMetaData) {
-
-	zval *this_ptr = getThis();
+	ZEPHIR_OBS_COPY_OR_DUP(&message, message_param);
 
 
-	RETURN_MEMBER(getThis(), "metaData");
+	object_init_ex(return_value, phalcon_messages_message_ce);
+	zephir_array_fetch_string(&_0, &message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/Messages/Message.zep", 73 TSRMLS_CC);
+	zephir_array_fetch_string(&_1, &message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/Messages/Message.zep", 74 TSRMLS_CC);
+	zephir_array_fetch_string(&_2, &message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/Messages/Message.zep", 75 TSRMLS_CC);
+	zephir_array_fetch_string(&_3, &message, SL("_code"), PH_NOISY | PH_READONLY, "phalcon/Messages/Message.zep", 76 TSRMLS_CC);
+	zephir_array_fetch_string(&_4, &message, SL("_metaData"), PH_NOISY | PH_READONLY, "phalcon/Messages/Message.zep", 78 TSRMLS_CC);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 401, &_0, &_1, &_2, &_3, &_4);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
@@ -304,6 +344,28 @@ PHP_METHOD(Phalcon_Messages_Message, setMessage) {
 }
 
 /**
+ * Sets message metadata
+ */
+PHP_METHOD(Phalcon_Messages_Message, setMetaData) {
+
+	zval *metaData_param = NULL;
+	zval metaData;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&metaData);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &metaData_param);
+
+	ZEPHIR_OBS_COPY_OR_DUP(&metaData, metaData_param);
+
+
+	zephir_update_property_zval(this_ptr, SL("metaData"), &metaData);
+	RETURN_THIS();
+
+}
+
+/**
  * Sets message type
  */
 PHP_METHOD(Phalcon_Messages_Message, setType) {
@@ -331,75 +393,6 @@ PHP_METHOD(Phalcon_Messages_Message, setType) {
 
 	zephir_update_property_zval(this_ptr, SL("type"), &type);
 	RETURN_THIS();
-
-}
-
-/**
- * Sets message metadata
- */
-PHP_METHOD(Phalcon_Messages_Message, setMetaData) {
-
-	zval *metaData_param = NULL;
-	zval metaData;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&metaData);
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &metaData_param);
-
-	ZEPHIR_OBS_COPY_OR_DUP(&metaData, metaData_param);
-
-
-	zephir_update_property_zval(this_ptr, SL("metaData"), &metaData);
-	RETURN_THIS();
-
-}
-
-/**
- * Magic __toString method returns verbose message
- */
-PHP_METHOD(Phalcon_Messages_Message, __toString) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "message");
-
-}
-
-/**
- * Magic __set_state helps to re-build messages variable exporting
- */
-PHP_METHOD(Phalcon_Messages_Message, __set_state) {
-
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, _0, _1, _2, _3, _4;
-	zval message;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&message);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &message_param);
-
-	ZEPHIR_OBS_COPY_OR_DUP(&message, message_param);
-
-
-	object_init_ex(return_value, phalcon_messages_message_ce);
-	zephir_array_fetch_string(&_0, &message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 173 TSRMLS_CC);
-	zephir_array_fetch_string(&_1, &message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 173 TSRMLS_CC);
-	zephir_array_fetch_string(&_2, &message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 173 TSRMLS_CC);
-	zephir_array_fetch_string(&_3, &message, SL("_code"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 173 TSRMLS_CC);
-	zephir_array_fetch_string(&_4, &message, SL("_metaData"), PH_NOISY | PH_READONLY, "phalcon/messages/message.zep", 173 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 300, &_0, &_1, &_2, &_3, &_4);
-	zephir_check_call_status();
-	RETURN_MM();
 
 }
 

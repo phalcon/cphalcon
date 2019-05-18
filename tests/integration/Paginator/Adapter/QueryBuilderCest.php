@@ -38,10 +38,12 @@ class QueryBuilderCest
     public function testIssue12111WithGroup(IntegrationTester $I)
     {
         $this->setDiMysql();
+
         $manager = $this->getService('modelsManager');
+
         $builder = $manager
             ->createBuilder()
-            ->columns("name, COUNT(*) as stock_count")
+            ->columns('name, COUNT(*) as stock_count')
             ->from(['Stock' => Stock::class])
             ->groupBy('name')
             ->having('SUM(Stock.stock) > 0')
@@ -49,9 +51,9 @@ class QueryBuilderCest
 
         $paginate = (new QueryBuilder(
             [
-                "builder" => $builder,
-                "limit"   => 1,
-                "page"    => 2,
+                'builder' => $builder,
+                'limit'   => 1,
+                'page'    => 2,
             ]
         ))->paginate();
 
@@ -69,22 +71,26 @@ class QueryBuilderCest
     public function testIssue12111WithoutGroupException(IntegrationTester $I)
     {
         $I->expectThrowable(
-            new Exception('When having is set there should be columns option provided for which calculate row count'),
+            new Exception(
+                'When having is set there should be columns option provided for which calculate row count'
+            ),
             function () {
                 $this->setDiMysql();
+
                 $manager = $this->getService('modelsManager');
+
                 $builder = $manager
                     ->createBuilder()
-                    ->columns("COUNT(*) as stock_count")
+                    ->columns('COUNT(*) as stock_count')
                     ->from(['Stock' => Stock::class])
                     ->having('SUM(Stock.stock) > 0')
                 ;
 
                 $paginate = (new QueryBuilder(
                     [
-                        "builder" => $builder,
-                        "limit"   => 1,
-                        "page"    => 2,
+                        'builder' => $builder,
+                        'limit'   => 1,
+                        'page'    => 2,
                     ]
                 ))->paginate();
             }
@@ -100,13 +106,15 @@ class QueryBuilderCest
     public function testIssue12111WithoutGroup(IntegrationTester $I)
     {
         $this->setDiMysql();
+
         $db = $this->getService('db');
+
         /*
-         * There is no clean way to rewrite query builder's query in the
-         * strict mode: if we remove all nonaggregated columns, we will get
-         * "Unknown column 'Stock.stock' in 'having clause'", otherwise
-         * "In aggregated query without GROUP BY, expression #1 of SELECT
-         * list contains nonaggregated column 'phalcon_test.Stock.stock'"
+         * There is no clean way to rewrite query builder's query in the strict
+         * mode: if we remove all nonaggregated columns, we will get "Unknown
+         * column 'Stock.stock' in 'having clause'", otherwise "In aggregated
+         * query without GROUP BY, expression #1 of SELECT list contains
+         * non-aggregated column 'phalcon_test.Stock.stock'"
          */
         $db->query(
             "SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE," .
@@ -114,19 +122,20 @@ class QueryBuilderCest
         );
 
         $manager = $this->getService('modelsManager');
+
         $builder = $manager
             ->createBuilder()
-            ->columns("*, COUNT(*) as stock_count")
+            ->columns('*, COUNT(*) as stock_count')
             ->from(['Stock' => Stock::class])
             ->having('stock > 0')
         ;
 
         $paginate = (new QueryBuilder(
             [
-                "builder" => $builder,
-                "limit"   => 1,
-                "page"    => 2,
-                "columns" => "id,stock",
+                'builder' => $builder,
+                'limit'   => 1,
+                'page'    => 2,
+                'columns' => 'id,stock',
             ]
         ))->paginate();
 
@@ -144,6 +153,7 @@ class QueryBuilderCest
     public function testIssue12957(IntegrationTester $I)
     {
         $this->setDiMysql();
+
         $modelsManager = $this->getService('modelsManager');
 
         $this->container->set(
@@ -152,7 +162,7 @@ class QueryBuilderCest
         );
 
         $builder = $modelsManager->createBuilder()
-                                 ->columns("COUNT(*) as robos_count")
+                                 ->columns('COUNT(*) as robos_count')
                                  ->from(['Robos' => Robos::class])
                                  ->groupBy('type')
                                  ->having('MAX(Robos.year) > 1970')
@@ -160,9 +170,9 @@ class QueryBuilderCest
 
         $paginate = (new QueryBuilder(
             [
-                "builder" => $builder,
-                "limit"   => 1,
-                "page"    => 2,
+                'builder' => $builder,
+                'limit'   => 1,
+                'page'    => 2,
             ]
         ))->paginate();
 
@@ -180,21 +190,22 @@ class QueryBuilderCest
     public function testIssue13552(IntegrationTester $I)
     {
         $this->setDiMysql();
+
         $modelsManager = $this->getService('modelsManager');
 
         $builder = $modelsManager->createBuilder()
-                                 ->columns("Robots.*")
+                                 ->columns('Robots.*')
                                  ->from(['Robots' => Robots::class])
-                                 ->join(RobotsParts::class, "RobotsParts.robots_id = Robots.id", "RobotsParts", "LEFT")
+                                 ->join(RobotsParts::class, 'RobotsParts.robots_id = Robots.id', 'RobotsParts', 'LEFT')
                                  ->groupBy('Robots.id, RobotsParts.id, RobotsParts.parts_id')
                                  ->having('Robots.id > 2')
         ;
 
         $paginate = (new QueryBuilder(
             [
-                "builder" => $builder,
-                "limit"   => 10,
-                "page"    => 1,
+                'builder' => $builder,
+                'limit'   => 10,
+                'page'    => 1,
             ]
         ))->paginate();
 

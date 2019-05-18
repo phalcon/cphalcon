@@ -2,10 +2,10 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use function date;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Abonnes;
-use function date;
 
 class ModelsValidatorsCest
 {
@@ -26,134 +26,334 @@ class ModelsValidatorsCest
     {
         $connection = $this->container->getShared('db');
 
-        $success = $connection->delete("subscriptores");
-        $I->assertTrue($success);
+        $I->assertTrue(
+            $connection->delete('subscriptores')
+        );
 
         $createdAt = date('Y-m-d H:i:s');
 
+
+
         //Save with success
-        $abonne                       = new Abonnes();
+        $abonne = new Abonnes();
+
         $abonne->courrierElectronique = 'fuego@hotmail.com';
         $abonne->creeA                = $createdAt;
         $abonne->statut               = 'P';
-        $I->assertTrue($abonne->save());
+
+        $I->assertTrue(
+            $abonne->save()
+        );
+
+
 
         //PresenceOf
-        $abonne                       = new Abonnes();
+        $abonne = new Abonnes();
+
         $abonne->courrierElectronique = 'fuego1@hotmail.com';
         $abonne->creeA                = null;
         $abonne->statut               = 'P';
-        $I->assertFalse($abonne->save());
 
-        $I->assertCount(1, $abonne->getMessages());
+        $I->assertFalse(
+            $abonne->save()
+        );
+
+
 
         $messages = $abonne->getMessages();
-        $I->assertEquals($messages[0]->getType(), "PresenceOf");
-        $I->assertEquals($messages[0]->getField(), "creeA");
-        $I->assertEquals($messages[0]->getMessage(), "La date de création est nécessaire");
+
+        $I->assertCount(1, $messages);
+
+        $I->assertEquals(
+            'PresenceOf',
+            $messages[0]->getType()
+        );
+
+        $I->assertEquals(
+            'creeA',
+            $messages[0]->getField()
+        );
+
+        $I->assertEquals(
+            'La date de création est nécessaire',
+            $messages[0]->getMessage()
+        );
+
+
 
         //Email
-        $abonne                       = new Abonnes();
+        $abonne = new Abonnes();
+
         $abonne->courrierElectronique = 'fuego?=';
         $abonne->creeA                = $createdAt;
         $abonne->statut               = 'P';
-        $I->assertFalse($abonne->save());
 
-        $I->assertCount(1, $abonne->getMessages());
+        $I->assertFalse(
+            $abonne->save()
+        );
+
+        $I->assertCount(
+            1,
+            $abonne->getMessages()
+        );
 
         $messages = $abonne->getMessages();
-        $I->assertEquals($messages[0]->getType(), "Email");
-        $I->assertEquals($messages[0]->getField(), "courrierElectronique");
-        $I->assertEquals($messages[0]->getMessage(), "Le courrier électronique est invalide");
+
+        $I->assertEquals(
+            'Email',
+            $messages[0]->getType()
+        );
+        $I->assertEquals(
+            'courrierElectronique',
+            $messages[0]->getField()
+        );
+        $I->assertEquals(
+            'Le courrier électronique est invalide',
+            $messages[0]->getMessage()
+        );
+
+
 
         //ExclusionIn
         $abonne->courrierElectronique = 'le_fuego@hotmail.com';
         $abonne->statut               = 'X';
-        $I->assertFalse($abonne->save());
+
+        $I->assertFalse(
+            $abonne->save()
+        );
 
         $messages = $abonne->getMessages();
-        $I->assertEquals($messages[0]->getType(), "ExclusionIn");
-        $I->assertEquals($messages[0]->getField(), "statut");
-        $I->assertEquals($messages[0]->getMessage(), 'L\'état ne doit être "X" ou "Z"');
+
+        $I->assertEquals(
+            'ExclusionIn',
+            $messages[0]->getType()
+        );
+        $I->assertEquals(
+            'statut',
+            $messages[0]->getField()
+        );
+        $I->assertEquals(
+            'L\'état ne doit être "X" ou "Z"',
+            $messages[0]->getMessage()
+        );
+
+
 
         //InclusionIn
         $abonne->statut = 'A';
-        $I->assertFalse($abonne->save());
+
+        $I->assertFalse(
+            $abonne->save()
+        );
 
         $messages = $abonne->getMessages();
-        $I->assertEquals($messages[0]->getType(), "InclusionIn");
-        $I->assertEquals($messages[0]->getField(), "statut");
-        $I->assertEquals($messages[0]->getMessage(), 'L\'état doit être "P", "I" ou "w"');
+
+        $I->assertEquals(
+            'InclusionIn',
+            $messages[0]->getType()
+        );
+
+        $I->assertEquals(
+            'statut',
+            $messages[0]->getField()
+        );
+
+        $I->assertEquals(
+            'L\'état doit être "P", "I" ou "w"',
+            $messages[0]->getMessage()
+        );
+
+
 
         //Uniqueness validator
         $abonne->courrierElectronique = 'fuego@hotmail.com';
         $abonne->statut               = 'P';
-        $I->assertFalse($abonne->save());
+
+        $I->assertFalse(
+            $abonne->save()
+        );
 
         $messages = $abonne->getMessages();
-        $I->assertEquals($messages[0]->getType(), "Uniqueness");
-        $I->assertEquals($messages[0]->getField(), "courrierElectronique");
-        $I->assertEquals($messages[0]->getMessage(), 'Le courrier électronique doit être unique');
+
+        $I->assertEquals(
+            'Uniqueness',
+            $messages[0]->getType()
+        );
+
+        $I->assertEquals(
+            'courrierElectronique',
+            $messages[0]->getField()
+        );
+
+        $I->assertEquals(
+            'Le courrier électronique doit être unique',
+            $messages[0]->getMessage()
+        );
+
+
 
         //Regex validator
         $abonne->courrierElectronique = 'na_fuego@hotmail.com';
         $abonne->statut               = 'w';
-        $I->assertFalse($abonne->save());
+
+        $I->assertFalse(
+            $abonne->save()
+        );
 
         $messages = $abonne->getMessages();
-        $I->assertEquals($messages[0]->getType(), "Regex");
-        $I->assertEquals($messages[0]->getField(), "statut");
+        $I->assertEquals($messages[0]->getType(), 'Regex');
+        $I->assertEquals($messages[0]->getField(), 'statut');
         $I->assertEquals($messages[0]->getMessage(), "L'état ne correspond pas à l'expression régulière");
+
+
 
         //too_long
         $abonne->courrierElectronique = 'personwholivesinahutsomewhereinthecloud@hotmail.com';
         $abonne->statut               = 'P';
-        $I->assertFalse($abonne->save());
+
+        $I->assertFalse(
+            $abonne->save()
+        );
 
         $messages = $abonne->getMessages();
-        $I->assertEquals($messages[0]->getType(), "TooLong");
-        $I->assertEquals($messages[0]->getField(), "courrierElectronique");
-        $I->assertEquals($messages[0]->getMessage(), "Le courrier électronique est trop long");
+
+        $I->assertEquals(
+            'TooLong',
+            $messages[0]->getType()
+        );
+
+        $I->assertEquals(
+            'courrierElectronique',
+            $messages[0]->getField()
+        );
+
+        $I->assertEquals(
+            'Le courrier électronique est trop long',
+            $messages[0]->getMessage()
+        );
+
+
 
         //too_short
         $abonne->courrierElectronique = 'a@b.co';
         $abonne->status               = 'P';
-        $I->assertFalse($abonne->save());
+
+        $I->assertFalse(
+            $abonne->save()
+        );
 
         $messages = $abonne->getMessages();
-        $I->assertEquals($messages[0]->getType(), "TooShort");
-        $I->assertEquals($messages[0]->getField(), "courrierElectronique");
-        $I->assertEquals($messages[0]->getMessage(), "Le courrier électronique est trop court");
+
+        $I->assertEquals(
+            'TooShort',
+            $messages[0]->getType()
+        );
+
+        $I->assertEquals(
+            'courrierElectronique',
+            $messages[0]->getField()
+        );
+
+        $I->assertEquals(
+            'Le courrier électronique est trop court',
+            $messages[0]->getMessage()
+        );
+
+
 
         // Issue #885
-        $abonne                       = new Abonnes();
+        $abonne = new Abonnes();
+
         $abonne->courrierElectronique = 'fuego?=';
         $abonne->creeA                = null;
         $abonne->statut               = 'P';
-        $I->assertFalse($abonne->save());
 
-        $I->assertCount(2, $abonne->getMessages());
+        $I->assertFalse(
+            $abonne->save()
+        );
+
+        $I->assertCount(
+            2,
+            $abonne->getMessages()
+        );
+
+
 
         $messages = $abonne->getMessages();
-        $I->assertEquals($messages[0]->getType(), "PresenceOf");
-        $I->assertEquals($messages[0]->getField(), "creeA");
-        $I->assertEquals($messages[0]->getMessage(), "La date de création est nécessaire");
 
-        $I->assertEquals($messages[1]->getType(), "Email");
-        $I->assertEquals($messages[1]->getField(), "courrierElectronique");
-        $I->assertEquals($messages[1]->getMessage(), "Le courrier électronique est invalide");
+        $I->assertEquals(
+            'PresenceOf',
+            $messages[0]->getType()
+        );
+
+        $I->assertEquals(
+            'creeA',
+            $messages[0]->getField()
+        );
+
+        $I->assertEquals(
+            'La date de création est nécessaire',
+            $messages[0]->getMessage()
+        );
+
+
+
+        $I->assertEquals(
+            'Email',
+            $messages[1]->getType()
+        );
+
+        $I->assertEquals(
+            'courrierElectronique',
+            $messages[1]->getField()
+        );
+
+        $I->assertEquals(
+            'Le courrier électronique est invalide',
+            $messages[1]->getMessage()
+        );
+
+
 
         $messages = $abonne->getMessages('creeA');
+
         $I->assertCount(1, $messages);
-        $I->assertEquals($messages[0]->getType(), "PresenceOf");
-        $I->assertEquals($messages[0]->getField(), "creeA");
-        $I->assertEquals($messages[0]->getMessage(), "La date de création est nécessaire");
+
+        $I->assertEquals(
+            'PresenceOf',
+            $messages[0]->getType()
+        );
+
+        $I->assertEquals(
+            'creeA',
+            $messages[0]->getField()
+        );
+
+        $I->assertEquals(
+            'La date de création est nécessaire',
+            $messages[0]->getMessage()
+        );
+
+
 
         $messages = $abonne->getMessages('courrierElectronique');
+
         $I->assertCount(1, $messages);
-        $I->assertEquals($messages[0]->getType(), "Email");
-        $I->assertEquals($messages[0]->getField(), "courrierElectronique");
-        $I->assertEquals($messages[0]->getMessage(), "Le courrier électronique est invalide");
+
+        $I->assertEquals(
+            'Email',
+            $messages[0]->getType()
+        );
+
+        $I->assertEquals(
+            'courrierElectronique',
+            $messages[0]->getField()
+        );
+
+        $I->assertEquals(
+            'Le courrier électronique est invalide',
+            $messages[0]->getMessage()
+        );
     }
 
     public function testValidatorsPostgresql(IntegrationTester $I)

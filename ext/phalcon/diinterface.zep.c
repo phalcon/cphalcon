@@ -35,25 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_DiInterface) {
 }
 
 /**
- * Registers a service in the services container
- *
- * @param mixed definition
- */
-ZEPHIR_DOC_METHOD(Phalcon_DiInterface, set);
-
-/**
- * Registers an "always shared" service in the services container
- *
- * @param mixed definition
- */
-ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setShared);
-
-/**
- * Removes a service in the services container
- */
-ZEPHIR_DOC_METHOD(Phalcon_DiInterface, remove);
-
-/**
  * Attempts to register a service in the services container
  * Only is successful if a service hasn't been registered previously
  * with the same name
@@ -70,16 +51,9 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, attempt);
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, get);
 
 /**
- * Returns a shared service based on their configuration
- *
- * @param array parameters
+ * Return the last DI created
  */
-ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getShared);
-
-/**
- * Sets a service using a raw Phalcon\Di\Service definition
- */
-ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setRaw);
+ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getDefault);
 
 /**
  * Returns a service definition without resolving
@@ -92,27 +66,54 @@ ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getRaw);
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getService);
 
 /**
- * Check whether the DI contains a service by a name
- */
-ZEPHIR_DOC_METHOD(Phalcon_DiInterface, has);
-
-/**
  * Return the services registered in the DI
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getServices);
 
 /**
- * Set a default dependency injection container to be obtained into static methods
+ * Returns a shared service based on their configuration
+ *
+ * @param array parameters
  */
-ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setDefault);
+ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getShared);
 
 /**
- * Return the last DI created
+ * Check whether the DI contains a service by a name
  */
-ZEPHIR_DOC_METHOD(Phalcon_DiInterface, getDefault);
+ZEPHIR_DOC_METHOD(Phalcon_DiInterface, has);
+
+/**
+ * Removes a service in the services container
+ */
+ZEPHIR_DOC_METHOD(Phalcon_DiInterface, remove);
 
 /**
  * Resets the internal default DI
  */
 ZEPHIR_DOC_METHOD(Phalcon_DiInterface, reset);
+
+/**
+ * Registers a service in the services container
+ *
+ * @param mixed definition
+ */
+ZEPHIR_DOC_METHOD(Phalcon_DiInterface, set);
+
+/**
+ * Set a default dependency injection container to be obtained into static
+ * methods
+ */
+ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setDefault);
+
+/**
+ * Sets a service using a raw Phalcon\Di\Service definition
+ */
+ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setRaw);
+
+/**
+ * Registers an "always shared" service in the services container
+ *
+ * @param mixed definition
+ */
+ZEPHIR_DOC_METHOD(Phalcon_DiInterface, setShared);
 

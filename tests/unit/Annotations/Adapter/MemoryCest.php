@@ -11,46 +11,95 @@
 
 namespace Phalcon\Test\Unit\Annotations\Adapter;
 
+use function dataDir;
 use Phalcon\Annotations\Adapter\Memory;
 use UnitTester;
-use function dataFolder;
-use function file_exists;
 
 class MemoryCest
 {
     public function testMemoryAdapter(UnitTester $I)
     {
-        $I->assertTrue(file_exists(dataFolder('fixtures/Annotations/TestClass.php')));
-        $I->assertTrue(file_exists(dataFolder('fixtures/Annotations/TestClassNs.php')));
+        $I->seeFileFound(
+            dataDir('fixtures/Annotations/TestClass.php')
+        );
 
-        require_once dataFolder('fixtures/Annotations/TestClass.php');
-        require_once dataFolder('fixtures/Annotations/TestClassNs.php');
+        $I->seeFileFound(
+            dataDir('fixtures/Annotations/TestClassNs.php')
+        );
+
+        require_once dataDir('fixtures/Annotations/TestClass.php');
+        require_once dataDir('fixtures/Annotations/TestClassNs.php');
 
         $adapter = new Memory();
 
         $classAnnotations = $adapter->get('TestClass');
+
         $I->assertInternalType('object', $classAnnotations);
-        $I->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
-        $I->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
+
+        $I->assertInstanceOf(
+            \Phalcon\Annotations\Reflection::class,
+            $classAnnotations
+        );
+
+        $I->assertInstanceOf(
+            \Phalcon\Annotations\Collection::class,
+            $classAnnotations->getClassAnnotations()
+        );
 
         $classAnnotations = $adapter->get('TestClass');
+
         $I->assertInternalType('object', $classAnnotations);
-        $I->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
-        $I->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
+
+        $I->assertInstanceOf(
+            \Phalcon\Annotations\Reflection::class,
+            $classAnnotations
+        );
+
+        $I->assertInstanceOf(
+            \Phalcon\Annotations\Collection::class,
+            $classAnnotations->getClassAnnotations()
+        );
 
         $classAnnotations = $adapter->get('User\TestClassNs');
+
         $I->assertInternalType('object', $classAnnotations);
-        $I->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
-        $I->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
+
+        $I->assertInstanceOf(
+            \Phalcon\Annotations\Reflection::class,
+            $classAnnotations
+        );
+
+        $I->assertInstanceOf(
+            \Phalcon\Annotations\Collection::class,
+            $classAnnotations->getClassAnnotations()
+        );
 
         $classAnnotations = $adapter->get('User\TestClassNs');
+
         $I->assertInternalType('object', $classAnnotations);
-        $I->assertInstanceOf('Phalcon\Annotations\Reflection', $classAnnotations);
-        $I->assertInstanceOf('Phalcon\Annotations\Collection', $classAnnotations->getClassAnnotations());
+
+        $I->assertInstanceOf(
+            \Phalcon\Annotations\Reflection::class,
+            $classAnnotations
+        );
+
+        $I->assertInstanceOf(
+            \Phalcon\Annotations\Collection::class,
+            $classAnnotations->getClassAnnotations()
+        );
 
         $property = $adapter->getProperty('TestClass', 'testProp1');
+
         $I->assertInternalType('object', $property);
-        $I->assertInstanceOf('Phalcon\Annotations\Collection', $property);
-        $I->assertEquals($property->count(), 4);
+
+        $I->assertInstanceOf(
+            \Phalcon\Annotations\Collection::class,
+            $property
+        );
+
+        $I->assertEquals(
+            4,
+            $property->count()
+        );
     }
 }

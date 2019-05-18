@@ -14,12 +14,9 @@
  +------------------------------------------------------------------------+
  */
 
-use Phalcon\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
+use Phalcon\DiInterface;
 
-/**
- * SomeServiceProvider
- */
 class SomeServiceProvider implements ServiceProviderInterface
 {
     public function register(DiInterface $di)

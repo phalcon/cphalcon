@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
 
-/**
- * Class GetInternalImInstanceCest
- */
 class GetInternalImInstanceCest
 {
     use ImagickTrait;
@@ -25,14 +22,13 @@ class GetInternalImInstanceCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: getInternalImInstance()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19
      */
     public function imageAdapterImagickGetInternalImInstance(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - getInternalImInstance()');
+
         $I->skipTest('Need implementation');
     }
 }

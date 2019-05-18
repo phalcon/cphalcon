@@ -15,33 +15,32 @@ namespace Phalcon\Test\Unit\Escaper;
 use Phalcon\Escaper;
 use UnitTester;
 
-/**
- * Class SetDoubleEncodeCest
- */
 class SetDoubleEncodeCest
 {
     /**
      * Tests Phalcon\Escaper :: setDoubleEncode()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function escaperSetDoubleEncode(UnitTester $I)
     {
-        $I->wantToTest("Escaper - setDoubleEncode()");
+        $I->wantToTest('Escaper - setDoubleEncode()');
+
         $escaper = new Escaper();
 
-        $source   = "<h1>&amp;</h1>";
-        $expected = '&lt;h1&gt;&amp;amp;&lt;/h1&gt;';
-        $actual   = $escaper->escapeHtml($source);
-        $I->assertEquals($expected, $actual);
+        $source = '<h1>&amp;</h1>';
+
+        $I->assertEquals(
+            '&lt;h1&gt;&amp;amp;&lt;/h1&gt;',
+            $escaper->escapeHtml($source)
+        );
 
         $escaper->setDoubleEncode(false);
 
-        $expected = '&lt;h1&gt;&amp;&lt;/h1&gt;';
-        $actual   = $escaper->escapeHtml($source);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '&lt;h1&gt;&amp;&lt;/h1&gt;',
+            $escaper->escapeHtml($source)
+        );
     }
 }

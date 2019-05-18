@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Config\Adapter\Json;
 
 use UnitTester;
 
-/**
- * Class MergeCest
- */
 class MergeCest
 {
     /**
      * Tests Phalcon\Config\Adapter\Json :: merge()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,6 @@ class MergeCest
     public function configAdapterJsonMerge(UnitTester $I)
     {
         $I->wantToTest("Config\Adapter\Json - merge()");
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

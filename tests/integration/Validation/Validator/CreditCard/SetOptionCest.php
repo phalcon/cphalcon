@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\CreditCard :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorCreditCardSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\CreditCard - setOption()');
+
         $validator = new CreditCard();
+
         $this->checkSetOption($I, $validator);
     }
 }

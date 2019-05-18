@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Config;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use ConfigTrait;
@@ -25,14 +22,12 @@ class ConstructCest
     /**
      * Tests Phalcon\Config :: __construct()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configConstruct(UnitTester $I)
     {
-        $I->wantToTest("Config - __construct()");
+        $I->wantToTest('Config - __construct()');
         $this->checkOffsetGet($I);
     }
 }

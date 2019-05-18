@@ -16,18 +16,12 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Remove;
 use UnitTester;
 
-/**
- * Class RemoveCest
- */
 class RemoveCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\Remove :: __invoke()
      *
      * @dataProvider getData
-     *
-     * @param UnitTester $I
-     * @param Example    $example
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
@@ -42,9 +36,6 @@ class RemoveCest
         $I->assertEquals($example[2], $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getData(): array
     {
         return [

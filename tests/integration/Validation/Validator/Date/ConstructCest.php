@@ -26,15 +26,15 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\Date :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorDateConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Date - __construct()');
+
         $validator = new Date();
+
         $this->checkConstruct($I, $validator);
     }
 }

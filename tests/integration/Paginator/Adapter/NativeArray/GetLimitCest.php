@@ -23,14 +23,13 @@ class GetLimitCest
     /**
      * Tests Phalcon\Paginator\Adapter\NativeArray :: getLimit()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function paginatorAdapterNativearrayGetLimit(IntegrationTester $I)
     {
         $I->wantToTest('Paginator\Adapter\NativeArray - getLimit()');
+
         $paginator = new NativeArray(
             [
                 'data'  => array_fill(0, 30, 'banana'),
@@ -39,8 +38,9 @@ class GetLimitCest
             ]
         );
 
-        $expected = 25;
-        $actual   = $paginator->getLimit();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            25,
+            $paginator->getLimit()
+        );
     }
 }

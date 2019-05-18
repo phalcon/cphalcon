@@ -15,28 +15,23 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-/**
- * Class ConstructCest
- *
- * @package Phalcon\Test\Unit\Registry
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Registry :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function registryConstruct(UnitTester $I)
     {
-        $I->wantToTest('Registry - construct');
+        $I->wantToTest('Registry - __construct()');
+
         $registry = new Registry();
 
-        $class  = Registry::class;
-        $actual = $registry;
-        $I->assertInstanceOf($class, $actual);
+        $I->assertInstanceOf(
+            Registry::class,
+            $registry
+        );
     }
 }

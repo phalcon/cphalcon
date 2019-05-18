@@ -22,14 +22,12 @@ class UnderscoreIssetCest
     /**
      * Tests Phalcon\Mvc\View :: __isset()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function mvcViewUnderscoreIsset(IntegrationTester $I)
     {
         $I->wantToTest("Mvc\View - __isset()");
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

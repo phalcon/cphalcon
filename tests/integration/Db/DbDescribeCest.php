@@ -31,22 +31,39 @@ class DbDescribeCest
     /**
      * Tests Phalcon\Db :: Mysql
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbMySql(IntegrationTester $I)
     {
-        $I->wantToTest("Db - MySql");
+        $I->wantToTest('Db - MySql');
+
         $this->setDiMysql();
+
         $connection = $this->getService('db');
 
-        //Table exist
-        $I->assertEquals($connection->tableExists('personas'), 1);
-        $I->assertEquals($connection->tableExists('noexist'), 0);
-        $I->assertEquals($connection->tableExists('personas', env('DATA_MYSQL_NAME')), 1);
-        $I->assertEquals($connection->tableExists('personas', 'test'), 0);
+
+
+        // Table exist
+        $I->assertEquals(
+            1,
+            $connection->tableExists('personas')
+        );
+
+        $I->assertEquals(
+            0,
+            $connection->tableExists('noexist')
+        );
+
+        $I->assertEquals(
+            1,
+            $connection->tableExists('personas', env('DATA_MYSQL_NAME'))
+        );
+
+        $I->assertEquals(
+            0,
+            $connection->tableExists('personas', 'test')
+        );
 
         /**
          * @TODO - Check this after refactoring
@@ -66,124 +83,152 @@ class DbDescribeCest
             'table_collation' => 'utf8_unicode_ci',
         ];
 
-        $options = $connection->tableOptions('personas', env('DATA_MYSQL_NAME'));
-        $I->assertEquals($options, $expectedOptions);
+        $I->assertEquals(
+            $expectedOptions,
+            $connection->tableOptions('personas', env('DATA_MYSQL_NAME'))
+        );
 
         //Indexes
         $expectedIndexes = [
-            'PRIMARY'   => Index::__set_state([
-                '_name'    => 'PRIMARY',
-                '_columns' => ['id'],
-                '_type'    => 'PRIMARY',
-            ]),
-            'robots_id' => Index::__set_state([
-                '_name'    => 'robots_id',
-                '_columns' => ['robots_id'],
-            ]),
-            'parts_id'  => Index::__set_state([
-                '_name'    => 'parts_id',
-                '_columns' => ['parts_id'],
-            ]),
+            'PRIMARY'   => Index::__set_state(
+                [
+                    'name'    => 'PRIMARY',
+                    'columns' => ['id'],
+                    'type'    => 'PRIMARY',
+                ]
+            ),
+            'robots_id' => Index::__set_state(
+                [
+                    'name'    => 'robots_id',
+                    'columns' => ['robots_id'],
+                ]
+            ),
+            'parts_id'  => Index::__set_state(
+                [
+                    'name'    => 'parts_id',
+                    'columns' => ['parts_id'],
+                ]
+            ),
         ];
 
-        $describeIndexes = $connection->describeIndexes('robots_parts');
-        $I->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals(
+            $expectedIndexes,
+            $connection->describeIndexes('robots_parts')
+        );
 
-        $describeIndexes = $connection->describeIndexes('robots_parts', env('DATA_MYSQL_NAME'));
-        $I->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals(
+            $expectedIndexes,
+            $connection->describeIndexes('robots_parts', env('DATA_MYSQL_NAME'))
+        );
 
         //Indexes
         $expectedIndexes = [
-            'PRIMARY'                  => Index::__set_state([
-                '_name'    => 'PRIMARY',
-                '_columns' => ['id'],
-                '_type'    => 'PRIMARY',
-            ]),
-            'issue_11036_token_UNIQUE' => Index::__set_state([
-                '_name'    => 'issue_11036_token_UNIQUE',
-                '_columns' => ['token'],
-                '_type'    => 'UNIQUE',
-            ]),
+            'PRIMARY'                  => Index::__set_state(
+                [
+                    'name'    => 'PRIMARY',
+                    'columns' => ['id'],
+                    'type'    => 'PRIMARY',
+                ]
+            ),
+            'issue_11036_token_UNIQUE' => Index::__set_state(
+                [
+                    'name'    => 'issue_11036_token_UNIQUE',
+                    'columns' => ['token'],
+                    'type'    => 'UNIQUE',
+                ]
+            ),
         ];
 
-        $describeIndexes = $connection->describeIndexes('issue_11036');
-        $I->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals(
+            $expectedIndexes,
+            $connection->describeIndexes('issue_11036')
+        );
 
-        $describeIndexes = $connection->describeIndexes('issue_11036', env('DATA_MYSQL_NAME'));
-        $I->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals(
+            $expectedIndexes,
+            $connection->describeIndexes('issue_11036', env('DATA_MYSQL_NAME'))
+        );
 
         //References
         $expectedReferences = [
             'robots_parts_ibfk_1' => Reference::__set_state(
                 [
-                    '_referenceName'     => 'robots_parts_ibfk_1',
-                    '_referencedTable'   => 'robots',
-                    '_columns'           => ['robots_id'],
-                    '_referencedColumns' => ['id'],
-                    '_referencedSchema'  => env('DATA_MYSQL_NAME'),
-                    '_onUpdate'          => 'RESTRICT',
-                    '_onDelete'          => 'RESTRICT',
+                    'referenceName'     => 'robots_parts_ibfk_1',
+                    'referencedTable'   => 'robots',
+                    'columns'           => ['robots_id'],
+                    'referencedColumns' => ['id'],
+                    'referencedSchema'  => env('DATA_MYSQL_NAME'),
+                    'onUpdate'          => 'RESTRICT',
+                    'onDelete'          => 'RESTRICT',
                 ]
             ),
             'robots_parts_ibfk_2' => Reference::__set_state(
                 [
-                    '_referenceName'     => 'robots_parts_ibfk_2',
-                    '_referencedTable'   => 'parts',
-                    '_columns'           => ['parts_id'],
-                    '_referencedColumns' => ['id'],
-                    '_referencedSchema'  => env('DATA_MYSQL_NAME'),
-                    '_onUpdate'          => 'RESTRICT',
-                    '_onDelete'          => 'RESTRICT',
+                    'referenceName'     => 'robots_parts_ibfk_2',
+                    'referencedTable'   => 'parts',
+                    'columns'           => ['parts_id'],
+                    'referencedColumns' => ['id'],
+                    'referencedSchema'  => env('DATA_MYSQL_NAME'),
+                    'onUpdate'          => 'RESTRICT',
+                    'onDelete'          => 'RESTRICT',
                 ]
             ),
         ];
 
-        $describeReferences = $connection->describeReferences('robots_parts');
-        $I->assertEquals($describeReferences, $expectedReferences);
+        $I->assertEquals(
+            $expectedReferences,
+            $connection->describeReferences('robots_parts')
+        );
 
-        $describeReferences = $connection->describeReferences('robots_parts', env('DATA_MYSQL_NAME'));
-        $I->assertEquals($describeReferences, $expectedReferences);
+        $I->assertEquals(
+            $expectedReferences,
+            $connection->describeReferences('robots_parts', env('DATA_MYSQL_NAME'))
+        );
     }
 
     /**
      * Tests Phalcon\Db :: Postgresql
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbPostgresql(IntegrationTester $I)
     {
-        $I->wantToTest("Db - Postgresql");
+        $I->wantToTest('Db - Postgresql');
+
         $this->setDiPostgresql();
+
         $connection = $this->getService('db');
 
-        //Columns
+        // Columns
         $expectedDescribe = $this->getExpectedColumnsPostgresql();
 
-        $describe = $connection->describeColumns('personas');
-        $I->assertEquals($describe, $expectedDescribe);
+        $I->assertEquals(
+            $expectedDescribe,
+            $connection->describeColumns('personas')
+        );
 
-        $describe = $connection->describeColumns('personas', 'public');
-        $I->assertEquals($describe, $expectedDescribe);
+        $I->assertEquals(
+            $expectedDescribe,
+            $connection->describeColumns('personas', 'public')
+        );
 
         /**
          * @todo Check the references (SQL dump file)
          */
-//        //Indexes
+//        // Indexes
 //        $expectedIndexes = [
 //            'robots_parts_parts_id'  => Index::__set_state([
-//                '_name'    => 'robots_parts_parts_id',
-//                '_columns' => ['parts_id'],
+//                'name'    => 'robots_parts_parts_id',
+//                'columns' => ['parts_id'],
 //            ]),
 //            'robots_parts_pkey'      => Index::__set_state([
-//                '_name'    => 'robots_parts_pkey',
-//                '_columns' => ['id'],
+//                'name'    => 'robots_parts_pkey',
+//                'columns' => ['id'],
 //            ]),
 //            'robots_parts_robots_id' => Index::__set_state([
-//                '_name'    => 'robots_parts_robots_id',
-//                '_columns' => ['robots_id'],
+//                'name'    => 'robots_parts_robots_id',
+//                'columns' => ['robots_id'],
 //            ]),
 //        ];
 //
@@ -197,24 +242,24 @@ class DbDescribeCest
 //        $expectedReferences = [
 //            'robots_parts_ibfk_1' => Reference::__set_state(
 //                [
-//                    '_referenceName'     => 'robots_parts_ibfk_1',
-//                    '_referencedTable'   => 'robots',
-//                    '_columns'           => ['robots_id'],
-//                    '_referencedColumns' => ['id'],
-//                    '_referencedSchema'  => env('DATA_POSTGRES_NAME'),
-//                    '_onDelete'          => 'NO ACTION',
-//                    '_onUpdate'          => 'NO ACTION',
+//                    'referenceName'     => 'robots_parts_ibfk_1',
+//                    'referencedTable'   => 'robots',
+//                    'columns'           => ['robots_id'],
+//                    'referencedColumns' => ['id'],
+//                    'referencedSchema'  => env('DATA_POSTGRES_NAME'),
+//                    'onDelete'          => 'NO ACTION',
+//                    'onUpdate'          => 'NO ACTION',
 //                ]
 //            ),
 //            'robots_parts_ibfk_2' => Reference::__set_state(
 //                [
-//                    '_referenceName'     => 'robots_parts_ibfk_2',
-//                    '_referencedTable'   => 'parts',
-//                    '_columns'           => ['parts_id'],
-//                    '_referencedColumns' => ['id'],
-//                    '_referencedSchema'  => env('DATA_POSTGRES_NAME'),
-//                    '_onDelete'          => 'NO ACTION',
-//                    '_onUpdate'          => 'NO ACTION',
+//                    'referenceName'     => 'robots_parts_ibfk_2',
+//                    'referencedTable'   => 'parts',
+//                    'columns'           => ['parts_id'],
+//                    'referencedColumns' => ['id'],
+//                    'referencedSchema'  => env('DATA_POSTGRES_NAME'),
+//                    'onDelete'          => 'NO ACTION',
+//                    'onUpdate'          => 'NO ACTION',
 //                ]
 //            ),
 //        ];
@@ -230,169 +275,169 @@ class DbDescribeCest
     {
         return [
             0  => Column::__set_state([
-                '_columnName'    => 'cedula',
-                '_schemaName'    => null,
-                '_type'          => 5,
-                '_isNumeric'     => false,
-                '_size'          => 15,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_primary'       => true,
-                '_first'         => true,
-                '_after'         => null,
-                '_bindType'      => 2,
+                'columnName'    => 'cedula',
+                'schemaName'    => null,
+                'type'          => 5,
+                'isNumeric'     => false,
+                'size'          => 15,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => true,
+                'autoIncrement' => false,
+                'primary'       => true,
+                'first'         => true,
+                'after'         => null,
+                'bindType'      => 2,
             ]),
             1  => Column::__set_state([
-                '_columnName'    => 'tipo_documento_id',
-                '_schemaName'    => null,
-                '_type'          => 0,
-                '_isNumeric'     => true,
-                '_size'          => 0,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'cedula',
-                '_bindType'      => 1,
+                'columnName'    => 'tipo_documento_id',
+                'schemaName'    => null,
+                'type'          => 0,
+                'isNumeric'     => true,
+                'size'          => 0,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => true,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'cedula',
+                'bindType'      => 1,
             ]),
             2  => Column::__set_state([
-                '_columnName'    => 'nombres',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 100,
-                '_scale'         => 0,
-                '_default'       => '',
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'tipo_documento_id',
-                '_bindType'      => 2,
+                'columnName'    => 'nombres',
+                'schemaName'    => null,
+                'type'          => 2,
+                'isNumeric'     => false,
+                'size'          => 100,
+                'scale'         => 0,
+                'default'       => '',
+                'unsigned'      => false,
+                'notNull'       => true,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'tipo_documento_id',
+                'bindType'      => 2,
             ]),
             3  => Column::__set_state([
-                '_columnName'    => 'telefono',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 20,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'nombres',
+                'columnName'    => 'telefono',
+                'schemaName'    => null,
+                'type'          => 2,
+                'isNumeric'     => false,
+                'size'          => 20,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'nombres',
             ]),
             4  => Column::__set_state([
-                '_columnName'    => 'direccion',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 100,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'telefono',
-                '_bindType'      => 2,
+                'columnName'    => 'direccion',
+                'schemaName'    => null,
+                'type'          => 2,
+                'isNumeric'     => false,
+                'size'          => 100,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'telefono',
+                'bindType'      => 2,
             ]),
             5  => Column::__set_state([
-                '_columnName'    => 'email',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 50,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'direccion',
-                '_bindType'      => 2,
+                'columnName'    => 'email',
+                'schemaName'    => null,
+                'type'          => 2,
+                'isNumeric'     => false,
+                'size'          => 50,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'direccion',
+                'bindType'      => 2,
             ]),
             6  => Column::__set_state([
-                '_columnName'    => 'fecha_nacimiento',
-                '_schemaName'    => null,
-                '_type'          => 1,
-                '_isNumeric'     => false,
-                '_size'          => 0,
-                '_scale'         => 0,
-                '_default'       => '1970-01-01',
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'email',
-                '_bindType'      => 2,
+                'columnName'    => 'fecha_nacimiento',
+                'schemaName'    => null,
+                'type'          => 1,
+                'isNumeric'     => false,
+                'size'          => 0,
+                'scale'         => 0,
+                'default'       => '1970-01-01',
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'email',
+                'bindType'      => 2,
             ]),
             7  => Column::__set_state([
-                '_columnName'    => 'ciudad_id',
-                '_schemaName'    => null,
-                '_type'          => 0,
-                '_isNumeric'     => true,
-                '_size'          => 0,
-                '_scale'         => 0,
-                '_default'       => '0',
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'fecha_nacimiento',
-                '_bindType'      => 1,
+                'columnName'    => 'ciudad_id',
+                'schemaName'    => null,
+                'type'          => 0,
+                'isNumeric'     => true,
+                'size'          => 0,
+                'scale'         => 0,
+                'default'       => '0',
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'fecha_nacimiento',
+                'bindType'      => 1,
             ]),
             8  => Column::__set_state([
-                '_columnName'    => 'creado_at',
-                '_schemaName'    => null,
-                '_type'          => 1,
-                '_isNumeric'     => false,
-                '_size'          => 0,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'ciudad_id',
-                '_bindType'      => 2,
+                'columnName'    => 'creado_at',
+                'schemaName'    => null,
+                'type'          => 1,
+                'isNumeric'     => false,
+                'size'          => 0,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'ciudad_id',
+                'bindType'      => 2,
             ]),
             9  => Column::__set_state([
-                '_columnName'    => 'cupo',
-                '_schemaName'    => null,
-                '_type'          => 3,
-                '_isNumeric'     => true,
-                '_size'          => 16,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'creado_at',
-                '_bindType'      => 32,
+                'columnName'    => 'cupo',
+                'schemaName'    => null,
+                'type'          => 3,
+                'isNumeric'     => true,
+                'size'          => 16,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => true,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'creado_at',
+                'bindType'      => 32,
             ]),
             10 => Column::__set_state([
-                '_columnName'    => 'estado',
-                '_schemaName'    => null,
-                '_type'          => 5,
-                '_isNumeric'     => false,
-                '_size'          => 1,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'cupo',
-                '_bindType'      => 2,
+                'columnName'    => 'estado',
+                'schemaName'    => null,
+                'type'          => 5,
+                'isNumeric'     => false,
+                'size'          => 1,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => true,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'cupo',
+                'bindType'      => 2,
             ]),
         ];
     }
@@ -400,15 +445,15 @@ class DbDescribeCest
     /**
      * Tests Phalcon\Db :: Sqlite
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbSqlite(IntegrationTester $I)
     {
-        $I->wantToTest("Db - Sqlite");
+        $I->wantToTest('Db - Sqlite');
+
         $this->setDiSqlite();
+
         $connection = $this->getService('db');
 
         //List tables
@@ -431,245 +476,289 @@ class DbDescribeCest
             'tipo_documento',
         ];
 
-        $tables = $connection->listTables();
 
-        $I->assertEquals($expectedTables, $tables);
+        $I->assertEquals(
+            $expectedTables,
+            $connection->listTables()
+        );
 
-        $tables = $connection->listTables('public');
-        $I->assertEquals($tables, $expectedTables);
+        $I->assertEquals(
+            $expectedTables,
+            $connection->listTables('public')
+        );
+
+
 
         //Table exist
-        $I->assertEquals($connection->tableExists('personas'), 1);
-        $I->assertEquals($connection->tableExists('noexist'), 0);
-        $I->assertEquals($connection->tableExists('personas', 'public'), 1);
-        $I->assertEquals($connection->tableExists('personas', 'test'), 1);
+        $I->assertEquals(
+            1,
+            $connection->tableExists('personas')
+        );
 
-        //Columns
+        $I->assertEquals(
+            0,
+            $connection->tableExists('noexist')
+        );
+
+        $I->assertEquals(
+            1,
+            $connection->tableExists('personas', 'public')
+        );
+
+        $I->assertEquals(
+            1,
+            $connection->tableExists('personas', 'test')
+        );
+
+
+
+        // Columns
         $expectedDescribe = $this->getExpectedColumnsSqlite();
-        $describe         = $connection->describeColumns('personas');
-        $I->assertEquals($describe, $expectedDescribe);
 
-        $describe = $connection->describeColumns('personas', 'main');
-        $I->assertEquals($describe, $expectedDescribe);
+        $I->assertEquals(
+            $expectedDescribe,
+            $connection->describeColumns('personas')
+        );
 
-        //Indexes
+        $I->assertEquals(
+            $expectedDescribe,
+            $connection->describeColumns('personas', 'main')
+        );
+
+
+
+        // Indexes
         $expectedIndexes = [
-            'sqlite_autoindex_COMPANY_1' => Index::__set_state([
-                '_name'    => 'sqlite_autoindex_COMPANY_1',
-                '_columns' => ['ID'],
-                '_type'    => 'PRIMARY',
-            ]),
-            'salary_index'               => Index::__set_state([
-                '_name'    => 'salary_index',
-                '_columns' => ['SALARY'],
-            ]),
-            'name_index'                 => Index::__set_state([
-                '_name'    => 'name_index',
-                '_columns' => ['NAME'],
-                '_type'    => 'UNIQUE',
-            ]),
+            'sqlite_autoindex_COMPANY_1' => Index::__set_state(
+                [
+                    'name'    => 'sqlite_autoindex_COMPANY_1',
+                    'columns' => ['ID'],
+                    'type'    => 'PRIMARY',
+                ]
+            ),
+            'salary_index'               => Index::__set_state(
+                [
+                    'name'    => 'salary_index',
+                    'columns' => ['SALARY'],
+                ]
+            ),
+            'name_index'                 => Index::__set_state(
+                [
+                    'name'    => 'name_index',
+                    'columns' => ['NAME'],
+                    'type'    => 'UNIQUE',
+                ]
+            ),
         ];
 
-        $describeIndexes = $connection->describeIndexes('COMPANY');
-        $I->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals(
+            $expectedIndexes,
+            $connection->describeIndexes('COMPANY')
+        );
 
-        $describeIndexes = $connection->describeIndexes('company', 'main');
-        $I->assertEquals($describeIndexes, $expectedIndexes);
+        $I->assertEquals(
+            $expectedIndexes,
+            $connection->describeIndexes('company', 'main')
+        );
 
-        //References
+
+
+        // References
         $expectedReferences = [
             'foreign_key_0' => Reference::__set_state(
                 [
-                    '_referenceName'     => 'foreign_key_0',
-                    '_referencedTable'   => 'parts',
-                    '_columns'           => ['parts_id'],
-                    '_referencedColumns' => ['id'],
-                    '_referencedSchema'  => null,
+                    'referenceName'     => 'foreign_key_0',
+                    'referencedTable'   => 'parts',
+                    'columns'           => ['parts_id'],
+                    'referencedColumns' => ['id'],
+                    'referencedSchema'  => null,
                 ]
             ),
             'foreign_key_1' => Reference::__set_state(
                 [
-                    '_referenceName'     => 'foreign_key_1',
-                    '_referencedTable'   => 'robots',
-                    '_columns'           => ['robots_id'],
-                    '_referencedColumns' => ['id'],
-                    '_referencedSchema'  => null,
+                    'referenceName'     => 'foreign_key_1',
+                    'referencedTable'   => 'robots',
+                    'columns'           => ['robots_id'],
+                    'referencedColumns' => ['id'],
+                    'referencedSchema'  => null,
                 ]
             ),
         ];
 
-        $describeReferences = $connection->describeReferences('robots_parts');
-        $I->assertEquals($describeReferences, $expectedReferences);
+        $I->assertEquals(
+            $expectedReferences,
+            $connection->describeReferences('robots_parts')
+        );
     }
 
     private function getExpectedColumnsSqlite()
     {
         return [
             0  => Column::__set_state([
-                '_columnName'    => 'cedula',
-                '_schemaName'    => null,
-                '_type'          => 5,
-                '_isNumeric'     => false,
-                '_size'          => 15,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_primary'       => true,
-                '_first'         => true,
-                '_after'         => null,
-                '_bindType'      => 2,
+                'columnName'    => 'cedula',
+                'schemaName'    => null,
+                'type'          => 5,
+                'isNumeric'     => false,
+                'size'          => 15,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => true,
+                'autoIncrement' => false,
+                'primary'       => true,
+                'first'         => true,
+                'after'         => null,
+                'bindType'      => 2,
             ]),
             1  => Column::__set_state([
-                '_columnName'    => 'tipo_documento_id',
-                '_schemaName'    => null,
-                '_type'          => 0,
-                '_isNumeric'     => true,
-                '_size'          => 3,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'cedula',
-                '_bindType'      => 1,
+                'columnName'    => 'tipo_documento_id',
+                'schemaName'    => null,
+                'type'          => 0,
+                'isNumeric'     => true,
+                'size'          => 3,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => true,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'cedula',
+                'bindType'      => 1,
             ]),
             2  => Column::__set_state([
-                '_columnName'    => 'nombres',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 100,
-                '_scale'         => 0,
-                '_default'       => '',
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'tipo_documento_id',
-                '_bindType'      => 2,
+                'columnName'    => 'nombres',
+                'schemaName'    => null,
+                'type'          => 2,
+                'isNumeric'     => false,
+                'size'          => 100,
+                'scale'         => 0,
+                'default'       => '',
+                'unsigned'      => false,
+                'notNull'       => true,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'tipo_documento_id',
+                'bindType'      => 2,
             ]),
             3  => Column::__set_state([
-                '_columnName'    => 'telefono',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 20,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'nombres',
-                '_bindType'      => 2,
+                'columnName'    => 'telefono',
+                'schemaName'    => null,
+                'type'          => 2,
+                'isNumeric'     => false,
+                'size'          => 20,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'nombres',
+                'bindType'      => 2,
             ]),
             4  => Column::__set_state([
-                '_columnName'    => 'direccion',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 100,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'telefono',
-                '_bindType'      => 2,
+                'columnName'    => 'direccion',
+                'schemaName'    => null,
+                'type'          => 2,
+                'isNumeric'     => false,
+                'size'          => 100,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'telefono',
+                'bindType'      => 2,
             ]),
             5  => Column::__set_state([
-                '_columnName'    => 'email',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 50,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'direccion',
-                '_bindType'      => 2,
+                'columnName'    => 'email',
+                'schemaName'    => null,
+                'type'          => 2,
+                'isNumeric'     => false,
+                'size'          => 50,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'direccion',
+                'bindType'      => 2,
             ]),
             6  => Column::__set_state([
-                '_columnName'    => 'fecha_nacimiento',
-                '_schemaName'    => null,
-                '_type'          => 1,
-                '_isNumeric'     => false,
-                '_size'          => 0,
-                '_scale'         => 0,
-                '_default'       => '1970-01-01',
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'email',
-                '_bindType'      => 2,
+                'columnName'    => 'fecha_nacimiento',
+                'schemaName'    => null,
+                'type'          => 1,
+                'isNumeric'     => false,
+                'size'          => 0,
+                'scale'         => 0,
+                'default'       => '1970-01-01',
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'email',
+                'bindType'      => 2,
             ]),
             7  => Column::__set_state([
-                '_columnName'    => 'ciudad_id',
-                '_schemaName'    => null,
-                '_type'          => 0,
-                '_isNumeric'     => true,
-                '_size'          => 10,
-                '_scale'         => 0,
-                '_default'       => '0',
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'fecha_nacimiento',
-                '_bindType'      => 1,
+                'columnName'    => 'ciudad_id',
+                'schemaName'    => null,
+                'type'          => 0,
+                'isNumeric'     => true,
+                'size'          => 10,
+                'scale'         => 0,
+                'default'       => '0',
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'fecha_nacimiento',
+                'bindType'      => 1,
             ]),
             8  => Column::__set_state([
-                '_columnName'    => 'creado_at',
-                '_schemaName'    => null,
-                '_type'          => 1,
-                '_isNumeric'     => false,
-                '_size'          => 0,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'ciudad_id',
-                '_bindType'      => 2,
+                'columnName'    => 'creado_at',
+                'schemaName'    => null,
+                'type'          => 1,
+                'isNumeric'     => false,
+                'size'          => 0,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'ciudad_id',
+                'bindType'      => 2,
             ]),
             9  => Column::__set_state([
-                '_columnName'    => 'cupo',
-                '_schemaName'    => null,
-                '_type'          => 3,
-                '_isNumeric'     => true,
-                '_size'          => 16,
-                '_scale'         => 2,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'creado_at',
-                '_bindType'      => 32,
+                'columnName'    => 'cupo',
+                'schemaName'    => null,
+                'type'          => 3,
+                'isNumeric'     => true,
+                'size'          => 16,
+                'scale'         => 2,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => true,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'creado_at',
+                'bindType'      => 32,
             ]),
             10 => Column::__set_state([
-                '_columnName'    => 'estado',
-                '_schemaName'    => null,
-                '_type'          => 5,
-                '_isNumeric'     => false,
-                '_size'          => 1,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'cupo',
-                '_bindType'      => 2,
+                'columnName'    => 'estado',
+                'schemaName'    => null,
+                'type'          => 5,
+                'isNumeric'     => false,
+                'size'          => 1,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => true,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'cupo',
+                'bindType'      => 2,
             ]),
         ];
     }
@@ -678,170 +767,170 @@ class DbDescribeCest
     {
         return [
             0  => Column::__set_state([
-                '_columnName'    => 'cedula',
-                '_schemaName'    => null,
-                '_type'          => 5,
-                '_isNumeric'     => false,
-                '_size'          => 15,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_primary'       => true,
-                '_first'         => true,
-                '_after'         => null,
-                '_bindType'      => 2,
+                'columnName'    => 'cedula',
+                'schemaName'    => null,
+                'type'          => 5,
+                'isNumeric'     => false,
+                'size'          => 15,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => true,
+                'autoIncrement' => false,
+                'primary'       => true,
+                'first'         => true,
+                'after'         => null,
+                'bindType'      => 2,
             ]),
             1  => Column::__set_state([
-                '_columnName'    => 'tipo_documento_id',
-                '_schemaName'    => null,
-                '_type'          => 0,
-                '_isNumeric'     => true,
-                '_size'          => 3,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => true,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'cedula',
-                '_bindType'      => 1,
+                'columnName'    => 'tipo_documento_id',
+                'schemaName'    => null,
+                'type'          => 0,
+                'isNumeric'     => true,
+                'size'          => 3,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => true,
+                'notNull'       => true,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'cedula',
+                'bindType'      => 1,
             ]),
             2  => Column::__set_state([
-                '_columnName'    => 'nombres',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 100,
-                '_scale'         => 0,
-                '_default'       => '',
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'tipo_documento_id',
-                '_bindType'      => 2,
+                'columnName'    => 'nombres',
+                'schemaName'    => null,
+                'type'          => 2,
+                'isNumeric'     => false,
+                'size'          => 100,
+                'scale'         => 0,
+                'default'       => '',
+                'unsigned'      => false,
+                'notNull'       => true,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'tipo_documento_id',
+                'bindType'      => 2,
             ]),
             3  => Column::__set_state([
-                '_columnName'    => 'telefono',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 20,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'nombres',
-                '_bindType'      => 2,
+                'columnName'    => 'telefono',
+                'schemaName'    => null,
+                'type'          => 2,
+                'isNumeric'     => false,
+                'size'          => 20,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'nombres',
+                'bindType'      => 2,
             ]),
             4  => Column::__set_state([
-                '_columnName'    => 'direccion',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 100,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'telefono',
-                '_bindType'      => 2,
+                'columnName'    => 'direccion',
+                'schemaName'    => null,
+                'type'          => 2,
+                'isNumeric'     => false,
+                'size'          => 100,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'telefono',
+                'bindType'      => 2,
             ]),
             5  => Column::__set_state([
-                '_columnName'    => 'email',
-                '_schemaName'    => null,
-                '_type'          => 2,
-                '_isNumeric'     => false,
-                '_size'          => 50,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'direccion',
-                '_bindType'      => 2,
+                'columnName'    => 'email',
+                'schemaName'    => null,
+                'type'          => 2,
+                'isNumeric'     => false,
+                'size'          => 50,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'direccion',
+                'bindType'      => 2,
             ]),
             6  => Column::__set_state([
-                '_columnName'    => 'fecha_nacimiento',
-                '_schemaName'    => null,
-                '_type'          => 1,
-                '_isNumeric'     => false,
-                '_size'          => 0,
-                '_scale'         => 0,
-                '_default'       => '1970-01-01',
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'email',
-                '_bindType'      => 2,
+                'columnName'    => 'fecha_nacimiento',
+                'schemaName'    => null,
+                'type'          => 1,
+                'isNumeric'     => false,
+                'size'          => 0,
+                'scale'         => 0,
+                'default'       => '1970-01-01',
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'email',
+                'bindType'      => 2,
             ]),
             7  => Column::__set_state([
-                '_columnName'    => 'ciudad_id',
-                '_schemaName'    => null,
-                '_type'          => 0,
-                '_isNumeric'     => true,
-                '_size'          => 10,
-                '_scale'         => 0,
-                '_default'       => '0',
-                '_unsigned'      => true,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'fecha_nacimiento',
-                '_bindType'      => 1,
+                'columnName'    => 'ciudad_id',
+                'schemaName'    => null,
+                'type'          => 0,
+                'isNumeric'     => true,
+                'size'          => 10,
+                'scale'         => 0,
+                'default'       => '0',
+                'unsigned'      => true,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'fecha_nacimiento',
+                'bindType'      => 1,
             ]),
             8  => Column::__set_state([
-                '_columnName'    => 'creado_at',
-                '_schemaName'    => null,
-                '_type'          => 1,
-                '_isNumeric'     => false,
-                '_size'          => 0,
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => false,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'ciudad_id',
-                '_bindType'      => 2,
+                'columnName'    => 'creado_at',
+                'schemaName'    => null,
+                'type'          => 1,
+                'isNumeric'     => false,
+                'size'          => 0,
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => false,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'ciudad_id',
+                'bindType'      => 2,
             ]),
             9  => Column::__set_state([
-                '_columnName'    => 'cupo',
-                '_schemaName'    => null,
-                '_type'          => 3,
-                '_isNumeric'     => true,
-                '_size'          => 16,
-                '_scale'         => 2,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'creado_at',
-                '_bindType'      => 32,
+                'columnName'    => 'cupo',
+                'schemaName'    => null,
+                'type'          => 3,
+                'isNumeric'     => true,
+                'size'          => 16,
+                'scale'         => 2,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => true,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'creado_at',
+                'bindType'      => 32,
             ]),
             10 => Column::__set_state([
-                '_columnName'    => 'estado',
-                '_schemaName'    => null,
-                '_type'          => 18,
-                '_isNumeric'     => false,
-                '_size'          => "'A','I','X'",
-                '_scale'         => 0,
-                '_default'       => null,
-                '_unsigned'      => false,
-                '_notNull'       => true,
-                '_autoIncrement' => false,
-                '_first'         => false,
-                '_after'         => 'cupo',
-                '_bindType'      => 2,
+                'columnName'    => 'estado',
+                'schemaName'    => null,
+                'type'          => 18,
+                'isNumeric'     => false,
+                'size'          => "'A','I','X'",
+                'scale'         => 0,
+                'default'       => null,
+                'unsigned'      => false,
+                'notNull'       => true,
+                'autoIncrement' => false,
+                'first'         => false,
+                'after'         => 'cupo',
+                'bindType'      => 2,
             ]),
         ];
     }

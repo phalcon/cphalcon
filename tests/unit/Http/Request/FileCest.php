@@ -11,10 +11,9 @@
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use function dataDir;
 use Phalcon\Http\Request\File;
-use Phalcon\Test\Module\UnitTest;
 use UnitTester;
-use function dataFolder;
 
 class FileCest
 {
@@ -36,7 +35,7 @@ class FileCest
             [
                 'name'     => 'test',
                 'type'     => 'text/plain',
-                'tmp_name' => dataFolder('/assets/images/phalconphp.jpg'),
+                'tmp_name' => dataDir('/assets/images/phalconphp.jpg'),
                 'size'     => 1,
                 'error'    => 0,
             ]

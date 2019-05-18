@@ -12,6 +12,8 @@
 namespace Phalcon\Test\Cli\Cli;
 
 use CliTester;
+use EchoTask;
+use MainTask;
 use Phalcon\Registry;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -29,25 +31,47 @@ class TaskCest
         /**
          * @todo Check the loader
          */
-        require_once dataFolder('fixtures/tasks/EchoTask.php');
-        require_once dataFolder('fixtures/tasks/MainTask.php');
-        
-        $this->container["registry"] = function () {
+        require_once dataDir('fixtures/tasks/EchoTask.php');
+        require_once dataDir('fixtures/tasks/MainTask.php');
+
+        $this->container['registry'] = function () {
             $registry = new Registry();
-            $registry->data = "data";
+
+            $registry->data = 'data';
 
             return $registry;
         };
 
-        $task = new \MainTask();
-        $task->setDI($this->container);
+        $task = new MainTask();
 
-        $I->assertEquals($task->requestRegistryAction(), "data");
-        $I->assertEquals($task->helloAction(), "Hello !");
-        $I->assertEquals($task->helloAction("World"), "Hello World!");
+        $task->setDI(
+            $this->container
+        );
 
-        $task2 = new \EchoTask();
-        $task2->setDI($this->container);
-        $I->assertEquals($task2->mainAction(), "echoMainAction");
+        $I->assertEquals(
+            'data',
+            $task->requestRegistryAction()
+        );
+
+        $I->assertEquals(
+            'Hello !',
+            $task->helloAction()
+        );
+
+        $I->assertEquals(
+            'Hello World!',
+            $task->helloAction('World')
+        );
+
+        $task2 = new EchoTask();
+
+        $task2->setDI(
+            $this->container
+        );
+
+        $I->assertEquals(
+            'echoMainAction',
+            $task2->mainAction()
+        );
     }
 }

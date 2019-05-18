@@ -43,12 +43,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 
 	/**
 	 * Access Granted
+	 *
 	 * @var bool
 	 */
 	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("accessGranted"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
-	 * Role which the list is checking if it's allowed to certain component/access
+	 * Role which the list is checking if it's allowed to certain
+	 * component/access
 	 *
 	 * @var string
 	 */
@@ -63,12 +65,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter) {
 
 	/**
 	 * Default access
+	 *
 	 * @var bool
 	 */
 	zend_declare_property_bool(phalcon_acl_adapter_ce, SL("defaultAccess"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * Events manager
+	 *
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_ce, SL("eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -92,7 +96,11 @@ PHP_METHOD(Phalcon_Acl_Adapter, getActiveAccess) {
 }
 
 /**
- * Role which the list is checking if it's allowed to certain component/access
+ * Role which the list is checking if it's allowed to certain
+ *
+ *
+ * component/access
+ *
  */
 PHP_METHOD(Phalcon_Acl_Adapter, getActiveRole) {
 

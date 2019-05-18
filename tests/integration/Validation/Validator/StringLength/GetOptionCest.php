@@ -26,15 +26,15 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: getOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorStringLengthGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength - getOption()');
+
         $validator = new StringLength();
+
         $this->checkGetOption($I, $validator);
     }
 }

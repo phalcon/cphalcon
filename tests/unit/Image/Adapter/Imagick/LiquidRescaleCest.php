@@ -12,15 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 
+use function dataDir;
+use function outputDir;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
-use function dataFolder;
-use function outputFolder;
 
-/**
- * Class LiquidRescaleCest
- */
 class LiquidRescaleCest
 {
     use ImagickTrait;
@@ -28,28 +25,39 @@ class LiquidRescaleCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: liquidRescale()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19
      */
     public function imageAdapterImagickLiquidRescale(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - liquidRescale()');
+
         $I->skipTest('Check library support');
-        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
+
+        $image = new Imagick(
+            dataDir('assets/images/phalconphp.jpg')
+        );
+
         $image->setResourceLimit(6, 1);
 
         // Resize to 200 pixels on the shortest side
-        $image->liquidRescale(200, 200)->save(outputFolder('tests/image/imagick/liquidRescale.jpg'));
+        $image->liquidRescale(200, 200)->save(outputDir('tests/image/imagick/liquidRescale.jpg'));
 
-        $I->amInPath(outputFolder('tests/image/imagick/'));
+        $I->amInPath(
+            outputDir('tests/image/imagick/')
+        );
+
         $I->seeFileFound('liquidRescale.jpg');
 
-        $actual = $image->getWidth() == 200;
-        $I->assertTrue($actual);
-        $actual = $image->getHeight() == 200;
-        $I->assertTrue($actual);
+        $I->assertEquals(
+            200,
+            $image->getWidth()
+        );
+
+        $I->assertEquals(
+            200,
+            $image->getHeight()
+        );
 
         $I->safeDeleteFile('liquidRescale.jpg');
     }

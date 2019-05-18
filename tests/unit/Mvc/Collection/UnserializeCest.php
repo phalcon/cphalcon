@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class UnserializeCest
- */
 class UnserializeCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: unserialize()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class UnserializeCest
     public function mvcCollectionUnserialize(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - unserialize()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -13,7 +13,6 @@ namespace Phalcon\Test\Fixtures\Db;
 
 class ProfilerListener
 {
-
     protected $profiler;
 
     public function __construct()
@@ -40,4 +39,3 @@ class ProfilerListener
         return $this->profiler;
     }
 }
-

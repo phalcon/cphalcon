@@ -26,15 +26,15 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\Ip :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorIpConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Ip - __construct()');
+
         $validator = new Ip();
+
         $this->checkConstruct($I, $validator);
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
 
-/**
- * Class SetHeaderCest
- */
 class SetHeaderCest
 {
     /**
      * Tests Phalcon\Http\Response :: setHeader()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetHeaderCest
     public function httpResponseSetHeader(UnitTester $I)
     {
         $I->wantToTest('Http\Response - setHeader()');
+
         $I->skipTest('Need implementation');
     }
 }

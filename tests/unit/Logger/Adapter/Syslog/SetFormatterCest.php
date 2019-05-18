@@ -17,17 +17,10 @@ use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
-/**
- * Class SetFormatterCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class SetFormatterCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Syslog :: setFormatter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -39,10 +32,14 @@ class SetFormatterCest
         $streamName = $I->getNewFileName('log', 'log');
 
         $adapter = new Syslog($streamName);
-        $adapter->setFormatter(new Line());
 
-        $class  = FormatterInterface::class;
-        $actual = $adapter->getFormatter();
-        $I->assertInstanceOf($class, $actual);
+        $adapter->setFormatter(
+            new Line()
+        );
+
+        $I->assertInstanceOf(
+            FormatterInterface::class,
+            $adapter->getFormatter()
+        );
     }
 }

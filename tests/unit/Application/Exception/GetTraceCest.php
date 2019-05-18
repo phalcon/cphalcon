@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Application\Exception;
 
 use UnitTester;
 
-/**
- * Class GetTraceCest
- */
 class GetTraceCest
 {
     /**
      * Tests Phalcon\Application\Exception :: getTrace()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetTraceCest
     public function applicationExceptionGetTrace(UnitTester $I)
     {
         $I->wantToTest('Application\Exception - getTrace()');
+
         $I->skipTest('Need implementation');
     }
 }

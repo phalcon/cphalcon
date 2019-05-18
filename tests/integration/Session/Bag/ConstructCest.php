@@ -14,24 +14,29 @@ namespace Phalcon\Test\Integration\Session\Bag;
 
 use IntegrationTester;
 use Phalcon\Session\Bag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
+    use DiTrait;
+    use SessionBagTrait;
+
     /**
      * Tests Phalcon\Session\Bag :: __construct()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionBagConstruct(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Bag - __construct()");
-        $session = new Bag("test");
-        $I->assertInstanceOf("\Phalcon\Session\Bag", $session);
+        $I->wantToTest('Session\Bag - __construct()');
+
+        $collection = new Bag('BagTest');
+
+        $I->assertInstanceOf(
+            Bag::class,
+            $collection
+        );
     }
 }

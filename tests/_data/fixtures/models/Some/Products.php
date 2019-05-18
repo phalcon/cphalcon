@@ -11,16 +11,15 @@
 
 namespace Phalcon\Test\Models\Some;
 
-use Phalcon\Mvc\Model;
 use Phalcon\Db\Column;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\MetaData;
 
 class Products extends Model
 {
-
-    public function getSource(): string
+    public function initialize()
     {
-        return 'le_products';
+        $this->setSource('le_products');
     }
 
     public function metaData()
@@ -59,5 +58,4 @@ class Products extends Model
             MetaData::MODELS_AUTOMATIC_DEFAULT_UPDATE => [],
         ];
     }
-
 }

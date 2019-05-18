@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\PresenceOf :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorPresenceOfSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\PresenceOf - setOption()');
+
         $validator = new PresenceOf();
+
         $this->checkSetOption($I, $validator);
     }
 }

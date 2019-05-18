@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class WasForwardedCest
- */
 class WasForwardedCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: wasForwarded()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class WasForwardedCest
     public function mvcDispatcherWasForwarded(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - wasForwarded()');
+
         $I->skipTest('Need implementation');
     }
 }

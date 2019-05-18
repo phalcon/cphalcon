@@ -17,16 +17,10 @@ use Phalcon\Annotations\Factory;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
-/**
- * Class LoadCest
- */
 class LoadCest
 {
     use FactoryTrait;
 
-    /**
-     * @param UnitTester $I
-     */
     public function _before(UnitTester $I)
     {
         $this->init();
@@ -35,24 +29,21 @@ class LoadCest
     /**
      * Tests Phalcon\Annotations\Factory :: load() - Config
      *
-     * @param UnitTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
     public function testConfigFactory(UnitTester $I)
     {
         $I->wantToTest('Annotations\Factory - load() - Config');
+
         $options = $this->config->annotations;
+
         $this->runTests($I, $options);
     }
 
     /**
      * Runs the tests based on different configurations
      *
-     * @param UnitTester   $I
-     *
-     * @param UnitTester   $I
      * @param Config|array $options
      */
     private function runTests(UnitTester $I, $options)
@@ -60,15 +51,14 @@ class LoadCest
         /** @var Apcu $cache */
         $cache = Factory::load($options);
 
-        $class  = Apcu::class;
-        $actual = $cache;
-        $I->assertInstanceOf($class, $actual);
+        $I->assertInstanceOf(
+            Apcu::class,
+            $cache
+        );
     }
 
     /**
      * Tests Phalcon\Annotations\Factory :: load() - array
-     *
-     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
@@ -76,8 +66,10 @@ class LoadCest
     public function testArrayFactory(UnitTester $I)
     {
         $I->wantToTest('Annotations\Factory - load() - array');
+
         /** @var Apc $annotations */
-        $options = $this->arrayConfig["annotations"];
+        $options = $this->arrayConfig['annotations'];
+
         $this->runTests($I, $options);
     }
 }

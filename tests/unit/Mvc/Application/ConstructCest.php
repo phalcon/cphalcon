@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Application;
 
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Mvc\Application :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ConstructCest
     public function mvcApplicationConstruct(UnitTester $I)
     {
         $I->wantToTest('Mvc\Application - __construct()');
+
         $I->skipTest('Need implementation');
     }
 }

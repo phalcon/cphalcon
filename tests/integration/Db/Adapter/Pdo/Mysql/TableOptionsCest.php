@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class TableOptionsCest
- */
 class TableOptionsCest
 {
     use DiTrait;
@@ -27,15 +24,13 @@ class TableOptionsCest
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: tableOptions()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbAdapterPdoMysqlTableOptions(IntegrationTester $I)
     {
         $I->wantToTest('Db\Adapter\Pdo\Mysql - tableOptions()');
-        $table    = 'dialect_table';
+
         $expected = [
             'auto_increment'  => '1',
             'engine'          => 'InnoDB',
@@ -43,7 +38,11 @@ class TableOptionsCest
             'table_type'      => 'BASE TABLE',
         ];
 
-        $actual = $this->connection->tableOptions($table, $this->getDatabaseName());
+        $actual = $this->connection->tableOptions(
+            'dialect_table',
+            $this->getDatabaseName()
+        );
+
         $I->assertEquals($expected, $actual);
     }
 }

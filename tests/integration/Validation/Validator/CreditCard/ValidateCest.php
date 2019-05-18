@@ -27,31 +27,42 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\CreditCard :: validate() - single
      * field
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorCreditCardValidateSingleField(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\CreditCard - validate() - single");
+
         $validation = new Validation();
-        $validation->add('creditCard', new CreditCard());
 
-        $expected = 0;
-        $actual   = count($validation->validate(['creditCard' => 4601587377626131]));
-        $I->assertEquals($expected, $actual);
+        $validation->add(
+            'creditCard',
+            new CreditCard()
+        );
 
-        $expected = 1;
-        $actual   = count($validation->validate(['creditCard' => 46015873776261312]));
-        $I->assertEquals($expected, $actual);
+        $I->assertCount(
+            0,
+            $validation->validate(
+                [
+                    'creditCard' => 4601587377626131,
+                ]
+            )
+        );
+
+        $I->assertCount(
+            1,
+            $validation->validate(
+                [
+                    'creditCard' => 46015873776261312,
+                ]
+            )
+        );
     }
 
     /**
      * Tests Phalcon\Validation\Validator\CreditCard :: validate() - multiple
      * field
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -59,6 +70,7 @@ class ValidateCest
     public function validationValidatorCreditCardValidateMultipleFields(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\CreditCard - validate() - multiple");
+
         $validation = new Validation();
 
         $validationMessages = [
@@ -75,6 +87,7 @@ class ValidateCest
             )
         );
 
+
         $messages = $validation->validate(
             [
                 'creditCard'        => 4601587377626131,
@@ -82,9 +95,11 @@ class ValidateCest
             ]
         );
 
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(
             [
@@ -93,13 +108,17 @@ class ValidateCest
             ]
         );
 
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
 
-        $expected = $validationMessages['creditCard'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $validationMessages['creditCard'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
 
         $messages = $validation->validate(
             [
@@ -108,24 +127,27 @@ class ValidateCest
             ]
         );
 
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
 
-        $expected = $validationMessages['creditCard'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['anotherCreditCard'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $validationMessages['creditCard'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+
+        $I->assertEquals(
+            $validationMessages['anotherCreditCard'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 
     /**
      * Tests Phalcon\Validation\Validator\CreditCard :: validate() - valid card
      * numbers
-     *
-     * @param IntegrationTester $I
      *
      * @author Caio Almeida <caio.f.r.amd@gmail.com>
      * @since  2015-09-06
@@ -133,6 +155,7 @@ class ValidateCest
     public function validationValidatorCreditCardValidateValidCreditCard(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\CreditCard - validate() - valid card");
+
         $providers = [
             'amex'       => '378282246310005',
             'visa'       => '4012888888881881',
@@ -143,11 +166,20 @@ class ValidateCest
 
         foreach ($providers as $number) {
             $validation = new Validation();
-            $validation->add('creditCard', new CreditCard());
 
-            $expected = 0;
-            $actual   = count($validation->validate(['creditCard' => $number]));
-            $I->assertEquals($expected, $actual);
+            $validation->add(
+                'creditCard',
+                new CreditCard()
+            );
+
+            $I->assertCount(
+                0,
+                $validation->validate(
+                    [
+                        'creditCard' => $number,
+                    ]
+                )
+            );
         }
     }
 
@@ -155,14 +187,13 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\CreditCard :: validate() - invalid
      * card numbers
      *
-     * @param IntegrationTester $I
-     *
      * @author Caio Almeida <caio.f.r.amd@gmail.com>
      * @since  2015-09-06
      */
     public function validationValidatorCreditCardValidateInvalidCreditCard(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\CreditCard - validate() - invalid card");
+
         $cards = [
             '1203191201121221',
             '102030102320',
@@ -173,7 +204,12 @@ class ValidateCest
 
         foreach ($cards as $number) {
             $validation = new Validation();
-            $validation->add('creditCard', new CreditCard());
+
+            $validation->add(
+                'creditCard',
+                new CreditCard()
+            );
+
 
             $expected = new Messages(
                 [
@@ -185,7 +221,13 @@ class ValidateCest
                     ),
                 ]
             );
-            $actual   = $validation->validate(['creditCard' => $number]);
+
+            $actual = $validation->validate(
+                [
+                    'creditCard' => $number,
+                ]
+            );
+
             $I->assertEquals($expected, $actual);
         }
     }

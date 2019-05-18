@@ -14,15 +14,10 @@ namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
 
-/**
- * Class ExtractNamedParamsCest
- */
 class ExtractNamedParamsCest
 {
     /**
      * Tests Phalcon\Cli\Router\Route :: extractNamedParams()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

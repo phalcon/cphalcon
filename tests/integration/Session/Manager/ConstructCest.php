@@ -16,15 +16,10 @@ use IntegrationTester;
 use Phalcon\Session\Manager;
 use Phalcon\Session\ManagerInterface;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Session\Manager :: __construct()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -32,8 +27,12 @@ class ConstructCest
     public function sessionManagerConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - __construct()');
+
         $manager = new Manager();
-        $class   = ManagerInterface::class;
-        $I->assertInstanceOf($class, $manager);
+
+        $I->assertInstanceOf(
+            ManagerInterface::class,
+            $manager
+        );
     }
 }

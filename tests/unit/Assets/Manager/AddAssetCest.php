@@ -16,15 +16,10 @@ use Phalcon\Assets\Asset\Css;
 use Phalcon\Assets\Manager;
 use UnitTester;
 
-/**
- * Class AddAssetCest
- */
 class AddAssetCest
 {
     /**
      * Tests Phalcon\Assets\Manager :: addAsset()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -42,8 +37,6 @@ class AddAssetCest
 
     /**
      * Tests Phalcon\Assets\Manager :: addAsset() - addCss()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

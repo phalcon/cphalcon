@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\PostgresqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class TableExistsCest
- */
 class TableExistsCest
 {
     use DiTrait;
@@ -26,8 +23,6 @@ class TableExistsCest
 
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Postgresql :: tableExists()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -37,9 +32,24 @@ class TableExistsCest
         $I->wantToTest("Db\Adapter\Pdo\Postgresql - tableExists()");
 
         $table = 'dialect_table';
-        $I->assertTrue($this->connection->tableExists($table));
-        $I->assertFalse($this->connection->tableExists('unknown-table'));
-        $I->assertTrue($this->connection->tableExists($table, $this->getSchemaName()));
-        $I->assertFalse($this->connection->tableExists('unknown-table', 'unknown-db'));
+
+        $I->assertTrue(
+            $this->connection->tableExists($table)
+        );
+
+        $I->assertFalse(
+            $this->connection->tableExists('unknown-table')
+        );
+
+        $I->assertTrue(
+            $this->connection->tableExists(
+                $table,
+                $this->getSchemaName()
+            )
+        );
+
+        $I->assertFalse(
+            $this->connection->tableExists('unknown-table', 'unknown-db')
+        );
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Loader;
 
 use UnitTester;
 
-/**
- * Class GetDirsCest
- */
 class GetDirsCest
 {
     /**
      * Tests Phalcon\Loader :: getDirs()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetDirsCest
     public function loaderGetDirs(UnitTester $I)
     {
         $I->wantToTest('Loader - getDirs()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use DateTime;
 use IntegrationTester;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
@@ -20,7 +21,6 @@ use Phalcon\Test\Models\Snapshot\Requests;
 use Phalcon\Test\Models\Snapshot\Robots;
 use Phalcon\Test\Models\Snapshot\Robotters;
 use Phalcon\Test\Models\Snapshot\Subscribers;
-use Phalcon\Test\Module\IntegrationTest;
 
 class SnapshotCest
 {
@@ -253,7 +253,7 @@ class SnapshotCest
                 'name'     => 'test',
                 'type'     => 'mechanical',
                 'year'     => 2017,
-                'datetime' => (new \DateTime())->format('Y-m-d'),
+                'datetime' => (new DateTime())->format('Y-m-d'),
                 'text'     => 'asd',
             ]
         );
@@ -262,7 +262,7 @@ class SnapshotCest
         $I->assertNotEmpty($robots->getSnapshotData());
         $I->assertEquals($robots->toArray(), $robots->getSnapshotData());
 
-        $robots->name = "testabc";
+        $robots->name = 'testabc';
         $I->assertTrue($robots->hasChanged('name'));
         $I->assertTrue($robots->update());
         $I->assertEquals('testabc', $robots->name);
@@ -286,7 +286,7 @@ class SnapshotCest
             [
                 'name'     => 'test',
                 'year'     => 2017,
-                'datetime' => (new \DateTime())->format('Y-m-d'),
+                'datetime' => (new DateTime())->format('Y-m-d'),
                 'text'     => 'asd',
             ]
         );
@@ -327,7 +327,7 @@ class SnapshotCest
                     [
                         'name'     => 'test',
                         'year'     => 2017,
-                        'datetime' => (new \DateTime())->format('Y-m-d'),
+                        'datetime' => (new DateTime())->format('Y-m-d'),
                         'text'     => 'asd',
                     ]
                 );
@@ -354,7 +354,7 @@ class SnapshotCest
                     [
                         'name'     => 'test',
                         'year'     => 2017,
-                        'datetime' => (new \DateTime())->format('Y-m-d'),
+                        'datetime' => (new DateTime())->format('Y-m-d'),
                         'text'     => 'asd',
                     ]
                 );
@@ -433,7 +433,7 @@ class SnapshotCest
             [
                 'name'     => 'test',
                 'year'     => 2017,
-                'datetime' => (new \DateTime())->format('Y-m-d'),
+                'datetime' => (new DateTime())->format('Y-m-d'),
                 'text'     => 'asd',
             ]
         );
@@ -470,11 +470,12 @@ class SnapshotCest
     {
         $personas = Personas::findFirst();
         $I->assertEquals([], $personas->getChangedFields());
+
         try {
             $personas->getUpdatedFields();
         } catch (\Exception $e) {
             $I->assertEquals($e->getMessage())->equals(
-                "Change checking cannot be performed because the object has not been persisted or is deleted"
+                'Change checking cannot be performed because the object has not been persisted or is deleted'
             )
             ;
         }

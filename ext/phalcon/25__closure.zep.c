@@ -13,6 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/array.h"
+#include "kernel/object.h"
 
 
 ZEPHIR_INIT_CLASS(phalcon_25__closure) {
@@ -25,16 +27,28 @@ ZEPHIR_INIT_CLASS(phalcon_25__closure) {
 
 PHP_METHOD(phalcon_25__closure, __invoke) {
 
-	zval *file, file_sub;
+	zend_bool _1;
+	zval *element, element_sub, _0, _2;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&file_sub);
+	ZVAL_UNDEF(&element_sub);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2);
 
-	zephir_fetch_params(0, 1, 0, &file);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &element);
 
 
 
-	RETURN_BOOL(1);
+	ZEPHIR_OBS_VAR(&_0);
+	zephir_array_fetch_long(&_0, element, 0, PH_NOISY, "phalcon/Validation.zep", 54 TSRMLS_CC);
+	_1 = Z_TYPE_P(&_0) == IS_ARRAY;
+	if (_1) {
+		ZEPHIR_OBS_VAR(&_2);
+		zephir_array_fetch_long(&_2, element, 1, PH_NOISY, "phalcon/Validation.zep", 54 TSRMLS_CC);
+		_1 = zephir_is_instance_of(&_2, SL("phalcon\\CombinedFieldsValidator") TSRMLS_CC);
+	}
+	RETURN_MM_BOOL(_1);
 
 }
 

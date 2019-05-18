@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Config;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class OffsetExistsCest
- */
 class OffsetExistsCest
 {
     use ConfigTrait;
@@ -25,14 +22,12 @@ class OffsetExistsCest
     /**
      * Tests Phalcon\Config :: offsetExists()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configOffsetExists(UnitTester $I)
     {
-        $I->wantToTest("Config - offsetExists()");
+        $I->wantToTest('Config - offsetExists()');
         $this->checkOffsetExists($I);
     }
 }

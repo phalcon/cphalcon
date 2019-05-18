@@ -16,9 +16,6 @@ use Phalcon\Config;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class SetStateCest
- */
 class SetStateCest
 {
     use ConfigTrait;
@@ -26,25 +23,23 @@ class SetStateCest
     /**
      * Tests Phalcon\Config :: __set_state()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configSetState(UnitTester $I)
     {
-        $I->wantToTest("Config - __set_state()");
+        $I->wantToTest('Config - __set_state()');
+
         $config = $this->getConfig();
 
-        $expected = $this->getSetState();
-        $actual   = $config;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $this->getSetState(),
+            $config
+        );
     }
 
     /**
      * Sets the state on a config object to check __set_state
-     *
-     * @return Config
      */
     private function getSetState(): Config
     {

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
 
-/**
- * Class HasParamCest
- */
 class HasParamCest
 {
     /**
      * Tests Phalcon\Cli\Dispatcher :: hasParam()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

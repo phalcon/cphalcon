@@ -13,42 +13,38 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Html\Helper\TextArea;
 
 use Codeception\Example;
+use Phalcon\Escaper;
+use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\TextArea;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
-/**
- * Class TextAreaCest
- */
 class TextAreaCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Html\Helper\TextArea :: __construct()
      *
      * @dataProvider getExamples
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
-     * @author       Phalcon Team <team@phalconphp.com>
-     * @since        2019-01-19
+     * @throws Exception
      */
     public function htmlHelperTextareaConstruct(UnitTester $I, Example $example)
     {
         $I->wantToTest('Html\Helper\TextArea - __construct()');
-        $escaper = $this->newEscaper();
+        $escaper = new Escaper();
         $helper  = new TextArea($escaper);
 
         $expected = $example[0];
         $actual   = $helper($example[1], $example[2]);
         $I->assertEquals($expected, $actual);
+
+        $factory  = new TagFactory($escaper);
+        $locator  = $factory->newInstance('textarea');
+        $expected = $example[0];
+        $actual   = $locator($example[1], $example[2]);
+        $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

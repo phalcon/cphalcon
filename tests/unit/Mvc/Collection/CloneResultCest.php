@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class CloneResultCest
- */
 class CloneResultCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: cloneResult()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class CloneResultCest
     public function mvcCollectionCloneResult(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - cloneResult()');
+
         $I->skipTest('Need implementation');
     }
 }

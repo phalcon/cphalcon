@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Cookie;
 
 use UnitTester;
 
-/**
- * Class RestoreCest
- */
 class RestoreCest
 {
     /**
      * Tests Phalcon\Http\Cookie :: restore()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class RestoreCest
     public function httpCookieRestore(UnitTester $I)
     {
         $I->wantToTest('Http\Cookie - restore()');
+
         $I->skipTest('Need implementation');
     }
 }

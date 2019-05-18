@@ -17,9 +17,6 @@ use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
-/**
- * Class GetIteratorCest
- */
 class GetIteratorCest
 {
     use DiTrait;
@@ -28,19 +25,28 @@ class GetIteratorCest
     /**
      * Tests Phalcon\Session\Bag :: getIterator()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionBagGetIterator(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Bag - getIterator()");
-        $session        = new Bag("CountTest");
-        $session->test1 = "test";
-        $session->test2 = "test";
-        $session->test3 = "test";
+        $I->wantToTest('Session\Bag - getIterator()');
 
-        $I->assertInstanceOf("\ArrayIterator", $session->getIterator());
+        $data = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+
+        $collection = new Bag('BagTest');
+
+        $collection->init($data);
+
+        foreach ($collection as $key => $value) {
+            $I->assertEquals(
+                $data[$key],
+                $collection[$key]
+            );
+        }
     }
 }

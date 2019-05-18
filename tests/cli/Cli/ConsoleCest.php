@@ -12,14 +12,14 @@
 namespace Phalcon\Test\Cli\Cli;
 
 use CliTester;
+use function dataDir;
+use Issue787Task;
 use Phalcon\Cli\Console;
 use Phalcon\Cli\Console\Exception as ConsoleException;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
 use Phalcon\Cli\Router;
-use Phalcon\Di;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function dataFolder;
 
 class ConsoleCest
 {
@@ -33,17 +33,22 @@ class ConsoleCest
     public function shouldThrowExceptionWhenModuleDoesNotExists(CliTester $I)
     {
         $I->expectThrowable(
-            new ConsoleException("Module 'devtools' isn't registered in the console container"),
+            new ConsoleException(
+                "Module 'devtools' isn't registered in the console container"
+            ),
             function () {
                 $this->container->set(
                     'data',
                     function () {
-                        return "data";
+                        return 'data';
                     }
                 );
 
                 $console = new Console();
-                $console->setDI($this->container);
+
+                $console->setDI(
+                    $this->container
+                );
 
                 // testing module
                 $console->handle(
@@ -61,22 +66,29 @@ class ConsoleCest
 
     public function shouldThrowExceptionWhenTaskDoesNotExists(CliTester $I)
     {
-        $I->expectThrowable(
-            new DispatcherException("Dummy\MainTask handler class cannot be loaded", 2),
+        $this->container->set(
+            'data',
             function () {
-                $this->container->set(
-                    'data',
-                    function () {
-                        return "data";
-                    }
-                );
+                return 'data';
+            }
+        );
 
-                $console = new Console();
-                $console->setDI($this->container);
-                $dispatcher = $console->getDI()->getShared('dispatcher');
+        $console = new Console();
 
-                $dispatcher->setDefaultNamespace('Dummy\\');
+        $console->setDI(
+            $this->container
+        );
 
+        $dispatcher = $console->getDI()->getShared('dispatcher');
+
+        $dispatcher->setDefaultNamespace('Dummy\\');
+
+        $I->expectThrowable(
+            new DispatcherException(
+                "Dummy\MainTask handler class cannot be loaded",
+                2
+            ),
+            function () use ($console) {
                 // testing namespace
                 $console->handle(
                     [
@@ -95,12 +107,15 @@ class ConsoleCest
         $this->container->set(
             'data',
             function () {
-                return "data";
+                return 'data';
             }
         );
 
         $console = new Console();
-        $console->setDI($this->container);
+
+        $console->setDI(
+            $this->container
+        );
 
         $expected = [
             'devtools' => [
@@ -111,7 +126,10 @@ class ConsoleCest
 
         $console->registerModules($expected);
 
-        $I->assertEquals($expected, $console->getModules());
+        $I->assertEquals(
+            $expected,
+            $console->getModules()
+        );
 
         $userModules = [
             'front'  => [
@@ -141,19 +159,28 @@ class ConsoleCest
 
         $console->registerModules($userModules, true);
 
-        $I->assertEquals($expected, $console->getModules());
+        $I->assertEquals(
+            $expected,
+            $console->getModules()
+        );
     }
 
     public function testIssue787(CliTester $I)
     {
-        require_once dataFolder('fixtures/tasks/Issue787Task.php');
+        require_once dataDir('fixtures/tasks/Issue787Task.php');
 
         $dispatcher = new Dispatcher();
-        $dispatcher->setDI($this->container);
+
+        $dispatcher->setDI(
+            $this->container
+        );
+
         $this->container->setShared('dispatcher', $dispatcher);
 
         $console = new Console();
+
         $console->setDI($this->container);
+
         $console->handle(
             [
                 'task'   => 'issue787',
@@ -161,125 +188,46 @@ class ConsoleCest
             ]
         );
 
-        $I->assertTrue(class_exists('Issue787Task'));
+        $I->assertTrue(
+            class_exists('Issue787Task')
+        );
 
-        $actual   = \Issue787Task::$output;
-        $expected = "beforeExecuteRoute" . PHP_EOL . "initialize" . PHP_EOL;
-        $I->assertEquals($expected, $actual);
-    }
-
-    public function testArgumentArray(CliTester $I)
-    {
-        /**
-         * @todo Check the loader why those are not being autoloaded
-         */
-        require_once dataFolder('fixtures/tasks/EchoTask.php');
-        require_once dataFolder('fixtures/tasks/MainTask.php');
-
-        $console = new Console();
-        $console->setDI($this->container);
-        $dispatcher = $console->getDI()->getShared('dispatcher');
-
-        $console->setArgument(array(
-            'php',
-        ), false)->handle();
-        $I->assertEquals($dispatcher->getTaskName(), 'main');
-        $I->assertEquals($dispatcher->getActionName(), 'main');
-        $I->assertEquals($dispatcher->getParams(), []);
-        $I->assertEquals($dispatcher->getReturnedValue(), 'mainAction');
-
-        $console->setArgument(array(
-            'php',
-            'echo'
-        ), false)->handle();
-        $I->assertEquals($dispatcher->getTaskName(), 'echo');
-        $I->assertEquals($dispatcher->getActionName(), 'main');
-        $I->assertEquals($dispatcher->getParams(), []);
-        $I->assertEquals($dispatcher->getReturnedValue(), 'echoMainAction');
-
-        $console->setArgument(array(
-            'php',
-            'main',
-            'hello'
-        ), false)->handle();
-        $I->assertEquals($dispatcher->getTaskName(), 'main');
-        $I->assertEquals($dispatcher->getActionName(), 'hello');
-        $I->assertEquals($dispatcher->getParams(), []);
-        $I->assertEquals($dispatcher->getReturnedValue(), 'Hello !');
-
-        $console->setArgument(array(
-            'php',
-            'main',
-            'hello',
-            'World',
-            '######'
-        ), false)->handle();
-        $I->assertEquals($dispatcher->getTaskName(), 'main');
-        $I->assertEquals($dispatcher->getActionName(), 'hello');
-        $I->assertEquals($dispatcher->getParams(), array('World', '######'));
-        $I->assertEquals($dispatcher->getReturnedValue(), 'Hello World######');
-    }
-
-    public function testArgumentNoShift(CliTester $I)
-    {
-        $console = new Console();
-        $console->setDI($this->container);
-        $dispatcher = $console->getDI()->getShared('dispatcher');
-
-        $console->setArgument([], false, false)->handle();
-        $I->assertEquals($dispatcher->getTaskName(), 'main');
-        $I->assertEquals($dispatcher->getActionName(), 'main');
-        $I->assertEquals($dispatcher->getParams(), []);
-        $I->assertEquals($dispatcher->getReturnedValue(), 'mainAction');
-
-        $console->setArgument(array(
-            'echo'
-        ), false, false)->handle();
-        $I->assertEquals($dispatcher->getTaskName(), 'echo');
-        $I->assertEquals($dispatcher->getActionName(), 'main');
-        $I->assertEquals($dispatcher->getParams(), []);
-        $I->assertEquals($dispatcher->getReturnedValue(), 'echoMainAction');
-
-        $console->setArgument(array(
-            'main',
-            'hello'
-        ), false, false)->handle();
-        $I->assertEquals($dispatcher->getTaskName(), 'main');
-        $I->assertEquals($dispatcher->getActionName(), 'hello');
-        $I->assertEquals($dispatcher->getParams(), []);
-        $I->assertEquals($dispatcher->getReturnedValue(), 'Hello !');
-
-        $console->setArgument(array(
-            'main',
-            'hello',
-            'World',
-            '######'
-        ), false, false)->handle();
-        $I->assertEquals($dispatcher->getTaskName(), 'main');
-        $I->assertEquals($dispatcher->getActionName(), 'hello');
-        $I->assertEquals($dispatcher->getParams(), array('World', '######'));
-        $I->assertEquals($dispatcher->getReturnedValue(), 'Hello World######');
+        $I->assertEquals(
+            'beforeExecuteRoute' . PHP_EOL . 'initialize' . PHP_EOL,
+            Issue787Task::$output
+        );
     }
 
     public function shouldThrowExceptionWithUnshiftedArguments(CliTester $I)
     {
+        $console = new Console();
+
+        $console->setDI(
+            $this->container
+        );
+
+        $dispatcher = $console->getDI()->getShared('dispatcher');
+
+        // testing namespace
+        $dispatcher->setDefaultNamespace('Dummy\\');
+
+        $console->setArgument(
+            [
+                'main',
+                'hello',
+                'World',
+                '!',
+            ],
+            false,
+            false
+        );
+
         $I->expectThrowable(
-            new DispatcherException('Dummy\MainTask handler class cannot be loaded', 2),
-            function () {
-                $console = new Console();
-                $console->setDI($this->container);
-                $dispatcher = $console->getDI()->getShared('dispatcher');
-
-                // testing namespace
-                $dispatcher->setDefaultNamespace('Dummy\\');
-
-                $console->setArgument(array(
-                    'main',
-                    'hello',
-                    'World',
-                    '!'
-                ), false, false);
-
+            new DispatcherException(
+                'Dummy\MainTask handler class cannot be loaded',
+                2
+            ),
+            function () use ($console) {
                 $console->handle();
             }
         );
@@ -287,24 +235,34 @@ class ConsoleCest
 
     public function shouldThrowExceptionWithArgumentsAsAnArray(CliTester $I)
     {
+        $console = new Console();
+
+        $console->setDI(
+            $this->container
+        );
+
+        $dispatcher = $console->getDI()->getShared('dispatcher');
+
+        // testing namespace
+        $dispatcher->setDefaultNamespace('Dummy\\');
+
+        $console->setArgument(
+            [
+                'php',
+                'main',
+                'hello',
+                'World',
+                '!',
+            ],
+            false
+        );
+
         $I->expectThrowable(
-            new DispatcherException('Dummy\MainTask handler class cannot be loaded', 2),
-            function () {
-                $console = new Console();
-                $console->setDI($this->container);
-                $dispatcher = $console->getDI()->getShared('dispatcher');
-
-                // testing namespace
-                $dispatcher->setDefaultNamespace('Dummy\\');
-
-                $console->setArgument(array(
-                    'php',
-                    'main',
-                    'hello',
-                    'World',
-                    '!'
-                ), false);
-
+            new DispatcherException(
+                'Dummy\MainTask handler class cannot be loaded',
+                2
+            ),
+            function () use ($console) {
                 $console->handle();
             }
         );
@@ -313,40 +271,10 @@ class ConsoleCest
     /**
      * @test
      *
-     * @expectedException        \Phalcon\Cli\Dispatcher\Exception
+     * @expectedException        DispatcherException
      * @expectedExceptionMessage Dummy\MainTask handler class cannot be loaded
      */
     public function shouldThrowExceptionWithArguments(CliTester $I)
-    {
-        $I->expectThrowable(
-            new DispatcherException('Dummy\MainTask handler class cannot be loaded', 2),
-            function () {
-                $this->container->setShared('router', function () {
-                    $router = new Router(true);
-                    return $router;
-                });
-
-                $console = new Console();
-                $console->setDI($this->container);
-                $dispatcher = $console->getDI()->getShared('dispatcher');
-
-                // testing namespace
-                $dispatcher->setDefaultNamespace('Dummy\\');
-
-                $console->setArgument(array(
-                    'php',
-                    'main',
-                    'hello',
-                    'World',
-                    '!'
-                ));
-
-                $console->handle();
-            }
-        );
-    }
-
-    public function testArgumentRouter(CliTester $I)
     {
         $this->container->setShared(
             'router',
@@ -358,47 +286,35 @@ class ConsoleCest
         );
 
         $console = new Console();
-        $console->setDI($this->container);
+
+        $console->setDI(
+            $this->container
+        );
+
         $dispatcher = $console->getDI()->getShared('dispatcher');
 
-        $console->setArgument(array(
-            'php'
-        ))->handle();
-        $I->assertEquals($dispatcher->getTaskName(), 'main');
-        $I->assertEquals($dispatcher->getActionName(), 'main');
-        $I->assertEquals($dispatcher->getParams(), []);
-        $I->assertEquals($dispatcher->getReturnedValue(), 'mainAction');
+        // testing namespace
+        $dispatcher->setDefaultNamespace('Dummy\\');
 
-        $console->setArgument(array(
-            'php',
-            'echo'
-        ))->handle();
-        $I->assertEquals($dispatcher->getTaskName(), 'echo');
-        $I->assertEquals($dispatcher->getActionName(), 'main');
-        $I->assertEquals($dispatcher->getParams(), []);
-        $I->assertEquals($dispatcher->getReturnedValue(), 'echoMainAction');
+        $console->setArgument(
+            [
+                'php',
+                'main',
+                'hello',
+                'World',
+                '!',
+            ]
+        );
 
-        $console->setArgument(array(
-            'php',
-            'main',
-            'hello'
-        ))->handle();
-        $I->assertEquals($dispatcher->getTaskName(), 'main');
-        $I->assertEquals($dispatcher->getActionName(), 'hello');
-        $I->assertEquals($dispatcher->getParams(), []);
-        $I->assertEquals($dispatcher->getReturnedValue(), 'Hello !');
-
-        $console->setArgument(array(
-            'php',
-            'main',
-            'hello',
-            'World',
-            '######'
-        ))->handle();
-        $I->assertEquals($dispatcher->getTaskName(), 'main');
-        $I->assertEquals($dispatcher->getActionName(), 'hello');
-        $I->assertEquals($dispatcher->getParams(), array('World', '######'));
-        $I->assertEquals($dispatcher->getReturnedValue(), 'Hello World######');
+        $I->expectThrowable(
+            new DispatcherException(
+                'Dummy\MainTask handler class cannot be loaded',
+                2
+            ),
+            function () use ($console) {
+                $console->handle();
+            }
+        );
     }
 
     public function testArgumentOptions(CliTester $I)
@@ -413,42 +329,112 @@ class ConsoleCest
         );
 
         $console = new Console();
-        $console->setDI($this->container);
+
+        $console->setDI(
+            $this->container
+        );
+
         $dispatcher = $console->getDI()->getShared('dispatcher');
 
-        $console->setArgument(array(
-            'php',
-            '-opt1',
-            '--option2',
-            '--option3=hoge',
-            'main',
-            'hello',
-            'World',
-            '######'
-        ))->handle();
-        $I->assertEquals($dispatcher->getTaskName(), 'main');
-        $I->assertEquals($dispatcher->getActionName(), 'hello');
-        $I->assertEquals($dispatcher->getParams(), array('World', '######'));
-        $I->assertEquals($dispatcher->getReturnedValue(), 'Hello World######');
-        $I->assertEquals($dispatcher->getOptions(), array('opt1' => true, 'option2' => true, 'option3' => 'hoge'));
-        $I->assertTrue($dispatcher->hasOption('opt1'));
-        $I->assertFalse($dispatcher->hasOption('opt2'));
 
-        $console->setArgument(array(
-            'php',
+        $console->setArgument(
+            [
+                'php',
+                '-opt1',
+                '--option2',
+                '--option3=hoge',
+                'main',
+                'hello',
+                'World',
+                '######',
+            ]
+        )->handle()
+        ;
+
+        $I->assertEquals(
             'main',
-            '-opt1',
+            $dispatcher->getTaskName()
+        );
+
+        $I->assertEquals(
             'hello',
-            '--option2',
-            'World',
-            '--option3=hoge',
-            '######'
-        ))->handle();
-        $I->assertEquals($dispatcher->getTaskName(), 'main');
-        $I->assertEquals($dispatcher->getActionName(), 'hello');
-        $I->assertEquals($dispatcher->getParams(), array('World', '######'));
-        $I->assertEquals($dispatcher->getReturnedValue(), 'Hello World######');
-        $I->assertEquals($dispatcher->getOptions(), array('opt1' => true, 'option2' => true, 'option3' => 'hoge'));
-        $I->assertEquals($dispatcher->getOption('option3'), 'hoge');
+            $dispatcher->getActionName()
+        );
+
+        $I->assertEquals(
+            ['World', '######'],
+            $dispatcher->getParams()
+        );
+
+        $I->assertEquals(
+            'Hello World######',
+            $dispatcher->getReturnedValue()
+        );
+
+        $I->assertEquals(
+            [
+                'opt1'    => true,
+                'option2' => true,
+                'option3' => 'hoge',
+            ],
+            $dispatcher->getOptions()
+        );
+
+        $I->assertTrue(
+            $dispatcher->hasOption('opt1')
+        );
+
+        $I->assertFalse(
+            $dispatcher->hasOption('opt2')
+        );
+
+
+        $console->setArgument(
+            [
+                'php',
+                'main',
+                '-opt1',
+                'hello',
+                '--option2',
+                'World',
+                '--option3=hoge',
+                '######',
+            ]
+        )->handle()
+        ;
+
+        $I->assertEquals(
+            'main',
+            $dispatcher->getTaskName()
+        );
+
+        $I->assertEquals(
+            'hello',
+            $dispatcher->getActionName()
+        );
+
+        $I->assertEquals(
+            ['World', '######'],
+            $dispatcher->getParams()
+        );
+
+        $I->assertEquals(
+            'Hello World######',
+            $dispatcher->getReturnedValue()
+        );
+
+        $I->assertEquals(
+            [
+                'opt1'    => true,
+                'option2' => true,
+                'option3' => 'hoge',
+            ],
+            $dispatcher->getOptions()
+        );
+
+        $I->assertEquals(
+            'hoge',
+            $dispatcher->getOption('option3')
+        );
     }
 }

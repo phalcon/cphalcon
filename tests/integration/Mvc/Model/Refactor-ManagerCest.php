@@ -15,9 +15,8 @@ use IntegrationTester;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\AlbumORama\Albums;
-use Phalcon\Test\Models\AlbumORama\Artists;
 use Phalcon\Test\Models\Customers;
+use Phalcon\Test\Models\People;
 use Phalcon\Test\Models\Relations\RobotsParts;
 use Phalcon\Test\Models\Robots;
 
@@ -64,19 +63,27 @@ class ManagerCest
         $I->assertEquals('wp_robots', $robots->getSource());
     }
 
-    public function testAliasedNamespacesRelations(IntegrationTester $I)
+    /**
+     * Tests model source from different classes
+     *
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-06
+     */
+    public function testModelSourceShouldBeTheSame(IntegrationTester $I)
     {
-        $I->skipTest('TODO - Check test');
-        $manager = $this->getService('modelsManager');
-        $manager->registerNamespaceAlias('AlbumORama', 'Phalcon\Test\Models\AlbumORama');
+        $manager = new Manager();
 
-        $expected = ['AlbumORama' => 'Phalcon\Test\Models\AlbumORama'];
-        $actual   = $manager->getNamespaceAliases();
-        $I->assertEquals($expected, $actual);
+        $robots = new People(null, null, $manager);
 
-        foreach (Albums::find() as $album) {
-            $I->assertInstanceOf(Artists::class, $album->artist);
-        }
+        $I->assertEquals(
+            'personas',
+            $robots->getSource()
+        );
+
+        $I->assertEquals(
+            'personas',
+            $robots->getModelsManager()->getModelSource($robots)
+        );
     }
 
     /**
@@ -125,7 +132,7 @@ class ManagerCest
         foreach ($examples as $item) {
             $property = $item[0];
             $expected = $item[1];
-            $actual   = $manager->isVisibleModelProperty(new Customers, $property);
+            $actual   = $manager->isVisibleModelProperty(new Customers(), $property);
             $I->assertEquals($expected, $actual);
         }
     }

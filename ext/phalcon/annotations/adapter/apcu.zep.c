@@ -15,12 +15,12 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -46,9 +46,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apcu) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Apcu, phalcon, annotations_adapter_apcu, phalcon_annotations_adapter_ce, phalcon_annotations_adapter_apcu_method_entry, 0);
 
-	zend_declare_property_string(phalcon_annotations_adapter_apcu_ce, SL("_prefix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	/**
+	 * @var string
+	 */
+	zend_declare_property_string(phalcon_annotations_adapter_apcu_ce, SL("prefix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_declare_property_long(phalcon_annotations_adapter_apcu_ce, SL("_ttl"), 172800, ZEND_ACC_PROTECTED TSRMLS_CC);
+	/**
+	 * @var int
+	 */
+	zend_declare_property_long(phalcon_annotations_adapter_apcu_ce, SL("ttl"), 172800, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 
@@ -56,35 +62,35 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apcu) {
 
 /**
  * Phalcon\Annotations\Adapter\Apcu constructor
- *
- * @param array options
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct) {
 
-	zval *options = NULL, options_sub, __$null, prefix, ttl;
+	zval *options_param = NULL, prefix, ttl;
+	zval options;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&options_sub);
-	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&prefix);
 	ZVAL_UNDEF(&ttl);
 
-	zephir_fetch_params(0, 0, 1, &options);
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &options_param);
 
-	if (!options) {
-		options = &options_sub;
-		options = &__$null;
+	if (!options_param) {
+		ZEPHIR_INIT_VAR(&options);
+		array_init(&options);
+	} else {
+		zephir_get_arrval(&options, options_param);
 	}
 
 
-	if (Z_TYPE_P(options) == IS_ARRAY) {
-		if (zephir_array_isset_string_fetch(&prefix, options, SL("prefix"), 1)) {
-			zephir_update_property_zval(this_ptr, SL("_prefix"), &prefix);
-		}
-		if (zephir_array_isset_string_fetch(&ttl, options, SL("lifetime"), 1)) {
-			zephir_update_property_zval(this_ptr, SL("_ttl"), &ttl);
-		}
+	if (zephir_array_isset_string_fetch(&prefix, &options, SL("prefix"), 1)) {
+		zephir_update_property_zval(this_ptr, SL("prefix"), &prefix);
 	}
+	if (zephir_array_isset_string_fetch(&ttl, &options, SL("lifetime"), 1)) {
+		zephir_update_property_zval(this_ptr, SL("ttl"), &ttl);
+	}
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -119,11 +125,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read) {
 
 
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property(&_1, this_ptr, SL("_prefix"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key);
 	zephir_fast_strtolower(&_0, &_2);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 77, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 87, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -162,12 +168,12 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write) {
 
 
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property(&_1, this_ptr, SL("_prefix"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key);
 	zephir_fast_strtolower(&_0, &_2);
-	zephir_read_property(&_3, this_ptr, SL("_ttl"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 78, &_0, data, &_3);
+	zephir_read_property(&_3, this_ptr, SL("ttl"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 90, &_0, data, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 

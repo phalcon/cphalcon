@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use UnitTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Security;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use function session_destroy;
+use function session_start;
+use function session_status;
+use UnitTester;
 
-/**
- * Class GetTokenCest
- */
 class GetTokenAndKeyCest
 {
     use DiTrait;
@@ -42,28 +42,13 @@ class GetTokenAndKeyCest
     public function _after(UnitTester $I)
     {
         if (true === $this->shouldStopSession) {
-            @\session_destroy();
+            @session_destroy();
         }
-    }
-
-    private function startSession(): void
-    {
-        if (PHP_SESSION_ACTIVE !== \session_status()) {
-            @\session_start();
-        }
-
-        if (!isset($_SESSION)) {
-            $_SESSION = [];
-        }
-
-        $this->shouldStopSession = true;
     }
 
     /**
-     * Tests Security::getToken and Security::getTokenKey for generating only
-     * one token per request
-     *
-     * @param UnitTester $I
+     * Tests Security::getToken() and Security::getTokenKey() for generating
+     * only one token per request
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -81,32 +66,57 @@ class GetTokenAndKeyCest
         $tokenKey = $security->getTokenKey();
         $token    = $security->getToken();
 
-        $expected = $tokenKey;
-        $actual   = $security->getTokenKey();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $token;
-        $actual   = $security->getToken();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $token;
-        $actual   = $security->getSessionToken();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $tokenKey,
+            $security->getTokenKey()
+        );
 
-        $security->destroyToken();
+        $I->assertEquals(
+            $token,
+            $security->getToken()
+        );
 
-        $expected = $tokenKey;
-        $actual   = $security->getTokenKey();
-        $I->assertNotEquals($expected, $actual);
+        $I->assertEquals(
+            $token,
+            $security->getSessionToken()
+        );
 
-        $expected = $token;
-        $actual   = $security->getToken();
-        $I->assertNotEquals($expected, $actual);
 
-        $expected = $token;
-        $actual   = $security->getSessionToken();
-        $I->assertNotEquals($expected, $actual);
 
         $security->destroyToken();
+
+        $I->assertNotEquals(
+            $tokenKey,
+            $security->getTokenKey()
+        );
+
+        $I->assertNotEquals(
+            $token,
+            $security->getToken()
+        );
+
+        $I->assertNotEquals(
+            $token,
+            $security->getSessionToken()
+        );
+
+
+
+        $security->destroyToken();
+    }
+
+    private function startSession(): void
+    {
+        if (PHP_SESSION_ACTIVE !== session_status()) {
+            @session_start();
+        }
+
+        if (!isset($_SESSION)) {
+            $_SESSION = [];
+        }
+
+        $this->shouldStopSession = true;
     }
 }

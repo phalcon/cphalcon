@@ -17,11 +17,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 use UnitTester;
 
-/**
- * Class GetTitleCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class GetTitleCest
 {
     use DiTrait;
@@ -29,8 +24,6 @@ class GetTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: getTitle()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -40,7 +33,7 @@ class GetTitleCest
         $I->wantToTest('Html\Tag - getTitle()');
         $tag = new Tag();
         $tag->setDI($this->container);
-        $value = "Hello Title";
+        $value = 'Hello Title';
 
         $tag->setTitle($value);
         $expected = 'Hello Title';
@@ -50,8 +43,6 @@ class GetTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: getTitle() - escape
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -72,8 +63,6 @@ class GetTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: getTitle() - parameters
-     *
-     * @param UnitTester $I
      *
      * @since  2018-12-27
      */

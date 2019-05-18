@@ -13,23 +13,56 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router\Group;
 
 use IntegrationTester;
+use Phalcon\Mvc\Router\Group;
+use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class AddPatchCest
- */
 class AddPatchCest
 {
+    use RouterTrait;
+
     /**
      * Tests Phalcon\Mvc\Router\Group :: addPatch()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-17
      */
     public function mvcRouterGroupAddPatch(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Router\Group - addPatch()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Mvc\Router - addPatch()');
+
+        $router = $this->getRouter(false);
+
+        $group = new Group();
+
+        $group->addPatch(
+            '/docs/index',
+            [
+                'controller' => 'documentation4',
+                'action'     => 'index',
+            ]
+        );
+
+        $router->mount($group);
+
+
+        $_SERVER['REQUEST_METHOD'] = 'PATCH';
+
+        $router->handle('/docs/index');
+
+
+        $I->assertEquals(
+            'documentation4',
+            $router->getControllerName()
+        );
+
+        $I->assertEquals(
+            'index',
+            $router->getActionName()
+        );
+
+        $I->assertEquals(
+            [],
+            $router->getParams()
+        );
     }
 }

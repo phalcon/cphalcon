@@ -22,8 +22,6 @@ class GetTypeValuesCest
     /**
      * Tests Phalcon\Db\Column :: getTypeValues()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

@@ -12,21 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Item;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
-/**
- * Class GetNameCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class GetNameCest
 {
     /**
      * Tests Phalcon\Logger\Item :: getName()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -34,11 +27,19 @@ class GetNameCest
     public function loggerItemGetName(UnitTester $I)
     {
         $I->wantToTest('Logger\Item - getName()');
-        $time = time();
-        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
-        $expected = 'debug';
-        $actual   = $item->getName();
-        $I->assertEquals($expected, $actual);
+        $time = time();
+
+        $item = new Item(
+            'log message',
+            'debug',
+            Logger::DEBUG,
+            $time
+        );
+
+        $I->assertEquals(
+            'debug',
+            $item->getName()
+        );
     }
 }

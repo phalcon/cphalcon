@@ -12,7 +12,6 @@ use Phalcon\Mvc\Controller;
  * @link          http://www.phalconphp.com
  * @author        Andres Gutierrez <andres@phalconphp.com>
  * @author        Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package       Phalcon\Test\Integration\Mvc\Dispatcher\Helper
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -40,11 +39,16 @@ class DispatcherTestInitializeForwardController extends Controller
     {
         $this->trace('initialize-method');
 
-        $this->getDI()->getShared('dispatcher')->forward([
-            'controller' => 'dispatcher-test-default',
-            'action'     => 'index',
-        ])
-        ;
+        $di = $this->getDI();
+
+        $dispatcher = $di->getShared('dispatcher');
+
+        $dispatcher->forward(
+            [
+                'controller' => 'dispatcher-test-default',
+                'action'     => 'index',
+            ]
+        );
     }
 
     public function afterExecuteRoute()

@@ -36,7 +36,7 @@
  * Given the next configuration file:
  *
  *<code>
- *<?php
+ * <?php
  *
  * return [
  *     "database" => [

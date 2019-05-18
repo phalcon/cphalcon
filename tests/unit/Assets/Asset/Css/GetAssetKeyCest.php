@@ -16,17 +16,12 @@ use Phalcon\Assets\Asset\Css;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetAssetKeyCest
- */
 class GetAssetKeyCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: getAssetKey() - css local
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getAssetKey() - css local
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -34,16 +29,16 @@ class GetAssetKeyCest
     public function assetsAssetCssGetAssetKeyLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getAssetKey() - css local');
-        $asset    = new Css('css/docs.css');
+
+        $asset = new Css('css/docs.css');
+
         $expected = md5('css:css/docs.css');
 
         $this->assetGetAssetKey($I, $asset, $expected);
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getAssetKey() - css remote
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getAssetKey() - css remote
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -51,7 +46,9 @@ class GetAssetKeyCest
     public function assetsAssetCssGetAssetKeyRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getAssetKey() - css remote');
-        $asset    = new Css('https://phalcon.ld/css/docs.css');
+
+        $asset = new Css('https://phalcon.ld/css/docs.css');
+
         $expected = md5('css:https://phalcon.ld/css/docs.css');
 
         $this->assetGetAssetKey($I, $asset, $expected);

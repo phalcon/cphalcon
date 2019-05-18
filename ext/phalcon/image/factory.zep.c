@@ -116,13 +116,13 @@ PHP_METHOD(Phalcon_Image_Factory, loadClass) {
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(config, &_1$$3);
 	}
-	if (Z_TYPE_P(config) != IS_ARRAY) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/image/factory.zep", 51);
+	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Image/Factory.zep", 53);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&file);
-	if (!(zephir_array_isset_string_fetch(&file, config, SL("file"), 0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'file' option in factory config parameter.", "phalcon/image/factory.zep", 55);
+	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&file, config, SL("file"), 0)))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'file' option in factory config parameter.", "phalcon/Image/Factory.zep", 59);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&adapter);
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Image_Factory, loadClass) {
 		}
 		RETURN_MM();
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/image/factory.zep", 72);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Image/Factory.zep", 78);
 	return;
 
 }

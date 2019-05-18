@@ -15,17 +15,10 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Noop;
 use Phalcon\Logger\Adapter\Noop;
 use UnitTester;
 
-/**
- * Class BeginCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class BeginCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Noop :: begin()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -33,11 +26,23 @@ class BeginCest
     public function loggerAdapterNoopBegin(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Noop - begin()');
+
         $adapter = new Noop();
+
+        $I->assertFalse(
+            $adapter->inTransaction()
+        );
 
         $adapter->begin();
 
-        $actual = $adapter->inTransaction();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->inTransaction()
+        );
+
+        $adapter->commit();
+
+        $I->assertFalse(
+            $adapter->inTransaction()
+        );
     }
 }

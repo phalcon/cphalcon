@@ -11,12 +11,11 @@
 
 namespace Phalcon\Test\Integration\Mvc\Router;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Mvc\Router\Route;
-use Phalcon\Test\Controllers\NamespacedAnnotationController;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function is_object;
 
 class AnnotationsCest
 {
@@ -29,174 +28,196 @@ class AnnotationsCest
         $this->setDiAnnotations();
     }
 
-    public function testRouterFullResources(IntegrationTester $I)
+    /**
+     * @dataProvider getRoutes
+     */
+    public function testRouterFullResources(IntegrationTester $I, Example $example)
     {
-        require_once dataFolder('fixtures/controllers/NamespacedAnnotationController.php');
+        require_once dataDir('fixtures/controllers/NamespacedAnnotationController.php');
 
-        $routes = $this->getRoutes();
-        foreach ($routes as $route) {
-            $uri        = $route['uri'];
-            $method     = $route['method'];
-            $controller = $route['controller'];
-            $action     = $route['action'];
-            $params     = $route['params'];
+        $uri        = $example['uri'];
+        $method     = $example['method'];
+        $controller = $example['controller'];
+        $action     = $example['action'];
+        $params     = $example['params'];
 
-            $container = $this->getDi();
-            $router    = new Annotations(false);
+        $container = $this->getDi();
+        $router    = new Annotations(false);
 
-            $router->setDI($container);
+        $router->setDI($container);
 
-            $router->addResource("Phalcon\Test\Controllers\Robots", "/");
-            $router->addResource("Phalcon\Test\Controllers\Products", "/products");
-            $router->addResource("Phalcon\Test\Controllers\About", "/about");
+        $router->addResource("Phalcon\Test\Controllers\Robots", '/');
+        $router->addResource("Phalcon\Test\Controllers\Products", '/products');
+        $router->addResource("Phalcon\Test\Controllers\About", '/about');
 
-            $router->handle("/products");
+        $router->handle('/products');
 
-            $expected = 6;
-            $actual   = $router->getRoutes();
-            $I->assertCount($expected, $actual);
+        $I->assertCount(
+            6,
+            $router->getRoutes()
+        );
 
-            $router = new Annotations(false);
+        $router = new Annotations(false);
 
-            $router->setDI($container);
-            $router->addResource("Phalcon\Test\Controllers\Robots", "/");
-            $router->addResource("Phalcon\Test\Controllers\Products", "/products");
-            $router->addResource("Phalcon\Test\Controllers\About", "/about");
-            $router->handle("/about");
+        $router->setDI($container);
+        $router->addResource("Phalcon\Test\Controllers\Robots", '/');
+        $router->addResource("Phalcon\Test\Controllers\Products", '/products');
+        $router->addResource("Phalcon\Test\Controllers\About", '/about');
+        $router->handle('/about');
 
-            $expected = 5;
-            $actual   = $router->getRoutes();
-            $I->assertCount($expected, $actual);
+        $I->assertCount(
+            5,
+            $router->getRoutes()
+        );
 
-            $router = new Annotations(false);
-            $router->setDI($container);
-            $router->setDefaultNamespace("MyNamespace\\Controllers");
-            $router->addResource("NamespacedAnnotation", "/namespaced");
-            $router->handle("/namespaced");
+        $router = new Annotations(false);
+        $router->setDI($container);
+        $router->setDefaultNamespace('MyNamespace\\Controllers');
+        $router->addResource('NamespacedAnnotation', '/namespaced');
+        $router->handle('/namespaced');
 
-            $expected = 1;
-            $actual   = $router->getRoutes();
-            $I->assertCount($expected, $actual);
+        $I->assertCount(
+            1,
+            $router->getRoutes()
+        );
 
-            $router = new Annotations(false);
-            $router->setDI($container);
-            $router->addResource("MyNamespace\\Controllers\\NamespacedAnnotation", "/namespaced");
-            $router->handle("/namespaced/");
+        $router = new Annotations(false);
+
+        $router->setDI($container);
+
+        $router->addResource(
+            'MyNamespace\\Controllers\\NamespacedAnnotation',
+            '/namespaced'
+        );
+
+        $router->handle('/namespaced/');
 
 
-            $router = new Annotations(false);
+        $router = new Annotations(false);
 
-            $router->setDI($container);
-            $router->addResource("Phalcon\Test\Controllers\Robots");
-            $router->addResource("Phalcon\Test\Controllers\Products");
-            $router->addResource("Phalcon\Test\Controllers\About");
-            $router->addResource("Phalcon\Test\Controllers\Main");
-            $router->handle("/");
+        $router->setDI($container);
+        $router->addResource("Phalcon\Test\Controllers\Robots");
+        $router->addResource("Phalcon\Test\Controllers\Products");
+        $router->addResource("Phalcon\Test\Controllers\About");
+        $router->addResource("Phalcon\Test\Controllers\Main");
+        $router->handle('/');
 
-            $expected = 9;
-            $actual   = $router->getRoutes();
-            $I->assertCount($expected, $actual);
+        $I->assertCount(
+            9,
+            $router->getRoutes()
+        );
 
-            $route = $router->getRouteByName("save-robot");
-            $I->assertTrue(is_object($route));
+        $route = $router->getRouteByName('save-robot');
+        $I->assertInternalType('object', $route);
 
-            $class = Route::class;
-            $I->assertInstanceOf($class, $route);
+        $I->assertInstanceOf(
+            Route::class,
+            $route
+        );
 
-            $route = $router->getRouteByName("save-product");
-            $I->assertTrue(is_object($route));
+        $route = $router->getRouteByName('save-product');
+        $I->assertInternalType('object', $route);
 
-            $class = Route::class;
-            $I->assertInstanceOf($class, $route);
+        $I->assertInstanceOf(
+            Route::class,
+            $route
+        );
 
-            $_SERVER["REQUEST_METHOD"] = $method;
-            $router->handle($uri);
+        $_SERVER['REQUEST_METHOD'] = $method;
+        $router->handle($uri);
 
-            $expected = $controller;
-            $actual   = $router->getControllerName();
-            $I->assertEquals($expected, $actual);
-            $expected = $action;
-            $actual   = $router->getActionName();
-            $I->assertEquals($expected, $actual);
-            $expected = $params;
-            $actual   = $router->getParams();
-            $I->assertEquals($expected, $actual);
-            $I->assertTrue($router->isExactControllerName());
-        }
+        $I->assertEquals(
+            $controller,
+            $router->getControllerName()
+        );
+
+        $I->assertEquals(
+            $action,
+            $router->getActionName()
+        );
+
+        $I->assertEquals(
+            $params,
+            $router->getParams()
+        );
+
+        $I->assertTrue(
+            $router->isExactControllerName()
+        );
     }
 
     private function getRoutes(): array
     {
         return [
             [
-                "uri"        => "/products/save",
-                "method"     => "PUT",
-                "controller" => "products",
-                "action"     => "save",
-                "params"     => [],
+                'uri'        => '/products/save',
+                'method'     => 'PUT',
+                'controller' => 'products',
+                'action'     => 'save',
+                'params'     => [],
             ],
             [
-                "uri"        => "/products/save",
-                "method"     => "POST",
-                "controller" => "products",
-                "action"     => "save",
-                "params"     => [],
+                'uri'        => '/products/save',
+                'method'     => 'POST',
+                'controller' => 'products',
+                'action'     => 'save',
+                'params'     => [],
             ],
             [
-                "uri"        => "/products/edit/100",
-                "method"     => "GET",
-                "controller" => "products",
-                "action"     => "edit",
-                "params"     => ["id" => "100"],
+                'uri'        => '/products/edit/100',
+                'method'     => 'GET',
+                'controller' => 'products',
+                'action'     => 'edit',
+                'params'     => ['id' => '100'],
             ],
             [
-                "uri"        => "/products",
-                "method"     => "GET",
-                "controller" => "products",
-                "action"     => "index",
-                "params"     => [],
+                'uri'        => '/products',
+                'method'     => 'GET',
+                'controller' => 'products',
+                'action'     => 'index',
+                'params'     => [],
             ],
             [
-                "uri"        => "/robots/edit/100",
-                "method"     => "GET",
-                "controller" => "robots",
-                "action"     => "edit",
-                "params"     => ["id" => "100"],
+                'uri'        => '/robots/edit/100',
+                'method'     => 'GET',
+                'controller' => 'robots',
+                'action'     => 'edit',
+                'params'     => ['id' => '100'],
             ],
             [
-                "uri"        => "/robots",
-                "method"     => "GET",
-                "controller" => "robots",
-                "action"     => "index",
-                "params"     => [],
+                'uri'        => '/robots',
+                'method'     => 'GET',
+                'controller' => 'robots',
+                'action'     => 'index',
+                'params'     => [],
             ],
             [
-                "uri"        => "/robots/save",
-                "method"     => "PUT",
-                "controller" => "robots",
-                "action"     => "save",
-                "params"     => [],
+                'uri'        => '/robots/save',
+                'method'     => 'PUT',
+                'controller' => 'robots',
+                'action'     => 'save',
+                'params'     => [],
             ],
             [
-                "uri"        => "/about/team",
-                "method"     => "GET",
-                "controller" => "about",
-                "action"     => "team",
-                "params"     => [],
+                'uri'        => '/about/team',
+                'method'     => 'GET',
+                'controller' => 'about',
+                'action'     => 'team',
+                'params'     => [],
             ],
             [
-                "uri"        => "/about/team",
-                "method"     => "POST",
-                "controller" => "about",
-                "action"     => "teampost",
-                "params"     => [],
+                'uri'        => '/about/team',
+                'method'     => 'POST',
+                'controller' => 'about',
+                'action'     => 'teampost',
+                'params'     => [],
             ],
             [
-                "uri"        => "/",
-                "method"     => "GET",
-                "controller" => "main",
-                "action"     => "index",
-                "params"     => [],
+                'uri'        => '/',
+                'method'     => 'GET',
+                'controller' => 'main',
+                'action'     => 'index',
+                'params'     => [],
             ],
         ];
     }

@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Identical :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorIdenticalSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Identical - setOption()');
+
         $validator = new Identical();
+
         $this->checkSetOption($I, $validator);
     }
 }

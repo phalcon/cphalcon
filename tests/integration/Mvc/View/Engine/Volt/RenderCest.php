@@ -27,8 +27,6 @@ class RenderCest
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt :: render()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -41,8 +39,6 @@ class RenderCest
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt :: render() - events
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-13
      */
@@ -51,9 +47,9 @@ class RenderCest
         $I->wantToTest('Mvc\View\Engine\Volt - render() - events');
         $this->setNewFactoryDefault();
         $this->setDiViewSimple();
-        $view = $this->getService('viewSimple');
+        $view          = $this->getService('viewSimple');
         $eventsManager = $this->newEventsManager();
-        $listener = new ViewCompileListener();
+        $listener      = new ViewCompileListener();
         $listener->setTestCase($this, $I);
         $eventsManager->attach('view:afterCompile', $listener);
         $eventsManager->attach('view:beforeCompile', $listener);
@@ -62,7 +58,7 @@ class RenderCest
         $volt = new Volt($view, $this->container);
         $volt->setEventsManager($eventsManager);
 
-        $template = dataFolder('fixtures/views/compiler/partial.volt');
+        $template = dataDir('fixtures/views/compiler/partial.volt');
         $volt->render($template, ['some_var' => 'aaa']);
 
         $expected = 'Before fired';

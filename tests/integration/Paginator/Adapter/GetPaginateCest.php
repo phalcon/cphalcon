@@ -16,16 +16,14 @@ use IntegrationTester;
 class GetPaginateCest
 {
     /**
-     * Tests Phalcon\Paginator\Adapter :: getPaginate()
-     *
-     * @param IntegrationTester $I
+     * Tests Phalcon\Paginator\Adapter :: paginate()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function paginatorAdapterGetPaginate(IntegrationTester $I)
+    public function paginatorAdapterPaginate(IntegrationTester $I)
     {
-        $I->wantToTest("Paginator\Adapter - getPaginate()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest("Paginator\Adapter - paginate()");
+        $I->skipTest('Need implementation');
     }
 }

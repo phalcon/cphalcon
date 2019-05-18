@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
+use Phalcon\Mvc\Micro;
 
 /**
  * Class BeforeCest
@@ -21,15 +22,42 @@ class BeforeCest
 {
     /**
      * Tests Phalcon\Mvc\Micro :: before()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
-    public function mvcMicroBefore(IntegrationTester $I)
+    public function testMicroBeforeHandlers(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Micro - before()');
-        $I->skipTest('Need implementation');
+        $trace = [];
+
+        $app = new Micro();
+
+        $app->before(
+            function () use ($app, &$trace) {
+                $trace[] = 1;
+
+                $app->stop();
+
+                return false;
+            }
+        );
+
+        $app->before(
+            function () use ($app, &$trace) {
+                $trace[] = 1;
+
+                $app->stop();
+
+                return false;
+            }
+        );
+
+        $app->map(
+            '/blog',
+            function () use (&$trace) {
+                $trace[] = 1;
+            }
+        );
+
+        $app->handle('/blog');
+
+        $I->assertCount(1, $trace);
     }
 }

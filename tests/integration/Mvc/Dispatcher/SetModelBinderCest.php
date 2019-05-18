@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
 use IntegrationTester;
 
-/**
- * Class SetModelBinderCest
- */
 class SetModelBinderCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: setModelBinder()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

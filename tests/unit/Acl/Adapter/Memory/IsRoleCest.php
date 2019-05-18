@@ -16,15 +16,10 @@ use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Role;
 use UnitTester;
 
-/**
- * Class IsRoleCest
- */
 class IsRoleCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isRole()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -32,19 +27,19 @@ class IsRoleCest
     public function aclAdapterMemoryIsRole(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - isRole()');
-        $acl          = new Memory();
+
+        $acl     = new Memory();
         $aclRole = new Role('Administrators', 'Super User access');
 
         $acl->addRole($aclRole);
 
-        $actual = $acl->isRole('Administrators');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $acl->isRole('Administrators')
+        );
     }
 
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isRole() - unknown
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -52,12 +47,14 @@ class IsRoleCest
     public function aclAdapterMemoryIsRoleUnknown(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - isRole() - unknown');
-        $acl          = new Memory();
+
+        $acl     = new Memory();
         $aclRole = new Role('Administrators', 'Super User access');
 
         $acl->addRole($aclRole);
 
-        $actual = $acl->isRole('unknown');
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $acl->isRole('unknown')
+        );
     }
 }

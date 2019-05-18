@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Ip :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorIpSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Ip - setOption()');
+
         $validator = new Ip();
+
         $this->checkSetOption($I, $validator);
     }
 }

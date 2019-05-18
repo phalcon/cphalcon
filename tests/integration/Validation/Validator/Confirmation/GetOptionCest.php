@@ -26,15 +26,15 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Confirmation :: getOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorConfirmationGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Confirmation - getOption()');
+
         $validator = new Confirmation();
+
         $this->checkGetOption($I, $validator);
     }
 }

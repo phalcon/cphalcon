@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
-/**
- * Class LoadFromYamlCest
- */
 class LoadFromYamlCest
 {
     /**
      * Tests Phalcon\Di :: loadFromYaml()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class LoadFromYamlCest
     public function diLoadFromYaml(UnitTester $I)
     {
         $I->wantToTest('Di - loadFromYaml()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -12,39 +12,52 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Text;
 
+use Codeception\Example;
 use Phalcon\Text;
 use UnitTester;
 
-/**
- * Class HumanizeCest
- */
 class HumanizeCest
 {
     /**
      * Tests Phalcon\Text :: humanize()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider textHumanizeProvider
      */
-    public function textHumanize(UnitTester $I)
+    public function textHumanize(UnitTester $I, Example $example)
     {
         $I->wantToTest('Text - humanize()');
-        $expected = 'start a horse';
-        $actual   = Text::humanize('start_a_horse');
-        $I->assertEquals($expected, $actual);
 
-        $expected = 'five cats';
-        $actual   = Text::humanize('five-cats');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $example['expected'],
+            Text::humanize($example['string'])
+        );
+    }
 
-        $expected = 'kittens are cats';
-        $actual   = Text::humanize('kittens-are_cats');
-        $I->assertEquals($expected, $actual);
+    private function textHumanizeProvider(): array
+    {
+        return [
+            [
+                'string'   => 'start_a_horse',
+                'expected' => 'start a horse',
+            ],
 
-        $expected = 'Awesome Phalcon';
-        $actual   = Text::humanize(" \t Awesome-Phalcon \t ");
-        $I->assertEquals($expected, $actual);
+            [
+                'string'   => 'five-cats',
+                'expected' => 'five cats',
+            ],
+
+            [
+                'string'   => 'kittens-are_cats',
+                'expected' => 'kittens are cats',
+            ],
+
+            [
+                'string'   => " \t Awesome-Phalcon \t ",
+                'expected' => 'Awesome Phalcon',
+            ],
+        ];
     }
 }

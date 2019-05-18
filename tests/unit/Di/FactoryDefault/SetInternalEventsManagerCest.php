@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
-/**
- * Class SetInternalEventsManagerCest
- */
 class SetInternalEventsManagerCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault :: setInternalEventsManager()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultSetInternalEventsManager(UnitTester $I)
+    public function diFactoryDefaultSetInternalEventsManager(UnitTester $I)
     {
         $I->wantToTest('Di\FactoryDefault - setInternalEventsManager()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
 use UnitTester;
 
-/**
- * Class ReflectionCest
- */
 class ReflectionCest
 {
     /**
      * Tests Phalcon\Image\Adapter\Gd :: reflection()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ReflectionCest
     public function imageAdapterGdReflection(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Gd - reflection()');
+
         $I->skipTest('Need implementation');
     }
 }

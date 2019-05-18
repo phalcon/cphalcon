@@ -17,19 +17,12 @@ use Phalcon\Html\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-/**
- * Class GetSetDICest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class GetSetDICest
 {
     use DiTrait;
 
     /**
      * Tests Phalcon\Html\Tag :: getDI()/setDI()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

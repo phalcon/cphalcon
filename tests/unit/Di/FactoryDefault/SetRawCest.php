@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
-/**
- * Class SetRawCest
- */
 class SetRawCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault :: setRaw()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultSetRaw(UnitTester $I)
+    public function diFactoryDefaultSetRaw(UnitTester $I)
     {
         $I->wantToTest('Di\FactoryDefault - setRaw()');
+
         $I->skipTest('Need implementation');
     }
 }

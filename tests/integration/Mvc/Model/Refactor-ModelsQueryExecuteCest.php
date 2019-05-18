@@ -344,15 +344,15 @@ class ModelsQueryExecuteCest
 
         $result = $manager->executeQuery('SELECT CASE 1 WHEN 1 THEN 2 END FROM Phalcon\Test\Models\Robots');
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
-        $I->assertEquals(2, $result[0]->{"0"});
+        $I->assertEquals(2, $result[0]->{'0'});
 
         $result = $manager->executeQuery('SELECT CASE 2 WHEN 1 THEN 2 WHEN 2 THEN 3 END FROM Phalcon\Test\Models\Robots');
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
-        $I->assertEquals(3, $result[0]->{"0"});
+        $I->assertEquals(3, $result[0]->{'0'});
 
         $result = $manager->executeQuery('SELECT CASE 2 WHEN 1 THEN 2 ELSE 3 END FROM Phalcon\Test\Models\Robots');
         $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Complex', $result);
-        $I->assertEquals(3, $result[0]->{"0"});
+        $I->assertEquals(3, $result[0]->{'0'});
 
         // Issue 1011
         /*$result = $manager->executeQuery('SELECT r.name le_name FROM Robots r ORDER BY r.name ASC LIMIT ?1,?2',
@@ -660,7 +660,7 @@ class ModelsQueryExecuteCest
     {
         $manager = $this->container->getShared('modelsManager');
 
-        $this->container->getShared('db')->delete("subscriptores");
+        $this->container->getShared('db')->delete('subscriptores');
 
         $status = $manager->executeQuery(
             'INSERT INTO Phalcon\Test\Models\Subscriptores VALUES (NULL, "marina@hotmail.com", "2011-01-01 09:01:01", "P")'
@@ -672,7 +672,7 @@ class ModelsQueryExecuteCest
                 '_message'  => 'Sorry Marina, but you are not allowed here',
                 '_field'    => null,
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ]);
 
@@ -683,10 +683,10 @@ class ModelsQueryExecuteCest
         $I->assertEquals($status->getMessages(), [
             0 => Message::__set_state([
                 '_type'     => 'Email',
-                '_message'  => "Field email must be an email address",
+                '_message'  => 'Field email must be an email address',
                 '_field'    => 'email',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ]);
 
@@ -708,21 +708,24 @@ class ModelsQueryExecuteCest
         $status = $manager->executeQuery(
             'INSERT INTO Phalcon\Test\Models\Subscriptores (email, created_at, status) VALUES (:email:, :created_at:, :status:)',
             [
-                "email"      => "yeahyeah@hotmail.com",
-                "created_at" => "2010-02-01 13:21:00",
-                "status"     => "P",
+                'email'      => 'yeahyeah@hotmail.com',
+                'created_at' => '2010-02-01 13:21:00',
+                'status'     => 'P',
             ]
         );
         $I->assertTrue($status->success());
 
-        $I->assertTrue($status->getModel()->id > 0);
+        $I->assertGreaterThan(
+            0,
+            $status->getModel()->id
+        );
     }
 
     private function testInsertRenamedExecute(IntegrationTester $I)
     {
         $manager = $this->container->getShared('modelsManager');
 
-        $this->container->getShared('db')->delete("subscriptores");
+        $this->container->getShared('db')->delete('subscriptores');
 
         /**
          * This test must fail because the email is not allowed as a model business rule
@@ -737,7 +740,7 @@ class ModelsQueryExecuteCest
                 '_message'  => 'Désolé Marina, mais vous n\'êtes pas autorisé ici',
                 '_field'    => null,
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ]);
 
@@ -751,10 +754,10 @@ class ModelsQueryExecuteCest
         $I->assertEquals($status->getMessages(), [
             0 => Message::__set_state([
                 '_type'     => 'Email',
-                '_message'  => "Le courrier électronique est invalide",
+                '_message'  => 'Le courrier électronique est invalide',
                 '_field'    => 'courrierElectronique',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ]);
 
@@ -785,14 +788,17 @@ class ModelsQueryExecuteCest
         $status = $manager->executeQuery(
             'INSERT INTO Phalcon\Test\Models\Abonnes (courrierElectronique, creeA, statut) VALUES (:courrierElectronique:, :creeA:, :statut:)',
             [
-                "courrierElectronique" => "yeahyeah@hotmail.com",
-                "creeA"                => "2010-02-01 13:21:00",
-                "statut"               => "P",
+                'courrierElectronique' => 'yeahyeah@hotmail.com',
+                'creeA'                => '2010-02-01 13:21:00',
+                'statut'               => 'P',
             ]
         );
         $I->assertTrue($status->success());
 
-        $I->assertTrue($status->getModel()->code > 0);
+        $I->assertGreaterThan(
+            0,
+            $status->getModel()->code
+        );
     }
 
     private function testUpdateExecute(IntegrationTester $I)
@@ -812,7 +818,7 @@ class ModelsQueryExecuteCest
         $status = $manager->executeQuery(
             'UPDATE Phalcon\Test\Models\People SET direccion = :direccion: WHERE ciudad_id IS NULL LIMIT 25',
             [
-                "direccion" => "MXN",
+                'direccion' => 'MXN',
             ]
         );
         $I->assertTrue($status->success());
@@ -820,8 +826,8 @@ class ModelsQueryExecuteCest
         $status = $manager->executeQuery(
             'UPDATE Phalcon\Test\Models\Subscriptores SET status = :status: WHERE email = :email:',
             [
-                "status" => "I",
-                "email"  => "le-marina@hotmail.com",
+                'status' => 'I',
+                'email'  => 'le-marina@hotmail.com',
             ]
         );
         $I->assertTrue($status->success());
@@ -854,7 +860,7 @@ class ModelsQueryExecuteCest
         $status = $manager->executeQuery(
             'UPDATE Phalcon\Test\Models\Personers SET adresse = :adresse: WHERE fodebyId IS NULL LIMIT 25',
             [
-                "adresse" => "MXN",
+                'adresse' => 'MXN',
             ]
         );
         $I->assertTrue($status->success());
@@ -862,8 +868,8 @@ class ModelsQueryExecuteCest
         $status = $manager->executeQuery(
             'UPDATE Phalcon\Test\Models\Abonnes SET statut = :statut: WHERE courrierElectronique = :courrierElectronique:',
             [
-                "statut"               => "I",
-                "courrierElectronique" => "le-marina@hotmail.com",
+                'statut'               => 'I',
+                'courrierElectronique' => 'le-marina@hotmail.com',
             ]
         );
         $I->assertTrue($status->success());
@@ -879,7 +885,7 @@ class ModelsQueryExecuteCest
         $status = $manager->executeQuery(
             'DELETE FROM Phalcon\Test\Models\Subscriptores WHERE status = :status: AND email <> :email:',
             [
-                'status' => "P",
+                'status' => 'P',
                 'email'  => 'fuego@hotmail.com',
             ]
         );
@@ -908,7 +914,7 @@ class ModelsQueryExecuteCest
         $status = $manager->executeQuery(
             'DELETE FROM Phalcon\Test\Models\Abonnes WHERE statut = :statut: AND courrierElectronique <> :courrierElectronique:',
             [
-                'statut'               => "P",
+                'statut'               => 'P',
                 'courrierElectronique' => 'fuego@hotmail.com',
             ]
         );

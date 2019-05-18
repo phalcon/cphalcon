@@ -22,8 +22,6 @@ class GetOriginalValuesCest
     /**
      * Tests Phalcon\Mvc\Model\Binder :: getOriginalValues()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

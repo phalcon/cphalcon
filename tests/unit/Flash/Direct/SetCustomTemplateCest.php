@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash\Direct;
 
 use UnitTester;
 
-/**
- * Class SetCustomTemplateCest
- */
 class SetCustomTemplateCest
 {
     /**
      * Tests Phalcon\Flash\Direct :: setCustomTemplate()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

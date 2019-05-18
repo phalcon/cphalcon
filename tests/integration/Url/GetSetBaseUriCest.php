@@ -15,24 +15,17 @@ namespace Phalcon\Test\Integration\Url;
 use IntegrationTester;
 use Phalcon\Url;
 
-/**
- * Class GetSetBaseUriCest
- *
- * @package Phalcon\Test\Integration\Url
- */
 class GetSetBaseUriCest
 {
     /**
      * Tests Phalcon\Url :: getBaseUri()/setBaseUri()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function urlGetSetBaseUri(IntegrationTester $I)
     {
-        $I->wantToTest("Url - getBaseUri()/setBaseUri()");
+        $I->wantToTest('Url - getBaseUri()/setBaseUri()');
         $url = new Url();
 
         $path = 'https://phalconphp.com';

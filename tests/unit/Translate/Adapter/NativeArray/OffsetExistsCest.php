@@ -16,9 +16,6 @@ use Phalcon\Test\Fixtures\Traits\TranslateTrait;
 use Phalcon\Translate\Adapter\NativeArray;
 use UnitTester;
 
-/**
- * Class OffsetExistsCest
- */
 class OffsetExistsCest
 {
     use TranslateTrait;
@@ -26,18 +23,23 @@ class OffsetExistsCest
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: offsetExists()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function translateAdapterNativearrayOffsetExists(UnitTester $I)
+    public function translateAdapterNativeArrayOffsetExists(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\NativeArray - offsetExists()');
-        $language   = $this->getArrayConfig()['en'];
-        $translator = new NativeArray(['content' => $language]);
 
-        $actual = $translator->offsetExists('hi');
-        $I->assertTrue($actual);
+        $language = $this->getArrayConfig()['en'];
+
+        $translator = new NativeArray(
+            [
+                'content' => $language,
+            ]
+        );
+
+        $I->assertTrue(
+            $translator->offsetExists('hi')
+        );
     }
 }

@@ -16,17 +16,12 @@ use Phalcon\Assets\Asset\Css;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetRealTargetUriCest
- */
 class GetRealTargetUriCest
 {
     use AssetsTrait;
 
     /**
-     * Tests Phalcon\Assets\Asset :: getRealTargetUri() - css local
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getRealTargetUri() - css local
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -34,6 +29,7 @@ class GetRealTargetUriCest
     public function assetsAssetCssGetAssetKeyLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getRealTargetUri() - css local');
+
         $asset = new Css('css/docs.css');
 
         $expected = 'css/docs.css';
@@ -41,9 +37,7 @@ class GetRealTargetUriCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getRealTargetUri() - css remote
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getRealTargetUri() - css remote
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -51,6 +45,7 @@ class GetRealTargetUriCest
     public function assetsAssetCssGetAssetKeyRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getRealTargetUri() - css remote');
+
         $asset = new Css('https://phalcon.ld/css/docs.css', false);
 
         $expected = 'https://phalcon.ld/css/docs.css';

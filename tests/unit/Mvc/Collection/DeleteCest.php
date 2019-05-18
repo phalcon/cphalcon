@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class DeleteCest
- */
 class DeleteCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: delete()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class DeleteCest
     public function mvcCollectionDelete(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - delete()');
+
         $I->skipTest('Need implementation');
     }
 }

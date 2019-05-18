@@ -39,20 +39,46 @@ class FormsCest
     public function _before()
     {
         $this->setNewFactoryDefault();
-        Tag::setDoctype(Tag::HTML5);
+
+        Tag::setDoctype(
+            Tag::HTML5
+        );
     }
 
     public function testFormElementRender(IntegrationTester $I)
     {
-        $element1 = new Text("name");
-        $element1->setAttributes(['class' => 'big-input']);
+        $element1 = new Text('name');
+
+        $element1->setAttributes(
+            [
+                'class' => 'big-input',
+            ]
+        );
+
 
         $element2 = new Radio('radio');
-        $element2->setAttributes(['value' => 0]);
 
-        $I->assertEquals('<input type="text" id="name" name="name" class="big-input">', $element1->render());
-        $I->assertEquals('<input type="text" id="name" name="name" class="big-input">', (string) $element1);
-        $I->assertEquals('<input type="radio" id="radio" name="radio" value="0">', (string) $element2);
+        $element2->setAttributes(
+            [
+                'value' => 0,
+            ]
+        );
+
+
+        $I->assertEquals(
+            '<input type="text" id="name" name="name" class="big-input">',
+            $element1->render()
+        );
+
+        $I->assertEquals(
+            '<input type="text" id="name" name="name" class="big-input">',
+            (string) $element1
+        );
+
+        $I->assertEquals(
+            '<input type="radio" id="radio" name="radio" value="0">',
+            (string) $element2
+        );
     }
 
     public function testFormRenderEntity(IntegrationTester $I)
@@ -60,17 +86,27 @@ class FormsCest
         //Second element
         $address = new Text('address');
 
-        $address->addValidator(new PresenceOf([
-            'message' => 'The address is required',
-        ]));
+        $address->addValidator(
+            new PresenceOf(
+                [
+                    'message' => 'The address is required',
+                ]
+            )
+        );
 
-        $telephone = new Text("telephone");
+        $telephone = new Text('telephone');
 
-        $telephone->addValidator(new PresenceOf([
-            'message' => 'The telephone is required',
-        ]));
+        $telephone->addValidator(
+            new PresenceOf(
+                [
+                    'message' => 'The telephone is required',
+                ]
+            )
+        );
 
-        $form = new Form(new ContactFormPublicProperties());
+        $form = new Form(
+            new ContactFormPublicProperties()
+        );
 
         $form->add($address);
         $form->add($telephone);
@@ -91,17 +127,27 @@ class FormsCest
         //Second element
         $address = new Text('address');
 
-        $address->addValidator(new PresenceOf([
-            'message' => 'The address is required',
-        ]));
+        $address->addValidator(
+            new PresenceOf(
+                [
+                    'message' => 'The address is required',
+                ]
+            )
+        );
 
-        $telephone = new Text("telephone");
+        $telephone = new Text('telephone');
 
-        $telephone->addValidator(new PresenceOf([
-            'message' => 'The telephone is required',
-        ]));
+        $telephone->addValidator(
+            new PresenceOf(
+                [
+                    'message' => 'The telephone is required',
+                ]
+            )
+        );
 
-        $form = new Form(new ContactFormSettersGetters());
+        $form = new Form(
+            new ContactFormSettersGetters()
+        );
 
         $form->add($address);
         $form->add($telephone);
@@ -122,25 +168,39 @@ class FormsCest
         //Second element
         $address = new Text('address');
 
-        $address->addValidator(new PresenceOf([
-            'message' => 'The address is required',
-        ]));
+        $address->addValidator(
+            new PresenceOf(
+                [
+                    'message' => 'The address is required',
+                ]
+            )
+        );
 
-        $telephone = new Text("telephone");
+        $telephone = new Text('telephone');
 
-        $telephone->addValidator(new PresenceOf([
-            'message' => 'The telephone is required',
-        ]));
+        $telephone->addValidator(
+            new PresenceOf(
+                [
+                    'message' => 'The telephone is required',
+                ]
+            )
+        );
 
-        $form = new Form(new ContactFormPublicProperties());
+        $form = new Form(
+            new ContactFormPublicProperties()
+        );
 
         $form->add($address);
         $form->add($telephone);
 
-        $I->assertTrue($form->isValid([
-            'telephone' => '+44 124 82122',
-            'address'   => 'hello',
-        ]));
+        $I->assertTrue(
+            $form->isValid(
+                [
+                    'telephone' => '+44 124 82122',
+                    'address'   => 'hello',
+                ]
+            )
+        );
     }
 
     public function testFormValidatorEntityBind(IntegrationTester $I)
@@ -148,15 +208,23 @@ class FormsCest
         //Second element
         $address = new Text('address');
 
-        $address->addValidator(new PresenceOf([
-            'message' => 'The address is required',
-        ]));
+        $address->addValidator(
+            new PresenceOf(
+                [
+                    'message' => 'The address is required',
+                ]
+            )
+        );
 
-        $telephone = new Text("telephone");
+        $telephone = new Text('telephone');
 
-        $telephone->addValidator(new PresenceOf([
-            'message' => 'The telephone is required',
-        ]));
+        $telephone->addValidator(
+            new PresenceOf(
+                [
+                    'message' => 'The telephone is required',
+                ]
+            )
+        );
 
         $entity = new ContactFormPublicProperties();
 
@@ -165,10 +233,13 @@ class FormsCest
         $form->add($address);
         $form->add($telephone);
 
-        $form->bind([
-            'telephone' => '+44 123 45678',
-            'address'   => 'hello',
-        ], $entity);
+        $form->bind(
+            [
+                'telephone' => '+44 123 45678',
+                'address'   => 'hello',
+            ],
+            $entity
+        );
 
         $I->assertTrue($form->isValid());
 
@@ -181,15 +252,23 @@ class FormsCest
         //Second element
         $address = new Text('address');
 
-        $address->addValidator(new PresenceOf([
-            'message' => 'The address is required',
-        ]));
+        $address->addValidator(
+            new PresenceOf(
+                [
+                    'message' => 'The address is required',
+                ]
+            )
+        );
 
-        $telephone = new Text("telephone");
+        $telephone = new Text('telephone');
 
-        $telephone->addValidator(new PresenceOf([
-            'message' => 'The telephone is required',
-        ]));
+        $telephone->addValidator(
+            new PresenceOf(
+                [
+                    'message' => 'The telephone is required',
+                ]
+            )
+        );
 
         $entity = new ContactFormSettersGetters();
 
@@ -198,25 +277,47 @@ class FormsCest
         $form->add($address);
         $form->add($telephone);
 
-        $form->bind([
-            'telephone' => '+44 123 45678',
-            'address'   => 'hello',
-        ], $entity);
+        $form->bind(
+            [
+                'telephone' => '+44 123 45678',
+                'address'   => 'hello',
+            ],
+            $entity
+        );
 
-        $I->assertTrue($form->isValid());
 
-        $I->assertEquals($entity->getTelephone(), '+44 123 45678');
-        $I->assertEquals($entity->getAddress(), 'hello');
+        $I->assertTrue(
+            $form->isValid()
+        );
+
+        $I->assertEquals(
+            '+44 123 45678',
+            $entity->getTelephone()
+        );
+
+        $I->assertEquals(
+            'hello',
+            $entity->getAddress()
+        );
     }
 
     public function testCorrectlyAddOptionToSelectElementIfParameterIsAnArray(IntegrationTester $I)
     {
         $element = new Select('test-select');
-        $element->addOption(['key' => 'value']);
+
+        $element->addOption(
+            [
+                'key' => 'value',
+            ]
+        );
 
         $I->assertEquals(
             '<select id="test-select" name="test-select"><option value="key">value</option></select>',
-            preg_replace('/[[:cntrl:]]/', '', $element->render())
+            preg_replace(
+                '/[[:cntrl:]]/',
+                '',
+                $element->render()
+            )
         );
     }
 
@@ -227,13 +328,20 @@ class FormsCest
 
         $I->assertEquals(
             '<select id="test-select" name="test-select"><option value="0">value</option></select>',
-            preg_replace('/[[:cntrl:]]/', '', $element->render())
+            preg_replace(
+                '/[[:cntrl:]]/',
+                '',
+                $element->render()
+            )
         );
     }
 
     public function testElementAppendMessage(IntegrationTester $I)
     {
         $element = new Select('test-select');
-        $element->appendMessage(new Message(''));
+
+        $element->appendMessage(
+            new Message('')
+        );
     }
 }

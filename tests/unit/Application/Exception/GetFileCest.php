@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Application\Exception;
 
 use UnitTester;
 
-/**
- * Class GetFileCest
- */
 class GetFileCest
 {
     /**
      * Tests Phalcon\Application\Exception :: getFile()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetFileCest
     public function applicationExceptionGetFile(UnitTester $I)
     {
         $I->wantToTest('Application\Exception - getFile()');
+
         $I->skipTest('Need implementation');
     }
 }

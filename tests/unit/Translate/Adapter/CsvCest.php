@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Unit\Translate\Adapter;
 
+use function dataDir;
 use Phalcon\Translate\Adapter\Csv;
 use UnitTester;
-use function dataFolder;
 
 class CsvCest
 {
@@ -24,9 +24,19 @@ class CsvCest
      */
     public function _before(UnitTester $I)
     {
-        $this->config = ['ru' => ['content' => dataFolder('assets/translation/csv/ru_RU.csv')]];
-    }
+        $this->config = [
+            'ru' => [
+                'content' => dataDir('assets/translation/csv/ru_RU.csv'),
+            ],
 
+            // the next delimiter is a tab character
+            'options' => [
+                'content'   => dataDir('assets/translation/csv/fr_FR_options.csv'),
+                'delimiter' => '	',
+                'enclosure' => "'",
+            ],
+        ];
+    }
 
     /**
      * Translate into russian
@@ -36,18 +46,62 @@ class CsvCest
      */
     public function testRuTranslate(UnitTester $I)
     {
-        $params     = $this->config['ru'];
+        $params = $this->config['ru'];
+
         $translator = new Csv($params);
 
-        $expect = 'Привет!';
-        $actual = $translator->query('Hello!');
-        $I->assertEquals($expect, $actual);
 
-        $expect = 'Привет, TestFname TestMname TestLname!';
+
+        $I->assertEquals(
+            'Привет!',
+            $translator->query('Hello!')
+        );
+
+
+
         $actual = $translator->query(
             'Hello %fname% %mname% %lname%!',
-            ["fname" => "TestFname", "mname" => "TestMname", "lname" => "TestLname"]
+            [
+                'fname' => 'TestFname',
+                'mname' => 'TestMname',
+                'lname' => 'TestLname',
+            ]
         );
-        $I->assertEquals($expect, $actual);
+
+        $I->assertEquals(
+            'Привет, TestFname TestMname TestLname!',
+            $actual
+        );
+    }
+
+    /**
+     * Translate into French with a CSV using non standard delimiter and enclosure
+     */
+    public function testCsvOptions(UnitTester $I)
+    {
+        $params = $this->config['options'];
+
+        $translator = new Csv($params);
+
+        $I->assertEquals(
+            'Bonjour!',
+            $translator->query('Hello!')
+        );
+
+
+
+        $actual = $translator->query(
+            'Hello %fname% %mname% %lname%!',
+            [
+                'fname' => 'TestFname',
+                'mname' => 'TestMname',
+                'lname' => 'TestLname',
+            ]
+        );
+
+        $I->assertEquals(
+            'Bonjour, TestFname TestMname TestLname!',
+            $actual
+        );
     }
 }

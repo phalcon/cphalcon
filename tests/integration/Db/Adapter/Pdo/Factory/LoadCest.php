@@ -18,16 +18,10 @@ use Phalcon\Db\Adapter\Pdo\Factory;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 
-/**
- * Class LoadCest
- */
 class LoadCest
 {
     use FactoryTrait;
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function _before(IntegrationTester $I)
     {
         $this->init();
@@ -36,42 +30,45 @@ class LoadCest
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Factory :: load() - Config
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
      */
     public function dbAdapterPdoFactoryLoadConfig(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Factory - load() - Config");
+
         $options = $this->config->database;
         $data    = $options->toArray();
+
         $this->runTests($I, $options, $data);
     }
 
     /**
-     * @param IntegrationTester $I
-     * @param Config|Array      $options
-     * @param array             $data
+     * @param Config|array $options
      */
     private function runTests(IntegrationTester $I, $options, array $data)
     {
         /** @var Mysql $database */
         $database = Factory::load($options);
 
-        $class  = Mysql::class;
-        $actual = $database;
-        $I->assertInstanceOf($class, $actual);
+        $I->assertInstanceOf(
+            Mysql::class,
+            $database
+        );
 
-        $expected = array_intersect_assoc($database->getDescriptor(), $data);
-        $actual   = $database->getDescriptor();
-        $I->assertEquals($expected, $actual);
+        $expected = array_intersect_assoc(
+            $database->getDescriptor(),
+            $data
+        );
+
+        $I->assertEquals(
+            $expected,
+            $database->getDescriptor()
+        );
     }
 
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Factory :: load() - array
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
@@ -79,8 +76,10 @@ class LoadCest
     public function dbAdapterPdoFactoryLoadArray(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Factory - load() - array");
-        $options = $this->arrayConfig["database"];
+
+        $options = $this->arrayConfig['database'];
         $data    = $options;
+
         $this->runTests($I, $options, $data);
     }
 }

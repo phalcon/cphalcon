@@ -22,8 +22,6 @@ class ReadMetaDataCest
     /**
      * Tests Phalcon\Mvc\Model\MetaData\Files :: readMetaData()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

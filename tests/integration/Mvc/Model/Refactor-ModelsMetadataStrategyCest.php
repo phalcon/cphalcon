@@ -3,7 +3,7 @@
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Mvc\Model\Metadata\Memory;
+use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\MetaData\Strategy\Annotations;
 use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -87,6 +87,7 @@ class ModelsMetadataStrategyCest
         $this->container['modelsMetadata'] = function () {
             $metaData = new Memory();
             $metaData->setStrategy(new Introspection());
+
             return $metaData;
         };
 
@@ -106,6 +107,7 @@ class ModelsMetadataStrategyCest
         $this->container['modelsMetadata'] = function () {
             $metaData = new Memory();
             $metaData->setStrategy(new Annotations());
+
             return $metaData;
         };
 

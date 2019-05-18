@@ -27,15 +27,17 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Confirmation :: validate() - single
      * field
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorConfirmationValidateSingleField(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Confirmation - validate() - single field");
+        $I->wantToTest(
+            "Validation\Validator\Confirmation - validate() - single field"
+        );
+
         $validation = new Validation();
+
         $validation->add(
             'name',
             new Confirmation(
@@ -45,6 +47,7 @@ class ValidateCest
             )
         );
 
+
         $messages = $validation->validate(
             [
                 'name'     => 'SomeValue',
@@ -52,9 +55,11 @@ class ValidateCest
             ]
         );
 
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(
             [
@@ -63,28 +68,32 @@ class ValidateCest
             ]
         );
 
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
     }
 
     /**
      * Tests Phalcon\Validation\Validator\Confirmation :: validate() - multiple
      * field
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorConfirmationValidateMultipleField(IntegrationTester $I)
     {
-        $I->wantToTest("Validation\Validator\Confirmation - validate() - multiple field");
-        $validation         = new Validation();
+        $I->wantToTest(
+            "Validation\Validator\Confirmation - validate() - multiple field"
+        );
+
+        $validation = new Validation();
+
         $validationMessages = [
             'name' => 'Name must be same as nameWith.',
             'type' => 'Type must be same as typeWith.',
         ];
+
         $validation->add(
             ['name', 'type'],
             new Confirmation(
@@ -98,6 +107,7 @@ class ValidateCest
             )
         );
 
+
         $messages = $validation->validate(
             [
                 'name'     => 'SomeValue',
@@ -107,9 +117,11 @@ class ValidateCest
             ]
         );
 
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(
             [
@@ -120,13 +132,16 @@ class ValidateCest
             ]
         );
 
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
 
-        $expected = $validationMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $validationMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
 
         $messages = $validation->validate(
             [
@@ -137,24 +152,25 @@ class ValidateCest
             ]
         );
 
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
 
-        $expected = $validationMessages['name'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $validationMessages['name'],
+            $messages->offsetGet(0)->getMessage()
+        );
 
-        $expected = $validationMessages['type'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $validationMessages['type'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 
     /**
      * Tests Phalcon\Validation\Validator\Confirmation :: validate() - empty
      * value
-     *
-     * @param IntegrationTester $I
      *
      * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      * @since  2015-09-06
@@ -162,6 +178,7 @@ class ValidateCest
     public function validationValidatorConfirmationValidateEmptyValues(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Confirmation - validate() - empty value");
+
         $expected = new Messages(
             [
                 new Message(
@@ -174,6 +191,7 @@ class ValidateCest
         );
 
         $validation = new Validation();
+
         $validation->add(
             'password',
             new Confirmation(
@@ -184,6 +202,7 @@ class ValidateCest
             )
         );
 
+
         $messages = $validation->validate(
             [
                 'password'  => 'test123',
@@ -191,8 +210,11 @@ class ValidateCest
             ]
         );
 
-        $actual = $messages->count();
-        $I->assertEquals(0, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(
             [
@@ -201,10 +223,14 @@ class ValidateCest
             ]
         );
 
-        $actual = $messages->count();
-        $I->assertEquals(0, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
 
         $validation = new Validation();
+
         $validation->add(
             'password',
             new Confirmation(
@@ -215,6 +241,7 @@ class ValidateCest
             )
         );
 
+
         $messages = $validation->validate(
             [
                 'password'  => 'test123',
@@ -222,8 +249,11 @@ class ValidateCest
             ]
         );
 
-        $actual = $messages->count();
-        $I->assertEquals(0, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(
             [
@@ -232,12 +262,16 @@ class ValidateCest
             ]
         );
 
-        $actual = $messages->count();
-        $I->assertEquals(1, $actual);
-        $actual = $messages;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $I->assertEquals($expected, $messages);
+
 
         $validation = new Validation();
+
         $validation->add(
             'password',
             new Confirmation(
@@ -247,6 +281,7 @@ class ValidateCest
             )
         );
 
+
         $messages = $validation->validate(
             [
                 'password'  => 'test123',
@@ -254,8 +289,11 @@ class ValidateCest
             ]
         );
 
-        $actual = $messages->count();
-        $I->assertEquals(0, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
 
         $messages = $validation->validate(
             [
@@ -264,9 +302,11 @@ class ValidateCest
             ]
         );
 
-        $actual = $messages->count();
-        $I->assertEquals(1, $actual);
-        $actual = $messages;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $I->assertEquals($expected, $messages);
     }
 }

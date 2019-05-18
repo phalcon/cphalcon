@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Di\Service;
 
 use UnitTester;
 
-/**
- * Class IsSharedCest
- */
 class IsSharedCest
 {
     /**
      * Tests Phalcon\Di\Service :: isShared()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsSharedCest
     public function diServiceIsShared(UnitTester $I)
     {
         $I->wantToTest('Di\Service - isShared()');
+
         $I->skipTest('Need implementation');
     }
 }

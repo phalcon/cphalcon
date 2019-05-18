@@ -26,15 +26,19 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Email :: hasOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorEmailHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Email - hasOption()');
-        $validator = new Email(['message' => 'This is a message']);
+
+        $validator = new Email(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

@@ -26,15 +26,15 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Alnum :: getOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorAlnumGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Alnum - getOption()');
+
         $validator = new Alnum();
+
         $this->checkGetOption($I, $validator);
     }
 }

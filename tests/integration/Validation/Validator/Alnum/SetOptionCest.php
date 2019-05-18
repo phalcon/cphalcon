@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Alnum :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorAlnumSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Alnum - setOption()');
+
         $validator = new Alnum();
+
         $this->checkSetOption($I, $validator);
     }
 }

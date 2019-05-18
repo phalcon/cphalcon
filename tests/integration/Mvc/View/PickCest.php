@@ -12,24 +12,57 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View;
 
+use function dataDir;
 use IntegrationTester;
+use Phalcon\Di;
+use Phalcon\Helper\Str;
+use Phalcon\Mvc\View;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
  * Class PickCest
  */
 class PickCest
 {
+    use DiTrait;
+
     /**
      * Tests Phalcon\Mvc\View :: pick()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2013-01-07
      */
     public function mvcViewPick(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\View - pick()');
-        $I->skipTest('Need implementation');
+
+        $container = new Di();
+        $view = new View();
+        $view->setViewsDir(Str::dirSeparator(dataDir('fixtures/views')));
+
+        $view->setDI($container);
+
+        $view->start();
+        $view->setLayout('pick');
+        $view->pick('currentrender/other');
+        $view->render('currentrender', 'another');
+        $view->finish();
+
+        $I->assertEquals(
+            'Well, this is the view content: here.',
+            $view->getContent()
+        );
+
+
+        $view->start();
+        $view->setLayout('pick');
+        $view->pick(['currentrender/other']);
+        $view->render('currentrender', 'another');
+        $view->finish();
+
+        $I->assertEquals(
+            'Well, this is the view content: here.',
+            $view->getContent()
+        );
     }
 }

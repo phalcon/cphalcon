@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class CreateIfNotExistCest
- */
 class CreateIfNotExistCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: createIfNotExist()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class CreateIfNotExistCest
     public function mvcCollectionCreateIfNotExist(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - createIfNotExist()');
+
         $I->skipTest('Need implementation');
     }
 }

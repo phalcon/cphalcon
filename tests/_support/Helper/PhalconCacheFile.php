@@ -2,7 +2,7 @@
 
 namespace Helper;
 
-use function cacheFolder;
+use function cacheDir;
 use Codeception\Configuration;
 use Codeception\Exception\ModuleConfigException;
 use Codeception\Lib\ModuleContainer;
@@ -18,8 +18,7 @@ use Phalcon\Cache\FrontendInterface;
  * Module for testing backend cache adapters
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @package   Phalcon\Test\Module\Cache\Backend
+ * @link          https://phalconphp.com
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -67,35 +66,23 @@ class PhalconCacheFile extends Filesystem
     /**
      * File Constructor.
      *
-     * @param ModuleContainer $container
-     * @param array|null $config
-     *
      * @throws ModuleConfigException
      */
-    public function __construct(ModuleContainer $container, array $config = null)
+    public function __construct(ModuleContainer $container, array $config = [])
     {
         $defaults = [
             'frontend'  => Data::class,
             'backend'   => FileBackend::class,
             'prefix'    => 'data_',
             'lifetime'  => 10,
-            'cache_dir' => cacheFolder(),
+            'cache_dir' => cacheDir(),
         ];
 
         $this->projectPath = Configuration::projectDir();
+
         $this->config = array_merge($defaults, $config);
 
         parent::__construct($container);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function _initialize()
-    {
-        $this->initializeCachePath($this->config['cache_dir']);
-        $this->initializeFrontend($this->config['frontend']);
-        $this->initializeBackend($this->config['backend']);
     }
 
     /**
@@ -121,17 +108,25 @@ class PhalconCacheFile extends Filesystem
         $config = array_merge($defaults, $config);
 
         $this->_reconfigure($config);
-        $this->debugSection('Frontend', get_class($this->frontend));
+
+        $this->debugSection(
+            'Frontend',
+            get_class($this->frontend)
+        );
     }
 
     public function dontSeeCacheStarted()
     {
-        $this->assertFalse($this->backend->isStarted());
+        $this->assertFalse(
+            $this->backend->isStarted()
+        );
     }
 
     public function seeCacheStarted()
     {
-        $this->assertTrue($this->backend->isStarted());
+        $this->assertTrue(
+            $this->backend->isStarted()
+        );
     }
 
     /**
@@ -139,12 +134,14 @@ class PhalconCacheFile extends Filesystem
      *
      * @param string $key
      * @param string $content
-     * @param int $lifetime
-     * @param boolean $stopBuffer
+     * @param int    $lifetime
+     * @param bool   $stopBuffer
      */
     public function haveInCacheStorage($key, $content = null, $lifetime = null, $stopBuffer = true)
     {
-        $this->assertTrue($this->backend->save($key, $content, $lifetime, $stopBuffer));
+        $this->assertTrue(
+            $this->backend->save($key, $content, $lifetime, $stopBuffer)
+        );
     }
 
     /**
@@ -152,7 +149,9 @@ class PhalconCacheFile extends Filesystem
      */
     public function deleteCacheData($keyName)
     {
-        $this->assertTrue($this->backend->delete($keyName));
+        $this->assertTrue(
+            $this->backend->delete($keyName)
+        );
     }
 
     /**
@@ -184,28 +183,43 @@ class PhalconCacheFile extends Filesystem
      * ```
      *
      * @param string $key
-     * @param mixed $value
-     * @param int $lifetime
+     * @param int    $lifetime
      */
     public function seeInCacheStorage($key, $value = null, $lifetime = null)
     {
-        $this->assertTrue($this->backend->exists($key, $lifetime));
-        $this->amInPath($this->config['cache_dir']);
-        $this->seeFileFound($this->config['prefix'] . $this->backend->getKey($key));
+        $this->assertTrue(
+            $this->backend->exists($key, $lifetime)
+        );
+
+        $this->amInPath(
+            $this->config['cache_dir']
+        );
+
+        $this->seeFileFound(
+            $this->config['prefix'] . $this->backend->getKey($key)
+        );
 
         $actual = $this->backend->get($key, $lifetime);
 
         $this->debugSection('Value', $actual);
 
         $serializeCallback = $this->serializeCallback;
+
         if (null === $value || !is_callable($serializeCallback)) {
             return;
         }
 
         $serialized = call_user_func_array($serializeCallback, [$value]);
 
-        $this->assertEquals($serialized, $this->file);
-        $this->assertEquals($serialized, $this->frontend->beforeStore($value));
+        $this->assertSame(
+            $serialized,
+            $this->file
+        );
+
+        $this->assertSame(
+            $serialized,
+            $this->frontend->beforeStore($value)
+        );
     }
 
     /**
@@ -219,57 +233,27 @@ class PhalconCacheFile extends Filesystem
     }
 
     /**
-     * @param $className
-     *
-     * @throws ModuleConfigException
+     * {@inheritdoc}
      */
-    protected function initializeFrontend($className)
+    public function _initialize()
     {
-        if (!class_exists($className)) {
-            throw new ModuleConfigException(
-                __CLASS__,
-                "The 'frontend' parameter should be a fully qualified class name of the frontend adapter."
-            );
-        }
+        $this->initializeCachePath(
+            $this->config['cache_dir']
+        );
 
-        $supportedFrontends = $this->getSupportedFrontends();
-        $this->assertArrayHasKey($className, $supportedFrontends);
+        $this->initializeFrontend(
+            $this->config['frontend']
+        );
 
-        if (isset($supportedFrontends[$className]['validate_cb'])) {
-            call_user_func($supportedFrontends[$className]['validate_cb']);
-        }
-
-        if (isset($supportedFrontends[$className]['serialize_cb'])) {
-            $this->serializeCallback = $supportedFrontends[$className]['serialize_cb'];
-        }
-
-        if (isset($supportedFrontends[$className]['unserialize_cb'])) {
-            $this->unserializeCallback = $supportedFrontends[$className]['unserialize_cb'];
-        }
-
-        $adapter = new $className(['lifetime' => $this->config['lifetime']]);
-
-        $this->config['frontend'] = $className;
-        $this->frontend = $adapter;
-    }
-
-    protected function initializeBackend($className)
-    {
-        $adapter = new FileBackend($this->frontend, [
-            'cacheDir' => $this->config['cache_dir'],
-            'prefix'   => $this->config['prefix'],
-        ]);
-
-        $this->config['backend'] = $className;
-        $this->backend = $adapter;
+        $this->initializeBackend(
+            $this->config['backend']
+        );
     }
 
     /**
-     * @param string $dir
-     *
      * @throws ModuleConfigException
      */
-    protected function initializeCachePath($dir)
+    protected function initializeCachePath(string $dir)
     {
         $cacheDir = $this->absolutizePath($dir);
 
@@ -281,6 +265,46 @@ class PhalconCacheFile extends Filesystem
         }
 
         $this->config['cache_dir'] = $cacheDir;
+    }
+
+    /**
+     * @throws ModuleConfigException
+     */
+    protected function initializeFrontend(string $className)
+    {
+        if (!class_exists($className)) {
+            throw new ModuleConfigException(
+                __CLASS__,
+                "The 'frontend' parameter should be a fully qualified class name of the frontend adapter."
+            );
+        }
+
+        $supportedFrontends = $this->getSupportedFrontends();
+
+        $this->assertArrayHasKey($className, $supportedFrontends);
+
+        if (isset($supportedFrontends[$className]['validate_cb'])) {
+            call_user_func(
+                $supportedFrontends[$className]['validate_cb']
+            );
+        }
+
+        if (isset($supportedFrontends[$className]['serialize_cb'])) {
+            $this->serializeCallback = $supportedFrontends[$className]['serialize_cb'];
+        }
+
+        if (isset($supportedFrontends[$className]['unserialize_cb'])) {
+            $this->unserializeCallback = $supportedFrontends[$className]['unserialize_cb'];
+        }
+
+        $adapter = new $className(
+            [
+                'lifetime' => $this->config['lifetime'],
+            ]
+        );
+
+        $this->config['frontend'] = $className;
+        $this->frontend           = $adapter;
     }
 
     protected function getSupportedFrontends()
@@ -313,5 +337,19 @@ class PhalconCacheFile extends Filesystem
                 },
             ],
         ];
+    }
+
+    protected function initializeBackend($className)
+    {
+        $adapter = new FileBackend(
+            $this->frontend,
+            [
+                'cacheDir' => $this->config['cache_dir'],
+                'prefix'   => $this->config['prefix'],
+            ]
+        );
+
+        $this->config['backend'] = $className;
+        $this->backend           = $adapter;
     }
 }

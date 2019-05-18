@@ -26,15 +26,15 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\Url :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorUrlConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url - __construct()');
+
         $validator = new Url();
+
         $this->checkConstruct($I, $validator);
     }
 }

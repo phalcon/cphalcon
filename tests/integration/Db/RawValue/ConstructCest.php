@@ -12,24 +12,56 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\RawValue;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\RawValue;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Db\RawValue :: __construct()
      *
-     * @param IntegrationTester $I
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-17
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider valueProvider
      */
-    public function dbRawvalueConstruct(IntegrationTester $I)
+    public function dbRawvalueConstruct(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\RawValue - __construct()');
-        $I->skipTest('Need implementation');
+
+        $rawValue = new RawValue(
+            $example['value']
+        );
+
+        $I->assertEquals(
+            $example['expected'],
+            $rawValue->getValue()
+        );
+    }
+
+    private function valueProvider(): array
+    {
+        return [
+            [
+                'value'    => 'hello',
+                'expected' => 'hello',
+            ],
+
+            [
+                'value'    => null,
+                'expected' => 'NULL',
+            ],
+
+            [
+                'value'    => 123,
+                'expected' => '123',
+            ],
+
+            [
+                'value'    => '',
+                'expected' => "''",
+            ],
+        ];
     }
 }

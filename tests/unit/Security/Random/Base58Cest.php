@@ -12,17 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security\Random;
 
+use Phalcon\Security\Random;
 use UnitTester;
 
-/**
- * Class Base58Cest
- */
 class Base58Cest
 {
     /**
      * Tests Phalcon\Security\Random :: base58()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,21 +26,37 @@ class Base58Cest
     public function securityRandomBase58(UnitTester $I)
     {
         $I->wantToTest("Security\Random - base58()");
-        $random = new \Phalcon\Security\Random;
+
+        $random = new Random();
+
+
         $base58 = $random->base58();
 
-        //test forbidden characters
-        $I->assertRegExp("/^[1-9A-Za-z][^OIl0]+$/", $base58);
+        // Test forbidden characters
+        $I->assertRegExp(
+            '/^[1-9A-Za-z][^OIl0]+$/',
+            $base58
+        );
 
-        //Default length is 16 bytes
-        $I->assertEquals(16, strlen($base58));
+        // Default length is 16 bytes
+        $I->assertEquals(
+            16,
+            strlen($base58)
+        );
+
 
         $differentString = $random->base58();
-        //Buy lottery ticket if this fails (or fix the bug)
+
+        // Buy lottery ticket if this fails (or fix the bug)
         $I->assertNotEquals($base58, $differentString);
+
 
         $expectedLength = 30;
         $base58         = $random->base58($expectedLength);
-        $I->assertEquals($expectedLength, strlen($base58));
+
+        $I->assertEquals(
+            $expectedLength,
+            strlen($base58)
+        );
     }
 }

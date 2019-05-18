@@ -15,39 +15,40 @@ namespace Phalcon\Test\Integration\Url;
 use IntegrationTester;
 use Phalcon\Url;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     /**
      * Tests Phalcon\Url :: get()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function urlGet(IntegrationTester $I)
     {
-        $I->wantToTest("Url - get()");
+        $I->wantToTest('Url - get()');
+
         $url = new Url();
 
         $url->setBaseUri('https://phalconphp.com');
 
-        $expected = 'https://phalconphp.com';
-        $actual   = $url->get();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'https://phalconphp.com',
+            $url->get()
+        );
 
-        $actual = $url->get('');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'https://phalconphp.com',
+            $url->get('')
+        );
 
-        $expected = 'https://phalconphp.com/';
-        $actual   = $url->get('/');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'https://phalconphp.com/',
+            $url->get('/')
+        );
 
-        $expected = 'https://phalconphp.com/en/team';
-        $actual   = $url->get('/en/team');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'https://phalconphp.com/en/team',
+            $url->get('/en/team')
+        );
     }
 }

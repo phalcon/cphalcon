@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash\Direct;
 
 use UnitTester;
 
-/**
- * Class SetAutoescapeCest
- */
 class SetAutoescapeCest
 {
     /**
      * Tests Phalcon\Flash\Direct :: setAutoescape()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetAutoescapeCest
     public function flashDirectSetAutoescape(UnitTester $I)
     {
         $I->wantToTest('Flash\Direct - setAutoescape()');
+
         $I->skipTest('Need implementation');
     }
 }

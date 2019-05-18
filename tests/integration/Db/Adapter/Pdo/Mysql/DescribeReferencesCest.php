@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class DescribeReferencesCest
- */
 class DescribeReferencesCest
 {
     use DiTrait;
@@ -27,24 +24,32 @@ class DescribeReferencesCest
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: describeReferences()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbAdapterPdoMysqlDescribeReferences(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Mysql - describeReferences()");
+
         $table    = 'dialect_table_intermediate';
         $expected = $this->getExpectedReferences();
-        $I->assertEquals($expected, $this->connection->describeReferences($table));
-        $I->assertEquals($expected, $this->connection->describeReferences($table, $this->getSchemaName()));
+
+        $I->assertEquals(
+            $expected,
+            $this->connection->describeReferences($table)
+        );
+
+        $I->assertEquals(
+            $expected,
+            $this->connection->describeReferences(
+                $table,
+                $this->getSchemaName()
+            )
+        );
     }
 
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: describeReferences() - count
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -52,16 +57,27 @@ class DescribeReferencesCest
     public function dbAdapterPdoMysqlDescribeReferencesCount(IntegrationTester $I)
     {
         $I->wantToTest("Db\Adapter\Pdo\Mysql - describeReferences() - count");
-        $table            = 'dialect_table_intermediate';
+
+        $table = 'dialect_table_intermediate';
+
         $directReferences = $this->connection->describeReferences($table);
-        $schemaReferences = $this->connection->describeReferences($table, $this->getSchemaName());
+
+        $schemaReferences = $this->connection->describeReferences(
+            $table,
+            $this->getSchemaName()
+        );
+
         $I->assertEquals($directReferences, $schemaReferences);
-        $I->assertEquals(2, count($directReferences));
-        $I->assertEquals(2, count($schemaReferences));
+
+        $I->assertCount(2, $directReferences);
+        $I->assertCount(2, $schemaReferences);
 
         /** @var Reference $reference */
         foreach ($directReferences as $reference) {
-            $I->assertEquals(1, count($reference->getColumns()));
+            $I->assertCount(
+                1,
+                $reference->getColumns()
+            );
         }
     }
 }

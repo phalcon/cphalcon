@@ -11,15 +11,14 @@
 
 namespace Phalcon\Test\Models\Relations\Some;
 
-use Phalcon\Mvc\Model;
 use Phalcon\Db\Column;
+use Phalcon\Mvc\Model;
 
 class Products extends Model
 {
-
-    public function getSource(): string
+    public function initialize()
     {
-        return 'le_products';
+        $this->setSource('le_products');
     }
 
     public function metaData()

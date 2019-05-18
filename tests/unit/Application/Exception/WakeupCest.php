@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Application\Exception;
 
 use UnitTester;
 
-/**
- * Class WakeupCest
- */
 class WakeupCest
 {
     /**
      * Tests Phalcon\Application\Exception :: __wakeup()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class WakeupCest
     public function applicationExceptionWakeup(UnitTester $I)
     {
         $I->wantToTest('Application\Exception - __wakeup()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -20,13 +20,18 @@ class TrimFilter implements FilterInterface
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
      * @since  2014-10-05
-     *
-     * @param string $content
-     *
-     * @return string
      */
     public function filter(string $content): string
     {
-        return str_replace(["\n", "\r", " ", "\t"], '', $content);
+        return str_replace(
+            [
+                "\n",
+                "\r",
+                ' ',
+                "\t",
+            ],
+            '',
+            $content
+        );
     }
 }

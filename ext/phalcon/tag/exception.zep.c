@@ -26,7 +26,6 @@
  * Phalcon\Tag\Exception
  *
  * Exceptions thrown in Phalcon\Tag will use this class
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Tag_Exception) {
 

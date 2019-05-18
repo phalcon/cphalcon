@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Html\Breadcrumbs;
 use Phalcon\Html\Breadcrumbs;
 use UnitTester;
 
-/**
- * Class ClearCest
- */
 class ClearCest
 {
     /**
      * Tests Phalcon\Html\Breadcrumbs :: clear()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,24 +26,29 @@ class ClearCest
     public function htmlBreadcrumbsClear(UnitTester $I)
     {
         $I->wantToTest('Html\Breadcrumbs - clear()');
+
         $breadcrumbs = new Breadcrumbs();
+
         $breadcrumbs
             ->add('Home', '/')
             ->add('Users', '/users')
             ->add('Phalcon Team')
         ;
 
-        $expected = [
-            '/'      => 'Home',
-            '/users' => 'Users',
-            ''       => 'Phalcon Team',
-        ];
-        $actual   = $breadcrumbs->toArray();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [
+                '/'      => 'Home',
+                '/users' => 'Users',
+                ''       => 'Phalcon Team',
+            ],
+            $breadcrumbs->toArray()
+        );
 
         $breadcrumbs->clear();
-        $expected = [];
-        $actual   = $breadcrumbs->toArray();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            [],
+            $breadcrumbs->toArray()
+        );
     }
 }

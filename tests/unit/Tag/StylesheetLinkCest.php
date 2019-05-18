@@ -16,15 +16,10 @@ use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-/**
- * Class StylesheetLinkCest
- */
 class StylesheetLinkCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: stylesheetLink() - string parameter for a local link
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1486
      * @author Phalcon Team <team@phalconphp.com>
@@ -33,25 +28,30 @@ class StylesheetLinkCest extends TagSetup
      */
     public function tagStylesheetLinkStringParameterLocal(UnitTester $I)
     {
-        $I->wantToTest("Tag - stylesheetLink() - string parameter for a local link");
-        Tag::resetInput();
-        $options  = 'css/phalcon.css';
-        $expected = '<link rel="stylesheet" type="text/css" '
-            . 'href="/css/phalcon.css" />'
-            . PHP_EOL;
+        $I->wantToTest('Tag - stylesheetLink() - string parameter for a local link');
 
-        Tag::setDocType(Tag::XHTML10_STRICT);
+        Tag::resetInput();
+
+        $options  = 'css/phalcon.css';
+        $expected = '<link rel="stylesheet" type="text/css" href="/css/phalcon.css" />' . PHP_EOL;
+
+        Tag::setDocType(
+            Tag::XHTML10_STRICT
+        );
+
         $actual = Tag::stylesheetLink($options);
 
         $I->assertEquals($expected, $actual);
 
         Tag::resetInput();
-        $options  = 'css/phalcon.css';
-        $expected = '<link rel="stylesheet" type="text/css" '
-            . 'href="/css/phalcon.css">'
-            . PHP_EOL;
 
-        Tag::setDocType(Tag::HTML5);
+        $options  = 'css/phalcon.css';
+        $expected = '<link rel="stylesheet" type="text/css" href="/css/phalcon.css">' . PHP_EOL;
+
+        Tag::setDocType(
+            Tag::HTML5
+        );
+
         $actual = Tag::stylesheetLink($options);
 
         $I->assertEquals($expected, $actual);
@@ -60,8 +60,6 @@ class StylesheetLinkCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: stylesheetLink() - array parameter for a local link
      *
-     * @param UnitTester $I
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/1486
      * @author Phalcon Team <team@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
@@ -69,25 +67,34 @@ class StylesheetLinkCest extends TagSetup
      */
     public function tagStylesheetLinkArrayParameterLocal(UnitTester $I)
     {
-        $I->wantToTest("Tag - stylesheetLink() - array parameter for a local link");
+        $I->wantToTest('Tag - stylesheetLink() - array parameter for a local link');
+
         Tag::resetInput();
+
         $options  = ['css/phalcon.css'];
         $expected = '<link rel="stylesheet" type="text/css" '
             . 'href="/css/phalcon.css" />'
             . PHP_EOL;
 
-        Tag::setDocType(Tag::XHTML10_STRICT);
+        Tag::setDocType(
+            Tag::XHTML10_STRICT
+        );
+
         $actual = Tag::stylesheetLink($options);
 
         $I->assertEquals($expected, $actual);
 
         Tag::resetInput();
+
         $options  = ['css/phalcon.css'];
         $expected = '<link rel="stylesheet" type="text/css" '
             . 'href="/css/phalcon.css">'
             . PHP_EOL;
 
-        Tag::setDocType(Tag::HTML5);
+        Tag::setDocType(
+            Tag::HTML5
+        );
+
         $actual = Tag::stylesheetLink($options);
 
         $I->assertEquals($expected, $actual);
@@ -97,32 +104,35 @@ class StylesheetLinkCest extends TagSetup
      * Tests Phalcon\Tag :: stylesheetLink() - string parameter for a remote
      * link
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
     public function tagStylesheetLinkStringParameterRemote(UnitTester $I)
     {
-        $I->wantToTest("Tag - stylesheetLink() - string parameter for a remote");
-        Tag::resetInput();
-        $options  = 'http://phalconphp.com/css/phalcon.css';
-        $expected = '<link rel="stylesheet" type="text/css" '
-            . 'href="http://phalconphp.com/css/phalcon.css" />'
-            . PHP_EOL;
+        $I->wantToTest('Tag - stylesheetLink() - string parameter for a remote');
 
-        Tag::setDocType(Tag::XHTML10_STRICT);
+        Tag::resetInput();
+
+        $options  = 'http://phalconphp.com/css/phalcon.css';
+        $expected = '<link rel="stylesheet" type="text/css" href="http://phalconphp.com/css/phalcon.css" />' . PHP_EOL;
+
+        Tag::setDocType(
+            Tag::XHTML10_STRICT
+        );
+
         $actual = Tag::stylesheetLink($options, false);
 
         $I->assertEquals($expected, $actual);
 
         Tag::resetInput();
-        $options  = 'http://phalconphp.com/css/phalcon.css';
-        $expected = '<link rel="stylesheet" type="text/css" '
-            . 'href="http://phalconphp.com/css/phalcon.css">'
-            . PHP_EOL;
 
-        Tag::setDocType(Tag::HTML5);
+        $options  = 'http://phalconphp.com/css/phalcon.css';
+        $expected = '<link rel="stylesheet" type="text/css" href="http://phalconphp.com/css/phalcon.css">' . PHP_EOL;
+
+        Tag::setDocType(
+            Tag::HTML5
+        );
+
         $actual = Tag::stylesheetLink($options, false);
 
         $I->assertEquals($expected, $actual);
@@ -131,32 +141,35 @@ class StylesheetLinkCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: stylesheetLink() - array parameter for a remote link
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-12
      */
     public function tagStylesheetLinkArrayParameterRemote(UnitTester $I)
     {
-        $I->wantToTest("Tag - stylesheetLink() - array parameter for a remote link");
-        Tag::resetInput();
-        $options  = ['http://phalconphp.com/css/phalcon.css'];
-        $expected = '<link rel="stylesheet" type="text/css" '
-            . 'href="http://phalconphp.com/css/phalcon.css" />'
-            . PHP_EOL;
+        $I->wantToTest('Tag - stylesheetLink() - array parameter for a remote link');
 
-        Tag::setDocType(Tag::XHTML10_STRICT);
+        Tag::resetInput();
+
+        $options  = ['http://phalconphp.com/css/phalcon.css'];
+        $expected = '<link rel="stylesheet" type="text/css" href="http://phalconphp.com/css/phalcon.css" />' . PHP_EOL;
+
+        Tag::setDocType(
+            Tag::XHTML10_STRICT
+        );
+
         $actual = Tag::stylesheetLink($options, false);
 
         $I->assertEquals($expected, $actual);
 
         Tag::resetInput();
-        $options  = ['http://phalconphp.com/css/phalcon.css'];
-        $expected = '<link rel="stylesheet" type="text/css" '
-            . 'href="http://phalconphp.com/css/phalcon.css">'
-            . PHP_EOL;
 
-        Tag::setDocType(Tag::HTML5);
+        $options  = ['http://phalconphp.com/css/phalcon.css'];
+        $expected = '<link rel="stylesheet" type="text/css" href="http://phalconphp.com/css/phalcon.css">' . PHP_EOL;
+
+        Tag::setDocType(
+            Tag::HTML5
+        );
+
         $actual = Tag::stylesheetLink($options, false);
 
         $I->assertEquals($expected, $actual);
@@ -165,8 +178,6 @@ class StylesheetLinkCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: stylesheetLink() - overriding the rel link local
      *
-     * @param UnitTester $I
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/2142
      * @author Phalcon Team <team@phalconphp.com>
      * @author Dreamszhu <dreamsxin@qq.com>
@@ -174,31 +185,38 @@ class StylesheetLinkCest extends TagSetup
      */
     public function tagStylesheetLinkOverrideRelLink(UnitTester $I)
     {
-        $I->wantToTest("Tag - stylesheetLink() - overriding the rel link local");
+        $I->wantToTest('Tag - stylesheetLink() - overriding the rel link local');
+
         Tag::resetInput();
-        $options  = [
+
+        $options = [
             'css/phalcon.css',
             'rel' => 'stylesheet/less',
         ];
-        $expected = '<link rel="stylesheet/less" type="text/css" '
-            . 'href="/css/phalcon.css" />'
-            . PHP_EOL;
 
-        Tag::setDocType(Tag::XHTML10_STRICT);
+        $expected = '<link rel="stylesheet/less" type="text/css" href="/css/phalcon.css" />' . PHP_EOL;
+
+        Tag::setDocType(
+            Tag::XHTML10_STRICT
+        );
+
         $actual = Tag::stylesheetLink($options);
 
         $I->assertEquals($expected, $actual);
 
         Tag::resetInput();
-        $options  = [
+
+        $options = [
             'css/phalcon.css',
             'rel' => 'stylesheet/less',
         ];
-        $expected = '<link rel="stylesheet/less" type="text/css" '
-            . 'href="/css/phalcon.css">'
-            . PHP_EOL;
 
-        Tag::setDocType(Tag::HTML5);
+        $expected = '<link rel="stylesheet/less" type="text/css" href="/css/phalcon.css">' . PHP_EOL;
+
+        Tag::setDocType(
+            Tag::HTML5
+        );
+
         $actual = Tag::stylesheetLink($options);
 
         $I->assertEquals($expected, $actual);

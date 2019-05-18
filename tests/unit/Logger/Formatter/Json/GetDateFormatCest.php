@@ -15,17 +15,10 @@ namespace Phalcon\Test\Unit\Logger\Formatter\Json;
 use Phalcon\Logger\Formatter\Json;
 use UnitTester;
 
-/**
- * Class GetDateFormatCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class GetDateFormatCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Json :: getDateFormat()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -33,10 +26,12 @@ class GetDateFormatCest
     public function loggerFormatterJsonGetDateFormat(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Json - getDateFormat()');
+
         $formatter = new Json();
 
-        $expected = 'D, d M y H:i:s O';
-        $actual   = $formatter->getDateFormat();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'D, d M y H:i:s O',
+            $formatter->getDateFormat()
+        );
     }
 }

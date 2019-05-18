@@ -35,10 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_FormatterInterface) {
 
 /**
  * Applies a format to an item
- *
- * @param <Item> item
- *
- * @return string|array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_Formatter_FormatterInterface, format);
 

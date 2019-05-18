@@ -22,8 +22,6 @@ class GetFinalTimeCest
     /**
      * Tests Phalcon\Db\Profiler\Item :: getFinalTime()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

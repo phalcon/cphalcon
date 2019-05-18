@@ -22,8 +22,6 @@ class GetModulesCest
     /**
      * Tests Phalcon\Mvc\Application :: getModules()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

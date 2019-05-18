@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Collection;
 
 use UnitTester;
 
-/**
- * Class FindCest
- */
 class FindCest
 {
     /**
      * Tests Phalcon\Mvc\Collection :: find()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class FindCest
     public function mvcCollectionFind(UnitTester $I)
     {
         $I->wantToTest('Mvc\Collection - find()');
+
         $I->skipTest('Need implementation');
     }
 }

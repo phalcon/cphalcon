@@ -16,9 +16,6 @@ use Phalcon\Assets\Asset;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetAttributesCest
- */
 class GetAttributesCest
 {
     use AssetsTrait;
@@ -26,24 +23,30 @@ class GetAttributesCest
     /**
      * Tests Phalcon\Assets\Asset :: getAttributes() - css local
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function assetsAssetGetAttributesCssLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getAttributes() - css local');
-        $asset = new Asset('css', 'css/docs.css', true, false, ['data-key' => 'phalcon']);
 
-        $expected = ['data-key' => 'phalcon'];
-        $this->assetGetAttributes($I, $asset, $expected);
+        $attributes = [
+            'data-key' => 'phalcon',
+        ];
+
+        $asset = new Asset(
+            'css',
+            'css/docs.css',
+            true,
+            false,
+            $attributes
+        );
+
+        $this->assetGetAttributes($I, $asset, $attributes);
     }
 
     /**
      * Tests Phalcon\Assets\Asset :: getAttributes() - css remote
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -60,8 +63,6 @@ class GetAttributesCest
     /**
      * Tests Phalcon\Assets\Asset :: getAttributes() - js local
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -76,8 +77,6 @@ class GetAttributesCest
 
     /**
      * Tests Phalcon\Assets\Asset :: getAttributes() - js remote
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

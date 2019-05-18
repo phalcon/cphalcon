@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class IsTraceCest
- */
 class IsTraceCest
 {
     /**
      * Tests Phalcon\Http\Request :: isTrace()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsTraceCest
     public function httpRequestIsTrace(UnitTester $I)
     {
         $I->wantToTest('Http\Request - isTrace()');
+
         $I->skipTest('Need implementation');
     }
 }

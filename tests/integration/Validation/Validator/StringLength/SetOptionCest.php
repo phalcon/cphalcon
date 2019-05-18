@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorStringLengthSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength - setOption()');
+
         $validator = new StringLength();
+
         $this->checkSetOption($I, $validator);
     }
 }

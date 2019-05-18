@@ -6555,4 +6555,5 @@ INSERT INTO "table_with_string_field" VALUES(1,'String one');
 INSERT INTO "table_with_string_field" VALUES(2,'String two');
 INSERT INTO "table_with_string_field" VALUES(3,'Another one string');
 
+
 COMMIT;

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class CallActionMethodCest
- */
 class CallActionMethodCest
 {
     /**
      * Tests Phalcon\Dispatcher :: callActionMethod()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class CallActionMethodCest
     public function dispatcherCallActionMethod(UnitTester $I)
     {
         $I->wantToTest('Dispatcher - callActionMethod()');
+
         $I->skipTest('Need implementation');
     }
 }

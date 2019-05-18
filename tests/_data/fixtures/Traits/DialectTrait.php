@@ -19,11 +19,6 @@ use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 
-/**
- * Trait DialectTrait
- *
- * @package Phalcon\Test\Fixtures\Traits
- */
 trait DialectTrait
 {
     /**
@@ -216,8 +211,6 @@ trait DialectTrait
 
     /**
      * Returns the object for the dialect
-     *
-     * @return Mysql
      */
     protected function getDialectMysql(): Mysql
     {
@@ -226,8 +219,6 @@ trait DialectTrait
 
     /**
      * Returns the object for the dialect
-     *
-     * @return Postgresql
      */
     protected function getDialectPostgresql(): Postgresql
     {
@@ -236,8 +227,6 @@ trait DialectTrait
 
     /**
      * Returns the object for the dialect
-     *
-     * @return Sqlite
      */
     protected function getDialectSqlite(): Sqlite
     {

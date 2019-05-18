@@ -15,10 +15,9 @@ use Phalcon\Mvc\Model;
 
 class Pessoas extends Model
 {
-
-    public function getSource(): string
+    public function initialize()
     {
-        return 'personnes';
+        $this->setSource('personnes');
     }
 
     public function columnMap()
@@ -37,5 +36,4 @@ class Pessoas extends Model
             'estado'            => 'estado',
         ];
     }
-
 }

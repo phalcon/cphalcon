@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
+use Phalcon\Mvc\Micro;
 
 /**
  * Class FinishCest
@@ -21,15 +22,75 @@ class FinishCest
 {
     /**
      * Tests Phalcon\Mvc\Micro :: finish()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
-    public function mvcMicroFinish(IntegrationTester $I)
+    public function testMicroFinishHandlers(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Micro - finish()');
-        $I->skipTest('Need implementation');
+        $trace = [];
+
+        $app = new Micro();
+
+        $app->finish(
+            function () use (&$trace) {
+                $trace[] = 1;
+            }
+        );
+
+        $app->finish(
+            function () use (&$trace) {
+                $trace[] = 1;
+            }
+        );
+
+        $app->map(
+            '/blog',
+            function () use (&$trace) {
+                $trace[] = 1;
+            }
+        );
+
+        $app->handle('/blog');
+
+        $I->assertCount(3, $trace);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Micro :: finish()
+     */
+    public function testMicroFinishHandlersIfOneStop(IntegrationTester $I)
+    {
+        $trace = [];
+
+        $app = new Micro();
+
+        $app->finish(
+            function () use (&$trace) {
+                $trace[] = 1;
+            }
+        );
+
+        $app->finish(
+            function () use ($app, &$trace) {
+                $trace[] = 1;
+
+                $app->stop();
+            }
+        );
+
+        $app->finish(
+            function () use (&$trace) {
+                $trace[] = 1;
+            }
+        );
+
+        $app->map(
+            '/blog',
+            function () use (&$trace) {
+                $trace[] = 1;
+            }
+        );
+
+        $app->handle('/blog');
+
+        $I->assertCount(3, $trace);
     }
 }

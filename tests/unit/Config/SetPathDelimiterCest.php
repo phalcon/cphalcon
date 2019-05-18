@@ -15,9 +15,6 @@ namespace Phalcon\Test\Unit\Config;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class SetPathDelimiterCest
- */
 class SetPathDelimiterCest
 {
     use ConfigTrait;
@@ -25,14 +22,12 @@ class SetPathDelimiterCest
     /**
      * Tests Phalcon\Config :: setPathDelimiter()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configSetPathDelimiter(UnitTester $I)
     {
-        $I->wantToTest("Config - setPathDelimiter()");
+        $I->wantToTest('Config - setPathDelimiter()');
         $this->checkSetPathDelimiter($I);
     }
 }

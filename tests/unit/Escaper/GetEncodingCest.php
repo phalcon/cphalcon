@@ -15,27 +15,25 @@ namespace Phalcon\Test\Unit\Escaper;
 use Phalcon\Escaper;
 use UnitTester;
 
-/**
- * Class GetEncodingCest
- */
 class GetEncodingCest
 {
     /**
      * Tests Phalcon\Escaper :: getEncoding()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-16
      */
     public function escaperGetEncoding(UnitTester $I)
     {
-        $I->wantToTest("Escaper - getEncoding()");
+        $I->wantToTest('Escaper - getEncoding()');
+
         $escaper = new Escaper();
+
         $escaper->setEncoding('UTF-8');
 
-        $expected = 'UTF-8';
-        $actual   = $escaper->getEncoding();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'UTF-8',
+            $escaper->getEncoding()
+        );
     }
 }

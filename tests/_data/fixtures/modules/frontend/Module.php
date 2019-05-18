@@ -2,10 +2,10 @@
 
 namespace Phalcon\Test\Modules\Frontend;
 
-use function dataFolder;
-use Phalcon\Mvc\View;
+use function dataDir;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
+use Phalcon\Mvc\View;
 
 /**
  * \Phalcon\Test\Modules\Frontend\Module
@@ -15,7 +15,6 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
  * @link      http://www.phalconphp.com
  * @author    Andres Gutierrez <andres@phalconphp.com>
  * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package   Phalcon\Test\Modules\Frontend
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -32,11 +31,17 @@ class Module implements ModuleDefinitionInterface
 
     public function registerServices(DiInterface $di)
     {
-        $di->set('view', function () {
-            $view = new View();
-            $view->setViewsDir(dataFolder('fixtures/modules/frontend/views/'));
+        $di->set(
+            'view',
+            function () {
+                $view = new View();
 
-            return $view;
-        });
+                $view->setViewsDir(
+                    dataDir('fixtures/modules/frontend/views/')
+                );
+
+                return $view;
+            }
+        );
     }
 }

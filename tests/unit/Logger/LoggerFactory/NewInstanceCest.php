@@ -1,0 +1,38 @@
+<?php
+declare(strict_types=1);
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Test\Unit\Logger\LoggerFactory;
+
+use Phalcon\Logger\Logger;
+use Phalcon\Logger\LoggerFactory;
+use Psr\Log\LoggerInterface;
+use UnitTester;
+
+class NewInstanceCest
+{
+    /**
+     * Tests Phalcon\Logger\LoggerFactory :: newInstance()
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-05-03
+     */
+    public function loggerLoggerFactoryNewInstance(UnitTester $I)
+    {
+        $I->wantToTest('Logger\LoggerFactory - newInstance()');
+
+        $factory = new LoggerFactory();
+
+        $logger = $factory->newInstance('my-logger');
+        $I->assertInstanceOf(Logger::class, $logger);
+        $I->assertInstanceOf(LoggerInterface::class, $logger);
+    }
+}

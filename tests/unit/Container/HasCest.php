@@ -16,9 +16,6 @@ use Phalcon\Container;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     use DiTrait;
@@ -26,20 +23,20 @@ class HasCest
     /**
      * Tests Phalcon\Container :: has()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function containerHas(UnitTester $I)
     {
         $I->wantToTest('Container - has()');
+
         $this->newDi();
         $this->setDiFilter();
 
         $container = new Container($this->container);
 
-        $actual = $container->has('filter');
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $container->has('filter')
+        );
     }
 }

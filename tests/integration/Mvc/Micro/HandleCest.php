@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
+use Phalcon\Mvc\Micro;
 
 /**
  * Class HandleCest
@@ -22,14 +23,38 @@ class HandleCest
     /**
      * Tests Phalcon\Mvc\Micro :: handle()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2019-04-17
      */
     public function mvcMicroHandle(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Micro - handle()');
-        $I->skipTest('Need implementation');
+
+        $micro = new Micro();
+
+        $micro->map(
+            '/test',
+            function () {
+                return 'this is a test';
+            }
+        );
+
+        $micro->map(
+            '/hello/{name}',
+            function ($name) {
+                return 'Hi ' . ucfirst($name) . '!';
+            }
+        );
+
+
+        $I->assertEquals(
+            'this is a test',
+            $micro->handle('/test')
+        );
+
+        $I->assertEquals(
+            'Hi Sid!',
+            $micro->handle('/hello/sid')
+        );
     }
 }

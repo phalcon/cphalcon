@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Uniqueness :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorUniquenessSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Uniqueness - setOption()');
+
         $validator = new Uniqueness();
+
         $this->checkSetOption($I, $validator);
     }
 }

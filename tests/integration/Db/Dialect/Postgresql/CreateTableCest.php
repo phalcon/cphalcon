@@ -25,8 +25,6 @@ class CreateTableCest
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: createTable()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
      */
@@ -45,9 +43,7 @@ class CreateTableCest
         }
     }
 
-    /**
-     * @return array
-     */
+
     protected function getCreateTableFixtures(): array
     {
         return [
@@ -67,7 +63,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example1.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example1.sql'))),
             ],
             'example2' => [
                 '',
@@ -95,7 +91,7 @@ class CreateTableCest
                         new Index('PRIMARY', ['column3']),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example2.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example2.sql'))),
             ],
             'example3' => [
                 '',
@@ -131,7 +127,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example3.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example3.sql'))),
             ],
             'example4' => [
                 '',
@@ -151,7 +147,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example4.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example4.sql'))),
             ],
             'example5' => [
                 '',
@@ -178,7 +174,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example5.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example5.sql'))),
             ],
             'example6' => [
                 '',
@@ -203,19 +199,19 @@ class CreateTableCest
                         ]),
                         new Column('column17', [
                             'type'    => Column::TYPE_BOOLEAN,
-                            'default' => "false",
+                            'default' => 'false',
                             'notNull' => true,
                             'after'   => 'track_id',
                         ]),
                         new Column('column18', [
                             'type'    => Column::TYPE_BOOLEAN,
-                            'default' => "true",
+                            'default' => 'true',
                             'notNull' => true,
                             'after'   => 'like',
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example6.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example6.sql'))),
             ],
         ];
     }

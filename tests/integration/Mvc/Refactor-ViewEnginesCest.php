@@ -17,6 +17,7 @@
 
 namespace Phalcon\Test\Integration\Mvc;
 
+use function dataDir;
 use IntegrationTester;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
@@ -24,7 +25,6 @@ use Phalcon\Test\Fixtures\Mvc\View\Engine\Mustache;
 use Phalcon\Test\Fixtures\Mvc\View\Engine\Twig;
 use Phalcon\Test\Fixtures\Mvc\View\IteratorObject;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function dataFolder;
 
 class ViewEnginesCest
 {
@@ -72,7 +72,7 @@ class ViewEnginesCest
 
             $actual = $view->getContent();
             $I->assertEquals($expected, $actual);
-            $I->safeDeleteFile(dataFolder('fixtures/views/builtinfunction/index.volt.php'));
+            $I->safeDeleteFile(dataDir('fixtures/views/builtinfunction/index.volt.php'));
         }
     }
 
@@ -146,11 +146,6 @@ class ViewEnginesCest
 
     /**
      * Set params and check expected data after render view
-     *
-     * @param IntegrationTester $I
-     * @param string            $errorMessage
-     * @param array             $params
-     * @param View              $view
      */
     private function setParamAndCheckData(IntegrationTester $I, string $errorMessage, array $params, View $view)
     {

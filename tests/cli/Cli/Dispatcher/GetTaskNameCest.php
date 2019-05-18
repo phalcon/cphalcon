@@ -14,15 +14,10 @@ namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
 
-/**
- * Class GetTaskNameCest
- */
 class GetTaskNameCest
 {
     /**
      * Tests Phalcon\Cli\Dispatcher :: getTaskName()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

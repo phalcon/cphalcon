@@ -14,11 +14,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 
 use RuntimeException;
 
-/**
- * Trait CookieTrait
- *
- * @package Phalcon\Test\Fixtures\Traits
- */
 trait CookieTrait
 {
     /**
@@ -29,7 +24,7 @@ trait CookieTrait
      *
      * @link  http://tools.ietf.org/html/rfc6265#section-4.1.1
      *
-     * @param  string $name
+     * @param string $name
      *
      * @return string|array|null
      *
@@ -53,8 +48,23 @@ trait CookieTrait
 
         foreach ($headers as $header) {
             if (strpos($header, 'Set-Cookie: ') === 0) {
-                $value = str_replace('&', urlencode('&'), substr($header, 12));
-                parse_str(current(explode(';', $value, 1)), $pair);
+                $value = str_replace(
+                    '&',
+                    urlencode('&'),
+                    substr($header, 12)
+                );
+
+                parse_str(
+                    current(
+                        explode(
+                            ';',
+                            $value,
+                            1
+                        )
+                    ),
+                    $pair
+                );
+
                 $cookies = array_merge_recursive($cookies, $pair);
             }
         }

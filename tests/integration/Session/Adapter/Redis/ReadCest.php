@@ -17,17 +17,11 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 use function uniqid;
 
-/**
- * Class ReadCest
- */
 class ReadCest
 {
     use DiTrait;
     use SessionTrait;
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function _before(IntegrationTester $I)
     {
         $this->newFactoryDefault();
@@ -35,8 +29,6 @@ class ReadCest
 
     /**
      * Tests Phalcon\Session\Adapter\Redis :: write()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -47,11 +39,11 @@ class ReadCest
         $adapter = $this->getSessionRedis();
         $value   = uniqid();
 
-        $I->haveInRedis('string', 'test1', $value);
+        $I->haveInRedis('string', 'sess-reds-test1', $value);
 
         $expected = $value;
         $actual   = $adapter->read('test1');
         $I->assertEquals($expected, $actual);
-        $I->sendCommandToRedis('del', 'test1');
+        $I->sendCommandToRedis('del', 'sess-reds-test1');
     }
 }

@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Acl\Component;
 use Phalcon\Acl\Component;
 use UnitTester;
 
-/**
- * Class ToStringCest
- */
 class ToStringCest
 {
     /**
      * Tests Phalcon\Acl\Component :: __toString()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,14 +26,17 @@ class ToStringCest
     public function aclComponentToString(UnitTester $I)
     {
         $I->wantToTest('Acl\Component - __toString()');
+
         $component = new Component('Customers');
 
-        $expected = 'Customers';
-        $actual   = $component->__toString();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Customers',
+            $component->__toString()
+        );
 
-        $expected = 'Customers';
-        $actual   = (string) $component;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Customers',
+            (string) $component
+        );
     }
 }

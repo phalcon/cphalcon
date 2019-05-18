@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Cookie;
 
 use UnitTester;
 
-/**
- * Class UseEncryptionCest
- */
 class UseEncryptionCest
 {
     /**
      * Tests Phalcon\Http\Cookie :: useEncryption()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class UseEncryptionCest
     public function httpCookieUseEncryption(UnitTester $I)
     {
         $I->wantToTest('Http\Cookie - useEncryption()');
+
         $I->skipTest('Need implementation');
     }
 }

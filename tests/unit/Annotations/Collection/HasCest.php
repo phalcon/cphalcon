@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Annotations\Collection;
 
 use UnitTester;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     /**
      * Tests Phalcon\Annotations\Collection :: has()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class HasCest
     public function annotationsCollectionHas(UnitTester $I)
     {
         $I->wantToTest('Annotations\Collection - has()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\Jsmin;
 use UnitTester;
 
-/**
- * Class FilterCest
- */
 class FilterCest
 {
     /**
      * Tests Phalcon\Assets\Filters\Jsmin :: filter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
@@ -42,8 +37,6 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Jsmin :: filter() - spaces
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
@@ -61,8 +54,6 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Jsmin :: filter() - tabs
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
@@ -79,8 +70,6 @@ class FilterCest
 
     /**
      * Tests Phalcon\Assets\Filters\Jsmin :: filter() - tabs comment
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
@@ -100,8 +89,6 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Jsmin :: filter() - tabs newlines
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
@@ -119,8 +106,6 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Jsmin :: filter() - empty
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24
      */
@@ -136,8 +121,6 @@ class FilterCest
 
     /**
      * Tests Phalcon\Assets\Filters\Jsmin :: filter() - comment
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-01-24

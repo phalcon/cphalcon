@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Controller;
 
 use UnitTester;
 
-/**
- * Class UnderscoreGetCest
- */
 class UnderscoreGetCest
 {
     /**
      * Tests Phalcon\Mvc\Controller :: __get()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class UnderscoreGetCest
     public function mvcControllerUnderscoreGet(UnitTester $I)
     {
         $I->wantToTest('Mvc\Controller - __get()');
+
         $I->skipTest('Need implementation');
     }
 }

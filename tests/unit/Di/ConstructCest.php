@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Di :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ConstructCest
     public function diConstruct(UnitTester $I)
     {
         $I->wantToTest('Di - __construct()');
+
         $I->skipTest('Need implementation');
     }
 }

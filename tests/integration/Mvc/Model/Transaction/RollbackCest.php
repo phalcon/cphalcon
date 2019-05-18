@@ -12,24 +12,148 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\Transaction;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Mvc\Model\Transaction\Failed;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Personas;
 
 /**
  * Class RollbackCest
  */
 class RollbackCest
 {
+    use DiTrait;
+
+    private $records = [];
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->records = [];
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $db = $this->container->get('db');
+
+        foreach ($this->records as $record) {
+            $db->execute("DELETE FROM personas WHERE personas.cedula = '" . $record . "'");
+        }
+
+        $this->records = [];
+    }
+
     /**
      * Tests Phalcon\Mvc\Model\Transaction :: rollback()
      *
-     * @param IntegrationTester $I
+     * @dataProvider getFunctions
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcModelTransactionRollback(IntegrationTester $I)
+    public function mvcModelTransactionRollback(IntegrationTester $I, Example $function)
     {
         $I->wantToTest('Mvc\Model\Transaction - rollback()');
-        $I->skipTest('Need implementation');
+
+        $method = $function[0];
+        $this->$method();
+
+        $tm = $this->container->getShared('transactionManager');
+
+        $count = Personas::count();
+        $transaction = $tm->get();
+
+        for ($i = 0; $i < 10; $i++) {
+            $persona = new Personas();
+            $persona->setTransaction($transaction);
+            $persona->cedula            = 'T-Cx' . $i;
+            $persona->tipo_documento_id = 1;
+            $persona->nombres           = 'LOST LOST';
+            $persona->telefono          = '2';
+            $persona->cupo              = 0;
+            $persona->estado            = 'A';
+
+            $result = $persona->save();
+
+            $this->records[] = $persona->cedula;
+            $I->assertTrue($result);
+        }
+
+        $transaction->rollback();
+
+        $I->assertEquals(
+            $count,
+            Personas::count()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Transaction :: rollback() - exception
+     *
+     * @dataProvider getFunctions
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function mvcModelTransactionRollbackException(IntegrationTester $I, Example $function)
+    {
+        $I->wantToTest('Mvc\Model\Transaction - rollback() - exception');
+
+        $method = $function[0];
+        $this->$method();
+
+        $tm = $this->container->getShared('transactionManager');
+
+        $count = Personas::count();
+        $transaction = $tm
+            ->get()
+            ->throwRollbackException(true)
+        ;
+
+        for ($i = 0; $i < 10; $i++) {
+            $persona = new Personas();
+            $persona->setTransaction($transaction);
+            $persona->cedula            = 'T-Cx' . $i;
+            $persona->tipo_documento_id = 1;
+            $persona->nombres           = 'LOST LOST';
+            $persona->telefono          = '2';
+            $persona->cupo              = 0;
+            $persona->estado            = 'A';
+
+            $result = $persona->save();
+
+            $this->records[] = $persona->cedula;
+
+            $I->assertTrue($result);
+        }
+
+        try {
+            $transaction->rollback();
+
+            $I->assertTrue(
+                false,
+                "The transaction's rollback didn't throw an expected exception. Emergency stop"
+            );
+        } catch (Failed $e) {
+            $I->assertEquals(
+                'Transaction aborted',
+                $e->getMessage()
+            );
+        }
+
+        $I->assertEquals(
+            $count,
+            Personas::count()
+        );
+    }
+
+
+    private function getFunctions(): array
+    {
+        return [
+            ['setDiMysql'],
+            ['setDiPostgresql'],
+        ];
     }
 }

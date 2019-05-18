@@ -14,15 +14,10 @@ namespace Phalcon\Test\Cli\Cli\Task;
 
 use CliTester;
 
-/**
- * Class GetDICest
- */
 class GetDICest
 {
     /**
      * Tests Phalcon\Cli\Task :: getDI()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetDICest
     public function cliTaskGetDI(CliTester $I)
     {
         $I->wantToTest('Cli\Task - getDI()');
+
         $I->skipTest('Need implementation');
     }
 }

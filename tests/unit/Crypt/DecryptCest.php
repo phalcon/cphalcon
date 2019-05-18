@@ -14,11 +14,9 @@ namespace Phalcon\Test\Unit\Crypt;
 
 use Phalcon\Crypt;
 use Phalcon\Crypt\Exception;
+use Phalcon\Crypt\Mismatch;
 use UnitTester;
 
-/**
- * Class DecryptCest
- */
 class DecryptCest
 {
     /**
@@ -30,7 +28,10 @@ class DecryptCest
      */
     public function shouldNotThrowExceptionIfKeyMismatch(UnitTester $I)
     {
-        $I->wantToTest('Crypt - decrypt() not throwing Exception on key mismatch');
+        $I->wantToTest(
+            'Crypt - decrypt() not throwing Exception on key mismatch'
+        );
+
         $crypt = new Crypt();
 
         $actual = $crypt->decrypt(
@@ -48,7 +49,7 @@ class DecryptCest
      * @author                   <k@yejune.com>
      * @since                    2018-05-16
      *
-     * @expectedException        \Phalcon\Crypt\Mismatch
+     * @expectedException        Mismatch
      * @expectedExceptionMessage Hash does not match.
      */
     public function shouldThrowExceptionIfHashMismatch(UnitTester $I)
@@ -57,6 +58,7 @@ class DecryptCest
             Exception::class,
             function () {
                 $crypt = new Crypt();
+
                 $crypt->useSigning(true);
 
                 $crypt->decrypt(
@@ -77,6 +79,7 @@ class DecryptCest
     public function shouldDecryptSignedString(UnitTester $I)
     {
         $crypt = new Crypt();
+
         $crypt->useSigning(true);
 
         $key = 'secret';

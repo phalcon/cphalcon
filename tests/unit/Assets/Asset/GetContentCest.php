@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Assets\Asset;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
-/**
- * Class GetContentCest
- */
 class GetContentCest
 {
     /**
      * Tests Phalcon\Assets\Asset :: getContent()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,17 +26,17 @@ class GetContentCest
     public function assetsAssetGetContentCss(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getContent()');
+
         $asset = new Asset('css', 'assets/assets/1198.css');
 
-        $expected = file_get_contents(dataFolder('assets/assets/1198.css'));
-        $actual   = $asset->getContent(dataFolder());
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            file_get_contents(dataDir('assets/assets/1198.css')),
+            $asset->getContent(dataDir())
+        );
     }
 
     /**
      * Tests Phalcon\Assets\Asset :: getContent()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -49,10 +44,12 @@ class GetContentCest
     public function assetsAssetGetContentJs(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getContent()');
+
         $asset = new Asset('js', 'assets/assets/signup.js');
 
-        $expected = file_get_contents(dataFolder('assets/assets/signup.js'));
-        $actual   = $asset->getContent(dataFolder());
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            file_get_contents(dataDir('assets/assets/signup.js')),
+            $asset->getContent(dataDir())
+        );
     }
 }

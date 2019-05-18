@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
-/**
- * Class CurrentCest
- */
 class CurrentCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: current()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class CurrentCest
     public function assetsCollectionCurrent(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - current()');
+
         $I->skipTest('Need implementation');
     }
 }

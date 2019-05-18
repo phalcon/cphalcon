@@ -13,16 +13,25 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
+use function ob_end_clean;
+use function ob_start;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
  * Class PartialCest
  */
 class PartialCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newDi();
+        $this->setDiViewSimple();
+    }
+
     /**
      * Tests Phalcon\Mvc\View\Simple :: partial()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +39,22 @@ class PartialCest
     public function mvcViewSimplePartial(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\View\Simple - partial()');
-        $I->skipTest('Need implementation');
+
+        ob_start();
+
+        $view = $this->container->get('viewSimple');
+
+        $expectedParams = [
+            'cool_var' => 'FooBar',
+        ];
+
+        $view->partial('partials/partial', $expectedParams);
+
+        $I->assertEquals(
+            'Hey, this is a partial, also FooBar',
+            $view->getContent()
+        );
+
+        ob_end_clean();
     }
 }

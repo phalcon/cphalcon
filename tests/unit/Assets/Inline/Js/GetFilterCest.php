@@ -16,17 +16,12 @@ use Phalcon\Assets\Inline\Js;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetFilterCest
- */
 class GetFilterCest
 {
     use AssetsTrait;
 
     /**
      * Tests Phalcon\Assets\Inline :: getFilter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

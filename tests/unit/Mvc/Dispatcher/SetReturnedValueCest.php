@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Mvc\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class SetReturnedValueCest
- */
 class SetReturnedValueCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: setReturnedValue()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetReturnedValueCest
     public function mvcDispatcherSetReturnedValue(UnitTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - setReturnedValue()');
+
         $I->skipTest('Need implementation');
     }
 }

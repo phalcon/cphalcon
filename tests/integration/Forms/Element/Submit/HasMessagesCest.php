@@ -22,8 +22,6 @@ class HasMessagesCest
     /**
      * Tests Phalcon\Forms\Element\Submit :: hasMessages()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

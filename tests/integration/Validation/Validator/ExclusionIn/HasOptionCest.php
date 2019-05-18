@@ -26,15 +26,19 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator\ExclusionIn :: hasOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorExclusionInHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\ExclusionIn - hasOption()');
-        $validator = new ExclusionIn(['message' => 'This is a message']);
+
+        $validator = new ExclusionIn(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

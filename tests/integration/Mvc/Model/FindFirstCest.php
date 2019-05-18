@@ -15,7 +15,9 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\RobotsExtended;
 
 /**
  * Class FindFirstCest
@@ -26,8 +28,6 @@ class FindFirstCest
 
     /**
      * Tests Phalcon\Mvc\Model :: findFirst()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -53,9 +53,64 @@ class FindFirstCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: findFirst() - exception
+     * Tests Phalcon\Mvc\Model :: findFirst() - not found
      *
-     * @param IntegrationTester $I
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function mvcModelFindFirstNotFound(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model - findFirst() - not found');
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+
+        $robot = Robots::findFirst(
+            [
+                'conditions' => 'id < 0',
+            ]
+        );
+        $I->assertNull($robot);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: findFirstBy() - not found
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function mvcModelFindFirstByNotFound(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model - findFirstBy() - not found');
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+
+        $robot = Customers::findFirstByEmail('unknown');
+        $I->assertNull($robot);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: findFirst() - extended
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function mvcModelFindFirstExtended(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model - findFirst() - extended');
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+
+        $robot = RobotsExtended::findFirst(1);
+        $class = RobotsExtended::class;
+        $I->assertInstanceOf($class, $robot);
+        $I->assertEquals(1, $robot->id);
+
+        $robot = RobotsExtended::findFirst(0);
+        $I->assertNull($robot);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: findFirst() - exception
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -67,7 +122,7 @@ class FindFirstCest
         $this->setDiMysql();
 
         $I->expectThrowable(
-            new Exception("Parameters passed must be of type array, string, numeric or null"),
+            new Exception('Parameters passed must be of type array, string, numeric or null'),
             function () {
                 Robots::findFirst(false);
             }

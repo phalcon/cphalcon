@@ -2,13 +2,11 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use function cacheDir;
 use IntegrationTester;
-use Phalcon\Cache\Backend\File;
-use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Cacheable\Parts;
 use Phalcon\Test\Models\Cacheable\Robots;
-use function cacheFolder;
 
 class ModelsResultsetCacheStaticCest
 {
@@ -17,22 +15,13 @@ class ModelsResultsetCacheStaticCest
     public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
-        $I->cleanDir(cacheFolder());
+        $I->cleanDir(cacheDir());
     }
 
     public function testOverrideStaticCache(IntegrationTester $I)
     {
         $this->setDiMysql();
-
-        $this->container['modelsCache'] = function () {
-            $frontCache = new Data();
-            return new File(
-                $frontCache,
-                [
-                    'cacheDir' => cacheFolder(),
-                ]
-            );
-        };
+        $this->getAndSetModelsCacheStream();
 
         $robot = Robots::findFirst(2);
         $I->assertInstanceOf(Robots::class, $robot);

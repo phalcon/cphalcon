@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
 use UnitTester;
 
-/**
- * Class PathCest
- */
 class PathCest
 {
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: path()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class PathCest
     public function configAdapterGroupedPath(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Grouped - path()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -22,14 +22,13 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\InclusionIn :: validate()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorInclusioninValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\InclusionIn - validate()');
+
         $I->skipTest('Need implementation');
     }
 }

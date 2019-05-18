@@ -26,15 +26,15 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\CreditCard :: getOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorCreditCardGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\CreditCard - getOption()');
+
         $validator = new CreditCard();
+
         $this->checkGetOption($I, $validator);
     }
 }

@@ -30,11 +30,14 @@ class PhalconOrmDestroyCacheOptimizer extends OptimizerAbstract
      */
     public function optimize(array $expression, Call $call, CompilationContext $context)
     {
-
         $context->headersManager->add('phalcon/mvc/model/orm');
 
         $context->codePrinter->output('phalcon_orm_destroy_cache(TSRMLS_C);');
 
-        return new CompiledExpression('null', null, $expression);
+        return new CompiledExpression(
+            'null',
+            null,
+            $expression
+        );
     }
 }

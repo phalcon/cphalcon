@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class IsFirstCest
- */
 class IsFirstCest
 {
     use DiTrait;
@@ -27,18 +24,21 @@ class IsFirstCest
     /**
      * Tests Phalcon\Db\Column :: isFirst()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbColumnIsFirst(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - isFirst()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['_first'], $column->isFirst());
+            $I->assertEquals(
+                $columns[$index]['first'],
+                $column->isFirst()
+            );
         }
     }
 }

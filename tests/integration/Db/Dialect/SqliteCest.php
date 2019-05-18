@@ -26,8 +26,6 @@ class SqliteCest extends DialectBase
 
     /**
      * Tests Dialect::modifyColumn
-     *
-     * @param IntegrationTester $I
      */
     public function testModifyColumn(IntegrationTester $I)
     {
@@ -38,8 +36,6 @@ class SqliteCest extends DialectBase
 
     /**
      * Tests Dialect::modifyColumn
-     *
-     * @param IntegrationTester $I
      */
     public function testModifyColumn13012(IntegrationTester $I)
     {
@@ -48,9 +44,6 @@ class SqliteCest extends DialectBase
          */
     }
 
-    /**
-     * @return array
-     */
     protected function getAddColumnFixtures(): array
     {
         return [
@@ -237,18 +230,12 @@ class SqliteCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getAddForeignKeyFixtures(): array
     {
         return [];
     }
 
-    /**
-     * @return array
-     */
-    protected function getAddIndexFixtures()
+    protected function getAddIndexFixtures(): array
     {
         return [
             ['', 'index1', 'CREATE INDEX "index1" ON "table" ("column1")'],
@@ -258,17 +245,11 @@ class SqliteCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getAddPrimaryKeyFixtures(): array
     {
         return [];
     }
 
-    /**
-     * @return array
-     */
     protected function getColumnDefinitionFixtures(): array
     {
         return [
@@ -293,9 +274,6 @@ class SqliteCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getColumnListFixtures(): array
     {
         return [
@@ -310,9 +288,6 @@ class SqliteCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getCreateTableFixtures(): array
     {
         return [
@@ -332,7 +307,7 @@ class SqliteCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example1.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example1.sql'))),
             ],
             'example2' => [
                 '',
@@ -360,7 +335,7 @@ class SqliteCest extends DialectBase
                         new Index('PRIMARY', ['column3']),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example2.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example2.sql'))),
             ],
             'example3' => [
                 '',
@@ -396,7 +371,7 @@ class SqliteCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example3.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example3.sql'))),
             ],
             'example4' => [
                 '',
@@ -416,7 +391,7 @@ class SqliteCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example4.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example4.sql'))),
             ],
             'example5' => [
                 '',
@@ -436,7 +411,7 @@ class SqliteCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example5.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example5.sql'))),
             ],
             'example6' => [
                 '',
@@ -452,7 +427,7 @@ class SqliteCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example6.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example6.sql'))),
             ],
             'example7' => [
                 '',
@@ -463,7 +438,7 @@ class SqliteCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example7.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example7.sql'))),
             ],
             'example8' => [
                 '',
@@ -478,22 +453,16 @@ class SqliteCest extends DialectBase
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example8.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example8.sql'))),
             ],
         ];
     }
 
-    /**
-     * @return string
-     */
     protected function getCreateSavepointSql(): string
     {
         return 'SAVEPOINT PH_SAVEPOINT_1';
     }
 
-    /**
-     * @return array
-     */
     protected function getCreateViewFixtures(): array
     {
         return [
@@ -502,9 +471,6 @@ class SqliteCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getDescribeColumnsFixtures(): array
     {
         return [
@@ -514,10 +480,7 @@ class SqliteCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function getDescribeReferencesFixtures()
+    protected function getDescribeReferencesFixtures(): array
     {
         return [
             ['', "PRAGMA foreign_key_list('table')"],
@@ -525,26 +488,17 @@ class SqliteCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getDropColumnFixtures(): array
     {
         return [];
     }
 
-    /**
-     * @return array
-     */
     protected function getDropForeignKeyFixtures(): array
     {
         return [];
     }
 
-    /**
-     * @return array
-     */
-    protected function getDropIndexFixtures()
+    protected function getDropIndexFixtures(): array
     {
         return [
             ['', 'index1', 'DROP INDEX "index1"'],
@@ -552,17 +506,11 @@ class SqliteCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getDropPrimaryKeyFixtures(): array
     {
         return [];
     }
 
-    /**
-     * @return array
-     */
     protected function getDropTableFixtures(): array
     {
         return [
@@ -573,9 +521,6 @@ class SqliteCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getDropViewFixtures(): array
     {
         return [
@@ -586,9 +531,6 @@ class SqliteCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getListViewFixtures(): array
     {
         return [
@@ -597,17 +539,11 @@ class SqliteCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getModifyColumnFixtures(): array
     {
         return [];
     }
 
-    /**
-     * @return array
-     */
     protected function getModifyColumnFixtures13012(): array
     {
         return [
@@ -616,41 +552,26 @@ class SqliteCest extends DialectBase
         ];
     }
 
-    /**
-     * @return string
-     */
     protected function getModifyColumnSql(): string
     {
         return '';
     }
 
-    /**
-     * @return string
-     */
     protected function getReleaseSavepointSql(): string
     {
         return 'RELEASE SAVEPOINT PH_SAVEPOINT_1';
     }
 
-    /**
-     * @return string
-     */
     protected function getRollbackSavepointSql(): string
     {
         return 'ROLLBACK TO SAVEPOINT PH_SAVEPOINT_1';
     }
 
-    /**
-     * @return array
-     */
     protected function getTableExistsFixtures(): array
     {
         return [];
     }
 
-    /**
-     * @return array
-     */
     protected function getTruncateTableFixtures(): array
     {
         return [
@@ -659,20 +580,17 @@ class SqliteCest extends DialectBase
         ];
     }
 
-    /**
-     * @return array
-     */
     protected function getViewExistsFixtures(): array
     {
         return [
             [
                 null,
-                "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END " .
+                'SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END ' .
                 "FROM sqlite_master WHERE type='view' AND tbl_name='view'",
             ],
             [
                 'schema',
-                "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END " .
+                'SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END ' .
                 "FROM sqlite_master WHERE type='view' AND tbl_name='view'",
             ],
         ];

@@ -14,24 +14,20 @@ namespace Phalcon\Test\Unit\Debug\Dump;
 
 use Phalcon\Debug\Dump;
 use Phalcon\Test\Fixtures\Dump\ClassProperties;
+use ReflectionException;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Debug\Dump :: __construct() - dump properties
      *
-     * @param UnitTester $I
-     *
      * @issue  https://github.com/phalcon/cphalcon/issues/13315
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @throws ReflectionException
      * @since  2014-10-23
      *
-     * @throws \ReflectionException
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function debugDumpConstructDump(UnitTester $I)
     {
@@ -40,7 +36,7 @@ class ConstructCest
         $dump    = new Dump([], true);
 
         $actual   = $I->callProtectedMethod($dump, 'output', $patient);
-        $expected = file_get_contents(dataFolder('fixtures/Dump/class_properties.txt'));
+        $expected = file_get_contents(dataDir('fixtures/Dump/class_properties.txt'));
 
         // Test without HTML
         $actual = strip_tags($actual);

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Di;
 
 use UnitTester;
 
-/**
- * Class GetServiceCest
- */
 class GetServiceCest
 {
     /**
      * Tests Phalcon\Di :: getService()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetServiceCest
     public function diGetService(UnitTester $I)
     {
         $I->wantToTest('Di - getService()');
+
         $I->skipTest('Need implementation');
     }
 }

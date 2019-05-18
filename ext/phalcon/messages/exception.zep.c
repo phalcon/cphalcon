@@ -26,7 +26,6 @@
  * Phalcon\Validation\Exception
  *
  * Exceptions thrown in Phalcon\Messages\* classes will use this class
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Messages_Exception) {
 

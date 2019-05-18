@@ -16,17 +16,12 @@ use Phalcon\Assets\Inline;
 use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetAttributesCest
- */
 class GetAttributesCest
 {
     use AssetsTrait;
 
     /**
      * Tests Phalcon\Assets\Inline :: getAttributes() - css
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -44,8 +39,6 @@ class GetAttributesCest
 
     /**
      * Tests Phalcon\Assets\Inline :: getAttributes() - js
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

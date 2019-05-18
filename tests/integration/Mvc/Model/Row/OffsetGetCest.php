@@ -22,8 +22,6 @@ class OffsetGetCest
     /**
      * Tests Phalcon\Mvc\Model\Row :: offsetGet()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

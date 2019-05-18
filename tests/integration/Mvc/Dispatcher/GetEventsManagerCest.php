@@ -22,8 +22,6 @@ class GetEventsManagerCest
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getEventsManager()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

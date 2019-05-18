@@ -15,17 +15,10 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-/**
- * Class CountCest
- *
- * @package Phalcon\Test\Unit\Registry
- */
 class CountCest
 {
     /**
      * Tests Phalcon\Registry :: count()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -33,14 +26,23 @@ class CountCest
     public function registryCount(UnitTester $I)
     {
         $I->wantToTest('Registry - count()');
-        $registry = new Registry();
-        $registry->offsetSet('one', 1);
-        $registry->offsetSet('two', 2);
-        $registry->offsetSet('three', 3);
 
-        $expected = 3;
-        $actual   = $registry->count();
-        $I->assertEquals($expected, $actual);
-        $I->assertCount($expected, $registry);
+        $data = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+
+        $registry = new Registry($data);
+
+        $I->assertCount(
+            3,
+            $registry->toArray()
+        );
+
+        $I->assertEquals(
+            3,
+            $registry->count()
+        );
     }
 }

@@ -12,22 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Syslog;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
-/**
- * Class ProcessCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class ProcessCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Syslog :: process()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -35,13 +28,21 @@ class ProcessCest
     public function loggerAdapterSyslogProcess(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Syslog - process()');
-        $streamName = $I->getNewFileName('log', 'log');
-        $adapter    = new Syslog($streamName);
 
-        $item = new Item('Message 1', 'debug', Logger::DEBUG);
+        $streamName = $I->getNewFileName('log', 'log');
+
+        $adapter = new Syslog($streamName);
+
+        $item = new Item(
+            'Message 1',
+            'debug',
+            Logger::DEBUG
+        );
+
         $adapter->process($item);
 
-        $actual = $adapter->close();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->close()
+        );
     }
 }

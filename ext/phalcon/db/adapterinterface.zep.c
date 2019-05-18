@@ -54,7 +54,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, addForeignKey);
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, addPrimaryKey);
 
 /**
- * Returns the number of affected rows by the last INSERT/UPDATE/DELETE reported by the database system
+ * Returns the number of affected rows by the last INSERT/UPDATE/DELETE
+ * reported by the database system
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, affectedRows);
 
@@ -75,8 +76,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, close);
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, commit);
 
 /**
- * This method is automatically called in \Phalcon\Db\Adapter\Pdo constructor.
- * Call it when you need to restore a database connection
+ * This method is automatically called in \Phalcon\Db\Adapter\Pdo
+ * constructor. Call it when you need to restore a database connection
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, connect);
 
@@ -163,7 +164,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, escapeString);
 
 /**
  * Sends SQL statements to the database server returning the success state.
- * Use this method only when the SQL statement sent to the server doesn't return any rows
+ * Use this method only when the SQL statement sent to the server doesn't
+ * return any rows
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, execute);
 
@@ -214,7 +216,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getColumnDefinition);
 /**
  * Gets a list of columns
  *
- * @param	array columnList
+ * @param    array columnList
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getColumnList);
 
@@ -281,8 +283,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, getType);
 /**
  * Inserts data into a table using custom RDBMS SQL syntax
  *
- * @param 	array fields
- * @param 	array dataTypes
+ * @param     array fields
+ * @param     array dataTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, insert);
 
@@ -303,8 +305,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, insert);
  * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
  * </code>
  *
- * @param 	array data
- * @param 	array dataTypes
+ * @param     array data
+ * @param     array dataTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, insertAsDict);
 
@@ -319,7 +321,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, isNestedTransactionsWithSavepoint
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, isUnderTransaction);
 
 /**
- * Returns insert id for the auto_increment column inserted in the last SQL statement
+ * Returns insert id for the auto_increment column inserted in the last SQL
+ * statement
  *
  * @param string sequenceName
  * @return int
@@ -348,7 +351,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, modifyColumn);
 
 /**
  * Sends SQL statements to the database server returning the success state.
- * Use this method only when the SQL statement sent to the server return rows
+ * Use this method only when the SQL statement sent to the server returns
+ * rows
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, query);
 
@@ -378,7 +382,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, sharedLock);
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, setNestedTransactionsWithSavepoints);
 
 /**
- * Check whether the database system requires a sequence to produce auto-numeric values
+ * Check whether the database system requires a sequence to produce
+ * auto-numeric values
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, supportSequences);
 
@@ -395,10 +400,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, tableOptions);
 /**
  * Updates data on a table using custom RDBMS SQL syntax
  *
- * @param 	array fields
- * @param 	array values
- * @param 	string whereCondition
- * @param 	array dataTypes
+ * @param     array fields
+ * @param     array values
+ * @param     string whereCondition
+ * @param     array dataTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, update);
 
@@ -420,14 +425,15 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, update);
  * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
  * </code>
  *
- * @param 	array data
- * @param 	string whereCondition
- * @param 	array dataTypes
+ * @param     array data
+ * @param     string whereCondition
+ * @param     array dataTypes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, updateAsDict);
 
 /**
- * Check whether the database system requires an explicit value for identity columns
+ * Check whether the database system requires an explicit value for identity
+ * columns
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_AdapterInterface, useExplicitIdValue);
 

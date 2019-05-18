@@ -62,7 +62,7 @@ class ModelsCest
         $params = "estado='I'";
         $I->assertEquals(People::count($params), Personas::count($params));
 
-        $params = ["conditions" => "estado='I'"];
+        $params = ['conditions' => "estado='I'"];
         $I->assertEquals(People::count($params), Personas::count($params));
 
         //Find first
@@ -88,31 +88,31 @@ class ModelsCest
         $I->assertEquals($people->nombres, $persona->nombres);
         $I->assertEquals($people->estado, $persona->estado);
 
-        $params  = ["conditions" => "estado='I'"];
+        $params  = ['conditions' => "estado='I'"];
         $people  = People::findFirst($params);
         $persona = Personas::findFirst($params);
         $I->assertEquals($people->nombres, $persona->nombres);
         $I->assertEquals($people->estado, $persona->estado);
 
-        $params  = ["conditions" => "estado='A'", "order" => "nombres"];
+        $params  = ['conditions' => "estado='A'", 'order' => 'nombres'];
         $people  = People::findFirst($params);
         $persona = Personas::findFirst($params);
         $I->assertEquals($people->nombres, $persona->nombres);
         $I->assertEquals($people->estado, $persona->estado);
 
-        $params  = ["estado='A'", "order" => "nombres DESC", "limit" => 30];
+        $params  = ["estado='A'", 'order' => 'nombres DESC', 'limit' => 30];
         $people  = People::findFirst($params);
         $persona = Personas::findFirst($params);
         $I->assertEquals($people->nombres, $persona->nombres);
         $I->assertEquals($people->estado, $persona->estado);
 
-        $params  = ["estado=?1", "bind" => [1 => 'A'], "order" => "nombres DESC", "limit" => 30];
+        $params  = ['estado=?1', 'bind' => [1 => 'A'], 'order' => 'nombres DESC', 'limit' => 30];
         $people  = People::findFirst($params);
         $persona = Personas::findFirst($params);
         $I->assertEquals($people->nombres, $persona->nombres);
         $I->assertEquals($people->estado, $persona->estado);
 
-        $params  = ["estado=:estado:", "bind" => ["estado" => 'A'], "order" => "nombres DESC", "limit" => 30];
+        $params  = ['estado=:estado:', 'bind' => ['estado' => 'A'], 'order' => 'nombres DESC', 'limit' => 30];
         $people  = People::findFirst($params);
         $persona = Personas::findFirst($params);
         $I->assertEquals($people->nombres, $persona->nombres);
@@ -134,26 +134,26 @@ class ModelsCest
         $people   = People::find(["estado='I'"]);
         $I->assertCount(count($personas), $people);
 
-        $personas = Personas::find(["estado='A'", "order" => "nombres"]);
-        $people   = People::find(["estado='A'", "order" => "nombres"]);
+        $personas = Personas::find(["estado='A'", 'order' => 'nombres']);
+        $people   = People::find(["estado='A'", 'order' => 'nombres']);
         $I->assertCount(count($personas), $people);
 
-        $personas = Personas::find(["estado='A'", "order" => "nombres", "limit" => 100]);
-        $people   = People::find(["estado='A'", "order" => "nombres", "limit" => 100]);
+        $personas = Personas::find(["estado='A'", 'order' => 'nombres', 'limit' => 100]);
+        $people   = People::find(["estado='A'", 'order' => 'nombres', 'limit' => 100]);
         $I->assertCount(count($personas), $people);
 
-        $params   = ["estado=?1", "bind" => [1 => "A"], "order" => "nombres", "limit" => 100];
+        $params   = ['estado=?1', 'bind' => [1 => 'A'], 'order' => 'nombres', 'limit' => 100];
         $personas = Personas::find($params);
         $people   = People::find($params);
         $I->assertCount(count($personas), $people);
 
-        $params   = ["estado=:estado:", "bind" => ["estado" => "A"], "order" => "nombres", "limit" => 100];
+        $params   = ['estado=:estado:', 'bind' => ['estado' => 'A'], 'order' => 'nombres', 'limit' => 100];
         $personas = Personas::find($params);
         $people   = People::find($params);
         $I->assertCount(count($personas), $people);
 
         $number  = 0;
-        $peoples = Personas::find(["conditions" => "estado='A'", "order" => "nombres", "limit" => 20]);
+        $peoples = Personas::find(['conditions' => "estado='A'", 'order' => 'nombres', 'limit' => 20]);
         foreach ($peoples as $people) {
             $number++;
         }
@@ -172,21 +172,21 @@ class ModelsCest
                 '_message'  => 'tipo_documento_id is required',
                 '_field'    => 'tipo_documento_id',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
             1 => ModelMessage::__set_state([
                 '_type'     => 'PresenceOf',
                 '_message'  => 'cupo is required',
                 '_field'    => 'cupo',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
             2 => ModelMessage::__set_state([
                 '_type'     => 'PresenceOf',
                 '_message'  => 'estado is required',
                 '_field'    => 'estado',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ];
         $I->assertEquals($persona->getMessages(), $messages);
@@ -262,10 +262,10 @@ class ModelsCest
         $I->assertTrue($persona->create());
 
         //Grouping
-        $difEstados = People::count(["distinct" => "estado"]);
+        $difEstados = People::count(['distinct' => 'estado']);
         $I->assertEquals($difEstados, 3);
 
-        $group = People::count(["group" => "estado"]);
+        $group = People::count(['group' => 'estado']);
         $I->assertCount(3, $group);
 
         //Deleting
@@ -363,8 +363,8 @@ class ModelsCest
     private function prepareDb()
     {
         $db = $this->container->get('db');
-        $db->delete("personas", "estado='X'");
-        $db->delete("personas", "cedula LIKE 'CELL%'");
+        $db->delete('personas', "estado='X'");
+        $db->delete('personas', "cedula LIKE 'CELL%'");
     }
 
     private function executeTestsRenamed(IntegrationTester $I)
@@ -380,7 +380,7 @@ class ModelsCest
         $params = "status='I'";
         $I->assertGreaterThan(0, Personers::count($params));
 
-        $params = ["conditions" => "status='I'"];
+        $params = ['conditions' => "status='I'"];
         $I->assertGreaterThan(0, Personers::count($params));
 
         //Find first
@@ -400,31 +400,31 @@ class ModelsCest
         $I->assertTrue(isset($personer->navnes));
         $I->assertTrue(isset($personer->status));
 
-        $params   = ["conditions" => "status='I'"];
+        $params   = ['conditions' => "status='I'"];
         $personer = Personers::findFirst($params);
         $I->assertInternalType('object', $personer);
         $I->assertTrue(isset($personer->navnes));
         $I->assertTrue(isset($personer->status));
 
-        $params   = ["conditions" => "status='A'", "order" => "navnes"];
+        $params   = ['conditions' => "status='A'", 'order' => 'navnes'];
         $personer = Personers::findFirst($params);
         $I->assertInternalType('object', $personer);
         $I->assertTrue(isset($personer->navnes));
         $I->assertTrue(isset($personer->status));
 
-        $params   = ["status='A'", "order" => "navnes DESC", "limit" => 30];
+        $params   = ["status='A'", 'order' => 'navnes DESC', 'limit' => 30];
         $personer = Personers::findFirst($params);
         $I->assertInternalType('object', $personer);
         $I->assertTrue(isset($personer->navnes));
         $I->assertTrue(isset($personer->status));
 
-        $params   = ["status=?1", "bind" => [1 => 'A'], "order" => "navnes DESC", "limit" => 30];
+        $params   = ['status=?1', 'bind' => [1 => 'A'], 'order' => 'navnes DESC', 'limit' => 30];
         $personer = Personers::findFirst($params);
         $I->assertInternalType('object', $personer);
         $I->assertTrue(isset($personer->navnes));
         $I->assertTrue(isset($personer->status));
 
-        $params   = ["status=:status:", "bind" => ["status" => 'A'], "order" => "navnes DESC", "limit" => 30];
+        $params   = ['status=:status:', 'bind' => ['status' => 'A'], 'order' => 'navnes DESC', 'limit' => 30];
         $personer = Personers::findFirst($params);
         $I->assertInternalType('object', $personer);
         $I->assertTrue(isset($personer->navnes));
@@ -443,24 +443,24 @@ class ModelsCest
         $personers = Personers::find(["status='I'"]);
         $I->assertGreaterThan(0, count($personers));
 
-        $personers = Personers::find(["status='I'", "order" => "navnes"]);
+        $personers = Personers::find(["status='I'", 'order' => 'navnes']);
         $I->assertGreaterThan(0, count($personers));
 
-        $params    = ["status='I'", "order" => "navnes", "limit" => 100];
+        $params    = ["status='I'", 'order' => 'navnes', 'limit' => 100];
         $personers = Personers::find($params);
         $I->assertGreaterThan(0, count($personers));
 
-        $params    = ["status=?1", "bind" => [1 => "A"], "order" => "navnes", "limit" => 100];
+        $params    = ['status=?1', 'bind' => [1 => 'A'], 'order' => 'navnes', 'limit' => 100];
         $personers = Personers::find($params);
         $I->assertGreaterThan(0, count($personers));
 
-        $params    = ["status=:status:", "bind" => ['status' => "A"], "order" => "navnes", "limit" => 100];
+        $params    = ['status=:status:', 'bind' => ['status' => 'A'], 'order' => 'navnes', 'limit' => 100];
         $personers = Personers::find($params);
         $I->assertGreaterThan(0, count($personers));
 
         //Traverse the cursor
         $number    = 0;
-        $personers = Personers::find(["conditions" => "status='A'", "order" => "navnes", "limit" => 20]);
+        $personers = Personers::find(['conditions' => "status='A'", 'order' => 'navnes', 'limit' => 20]);
         foreach ($personers as $personer) {
             $number++;
         }
@@ -479,21 +479,21 @@ class ModelsCest
                 '_message'  => 'slagBorgerId is required',
                 '_field'    => 'slagBorgerId',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
             1 => ModelMessage::__set_state([
                 '_type'     => 'PresenceOf',
                 '_message'  => 'kredit is required',
                 '_field'    => 'kredit',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
             2 => ModelMessage::__set_state([
                 '_type'     => 'PresenceOf',
                 '_message'  => 'status is required',
                 '_field'    => 'status',
                 '_code'     => 0,
-                '_metaData' => []
+                '_metaData' => [],
             ]),
         ];
         $I->assertEquals($personer->getMessages(), $messages);

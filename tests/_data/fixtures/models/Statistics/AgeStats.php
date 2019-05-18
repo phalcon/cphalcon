@@ -16,9 +16,9 @@ use Phalcon\Test\Resultsets\Stats;
 
 class AgeStats extends Model
 {
-    public function getSource(): string
+    public function initialize()
     {
-        return 'stats';
+        $this->setSource('stats');
     }
 
     public function getResultsetClass()

@@ -29,7 +29,7 @@
 /**
  * Phalcon\Validation\Validator\ip
  *
- * Check for ip addresses
+ * Check for IP addresses
  *
  * <code>
  * use Phalcon\Validation\Validator\Ip as IpValidator;
@@ -38,11 +38,11 @@
  *     "ip_address",
  *     new IpValidator(
  *         [
- *             "message" => ":field must contain only ip addresses",
- *             "version" => IP::VERSION_4 | IP::VERSION_6, // v6 and v4. The same if not specified
+ *             "message"       => ":field must contain only ip addresses",
+ *             "version"       => IP::VERSION_4 | IP::VERSION_6, // v6 and v4. The same if not specified
  *             "allowReserved" => false,   // False if not specified. Ignored for v6
- *             "allowPrivate" => false,   // False if not specified
- *             "allowEmpty" => false,
+ *             "allowPrivate"  => false,   // False if not specified
+ *             "allowEmpty"    => false,
  *         ]
  *     )
  * );
@@ -55,23 +55,23 @@
  *     new IpValidator(
  *         [
  *             "message" => [
- *                 "source_address" => "source_address must contain only ip addresses",
- *                 "destination_address" => "destination_address must contain only ip addresses",
+ *                 "source_address"      => "source_address must be a valid IP address",
+ *                 "destination_address" => "destination_address must be a valid IP address",
  *             ],
  *             "version" => [
- *                  "source_address" => Ip::VERSION_4 | IP::VERSION_6,
+ *                  "source_address"      => Ip::VERSION_4 | IP::VERSION_6,
  *                  "destination_address" => Ip::VERSION_4,
  *             ],
  *             "allowReserved" => [
- *                  "source_address" => false,
+ *                  "source_address"      => false,
  *                  "destination_address" => true,
  *             ],
  *             "allowPrivate" => [
- *                  "source_address" => false,
+ *                  "source_address"      => false,
  *                  "destination_address" => true,
  *             ],
  *             "allowEmpty" => [
- *                  "source_address" => false,
+ *                  "source_address"      => false,
  *                  "destination_address" => true,
  *             ],
  *         ]
@@ -145,7 +145,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate) {
 	ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&label) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &label, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/ip.zep", 86 TSRMLS_CC);
+		zephir_array_fetch(&_1$$3, &label, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Ip.zep", 88 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(&label, &_1$$3);
 	}
 	if (ZEPHIR_IS_EMPTY(&label)) {
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate) {
 	ZEPHIR_CALL_METHOD(&message, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&message) == IS_ARRAY) {
-		zephir_array_fetch(&_2$$5, &message, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/ip.zep", 94 TSRMLS_CC);
+		zephir_array_fetch(&_2$$5, &message, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Ip.zep", 98 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(&message, &_2$$5);
 	}
 	if (ZEPHIR_IS_EMPTY(&message)) {
@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate) {
 	ZEPHIR_CALL_METHOD(&version, this_ptr, "getoption", NULL, 0, &_0, &_4);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&version) == IS_ARRAY) {
-		zephir_array_fetch(&_5$$7, &version, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/ip.zep", 102 TSRMLS_CC);
+		zephir_array_fetch(&_5$$7, &version, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Ip.zep", 108 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(&version, &_5$$7);
 	}
 	ZEPHIR_INIT_NVAR(&_0);
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate) {
 		ZVAL_LONG(&allowPrivate, 8388608);
 	}
 	if (Z_TYPE_P(&allowPrivate) == IS_ARRAY) {
-		zephir_array_fetch(&_7$$8, &allowPrivate, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/ip.zep", 107 TSRMLS_CC);
+		zephir_array_fetch(&_7$$8, &allowPrivate, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Ip.zep", 114 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(&allowPrivate, &_7$$8);
 	}
 	ZEPHIR_INIT_NVAR(&_0);
@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate) {
 		ZVAL_LONG(&allowReserved, 4194304);
 	}
 	if (Z_TYPE_P(&allowReserved) == IS_ARRAY) {
-		zephir_array_fetch(&_9$$9, &allowReserved, field, PH_NOISY | PH_READONLY, "phalcon/validation/validator/ip.zep", 112 TSRMLS_CC);
+		zephir_array_fetch(&_9$$9, &allowReserved, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Ip.zep", 120 TSRMLS_CC);
 		ZEPHIR_CPY_WRT(&allowReserved, &_9$$9);
 	}
 	ZEPHIR_INIT_NVAR(&_0);
@@ -214,7 +214,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate) {
 		ZEPHIR_INIT_VAR(&_10$$10);
 		if (zephir_array_isset(&allowEmpty, field)) {
 			ZEPHIR_OBS_NVAR(&_10$$10);
-			zephir_array_fetch(&_10$$10, &allowEmpty, field, PH_NOISY, "phalcon/validation/validator/ip.zep", 117 TSRMLS_CC);
+			zephir_array_fetch(&_10$$10, &allowEmpty, field, PH_NOISY, "phalcon/Validation/Validator/Ip.zep", 126 TSRMLS_CC);
 		} else {
 			ZEPHIR_INIT_NVAR(&_10$$10);
 			ZVAL_BOOL(&_10$$10, 0);
@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate) {
 	zephir_bitwise_or_function(&_14, &_13, &allowReserved TSRMLS_CC);
 	zephir_array_update_string(&options, SL("flags"), &_14, PH_COPY | PH_SEPARATE);
 	ZVAL_LONG(&_4, 275);
-	ZEPHIR_CALL_FUNCTION(&_15, "filter_var", NULL, 188, &value, &_4, &options);
+	ZEPHIR_CALL_FUNCTION(&_15, "filter_var", NULL, 208, &value, &_4, &options);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_15))) {
 		ZEPHIR_INIT_VAR(&replacePairs);
@@ -248,11 +248,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate) {
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_VAR(&_16$$12);
 		object_init_ex(&_16$$12, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_17$$12, "strtr", NULL, 48, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_17$$12, "strtr", NULL, 66, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_18$$12);
 		ZVAL_STRING(&_18$$12, "Ip");
-		ZEPHIR_CALL_METHOD(NULL, &_16$$12, "__construct", NULL, 300, &_17$$12, field, &_18$$12);
+		ZEPHIR_CALL_METHOD(NULL, &_16$$12, "__construct", NULL, 401, &_17$$12, field, &_18$$12);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_16$$12);
 		zephir_check_call_status();

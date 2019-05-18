@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\PresenceOf;
 
-/**
- * Class HasOptionCest
- */
 class HasOptionCest
 {
     use ValidationTrait;
@@ -26,15 +23,19 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator\PresenceOf :: hasOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorPresenceOfHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\PresenceOf - hasOption()');
-        $validator = new PresenceOf(['message' => 'This is a message']);
+
+        $validator = new PresenceOf(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

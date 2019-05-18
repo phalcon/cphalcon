@@ -18,16 +18,8 @@ use Phalcon\Cache\Frontend\Output;
 use Phalcon\Cache\FrontendInterface;
 use UnitTester;
 
-/**
- * Trait FileTrait
- *
- * @package Phalcon\Test\Fixtures\Traits\Cache
- */
 trait LibmemcachedTrait
 {
-    /**
-     * @param UnitTester $I
-     */
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('memcached');
@@ -35,49 +27,51 @@ trait LibmemcachedTrait
 
     /**
      * @param null $statsKey
-     * @param int  $ttl
-     *
-     * @return Libmemcached
      */
-    protected function getDataCache($statsKey = null, $ttl = 20)
+    protected function getDataCache($statsKey = null, int $ttl = 20): Libmemcached
     {
         $config = [];
         if ($statsKey !== null) {
             $config['statsKey'] = $statsKey;
         }
 
-        return $this->getCache(new Data(['lifetime' => $ttl]), $config);
+        return $this->getCache(
+            new Data(
+                [
+                    'lifetime' => $ttl,
+                ]
+            ),
+            $config
+        );
     }
 
-    /**
-     * @param FrontendInterface $frontend
-     * @param array             $config
-     *
-     * @return Libmemcached
-     */
-    protected function getCache(FrontendInterface $frontend, $config = [])
+    protected function getCache(FrontendInterface $frontend, array $config = []): Libmemcached
     {
-        $config = array_merge($config, [
-            'client'  => [],
-            'servers' => [
-                [
-                    'host'   => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
-                    'port'   => env('DATA_MEMCACHED_PORT', 11211),
-                    'weight' => env('DATA_MEMCACHED_WEIGHT', 0),
+        $config = array_merge(
+            $config,
+            [
+                'client'  => [],
+                'servers' => [
+                    [
+                        'host'   => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
+                        'port'   => env('DATA_MEMCACHED_PORT', 11211),
+                        'weight' => env('DATA_MEMCACHED_WEIGHT', 0),
+                    ],
                 ],
-            ],
-        ]);
+            ]
+        );
 
         return new Libmemcached($frontend, $config);
     }
 
-    /**
-     * @param int $ttl
-     *
-     * @return Libmemcached
-     */
-    protected function getOutputCache($ttl = 0)
+    protected function getOutputCache(int $ttl = 0): Libmemcached
     {
-        return $this->getCache(new Output(['lifetime' => $ttl]));
+        return $this->getCache(
+            new Output(
+                [
+                    'lifetime' => $ttl,
+                ]
+            )
+        );
     }
 }
