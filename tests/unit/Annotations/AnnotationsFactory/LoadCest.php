@@ -37,14 +37,7 @@ class LoadCest
         $I->wantToTest('Annotations\AnnotationsFactory - load()');
 
         $options = $this->config->annotations;
-        $factory = new AnnotationsFactory();
-
-        $adapter = $factory->load($options);
-
-        $I->assertInstanceOf(
-            Apcu::class,
-            $adapter
-        );
+        $this->runTests($I, $options);
     }
 
     /**
@@ -58,6 +51,11 @@ class LoadCest
         $I->wantToTest('Annotations\AnnotationsFactory - load()');
 
         $options = $this->arrayConfig['annotations'];
+        $this->runTests($I, $options);
+    }
+
+    private function runTests(UnitTester $I, $options)
+    {
         $factory = new AnnotationsFactory();
 
         $adapter = $factory->load($options);
