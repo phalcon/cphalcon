@@ -33,14 +33,7 @@ class SerializerFactory extends AbstractFactory
      */
     public function newInstance(string! name) -> <SerializerInterface>
     {
-        var definition;
-
         this->checkService(name);
-
-        if !isset this->services[name] {
-            let definition           = this->mapper[name],
-                this->services[name] = new {definition}();
-        }
 
         return this->services[name];
     }

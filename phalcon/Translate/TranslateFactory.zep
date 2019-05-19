@@ -66,14 +66,13 @@ class TranslateFactory extends AbstractFactory
      */
     public function newInstance(string! name, array! options = []) -> <AbstractAdapter>
     {
-        var definition;
-
-        this->checkService(name);
-
-        if !isset this->services[name] {
-            let definition           = this->mapper[name],
-                this->services[name] = new {definition}(this->interpolator, options);
-        }
+        this->checkService(
+            name,
+            [
+                this->interpolator,
+                options
+            ]
+        );
 
         return this->services[name];
     }
