@@ -10,21 +10,21 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Factory;
+namespace Phalcon\Test\Unit\Annotations\AdapterFactory;
 
 use UnitTester;
 
-class LoadCest
+class NewInstanceCest
 {
     /**
-     * Tests Phalcon\Factory :: load()
+     * Tests Phalcon\Annotations\AdapterFactory :: newInstance()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-05-19
      */
-    public function factoryLoad(UnitTester $I)
+    public function annotationsAdapterFactoryNewInstance(UnitTester $I)
     {
-        $I->wantToTest('Factory - load()');
+        $I->wantToTest('Annotations\AdapterFactory - newInstance()');
 
         $I->skipTest('Need implementation');
     }
