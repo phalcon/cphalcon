@@ -13,6 +13,7 @@ namespace Phalcon\Forms;
 use Phalcon\Di\Injectable;
 use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
+use Phalcon\Filter\FilterInterface;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\ElementInterface;
 use Phalcon\Html\Attributes;
@@ -21,7 +22,6 @@ use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Validation;
 use Phalcon\ValidationInterface;
-use Phalcon\Service\LocatorInterface;
 
 /**
  * Phalcon\Forms\Form
@@ -179,8 +179,7 @@ class Form extends Injectable implements \Countable, \Iterator, AttributesInterf
             if filters {
                 if typeof filter != "object" {
                     let container = this->getDI(),
-                        filter = <LocatorInterface> container->getShared("filter");
-//                        filter = <FilterInterface> container->getShared("filter");
+                        filter = <FilterInterface> container->getShared("filter");
                 }
 
                 /**

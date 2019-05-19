@@ -10,6 +10,8 @@
 
 namespace Phalcon\Factory;
 
+use Phalcon\Config;
+
 class AbstractFactory
 {
     /**
@@ -30,6 +32,30 @@ class AbstractFactory
         if unlikely !isset this->mapper[name] {
             throw new Exception("Service " . name . " is not registered");
         }
+    }
+
+    /**
+     * Checks the config if it is a valid object
+     */
+    protected function checkConfig(var config) -> array
+    {
+        if typeof config == "object" && config instanceof Config {
+            let config = config->toArray();
+        }
+
+        if unlikely typeof config !== "array" {
+            throw new Exception(
+                "Config must be array or Phalcon\\Config object"
+            );
+        }
+
+        if unlikely !isset config["adapter"] {
+            throw new Exception(
+                "You must provide 'adapter' option in factory config parameter."
+            );
+        }
+
+        return config;
     }
 
     /**

@@ -8,39 +8,52 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Translate;
+namespace Phalcon\Paginator;
 
-use Phalcon\Config;
+use Phalcon\Paginator\Adapter\AbstractAdapter;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
-use Phalcon\Translate\InterpolatorFactory;
 
-class TranslateFactory extends AbstractFactory
+class PaginatorFactory extends AbstractFactory
 {
-    /**
-     * @var InterpolatorFactory
-     */
-    private interpolator;
-
     /**
      * AdapterFactory constructor.
      */
-    public function __construct(<InterpolatorFactory> interpolator, array! services = [])
+    public function __construct(array! services = [])
     {
-        let this->interpolator = interpolator;
-
         this->init(services);
     }
 
     /**
      * Factory to create an instace from a Config object
+     *
+     *<code>
+     * use Phalcon\Paginator\PaginatorFactory;
+     *
+     * $builder = $this
+     *      ->modelsManager
+     *      ->createBuilder()
+     *      ->columns("id, name")
+     *      ->from("Robots")
+     *      ->orderBy("name");
+     *
+     * $options = [
+     *     "builder" => $builder,
+     *     "limit"   => 20,
+     *     "page"    => 1,
+     *     "adapter" => "queryBuilder",
+     * ];
+     *
+     * $paginator = (new PaginatorFactory())->load($options);
+     *</code>
      */
     public function load(var config) -> var
     {
         var name, options;
 
-        let config  = this->checkConfig(config),
-            name    = config["adapter"],
+        let config = this->checkConfig(config);
+
+        let name    = config["adapter"],
             options = Arr::get(config, "options", []);
 
         return this->newInstance(name, options);
@@ -57,7 +70,7 @@ class TranslateFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = new {definition}(this->interpolator, options);
+                this->services[name] = new {definition}(options);
         }
 
         return this->services[name];
@@ -66,9 +79,9 @@ class TranslateFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "csv"     : "\\Phalcon\\Translate\\Adapter\\Csv",
-            "gettext" : "\\Phalcon\\Translate\\Adapter\\Gettext",
-            "array"   : "\\Phalcon\\Translate\\Adapter\\NativeArray"
+            "model"        : "\\Phalcon\\Paginator\\Adapter\\Model",
+            "nativeArray"  : "\\Phalcon\\Paginator\\Adapter\\NativeArray",
+            "queryBuilder" : "\\Phalcon\\Paginator\\Adapter\\QueryBuilder"
         ];
     }
 }

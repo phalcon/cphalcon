@@ -11,7 +11,7 @@
 namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Paginator\Exception;
-use Phalcon\Paginator\Adapter;
+use Phalcon\Paginator\Adapter\AbstractAdapter;
 use Phalcon\Paginator\RepositoryInterface;
 
 /**
@@ -37,7 +37,7 @@ use Phalcon\Paginator\RepositoryInterface;
  * );
  *</code>
  */
-class NativeArray extends Adapter
+class NativeArray extends AbstractAdapter
 {
     /**
      * Returns a slice of the resultset to show in the pagination

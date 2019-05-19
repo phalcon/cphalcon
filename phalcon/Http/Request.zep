@@ -11,13 +11,12 @@
 namespace Phalcon\Http;
 
 use Phalcon\DiInterface;
-use Phalcon\FilterInterface;
+use Phalcon\Filter\FilterInterface;
 use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\FileInterface;
 use Phalcon\Http\Request\Exception;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Service\LocatorInterface;
 
 /**
  * Phalcon\Http\Request
@@ -51,7 +50,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 {
     private container;
 
-    private filterLocator;
+    private filterService;
 
     /**
      * @var bool
@@ -1154,7 +1153,7 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function setParameterFilters(string! name, array filters = [], array scope = []) -> <RequestInterface>
     {
-        var filterLocator, sanitizer, localScope, scopeMethod;
+        var filterService, sanitizer, localScope, scopeMethod;
 
         if unlikely count(filters) < 1 {
             throw new Exception(
@@ -1162,10 +1161,10 @@ class Request implements RequestInterface, InjectionAwareInterface
             );
         }
 
-        let filterLocator = this->getFilterLocatorService();
+        let filterService = this->getFilterService();
 
         for sanitizer in filters {
-            if unlikely true !== filterLocator->has(sanitizer) {
+            if unlikely true !== filterService->has(sanitizer) {
                 throw new Exception(
                     "Sanitizer '" . sanitizer . "' does not exist in the filter locator"
                 );
@@ -1234,7 +1233,7 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     final protected function getHelper(array source, string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
     {
-        var value, filter, container;
+        var value, filterService;
 
         if name === null {
             return source;
@@ -1245,24 +1244,8 @@ class Request implements RequestInterface, InjectionAwareInterface
         }
 
         if filters !== null {
-            let filter = this->filterLocator;
-            if typeof filter != "object" {
-                let container = <DiInterface> this->container;
-
-                if unlikely typeof container != "object" {
-                    throw new Exception(
-                        Exception::containerServiceNotFound(
-                            "the 'filter' service"
-                        )
-                    );
-                }
-
-                let filter = <LocatorInterface> container->getShared("filter");
-//                let filter = <FilterInterface> container->getShared("filter");
-                let this->filterLocator = filter;
-            }
-
-            let value = filter->sanitize(value, filters, noRecursive);
+            let filterService = this->getFilterService(),
+                value         = filterService->sanitize(value, filters, noRecursive);
         }
 
         if empty value && notAllowEmpty {
@@ -1475,13 +1458,13 @@ class Request implements RequestInterface, InjectionAwareInterface
     /**
      * Checks the filter service and assigns it to the class parameter
      */
-    private function getFilterLocatorService() -> <LocatorInterface>
+    private function getFilterService() -> <FilterInterface>
     {
-        var container, locator;
+        var container, filterService;
 
-        let locator = this->filterLocator;
+        let filterService = this->filterService;
 
-        if typeof locator != "object" {
+        if typeof filterService != "object" {
             let container = <DiInterface> this->container;
 
             if unlikely typeof container != "object" {
@@ -1490,10 +1473,10 @@ class Request implements RequestInterface, InjectionAwareInterface
                 );
             }
 
-            let locator = <LocatorInterface> container->getShared("filter"),
-                this->filterLocator = locator;
+            let filterService       = <FilterInterface> container->getShared("filter"),
+                this->filterService = filterService;
         }
 
-        return this->filterLocator;
+        return this->filterService;
     }
 }
