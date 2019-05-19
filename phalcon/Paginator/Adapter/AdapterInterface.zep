@@ -10,6 +10,8 @@
 
 namespace Phalcon\Paginator\Adapter;
 
+use Phalcon\Paginator\RepositoryInterface;
+
 /**
  * Phalcon\Paginator\AdapterInterface
  *
