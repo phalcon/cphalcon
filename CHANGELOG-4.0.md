@@ -1,4 +1,6 @@
-# [4.0.0-alpha.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.5) (2019-xx-xx)
+# [4.0.0-beta.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-beta.1) (2019-xx-xx)
+
+# [4.0.0-alpha.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.5) (2019-05-18)
 
 ## Added
 - Added `Phalcon\Cli\Router\Route::setDescription()` to sets the route's description [#13936](https://github.com/phalcon/cphalcon/pull/13936)
