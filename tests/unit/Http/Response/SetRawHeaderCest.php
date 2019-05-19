@@ -12,20 +12,37 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Http\Response\Headers;
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class SetRawHeaderCest
+class SetRawHeaderCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Response :: setRawHeader()
+     * Tests the setRawHeader
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-10-08
      */
-    public function httpResponseSetRawHeader(UnitTester $I)
+    public function testHttpResponseSetRawHeader(UnitTester $I)
     {
-        $I->wantToTest('Http\Response - setRawHeader()');
+        $response = $this->getResponseObject();
 
-        $I->skipTest('Need implementation');
+        $response->resetHeaders();
+
+        $response->setRawHeader('HTTP/1.1 404 Not Found');
+
+        $expected = Headers::__set_state(
+            [
+                'headers' => [
+                    'HTTP/1.1 404 Not Found' => '',
+                ],
+            ]
+        );
+
+        $I->assertEquals(
+            $expected,
+            $response->getHeaders()
+        );
     }
 }

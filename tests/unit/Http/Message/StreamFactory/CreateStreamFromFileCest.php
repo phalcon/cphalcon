@@ -27,16 +27,23 @@ class CreateStreamFromFileCest
     public function httpMessageStreamFactoryCreateStreamFromFile(UnitTester $I)
     {
         $I->wantToTest('Http\Message\StreamFactory - createStreamFromFile()');
+
         $fileName = dataDir('/assets/stream/bill-of-rights.txt');
+
         $expected = file_get_contents($fileName);
 
         $factory = new StreamFactory();
-        $stream  = $factory->createStreamFromFile($fileName);
 
-        $class = Stream::class;
-        $I->assertInstanceOf($class, $stream);
+        $stream = $factory->createStreamFromFile($fileName);
 
-        $actual = $stream->getContents();
-        $I->assertEquals($expected, $actual);
+        $I->assertInstanceOf(
+            Stream::class,
+            $stream
+        );
+
+        $I->assertEquals(
+            $expected,
+            $stream->getContents()
+        );
     }
 }

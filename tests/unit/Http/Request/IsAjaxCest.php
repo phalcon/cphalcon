@@ -12,20 +12,40 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class IsAjaxCest
+class IsAjaxCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: isAjax()
+     * Tests isAjax default
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-10-04
      */
-    public function httpRequestIsAjax(UnitTester $I)
+    public function testHttpRequestIsAjaxDefault(UnitTester $I)
     {
-        $I->wantToTest('Http\Request - isAjax()');
+        $request = $this->getRequestObject();
 
-        $I->skipTest('Need implementation');
+        $I->assertFalse(
+            $request->isAjax()
+        );
+    }
+
+    /**
+     * Tests isAjax
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-04
+     */
+    public function testHttpRequestIsAjax(UnitTester $I)
+    {
+        $request = $this->getRequestObject();
+
+        $this->setServerVar('HTTP_X_REQUESTED_WITH', 'XMLHttpRequest');
+        $actual = $request->isAjax();
+        $this->unsetServerVar('HTTP_X_REQUESTED_WITH');
+
+        $I->assertTrue($actual);
     }
 }

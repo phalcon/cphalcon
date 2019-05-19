@@ -34,8 +34,9 @@ class GetBodyCest
 
         $request = new Request('GET', null, $stream);
 
-        $I->assertEquals(
-            file_get_contents($fileName),
+        $I->openFile($fileName);
+
+        $I->seeFileContentsEqual(
             $request->getBody()
         );
     }

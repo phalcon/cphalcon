@@ -29,10 +29,13 @@ class GetTargetUriCest
     public function assetsAssetCssGetTargetUriLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getTargetUri() - css local');
+
         $asset = new Css('css/docs.css');
 
         $expected = '/phalcon/path';
+
         $asset->setTargetUri($expected);
+
         $this->assetGetTargetUri($I, $asset, $expected);
     }
 
@@ -45,10 +48,13 @@ class GetTargetUriCest
     public function assetsAssetCssGetTargetUriRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getTargetUri() - css remote');
+
         $asset = new Css('https://phalcon.ld/css/docs.css', false);
 
         $expected = '/phalcon/path';
+
         $asset->setTargetUri($expected);
+
         $this->assetGetTargetUri($I, $asset, $expected);
     }
 }

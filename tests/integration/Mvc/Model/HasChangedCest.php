@@ -13,13 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Test\Models\Snapshot\Robots;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Snapshot\Robots;
 
-/**
- * Class HasChangedCest
- */
 class HasChangedCest
 {
     use DiTrait;

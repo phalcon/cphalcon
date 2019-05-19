@@ -12,20 +12,65 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Http\Response\Headers;
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class SetContentTypeCest
+class SetContentTypeCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Response :: setContentType()
+     * Tests the setContentType
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-10-08
      */
-    public function httpResponseSetContentType(UnitTester $I)
+    public function testHttpResponseSetContentType(UnitTester $I)
     {
-        $I->wantToTest('Http\Response - setContentType()');
+        $response = $this->getResponseObject();
 
-        $I->skipTest('Need implementation');
+        $response->resetHeaders();
+
+        $response->setContentType('application/json');
+
+        $expected = Headers::__set_state(
+            [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                ],
+            ]
+        );
+
+        $I->assertEquals(
+            $expected,
+            $response->getHeaders()
+        );
+    }
+
+    /**
+     * Tests the setContentType with charset
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-08
+     */
+    public function testHttpResponseSetContentTypeWithCharset(UnitTester $I)
+    {
+        $response = $this->getResponseObject();
+
+        $response->resetHeaders();
+
+        $response->setContentType('application/json', 'utf-8');
+
+        $expected = Headers::__set_state(
+            [
+                'headers' => [
+                    'Content-Type' => 'application/json; charset=utf-8',
+                ],
+            ]
+        );
+
+        $I->assertEquals(
+            $expected,
+            $response->getHeaders()
+        );
     }
 }

@@ -30,14 +30,14 @@ class GetContentCest
 
         $asset = new Css('assets/assets/1198.css');
 
-        $expected = file_get_contents(
+        $I->openFile(
             dataDir('assets/assets/1198.css')
         );
 
-        $actual = $asset->getContent(
-            dataDir()
+        $I->seeFileContentsEqual(
+            $asset->getContent(
+                dataDir()
+            )
         );
-
-        $I->assertEquals($expected, $actual);
     }
 }

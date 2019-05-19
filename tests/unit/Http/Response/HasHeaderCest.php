@@ -12,19 +12,31 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class HasHeaderCest
+class HasHeaderCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Response :: hasHeader()
+     * Tests the hasHeader
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-10-08
      */
-    public function httpResponseHasHeader(UnitTester $I)
+    public function testHttpResponseHasHeader(UnitTester $I)
     {
-        $I->wantToTest('Http\Response - hasHeader()');
-        $I->skipTest('Need implementation');
+        $response = $this->getResponseObject();
+
+        $response->resetHeaders();
+
+        $response->setHeader('Content-Type', 'text/html');
+
+        $I->assertTrue(
+            $response->hasHeader('Content-Type')
+        );
+
+        $I->assertFalse(
+            $response->hasHeader('some-unknown-header')
+        );
     }
 }

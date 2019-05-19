@@ -28,20 +28,28 @@ class MoveToCest
     public function httpMessageUploadedFileMoveTo(UnitTester $I)
     {
         $I->wantToTest('Http\Message\UploadedFile - moveTo()');
+
         $stream = new Stream('php://memory', 'w+b');
+
         $stream->write('Phalcon Framework');
 
         $file   = new UploadedFile($stream, 0);
+
         $target = $I->getNewFileName();
-        $target = outputDir('tests/stream/' . $target);
+
+        $target = outputDir(
+            'tests/stream/' . $target
+        );
 
         $file->moveTo($target);
 
         $I->seeFileFound($target);
 
-        $expected = (string) $stream;
-        $actual   = file_get_contents($target);
-        $I->assertEquals($expected, $actual);
+        $I->openFile($target);
+
+        $I->seeFileContentsEqual(
+            (string) $stream
+        );
     }
 
     /**
@@ -53,15 +61,22 @@ class MoveToCest
     public function httpMessageUploadedFileMoveToUploadError(UnitTester $I)
     {
         $I->wantToTest('Http\Message\UploadedFile - moveTo() - upload error');
+
         $I->expectThrowable(
             new Exception('Failed to write file to disk.'),
             function () use ($I) {
                 $stream = new Stream('php://memory', 'w+b');
+
                 $stream->write('Phalcon Framework');
+
                 $target = $I->getNewFileName();
-                $target = outputDir('tests/stream/' . $target);
+
+                $target = outputDir(
+                    'tests/stream/' . $target
+                );
 
                 $file = new UploadedFile($stream, 0, UPLOAD_ERR_CANT_WRITE);
+
                 $file->moveTo($target);
             }
         );
@@ -76,13 +91,16 @@ class MoveToCest
     public function httpMessageUploadedFileMoveToWrongPath(UnitTester $I)
     {
         $I->wantToTest('Http\Message\UploadedFile - moveTo() - wrong path');
+
         $I->expectThrowable(
             new Exception('Target folder is empty string, not a folder or not writable'),
             function () use ($I) {
                 $stream = new Stream('php://memory', 'w+b');
+
                 $stream->write('Phalcon Framework');
 
                 $file = new UploadedFile($stream, 0);
+
                 $file->moveTo(123);
             }
         );
@@ -97,15 +115,21 @@ class MoveToCest
     public function httpMessageUploadedFileMoveToAlreadyMoved(UnitTester $I)
     {
         $I->wantToTest('Http\Message\UploadedFile - moveTo() - already moved');
+
         $I->expectThrowable(
             new Exception('File has already been moved'),
             function () use ($I) {
                 $stream = new Stream('php://memory', 'w+b');
+
                 $stream->write('Phalcon Framework');
 
-                $file   = new UploadedFile($stream, 0);
+                $file = new UploadedFile($stream, 0);
+
                 $target = $I->getNewFileName();
-                $target = outputDir('tests/stream/' . $target);
+
+                $target = outputDir(
+                    'tests/stream/' . $target
+                );
 
                 $file->moveTo($target);
                 $file->moveTo($target);

@@ -27,16 +27,20 @@ class WithBodyCest
     public function httpMessageServerRequestWithBody(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withBody()');
+
         $fileName = dataDir('/assets/stream/bill-of-rights.txt');
-        $stream   = new Stream($fileName, 'rb');
-        $request  = new ServerRequest();
+
+        $stream  = new Stream($fileName, 'rb');
+        $request = new ServerRequest();
 
         $newInstance = $request->withBody($stream);
 
         $I->assertNotEquals($request, $newInstance);
 
-        $expected = file_get_contents($fileName);
-        $actual   = $newInstance->getBody();
-        $I->assertEquals($expected, $actual);
+        $I->openFile($fileName);
+
+        $I->seeFileContentsEqual(
+            $newInstance->getBody()
+        );
     }
 }
