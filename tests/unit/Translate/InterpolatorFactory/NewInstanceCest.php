@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Translate\InterpolatorFactory;
 
 use Codeception\Example;
-use Phalcon\Translate\Exception;
+use Phalcon\Factory\Exception;
 use Phalcon\Translate\Interpolator\AssociativeArray;
 use Phalcon\Translate\Interpolator\IndexedArray;
 use Phalcon\Translate\InterpolatorFactory;
