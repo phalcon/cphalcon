@@ -10,11 +10,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Paginator\AdapterFactory;
+namespace Phalcon\Test\Integration\Paginator\PaginatorFactory;
 
 use Phalcon\Paginator\Adapter\NativeArray;
 use Phalcon\Paginator\Adapter\AdapterInterface;
-use Phalcon\Paginator\AdapterFactory;
+use Phalcon\Paginator\PaginatorFactory;
 use IntegrationTester;
 
 class NewInstanceCest
@@ -29,7 +29,7 @@ class NewInstanceCest
     {
         $I->wantToTest('Paginator\AdapterFactory - newInstance()');
 
-        $factory = new AdapterFactory();
+        $factory = new PaginatorFactory();
         $adapter = $factory->newInstance('nativeArray');
 
         $I->assertInstanceOf(

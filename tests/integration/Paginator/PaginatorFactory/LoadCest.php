@@ -10,12 +10,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Paginator\AdapterFactory;
+namespace Phalcon\Test\Integration\Paginator\PaginatorFactory;
 
 use Phalcon\Paginator\Adapter\QueryBuilder;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
-use Phalcon\Paginator\AdapterFactory;
+use Phalcon\Paginator\PaginatorFactory;
 use IntegrationTester;
 
 class LoadCest
@@ -52,7 +52,7 @@ class LoadCest
         ;
 
 
-        $factory = new AdapterFactory();
+        $factory = new PaginatorFactory();
         $adapter = $factory->load($options);
 
         $I->assertInstanceOf(
@@ -82,7 +82,7 @@ class LoadCest
             ->orderBy('name')
         ;
 
-        $factory = new AdapterFactory();
+        $factory = new PaginatorFactory();
         $adapter = $factory->load($options);
 
         $I->assertInstanceOf(

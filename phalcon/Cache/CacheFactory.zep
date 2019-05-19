@@ -16,6 +16,7 @@ use Phalcon\Cache\Cache;
 use Phalcon\Cache\CacheInterface;
 use Phalcon\Cache\Exception\Exception;
 use Phalcon\Config;
+use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
 
 /**
@@ -45,8 +46,23 @@ class CacheFactory
     {
         var name, options;
 
-        let config  = this->checkConfig(config),
-            name    = config["adapter"],
+        if typeof config == "object" && config instanceof Config {
+            let config = config->toArray();
+        }
+
+        if unlikely typeof config !== "array" {
+            throw new Exception(
+                "Config must be array or Phalcon\\Config object"
+            );
+        }
+
+        if unlikely !isset config["adapter"] {
+            throw new Exception(
+                "You must provide 'adapter' option in factory config parameter."
+            );
+        }
+
+        let name    = config["adapter"],
             options = Arr::get(config, "options", []);
 
         return this->newInstance(name, options);
