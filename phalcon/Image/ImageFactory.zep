@@ -77,14 +77,14 @@ class ImageFactory extends AbstractFactory
         int height = null
     ) -> var
     {
-        this->checkService(
-            name,
-            [
-                file,
-                width,
-                height
-            ]
-        );
+        var definition;
+
+        this->checkService(name);
+
+        if !isset this->services[name] {
+            let definition           = this->mapper[name],
+                this->services[name] = new {definition}(file, width, height);
+        }
 
         return this->services[name];
     }

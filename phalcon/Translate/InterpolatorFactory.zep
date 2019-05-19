@@ -10,17 +10,38 @@
 
 namespace Phalcon\Translate;
 
-use Phalcon\Factory\AbstractFactory;
 use Phalcon\Translate\Adapter\AdapterInterface;
 
-class InterpolatorFactory extends AbstractFactory
+class InterpolatorFactory
 {
+    /**
+     * @var array
+     */
+    private mapper   = [];
+
+    /**
+     * @var array
+     */
+    private services = [];
+
     /**
      * AdapterFactory constructor.
      */
     public function __construct(array! services = [])
     {
-        this->init(services);
+        var adapters, name, service;
+        
+        let adapters = [
+            "associativeArray" : "\\Phalcon\\Translate\\Interpolator\\AssociativeArray",
+            "indexedArray"     : "\\Phalcon\\Translate\\Interpolator\\IndexedArray"
+        ];
+
+        let adapters = array_merge(adapters, services);
+
+        for name, service in adapters {
+            let this->mapper[name] = service;
+            unset this->services[name];
+        }
     }
 
     /**
@@ -28,16 +49,17 @@ class InterpolatorFactory extends AbstractFactory
      */
     public function newInstance(string! name) -> <AdapterInterface>
     {
-        this->checkService(name);
+        var definition;
+
+        if !isset this->mapper[name] {
+            throw new Exception("Service " . name . " is not registered");
+        }
+
+        if !isset this->services[name] {
+            let definition           = this->mapper[name],
+                this->services[name] = new {definition}();
+        }
 
         return this->services[name];
-    }
-
-    protected function getAdapters() -> array
-    {
-        return [
-            "associativeArray" : "\\Phalcon\\Translate\\Interpolator\\AssociativeArray",
-            "indexedArray"     : "\\Phalcon\\Translate\\Interpolator\\IndexedArray"
-        ];
     }
 }

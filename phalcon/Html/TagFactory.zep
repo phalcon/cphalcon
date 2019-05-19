@@ -42,7 +42,14 @@ class TagFactory extends AbstractFactory
      */
     public function newInstance(string name) -> var
     {
+        var definition;
+
         this->checkService(name);
+
+        if !isset this->services[name] {
+            let definition           = this->mapper[name],
+                this->services[name] = new {definition}(this->escaper);
+        }
 
         return this->services[name];
     }
