@@ -3,6 +3,7 @@
 ## Added
 - Added `Phalcon\Annotations\AnnotationsFactory` to instantiate Annotations adapters. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 - Added `Phalcon\Filter\FilterInterface` for custom filter implementations. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Added `Phalcon\Db\Adapter\PdoFactory`: Factory to create PDO adapters. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 - Added `Phalcon\Image\ImageFactory`: Factory to create image adapters. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 - Added `Phalcon\Image\LoggerFactory`: Factory to create logger objects. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 - Added `Phalcon\Paginator\PaginatorFactory`: Factory to create paginator adapters. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
