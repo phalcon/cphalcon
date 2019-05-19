@@ -5,7 +5,7 @@
 - Added `Phalcon\Filter\FilterInterface` for custom filter implementations. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 - Added `Phalcon\Image\ImageFactory`: Factory to create image adapters. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 - Added `Phalcon\Image\LoggerFactory`: Factory to create logger objects. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
-- Added `Phalcon\Paginator\AdapterFactory`: Factory to create paginator adapters. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Added `Phalcon\Paginator\PaginatorFactory`: Factory to create paginator adapters. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 - Added `Phalcon\Translate\InterpolatorFactory`: Factory to create interpolator objects. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 - Added `Phalcon\Translate\TranslateFactory`: Factory to create translate objects. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 
