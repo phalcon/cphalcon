@@ -26,14 +26,21 @@ class ToStringCest
     public function httpMessageStreamToString(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - __toString()');
+
         $fileName = dataDir('/assets/stream/bill-of-rights.txt');
+
         $expected = file_get_contents($fileName);
-        $stream   = new Stream($fileName, 'rb');
 
-        $actual = (string) $stream;
-        $I->assertEquals($expected, $actual);
+        $stream = new Stream($fileName, 'rb');
 
-        $actual = $stream->__toString();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            (string) $stream
+        );
+
+        $I->assertEquals(
+            $expected,
+            $stream->__toString()
+        );
     }
 }

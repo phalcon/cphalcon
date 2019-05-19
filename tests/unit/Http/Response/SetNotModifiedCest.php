@@ -13,9 +13,11 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Response;
 
 use Phalcon\Http\Response;
+use Phalcon\Http\Response\Headers;
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class SetNotModifiedCest
+class SetNotModifiedCest extends HttpBase
 {
     /**
      * Tests Phalcon\Http\Response :: setNotModified()
@@ -39,6 +41,34 @@ class SetNotModifiedCest
         $I->assertEquals(
             'Not modified',
             $response->getReasonPhrase()
+        );
+    }
+
+    /**
+     * Tests setNotModified
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-08
+     */
+    public function testHttpResponseSetNotModified(UnitTester $I)
+    {
+        $response = $this->getResponseObject();
+
+        $response->resetHeaders();
+        $response->setNotModified();
+
+        $expected = Headers::__set_state(
+            [
+                'headers' => [
+                    'HTTP/1.1 304 Not modified' => false,
+                    'Status'                    => '304 Not modified',
+                ],
+            ]
+        );
+
+        $I->assertEquals(
+            $expected,
+            $response->getHeaders()
         );
     }
 }

@@ -189,7 +189,7 @@ class IsValidCest
                     'your fullname is required',
                     'fullname',
                     'PresenceOf'
-                )
+                ),
             ]
         );
 

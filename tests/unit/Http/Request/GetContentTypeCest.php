@@ -12,20 +12,22 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class GetContentTypeCest
+class GetContentTypeCest extends HttpBase
 {
-    /**
-     * Tests Phalcon\Http\Request :: getContentType()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function httpRequestGetContentType(UnitTester $I)
+    public function testHttpRequestContentType(UnitTester $I)
     {
-        $I->wantToTest('Http\Request - getContentType()');
+        $request = $this->getRequestObject();
 
-        $I->skipTest('Need implementation');
+        $this->setServerVar('CONTENT_TYPE', 'application/xhtml+xml');
+
+        $I->assertEquals(
+            'application/xhtml+xml',
+            $request->getContentType()
+        );
+
+        $this->unsetServerVar('CONTENT_TYPE');
     }
 }

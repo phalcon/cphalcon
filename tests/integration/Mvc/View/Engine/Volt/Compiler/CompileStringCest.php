@@ -272,7 +272,6 @@ class CompileStringCest
         ];
     }
 
-
     private function getVoltCompileStringErrors(): array
     {
         return [

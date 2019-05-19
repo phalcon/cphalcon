@@ -35,8 +35,10 @@ class WithBodyCest
 
         $I->assertNotEquals($request, $newInstance);
 
-        $expected = file_get_contents($fileName);
-        $actual   = $newInstance->getBody();
-        $I->assertEquals($expected, $actual);
+        $I->openFile($fileName);
+
+        $I->seeFileContentsEqual(
+            $newInstance->getBody()
+        );
     }
 }

@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Session\Adapter\Stream;
 
 use function cacheDir;
-use function file_put_contents;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
@@ -38,16 +37,25 @@ class DestroyCest
     public function sessionAdapterStreamDestroy(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Stream - destroy()');
+
         $adapter = $this->getSessionStream();
 
         /**
          * Create a file in the session folder
          */
-        file_put_contents(cacheDir('sessions/test1'), uniqid());
-        $actual = $adapter->destroy('test1');
-        $I->assertTrue($actual);
+        $I->writeToFile(
+            cacheDir('sessions/test1'),
+            uniqid()
+        );
 
-        $I->amInPath(cacheDir('sessions'));
+        $I->assertTrue(
+            $adapter->destroy('test1')
+        );
+
+        $I->amInPath(
+            cacheDir('sessions')
+        );
+
         $I->dontSeeFileFound('test1');
     }
 }

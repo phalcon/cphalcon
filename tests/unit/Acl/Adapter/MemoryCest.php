@@ -123,12 +123,16 @@ class MemoryCest
         $acl->allow('Administrators', 'Customers', 'search');
         $acl->deny('Administrators', 'Customers', 'destroy');
 
-        $contents = serialize($acl);
-        file_put_contents(cacheDir($filename), $contents);
+        $I->writeToFile(
+            cacheDir($filename),
+            serialize($acl)
+        );
 
         $acl = null;
 
-        $contents = file_get_contents(cacheDir($filename));
+        $contents = file_get_contents(
+            cacheDir($filename)
+        );
 
         $I->safeDeleteFile(
             cacheDir($filename)
@@ -205,38 +209,40 @@ class MemoryCest
     {
         $acl = new Memory();
 
-        $acl->setDefaultAction(Acl::DENY);
+        $acl->setDefaultAction(
+            Acl::DENY
+        );
 
-        $RoleGuest      = new Role('guest');
-        $RoleUser       = new Role('user');
-        $RoleAdmin      = new Role('admin');
-        $RoleSuperAdmin = new Role('superadmin');
+        $roleGuest      = new Role('guest');
+        $roleUser       = new Role('user');
+        $roleAdmin      = new Role('admin');
+        $roleSuperAdmin = new Role('superadmin');
 
-        $acl->addRole($RoleGuest);
-        $acl->addRole($RoleUser, $RoleGuest);
-        $acl->addRole($RoleAdmin, $RoleUser);
-        $acl->addRole($RoleSuperAdmin, $RoleAdmin);
+        $acl->addRole($roleGuest);
+        $acl->addRole($roleUser, $roleGuest);
+        $acl->addRole($roleAdmin, $roleUser);
+        $acl->addRole($roleSuperAdmin, $roleAdmin);
 
         $acl->addComponent('payment', ['paypal', 'facebook',]);
 
-        $acl->allow($RoleGuest->getName(), 'payment', 'paypal');
-        $acl->allow($RoleGuest->getName(), 'payment', 'facebook');
-        $acl->allow($RoleUser->getName(), 'payment', '*');
+        $acl->allow($roleGuest->getName(), 'payment', 'paypal');
+        $acl->allow($roleGuest->getName(), 'payment', 'facebook');
+        $acl->allow($roleUser->getName(), 'payment', '*');
 
         $I->assertTrue(
-            $acl->isAllowed($RoleUser->getName(), 'payment', 'notSet')
+            $acl->isAllowed($roleUser->getName(), 'payment', 'notSet')
         );
 
         $I->assertTrue(
-            $acl->isAllowed($RoleUser->getName(), 'payment', '*')
+            $acl->isAllowed($roleUser->getName(), 'payment', '*')
         );
 
         $I->assertTrue(
-            $acl->isAllowed($RoleAdmin->getName(), 'payment', 'notSet')
+            $acl->isAllowed($roleAdmin->getName(), 'payment', 'notSet')
         );
 
         $I->assertTrue(
-            $acl->isAllowed($RoleAdmin->getName(), 'payment', '*')
+            $acl->isAllowed($roleAdmin->getName(), 'payment', '*')
         );
     }
 
@@ -333,13 +339,29 @@ class MemoryCest
     public function testAclNegationOfMultipleInheritedRoles(UnitTester $I)
     {
         $acl = new Memory();
-        $acl->setDefaultAction(Acl::DENY);
+
+        $acl->setDefaultAction(
+            Acl::DENY
+        );
 
         $acl->addRole('Guests');
         $acl->addRole('Guests2');
-        $acl->addRole('Members', ['Guests', 'Guests2']);
 
-        $acl->addComponent('Login', ['help', 'index']);
+        $acl->addRole(
+            'Members',
+            [
+                'Guests',
+                'Guests2',
+            ]
+        );
+
+        $acl->addComponent(
+            'Login',
+            [
+                'help',
+                'index',
+            ]
+        );
 
         $acl->allow('Guests', 'Login', '*');
         $acl->deny('Guests2', 'Login', ['help']);

@@ -12,20 +12,40 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class IsSecureCest
+class IsSecureCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: isSecure()
+     * Tests isSecure default
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-10-04
      */
-    public function httpRequestIsSecure(UnitTester $I)
+    public function testHttpRequestIsSecureDefault(UnitTester $I)
     {
-        $I->wantToTest('Http\Request - isSecure()');
+        $request = $this->getRequestObject();
 
-        $I->skipTest('Need implementation');
+        $I->assertFalse(
+            $request->isSecure()
+        );
+    }
+
+    /**
+     * Tests isSecure
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-04
+     */
+    public function testHttpRequestIsSecure(UnitTester $I)
+    {
+        $request = $this->getRequestObject();
+
+        $this->setServerVar('HTTPS', 'on');
+        $actual = $request->isSecure();
+        $this->unsetServerVar('HTTPS');
+
+        $I->assertTrue($actual);
     }
 }

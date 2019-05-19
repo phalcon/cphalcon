@@ -12,20 +12,48 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use DateTime;
+use DateTimeZone;
+use Phalcon\Http\Response\Headers;
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class SetCacheCest
+class SetCacheCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Response :: setCache()
+     * Tests setCache
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @since  2015-07-14
      */
-    public function httpResponseSetCache(UnitTester $I)
+    public function testHttpResponseSetCache(UnitTester $I)
     {
-        $I->wantToTest('Http\Response - setCache()');
+        $response = $this->getResponseObject();
 
-        $I->skipTest('Need implementation');
+        $expiry = new DateTime();
+
+        $expiry->setTimezone(
+            new DateTimeZone('UTC')
+        );
+
+        $expiry->modify('+60 minutes');
+
+        $response->setCache(60);
+
+
+
+        $expected = Headers::__set_state(
+            [
+                'headers' => [
+                    'Expires'       => $expiry->format('D, d M Y H:i:s') . ' GMT',
+                    'Cache-Control' => 'max-age=3600',
+                ],
+            ]
+        );
+
+        $I->assertEquals(
+            $expected,
+            $response->getHeaders()
+        );
     }
 }

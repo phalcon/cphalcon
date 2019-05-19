@@ -47,18 +47,24 @@ class BeforeExecuteRouteCest
         $this->setDiMysql();
 
         $dispatcher = new Dispatcher();
+
         $dispatcher->setDefaultNamespace(
             'Phalcon\Test\Controllers\Firewall'
         );
+
         $dispatcher->setDI($this->container);
+
         $eventsManager = new Manager();
+
         $eventsManager->attach(
             'firewall:beforeException',
             function () {
                 return false;
             }
         );
+
         $firewall = new Acl('acl');
+
         $firewall
             ->setEventsManager($eventsManager)
             ->setRoleCallback(

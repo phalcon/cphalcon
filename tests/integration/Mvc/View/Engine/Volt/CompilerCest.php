@@ -50,45 +50,78 @@ class CompilerCest
         $I->wantToTest('Compile import recursive files');
         $I->skipTest('TODO - Check me');
 
-        $I->safeDeleteFile(dataDir('fixtures/views/layouts/extends.volt.php'));
-        $I->safeDeleteFile(dataDir('fixtures/views/extends/index.volt.php'));
-        $I->safeDeleteFile(dataDir('fixtures/views/extends/other.volt.php'));
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/layouts/extends.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/extends/index.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/extends/other.volt.php')
+        );
 
         $di = new Di();
 
         $view = new View();
-        $view->setDI($di);
-        $view->setViewsDir(dataDir('fixtures/views/'));
 
-        $view->registerEngines([
-            '.volt' => Volt::class,
-        ]);
+        $view->setDI($di);
+
+        $view->setViewsDir(
+            dataDir('fixtures/views/')
+        );
+
+        $view->registerEngines(
+            [
+                '.volt' => Volt::class,
+            ]
+        );
 
         $view->setParamToView('song', 'Rock n roll');
 
+
+
         $view->start();
-        $view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+
+        $view->setRenderLevel(
+            View::LEVEL_ACTION_VIEW
+        );
+
         $view->render('extends', 'index');
+
         $view->finish();
 
-        $expected = 'Hello Rock n roll!';
-        $actual   = $view->getContent();
-        $I->assertEquals($expected, $actual);
+
+
+        $I->assertEquals(
+            'Hello Rock n roll!',
+            $view->getContent()
+        );
 
         $view->setParamToView('some_eval', true);
 
+
+
         $view->start();
-        $view->setRenderLevel(View::LEVEL_LAYOUT);
+
+        $view->setRenderLevel(
+            View::LEVEL_LAYOUT
+        );
+
         $view->render('extends', 'index');
+
         $view->finish();
+
+
 
         $I->assertEquals(
             'Clearly, the song is: Hello Rock n roll!.' . PHP_EOL,
             $view->getContent()
         );
 
-        //Refreshing generated view
-        file_put_contents(
+        // Refreshing generated view
+        $I->writeToFile(
             dataDir('fixtures/views/extends/other.volt'),
             '{{song}} {{song}}'
         );
@@ -126,8 +159,8 @@ class CompilerCest
         );
 
 
-        //Change the view
-        file_put_contents(
+        // Change the view
+        $I->writeToFile(
             dataDir('fixtures/views/extends/other.volt'),
             'Two songs: {{song}} {{song}}'
         );
@@ -146,7 +179,6 @@ class CompilerCest
             'Clearly, the song is: Two songs: Le Song Le Song.' . PHP_EOL,
             $view->getContent()
         );
-
 
         $I->safeDeleteFile(
             dataDir('fixtures/views/layouts/extends.volt.php')
@@ -229,17 +261,23 @@ class CompilerCest
 
         $view->setDI($di);
 
-        $view->setViewsDir(dataDir('fixtures/views/'));
+        $view->setViewsDir(
+            dataDir('fixtures/views/')
+        );
 
-        $view->registerEngines([
-            '.volt' => function ($view) {
-                $volt     = new Volt($view, $this);
-                $compiler = $volt->getCompiler();
-                $compiler->addFunction('strtotime', 'strtotime');
+        $view->registerEngines(
+            [
+                '.volt' => function ($view) {
+                    $volt = new Volt($view, $this);
 
-                return $volt;
-            },
-        ]);
+                    $compiler = $volt->getCompiler();
+
+                    $compiler->addFunction('strtotime', 'strtotime');
+
+                    return $volt;
+                },
+            ]
+        );
 
         $view->start();
         $view->render('macro', 'hello');

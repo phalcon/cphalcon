@@ -29,9 +29,14 @@ class GetContentCest
 
         $asset = new Js('assets/assets/signup.js');
 
-        $I->assertEquals(
-            file_get_contents(dataDir('assets/assets/signup.js')),
-            $asset->getContent(dataDir())
+        $I->openFile(
+            dataDir('assets/assets/signup.js')
+        );
+
+        $I->seeFileContentsEqual(
+            $asset->getContent(
+                dataDir()
+            )
         );
     }
 }
