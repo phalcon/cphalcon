@@ -10,8 +10,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Annotations\AdapterFactory;
+namespace Phalcon\Test\Unit\Annotations\AnnotationsFactory;
 
+use Phalcon\Annotations\Adapter\Apcu;
+use Phalcon\Annotations\AnnotationsFactory;
 use UnitTester;
 
 class NewInstanceCest
@@ -26,6 +28,14 @@ class NewInstanceCest
     {
         $I->wantToTest('Annotations\AdapterFactory - newInstance()');
 
-        $I->skipTest('Need implementation');
+        $factory = new AnnotationsFactory();
+        $name    = 'apcu';
+
+        $image = $factory->newInstance($name);
+
+        $I->assertInstanceOf(
+            Apcu::class,
+            $image
+        );
     }
 }

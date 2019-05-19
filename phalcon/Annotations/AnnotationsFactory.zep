@@ -12,6 +12,7 @@ namespace Phalcon\Annotations;
 
 use Phalcon\Annotations\Adapter\AbstractAdapter;
 use Phalcon\Factory\AbstractFactory;
+use Phalcon\Helper\Arr;
 
 class AnnotationsFactory extends AbstractFactory
 {
@@ -28,15 +29,9 @@ class AnnotationsFactory extends AbstractFactory
      */
     public function load(var config) -> var
     {
-        var height, file, name, width;
+        var name, options;
 
         let config = this->checkConfig(config);
-
-        if unlikely !isset config["file"] {
-            throw new Exception(
-                "You must provide 'file' option in factory config parameter."
-            );
-        }
 
         let name = config["adapter"];
 
