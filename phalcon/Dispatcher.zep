@@ -17,10 +17,9 @@ use Phalcon\DispatcherInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Exception as PhalconException;
-use Phalcon\FilterInterface;
+use Phalcon\Filter\FilterInterface;
 use Phalcon\Mvc\Model\Binder;
 use Phalcon\Mvc\Model\BinderInterface;
-use Phalcon\Service\LocatorInterface;
 
 /**
  * Phalcon\Dispatcher
@@ -815,8 +814,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             );
         }
 
-        let filter = <LocatorInterface> container->getShared("filter");
-//        let filter = <FilterInterface> container->getShared("filter");
+        let filter = <FilterInterface> container->getShared("filter");
 
         return filter->sanitize(paramValue, filters);
     }

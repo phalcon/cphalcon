@@ -8,27 +8,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Translate;
+namespace Phalcon\Annotations;
 
-use Phalcon\Config;
+use Phalcon\Annotations\Adapter\AbstractAdapter;
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Helper\Arr;
-use Phalcon\Translate\InterpolatorFactory;
 
-class TranslateFactory extends AbstractFactory
+class AnnotationsFactory extends AbstractFactory
 {
-    /**
-     * @var InterpolatorFactory
-     */
-    private interpolator;
-
     /**
      * AdapterFactory constructor.
      */
-    public function __construct(<InterpolatorFactory> interpolator, array! services = [])
+    public function __construct(array! services = [])
     {
-        let this->interpolator = interpolator;
-
         this->init(services);
     }
 
@@ -37,11 +28,21 @@ class TranslateFactory extends AbstractFactory
      */
     public function load(var config) -> var
     {
-        var name, options;
+        var height, file, name, width;
 
-        let config  = this->checkConfig(config),
-            name    = config["adapter"],
-            options = Arr::get(config, "options", []);
+        let config = this->checkConfig(config);
+
+        if unlikely !isset config["file"] {
+            throw new Exception(
+                "You must provide 'file' option in factory config parameter."
+            );
+        }
+
+        let name = config["adapter"];
+
+        unset config["adapter"];
+
+        let options = Arr::get(config, "options", []);
 
         return this->newInstance(name, options);
     }
@@ -57,7 +58,7 @@ class TranslateFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = new {definition}(this->interpolator, options);
+                this->services[name] = new {definition}(options);
         }
 
         return this->services[name];
@@ -66,9 +67,9 @@ class TranslateFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "csv"     : "\\Phalcon\\Translate\\Adapter\\Csv",
-            "gettext" : "\\Phalcon\\Translate\\Adapter\\Gettext",
-            "array"   : "\\Phalcon\\Translate\\Adapter\\NativeArray"
+            "apcu"   : "\\Phalcon\\Annotations\\Adapter\\Apcu",
+            "memory" : "\\Phalcon\\Annotations\\Adapter\\Memory",
+            "stream" : "\\Phalcon\\Annotations\\Adapter\\Stream"
         ];
     }
 }

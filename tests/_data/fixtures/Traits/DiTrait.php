@@ -217,7 +217,7 @@ trait DiTrait
         $this->container->set(
             'filter',
             function () {
-                $filter = new Filter\FilterLocatorFactory();
+                $filter = new Filter\FilterFactory();
 
                 return $filter->newInstance();
             }

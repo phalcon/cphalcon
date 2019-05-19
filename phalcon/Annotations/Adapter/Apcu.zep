@@ -10,7 +10,7 @@
 
 namespace Phalcon\Annotations\Adapter;
 
-use Phalcon\Annotations\Adapter;
+use Phalcon\Annotations\Adapter\AbstractAdapter;
 use Phalcon\Annotations\Reflection;
 
 /**
@@ -24,7 +24,7 @@ use Phalcon\Annotations\Reflection;
  * $annotations = new Apcu();
  *</code>
  */
-class Apcu extends Adapter
+class Apcu extends AbstractAdapter
 {
     /**
      * @var string

@@ -34,21 +34,7 @@ class ImageFactory extends AbstractFactory
     {
         var height, file, name, width;
 
-        if typeof config == "object" && config instanceof Config {
-            let config = config->toArray();
-        }
-
-        if unlikely typeof config !== "array" {
-            throw new Exception(
-                "Config must be array or Phalcon\\Config object"
-            );
-        }
-
-        if unlikely !isset config["adapter"] {
-            throw new Exception(
-                "You must provide 'adapter' option in factory config parameter."
-            );
-        }
+        let config = this->checkConfig(config);
 
         if unlikely !isset config["file"] {
             throw new Exception(
