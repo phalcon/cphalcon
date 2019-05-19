@@ -25,10 +25,17 @@ class AbstractFactory
     /**
      * Checks if a service exists and throws an exception
      */
-    protected function checkService(string! name) -> void
+    protected function checkService(string! name, array options = []) -> void
     {
+        var definition;
+
         if unlikely !isset this->mapper[name] {
             throw new Exception("Service " . name . " is not registered");
+        }
+
+        if !isset this->services[name] {
+            let definition           = this->mapper[name],
+                this->services[name] = create_instance_params(definition, options);
         }
     }
 

@@ -36,14 +36,12 @@ class AdapterFactory extends AbstractFactory
      */
     public function newInstance(string! name, array! options = []) -> <AbstractAdapter>
     {
-        var definition;
+        let options = [
+                this->serializerFactory,
+                options
+            ];
 
-        this->checkService(name);
-
-        if !isset this->services[name] {
-            let definition           = this->mapper[name],
-                this->services[name] = new {definition}(this->serializerFactory, options);
-        }
+        this->checkService(name, options);
 
         return this->services[name];
     }
