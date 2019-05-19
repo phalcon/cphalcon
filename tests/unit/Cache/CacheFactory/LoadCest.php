@@ -38,19 +38,8 @@ class LoadCest
     {
         $I->wantToTest('Cache\CacheFactory - load()');
 
-        $options      = $this->config->cache;
-        $cacheFactory = new CacheFactory(new AdapterFactory());
-        $adapter      = $cacheFactory->load($options);
-
-        $I->assertInstanceOf(
-            Cache::class,
-            $adapter
-        );
-
-        $I->assertInstanceOf(
-            CacheInterface::class,
-            $adapter
-        );
+        $options = $this->config->cache;
+        $this->runTests($I, $options);
     }
 
     /**
@@ -63,7 +52,12 @@ class LoadCest
     {
         $I->wantToTest('Cache\CacheFactory - load() - array');
 
-        $options      = $this->arrayConfig['cache'];
+        $options = $this->arrayConfig['cache'];
+        $this->runTests($I, $options);
+    }
+
+    private function runTests(UnitTester $I, $options)
+    {
         $cacheFactory = new CacheFactory(new AdapterFactory());
         $adapter      = $cacheFactory->load($options);
 
