@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Inline;
 
 use Phalcon\Assets\Inline;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetTypeCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Inline :: getType() - css
      *
@@ -29,11 +26,16 @@ class GetTypeCest
     public function assetsInlineGetTypeCss(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline - getType() - css');
-        $content = 'p {color: #000099}';
-        $asset   = new Inline('css', $content);
 
-        $expected = 'css';
-        $this->assetGetType($I, $asset, $expected);
+        $type    = 'css';
+        $content = 'p {color: #000099}';
+
+        $asset = new Inline($type, $content);
+
+        $I->assertEquals(
+            $type,
+            $asset->getType()
+        );
     }
 
     /**
@@ -45,10 +47,15 @@ class GetTypeCest
     public function assetsInlineGetTypeJs(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline - getType() - js');
-        $content = '<script>alert("Hello");</script>';
-        $asset   = new Inline('js', $content);
 
-        $expected = 'js';
-        $this->assetGetType($I, $asset, $expected);
+        $type    = 'js';
+        $content = '<script>alert("Hello");</script>';
+
+        $asset = new Inline($type, $content);
+
+        $I->assertEquals(
+            $type,
+            $asset->getType()
+        );
     }
 }

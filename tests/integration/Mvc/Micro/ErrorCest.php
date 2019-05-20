@@ -21,7 +21,7 @@ class ErrorCest
     /**
      * Tests Phalcon\Mvc\Micro :: error()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-16
      */
     public function mvcMicroError(IntegrationTester $I)

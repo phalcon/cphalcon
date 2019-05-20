@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetTypeCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Css :: getType() - css local
      *
@@ -29,10 +26,13 @@ class GetTypeCest
     public function assetsAssetCssGetTypeLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getType() - css local');
+
         $asset = new Css('css/docs.css');
 
-        $expected = 'css';
-        $this->assetGetType($I, $asset, $expected);
+        $I->assertEquals(
+            'css',
+            $asset->getType()
+        );
     }
 
     /**
@@ -44,9 +44,12 @@ class GetTypeCest
     public function assetsAssetCssGetTypeRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getType() - css remote');
+
         $asset = new Css('https://phalcon.ld/css/docs.css');
 
-        $expected = 'css';
-        $this->assetGetType($I, $asset, $expected);
+        $I->assertEquals(
+            'css',
+            $asset->getType()
+        );
     }
 }

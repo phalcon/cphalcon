@@ -23,7 +23,7 @@ class GetFieldsCest
     /**
      * Tests Phalcon\Mvc\Model\Relation :: getFields()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
     public function mvcModelRelationGetFieldsString(IntegrationTester $I)
@@ -50,7 +50,7 @@ class GetFieldsCest
     /**
      * Tests Phalcon\Mvc\Model\Relation :: getFields()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
     public function mvcModelRelationGetFieldsArray(IntegrationTester $I)

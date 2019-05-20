@@ -23,7 +23,7 @@ class GetCest
     /**
      * Tests Phalcon\Mvc\Micro :: get()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
     public function mvcMicroGet(IntegrationTester $I)

@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetTypeCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset :: getType() - css local
      *
@@ -29,10 +26,13 @@ class GetTypeCest
     public function assetsAssetGetTypeCssLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getType() - css local');
+
         $asset = new Asset('css', 'css/docs.css');
 
-        $expected = 'css';
-        $this->assetGetType($I, $asset, $expected);
+        $I->assertEquals(
+            'css',
+            $asset->getType()
+        );
     }
 
     /**
@@ -44,10 +44,13 @@ class GetTypeCest
     public function assetsAssetGetTypeCssRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getType() - css remote');
+
         $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
 
-        $expected = 'css';
-        $this->assetGetType($I, $asset, $expected);
+        $I->assertEquals(
+            'css',
+            $asset->getType()
+        );
     }
 
     /**
@@ -59,10 +62,13 @@ class GetTypeCest
     public function assetsAssetGetTypeJsLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getType() - js local');
+
         $asset = new Asset('js', 'js/jquery.js');
 
-        $expected = 'js';
-        $this->assetGetType($I, $asset, $expected);
+        $I->assertEquals(
+            'js',
+            $asset->getType()
+        );
     }
 
     /**
@@ -74,9 +80,12 @@ class GetTypeCest
     public function assetsAssetGetTypeJsRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getType() - js remote');
+
         $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
 
-        $expected = 'js';
-        $this->assetGetType($I, $asset, $expected);
+        $I->assertEquals(
+            'js',
+            $asset->getType()
+        );
     }
 }

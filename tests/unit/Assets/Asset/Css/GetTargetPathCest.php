@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetTargetPathCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Css :: getTargetPath() - css local
      *
@@ -32,11 +29,14 @@ class GetTargetPathCest
 
         $asset = new Css('css/docs.css');
 
-        $expected = '/phalcon/path';
+        $targetPath = '/phalcon/path';
 
-        $asset->setTargetPath($expected);
+        $asset->setTargetPath($targetPath);
 
-        $this->assetGetTargetPath($I, $asset, $expected);
+        $I->assertEquals(
+            $targetPath,
+            $asset->getTargetPath()
+        );
     }
 
     /**
@@ -51,10 +51,13 @@ class GetTargetPathCest
 
         $asset = new Css('https://phalcon.ld/css/docs.css', false);
 
-        $expected = '/phalcon/path';
+        $targetPath = '/phalcon/path';
 
-        $asset->setTargetPath($expected);
+        $asset->setTargetPath($targetPath);
 
-        $this->assetGetTargetPath($I, $asset, $expected);
+        $I->assertEquals(
+            $targetPath,
+            $asset->getTargetPath()
+        );
     }
 }

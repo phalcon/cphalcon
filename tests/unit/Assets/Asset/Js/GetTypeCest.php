@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
 use Phalcon\Assets\Asset\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetTypeCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Js :: getType() - js local
      *
@@ -29,10 +26,13 @@ class GetTypeCest
     public function assetsAssetJsGetTypeLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getType() - js local');
+
         $asset = new Js('js/jquery.js');
 
-        $expected = 'js';
-        $this->assetGetType($I, $asset, $expected);
+        $I->assertEquals(
+            'js',
+            $asset->getType()
+        );
     }
 
     /**
@@ -44,9 +44,12 @@ class GetTypeCest
     public function assetsAssetJsGetTypeRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getType() - js remote');
+
         $asset = new Js('https://phalcon.ld/js/jquery.js');
 
-        $expected = 'js';
-        $this->assetGetType($I, $asset, $expected);
+        $I->assertEquals(
+            'js',
+            $asset->getType()
+        );
     }
 }

@@ -33,12 +33,18 @@ class GetSetDICest
     public function mvcMicroGetSetDI(IntegrationTester $I)
     {
         $I->wantToTest("Mvc\Micro - getDI()/setDI()");
-        $micro = new Micro();
-        $this->newDi();
-        $micro->setDI($this->container);
 
-        $class  = Di::class;
-        $actual = $micro->getDI();
-        $I->assertInstanceOf($class, $actual);
+        $micro = new Micro();
+
+        $this->newDi();
+
+        $micro->setDI(
+            $this->container
+        );
+
+        $I->assertInstanceOf(
+            Di::class,
+            $micro->getDI()
+        );
     }
 }

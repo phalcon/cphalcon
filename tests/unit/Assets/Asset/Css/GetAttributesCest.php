@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetAttributesCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Css :: getAttributes() - css local
      *
@@ -41,7 +38,10 @@ class GetAttributesCest
             $attributes
         );
 
-        $this->assetGetAttributes($I, $asset, $attributes);
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
+        );
     }
 
     /**
@@ -65,6 +65,9 @@ class GetAttributesCest
             $attributes
         );
 
-        $this->assetGetAttributes($I, $asset, $attributes);
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
+        );
     }
 }

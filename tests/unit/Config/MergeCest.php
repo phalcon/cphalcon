@@ -220,6 +220,187 @@ class MergeCest
     }
 
     /**
+     * Tests issue 12779
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/12779
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-06-19
+     */
+    public function testIssue12779(UnitTester $I)
+    {
+        $config = new Config(
+            [
+                'a' => [
+                    [
+                        1,
+                    ],
+                ],
+            ]
+        );
+
+        $config->merge(
+            new Config(
+                [
+                    'a' => [
+                        [
+                            2,
+                        ],
+                    ],
+                ]
+            )
+        );
+
+
+
+        $expected = [
+            'a' => [
+                [
+                    1,
+                    2,
+                ],
+            ],
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $config->toArray()
+        );
+    }
+
+    /**
+     * Tests issue 13351
+     *
+     * @link   https://github.com/phalcon/cphalcon/issues/13351
+     * @author Zamrony P. Juhara <zamronypj@yahoo.com>
+     * @since  2018-04-27
+     */
+    public function testIssue13351MergeNonZeroBasedNumericKey(UnitTester $I)
+    {
+        $config = new Config(
+            [
+                1 => 'Apple',
+            ]
+        );
+
+        $config2 = new Config(
+            [
+                2 => 'Banana',
+            ]
+        );
+
+        $config->merge($config2);
+
+
+        $expected = [
+            1 => 'Apple',
+            2 => 'Banana',
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $config->toArray()
+        );
+
+
+        $config = new Config(
+            [
+                0 => 'Apple',
+            ]
+        );
+
+        $config2 = new Config(
+            [
+                1 => 'Banana',
+            ]
+        );
+
+        $config->merge($config2);
+
+
+        $expected = [
+            0 => 'Apple',
+            1 => 'Banana',
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $config->toArray()
+        );
+
+
+        $config = new Config(
+            [
+                1   => 'Apple',
+                'p' => 'Pineapple',
+            ]
+        );
+
+        $config2 = new Config(
+            [
+                2 => 'Banana',
+            ]
+        );
+
+        $config->merge($config2);
+
+
+        $expected = [
+            1   => 'Apple',
+            'p' => 'Pineapple',
+            2   => 'Banana',
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $config->toArray()
+        );
+
+
+        $config = new Config(
+            [
+                'One' => [
+                    1   => 'Apple',
+                    'p' => 'Pineapple',
+                ],
+                'Two' => [
+                    1 => 'Apple',
+                ],
+            ]
+        );
+
+        $config2 = new Config(
+            [
+                'One' => [
+                    2 => 'Banana',
+                ],
+                'Two' => [
+                    2 => 'Banana',
+                ],
+            ]
+        );
+
+        $config->merge($config2);
+
+
+        $expected = [
+            'One' => [
+                1   => 'Apple',
+                'p' => 'Pineapple',
+                2   => 'Banana',
+            ],
+            'Two' => [
+                1 => 'Apple',
+                2 => 'Banana',
+            ],
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $config->toArray()
+        );
+    }
+
+    /**
      * Merges the reference config object into an empty config object.
      */
     private function getMergedByConfig(): Config

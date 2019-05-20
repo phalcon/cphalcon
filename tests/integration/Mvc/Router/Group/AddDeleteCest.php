@@ -23,7 +23,7 @@ class AddDeleteCest
     /**
      * Tests Phalcon\Mvc\Router\Group :: addDelete()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
     public function mvcRouterGroupAddDelete(IntegrationTester $I)

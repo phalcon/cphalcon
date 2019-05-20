@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
 use Phalcon\Assets\Asset\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetPathCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Js :: setPath() - js local
      *
@@ -29,11 +26,17 @@ class SetPathCest
     public function assetsAssetJsSetPathLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setPath() - js local');
+
         $asset = new Js('js/jquery.js');
 
-        $expected = '/new/path';
-        $asset->setPath($expected);
-        $this->assetGetPath($I, $asset, $expected);
+        $path = '/new/path';
+
+        $asset->setPath($path);
+
+        $I->assertEquals(
+            $path,
+            $asset->getPath()
+        );
     }
 
     /**
@@ -45,10 +48,16 @@ class SetPathCest
     public function assetsAssetJsSetPathRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setPath() - js remote');
+
         $asset = new Js('https://phalcon.ld/js/jquery.js');
 
-        $expected = '/new/path';
-        $asset->setPath($expected);
-        $this->assetGetPath($I, $asset, $expected);
+        $path = '/new/path';
+
+        $asset->setPath($path);
+
+        $I->assertEquals(
+            $path,
+            $asset->getPath()
+        );
     }
 }

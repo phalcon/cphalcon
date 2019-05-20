@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetLocalCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Css :: setLocal() - css local
      *
@@ -29,11 +26,14 @@ class SetLocalCest
     public function assetsAssetCssSetLocalLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setLocal() - css local');
+
         $asset = new Css('https://phalcon.ld/css/docs.css');
 
-        $expected = true;
-        $asset->setLocal($expected);
-        $this->assetGetLocal($I, $asset, $expected);
+        $asset->setLocal(true);
+
+        $I->assertTrue(
+            $asset->getLocal()
+        );
     }
 
     /**
@@ -48,8 +48,10 @@ class SetLocalCest
         $I->skipTest('TODO - Need checking');
         $asset = new Css('https://phalcon.ld/css/docs.css');
 
-        $expected = false;
-        $asset->setLocal($expected);
-        $this->assetGetLocal($I, $asset, $expected);
+        $asset->setLocal(false);
+
+        $I->assertFalse(
+            $asset->getLocal()
+        );
     }
 }

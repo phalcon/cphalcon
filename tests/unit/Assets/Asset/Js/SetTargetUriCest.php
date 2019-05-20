@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
 use Phalcon\Assets\Asset\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetTargetUriCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Js :: setTargetUri() - js local
      *
@@ -29,11 +26,17 @@ class SetTargetUriCest
     public function assetsAssetJsSetTargetUriLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setTargetUri() - js local');
+
         $asset = new Js('js/jquery.js');
 
-        $expected = '/new/path';
-        $asset->setTargetUri($expected);
-        $this->assetGetTargetUri($I, $asset, $expected);
+        $targetUri = '/new/path';
+
+        $asset->setTargetUri($targetUri);
+
+        $I->assertEquals(
+            $targetUri,
+            $asset->getTargetUri()
+        );
     }
 
     /**
@@ -45,10 +48,16 @@ class SetTargetUriCest
     public function assetsAssetJsSetTargetUriRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setTargetUri() - js remote');
+
         $asset = new Js('https://phalcon.ld/js/jquery.js');
 
-        $expected = '/new/path';
-        $asset->setTargetUri($expected);
-        $this->assetGetTargetUri($I, $asset, $expected);
+        $targetUri = '/new/path';
+
+        $asset->setTargetUri($targetUri);
+
+        $I->assertEquals(
+            $targetUri,
+            $asset->getTargetUri()
+        );
     }
 }

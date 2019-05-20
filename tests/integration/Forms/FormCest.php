@@ -134,46 +134,6 @@ class FormCest
         $I->assertNull($form->getAttributes()->get('non exists'));
     }
 
-
-    public function testIterator(IntegrationTester $I)
-    {
-        $form = new Form();
-        $data = [];
-
-        foreach ($form as $key => $value) {
-            $data[$key] = $value->getName();
-        }
-
-
-        $expected = [];
-        $actual   = $data;
-
-        $I->assertEquals($expected, $actual);
-
-
-        $form->add(
-            new Text('name')
-        );
-
-        $form->add(
-            new Text('telephone')
-        );
-
-        foreach ($form as $key => $value) {
-            $data[$key] = $value->getName();
-        }
-
-
-        $expected = [
-            0 => 'name',
-            1 => 'telephone',
-        ];
-
-        $actual = $data;
-
-        $I->assertEquals($expected, $actual);
-    }
-
     public function testLabels(IntegrationTester $I)
     {
         $form = new Form();

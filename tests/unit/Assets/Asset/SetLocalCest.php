@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetLocalCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset :: setLocal() - css local
      *
@@ -32,11 +29,11 @@ class SetLocalCest
 
         $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
 
-        $expected = true;
+        $asset->setLocal(true);
 
-        $asset->setLocal($expected);
-
-        $this->assetGetLocal($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getLocal()
+        );
     }
 
     /**
@@ -52,11 +49,11 @@ class SetLocalCest
 
         $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
 
-        $expected = false;
+        $asset->setLocal(false);
 
-        $asset->setLocal($expected);
-
-        $this->assetGetLocal($I, $asset, $expected);
+        $I->assertFalse(
+            $asset->getLocal()
+        );
     }
 
     /**
@@ -71,11 +68,11 @@ class SetLocalCest
 
         $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
 
-        $expected = true;
+        $asset->setLocal(true);
 
-        $asset->setLocal($expected);
-
-        $this->assetGetLocal($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getLocal()
+        );
     }
 
     /**
@@ -91,10 +88,10 @@ class SetLocalCest
 
         $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
 
-        $expected = false;
+        $asset->setLocal(false);
 
-        $asset->setLocal($expected);
-
-        $this->assetGetLocal($I, $asset, $expected);
+        $I->assertFalse(
+            $asset->getLocal()
+        );
     }
 }

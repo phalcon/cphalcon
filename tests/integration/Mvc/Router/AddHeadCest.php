@@ -22,7 +22,7 @@ class AddHeadCest
     /**
      * Tests Phalcon\Mvc\Router :: addHead()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
     public function mvcRouterAddHead(IntegrationTester $I)

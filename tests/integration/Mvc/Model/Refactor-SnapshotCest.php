@@ -62,18 +62,38 @@ class SnapshotCest
     public function shouldWorkWithSimpleResultset(IntegrationTester $I)
     {
         $I->skipTest('TODO = Check test');
+
         $modelsManager = $this->container->getShared('modelsManager');
-        $robots        = $modelsManager->executeQuery('SELECT * FROM ' . Robots::class);
+
+        $robots = $modelsManager->executeQuery(
+            'SELECT * FROM ' . Robots::class
+        );
 
         /** @var Robots $robot */
         foreach ($robots as $robot) {
             $robot->name = 'Some';
             $robot->year = 1999;
-            $I->assertTrue($robot->hasChanged('name'));
-            $I->assertTrue($robot->hasChanged('year'));
-            $I->assertFalse($robot->hasChanged('type'));
-            $I->assertTrue($robot->hasChanged());
-            $I->assertEquals(['name', 'year'], $robot->robot->getChangedFields());
+
+            $I->assertTrue(
+                $robot->hasChanged('name')
+            );
+
+            $I->assertTrue(
+                $robot->hasChanged('year')
+            );
+
+            $I->assertFalse(
+                $robot->hasChanged('type')
+            );
+
+            $I->assertTrue(
+                $robot->hasChanged()
+            );
+
+            $I->assertEquals(
+                ['name', 'year'],
+                $robot->robot->getChangedFields()
+            );
         }
 
         $robots = $modelsManager->executeQuery(
@@ -97,6 +117,7 @@ class SnapshotCest
     public function shouldWorkWithArrayOfModels(IntegrationTester $I)
     {
         $I->skipTest('TODO = Check test');
+
         $snapshots = [
             1 => [
                 'id'       => '1',
@@ -128,29 +149,57 @@ class SnapshotCest
         ];
 
         foreach (Robots::find(['order' => 'id']) as $robot) {
-            $I->assertTrue($robot->hasSnapshotData());
-            $I->assertEquals($robot->getSnapshotData(), $snapshots[$robot->id]);
+            $I->assertTrue(
+                $robot->hasSnapshotData()
+            );
+
+            $I->assertEquals(
+                $snapshots[$robot->id],
+                $robot->getSnapshotData()
+            );
         }
 
         foreach (Robots::find(['order' => 'id']) as $robot) {
             $robot->name = 'Some';
             $robot->year = 1999;
-            $I->assertTrue($robot->hasChanged('name'));
-            $I->assertTrue($robot->hasChanged('year'));
-            $I->assertFalse($robot->hasChanged('type'));
-            $I->assertTrue($robot->hasChanged());
+
+            $I->assertTrue(
+                $robot->hasChanged('name')
+            );
+
+            $I->assertTrue(
+                $robot->hasChanged('year')
+            );
+
+            $I->assertFalse(
+                $robot->hasChanged('type')
+            );
+
+            $I->assertTrue(
+                $robot->hasChanged()
+            );
         }
 
         foreach (Robots::find(['order' => 'id']) as $robot) {
             $robot->year = $robot->year;
-            $I->assertFalse($robot->hasChanged('year'));
-            $I->assertFalse($robot->hasChanged());
+
+            $I->assertFalse(
+                $robot->hasChanged('year')
+            );
+
+            $I->assertFalse(
+                $robot->hasChanged()
+            );
         }
 
         foreach (Robots::find(['order' => 'id']) as $robot) {
             $robot->name = 'Little';
             $robot->year = 2005;
-            $I->assertEquals(['name', 'year'], $robot->robot->getChangedFields());
+
+            $I->assertEquals(
+                ['name', 'year'],
+                $robot->robot->getChangedFields()
+            );
         }
     }
 

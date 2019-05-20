@@ -12,20 +12,126 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Loader;
 
+use function dataDir;
+use Example\Namespaces\Adapter\Another;
+use Example\Namespaces\Adapter\Mongo;
+use Example\Namespaces\Adapter\Redis;
+use Example\Namespaces\Engines\Gasoline;
+use Example\Namespaces\Example\Example;
+use Phalcon\Loader;
+use Phalcon\Test\Fixtures\Traits\LoaderTrait;
 use UnitTester;
 
 class RegisterNamespacesCest
 {
-    /**
-     * Tests Phalcon\Loader :: registerNamespaces()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function loaderRegisterNamespaces(UnitTester $I)
-    {
-        $I->wantToTest('Loader - registerNamespaces()');
+    use LoaderTrait;
 
-        $I->skipTest('Need implementation');
+    public function testNamespaces(UnitTester $I)
+    {
+        $loader = new Loader();
+
+        $loader->registerNamespaces(
+            [
+                'Example\Namespaces\Base' => dataDir('fixtures/Loader/Example/Namespaces/Base/'),
+            ]
+        );
+
+        $loader->registerNamespaces(
+            [
+                'Example\Namespaces\Adapter' => dataDir('fixtures/Loader/Example/Namespaces/Adapter/'),
+                'Example\Namespaces'         => dataDir('fixtures/Loader/Example/Namespaces/'),
+            ],
+            true
+        );
+
+        $loader->register();
+
+        $I->assertInstanceOf(
+            Mongo::class,
+            new Mongo()
+        );
+
+        $I->assertInstanceOf(
+            Redis::class,
+            new Redis()
+        );
+
+        $I->assertInstanceOf(
+            Gasoline::class,
+            new Gasoline()
+        );
+
+        $I->assertInstanceOf(
+            Example::class,
+            new Example()
+        );
+
+        $loader->unregister();
+    }
+
+    public function testNamespacesForMultipleDirectories(UnitTester $I)
+    {
+        $loader = new Loader();
+
+        $loader->registerNamespaces(
+            [
+                'Example\\Namespaces\\Base' => dataDir('fixtures/Loader/Example/Namespaces/Base/'),
+            ]
+        );
+
+        $expected = [
+            'Example\\Namespaces\\Base' => [
+                dataDir('fixtures/Loader/Example/Namespaces/Base/'),
+            ],
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $loader->getNamespaces()
+        );
+
+        $loader->registerNamespaces(
+            [
+                'Example\\Namespaces\\Adapter' => [
+                    dataDir('fixtures/Loader/Example/Namespaces/Adapter/'),
+                    dataDir('fixtures/Loader/Example/Namespaces/Plugin/'),
+                ],
+            ],
+            true
+        );
+
+        $expected = [
+            'Example\\Namespaces\\Base'    => [
+                dataDir('fixtures/Loader/Example/Namespaces/Base/'),
+            ],
+            'Example\\Namespaces\\Adapter' => [
+                dataDir('fixtures/Loader/Example/Namespaces/Adapter/'),
+                dataDir('fixtures/Loader/Example/Namespaces/Plugin/'),
+            ],
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $loader->getNamespaces()
+        );
+
+        $loader->register();
+
+        $I->assertInstanceOf(
+            Mongo::class,
+            new Mongo()
+        );
+
+        $I->assertInstanceOf(
+            Another::class,
+            new Another()
+        );
+
+        $I->assertInstanceOf(
+            Redis::class,
+            new Redis()
+        );
+
+        $loader->unregister();
     }
 }
