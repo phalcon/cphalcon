@@ -3573,7 +3573,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     }
 
     /**
-     * Query the records on which the UPDATE/DELETE operation well be done
+     * Query the records on which the UPDATE/DELETE operation will be done
      */
     final protected function _getRelatedRecords(<ModelInterface> model, array intermediate, array bindParams, array bindTypes) -> <ResultsetInterface>
     {

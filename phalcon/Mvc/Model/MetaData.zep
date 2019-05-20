@@ -776,7 +776,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
             if !isset metaData[key] {
                 /**
-                 * The meta-data is read from the adapter always if not available in _metaData property
+                 * The meta-data is read from the adapter always if not available in metaData property
                  */
                 let prefixKey = "meta-" . key,
                     data = this->{"read"}(prefixKey);
@@ -821,7 +821,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         }
 
         /**
-         * Check for a column map, store in _columnMap in order and reversed order
+         * Check for a column map, store in columnMap in order and reversed order
          */
         if !globals_get("orm.column_renaming") {
             return null;

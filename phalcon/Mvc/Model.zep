@@ -1940,7 +1940,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *
      * $hasChanged = $robot->hasChanged("type"); // returns true
      * $hasChanged = $robot->hasChanged(["type", "name"]); // returns true
-     * $hasChanged = $robot->hasChanged(["type", "name", true]); // returns false
+     * $hasChanged = $robot->hasChanged(["type", "name"], true); // returns false
      *</code>
      *
      * @param string|array fieldName
@@ -5087,8 +5087,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * @param    string|array fields
      * @param    string|array intermediateFields
      * @param    string|array intermediateReferencedFields
-     * @param   string|array referencedFields
-     * @param   array options
+     * @param    string|array referencedFields
+     * @param    array options
      */
     protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
         string! referenceModel, var referencedFields, options = null) -> <Relation>
