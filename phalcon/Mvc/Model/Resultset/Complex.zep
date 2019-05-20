@@ -33,7 +33,7 @@ class Complex extends Resultset implements ResultsetInterface
 
     /**
      * Unserialised result-set hydrated all rows already. unserialise() sets
-     * _disableHydration to true
+     * disableHydration to true
      */
     protected disableHydration = false;
 

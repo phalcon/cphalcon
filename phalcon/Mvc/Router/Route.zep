@@ -45,7 +45,7 @@ class Route implements RouteInterface
         // Update the HTTP method constraints
         let this->methods = httpMethods;
 
-        // Get the unique Id from the static member _uniqueId
+        // Get the unique Id from the static member uniqueId
         let uniqueId = self::uniqueId;
 
         if uniqueId === null {
