@@ -27,7 +27,7 @@
 
 ## Fixed
 - Fixed `Phalcon\Mvc\View::getRender()` to call `view->finish()` instead of `ob_end_clean()`. [#14095](https://github.com/phalcon/cphalcon/issues/14095)
-- Fixed `Phalcon\Db\Column` to recognize `tinyint`, `smallint`, `mediumint` as valid autoIncrement columns. [#14102](https://github.com/phalcon/cphalcon/issues/14102)
+- Fixed `Phalcon\Db\Column` to recognize `tinyint`, `smallint`, `mediumint`, `integer` as valid autoIncrement columns. [#14102](https://github.com/phalcon/cphalcon/issues/14102)
 
 ## Removed
 - Removed `Phalcon\Session\Factory`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
