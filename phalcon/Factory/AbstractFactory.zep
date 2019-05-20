@@ -67,7 +67,7 @@ class AbstractFactory
     /**
      * AdapterFactory constructor.
      */
-    protected function init(array! services = [])
+    protected function init(array! services = []) -> void
     {
         var adapters, name, service;
 
