@@ -12,7 +12,7 @@ namespace Phalcon\Config\Adapter;
 
 use Phalcon\Config;
 use Phalcon\Factory\Exception;
-use Phalcon\Config\Factory;
+use Phalcon\Config\ConfigFactory;
 
 /**
  * Phalcon\Config\Adapter\Grouped
@@ -87,7 +87,7 @@ class Grouped extends Config
             if typeof configName === "string" {
                 if defaultAdapter === "" {
                     this->internalMerge(
-                        Factory::load(configName)
+                        (new ConfigFactory())->load(configName)
                     );
 
                     continue;
@@ -111,7 +111,7 @@ class Grouped extends Config
                 let configArray = configInstance["config"];
                 let configInstance = new Config(configArray);
             } else {
-                let configInstance = Factory::load(configInstance);
+                let configInstance = (new ConfigFactory())->load(configInstance);
             }
 
             this->internalMerge(configInstance);
