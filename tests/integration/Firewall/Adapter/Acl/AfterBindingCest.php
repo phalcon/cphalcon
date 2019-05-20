@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
+namespace Phalcon\Test\Integration\Firewall\Adapter\Acl;
 
 use Codeception\Example;
 use function ob_end_clean;
@@ -25,7 +25,7 @@ use Phalcon\Test\Fixtures\Firewall\BindingRole;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
-use UnitTester;
+use IntegrationTester;
 
 class AfterBindingCest
 {
@@ -89,7 +89,7 @@ class AfterBindingCest
      * @author       Wojciech Ślawski <jurigag@gmail.com>
      * @since        2017-01-19
      */
-    public function firewallAdapterAclAfterBinding(UnitTester $I, Example $example)
+    public function firewallAdapterAclAfterBinding(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Firewall\Adapter\Acl - afterBinding()');
 

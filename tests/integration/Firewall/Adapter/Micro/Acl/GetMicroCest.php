@@ -22,7 +22,7 @@ class GetMicroCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
      */
-    public function firewallAdapterMicroAclGetMicro(UnitTester $I)
+    public function firewallAdapterMicroAclGetMicro(IntegrationTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Micro\Acl - getMicro()');
 

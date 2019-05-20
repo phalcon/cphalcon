@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
+namespace Phalcon\Test\Integration\Firewall\Adapter\Acl;
 
 use function ob_end_clean;
 use function ob_start;
@@ -24,7 +24,7 @@ use Phalcon\Test\Fixtures\Firewall\BindingRole;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
-use UnitTester;
+use IntegrationTester;
 
 class SetBoundModelsKeyMapCest
 {
@@ -86,7 +86,7 @@ class SetBoundModelsKeyMapCest
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-01-19
      */
-    public function firewallAdapterAclSetBoundModelsKeyMap(UnitTester $I)
+    public function firewallAdapterAclSetBoundModelsKeyMap(IntegrationTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Acl - setBoundModelsKeyMap()');
 

@@ -10,11 +10,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
+namespace Phalcon\Test\Integration\Firewall\Adapter\Acl;
 
 use Phalcon\Acl as PhAcl;
 use Phalcon\Firewall\Adapter\Acl;
-use UnitTester;
+use IntegrationTester;
 
 class GetSetDefaultAccessCest
 {
@@ -24,7 +24,7 @@ class GetSetDefaultAccessCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
      */
-    public function firewallAdapterAclGetDefaultAccess(UnitTester $I)
+    public function firewallAdapterAclGetDefaultAccess(IntegrationTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Acl - getDefaultAccess()');
 

@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Firewall\Adapter\Micro\Acl;
+namespace Phalcon\Test\Integration\Firewall\Adapter\Micro\Acl;
 
-use UnitTester;
+use IntegrationTester;
 
 class IsAlwaysResolvingRoleCest
 {
@@ -22,7 +22,7 @@ class IsAlwaysResolvingRoleCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
      */
-    public function firewallAdapterMicroAclIsAlwaysResolvingRole(UnitTester $I)
+    public function firewallAdapterMicroAclIsAlwaysResolvingRole(IntegrationTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Micro\Acl - isAlwaysResolvingRole()');
 

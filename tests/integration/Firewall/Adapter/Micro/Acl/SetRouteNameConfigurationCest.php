@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Firewall\Adapter\Micro\Acl;
+namespace Phalcon\Test\Integration\Firewall\Adapter\Micro\Acl;
 
 use function ob_end_clean;
 use function ob_start;
@@ -22,7 +22,7 @@ use Phalcon\Mvc\Micro;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
-use UnitTester;
+use IntegrationTester;
 
 class SetRouteNameConfigurationCest
 {
@@ -39,7 +39,7 @@ class SetRouteNameConfigurationCest
      */
     protected $firewall;
 
-    public function _before(UnitTester $I)
+    public function _before(IntegrationTester $I)
     {
         ob_start();
 
@@ -107,7 +107,7 @@ class SetRouteNameConfigurationCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
      */
-    public function firewallAdapterMicroAclSetRouteNameConfiguration(UnitTester $I)
+    public function firewallAdapterMicroAclSetRouteNameConfiguration(IntegrationTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Micro\Acl - setRouteNameConfiguration()');
 
