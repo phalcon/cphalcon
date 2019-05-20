@@ -65,7 +65,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZEPHIR_CALL_PARENT(NULL, phalcon_di_factorydefault_ce, getThis(), "__construct", &_0, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&filter);
-	object_init_ex(&filter, phalcon_filter_filterlocatorfactory_ce);
+	object_init_ex(&filter, phalcon_filter_filterfactory_ce);
 	if (zephir_has_constructor(&filter TSRMLS_CC)) {
 		ZEPHIR_CALL_METHOD(NULL, &filter, "__construct", NULL, 0);
 		zephir_check_call_status();

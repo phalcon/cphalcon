@@ -1,0 +1,232 @@
+
+#ifdef HAVE_CONFIG_H
+#include "../../ext_config.h"
+#endif
+
+#include <php.h>
+#include "../../php_ext.h"
+#include "../../ext.h"
+
+#include <Zend/zend_operators.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
+
+#include "kernel/main.h"
+#include "kernel/array.h"
+#include "kernel/object.h"
+#include "kernel/exception.h"
+#include "kernel/memory.h"
+#include "kernel/fcall.h"
+#include "kernel/concat.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/operators.h"
+
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+ZEPHIR_INIT_CLASS(Phalcon_Factory_AbstractFactory) {
+
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Factory, AbstractFactory, phalcon, factory_abstractfactory, phalcon_factory_abstractfactory_method_entry, 0);
+
+	/**
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_factory_abstractfactory_ce, SL("mapper"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	/**
+	 * @var array
+	 */
+	zend_declare_property_null(phalcon_factory_abstractfactory_ce, SL("services"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	phalcon_factory_abstractfactory_ce->create_object = zephir_init_properties_Phalcon_Factory_AbstractFactory;
+	return SUCCESS;
+
+}
+
+/**
+ * Checks if a service exists and throws an exception
+ */
+PHP_METHOD(Phalcon_Factory_AbstractFactory, checkService) {
+
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *name_param = NULL, _0, _1$$3;
+	zval name, _2$$3;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
+
+	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(&name, name_param);
+	} else {
+		ZEPHIR_INIT_VAR(&name);
+		ZVAL_EMPTY_STRING(&name);
+	}
+
+
+	zephir_read_property(&_0, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(!(zephir_array_isset(&_0, &name)))) {
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_factory_exception_ce);
+		ZEPHIR_INIT_VAR(&_2$$3);
+		ZEPHIR_CONCAT_SVS(&_2$$3, "Service ", &name, " is not registered");
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 1, &_2$$3);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Factory/AbstractFactory.zep", 34 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Checks the config if it is a valid object
+ */
+PHP_METHOD(Phalcon_Factory_AbstractFactory, checkConfig) {
+
+	zend_bool _0;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *config = NULL, config_sub, _1$$3;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&config_sub);
+	ZVAL_UNDEF(&_1$$3);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &config);
+
+	ZEPHIR_SEPARATE_PARAM(config);
+
+
+	_0 = Z_TYPE_P(config) == IS_OBJECT;
+	if (_0) {
+		_0 = zephir_instance_of_ev(config, phalcon_config_ce TSRMLS_CC);
+	}
+	if (_0) {
+		ZEPHIR_CALL_METHOD(&_1$$3, config, "toarray", NULL, 0);
+		zephir_check_call_status();
+		ZEPHIR_CPY_WRT(config, &_1$$3);
+	}
+	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Factory/AbstractFactory.zep", 50);
+		return;
+	}
+	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("adapter"))))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Factory/AbstractFactory.zep", 56);
+		return;
+	}
+	RETVAL_ZVAL(config, 1, 0);
+	RETURN_MM();
+
+}
+
+/**
+ * Returns the adapters for the factory
+ */
+PHP_METHOD(Phalcon_Factory_AbstractFactory, getAdapters) {
+
+}
+
+/**
+ * AdapterFactory constructor.
+ */
+PHP_METHOD(Phalcon_Factory_AbstractFactory, init) {
+
+	zend_string *_3;
+	zend_ulong _2;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *services_param = NULL, adapters, name, service, _0, *_1, _4$$3;
+	zval services;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&services);
+	ZVAL_UNDEF(&adapters);
+	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&service);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_4$$3);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &services_param);
+
+	if (!services_param) {
+		ZEPHIR_INIT_VAR(&services);
+		array_init(&services);
+	} else {
+	ZEPHIR_OBS_COPY_OR_DUP(&services, services_param);
+	}
+
+
+	ZEPHIR_CALL_METHOD(&adapters, this_ptr, "getadapters", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_fast_array_merge(&_0, &adapters, &services TSRMLS_CC);
+	ZEPHIR_CPY_WRT(&adapters, &_0);
+	zephir_is_iterable(&adapters, 0, "phalcon/Factory/AbstractFactory.zep", 81);
+	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&adapters), _2, _3, _1)
+	{
+		ZEPHIR_INIT_NVAR(&name);
+		if (_3 != NULL) { 
+			ZVAL_STR_COPY(&name, _3);
+		} else {
+			ZVAL_LONG(&name, _2);
+		}
+		ZEPHIR_INIT_NVAR(&service);
+		ZVAL_COPY(&service, _1);
+		zephir_update_property_array(this_ptr, SL("mapper"), &name, &service TSRMLS_CC);
+		zephir_read_property(&_4$$3, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
+		zephir_array_unset(&_4$$3, &name, PH_SEPARATE);
+	} ZEND_HASH_FOREACH_END();
+	ZEPHIR_INIT_NVAR(&service);
+	ZEPHIR_INIT_NVAR(&name);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+zend_object *zephir_init_properties_Phalcon_Factory_AbstractFactory(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval _0, _2, _1$$3, _3$$4;
+		ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_3$$4);
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval local_this_ptr, *this_ptr = &local_this_ptr;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_1$$3);
+			array_init(&_1$$3);
+			zephir_update_property_zval(this_ptr, SL("services"), &_1$$3);
+		}
+		zephir_read_property(&_2, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_2) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_3$$4);
+			array_init(&_3$$4);
+			zephir_update_property_zval(this_ptr, SL("mapper"), &_3$$4);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJ_P(this_ptr);
+	}
+
+}
+

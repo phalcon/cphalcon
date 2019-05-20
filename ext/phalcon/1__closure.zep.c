@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 
@@ -27,16 +28,20 @@ ZEPHIR_INIT_CLASS(phalcon_1__closure) {
 PHP_METHOD(phalcon_1__closure, __invoke) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *matches, matches_sub, _0;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&matches_sub);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &matches);
 
-	object_init_ex(return_value, phalcon_filter_sanitize_absint_ce);
-	if (zephir_has_constructor(return_value TSRMLS_CC)) {
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0);
-		zephir_check_call_status();
-	}
+
+
+	zephir_array_fetch_long(&_0, matches, 0, PH_NOISY | PH_READONLY, "phalcon/Http/Message/Uri.zep", 691 TSRMLS_CC);
+	ZEPHIR_RETURN_CALL_FUNCTION("urlencode", NULL, 0, &_0);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 	} else {
 		ZEPHIR_OBS_VAR(&arguments);
 		if (zephir_array_isset_string_fetch(&arguments, &definition, SL("arguments"), 0)) {
-			ZEPHIR_CALL_METHOD(&_0$$8, this_ptr, "buildparameters", NULL, 193, container, &arguments);
+			ZEPHIR_CALL_METHOD(&_0$$8, this_ptr, "buildparameters", NULL, 194, container, &arguments);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&instance);
 			ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&instance, &className, &_0$$8 TSRMLS_CC);
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 				}
 				if (zephir_fast_count_int(&arguments TSRMLS_CC)) {
 					ZEPHIR_INIT_NVAR(&_11$$18);
-					ZEPHIR_CALL_METHOD(&_12$$18, this_ptr, "buildparameters", NULL, 193, container, &arguments);
+					ZEPHIR_CALL_METHOD(&_12$$18, this_ptr, "buildparameters", NULL, 194, container, &arguments);
 					zephir_check_call_status();
 					ZEPHIR_CALL_USER_FUNC_ARRAY(&_11$$18, &methodCall, &_12$$18);
 					zephir_check_call_status();
@@ -265,7 +265,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			ZEPHIR_CALL_METHOD(&_23$$22, this_ptr, "buildparameter", &_24, 194, container, &propertyPosition, &propertyValue);
+			ZEPHIR_CALL_METHOD(&_23$$22, this_ptr, "buildparameter", &_24, 195, container, &propertyPosition, &propertyValue);
 			zephir_check_call_status();
 			zephir_update_property_zval_zval(&instance, &propertyName, &_23$$22 TSRMLS_CC);
 		} ZEND_HASH_FOREACH_END();
@@ -458,7 +458,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameters) {
 		}
 		ZEPHIR_INIT_NVAR(&argument);
 		ZVAL_COPY(&argument, _0);
-		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "buildparameter", &_4, 194, container, &position, &argument);
+		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "buildparameter", &_4, 195, container, &position, &argument);
 		zephir_check_call_status();
 		zephir_array_append(&buildArguments, &_3$$3, PH_SEPARATE, "phalcon/Di/Service/Builder.zep", 319);
 	} ZEND_HASH_FOREACH_END();
