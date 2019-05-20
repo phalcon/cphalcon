@@ -15,14 +15,14 @@ use Phalcon\Annotations\Reflection;
 use Phalcon\Annotations\Exception;
 
 /**
- * Phalcon\Annotations\Adapter\Files
+ * Phalcon\Annotations\Adapter\Stream
  *
  * Stores the parsed annotations in files. This adapter is suitable for production
  *
  *<code>
  * use Phalcon\Annotations\Adapter\Stream;
  *
- * $annotations = new Files(
+ * $annotations = new Stream(
  *     [
  *         "annotationsDir" => "app/cache/annotations/",
  *     ]
@@ -37,7 +37,7 @@ class Stream extends AbstractAdapter
     protected annotationsDir = "./";
 
     /**
-     * Phalcon\Annotations\Adapter\Files constructor
+     * Phalcon\Annotations\Adapter\Stream constructor
      */
     public function __construct(array options = []) -> void
     {
