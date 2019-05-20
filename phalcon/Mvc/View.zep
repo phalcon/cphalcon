@@ -425,7 +425,7 @@ class View extends Injectable implements ViewInterface
         /**
          * Stop the output buffering
          */
-        ob_end_clean();
+        view->finish();
 
         /**
          * Get the processed content
