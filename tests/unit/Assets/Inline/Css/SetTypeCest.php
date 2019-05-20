@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Inline\Css;
 
 use Phalcon\Assets\Inline\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetTypeCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Inline :: setType()
      *
@@ -29,11 +26,18 @@ class SetTypeCest
     public function assetsInlineSetType(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline - setType()');
-        $content = 'p {color: #000099}';
-        $asset   = new Css($content);
 
-        $expected = 'js';
-        $asset->setType($expected);
-        $this->assetGetType($I, $asset, $expected);
+        $asset = new Css(
+            'p {color: #000099}'
+        );
+
+        $newType = 'js';
+
+        $asset->setType($newType);
+
+        $I->assertEquals(
+            $newType,
+            $asset->getType()
+        );
     }
 }

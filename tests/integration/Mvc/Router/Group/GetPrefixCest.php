@@ -20,7 +20,7 @@ class GetPrefixCest
     /**
      * Tests Phalcon\Mvc\Router\Group :: getPrefix()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
     public function mvcRouterGroupGetPrefixEmpty(IntegrationTester $I)
@@ -38,7 +38,7 @@ class GetPrefixCest
     /**
      * Tests Phalcon\Mvc\Router\Group :: getPrefix() when nothing is set
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
     public function mvcRouterGroupGetPrefix(IntegrationTester $I)

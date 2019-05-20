@@ -141,7 +141,7 @@ class MysqlCest extends MysqlHelper
     /**
      * Tests Mysql::escapeIdentifier
      *
-     * @author       Sid Roberts <sid@sidroberts.co.uk>
+     * @author       Sid Roberts <https://github.com/SidRoberts>
      * @since        2016-11-19
      *
      * @dataProvider testEscapeIdentifierProvider

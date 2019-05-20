@@ -23,7 +23,7 @@ class GetTypeCest
     /**
      * Tests Phalcon\Mvc\Model\Relation :: getType()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
     public function mvcModelRelationGetType(IntegrationTester $I)

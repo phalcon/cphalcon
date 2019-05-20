@@ -42,7 +42,7 @@ class FormElementsCest
     }
 
     /**
-     * Tests canceling validation on first fail
+     * Tests cancelling validation on first fail
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/13149
      *

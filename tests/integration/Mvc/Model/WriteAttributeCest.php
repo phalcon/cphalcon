@@ -32,7 +32,7 @@ class WriteAttributeCest
     /**
      * Tests Phalcon\Mvc\Model :: writeAttribute()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
     public function mvcModelWriteAttribute(IntegrationTester $I)

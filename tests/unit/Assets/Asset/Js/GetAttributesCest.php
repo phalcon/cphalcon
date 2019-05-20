@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
 use Phalcon\Assets\Asset\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetAttributesCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Js :: getAttributes() - js local
      *
@@ -29,10 +26,26 @@ class GetAttributesCest
     public function assetsAssetJsGetAttributesLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getAttributes() - js local');
-        $asset = new Js('js/jquery.js', true, false, ['data-key' => 'phalcon']);
 
-        $expected = ['data-key' => 'phalcon'];
-        $this->assetGetAttributes($I, $asset, $expected);
+        $attributes = [
+            'data-key' => 'phalcon',
+        ];
+
+        $asset = new Js(
+            'js/jquery.js',
+            true,
+            false,
+            $attributes
+        );
+
+        $attributes = [
+            'data-key' => 'phalcon',
+        ];
+
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
+        );
     }
 
     /**
@@ -44,9 +57,25 @@ class GetAttributesCest
     public function assetsAssetJsGetAttributesRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getAttributes() - js remote');
-        $asset = new Js('https://phalcon.ld/js/jquery.js', false, false, ['data-key' => 'phalcon']);
 
-        $expected = ['data-key' => 'phalcon'];
-        $this->assetGetAttributes($I, $asset, $expected);
+        $attributes = [
+            'data-key' => 'phalcon',
+        ];
+
+        $asset = new Js(
+            'https://phalcon.ld/js/jquery.js',
+            false,
+            false,
+            $attributes
+        );
+
+        $attributes = [
+            'data-key' => 'phalcon',
+        ];
+
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
+        );
     }
 }

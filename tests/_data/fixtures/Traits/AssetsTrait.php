@@ -56,14 +56,6 @@ trait AssetsTrait
         );
     }
 
-    private function assetGetPath(UnitTester $I, AssetInterface $asset, string $expected)
-    {
-        $I->assertEquals(
-            $expected,
-            $asset->getPath()
-        );
-    }
-
     private function assetGetRealSourcePath(UnitTester $I, AssetInterface $asset, $expected)
     {
         $I->assertEquals(
@@ -109,14 +101,6 @@ trait AssetsTrait
         $I->assertEquals(
             $expected,
             $asset->getTargetUri()
-        );
-    }
-
-    private function assetGetType(UnitTester $I, AssetInterface $asset, string $expected)
-    {
-        $I->assertEquals(
-            $expected,
-            $asset->getType()
         );
     }
 }

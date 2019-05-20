@@ -23,7 +23,7 @@ class PatchCest
     /**
      * Tests Phalcon\Mvc\Micro :: patch()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
     public function mvcMicroPatch(IntegrationTester $I)

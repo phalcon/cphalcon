@@ -23,7 +23,7 @@ class SetCacheCest extends HttpBase
     /**
      * Tests setCache
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2015-07-14
      */
     public function testHttpResponseSetCache(UnitTester $I)

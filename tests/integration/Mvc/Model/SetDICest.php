@@ -33,7 +33,7 @@ class SetDICest
     /**
      * Tests Phalcon\Mvc\Model :: setDI()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
     public function mvcModelSetDI(IntegrationTester $I)

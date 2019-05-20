@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
 use Phalcon\Assets\Asset\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetLocalCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Js :: setLocal() - js local
      *
@@ -29,11 +26,14 @@ class SetLocalCest
     public function assetsAssetJsSetLocalLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setLocal() - js local');
+
         $asset = new Js('https://phalcon.ld/js/jquery.js');
 
-        $expected = true;
-        $asset->setLocal($expected);
-        $this->assetGetLocal($I, $asset, $expected);
+        $asset->setLocal(true);
+
+        $I->assertTrue(
+            $asset->getLocal()
+        );
     }
 
     /**
@@ -48,8 +48,10 @@ class SetLocalCest
         $I->skipTest('TODO - Need checking');
         $asset = new Js('https://phalcon.ld/js/jquery.js');
 
-        $expected = false;
-        $asset->setLocal($expected);
-        $this->assetGetLocal($I, $asset, $expected);
+        $asset->setLocal(false);
+
+        $I->assertFalse(
+            $asset->getLocal()
+        );
     }
 }

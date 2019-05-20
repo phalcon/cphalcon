@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetFilterCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset :: setFilter() - css local
      *
@@ -29,14 +26,18 @@ class SetFilterCest
     public function assetsAssetSetFilterCssFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setFilter() - css local');
+
         $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
 
-        $expected = false;
-        $asset->setFilter($expected);
-        $this->assetGetFilter($I, $asset, $expected);
+        $asset->setFilter(false);
+
+        $I->assertFalse(
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -51,12 +52,15 @@ class SetFilterCest
 
         $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
 
-        $expected = false;
-        $asset->setFilter($expected);
-        $this->assetGetFilter($I, $asset, $expected);
+        $asset->setFilter(false);
+
+        $I->assertFalse(
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -68,14 +72,18 @@ class SetFilterCest
     public function assetsAssetSetFilterJsFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setFilter() - js local');
+
         $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
 
-        $expected = false;
-        $asset->setFilter($expected);
-        $this->assetGetFilter($I, $asset, $expected);
+        $asset->setFilter(false);
+
+        $I->assertFalse(
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -90,11 +98,14 @@ class SetFilterCest
         $I->skipTest('TODO - Need checking');
         $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
 
-        $expected = false;
-        $asset->setFilter($expected);
-        $this->assetGetFilter($I, $asset, $expected);
+        $asset->setFilter(false);
+
+        $I->assertFalse(
+            $assert->getFilter()
+        );
     }
 }

@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetTargetPathCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Css :: setTargetPath() - css local
      *
@@ -29,11 +26,17 @@ class SetTargetPathCest
     public function assetsAssetCssSetTargetPathLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setTargetPath() - css local');
+
         $asset = new Css('css/docs.css');
 
-        $expected = '/new/path';
-        $asset->setTargetPath($expected);
-        $this->assetGetTargetPath($I, $asset, $expected);
+        $targetPath = '/new/path';
+
+        $asset->setTargetPath($targetPath);
+
+        $I->assertEquals(
+            $targetPath,
+            $asset->getTargetPath()
+        );
     }
 
     /**
@@ -45,10 +48,16 @@ class SetTargetPathCest
     public function assetsAssetCssSetTargetPathRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setTargetPath() - css remote');
+
         $asset = new Css('https://phalcon.ld/css/docs.css');
 
-        $expected = '/new/path';
-        $asset->setTargetPath($expected);
-        $this->assetGetTargetPath($I, $asset, $expected);
+        $targetPath = '/new/path';
+
+        $asset->setTargetPath($targetPath);
+
+        $I->assertEquals(
+            $targetPath,
+            $asset->getTargetPath()
+        );
     }
 }
