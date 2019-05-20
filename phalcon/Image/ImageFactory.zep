@@ -13,6 +13,7 @@ namespace Phalcon\Image;
 use Phalcon\Config;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
+use Phalcon\Image\Adapter\AdapterInterface;
 
 /**
  * Phalcon\Image/ImageFactory
@@ -30,7 +31,7 @@ class ImageFactory extends AbstractFactory
     /**
      * Factory to create an instace from a Config object
      */
-    public function load(var config) -> var
+    public function load(var config) -> <AdapterInterface>
     {
         var height, file, name, width;
 
@@ -61,7 +62,7 @@ class ImageFactory extends AbstractFactory
         string! file,
         int width = null,
         int height = null
-    ) -> var
+    ) -> <AdapterInterface>
     {
         var definition;
 
