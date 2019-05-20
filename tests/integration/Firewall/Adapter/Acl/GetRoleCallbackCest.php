@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Firewall\Adapter\Acl;
+namespace Phalcon\Test\Integration\Firewall\Adapter\Acl;
 
-use UnitTester;
+use IntegrationTester;
 
 class GetRoleCallbackCest
 {
@@ -22,7 +22,7 @@ class GetRoleCallbackCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
      */
-    public function firewallAdapterAclGetRoleCallback(UnitTester $I)
+    public function firewallAdapterAclGetRoleCallback(IntegrationTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Acl - getRoleCallback()');
 

@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Firewall\Adapter\Annotations;
+namespace Phalcon\Test\Integration\Firewall\Adapter\Annotations;
 
-use UnitTester;
+use IntegrationTester;
 
 class ConstructCest
 {
@@ -22,7 +22,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
      */
-    public function firewallAdapterAnnotationsConstruct(UnitTester $I)
+    public function firewallAdapterAnnotationsConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Annotations - __construct()');
 

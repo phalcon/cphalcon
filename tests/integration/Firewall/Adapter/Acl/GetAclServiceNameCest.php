@@ -22,7 +22,7 @@ class GetAclServiceNameCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-12
      */
-    public function firewallAdapterAclGetAclServiceName(UnitTester $I)
+    public function firewallAdapterAclGetAclServiceName(IntegrationTester $I)
     {
         $I->wantToTest('Firewall\Adapter\Acl - getAclServiceName()');
 
