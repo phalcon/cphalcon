@@ -444,7 +444,6 @@ zend_class_entry *phalcon_text_ce;
 zend_class_entry *phalcon_translate_adapter_csv_ce;
 zend_class_entry *phalcon_translate_adapter_gettext_ce;
 zend_class_entry *phalcon_translate_adapter_nativearray_ce;
-zend_class_entry *phalcon_translate_ce;
 zend_class_entry *phalcon_translate_exception_ce;
 zend_class_entry *phalcon_translate_interpolator_associativearray_ce;
 zend_class_entry *phalcon_translate_interpolator_indexedarray_ce;
@@ -920,7 +919,6 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Tag_Exception);
 	ZEPHIR_INIT(Phalcon_Tag_Select);
 	ZEPHIR_INIT(Phalcon_Text);
-	ZEPHIR_INIT(Phalcon_Translate);
 	ZEPHIR_INIT(Phalcon_Translate_Adapter_Csv);
 	ZEPHIR_INIT(Phalcon_Translate_Adapter_Gettext);
 	ZEPHIR_INIT(Phalcon_Translate_Adapter_NativeArray);
