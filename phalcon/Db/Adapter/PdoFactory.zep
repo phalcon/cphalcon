@@ -28,9 +28,8 @@ class PdoFactory extends AbstractFactory
     {
         var name, options;
 
-        let config = this->checkConfig(config);
-
-        let name = config["adapter"];
+        let config = this->checkConfig(config),
+            name   = config["adapter"];
 
         unset config["adapter"];
 
