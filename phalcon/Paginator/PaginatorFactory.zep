@@ -51,9 +51,8 @@ class PaginatorFactory extends AbstractFactory
     {
         var name, options;
 
-        let config = this->checkConfig(config);
-
-        let name    = config["adapter"],
+        let config  = this->checkConfig(config),
+            name    = config["adapter"],
             options = Arr::get(config, "options", []);
 
         return this->newInstance(name, options);
