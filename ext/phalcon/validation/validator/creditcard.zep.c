@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "CreditCard");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 401, &_1$$3, field, &_2$$3, &code);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 404, &_1$$3, field, &_2$$3, &code);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_0$$3);
 		zephir_check_call_status();
@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 	zephir_check_call_status();
 	zephir_get_arrval(&_1, &_0);
 	ZEPHIR_CPY_WRT(&digits, &_1);
-	ZEPHIR_CALL_FUNCTION(&_3, "array_reverse", NULL, 255, &digits);
+	ZEPHIR_CALL_FUNCTION(&_3, "array_reverse", NULL, 256, &digits);
 	zephir_check_call_status();
 	zephir_is_iterable(&_3, 0, "phalcon/Validation/Validator/CreditCard.zep", 105);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_3), _5, _6, _4)

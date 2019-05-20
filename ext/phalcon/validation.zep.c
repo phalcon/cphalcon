@@ -119,14 +119,14 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_24__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 231, &validators, &_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_3__closure_ce, SL("__invoke"));
+	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 232, &validators, &_0);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("validators"), &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_INIT_NVAR(&_2);
-	zephir_create_closure_ex(&_2, NULL, phalcon_25__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_FUNCTION(&_3, "array_filter", NULL, 231, &validators, &_2);
+	zephir_create_closure_ex(&_2, NULL, phalcon_4__closure_ce, SL("__invoke"));
+	ZEPHIR_CALL_FUNCTION(&_3, "array_filter", NULL, 232, &validators, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("combinedFieldsValidators"), &_3);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setdefaultmessages", NULL, 0);
@@ -520,7 +520,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&filterService, &_8$$17);
 			if (UNEXPECTED(Z_TYPE_P(&filterService) != IS_OBJECT)) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Returned 'filter' service is invalid", "phalcon/Validation.zep", 292);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Returned 'filter' service is invalid", "phalcon/Validation.zep", 291);
 				return;
 			}
 			ZEPHIR_CALL_METHOD(&_8$$17, &filterService, "sanitize", NULL, 0, &value, &fieldFilters);
@@ -529,7 +529,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 			if (Z_TYPE_P(&entity) == IS_OBJECT) {
 				ZEPHIR_INIT_NVAR(&method);
 				ZEPHIR_CONCAT_SV(&method, "set", &camelizedField);
-				ZEPHIR_CALL_FUNCTION(&_10$$21, "property_exists", NULL, 416, &entity, &field);
+				ZEPHIR_CALL_FUNCTION(&_10$$21, "property_exists", NULL, 419, &entity, &field);
 				zephir_check_call_status();
 				if ((zephir_method_exists(&entity, &method TSRMLS_CC)  == SUCCESS)) {
 					ZEPHIR_CALL_METHOD_ZVAL(NULL, &entity, &method, NULL, 0, &value);
@@ -595,7 +595,7 @@ PHP_METHOD(Phalcon_Validation, rules) {
 	ZEPHIR_OBS_COPY_OR_DUP(&validators, validators_param);
 
 
-	zephir_is_iterable(&validators, 0, "phalcon/Validation.zep", 345);
+	zephir_is_iterable(&validators, 0, "phalcon/Validation.zep", 344);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&validators), _0)
 	{
 		ZEPHIR_INIT_NVAR(&validator);
@@ -685,7 +685,7 @@ PHP_METHOD(Phalcon_Validation, setEntity) {
 
 
 	if (UNEXPECTED(Z_TYPE_P(entity) != IS_OBJECT)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_validation_exception_ce, "Entity must be an object", "phalcon/Validation.zep", 396);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_validation_exception_ce, "Entity must be an object", "phalcon/Validation.zep", 395);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("entity"), entity);
@@ -713,7 +713,7 @@ PHP_METHOD(Phalcon_Validation, setFilters) {
 
 
 	if (Z_TYPE_P(field) == IS_ARRAY) {
-		zephir_is_iterable(field, 0, "phalcon/Validation.zep", 416);
+		zephir_is_iterable(field, 0, "phalcon/Validation.zep", 415);
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(field), _0$$3)
 		{
 			ZEPHIR_INIT_NVAR(&singleField);
@@ -724,7 +724,7 @@ PHP_METHOD(Phalcon_Validation, setFilters) {
 	} else if (Z_TYPE_P(field) == IS_STRING) {
 		zephir_update_property_array(this_ptr, SL("filters"), field, filters TSRMLS_CC);
 	} else {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Field must be passed as array of fields or string.", "phalcon/Validation.zep", 421);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Field must be passed as array of fields or string.", "phalcon/Validation.zep", 420);
 		return;
 	}
 	RETURN_THIS();
@@ -809,7 +809,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	zephir_read_property(&_0, this_ptr, SL("combinedFieldsValidators"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&combinedFieldsValidators, &_0);
 	if (UNEXPECTED(Z_TYPE_P(&validatorData) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "There are no validators to validate", "phalcon/Validation.zep", 450);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "There are no validators to validate", "phalcon/Validation.zep", 449);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("values"), &__$null);
@@ -835,12 +835,12 @@ PHP_METHOD(Phalcon_Validation, validate) {
 			_1$$7 = Z_TYPE_P(data) != IS_OBJECT;
 		}
 		if (UNEXPECTED(_1$$7)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Invalid data to validate", "phalcon/Validation.zep", 482);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Invalid data to validate", "phalcon/Validation.zep", 481);
 			return;
 		}
 		zephir_update_property_zval(this_ptr, SL("data"), data);
 	}
-	zephir_is_iterable(&validatorData, 0, "phalcon/Validation.zep", 513);
+	zephir_is_iterable(&validatorData, 0, "phalcon/Validation.zep", 512);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&validatorData), _3, _4, _2)
 	{
 		ZEPHIR_INIT_NVAR(&field);
@@ -851,13 +851,13 @@ PHP_METHOD(Phalcon_Validation, validate) {
 		}
 		ZEPHIR_INIT_NVAR(&validators);
 		ZVAL_COPY(&validators, _2);
-		zephir_is_iterable(&validators, 0, "phalcon/Validation.zep", 511);
+		zephir_is_iterable(&validators, 0, "phalcon/Validation.zep", 510);
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&validators), _5$$9)
 		{
 			ZEPHIR_INIT_NVAR(&validator);
 			ZVAL_COPY(&validator, _5$$9);
 			if (UNEXPECTED(Z_TYPE_P(&validator) != IS_OBJECT)) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "One of the validators is not valid", "phalcon/Validation.zep", 491);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "One of the validators is not valid", "phalcon/Validation.zep", 490);
 				return;
 			}
 			ZEPHIR_CALL_METHOD(&_6$$10, this_ptr, "prechecking", &_7, 0, &field, &validator);
@@ -881,21 +881,21 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&validators);
 	ZEPHIR_INIT_NVAR(&field);
-	zephir_is_iterable(&combinedFieldsValidators, 0, "phalcon/Validation.zep", 546);
+	zephir_is_iterable(&combinedFieldsValidators, 0, "phalcon/Validation.zep", 545);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&combinedFieldsValidators), _11)
 	{
 		ZEPHIR_INIT_NVAR(&scope);
 		ZVAL_COPY(&scope, _11);
 		if (UNEXPECTED(Z_TYPE_P(&scope) != IS_ARRAY)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The validator scope is not valid", "phalcon/Validation.zep", 515);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The validator scope is not valid", "phalcon/Validation.zep", 514);
 			return;
 		}
 		ZEPHIR_OBS_NVAR(&field);
-		zephir_array_fetch_long(&field, &scope, 0, PH_NOISY, "phalcon/Validation.zep", 518 TSRMLS_CC);
+		zephir_array_fetch_long(&field, &scope, 0, PH_NOISY, "phalcon/Validation.zep", 517 TSRMLS_CC);
 		ZEPHIR_OBS_NVAR(&validator);
-		zephir_array_fetch_long(&validator, &scope, 1, PH_NOISY, "phalcon/Validation.zep", 519 TSRMLS_CC);
+		zephir_array_fetch_long(&validator, &scope, 1, PH_NOISY, "phalcon/Validation.zep", 518 TSRMLS_CC);
 		if (UNEXPECTED(Z_TYPE_P(&validator) != IS_OBJECT)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "One of the validators is not valid", "phalcon/Validation.zep", 522);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "One of the validators is not valid", "phalcon/Validation.zep", 521);
 			return;
 		}
 		ZEPHIR_CALL_METHOD(&_12$$15, this_ptr, "prechecking", &_7, 0, &field, &validator);
@@ -951,7 +951,7 @@ PHP_METHOD(Phalcon_Validation, preChecking) {
 
 
 	if (Z_TYPE_P(field) == IS_ARRAY) {
-		zephir_is_iterable(field, 0, "phalcon/Validation.zep", 568);
+		zephir_is_iterable(field, 0, "phalcon/Validation.zep", 567);
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(field), _0$$3)
 		{
 			ZEPHIR_INIT_NVAR(&singleField);
@@ -978,7 +978,7 @@ PHP_METHOD(Phalcon_Validation, preChecking) {
 			ZEPHIR_CALL_METHOD(&value, this_ptr, "getvalue", NULL, 0, field);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&allowEmpty) == IS_ARRAY) {
-				zephir_is_iterable(&allowEmpty, 0, "phalcon/Validation.zep", 585);
+				zephir_is_iterable(&allowEmpty, 0, "phalcon/Validation.zep", 584);
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&allowEmpty), _4$$9)
 				{
 					ZEPHIR_INIT_NVAR(&emptyValue);

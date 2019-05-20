@@ -383,7 +383,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, create) {
 	} else {
 		ZVAL_BOOL(&_4, 0);
 	}
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "presave", NULL, 403, &_0, &_3, &_4);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "presave", NULL, 406, &_0, &_3, &_4);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_2)) {
 		RETURN_MM_BOOL(0);
@@ -424,7 +424,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, create) {
 	} else {
 		ZVAL_BOOL(&_9, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "postsave", NULL, 404, &_7, &_8, &_9);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "postsave", NULL, 407, &_7, &_8, &_9);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -509,16 +509,16 @@ PHP_METHOD(Phalcon_Mvc_Collection, createIfNotExist) {
 	} else {
 		ZVAL_BOOL(&_4, 0);
 	}
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "presave", NULL, 403, &_0, &_3, &_4);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "presave", NULL, 406, &_0, &_3, &_4);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_2)) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_CALL_FUNCTION(&keys, "array_flip", NULL, 399, &criteria);
+	ZEPHIR_CALL_FUNCTION(&keys, "array_flip", NULL, 402, &criteria);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&data, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_5, "array_diff_key", NULL, 405, &keys, &data);
+	ZEPHIR_CALL_FUNCTION(&_5, "array_diff_key", NULL, 408, &keys, &data);
 	zephir_check_call_status();
 	if (UNEXPECTED(zephir_is_true(&_5))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "Criteria parameter must be array with one or more attributes of the model", "phalcon/Mvc/Collection.zep", 317);
@@ -553,7 +553,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, createIfNotExist) {
 		object_init_ex(&_11$$8, phalcon_messages_message_ce);
 		ZEPHIR_INIT_VAR(&_12$$8);
 		ZVAL_STRING(&_12$$8, "Document already exists");
-		ZEPHIR_CALL_METHOD(NULL, &_11$$8, "__construct", NULL, 401, &_12$$8);
+		ZEPHIR_CALL_METHOD(NULL, &_11$$8, "__construct", NULL, 404, &_12$$8);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", NULL, 0, &_11$$8);
 		zephir_check_call_status();
@@ -569,7 +569,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, createIfNotExist) {
 	} else {
 		ZVAL_BOOL(&_14, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "postsave", NULL, 404, &_8, &_13, &_14);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "postsave", NULL, 407, &_8, &_13, &_14);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1425,7 +1425,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	zephir_update_property_zval(this_ptr, SL("errorMessages"), &_2);
 	zephir_read_property(&_4, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_static_property_ce(&_5, phalcon_mvc_collection_ce, SL("disableEvents"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "presave", NULL, 403, &_4, &_5, &exists);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "presave", NULL, 406, &_4, &_5, &exists);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_3)) {
 		RETURN_MM_BOOL(0);
@@ -1461,7 +1461,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 	} else {
 		ZVAL_BOOL(&_9, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "postsave", NULL, 404, &_8, &_9, &exists);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "postsave", NULL, 407, &_8, &_9, &exists);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -2019,7 +2019,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, update) {
 	zephir_update_property_zval(this_ptr, SL("errorMessages"), &_1);
 	zephir_read_property(&_0, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_static_property_ce(&_3, phalcon_mvc_collection_ce, SL("disableEvents"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "presave", NULL, 403, &_0, &_3, &exists);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "presave", NULL, 406, &_0, &_3, &exists);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_2)) {
 		RETURN_MM_BOOL(0);
@@ -2053,7 +2053,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, update) {
 	} else {
 		ZVAL_BOOL(&_8, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "postsave", NULL, 404, &_7, &_8, &exists);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "postsave", NULL, 407, &_7, &_8, &exists);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -2137,7 +2137,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, validate) {
 		ZEPHIR_CALL_METHOD(&_6$$4, &message, "getcode", NULL, 0);
 		zephir_check_call_status();
 		ZVAL_NULL(&_7$$4);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", &_8, 401, &_3$$4, &_4$$4, &_5$$4, &_7$$4, &_6$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", &_8, 404, &_3$$4, &_4$$4, &_5$$4, &_7$$4, &_6$$4);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "appendmessage", &_9, 0, &_2$$4);
 		zephir_check_call_status();
@@ -2530,7 +2530,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getResultset) {
 	}
 	ZEPHIR_INIT_VAR(&collections);
 	array_init(&collections);
-	ZEPHIR_CALL_FUNCTION(&_6, "iterator_to_array", NULL, 406, &documentsCursor, &__$false);
+	ZEPHIR_CALL_FUNCTION(&_6, "iterator_to_array", NULL, 409, &documentsCursor, &__$false);
 	zephir_check_call_status();
 	zephir_is_iterable(&_6, 0, "phalcon/Mvc/Collection.zep", 1536);
 	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_6), _7)

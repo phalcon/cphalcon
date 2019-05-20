@@ -132,10 +132,11 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct) {
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zval options;
-	zval *factory, factory_sub, *options_param = NULL, _0, _2, _3, _4, _5, _6, _7$$3;
+	zval *factory = NULL, factory_sub, *options_param = NULL, __$null, _0, _2, _3, _4, _5, _6, _7$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
+	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
@@ -146,9 +147,13 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct) {
 	ZVAL_UNDEF(&options);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &factory, &options_param);
+	zephir_fetch_params(1, 1, 1, &factory, &options_param);
 
 	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+	if (!factory) {
+		factory = &factory_sub;
+		factory = &__$null;
+	}
 
 
 	ZEPHIR_INIT_VAR(&_2);

@@ -32,7 +32,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_AssociativeArray) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate\\Interpolator, AssociativeArray, phalcon, translate_interpolator_associativearray, phalcon_translate_interpolator_associativearray_method_entry, 0);
 
-	zend_class_implements(phalcon_translate_interpolator_associativearray_ce TSRMLS_CC, 1, phalcon_translate_interpolatorinterface_ce);
+	zend_class_implements(phalcon_translate_interpolator_associativearray_ce TSRMLS_CC, 1, phalcon_translate_interpolator_interpolatorinterface_ce);
 	return SUCCESS;
 
 }

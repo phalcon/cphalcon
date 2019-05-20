@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 					ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_13, 0, &_12$$11, this_ptr);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_FUNCTION(&_14$$10, "call_user_func", &_15, 225, &fileCheckingCallback, &filePath);
+				ZEPHIR_CALL_FUNCTION(&_14$$10, "call_user_func", &_15, 226, &fileCheckingCallback, &filePath);
 				zephir_check_call_status();
 				if (zephir_is_true(&_14$$10)) {
 					if (Z_TYPE_P(&eventsManager) == IS_OBJECT) {
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Loader, autoLoad) {
 				ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", &_22, 0, &_21$$16, this_ptr, &filePath);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_FUNCTION(&_23$$15, "call_user_func", &_15, 225, &fileCheckingCallback, &filePath);
+			ZEPHIR_CALL_FUNCTION(&_23$$15, "call_user_func", &_15, 226, &fileCheckingCallback, &filePath);
 			zephir_check_call_status();
 			if (zephir_is_true(&_23$$15)) {
 				if (Z_TYPE_P(&eventsManager) == IS_OBJECT) {
@@ -469,7 +469,7 @@ PHP_METHOD(Phalcon_Loader, loadFiles) {
 			ZEPHIR_CALL_METHOD(NULL, &_3$$4, "fire", NULL, 0, &_4$$4, this_ptr, &filePath);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "call_user_func", &_6, 225, &fileCheckingCallback, &filePath);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "call_user_func", &_6, 226, &fileCheckingCallback, &filePath);
 		zephir_check_call_status();
 		if (zephir_is_true(&_5$$3)) {
 			ZEPHIR_OBS_NVAR(&_7$$5);
@@ -531,7 +531,7 @@ PHP_METHOD(Phalcon_Loader, register) {
 		ZVAL_STRING(&_2$$3, "autoLoad");
 		zephir_array_fast_append(&_1$$3, &_2$$3);
 		ZVAL_BOOL(&_3$$3, (prepend ? 1 : 0));
-		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_register", NULL, 389, &_1$$3, &__$true, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_register", NULL, 392, &_1$$3, &__$true, &_3$$3);
 		zephir_check_call_status();
 		if (1) {
 			zephir_update_property_zval(this_ptr, SL("registered"), &__$true);
@@ -803,7 +803,7 @@ PHP_METHOD(Phalcon_Loader, setFileCheckingCallback) {
 	} else if (Z_TYPE_P(callback) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$4);
 		ZEPHIR_INIT_NVAR(&_0$$4);
-		zephir_create_closure_ex(&_0$$4, NULL, phalcon_23__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_0$$4, NULL, phalcon_2__closure_ce, SL("__invoke"));
 		zephir_update_property_zval(this_ptr, SL("fileCheckingCallback"), &_0$$4);
 	} else {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_loader_exception_ce, "The 'callback' parameter must be either a callable or NULL.", "phalcon/Loader.zep", 516);
@@ -839,7 +839,7 @@ PHP_METHOD(Phalcon_Loader, unregister) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "autoLoad");
 		zephir_array_fast_append(&_1$$3, &_2$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 390, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "spl_autoload_unregister", NULL, 393, &_1$$3);
 		zephir_check_call_status();
 		if (0) {
 			zephir_update_property_zval(this_ptr, SL("registered"), &__$true);
