@@ -22,6 +22,8 @@
 - Renamed `Phalcon\Paginator\Adapter` to `Phalcon\Paginator\Adapter\AbstractAdapter`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 - Renamed `Phalcon\Paginator\AdapterInterface` to `Phalcon\Paginator\Adapter\AdapterInterface`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 - Renamed `Phalcon\Paginator\Factory` to `Phalcon\Paginator\PaginatorFactory`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Renamed `Phalcon\Translate\Adapter` to `Phalcon\Translate\Adapter\AbstractAdapter`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Renamed `Phalcon\Translate\AdapterInterface` to `Phalcon\Translate\Adapter\AdapterInterface`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 
 ## Fixed
 - Fixed `Phalcon\Mvc\View::getRender()` to call `view->finish()` instead of `ob_end_clean()`. [#14095](https://github.com/phalcon/cphalcon/issues/14095)
