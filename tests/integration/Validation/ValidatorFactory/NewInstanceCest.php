@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\ValidatorFactory;
 
+use IntegrationTester;
 use Phalcon\Validation\Validator\Alnum;
 use Phalcon\Validation\ValidatorFactory;
-use IntegrationTester;
 
 class NewInstanceCest
 {

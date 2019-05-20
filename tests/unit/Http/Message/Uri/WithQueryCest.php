@@ -30,13 +30,23 @@ class WithQueryCest
     public function httpMessageUriWithQuery(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Message\Uri - withQuery()');
+
         $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action?%s#frag';
         $uri   = new Uri(sprintf($query, 'param=value'));
 
         $newInstance = $uri->withQuery($example[1]);
+
         $I->assertNotEquals($uri, $newInstance);
-        $I->assertEquals($example[2], $newInstance->getQuery());
-        $I->assertEquals(sprintf($query, $example[2]), (string) $newInstance);
+
+        $I->assertEquals(
+            $example[2],
+            $newInstance->getQuery()
+        );
+
+        $I->assertEquals(
+            sprintf($query, $example[2]),
+            (string) $newInstance
+        );
     }
 
     /**
@@ -50,13 +60,16 @@ class WithQueryCest
     public function httpUriWithQueryException(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Uri - withQuery() - exception - ' . $example[1]);
+
         $I->expectThrowable(
             new InvalidArgumentException(
                 'Method requires a string argument instead of ' . $example[0]
             ),
             function () use ($example) {
-                $query    = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
-                $uri      = new Uri($query);
+                $uri = new Uri(
+                    'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag'
+                );
+
                 $instance = $uri->withQuery($example[2]);
             }
         );

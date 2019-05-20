@@ -30,10 +30,20 @@ class NewInstanceCest
     {
         $I->wantToTest('Logger\LoggerFactory - newInstance()');
 
-        $factory = new LoggerFactory(new AdapterFactory());
+        $factory = new LoggerFactory(
+            new AdapterFactory()
+        );
 
         $logger = $factory->newInstance('my-logger');
-        $I->assertInstanceOf(Logger::class, $logger);
-        $I->assertInstanceOf(LoggerInterface::class, $logger);
+
+        $I->assertInstanceOf(
+            Logger::class,
+            $logger
+        );
+
+        $I->assertInstanceOf(
+            LoggerInterface::class,
+            $logger
+        );
     }
 }

@@ -29,7 +29,9 @@ class ConstructCest
     public function assetsFiltersJsminConstructNonString(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Jsmin - filter() - no string exception');
+
         $I->skipTest('Need Phalcon implementation');
+
         $I->expectThrowable(
             new TypeError(
                 'Argument 1 passed to Phalcon\Assets\Filters\Jsmin::filter() ' .
@@ -37,7 +39,10 @@ class ConstructCest
             ),
             function () {
                 $jsmin = new Jsmin();
-                $jsmin->filter(new stdClass());
+
+                $jsmin->filter(
+                    new stdClass()
+                );
             }
         );
     }
@@ -52,11 +57,14 @@ class ConstructCest
     public function assetsFiltersJsminConstructUnterminatedComment(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Jsmin - filter() - unterminated comment');
+
         $I->skipTest('Need Phalcon implementation');
+
         $I->expectThrowable(
             new Exception('Unterminated comment.'),
             function () {
                 $jsmin = new Jsmin();
+
                 $jsmin->filter('/*');
             }
         );
@@ -71,11 +79,14 @@ class ConstructCest
     public function assetsFiltersJsminConstructUnterminatedString(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Jsmin - filter() - unterminated string');
+
         $I->skipTest('Need Phalcon implementation');
+
         $I->expectThrowable(
             new Exception('Unterminated string literal.'),
             function () {
                 $jsmin = new Jsmin();
+
                 $jsmin->filter('a = "');
             }
         );
@@ -90,11 +101,14 @@ class ConstructCest
     public function assetsFiltersJsminConstructUnterminatedRegex(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Jsmin - filter() - unterminated regex');
+
         $I->skipTest('Need Phalcon implementation');
+
         $I->expectThrowable(
             new Exception('Unterminated Regular Expression literal.'),
             function () {
                 $jsmin = new Jsmin();
+
                 $jsmin->filter('b = /[a-z]+');
             }
         );

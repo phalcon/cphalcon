@@ -15,13 +15,11 @@ namespace Phalcon\Test\Unit\Assets\Asset;
 use function dataDir;
 use function filemtime;
 use Phalcon\Assets\Asset;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class GetTargetUriCest
 {
-    use AssetsTrait;
     use DiTrait;
 
     /**
@@ -43,11 +41,17 @@ class GetTargetUriCest
     public function assetsAssetGetTargetUriCssLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getTargetUri() - css local');
+
         $asset = new Asset('css', 'css/docs.css');
 
         $expected = '/phalcon/path';
+
         $asset->setTargetUri($expected);
-        $this->assetGetTargetUri($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetUri()
+        );
     }
 
     /**
@@ -59,11 +63,17 @@ class GetTargetUriCest
     public function assetsAssetGetTargetUriCssRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getTargetUri() - css remote');
+
         $asset = new Asset('css', 'https://phalcon.ld/css/docs.css', false);
 
         $expected = '/phalcon/path';
+
         $asset->setTargetUri($expected);
-        $this->assetGetTargetUri($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetUri()
+        );
     }
 
     /**
@@ -75,11 +85,17 @@ class GetTargetUriCest
     public function assetsAssetGetTargetUriJsLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getTargetUri() - js local');
+
         $asset = new Asset('js', 'js/jquery.js');
 
         $expected = '/phalcon/path';
+
         $asset->setTargetUri($expected);
-        $this->assetGetTargetUri($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetUri()
+        );
     }
 
     /**
@@ -91,11 +107,17 @@ class GetTargetUriCest
     public function assetsAssetGetTargetUriJsRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getTargetUri() - js remote');
+
         $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js', false);
 
         $expected = '/phalcon/path';
+
         $asset->setTargetUri($expected);
-        $this->assetGetTargetUri($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetUri()
+        );
     }
 
     /**
@@ -109,7 +131,8 @@ class GetTargetUriCest
         $I->wantToTest('Assets\Asset - getTargetUri() - js versioning');
 
         $source = dataDir('assets/assets/assets-version-1.js');
-        $asset  = new Asset(
+
+        $asset = new Asset(
             'js',
             $source,
             true,
@@ -119,8 +142,13 @@ class GetTargetUriCest
         );
 
         $expected = 'js/jquery.js?ver=1.0.0';
+
         $asset->setTargetUri($expected);
-        $this->assetGetTargetUri($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetUri()
+        );
     }
 
     /**
@@ -134,7 +162,8 @@ class GetTargetUriCest
         $I->wantToTest('Assets\Asset - getTargetUri() - js automatic versioning');
 
         $source = dataDir('assets/assets/assets-version-1.js');
-        $asset  = new Asset(
+
+        $asset = new Asset(
             'js',
             $source,
             true,
@@ -146,7 +175,12 @@ class GetTargetUriCest
 
         $modificationTime = filemtime($source);
         $expected         = $source . '?ver=' . $modificationTime;
+
         $asset->setTargetUri($expected);
-        $this->assetGetTargetUri($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetUri()
+        );
     }
 }

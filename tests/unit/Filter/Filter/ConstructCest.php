@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Filter\Locator;
 
-use Phalcon\Filter\Filter;
 use Phalcon\Filter\Exception;
+use Phalcon\Filter\Filter;
 use UnitTester;
 
 class ConstructCest

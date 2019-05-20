@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetRealTargetPathCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Css :: getRealTargetPath() - css local
      *
@@ -30,10 +27,14 @@ class GetRealTargetPathCest
     {
         $I->wantToTest('Assets\Asset - getRealTargetPath() - css local');
 
-        $asset = new Css('css/docs.css');
+        $realTargetPath = 'css/docs.css';
 
-        $expected = 'css/docs.css';
-        $this->assetGetRealTargetPath($I, $asset, $expected);
+        $asset = new Css($realTargetPath);
+
+        $I->assertEquals(
+            $realTargetPath,
+            $asset->getRealTargetPath()
+        );
     }
 
     /**
@@ -46,9 +47,13 @@ class GetRealTargetPathCest
     {
         $I->wantToTest('Assets\Asset - getRealTargetPath() - css remote');
 
-        $asset = new Css('https://phalcon.ld/css/docs.css', false);
+        $realTargetPath = 'https://phalcon.ld/css/docs.css';
 
-        $expected = 'https://phalcon.ld/css/docs.css';
-        $this->assetGetRealTargetPath($I, $asset, $expected);
+        $asset = new Css($realTargetPath, false);
+
+        $I->assertEquals(
+            $realTargetPath,
+            $asset->getRealTargetPath()
+        );
     }
 }

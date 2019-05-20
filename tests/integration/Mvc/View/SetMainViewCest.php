@@ -13,21 +13,36 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View;
 
 use IntegrationTester;
+use Phalcon\Mvc\View;
+use Phalcon\Test\Fixtures\Traits\ViewTrait;
 
-/**
- * Class SetMainViewCest
- */
 class SetMainViewCest
 {
+    use ViewTrait;
+
     /**
      * Tests Phalcon\Mvc\View :: setMainView()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Kamil Skowron <git@hedonsoftware.com>
+     * @since  2014-05-28
      */
-    public function mvcViewSetMainView(IntegrationTester $I)
+    public function testOverrideMainView(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View - setMainView()');
-        $I->skipTest('Need implementation');
+        $view = new View();
+
+        $view->setViewsDir(
+            dataDir('fixtures/views')
+        );
+
+        $view->setMainView('layouts/currentrender');
+
+        $view->start();
+        $view->render('simple', 'index');
+        $view->finish();
+
+        $I->assertEquals(
+            'lolWe are here',
+            $view->getContent()
+        );
     }
 }

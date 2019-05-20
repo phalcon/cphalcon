@@ -40,7 +40,9 @@ class CookiesCest extends HttpBase
      */
     public function shouldWorkWithoutInitializeInternalCookiesProperty(UnitTester $I)
     {
-        $I->assertTrue((new Cookies())->send());
+        $I->assertTrue(
+            (new Cookies())->send()
+        );
     }
 
     /**
@@ -53,32 +55,61 @@ class CookiesCest extends HttpBase
         $cookies = new Cookies();
 
         Di::reset();
-        $di = new Di();
-        $di->set('response', function () {
-            return new Response();
-        });
-        $di->set('session', function () {
-            $manager = new SessionManager();
-            $adapter = new SessionFiles();
-            $manager->setHandler($adapter);
 
-            return $manager;
-        });
+        $di = new Di();
+
+        $di->set(
+            'response',
+            function () {
+                return new Response();
+            }
+        );
+
+        $di->set(
+            'session',
+            function () {
+                $manager = new SessionManager();
+                $adapter = new SessionFiles();
+
+                $manager->setHandler($adapter);
+
+                return $manager;
+            }
+        );
 
         $cookies->setDI($di);
 
         $cookies->set('x-token', '1bf0bc92ed7dcc80d337a5755f879878');
         $cookies->set('x-user-id', 1);
 
-        $I->assertInternalType('array', $cookies->getCookies());
+        $I->assertInternalType(
+            'array',
+            $cookies->getCookies()
+        );
 
         $cookieArray = $cookies->getCookies();
-        $I->assertInstanceOf(CookieInterface::class, $cookieArray['x-token']);
-        $I->assertInstanceOf(CookieInterface::class, $cookieArray['x-user-id']);
+
+        $I->assertInstanceOf(
+            CookieInterface::class,
+            $cookieArray['x-token']
+        );
+
+        $I->assertInstanceOf(
+            CookieInterface::class,
+            $cookieArray['x-user-id']
+        );
 
         /** @var Cookie[] $cookieArray */
         $cookieArray = $cookies->getCookies();
-        $I->assertEquals('1bf0bc92ed7dcc80d337a5755f879878', $cookieArray['x-token']);
-        $I->assertEquals(1, $cookieArray['x-user-id']->getValue());
+
+        $I->assertEquals(
+            '1bf0bc92ed7dcc80d337a5755f879878',
+            $cookieArray['x-token']
+        );
+
+        $I->assertEquals(
+            1,
+            $cookieArray['x-user-id']->getValue()
+        );
     }
 }

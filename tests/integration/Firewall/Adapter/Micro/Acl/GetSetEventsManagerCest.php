@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Firewall\Adapter\Micro\Acl;
 
+use IntegrationTester;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Micro\Acl;
-use IntegrationTester;
 
 class GetSetEventsManagerCest
 {

@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetAssetKeyCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Css :: getAssetKey() - css local
      *
@@ -30,11 +27,18 @@ class GetAssetKeyCest
     {
         $I->wantToTest('Assets\Asset - getAssetKey() - css local');
 
-        $asset = new Css('css/docs.css');
+        $file = 'css/docs.css';
 
-        $expected = md5('css:css/docs.css');
+        $asset = new Css($file);
 
-        $this->assetGetAssetKey($I, $asset, $expected);
+        $assetKey = md5(
+            'css:' . $file
+        );
+
+        $I->assertEquals(
+            $assetKey,
+            $asset->getAssetKey()
+        );
     }
 
     /**
@@ -47,10 +51,17 @@ class GetAssetKeyCest
     {
         $I->wantToTest('Assets\Asset - getAssetKey() - css remote');
 
-        $asset = new Css('https://phalcon.ld/css/docs.css');
+        $file = 'https://phalcon.ld/css/docs.css';
 
-        $expected = md5('css:https://phalcon.ld/css/docs.css');
+        $asset = new Css($file);
 
-        $this->assetGetAssetKey($I, $asset, $expected);
+        $assetKey = md5(
+            'css:' . $file
+        );
+
+        $I->assertEquals(
+            $assetKey,
+            $asset->getAssetKey()
+        );
     }
 }

@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Image\ImageFactory;
 
+use IntegrationTester;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Image\ImageFactory;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
-use IntegrationTester;
 
 class LoadCest
 {

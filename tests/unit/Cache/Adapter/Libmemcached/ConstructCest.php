@@ -36,7 +36,11 @@ class ConstructCest
         $I->wantToTest('Cache\Adapter\Libmemcached - __construct()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
+
+        $adapter = new Libmemcached(
+            $serializer,
+            getOptionsLibmemcached()
+        );
 
         $I->assertInstanceOf(
             Libmemcached::class,

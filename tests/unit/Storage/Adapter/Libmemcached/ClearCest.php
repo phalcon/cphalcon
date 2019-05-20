@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 
+use function getOptionsLibmemcached;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
-use function getOptionsLibmemcached;
 
 class ClearCest
 {
@@ -33,26 +33,38 @@ class ClearCest
         $I->wantToTest('Storage\Adapter\Libmemcached - clear()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
+
+        $adapter = new Libmemcached(
+            $serializer,
+            getOptionsLibmemcached()
+        );
 
         $key1 = uniqid();
         $key2 = uniqid();
-        $adapter->set($key1, 'test');
-        $actual = $adapter->has($key1);
-        $I->assertTrue($actual);
 
         $adapter->set($key1, 'test');
-        $actual = $adapter->has($key1);
-        $I->assertTrue($actual);
 
-        $actual = $adapter->clear();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->has($key1)
+        );
 
-        $actual = $adapter->has($key1);
-        $I->assertFalse($actual);
+        $adapter->set($key1, 'test');
 
-        $actual = $adapter->has($key2);
-        $I->assertFalse($actual);
+        $I->assertTrue(
+            $adapter->has($key1)
+        );
+
+        $I->assertTrue(
+            $adapter->clear()
+        );
+
+        $I->assertFalse(
+            $adapter->has($key1)
+        );
+
+        $I->assertFalse(
+            $adapter->has($key2)
+        );
     }
 
     /**
@@ -66,7 +78,11 @@ class ClearCest
         $I->wantToTest('Storage\Adapter\Libmemcached - clear() - twice');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
+
+        $adapter = new Libmemcached(
+            $serializer,
+            getOptionsLibmemcached()
+        );
 
         $key = 'key-1';
         $adapter->set($key, 'test');

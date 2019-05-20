@@ -59,7 +59,9 @@ class LoadCest
 
     private function runTests(UnitTester $I, $options)
     {
-        $factory = new LoggerFactory(new AdapterFactory());
+        $factory = new LoggerFactory(
+            new AdapterFactory()
+        );
 
         /** @var Logger $object */
         $object = $factory->load($options);
@@ -69,9 +71,9 @@ class LoadCest
             $object
         );
 
-        $expected = [];
-        $adapters = $object->getAdapters();
-
-        $I->assertEquals($expected, $adapters);
+        $I->assertEquals(
+            [],
+            $object->getAdapters()
+        );
     }
 }

@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Translate\TranslateFactory;
 
 use Phalcon\Test\Fixtures\Traits\TranslateCsvTrait;
-use Phalcon\Translate\Adapter\Csv;
 use Phalcon\Translate\Adapter\AdapterInterface;
+use Phalcon\Translate\Adapter\Csv;
 use Phalcon\Translate\InterpolatorFactory;
 use Phalcon\Translate\TranslateFactory;
 use UnitTester;

@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetFilterCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Css :: setFilter() - css local
      *
@@ -29,14 +26,18 @@ class SetFilterCest
     public function assetsAssetCssSetFilterCssFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setFilter() - css local');
+
         $asset = new Css('https://phalcon.ld/css/docs.css');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
 
-        $expected = false;
-        $asset->setFilter($expected);
-        $this->assetGetFilter($I, $asset, $expected);
+        $asset->setFilter(false);
+
+        $I->assertFalse(
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -48,14 +49,19 @@ class SetFilterCest
     public function assetsAssetCssSetFilterRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setFilter() - css remote');
+
         $I->skipTest('TODO - Need checking');
+
         $asset = new Css('https://phalcon.ld/css/docs.css');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
 
-        $expected = false;
-        $asset->setFilter($expected);
-        $this->assetGetFilter($I, $asset, $expected);
+        $asset->setFilter(false);
+
+        $I->assertFalse(
+            $asset->getFilter()
+        );
     }
 }

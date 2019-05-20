@@ -87,4 +87,27 @@ class GetSetDataCest
             $event->getData()
         );
     }
+
+    /**
+     * Tests Phalcon\Events\Event - setData() with no parameters
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-21
+     */
+    public function eventsEventGetSetDataWithNoParameters(UnitTester $I)
+    {
+        $I->wantToTest('Events\Event - setData() with no parameters');
+
+        $event = new Event(
+            'some-type:beforeSome',
+            $this,
+            [1, 2, 3]
+        );
+
+        $event->setData();
+
+        $I->assertNull(
+            $event->getData()
+        );
+    }
 }

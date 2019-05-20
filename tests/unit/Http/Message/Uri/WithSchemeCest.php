@@ -28,13 +28,26 @@ class WithSchemeCest
     public function httpMessageUriWithScheme(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Uri - withScheme()');
+
         $query = '%s://phalcon:secret@dev.phalcon.ld:8000/action?param=value#frag';
-        $uri   = new Uri(sprintf($query, 'https'));
+
+        $uri = new Uri(
+            sprintf($query, 'https')
+        );
 
         $newInstance = $uri->withScheme('http');
+
         $I->assertNotEquals($uri, $newInstance);
-        $I->assertEquals('http', $newInstance->getScheme());
-        $I->assertEquals(sprintf($query, 'http'), (string) $newInstance);
+
+        $I->assertEquals(
+            'http',
+            $newInstance->getScheme()
+        );
+
+        $I->assertEquals(
+            sprintf($query, 'http'),
+            (string) $newInstance
+        );
     }
 
     /**
@@ -48,13 +61,16 @@ class WithSchemeCest
     public function httpUriWithSchemeException(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Uri - withScheme() - exception - ' . $example[1]);
+
         $I->expectThrowable(
             new InvalidArgumentException(
                 'Method requires a string argument instead of ' . $example[0]
             ),
             function () use ($example) {
-                $query    = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
-                $uri      = new Uri($query);
+                $uri = new Uri(
+                    'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag'
+                );
+
                 $instance = $uri->withScheme($example[2]);
             }
         );

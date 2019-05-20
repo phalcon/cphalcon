@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Firewall\Adapter\Acl;
 
+use IntegrationTester;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Firewall\Adapter\Acl;
-use IntegrationTester;
 
 class GetSetDefaultAccessCest
 {

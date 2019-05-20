@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Firewall\Adapter\Acl;
 
 use Codeception\Example;
+use IntegrationTester;
 use function ob_end_clean;
 use function ob_start;
 use Phalcon\Acl\Adapter\Memory;
@@ -25,7 +26,6 @@ use Phalcon\Test\Fixtures\Firewall\BindingRole;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
-use IntegrationTester;
 
 class AfterBindingCest
 {

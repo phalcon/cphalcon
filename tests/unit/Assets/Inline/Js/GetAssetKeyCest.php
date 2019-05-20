@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
 use Phalcon\Assets\Inline\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetAssetKeyCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Inline :: getAssetKey()
      *
@@ -29,10 +26,16 @@ class GetAssetKeyCest
     public function assetsInlineGetAssetKey(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline - getAssetKey()');
+
         $content = '<script>alert("Hello");</script>';
-        $asset   = new Js($content);
+
+        $asset = new Js($content);
 
         $expected = md5('js:' . $content);
-        $this->assetGetAssetKey($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getAssetKey()
+        );
     }
 }

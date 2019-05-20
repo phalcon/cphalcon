@@ -29,9 +29,15 @@ class IsReadableCest
     public function httpMessageStreamIsReadable(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Message\Stream - isReadable() - ' . $example[0]);
+
         $fileName = dataDir('/assets/stream/bill-of-rights-empty.txt');
-        $stream   = new Stream($fileName, $example[0]);
-        $I->assertEquals($example[1], $stream->isReadable());
+
+        $stream = new Stream($fileName, $example[0]);
+
+        $I->assertEquals(
+            $example[1],
+            $stream->isReadable()
+        );
     }
 
     /**
@@ -45,10 +51,16 @@ class IsReadableCest
     public function httpMessageStreamIsReadableWithX(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Message\Stream - isReadable() with "x" - ' . $example[0]);
+
         $fileName = $I->getNewFileName();
         $fileName = outputDir('tests/stream/' . $fileName);
-        $stream   = new Stream($fileName, $example[0]);
-        $I->assertEquals($example[1], $stream->isReadable());
+
+        $stream = new Stream($fileName, $example[0]);
+
+        $I->assertEquals(
+            $example[1],
+            $stream->isReadable()
+        );
     }
 
     private function getExamplesX(): array

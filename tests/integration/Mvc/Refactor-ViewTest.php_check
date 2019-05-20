@@ -151,55 +151,6 @@ class ViewTest extends IntegrationTest
     }
 
     /**
-     * Tests View::render with params
-     *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2017-09-24
-     * @issue  https://github.com/phalcon/cphalcon/issues/13046
-     */
-    public function shouldRenderWithParams()
-    {
-        $this->specify(
-            "The View component doesn't render view with params",
-            function () {
-                $view = new View();
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-
-                $view->start();
-                $view->render('test2', 'params', ['name' => 'Sam', 'age' => 20]);
-                $view->finish();
-
-                expect($view->getContent())->equals("<html>My name is Sam and I am 20 years old</html>\n");
-            }
-        );
-    }
-
-    /**
-     * Tests View::setMainView
-     *
-     * @author Kamil Skowron <git@hedonsoftware.com>
-     * @since  2014-05-28
-     */
-    public function testOverrideMainView()
-    {
-        $this->specify(
-            'The setting main view does not work as expected',
-            function () {
-                $view = new View;
-                $view->setViewsDir(PATH_DATA . 'views' . DIRECTORY_SEPARATOR);
-
-                $view->setMainView('html5');
-
-                $view->start();
-                $view->render('test2', 'index');
-                $view->finish();
-
-                expect($view->getContent())->equals("<!DOCTYPE html><html>We are here</html>\n");
-            }
-        );
-    }
-
-    /**
      * Tests rendering with partials
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -306,27 +257,6 @@ class ViewTest extends IntegrationTest
 
                 expect("test2")->equals($view->getControllerName());
                 expect("index")->equals($view->getActionName());
-            }
-        );
-    }
-
-    /**
-     * @covers \Phalcon\Mvc\View::__isset
-     */
-    public function testViewParamIsset()
-    {
-        $this->specify(
-            "Setting View parameters doesn't work",
-            function () {
-                $view = new View();
-
-                $view->setViewsDir(PATH_DATA . "views" . DIRECTORY_SEPARATOR);
-
-                $view->set_param = "something";
-
-                $content = $view->getRender("test16", "index");
-
-                expect($content)->equals("<html>1</html>" . PHP_EOL);
             }
         );
     }

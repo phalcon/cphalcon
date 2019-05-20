@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class ConstructCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - css local
      *
@@ -48,7 +45,6 @@ class ConstructCest
         $I->wantToTest('Assets\Asset - __construct() - css remote');
 
         $asset = new Asset('css', 'css/docs.css', false);
-        // ( bool filter = true, array attributes = [])
 
         $I->assertFalse(
             $asset->getLocal()
@@ -163,7 +159,6 @@ class ConstructCest
         $I->wantToTest('Assets\Asset - __construct() - js remote');
 
         $asset = new Asset('js', 'js/jquery.js', false);
-        // ( bool filter = true, array attributes = [])
 
         $I->assertFalse(
             $asset->getLocal()

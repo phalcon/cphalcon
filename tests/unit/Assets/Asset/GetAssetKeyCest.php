@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetAssetKeyCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset :: getAssetKey() - css local
      *
@@ -30,11 +27,18 @@ class GetAssetKeyCest
     {
         $I->wantToTest('Assets\Asset - getAssetKey() - css local');
 
-        $asset = new Asset('css', 'css/docs.css');
+        $file = 'css/docs.css';
 
-        $expected = md5('css:css/docs.css');
+        $asset = new Asset('css', $file);
 
-        $this->assetGetAssetKey($I, $asset, $expected);
+        $expected = md5(
+            'css:' . $file
+        );
+
+        $I->assertEquals(
+            $expected,
+            $asset->getAssetKey()
+        );
     }
 
     /**
@@ -47,11 +51,18 @@ class GetAssetKeyCest
     {
         $I->wantToTest('Assets\Asset - getAssetKey() - css remote');
 
-        $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
+        $file = 'https://phalcon.ld/css/docs.css';
 
-        $expected = md5('css:https://phalcon.ld/css/docs.css');
+        $asset = new Asset('css', $file);
 
-        $this->assetGetAssetKey($I, $asset, $expected);
+        $expected = md5(
+            'css:' . $file
+        );
+
+        $I->assertEquals(
+            $expected,
+            $asset->getAssetKey()
+        );
     }
 
     /**
@@ -64,11 +75,18 @@ class GetAssetKeyCest
     {
         $I->wantToTest('Assets\Asset - getAssetKey() - js local');
 
-        $asset = new Asset('js', 'js/jquery.js');
+        $file = 'js/jquery.js';
 
-        $expected = md5('js:js/jquery.js');
+        $asset = new Asset('js', $file);
 
-        $this->assetGetAssetKey($I, $asset, $expected);
+        $expected = md5(
+            'js:' . $file
+        );
+
+        $I->assertEquals(
+            $expected,
+            $asset->getAssetKey()
+        );
     }
 
     /**
@@ -81,10 +99,17 @@ class GetAssetKeyCest
     {
         $I->wantToTest('Assets\Asset - getAssetKey() - js remote');
 
-        $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js', false);
+        $file = 'https://phalcon.ld/js/jquery.js';
 
-        $expected = md5('js:https://phalcon.ld/js/jquery.js');
+        $asset = new Asset('js', $file);
 
-        $this->assetGetAssetKey($I, $asset, $expected);
+        $expected = md5(
+            'js:' . $file
+        );
+
+        $I->assertEquals(
+            $expected,
+            $asset->getAssetKey()
+        );
     }
 }

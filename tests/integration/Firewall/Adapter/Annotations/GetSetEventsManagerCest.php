@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Firewall\Adapter\Annotations;
 
+use IntegrationTester;
 use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Annotations;
-use IntegrationTester;
 
 class GetSetEventsManagerCest
 {

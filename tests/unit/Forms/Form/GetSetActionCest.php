@@ -15,43 +15,46 @@ namespace Phalcon\Test\Unit\Forms\Form;
 use Phalcon\Forms\Form;
 use UnitTester;
 
-class GetActionCest
+class GetSetActionCest
 {
     /**
-     * Tests Phalcon\Forms\Form :: getAction()
+     * Tests Phalcon\Forms\Form :: getAction() / setAction()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-11
      */
-    public function formsFormGetAction(UnitTester $I)
+    public function formsFormGetSetAction(UnitTester $I)
     {
-        $I->wantToTest('Forms\Form - getAction()');
+        $I->wantToTest('Forms\Form - getAction() / setAction()');
 
         $form = new Form();
 
-        // method exists
-        $actual = method_exists($form, 'getAction');
 
-        $I->assertTrue($actual);
 
         // empty action
-        $actual = $form->getAction();
-        $expected = '';
+        $I->assertSame(
+            '',
+            $form->getAction()
+        );
 
-        $I->assertSame($expected, $actual);
+
 
         // set an action
         $form->setAction('/some-url');
-        $actual = $form->getAction();
-        $expected = '/some-url';
 
-        $I->assertSame($expected, $actual);
+        $I->assertSame(
+            '/some-url',
+            $form->getAction()
+        );
+
+
 
         // clean action
         $form->setAction('');
-        $actual = $form->getAction();
-        $expected = '';
 
-        $I->assertSame($expected, $actual);
+        $I->assertSame(
+            '',
+            $form->getAction()
+        );
     }
 }

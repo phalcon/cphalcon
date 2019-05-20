@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Firewall\Adapter\Acl;
 
+use IntegrationTester;
 use function ob_end_clean;
 use function ob_start;
 use Phalcon\Acl\Adapter\Memory;
@@ -22,7 +23,6 @@ use Phalcon\Mvc\Dispatcher;
 use Phalcon\Test\Fixtures\Firewall\RoleObject;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
-use IntegrationTester;
 
 class BeforeExecuteRouteCest
 {

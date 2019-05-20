@@ -32,11 +32,15 @@ class ConstructCest
     public function debugDumpConstructDump(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - __construct() - dump properties');
+
         $patient = new ClassProperties();
         $dump    = new Dump([], true);
 
-        $actual   = $I->callProtectedMethod($dump, 'output', $patient);
-        $expected = file_get_contents(dataDir('fixtures/Dump/class_properties.txt'));
+        $actual = $I->callProtectedMethod($dump, 'output', $patient);
+
+        $expected = file_get_contents(
+            dataDir('fixtures/Dump/class_properties.txt')
+        );
 
         // Test without HTML
         $actual = strip_tags($actual);

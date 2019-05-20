@@ -26,6 +26,7 @@ class GetAttributesCest
     public function httpMessageServerRequestGetAttributes(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getAttributes()');
+
         $request = (new ServerRequest())
             ->withAttribute('one', 'two')
             ->withAttribute('three', 'four')
@@ -35,8 +36,11 @@ class GetAttributesCest
             'one'   => 'two',
             'three' => 'four',
         ];
-        $actual   = $request->getAttributes();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $request->getAttributes()
+        );
     }
 
     /**
@@ -48,8 +52,11 @@ class GetAttributesCest
     public function httpMessageServerRequestGetAttributesEmpty(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getAttributes() - empty');
+
         $request = new ServerRequest();
-        $actual  = $request->getAttributes();
-        $I->assertEmpty($actual);
+
+        $I->assertEmpty(
+            $request->getAttributes()
+        );
     }
 }
