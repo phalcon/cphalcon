@@ -410,11 +410,11 @@ class Column implements ColumnInterface
                 let this->autoIncrement = false;
             } else {
                 switch type {
-                    const self::TYPE_BIGINTEGER:
-                    const self::TYPE_INTEGER:
-                    const self::TYPE_MEDIUMINTEGER:
-                    const self::TYPE_SMALLINTEGER:
-                    const self::TYPE_TINYINTEGER:
+                    case self::TYPE_BIGINTEGER:
+                    case self::TYPE_INTEGER:
+                    case self::TYPE_MEDIUMINTEGER:
+                    case self::TYPE_SMALLINTEGER:
+                    case self::TYPE_TINYINTEGER:
                         let this->autoIncrement = true;
                         break;
 
