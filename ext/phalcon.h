@@ -416,7 +416,6 @@
 #include "phalcon/tag/exception.zep.h"
 #include "phalcon/tag/select.zep.h"
 #include "phalcon/text.zep.h"
-#include "phalcon/translate.zep.h"
 #include "phalcon/translate/adapter/csv.zep.h"
 #include "phalcon/translate/adapter/gettext.zep.h"
 #include "phalcon/translate/adapter/nativearray.zep.h"
