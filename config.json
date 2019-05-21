@@ -87,7 +87,7 @@
         },
         "orm.exception_on_failed_save": {
             "type": "bool",
-            "default": false
+            "default": true
         },
         "orm.ignore_unknown_columns": {
             "type": "bool",
