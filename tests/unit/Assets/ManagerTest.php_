@@ -77,69 +77,6 @@ class ManagerTest extends UnitTest
     }
 
     /**
-     * outputCss - implicitOutput tests
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-13
-     */
-    public function testAssetsManagerOutputCssWithImplicitOutput()
-    {
-        $this->specify(
-            "The outputCss with implicitOutput does not produce the correct result",
-            function () {
-                $assets = new Manager();
-
-                $assets->addCss('css/style1.css');
-                $assets->addCss('css/style2.css');
-                $assets->addResource(new Css('/css/style.css', false));
-
-                $expected = sprintf(
-                    "%s\n%s\n%s\n",
-                    '<link rel="stylesheet" type="text/css" href="/css/style1.css" />',
-                    '<link rel="stylesheet" type="text/css" href="/css/style2.css" />',
-                    '<link rel="stylesheet" type="text/css" href="/css/style.css" />'
-                );
-
-                ob_start();
-                $assets->outputCss();
-
-                expect(ob_get_clean())->equals($expected);
-            }
-        );
-    }
-
-    /**
-     * outputCss - without implicitOutput tests
-     *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-10-13
-     */
-    public function testAssetsManagerOutputCssWithoutImplicitOutput()
-    {
-        $this->specify(
-            "The outputCss with implicitOutput does not produce the correct result",
-            function () {
-                $assets = new Manager();
-
-                $assets->addCss('css/style1.css');
-                $assets->addCss('css/style2.css');
-                $assets->addResource(new Css('/css/style.css', false));
-
-                $expected = sprintf(
-                    "%s\n%s\n%s\n",
-                    '<link rel="stylesheet" type="text/css" href="/css/style1.css" />',
-                    '<link rel="stylesheet" type="text/css" href="/css/style2.css" />',
-                    '<link rel="stylesheet" type="text/css" href="/css/style.css" />'
-                );
-
-                $assets->useImplicitOutput(false);
-
-                expect($assets->outputCss())->equals($expected);
-            }
-        );
-    }
-
-    /**
      * collection tests
      *
      * @author Nikolaos Dimopoulos <nikos@phalconphp.com>

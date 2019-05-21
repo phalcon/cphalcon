@@ -207,12 +207,6 @@ class ViewTest extends IntegrationTest
 
                 expect($view)->equals($view->setBasePath(PATH_DATA));
 
-                $view->foo = "bar";
-                expect("bar")->equals($view->foo);
-
-                expect($view)->equals($view->setVar("foo1", "bar1"));
-                expect("bar1")->equals($view->getVar("foo1"));
-
                 $expectedVars = ["foo2" => "bar2", "foo3" => "bar3"];
                 expect($view)->equals($view->setVars($expectedVars));
                 expect("bar2")->equals($view->foo2);
@@ -223,18 +217,6 @@ class ViewTest extends IntegrationTest
 
                 $expectedParamsToView = ["foo2" => "bar2", "foo3" => "bar3", "foo4" => "bar4"];
                 expect($expectedParamsToView)->equals($view->getParamsToView());
-
-                expect($view)->equals($view->setContent("<h1>hello</h1>"));
-                expect("<h1>hello</h1>")->equals($view->getContent());
-
-                expect($view)->equals($view->setViewsDir("views/"));
-                expect("views/")->equals($view->getViewsDir());
-
-                expect($view)->equals($view->setLayoutsDir("views/layouts/"));
-                expect("views/layouts/")->equals($view->getLayoutsDir());
-
-                expect($view)->equals($view->setPartialsDir("views/partials/"));
-                expect("views/partials/")->equals($view->getPartialsDir());
 
                 expect($view)->equals($view->disableLevel(View::LEVEL_MAIN_LAYOUT));
                 expect($view)->equals($view->setRenderLevel(View::LEVEL_ACTION_VIEW));
