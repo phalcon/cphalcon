@@ -711,20 +711,16 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         var result, option;
 
-        let result = this->adapter->set(key, data),
-            option = globals_get("orm.exception_on_failed_metadata_save");;
+        try {
+            let option = globals_get("orm.exception_on_failed_metadata_save"),
+                result = this->adapter->set(key, data);
 
-        if !result {
-            if option {
-                throw new Exception(
-                    "Failed to store metaData to the cache adapter."
-                );
-            } else {
-                trigger_error(
-                    "Failed to store metaData to the cache adapter.",
-                    E_WARNING
-                );
+            if false === result {
+                this->throwWriteException(option);
             }
+
+        } catch \Exception {
+            this->throwWriteException(option);
         }
     }
 
@@ -873,5 +869,18 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
          * Write the data to the adapter
          */
         this->{"write"}(prefixKey, modelColumnMap);
+    }
+
+    private function throwWriteException(var option) -> void
+    {
+        if option {
+            throw new Exception(
+                "Failed to store metaData to the cache adapter"
+            );
+        } else {
+            trigger_error(
+                "Failed to store metaData to the cache adapter"
+            );
+        }
     }
 }
