@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Libmemcached;
 
 use function dataDir;
 use function env;
+use function getOptionsLibmemcached;
 use IntegrationTester;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Mvc\Model\MetaData\Libmemcached;
@@ -42,18 +43,7 @@ class ConstructCest
                 $serializer = new SerializerFactory();
                 $factory    = new AdapterFactory($serializer);
 
-                return new Libmemcached(
-                    $factory,
-                    [
-                        'servers' => [
-                            [
-                                'host'   => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
-                                'port'   => env('DATA_MEMCACHED_PORT', 11211),
-                                'weight' => 1,
-                            ],
-                        ],
-                    ]
-                );
+                return new Libmemcached($factory, getOptionsLibmemcached());
             }
         );
 
