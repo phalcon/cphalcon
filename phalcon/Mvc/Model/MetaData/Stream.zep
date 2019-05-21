@@ -65,7 +65,7 @@ class Stream extends MetaData
      */
     public function write(string! key, array data) -> void
     {
-        var options, path;
+        var option, path;
 
         try {
             let path   = this->metaDataDir . prepare_virtual_path(key, "_") . ".php",

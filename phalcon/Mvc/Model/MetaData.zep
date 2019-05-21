@@ -715,18 +715,13 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
             let option = globals_get("orm.exception_on_failed_metadata_save"),
                 result = this->adapter->set(key, data);
 
-        if !result {
-            throw new Exception(
-                "Failed to store metaData to the cache adapter."
-            );
             if false === result {
                 this->throwWriteException(option);
             }
-
         } catch \Exception {
             this->throwWriteException(option);
         }
-    }    }
+    }
 
     /**
      * Writes meta-data for certain model using a MODEL_* constant
