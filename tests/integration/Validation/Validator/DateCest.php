@@ -219,7 +219,7 @@ class DateCest
                     new Message(
                         'Field date is not a valid date',
                         'date',
-                        'Date',
+                        Date::class,
                         0
                     ),
                 ]

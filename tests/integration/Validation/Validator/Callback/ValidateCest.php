@@ -87,7 +87,7 @@ class ValidateCest
                 new Message(
                     'You cant provide both admin and user.',
                     'user',
-                    'Callback',
+                    Callback::class,
                     0
                 ),
             ]
@@ -243,13 +243,13 @@ class ValidateCest
                 new Message(
                     'There must be only an user or admin set',
                     'user',
-                    'Callback',
+                    Callback::class,
                     0
                 ),
                 new Message(
                     'There must be only an user or admin set',
                     'admin',
-                    'Callback',
+                    Callback::class,
                     0
                 ),
             ]
@@ -311,13 +311,13 @@ class ValidateCest
                 new Message(
                     'You must provide admin or user',
                     'user',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
                 new Message(
                     'You must provide admin or user',
                     'admin',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
@@ -361,13 +361,13 @@ class ValidateCest
                 new Message(
                     'There must be only an user or admin set',
                     'user',
-                    'Callback',
+                    Callback::class,
                     0
                 ),
                 new Message(
                     'There must be only an user or admin set',
                     'admin',
-                    'Callback',
+                    Callback::class,
                     0
                 ),
             ]

@@ -52,18 +52,18 @@ use Phalcon\Validation\Validator;
  */
 class Email extends Validator
 {
+    protected advice = "Field :field must be an email address";
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, message, label, replacePairs, code;
+        var value, label, replacePairs, code;
 
         let value = validation->getValue(field);
 
         if !filter_var(value, FILTER_VALIDATE_EMAIL) {
             let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Email"),
                 code = this->prepareCode(field);
 
             let replacePairs = [
@@ -72,9 +72,9 @@ class Email extends Validator
 
             validation->appendMessage(
                 new Message(
-                    strtr(message, replacePairs),
+                    strtr(this->getAdvice(field), replacePairs),
                     field,
-                    "Email",
+                    get_class(this),
                     code
                 )
             );

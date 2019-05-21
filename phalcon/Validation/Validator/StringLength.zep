@@ -13,6 +13,8 @@ namespace Phalcon\Validation\Validator;
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator;
+use Phalcon\Validation\Validator\StringLength\Max;
+use Phalcon\Validation\Validator\StringLength\Min;
 use Phalcon\Validation\Exception;
 
 /**
@@ -21,6 +23,7 @@ use Phalcon\Validation\Exception;
  * Validates that a string has the specified maximum and minimum constraints
  * The test is passed if for a string's length L, min<=L<=max, i.e. L must
  * be at least min, and at most max.
+ * Since Phalcon v4.0 this valitor works like a container
  *
  * <code>
  * use Phalcon\Validation;
@@ -70,101 +73,51 @@ use Phalcon\Validation\Exception;
  */
 class StringLength extends Validator
 {
+    private validators = [] {get, set};
+
+    public function __construct(array! options = []) -> void
+    {
+        var key, value, validator;
+
+        // create individual validators
+        for key, value in options {
+            if strtolower(key) === "min" {
+                let validator = new Min(
+                    array_intersect_key(value, array_flip(["min","messageMinimum"]))
+                );
+
+                unset options["min"];
+                unset options["messageMinimum"];
+            } elseif strtolower(key) === "max" {
+                let validator = new Max(
+                    array_intersect_key(value, array_flip(["max","messageMaximum"]))
+                );
+
+                unset options["max"];
+                unset options["messageMaximum"];
+            } else {
+                continue;
+            }
+
+            let this->validators[] = validator;
+        }
+
+        parent::__construct(options);
+    }
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var isSetMin, isSetMax, value, length, message, minimum, maximum, label,
-            replacePairs, code;
+        var validator;
 
-        // At least one of 'min' or 'max' must be set
-        let isSetMin = this->hasOption("min"),
-            isSetMax = this->hasOption("max");
-
-        if unlikely (!isSetMin && !isSetMax) {
+        if unlikely count(this->validators) === 0 {
             throw new Exception("A minimum or maximum must be set");
         }
 
-        let value = validation->getValue(field),
-            label = this->prepareLabel(validation, field),
-            code = this->prepareCode(field);
-
-        // Check if mbstring is available to calculate the correct length
-        if function_exists("mb_strlen") {
-            let length = mb_strlen(value);
-        } else {
-            let length = strlen(value);
-        }
-
-        /**
-         * Maximum length
-         */
-        if isSetMax {
-            let maximum = this->getOption("max");
-
-            if typeof maximum == "array" {
-                let maximum = maximum[field];
-            }
-
-            if length > maximum {
-                let message = this->prepareMessage(
-                    validation,
-                    field,
-                    "TooLong",
-                    "messageMaximum"
-                );
-
-                let replacePairs = [
-                    ":field": label,
-                    ":max":   maximum
-                ];
-
-                validation->appendMessage(
-                    new Message(
-                        strtr(message, replacePairs),
-                        field,
-                        "TooLong",
-                        code
-                    )
-                );
-
-                return false;
-            }
-        }
-
-        /**
-         * Minimum length
-         */
-        if isSetMin {
-            let minimum = this->getOption("min");
-
-            if typeof minimum == "array" {
-                let minimum = minimum[field];
-            }
-
-            if length < minimum {
-                let message = this->prepareMessage(
-                    validation,
-                    field,
-                    "TooShort",
-                    "messageMinimum"
-                );
-
-                let replacePairs = [
-                    ":field": label,
-                    ":min":   minimum
-                ];
-
-                validation->appendMessage(
-                    new Message(
-                        strtr(message, replacePairs),
-                        field,
-                        "TooShort",
-                        code
-                    )
-                );
-
+        for validator in this->getValidators() {
+            if validator->validate(validation, field) === false {
                 return false;
             }
         }

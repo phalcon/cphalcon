@@ -57,13 +57,14 @@ use Phalcon\Validation\Validator;
  */
 class Identical extends Validator
 {
+    protected advice = "Field :field does not have the expected value";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var message, label, replacePairs, value, valid, accepted, valueOption,
-            code;
+        var label, replacePairs, value, valid, accepted, valueOption, code;
 
         let value = validation->getValue(field);
 
@@ -89,7 +90,6 @@ class Identical extends Validator
 
         if !valid {
             let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Identical"),
                 code = this->prepareCode(field);
 
             let replacePairs = [
@@ -98,9 +98,9 @@ class Identical extends Validator
 
             validation->appendMessage(
                 new Message(
-                    strtr(message, replacePairs),
+                    strtr(this->getAdvice(field), replacePairs),
                     field,
-                    "Identical",
+                    get_class(this),
                     code
                 )
             );

@@ -46,7 +46,7 @@ class EmailCest
                 new Message(
                     'Field email must be an email address',
                     'email',
-                    'Email',
+                    Email::class,
                     0
                 ),
             ]
@@ -126,7 +126,7 @@ class EmailCest
                 new Message(
                     'The email is not valid',
                     'email',
-                    'Email',
+                    Email::class,
                     0
                 ),
             ]

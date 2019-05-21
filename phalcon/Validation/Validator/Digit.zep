@@ -52,12 +52,14 @@ use Phalcon\Validation\Validator;
  */
 class Digit extends Validator
 {
+    protected advice = "Field :field must be numeric";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, message, label, replacePairs, code;
+        var value, label, replacePairs, code;
 
         let value = validation->getValue(field);
 
@@ -66,7 +68,6 @@ class Digit extends Validator
         }
 
         let label = this->prepareLabel(validation, field),
-            message = this->prepareMessage(validation, field, "Digit"),
             code = this->prepareCode(field);
 
         let replacePairs = [
@@ -75,9 +76,9 @@ class Digit extends Validator
 
         validation->appendMessage(
             new Message(
-                strtr(message, replacePairs),
+                strtr(this->getAdvice(field), replacePairs),
                 field,
-                "Digit",
+                get_class(this),
                 code
             )
         );

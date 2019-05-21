@@ -72,35 +72,19 @@ class Ip extends Validator
     const VERSION_4  = FILTER_FLAG_IPV4;
     const VERSION_6  = FILTER_FLAG_IPV6;
 
+    protected advice = "Field :field must be a valid IP address";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, version, allowPrivate, allowReserved, allowEmpty, message,
+        var code, value, version, allowPrivate, allowReserved, allowEmpty,
             label, replacePairs, options;
 
-        let value = validation->getValue(field);
-
-        let label = this->getOption("label");
-
-        if typeof label == "array" {
-            let label = label[field];
-        }
-
-        if empty label {
-            let label = validation->getLabel(field);
-        }
-
-        let message = this->getOption("message");
-
-        if typeof message == "array" {
-            let message = message[field];
-        }
-
-        if empty message {
-            let message = validation->getDefaultMessage("Ip");
-        }
+        let value = validation->getValue(field),
+            label = this->prepareLabel(validation, field),
+            code = this->prepareCode(field);
 
         let version = this->getOption("version", FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6);
 
@@ -144,9 +128,10 @@ class Ip extends Validator
 
             validation->appendMessage(
                 new Message(
-                    strtr(message, replacePairs),
+                    strtr(this->getAdvice(field), replacePairs),
                     field,
-                    "Ip"
+                    get_class(this),
+                    code
                 )
             );
 

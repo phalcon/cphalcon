@@ -52,18 +52,19 @@ use Phalcon\Validation\Validator;
  */
 class PresenceOf extends Validator
 {
+    protected advice = "Field :field is required";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, message, label, replacePairs, code;
+        var value, label, replacePairs, code;
 
         let value = validation->getValue(field);
 
         if value === null || value === "" {
             let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "PresenceOf"),
                 code = this->prepareCode(field);
 
             let replacePairs = [
@@ -72,9 +73,9 @@ class PresenceOf extends Validator
 
             validation->appendMessage(
                 new Message(
-                    strtr(message, replacePairs),
+                    strtr(this->getAdvice(field), replacePairs),
                     field,
-                    "PresenceOf",
+                    get_class(this),
                     code
                 )
             );

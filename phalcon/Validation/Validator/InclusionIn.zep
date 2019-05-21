@@ -58,13 +58,14 @@ use Phalcon\Validation\Exception;
  */
 class InclusionIn extends Validator
 {
+    protected advice = "Field :field must be a part of list: :domain";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, domain, message, label, replacePairs, strict, fieldDomain,
-            code;
+        var value, domain, label, replacePairs, strict, fieldDomain, code;
 
         let value = validation->getValue(field);
 
@@ -103,12 +104,6 @@ class InclusionIn extends Validator
         if !in_array(value, domain, strict) {
             let label = this->prepareLabel(validation, field);
 
-            let message = this->prepareMessage(
-                validation,
-                field,
-                "InclusionIn"
-            );
-
             let code = this->prepareCode(field);
 
             let replacePairs = [
@@ -118,9 +113,9 @@ class InclusionIn extends Validator
 
             validation->appendMessage(
                 new Message(
-                    strtr(message, replacePairs),
+                    strtr(this->getAdvice(field), replacePairs),
                     field,
-                    "InclusionIn",
+                    get_class(this),
                     code
                 )
             );

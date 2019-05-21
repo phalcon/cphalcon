@@ -57,12 +57,13 @@ use Phalcon\Validation\Validator;
  */
 class Regex extends Validator
 {
+    protected advice = "Field :field does not match the required format";
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var matches, message, value, label, replacePairs, code, pattern;
+        var matches, value, label, replacePairs, code, pattern;
         bool failed;
 
         // Regular expression is set in the option 'pattern'
@@ -84,7 +85,6 @@ class Regex extends Validator
 
         if failed {
             let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Regex"),
                 code = this->prepareCode(field);
 
             let replacePairs = [
@@ -93,9 +93,9 @@ class Regex extends Validator
 
             validation->appendMessage(
                 new Message(
-                    strtr(message, replacePairs),
+                    strtr(this->getAdvice(field), replacePairs),
                     field,
-                    "Regex",
+                    get_class(this),
                     code
                 )
             );

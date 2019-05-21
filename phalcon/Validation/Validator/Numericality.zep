@@ -52,23 +52,19 @@ use Phalcon\Validation\Validator;
  */
 class Numericality extends Validator
 {
+    protected advice = "Field :field does not have a valid numeric format";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, message, label, replacePairs, code;
+        var value, label, replacePairs, code;
 
         let value = validation->getValue(field);
 
         if !preg_match("/^-?\d+(?:[\.,]\d+)?$/", value) || !is_numeric(value) {
             let label = this->prepareLabel(validation, field);
-
-            let message = this->prepareMessage(
-                validation,
-                field,
-                "Numericality"
-            );
 
             let code = this->prepareCode(field);
 
@@ -78,9 +74,9 @@ class Numericality extends Validator
 
             validation->appendMessage(
                 new Message(
-                    strtr(message, replacePairs),
+                    strtr(this->getAdvice(field), replacePairs),
                     field,
-                    "Numericality",
+                    get_class(this),
                     code
                 )
             );

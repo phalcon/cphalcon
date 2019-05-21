@@ -52,12 +52,14 @@ use Phalcon\Validation\Validator;
  */
 class Url extends Validator
 {
+    protected advice = "Field :field must be a url";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var code, label, message, options, replacePairs, result, value;
+        var code, label, options, replacePairs, result, value;
 
         let value = validation->getValue(field);
 
@@ -69,7 +71,6 @@ class Url extends Validator
 
         if !result {
             let label   = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Url"),
                 code    = this->prepareCode(field);
 
             let replacePairs = [
@@ -78,9 +79,9 @@ class Url extends Validator
 
             validation->appendMessage(
                 new Message(
-                    strtr(message, replacePairs),
+                    strtr(this->getAdvice(field), replacePairs),
                     field,
-                    "Url",
+                    get_class(this),
                     code
                 )
             );

@@ -52,18 +52,19 @@ use Phalcon\Validation\Validator;
  */
 class Alpha extends Validator
 {
+    protected advice = "Field :field must contain only letters";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, message, label, replacePairs, code;
+        var value, label, replacePairs, code;
 
         let value = validation->getValue(field);
 
         if preg_match("/[^[:alpha:]]/imu", value) {
             let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Alpha"),
                 code = this->prepareCode(field);
 
             let replacePairs = [
@@ -72,9 +73,9 @@ class Alpha extends Validator
 
             validation->appendMessage(
                 new Message(
-                    strtr(message, replacePairs),
+                    strtr(this->getAdvice(field), replacePairs),
                     field,
-                    "Alpha",
+                    get_class(this),
                     code
                 )
             );

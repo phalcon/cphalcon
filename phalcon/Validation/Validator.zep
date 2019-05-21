@@ -10,6 +10,7 @@
 
 namespace Phalcon\Validation;
 
+use Phalcon\Collection;
 use Phalcon\Validation;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\ValidatorInterface;
@@ -21,6 +22,10 @@ use Phalcon\Validation\ValidatorInterface;
  */
 abstract class Validator implements ValidatorInterface
 {
+    protected advice;
+
+    protected advices;
+
     protected options;
 
     /**
@@ -28,7 +33,95 @@ abstract class Validator implements ValidatorInterface
      */
     public function __construct(array! options = []) -> void
     {
+        var advice;
+
+        // collection of advices for combined fields
+        let this->advices = new Collection();
+
+        // fetch advice, message or "0" index to set message
+        if isset options["advice"] {
+            let advice = options["advice"];
+            unset options["advice"];
+        } elseif isset options["message"] {
+            let advice = options["message"];
+            unset options["message"];
+        } elseif isset options[0] {
+            let advice = options[0];
+            unset options[0];
+        }
+
+        if typeof advice == "array" {
+            this->setAdvices(advice);
+        } elseif typeof advice == "string" {
+            this->setAdvice(advice);
+        }
+
         let this->options = options;
+    }
+
+    /**
+    * Get the advice message
+    *
+    * @return string
+    * @throw InvalidArgumentException When the field does not exists
+    */
+    public function getAdvice(string! field = null) -> string
+    {
+        // there is a advice in field
+        if field !== null && this->advices->has(field) {
+            return this->advices->get(field);
+        }
+
+        // there is a custom advice
+        if (this->advice) {
+            return this->advice;
+        }
+
+        // default advice message
+        return "The field :field is not valid for " . get_class(this);
+    }
+
+    /**
+    * Get advices collection object
+    *
+    * @return Collection
+    */
+    public function getAdvices() -> <Collection>
+    {
+        return this->advices;
+    }
+
+    /**
+    * Clear current advices and set new from an array,
+    *
+    * @return Validator
+    */
+    public function setAdvices(array! advices) -> <ValidatorInterface>
+    {
+        var field, advice;
+
+        this->advices->clear();
+
+        for field, advice in advices {
+            this->getAdvices()->set(
+                (string) field,
+                (string) advice
+            );
+        }
+
+        return this;
+    }
+
+    /**
+    * Set a new advice message
+    *
+    * @return Validator
+    */
+    public function setAdvice(string! advice) -> <ValidatorInterface>
+    {
+        let this->advice = advice;
+
+        return this;
     }
 
     /**
@@ -116,7 +209,7 @@ abstract class Validator implements ValidatorInterface
     /**
      * Prepares a validation message.
      */
-    protected function prepareMessage(<Validation> validation, string! field, string! type, string! option = "message") -> var
+    protected function prepareMessage(string! field, string! type, string! option = "message") -> var
     {
         var message;
 
@@ -124,10 +217,6 @@ abstract class Validator implements ValidatorInterface
 
         if typeof message == "array" {
             let message = message[field];
-        }
-
-        if empty message {
-            let message = validation->getDefaultMessage(type);
         }
 
         return message;

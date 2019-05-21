@@ -52,12 +52,14 @@ use Phalcon\Validation\Validator;
  */
 class CreditCard extends Validator
 {
+    protected advice = "Field :field is not valid for a credit card number";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var message, label, replacePairs, value, valid, code;
+        var label, replacePairs, value, valid, code;
 
         let value = validation->getValue(field);
 
@@ -65,7 +67,6 @@ class CreditCard extends Validator
 
         if !valid {
             let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "CreditCard"),
                 code = this->prepareCode(field);
 
             let replacePairs = [
@@ -74,9 +75,9 @@ class CreditCard extends Validator
 
             validation->appendMessage(
                 new Message(
-                    strtr(message, replacePairs),
+                    strtr(this->getAdvice(field), replacePairs),
                     field,
-                    "CreditCard",
+                    get_class(this),
                     code
                 )
             );

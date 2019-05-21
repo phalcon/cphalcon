@@ -52,18 +52,19 @@ use Phalcon\Validation\Validator;
  */
 class Alnum extends Validator
 {
+    protected advice = "Field :field must contain only letters and numbers";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, message, label, replacePairs, code;
+        var value, label, replacePairs, code;
 
         let value = validation->getValue(field);
 
         if !ctype_alnum(value) {
             let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Alnum"),
                 code = this->prepareCode(field);
 
             let replacePairs = [
@@ -72,9 +73,9 @@ class Alnum extends Validator
 
             validation->appendMessage(
                 new Message(
-                    strtr(message, replacePairs),
+                    strtr(this->getAdvice(field), replacePairs),
                     field,
-                    "Alnum",
+                    get_class(this),
                     code
                 )
             );

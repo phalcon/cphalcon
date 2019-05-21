@@ -62,12 +62,14 @@ use Phalcon\Validation\Validator;
  */
 class Callback extends Validator
 {
+    protected advice = "Field :field must match the callback function";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var message, label, replacePairs, code, callback, returnedValue, data;
+        var label, replacePairs, code, callback, returnedValue, data;
 
         let callback = this->getOption("callback");
 
@@ -84,12 +86,6 @@ class Callback extends Validator
                 if !returnedValue {
                     let label = this->prepareLabel(validation, field);
 
-                    let message = this->prepareMessage(
-                        validation,
-                        field,
-                        "Callback"
-                    );
-
                     let code = this->prepareCode(field);
 
                     let replacePairs = [
@@ -98,9 +94,9 @@ class Callback extends Validator
 
                     validation->appendMessage(
                         new Message(
-                            strtr(message, replacePairs),
+                            strtr(this->getAdvice(field), replacePairs),
                             field,
-                            "Callback",
+                            get_class(this),
                             code
                         )
                     );

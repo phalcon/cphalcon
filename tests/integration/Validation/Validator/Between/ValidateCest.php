@@ -57,7 +57,7 @@ class ValidateCest
                 new Message(
                     'Field price must be within the range of 1 to 3',
                     'price',
-                    'Between',
+                    Between::class,
                     0
                 ),
             ]
@@ -211,7 +211,7 @@ class ValidateCest
                 new Message(
                     'The price must be between 1 and 3',
                     'price',
-                    'Between',
+                    Between::class,
                     0
                 ),
             ]
