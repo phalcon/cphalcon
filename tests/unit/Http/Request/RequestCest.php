@@ -669,7 +669,14 @@ class RequestCest extends HttpBase
             );
         }
 
-        $data = ['photo.0', 'photo.1', 'photo.2.0', 'photo.2.1', 'photo.3.0.0.0.0'];
+        $data = [
+            'photo.0',
+            'photo.1',
+            'photo.2.0',
+            'photo.2.1',
+            'photo.3.0.0.0.0',
+        ];
+
         for ($i = 0; $i <= 4; ++$i) {
             $I->assertEquals(
                 $data[$i],
@@ -677,27 +684,103 @@ class RequestCest extends HttpBase
             );
         }
 
-        $I->assertEquals('f0', $all[0]->getName());
-        $I->assertEquals('f1', $all[1]->getName());
-        $I->assertEquals('f2', $all[2]->getName());
-        $I->assertEquals('f3', $all[3]->getName());
-        $I->assertEquals('f4', $all[4]->getName());
 
-        $I->assertEquals('t0', $all[0]->getTempName());
-        $I->assertEquals('t1', $all[1]->getTempName());
-        $I->assertEquals('t2', $all[2]->getTempName());
-        $I->assertEquals('t3', $all[3]->getTempName());
-        $I->assertEquals('t4', $all[4]->getTempName());
 
-        $I->assertEquals('f0', $successful[0]->getName());
-        $I->assertEquals('f1', $successful[1]->getName());
-        $I->assertEquals('f2', $successful[2]->getName());
-        $I->assertEquals('f3', $successful[3]->getName());
+        $I->assertEquals(
+            'f0',
+            $all[0]->getName()
+        );
 
-        $I->assertEquals('t0', $successful[0]->getTempName());
-        $I->assertEquals('t1', $successful[1]->getTempName());
-        $I->assertEquals('t2', $successful[2]->getTempName());
-        $I->assertEquals('t3', $successful[3]->getTempName());
+        $I->assertEquals(
+            'f1',
+            $all[1]->getName()
+        );
+
+        $I->assertEquals(
+            'f2',
+            $all[2]->getName()
+        );
+
+        $I->assertEquals(
+            'f3',
+            $all[3]->getName()
+        );
+
+        $I->assertEquals(
+            'f4',
+            $all[4]->getName()
+        );
+
+
+
+        $I->assertEquals(
+            't0',
+            $all[0]->getTempName()
+        );
+
+        $I->assertEquals(
+            't1',
+            $all[1]->getTempName()
+        );
+
+        $I->assertEquals(
+            't2',
+            $all[2]->getTempName()
+        );
+
+        $I->assertEquals(
+            't3',
+            $all[3]->getTempName()
+        );
+
+        $I->assertEquals(
+            't4',
+            $all[4]->getTempName()
+        );
+
+
+
+        $I->assertEquals(
+            'f0',
+            $successful[0]->getName()
+        );
+
+        $I->assertEquals(
+            'f1',
+            $successful[1]->getName()
+        );
+
+        $I->assertEquals(
+            'f2',
+            $successful[2]->getName()
+        );
+
+        $I->assertEquals(
+            'f3',
+            $successful[3]->getName()
+        );
+
+
+
+        $I->assertEquals(
+            't0',
+            $successful[0]->getTempName()
+        );
+
+        $I->assertEquals(
+            't1',
+            $successful[1]->getTempName()
+        );
+
+        $I->assertEquals(
+            't2',
+            $successful[2]->getTempName()
+        );
+
+        $I->assertEquals(
+            't3',
+            $successful[3]->getTempName()
+        );
     }
 
     private function overridenMethodProvider(): array

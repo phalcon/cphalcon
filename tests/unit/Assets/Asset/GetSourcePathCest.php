@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetSourcePathCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset :: getSourcePath() - css local
      *
@@ -29,11 +26,17 @@ class GetSourcePathCest
     public function assetsAssetGetSourcePathCssLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getSourcePath() - css local');
+
         $asset = new Asset('css', 'css/docs.css');
 
         $expected = '/phalcon/path';
+
         $asset->setSourcePath($expected);
-        $this->assetGetSourcePath($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getSourcePath()
+        );
     }
 
     /**
@@ -45,11 +48,17 @@ class GetSourcePathCest
     public function assetsAssetGetSourcePathCssRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getSourcePath() - css remote');
+
         $asset = new Asset('css', 'https://phalcon.ld/css/docs.css', false);
 
         $expected = '/phalcon/path';
+
         $asset->setSourcePath($expected);
-        $this->assetGetSourcePath($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getSourcePath()
+        );
     }
 
     /**
@@ -61,11 +70,17 @@ class GetSourcePathCest
     public function assetsAssetGetSourcePathJsLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getSourcePath() - js local');
+
         $asset = new Asset('js', 'js/jquery.js');
 
         $expected = '/phalcon/path';
+
         $asset->setSourcePath($expected);
-        $this->assetGetSourcePath($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getSourcePath()
+        );
     }
 
     /**
@@ -77,10 +92,16 @@ class GetSourcePathCest
     public function assetsAssetGetSourcePathJsRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getSourcePath() - js remote');
+
         $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js', false);
 
         $expected = '/phalcon/path';
+
         $asset->setSourcePath($expected);
-        $this->assetGetSourcePath($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getSourcePath()
+        );
     }
 }

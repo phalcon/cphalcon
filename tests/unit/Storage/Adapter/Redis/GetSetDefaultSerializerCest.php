@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Redis;
 
+use function getOptionsRedis;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
-use function getOptionsRedis;
 
 class GetSetDefaultSerializerCest
 {
@@ -31,11 +31,22 @@ class GetSetDefaultSerializerCest
         $I->wantToTest('Storage\Adapter\Redis - getDefaultSerializer()/setDefaultSerializer()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Redis($serializer, getOptionsRedis());
 
-        $I->assertEquals('Php', $adapter->getDefaultSerializer());
+        $adapter = new Redis(
+            $serializer,
+            getOptionsRedis()
+        );
+
+        $I->assertEquals(
+            'Php',
+            $adapter->getDefaultSerializer()
+        );
 
         $adapter->setDefaultSerializer('Base64');
-        $I->assertEquals('Base64', $adapter->getDefaultSerializer());
+
+        $I->assertEquals(
+            'Base64',
+            $adapter->getDefaultSerializer()
+        );
     }
 }

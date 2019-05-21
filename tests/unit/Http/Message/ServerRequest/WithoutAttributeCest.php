@@ -26,13 +26,21 @@ class WithoutAttributeCest
     public function httpMessageServerRequestWithoutAttribute(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withoutAttribute()');
+
         $request = (new ServerRequest())
             ->withAttribute('one', 'two')
             ->withAttribute('three', 'four')
         ;
 
         $newInstance = $request->withoutAttribute('one');
+
         $I->assertNotEquals($request, $newInstance);
-        $I->assertEquals(['three' => 'four'], $newInstance->getAttributes());
+
+        $I->assertEquals(
+            [
+                'three' => 'four',
+            ],
+            $newInstance->getAttributes()
+        );
     }
 }

@@ -30,13 +30,26 @@ class WithUserInfoCest
     public function httpMessageUriWithUserInfo(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Message\Uri - withUserInfo()');
+
         $query = 'https://%s@dev.phalcon.ld:8080/action?param=value#frag';
-        $uri   = new Uri(sprintf($query, 'zephir:module'));
+
+        $uri = new Uri(
+            sprintf($query, 'zephir:module')
+        );
 
         $newInstance = $uri->withUserInfo($example[1], $example[2]);
+
         $I->assertNotEquals($uri, $newInstance);
-        $I->assertEquals($example[3], $newInstance->getUserInfo());
-        $I->assertEquals(sprintf($query, $example[3]), (string) $newInstance);
+
+        $I->assertEquals(
+            $example[3],
+            $newInstance->getUserInfo()
+        );
+
+        $I->assertEquals(
+            sprintf($query, $example[3]),
+            (string) $newInstance
+        );
     }
 
     /**
@@ -50,6 +63,7 @@ class WithUserInfoCest
     public function httpUriWithUserInfoException(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Uri - withUserInfo() - exception - ' . $example[1]);
+
         $I->expectThrowable(
             new InvalidArgumentException(
                 'Method requires a string argument instead of ' . $example[0]
@@ -57,6 +71,7 @@ class WithUserInfoCest
             function () use ($example) {
                 $query    = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
                 $uri      = new Uri($query);
+
                 $instance = $uri->withUserInfo($example[2]);
             }
         );

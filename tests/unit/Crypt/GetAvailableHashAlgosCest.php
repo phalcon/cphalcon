@@ -26,7 +26,12 @@ class GetAvailableHashAlgosCest
     public function cryptGetAvailableHashAlgos(UnitTester $I)
     {
         $I->wantToTest('Crypt - getAvailableHashAlgos()');
+
         $crypt = new Crypt();
-        $I->assertInternalType('array', $crypt->getAvailableHashAlgos());
+
+        $I->assertInternalType(
+            'array',
+            $crypt->getAvailableHashAlgos()
+        );
     }
 }

@@ -22,16 +22,16 @@ class OutputJsCest
 {
     use DiTrait;
 
-    public function _after(UnitTester $I)
-    {
-        $this->resetDi();
-    }
-
     public function _before(UnitTester $I)
     {
         $this->newDi();
         $this->setDiEscaper();
         $this->setDiUrl();
+    }
+
+    public function _after(UnitTester $I)
+    {
+        $this->resetDi();
     }
 
     /**

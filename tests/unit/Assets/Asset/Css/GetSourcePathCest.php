@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetSourcePathCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Css :: getSourcePath() - css local
      *
@@ -36,7 +33,10 @@ class GetSourcePathCest
 
         $asset->setSourcePath($expected);
 
-        $this->assetGetSourcePath($I, $asset, $expected);
+        $I->assertEquals(
+            $expected,
+            $asset->getSourcePath()
+        );
     }
 
     /**
@@ -55,6 +55,9 @@ class GetSourcePathCest
 
         $asset->setSourcePath($expected);
 
-        $this->assetGetSourcePath($I, $asset, $expected);
+        $I->assertEquals(
+            $expected,
+            $asset->getSourcePath()
+        );
     }
 }

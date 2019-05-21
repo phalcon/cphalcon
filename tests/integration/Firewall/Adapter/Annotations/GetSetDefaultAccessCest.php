@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Firewall\Adapter\Annotations;
 
+use IntegrationTester;
 use Phalcon\Acl as PhAcl;
 use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Firewall\Adapter\Annotations;
-use IntegrationTester;
 
 class GetSetDefaultAccessCest
 {

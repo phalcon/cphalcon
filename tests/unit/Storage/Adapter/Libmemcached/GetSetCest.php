@@ -13,13 +13,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 
 use Codeception\Example;
+use function getOptionsLibmemcached;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use stdClass;
 use UnitTester;
-use function getOptionsLibmemcached;
 
 class GetSetCest
 {
@@ -40,16 +40,24 @@ class GetSetCest
         $I->wantToTest('Storage\Adapter\Libmemcached - get()/set() - ' . $example[0]);
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
+
+        $adapter = new Libmemcached(
+            $serializer,
+            getOptionsLibmemcached()
+        );
 
         $key = 'cache-data';
 
-        $result = $adapter->set($key, $example[1]);
-        $I->assertTrue($result);
+        $I->assertTrue(
+            $adapter->set($key, $example[1])
+        );
 
         $expected = $example[1];
-        $actual   = $adapter->get($key);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $adapter->get($key)
+        );
     }
 
     /**
@@ -66,7 +74,8 @@ class GetSetCest
         $I->wantToTest('Storage\Adapter\Libmemcached - get()/set() - custom serializer');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached(
+
+        $adapter = new Libmemcached(
             $serializer,
             array_merge(
                 getOptionsLibmemcached(),

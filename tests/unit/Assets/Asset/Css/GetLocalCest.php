@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetLocalCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Css :: getLocal() - css local
      *
@@ -30,11 +27,13 @@ class GetLocalCest
     {
         $I->wantToTest('Assets\Asset - getLocal() - css local');
 
-        $asset = new Css('css/docs.css');
+        $file = 'css/docs.css';
 
-        $expected = md5('css:css/docs.css');
+        $asset = new Css($file);
 
-        $this->assetGetLocal($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getLocal()
+        );
     }
 
     /**
@@ -47,10 +46,12 @@ class GetLocalCest
     {
         $I->wantToTest('Assets\Asset - getLocal() - css remote');
 
-        $asset = new Css('https://phalcon.ld/css/docs.css');
+        $file = 'https://phalcon.ld/css/docs.css';
 
-        $expected = md5('css:https://phalcon.ld/css/docs.css');
+        $asset = new Css($file);
 
-        $this->assetGetLocal($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getLocal()
+        );
     }
 }

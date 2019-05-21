@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 
+use function getOptionsLibmemcached;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
-use function getOptionsLibmemcached;
 
 class GetSetDefaultSerializerCest
 {
@@ -34,11 +34,22 @@ class GetSetDefaultSerializerCest
         $I->wantToTest('Storage\Adapter\Libmemcached - getDefaultSerializer()/setDefaultSerializer()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
-        $I->assertEquals('Php', $adapter->getDefaultSerializer());
+        $adapter = new Libmemcached(
+            $serializer,
+            getOptionsLibmemcached()
+        );
+
+        $I->assertEquals(
+            'Php',
+            $adapter->getDefaultSerializer()
+        );
 
         $adapter->setDefaultSerializer('Base64');
-        $I->assertEquals('Base64', $adapter->getDefaultSerializer());
+
+        $I->assertEquals(
+            'Base64',
+            $adapter->getDefaultSerializer()
+        );
     }
 }

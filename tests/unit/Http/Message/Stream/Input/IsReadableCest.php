@@ -28,6 +28,9 @@ class IsReadableCest
         $I->wantToTest('Http\Message\Stream\Input - isReadable()');
 
         $stream = new Input();
-        $I->assertTrue($stream->isReadable());
+
+        $I->assertTrue(
+            $stream->isReadable()
+        );
     }
 }

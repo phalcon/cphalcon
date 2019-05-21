@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
 use Phalcon\Assets\Inline\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetAttributesCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Inline :: setAttributes()
      *
@@ -29,11 +26,20 @@ class SetAttributesCest
     public function assetsInlineSetAttributes(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline - setAttributes()');
-        $content = '<script>alert("Hello");</script>';
-        $asset   = new Js($content);
 
-        $expected = ['data-key' => 'phalcon'];
+        $asset = new Js(
+            '<script>alert("Hello");</script>'
+        );
+
+        $expected = [
+            'data-key' => 'phalcon',
+        ];
+
         $asset->setAttributes($expected);
-        $this->assetGetAttributes($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getAttributes()
+        );
     }
 }

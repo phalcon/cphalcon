@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
 use Phalcon\Assets\Asset\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetTargetPathCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Js :: getTargetPath() - js local
      *
@@ -29,11 +26,17 @@ class GetTargetPathCest
     public function assetsAssetJsGetTargetPathLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getTargetPath() - js local');
+
         $asset = new Js('js/jquery.js');
 
         $expected = '/phalcon/path';
+
         $asset->setTargetPath($expected);
-        $this->assetGetTargetPath($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetPath()
+        );
     }
 
     /**
@@ -45,10 +48,16 @@ class GetTargetPathCest
     public function assetsAssetJsGetTargetPathRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getTargetPath() - js remote');
+
         $asset = new Js('https://phalcon.ld/js/jquery.js', false);
 
         $expected = '/phalcon/path';
+
         $asset->setTargetPath($expected);
-        $this->assetGetTargetPath($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetPath()
+        );
     }
 }

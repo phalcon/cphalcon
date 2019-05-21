@@ -28,9 +28,12 @@ class SendCest
         $I->wantToTest('Http\Response\Headers - send()');
 
         $headers = new Headers();
+
         $headers->set('Content-Type', 'text/html; charset=UTF-8');
         $headers->set('Content-Encoding', 'gzip');
 
-        $I->assertTrue($headers->send());
+        $I->assertTrue(
+            $headers->send()
+        );
     }
 }

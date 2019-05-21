@@ -58,8 +58,11 @@ class LoadCest
 
     private function runTests(UnitTester $I, $options)
     {
-        $cacheFactory = new CacheFactory(new AdapterFactory());
-        $adapter      = $cacheFactory->load($options);
+        $cacheFactory = new CacheFactory(
+            new AdapterFactory()
+        );
+
+        $adapter = $cacheFactory->load($options);
 
         $I->assertInstanceOf(
             Cache::class,

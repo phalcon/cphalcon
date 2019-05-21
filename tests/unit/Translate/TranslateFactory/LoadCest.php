@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Translate\Factory;
 
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use Phalcon\Translate\Adapter\Gettext;
-use Phalcon\Translate\Factory;
 use Phalcon\Translate\InterpolatorFactory;
 use Phalcon\Translate\TranslateFactory;
 use UnitTester;

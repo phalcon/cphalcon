@@ -28,13 +28,26 @@ class WithFragmentCest
     public function httpMessageUriWithFragment(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Uri - withFragment()');
+
         $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#%s';
-        $uri   = new Uri(sprintf($query, 'frag'));
+
+        $uri = new Uri(
+            sprintf($query, 'frag')
+        );
 
         $newInstance = $uri->withFragment('newspaper');
+
         $I->assertNotEquals($uri, $newInstance);
-        $I->assertEquals('newspaper', $newInstance->getFragment());
-        $I->assertEquals(sprintf($query, 'newspaper'), (string) $newInstance);
+
+        $I->assertEquals(
+            'newspaper',
+            $newInstance->getFragment()
+        );
+
+        $I->assertEquals(
+            sprintf($query, 'newspaper'),
+            (string) $newInstance
+        );
     }
 
     /**
@@ -48,13 +61,16 @@ class WithFragmentCest
     public function httpUriWithFragmentException(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Uri - withFragment() - exception - ' . $example[1]);
+
         $I->expectThrowable(
             new InvalidArgumentException(
                 'Method requires a string argument instead of ' . $example[0]
             ),
             function () use ($example) {
-                $query    = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
-                $uri      = new Uri($query);
+                $uri = new Uri(
+                    'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag'
+                );
+
                 $instance = $uri->withFragment($example[2]);
             }
         );

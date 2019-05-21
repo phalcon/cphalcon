@@ -30,8 +30,13 @@ class WithStatusCest
         $code        = 420;
         $response    = new Response();
         $newInstance = $response->withStatus($code);
+
         $I->assertNotEquals($response, $newInstance);
-        $I->assertEquals($code, $newInstance->getStatusCode());
+
+        $I->assertEquals(
+            $code,
+            $newInstance->getStatusCode()
+        );
     }
 
     /**
@@ -48,8 +53,17 @@ class WithStatusCest
         $reason      = 'Phalcon Response';
         $response    = new Response();
         $newInstance = $response->withStatus($code, $reason);
+
         $I->assertNotEquals($response, $newInstance);
-        $I->assertEquals($code, $newInstance->getStatusCode());
-        $I->assertEquals($reason, $newInstance->getReasonPhrase());
+
+        $I->assertEquals(
+            $code,
+            $newInstance->getStatusCode()
+        );
+
+        $I->assertEquals(
+            $reason,
+            $newInstance->getReasonPhrase()
+        );
     }
 }

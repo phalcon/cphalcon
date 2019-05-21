@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Paginator\PaginatorFactory;
 
-use Phalcon\Paginator\Adapter\NativeArray;
-use Phalcon\Paginator\Adapter\AdapterInterface;
-use Phalcon\Paginator\PaginatorFactory;
 use IntegrationTester;
+use Phalcon\Paginator\Adapter\AdapterInterface;
+use Phalcon\Paginator\Adapter\NativeArray;
+use Phalcon\Paginator\PaginatorFactory;
 
 class NewInstanceCest
 {

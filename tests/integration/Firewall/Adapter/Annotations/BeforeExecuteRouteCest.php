@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Firewall\Adapter\Annotations;
 
 use Codeception\Example;
+use IntegrationTester;
 use function ob_end_clean;
 use function ob_start;
 use Phalcon\Annotations\Adapter\Memory;
@@ -22,7 +23,6 @@ use Phalcon\Mvc\Dispatcher;
 use Phalcon\Test\Fixtures\Firewall\RoleObject;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\FirewallTrait;
-use IntegrationTester;
 
 class BeforeExecuteRouteCest
 {

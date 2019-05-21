@@ -52,11 +52,15 @@ class SaveCest
         $user->id   = 54321;
         $user->name = null;
 
-        $I->assertFalse($user->save());
+        $I->assertFalse(
+            $user->save()
+        );
 
         $user->name = 'New User';
 
-        $I->assertTrue($user->save());
+        $I->assertTrue(
+            $user->save()
+        );
 
         /**
          * Saved model
@@ -73,7 +77,9 @@ class SaveCest
 
         $user->name = 'Existing User';
 
-        $I->assertTrue($user->save());
+        $I->assertTrue(
+            $user->save()
+        );
 
         /**
          * Modified saved model
@@ -90,7 +96,9 @@ class SaveCest
 
         $user->name = null;
 
-        $I->assertFalse($user->save());
+        $I->assertFalse(
+            $user->save()
+        );
 
         /**
          * Verify model count
@@ -103,7 +111,9 @@ class SaveCest
         /**
          * Deleting is necessary because other tests may rely on specific row count
          */
-        $I->assertTrue($user->delete());
+        $I->assertTrue(
+            $user->delete()
+        );
     }
 
     /**
@@ -119,20 +129,26 @@ class SaveCest
         $robotPart = new RobotsParts();
 
         $robotPart->robot = new Robots();
-        $robotPart->robot->assign([
-            'name'     => 'Test Robots',
-            'type'     => 'mechanical',
-            'year'     => 2019,
-            'datetime' => (new \DateTime())->format('Y-m-d'),
-            'text'     => 'Test text',
-        ]);
 
-        $part       = new Parts();
+        $robotPart->robot->assign(
+            [
+                'name'     => 'Test Robots',
+                'type'     => 'mechanical',
+                'year'     => 2019,
+                'datetime' => (new \DateTime())->format('Y-m-d'),
+                'text'     => 'Test text',
+            ]
+        );
+
+        $part = new Parts();
+
         $part->name = 'Test Parts';
 
         $robotPart->part = $part;
 
-        $I->assertTrue($robotPart->save());
+        $I->assertTrue(
+            $robotPart->save()
+        );
 
         $I->assertGreaterThan(
             0,
@@ -156,7 +172,9 @@ class SaveCest
 
         $connection = $this->getService('db');
 
-        $I->assertFalse((bool) $connection->isUnderTransaction());
+        $I->assertFalse(
+            $connection->isUnderTransaction()
+        );
 
         $I->assertEquals(
             Model::DIRTY_STATE_PERSISTENT,
@@ -176,9 +194,17 @@ class SaveCest
         /**
          * Deleting is necessary because other tests may rely on specific row count
          */
-        $I->assertTrue($robotPart->delete());
-        $I->assertTrue($robotPart->robot->delete());
-        $I->assertTrue($part->delete());
+        $I->assertTrue(
+            $robotPart->delete()
+        );
+
+        $I->assertTrue(
+            $robotPart->robot->delete()
+        );
+
+        $I->assertTrue(
+            $part->delete()
+        );
     }
 
     /**
@@ -239,14 +265,18 @@ class SaveCest
          */
         $artist = $album->getArtist();
 
-        $I->assertTrue($album->save());
+        $I->assertTrue(
+            $album->save()
+        );
 
         /**
          * @var \Model\Resultset\Simple
          */
         $songs = $album->getSongs();
 
-        $I->assertTrue($album->save());
+        $I->assertTrue(
+            $album->save()
+        );
     }
 
     /**
@@ -276,7 +306,9 @@ class SaveCest
 
         $robot->assign($robotData);
 
-        $I->assertTrue($robot->save());
+        $I->assertTrue(
+            $robot->save()
+        );
 
         /**
          * @var MetaData
@@ -298,6 +330,8 @@ class SaveCest
         /**
          * Cleanup
          */
-        $I->assertTrue($robot->delete());
+        $I->assertTrue(
+            $robot->delete()
+        );
     }
 }

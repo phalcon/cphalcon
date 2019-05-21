@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetFilterCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Css :: getFilter() - css local
      *
@@ -32,8 +29,9 @@ class GetFilterCest
 
         $asset = new Css('css/docs.css');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -48,7 +46,8 @@ class GetFilterCest
 
         $asset = new Css('https://phalcon.ld/css/docs.css');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
     }
 }

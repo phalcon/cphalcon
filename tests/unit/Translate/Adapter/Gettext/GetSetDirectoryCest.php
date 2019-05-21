@@ -32,15 +32,21 @@ class GetSetDirectoryCest
     {
         $I->wantToTest('Translate\Adapter\Gettext - getDirectory()/setDirectory()');
 
-        $params     = $this->getGettextConfig();
-        $translator = new Gettext(new InterpolatorFactory(), $params);
+        $params = $this->getGettextConfig();
+
+        $translator = new Gettext(
+            new InterpolatorFactory(),
+            $params
+        );
 
         $I->assertEquals(
             dataDir('assets/translation/gettext'),
             $translator->getDirectory()
         );
 
-        $translator->setDirectory(dataDir());
+        $translator->setDirectory(
+            dataDir()
+        );
 
         $I->assertEquals(
             dataDir(),

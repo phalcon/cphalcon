@@ -97,6 +97,7 @@ class EncryptCest
             ),
             function () {
                 $crypt = new Crypt();
+
                 $crypt->setCipher('AES-128-ECB');
             }
         );

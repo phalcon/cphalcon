@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetTargetUriCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Css :: getTargetUri() - css local
      *
@@ -36,7 +33,10 @@ class GetTargetUriCest
 
         $asset->setTargetUri($expected);
 
-        $this->assetGetTargetUri($I, $asset, $expected);
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetUri()
+        );
     }
 
     /**
@@ -55,6 +55,9 @@ class GetTargetUriCest
 
         $asset->setTargetUri($expected);
 
-        $this->assetGetTargetUri($I, $asset, $expected);
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetUri()
+        );
     }
 }

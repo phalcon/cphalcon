@@ -28,6 +28,9 @@ class IsReadableCest
         $I->wantToTest('Http\Message\Stream\Temp - isReadable()');
 
         $stream = new Temp();
-        $I->assertTrue($stream->isReadable());
+
+        $I->assertTrue(
+            $stream->isReadable()
+        );
     }
 }

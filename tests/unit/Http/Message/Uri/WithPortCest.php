@@ -27,13 +27,26 @@ class WithPortCest
     public function httpMessageUriWithPort(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Uri - withPort()');
+
         $query = 'https://phalcon:secret@dev.phalcon.ld:%s/action?param=value#frag';
-        $uri   = new Uri(sprintf($query, 3306));
+
+        $uri = new Uri(
+            sprintf($query, 3306)
+        );
 
         $newInstance = $uri->withPort(11211);
+
         $I->assertNotEquals($uri, $newInstance);
-        $I->assertEquals(11211, $newInstance->getPort());
-        $I->assertEquals(sprintf($query, 11211), (string) $newInstance);
+
+        $I->assertEquals(
+            11211,
+            $newInstance->getPort()
+        );
+
+        $I->assertEquals(
+            sprintf($query, 11211),
+            (string) $newInstance
+        );
     }
 
     /**

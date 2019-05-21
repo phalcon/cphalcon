@@ -15,11 +15,11 @@ namespace Phalcon\Test\Integration\Db\Adapter\PdoFactory;
 use Codeception\Example;
 use function getOptionsPostgresql;
 use function getOptionsSqlite;
+use IntegrationTester;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Db\Adapter\PdoFactory;
-use IntegrationTester;
 
 class NewInstanceCest
 {

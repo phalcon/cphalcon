@@ -135,19 +135,40 @@ class ManagerCest
         $componentY->leAction();
         $componentY->leAction();
 
-        $I->assertEquals(2, $listener1->getBeforeCount());
-        $I->assertEquals(2, $listener1->getAfterCount());
+        $I->assertEquals(
+            2,
+            $listener1->getBeforeCount()
+        );
+
+        $I->assertEquals(
+            2,
+            $listener1->getAfterCount()
+        );
 
         $eventsManager->attach('dummy', $listener2);
 
         $componentX->leAction();
         $componentX->leAction();
 
-        $I->assertEquals(4, $listener1->getBeforeCount());
-        $I->assertEquals(4, $listener1->getAfterCount());
+        $I->assertEquals(
+            4,
+            $listener1->getBeforeCount()
+        );
 
-        $I->assertEquals(2, $listener2->getBeforeCount());
-        $I->assertEquals(2, $listener2->getAfterCount());
+        $I->assertEquals(
+            4,
+            $listener1->getAfterCount()
+        );
+
+        $I->assertEquals(
+            2,
+            $listener2->getBeforeCount()
+        );
+
+        $I->assertEquals(
+            2,
+            $listener2->getAfterCount()
+        );
 
         $I->assertSame($listener2, $this->listener);
 
@@ -156,11 +177,25 @@ class ManagerCest
         $componentX->leAction();
         $componentX->leAction();
 
-        $I->assertEquals(4, $listener1->getBeforeCount());
-        $I->assertEquals(4, $listener1->getAfterCount());
+        $I->assertEquals(
+            4,
+            $listener1->getBeforeCount()
+        );
 
-        $I->assertEquals(4, $listener2->getBeforeCount());
-        $I->assertEquals(4, $listener2->getAfterCount());
+        $I->assertEquals(
+            4,
+            $listener1->getAfterCount()
+        );
+
+        $I->assertEquals(
+            4,
+            $listener2->getBeforeCount()
+        );
+
+        $I->assertEquals(
+            4,
+            $listener2->getAfterCount()
+        );
     }
 
     /**
@@ -179,6 +214,7 @@ class ManagerCest
         $listener2->setTestCase($this, $I);
 
         $eventsManager = new Manager();
+
         $eventsManager->enablePriorities(true);
 
         $eventsManager->attach('dummy', $listener1, 100);
@@ -196,19 +232,40 @@ class ManagerCest
         $componentY->leAction();
         $componentY->leAction();
 
-        $I->assertEquals(2, $listener1->getBeforeCount());
-        $I->assertEquals(2, $listener1->getAfterCount());
+        $I->assertEquals(
+            2,
+            $listener1->getBeforeCount()
+        );
+
+        $I->assertEquals(
+            2,
+            $listener1->getAfterCount()
+        );
 
         $eventsManager->attach('dummy', $listener2, 150);
 
         $componentX->leAction();
         $componentX->leAction();
 
-        $I->assertEquals(4, $listener1->getBeforeCount());
-        $I->assertEquals(4, $listener1->getAfterCount());
+        $I->assertEquals(
+            4,
+            $listener1->getBeforeCount()
+        );
 
-        $I->assertEquals(2, $listener2->getBeforeCount());
-        $I->assertEquals(2, $listener2->getAfterCount());
+        $I->assertEquals(
+            4,
+            $listener1->getAfterCount()
+        );
+
+        $I->assertEquals(
+            2,
+            $listener2->getBeforeCount()
+        );
+
+        $I->assertEquals(
+            2,
+            $listener2->getAfterCount()
+        );
 
         $I->assertSame($listener1, $this->listener);
 
@@ -217,11 +274,25 @@ class ManagerCest
         $componentX->leAction();
         $componentX->leAction();
 
-        $I->assertEquals(4, $listener1->getBeforeCount());
-        $I->assertEquals(4, $listener1->getAfterCount());
+        $I->assertEquals(
+            4,
+            $listener1->getBeforeCount()
+        );
 
-        $I->assertEquals(4, $listener2->getBeforeCount());
-        $I->assertEquals(4, $listener2->getAfterCount());
+        $I->assertEquals(
+            4,
+            $listener1->getAfterCount()
+        );
+
+        $I->assertEquals(
+            4,
+            $listener2->getBeforeCount()
+        );
+
+        $I->assertEquals(
+            4,
+            $listener2->getAfterCount()
+        );
     }
 
     /**
@@ -249,17 +320,29 @@ class ManagerCest
         $manager->attach('test:detachable', $handler);
         $events = $I->getProtectedProperty($manager, 'events');
 
-        $I->assertCount(1, $events);
+        $I->assertCount(
+            1,
+            $events
+        );
+
         $I->assertArrayHasKey('test:detachable', $events);
-        $I->assertCount(1, $events['test:detachable']);
+        $I->assertCount(
+            1,
+            $events['test:detachable']
+        );
 
         $manager->detach('test:detachable', $handler);
 
         $events = $I->getProtectedProperty($manager, 'events');
 
         $I->assertCount(1, $events);
+
         $I->assertArrayHasKey('test:detachable', $events);
-        $I->assertCount(0, $events['test:detachable']);
+
+        $I->assertCount(
+            0,
+            $events['test:detachable']
+        );
     }
 
     public function setLastListener($listener)
