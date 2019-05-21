@@ -709,16 +709,26 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     public function write(string! key, array data) -> void
     {
-        var result;
+        var result, option;
 
         let result = this->adapter->set(key, data);
+
+        try {
+            let option = globals_get("orm.exception_on_failed_metadata_save"),
+                result = this->adapter->set(key, data);
 
         if !result {
             throw new Exception(
                 "Failed to store metaData to the cache adapter."
             );
+            if false === result {
+                this->throwWriteException(option);
+            }
+
+        } catch \Exception {
+            this->throwWriteException(option);
         }
-    }
+    }    }
 
     /**
      * Writes meta-data for certain model using a MODEL_* constant
@@ -865,5 +875,21 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
          * Write the data to the adapter
          */
         this->{"write"}(prefixKey, modelColumnMap);
+    }
+
+    /**
+     * Throws an exception when the metadata cannot be written
+     */
+    private function throwWriteException(var option) -> void
+    {
+        if option {
+            throw new Exception(
+                "Failed to store metaData to the cache adapter"
+            );
+        } else {
+            trigger_error(
+                "Failed to store metaData to the cache adapter"
+            );
+        }
     }
 }

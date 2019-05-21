@@ -2748,9 +2748,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     public static function setup(array! options) -> void
     {
         var disableEvents, columnRenaming, notNullValidations,
-            exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
-            lateStateBinding, castOnHydrate, ignoreUnknownColumns,
-            updateSnapshotOnSave, disableAssignSetters,
+            exceptionOnFailedSave, exceptionOnFailedMetaDataSave, phqlLiterals,
+            virtualForeignKeys, lateStateBinding, castOnHydrate,
+            ignoreUnknownColumns, updateSnapshotOnSave, disableAssignSetters,
             caseInsensitiveColumnMap, prefetchRecords, lastInsertId;
 
         /**
@@ -2786,6 +2786,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          */
         if fetch exceptionOnFailedSave, options["exceptionOnFailedSave"] {
             globals_set("orm.exception_on_failed_save", exceptionOnFailedSave);
+        }
+
+        /**
+         * Enables/Disables throws an exception if the saving process fails
+         */
+        if fetch exceptionOnFailedMetaDataSave, options["exceptionOnFailedMetaDataSave"] {
+            globals_set("orm.exception_on_failed_metadata_save", exceptionOnFailedMetaDataSave);
         }
 
         /**
