@@ -2748,59 +2748,20 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     public static function setup(array! options) -> void
     {
         var disableEvents, columnRenaming, notNullValidations,
-            exceptionOnFailedSave, phqlLiterals, virtualForeignKeys,
-            lateStateBinding, castOnHydrate, ignoreUnknownColumns,
-            updateSnapshotOnSave, disableAssignSetters,
+            exceptionOnFailedSave, exceptionOnFailedMetaDataSave, phqlLiterals,
+            virtualForeignKeys, lateStateBinding, castOnHydrate,
+            ignoreUnknownColumns, updateSnapshotOnSave, disableAssignSetters,
             caseInsensitiveColumnMap, prefetchRecords, lastInsertId;
 
-        /**
-         * Enables/Disables globally the internal events
-         */
-        if fetch disableEvents, options["events"] {
-            globals_set("orm.events", disableEvents);
+        if fetch caseInsensitiveColumnMap, options["caseInsensitiveColumnMap"] {
+            globals_set(
+                "orm.case_insensitive_column_map",
+                caseInsensitiveColumnMap
+            );
         }
 
-        /**
-         * Enables/Disables virtual foreign keys
-         */
-        if fetch virtualForeignKeys, options["virtualForeignKeys"] {
-            globals_set("orm.virtual_foreign_keys", virtualForeignKeys);
-        }
-
-        /**
-         * Enables/Disables column renaming
-         */
-        if fetch columnRenaming, options["columnRenaming"] {
-            globals_set("orm.column_renaming", columnRenaming);
-        }
-
-        /**
-         * Enables/Disables automatic not null validation
-         */
-        if fetch notNullValidations, options["notNullValidations"] {
-            globals_set("orm.not_null_validations", notNullValidations);
-        }
-
-        /**
-         * Enables/Disables throws an exception if the saving process fails
-         */
-        if fetch exceptionOnFailedSave, options["exceptionOnFailedSave"] {
-            globals_set("orm.exception_on_failed_save", exceptionOnFailedSave);
-        }
-
-        /**
-         * Enables/Disables literals in PHQL this improves the security of
-         * applications
-         */
-        if fetch phqlLiterals, options["phqlLiterals"] {
-            globals_set("orm.enable_literals", phqlLiterals);
-        }
-
-        /**
-         * Enables/Disables late state binding on model hydration
-         */
-        if fetch lateStateBinding, options["lateStateBinding"] {
-            globals_set("orm.late_state_binding", lateStateBinding);
+        if fetch lastInsertId, options["castLastInsertIdToInt"] {
+            globals_set("orm.cast_last_insert_id_to_int", lastInsertId);
         }
 
         /**
@@ -2811,34 +2772,78 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         }
 
         /**
-         * Allows to ignore unknown columns when hydrating objects
+         * Enables/Disables column renaming
          */
-        if fetch ignoreUnknownColumns, options["ignoreUnknownColumns"] {
-            globals_set("orm.ignore_unknown_columns", ignoreUnknownColumns);
-        }
-
-        if fetch caseInsensitiveColumnMap, options["caseInsensitiveColumnMap"] {
-            globals_set(
-                "orm.case_insensitive_column_map",
-                caseInsensitiveColumnMap
-            );
-        }
-
-        if fetch updateSnapshotOnSave, options["updateSnapshotOnSave"] {
-            globals_set("orm.update_snapshot_on_save", updateSnapshotOnSave);
+        if fetch columnRenaming, options["columnRenaming"] {
+            globals_set("orm.column_renaming", columnRenaming);
         }
 
         if fetch disableAssignSetters, options["disableAssignSetters"] {
             globals_set("orm.disable_assign_setters", disableAssignSetters);
         }
 
+        /**
+         * Enables/Disables globally the internal events
+         */
+        if fetch disableEvents, options["events"] {
+            globals_set("orm.events", disableEvents);
+        }
+
+        /**
+         * Enables/Disables throws an exception if the saving process fails
+         */
+        if fetch exceptionOnFailedSave, options["exceptionOnFailedSave"] {
+            globals_set("orm.exception_on_failed_save", exceptionOnFailedSave);
+        }
+
+        if fetch exceptionOnFailedMetaDataSave, options["exceptionOnFailedMetaDataSave"] {
+            globals_set("orm.exception_on_failed_metadata_save", exceptionOnFailedMetaDataSave);
+        }
+
+        /**
+         * Allows to ignore unknown columns when hydrating objects
+         */
+        if fetch ignoreUnknownColumns, options["ignoreUnknownColumns"] {
+            globals_set("orm.ignore_unknown_columns", ignoreUnknownColumns);
+        }
+
+        /**
+         * Enables/Disables late state binding on model hydration
+         */
+        if fetch lateStateBinding, options["lateStateBinding"] {
+            globals_set("orm.late_state_binding", lateStateBinding);
+        }
+
+        /**
+         * Enables/Disables automatic not null validation
+         */
+        if fetch notNullValidations, options["notNullValidations"] {
+            globals_set("orm.not_null_validations", notNullValidations);
+        }
+
+        /**
+         * Enables/Disables literals in PHQL this improves the security of
+         * applications
+         */
+        if fetch phqlLiterals, options["phqlLiterals"] {
+            globals_set("orm.enable_literals", phqlLiterals);
+        }
+
         if fetch prefetchRecords, options["prefetchRecords"] {
             globals_set("orm.resultset_prefetch_records", prefetchRecords);
         }
-	
-        if fetch lastInsertId, options["castLastInsertIdToInt"] {
-            globals_set("orm.cast_last_insert_id_to_int", lastInsertId);
+
+        if fetch updateSnapshotOnSave, options["updateSnapshotOnSave"] {
+            globals_set("orm.update_snapshot_on_save", updateSnapshotOnSave);
         }
+
+        /**
+         * Enables/Disables virtual foreign keys
+         */
+        if fetch virtualForeignKeys, options["virtualForeignKeys"] {
+            globals_set("orm.virtual_foreign_keys", virtualForeignKeys);
+        }
+
     }
 
     /**

@@ -67,11 +67,12 @@ class Stream extends MetaData
      */
     public function write(string! key, array data) -> void
     {
-        var path;
+        var path, option;
 
-        let path = this->metaDataDir . prepare_virtual_path(key, "_") . ".php";
+        let path   = this->metaDataDir . prepare_virtual_path(key, "_") . ".php",
+            option = globals_get("orm.exception_on_failed_metadata_save");
 
-        if file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false {
+        if file_put_contents(path, "<?php return " . var_export(data, true) . "; ") === false && option {
             throw new Exception("Meta-Data directory cannot be written");
         }
     }

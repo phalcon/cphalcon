@@ -81,6 +81,10 @@
             "type": "bool",
             "default": true
         },
+        "orm.exception_on_failed_metadata_save": {
+            "type": "bool",
+            "default": false
+        },
         "orm.exception_on_failed_save": {
             "type": "bool",
             "default": false

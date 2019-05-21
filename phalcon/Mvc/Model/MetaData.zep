@@ -709,11 +709,12 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     public function write(string! key, array data) -> void
     {
-        var result;
+        var result, option;
 
-        let result = this->adapter->set(key, data);
+        let result = this->adapter->set(key, data),
+            option = globals_get("orm.exception_on_failed_metadata_save");;
 
-        if !result {
+        if !result && option {
             throw new Exception(
                 "Failed to store metaData to the cache adapter."
             );
