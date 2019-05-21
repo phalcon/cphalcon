@@ -85,6 +85,10 @@
             "type": "bool",
             "default": false
         },
+        "orm.exception_on_failed_metadata_save": {
+            "type": "bool",
+            "default": true
+        },
         "orm.ignore_unknown_columns": {
             "type": "bool",
             "default": false
