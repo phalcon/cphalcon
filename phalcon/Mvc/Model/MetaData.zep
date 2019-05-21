@@ -711,8 +711,6 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         var result, option;
 
-        let result = this->adapter->set(key, data);
-
         try {
             let option = globals_get("orm.exception_on_failed_metadata_save"),
                 result = this->adapter->set(key, data);
