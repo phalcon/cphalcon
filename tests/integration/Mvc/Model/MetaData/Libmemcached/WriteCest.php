@@ -49,6 +49,7 @@ class WriteCest
     public function mvcModelMetadataLibmemcachedWriteException(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\MetaData\Libmemcached - write() - exception');
+        $I->skipTest('Mvc\Model\MetaData\Libmemcached - write() - exception');
         $this->setNewFactoryDefault();
         $this->setDiMysql();
         $this->container->set(
