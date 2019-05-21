@@ -20,6 +20,7 @@ use Phalcon\Validation\Validator\Callback;
 use Phalcon\Validation\Validator\Exception;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Validation\Validator\StringLength\Min;
 
 class ValidateCest
 {
@@ -167,7 +168,7 @@ class ValidateCest
                 new Message(
                     'User name should be minimum 4 characters.',
                     'user',
-                    'TooShort',
+                    Min::class,
                     0
                 ),
             ]

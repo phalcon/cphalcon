@@ -73,27 +73,49 @@ use Phalcon\Validation\Exception;
  */
 class StringLength extends Validator
 {
-    private validators = [] {get, set};
+    private validators = [];
 
     public function __construct(array! options = []) -> void
     {
-        var key, value, validator;
+        var key, value, message, validator;
 
         // create individual validators
         for key, value in options {
             if strtolower(key) === "min" {
+                // get custom message
+                if isset options["message"] {
+                    let message = options["message"];
+                } elseif isset options["messageMinimum"] {
+                    let message = options["messageMinimum"];
+                }
+
                 let validator = new Min(
-                    array_intersect_key(value, array_flip(["min","messageMinimum"]))
+                    [
+                        "min" : value,
+                        "message" : message
+                    ]
                 );
 
                 unset options["min"];
+                unset options["message"];
                 unset options["messageMinimum"];
             } elseif strtolower(key) === "max" {
+                // get custom message
+                if isset options["message"] {
+                    let message = options["message"];
+                } elseif isset options["messageMaximum"] {
+                    let message = options["messageMaximum"];
+                }
+
                 let validator = new Max(
-                    array_intersect_key(value, array_flip(["max","messageMaximum"]))
+                    [
+                        "max" : value,
+                        "message" : message
+                    ]
                 );
 
                 unset options["max"];
+                unset options["message"];
                 unset options["messageMaximum"];
             } else {
                 continue;
@@ -116,7 +138,7 @@ class StringLength extends Validator
             throw new Exception("A minimum or maximum must be set");
         }
 
-        for validator in this->getValidators() {
+        for validator in this->validators {
             if validator->validate(validation, field) === false {
                 return false;
             }
