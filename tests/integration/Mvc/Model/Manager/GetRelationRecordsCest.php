@@ -64,7 +64,6 @@ class GetRelationRecordsCest
 
         $artistRelationRecord = $modelsManager->getRelationRecords(
             $artistRelation,
-            null,
             $album
         );
 
@@ -92,9 +91,9 @@ class GetRelationRecordsCest
 
         $songsRelationRecordsCount = $modelsManager->getRelationRecords(
             $songsRelation,
-            'count',
             $album,
-            []
+            [],
+            'count'
         );
 
         $I->assertEquals(
@@ -104,7 +103,6 @@ class GetRelationRecordsCest
 
         $songsRelationRecords = $modelsManager->getRelationRecords(
             $songsRelation,
-            null,
             $album,
             [
                 'id <= 5'
@@ -137,7 +135,6 @@ class GetRelationRecordsCest
 
         $singlesRelationRecords = $modelsManager->getRelationRecords(
             $singlesRelation,
-            null,
             $album
         );
 
