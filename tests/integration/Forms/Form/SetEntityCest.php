@@ -13,21 +13,34 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Form;
 
 use IntegrationTester;
+use Phalcon\Forms\Form;
+use stdClass;
 
-/**
- * Class SetEntityCest
- */
 class SetEntityCest
 {
     /**
      * Tests Phalcon\Forms\Form :: setEntity()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-23
      */
     public function formsFormSetEntity(IntegrationTester $I)
     {
         $I->wantToTest('Forms\Form - setEntity()');
-        $I->skipTest('Need implementation');
+
+        $entity = new stdClass();
+
+        $form = new Form();
+
+        $I->assertNull(
+            $form->getEntity()
+        );
+
+        $form->setEntity($entity);
+
+        $I->assertSame(
+            $entity,
+            $form->getEntity()
+        );
     }
 }

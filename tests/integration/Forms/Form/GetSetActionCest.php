@@ -10,10 +10,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Forms\Form;
+namespace Phalcon\Test\Integration\Forms\Form;
 
+use IntegrationTester;
 use Phalcon\Forms\Form;
-use UnitTester;
 
 class GetSetActionCest
 {
@@ -23,7 +23,7 @@ class GetSetActionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-11
      */
-    public function formsFormGetSetAction(UnitTester $I)
+    public function formsFormGetSetAction(IntegrationTester $I)
     {
         $I->wantToTest('Forms\Form - getAction() / setAction()');
 

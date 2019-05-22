@@ -13,21 +13,29 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Form;
 
 use IntegrationTester;
+use Phalcon\Forms\Form;
 
-/**
- * Class GetUserOptionsCest
- */
 class GetUserOptionsCest
 {
     /**
      * Tests Phalcon\Forms\Form :: getUserOptions()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-23
      */
     public function formsFormGetUserOptions(IntegrationTester $I)
     {
         $I->wantToTest('Forms\Form - getUserOptions()');
-        $I->skipTest('Need implementation');
+
+        $userOptions = [
+            'some' => 'value',
+        ];
+
+        $form = new Form(null, $userOptions);
+
+        $I->assertEquals(
+            $userOptions,
+            $form->getUserOptions()
+        );
     }
 }

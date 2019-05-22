@@ -23,9 +23,6 @@ use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Regex;
 
-/**
- * Class GetMessagesCest
- */
 class GetMessagesCest
 {
     use DiTrait;
