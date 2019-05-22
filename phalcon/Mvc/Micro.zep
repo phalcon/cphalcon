@@ -812,11 +812,9 @@ class Micro extends Injectable implements \ArrayAccess
             /**
              * Check if the returned object is already a response
              */
-            if typeof returnedValue == "object" {
-                if returnedValue instanceof ResponseInterface {
-                    if !returnedValue->isSent() {
-                        returnedValue->send();
-                    }
+            if typeof returnedValue == "object" && returnedValue instanceof ResponseInterface {
+                if !returnedValue->isSent() {
+                    returnedValue->send();
                 }
             }
         }
@@ -925,60 +923,58 @@ class Micro extends Injectable implements \ArrayAccess
             throw new Exception("There are no handlers to mount");
         }
 
-        if typeof handlers == "array" {
+        /**
+         * Check if handler is lazy
+         */
+        if collection->isLazy() {
+            let lazyHandler = new LazyLoader(mainHandler);
+        } else {
+            let lazyHandler = mainHandler;
+        }
+
+        /**
+         * Get the main prefix for the collection
+         */
+        let prefix = collection->getPrefix();
+
+        for handler in handlers {
+            if unlikely typeof handler != "array" {
+                throw new Exception(
+                    "One of the registered handlers is invalid"
+                );
+            }
+
+            let methods    = handler[0];
+            let pattern    = handler[1];
+            let subHandler = handler[2];
+            let name       = handler[3];
+
             /**
-             * Check if handler is lazy
+             * Create a real handler
              */
-            if collection->isLazy() {
-                let lazyHandler = new LazyLoader(mainHandler);
+            let realHandler = [lazyHandler, subHandler];
+
+            if !empty prefix {
+                if pattern == "/" {
+                    let prefixedPattern = prefix;
+                } else {
+                    let prefixedPattern = prefix . pattern;
+                }
             } else {
-                let lazyHandler = mainHandler;
+                let prefixedPattern = pattern;
             }
 
             /**
-             * Get the main prefix for the collection
+             * Map the route manually
              */
-            let prefix = collection->getPrefix();
+            let route = this->map(prefixedPattern, realHandler);
 
-            for handler in handlers {
-                if unlikely typeof handler != "array" {
-                    throw new Exception(
-                        "One of the registered handlers is invalid"
-                    );
-                }
+            if (typeof methods == "string" && methods != "") || typeof methods == "array" {
+                route->via(methods);
+            }
 
-                let methods    = handler[0];
-                let pattern    = handler[1];
-                let subHandler = handler[2];
-                let name       = handler[3];
-
-                /**
-                 * Create a real handler
-                 */
-                let realHandler = [lazyHandler, subHandler];
-
-                if !empty prefix {
-                    if pattern == "/" {
-                        let prefixedPattern = prefix;
-                    } else {
-                        let prefixedPattern = prefix . pattern;
-                    }
-                } else {
-                    let prefixedPattern = pattern;
-                }
-
-                /**
-                 * Map the route manually
-                 */
-                let route = this->map(prefixedPattern, realHandler);
-
-                if (typeof methods == "string" && methods != "") || typeof methods == "array" {
-                    route->via(methods);
-                }
-
-                if typeof name == "string" {
-                    route->setName(name);
-                }
+            if typeof name == "string" {
+                route->setName(name);
             }
         }
 
@@ -1204,7 +1200,11 @@ class Micro extends Injectable implements \ArrayAccess
      *
      * <code>
      * $micro = new Micro($di);
-     * $micro->setModelBinder(new Binder(), 'cache');
+     *
+     * $micro->setModelBinder(
+     *     new Binder(),
+     *     'cache'
+     * );
      * </code>
      */
     public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <Micro>

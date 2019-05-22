@@ -33,7 +33,7 @@ class Collection implements CollectionInterface
 {
     protected handler;
 
-    protected handlers;
+    protected handlers = [];
 
     protected lazy;
 
