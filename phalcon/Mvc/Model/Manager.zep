@@ -1533,7 +1533,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Gets hasMany related records from a model
      */
-    public function getHasManyRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
+    public function getHasManyRecords(string! modelName, string! modelRelation, <ModelInterface> record, parameters = null, string method = null)
         -> <ResultsetInterface> | bool
     {
         var relations;
@@ -1563,7 +1563,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Gets belongsTo related records from a model
      */
-    public function getHasOneRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
+    public function getHasOneRecords(string! modelName, string! modelRelation, <ModelInterface> record, parameters = null, string method = null)
         -> <ModelInterface> | bool
     {
         var relations;
