@@ -1270,7 +1270,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|int|false
      */
-    public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters = null)
+    public function getRelationRecords(<RelationInterface> relation, <ModelInterface> record, var parameters = null, string method = null)
     {
         var referencedModel, intermediateModel, intermediateFields, fields,
             builder, extraParameters, refPosition, field, referencedFields,
@@ -1375,15 +1375,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         let fields = relation->getFields();
 
+        /**
+         * Compound relation
+         */
+        let referencedFields = relation->getReferencedFields();
+
         if typeof fields != "array" {
-            let conditions[] = "[". relation->getReferencedFields() . "] = :APR0:",
+            let conditions[] = "[". referencedFields . "] = :APR0:",
                 placeholders["APR0"] = record->readAttribute(fields);
         } else {
-            /**
-             * Compound relation
-             */
-            let referencedFields = relation->getReferencedFields();
-
             for refPosition, field in relation->getFields() {
                 let conditions[] = "[". referencedFields[refPosition] . "] = :APR" . refPosition . ":",
                     placeholders["APR" . refPosition] = record->readAttribute(field);
@@ -1503,7 +1503,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Gets belongsTo related records from a model
      */
-    public function getBelongsToRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
+    public function getBelongsToRecords(string! modelName, string! modelRelation, <ModelInterface> record, parameters = null, string method = null)
         -> <ResultsetInterface> | bool
     {
         var relations;
@@ -1524,16 +1524,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         return this->getRelationRecords(
             relations[0],
-            method,
             record,
-            parameters
+            parameters,
+            method
         );
     }
 
     /**
      * Gets hasMany related records from a model
      */
-    public function getHasManyRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
+    public function getHasManyRecords(string! modelName, string! modelRelation, <ModelInterface> record, parameters = null, string method = null)
         -> <ResultsetInterface> | bool
     {
         var relations;
@@ -1554,16 +1554,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         return this->getRelationRecords(
             relations[0],
-            method,
             record,
-            parameters
+            parameters,
+            method
         );
     }
 
     /**
      * Gets belongsTo related records from a model
      */
-    public function getHasOneRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
+    public function getHasOneRecords(string! modelName, string! modelRelation, <ModelInterface> record, parameters = null, string method = null)
         -> <ModelInterface> | bool
     {
         var relations;
@@ -1584,9 +1584,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         return this->getRelationRecords(
             relations[0],
-            method,
             record,
-            parameters
+            parameters,
+            method
         );
     }
 

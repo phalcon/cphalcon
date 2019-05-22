@@ -1771,7 +1771,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 /**
                  * Call the 'getRelationRecords' in the models manager.
                  */
-                let result = manager->getRelationRecords(relation, null, this, arguments);
+                let result = manager->getRelationRecords(relation, this, arguments);
 
                 /**
                  * We store relationship objects in the related cache if there were no arguments.
@@ -1783,7 +1783,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * Individually queried related records are handled by Manager.
              * The Manager also checks and stores reusable records.
              */
-            let result = manager->getRelationRecords(relation, null, this, arguments);
+            let result = manager->getRelationRecords(relation, this, arguments);
         }
 
         return result;
@@ -4113,9 +4113,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
             return manager->getRelationRecords(
                 relation,
-                queryMethod,
                 this,
-                extraArgs
+                extraArgs,
+                queryMethod
             );
         }
 
