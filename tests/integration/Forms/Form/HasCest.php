@@ -13,21 +13,34 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Form;
 
 use IntegrationTester;
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Form;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     /**
      * Tests Phalcon\Forms\Form :: has()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-23
      */
     public function formsFormHas(IntegrationTester $I)
     {
         $I->wantToTest('Forms\Form - has()');
-        $I->skipTest('Need implementation');
+
+        $form = new Form();
+
+        $address   = new Text('address');
+        $telephone = new Text('telephone');
+
+        $form->add($address);
+
+        $I->assertTrue(
+            $form->has('address')
+        );
+
+        $I->assertFalse(
+            $form->has('telephone')
+        );
     }
 }

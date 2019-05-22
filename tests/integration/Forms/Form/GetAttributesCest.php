@@ -10,26 +10,26 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Forms\Form;
+namespace Phalcon\Test\Integration\Forms\Form;
 
+use IntegrationTester;
 use Phalcon\Forms\Form;
-use UnitTester;
 
-class SetAttributesCest
+class GetAttributesCest
 {
     /**
-     * Tests Phalcon\Forms\Form :: setAttributes()
+     * Tests Phalcon\Forms\Form :: getAttributes()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-11
      */
-    public function formsFormSetAttributes(UnitTester $I)
+    public function formsFormGetAttributes(IntegrationTester $I)
     {
-        $I->wantToTest('Forms\Form - setAttributes()');
+        $I->wantToTest('Forms\Form - getAttributes()');
 
         $form = new Form();
 
-        $actual = method_exists($form, 'setAttributes');
+        $actual = method_exists($form, 'getAttributes');
 
         $I->assertTrue($actual);
     }
