@@ -1375,15 +1375,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         let fields = relation->getFields();
 
+        /**
+         * Compound relation
+         */
+        let referencedFields = relation->getReferencedFields();
+
         if typeof fields != "array" {
-            let conditions[] = "[". relation->getReferencedFields() . "] = :APR0:",
+            let conditions[] = "[". referencedFields . "] = :APR0:",
                 placeholders["APR0"] = record->readAttribute(fields);
         } else {
-            /**
-             * Compound relation
-             */
-            let referencedFields = relation->getReferencedFields();
-
             for refPosition, field in relation->getFields() {
                 let conditions[] = "[". referencedFields[refPosition] . "] = :APR" . refPosition . ":",
                     placeholders["APR" . refPosition] = record->readAttribute(field);
@@ -1503,7 +1503,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Gets belongsTo related records from a model
      */
-    public function getBelongsToRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
+    public function getBelongsToRecords(string! modelName, string! modelRelation, <ModelInterface> record, parameters = null, string method = null)
         -> <ResultsetInterface> | bool
     {
         var relations;
@@ -1524,9 +1524,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         return this->getRelationRecords(
             relations[0],
-            method,
             record,
-            parameters
+            parameters,
+            method
         );
     }
 
@@ -1554,9 +1554,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         return this->getRelationRecords(
             relations[0],
-            method,
             record,
-            parameters
+            parameters,
+            method
         );
     }
 
@@ -1584,9 +1584,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         return this->getRelationRecords(
             relations[0],
-            method,
             record,
-            parameters
+            parameters,
+            method
         );
     }
 
