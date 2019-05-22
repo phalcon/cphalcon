@@ -13,21 +13,33 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
 use IntegrationTester;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetDICest
- */
-class GetDICest
+class GetSetDICest
 {
+    use DiTrait;
+
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getDI()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-22
      */
     public function mvcDispatcherGetDI(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - getDI()');
-        $I->skipTest('Need implementation');
+
+        $dispatcher = new Dispatcher();
+
+        $di = new FactoryDefault();
+
+        $dispatcher->setDI($di);
+
+        $I->assertEquals(
+            $di,
+            $dispatcher->getDI()
+        );
     }
 }

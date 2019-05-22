@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt\Compiler;
 
 use IntegrationTester;
 
-/**
- * Class CompileCaseCest
- */
 class CompileCaseCest
 {
     /**

@@ -18,9 +18,6 @@ use Phalcon\Di;
 use Phalcon\Helper\Str;
 use Phalcon\Mvc\View;
 
-/**
- * Class ExistsCest
- */
 class ExistsCest
 {
     /**
@@ -34,13 +31,25 @@ class ExistsCest
         $I->wantToTest('Mvc\View - exists()');
 
         $container = new Di();
+
         $view = new View();
-        $view->setViewsDir(Str::dirSeparator(dataDir('fixtures/views')));
+
+        $view->setViewsDir(
+            Str::dirSeparator(dataDir('fixtures/views'))
+        );
 
         $view->setDI($container);
 
-        $I->assertTrue($view->exists('currentrender/query'));
-        $I->assertTrue($view->exists('currentrender/yup'));
-        $I->assertFalse($view->exists('currentrender/nope'));
+        $I->assertTrue(
+            $view->exists('currentrender/query')
+        );
+
+        $I->assertTrue(
+            $view->exists('currentrender/yup')
+        );
+
+        $I->assertFalse(
+            $view->exists('currentrender/nope')
+        );
     }
 }

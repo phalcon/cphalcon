@@ -15,9 +15,6 @@ namespace Phalcon\Test\Integration\Mvc\Micro;
 use IntegrationTester;
 use Phalcon\Mvc\Micro;
 
-/**
- * Class HandleCest
- */
 class HandleCest
 {
     /**
@@ -47,14 +44,27 @@ class HandleCest
         );
 
 
+
+        // Micro echoes out its result as well
+        ob_start();
+        $testResult = $micro->handle('/test');
+        ob_end_clean();
+
         $I->assertEquals(
             'this is a test',
-            $micro->handle('/test')
+            $testResult
         );
+
+
+
+        // Micro echoes out its result as well
+        ob_start();
+        $helloSidResult = $micro->handle('/hello/sid');
+        ob_end_clean();
 
         $I->assertEquals(
             'Hi Sid!',
-            $micro->handle('/hello/sid')
+            $helloSidResult
         );
     }
 }

@@ -13,21 +13,160 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager;
+use Phalcon\Mvc\Micro;
+use Phalcon\Test\Fixtures\Micro\MyMiddleware;
+use Phalcon\Test\Fixtures\Micro\MyMiddlewareStop;
 
-/**
- * Class AfterBindingCest
- */
 class AfterBindingCest
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: afterBinding()
+     * Tests after binding event
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-11-19
      */
-    public function mvcMicroAfterBinding(IntegrationTester $I)
+    public function testAfterBindingEvent(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Micro - afterBinding()');
-        $I->skipTest('Need implementation');
+        $di      = new FactoryDefault();
+        $micro   = new Micro($di);
+        $manager = new Manager();
+        $manager->attach(
+            'micro:afterBinding',
+            function (Event $event, Micro $micro) {
+                return false;
+            }
+        );
+        $micro->setEventsManager($manager);
+
+        $micro->get(
+            '/test',
+            function () {
+                return 'test';
+            }
+        );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $actual = $micro->handle('/test');
+        $I->assertEmpty($actual);
+    }
+
+    /**
+     * Tests after binding middleware
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-11-19
+     */
+    public function testAfterBindingMiddleware(IntegrationTester $I)
+    {
+        $di    = new FactoryDefault();
+        $micro = new Micro($di);
+        $micro->afterBinding(
+            function () {
+                return false;
+            }
+        );
+        $micro->get(
+            '/test',
+            function () {
+                return 'test';
+            }
+        );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $expected = 'test';
+        $actual   = $micro->handle('/test');
+        $I->assertEquals($expected, $actual);
+    }
+
+    public function testStopMiddlewareOnAfterBindingClosure(IntegrationTester $I)
+    {
+        $di    = new FactoryDefault();
+        $micro = new Micro($di);
+        $micro->afterBinding(
+            function () use ($micro) {
+                $micro->stop();
+
+                return false;
+            }
+        );
+        $micro->get(
+            '/test',
+            function () {
+                return 'test';
+            }
+        );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $actual = $micro->handle('/test');
+        $I->assertEmpty($actual);
+    }
+
+    public function testStopMiddlewareOnAfterBindingClassFirst(IntegrationTester $I)
+    {
+        $di             = new FactoryDefault();
+        $micro          = new Micro($di);
+        $middleware     = new MyMiddleware();
+        $middlewareStop = new MyMiddlewareStop();
+        $micro->afterBinding($middlewareStop);
+        $micro->afterBinding($middleware);
+        $micro->afterBinding($middleware);
+        $micro->afterBinding($middleware);
+        $micro->get(
+            '/test',
+            function () {
+                return 'test';
+            }
+        );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $actual = $micro->handle('/test');
+        $I->assertEmpty($actual);
+
+        $expected = 1;
+        $actual   = $middlewareStop->getNumber();
+        $I->assertEquals($expected, $actual);
+
+        $expected = 0;
+        $actual   = $middleware->getNumber();
+        $I->assertEquals($expected, $actual);
+    }
+
+    public function testStopMiddlewareOnAfterBindingClass(IntegrationTester $I)
+    {
+        $di             = new FactoryDefault();
+        $micro          = new Micro($di);
+        $middleware     = new MyMiddleware();
+        $middlewareStop = new MyMiddlewareStop();
+        $micro->afterBinding($middleware);
+        $micro->afterBinding($middleware);
+        $micro->afterBinding($middleware);
+        $micro->afterBinding($middlewareStop);
+        $micro->afterBinding($middleware);
+        $micro->get(
+            '/test',
+            function () {
+                return 'test';
+            }
+        );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $actual = $micro->handle('/test');
+        $I->assertEmpty($actual);
+
+        $expected = 1;
+        $actual   = $middlewareStop->getNumber();
+        $I->assertEquals($expected, $actual);
+
+        $expected = 3;
+        $actual   = $middleware->getNumber();
+        $I->assertEquals($expected, $actual);
     }
 }

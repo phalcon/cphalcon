@@ -10,40 +10,30 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Micro;
+namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
 use IntegrationTester;
-use Phalcon\Di;
 use Phalcon\Mvc\Dispatcher;
-use Phalcon\Mvc\Micro;
 
-class OffsetSetCest
+class GetSetActionNameCest
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: offsetSet()
+     * Tests Phalcon\Mvc\Dispatcher :: getActionName() / setActionName()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */
-    public function mvcMicroOffsetSet(IntegrationTester $I)
+    public function mvcDispatcherGetActionName(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Micro - offsetSet()');
-
-        $micro = new Micro();
-
-        $di = new Di();
-
-        $micro->setDi($di);
-
-
-
+        $I->wantToTest('Mvc\Dispatcher - getActionName() / setActionName()');
+        
         $dispatcher = new Dispatcher();
 
-        $micro['dispatcher'] = $dispatcher;
+        $dispatcher->setActionName('login');
 
-        $I->assertSame(
-            $dispatcher,
-            $micro['dispatcher']
+        $I->assertEquals(
+            'login',
+            $dispatcher->getActionName()
         );
     }
 }

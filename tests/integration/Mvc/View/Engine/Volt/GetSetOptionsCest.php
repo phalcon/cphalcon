@@ -16,27 +16,34 @@ use IntegrationTester;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
 
-class GetContentCest
+class GetSetOptionsCest
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Volt :: getContent()
+     * Tests Phalcon\Mvc\View\Engine\Volt :: getOptions() / setOptions()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */
-    public function mvcViewEngineVoltGetContent(IntegrationTester $I)
+    public function mvcViewEngineVoltGetSetOptions(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View\Engine\Volt - getContent()');
+        $I->wantToTest('Mvc\View\Engine\Volt - getOptions() / setOptions()');
 
         $view = new View();
 
-        $engine = new Volt($view);
+        $volt = new Volt($view);
 
-        $view->setContent('hello world');
+
+
+        $options = [
+            'path'      => '../app/compiled-templates/',
+            'extension' => '.compiled',
+        ];
+
+        $volt->setOptions($options);
 
         $I->assertEquals(
-            'hello world',
-            $engine->getContent()
+            $options,
+            $volt->getOptions()
         );
     }
 }
