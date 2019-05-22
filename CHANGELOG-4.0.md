@@ -25,19 +25,19 @@
 - Renamed `Phalcon\Translate\Adapter` to `Phalcon\Translate\Adapter\AbstractAdapter`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 - Renamed `Phalcon\Translate\AdapterInterface` to `Phalcon\Translate\Adapter\AdapterInterface`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 - `Phalcon\Plugin` is now abstract.
-- Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getRelationRecords()` to the last position. [#14114](https://github.com/phalcon/cphalcon/issues/14114)
-- Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getBelongsToRecords()` to the last position. [#14114](https://github.com/phalcon/cphalcon/issues/14114)
-- Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getHasOneRecords()` to the last position. [#14114](https://github.com/phalcon/cphalcon/issues/14114)
-- Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getHasManyRecords()` to the last position. [#14114](https://github.com/phalcon/cphalcon/issues/14114)  
+- Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getRelationRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
+- Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getBelongsToRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
+- Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getHasOneRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
+- Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getHasManyRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)  
 
 ## Fixed
 - Fixed `Phalcon\Mvc\View::getRender()` to call `view->finish()` instead of `ob_end_clean()`. [#14095](https://github.com/phalcon/cphalcon/issues/14095)
 - Fixed `Phalcon\Cache\Adapter\Libmemcached` failing to set values when `Phalcon\Mvc\Model\MetaData\Libmemcached` was in use. [#14100](https://github.com/phalcon/cphalcon/issues/14100)
 - Fixed `Phalcon\Db\Column` to recognize `tinyint`, `smallint`, `mediumint`, `integer` as valid autoIncrement columns. [#14102](https://github.com/phalcon/cphalcon/issues/14102)
-- Fixed `method` parameter in `Phalcon\Mvc\Model\Manager::getRelationRecords()`, it's not always a string, null by default. [#14114](https://github.com/phalcon/cphalcon/issues/14114)
-- Fixed `method` parameter in `Phalcon\Mvc\Model\Manager::getBelongsToRecords()`, it's not always a string, null by default. [#14114](https://github.com/phalcon/cphalcon/issues/14114)
-- Fixed `method` parameter in `Phalcon\Mvc\Model\Manager::getHasOneRecords()`, it's not always a string, null by default. [#14114](https://github.com/phalcon/cphalcon/issues/14114)
-- Fixed `method` parameter in `Phalcon\Mvc\Model\Manager::getHasManyRecords()`, it's not always a string, null by default. [#14114](https://github.com/phalcon/cphalcon/issues/14114)
+- Fixed `method` parameter in `Phalcon\Mvc\Model\Manager::getRelationRecords()`, it's not always a string, null by default. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
+- Fixed `method` parameter in `Phalcon\Mvc\Model\Manager::getBelongsToRecords()`, it's not always a string, null by default. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
+- Fixed `method` parameter in `Phalcon\Mvc\Model\Manager::getHasOneRecords()`, it's not always a string, null by default. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
+- Fixed `method` parameter in `Phalcon\Mvc\Model\Manager::getHasManyRecords()`, it's not always a string, null by default. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
 
 ## Removed
 - Removed `Phalcon\Session\Factory`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
