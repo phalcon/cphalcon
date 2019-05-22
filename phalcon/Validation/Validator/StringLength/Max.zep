@@ -34,6 +34,7 @@ use Phalcon\Validation\Exception;
  *         [
  *             "max"     => 50,
  *             "message" => "We don't like really long names",
+ *             "included" => true
  *         ]
  *     )
  * );
@@ -52,6 +53,10 @@ use Phalcon\Validation\Exception;
  *             "message" => [
  *                 "name_last"  => "We don't like really long last names",
  *                 "name_first" => "We don't like really long first names",
+ *             ],
+ *             "included" => [
+ *                 "name_last"  => false,
+ *                 "name_first" => true,
  *             ]
  *         ]
  *     )
@@ -67,7 +72,7 @@ class Max extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, length, maximum, label, replacePairs, code;
+        var value, length, maximum, label, replacePairs, code, included, result;
 
         let value = validation->getValue(field),
             label = this->prepareLabel(validation, field),
@@ -86,10 +91,24 @@ class Max extends Validator
             let maximum = maximum[field];
         }
 
-        if length > maximum {
+        let included = this->getOption("included");
+
+        if typeof included == "array" {
+            let included = (bool) included[field];
+        } else {
+            let included = (bool) included;
+        }
+
+        if (included) {
+            let result = length >= maximum;
+        } else {
+            let result = length > maximum;
+        }
+
+        if result {
             let replacePairs = [
-                ":field": label,
-                ":max":   maximum
+                ":field" : label,
+                ":max"   : maximum
             ];
 
             validation->appendMessage(

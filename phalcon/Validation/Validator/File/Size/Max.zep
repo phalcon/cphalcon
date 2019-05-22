@@ -8,11 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Validation\Validator;
+namespace Phalcon\Validation\Validator\File\Size;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\Validator\File\Size\Max;
+use Phalcon\Validation\Validator\File\FileAbstract;
 
 /**
  * Phalcon\Validation\Validator\File
@@ -27,10 +28,11 @@ use Phalcon\Validation\Validator;
  *
  * $validator->add(
  *     "file",
- *     new Size(
+ *     new Max(
  *         [
- *             "maxSize"              => "2M",
- *             "messageSize"          => ":field exceeds the max filesize (:max)",
+ *             "size"     => "2M",
+ *             "included" => true,
+ *             "message"  => ":field exceeds the max filesize (:size)",
  *         ]
  *     )
  * );
@@ -40,13 +42,17 @@ use Phalcon\Validation\Validator;
  *         "file",
  *         "anotherFile",
  *     ],
- *     new FileValidator(
+ *     new Max(
  *         [
- *             "maxSize" => [
+ *             "size" => [
  *                 "file"        => "2M",
  *                 "anotherFile" => "4M",
  *             ],
- *             "messageSize" => [
+ *             "included" => [
+ *                 "file"        => false,
+ *                 "anotherFile" => true,
+ *             ],
+ *             "message" => [
  *                 "file"        => "file exceeds the max filesize 2M",
  *                 "anotherFile" => "anotherFile exceeds the max filesize 4M",
  *             ],
@@ -55,25 +61,51 @@ use Phalcon\Validation\Validator;
  * );
  * </code>
  */
-class Size extends Validator
+class Max extends FileAbstract
 {
-    protected advice = "Field :field must contain only letters";
+    protected advice = "File :field exceeds the size of :size";
 
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, label, replacePairs, code;
+        var bytes, code, fileSize, included = false, label, replacePairs, result, size, value;
+
+        // Check file upload
+        if (this->checkUpload(validation, field) === false) {
+            return false;
+        }
 
         let value = validation->getValue(field);
 
-        if preg_match("/[^[:alpha:]]/imu", value) {
-            let label = this->prepareLabel(validation, field),
-                code = this->prepareCode(field);
+        let size = this->getOption("size");
 
+        if typeof size == "array" {
+            let size = size[field];
+        }
+
+        let bytes = round(this->getFileSizeInBytes(size), 6),
+            fileSize = round(floatval(value["size"]), 6);
+
+        let included = this->getOption("included");
+
+        if typeof included == "array" {
+            let included = (bool) included[field];
+        } else {
+            let included = (bool) included;
+        }
+
+        if (included) {
+            let result = fileSize >= bytes;
+        } else {
+            let result = fileSize > bytes;
+        }
+
+        if (result) {
             let replacePairs = [
-                ":field": label
+                ":field" : label,
+                ":size"  : size
             ];
 
             validation->appendMessage(

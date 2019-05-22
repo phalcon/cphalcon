@@ -11,8 +11,8 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation;
 use Phalcon\Validation\Validator;
+use Phalcon\Validation\ValidatorComposite;
 use Phalcon\Validation\Validator\StringLength\Max;
 use Phalcon\Validation\Validator\StringLength\Min;
 use Phalcon\Validation\Exception;
@@ -35,10 +35,12 @@ use Phalcon\Validation\Exception;
  *     "name_last",
  *     new StringLength(
  *         [
- *             "max"            => 50,
- *             "min"            => 2,
- *             "messageMaximum" => "We don't like really long names",
- *             "messageMinimum" => "We want more than just their initials",
+ *             "max"             => 50,
+ *             "min"             => 2,
+ *             "messageMaximum"  => "We don't like really long names",
+ *             "messageMinimum"  => "We want more than just their initials",
+ *             "includedMaximum" => true,
+ *             "includedMinimum" => false,
  *         ]
  *     )
  * );
@@ -65,19 +67,27 @@ use Phalcon\Validation\Exception;
  *             "messageMinimum" => [
  *                 "name_last"  => "We don't like too short last names",
  *                 "name_first" => "We don't like too short first names",
+ *             ],
+ *             "includedMaximum" => [
+ *                 "name_last"  => false,
+ *                 "name_first" => true,
+ *             ],
+ *             "includedMinimum" => [
+ *                 "name_last"  => false,
+ *                 "name_first" => true,
  *             ]
  *         ]
  *     )
  * );
  * </code>
  */
-class StringLength extends Validator
+class StringLength extends ValidatorComposite
 {
-    private validators = [];
+    private validators = [] {get};
 
     public function __construct(array! options = []) -> void
     {
-        var key, value, message, validator;
+        var included, key, message, validator, value;
 
         // create individual validators
         for key, value in options {
@@ -89,16 +99,26 @@ class StringLength extends Validator
                     let message = options["messageMinimum"];
                 }
 
+                // get included option
+                if isset options["included"] {
+                    let included = options["included"];
+                } elseif isset options["includedMinimum"] {
+                    let included = options["includedMinimum"];
+                }
+
                 let validator = new Min(
                     [
                         "min" : value,
-                        "message" : message
+                        "message" : message,
+                        "included" : included
                     ]
                 );
 
                 unset options["min"];
                 unset options["message"];
                 unset options["messageMinimum"];
+                unset options["included"];
+                unset options["includedMinimum"];
             } elseif strtolower(key) === "max" {
                 // get custom message
                 if isset options["message"] {
@@ -107,16 +127,26 @@ class StringLength extends Validator
                     let message = options["messageMaximum"];
                 }
 
+                // get included option
+                if isset options["included"] {
+                    let included = options["included"];
+                } elseif isset options["includedMaximum"] {
+                    let included = options["includedMaximum"];
+                }
+
                 let validator = new Max(
                     [
                         "max" : value,
-                        "message" : message
+                        "message" : message,
+                        "included" : included
                     ]
                 );
 
                 unset options["max"];
                 unset options["message"];
                 unset options["messageMaximum"];
+                unset options["included"];
+                unset options["includedMaximum"];
             } else {
                 continue;
             }
@@ -125,25 +155,5 @@ class StringLength extends Validator
         }
 
         parent::__construct(options);
-    }
-
-    /**
-     * Executes the validation
-     */
-    public function validate(<Validation> validation, var field) -> bool
-    {
-        var validator;
-
-        if unlikely count(this->validators) === 0 {
-            throw new Exception("A minimum or maximum must be set");
-        }
-
-        for validator in this->validators {
-            if validator->validate(validation, field) === false {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

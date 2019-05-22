@@ -34,6 +34,7 @@ use Phalcon\Validation\Exception;
  *         [
  *             "min"     => 2,
  *             "message" => "We want more than just their initials",
+ *             "included" => true
  *         ]
  *     )
  * );
@@ -52,6 +53,10 @@ use Phalcon\Validation\Exception;
  *             "message" => [
  *                 "name_last"  => "We don't like too short last names",
  *                 "name_first" => "We don't like too short first names",
+ *             ],
+ *             "included" => [
+ *                 "name_last"  => false,
+ *                 "name_first" => true,
  *             ]
  *         ]
  *     )
@@ -67,7 +72,7 @@ class Min extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, length, minimum, label, replacePairs, code;
+        var value, length, minimum, label, replacePairs, code, included, result;
 
         let value = validation->getValue(field),
             label = this->prepareLabel(validation, field),
@@ -86,10 +91,24 @@ class Min extends Validator
             let minimum = minimum[field];
         }
 
-        if length < minimum {
+        let included = this->getOption("included");
+
+        if typeof included == "array" {
+            let included = (bool) included[field];
+        } else {
+            let included = (bool) included;
+        }
+
+        if (included) {
+            let result = length <= minimum;
+        } else {
+            let result = length < minimum;
+        }
+
+        if result {
             let replacePairs = [
-                ":field": label,
-                ":min":   minimum
+                ":field" : label,
+                ":min"   : minimum
             ];
 
             validation->appendMessage(
