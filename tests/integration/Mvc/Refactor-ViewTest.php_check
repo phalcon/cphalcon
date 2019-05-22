@@ -222,12 +222,6 @@ class ViewTest extends IntegrationTest
                 expect($view)->equals($view->setRenderLevel(View::LEVEL_ACTION_VIEW));
                 expect(View::LEVEL_ACTION_VIEW)->equals($view->getRenderLevel());
 
-                expect($view)->equals($view->setMainView("html5"));
-                expect("html5")->equals($view->getMainView());
-
-                expect($view)->equals($view->setLayout("test2"));
-                expect("test2")->equals($view->getLayout());
-
                 expect($view)->equals($view->setTemplateBefore("before"));
                 expect($view)->equals($view->setTemplateAfter("after"));
                 expect($view)->equals($view->cleanTemplateBefore());

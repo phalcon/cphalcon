@@ -23,8 +23,8 @@ class UnderscoreIssetCest
     /**
      * Tests Phalcon\Mvc\View :: __isset()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-22
      */
     public function mvcViewUnderscoreIsset(IntegrationTester $I)
     {
@@ -32,17 +32,20 @@ class UnderscoreIssetCest
 
         $view = new View();
 
-        $view->setViewsDir(
-            dataDir('fixtures/views')
+        $view->paramA = '1';
+
+        $view->setVar('paramB', '2');
+
+        $I->assertTrue(
+            isset($view->paramA)
         );
 
-        $view->param = 'something';
+        $I->assertTrue(
+            isset($view->paramA)
+        );
 
-        $content = $view->getRender('simple', 'isset');
-
-        $I->assertEquals(
-            '1',
-            $content
+        $I->assertFalse(
+            isset($view->paramC)
         );
     }
 }

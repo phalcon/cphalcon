@@ -13,30 +13,39 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Engine\Php;
 
 use IntegrationTester;
+use Phalcon\Di;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
 
-class GetContentCest
+class GetSetDICest
 {
     /**
-     * Tests Phalcon\Mvc\View\Engine\Php :: getContent()
+     * Tests Phalcon\Mvc\View\Engine\Php :: getDI() / setDI()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
      */
-    public function mvcViewEnginePhpGetContent(IntegrationTester $I)
+    public function mvcViewEnginePhpGetSetDI(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\View\Engine\Php - getContent()');
+        $I->wantToTest('Mvc\View\Engine\Php - getDI() / setDI()');
 
         $view = new View();
 
-        $engine = new Php($view);
+        $di1 = new Di();
+        $di2 = new Di();
 
-        $view->setContent('hello world');
+        $engine = new Php($view, $di1);
 
-        $I->assertEquals(
-            'hello world',
-            $engine->getContent()
+        $I->assertSame(
+            $di1,
+            $engine->getDI()
+        );
+
+        $engine->setDI($di2);
+
+        $I->assertSame(
+            $di2,
+            $engine->getDI()
         );
     }
 }

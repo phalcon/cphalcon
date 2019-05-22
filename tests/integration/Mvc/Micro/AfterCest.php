@@ -15,9 +15,6 @@ namespace Phalcon\Test\Integration\Mvc\Micro;
 use IntegrationTester;
 use Phalcon\Mvc\Micro;
 
-/**
- * Class AfterCest
- */
 class AfterCest
 {
     /**
@@ -92,5 +89,26 @@ class AfterCest
         $app->handle('/blog');
 
         $I->assertCount(3, $trace);
+    }
+
+    public function testMicroResponseAlreadySentError(IntegrationTester $I)
+    {
+        $app = new Micro();
+        $app->after(
+            function () use ($app) {
+                $content = $app->getReturnedValue();
+                $app->response->setJsonContent($content)->send();
+            }
+        );
+        $app->map(
+            '/api',
+            function () {
+                return 'success';
+            }
+        );
+
+        $expected = 'success';
+        $actual   = $app->handle('/api');
+        $I->assertEquals($expected, $actual);
     }
 }

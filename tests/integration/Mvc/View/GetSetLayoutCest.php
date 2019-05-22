@@ -10,24 +10,30 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Router;
+namespace Phalcon\Test\Integration\Mvc\View;
 
 use IntegrationTester;
+use Phalcon\Mvc\View;
 
-/**
- * Class GetDefaultsCest
- */
-class GetDefaultsCest
+class GetSetLayoutCest
 {
     /**
-     * Tests Phalcon\Mvc\Router :: getDefaults()
+     * Tests Phalcon\Mvc\View :: getLayout()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function mvcRouterGetDefaults(IntegrationTester $I)
+    public function mvcViewGetLayout(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Router - getDefaults()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Mvc\View - getLayout()');
+
+        $view = new View();
+
+        $view->setLayout('test2');
+
+        $I->assertEquals(
+            'test2',
+            $view->getLayout()
+        );
     }
 }

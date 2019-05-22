@@ -17,9 +17,6 @@ use Phalcon\Di;
 use Phalcon\Mvc\Micro;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetSetDICest
- */
 class GetSetDICest
 {
     use DiTrait;
