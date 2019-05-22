@@ -15,15 +15,12 @@ namespace Phalcon\Test\Integration\Mvc\Micro;
 use IntegrationTester;
 use Phalcon\Mvc\Micro;
 
-/**
- * Class OptionsCest
- */
 class OptionsCest
 {
     /**
      * Tests Phalcon\Mvc\Micro :: options()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
     public function mvcMicroOptions(IntegrationTester $I)
@@ -56,9 +53,14 @@ class OptionsCest
 
         $_SERVER['REQUEST_METHOD'] = 'OPTIONS';
 
+        // Micro echoes out its result as well
+        ob_start();
+        $result = $micro->handle('/test');
+        ob_end_clean();
+
         $I->assertEquals(
             'this is options',
-            $micro->handle('/test')
+            $result
         );
     }
 }

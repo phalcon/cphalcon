@@ -13,21 +13,36 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View;
 
 use IntegrationTester;
+use Phalcon\Mvc\View;
 
-/**
- * Class IsDisabledCest
- */
 class IsDisabledCest
 {
     /**
      * Tests Phalcon\Mvc\View :: isDisabled()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-05-22
      */
     public function mvcViewIsDisabled(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\View - isDisabled()');
-        $I->skipTest('Need implementation');
+
+        $view = new View();
+
+        $I->assertFalse(
+            $view->isDisabled()
+        );
+
+        $view->disable();
+
+        $I->assertTrue(
+            $view->isDisabled()
+        );
+
+        $view->enable();
+
+        $I->assertFalse(
+            $view->isDisabled()
+        );
     }
 }

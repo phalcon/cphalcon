@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetTypeCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset :: setType() - css local
      *
@@ -29,11 +26,17 @@ class SetTypeCest
     public function assetsAssetSetTypeCssLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setType() - css local');
+
         $asset = new Asset('css', 'css/docs.css');
 
-        $expected = 'js';
-        $asset->setType($expected);
-        $this->assetGetType($I, $asset, $expected);
+        $type = 'js';
+
+        $asset->setType($type);
+
+        $I->assertEquals(
+            $type,
+            $asset->getType()
+        );
     }
 
     /**
@@ -45,11 +48,17 @@ class SetTypeCest
     public function assetsAssetSetTypeCssRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setType() - css remote');
+
         $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
 
-        $expected = 'js';
-        $asset->setType($expected);
-        $this->assetGetType($I, $asset, $expected);
+        $type = 'js';
+
+        $asset->setType($type);
+
+        $I->assertEquals(
+            $type,
+            $asset->getType()
+        );
     }
 
     /**
@@ -61,11 +70,17 @@ class SetTypeCest
     public function assetsAssetSetTypeJsLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setType() - js local');
+
         $asset = new Asset('js', 'js/jquery.js');
 
-        $expected = 'css';
-        $asset->setType($expected);
-        $this->assetGetType($I, $asset, $expected);
+        $type = 'css';
+
+        $asset->setType($type);
+
+        $I->assertEquals(
+            $type,
+            $asset->getType()
+        );
     }
 
     /**
@@ -77,10 +92,16 @@ class SetTypeCest
     public function assetsAssetSetTypeJsRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setType() - js remote');
+
         $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
 
-        $expected = 'css';
-        $asset->setType($expected);
-        $this->assetGetType($I, $asset, $expected);
+        $type = 'css';
+
+        $asset->setType($type);
+
+        $I->assertEquals(
+            $type,
+            $asset->getType()
+        );
     }
 }

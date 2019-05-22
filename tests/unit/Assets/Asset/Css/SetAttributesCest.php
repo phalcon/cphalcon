@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetAttributesCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Css :: setAttributes() - css local
      *
@@ -29,11 +26,19 @@ class SetAttributesCest
     public function assetsAssetCssSetAttributesLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setAttributes() - css local');
+
         $asset = new Css('css/docs.css');
 
-        $expected = ['data-key' => 'phalcon'];
-        $asset->setAttributes($expected);
-        $this->assetGetAttributes($I, $asset, $expected);
+        $attributes = [
+            'data-key' => 'phalcon',
+        ];
+
+        $asset->setAttributes($attributes);
+
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
+        );
     }
 
     /**
@@ -45,10 +50,18 @@ class SetAttributesCest
     public function assetsAssetCssSetAttributesRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setAttributes() - css remote');
+
         $asset = new Css('https://phalcon.ld/css/docs.css', false);
 
-        $expected = ['data-key' => 'phalcon'];
-        $asset->setAttributes($expected);
-        $this->assetGetAttributes($I, $asset, $expected);
+        $attributes = [
+            'data-key' => 'phalcon',
+        ];
+
+        $asset->setAttributes($attributes);
+
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
+        );
     }
 }

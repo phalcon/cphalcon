@@ -12,20 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
 
-use UnitTester;
+use Phalcon\Test\Fixtures\Helpers\TranslateCsvHelper;
 
-class UnderscoreCest
+class UnderscoreCest extends TranslateCsvHelper
 {
-    /**
-     * Tests Phalcon\Translate\Adapter\Csv :: _()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function translateAdapterCsvUnderscore(UnitTester $I)
-    {
-        $I->wantToTest("Translate\Adapter\Csv - _()");
-
-        $I->skipTest('Need implementation');
-    }
+    protected $function = '_';
 }

@@ -27,11 +27,9 @@ interface QueryInterface
     /**
      * Executes a parsed PHQL statement
      *
-     * @param array bindParams
-     * @param array bindTypes
      * @return mixed
      */
-    public function execute(bindParams = null, bindTypes = null);
+    public function execute(array bindParams = [], array bindTypes = []);
 
     /**
      * Returns default bind params
@@ -55,11 +53,8 @@ interface QueryInterface
 
     /**
      * Executes the query returning the first result
-     *
-     * @param array bindParams
-     * @param array bindTypes
      */
-    public function getSingleResult(var bindParams = null, var bindTypes = null) -> <ModelInterface>;
+    public function getSingleResult(array bindParams = [], array bindTypes = []) -> <ModelInterface>;
 
     /**
      * Check if the query is programmed to get only the first row in the resultset

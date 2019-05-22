@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Inline\Css;
 
 use Phalcon\Assets\Inline\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetContentCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Inline :: getContent()
      *
@@ -29,10 +26,14 @@ class GetContentCest
     public function assetsInlineGetContent(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline - getContent()');
-        $content = 'p {color: #000099}';
-        $asset   = new Css($content);
 
-        $expected = $content;
-        $this->assetGetContent($I, $asset, $expected);
+        $content = 'p {color: #000099}';
+
+        $asset = new Css($content);
+
+        $I->assertEquals(
+            $content,
+            $asset->getContent()
+        );
     }
 }

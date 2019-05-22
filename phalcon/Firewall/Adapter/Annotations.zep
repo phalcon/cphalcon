@@ -10,7 +10,7 @@
 
 namespace Phalcon\Firewall\Adapter;
 
-use Phalcon\Annotations\AdapterInterface;
+use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Events\Event;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Firewall\Adapter;

@@ -13,21 +13,39 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View;
 
 use IntegrationTester;
+use Phalcon\Mvc\View;
+use Phalcon\Test\Fixtures\Traits\ViewTrait;
 
-/**
- * Class UnderscoreIssetCest
- */
 class UnderscoreIssetCest
 {
+    use ViewTrait;
+
     /**
      * Tests Phalcon\Mvc\View :: __isset()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-22
      */
     public function mvcViewUnderscoreIsset(IntegrationTester $I)
     {
         $I->wantToTest("Mvc\View - __isset()");
-        $I->skipTest('Need implementation');
+
+        $view = new View();
+
+        $view->paramA = '1';
+
+        $view->setVar('paramB', '2');
+
+        $I->assertTrue(
+            isset($view->paramA)
+        );
+
+        $I->assertTrue(
+            isset($view->paramA)
+        );
+
+        $I->assertFalse(
+            isset($view->paramC)
+        );
     }
 }

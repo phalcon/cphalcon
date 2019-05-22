@@ -102,8 +102,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher) {
  *     function(Event $event, Dispatcher $dispatcher, array $forward) use ($modules) {
  *         $metadata = $modules[$forward["module"]]["metadata"];
  *
- *         $dispatcher->setModuleName($forward["module"]);
- *         $dispatcher->setNamespaceName($metadata["controllersNamespace"]);
+ *         $dispatcher->setModuleName(
+ *             $forward["module"]
+ *         );
+ *
+ *         $dispatcher->setNamespaceName(
+ *             $metadata["controllersNamespace"]
+ *         );
  *     }
  * );
  *
@@ -423,7 +428,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException) {
 		ZVAL_LONG(&_5$$3, 0);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 1, &_2$$3, &_5$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Dispatcher.zep", 227 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Dispatcher.zep", 232 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -447,7 +452,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException) {
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_6)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(&exception, "phalcon/Mvc/Dispatcher.zep", 249 TSRMLS_CC);
+	zephir_throw_exception_debug(&exception, "phalcon/Mvc/Dispatcher.zep", 254 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

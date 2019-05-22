@@ -16,9 +16,6 @@ use Phalcon\Http\Server\AbstractRequestHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-/**
- * Class MiddlewareFixture
- */
 class RequestHandlerFixture extends AbstractRequestHandler
 {
     public function handle(ServerRequestInterface $request): ResponseInterface

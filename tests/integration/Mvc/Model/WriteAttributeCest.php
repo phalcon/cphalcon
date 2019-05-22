@@ -32,7 +32,7 @@ class WriteAttributeCest
     /**
      * Tests Phalcon\Mvc\Model :: writeAttribute()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
     public function mvcModelWriteAttribute(IntegrationTester $I)
@@ -75,10 +75,11 @@ class WriteAttributeCest
 
         $associativeArray = [
             'firstName' => 'First name',
-            'lastName' => 'Last name',
+            'lastName'  => 'Last name',
         ];
 
         $user = new Users();
+
         $user->writeAttribute('id', 123);
         $user->writeAttribute('name', $associativeArray);
 
@@ -109,11 +110,12 @@ class WriteAttributeCest
         $I->wantToTest('Tests Phalcon\Mvc\Model :: writeAttribute() undefined property with associative array');
 
         $associativeArray = [
-            'id' => 123,
+            'id'   => 123,
             'name' => 'My Name',
         ];
 
         $user = new Users();
+
         $user->writeAttribute('whatEverUndefinedProperty', $associativeArray);
 
         $I->assertEquals(

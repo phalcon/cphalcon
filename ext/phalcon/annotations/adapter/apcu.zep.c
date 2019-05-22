@@ -44,7 +44,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apcu) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Apcu, phalcon, annotations_adapter_apcu, phalcon_annotations_adapter_ce, phalcon_annotations_adapter_apcu_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Apcu, phalcon, annotations_adapter_apcu, phalcon_annotations_adapter_abstractadapter_ce, phalcon_annotations_adapter_apcu_method_entry, 0);
 
 	/**
 	 * @var string

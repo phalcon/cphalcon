@@ -12,13 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 
-use Phalcon\Test\Fixtures\Traits\TranslateTrait;
+use Phalcon\Test\Fixtures\Traits\TranslateArrayTrait;
 use Phalcon\Translate\Adapter\NativeArray;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 class ExistsCest
 {
-    use TranslateTrait;
+    use TranslateArrayTrait;
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: exists()
@@ -33,6 +34,7 @@ class ExistsCest
         $language = $this->getArrayConfig()['en'];
 
         $translator = new NativeArray(
+            new InterpolatorFactory(),
             [
                 'content' => $language,
             ]

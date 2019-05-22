@@ -124,16 +124,16 @@ PHP_METHOD(Phalcon_Events_Manager, attach) {
 			zephir_check_call_status();
 		}
 		ZVAL_LONG(&_1$$4, 1);
-		ZEPHIR_CALL_METHOD(NULL, &priorityQueue, "setextractflags", NULL, 201, &_1$$4);
+		ZEPHIR_CALL_METHOD(NULL, &priorityQueue, "setextractflags", NULL, 202, &_1$$4);
 		zephir_check_call_status();
-		zephir_update_property_array(this_ptr, SL("events"), &eventType, &priorityQueue);
+		zephir_update_property_array(this_ptr, SL("events"), &eventType, &priorityQueue TSRMLS_CC);
 	}
 	zephir_read_property(&_2, this_ptr, SL("enablePriorities"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_is_true(&_2))) {
 		priority = 100;
 	}
 	ZVAL_LONG(&_3, priority);
-	ZEPHIR_CALL_METHOD(NULL, &priorityQueue, "insert", NULL, 202, handler, &_3);
+	ZEPHIR_CALL_METHOD(NULL, &priorityQueue, "insert", NULL, 203, handler, &_3);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Events_Manager, detach) {
 			zephir_check_call_status();
 		}
 		ZVAL_LONG(&_1$$4, 1);
-		ZEPHIR_CALL_METHOD(NULL, &newPriorityQueue, "setextractflags", NULL, 201, &_1$$4);
+		ZEPHIR_CALL_METHOD(NULL, &newPriorityQueue, "setextractflags", NULL, 202, &_1$$4);
 		zephir_check_call_status();
 		ZVAL_LONG(&_1$$4, 3);
 		ZEPHIR_CALL_METHOD(NULL, &priorityQueue, "setextractflags", NULL, 0, &_1$$4);
@@ -252,11 +252,11 @@ PHP_METHOD(Phalcon_Events_Manager, detach) {
 			if (!ZEPHIR_IS_IDENTICAL(&_5$$5, handler)) {
 				zephir_array_fetch_string(&_6$$6, &data, SL("data"), PH_NOISY | PH_READONLY, "phalcon/Events/Manager.zep", 130 TSRMLS_CC);
 				zephir_array_fetch_string(&_7$$6, &data, SL("priority"), PH_NOISY | PH_READONLY, "phalcon/Events/Manager.zep", 132 TSRMLS_CC);
-				ZEPHIR_CALL_METHOD(NULL, &newPriorityQueue, "insert", &_8, 202, &_6$$6, &_7$$6);
+				ZEPHIR_CALL_METHOD(NULL, &newPriorityQueue, "insert", &_8, 203, &_6$$6, &_7$$6);
 				zephir_check_call_status();
 			}
 		}
-		zephir_update_property_array(this_ptr, SL("events"), &eventType, &newPriorityQueue);
+		zephir_update_property_array(this_ptr, SL("events"), &eventType, &newPriorityQueue TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -429,19 +429,19 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 	} else {
 		ZVAL_BOOL(&_3, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &event, "__construct", NULL, 203, &eventName, source, data, &_3);
+	ZEPHIR_CALL_METHOD(NULL, &event, "__construct", NULL, 204, &eventName, source, data, &_3);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&fireEvents);
 	if (zephir_array_isset_fetch(&fireEvents, &events, &type, 0 TSRMLS_CC)) {
 		if (Z_TYPE_P(&fireEvents) == IS_OBJECT) {
-			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", NULL, 204, &fireEvents, &event);
+			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", NULL, 205, &fireEvents, &event);
 			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_OBS_NVAR(&fireEvents);
 	if (zephir_array_isset_fetch(&fireEvents, &events, &eventType, 0 TSRMLS_CC)) {
 		if (Z_TYPE_P(&fireEvents) == IS_OBJECT) {
-			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", NULL, 204, &fireEvents, &event);
+			ZEPHIR_CALL_METHOD(&status, this_ptr, "firequeue", NULL, 205, &fireEvents, &event);
 			zephir_check_call_status();
 		}
 	}
@@ -535,7 +535,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 			zephir_check_call_status();
 		}
 		if (collect) {
-			zephir_update_property_array_append(this_ptr, SL("responses"), &status);
+			zephir_update_property_array_append(this_ptr, SL("responses"), &status TSRMLS_CC);
 		}
 		if (cancelable) {
 			ZEPHIR_CALL_METHOD(&_6$$10, event, "isstopped", NULL, 0);

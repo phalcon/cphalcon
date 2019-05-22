@@ -12,20 +12,56 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Manager;
 
+use function dataDir;
+use Phalcon\Assets\Manager;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class AddInlineJsCest
 {
+    use DiTrait;
+
+    /**
+     * executed before each test
+     */
+    public function _before(UnitTester $I)
+    {
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+    }
+
+    /**
+     * executed after each test
+     */
+    public function _after(UnitTester $I)
+    {
+        $this->resetDi();
+    }
+
     /**
      * Tests Phalcon\Assets\Manager :: addInlineJs()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @issue https://github.com/phalcon/cphalcon/issues/11409
      */
     public function assetsManagerAddInlineJs(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - addInlineJs()');
 
-        $I->skipTest('Need implementation');
+        $manager = new Manager();
+
+        $jsFile  = dataDir('assets/assets/signup.js');
+        $js      = file_get_contents($jsFile);
+
+        $manager->addInlineJs($js);
+
+        $expected = "<script type=\"text/javascript\">{$js}</script>\n";
+
+        ob_start();
+        $manager->outputInlineJs();
+        $actual = ob_get_contents();
+        ob_end_clean();
+
+        $I->assertSame($expected, $actual);
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\LoggerFactory;
 
+use Phalcon\Logger\AdapterFactory;
 use Phalcon\Logger\Logger;
 use Phalcon\Logger\LoggerFactory;
 use Psr\Log\LoggerInterface;
@@ -29,10 +30,20 @@ class NewInstanceCest
     {
         $I->wantToTest('Logger\LoggerFactory - newInstance()');
 
-        $factory = new LoggerFactory();
+        $factory = new LoggerFactory(
+            new AdapterFactory()
+        );
 
         $logger = $factory->newInstance('my-logger');
-        $I->assertInstanceOf(Logger::class, $logger);
-        $I->assertInstanceOf(LoggerInterface::class, $logger);
+
+        $I->assertInstanceOf(
+            Logger::class,
+            $logger
+        );
+
+        $I->assertInstanceOf(
+            LoggerInterface::class,
+            $logger
+        );
     }
 }

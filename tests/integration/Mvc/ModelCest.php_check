@@ -48,7 +48,7 @@ class ModelCest
             true
         );
 
-        for ($i = 0; $i <= 1; $i++) {
+        for ($i = 0; $i < 2; $i++) {
             $robot = Robots::findFirst(
                 [
                     'cache' => [
@@ -56,10 +56,24 @@ class ModelCest
                     ],
                 ]
             );
-            $I->assertInstanceOf(Robots::class, $robot);
-            $I->assertNotEmpty($robot->getSnapshotData());
-            $I->assertEquals($robot->getSnapshotData(), $robot->toArray());
-            $I->seeFileFound(outputDir('tests/cache/robots-cache'));
+
+            $I->assertInstanceOf(
+                Robots::class,
+                $robot
+            );
+
+            $I->assertNotEmpty(
+                $robot->getSnapshotData()
+            );
+
+            $I->assertEquals(
+                $robot->toArray(),
+                $robot->getSnapshotData()
+            );
+
+            $I->seeFileFound(
+                outputDir('tests/cache/robots-cache')
+            );
         }
     }
 }

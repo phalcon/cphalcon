@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama;
 
-/**
- * Class IsRelationshipLoadedCest
- */
 class IsRelationshipLoadedCest
 {
     use DiTrait;
@@ -44,22 +41,31 @@ class IsRelationshipLoadedCest
          */
         $album = AlbumORama\Albums::findFirst();
 
-        $I->assertFalse($album->isRelationshipLoaded('artist'));
-        $I->assertFalse($album->isRelationshipLoaded('songs'));
+        $I->assertFalse(
+            $album->isRelationshipLoaded('artist')
+        );
+
+        $I->assertFalse(
+            $album->isRelationshipLoaded('songs')
+        );
 
         /**
          * @var AlbumORama\Artists
          */
         $artist = $album->artist;
 
-        $I->assertTrue($album->isRelationshipLoaded('artist'));
+        $I->assertTrue(
+            $album->isRelationshipLoaded('artist')
+        );
 
         /**
          * @var \Phalcon\Mvc\Model\Resultset\Simple
          */
         $songs = $album->songs;
 
-        $I->assertTrue($album->isRelationshipLoaded('songs'));
+        $I->assertTrue(
+            $album->isRelationshipLoaded('songs')
+        );
     }
 
     /**
@@ -77,16 +83,28 @@ class IsRelationshipLoadedCest
          */
         $album = AlbumORama\Albums::findFirst();
 
-        $I->assertFalse($album->isRelationshipLoaded('artist'));
-        $I->assertFalse($album->isRelationshipLoaded('songs'));
+        $I->assertFalse(
+            $album->isRelationshipLoaded('artist')
+        );
+
+        $I->assertFalse(
+            $album->isRelationshipLoaded('songs')
+        );
 
         $album->artist = new AlbumORama\Artists();
 
-        $I->assertFalse($album->isRelationshipLoaded('artist'));
+        $I->assertFalse(
+            $album->isRelationshipLoaded('artist')
+        );
 
-        $album->songs = [new AlbumORama\Songs(), new AlbumORama\Songs()];
+        $album->songs = [
+            new AlbumORama\Songs(),
+            new AlbumORama\Songs(),
+        ];
 
-        $I->assertFalse($album->isRelationshipLoaded('songs'));
+        $I->assertFalse(
+            $album->isRelationshipLoaded('songs')
+        );
     }
 
     /**
@@ -104,22 +122,31 @@ class IsRelationshipLoadedCest
          */
         $album = AlbumORama\Albums::findFirst();
 
-        $I->assertFalse($album->isRelationshipLoaded('artist'));
-        $I->assertFalse($album->isRelationshipLoaded('songs'));
+        $I->assertFalse(
+            $album->isRelationshipLoaded('artist')
+        );
+
+        $I->assertFalse(
+            $album->isRelationshipLoaded('songs')
+        );
 
         /**
          * @var AlbumORama\Artists
          */
         $artist = $album->getArtist();
 
-        $I->assertTrue($album->isRelationshipLoaded('artist'));
+        $I->assertTrue(
+            $album->isRelationshipLoaded('artist')
+        );
 
         /**
          * @var \Phalcon\Mvc\Model\Resultset\Simple
          */
         $songs = $album->getSongs();
 
-        $I->assertTrue($album->isRelationshipLoaded('songs'));
+        $I->assertTrue(
+            $album->isRelationshipLoaded('songs')
+        );
     }
 
     /**
@@ -137,21 +164,30 @@ class IsRelationshipLoadedCest
          */
         $album = AlbumORama\Albums::findFirst();
 
-        $I->assertFalse($album->isRelationshipLoaded('artist'));
-        $I->assertFalse($album->isRelationshipLoaded('songs'));
+        $I->assertFalse(
+            $album->isRelationshipLoaded('artist')
+        );
+
+        $I->assertFalse(
+            $album->isRelationshipLoaded('songs')
+        );
 
         /**
          * @var AlbumORama\Artists
          */
         $artist = $album->getRelated('artist');
 
-        $I->assertTrue($album->isRelationshipLoaded('artist'));
+        $I->assertTrue(
+            $album->isRelationshipLoaded('artist')
+        );
 
         /**
          * @var \Phalcon\Mvc\Model\Resultset\Simple
          */
         $songs = $album->getRelated('songs');
 
-        $I->assertTrue($album->isRelationshipLoaded('songs'));
+        $I->assertTrue(
+            $album->isRelationshipLoaded('songs')
+        );
     }
 }

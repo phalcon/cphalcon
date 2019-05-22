@@ -34,11 +34,22 @@ class GetSetDefaultSerializerCest
         $I->wantToTest('Storage\Adapter\Libmemcached - getDefaultSerializer()/setDefaultSerializer()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
-        $I->assertEquals('Php', $adapter->getDefaultSerializer());
+        $adapter = new Libmemcached(
+            $serializer,
+            getOptionsLibmemcached()
+        );
+
+        $I->assertEquals(
+            'Php',
+            $adapter->getDefaultSerializer()
+        );
 
         $adapter->setDefaultSerializer('Base64');
-        $I->assertEquals('Base64', $adapter->getDefaultSerializer());
+
+        $I->assertEquals(
+            'Base64',
+            $adapter->getDefaultSerializer()
+        );
     }
 }

@@ -29,15 +29,20 @@ class ConstructCest
     public function assetsFiltersCssminConstructNonString(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - no string exception');
+
         $I->skipTest('Need Phalcon implementation');
+
         $I->expectThrowable(
             new TypeError(
                 'Argument 1 passed to Phalcon\Assets\Filters\Cssmin::filter() ' .
                 'must be of the type string, object given'
             ),
             function () {
-                $jsmin = new Cssmin();
-                $jsmin->filter(new stdClass());
+                $cssmin = new Cssmin();
+
+                $cssmin->filter(
+                    new stdClass()
+                );
             }
         );
     }

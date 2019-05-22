@@ -14,6 +14,10 @@ use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Cache;
 use Phalcon\Cache\CacheInterface;
+use Phalcon\Cache\Exception\Exception;
+use Phalcon\Config;
+use Phalcon\Factory\AbstractFactory;
+use Phalcon\Helper\Arr;
 
 /**
  * Phalcon\CacheFactory
@@ -33,6 +37,35 @@ class CacheFactory
     public function __construct(<AdapterFactory> factory)
     {
         let this->adapterFactory = factory;
+    }
+
+    /**
+     * Factory to create an instace from a Config object
+     */
+    public function load(var config) -> var
+    {
+        var name, options;
+
+        if typeof config == "object" && config instanceof Config {
+            let config = config->toArray();
+        }
+
+        if unlikely typeof config !== "array" {
+            throw new Exception(
+                "Config must be array or Phalcon\\Config object"
+            );
+        }
+
+        if unlikely !isset config["adapter"] {
+            throw new Exception(
+                "You must provide 'adapter' option in factory config parameter."
+            );
+        }
+
+        let name    = config["adapter"],
+            options = Arr::get(config, "options", []);
+
+        return this->newInstance(name, options);
     }
 
     /**

@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Inline;
 
 use Phalcon\Assets\Inline;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetFilterCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Inline :: setFilter()
      *
@@ -29,15 +26,21 @@ class SetFilterCest
     public function assetsInlineSetFilterCss(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline - setFilter() - css');
-        $content = 'p {color: #000099}';
-        $asset   = new Inline('css', $content);
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $asset = new Inline(
+            'css',
+            'p {color: #000099}'
+        );
 
-        $expected = false;
-        $asset->setFilter($expected);
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
+
+        $asset->setFilter(false);
+
+        $I->assertFalse(
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -49,14 +52,20 @@ class SetFilterCest
     public function assetsInlineSetFilterJs(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline - setFilter() - js');
-        $content = '<script>alert("Hello");</script>';
-        $asset   = new Inline('js', $content);
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $asset = new Inline(
+            'js',
+            '<script>alert("Hello");</script>'
+        );
 
-        $expected = false;
-        $asset->setFilter($expected);
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
+
+        $asset->setFilter(false);
+
+        $I->assertFalse(
+            $asset->getFilter()
+        );
     }
 }

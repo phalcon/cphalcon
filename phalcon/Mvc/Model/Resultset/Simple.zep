@@ -48,7 +48,6 @@ class Simple extends Resultset
     ) -> void {
         let this->model = model,
             this->columnMap = columnMap;
-
         /**
          * Set if the returned resultset must keep the record snapshots
          */
@@ -60,7 +59,7 @@ class Simple extends Resultset
     /**
      * Returns current row in the resultset
      */
-    final public function current() -> <ModelInterface> | bool
+    final public function current() -> <ModelInterface> | null
     {
         var row, hydrateMode, columnMap, activeRow, modelName;
 
@@ -81,7 +80,7 @@ class Simple extends Resultset
         if typeof row != "array" {
             let this->activeRow = false;
 
-            return false;
+            return null;
         }
 
         /**

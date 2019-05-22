@@ -28,6 +28,9 @@ class IsSeekableCest
         $I->wantToTest('Http\Message\Stream\Temp - isSeekable()');
 
         $stream = new Temp();
-        $I->assertTrue($stream->isSeekable());
+
+        $I->assertTrue(
+            $stream->isSeekable()
+        );
     }
 }

@@ -36,7 +36,11 @@ class DecrementCest
         $I->wantToTest('Cache\Adapter\Libmemcached - decrement()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
+
+        $adapter = new Libmemcached(
+            $serializer,
+            getOptionsLibmemcached()
+        );
 
         $key = 'cache-data';
 

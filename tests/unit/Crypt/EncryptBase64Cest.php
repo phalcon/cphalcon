@@ -34,7 +34,6 @@ class EncryptBase64Cest
         ];
 
         $ciphers = [
-            'AES-128-ECB',
             'AES-128-CBC',
             'AES-128-CFB',
             'AES-128-OFB',

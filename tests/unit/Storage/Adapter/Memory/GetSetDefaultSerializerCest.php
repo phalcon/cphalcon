@@ -32,9 +32,16 @@ class GetSetDefaultSerializerCest
         $serializer = new SerializerFactory();
         $adapter    = new Memory($serializer);
 
-        $I->assertEquals('Php', $adapter->getDefaultSerializer());
+        $I->assertEquals(
+            'Php',
+            $adapter->getDefaultSerializer()
+        );
 
         $adapter->setDefaultSerializer('Base64');
-        $I->assertEquals('Base64', $adapter->getDefaultSerializer());
+
+        $I->assertEquals(
+            'Base64',
+            $adapter->getDefaultSerializer()
+        );
     }
 }

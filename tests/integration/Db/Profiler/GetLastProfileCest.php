@@ -18,9 +18,6 @@ use Phalcon\Events\Manager;
 use Phalcon\Test\Fixtures\Db\ProfilerListener;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetLastProfileCest
- */
 class GetLastProfileCest
 {
     use DiTrait;

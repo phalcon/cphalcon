@@ -15,7 +15,14 @@ use UnitTester;
 
 class TagHelper extends TagSetup
 {
+    /**
+     * @var string
+     */
     protected $function  = '';
+
+    /**
+     * @var string
+     */
     protected $inputType = '';
 
     /**

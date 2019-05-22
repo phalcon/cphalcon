@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetFilterCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset :: getFilter() - css local
      *
@@ -29,10 +26,12 @@ class GetFilterCest
     public function assetsAssetGetFilterCssFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getFilter() - css local');
+
         $asset = new Asset('css', 'css/docs.css');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -44,10 +43,12 @@ class GetFilterCest
     public function assetsAssetGetFilterCssRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getFilter() - css remote');
+
         $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -59,10 +60,12 @@ class GetFilterCest
     public function assetsAssetGetFilterJsFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getFilter() - js local');
+
         $asset = new Asset('js', 'js/jquery.js');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -74,9 +77,11 @@ class GetFilterCest
     public function assetsAssetGetFilterJsRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getFilter() - js remote');
+
         $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
     }
 }

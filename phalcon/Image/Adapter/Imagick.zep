@@ -10,7 +10,7 @@
 
 namespace Phalcon\Image\Adapter;
 
-use Phalcon\Image\Adapter;
+use Phalcon\Image\Adapter\AbstractAdapter;
 use Phalcon\Image\Exception;
 
 /**
@@ -28,7 +28,7 @@ use Phalcon\Image\Exception;
  * }
  *</code>
  */
-class Imagick extends Adapter
+class Imagick extends AbstractAdapter
 {
     protected static checked = false;
     protected static version = 0;
@@ -316,7 +316,7 @@ class Imagick extends Adapter
     /**
      * Composite one image onto another
      */
-    protected function processMask(<Adapter> image)
+    protected function processMask(<AdapterInterface> image)
     {
         var mask, ret;
 
@@ -799,7 +799,7 @@ class Imagick extends Adapter
     /**
      * Execute a watermarking.
      */
-    protected function processWatermark(<Adapter> image, int offsetX, int offsetY, int opacity)
+    protected function processWatermark(<AdapterInterface> image, int offsetX, int offsetY, int opacity)
     {
         var watermark, ret;
 

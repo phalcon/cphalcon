@@ -60,7 +60,7 @@ class GetRelatedCest
             ]
         );
 
-        $I->assertFalse($nonExistentPart);
+        $I->assertNull($nonExistentPart);
 
         /**
          * Testing has-one relationship
@@ -82,7 +82,7 @@ class GetRelatedCest
             ]
         );
 
-        $I->assertFalse($nonExistentUser);
+        $I->assertNull($nonExistentUser);
 
         /**
          * Has-many relationship

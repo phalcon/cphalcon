@@ -34,7 +34,7 @@ class ManagerCest
      * Tests empty prefix for model
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10328
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2017-04-15
      */
     public function testShouldReturnSourceWithoutPrefix(IntegrationTester $I)
@@ -49,7 +49,7 @@ class ManagerCest
      * Tests non-empty prefix for model
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10328
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2017-04-15
      */
     public function testShouldReturnSourceWithPrefix(IntegrationTester $I)
@@ -66,7 +66,7 @@ class ManagerCest
     /**
      * Tests model source from different classes
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-06
      */
     public function testModelSourceShouldBeTheSame(IntegrationTester $I)

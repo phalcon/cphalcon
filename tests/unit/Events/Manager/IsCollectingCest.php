@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Events\Manager;
 
+use Phalcon\Events\Manager;
 use UnitTester;
 
 class IsCollectingCest
@@ -26,6 +27,22 @@ class IsCollectingCest
     {
         $I->wantToTest('Events\Manager - isCollecting()');
 
-        $I->skipTest('Need implementation');
+        $manager = new Manager();
+
+        $I->assertFalse(
+            $manager->isCollecting()
+        );
+
+        $manager->collectResponses(true);
+
+        $I->assertTrue(
+            $manager->isCollecting()
+        );
+
+        $manager->collectResponses(false);
+
+        $I->assertFalse(
+            $manager->isCollecting()
+        );
     }
 }

@@ -2815,7 +2815,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * Executes the SELECT intermediate representation producing a
      * Phalcon\Mvc\Model\Resultset
      */
-    final protected function _executeSelect(array intermediate, var bindParams, var bindTypes, bool simulate = false) -> <ResultsetInterface> | array
+    final protected function _executeSelect(array intermediate, array bindParams, array bindTypes, bool simulate = false) -> <ResultsetInterface> | array
     {
         var manager, modelName, models, model, connection, connectionTypes,
             columns, column, selectColumns, simpleColumnMap, metaData,
@@ -2999,44 +2999,36 @@ class Query implements QueryInterface, InjectionAwareInterface
         let bindCounts = [],
             intermediate["columns"] = selectColumns;
 
+        let processed = [];
+
         /**
          * Replace the placeholders
          */
-        if typeof bindParams == "array" {
-            let processed = [];
-
-            for wildcard, value in bindParams {
-                if typeof wildcard == "integer" {
-                    let wildcardValue = ":" . wildcard;
-                } else {
-                    let wildcardValue = wildcard;
-                }
-
-                let processed[wildcardValue] = value;
-
-                if typeof value == "array" {
-                    let bindCounts[wildcardValue] = count(value);
-                }
+        for wildcard, value in bindParams {
+            if typeof wildcard == "integer" {
+                let wildcardValue = ":" . wildcard;
+            } else {
+                let wildcardValue = wildcard;
             }
-        } else {
-            let processed = bindParams;
+
+            let processed[wildcardValue] = value;
+
+            if typeof value == "array" {
+                let bindCounts[wildcardValue] = count(value);
+            }
         }
+
+        let processedTypes = [];
 
         /**
          * Replace the bind Types
          */
-        if typeof bindTypes == "array" {
-            let processedTypes = [];
-
-            for typeWildcard, value in bindTypes {
-                if typeof typeWildcard == "integer" {
-                    let processedTypes[":" . typeWildcard] = value;
-                } else {
-                    let processedTypes[typeWildcard] = value;
-                }
+        for typeWildcard, value in bindTypes {
+            if typeof typeWildcard == "integer" {
+                let processedTypes[":" . typeWildcard] = value;
+            } else {
+                let processedTypes[typeWildcard] = value;
             }
-        } else {
-            let processedTypes = bindTypes;
         }
 
         if count(bindCounts) {
@@ -3069,7 +3061,6 @@ class Query implements QueryInterface, InjectionAwareInterface
          * Execute the query
          */
         let result = connection->query(sqlSelect, processed, processedTypes);
-
         /**
          * Check if the query has data
          *
@@ -3079,7 +3070,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         if result instanceof ResultInterface {
             let resultData = result;
         } else {
-            let resultData = false;
+            let resultData = null;
         }
 
         /**
@@ -3192,11 +3183,8 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Executes the INSERT intermediate representation producing a
      * Phalcon\Mvc\Model\Query\Status
-     *
-     * @param array bindParams
-     * @param array bindTypes
      */
-    final protected function _executeInsert(array intermediate, var bindParams, var bindTypes) -> <StatusInterface>
+    final protected function _executeInsert(array intermediate, array bindParams, array bindTypes) -> <StatusInterface>
     {
         var modelName, manager, connection, metaData, attributes, fields,
             columnMap, dialect, insertValues, number, value, model, values,
@@ -3275,13 +3263,6 @@ class Query implements QueryInterface, InjectionAwareInterface
                 case PHQL_T_NPLACEHOLDER:
                 case PHQL_T_SPLACEHOLDER:
                 case PHQL_T_BPLACEHOLDER:
-
-                    if unlikely typeof bindParams != "array" {
-                        throw new Exception(
-                            "Bound parameter cannot be replaced because placeholders is not an array"
-                        );
-                    }
-
                     let wildcard = str_replace(
                         ":",
                         "",
@@ -3343,11 +3324,8 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Executes the UPDATE intermediate representation producing a
      * Phalcon\Mvc\Model\Query\Status
-     *
-     * @param array bindParams
-     * @param array bindTypes
      */
-    final protected function _executeUpdate(array intermediate, var bindParams, var bindTypes) -> <StatusInterface>
+    final protected function _executeUpdate(array intermediate, array bindParams, array bindTypes) -> <StatusInterface>
     {
         var models, modelName, model, connection, dialect, fields, values,
             updateValues, fieldName, value, selectBindParams, selectBindTypes,
@@ -3419,13 +3397,6 @@ class Query implements QueryInterface, InjectionAwareInterface
                 case PHQL_T_NPLACEHOLDER:
                 case PHQL_T_SPLACEHOLDER:
                 case PHQL_T_BPLACEHOLDER:
-
-                    if unlikely typeof bindParams != "array" {
-                        throw new Exception(
-                            "Bound parameter cannot be replaced because placeholders is not an array"
-                        );
-                    }
-
                     let wildcard = str_replace(
                         ":",
                         "",
@@ -3520,11 +3491,8 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Executes the DELETE intermediate representation producing a
      * Phalcon\Mvc\Model\Query\Status
-     *
-     * @param array bindParams
-     * @param array bindTypes
      */
-    final protected function _executeDelete(array intermediate, var bindParams, var bindTypes) -> <StatusInterface>
+    final protected function _executeDelete(array intermediate, array bindParams, array bindTypes) -> <StatusInterface>
     {
         var models, modelName, model, records, connection, record;
 
@@ -3605,12 +3573,9 @@ class Query implements QueryInterface, InjectionAwareInterface
     }
 
     /**
-     * Query the records on which the UPDATE/DELETE operation well be done
-     *
-     * @param array bindParams
-     * @param array bindTypes
+     * Query the records on which the UPDATE/DELETE operation will be done
      */
-    final protected function _getRelatedRecords(<ModelInterface> model, array intermediate, var bindParams, var bindTypes) -> <ResultsetInterface>
+    final protected function _getRelatedRecords(<ModelInterface> model, array intermediate, array bindParams, array bindTypes) -> <ResultsetInterface>
     {
         var selectIr, whereConditions, limitConditions, query;
 
@@ -3659,11 +3624,9 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Executes a parsed PHQL statement
      *
-     * @param array bindParams
-     * @param array bindTypes
      * @return mixed
      */
-    public function execute(var bindParams = null, var bindTypes = null)
+    public function execute(array bindParams = [], array bindTypes = [])
     {
         var uniqueRow, cacheOptions, key, cacheService, cache, result,
             preparedResult, defaultBindParams, mergedParams, defaultBindTypes,
@@ -3735,11 +3698,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         let defaultBindParams = this->bindParams;
 
         if typeof defaultBindParams == "array" {
-            if typeof bindParams == "array" {
-                let mergedParams = defaultBindParams + bindParams;
-            } else {
-                let mergedParams = defaultBindParams;
-            }
+            let mergedParams = defaultBindParams + bindParams;
         } else {
             let mergedParams = bindParams;
         }
@@ -3750,21 +3709,9 @@ class Query implements QueryInterface, InjectionAwareInterface
         let defaultBindTypes = this->bindTypes;
 
         if typeof defaultBindTypes == "array" {
-            if typeof bindTypes == "array" {
-                let mergedTypes = defaultBindTypes + bindTypes;
-            } else {
-                let mergedTypes = defaultBindTypes;
-            }
+            let mergedTypes = defaultBindTypes + bindTypes;
         } else {
             let mergedTypes = bindTypes;
-        }
-
-        if unlikely (mergedParams !== null && typeof mergedParams != "array") {
-            throw new Exception("Bound parameters must be an array");
-        }
-
-        if unlikely (mergedTypes !== null && typeof mergedTypes != "array") {
-            throw new Exception("Bound parameter types must be an array");
         }
 
         let type = this->type;
@@ -3840,11 +3787,8 @@ class Query implements QueryInterface, InjectionAwareInterface
 
     /**
      * Executes the query returning the first result
-     *
-     * @param array bindParams
-     * @param array bindTypes
      */
-    public function getSingleResult(var bindParams = null, var bindTypes = null) -> <ModelInterface>
+    public function getSingleResult(array bindParams = [], array bindTypes = []) -> <ModelInterface>
     {
         /**
          * The query is already programmed to return just one row
@@ -4020,7 +3964,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * Gets the read connection from the model if there is no transaction set
      * inside the query object
      */
-    protected function getReadConnection(<ModelInterface> model, array intermediate = null, array bindParams = null, array bindTypes = null) -> <AdapterInterface>
+    protected function getReadConnection(<ModelInterface> model, array intermediate = null, array bindParams = [], array bindTypes = []) -> <AdapterInterface>
     {
         var connection = null, transaction;
 
@@ -4055,7 +3999,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      * Gets the write connection from the model if there is no transaction
      * inside the query object
      */
-    protected function getWriteConnection(<ModelInterface> model, array intermediate = null, array bindParams = null, array bindTypes = null) -> <AdapterInterface>
+    protected function getWriteConnection(<ModelInterface> model, array intermediate = null, array bindParams = [], array bindTypes = []) -> <AdapterInterface>
     {
         var connection = null, transaction;
 

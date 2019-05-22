@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\AlbumORama\Artists;
@@ -22,9 +23,6 @@ use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\Users;
 
-/**
- * Class SaveCest
- */
 class SaveCest
 {
     use DiTrait;
@@ -54,11 +52,15 @@ class SaveCest
         $user->id   = 54321;
         $user->name = null;
 
-        $I->assertFalse($user->save());
+        $I->assertFalse(
+            $user->save()
+        );
 
         $user->name = 'New User';
 
-        $I->assertTrue($user->save());
+        $I->assertTrue(
+            $user->save()
+        );
 
         /**
          * Saved model
@@ -75,7 +77,9 @@ class SaveCest
 
         $user->name = 'Existing User';
 
-        $I->assertTrue($user->save());
+        $I->assertTrue(
+            $user->save()
+        );
 
         /**
          * Modified saved model
@@ -92,7 +96,9 @@ class SaveCest
 
         $user->name = null;
 
-        $I->assertFalse($user->save());
+        $I->assertFalse(
+            $user->save()
+        );
 
         /**
          * Verify model count
@@ -105,13 +111,13 @@ class SaveCest
         /**
          * Deleting is necessary because other tests may rely on specific row count
          */
-        $I->assertTrue($user->delete());
+        $I->assertTrue(
+            $user->delete()
+        );
     }
 
     /**
      * Tests Phalcon\Mvc\Model :: save() with related records
-     *
-     * @param IntegrationTester $I
      *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-30
@@ -123,20 +129,26 @@ class SaveCest
         $robotPart = new RobotsParts();
 
         $robotPart->robot = new Robots();
-        $robotPart->robot->assign([
-            'name'     => 'Test Robots',
-            'type'     => 'mechanical',
-            'year'     => 2019,
-            'datetime' => (new \DateTime())->format('Y-m-d'),
-            'text'     => 'Test text',
-        ]);
 
-        $part       = new Parts();
+        $robotPart->robot->assign(
+            [
+                'name'     => 'Test Robots',
+                'type'     => 'mechanical',
+                'year'     => 2019,
+                'datetime' => (new \DateTime())->format('Y-m-d'),
+                'text'     => 'Test text',
+            ]
+        );
+
+        $part = new Parts();
+
         $part->name = 'Test Parts';
 
         $robotPart->part = $part;
 
-        $I->assertTrue($robotPart->save());
+        $I->assertTrue(
+            $robotPart->save()
+        );
 
         $I->assertGreaterThan(
             0,
@@ -160,7 +172,9 @@ class SaveCest
 
         $connection = $this->getService('db');
 
-        $I->assertFalse((bool) $connection->isUnderTransaction());
+        $I->assertFalse(
+            $connection->isUnderTransaction()
+        );
 
         $I->assertEquals(
             Model::DIRTY_STATE_PERSISTENT,
@@ -180,15 +194,21 @@ class SaveCest
         /**
          * Deleting is necessary because other tests may rely on specific row count
          */
-        $I->assertTrue($robotPart->delete());
-        $I->assertTrue($robotPart->robot->delete());
-        $I->assertTrue($part->delete());
+        $I->assertTrue(
+            $robotPart->delete()
+        );
+
+        $I->assertTrue(
+            $robotPart->robot->delete()
+        );
+
+        $I->assertTrue(
+            $part->delete()
+        );
     }
 
     /**
      * Tests Phalcon\Mvc\Model :: save() after fetching related records
-     *
-     * @param IntegrationTester $I
      *
      * @see    https://github.com/phalcon/cphalcon/issues/13964
      *
@@ -200,29 +220,31 @@ class SaveCest
         $I->wantToTest('Mvc\Model - save() after fetching related');
 
         /**
-         * @var Albums $album
+         * @var Albums
          */
         $album = Albums::findFirst();
 
         /**
-         * @var Artists $artist
+         * @var Artists
          */
         $artist = $album->artist;
 
-        $I->assertTrue($album->save());
+        $I->assertTrue(
+            $album->save()
+        );
 
         /**
-         * @var Model\Resultset\Simple $songs
+         * @var Model\Resultset\Simple
          */
         $songs = $album->songs;
 
-        $I->assertTrue($album->save());
+        $I->assertTrue(
+            $album->save()
+        );
     }
 
     /**
      * Tests Phalcon\Mvc\Model :: save() after using related records getters
-     *
-     * @param IntegrationTester $I
      *
      * @see    https://github.com/phalcon/cphalcon/issues/13964
      *
@@ -234,22 +256,82 @@ class SaveCest
         $I->wantToTest('Mvc\Model - save() after using related records getters');
 
         /**
-         * @var Albums $album
+         * @var Albums
          */
         $album = Albums::findFirst();
 
         /**
-         * @var Artists $artist
+         * @var Artists
          */
         $artist = $album->getArtist();
 
-        $I->assertTrue($album->save());
+        $I->assertTrue(
+            $album->save()
+        );
 
         /**
-         * @var \Model\Resultset\Simple $songs
+         * @var \Model\Resultset\Simple
          */
         $songs = $album->getSongs();
 
-        $I->assertTrue($album->save());
+        $I->assertTrue(
+            $album->save()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: save() when default values are not set
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/13781
+     *
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2019-05-17
+     */
+    public function mvcModelSaveAfterWithoutDefaultValues(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model - save() when default values are not set');
+
+        $robot = new Robots();
+
+        /**
+         * Default values are not set:
+         *  'year' => 1900,
+         *  'type' => "mechanical"
+         */
+        $robotData = [
+            'name'     => 'Default Robot',
+            'datetime' => (new \DateTime())->format('Y-m-d'),
+            'text'     => 'Test text',
+        ];
+
+        $robot->assign($robotData);
+
+        $I->assertTrue(
+            $robot->save()
+        );
+
+        /**
+         * @var MetaData
+         */
+        $metaData = $robot->getModelsMetaData();
+
+        /**
+         * @var array
+         */
+        $defaultValues = $metaData->getDefaultValues($robot);
+
+        foreach ($defaultValues as $attribute => $value) {
+            $I->assertEquals(
+                $value,
+                $robot->{$attribute}
+            );
+        }
+
+        /**
+         * Cleanup
+         */
+        $I->assertTrue(
+            $robot->delete()
+        );
     }
 }

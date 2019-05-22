@@ -41,7 +41,9 @@
  * use Phalcon\Cli\Dispatcher;
  *
  * $di = new Di();
+ *
  * $dispatcher = new Dispatcher();
+ *
  * $dispatcher->setDi($di);
  *
  * $dispatcher->setTaskName("posts");

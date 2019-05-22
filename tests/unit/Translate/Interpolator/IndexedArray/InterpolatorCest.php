@@ -12,7 +12,7 @@
 namespace Phalcon\Test\Unit\Translate\Interpolator;
 
 use Phalcon\Translate\Adapter\NativeArray;
-use Phalcon\Translate\Interpolator\IndexedArray;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 class InterpolatorCest
@@ -33,11 +33,14 @@ class InterpolatorCest
         ];
 
         $params = [
-            'content'      => $language,
-            'interpolator' => new IndexedArray(),
+            'content'             => $language,
+            'defaultInterpolator' => 'indexedArray',
         ];
 
-        $translator = new NativeArray($params);
+        $translator = new NativeArray(
+            new InterpolatorFactory(),
+            $params
+        );
 
         $actual = $translator->_(
             'Hello %s %s %s!',

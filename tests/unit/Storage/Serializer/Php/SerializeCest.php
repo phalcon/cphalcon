@@ -31,11 +31,15 @@ class SerializeCest
     public function storageSerializerPhpSerialize(UnitTester $I, Example $example)
     {
         $I->wantToTest('Storage\Serializer\Php - serialize() - ' . $example[0]);
+
         $serializer = new Php($example[1]);
 
         $expected = $example[2];
-        $actual   = $serializer->serialize();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $serializer->serialize()
+        );
     }
 
     private function getExamples(): array

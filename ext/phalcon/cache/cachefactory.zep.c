@@ -15,8 +15,9 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/array.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/operators.h"
 
 
@@ -61,6 +62,61 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, __construct) {
 
 
 	zephir_update_property_zval(this_ptr, SL("adapterFactory"), factory);
+
+}
+
+/**
+ * Factory to create an instace from a Config object
+ */
+PHP_METHOD(Phalcon_Cache_CacheFactory, load) {
+
+	zend_bool _0;
+	zephir_fcall_cache_entry *_2 = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *config = NULL, config_sub, name, options, _3, _4, _1$$3;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&config_sub);
+	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&options);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_1$$3);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &config);
+
+	ZEPHIR_SEPARATE_PARAM(config);
+
+
+	_0 = Z_TYPE_P(config) == IS_OBJECT;
+	if (_0) {
+		_0 = zephir_instance_of_ev(config, phalcon_config_ce TSRMLS_CC);
+	}
+	if (_0) {
+		ZEPHIR_CALL_METHOD(&_1$$3, config, "toarray", NULL, 0);
+		zephir_check_call_status();
+		ZEPHIR_CPY_WRT(config, &_1$$3);
+	}
+	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Cache/CacheFactory.zep", 56);
+		return;
+	}
+	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("adapter"))))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Cache/CacheFactory.zep", 62);
+		return;
+	}
+	ZEPHIR_OBS_VAR(&name);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 65 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(&_3);
+	array_init(&_3);
+	ZEPHIR_INIT_VAR(&_4);
+	ZVAL_STRING(&_4, "options");
+	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_2, 5, config, &_4, &_3);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

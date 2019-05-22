@@ -26,10 +26,22 @@ class WithQueryParamsCest
     public function httpMessageServerRequestWithQueryParams(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - withQueryParams()');
-        $request     = new ServerRequest();
-        $newInstance = $request->withCookieParams(['one' => 'two']);
+
+        $request = new ServerRequest();
+
+        $newInstance = $request->withCookieParams(
+            [
+                'one' => 'two',
+            ]
+        );
 
         $I->assertNotEquals($request, $newInstance);
-        $I->assertEquals(['one' => 'two'], $newInstance->getCookieParams());
+
+        $I->assertEquals(
+            [
+                'one' => 'two',
+            ],
+            $newInstance->getCookieParams()
+        );
     }
 }

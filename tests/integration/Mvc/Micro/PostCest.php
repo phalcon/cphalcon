@@ -15,15 +15,12 @@ namespace Phalcon\Test\Integration\Mvc\Micro;
 use IntegrationTester;
 use Phalcon\Mvc\Micro;
 
-/**
- * Class PostCest
- */
 class PostCest
 {
     /**
      * Tests Phalcon\Mvc\Micro :: post()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
     public function mvcMicroPost(IntegrationTester $I)
@@ -56,9 +53,14 @@ class PostCest
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
+        // Micro echoes out its result as well
+        ob_start();
+        $result = $micro->handle('/test');
+        ob_end_clean();
+
         $I->assertEquals(
             'this is post',
-            $micro->handle('/test')
+            $result
         );
     }
 }

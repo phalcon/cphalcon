@@ -13,22 +13,24 @@ namespace Phalcon\Forms;
 use Phalcon\Di\Injectable;
 use Phalcon\DiInterface;
 use Phalcon\FilterInterface;
+use Phalcon\Filter\FilterInterface;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\ElementInterface;
+use Phalcon\Html\Attributes;
+use Phalcon\Html\Interfaces\AttributesInterface;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Validation;
 use Phalcon\ValidationInterface;
-use Phalcon\Service\LocatorInterface;
 
 /**
  * Phalcon\Forms\Form
  *
  * This component allows to build forms using an object-oriented interface
  */
-class Form extends Injectable implements \Countable, \Iterator
+class Form extends Injectable implements \Countable, \Iterator, AttributesInterface
 {
-    protected action;
+    protected attributes;
 
     protected data;
 
@@ -70,6 +72,11 @@ class Form extends Injectable implements \Countable, \Iterator
         if method_exists(this, "initialize") {
             this->{"initialize"}(entity, userOptions);
         }
+
+        /**
+        * Set form attributes
+        */
+        this->setAttributes(new Attributes());
     }
 
     /**
@@ -172,8 +179,7 @@ class Form extends Injectable implements \Countable, \Iterator
             if filters {
                 if typeof filter != "object" {
                     let container = this->getDI(),
-                        filter = <LocatorInterface> container->getShared("filter");
-//                        filter = <FilterInterface> container->getShared("filter");
+                        filter = <FilterInterface> container->getShared("filter");
                 }
 
                 /**
@@ -314,7 +320,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function getAction() -> string
     {
-        return this->action;
+        return (string) this->getAttributes()->get("action");
     }
 
     /**
@@ -425,7 +431,7 @@ class Form extends Injectable implements \Countable, \Iterator
      */
     public function getValue(string! name) -> var | null
     {
-        var entity, value, data, $internal, element;
+        var entity, value, data, internalEntity, element;
         array forbidden;
         string method;
 
@@ -483,8 +489,8 @@ class Form extends Injectable implements \Countable, \Iterator
         /**
          * Check if the method is internal
          */
-        let $internal = strtolower(name);
-        if isset forbidden[$internal] {
+        let internalEntity = strtolower(name);
+        if isset forbidden[internalEntity] {
             return null;
         }
 
@@ -733,10 +739,12 @@ class Form extends Injectable implements \Countable, \Iterator
 
     /**
      * Sets the form's action
+     *
+     * @return Form
      */
     public function setAction(string! action) -> <Form>
     {
-        let this->action = action;
+        this->getAttributes()->set("action", action);
 
         return this;
     }
@@ -779,5 +787,23 @@ class Form extends Injectable implements \Countable, \Iterator
     public function valid() -> bool
     {
         return isset this->elementsIndexed[this->position];
+    }
+
+    /**
+    * Get Form attributes collection
+    */
+    public function getAttributes() -> <Attributes>
+    {
+        return this->attributes;
+    }
+
+    /**
+    * Set form attributes collection
+    */
+    public function setAttributes(<Attributes> attributes) -> <AttributesInterface>
+    {
+        let this->attributes = attributes;
+
+        return this;
     }
 }

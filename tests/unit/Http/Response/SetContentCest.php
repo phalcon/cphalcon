@@ -12,20 +12,26 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class SetContentCest
+class SetContentCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Response :: setContent()
+     * Tests setContent
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-10-08
      */
-    public function httpResponseSetContent(UnitTester $I)
+    public function testHttpResponseSetContent(UnitTester $I)
     {
-        $I->wantToTest('Http\Response - setContent()');
+        $response = $this->getResponseObject();
 
-        $I->skipTest('Need implementation');
+        $response->setContent('<h1>Hello');
+
+        $I->assertEquals(
+            '<h1>Hello',
+            $response->getContent()
+        );
     }
 }

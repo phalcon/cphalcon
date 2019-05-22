@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Text, endsWith) {
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "endswith", &_0, 234, &text, &end, &_1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "endswith", &_0, 236, &text, &end, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -458,7 +458,7 @@ PHP_METHOD(Phalcon_Text, startsWith) {
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "startswith", &_0, 233, &text, &start, &_1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "startswith", &_0, 235, &text, &start, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -513,8 +513,11 @@ PHP_METHOD(Phalcon_Text, random) {
  * Reduces multiple slashes in a string to single slashes
  *
  * <code>
- * echo Phalcon\Text::reduceSlashes("foo//bar/baz"); // foo/bar/baz
- * echo Phalcon\Text::reduceSlashes("http://foo.bar///baz/buz"); // http://foo.bar/baz/buz
+ * // foo/bar/baz
+ * echo Phalcon\Text::reduceSlashes("foo//bar/baz");
+ *
+ * // http://foo.bar/baz/buz
+ * echo Phalcon\Text::reduceSlashes("http://foo.bar///baz/buz");
  * </code>
  */
 PHP_METHOD(Phalcon_Text, reduceSlashes) {

@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst) {
 
 	zephir_read_property(&_0, this_ptr, SL("count"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_LONG(&_0, 0)) {
-		RETURN_MM_BOOL(0);
+		RETURN_MM_NULL();
 	}
 	ZVAL_LONG(&_1, 0);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 82, &_1);
@@ -436,7 +436,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast) {
 	zephir_read_property(&_0, this_ptr, SL("count"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&count, &_0);
 	if (ZEPHIR_IS_LONG(&count, 0)) {
-		RETURN_MM_BOOL(0);
+		RETURN_MM_NULL();
 	}
 	ZVAL_LONG(&_0, (zephir_get_numberval(&count) - 1));
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 82, &_0);

@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Validation;
 
 use IntegrationTester;
 
-/**
- * Class RulesCest
- */
 class RulesCest
 {
     /**

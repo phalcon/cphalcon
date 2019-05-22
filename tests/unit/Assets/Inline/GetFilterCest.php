@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Inline;
 
 use Phalcon\Assets\Inline;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetFilterCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Inline :: getFilter() - css
      *
@@ -29,11 +26,15 @@ class GetFilterCest
     public function assetsInlineGetFilterCss(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline - getFilter() - css');
-        $content = 'p {color: #000099}';
-        $asset   = new Inline('css', $content);
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $asset = new Inline(
+            'css',
+            'p {color: #000099}'
+        );
+
+        $I->assertTrue(
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -45,10 +46,14 @@ class GetFilterCest
     public function assetsInlineGetFilterJs(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline - getFilter() - js');
-        $content = '<script>alert("Hello");</script>';
-        $asset   = new Inline('js', $content);
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $asset = new Inline(
+            'js',
+            '<script>alert("Hello");</script>'
+        );
+
+        $I->assertTrue(
+            $asset->getFilter()
+        );
     }
 }

@@ -21,7 +21,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Db\RawValue :: __construct()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      *
      * @dataProvider valueProvider

@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetRealTargetUriCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Css :: getRealTargetUri() - css local
      *
@@ -29,10 +26,15 @@ class GetRealTargetUriCest
     public function assetsAssetCssGetAssetKeyLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getRealTargetUri() - css local');
-        $asset = new Css('css/docs.css');
 
-        $expected = 'css/docs.css';
-        $this->assetGetRealTargetUri($I, $asset, $expected);
+        $realTargetUri = 'css/docs.css';
+
+        $asset = new Css($realTargetUri);
+
+        $I->assertEquals(
+            $realTargetUri,
+            $asset->getRealTargetUri()
+        );
     }
 
     /**
@@ -44,9 +46,14 @@ class GetRealTargetUriCest
     public function assetsAssetCssGetAssetKeyRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getRealTargetUri() - css remote');
-        $asset = new Css('https://phalcon.ld/css/docs.css', false);
 
-        $expected = 'https://phalcon.ld/css/docs.css';
-        $this->assetGetRealTargetUri($I, $asset, $expected);
+        $realTargetUri = 'https://phalcon.ld/css/docs.css';
+
+        $asset = new Css($realTargetUri, false);
+
+        $I->assertEquals(
+            $realTargetUri,
+            $asset->getRealTargetUri()
+        );
     }
 }

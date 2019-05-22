@@ -13,18 +13,46 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class GetParamsCest
 {
-    /**
-     * Tests Phalcon\Cli\Dispatcher :: getParams()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function cliDispatcherGetParams(CliTester $I)
+    use DiTrait;
+
+    public function _before(CliTester $I)
     {
-        $I->wantToTest('Cli\Dispatcher - getParams()');
-        $I->skipTest('Need implementation');
+        /**
+         * @todo Check the loader
+         */
+        require_once dataDir('fixtures/tasks/ParamsTask.php');
+
+        $this->setNewCliFactoryDefault();
+    }
+
+    public function testCliParameters(CliTester $I)
+    {
+        $dispatcher = new Dispatcher();
+
+        $this->container->setShared('dispatcher', $dispatcher);
+
+        $dispatcher->setDI(
+            $this->container
+        );
+
+        // Test $this->dispatcher->getParams()
+        $dispatcher->setTaskName('params');
+        $dispatcher->setActionName('params');
+
+        $dispatcher->setParams(
+            ['This', 'Is', 'An', 'Example']
+        );
+
+        $dispatcher->dispatch();
+
+        $I->assertEquals(
+            'Action params are the same as $this->dispatcher->getParams()',
+            $dispatcher->getReturnedValue()
+        );
     }
 }

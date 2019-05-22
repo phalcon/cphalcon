@@ -16,15 +16,12 @@ use IntegrationTester;
 use Phalcon\Validation;
 use stdClass;
 
-/**
- * Class BindCest
- */
 class BindCest
 {
     /**
      * Tests Phalcon\Validation :: bind()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
     public function validationBind(IntegrationTester $I)

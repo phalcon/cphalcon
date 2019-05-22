@@ -1,13 +1,22 @@
+
 /*
- * This file is part of the Zephir.
- *
- * (c) Zephir Team <team@zephir-lang.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code. If you did not receive
- * a copy of the license it is available through the world-wide-web at the
- * following url: https://docs.zephir-lang.com/en/latest/license
- */
+  +------------------------------------------------------------------------+
+  | Zephir Language                                                        |
+  +------------------------------------------------------------------------+
+  | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
+  +------------------------------------------------------------------------+
+  | This source file is subject to the New BSD License that is bundled     |
+  | with this package in the file docs/LICENSE.txt.                        |
+  |                                                                        |
+  | If you did not receive a copy of the license and are unable to         |
+  | obtain it through the world-wide-web, please send an email             |
+  | to license@zephir-lang.com so we can send you a copy immediately.      |
+  +------------------------------------------------------------------------+
+  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
+  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
+  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
+  +------------------------------------------------------------------------+
+*/
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -570,10 +579,6 @@ int zephir_update_property_zval(zval *object, const char *property_name, unsigne
 
 	ZVAL_STRINGL(&property, property_name, property_length);
 
-	if (Z_TYPE_P(value) == IS_ARRAY) {
-		SEPARATE_ARRAY(value);
-	}
-
 	/* write_property will add 1 to refcount, so no Z_TRY_ADDREF_P(value); is necessary */
 	Z_OBJ_HT_P(object)->write_property(object, &property, value, 0);
 	zval_ptr_dtor(&property);
@@ -1095,11 +1100,7 @@ typedef struct _zend_closure {
 	zend_function     func;
 	zval              this_ptr;
 	zend_class_entry *called_scope;
-#if PHP_VERSION_ID >= 70300
-	zif_handler       orig_internal_handler;
-#else
 	void (*orig_internal_handler)(INTERNAL_FUNCTION_PARAMETERS);
-#endif
 } zend_closure;
 
 /**

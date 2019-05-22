@@ -29,9 +29,14 @@ class GetContentCest
 
         $asset = new Asset('css', 'assets/assets/1198.css');
 
-        $I->assertEquals(
-            file_get_contents(dataDir('assets/assets/1198.css')),
-            $asset->getContent(dataDir())
+        $I->openFile(
+            dataDir('assets/assets/1198.css')
+        );
+
+        $I->seeFileContentsEqual(
+            $asset->getContent(
+                dataDir()
+            )
         );
     }
 
@@ -47,9 +52,14 @@ class GetContentCest
 
         $asset = new Asset('js', 'assets/assets/signup.js');
 
-        $I->assertEquals(
-            file_get_contents(dataDir('assets/assets/signup.js')),
-            $asset->getContent(dataDir())
+        $I->openFile(
+            dataDir('assets/assets/signup.js')
+        );
+
+        $I->seeFileContentsEqual(
+            $asset->getContent(
+                dataDir()
+            )
         );
     }
 }

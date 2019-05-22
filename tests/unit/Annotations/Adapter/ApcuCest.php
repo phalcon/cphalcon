@@ -96,6 +96,9 @@ class ApcuCest
             $property
         );
 
-        $I->assertEquals(4, $property->count());
+        $I->assertEquals(
+            4,
+            $property->count()
+        );
     }
 }

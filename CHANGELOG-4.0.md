@@ -1,4 +1,50 @@
-# [4.0.0-alpha.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.5) (2019-xx-xx)
+# [4.0.0-beta.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-beta.1) (2019-xx-xx)
+
+## Added
+- Added `Phalcon\Factory\Exception` for factory exceptions. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Added `Phalcon\Filter\FilterInterface` for custom filter implementations. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Added `Phalcon\Db\Adapter\PdoFactory`: Factory to create PDO adapters. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Added `Phalcon\Image\ImageFactory`: Factory to create image adapters. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Added `Phalcon\Image\LoggerFactory`: Factory to create logger objects. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Added `Phalcon\Translate\InterpolatorFactory`: Factory to create interpolator objects. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Added `Phalcon\Translate\TranslateFactory`: Factory to create translate objects. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+
+## Changed
+- Renamed `Phalcon\Annotations\Adapter\Files` to `Phalcon\Annotations\Adapter\Stream`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Renamed `Phalcon\Annotations\Adapter` to `Phalcon\Annotations\Adapter\AbstractAdapter`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Renamed `Phalcon\Annotations\AdapterInterface` to `Phalcon\Annotations\Adapter\AdapterInterface`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Renamed `Phalcon\Annotations\Factory` to `Phalcon\Annotations\AnnotationsFactory`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Renamed `Phalcon\Config\Factory` to `Phalcon\Config\ConfigFactory`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Renamed `Phalcon\Filter\FilterLocator` to `Phalcon\Filter\Filter`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Renamed `Phalcon\Filter\FilterLocatorFactory` to `Phalcon\Filter\FilterFactory`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Renamed `Phalcon\Image\Adapter` to `Phalcon\Image\Adapter\AbstractAdapter`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Renamed `Phalcon\Image\AdapterInterface` to `Phalcon\Image\Adapter\AdapterInterface`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Renamed `Phalcon\Paginator\Adapter` to `Phalcon\Paginator\Adapter\AbstractAdapter`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Renamed `Phalcon\Paginator\AdapterInterface` to `Phalcon\Paginator\Adapter\AdapterInterface`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Renamed `Phalcon\Paginator\Factory` to `Phalcon\Paginator\PaginatorFactory`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Renamed `Phalcon\Translate\Adapter` to `Phalcon\Translate\Adapter\AbstractAdapter`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Renamed `Phalcon\Translate\AdapterInterface` to `Phalcon\Translate\Adapter\AdapterInterface`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- `Phalcon\Plugin` is now abstract.
+- Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getRelationRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
+- Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getBelongsToRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
+- Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getHasOneRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
+- Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getHasManyRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)  
+
+## Fixed
+- Fixed `Phalcon\Mvc\View::getRender()` to call `view->finish()` instead of `ob_end_clean()`. [#14095](https://github.com/phalcon/cphalcon/issues/14095)
+- Fixed `Phalcon\Cache\Adapter\Libmemcached` failing to set values when `Phalcon\Mvc\Model\MetaData\Libmemcached` was in use. [#14100](https://github.com/phalcon/cphalcon/issues/14100)
+- Fixed `Phalcon\Db\Column` to recognize `tinyint`, `smallint`, `mediumint`, `integer` as valid autoIncrement columns. [#14102](https://github.com/phalcon/cphalcon/issues/14102)
+- Fixed `method` parameter in `Phalcon\Mvc\Model\Manager::getRelationRecords()`, it's not always a string, null by default. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
+- Fixed `method` parameter in `Phalcon\Mvc\Model\Manager::getBelongsToRecords()`, it's not always a string, null by default. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
+- Fixed `method` parameter in `Phalcon\Mvc\Model\Manager::getHasOneRecords()`, it's not always a string, null by default. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
+- Fixed `method` parameter in `Phalcon\Mvc\Model\Manager::getHasManyRecords()`, it's not always a string, null by default. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
+
+## Removed
+- Removed `Phalcon\Session\Factory`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Removed `Phalcon\Factory` and `Phalcon\FactoryInterface`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+- Removed `Phalcon\Translate`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
+
+# [4.0.0-alpha.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.5) (2019-05-18)
 
 ## Added
 - Added `Phalcon\Cli\Router\Route::setDescription()` to sets the route's description [#13936](https://github.com/phalcon/cphalcon/pull/13936)
@@ -26,6 +72,8 @@
 - Added `Phalcon\Helper\Arr::arrayToObject()` to convert arrays to objects.
 - Added `Phalcon\Firewall` component  [#13648](https://github.com/phalcon/cphalcon/issues/13648)
 - Added `orm.cast_last_insert_id_to_int` option for `Phalcon\Mvc\Model::setup()` (`castLastInsertIdToInt`) to cast the `lastInsertId` on `save()` to `int` [#13002](https://github.com/phalcon/cphalcon/issues/13002)
+- Added `Attributes` collection class like a new Html component [#13646](https://github.com/phalcon/cphalcon/issues/13646)
+- Added `Attributes` into `Phalcon\Forms\Form` [#13646](https://github.com/phalcon/cphalcon/issues/13646)
 
 ## Changed
 - Refactored `Phalcon\Events\Manager` to only use `SplPriorityQueue` to store events. [#13924](https://github.com/phalcon/cphalcon/pull/13924)
@@ -64,6 +112,7 @@
     - `Phalcon\Storage\AdapterFactory`: Factory to create adapters
  [#13439](https://github.com/phalcon/cphalcon/issues/13439)
 - Changed `Phalcon\Mvc\Model\Query` to not call `numRows` when selecting data  [#13387](https://github.com/phalcon/cphalcon/issues/13387)
+- Bind parameters and bind types are now always arrays in `Phalcon\Mvc\Model\Query`.
 - Changed `Phalcon\Validation\Validator\Url` to work with passed options. (`FILTER_FLAG_PATH_REQUIRED`, `FILTER_FLAG_QUERY_REQUIRED`) [#13548](https://github.com/phalcon/cphalcon/issues/13548)
 - `Phalcon\Mvc\Model\Query\Builder` will now omit offsets if they are set as 0.
 - `Phalcon\Mvc\Model\Transaction::__construct()` service parameter must be a string or omitted.
@@ -71,6 +120,9 @@
 - `Phalcon\Logger\Formatter\Json::__construct()` service parameters must be a string or omitted.
 - Removed deprecated code from `Phalcon\Forms\Form::getMessages()`.
 - Loading a Module (either MVC or CLI) now throws an exception if the path does not exists regardless of whether the class is already loaded.
+- Changed `Phalcon\Crypt` to accept auth tag, tag length and data for "gcm" and "ccm" modes. Removed insecure algorithms with modes: `des*`, `rc2*`, `rc4*`, `des*`, `*ecb` [#13869](https://github.com/phalcon/cphalcon/issues/13869)
+- Changed `Phalcon\Mvc\Model` to copy the unset default values from the `MetaData` to the `Model` after a successful insert. [#13781](https://github.com/phalcon/cphalcon/issues/13781)
+- Changed `Phalcon\Mvc\Model::findFirst()` now returns `null`. `Phalcon\Mvc\Model::getRelated()` for one to one relationships returns `null` [#14044](https://github.com/phalcon/cphalcon/issues/14044)
 
 ## Fixed
 - Fixed `Mvc\Collection::isInitialized()` now works as intended. [#13931](https://github.com/phalcon/cphalcon/pull/13931)
@@ -88,6 +140,10 @@
 - `Phalcon\Mvc\Model::isRelationshipLoaded()` is now working for every type of relations. [#14035](https://github.com/phalcon/cphalcon/pull/14035)
 - Fixed `Phalcon\Mvc\Model::writeAttribute()` to handle associative arrays correctly. [#14021](https://github.com/phalcon/cphalcon/issues/14021)
 - Fixed `Phalcon\Html\Tag::appendTitle()` and `Phalcon\Html\Tag::prependTitle()`to mirror `Phalcon\Tag`. [#14039](https://github.com/phalcon/cphalcon/issues/14039)
+- Fixed `Phalcon\Validation::validate()` with `cancelOnFail`. The validator will validate all elements and will stop processing validators on a per element basis if `cancelOnFail` is present. [#13149](https://github.com/phalcon/cphalcon/issues/13149)
+- Fixed `Phalcon\Mvc\Models\Manager::getRelations()` to return the many-to-many relationships also. [#10839](https://github.com/phalcon/cphalcon/issues/10839)
+- Fixed `Phalcon\Validation\Validator\Numericality::validate()` to parse non `en` locale numbers. [#13843](https://github.com/phalcon/cphalcon/issues/13843)
+- Fixed `Phalcon\Mvc\Model::save()` failing after a successful insert when default database fields are not updated. [#13781](https://github.com/phalcon/cphalcon/issues/13781)
 
 ## Removed
 - Removed `arrayHelpers` property from the Volt compiler. [#13925](https://github.com/phalcon/cphalcon/pull/13925)

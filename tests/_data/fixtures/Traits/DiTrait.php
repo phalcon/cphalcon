@@ -12,7 +12,17 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use function dataDir;
+use function getOptionsLibmemcached;
+use function getOptionsModelCacheStream;
+use function getOptionsMysql;
+use function getOptionsPostgresql;
+use function getOptionsRedis;
+use function getOptionsSqlite;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
+use Phalcon\Cache\Adapter\Libmemcached as StorageLibmemcached;
+use Phalcon\Cache\Adapter\Stream as StorageStream;
+use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Crypt;
 use Phalcon\Db\Adapter\Pdo\Mysql;
@@ -36,23 +46,11 @@ use Phalcon\Session\Adapter\Noop as SessionNoop;
 use Phalcon\Session\Adapter\Redis as SessionRedis;
 use Phalcon\Session\Adapter\Stream as SessionFiles;
 use Phalcon\Session\Manager as SessionManager;
-use Phalcon\Cache\Adapter\Libmemcached as StorageLibmemcached;
-use Phalcon\Cache\Adapter\Stream as StorageStream;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Url;
-use function cacheDir;
-use function dataDir;
-use function getOptionsLibmemcached;
-use function getOptionsModelCacheStream;
-use function getOptionsMysql;
-use function getOptionsPostgresql;
-use function getOptionsRedis;
-use function getOptionsSqlite;
 
 /**
  * Trait DiTrait
- *
- * @package Phalcon\Test\Fixtures\Traits
  */
 trait DiTrait
 {
@@ -71,9 +69,6 @@ trait DiTrait
         return $this->container;
     }
 
-    /**
-     * @return StorageStream
-     */
     protected function getAndSetModelsCacheStream(): StorageStream
     {
         $serializer = new SerializerFactory();
@@ -83,20 +78,15 @@ trait DiTrait
         return $cache;
     }
 
-    /**
-     * @return StorageStream
-     */
     protected function getAndSetViewCacheStream(): StorageStream
     {
         $serializer = new SerializerFactory();
         $cache      = new StorageStream($serializer, getOptionsModelCacheStream());
         $this->container->set('viewCache', $cache);
+
         return $cache;
     }
 
-    /**
-     * @return StorageLibmemcached
-     */
     protected function getAndSetModelsCacheLibmemcached(): StorageLibmemcached
     {
         $serializer = new SerializerFactory();
@@ -174,9 +164,6 @@ trait DiTrait
         Di::reset();
     }
 
-    /**
-     * @return mixed
-     */
     protected function setCliConsole()
     {
         return $this->container->get('console');
@@ -230,7 +217,7 @@ trait DiTrait
         $this->container->set(
             'filter',
             function () {
-                $filter = new Filter\FilterLocatorFactory();
+                $filter = new Filter\FilterFactory();
 
                 return $filter->newInstance();
             }
@@ -460,10 +447,6 @@ trait DiTrait
 
     /**
      * Return a service from the container
-     *
-     * @param string $name
-     *
-     * @return mixed
      */
     protected function getService(string $name)
     {

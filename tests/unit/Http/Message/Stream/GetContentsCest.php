@@ -27,12 +27,16 @@ class GetContentsCest
     public function httpMessageStreamGetContents(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - getContents()');
-        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
-        $expected = file_get_contents($fileName);
-        $stream   = new Stream($fileName, 'rb');
 
-        $actual = $stream->getContents();
-        $I->assertEquals($expected, $actual);
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
+
+        $stream = new Stream($fileName, 'rb');
+
+        $I->openFile($fileName);
+
+        $I->seeFileContentsEqual(
+            $stream->getContents()
+        );
     }
 
     /**

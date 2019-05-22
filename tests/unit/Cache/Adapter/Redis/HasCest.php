@@ -33,7 +33,11 @@ class HasCest
         $I->wantToTest('Cache\Adapter\Redis - has()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Redis($serializer, getOptionsRedis());
+
+        $adapter = new Redis(
+            $serializer,
+            getOptionsRedis()
+        );
 
         $key = uniqid();
 

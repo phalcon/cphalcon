@@ -13,11 +13,11 @@ namespace Phalcon\Http;
 use Phalcon\DiInterface;
 use Phalcon\CryptInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Filter\FilterInterface;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Cookie\Exception as CookieException;
 use Phalcon\Crypt\Mismatch;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
-use Phalcon\Service\LocatorInterface;
 
 /**
  * Phalcon\Http\Cookie
@@ -288,8 +288,7 @@ class Cookie implements CookieInterface, InjectionAwareInterface
                         }
                     }
 
-//                        let filter = container->getShared("filter"),
-                    let filter = <LocatorInterface> container->getShared("filter"),
+                    let filter = <FilterInterface> container->getShared("filter"),
                         this->filter = filter;
                 }
 

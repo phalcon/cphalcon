@@ -304,10 +304,10 @@ abstract class Resultset
     /**
      * Get first row in the resultset
      */
-    public function getFirst() -> <ModelInterface> | bool
+    public function getFirst() -> <ModelInterface> | null
     {
         if this->count == 0 {
-            return false;
+            return null;
         }
 
         this->seek(0);
@@ -326,14 +326,14 @@ abstract class Resultset
     /**
      * Get last row in the resultset
      */
-    public function getLast() -> <ModelInterface> | bool
+    public function getLast() -> <ModelInterface> | null
     {
         var count;
 
         let count = this->count;
 
         if count == 0 {
-            return false;
+            return null;
         }
 
         this->seek(count - 1);

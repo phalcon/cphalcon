@@ -31,6 +31,7 @@ class HttpBase
     {
         $this->server = $_SERVER;
         $_SERVER      = [];
+
         $this->newDi();
         $this->setDiEscaper();
         $this->setDiUrl();
@@ -73,9 +74,9 @@ class HttpBase
     {
         $request = $this->getRequestObject();
 
-        $actual = $request->$function('test');
-
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $request->$function('test')
+        );
     }
 
     /**
@@ -122,9 +123,9 @@ class HttpBase
     {
         $request = $this->getRequestObject();
 
-        $actual = $request->$function('test');
-
-        $I->assertEmpty($actual);
+        $I->assertEmpty(
+            $request->$function('test')
+        );
     }
 
     /**

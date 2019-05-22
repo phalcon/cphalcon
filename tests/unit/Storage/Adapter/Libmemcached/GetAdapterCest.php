@@ -34,10 +34,15 @@ class GetAdapterCest
         $I->wantToTest('Storage\Adapter\Libmemcached - getAdapter()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
-        $class  = Memcached::class;
-        $actual = $adapter->getAdapter();
-        $I->assertInstanceOf($class, $actual);
+        $adapter = new Libmemcached(
+            $serializer,
+            getOptionsLibmemcached()
+        );
+
+        $I->assertInstanceOf(
+            Memcached::class,
+            $adapter->getAdapter()
+        );
     }
 }

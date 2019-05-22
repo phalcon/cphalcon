@@ -12,15 +12,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\NativeArray;
 
-use Phalcon\Test\Fixtures\Traits\TranslateTrait;
+use Phalcon\Test\Fixtures\Traits\TranslateArrayTrait;
 use Phalcon\Test\Fixtures\Translate\Adapter\NativeAdapter;
 use Phalcon\Translate\Adapter\NativeArray;
 use Phalcon\Translate\Exception;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 class NotFoundCest
 {
-    use TranslateTrait;
+    use TranslateArrayTrait;
 
     /**
      * Tests Phalcon\Translate\Adapter\NativeArray :: notFound() - default
@@ -35,6 +36,7 @@ class NotFoundCest
         $language = $this->getArrayConfig()['en'];
 
         $translator = new NativeArray(
+            new InterpolatorFactory(),
             [
                 'content' => $language,
             ]
@@ -64,6 +66,7 @@ class NotFoundCest
                 $language = $this->getArrayConfig()['en'];
 
                 $translator = new NativeArray(
+                    new InterpolatorFactory(),
                     [
                         'content'      => $language,
                         'triggerError' => true,
@@ -92,6 +95,7 @@ class NotFoundCest
                 $language = $this->getArrayConfig()['en'];
 
                 $translator = new NativeArray(
+                    new InterpolatorFactory(),
                     [
                         'content'      => $language,
                         'triggerError' => 'blahblah',
@@ -116,6 +120,7 @@ class NotFoundCest
         $language = $this->getArrayConfig()['en'];
 
         $translator = new NativeAdapter(
+            new InterpolatorFactory(),
             [
                 'content' => $language,
             ]

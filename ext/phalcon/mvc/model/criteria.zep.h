@@ -41,6 +41,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getParams);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, createBuilder);
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute);
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_Criteria(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_setdi, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\DiInterface, 0)

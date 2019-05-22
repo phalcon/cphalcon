@@ -2,25 +2,23 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->in('tests/')
-    ->exclude('syntax/volt/');
+    ->exclude('syntax/volt/')
+    ->exclude('_data/fixtures/Annotations/');
 
 return PhpCsFixer\Config::create()
     ->setRules(
         [
+            '@PSR2'                                         => true,
             'array_syntax'                                  => ['syntax' => 'short'],
             'align_multiline_comment'                       => true,
             'blank_line_before_statement'                   => true,
             'combine_consecutive_issets'                    => true,
             'combine_consecutive_unsets'                    => true,
             'dir_constant'                                  => true,
-            'elseif'                                        => true,
             'fully_qualified_strict_types'                  => true,
             'include'                                       => true,
-            'lowercase_constants'                           => true,
-            'lowercase_keywords'                            => true,
             'new_with_braces'                               => true,
             'no_blank_lines_after_class_opening'            => true,
-            'no_closing_tag'                                => true,
             'no_empty_comment'                              => true,
             'no_empty_phpdoc'                               => true,
             'no_empty_statement'                            => true,

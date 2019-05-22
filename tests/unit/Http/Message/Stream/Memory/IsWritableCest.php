@@ -28,6 +28,9 @@ class IsWritableCest
         $I->wantToTest('Http\Message\Stream\Memory - isWritable()');
 
         $stream = new Memory('r+b');
-        $I->assertTrue($stream->isWritable());
+
+        $I->assertTrue(
+            $stream->isWritable()
+        );
     }
 }

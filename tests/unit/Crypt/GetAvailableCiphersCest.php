@@ -26,7 +26,12 @@ class GetAvailableCiphersCest
     public function cryptGetAvailableCiphers(UnitTester $I)
     {
         $I->wantToTest('Crypt - getAvailableCiphers()');
+
         $crypt = new Crypt();
-        $I->assertInternalType('array', $crypt->getAvailableCiphers());
+
+        $I->assertInternalType(
+            'array',
+            $crypt->getAvailableCiphers()
+        );
     }
 }

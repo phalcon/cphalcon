@@ -31,11 +31,24 @@ class GetSetDefaultSerializerCest
         $I->wantToTest('Storage\Adapter\Stream - getDefaultSerializer()/setDefaultSerializer()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
 
-        $I->assertEquals('Php', $adapter->getDefaultSerializer());
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
+
+        $I->assertEquals(
+            'Php',
+            $adapter->getDefaultSerializer()
+        );
 
         $adapter->setDefaultSerializer('Base64');
-        $I->assertEquals('Base64', $adapter->getDefaultSerializer());
+
+        $I->assertEquals(
+            'Base64',
+            $adapter->getDefaultSerializer()
+        );
     }
 }

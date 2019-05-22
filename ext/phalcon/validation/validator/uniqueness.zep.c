@@ -166,7 +166,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		zephir_create_array(&_3$$3, 1, 0 TSRMLS_CC);
 		zephir_array_update_string(&_3$$3, SL(":field"), &label, PH_COPY | PH_SEPARATE);
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "strtr", NULL, 63, &message, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "strtr", NULL, 66, &message, &_3$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZVAL_STRING(&_6$$3, "code");
@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_6$$3);
 		ZVAL_STRING(&_6$$3, "Uniqueness");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 400, &_4$$3, field, &_6$$3, &_5$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 404, &_4$$3, field, &_6$$3, &_5$$3);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_1$$3);
 		zephir_check_call_status();
@@ -256,11 +256,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, getColumnNameReal) {
 
 PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniqueness) {
 
-	zend_class_entry *_9;
-	zend_bool isModel = 0, isDocument = 0, _7;
-	zephir_fcall_cache_entry *_4 = NULL;
+	zend_class_entry *_7;
+	zend_bool isModel = 0, isDocument = 0, _5;
+	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field = NULL, field_sub, values, convert, record, params, className, singleField, _0, *_1, _2, _8, _3$$4, _5$$5, _6$$6;
+	zval *validation, validation_sub, *field = NULL, field_sub, values, convert, record, params, className, singleField, _0, *_1, _6, _2$$4, _4$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
@@ -272,11 +272,9 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniqueness) {
 	ZVAL_UNDEF(&className);
 	ZVAL_UNDEF(&singleField);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_8);
-	ZVAL_UNDEF(&_3$$4);
-	ZVAL_UNDEF(&_5$$5);
-	ZVAL_UNDEF(&_6$$6);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&_4$$5);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
@@ -297,38 +295,19 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniqueness) {
 	ZEPHIR_CALL_METHOD(&convert, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	zephir_is_iterable(field, 0, "phalcon/Validation/Validator/Uniqueness.zep", 175);
-	if (Z_TYPE_P(field) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(field), _1)
-		{
-			ZEPHIR_INIT_NVAR(&singleField);
-			ZVAL_COPY(&singleField, _1);
-			ZEPHIR_CALL_METHOD(&_3$$4, validation, "getvalue", &_4, 0, &singleField);
-			zephir_check_call_status();
-			zephir_array_update_zval(&values, &singleField, &_3$$4, PH_COPY | PH_SEPARATE);
-		} ZEND_HASH_FOREACH_END();
-	} else {
-		ZEPHIR_CALL_METHOD(NULL, field, "rewind", NULL, 0);
+	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(field), _1)
+	{
+		ZEPHIR_INIT_NVAR(&singleField);
+		ZVAL_COPY(&singleField, _1);
+		ZEPHIR_CALL_METHOD(&_2$$4, validation, "getvalue", &_3, 0, &singleField);
 		zephir_check_call_status();
-		while (1) {
-			ZEPHIR_CALL_METHOD(&_2, field, "valid", NULL, 0);
-			zephir_check_call_status();
-			if (!zend_is_true(&_2)) {
-				break;
-			}
-			ZEPHIR_CALL_METHOD(&singleField, field, "current", NULL, 0);
-			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_5$$5, validation, "getvalue", &_4, 0, &singleField);
-				zephir_check_call_status();
-				zephir_array_update_zval(&values, &singleField, &_5$$5, PH_COPY | PH_SEPARATE);
-			ZEPHIR_CALL_METHOD(NULL, field, "next", NULL, 0);
-			zephir_check_call_status();
-		}
-	}
+		zephir_array_update_zval(&values, &singleField, &_2$$4, PH_COPY | PH_SEPARATE);
+	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&singleField);
 	if (Z_TYPE_P(&convert) != IS_NULL) {
-		ZEPHIR_CALL_ZVAL_FUNCTION(&_6$$6, &convert, NULL, 0, &values);
+		ZEPHIR_CALL_ZVAL_FUNCTION(&_4$$5, &convert, NULL, 0, &values);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(&values, &_6$$6);
+		ZEPHIR_CPY_WRT(&values, &_4$$5);
 		if (UNEXPECTED(!(Z_TYPE_P(&values) == IS_ARRAY))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Value conversion must return an array", "phalcon/Validation/Validator/Uniqueness.zep", 179);
 			return;
@@ -338,11 +317,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniqueness) {
 	ZVAL_STRING(&_0, "model");
 	ZEPHIR_CALL_METHOD(&record, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
-	_7 = ZEPHIR_IS_EMPTY(&record);
-	if (!(_7)) {
-		_7 = Z_TYPE_P(&record) != IS_OBJECT;
+	_5 = ZEPHIR_IS_EMPTY(&record);
+	if (!(_5)) {
+		_5 = Z_TYPE_P(&record) != IS_OBJECT;
 	}
-	if (_7) {
+	if (_5) {
 		ZEPHIR_CALL_METHOD(&record, validation, "getentity", NULL, 0);
 		zephir_check_call_status();
 		if (UNEXPECTED(ZEPHIR_IS_EMPTY(&record))) {
@@ -364,10 +343,10 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniqueness) {
 	}
 	ZEPHIR_INIT_VAR(&className);
 	zephir_get_class(&className, &record, 0 TSRMLS_CC);
-	_9 = zephir_fetch_class(&className TSRMLS_CC);
-	ZEPHIR_CALL_CE_STATIC(&_8, _9, "count", NULL, 0, &params);
+	_7 = zephir_fetch_class(&className TSRMLS_CC);
+	ZEPHIR_CALL_CE_STATIC(&_6, _7, "count", NULL, 0, &params);
 	zephir_check_call_status();
-	RETURN_MM_BOOL(ZEPHIR_IS_LONG(&_8, 0));
+	RETURN_MM_BOOL(ZEPHIR_IS_LONG(&_6, 0));
 
 }
 
@@ -376,11 +355,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniqueness) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessCollection) {
 
-	zend_bool _5$$4, _6$$4, _16$$17, _17$$17;
-	zephir_fcall_cache_entry *_4 = NULL;
+	zend_bool _4$$4, _5$$4;
+	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval field, values, _9$$8, _10$$11, _13$$12, _14$$15, _20$$21, _21$$24, _24$$25, _25$$28, _27$$29, _29$$30;
-	zval *record, record_sub, *field_param = NULL, *values_param = NULL, exceptConditions, fieldExcept, notInValues, value, singleField, params, except, singleExcept, _0, *_1, _2, _26, _3$$3, *_7$$8, _8$$8, *_11$$12, _12$$12, _15$$16, *_18$$21, _19$$21, *_22$$25, _23$$25, _28$$29;
+	zval field, values, _7$$8, _8$$10, _10$$11, _11$$13, _13$$14, _15$$15;
+	zval *record, record_sub, *field_param = NULL, *values_param = NULL, exceptConditions, fieldExcept, notInValues, value, singleField, params, except, singleExcept, _0, *_1, _12, _2$$3, *_6$$8, *_9$$11, _14$$14;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&record_sub);
@@ -393,27 +372,17 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessCollection) {
 	ZVAL_UNDEF(&except);
 	ZVAL_UNDEF(&singleExcept);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_26);
-	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_8$$8);
-	ZVAL_UNDEF(&_12$$12);
-	ZVAL_UNDEF(&_15$$16);
-	ZVAL_UNDEF(&_19$$21);
-	ZVAL_UNDEF(&_23$$25);
-	ZVAL_UNDEF(&_28$$29);
+	ZVAL_UNDEF(&_12);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_14$$14);
 	ZVAL_UNDEF(&field);
 	ZVAL_UNDEF(&values);
-	ZVAL_UNDEF(&_9$$8);
+	ZVAL_UNDEF(&_7$$8);
+	ZVAL_UNDEF(&_8$$10);
 	ZVAL_UNDEF(&_10$$11);
-	ZVAL_UNDEF(&_13$$12);
-	ZVAL_UNDEF(&_14$$15);
-	ZVAL_UNDEF(&_20$$21);
-	ZVAL_UNDEF(&_21$$24);
-	ZVAL_UNDEF(&_24$$25);
-	ZVAL_UNDEF(&_25$$28);
-	ZVAL_UNDEF(&_27$$29);
-	ZVAL_UNDEF(&_29$$30);
+	ZVAL_UNDEF(&_11$$13);
+	ZVAL_UNDEF(&_13$$14);
+	ZVAL_UNDEF(&_15$$15);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &record, &field_param, &values_param);
@@ -430,243 +399,93 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessCollection) {
 	array_init(&_0);
 	zephir_array_update_string(&params, SL("conditions"), &_0, PH_COPY | PH_SEPARATE);
 	zephir_is_iterable(&field, 0, "phalcon/Validation/Validator/Uniqueness.zep", 273);
-	if (Z_TYPE_P(&field) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&field), _1)
-		{
-			ZEPHIR_INIT_NVAR(&singleField);
-			ZVAL_COPY(&singleField, _1);
-			ZEPHIR_INIT_NVAR(&fieldExcept);
-			ZVAL_NULL(&fieldExcept);
-			ZEPHIR_INIT_NVAR(&notInValues);
-			array_init(&notInValues);
-			ZEPHIR_OBS_NVAR(&value);
-			zephir_array_fetch(&value, &values, &singleField, PH_NOISY, "phalcon/Validation/Validator/Uniqueness.zep", 230 TSRMLS_CC);
-			ZEPHIR_INIT_NVAR(&_3$$3);
-			ZVAL_STRING(&_3$$3, "except");
-			ZEPHIR_CALL_METHOD(&except, this_ptr, "getoption", &_4, 0, &_3$$3);
-			zephir_check_call_status();
-			zephir_array_update_multi(&params, &value TSRMLS_CC, SL("sz"), 3, SL("conditions"), &singleField);
-			if (zephir_is_true(&except)) {
-				_5$$4 = Z_TYPE_P(&except) == IS_ARRAY;
-				if (_5$$4) {
-					_5$$4 = zephir_fast_count_int(&field TSRMLS_CC) > 1;
+	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&field), _1)
+	{
+		ZEPHIR_INIT_NVAR(&singleField);
+		ZVAL_COPY(&singleField, _1);
+		ZEPHIR_INIT_NVAR(&fieldExcept);
+		ZVAL_NULL(&fieldExcept);
+		ZEPHIR_INIT_NVAR(&notInValues);
+		array_init(&notInValues);
+		ZEPHIR_OBS_NVAR(&value);
+		zephir_array_fetch(&value, &values, &singleField, PH_NOISY, "phalcon/Validation/Validator/Uniqueness.zep", 230 TSRMLS_CC);
+		ZEPHIR_INIT_NVAR(&_2$$3);
+		ZVAL_STRING(&_2$$3, "except");
+		ZEPHIR_CALL_METHOD(&except, this_ptr, "getoption", &_3, 0, &_2$$3);
+		zephir_check_call_status();
+		zephir_array_update_multi(&params, &value TSRMLS_CC, SL("sz"), 3, SL("conditions"), &singleField);
+		if (zephir_is_true(&except)) {
+			_4$$4 = Z_TYPE_P(&except) == IS_ARRAY;
+			if (_4$$4) {
+				_4$$4 = zephir_fast_count_int(&field TSRMLS_CC) > 1;
+			}
+			if (_4$$4) {
+				if (zephir_array_isset(&except, &singleField)) {
+					ZEPHIR_OBS_NVAR(&fieldExcept);
+					zephir_array_fetch(&fieldExcept, &except, &singleField, PH_NOISY, "phalcon/Validation/Validator/Uniqueness.zep", 239 TSRMLS_CC);
 				}
-				if (_5$$4) {
-					if (zephir_array_isset(&except, &singleField)) {
-						ZEPHIR_OBS_NVAR(&fieldExcept);
-						zephir_array_fetch(&fieldExcept, &except, &singleField, PH_NOISY, "phalcon/Validation/Validator/Uniqueness.zep", 239 TSRMLS_CC);
-					}
-				}
-				_6$$4 = Z_TYPE_P(&except) == IS_ARRAY;
-				if (_6$$4) {
-					_6$$4 = zephir_fast_count_int(&field TSRMLS_CC) == 1;
-				}
-				if (Z_TYPE_P(&fieldExcept) != IS_NULL) {
-					if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
-						zephir_is_iterable(&fieldExcept, 0, "phalcon/Validation/Validator/Uniqueness.zep", 249);
-						if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
-							ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&fieldExcept), _7$$8)
-							{
-								ZEPHIR_INIT_NVAR(&singleExcept);
-								ZVAL_COPY(&singleExcept, _7$$8);
-								zephir_array_append(&notInValues, &singleExcept, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 246);
-							} ZEND_HASH_FOREACH_END();
-						} else {
-							ZEPHIR_CALL_METHOD(NULL, &fieldExcept, "rewind", NULL, 0);
-							zephir_check_call_status();
-							while (1) {
-								ZEPHIR_CALL_METHOD(&_8$$8, &fieldExcept, "valid", NULL, 0);
-								zephir_check_call_status();
-								if (!zend_is_true(&_8$$8)) {
-									break;
-								}
-								ZEPHIR_CALL_METHOD(&singleExcept, &fieldExcept, "current", NULL, 0);
-								zephir_check_call_status();
-									zephir_array_append(&notInValues, &singleExcept, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 246);
-								ZEPHIR_CALL_METHOD(NULL, &fieldExcept, "next", NULL, 0);
-								zephir_check_call_status();
-							}
-						}
+			}
+			_5$$4 = Z_TYPE_P(&except) == IS_ARRAY;
+			if (_5$$4) {
+				_5$$4 = zephir_fast_count_int(&field TSRMLS_CC) == 1;
+			}
+			if (Z_TYPE_P(&fieldExcept) != IS_NULL) {
+				if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
+					zephir_is_iterable(&fieldExcept, 0, "phalcon/Validation/Validator/Uniqueness.zep", 249);
+					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&fieldExcept), _6$$8)
+					{
 						ZEPHIR_INIT_NVAR(&singleExcept);
-						ZEPHIR_INIT_NVAR(&_9$$8);
-						zephir_create_array(&_9$$8, 1, 0 TSRMLS_CC);
-						zephir_array_update_string(&_9$$8, SL("$nin"), &notInValues, PH_COPY | PH_SEPARATE);
-						zephir_array_update_zval(&exceptConditions, &singleField, &_9$$8, PH_COPY | PH_SEPARATE);
-					} else {
-						ZEPHIR_INIT_NVAR(&_10$$11);
-						zephir_create_array(&_10$$11, 1, 0 TSRMLS_CC);
-						zephir_array_update_string(&_10$$11, SL("$ne"), &fieldExcept, PH_COPY | PH_SEPARATE);
-						zephir_array_update_zval(&exceptConditions, &singleField, &_10$$11, PH_COPY | PH_SEPARATE);
-					}
-				} else if (_6$$4) {
-					zephir_is_iterable(&except, 0, "phalcon/Validation/Validator/Uniqueness.zep", 262);
-					if (Z_TYPE_P(&except) == IS_ARRAY) {
-						ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&except), _11$$12)
-						{
-							ZEPHIR_INIT_NVAR(&singleExcept);
-							ZVAL_COPY(&singleExcept, _11$$12);
-							zephir_array_append(&notInValues, &singleExcept, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 259);
-						} ZEND_HASH_FOREACH_END();
-					} else {
-						ZEPHIR_CALL_METHOD(NULL, &except, "rewind", NULL, 0);
-						zephir_check_call_status();
-						while (1) {
-							ZEPHIR_CALL_METHOD(&_12$$12, &except, "valid", NULL, 0);
-							zephir_check_call_status();
-							if (!zend_is_true(&_12$$12)) {
-								break;
-							}
-							ZEPHIR_CALL_METHOD(&singleExcept, &except, "current", NULL, 0);
-							zephir_check_call_status();
-								zephir_array_append(&notInValues, &singleExcept, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 259);
-							ZEPHIR_CALL_METHOD(NULL, &except, "next", NULL, 0);
-							zephir_check_call_status();
-						}
-					}
+						ZVAL_COPY(&singleExcept, _6$$8);
+						zephir_array_append(&notInValues, &singleExcept, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 246);
+					} ZEND_HASH_FOREACH_END();
 					ZEPHIR_INIT_NVAR(&singleExcept);
-					ZEPHIR_INIT_NVAR(&_13$$12);
-					zephir_create_array(&_13$$12, 1, 0 TSRMLS_CC);
-					zephir_array_update_string(&_13$$12, SL("$nin"), &notInValues, PH_COPY | PH_SEPARATE);
-					zephir_array_update_multi(&params, &_13$$12 TSRMLS_CC, SL("sz"), 3, SL("conditions"), &singleField);
-				} else if (zephir_fast_count_int(&field TSRMLS_CC) == 1) {
-					ZEPHIR_INIT_NVAR(&_14$$15);
-					zephir_create_array(&_14$$15, 1, 0 TSRMLS_CC);
-					zephir_array_update_string(&_14$$15, SL("$ne"), &except, PH_COPY | PH_SEPARATE);
-					zephir_array_update_multi(&params, &_14$$15 TSRMLS_CC, SL("sz"), 3, SL("conditions"), &singleField);
+					ZEPHIR_INIT_NVAR(&_7$$8);
+					zephir_create_array(&_7$$8, 1, 0 TSRMLS_CC);
+					zephir_array_update_string(&_7$$8, SL("$nin"), &notInValues, PH_COPY | PH_SEPARATE);
+					zephir_array_update_zval(&exceptConditions, &singleField, &_7$$8, PH_COPY | PH_SEPARATE);
+				} else {
+					ZEPHIR_INIT_NVAR(&_8$$10);
+					zephir_create_array(&_8$$10, 1, 0 TSRMLS_CC);
+					zephir_array_update_string(&_8$$10, SL("$ne"), &fieldExcept, PH_COPY | PH_SEPARATE);
+					zephir_array_update_zval(&exceptConditions, &singleField, &_8$$10, PH_COPY | PH_SEPARATE);
 				}
+			} else if (_5$$4) {
+				zephir_is_iterable(&except, 0, "phalcon/Validation/Validator/Uniqueness.zep", 262);
+				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&except), _9$$11)
+				{
+					ZEPHIR_INIT_NVAR(&singleExcept);
+					ZVAL_COPY(&singleExcept, _9$$11);
+					zephir_array_append(&notInValues, &singleExcept, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 259);
+				} ZEND_HASH_FOREACH_END();
+				ZEPHIR_INIT_NVAR(&singleExcept);
+				ZEPHIR_INIT_NVAR(&_10$$11);
+				zephir_create_array(&_10$$11, 1, 0 TSRMLS_CC);
+				zephir_array_update_string(&_10$$11, SL("$nin"), &notInValues, PH_COPY | PH_SEPARATE);
+				zephir_array_update_multi(&params, &_10$$11 TSRMLS_CC, SL("sz"), 3, SL("conditions"), &singleField);
+			} else if (zephir_fast_count_int(&field TSRMLS_CC) == 1) {
+				ZEPHIR_INIT_NVAR(&_11$$13);
+				zephir_create_array(&_11$$13, 1, 0 TSRMLS_CC);
+				zephir_array_update_string(&_11$$13, SL("$ne"), &except, PH_COPY | PH_SEPARATE);
+				zephir_array_update_multi(&params, &_11$$13 TSRMLS_CC, SL("sz"), 3, SL("conditions"), &singleField);
 			}
-		} ZEND_HASH_FOREACH_END();
-	} else {
-		ZEPHIR_CALL_METHOD(NULL, &field, "rewind", NULL, 0);
-		zephir_check_call_status();
-		while (1) {
-			ZEPHIR_CALL_METHOD(&_2, &field, "valid", NULL, 0);
-			zephir_check_call_status();
-			if (!zend_is_true(&_2)) {
-				break;
-			}
-			ZEPHIR_CALL_METHOD(&singleField, &field, "current", NULL, 0);
-			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&fieldExcept);
-				ZVAL_NULL(&fieldExcept);
-				ZEPHIR_INIT_NVAR(&notInValues);
-				array_init(&notInValues);
-				ZEPHIR_OBS_NVAR(&value);
-				zephir_array_fetch(&value, &values, &singleField, PH_NOISY, "phalcon/Validation/Validator/Uniqueness.zep", 230 TSRMLS_CC);
-				ZEPHIR_INIT_NVAR(&_15$$16);
-				ZVAL_STRING(&_15$$16, "except");
-				ZEPHIR_CALL_METHOD(&except, this_ptr, "getoption", &_4, 0, &_15$$16);
-				zephir_check_call_status();
-				zephir_array_update_multi(&params, &value TSRMLS_CC, SL("sz"), 3, SL("conditions"), &singleField);
-				if (zephir_is_true(&except)) {
-					_16$$17 = Z_TYPE_P(&except) == IS_ARRAY;
-					if (_16$$17) {
-						_16$$17 = zephir_fast_count_int(&field TSRMLS_CC) > 1;
-					}
-					if (_16$$17) {
-						if (zephir_array_isset(&except, &singleField)) {
-							ZEPHIR_OBS_NVAR(&fieldExcept);
-							zephir_array_fetch(&fieldExcept, &except, &singleField, PH_NOISY, "phalcon/Validation/Validator/Uniqueness.zep", 239 TSRMLS_CC);
-						}
-					}
-					_17$$17 = Z_TYPE_P(&except) == IS_ARRAY;
-					if (_17$$17) {
-						_17$$17 = zephir_fast_count_int(&field TSRMLS_CC) == 1;
-					}
-					if (Z_TYPE_P(&fieldExcept) != IS_NULL) {
-						if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
-							zephir_is_iterable(&fieldExcept, 0, "phalcon/Validation/Validator/Uniqueness.zep", 249);
-							if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
-								ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&fieldExcept), _18$$21)
-								{
-									ZEPHIR_INIT_NVAR(&singleExcept);
-									ZVAL_COPY(&singleExcept, _18$$21);
-									zephir_array_append(&notInValues, &singleExcept, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 246);
-								} ZEND_HASH_FOREACH_END();
-							} else {
-								ZEPHIR_CALL_METHOD(NULL, &fieldExcept, "rewind", NULL, 0);
-								zephir_check_call_status();
-								while (1) {
-									ZEPHIR_CALL_METHOD(&_19$$21, &fieldExcept, "valid", NULL, 0);
-									zephir_check_call_status();
-									if (!zend_is_true(&_19$$21)) {
-										break;
-									}
-									ZEPHIR_CALL_METHOD(&singleExcept, &fieldExcept, "current", NULL, 0);
-									zephir_check_call_status();
-										zephir_array_append(&notInValues, &singleExcept, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 246);
-									ZEPHIR_CALL_METHOD(NULL, &fieldExcept, "next", NULL, 0);
-									zephir_check_call_status();
-								}
-							}
-							ZEPHIR_INIT_NVAR(&singleExcept);
-							ZEPHIR_INIT_NVAR(&_20$$21);
-							zephir_create_array(&_20$$21, 1, 0 TSRMLS_CC);
-							zephir_array_update_string(&_20$$21, SL("$nin"), &notInValues, PH_COPY | PH_SEPARATE);
-							zephir_array_update_zval(&exceptConditions, &singleField, &_20$$21, PH_COPY | PH_SEPARATE);
-						} else {
-							ZEPHIR_INIT_NVAR(&_21$$24);
-							zephir_create_array(&_21$$24, 1, 0 TSRMLS_CC);
-							zephir_array_update_string(&_21$$24, SL("$ne"), &fieldExcept, PH_COPY | PH_SEPARATE);
-							zephir_array_update_zval(&exceptConditions, &singleField, &_21$$24, PH_COPY | PH_SEPARATE);
-						}
-					} else if (_17$$17) {
-						zephir_is_iterable(&except, 0, "phalcon/Validation/Validator/Uniqueness.zep", 262);
-						if (Z_TYPE_P(&except) == IS_ARRAY) {
-							ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&except), _22$$25)
-							{
-								ZEPHIR_INIT_NVAR(&singleExcept);
-								ZVAL_COPY(&singleExcept, _22$$25);
-								zephir_array_append(&notInValues, &singleExcept, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 259);
-							} ZEND_HASH_FOREACH_END();
-						} else {
-							ZEPHIR_CALL_METHOD(NULL, &except, "rewind", NULL, 0);
-							zephir_check_call_status();
-							while (1) {
-								ZEPHIR_CALL_METHOD(&_23$$25, &except, "valid", NULL, 0);
-								zephir_check_call_status();
-								if (!zend_is_true(&_23$$25)) {
-									break;
-								}
-								ZEPHIR_CALL_METHOD(&singleExcept, &except, "current", NULL, 0);
-								zephir_check_call_status();
-									zephir_array_append(&notInValues, &singleExcept, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 259);
-								ZEPHIR_CALL_METHOD(NULL, &except, "next", NULL, 0);
-								zephir_check_call_status();
-							}
-						}
-						ZEPHIR_INIT_NVAR(&singleExcept);
-						ZEPHIR_INIT_NVAR(&_24$$25);
-						zephir_create_array(&_24$$25, 1, 0 TSRMLS_CC);
-						zephir_array_update_string(&_24$$25, SL("$nin"), &notInValues, PH_COPY | PH_SEPARATE);
-						zephir_array_update_multi(&params, &_24$$25 TSRMLS_CC, SL("sz"), 3, SL("conditions"), &singleField);
-					} else if (zephir_fast_count_int(&field TSRMLS_CC) == 1) {
-						ZEPHIR_INIT_NVAR(&_25$$28);
-						zephir_create_array(&_25$$28, 1, 0 TSRMLS_CC);
-						zephir_array_update_string(&_25$$28, SL("$ne"), &except, PH_COPY | PH_SEPARATE);
-						zephir_array_update_multi(&params, &_25$$28 TSRMLS_CC, SL("sz"), 3, SL("conditions"), &singleField);
-					}
-				}
-			ZEPHIR_CALL_METHOD(NULL, &field, "next", NULL, 0);
-			zephir_check_call_status();
 		}
-	}
+	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&singleField);
-	ZEPHIR_CALL_METHOD(&_26, record, "getdirtystate", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_12, record, "getdirtystate", NULL, 0);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_LONG(&_26, 0)) {
-		ZEPHIR_INIT_VAR(&_27$$29);
-		zephir_create_array(&_27$$29, 1, 0 TSRMLS_CC);
-		ZEPHIR_CALL_METHOD(&_28$$29, record, "getid", NULL, 0);
+	if (ZEPHIR_IS_LONG(&_12, 0)) {
+		ZEPHIR_INIT_VAR(&_13$$14);
+		zephir_create_array(&_13$$14, 1, 0 TSRMLS_CC);
+		ZEPHIR_CALL_METHOD(&_14$$14, record, "getid", NULL, 0);
 		zephir_check_call_status();
-		zephir_array_update_string(&_27$$29, SL("$ne"), &_28$$29, PH_COPY | PH_SEPARATE);
-		zephir_array_update_multi(&params, &_27$$29 TSRMLS_CC, SL("ss"), 4, SL("conditions"), SL("_id"));
+		zephir_array_update_string(&_13$$14, SL("$ne"), &_14$$14, PH_COPY | PH_SEPARATE);
+		zephir_array_update_multi(&params, &_13$$14 TSRMLS_CC, SL("ss"), 4, SL("conditions"), SL("_id"));
 	}
 	if (!(ZEPHIR_IS_EMPTY(&exceptConditions))) {
-		ZEPHIR_INIT_VAR(&_29$$30);
-		zephir_create_array(&_29$$30, 1, 0 TSRMLS_CC);
-		zephir_array_fast_append(&_29$$30, &exceptConditions);
-		zephir_array_update_multi(&params, &_29$$30 TSRMLS_CC, SL("ss"), 4, SL("conditions"), SL("$or"));
+		ZEPHIR_INIT_VAR(&_15$$15);
+		zephir_create_array(&_15$$15, 1, 0 TSRMLS_CC);
+		zephir_array_fast_append(&_15$$15, &exceptConditions);
+		zephir_array_update_multi(&params, &_15$$15 TSRMLS_CC, SL("ss"), 4, SL("conditions"), SL("$or"));
 	}
 	RETURN_CCTOR(&params);
 
@@ -677,14 +496,14 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessCollection) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessModel) {
 
-	zval _24$$10, _26$$11, _36$$15, _38$$16, _49$$20, _51$$21, _63$$26, _65$$27, _75$$31, _77$$32, _101$$41, _103$$42, _113$$46, _115$$47, _126$$51, _128$$52, _140$$57, _142$$58, _152$$62, _154$$63;
-	zend_string *_18$$7, *_95$$38;
-	zend_ulong _17$$7, _94$$38;
-	zend_bool _9$$6, _87$$37;
-	zephir_fcall_cache_entry *_5 = NULL, *_14 = NULL;
+	zval _21$$10, _31$$14, _41$$19;
+	zend_string *_16$$7;
+	zend_ulong _15$$7;
+	zend_bool _8$$6;
+	zephir_fcall_cache_entry *_4 = NULL, *_13 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, index = 0;
 	zval field, values;
-	zval *record, record_sub, *field_param = NULL, *values_param = NULL, params, attribute, metaData, primaryField, singleField, fieldExcept, singleExcept, notInValues, exceptConditions, value, except, _0, *_1, _2, _159, _177, _3$$3, _4$$3, _6$$4, _7$$4, _8$$5, _10$$6, _11$$6, _12$$6, _13$$6, *_15$$7, _16$$7, _19$$8, _20$$8, *_21$$9, _22$$9, _27$$9, _28$$9, _23$$10, _25$$11, _29$$12, _30$$12, _31$$13, _32$$13, *_33$$14, _34$$14, _39$$14, _40$$14, _35$$15, _37$$16, _41$$17, _42$$17, _43$$18, _44$$18, _45$$18, *_46$$19, _47$$19, _52$$19, _53$$19, _48$$20, _50$$21, _54$$22, _55$$22, *_56$$23, _57$$23, _58$$24, _59$$24, *_60$$25, _61$$25, _66$$25, _67$$25, _62$$26, _64$$27, _68$$28, _69$$28, _70$$29, _71$$29, *_72$$30, _73$$30, _78$$30, _79$$30, _74$$31, _76$$32, _80$$33, _81$$33, _82$$34, _83$$34, _84$$35, _85$$35, _86$$36, _88$$37, _89$$37, _90$$37, _91$$37, *_92$$38, _93$$38, _96$$39, _97$$39, *_98$$40, _99$$40, _104$$40, _105$$40, _100$$41, _102$$42, _106$$43, _107$$43, _108$$44, _109$$44, *_110$$45, _111$$45, _116$$45, _117$$45, _112$$46, _114$$47, _118$$48, _119$$48, _120$$49, _121$$49, _122$$49, *_123$$50, _124$$50, _129$$50, _130$$50, _125$$51, _127$$52, _131$$53, _132$$53, *_133$$54, _134$$54, _135$$55, _136$$55, *_137$$56, _138$$56, _143$$56, _144$$56, _139$$57, _141$$58, _145$$59, _146$$59, _147$$60, _148$$60, *_149$$61, _150$$61, _155$$61, _156$$61, _151$$62, _153$$63, _157$$64, _158$$64, _160$$65, _161$$65, _162$$65, *_163$$65, _164$$65, _165$$66, _166$$66, _167$$66, _168$$66, _169$$66, _170$$67, _171$$67, _172$$67, _173$$67, _174$$67, _175$$68, _176$$68;
+	zval *record, record_sub, *field_param = NULL, *values_param = NULL, params, attribute, metaData, primaryField, singleField, fieldExcept, singleExcept, notInValues, exceptConditions, value, except, _0, *_1, _46, _58, _2$$3, _3$$3, _5$$4, _6$$4, _7$$5, _9$$6, _10$$6, _11$$6, _12$$6, *_14$$7, _17$$8, _18$$8, *_19$$9, _22$$9, _23$$9, _20$$10, _24$$11, _25$$11, _26$$12, _27$$12, _28$$12, *_29$$13, _32$$13, _33$$13, _30$$14, _34$$15, _35$$15, *_36$$16, _37$$17, _38$$17, *_39$$18, _42$$18, _43$$18, _40$$19, _44$$20, _45$$20, _47$$21, _48$$21, _49$$21, *_50$$21, _51$$22, _52$$22, _53$$22, _54$$22, _55$$22, _56$$23, _57$$23;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&record_sub);
@@ -700,161 +519,54 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessModel) {
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&except);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_159);
-	ZVAL_UNDEF(&_177);
+	ZVAL_UNDEF(&_46);
+	ZVAL_UNDEF(&_58);
+	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&_6$$4);
-	ZVAL_UNDEF(&_7$$4);
-	ZVAL_UNDEF(&_8$$5);
+	ZVAL_UNDEF(&_7$$5);
+	ZVAL_UNDEF(&_9$$6);
 	ZVAL_UNDEF(&_10$$6);
 	ZVAL_UNDEF(&_11$$6);
 	ZVAL_UNDEF(&_12$$6);
-	ZVAL_UNDEF(&_13$$6);
-	ZVAL_UNDEF(&_16$$7);
-	ZVAL_UNDEF(&_19$$8);
-	ZVAL_UNDEF(&_20$$8);
+	ZVAL_UNDEF(&_17$$8);
+	ZVAL_UNDEF(&_18$$8);
 	ZVAL_UNDEF(&_22$$9);
-	ZVAL_UNDEF(&_27$$9);
-	ZVAL_UNDEF(&_28$$9);
-	ZVAL_UNDEF(&_23$$10);
+	ZVAL_UNDEF(&_23$$9);
+	ZVAL_UNDEF(&_20$$10);
+	ZVAL_UNDEF(&_24$$11);
 	ZVAL_UNDEF(&_25$$11);
-	ZVAL_UNDEF(&_29$$12);
-	ZVAL_UNDEF(&_30$$12);
-	ZVAL_UNDEF(&_31$$13);
+	ZVAL_UNDEF(&_26$$12);
+	ZVAL_UNDEF(&_27$$12);
+	ZVAL_UNDEF(&_28$$12);
 	ZVAL_UNDEF(&_32$$13);
-	ZVAL_UNDEF(&_34$$14);
-	ZVAL_UNDEF(&_39$$14);
-	ZVAL_UNDEF(&_40$$14);
+	ZVAL_UNDEF(&_33$$13);
+	ZVAL_UNDEF(&_30$$14);
+	ZVAL_UNDEF(&_34$$15);
 	ZVAL_UNDEF(&_35$$15);
-	ZVAL_UNDEF(&_37$$16);
-	ZVAL_UNDEF(&_41$$17);
-	ZVAL_UNDEF(&_42$$17);
+	ZVAL_UNDEF(&_37$$17);
+	ZVAL_UNDEF(&_38$$17);
+	ZVAL_UNDEF(&_42$$18);
 	ZVAL_UNDEF(&_43$$18);
-	ZVAL_UNDEF(&_44$$18);
-	ZVAL_UNDEF(&_45$$18);
-	ZVAL_UNDEF(&_47$$19);
-	ZVAL_UNDEF(&_52$$19);
-	ZVAL_UNDEF(&_53$$19);
-	ZVAL_UNDEF(&_48$$20);
-	ZVAL_UNDEF(&_50$$21);
+	ZVAL_UNDEF(&_40$$19);
+	ZVAL_UNDEF(&_44$$20);
+	ZVAL_UNDEF(&_45$$20);
+	ZVAL_UNDEF(&_47$$21);
+	ZVAL_UNDEF(&_48$$21);
+	ZVAL_UNDEF(&_49$$21);
+	ZVAL_UNDEF(&_51$$22);
+	ZVAL_UNDEF(&_52$$22);
+	ZVAL_UNDEF(&_53$$22);
 	ZVAL_UNDEF(&_54$$22);
 	ZVAL_UNDEF(&_55$$22);
+	ZVAL_UNDEF(&_56$$23);
 	ZVAL_UNDEF(&_57$$23);
-	ZVAL_UNDEF(&_58$$24);
-	ZVAL_UNDEF(&_59$$24);
-	ZVAL_UNDEF(&_61$$25);
-	ZVAL_UNDEF(&_66$$25);
-	ZVAL_UNDEF(&_67$$25);
-	ZVAL_UNDEF(&_62$$26);
-	ZVAL_UNDEF(&_64$$27);
-	ZVAL_UNDEF(&_68$$28);
-	ZVAL_UNDEF(&_69$$28);
-	ZVAL_UNDEF(&_70$$29);
-	ZVAL_UNDEF(&_71$$29);
-	ZVAL_UNDEF(&_73$$30);
-	ZVAL_UNDEF(&_78$$30);
-	ZVAL_UNDEF(&_79$$30);
-	ZVAL_UNDEF(&_74$$31);
-	ZVAL_UNDEF(&_76$$32);
-	ZVAL_UNDEF(&_80$$33);
-	ZVAL_UNDEF(&_81$$33);
-	ZVAL_UNDEF(&_82$$34);
-	ZVAL_UNDEF(&_83$$34);
-	ZVAL_UNDEF(&_84$$35);
-	ZVAL_UNDEF(&_85$$35);
-	ZVAL_UNDEF(&_86$$36);
-	ZVAL_UNDEF(&_88$$37);
-	ZVAL_UNDEF(&_89$$37);
-	ZVAL_UNDEF(&_90$$37);
-	ZVAL_UNDEF(&_91$$37);
-	ZVAL_UNDEF(&_93$$38);
-	ZVAL_UNDEF(&_96$$39);
-	ZVAL_UNDEF(&_97$$39);
-	ZVAL_UNDEF(&_99$$40);
-	ZVAL_UNDEF(&_104$$40);
-	ZVAL_UNDEF(&_105$$40);
-	ZVAL_UNDEF(&_100$$41);
-	ZVAL_UNDEF(&_102$$42);
-	ZVAL_UNDEF(&_106$$43);
-	ZVAL_UNDEF(&_107$$43);
-	ZVAL_UNDEF(&_108$$44);
-	ZVAL_UNDEF(&_109$$44);
-	ZVAL_UNDEF(&_111$$45);
-	ZVAL_UNDEF(&_116$$45);
-	ZVAL_UNDEF(&_117$$45);
-	ZVAL_UNDEF(&_112$$46);
-	ZVAL_UNDEF(&_114$$47);
-	ZVAL_UNDEF(&_118$$48);
-	ZVAL_UNDEF(&_119$$48);
-	ZVAL_UNDEF(&_120$$49);
-	ZVAL_UNDEF(&_121$$49);
-	ZVAL_UNDEF(&_122$$49);
-	ZVAL_UNDEF(&_124$$50);
-	ZVAL_UNDEF(&_129$$50);
-	ZVAL_UNDEF(&_130$$50);
-	ZVAL_UNDEF(&_125$$51);
-	ZVAL_UNDEF(&_127$$52);
-	ZVAL_UNDEF(&_131$$53);
-	ZVAL_UNDEF(&_132$$53);
-	ZVAL_UNDEF(&_134$$54);
-	ZVAL_UNDEF(&_135$$55);
-	ZVAL_UNDEF(&_136$$55);
-	ZVAL_UNDEF(&_138$$56);
-	ZVAL_UNDEF(&_143$$56);
-	ZVAL_UNDEF(&_144$$56);
-	ZVAL_UNDEF(&_139$$57);
-	ZVAL_UNDEF(&_141$$58);
-	ZVAL_UNDEF(&_145$$59);
-	ZVAL_UNDEF(&_146$$59);
-	ZVAL_UNDEF(&_147$$60);
-	ZVAL_UNDEF(&_148$$60);
-	ZVAL_UNDEF(&_150$$61);
-	ZVAL_UNDEF(&_155$$61);
-	ZVAL_UNDEF(&_156$$61);
-	ZVAL_UNDEF(&_151$$62);
-	ZVAL_UNDEF(&_153$$63);
-	ZVAL_UNDEF(&_157$$64);
-	ZVAL_UNDEF(&_158$$64);
-	ZVAL_UNDEF(&_160$$65);
-	ZVAL_UNDEF(&_161$$65);
-	ZVAL_UNDEF(&_162$$65);
-	ZVAL_UNDEF(&_164$$65);
-	ZVAL_UNDEF(&_165$$66);
-	ZVAL_UNDEF(&_166$$66);
-	ZVAL_UNDEF(&_167$$66);
-	ZVAL_UNDEF(&_168$$66);
-	ZVAL_UNDEF(&_169$$66);
-	ZVAL_UNDEF(&_170$$67);
-	ZVAL_UNDEF(&_171$$67);
-	ZVAL_UNDEF(&_172$$67);
-	ZVAL_UNDEF(&_173$$67);
-	ZVAL_UNDEF(&_174$$67);
-	ZVAL_UNDEF(&_175$$68);
-	ZVAL_UNDEF(&_176$$68);
 	ZVAL_UNDEF(&field);
 	ZVAL_UNDEF(&values);
-	ZVAL_UNDEF(&_24$$10);
-	ZVAL_UNDEF(&_26$$11);
-	ZVAL_UNDEF(&_36$$15);
-	ZVAL_UNDEF(&_38$$16);
-	ZVAL_UNDEF(&_49$$20);
-	ZVAL_UNDEF(&_51$$21);
-	ZVAL_UNDEF(&_63$$26);
-	ZVAL_UNDEF(&_65$$27);
-	ZVAL_UNDEF(&_75$$31);
-	ZVAL_UNDEF(&_77$$32);
-	ZVAL_UNDEF(&_101$$41);
-	ZVAL_UNDEF(&_103$$42);
-	ZVAL_UNDEF(&_113$$46);
-	ZVAL_UNDEF(&_115$$47);
-	ZVAL_UNDEF(&_126$$51);
-	ZVAL_UNDEF(&_128$$52);
-	ZVAL_UNDEF(&_140$$57);
-	ZVAL_UNDEF(&_142$$58);
-	ZVAL_UNDEF(&_152$$62);
-	ZVAL_UNDEF(&_154$$63);
+	ZVAL_UNDEF(&_21$$10);
+	ZVAL_UNDEF(&_31$$14);
+	ZVAL_UNDEF(&_41$$19);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &record, &field_param, &values_param);
@@ -879,875 +591,223 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessModel) {
 	ZEPHIR_CALL_METHOD(&except, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	zephir_is_iterable(&field, 0, "phalcon/Validation/Validator/Uniqueness.zep", 388);
-	if (Z_TYPE_P(&field) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&field), _1)
-		{
-			ZEPHIR_INIT_NVAR(&singleField);
-			ZVAL_COPY(&singleField, _1);
-			ZEPHIR_INIT_NVAR(&fieldExcept);
-			ZVAL_NULL(&fieldExcept);
-			ZEPHIR_INIT_NVAR(&notInValues);
-			array_init(&notInValues);
-			ZEPHIR_OBS_NVAR(&value);
-			zephir_array_fetch(&value, &values, &singleField, PH_NOISY, "phalcon/Validation/Validator/Uniqueness.zep", 306 TSRMLS_CC);
-			ZEPHIR_INIT_NVAR(&_3$$3);
-			ZVAL_STRING(&_3$$3, "attribute");
-			ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getoption", NULL, 0, &_3$$3, &singleField);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "getcolumnnamereal", &_5, 0, record, &attribute);
-			zephir_check_call_status();
-			ZEPHIR_CPY_WRT(&attribute, &_4$$3);
-			if (Z_TYPE_P(&value) != IS_NULL) {
-				ZEPHIR_SINIT_NVAR(_6$$4);
-				ZVAL_LONG(&_6$$4, index);
-				ZEPHIR_INIT_LNVAR(_7$$4);
-				ZEPHIR_CONCAT_VSV(&_7$$4, &attribute, " = ?", &_6$$4);
-				zephir_array_update_multi(&params, &_7$$4 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
-				zephir_array_update_multi(&params, &value TSRMLS_CC, SL("sa"), 3, SL("bind"));
-				index++;
-			} else {
-				ZEPHIR_INIT_LNVAR(_8$$5);
-				ZEPHIR_CONCAT_VS(&_8$$5, &attribute, " IS NULL");
-				zephir_array_update_multi(&params, &_8$$5 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
+	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&field), _1)
+	{
+		ZEPHIR_INIT_NVAR(&singleField);
+		ZVAL_COPY(&singleField, _1);
+		ZEPHIR_INIT_NVAR(&fieldExcept);
+		ZVAL_NULL(&fieldExcept);
+		ZEPHIR_INIT_NVAR(&notInValues);
+		array_init(&notInValues);
+		ZEPHIR_OBS_NVAR(&value);
+		zephir_array_fetch(&value, &values, &singleField, PH_NOISY, "phalcon/Validation/Validator/Uniqueness.zep", 306 TSRMLS_CC);
+		ZEPHIR_INIT_NVAR(&_2$$3);
+		ZVAL_STRING(&_2$$3, "attribute");
+		ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getoption", NULL, 0, &_2$$3, &singleField);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(&_3$$3, this_ptr, "getcolumnnamereal", &_4, 0, record, &attribute);
+		zephir_check_call_status();
+		ZEPHIR_CPY_WRT(&attribute, &_3$$3);
+		if (Z_TYPE_P(&value) != IS_NULL) {
+			ZEPHIR_SINIT_NVAR(_5$$4);
+			ZVAL_LONG(&_5$$4, index);
+			ZEPHIR_INIT_LNVAR(_6$$4);
+			ZEPHIR_CONCAT_VSV(&_6$$4, &attribute, " = ?", &_5$$4);
+			zephir_array_update_multi(&params, &_6$$4 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
+			zephir_array_update_multi(&params, &value TSRMLS_CC, SL("sa"), 3, SL("bind"));
+			index++;
+		} else {
+			ZEPHIR_INIT_LNVAR(_7$$5);
+			ZEPHIR_CONCAT_VS(&_7$$5, &attribute, " IS NULL");
+			zephir_array_update_multi(&params, &_7$$5 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
+		}
+		if (zephir_is_true(&except)) {
+			_8$$6 = Z_TYPE_P(&except) == IS_ARRAY;
+			if (_8$$6) {
+				ZEPHIR_INIT_NVAR(&_9$$6);
+				zephir_array_keys(&_9$$6, &except TSRMLS_CC);
+				ZVAL_LONG(&_10$$6, 0);
+				ZVAL_LONG(&_11$$6, (zephir_fast_count_int(&except TSRMLS_CC) - 1));
+				ZEPHIR_CALL_FUNCTION(&_12$$6, "range", &_13, 248, &_10$$6, &_11$$6);
+				zephir_check_call_status();
+				_8$$6 = !ZEPHIR_IS_IDENTICAL(&_9$$6, &_12$$6);
 			}
-			if (zephir_is_true(&except)) {
-				_9$$6 = Z_TYPE_P(&except) == IS_ARRAY;
-				if (_9$$6) {
-					ZEPHIR_INIT_NVAR(&_10$$6);
-					zephir_array_keys(&_10$$6, &except TSRMLS_CC);
-					ZVAL_LONG(&_11$$6, 0);
-					ZVAL_LONG(&_12$$6, (zephir_fast_count_int(&except TSRMLS_CC) - 1));
-					ZEPHIR_CALL_FUNCTION(&_13$$6, "range", &_14, 246, &_11$$6, &_12$$6);
-					zephir_check_call_status();
-					_9$$6 = !ZEPHIR_IS_IDENTICAL(&_10$$6, &_13$$6);
-				}
-				if (_9$$6) {
-					zephir_is_iterable(&except, 0, "phalcon/Validation/Validator/Uniqueness.zep", 341);
-					if (Z_TYPE_P(&except) == IS_ARRAY) {
-						ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&except), _17$$7, _18$$7, _15$$7)
-						{
-							ZEPHIR_INIT_NVAR(&singleField);
-							if (_18$$7 != NULL) { 
-								ZVAL_STR_COPY(&singleField, _18$$7);
-							} else {
-								ZVAL_LONG(&singleField, _17$$7);
-							}
-							ZEPHIR_INIT_NVAR(&fieldExcept);
-							ZVAL_COPY(&fieldExcept, _15$$7);
-							ZEPHIR_INIT_NVAR(&_20$$8);
-							ZVAL_STRING(&_20$$8, "attribute");
-							ZEPHIR_CALL_METHOD(&_19$$8, this_ptr, "getoption", NULL, 0, &_20$$8, &singleField);
-							zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_5, 0, record, &_19$$8);
-							zephir_check_call_status();
-							if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
-								zephir_is_iterable(&fieldExcept, 0, "phalcon/Validation/Validator/Uniqueness.zep", 334);
-								if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
-									ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&fieldExcept), _21$$9)
-									{
-										ZEPHIR_INIT_NVAR(&singleExcept);
-										ZVAL_COPY(&singleExcept, _21$$9);
-										ZEPHIR_SINIT_NVAR(_23$$10);
-										ZVAL_LONG(&_23$$10, index);
-										ZEPHIR_INIT_LNVAR(_24$$10);
-										ZEPHIR_CONCAT_SV(&_24$$10, "?", &_23$$10);
-										zephir_array_append(&notInValues, &_24$$10, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 329);
-										zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-										index++;
-									} ZEND_HASH_FOREACH_END();
-								} else {
-									ZEPHIR_CALL_METHOD(NULL, &fieldExcept, "rewind", NULL, 0);
-									zephir_check_call_status();
-									while (1) {
-										ZEPHIR_CALL_METHOD(&_22$$9, &fieldExcept, "valid", NULL, 0);
-										zephir_check_call_status();
-										if (!zend_is_true(&_22$$9)) {
-											break;
-										}
-										ZEPHIR_CALL_METHOD(&singleExcept, &fieldExcept, "current", NULL, 0);
-										zephir_check_call_status();
-											ZEPHIR_SINIT_NVAR(_25$$11);
-											ZVAL_LONG(&_25$$11, index);
-											ZEPHIR_INIT_LNVAR(_26$$11);
-											ZEPHIR_CONCAT_SV(&_26$$11, "?", &_25$$11);
-											zephir_array_append(&notInValues, &_26$$11, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 329);
-											zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-											index++;
-										ZEPHIR_CALL_METHOD(NULL, &fieldExcept, "next", NULL, 0);
-										zephir_check_call_status();
-									}
-								}
-								ZEPHIR_INIT_NVAR(&singleExcept);
-								ZEPHIR_INIT_NVAR(&_27$$9);
-								zephir_fast_join_str(&_27$$9, SL(","), &notInValues TSRMLS_CC);
-								ZEPHIR_INIT_LNVAR(_28$$9);
-								ZEPHIR_CONCAT_VSVS(&_28$$9, &attribute, " NOT IN (", &_27$$9, ")");
-								zephir_array_append(&exceptConditions, &_28$$9, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 334);
-							} else {
-								ZEPHIR_SINIT_NVAR(_29$$12);
-								ZVAL_LONG(&_29$$12, index);
-								ZEPHIR_INIT_LNVAR(_30$$12);
-								ZEPHIR_CONCAT_VSV(&_30$$12, &attribute, " <> ?", &_29$$12);
-								zephir_array_append(&exceptConditions, &_30$$12, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 336);
-								zephir_array_update_multi(&params, &fieldExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-								index++;
-							}
-						} ZEND_HASH_FOREACH_END();
+			if (_8$$6) {
+				zephir_is_iterable(&except, 0, "phalcon/Validation/Validator/Uniqueness.zep", 341);
+				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&except), _15$$7, _16$$7, _14$$7)
+				{
+					ZEPHIR_INIT_NVAR(&singleField);
+					if (_16$$7 != NULL) { 
+						ZVAL_STR_COPY(&singleField, _16$$7);
 					} else {
-						ZEPHIR_CALL_METHOD(NULL, &except, "rewind", NULL, 0);
-						zephir_check_call_status();
-						while (1) {
-							ZEPHIR_CALL_METHOD(&_16$$7, &except, "valid", NULL, 0);
-							zephir_check_call_status();
-							if (!zend_is_true(&_16$$7)) {
-								break;
-							}
-							ZEPHIR_CALL_METHOD(&singleField, &except, "key", NULL, 0);
-							zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(&fieldExcept, &except, "current", NULL, 0);
-							zephir_check_call_status();
-								ZEPHIR_INIT_NVAR(&_32$$13);
-								ZVAL_STRING(&_32$$13, "attribute");
-								ZEPHIR_CALL_METHOD(&_31$$13, this_ptr, "getoption", NULL, 0, &_32$$13, &singleField);
-								zephir_check_call_status();
-								ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_5, 0, record, &_31$$13);
-								zephir_check_call_status();
-								if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
-									zephir_is_iterable(&fieldExcept, 0, "phalcon/Validation/Validator/Uniqueness.zep", 334);
-									if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
-										ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&fieldExcept), _33$$14)
-										{
-											ZEPHIR_INIT_NVAR(&singleExcept);
-											ZVAL_COPY(&singleExcept, _33$$14);
-											ZEPHIR_SINIT_NVAR(_35$$15);
-											ZVAL_LONG(&_35$$15, index);
-											ZEPHIR_INIT_LNVAR(_36$$15);
-											ZEPHIR_CONCAT_SV(&_36$$15, "?", &_35$$15);
-											zephir_array_append(&notInValues, &_36$$15, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 329);
-											zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-											index++;
-										} ZEND_HASH_FOREACH_END();
-									} else {
-										ZEPHIR_CALL_METHOD(NULL, &fieldExcept, "rewind", NULL, 0);
-										zephir_check_call_status();
-										while (1) {
-											ZEPHIR_CALL_METHOD(&_34$$14, &fieldExcept, "valid", NULL, 0);
-											zephir_check_call_status();
-											if (!zend_is_true(&_34$$14)) {
-												break;
-											}
-											ZEPHIR_CALL_METHOD(&singleExcept, &fieldExcept, "current", NULL, 0);
-											zephir_check_call_status();
-												ZEPHIR_SINIT_NVAR(_37$$16);
-												ZVAL_LONG(&_37$$16, index);
-												ZEPHIR_INIT_LNVAR(_38$$16);
-												ZEPHIR_CONCAT_SV(&_38$$16, "?", &_37$$16);
-												zephir_array_append(&notInValues, &_38$$16, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 329);
-												zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-												index++;
-											ZEPHIR_CALL_METHOD(NULL, &fieldExcept, "next", NULL, 0);
-											zephir_check_call_status();
-										}
-									}
-									ZEPHIR_INIT_NVAR(&singleExcept);
-									ZEPHIR_INIT_NVAR(&_39$$14);
-									zephir_fast_join_str(&_39$$14, SL(","), &notInValues TSRMLS_CC);
-									ZEPHIR_INIT_LNVAR(_40$$14);
-									ZEPHIR_CONCAT_VSVS(&_40$$14, &attribute, " NOT IN (", &_39$$14, ")");
-									zephir_array_append(&exceptConditions, &_40$$14, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 334);
-								} else {
-									ZEPHIR_SINIT_NVAR(_41$$17);
-									ZVAL_LONG(&_41$$17, index);
-									ZEPHIR_INIT_LNVAR(_42$$17);
-									ZEPHIR_CONCAT_VSV(&_42$$17, &attribute, " <> ?", &_41$$17);
-									zephir_array_append(&exceptConditions, &_42$$17, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 336);
-									zephir_array_update_multi(&params, &fieldExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-									index++;
-								}
-							ZEPHIR_CALL_METHOD(NULL, &except, "next", NULL, 0);
-							zephir_check_call_status();
-						}
+						ZVAL_LONG(&singleField, _15$$7);
 					}
 					ZEPHIR_INIT_NVAR(&fieldExcept);
-					ZEPHIR_INIT_NVAR(&singleField);
-				} else if (zephir_fast_count_int(&field TSRMLS_CC) == 1) {
-					zephir_array_fetch_long(&_44$$18, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Uniqueness.zep", 344 TSRMLS_CC);
-					ZEPHIR_INIT_NVAR(&_45$$18);
-					ZVAL_STRING(&_45$$18, "attribute");
-					ZEPHIR_CALL_METHOD(&_43$$18, this_ptr, "getoption", NULL, 0, &_45$$18, &_44$$18);
+					ZVAL_COPY(&fieldExcept, _14$$7);
+					ZEPHIR_INIT_NVAR(&_18$$8);
+					ZVAL_STRING(&_18$$8, "attribute");
+					ZEPHIR_CALL_METHOD(&_17$$8, this_ptr, "getoption", NULL, 0, &_18$$8, &singleField);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_5, 0, record, &_43$$18);
+					ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_4, 0, record, &_17$$8);
+					zephir_check_call_status();
+					if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
+						zephir_is_iterable(&fieldExcept, 0, "phalcon/Validation/Validator/Uniqueness.zep", 334);
+						ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&fieldExcept), _19$$9)
+						{
+							ZEPHIR_INIT_NVAR(&singleExcept);
+							ZVAL_COPY(&singleExcept, _19$$9);
+							ZEPHIR_SINIT_NVAR(_20$$10);
+							ZVAL_LONG(&_20$$10, index);
+							ZEPHIR_INIT_LNVAR(_21$$10);
+							ZEPHIR_CONCAT_SV(&_21$$10, "?", &_20$$10);
+							zephir_array_append(&notInValues, &_21$$10, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 329);
+							zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
+							index++;
+						} ZEND_HASH_FOREACH_END();
+						ZEPHIR_INIT_NVAR(&singleExcept);
+						ZEPHIR_INIT_NVAR(&_22$$9);
+						zephir_fast_join_str(&_22$$9, SL(","), &notInValues TSRMLS_CC);
+						ZEPHIR_INIT_LNVAR(_23$$9);
+						ZEPHIR_CONCAT_VSVS(&_23$$9, &attribute, " NOT IN (", &_22$$9, ")");
+						zephir_array_append(&exceptConditions, &_23$$9, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 334);
+					} else {
+						ZEPHIR_SINIT_NVAR(_24$$11);
+						ZVAL_LONG(&_24$$11, index);
+						ZEPHIR_INIT_LNVAR(_25$$11);
+						ZEPHIR_CONCAT_VSV(&_25$$11, &attribute, " <> ?", &_24$$11);
+						zephir_array_append(&exceptConditions, &_25$$11, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 336);
+						zephir_array_update_multi(&params, &fieldExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
+						index++;
+					}
+				} ZEND_HASH_FOREACH_END();
+				ZEPHIR_INIT_NVAR(&fieldExcept);
+				ZEPHIR_INIT_NVAR(&singleField);
+			} else if (zephir_fast_count_int(&field TSRMLS_CC) == 1) {
+				zephir_array_fetch_long(&_27$$12, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Uniqueness.zep", 344 TSRMLS_CC);
+				ZEPHIR_INIT_NVAR(&_28$$12);
+				ZVAL_STRING(&_28$$12, "attribute");
+				ZEPHIR_CALL_METHOD(&_26$$12, this_ptr, "getoption", NULL, 0, &_28$$12, &_27$$12);
+				zephir_check_call_status();
+				ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_4, 0, record, &_26$$12);
+				zephir_check_call_status();
+				if (Z_TYPE_P(&except) == IS_ARRAY) {
+					zephir_is_iterable(&except, 0, "phalcon/Validation/Validator/Uniqueness.zep", 354);
+					ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&except), _29$$13)
+					{
+						ZEPHIR_INIT_NVAR(&singleExcept);
+						ZVAL_COPY(&singleExcept, _29$$13);
+						ZEPHIR_SINIT_NVAR(_30$$14);
+						ZVAL_LONG(&_30$$14, index);
+						ZEPHIR_INIT_LNVAR(_31$$14);
+						ZEPHIR_CONCAT_SV(&_31$$14, "?", &_30$$14);
+						zephir_array_append(&notInValues, &_31$$14, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 349);
+						zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
+						index++;
+					} ZEND_HASH_FOREACH_END();
+					ZEPHIR_INIT_NVAR(&singleExcept);
+					ZEPHIR_INIT_NVAR(&_32$$13);
+					zephir_fast_join_str(&_32$$13, SL(","), &notInValues TSRMLS_CC);
+					ZEPHIR_INIT_LNVAR(_33$$13);
+					ZEPHIR_CONCAT_VSVS(&_33$$13, &attribute, " NOT IN (", &_32$$13, ")");
+					zephir_array_append(&exceptConditions, &_33$$13, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 354);
+				} else {
+					ZEPHIR_SINIT_NVAR(_34$$15);
+					ZVAL_LONG(&_34$$15, index);
+					ZEPHIR_INIT_LNVAR(_35$$15);
+					ZEPHIR_CONCAT_VSV(&_35$$15, &attribute, " <> ?", &_34$$15);
+					zephir_array_update_multi(&params, &_35$$15 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
+					zephir_array_update_multi(&params, &except TSRMLS_CC, SL("sa"), 3, SL("bind"));
+					index++;
+				}
+			} else if (zephir_fast_count_int(&field TSRMLS_CC) > 1) {
+				zephir_is_iterable(&field, 0, "phalcon/Validation/Validator/Uniqueness.zep", 381);
+				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&field), _36$$16)
+				{
+					ZEPHIR_INIT_NVAR(&singleField);
+					ZVAL_COPY(&singleField, _36$$16);
+					ZEPHIR_INIT_NVAR(&_38$$17);
+					ZVAL_STRING(&_38$$17, "attribute");
+					ZEPHIR_CALL_METHOD(&_37$$17, this_ptr, "getoption", NULL, 0, &_38$$17, &singleField);
+					zephir_check_call_status();
+					ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_4, 0, record, &_37$$17);
 					zephir_check_call_status();
 					if (Z_TYPE_P(&except) == IS_ARRAY) {
-						zephir_is_iterable(&except, 0, "phalcon/Validation/Validator/Uniqueness.zep", 354);
-						if (Z_TYPE_P(&except) == IS_ARRAY) {
-							ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&except), _46$$19)
-							{
-								ZEPHIR_INIT_NVAR(&singleExcept);
-								ZVAL_COPY(&singleExcept, _46$$19);
-								ZEPHIR_SINIT_NVAR(_48$$20);
-								ZVAL_LONG(&_48$$20, index);
-								ZEPHIR_INIT_LNVAR(_49$$20);
-								ZEPHIR_CONCAT_SV(&_49$$20, "?", &_48$$20);
-								zephir_array_append(&notInValues, &_49$$20, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 349);
-								zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-								index++;
-							} ZEND_HASH_FOREACH_END();
-						} else {
-							ZEPHIR_CALL_METHOD(NULL, &except, "rewind", NULL, 0);
-							zephir_check_call_status();
-							while (1) {
-								ZEPHIR_CALL_METHOD(&_47$$19, &except, "valid", NULL, 0);
-								zephir_check_call_status();
-								if (!zend_is_true(&_47$$19)) {
-									break;
-								}
-								ZEPHIR_CALL_METHOD(&singleExcept, &except, "current", NULL, 0);
-								zephir_check_call_status();
-									ZEPHIR_SINIT_NVAR(_50$$21);
-									ZVAL_LONG(&_50$$21, index);
-									ZEPHIR_INIT_LNVAR(_51$$21);
-									ZEPHIR_CONCAT_SV(&_51$$21, "?", &_50$$21);
-									zephir_array_append(&notInValues, &_51$$21, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 349);
-									zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-									index++;
-								ZEPHIR_CALL_METHOD(NULL, &except, "next", NULL, 0);
-								zephir_check_call_status();
-							}
-						}
+						zephir_is_iterable(&except, 0, "phalcon/Validation/Validator/Uniqueness.zep", 374);
+						ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&except), _39$$18)
+						{
+							ZEPHIR_INIT_NVAR(&singleExcept);
+							ZVAL_COPY(&singleExcept, _39$$18);
+							ZEPHIR_SINIT_NVAR(_40$$19);
+							ZVAL_LONG(&_40$$19, index);
+							ZEPHIR_INIT_LNVAR(_41$$19);
+							ZEPHIR_CONCAT_SV(&_41$$19, "?", &_40$$19);
+							zephir_array_append(&notInValues, &_41$$19, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 369);
+							zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
+							index++;
+						} ZEND_HASH_FOREACH_END();
 						ZEPHIR_INIT_NVAR(&singleExcept);
-						ZEPHIR_INIT_NVAR(&_52$$19);
-						zephir_fast_join_str(&_52$$19, SL(","), &notInValues TSRMLS_CC);
-						ZEPHIR_INIT_LNVAR(_53$$19);
-						ZEPHIR_CONCAT_VSVS(&_53$$19, &attribute, " NOT IN (", &_52$$19, ")");
-						zephir_array_append(&exceptConditions, &_53$$19, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 354);
+						ZEPHIR_INIT_NVAR(&_42$$18);
+						zephir_fast_join_str(&_42$$18, SL(","), &notInValues TSRMLS_CC);
+						ZEPHIR_INIT_LNVAR(_43$$18);
+						ZEPHIR_CONCAT_VSVS(&_43$$18, &attribute, " NOT IN (", &_42$$18, ")");
+						zephir_array_append(&exceptConditions, &_43$$18, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 374);
 					} else {
-						ZEPHIR_SINIT_NVAR(_54$$22);
-						ZVAL_LONG(&_54$$22, index);
-						ZEPHIR_INIT_LNVAR(_55$$22);
-						ZEPHIR_CONCAT_VSV(&_55$$22, &attribute, " <> ?", &_54$$22);
-						zephir_array_update_multi(&params, &_55$$22 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
+						ZEPHIR_SINIT_NVAR(_44$$20);
+						ZVAL_LONG(&_44$$20, index);
+						ZEPHIR_INIT_LNVAR(_45$$20);
+						ZEPHIR_CONCAT_VSV(&_45$$20, &attribute, " <> ?", &_44$$20);
+						zephir_array_update_multi(&params, &_45$$20 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
 						zephir_array_update_multi(&params, &except TSRMLS_CC, SL("sa"), 3, SL("bind"));
 						index++;
 					}
-				} else if (zephir_fast_count_int(&field TSRMLS_CC) > 1) {
-					zephir_is_iterable(&field, 0, "phalcon/Validation/Validator/Uniqueness.zep", 381);
-					if (Z_TYPE_P(&field) == IS_ARRAY) {
-						ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&field), _56$$23)
-						{
-							ZEPHIR_INIT_NVAR(&singleField);
-							ZVAL_COPY(&singleField, _56$$23);
-							ZEPHIR_INIT_NVAR(&_59$$24);
-							ZVAL_STRING(&_59$$24, "attribute");
-							ZEPHIR_CALL_METHOD(&_58$$24, this_ptr, "getoption", NULL, 0, &_59$$24, &singleField);
-							zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_5, 0, record, &_58$$24);
-							zephir_check_call_status();
-							if (Z_TYPE_P(&except) == IS_ARRAY) {
-								zephir_is_iterable(&except, 0, "phalcon/Validation/Validator/Uniqueness.zep", 374);
-								if (Z_TYPE_P(&except) == IS_ARRAY) {
-									ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&except), _60$$25)
-									{
-										ZEPHIR_INIT_NVAR(&singleExcept);
-										ZVAL_COPY(&singleExcept, _60$$25);
-										ZEPHIR_SINIT_NVAR(_62$$26);
-										ZVAL_LONG(&_62$$26, index);
-										ZEPHIR_INIT_LNVAR(_63$$26);
-										ZEPHIR_CONCAT_SV(&_63$$26, "?", &_62$$26);
-										zephir_array_append(&notInValues, &_63$$26, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 369);
-										zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-										index++;
-									} ZEND_HASH_FOREACH_END();
-								} else {
-									ZEPHIR_CALL_METHOD(NULL, &except, "rewind", NULL, 0);
-									zephir_check_call_status();
-									while (1) {
-										ZEPHIR_CALL_METHOD(&_61$$25, &except, "valid", NULL, 0);
-										zephir_check_call_status();
-										if (!zend_is_true(&_61$$25)) {
-											break;
-										}
-										ZEPHIR_CALL_METHOD(&singleExcept, &except, "current", NULL, 0);
-										zephir_check_call_status();
-											ZEPHIR_SINIT_NVAR(_64$$27);
-											ZVAL_LONG(&_64$$27, index);
-											ZEPHIR_INIT_LNVAR(_65$$27);
-											ZEPHIR_CONCAT_SV(&_65$$27, "?", &_64$$27);
-											zephir_array_append(&notInValues, &_65$$27, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 369);
-											zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-											index++;
-										ZEPHIR_CALL_METHOD(NULL, &except, "next", NULL, 0);
-										zephir_check_call_status();
-									}
-								}
-								ZEPHIR_INIT_NVAR(&singleExcept);
-								ZEPHIR_INIT_NVAR(&_66$$25);
-								zephir_fast_join_str(&_66$$25, SL(","), &notInValues TSRMLS_CC);
-								ZEPHIR_INIT_LNVAR(_67$$25);
-								ZEPHIR_CONCAT_VSVS(&_67$$25, &attribute, " NOT IN (", &_66$$25, ")");
-								zephir_array_append(&exceptConditions, &_67$$25, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 374);
-							} else {
-								ZEPHIR_SINIT_NVAR(_68$$28);
-								ZVAL_LONG(&_68$$28, index);
-								ZEPHIR_INIT_LNVAR(_69$$28);
-								ZEPHIR_CONCAT_VSV(&_69$$28, &attribute, " <> ?", &_68$$28);
-								zephir_array_update_multi(&params, &_69$$28 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
-								zephir_array_update_multi(&params, &except TSRMLS_CC, SL("sa"), 3, SL("bind"));
-								index++;
-							}
-						} ZEND_HASH_FOREACH_END();
-					} else {
-						ZEPHIR_CALL_METHOD(NULL, &field, "rewind", NULL, 0);
-						zephir_check_call_status();
-						while (1) {
-							ZEPHIR_CALL_METHOD(&_57$$23, &field, "valid", NULL, 0);
-							zephir_check_call_status();
-							if (!zend_is_true(&_57$$23)) {
-								break;
-							}
-							ZEPHIR_CALL_METHOD(&singleField, &field, "current", NULL, 0);
-							zephir_check_call_status();
-								ZEPHIR_INIT_NVAR(&_71$$29);
-								ZVAL_STRING(&_71$$29, "attribute");
-								ZEPHIR_CALL_METHOD(&_70$$29, this_ptr, "getoption", NULL, 0, &_71$$29, &singleField);
-								zephir_check_call_status();
-								ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_5, 0, record, &_70$$29);
-								zephir_check_call_status();
-								if (Z_TYPE_P(&except) == IS_ARRAY) {
-									zephir_is_iterable(&except, 0, "phalcon/Validation/Validator/Uniqueness.zep", 374);
-									if (Z_TYPE_P(&except) == IS_ARRAY) {
-										ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&except), _72$$30)
-										{
-											ZEPHIR_INIT_NVAR(&singleExcept);
-											ZVAL_COPY(&singleExcept, _72$$30);
-											ZEPHIR_SINIT_NVAR(_74$$31);
-											ZVAL_LONG(&_74$$31, index);
-											ZEPHIR_INIT_LNVAR(_75$$31);
-											ZEPHIR_CONCAT_SV(&_75$$31, "?", &_74$$31);
-											zephir_array_append(&notInValues, &_75$$31, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 369);
-											zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-											index++;
-										} ZEND_HASH_FOREACH_END();
-									} else {
-										ZEPHIR_CALL_METHOD(NULL, &except, "rewind", NULL, 0);
-										zephir_check_call_status();
-										while (1) {
-											ZEPHIR_CALL_METHOD(&_73$$30, &except, "valid", NULL, 0);
-											zephir_check_call_status();
-											if (!zend_is_true(&_73$$30)) {
-												break;
-											}
-											ZEPHIR_CALL_METHOD(&singleExcept, &except, "current", NULL, 0);
-											zephir_check_call_status();
-												ZEPHIR_SINIT_NVAR(_76$$32);
-												ZVAL_LONG(&_76$$32, index);
-												ZEPHIR_INIT_LNVAR(_77$$32);
-												ZEPHIR_CONCAT_SV(&_77$$32, "?", &_76$$32);
-												zephir_array_append(&notInValues, &_77$$32, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 369);
-												zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-												index++;
-											ZEPHIR_CALL_METHOD(NULL, &except, "next", NULL, 0);
-											zephir_check_call_status();
-										}
-									}
-									ZEPHIR_INIT_NVAR(&singleExcept);
-									ZEPHIR_INIT_NVAR(&_78$$30);
-									zephir_fast_join_str(&_78$$30, SL(","), &notInValues TSRMLS_CC);
-									ZEPHIR_INIT_LNVAR(_79$$30);
-									ZEPHIR_CONCAT_VSVS(&_79$$30, &attribute, " NOT IN (", &_78$$30, ")");
-									zephir_array_append(&exceptConditions, &_79$$30, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 374);
-								} else {
-									ZEPHIR_SINIT_NVAR(_80$$33);
-									ZVAL_LONG(&_80$$33, index);
-									ZEPHIR_INIT_LNVAR(_81$$33);
-									ZEPHIR_CONCAT_VSV(&_81$$33, &attribute, " <> ?", &_80$$33);
-									zephir_array_update_multi(&params, &_81$$33 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
-									zephir_array_update_multi(&params, &except TSRMLS_CC, SL("sa"), 3, SL("bind"));
-									index++;
-								}
-							ZEPHIR_CALL_METHOD(NULL, &field, "next", NULL, 0);
-							zephir_check_call_status();
-						}
-					}
-					ZEPHIR_INIT_NVAR(&singleField);
-				}
+				} ZEND_HASH_FOREACH_END();
+				ZEPHIR_INIT_NVAR(&singleField);
 			}
-		} ZEND_HASH_FOREACH_END();
-	} else {
-		ZEPHIR_CALL_METHOD(NULL, &field, "rewind", NULL, 0);
-		zephir_check_call_status();
-		while (1) {
-			ZEPHIR_CALL_METHOD(&_2, &field, "valid", NULL, 0);
-			zephir_check_call_status();
-			if (!zend_is_true(&_2)) {
-				break;
-			}
-			ZEPHIR_CALL_METHOD(&singleField, &field, "current", NULL, 0);
-			zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(&fieldExcept);
-				ZVAL_NULL(&fieldExcept);
-				ZEPHIR_INIT_NVAR(&notInValues);
-				array_init(&notInValues);
-				ZEPHIR_OBS_NVAR(&value);
-				zephir_array_fetch(&value, &values, &singleField, PH_NOISY, "phalcon/Validation/Validator/Uniqueness.zep", 306 TSRMLS_CC);
-				ZEPHIR_INIT_NVAR(&_82$$34);
-				ZVAL_STRING(&_82$$34, "attribute");
-				ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getoption", NULL, 0, &_82$$34, &singleField);
-				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_83$$34, this_ptr, "getcolumnnamereal", &_5, 0, record, &attribute);
-				zephir_check_call_status();
-				ZEPHIR_CPY_WRT(&attribute, &_83$$34);
-				if (Z_TYPE_P(&value) != IS_NULL) {
-					ZEPHIR_SINIT_NVAR(_84$$35);
-					ZVAL_LONG(&_84$$35, index);
-					ZEPHIR_INIT_LNVAR(_85$$35);
-					ZEPHIR_CONCAT_VSV(&_85$$35, &attribute, " = ?", &_84$$35);
-					zephir_array_update_multi(&params, &_85$$35 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
-					zephir_array_update_multi(&params, &value TSRMLS_CC, SL("sa"), 3, SL("bind"));
-					index++;
-				} else {
-					ZEPHIR_INIT_LNVAR(_86$$36);
-					ZEPHIR_CONCAT_VS(&_86$$36, &attribute, " IS NULL");
-					zephir_array_update_multi(&params, &_86$$36 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
-				}
-				if (zephir_is_true(&except)) {
-					_87$$37 = Z_TYPE_P(&except) == IS_ARRAY;
-					if (_87$$37) {
-						ZEPHIR_INIT_NVAR(&_88$$37);
-						zephir_array_keys(&_88$$37, &except TSRMLS_CC);
-						ZVAL_LONG(&_89$$37, 0);
-						ZVAL_LONG(&_90$$37, (zephir_fast_count_int(&except TSRMLS_CC) - 1));
-						ZEPHIR_CALL_FUNCTION(&_91$$37, "range", &_14, 246, &_89$$37, &_90$$37);
-						zephir_check_call_status();
-						_87$$37 = !ZEPHIR_IS_IDENTICAL(&_88$$37, &_91$$37);
-					}
-					if (_87$$37) {
-						zephir_is_iterable(&except, 0, "phalcon/Validation/Validator/Uniqueness.zep", 341);
-						if (Z_TYPE_P(&except) == IS_ARRAY) {
-							ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&except), _94$$38, _95$$38, _92$$38)
-							{
-								ZEPHIR_INIT_NVAR(&singleField);
-								if (_95$$38 != NULL) { 
-									ZVAL_STR_COPY(&singleField, _95$$38);
-								} else {
-									ZVAL_LONG(&singleField, _94$$38);
-								}
-								ZEPHIR_INIT_NVAR(&fieldExcept);
-								ZVAL_COPY(&fieldExcept, _92$$38);
-								ZEPHIR_INIT_NVAR(&_97$$39);
-								ZVAL_STRING(&_97$$39, "attribute");
-								ZEPHIR_CALL_METHOD(&_96$$39, this_ptr, "getoption", NULL, 0, &_97$$39, &singleField);
-								zephir_check_call_status();
-								ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_5, 0, record, &_96$$39);
-								zephir_check_call_status();
-								if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
-									zephir_is_iterable(&fieldExcept, 0, "phalcon/Validation/Validator/Uniqueness.zep", 334);
-									if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
-										ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&fieldExcept), _98$$40)
-										{
-											ZEPHIR_INIT_NVAR(&singleExcept);
-											ZVAL_COPY(&singleExcept, _98$$40);
-											ZEPHIR_SINIT_NVAR(_100$$41);
-											ZVAL_LONG(&_100$$41, index);
-											ZEPHIR_INIT_LNVAR(_101$$41);
-											ZEPHIR_CONCAT_SV(&_101$$41, "?", &_100$$41);
-											zephir_array_append(&notInValues, &_101$$41, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 329);
-											zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-											index++;
-										} ZEND_HASH_FOREACH_END();
-									} else {
-										ZEPHIR_CALL_METHOD(NULL, &fieldExcept, "rewind", NULL, 0);
-										zephir_check_call_status();
-										while (1) {
-											ZEPHIR_CALL_METHOD(&_99$$40, &fieldExcept, "valid", NULL, 0);
-											zephir_check_call_status();
-											if (!zend_is_true(&_99$$40)) {
-												break;
-											}
-											ZEPHIR_CALL_METHOD(&singleExcept, &fieldExcept, "current", NULL, 0);
-											zephir_check_call_status();
-												ZEPHIR_SINIT_NVAR(_102$$42);
-												ZVAL_LONG(&_102$$42, index);
-												ZEPHIR_INIT_LNVAR(_103$$42);
-												ZEPHIR_CONCAT_SV(&_103$$42, "?", &_102$$42);
-												zephir_array_append(&notInValues, &_103$$42, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 329);
-												zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-												index++;
-											ZEPHIR_CALL_METHOD(NULL, &fieldExcept, "next", NULL, 0);
-											zephir_check_call_status();
-										}
-									}
-									ZEPHIR_INIT_NVAR(&singleExcept);
-									ZEPHIR_INIT_NVAR(&_104$$40);
-									zephir_fast_join_str(&_104$$40, SL(","), &notInValues TSRMLS_CC);
-									ZEPHIR_INIT_LNVAR(_105$$40);
-									ZEPHIR_CONCAT_VSVS(&_105$$40, &attribute, " NOT IN (", &_104$$40, ")");
-									zephir_array_append(&exceptConditions, &_105$$40, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 334);
-								} else {
-									ZEPHIR_SINIT_NVAR(_106$$43);
-									ZVAL_LONG(&_106$$43, index);
-									ZEPHIR_INIT_LNVAR(_107$$43);
-									ZEPHIR_CONCAT_VSV(&_107$$43, &attribute, " <> ?", &_106$$43);
-									zephir_array_append(&exceptConditions, &_107$$43, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 336);
-									zephir_array_update_multi(&params, &fieldExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-									index++;
-								}
-							} ZEND_HASH_FOREACH_END();
-						} else {
-							ZEPHIR_CALL_METHOD(NULL, &except, "rewind", NULL, 0);
-							zephir_check_call_status();
-							while (1) {
-								ZEPHIR_CALL_METHOD(&_93$$38, &except, "valid", NULL, 0);
-								zephir_check_call_status();
-								if (!zend_is_true(&_93$$38)) {
-									break;
-								}
-								ZEPHIR_CALL_METHOD(&singleField, &except, "key", NULL, 0);
-								zephir_check_call_status();
-								ZEPHIR_CALL_METHOD(&fieldExcept, &except, "current", NULL, 0);
-								zephir_check_call_status();
-									ZEPHIR_INIT_NVAR(&_109$$44);
-									ZVAL_STRING(&_109$$44, "attribute");
-									ZEPHIR_CALL_METHOD(&_108$$44, this_ptr, "getoption", NULL, 0, &_109$$44, &singleField);
-									zephir_check_call_status();
-									ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_5, 0, record, &_108$$44);
-									zephir_check_call_status();
-									if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
-										zephir_is_iterable(&fieldExcept, 0, "phalcon/Validation/Validator/Uniqueness.zep", 334);
-										if (Z_TYPE_P(&fieldExcept) == IS_ARRAY) {
-											ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&fieldExcept), _110$$45)
-											{
-												ZEPHIR_INIT_NVAR(&singleExcept);
-												ZVAL_COPY(&singleExcept, _110$$45);
-												ZEPHIR_SINIT_NVAR(_112$$46);
-												ZVAL_LONG(&_112$$46, index);
-												ZEPHIR_INIT_LNVAR(_113$$46);
-												ZEPHIR_CONCAT_SV(&_113$$46, "?", &_112$$46);
-												zephir_array_append(&notInValues, &_113$$46, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 329);
-												zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-												index++;
-											} ZEND_HASH_FOREACH_END();
-										} else {
-											ZEPHIR_CALL_METHOD(NULL, &fieldExcept, "rewind", NULL, 0);
-											zephir_check_call_status();
-											while (1) {
-												ZEPHIR_CALL_METHOD(&_111$$45, &fieldExcept, "valid", NULL, 0);
-												zephir_check_call_status();
-												if (!zend_is_true(&_111$$45)) {
-													break;
-												}
-												ZEPHIR_CALL_METHOD(&singleExcept, &fieldExcept, "current", NULL, 0);
-												zephir_check_call_status();
-													ZEPHIR_SINIT_NVAR(_114$$47);
-													ZVAL_LONG(&_114$$47, index);
-													ZEPHIR_INIT_LNVAR(_115$$47);
-													ZEPHIR_CONCAT_SV(&_115$$47, "?", &_114$$47);
-													zephir_array_append(&notInValues, &_115$$47, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 329);
-													zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-													index++;
-												ZEPHIR_CALL_METHOD(NULL, &fieldExcept, "next", NULL, 0);
-												zephir_check_call_status();
-											}
-										}
-										ZEPHIR_INIT_NVAR(&singleExcept);
-										ZEPHIR_INIT_NVAR(&_116$$45);
-										zephir_fast_join_str(&_116$$45, SL(","), &notInValues TSRMLS_CC);
-										ZEPHIR_INIT_LNVAR(_117$$45);
-										ZEPHIR_CONCAT_VSVS(&_117$$45, &attribute, " NOT IN (", &_116$$45, ")");
-										zephir_array_append(&exceptConditions, &_117$$45, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 334);
-									} else {
-										ZEPHIR_SINIT_NVAR(_118$$48);
-										ZVAL_LONG(&_118$$48, index);
-										ZEPHIR_INIT_LNVAR(_119$$48);
-										ZEPHIR_CONCAT_VSV(&_119$$48, &attribute, " <> ?", &_118$$48);
-										zephir_array_append(&exceptConditions, &_119$$48, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 336);
-										zephir_array_update_multi(&params, &fieldExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-										index++;
-									}
-								ZEPHIR_CALL_METHOD(NULL, &except, "next", NULL, 0);
-								zephir_check_call_status();
-							}
-						}
-						ZEPHIR_INIT_NVAR(&fieldExcept);
-						ZEPHIR_INIT_NVAR(&singleField);
-					} else if (zephir_fast_count_int(&field TSRMLS_CC) == 1) {
-						zephir_array_fetch_long(&_121$$49, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Uniqueness.zep", 344 TSRMLS_CC);
-						ZEPHIR_INIT_NVAR(&_122$$49);
-						ZVAL_STRING(&_122$$49, "attribute");
-						ZEPHIR_CALL_METHOD(&_120$$49, this_ptr, "getoption", NULL, 0, &_122$$49, &_121$$49);
-						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_5, 0, record, &_120$$49);
-						zephir_check_call_status();
-						if (Z_TYPE_P(&except) == IS_ARRAY) {
-							zephir_is_iterable(&except, 0, "phalcon/Validation/Validator/Uniqueness.zep", 354);
-							if (Z_TYPE_P(&except) == IS_ARRAY) {
-								ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&except), _123$$50)
-								{
-									ZEPHIR_INIT_NVAR(&singleExcept);
-									ZVAL_COPY(&singleExcept, _123$$50);
-									ZEPHIR_SINIT_NVAR(_125$$51);
-									ZVAL_LONG(&_125$$51, index);
-									ZEPHIR_INIT_LNVAR(_126$$51);
-									ZEPHIR_CONCAT_SV(&_126$$51, "?", &_125$$51);
-									zephir_array_append(&notInValues, &_126$$51, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 349);
-									zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-									index++;
-								} ZEND_HASH_FOREACH_END();
-							} else {
-								ZEPHIR_CALL_METHOD(NULL, &except, "rewind", NULL, 0);
-								zephir_check_call_status();
-								while (1) {
-									ZEPHIR_CALL_METHOD(&_124$$50, &except, "valid", NULL, 0);
-									zephir_check_call_status();
-									if (!zend_is_true(&_124$$50)) {
-										break;
-									}
-									ZEPHIR_CALL_METHOD(&singleExcept, &except, "current", NULL, 0);
-									zephir_check_call_status();
-										ZEPHIR_SINIT_NVAR(_127$$52);
-										ZVAL_LONG(&_127$$52, index);
-										ZEPHIR_INIT_LNVAR(_128$$52);
-										ZEPHIR_CONCAT_SV(&_128$$52, "?", &_127$$52);
-										zephir_array_append(&notInValues, &_128$$52, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 349);
-										zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-										index++;
-									ZEPHIR_CALL_METHOD(NULL, &except, "next", NULL, 0);
-									zephir_check_call_status();
-								}
-							}
-							ZEPHIR_INIT_NVAR(&singleExcept);
-							ZEPHIR_INIT_NVAR(&_129$$50);
-							zephir_fast_join_str(&_129$$50, SL(","), &notInValues TSRMLS_CC);
-							ZEPHIR_INIT_LNVAR(_130$$50);
-							ZEPHIR_CONCAT_VSVS(&_130$$50, &attribute, " NOT IN (", &_129$$50, ")");
-							zephir_array_append(&exceptConditions, &_130$$50, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 354);
-						} else {
-							ZEPHIR_SINIT_NVAR(_131$$53);
-							ZVAL_LONG(&_131$$53, index);
-							ZEPHIR_INIT_LNVAR(_132$$53);
-							ZEPHIR_CONCAT_VSV(&_132$$53, &attribute, " <> ?", &_131$$53);
-							zephir_array_update_multi(&params, &_132$$53 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
-							zephir_array_update_multi(&params, &except TSRMLS_CC, SL("sa"), 3, SL("bind"));
-							index++;
-						}
-					} else if (zephir_fast_count_int(&field TSRMLS_CC) > 1) {
-						zephir_is_iterable(&field, 0, "phalcon/Validation/Validator/Uniqueness.zep", 381);
-						if (Z_TYPE_P(&field) == IS_ARRAY) {
-							ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&field), _133$$54)
-							{
-								ZEPHIR_INIT_NVAR(&singleField);
-								ZVAL_COPY(&singleField, _133$$54);
-								ZEPHIR_INIT_NVAR(&_136$$55);
-								ZVAL_STRING(&_136$$55, "attribute");
-								ZEPHIR_CALL_METHOD(&_135$$55, this_ptr, "getoption", NULL, 0, &_136$$55, &singleField);
-								zephir_check_call_status();
-								ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_5, 0, record, &_135$$55);
-								zephir_check_call_status();
-								if (Z_TYPE_P(&except) == IS_ARRAY) {
-									zephir_is_iterable(&except, 0, "phalcon/Validation/Validator/Uniqueness.zep", 374);
-									if (Z_TYPE_P(&except) == IS_ARRAY) {
-										ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&except), _137$$56)
-										{
-											ZEPHIR_INIT_NVAR(&singleExcept);
-											ZVAL_COPY(&singleExcept, _137$$56);
-											ZEPHIR_SINIT_NVAR(_139$$57);
-											ZVAL_LONG(&_139$$57, index);
-											ZEPHIR_INIT_LNVAR(_140$$57);
-											ZEPHIR_CONCAT_SV(&_140$$57, "?", &_139$$57);
-											zephir_array_append(&notInValues, &_140$$57, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 369);
-											zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-											index++;
-										} ZEND_HASH_FOREACH_END();
-									} else {
-										ZEPHIR_CALL_METHOD(NULL, &except, "rewind", NULL, 0);
-										zephir_check_call_status();
-										while (1) {
-											ZEPHIR_CALL_METHOD(&_138$$56, &except, "valid", NULL, 0);
-											zephir_check_call_status();
-											if (!zend_is_true(&_138$$56)) {
-												break;
-											}
-											ZEPHIR_CALL_METHOD(&singleExcept, &except, "current", NULL, 0);
-											zephir_check_call_status();
-												ZEPHIR_SINIT_NVAR(_141$$58);
-												ZVAL_LONG(&_141$$58, index);
-												ZEPHIR_INIT_LNVAR(_142$$58);
-												ZEPHIR_CONCAT_SV(&_142$$58, "?", &_141$$58);
-												zephir_array_append(&notInValues, &_142$$58, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 369);
-												zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-												index++;
-											ZEPHIR_CALL_METHOD(NULL, &except, "next", NULL, 0);
-											zephir_check_call_status();
-										}
-									}
-									ZEPHIR_INIT_NVAR(&singleExcept);
-									ZEPHIR_INIT_NVAR(&_143$$56);
-									zephir_fast_join_str(&_143$$56, SL(","), &notInValues TSRMLS_CC);
-									ZEPHIR_INIT_LNVAR(_144$$56);
-									ZEPHIR_CONCAT_VSVS(&_144$$56, &attribute, " NOT IN (", &_143$$56, ")");
-									zephir_array_append(&exceptConditions, &_144$$56, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 374);
-								} else {
-									ZEPHIR_SINIT_NVAR(_145$$59);
-									ZVAL_LONG(&_145$$59, index);
-									ZEPHIR_INIT_LNVAR(_146$$59);
-									ZEPHIR_CONCAT_VSV(&_146$$59, &attribute, " <> ?", &_145$$59);
-									zephir_array_update_multi(&params, &_146$$59 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
-									zephir_array_update_multi(&params, &except TSRMLS_CC, SL("sa"), 3, SL("bind"));
-									index++;
-								}
-							} ZEND_HASH_FOREACH_END();
-						} else {
-							ZEPHIR_CALL_METHOD(NULL, &field, "rewind", NULL, 0);
-							zephir_check_call_status();
-							while (1) {
-								ZEPHIR_CALL_METHOD(&_134$$54, &field, "valid", NULL, 0);
-								zephir_check_call_status();
-								if (!zend_is_true(&_134$$54)) {
-									break;
-								}
-								ZEPHIR_CALL_METHOD(&singleField, &field, "current", NULL, 0);
-								zephir_check_call_status();
-									ZEPHIR_INIT_NVAR(&_148$$60);
-									ZVAL_STRING(&_148$$60, "attribute");
-									ZEPHIR_CALL_METHOD(&_147$$60, this_ptr, "getoption", NULL, 0, &_148$$60, &singleField);
-									zephir_check_call_status();
-									ZEPHIR_CALL_METHOD(&attribute, this_ptr, "getcolumnnamereal", &_5, 0, record, &_147$$60);
-									zephir_check_call_status();
-									if (Z_TYPE_P(&except) == IS_ARRAY) {
-										zephir_is_iterable(&except, 0, "phalcon/Validation/Validator/Uniqueness.zep", 374);
-										if (Z_TYPE_P(&except) == IS_ARRAY) {
-											ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&except), _149$$61)
-											{
-												ZEPHIR_INIT_NVAR(&singleExcept);
-												ZVAL_COPY(&singleExcept, _149$$61);
-												ZEPHIR_SINIT_NVAR(_151$$62);
-												ZVAL_LONG(&_151$$62, index);
-												ZEPHIR_INIT_LNVAR(_152$$62);
-												ZEPHIR_CONCAT_SV(&_152$$62, "?", &_151$$62);
-												zephir_array_append(&notInValues, &_152$$62, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 369);
-												zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-												index++;
-											} ZEND_HASH_FOREACH_END();
-										} else {
-											ZEPHIR_CALL_METHOD(NULL, &except, "rewind", NULL, 0);
-											zephir_check_call_status();
-											while (1) {
-												ZEPHIR_CALL_METHOD(&_150$$61, &except, "valid", NULL, 0);
-												zephir_check_call_status();
-												if (!zend_is_true(&_150$$61)) {
-													break;
-												}
-												ZEPHIR_CALL_METHOD(&singleExcept, &except, "current", NULL, 0);
-												zephir_check_call_status();
-													ZEPHIR_SINIT_NVAR(_153$$63);
-													ZVAL_LONG(&_153$$63, index);
-													ZEPHIR_INIT_LNVAR(_154$$63);
-													ZEPHIR_CONCAT_SV(&_154$$63, "?", &_153$$63);
-													zephir_array_append(&notInValues, &_154$$63, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 369);
-													zephir_array_update_multi(&params, &singleExcept TSRMLS_CC, SL("sa"), 3, SL("bind"));
-													index++;
-												ZEPHIR_CALL_METHOD(NULL, &except, "next", NULL, 0);
-												zephir_check_call_status();
-											}
-										}
-										ZEPHIR_INIT_NVAR(&singleExcept);
-										ZEPHIR_INIT_NVAR(&_155$$61);
-										zephir_fast_join_str(&_155$$61, SL(","), &notInValues TSRMLS_CC);
-										ZEPHIR_INIT_LNVAR(_156$$61);
-										ZEPHIR_CONCAT_VSVS(&_156$$61, &attribute, " NOT IN (", &_155$$61, ")");
-										zephir_array_append(&exceptConditions, &_156$$61, PH_SEPARATE, "phalcon/Validation/Validator/Uniqueness.zep", 374);
-									} else {
-										ZEPHIR_SINIT_NVAR(_157$$64);
-										ZVAL_LONG(&_157$$64, index);
-										ZEPHIR_INIT_LNVAR(_158$$64);
-										ZEPHIR_CONCAT_VSV(&_158$$64, &attribute, " <> ?", &_157$$64);
-										zephir_array_update_multi(&params, &_158$$64 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
-										zephir_array_update_multi(&params, &except TSRMLS_CC, SL("sa"), 3, SL("bind"));
-										index++;
-									}
-								ZEPHIR_CALL_METHOD(NULL, &field, "next", NULL, 0);
-								zephir_check_call_status();
-							}
-						}
-						ZEPHIR_INIT_NVAR(&singleField);
-					}
-				}
-			ZEPHIR_CALL_METHOD(NULL, &field, "next", NULL, 0);
-			zephir_check_call_status();
 		}
-	}
+	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&singleField);
-	ZEPHIR_CALL_METHOD(&_159, record, "getdirtystate", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_46, record, "getdirtystate", NULL, 0);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_LONG(&_159, 0)) {
-		ZEPHIR_CALL_METHOD(&_160$$65, record, "getdi", NULL, 0);
+	if (ZEPHIR_IS_LONG(&_46, 0)) {
+		ZEPHIR_CALL_METHOD(&_47$$21, record, "getdi", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_161$$65);
-		ZVAL_STRING(&_161$$65, "modelsMetadata");
-		ZEPHIR_CALL_METHOD(&metaData, &_160$$65, "getshared", NULL, 0, &_161$$65);
+		ZEPHIR_INIT_VAR(&_48$$21);
+		ZVAL_STRING(&_48$$21, "modelsMetadata");
+		ZEPHIR_CALL_METHOD(&metaData, &_47$$21, "getshared", NULL, 0, &_48$$21);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_162$$65, &metaData, "getprimarykeyattributes", NULL, 0, record);
+		ZEPHIR_CALL_METHOD(&_49$$21, &metaData, "getprimarykeyattributes", NULL, 0, record);
 		zephir_check_call_status();
-		zephir_is_iterable(&_162$$65, 0, "phalcon/Validation/Validator/Uniqueness.zep", 400);
-		if (Z_TYPE_P(&_162$$65) == IS_ARRAY) {
-			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_162$$65), _163$$65)
-			{
-				ZEPHIR_INIT_NVAR(&primaryField);
-				ZVAL_COPY(&primaryField, _163$$65);
-				ZEPHIR_CALL_METHOD(&_165$$66, this_ptr, "getcolumnnamereal", &_5, 0, record, &primaryField);
-				zephir_check_call_status();
-				ZEPHIR_SINIT_NVAR(_166$$66);
-				ZVAL_LONG(&_166$$66, index);
-				ZEPHIR_INIT_LNVAR(_167$$66);
-				ZEPHIR_CONCAT_VSV(&_167$$66, &_165$$66, " <> ?", &_166$$66);
-				zephir_array_update_multi(&params, &_167$$66 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
-				ZEPHIR_CALL_METHOD(&_169$$66, this_ptr, "getcolumnnamereal", &_5, 0, record, &primaryField);
-				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_168$$66, record, "readattribute", NULL, 0, &_169$$66);
-				zephir_check_call_status();
-				zephir_array_update_multi(&params, &_168$$66 TSRMLS_CC, SL("sa"), 3, SL("bind"));
-				index++;
-			} ZEND_HASH_FOREACH_END();
-		} else {
-			ZEPHIR_CALL_METHOD(NULL, &_162$$65, "rewind", NULL, 0);
+		zephir_is_iterable(&_49$$21, 0, "phalcon/Validation/Validator/Uniqueness.zep", 400);
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_49$$21), _50$$21)
+		{
+			ZEPHIR_INIT_NVAR(&primaryField);
+			ZVAL_COPY(&primaryField, _50$$21);
+			ZEPHIR_CALL_METHOD(&_51$$22, this_ptr, "getcolumnnamereal", &_4, 0, record, &primaryField);
 			zephir_check_call_status();
-			while (1) {
-				ZEPHIR_CALL_METHOD(&_164$$65, &_162$$65, "valid", NULL, 0);
-				zephir_check_call_status();
-				if (!zend_is_true(&_164$$65)) {
-					break;
-				}
-				ZEPHIR_CALL_METHOD(&primaryField, &_162$$65, "current", NULL, 0);
-				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_170$$67, this_ptr, "getcolumnnamereal", &_5, 0, record, &primaryField);
-					zephir_check_call_status();
-					ZEPHIR_SINIT_NVAR(_171$$67);
-					ZVAL_LONG(&_171$$67, index);
-					ZEPHIR_INIT_LNVAR(_172$$67);
-					ZEPHIR_CONCAT_VSV(&_172$$67, &_170$$67, " <> ?", &_171$$67);
-					zephir_array_update_multi(&params, &_172$$67 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
-					ZEPHIR_CALL_METHOD(&_174$$67, this_ptr, "getcolumnnamereal", &_5, 0, record, &primaryField);
-					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_173$$67, record, "readattribute", NULL, 0, &_174$$67);
-					zephir_check_call_status();
-					zephir_array_update_multi(&params, &_173$$67 TSRMLS_CC, SL("sa"), 3, SL("bind"));
-					index++;
-				ZEPHIR_CALL_METHOD(NULL, &_162$$65, "next", NULL, 0);
-				zephir_check_call_status();
-			}
-		}
+			ZEPHIR_SINIT_NVAR(_52$$22);
+			ZVAL_LONG(&_52$$22, index);
+			ZEPHIR_INIT_LNVAR(_53$$22);
+			ZEPHIR_CONCAT_VSV(&_53$$22, &_51$$22, " <> ?", &_52$$22);
+			zephir_array_update_multi(&params, &_53$$22 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
+			ZEPHIR_CALL_METHOD(&_55$$22, this_ptr, "getcolumnnamereal", &_4, 0, record, &primaryField);
+			zephir_check_call_status();
+			ZEPHIR_CALL_METHOD(&_54$$22, record, "readattribute", NULL, 0, &_55$$22);
+			zephir_check_call_status();
+			zephir_array_update_multi(&params, &_54$$22 TSRMLS_CC, SL("sa"), 3, SL("bind"));
+			index++;
+		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&primaryField);
 	}
 	if (!(ZEPHIR_IS_EMPTY(&exceptConditions))) {
-		ZEPHIR_INIT_VAR(&_175$$68);
-		zephir_fast_join_str(&_175$$68, SL(" OR "), &exceptConditions TSRMLS_CC);
-		ZEPHIR_INIT_VAR(&_176$$68);
-		ZEPHIR_CONCAT_SVS(&_176$$68, "(", &_175$$68, ")");
-		zephir_array_update_multi(&params, &_176$$68 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
+		ZEPHIR_INIT_VAR(&_56$$23);
+		zephir_fast_join_str(&_56$$23, SL(" OR "), &exceptConditions TSRMLS_CC);
+		ZEPHIR_INIT_VAR(&_57$$23);
+		ZEPHIR_CONCAT_SVS(&_57$$23, "(", &_56$$23, ")");
+		zephir_array_update_multi(&params, &_57$$23 TSRMLS_CC, SL("sa"), 3, SL("conditions"));
 	}
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_array_fetch_string(&_177, &params, SL("conditions"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Uniqueness.zep", 409 TSRMLS_CC);
-	zephir_fast_join_str(&_0, SL(" AND "), &_177 TSRMLS_CC);
+	zephir_array_fetch_string(&_58, &params, SL("conditions"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Uniqueness.zep", 409 TSRMLS_CC);
+	zephir_fast_join_str(&_0, SL(" AND "), &_58 TSRMLS_CC);
 	zephir_array_update_string(&params, SL("conditions"), &_0, PH_COPY | PH_SEPARATE);
 	RETURN_CCTOR(&params);
 

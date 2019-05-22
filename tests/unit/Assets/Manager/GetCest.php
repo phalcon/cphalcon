@@ -27,10 +27,12 @@ class GetCest
     public function assetsManagerGetUnknown(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - get() - unknown');
+
         $I->expectThrowable(
             new Exception('The collection does not exist in the manager'),
             function () {
                 $assets = new Manager();
+
                 $assets->get('some-non-existent-collection');
             }
         );

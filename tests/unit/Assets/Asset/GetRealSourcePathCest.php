@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetRealSourcePathCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset :: getRealSourcePath() - css local
      *
@@ -29,10 +26,14 @@ class GetRealSourcePathCest
     public function assetsAssetGetRealSourcePathCssLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getRealSourcePath() - css local');
-        $asset = new Asset('css', 'css/docs.css');
 
-        $expected = false;
-        $this->assetGetRealSourcePath($I, $asset, $expected);
+        $realSourcePath = 'css/docs.css';
+
+        $asset = new Asset('css', $realSourcePath);
+
+        $I->assertFalse(
+            $asset->getRealSourcePath()
+        );
     }
 
     /**
@@ -44,10 +45,15 @@ class GetRealSourcePathCest
     public function assetsAssetGetRealSourcePathCssRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getRealSourcePath() - css remote');
-        $asset = new Asset('css', 'https://phalcon.ld/css/docs.css', false);
 
-        $expected = 'https://phalcon.ld/css/docs.css';
-        $this->assetGetRealSourcePath($I, $asset, $expected);
+        $realSourcePath = 'https://phalcon.ld/css/docs.css';
+
+        $asset = new Asset('css', $realSourcePath, false);
+
+        $I->assertEquals(
+            $realSourcePath,
+            $asset->getRealSourcePath()
+        );
     }
 
     /**
@@ -59,10 +65,14 @@ class GetRealSourcePathCest
     public function assetsAssetGetRealSourcePathJsLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getRealSourcePath() - js local');
-        $asset = new Asset('js', 'js/jquery.js');
 
-        $expected = false;
-        $this->assetGetRealSourcePath($I, $asset, $expected);
+        $realSourcePath = 'js/jquery.js';
+
+        $asset = new Asset('js', $realSourcePath);
+
+        $I->assertFalse(
+            $asset->getRealSourcePath()
+        );
     }
 
     /**
@@ -74,9 +84,14 @@ class GetRealSourcePathCest
     public function assetsAssetGetRealSourcePathJsRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getRealSourcePath() - js remote');
-        $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js', false);
 
-        $expected = 'https://phalcon.ld/js/jquery.js';
-        $this->assetGetRealSourcePath($I, $asset, $expected);
+        $realSourcePath = 'https://phalcon.ld/js/jquery.js';
+
+        $asset = new Asset('js', $realSourcePath, false);
+
+        $I->assertEquals(
+            $realSourcePath,
+            $asset->getRealSourcePath()
+        );
     }
 }

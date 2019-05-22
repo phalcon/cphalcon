@@ -16,8 +16,8 @@ use Phalcon\Mvc\Controller;
 
 class TwoController extends Controller
 {
-	public function allowAction()
-	{
-		return "allowed";
-	}
+    public function allowAction()
+    {
+        return 'allowed';
+    }
 }

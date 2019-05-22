@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
 use Phalcon\Assets\Asset\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetTypeCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Js :: setType() - js local
      *
@@ -29,11 +26,17 @@ class SetTypeCest
     public function assetsAssetJsSetTypeLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setType() - js local');
+
         $asset = new Js('js/jquery.js');
 
-        $expected = 'css';
-        $asset->setType($expected);
-        $this->assetGetType($I, $asset, $expected);
+        $type = 'css';
+
+        $asset->setType($type);
+
+        $I->assertEquals(
+            $type,
+            $asset->getType()
+        );
     }
 
     /**
@@ -45,10 +48,16 @@ class SetTypeCest
     public function assetsAssetJsSetTypeRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setType() - js remote');
+
         $asset = new Js('https://phalcon.ld/js/jquery.js');
 
-        $expected = 'css';
-        $asset->setType($expected);
-        $this->assetGetType($I, $asset, $expected);
+        $type = 'css';
+
+        $asset->setType($type);
+
+        $I->assertEquals(
+            $type,
+            $asset->getType()
+        );
     }
 }

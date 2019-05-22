@@ -59,6 +59,21 @@ ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, encryptBase64);
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getAvailableCiphers);
 
 /**
+ * Returns the authentication tag
+ */
+ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getAuthTag);
+
+/**
+ * Returns authentication data
+ */
+ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getAuthData);
+
+/**
+ * Returns the authentication tag length
+ */
+ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getAuthTagLength);
+
+/**
  * Returns the current cipher
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getCipher);
@@ -67,6 +82,21 @@ ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getCipher);
  * Returns the encryption key
  */
 ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, getKey);
+
+/**
+ * Sets the authentication tag
+ */
+ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, setAuthTag);
+
+/**
+ * Sets authentication data
+ */
+ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, setAuthData);
+
+/**
+ * Sets the authentication tag length
+ */
+ZEPHIR_DOC_METHOD(Phalcon_CryptInterface, setAuthTagLength);
 
 /**
  * Sets the cipher algorithm

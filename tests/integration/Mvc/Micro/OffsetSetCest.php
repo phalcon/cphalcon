@@ -13,21 +13,37 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
+use Phalcon\Di;
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\Micro;
 
-/**
- * Class OffsetSetCest
- */
 class OffsetSetCest
 {
     /**
      * Tests Phalcon\Mvc\Micro :: offsetSet()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-22
      */
     public function mvcMicroOffsetSet(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Micro - offsetSet()');
-        $I->skipTest('Need implementation');
+
+        $micro = new Micro();
+
+        $di = new Di();
+
+        $micro->setDi($di);
+
+
+
+        $dispatcher = new Dispatcher();
+
+        $micro['dispatcher'] = $dispatcher;
+
+        $I->assertSame(
+            $dispatcher,
+            $micro['dispatcher']
+        );
     }
 }

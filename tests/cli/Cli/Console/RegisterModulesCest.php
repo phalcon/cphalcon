@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
-use Phalcon\Cli\Console;
 use Phalcon\Cli\Console\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Modules\Frontend\Module;
@@ -104,15 +103,18 @@ class RegisterModulesCest
     /**
      * Tests Phalcon\Cli\Console :: registerModules() - bad path throws exception
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-15
      */
     public function cliConsoleRegisterModulesBadPathThrowsAnException(CliTester $I)
     {
         $I->wantToTest("Cli\Console - registerModules() - bad path throws exception");
-        $I->skipTest('This needs to be checked');
+
+        $container = $this->newCliFactoryDefault();
 
         $console = $this->newCliConsole();
+
+        $console->setDI($container);
 
         $console->registerModules(
             [
@@ -125,12 +127,13 @@ class RegisterModulesCest
 
         $I->expectThrowable(
             new Exception(
-                "Module definition path 'not-a-real-file.php' doesn't exist"
+                "Module definition path '" . dataDir('not-a-real-file.php') . "' doesn't exist"
             ),
             function () use ($console) {
                 $console->handle(
                     [
-                        'task' => 'echo',
+                        'module' => 'frontend',
+                        'task'   => 'echo',
                     ]
                 );
             }

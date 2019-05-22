@@ -10,11 +10,10 @@
 
 namespace Phalcon\Cli;
 
-use Phalcon\FilterInterface;
-use Phalcon\Events\ManagerInterface;
 use Phalcon\Cli\Dispatcher\Exception;
 use Phalcon\Dispatcher as CliDispatcher;
-use Phalcon\Service\LocatorInterface;
+use Phalcon\Events\ManagerInterface;
+use Phalcon\Filter\FilterInterface;
 
 /**
  * Phalcon\Cli\Dispatcher
@@ -126,8 +125,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
             );
         }
 
-        let filter = <LocatorInterface> container->getShared("filter");
-//        let filter = <FilterInterface> container->getShared("filter");
+        let filter = <FilterInterface> container->getShared("filter");
 
         return filter->sanitize(optionValue, filters);
     }

@@ -36,31 +36,57 @@ class DecrementCest
         $I->wantToTest('Storage\Adapter\Libmemcached - decrement()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
-        $key    = 'cache-data';
-        $result = $adapter->set($key, 100);
-        $I->assertTrue($result);
+        $adapter = new Libmemcached(
+            $serializer,
+            getOptionsLibmemcached()
+        );
+
+
+
+        $key = 'cache-data';
+
+        $I->assertTrue(
+            $adapter->set($key, 100)
+        );
+
+
 
         $expected = 99;
-        $actual   = $adapter->decrement($key);
-        $I->assertEquals($expected, $actual);
 
-        $actual = $adapter->get($key);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $adapter->decrement($key)
+        );
+
+        $I->assertEquals(
+            $expected,
+            $adapter->get($key)
+        );
+
+
 
         $expected = 90;
-        $actual   = $adapter->decrement($key, 9);
-        $I->assertEquals($expected, $actual);
 
-        $actual = $adapter->get($key);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $adapter->decrement($key, 9)
+        );
+
+        $I->assertEquals(
+            $expected,
+            $adapter->get($key)
+        );
+
+
 
         /**
          * unknown key
          */
-        $key    = 'unknown';
-        $result = $adapter->decrement($key);
-        $I->assertFalse($result);
+        $key = 'unknown';
+
+        $I->assertFalse(
+            $adapter->decrement($key)
+        );
     }
 }

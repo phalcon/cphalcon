@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class ConstructCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Css :: __construct() - local
      *
@@ -29,10 +26,12 @@ class ConstructCest
     public function assetsAssetConstructLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - local');
+
         $asset = new Css('css/docs.css');
 
-        $actual = $asset->getLocal();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $asset->getLocal()
+        );
     }
 
     /**
@@ -44,12 +43,12 @@ class ConstructCest
     public function assetsAssetConstructRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - remote');
+
         $asset = new Css('css/docs.css', false);
-        // ( bool filter = true, array attributes = [])
 
-
-        $actual = $asset->getLocal();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $asset->getLocal()
+        );
     }
 
     /**
@@ -61,10 +60,12 @@ class ConstructCest
     public function assetsAssetConstructFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - filter');
+
         $asset = new Css('css/docs.css');
 
-        $actual = $asset->getFilter();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -76,10 +77,12 @@ class ConstructCest
     public function assetsAssetConstructFilterSet(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - filter set');
+
         $asset = new Css('css/docs.css', true, false);
 
-        $actual = $asset->getFilter();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -91,11 +94,13 @@ class ConstructCest
     public function assetsAssetConstructAttributes(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - attributes');
+
         $asset = new Css('css/docs.css');
 
-        $expected = [];
-        $actual   = $asset->getAttributes();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [],
+            $asset->getAttributes()
+        );
     }
 
     /**
@@ -107,10 +112,21 @@ class ConstructCest
     public function assetsAssetConstructAttributesSet(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - attributes set');
-        $asset = new Css('css/docs.css', true, true, ['data' => 'phalcon']);
 
-        $expected = ['data' => 'phalcon'];
-        $actual   = $asset->getAttributes();
-        $I->assertEquals($expected, $actual);
+        $attributes = [
+            'data' => 'phalcon',
+        ];
+
+        $asset = new Css(
+            'css/docs.css',
+            true,
+            true,
+            $attributes
+        );
+
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
+        );
     }
 }

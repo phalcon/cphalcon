@@ -12,20 +12,37 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class RemoveHeaderCest
+class RemoveHeaderCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Response :: removeHeader()
+     * Test the removeHeader
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Mohamad Rostami <mb.rostami.h@gmail.com>
      */
-    public function httpResponseRemoveHeader(UnitTester $I)
+    public function testHttpResponseRemoveHeaderContentType(UnitTester $I)
     {
-        $I->wantToTest('Http\Response - removeHeader()');
+        $response = $this->getResponseObject();
 
-        $I->skipTest('Need implementation');
+        $response->resetHeaders();
+
+        $response->setHeader('Content-Type', 'text/html');
+
+        $headers = $response->getHeaders()->toArray();
+
+        $I->assertArrayHasKey('Content-Type', $headers);
+
+        $I->assertEquals(
+            'text/html',
+            $headers['Content-Type']
+        );
+
+        $response->removeHeader('Content-Type');
+
+        $headers = $response->getHeaders()->toArray();
+
+        $I->assertArrayNotHasKey('Content-Type', $headers);
     }
 }

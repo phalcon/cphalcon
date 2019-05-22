@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Inline;
 
 use Phalcon\Assets\Inline;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetAssetKeyCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Inline :: getAssetKey() - css
      *
@@ -29,11 +26,19 @@ class GetAssetKeyCest
     public function assetsInlineGetAssetKeyCss(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline - getAssetKey() - css');
-        $content = 'p {color: #000099}';
-        $asset   = new Inline('css', $content);
 
-        $expected = md5('css:' . $content);
-        $this->assetGetAssetKey($I, $asset, $expected);
+        $content = 'p {color: #000099}';
+
+        $asset = new Inline('css', $content);
+
+        $expected = md5(
+            'css:' . $content
+        );
+
+        $I->assertEquals(
+            $expected,
+            $asset->getAssetKey()
+        );
     }
 
     /**
@@ -45,10 +50,18 @@ class GetAssetKeyCest
     public function assetsInlineGetAssetKeyJs(UnitTester $I)
     {
         $I->wantToTest('Assets\Inline - getAssetKey() - js');
-        $content = '<script>alert("Hello");</script>';
-        $asset   = new Inline('js', $content);
 
-        $expected = md5('js:' . $content);
-        $this->assetGetAssetKey($I, $asset, $expected);
+        $content = '<script>alert("Hello");</script>';
+
+        $asset = new Inline('js', $content);
+
+        $expected = md5(
+            'js:' . $content
+        );
+
+        $I->assertEquals(
+            $expected,
+            $asset->getAssetKey()
+        );
     }
 }

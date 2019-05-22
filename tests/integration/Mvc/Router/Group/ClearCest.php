@@ -13,21 +13,40 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router\Group;
 
 use IntegrationTester;
+use Phalcon\Mvc\Router\Group;
 
-/**
- * Class ClearCest
- */
 class ClearCest
 {
     /**
      * Tests Phalcon\Mvc\Router\Group :: clear()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-22
      */
     public function mvcRouterGroupClear(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Router\Group - clear()');
-        $I->skipTest('Need implementation');
+
+        $group = new Group();
+
+        $group->addGet(
+            '/docs/index',
+            [
+                'controller' => 'documentation4',
+                'action'     => 'index',
+            ]
+        );
+
+        $I->assertCount(
+            1,
+            $group->getRoutes()
+        );
+
+        $group->clear();
+
+        $I->assertCount(
+            0,
+            $group->getRoutes()
+        );
     }
 }

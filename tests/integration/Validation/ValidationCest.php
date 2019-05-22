@@ -181,12 +181,22 @@ class ValidationCest
         );
 
         $validation
-            ->add('name', new PresenceOf([
-                'message' => 'The name is required',
-            ]))
-            ->add('email', new PresenceOf([
-                'message' => 'The email is required',
-            ]))
+            ->add(
+                'name',
+                new PresenceOf(
+                    [
+                        'message' => 'The name is required',
+                    ]
+                )
+            )
+            ->add(
+                'email',
+                new PresenceOf(
+                    [
+                        'message' => 'The email is required',
+                    ]
+                )
+            )
         ;
 
         $validation->setFilters('name', 'trim');
@@ -265,7 +275,8 @@ class ValidationCest
 
         $messages = $validation->validate(
             [
-                'email' => '', 'firstname' => '',
+                'email'     => '',
+                'firstname' => '',
             ]
         );
 

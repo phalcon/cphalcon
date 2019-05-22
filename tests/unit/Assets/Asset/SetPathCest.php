@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset;
 
 use Phalcon\Assets\Asset;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetPathCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset :: setPath() - css local
      *
@@ -29,11 +26,17 @@ class SetPathCest
     public function assetsAssetSetPathCssLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setPath() - css local');
+
         $asset = new Asset('css', 'css/docs.css');
 
-        $expected = '/new/path';
-        $asset->setPath($expected);
-        $this->assetGetPath($I, $asset, $expected);
+        $path = '/new/path';
+
+        $asset->setPath($path);
+
+        $I->assertEquals(
+            $path,
+            $asset->getPath()
+        );
     }
 
     /**
@@ -45,11 +48,17 @@ class SetPathCest
     public function assetsAssetSetPathCssRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setPath() - css remote');
+
         $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
 
-        $expected = '/new/path';
-        $asset->setPath($expected);
-        $this->assetGetPath($I, $asset, $expected);
+        $path = '/new/path';
+
+        $asset->setPath($path);
+
+        $I->assertEquals(
+            $path,
+            $asset->getPath()
+        );
     }
 
     /**
@@ -61,11 +70,17 @@ class SetPathCest
     public function assetsAssetSetPathJsLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setPath() - js local');
+
         $asset = new Asset('js', 'js/jquery.js');
 
-        $expected = '/new/path';
-        $asset->setPath($expected);
-        $this->assetGetPath($I, $asset, $expected);
+        $path = '/new/path';
+
+        $asset->setPath($path);
+
+        $I->assertEquals(
+            $path,
+            $asset->getPath()
+        );
     }
 
     /**
@@ -77,10 +92,16 @@ class SetPathCest
     public function assetsAssetSetPathJsRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - setPath() - js remote');
+
         $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
 
-        $expected = '/new/path';
-        $asset->setPath($expected);
-        $this->assetGetPath($I, $asset, $expected);
+        $path = '/new/path';
+
+        $asset->setPath($path);
+
+        $I->assertEquals(
+            $path,
+            $asset->getPath()
+        );
     }
 }

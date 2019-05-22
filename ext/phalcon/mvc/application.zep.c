@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	zend_bool returnedResponse = 0, _14$$7, _17$$12, _35$$31, _37$$31;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
-	zval *uri_param = NULL, __$false, container, eventsManager, router, dispatcher, response, view, module, moduleObject, moduleName, className, path, implicitView, controller, possibleResponse, renderStatus, matchedRoute, match, _0, _7, _8, _25, _26, _27, _28, _45, _1$$3, _2$$3, _4$$3, _5$$4, _6$$4, _9$$8, _11$$7, _12$$9, _13$$9, _15$$13, _16$$13, _18$$20, _19$$20, _20$$16, _22$$23, _23$$24, _24$$24, _29$$26, _30$$26, _31$$28, _32$$28, _33$$30, _34$$30, _36$$32, _38$$35, _39$$36, _40$$36, _41$$39, _42$$39, _43$$40, _44$$41;
+	zval *uri_param = NULL, __$false, container, eventsManager, router, dispatcher, response, view, module, moduleObject, moduleName, className, path, implicitView, controller, possibleResponse, renderStatus, matchedRoute, match, _0, _7, _8, _25, _26, _27, _28, _45, _1$$3, _2$$3, _4$$3, _5$$4, _6$$4, _9$$8, _11$$7, _12$$9, _13$$9, _15$$13, _16$$13, _18$$19, _19$$19, _20$$16, _22$$23, _23$$24, _24$$24, _29$$26, _30$$26, _31$$28, _32$$28, _33$$30, _34$$30, _36$$32, _38$$35, _39$$36, _40$$36, _41$$39, _42$$39, _43$$40, _44$$41;
 	zval uri;
 	zval *this_ptr = getThis();
 
@@ -145,8 +145,8 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZVAL_UNDEF(&_13$$9);
 	ZVAL_UNDEF(&_15$$13);
 	ZVAL_UNDEF(&_16$$13);
-	ZVAL_UNDEF(&_18$$20);
-	ZVAL_UNDEF(&_19$$20);
+	ZVAL_UNDEF(&_18$$19);
+	ZVAL_UNDEF(&_19$$19);
 	ZVAL_UNDEF(&_20$$16);
 	ZVAL_UNDEF(&_22$$23);
 	ZVAL_UNDEF(&_23$$24);
@@ -291,18 +291,18 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			}
 			ZEPHIR_OBS_VAR(&path);
 			if (zephir_array_isset_string_fetch(&path, &module, SL("path"), 0)) {
+				if (UNEXPECTED(!((zephir_file_exists(&path TSRMLS_CC) == SUCCESS)))) {
+					ZEPHIR_INIT_VAR(&_18$$19);
+					object_init_ex(&_18$$19, phalcon_mvc_application_exception_ce);
+					ZEPHIR_INIT_VAR(&_19$$19);
+					ZEPHIR_CONCAT_SVS(&_19$$19, "Module definition path '", &path, "' doesn't exist");
+					ZEPHIR_CALL_METHOD(NULL, &_18$$19, "__construct", NULL, 1, &_19$$19);
+					zephir_check_call_status();
+					zephir_throw_exception_debug(&_18$$19, "phalcon/Mvc/Application.zep", 213 TSRMLS_CC);
+					ZEPHIR_MM_RESTORE();
+					return;
+				}
 				if (!(zephir_class_exists(&className, zephir_is_true(&__$false)  TSRMLS_CC))) {
-					if (UNEXPECTED(!((zephir_file_exists(&path TSRMLS_CC) == SUCCESS)))) {
-						ZEPHIR_INIT_VAR(&_18$$20);
-						object_init_ex(&_18$$20, phalcon_mvc_application_exception_ce);
-						ZEPHIR_INIT_VAR(&_19$$20);
-						ZEPHIR_CONCAT_SVS(&_19$$20, "Module definition path '", &path, "' doesn't exist");
-						ZEPHIR_CALL_METHOD(NULL, &_18$$20, "__construct", NULL, 1, &_19$$20);
-						zephir_check_call_status();
-						zephir_throw_exception_debug(&_18$$20, "phalcon/Mvc/Application.zep", 214 TSRMLS_CC);
-						ZEPHIR_MM_RESTORE();
-						return;
-					}
 					if (zephir_require_zval(&path TSRMLS_CC) == FAILURE) {
 						RETURN_MM_NULL();
 					}

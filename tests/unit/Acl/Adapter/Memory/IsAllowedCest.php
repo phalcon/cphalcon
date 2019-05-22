@@ -63,7 +63,6 @@ class IsAllowedCest
         );
     }
 
-
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - objects
      *

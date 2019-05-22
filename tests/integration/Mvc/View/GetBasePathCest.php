@@ -18,9 +18,6 @@ use Phalcon\Di;
 use Phalcon\Helper\Str;
 use Phalcon\Mvc\View;
 
-/**
- * Class GetBasePathCest
- */
 class GetBasePathCest
 {
     /**

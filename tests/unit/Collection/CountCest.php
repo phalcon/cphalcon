@@ -26,16 +26,23 @@ class CountCest
     public function collectionCount(UnitTester $I)
     {
         $I->wantToTest('Collection - count()');
-        $data       = [
+
+        $data = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
+
         $collection = new Collection($data);
 
-        $I->assertCount(3, $collection->toArray());
+        $I->assertCount(
+            3,
+            $collection->toArray()
+        );
 
-        $actual = $collection->count();
-        $I->assertEquals(3, $actual);
+        $I->assertEquals(
+            3,
+            $collection->count()
+        );
     }
 }

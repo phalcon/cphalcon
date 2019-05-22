@@ -27,7 +27,6 @@ class DispatcherCest
          */
         require_once dataDir('fixtures/tasks/EchoTask.php');
         require_once dataDir('fixtures/tasks/MainTask.php');
-        require_once dataDir('fixtures/tasks/ParamsTask.php');
 
         $this->setNewCliFactoryDefault();
     }
@@ -211,46 +210,5 @@ class DispatcherCest
                 $e->getMessage()
             );
         }
-    }
-
-    public function testCliParameters(CliTester $I)
-    {
-        $dispatcher = new Dispatcher();
-
-        $this->container->setShared('dispatcher', $dispatcher);
-
-        $dispatcher->setDI(
-            $this->container
-        );
-
-        // Test $this->dispatcher->getParams()
-        $dispatcher->setTaskName('params');
-        $dispatcher->setActionName('params');
-
-        $dispatcher->setParams(
-            ['This', 'Is', 'An', 'Example']
-        );
-
-        $dispatcher->dispatch();
-
-        $I->assertEquals(
-            'Action params are the same as $this->dispatcher->getParams()',
-            $dispatcher->getReturnedValue()
-        );
-
-        // Test $this->dispatcher->getParam()
-        $dispatcher->setTaskName('params');
-        $dispatcher->setActionName('param');
-
-        $dispatcher->setParams(
-            ['This', 'Is', 'An', 'Example']
-        );
-
-        $dispatcher->dispatch();
-
-        $I->assertEquals(
-            '$param[0] is the same as $this->dispatcher->getParam(0)',
-            $dispatcher->getReturnedValue()
-        );
     }
 }

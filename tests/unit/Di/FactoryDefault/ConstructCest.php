@@ -16,7 +16,7 @@ use Codeception\Example;
 use Phalcon\Crypt;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Escaper;
-use Phalcon\Filter\FilterLocator;
+use Phalcon\Filter\Filter;
 use Phalcon\Flash\Direct;
 use Phalcon\Flash\Session;
 use Phalcon\Http\Request;
@@ -100,15 +100,10 @@ class ConstructCest
                 'class'   => Session::class,
             ],
 
-            [
-                'service' => 'filter',
-                'class'   => FilterLocator::class,
-            ],
-
-            // [
-            //     'service' => 'filter',
-            //     'class'   => \Phalcon\Filter::class,
-            // ],
+             [
+                 'service' => 'filter',
+                 'class'   => Filter::class,
+             ],
 
             [
                 'service' => 'modelsManager',

@@ -11,10 +11,10 @@
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "4.0.0-alpha.5"
+#define PHP_PHALCON_VERSION     "4.0.0-beta.1"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.11.12-1e3bafd"
+#define PHP_PHALCON_ZEPVERSION  "0.11.8-4495e75"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
 typedef struct _zephir_struct_db { 
@@ -26,6 +26,7 @@ typedef struct _zephir_struct_orm {
 	HashTable*  ast_cache;
 	int cache_level;
 	zend_bool case_insensitive_column_map;
+	zend_bool cast_last_insert_id_to_int;
 	zend_bool cast_on_hydrate;
 	zend_bool column_renaming;
 	zend_bool disable_assign_setters;

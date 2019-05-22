@@ -183,8 +183,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, beforeMatch) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, compilePattern) {
 
-	zval *pattern_param = NULL, idPattern, _0$$4, _1$$4, _2$$5, _3$$5, _4$$6, _5$$6, _6$$7, _7$$7, _8$$8, _9$$8, _10$$8, _11$$9, _12$$9, _13$$9;
-	zval pattern;
+	zval *pattern_param = NULL, _0$$4, _1$$4, _2$$5, _3$$5, _4$$6, _5$$6, _6$$7, _7$$7, _8$$8, _9$$8, _10$$8, _11$$9, _12$$9, _13$$9;
+	zval pattern, idPattern;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&pattern);
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, convert) {
 	}
 
 
-	zephir_update_property_array(this_ptr, SL("converters"), &name, converter);
+	zephir_update_property_array(this_ptr, SL("converters"), &name, converter TSRMLS_CC);
 	RETURN_THIS();
 
 }
@@ -704,17 +704,15 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getPattern) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths) {
 
-	zend_string *_4;
-	zend_ulong _3;
+	zend_string *_3;
+	zend_ulong _2;
 	zval reversed;
-	zval path, position, _0, *_1, _2;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval path, position, _0, *_1;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&path);
 	ZVAL_UNDEF(&position);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&reversed);
 
 	ZEPHIR_MM_GROW();
@@ -723,37 +721,18 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths) {
 	array_init(&reversed);
 	zephir_read_property(&_0, this_ptr, SL("paths"), PH_NOISY_CC | PH_READONLY);
 	zephir_is_iterable(&_0, 0, "phalcon/Mvc/Router/Route.zep", 394);
-	if (Z_TYPE_P(&_0) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _3, _4, _1)
-		{
-			ZEPHIR_INIT_NVAR(&path);
-			if (_4 != NULL) { 
-				ZVAL_STR_COPY(&path, _4);
-			} else {
-				ZVAL_LONG(&path, _3);
-			}
-			ZEPHIR_INIT_NVAR(&position);
-			ZVAL_COPY(&position, _1);
-			zephir_array_update_zval(&reversed, &position, &path, PH_COPY | PH_SEPARATE);
-		} ZEND_HASH_FOREACH_END();
-	} else {
-		ZEPHIR_CALL_METHOD(NULL, &_0, "rewind", NULL, 0);
-		zephir_check_call_status();
-		while (1) {
-			ZEPHIR_CALL_METHOD(&_2, &_0, "valid", NULL, 0);
-			zephir_check_call_status();
-			if (!zend_is_true(&_2)) {
-				break;
-			}
-			ZEPHIR_CALL_METHOD(&path, &_0, "key", NULL, 0);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&position, &_0, "current", NULL, 0);
-			zephir_check_call_status();
-				zephir_array_update_zval(&reversed, &position, &path, PH_COPY | PH_SEPARATE);
-			ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
-			zephir_check_call_status();
+	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _2, _3, _1)
+	{
+		ZEPHIR_INIT_NVAR(&path);
+		if (_3 != NULL) { 
+			ZVAL_STR_COPY(&path, _3);
+		} else {
+			ZVAL_LONG(&path, _2);
 		}
-	}
+		ZEPHIR_INIT_NVAR(&position);
+		ZVAL_COPY(&position, _1);
+		zephir_array_update_zval(&reversed, &position, &path, PH_COPY | PH_SEPARATE);
+	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&position);
 	ZEPHIR_INIT_NVAR(&path);
 	RETURN_CTOR(&reversed);

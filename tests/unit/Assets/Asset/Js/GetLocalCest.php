@@ -13,13 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
 use Phalcon\Assets\Asset\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetLocalCest
 {
-    use AssetsTrait;
-
     /**
      * Tests Phalcon\Assets\Asset\Js :: getLocal() - js local
      *
@@ -29,10 +26,14 @@ class GetLocalCest
     public function assetsAssetJsGetLocalLocal(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getLocal() - js local');
-        $asset    = new Js('js/jquery.js');
-        $expected = md5('js:js/jquery.js');
 
-        $this->assetGetLocal($I, $asset, $expected);
+        $file = 'js/jquery.js';
+
+        $asset = new Js($file);
+
+        $I->assertTrue(
+            $asset->getLocal()
+        );
     }
 
     /**
@@ -44,9 +45,13 @@ class GetLocalCest
     public function assetsAssetJsGetLocalRemote(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - getLocal() - js remote');
-        $asset    = new Js('https://phalcon.ld/js/jquery.js');
-        $expected = md5('js:https://phalcon.ld/js/jquery.js');
 
-        $this->assetGetLocal($I, $asset, $expected);
+        $file = 'https://phalcon.ld/js/jquery.js';
+
+        $asset = new Js($file);
+
+        $I->assertTrue(
+            $asset->getLocal()
+        );
     }
 }

@@ -33,7 +33,8 @@ class GetPrefixCest
         $I->wantToTest('Storage\Adapter\Redis - getPrefix()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Redis(
+
+        $adapter = new Redis(
             $serializer,
             array_merge(
                 getOptionsRedis(),
@@ -43,9 +44,10 @@ class GetPrefixCest
             )
         );
 
-        $expected = 'my-prefix';
-        $actual   = $adapter->getPrefix();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'my-prefix',
+            $adapter->getPrefix()
+        );
     }
 
     /**
@@ -59,10 +61,15 @@ class GetPrefixCest
         $I->wantToTest('Storage\Adapter\Redis - getPrefix() - default');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Redis($serializer, getOptionsRedis());
 
-        $expected = 'ph-reds-';
-        $actual   = $adapter->getPrefix();
-        $I->assertEquals($expected, $actual);
+        $adapter = new Redis(
+            $serializer,
+            getOptionsRedis()
+        );
+
+        $I->assertEquals(
+            'ph-reds-',
+            $adapter->getPrefix()
+        );
     }
 }

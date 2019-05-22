@@ -231,14 +231,17 @@ class PresenceOfCest
                 new Message(
                     'The name is required',
                     'name',
-                    PresenceOf::class,
-                    0
+                    PresenceOf::class
                 ),
                 new Message(
                     'The email is required',
                     'email',
-                    PresenceOf::class,
-                    0
+                    PresenceOf::class
+                ),
+                new Message(
+                    'The login is required',
+                    'login',
+                    PresenceOf::class
                 ),
             ]
         );

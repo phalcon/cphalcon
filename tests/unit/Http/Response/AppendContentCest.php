@@ -12,20 +12,27 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class AppendContentCest
+class AppendContentCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Response :: appendContent()
+     * Tests appendContent
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-10-08
      */
-    public function httpResponseAppendContent(UnitTester $I)
+    public function testHttpResponseAppendContent(UnitTester $I)
     {
-        $I->wantToTest('Http\Response - appendContent()');
+        $response = $this->getResponseObject();
 
-        $I->skipTest('Need implementation');
+        $response->setContent('<h1>Hello');
+        $response->appendContent('</h1>');
+
+        $I->assertEquals(
+            '<h1>Hello</h1>',
+            $response->getContent()
+        );
     }
 }

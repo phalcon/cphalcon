@@ -11,7 +11,7 @@
 namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Paginator\Exception;
-use Phalcon\Paginator\Adapter;
+use Phalcon\Paginator\Adapter\AbstractAdapter;
 use Phalcon\Paginator\RepositoryInterface;
 
 /**
@@ -34,7 +34,7 @@ use Phalcon\Paginator\RepositoryInterface;
  * $paginate = $paginator->paginate();
  *</code>
  */
-class Model extends Adapter
+class Model extends AbstractAdapter
 {
     /**
      * Returns a slice of the resultset to show in the pagination

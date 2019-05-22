@@ -11,13 +11,13 @@
 namespace Phalcon;
 
 use Phalcon\Di\Injectable;
+use Phalcon\Filter\FilterInterface;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Messages\Messages;
 use Phalcon\ValidationInterface;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\ValidatorInterface;
 use Phalcon\Validation\CombinedFieldsValidator;
-use Phalcon\Service\LocatorInterface;
 
 /**
  * Phalcon\Validation
@@ -78,11 +78,11 @@ class Validation extends Injectable implements ValidationInterface
                 let this->combinedFieldsValidators[] = [field, validator];
             } else {
                 for singleField in field {
-                    let this->validators[] = [singleField, validator];
+                    let this->validators[singleField][] = validator;
                 }
             }
         } elseif typeof field == "string" {
-            let this->validators[] = [field, validator];
+            let this->validators[field][] = validator;
         } else {
             throw new Exception(
                 "Field must be passed as array of fields or string"
@@ -285,8 +285,7 @@ class Validation extends Injectable implements ValidationInterface
                     }
                 }
 
-                let filterService = <LocatorInterface> container->getShared("filter");
-//                let filterService = container->getShared("filter");
+                let filterService = <FilterInterface> container->getShared("filter");
 
                 if unlikely typeof filterService != "object" {
                     throw new Exception("Returned 'filter' service is invalid");
@@ -422,13 +421,13 @@ class Validation extends Injectable implements ValidationInterface
      */
     public function validate(var data = null, var entity = null) -> <Messages>
     {
-        var validators, messages, scope, field, validator, status,
-            combinedFieldsValidators;
+        var combinedFieldsValidators, field, messages, scope, status, validator,
+            validatorData, validators;
 
-        let validators = this->validators;
-        let combinedFieldsValidators = this->combinedFieldsValidators;
+        let validatorData            = this->validators,
+            combinedFieldsValidators = this->combinedFieldsValidators;
 
-        if unlikely typeof validators != "array" {
+        if unlikely typeof validatorData != "array" {
             throw new Exception("There are no validators to validate");
         }
 
@@ -467,32 +466,27 @@ class Validation extends Injectable implements ValidationInterface
             let this->data = data;
         }
 
-        for scope in validators {
-            if unlikely typeof scope != "array" {
-                throw new Exception("The validator scope is not valid");
-            }
+        for field, validators in validatorData {
+            for validator in validators {
+                if unlikely typeof validator != "object" {
+                    throw new Exception("One of the validators is not valid");
+                }
 
-            let field = scope[0],
-                validator = scope[1];
+                /**
+                 * Call internal validations, if it returns true, then skip the
+                 * current validator
+                 */
+                if this->preChecking(field, validator) {
+                    continue;
+                }
 
-            if unlikely typeof validator != "object" {
-                throw new Exception("One of the validators is not valid");
-            }
-
-            /**
-             * Call internal validations, if it returns true, then skip the
-             * current validator
-             */
-            if this->preChecking(field, validator) {
-                continue;
-            }
-
-            /**
-             * Check if the validation must be canceled if this validator fails
-             */
-            if validator->validate(this, field) === false {
-                if validator->getOption("cancelOnFail") {
-                    break;
+                /**
+                 * Check if the validation must be canceled if this validator fails
+                 */
+                if validator->validate(this, field) === false {
+                    if validator->getOption("cancelOnFail") {
+                        break;
+                    }
                 }
             }
         }
@@ -502,7 +496,7 @@ class Validation extends Injectable implements ValidationInterface
                 throw new Exception("The validator scope is not valid");
             }
 
-            let field = scope[0],
+            let field     = scope[0],
                 validator = scope[1];
 
             if unlikely typeof validator != "object" {

@@ -32,11 +32,12 @@
 /**
  * Phalcon\Annotations\Adapter\Memory
  *
- * Stores the parsed annotations in memory. This adapter is the suitable development/testing
+ * Stores the parsed annotations in memory. This adapter is the suitable
+ * development/testing
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, phalcon, annotations_adapter_memory, phalcon_annotations_adapter_ce, phalcon_annotations_adapter_memory_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Memory, phalcon, annotations_adapter_memory, phalcon_annotations_adapter_abstractadapter_ce, phalcon_annotations_adapter_memory_method_entry, 0);
 
 	/**
 	 * Data
@@ -118,7 +119,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 
 	ZEPHIR_INIT_VAR(&lowercasedKey);
 	zephir_fast_strtolower(&lowercasedKey, &key);
-	zephir_update_property_array(this_ptr, SL("data"), &lowercasedKey, data);
+	zephir_update_property_array(this_ptr, SL("data"), &lowercasedKey, data TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }

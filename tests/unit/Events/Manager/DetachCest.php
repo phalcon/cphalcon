@@ -12,20 +12,66 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Events\Manager;
 
+use Codeception\Example;
+use Phalcon\Events\Manager;
+use stdClass;
 use UnitTester;
 
 class DetachCest
 {
     /**
-     * Tests Phalcon\Events\Manager :: detach()
+     * Tests detach handler by using an Object
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @test
+     * @issue  https://github.com/phalcon/cphalcon/issues/12882
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-06-06
+     *
+     * @dataProvider booleanProvider
      */
-    public function eventsManagerDetach(UnitTester $I)
+    public function detachObjectListener(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Events\Manager - detach()');
+        $enablePriorities = $example[0];
 
-        $I->skipTest('Need implementation');
+
+        $manager = new Manager();
+
+        $manager->enablePriorities($enablePriorities);
+
+        $handler = new stdClass();
+
+        $manager->attach('test:detachable', $handler);
+
+        $events = $I->getProtectedProperty($manager, 'events');
+
+        $I->assertCount(1, $events);
+
+        $I->assertArrayHasKey('test:detachable', $events);
+
+        $I->assertCount(
+            1,
+            $events['test:detachable']
+        );
+
+        $manager->detach('test:detachable', $handler);
+
+        $events = $I->getProtectedProperty($manager, 'events');
+
+        $I->assertCount(1, $events);
+
+        $I->assertArrayHasKey('test:detachable', $events);
+
+        $I->assertCount(
+            0,
+            $events['test:detachable']
+        );
+    }
+
+    private function booleanProvider(): array
+    {
+        return [
+            [true],
+            [false],
+        ];
     }
 }

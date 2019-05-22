@@ -228,17 +228,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     public static function __callStatic(string method, array arguments)
     {
-        var records;
-
-        let records = self::_invokeFinder(method, arguments);
-
-        if unlikely records === null {
-            throw new Exception(
-                "The static method '" . method . "' doesn't exist"
-            );
-        }
-
-        return records;
+        return self::_invokeFinder(method, arguments);
     }
 
 
@@ -1781,7 +1771,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 /**
                  * Call the 'getRelationRecords' in the models manager.
                  */
-                let result = manager->getRelationRecords(relation, null, this, arguments);
+                let result = manager->getRelationRecords(relation, this, arguments);
 
                 /**
                  * We store relationship objects in the related cache if there were no arguments.
@@ -1793,7 +1783,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
              * Individually queried related records are handled by Manager.
              * The Manager also checks and stores reusable records.
              */
-            let result = manager->getRelationRecords(relation, null, this, arguments);
+            let result = manager->getRelationRecords(relation, this, arguments);
         }
 
         return result;
@@ -1950,7 +1940,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *
      * $hasChanged = $robot->hasChanged("type"); // returns true
      * $hasChanged = $robot->hasChanged(["type", "name"]); // returns true
-     * $hasChanged = $robot->hasChanged(["type", "name", true]); // returns false
+     * $hasChanged = $robot->hasChanged(["type", "name"], true); // returns false
      *</code>
      *
      * @param string|array fieldName
@@ -3437,7 +3427,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         var bindSkip, fields, values, bindTypes, attributes, bindDataTypes,
             automaticAttributes, field, columnMap, value, attributeField,
             success, bindType, defaultValue, sequenceName, defaultValues,
-            source, schema, snapshot, lastInsertedId, manager;
+            unsetDefaultValues, source, schema, snapshot, lastInsertedId,
+            manager;
         bool useExplicitIdentity;
 
         let bindSkip = Column::BIND_SKIP;
@@ -3446,7 +3437,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         let fields = [],
             values = [],
             snapshot = [],
-            bindTypes = [];
+            bindTypes = [],
+            unsetDefaultValues = [];
 
         let attributes = metaData->getAttributes(this),
             bindDataTypes = metaData->getBindTypes(this),
@@ -3487,8 +3479,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                      */
                     if fetch value, this->{attributeField} {
                         if value === null && isset defaultValues[field] {
-                            let snapshot[attributeField] = null;
                             let value = connection->getDefaultValue();
+
+                            let snapshot[attributeField] = defaultValues[field],
+                                unsetDefaultValues[attributeField] = defaultValues[field];
                         } else {
                             let snapshot[attributeField] = value;
                         }
@@ -3509,11 +3503,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                         if isset defaultValues[field] {
                             let values[] = connection->getDefaultValue();
 
-                            /**
-                             * This is default value so we set null, keep in
-                             * mind its value in database!
-                             */
-                            let snapshot[attributeField] = null;
+                            let snapshot[attributeField] = defaultValues[field],
+                                unsetDefaultValues[attributeField] = defaultValues[field];
                         } else {
                             let values[] = value;
                             let snapshot[attributeField] = value;
@@ -3640,8 +3631,19 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let this->uniqueParams = null;
         }
 
-        if success && manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
-            let this->snapshot = snapshot;
+        if success {
+            /**
+             * Default values from the database should be
+             * written to the model attributes upon successful
+             * insert.
+             */
+            for attributeField, defaultValue in unsetDefaultValues {
+                let this->{attributeField} = defaultValue;
+            }
+
+            if manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
+                let this->snapshot = snapshot;
+            }
         }
 
         return success;
@@ -4111,9 +4113,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
             return manager->getRelationRecords(
                 relation,
-                queryMethod,
                 this,
-                extraArgs
+                extraArgs,
+                queryMethod
             );
         }
 
@@ -5085,8 +5087,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * @param    string|array fields
      * @param    string|array intermediateFields
      * @param    string|array intermediateReferencedFields
-     * @param   string|array referencedFields
-     * @param   array options
+     * @param    string|array referencedFields
+     * @param    array options
      */
     protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
         string! referenceModel, var referencedFields, options = null) -> <Relation>
