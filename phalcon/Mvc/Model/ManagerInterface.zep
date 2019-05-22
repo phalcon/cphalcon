@@ -195,7 +195,7 @@ interface ManagerInterface
      *
      * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|int|false
      */
-    public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters = null);
+    public function getRelationRecords(<RelationInterface> relation, <ModelInterface> record, var parameters = null, string method = null);
 
     /**
      * Query all the relationships defined on a model

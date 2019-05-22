@@ -1270,7 +1270,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|int|false
      */
-    public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters = null)
+    public function getRelationRecords(<RelationInterface> relation, <ModelInterface> record, var parameters = null, string method = null)
     {
         var referencedModel, intermediateModel, intermediateFields, fields,
             builder, extraParameters, refPosition, field, referencedFields,
