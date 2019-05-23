@@ -59,25 +59,13 @@ class Alpha extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, label, replacePairs, code;
+        var value;
 
         let value = validation->getValue(field);
 
         if preg_match("/[^[:alpha:]]/imu", value) {
-            let label = this->prepareLabel(validation, field),
-                code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(this->getAdvice(field), replacePairs),
-                    field,
-                    get_class(this),
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

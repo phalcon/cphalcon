@@ -102,19 +102,9 @@ class Uniqueness extends CombinedFieldsValidator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var code, label, replacePairs;
-
         if !this->isUniqueness(validation, field) {
-            let label = this->prepareLabel(validation, field),
-                code = this->prepareCode(field);
-
             validation->appendMessage(
-                new Message(
-                    strtr(this->getAdvice(field), replacePairs),
-                    field,
-                    get_class(this),
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

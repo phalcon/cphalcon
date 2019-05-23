@@ -59,27 +59,15 @@ class CreditCard extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var label, replacePairs, value, valid, code;
+        var value, valid;
 
         let value = validation->getValue(field);
 
         let valid = this->verifyByLuhnAlgorithm(value);
 
         if !valid {
-            let label = this->prepareLabel(validation, field),
-                code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(this->getAdvice(field), replacePairs),
-                    field,
-                    get_class(this),
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

@@ -59,7 +59,7 @@ class Numericality extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, label, replacePairs, code;
+        var value;
         string pattern;
 
         // Dump spaces in the string if we have any
@@ -69,21 +69,8 @@ class Numericality extends Validator
             pattern = "/((^[-]?[0-9,]+(.[0-9]+)?$)|(^[-]?[0-9.]+(,[0-9]+)?$))/";
 
         if !preg_match(pattern, value) {
-            let label = this->prepareLabel(validation, field);
-
-            let code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(this->getAdvice(field), replacePairs),
-                    field,
-                    get_class(this),
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

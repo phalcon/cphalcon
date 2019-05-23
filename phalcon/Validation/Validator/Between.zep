@@ -70,7 +70,7 @@ class Between extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, minimum, maximum, label, replacePairs, code;
+        var value, minimum, maximum, replacePairs;
 
         let value = validation->getValue(field),
             minimum = this->getOption("minimum"),
@@ -85,22 +85,13 @@ class Between extends Validator
         }
 
         if value < minimum || value > maximum {
-            let label = this->prepareLabel(validation, field),
-                code = this->prepareCode(field);
-
             let replacePairs = [
-                ":field": label,
                 ":min":   minimum,
                 ":max":   maximum
             ];
 
             validation->appendMessage(
-                new Message(
-                    strtr(this->getAdvice(field), replacePairs),
-                    field,
-                    get_class(this),
-                    code
-                )
+                this->messageFactory(validation, field, replacePairs)
             );
 
             return false;

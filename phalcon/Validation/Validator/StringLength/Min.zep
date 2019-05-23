@@ -72,11 +72,9 @@ class Min extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, length, minimum, label, replacePairs, code, included, result;
+        var value, length, minimum, replacePairs, included, result;
 
-        let value = validation->getValue(field),
-            label = this->prepareLabel(validation, field),
-            code = this->prepareCode(field);
+        let value = validation->getValue(field);
 
         // Check if mbstring is available to calculate the correct length
         if function_exists("mb_strlen") {
@@ -107,17 +105,11 @@ class Min extends Validator
 
         if result {
             let replacePairs = [
-                ":field" : label,
                 ":min"   : minimum
             ];
 
             validation->appendMessage(
-                new Message(
-                    strtr(this->getAdvice(field), replacePairs),
-                    field,
-                    get_class(this),
-                    code
-                )
+                this->messageFactory(validation, field, replacePairs)
             );
 
             return false;

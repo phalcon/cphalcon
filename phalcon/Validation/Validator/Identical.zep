@@ -64,7 +64,7 @@ class Identical extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var label, replacePairs, value, valid, accepted, valueOption, code;
+        var value, valid, accepted, valueOption;
 
         let value = validation->getValue(field);
 
@@ -89,20 +89,8 @@ class Identical extends Validator
         }
 
         if !valid {
-            let label = this->prepareLabel(validation, field),
-                code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(this->getAdvice(field), replacePairs),
-                    field,
-                    get_class(this),
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

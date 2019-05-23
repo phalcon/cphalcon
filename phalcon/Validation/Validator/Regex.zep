@@ -63,7 +63,7 @@ class Regex extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var matches, value, label, replacePairs, code, pattern;
+        var matches, value, pattern;
         bool failed;
 
         // Regular expression is set in the option 'pattern'
@@ -84,20 +84,8 @@ class Regex extends Validator
         }
 
         if failed {
-            let label = this->prepareLabel(validation, field),
-                code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(this->getAdvice(field), replacePairs),
-                    field,
-                    get_class(this),
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

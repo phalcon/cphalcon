@@ -79,14 +79,10 @@ class Ip extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var code, value, version, allowPrivate, allowReserved, allowEmpty,
-            label, replacePairs, options;
+        var value, version, allowPrivate, allowReserved, allowEmpty, options;
 
         let value = validation->getValue(field),
-            label = this->prepareLabel(validation, field),
-            code = this->prepareCode(field);
-
-        let version = this->getOption("version", FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6);
+            version = this->getOption("version", FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6);
 
         if typeof version == "array" {
             let version = version[field];
@@ -122,17 +118,8 @@ class Ip extends Validator
         ];
 
         if !filter_var(value, FILTER_VALIDATE_IP, options) {
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(this->getAdvice(field), replacePairs),
-                    field,
-                    get_class(this),
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

@@ -69,7 +69,7 @@ class Callback extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var label, replacePairs, code, callback, returnedValue, data;
+        var callback, returnedValue, data;
 
         let callback = this->getOption("callback");
 
@@ -84,21 +84,8 @@ class Callback extends Validator
 
             if typeof returnedValue == "boolean" {
                 if !returnedValue {
-                    let label = this->prepareLabel(validation, field);
-
-                    let code = this->prepareCode(field);
-
-                    let replacePairs = [
-                        ":field": label
-                    ];
-
                     validation->appendMessage(
-                        new Message(
-                            strtr(this->getAdvice(field), replacePairs),
-                            field,
-                            get_class(this),
-                            code
-                        )
+                        this->messageFactory(validation, field)
                     );
 
                     return false;

@@ -69,7 +69,7 @@ class Max extends FileAbstract
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var code, height, label, maxHeight, maxWidth, resolution, resolutionArray,
+        var height, maxHeight, maxWidth, resolution, resolutionArray,
             tmp, value, width, replacePairs, included = false, result;
 
         // Check file upload
@@ -112,17 +112,11 @@ class Max extends FileAbstract
 
         if (result) {
             let replacePairs = [
-                ":field"      : label,
                 ":resolution" : resolution
             ];
 
             validation->appendMessage(
-                new Message(
-                    strtr(this->getAdvice(field), replacePairs),
-                    field,
-                    get_class(this),
-                    code
-                )
+                this->messageFactory(validation, field, replacePairs)
             );
 
             return false;

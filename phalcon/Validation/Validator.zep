@@ -11,6 +11,7 @@
 namespace Phalcon\Validation;
 
 use Phalcon\Collection;
+use Phalcon\Messages\Message;
 use Phalcon\Validation;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\ValidatorInterface;
@@ -207,18 +208,23 @@ abstract class Validator implements ValidatorInterface
     }
 
     /**
-     * Prepares a validation message.
-     */
-    protected function prepareMessage(string! field, string! type, string! option = "message") -> var
+    * Create a default message by factory
+    *
+    * @return Message
+    */
+    public function messageFactory(<Validation> validation, string! field, array! replacements = []) -> <Message>
     {
-        var message;
+        array defaultReplacements = [
+            ":field" : this->prepareLabel(validation, field)
+        ];
 
-        let message = this->getOption(option);
+        let replacements = array_merge(defaultReplacements, replacements);
 
-        if typeof message == "array" {
-            let message = message[field];
-        }
-
-        return message;
+        return new Message(
+            strtr(this->getAdvice(field), replacements),
+            field,
+            get_class(this),
+            this->prepareCode(field)
+        );
     }
 }

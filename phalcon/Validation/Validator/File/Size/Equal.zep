@@ -70,16 +70,15 @@ class Equal extends FileAbstract
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var bytes, code, fileSize, label, replacePairs, size, value;
+        var bytes, fileSize, replacePairs, size, value;
 
         // Check file upload
         if (this->checkUpload(validation, field) === false) {
             return false;
         }
 
-        let value = validation->getValue(field);
-
-        let size = this->getOption("size");
+        let value = validation->getValue(field),
+            size = this->getOption("size");
 
         if typeof size == "array" {
             let size = size[field];
@@ -90,17 +89,11 @@ class Equal extends FileAbstract
 
         if bytes !== fileSize {
             let replacePairs = [
-                ":field" : label,
                 ":size"  : size
             ];
 
             validation->appendMessage(
-                new Message(
-                    strtr(this->getAdvice(field), replacePairs),
-                    field,
-                    get_class(this),
-                    code
-                )
+                this->messageFactory(validation, field, replacePairs)
             );
 
             return false;

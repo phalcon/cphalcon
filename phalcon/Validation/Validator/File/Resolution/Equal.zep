@@ -64,7 +64,7 @@ class Equal extends FileAbstract
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var code, height, label, equalHeight, equalWidth, resolution, resolutionArray,
+        var height, equalHeight, equalWidth, resolution, resolutionArray,
             tmp, value, width, replacePairs;
 
         // Check file upload
@@ -93,17 +93,11 @@ class Equal extends FileAbstract
 
         if (width != equalWidth || height != equalHeight) {
             let replacePairs = [
-                ":field"      : label,
                 ":resolution" : resolution
             ];
 
             validation->appendMessage(
-                new Message(
-                    strtr(this->getAdvice(field), replacePairs),
-                    field,
-                    get_class(this),
-                    code
-                )
+                this->messageFactory(validation, field, replacePairs)
             );
 
             return false;

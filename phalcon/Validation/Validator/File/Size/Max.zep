@@ -70,16 +70,15 @@ class Max extends FileAbstract
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var bytes, code, fileSize, included = false, label, replacePairs, result, size, value;
+        var bytes, fileSize, included = false, replacePairs, result, size, value;
 
         // Check file upload
         if (this->checkUpload(validation, field) === false) {
             return false;
         }
 
-        let value = validation->getValue(field);
-
-        let size = this->getOption("size");
+        let value = validation->getValue(field),
+            size = this->getOption("size");
 
         if typeof size == "array" {
             let size = size[field];
@@ -104,17 +103,11 @@ class Max extends FileAbstract
 
         if (result) {
             let replacePairs = [
-                ":field" : label,
                 ":size"  : size
             ];
 
             validation->appendMessage(
-                new Message(
-                    strtr(this->getAdvice(field), replacePairs),
-                    field,
-                    get_class(this),
-                    code
-                )
+                this->messageFactory(validation, field, replacePairs)
             );
 
             return false;

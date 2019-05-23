@@ -77,16 +77,14 @@ class MimeType extends FileAbstract
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var code, fieldTypes, label, mime, replacePairs, tmp, types, value;
+        var fieldTypes, mime, replacePairs, tmp, types, value;
 
         // Check file upload
         if (this->checkUpload(validation, field) === false) {
             return false;
         }
 
-        let value = validation->getValue(field),
-            label = this->prepareLabel(validation, field),
-            code = this->prepareCode(field);
+        let value = validation->getValue(field);
 
         let types = this->getOption("types");
 
@@ -111,17 +109,11 @@ class MimeType extends FileAbstract
 
         if !in_array(mime, types) {
             let replacePairs = [
-                ":field": label,
                 ":types": join(", ", types)
             ];
 
             validation->appendMessage(
-                new Message(
-                    strtr(this->getAdvice(field), replacePairs),
-                    field,
-                    get_class(this),
-                    code
-                )
+                this->messageFactory(validation, field, replacePairs)
             );
 
             return false;
