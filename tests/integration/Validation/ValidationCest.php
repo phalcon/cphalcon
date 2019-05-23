@@ -12,6 +12,7 @@ use Phalcon\Validation\Validator\Alpha;
 use Phalcon\Validation\Validator\Email;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Validation\Validator\StringLength\Min;
 use Phalcon\Validation\Validator\Url;
 use stdClass;
 
@@ -92,7 +93,7 @@ class ValidationCest
                 new Message(
                     'Field foo is required',
                     'foo',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
@@ -135,7 +136,7 @@ class ValidationCest
                 new Message(
                     'Name cant be empty.',
                     'name',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
@@ -217,7 +218,7 @@ class ValidationCest
             new Message(
                 'The email is required',
                 'email',
-                'PresenceOf',
+                PresenceOf::class,
                 0
             ),
         ];
@@ -285,25 +286,25 @@ class ValidationCest
                 new Message(
                     'The email is required',
                     'email',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
                 new Message(
                     'The E-mail must be email',
                     'email',
-                    'Email',
+                    Email::class,
                     0
                 ),
                 new Message(
                     'The First name is required',
                     'firstname',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
                 new Message(
                     'The First name is too short',
                     'firstname',
-                    'TooShort',
+                    Min::class,
                     0
                 ),
             ]
