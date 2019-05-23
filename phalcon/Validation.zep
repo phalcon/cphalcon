@@ -28,7 +28,6 @@ class Validation extends Injectable implements ValidationInterface
 {
     protected combinedFieldsValidators;
     protected data { get };
-    protected defaultMessages;
     protected entity;
     protected filters = [];
     protected labels = [];
@@ -54,8 +53,6 @@ class Validation extends Injectable implements ValidationInterface
                 return typeof element[0] == "array" && element[1] instanceof CombinedFieldsValidator;
             }
         );
-
-        this->setDefaultMessages();
 
         /**
          * Check for an 'initialize' method
@@ -130,20 +127,6 @@ class Validation extends Injectable implements ValidationInterface
         let this->data = data;
 
         return this;
-    }
-
-    /**
-     * Get default message for validator type
-     */
-    public function getDefaultMessage(string! type) -> string
-    {
-        var defaultMessage;
-
-        if !fetch defaultMessage, this->defaultMessages[type] {
-            return "";
-        }
-
-        return defaultMessage;
     }
 
     /**
@@ -342,28 +325,6 @@ class Validation extends Injectable implements ValidationInterface
         }
 
         return this;
-    }
-
-    /**
-     * Adds default messages to validators
-     */
-    public function setDefaultMessages(array messages = []) -> array
-    {
-        var defaultMessages;
-
-        let defaultMessages = [
-            "FileEmpty":         "Field :field must not be empty",
-            "FileIniSize":       "File :field exceeds the maximum file size",
-            "FileMaxResolution": "File :field must not exceed :max resolution",
-            "FileMinResolution": "File :field must be at least :min resolution",
-            "FileSize":          "File :field exceeds the size of :max",
-            "FileType":          "File :field must be of type: :types",
-            "FileValid":         "Field :field is not valid"
-        ];
-
-        let this->defaultMessages = array_merge(defaultMessages, messages);
-
-        return this->defaultMessages;
     }
 
     /**

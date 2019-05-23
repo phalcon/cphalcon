@@ -164,15 +164,6 @@ class ValidationCest
         $I->assertEquals($users->name, 'SomeName');
     }
 
-    public function testGetDefaultValidationMessageShouldReturnEmptyStringIfNoneIsSet(IntegrationTester $I)
-    {
-        $validation = new Validation();
-
-        $I->assertIsEmpty(
-            $validation->getDefaultMessage('_notexistentvalidationmessage_')
-        );
-    }
-
     public function testValidationFiltering(IntegrationTester $I)
     {
         $validation = new Validation();
