@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Html\Interfaces;
+namespace Phalcon\Html\Attributes;
 
 /**
-* Phalcon\Html\Interfaces\RenderInterface
+* Phalcon\Html\Attributes\RenderInterface
 *
-* Interface Phalcon\Html\Interfaces\RenderInterface
+* Interface Phalcon\Html\Attributes\RenderInterface
 */
 interface RenderInterface {
     /**
-    * Generate a string represetation
-    */
+     * Generate a string represetation
+     */
     public function render() -> string;
 }

@@ -17,7 +17,7 @@ use Phalcon\Filter\FilterInterface;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\ElementInterface;
 use Phalcon\Html\Attributes;
-use Phalcon\Html\Interfaces\AttributesInterface;
+use Phalcon\Html\Attributes\AttributesInterface;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Validation;

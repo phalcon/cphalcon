@@ -11,27 +11,27 @@
 namespace Phalcon\Html;
 
 use Phalcon\Collection;
-use Phalcon\Html\Interfaces\RenderInterface;
+use Phalcon\Html\Attributes\RenderInterface;
 use Phalcon\Tag;
 
 /**
-* Phalcon\Html\Attributes
-*
-* This class helps to work with HTML Attributes
-*/
+ * Phalcon\Html\Attributes
+ *
+ * This class helps to work with HTML Attributes
+ */
 class Attributes extends Collection implements RenderInterface
 {
     /**
-    * Render attributes as HTML attributes
-    */
+     * Render attributes as HTML attributes
+     */
     public function render() -> string
     {
         return Tag::renderAttributes("", this->toArray());
     }
 
     /**
-    * Alias of the render method
-    */
+     * Alias of the render method
+     */
     public function __toString() -> string
     {
         return this->render();
