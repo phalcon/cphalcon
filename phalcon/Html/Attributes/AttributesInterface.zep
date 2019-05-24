@@ -7,23 +7,24 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Html\Interfaces;
+namespace Phalcon\Html\Attributes;
 
 use Phalcon\Html\Attributes;
 
 /**
-* Phalcon\Html\Interfaces\AttributesInterface
+* Phalcon\Html\Attributes\AttributesInterface
 *
-* Interface Phalcon\Html\Interfaces\AttributesInterface
+* Interface Phalcon\Html\Attributes\AttributesInterface
 */
-interface AttributesInterface {
+interface AttributesInterface
+{
     /**
-    * Get Attributes
-    */
+     * Get Attributes
+     */
     public function getAttributes() -> <Attributes>;
 
     /**
-    * Set Attributes
-    */
+     * Set Attributes
+     */
     public function setAttributes(<Attributes> attributes) -> <AttributesInterface>;
 }

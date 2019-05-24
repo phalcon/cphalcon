@@ -14,7 +14,7 @@ namespace Phalcon\Test\Integration\Forms;
 use IntegrationTester;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
-use Phalcon\Html\Interfaces\AttributesInterface;
+use Phalcon\Html\Attributes\AttributesInterface;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;

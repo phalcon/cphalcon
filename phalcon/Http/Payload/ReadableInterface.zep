@@ -30,7 +30,7 @@ interface ReadableInterface
      *
      * @return mixed
      */
-    public function getStatus() -> string;
+    public function getStatus() -> var;
 
     /**
      * Gets the input received by the domain layer.
