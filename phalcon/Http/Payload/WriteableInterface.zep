@@ -18,6 +18,8 @@
 
 namespace Phalcon\Http\Payload;
 
+use Phalcon\Http\Payload\PayloadInterface;
+
 /**
  * Phalcon\Http\Payload\WriteableInterface
  *
@@ -30,7 +32,7 @@ interface WriteableInterface
      *
      * @param mixed $status The status for this payload.
      */
-    public function setStatus(var status) -> <WriteableInterface>;
+    public function setStatus(var status) -> <PayloadInterface>;
 
     /**
      *
@@ -39,26 +41,26 @@ interface WriteableInterface
      * @param mixed $input The input received by the domain layer.
      *
      */
-    public function setInput(var input) -> <WriteableInterface>;
+    public function setInput(var input) -> <PayloadInterface>;
 
     /**
      * Sets the output produced from the domain layer.
      *
      * @param mixed $output The output produced from the domain layer.
      */
-    public function setOutput(var output) -> <WriteableInterface>;
+    public function setOutput(var output) -> <PayloadInterface>;
 
     /**
      * Sets the messages produced by the domain layer.
      *
      * @param mixed $messages The messages produced by the domain layer.
      */
-    public function setMessages(var messages) -> <WriteableInterface>;
+    public function setMessages(var messages) -> <PayloadInterface>;
 
     /**
      * Sets arbitrary extra values produced by the domain layer.
      *
      * @param mixed $extras Arbitrary extra values produced by the domain layer.
      */
-    public function setExtras(var extras) -> <WriteableInterface>;
+    public function setExtras(var extras) -> <PayloadInterface>;
 }
