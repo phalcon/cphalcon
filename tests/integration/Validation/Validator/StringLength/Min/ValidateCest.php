@@ -10,22 +10,108 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Validation\Validator\StringLength\Min;
+namespace Phalcon\Test\Integration\Validation\Validator\StringLength\Min;
 
-use UnitTester;
+use IntegrationTester;
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\StringLength\Min;
 
 class ValidateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Min :: validate()
+     * Tests Phalcon\Validation\Validator\StringLength :: validate() - single
+     * field
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-23
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
      */
-    public function validationValidatorStringLengthMinValidate(UnitTester $I)
+    public function validationValidatorMinStringLengthValidateSingleField(IntegrationTester $I)
     {
-        $I->wantToTest('Validation\Validator\StringLength\Min - validate()');
+        $I->wantToTest('Validation\Validator\StringLength :: validate() - single field');
 
-        $I->skipTest('Need implementation');
+        $validation = new Validation();
+
+        $validation->add(
+            'name',
+            new Min(
+                [
+                    'min' => 9,
+                ]
+            )
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue123',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Validation\Validator\StringLength :: validate() - single
+     * field
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2016-06-05
+     */
+    public function validationValidatorMinOrEqualStringLengthValidateSingleField(IntegrationTester $I)
+    {
+        $I->wantToTest('Validation\Validator\StringLength :: validate() - single field');
+
+        $validation = new Validation();
+
+        $validation->add(
+            'name',
+            new Min(
+                [
+                    'min'      => 9,
+                    'included' => true,
+                ]
+            )
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue123',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 }

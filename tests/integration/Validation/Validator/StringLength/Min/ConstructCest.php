@@ -10,22 +10,29 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Validation\Validator\StringLength\Min;
+namespace Phalcon\Test\Integration\Validation\Validator\StringLength\Min;
 
-use UnitTester;
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\StringLength\Min;
+use Phalcon\Validation\ValidatorInterface;
+use IntegrationTester;
 
 class ConstructCest
 {
+    use ValidationTrait;
+
     /**
      * Tests Phalcon\Validation\Validator\StringLength\Min :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMinConstruct(UnitTester $I)
+    public function validationValidatorStringLengthMinConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength\Min - __construct()');
 
-        $I->skipTest('Need implementation');
+        $validator = new Min();
+
+        $this->checkConstruct($I, $validator);
     }
 }

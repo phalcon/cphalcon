@@ -48,7 +48,7 @@ class ValidateCest
 
         $validation->add(
             'name',
-            new StringLength(
+            new Max(
                 [
                     'max' => 9,
                 ]
@@ -95,7 +95,7 @@ class ValidateCest
 
         $validation->add(
             'name',
-            new StringLength(
+            new Max(
                 [
                     'max'      => 9,
                     'included' => true,
@@ -106,12 +106,23 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'name' => 'SomeValue',
+                'name' => 'short',
             ]
         );
 
         $I->assertEquals(
             0,
+            $messages->count()
+        );
+
+        $messages = $validation->validate(
+            [
+                'name' => 'SomeValue',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
             $messages->count()
         );
 

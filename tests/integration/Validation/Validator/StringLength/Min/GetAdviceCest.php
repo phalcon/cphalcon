@@ -12,7 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Validation\Validator\StringLength\Min;
 
-use UnitTester;
+use IntegrationTester;
+use Phalcon\Validation\Validator\StringLength\Min;
 
 class GetAdviceCest
 {
@@ -22,10 +23,23 @@ class GetAdviceCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMinGetAdvice(UnitTester $I)
+    public function validationValidatorStringLengthMinGetAdvice(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength\Min - getAdvice()');
 
-        $I->skipTest('Need implementation');
+        $validator = new Min();
+
+        $expected = "Field :field must be at least :min characters long";
+        $I->assertEquals($expected, $validator->getAdvice(), 'Default advice message for Min');
+
+        $validator->setAdvice('');
+
+        $expected = "The field :field is not valid for " . Min::class;
+        $I->assertEquals($expected, $validator->getAdvice(), 'Default advice message');
+
+        $expected = 'New custom advice';
+        $validator->setAdvice($expected);
+
+        $I->assertEquals($expected, $validator->getAdvice(), 'New advice message');
     }
 }

@@ -47,11 +47,12 @@ class MessageFactoryCest
         $messages = $validation->validate(["last_name" => "A name too long"]);
 
         $I->assertInstanceOf(Messages::class, $messages, 'Failed validation instance of Messages\Messages');
-        $I->assertInstanceOf(Message::class, $messages->current(), 'Failed validation message instanceof Message');
+        $I->assertEquals(1, $messages->count(), 'Has 1 Message');
 
         $actual = $validator->messageFactory(
             $validation,
-            "last_name"
+            "last_name",
+            [":max" => 10]
         );
 
         $expected = new Message(

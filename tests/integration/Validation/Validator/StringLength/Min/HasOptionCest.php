@@ -12,7 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Validation\Validator\StringLength\Min;
 
-use UnitTester;
+use IntegrationTester;
+use Phalcon\Validation\Validator\StringLength\Min;
 
 class HasOptionCest
 {
@@ -22,10 +23,15 @@ class HasOptionCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMinHasOption(UnitTester $I)
+    public function validationValidatorStringLengthMinHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength\Min - hasOption()');
 
-        $I->skipTest('Need implementation');
+        $validator = new Min();
+
+        $I->assertFalse($validator->hasOption('min'), 'Min option does not exists');
+
+        $validator->setOption('min', 1234);
+        $I->assertTrue($validator->hasOption('min'), 'Min option does exists');
     }
 }

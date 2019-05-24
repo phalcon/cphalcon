@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation\Validator\StringLength\Max;
 
 use IntegrationTester;
+use Phalcon\Validation\Validator\StringLength\Max;
 
 class SetAdvicesCest
 {

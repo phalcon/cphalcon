@@ -10,9 +10,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Validation\Validator\StringLength\Min;
+namespace Phalcon\Test\Integration\Validation\Validator\StringLength\Min;
 
-use UnitTester;
+use IntegrationTester;
+use Phalcon\Validation\Validator\StringLength\Min;
 
 class SetAdvicesCest
 {
@@ -22,10 +23,26 @@ class SetAdvicesCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMinSetAdvices(UnitTester $I)
+    public function validationValidatorStringLengthMinSetAdvices(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength\Min - setAdvices()');
 
-        $I->skipTest('Need implementation');
+        $validator = new Min();
+
+        $expected = [
+            'key-1' => 'value-1',
+            'key-2' => 'value-2',
+            'key-3' => 'value-3',
+        ];
+
+        $actual = $validator->setAdvices($expected);
+
+        $I->assertInstanceOf(Min::class, $actual, 'Instance of Min');
+
+        $I->assertEquals(
+            $expected,
+            $validator->getAdvices()->toArray(),
+            'Get equals advices'
+        );
     }
 }

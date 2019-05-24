@@ -10,22 +10,28 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Validation\Validator\StringLength\Min;
+namespace Phalcon\Test\Integration\Validation\Validator\StringLength\Min;
 
-use UnitTester;
+use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\ValidationTrait;
+use Phalcon\Validation\Validator\StringLength;
 
 class SetOptionCest
 {
+    use ValidationTrait;
+
     /**
      * Tests Phalcon\Validation\Validator\StringLength\Min :: setOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMinSetOption(UnitTester $I)
+    public function validationValidatorStringLengthMinSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength\Min - setOption()');
 
-        $I->skipTest('Need implementation');
+        $validator = new StringLength();
+
+        $this->checkSetOption($I, $validator);
     }
 }
