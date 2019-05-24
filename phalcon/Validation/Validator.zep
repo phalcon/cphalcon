@@ -214,11 +214,12 @@ abstract class Validator implements ValidatorInterface
     */
     public function messageFactory(<Validation> validation, string! field, array! replacements = []) -> <Message>
     {
-        array defaultReplacements = [
-            ":field" : this->prepareLabel(validation, field)
-        ];
-
-        let replacements = array_merge(defaultReplacements, replacements);
+        let replacements = array_merge(
+            [
+                ":field" : this->prepareLabel(validation, field)
+            ],
+            replacements
+        );
 
         return new Message(
             strtr(this->getAdvice(field), replacements),

@@ -32,8 +32,8 @@ use Phalcon\Validation\Exception;
  *     "name_last",
  *     new Max(
  *         [
- *             "max"     => 50,
- *             "message" => "We don't like really long names",
+ *             "max"      => 50,
+ *             "message"  => "We don't like really long names",
  *             "included" => true
  *         ]
  *     )
@@ -105,7 +105,7 @@ class Max extends Validator
 
         if result {
             let replacePairs = [
-                ":max"   : maximum
+                ":max" : maximum
             ];
 
             validation->appendMessage(

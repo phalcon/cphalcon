@@ -10,31 +10,28 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Validation\Validator\StringLength2;
+namespace Phalcon\Test\Integration\Validation\Validator\StringLength\Max;
 
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\StringLength;
 
-/**
- * Class GetOptionCest
- */
-class GetOptionCest
+class SetOptionCest
 {
     use ValidationTrait;
 
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: getOption()
+     * Tests Phalcon\Validation\Validator\StringLength\Max :: setOption()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-05-23
      */
-    public function validationValidatorStringLengthGetOption(IntegrationTester $I)
+    public function validationValidatorStringLengthMaxSetOption(IntegrationTester $I)
     {
-        $I->wantToTest('Validation\Validator\StringLength - getOption()');
+        $I->wantToTest('Validation\Validator\StringLength\Max - setOption()');
 
         $validator = new StringLength();
 
-        $this->checkGetOption($I, $validator);
+        $this->checkSetOption($I, $validator);
     }
 }
