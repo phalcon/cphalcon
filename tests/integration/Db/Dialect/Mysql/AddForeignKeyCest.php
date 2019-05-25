@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class AddForeignKeyCest
@@ -36,7 +37,7 @@ class AddForeignKeyCest
         $reference = $example[1];
         $expected  = $example[2];
 
-        $dialect    = $this->getDialectMysql();
+        $dialect    = new Mysql();
         $references = $this->getReferences();
 
         $actual = $dialect->addForeignKey('table', $schema, $references[$reference]);

@@ -14,12 +14,10 @@ namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
+use Phalcon\Db\Dialect\Mysql;
 
 class DropIndexCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: dropIndex()
      *
@@ -36,7 +34,7 @@ class DropIndexCest
         $index    = $example[1];
         $expected = $example[2];
 
-        $dialect = $this->getDialectMysql();
+        $dialect = new Mysql();
 
         $actual = $dialect->dropIndex('table', $schema, $index);
 

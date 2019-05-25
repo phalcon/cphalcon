@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class AddIndexCest
@@ -36,7 +37,7 @@ class AddIndexCest
         $index    = $example[1];
         $expected = $example[2];
 
-        $dialect = $this->getDialectMysql();
+        $dialect = new Mysql();
         $indexes = $this->getIndexes();
 
         $actual = $dialect->addIndex('table', $schema, $indexes[$index]);

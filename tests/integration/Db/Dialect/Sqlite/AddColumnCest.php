@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class AddColumnCest
@@ -35,8 +36,9 @@ class AddColumnCest
         $schema   = $example[0];
         $column   = $example[1];
         $expected = $example[2];
-        $columns  = $this->getColumns();
-        $dialect  = $this->getDialectSqlite();
+
+        $columns = $this->getColumns();
+        $dialect = new Sqlite();
 
         $actual = $dialect->addColumn(
             'table',

@@ -14,12 +14,10 @@ namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
 use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
+use Phalcon\Db\Dialect\Postgresql;
 
 class DropColumnCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: dropColumn()
      *
@@ -36,7 +34,7 @@ class DropColumnCest
         $column   = $example[1];
         $expected = $example[2];
 
-        $dialect = $this->getDialectPostgresql();
+        $dialect = new Postgresql();
 
         $actual = $dialect->dropColumn('table', $schema, $column);
 
