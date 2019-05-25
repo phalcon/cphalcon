@@ -13,22 +13,38 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation;
 
 use IntegrationTester;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Date;
+use Phalcon\Validation\Validator\Email;
 
-/**
- * Class SetValidatorsCest
- */
 class SetValidatorsCest
 {
     /**
      * Tests Phalcon\Validation :: setValidators()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-16
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
     public function validationSetValidators(IntegrationTester $I)
     {
         $I->wantToTest('Validation - setValidators()');
 
-        $I->skipTest('Need implementation');
+        $validators = [
+            'date' => [
+                new Date(),
+            ],
+            'email' => [
+                new Email(),
+            ],
+        ];
+
+        $validation = new Validation();
+
+        $validation->setValidators($validators);
+
+        $I->assertEquals(
+            $validators,
+            $validation->getValidators()
+        );
     }
 }

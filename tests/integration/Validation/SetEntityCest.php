@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Validation;
 use stdClass;
 
-/**
- * Class SetEntityCest
- */
 class SetEntityCest
 {
     /**
