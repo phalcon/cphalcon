@@ -40,6 +40,7 @@
 - Fixed `method` parameter in `Phalcon\Mvc\Model\Manager::getHasManyRecords()`, it's not always a string, null by default. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
 - `handlers` property in `Phalcon\Mvc\Micro\Collection` is now always an array.
 - Fixed crash in `Phalcon\Mvc\Model::save()` when saving a circular model relation. [#13354](https://github.com/phalcon/cphalcon/pull/13354)
+- `Phalcon\Db\Dialect\Postgresql::truncateTable()` now escapes table names. [#14125](https://github.com/phalcon/cphalcon/pull/14125)
 
 ## Removed
 - Removed `Phalcon\Session\Factory`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
