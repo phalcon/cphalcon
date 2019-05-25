@@ -26,6 +26,6 @@ class PixelateCest
     {
         $I->wantToTest('Image\Adapter\Gd - pixelate()');
 
-        $I->skipTest('Need implementation');
+        $I->skipTest('Need implementation - getting errors from imagecolorat');
     }
 }

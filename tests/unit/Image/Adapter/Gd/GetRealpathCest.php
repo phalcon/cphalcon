@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image\Adapter\Gd;
+use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
 class GetRealpathCest
 {
+    use GdTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Gd :: getRealpath()
      *
@@ -26,6 +30,13 @@ class GetRealpathCest
     {
         $I->wantToTest('Image\Adapter\Gd - getRealpath()');
 
-        $I->skipTest('Need implementation');
+        foreach ($this->getImages() as $image) {
+            $gd = new Gd($image);
+
+            $I->assertSame(
+                $image,
+                $gd->getRealpath()
+            );
+        }
     }
 }

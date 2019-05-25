@@ -23,4 +23,17 @@ trait GdTrait
     {
         $I->checkExtensionIsLoaded('gd');
     }
+
+    /**
+     * Images to process
+     *
+     * @return array
+     */
+    public function getImages(): array
+    {
+        return [
+            'jpg' => dataDir('assets/images/phalconphp.jpg'),
+            'png' => dataDir('assets/images/logo.png'),
+        ];
+    }
 }

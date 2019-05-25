@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image\Adapter\Gd;
+use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
 class RenderCest
 {
+    use GdTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Gd :: render()
      *
@@ -26,6 +30,20 @@ class RenderCest
     {
         $I->wantToTest('Image\Adapter\Gd - render()');
 
-        $I->skipTest('Need implementation');
+        $params = [
+            'jpg' => [130699, '679ce149f0b54b6a5ee6b0f7b476efa8'],
+            'png' => [8802, '17909972f73be3698ad96bcd18e043f0'],
+        ];
+
+        foreach ($this->getImages() as $type => $imagePath) {
+            $image = new Gd(
+                $imagePath
+            );
+
+            list($lenght, $md5) = $params[$type];
+
+            $I->assertSame($lenght, mb_strlen($image->render()));
+            $I->assertSame($md5, md5($image->render()));
+        }
     }
 }
