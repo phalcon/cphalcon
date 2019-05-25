@@ -789,48 +789,45 @@ class Mysql extends Dialect
      */
     protected function getTableOptions(array! definition) -> string
     {
-        var options, engine, autoIncrement, tableCollation, collationParts,
-            tableOptions;
+        var options, engine, autoIncrement, tableCollation, collationParts;
+        array tableOptions;
 
-        if fetch options, definition["options"] {
+        if !fetch options, definition["options"] {
+            return "";
+        }
 
-            let tableOptions = [];
+        let tableOptions = [];
 
-            /**
-             * Check if there is an ENGINE option
-             */
-            if fetch engine, options["ENGINE"] {
-                if engine {
-                    let tableOptions[] = "ENGINE=" . engine;
-                }
-            }
-
-            /**
-             * Check if there is an AUTO_INCREMENT option
-             */
-            if fetch autoIncrement, options["AUTO_INCREMENT"] {
-                if autoIncrement {
-                    let tableOptions[] = "AUTO_INCREMENT=" . autoIncrement;
-                }
-            }
-
-            /**
-             * Check if there is a TABLE_COLLATION option
-             */
-            if fetch tableCollation, options["TABLE_COLLATION"] {
-                if tableCollation {
-                    let collationParts = explode("_", tableCollation),
-                        tableOptions[] = "DEFAULT CHARSET=" . collationParts[0],
-                        tableOptions[] = "COLLATE=" . tableCollation;
-                }
-            }
-
-            if count(tableOptions) {
-                return join(" ", tableOptions);
+        /**
+         * Check if there is an ENGINE option
+         */
+        if fetch engine, options["ENGINE"] {
+            if engine {
+                let tableOptions[] = "ENGINE=" . engine;
             }
         }
 
-        return "";
+        /**
+         * Check if there is an AUTO_INCREMENT option
+         */
+        if fetch autoIncrement, options["AUTO_INCREMENT"] {
+            if autoIncrement {
+                let tableOptions[] = "AUTO_INCREMENT=" . autoIncrement;
+            }
+        }
+
+        /**
+         * Check if there is a TABLE_COLLATION option
+         */
+        if fetch tableCollation, options["TABLE_COLLATION"] {
+            if tableCollation {
+                let collationParts = explode("_", tableCollation),
+                    tableOptions[] = "DEFAULT CHARSET=" . collationParts[0],
+                    tableOptions[] = "COLLATE=" . tableCollation;
+            }
+        }
+
+        return join(" ", tableOptions);
     }
 
     /**
