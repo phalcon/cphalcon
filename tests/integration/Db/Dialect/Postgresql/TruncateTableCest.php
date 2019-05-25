@@ -14,12 +14,10 @@ namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
 use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
+use Phalcon\Db\Dialect\Postgresql;
 
 class TruncateTableCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: truncateTable()
      *
@@ -35,7 +33,7 @@ class TruncateTableCest
         $schema   = $example[0];
         $expected = $example[1];
 
-        $dialect = $this->getDialectPostgresql();
+        $dialect = new Postgresql();
 
         $actual = $dialect->truncateTable('table', $schema);
 

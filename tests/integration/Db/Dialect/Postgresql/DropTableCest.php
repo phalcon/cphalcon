@@ -14,12 +14,10 @@ namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
 use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
+use Phalcon\Db\Dialect\Postgresql;
 
 class DropTableCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: dropTable()
      *
@@ -36,7 +34,7 @@ class DropTableCest
         $ifExists = $example[1];
         $expected = $example[2];
 
-        $dialect = $this->getDialectPostgresql();
+        $dialect = new Postgresql();
 
         $actual = $dialect->dropTable('table', $schema, $ifExists);
 

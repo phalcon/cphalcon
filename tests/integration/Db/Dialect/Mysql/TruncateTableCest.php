@@ -14,12 +14,10 @@ namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
+use Phalcon\Db\Dialect\Mysql;
 
 class TruncateTableCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: truncateTable()
      *
@@ -35,7 +33,7 @@ class TruncateTableCest
         $schema   = $example[0];
         $expected = $example[1];
 
-        $dialect = $this->getDialectMysql();
+        $dialect = new Mysql();
 
         $actual = $dialect->truncateTable('table', $schema);
 

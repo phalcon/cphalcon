@@ -15,14 +15,12 @@ namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Column;
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class CreateTableCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: createTable()
      *
@@ -38,7 +36,7 @@ class CreateTableCest
         $schema     = $example[0];
         $definition = $example[1];
         $expected   = $example[2];
-        $dialect    = $this->getDialectSqlite();
+        $dialect    = new Sqlite();
 
         $actual = $dialect->createTable(
             'table',

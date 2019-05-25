@@ -13,13 +13,11 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Exception;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class DropColumnCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: dropColumn()
      *
@@ -30,7 +28,7 @@ class DropColumnCest
     {
         $I->wantToTest('Db\Dialect\Sqlite - dropColumn()');
 
-        $dialect = $this->getDialectSqlite();
+        $dialect = new Sqlite();
 
         $I->expectThrowable(
             new Exception('Dropping DB column is not supported by SQLite'),

@@ -13,13 +13,11 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Exception;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class DropForeignKeyCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: dropForeignKey()
      *
@@ -30,7 +28,7 @@ class DropForeignKeyCest
     {
         $I->wantToTest('Db\Dialect\Sqlite - dropForeignKey()');
 
-        $dialect = $this->getDialectSqlite();
+        $dialect = new Sqlite();
 
         $I->expectThrowable(
             new Exception(

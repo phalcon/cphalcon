@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class AddColumnCest
@@ -35,7 +36,7 @@ class AddColumnCest
         $expected = $example[2];
 
         $columns = $this->getColumns();
-        $dialect = $this->getDialectMysql();
+        $dialect = new Mysql();
 
         $actual = $dialect->addColumn('table', $schema, $columns[$column]);
 

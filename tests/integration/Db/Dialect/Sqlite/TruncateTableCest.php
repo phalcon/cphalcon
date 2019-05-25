@@ -14,12 +14,10 @@ namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
+use Phalcon\Db\Dialect\Sqlite;
 
 class TruncateTableCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: truncateTable()
      *
@@ -35,7 +33,7 @@ class TruncateTableCest
         $schema   = $example[0];
         $expected = $example[1];
 
-        $dialect = $this->getDialectSqlite();
+        $dialect = new Sqlite();
 
         $actual = $dialect->truncateTable('table', $schema);
 

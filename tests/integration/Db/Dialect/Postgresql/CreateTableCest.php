@@ -12,37 +12,35 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Column;
+use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class CreateTableCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: createTable()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @dataProvider getCreateTableFixtures
      */
-    public function dbDialectPostgresqlCreateTable(IntegrationTester $I)
+    public function dbDialectPostgresqlCreateTable(IntegrationTester $I, Example $example)
     {
         $I->wantToTest("Db\Dialect\Postgresql - createTable()");
 
-        $data = $this->getCreateTableFixtures();
+        $schema     = $example[0];
+        $definition = $example[1];
+        $expected   = $example[2];
 
-        foreach ($data as $item) {
-            $schema     = $item[0];
-            $definition = $item[1];
-            $expected   = $item[2];
-            $dialect    = $this->getDialectPostgresql();
-            $actual     = $dialect->createTable('table', $schema, $definition);
+        $dialect = new Postgresql();
+        $actual  = $dialect->createTable('table', $schema, $definition);
 
-            $I->assertEquals($expected, $actual);
-        }
+        $I->assertEquals($expected, $actual);
     }
 
     protected function getCreateTableFixtures(): array
