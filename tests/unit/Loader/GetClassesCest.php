@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Loader;
 
+use function dataDir;
+use Phalcon\Loader;
 use UnitTester;
 
 class GetClassesCest
@@ -19,13 +21,28 @@ class GetClassesCest
     /**
      * Tests Phalcon\Loader :: getClasses()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
     public function loaderGetClasses(UnitTester $I)
     {
         $I->wantToTest('Loader - getClasses()');
 
-        $I->skipTest('Need implementation');
+        $loader = new Loader();
+
+        $loader->registerClasses(
+            [
+                'One' => dataDir('fixtures/Loader/Example/Classes/One.php'),
+                'Two' => dataDir('fixtures/Loader/Example/Classes/Two.php'),
+            ]
+        );
+
+        $I->assertEquals(
+            [
+                'One' => dataDir('fixtures/Loader/Example/Classes/One.php'),
+                'Two' => dataDir('fixtures/Loader/Example/Classes/Two.php'),
+            ],
+            $loader->getClasses()
+        );
     }
 }

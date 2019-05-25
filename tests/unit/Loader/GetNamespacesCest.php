@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Loader;
 
+use function dataDir;
+use Phalcon\Loader;
 use UnitTester;
 
 class GetNamespacesCest
@@ -19,13 +21,36 @@ class GetNamespacesCest
     /**
      * Tests Phalcon\Loader :: getNamespaces()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
     public function loaderGetNamespaces(UnitTester $I)
     {
         $I->wantToTest('Loader - getNamespaces()');
 
-        $I->skipTest('Need implementation');
+        $loader = new Loader();
+
+        $loader->registerNamespaces(
+            [
+                'Example\Namespaces\Base' => dataDir('fixtures/Loader/Example/Namespaces/Base/'),
+                'Example\Namespaces\Adapter' => dataDir('fixtures/Loader/Example/Namespaces/Adapter/'),
+                'Example\Namespaces'         => dataDir('fixtures/Loader/Example/Namespaces/'),
+            ]
+        );
+
+        $I->assertEquals(
+            [
+                'Example\Namespaces\Base' => [
+                    dataDir('fixtures/Loader/Example/Namespaces/Base/'),
+                ],
+                'Example\Namespaces\Adapter' => [
+                    dataDir('fixtures/Loader/Example/Namespaces/Adapter/'),
+                ],
+                'Example\Namespaces' => [
+                    dataDir('fixtures/Loader/Example/Namespaces/'),
+                ],
+            ],
+            $loader->getNamespaces()
+        );
     }
 }

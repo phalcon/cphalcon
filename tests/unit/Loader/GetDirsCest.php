@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Loader;
 
+use function dataDir;
+use Phalcon\Loader;
 use UnitTester;
 
 class GetDirsCest
@@ -19,13 +21,29 @@ class GetDirsCest
     /**
      * Tests Phalcon\Loader :: getDirs()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
     public function loaderGetDirs(UnitTester $I)
     {
         $I->wantToTest('Loader - getDirs()');
 
-        $I->skipTest('Need implementation');
+        $loader = new Loader();
+
+        $loader->registerDirs(
+            [
+                // missing trailing slash
+                dataDir('fixtures/Loader/Example/Folders/Dialects'),
+                dataDir('fixtures/Loader/Example/Folders/Types/'),
+            ]
+        );
+
+        $I->assertEquals(
+            [
+                dataDir('fixtures/Loader/Example/Folders/Dialects'),
+                dataDir('fixtures/Loader/Example/Folders/Types/'),
+            ],
+            $loader->getDirs()
+        );
     }
 }
