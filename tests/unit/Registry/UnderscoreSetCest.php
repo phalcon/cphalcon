@@ -15,28 +15,26 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-class GetCest
+class UnderscoreSetCest
 {
     /**
-     * Tests Phalcon\Registry :: get()
+     * Unit Tests Phalcon\Registry :: __set()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
-    public function collectionGet(UnitTester $I)
+    public function registryUnderscoreSet(UnitTester $I)
     {
-        $I->wantToTest('Registry - get()');
+        $I->wantToTest('Registry - __set()');
 
-        $data = [
-            'one'   => 'two',
-            'three' => 'four',
-            'five'  => 'six',
-        ];
+        $registry = new Registry();
 
-        $registry = new Registry($data);
+
+
+        $registry->three = 'Phalcon';
 
         $I->assertEquals(
-            'four',
+            'Phalcon',
             $registry->get('three')
         );
     }

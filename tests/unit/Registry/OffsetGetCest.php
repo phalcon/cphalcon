@@ -15,17 +15,17 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-class GetCest
+class OffsetGetCest
 {
     /**
-     * Tests Phalcon\Registry :: get()
+     * Unit Tests Phalcon\Registry :: offsetGet()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
-    public function collectionGet(UnitTester $I)
+    public function registryOffsetGet(UnitTester $I)
     {
-        $I->wantToTest('Registry - get()');
+        $I->wantToTest('Registry - offsetGet()');
 
         $data = [
             'one'   => 'two',
@@ -35,9 +35,16 @@ class GetCest
 
         $registry = new Registry($data);
 
+        $expected = 'four';
+
         $I->assertEquals(
-            'four',
-            $registry->get('three')
+            $expected,
+            $registry['three']
+        );
+
+        $I->assertEquals(
+            $expected,
+            $registry->offsetGet('three')
         );
     }
 }
