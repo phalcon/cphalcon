@@ -12,20 +12,41 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class RenderCest
 {
+    use DiTrait;
+
+    public function _before(UnitTester $I)
+    {
+        $this->setNewFactoryDefault();
+    }
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: render()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-25
      */
     public function htmlAttributesRender(UnitTester $I)
     {
         $I->wantToTest('Html\Attributes - render()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes(
+            [
+                'type'  => 'text',
+                'class' => 'form-control',
+                'name'  => 'q',
+                'value' => '',
+            ]
+        );
+
+        $I->assertEquals(
+            ' type="text" name="q" value="" class="form-control"',
+            $attributes->render()
+        );
     }
 }
