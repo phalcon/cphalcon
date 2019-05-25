@@ -114,6 +114,14 @@ foreach ($phalconClasses as $class) {
                 $method = 'underscoreUnset';
 
                 break;
+            case '__call':
+                $method = 'underscoreCall';
+
+                break;
+            case '__invoke':
+                $method = 'underscoreInvoke';
+
+                break;
             case '__wakeup':
                 $method = 'wakeup';
 
