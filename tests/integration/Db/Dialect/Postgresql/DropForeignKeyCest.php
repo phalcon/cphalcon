@@ -12,22 +12,50 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
-/**
- * Class DropForeignKeyCest
- */
 class DropForeignKeyCest
 {
+    use DialectTrait;
+
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: dropForeignKey()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
+     *
+     * @dataProvider getDropForeignKeyFixtures
      */
-    public function dbDialectPostgresqlDropForeignKey(IntegrationTester $I)
+    public function dbDialectPostgresqlDropForeignKey(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Postgresql - dropForeignKey()');
-        $I->skipTest('Need implementation');
+
+        $schema    = $example[0];
+        $reference = $example[1];
+        $expected  = $example[2];
+
+        $dialect = $this->getDialectPostgresql();
+
+        $actual = $dialect->dropForeignKey('table', $schema, $reference);
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getDropForeignKeyFixtures(): array
+    {
+        return [
+            [
+                '',
+                'fk1',
+                'ALTER TABLE "table" DROP CONSTRAINT "fk1"',
+            ],
+            [
+                'schema',
+                'fk1',
+                'ALTER TABLE "schema"."table" DROP CONSTRAINT "fk1"',
+            ],
+        ];
     }
 }

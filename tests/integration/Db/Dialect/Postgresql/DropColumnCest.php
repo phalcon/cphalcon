@@ -12,22 +12,50 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
-/**
- * Class DropColumnCest
- */
 class DropColumnCest
 {
+    use DialectTrait;
+
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: dropColumn()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
+     *
+     * @dataProvider getDropColumnFixtures
      */
-    public function dbDialectPostgresqlDropColumn(IntegrationTester $I)
+    public function dbDialectPostgresqlDropColumn(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Postgresql - dropColumn()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $column   = $example[1];
+        $expected = $example[2];
+
+        $dialect = $this->getDialectPostgresql();
+
+        $actual = $dialect->dropColumn('table', $schema, $column);
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getDropColumnFixtures(): array
+    {
+        return [
+            [
+                '',
+                'column1',
+                'ALTER TABLE "table" DROP COLUMN "column1"',
+            ],
+            [
+                'schema',
+                'column1',
+                'ALTER TABLE "schema"."table" DROP COLUMN "column1"',
+            ],
+        ];
     }
 }

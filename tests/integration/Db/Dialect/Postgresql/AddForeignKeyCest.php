@@ -32,9 +32,10 @@ class AddForeignKeyCest
     {
         $I->wantToTest("Db\Dialect\Postgresql - addForeignKey()");
 
-        $schema     = $example[0];
-        $reference  = $example[1];
-        $expected   = $example[2];
+        $schema    = $example[0];
+        $reference = $example[1];
+        $expected  = $example[2];
+
         $dialect    = $this->getDialectPostgresql();
         $references = $this->getReferences();
 

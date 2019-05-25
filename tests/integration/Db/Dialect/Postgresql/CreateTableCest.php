@@ -31,7 +31,9 @@ class CreateTableCest
     public function dbDialectPostgresqlCreateTable(IntegrationTester $I)
     {
         $I->wantToTest("Db\Dialect\Postgresql - createTable()");
+
         $data = $this->getCreateTableFixtures();
+
         foreach ($data as $item) {
             $schema     = $item[0];
             $definition = $item[1];
@@ -42,7 +44,6 @@ class CreateTableCest
             $I->assertEquals($expected, $actual);
         }
     }
-
 
     protected function getCreateTableFixtures(): array
     {

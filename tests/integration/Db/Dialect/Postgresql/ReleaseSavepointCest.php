@@ -13,21 +13,25 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
 use IntegrationTester;
+use Phalcon\Db\Dialect\Postgresql;
 
-/**
- * Class ReleaseSavepointCest
- */
 class ReleaseSavepointCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: releaseSavepoint()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
      */
     public function dbDialectPostgresqlReleaseSavepoint(IntegrationTester $I)
     {
         $I->wantToTest('Db\Dialect\Postgresql - releaseSavepoint()');
-        $I->skipTest('Need implementation');
+
+        $dialect = new Postgresql();
+
+        $I->assertEquals(
+            'RELEASE SAVEPOINT PH_SAVEPOINT_1',
+            $dialect->releaseSavepoint('PH_SAVEPOINT_1')
+        );
     }
 }

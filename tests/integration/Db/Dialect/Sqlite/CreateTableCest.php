@@ -56,16 +56,22 @@ class CreateTableCest
                 '',
                 [
                     'columns' => [
-                        new Column('column1', [
-                            'type' => Column::TYPE_VARCHAR,
-                            'size' => 10,
-                        ]),
-                        new Column('column2', [
-                            'type'     => Column::TYPE_INTEGER,
-                            'size'     => 18,
-                            'unsigned' => true,
-                            'notNull'  => false,
-                        ]),
+                        new Column(
+                            'column1',
+                            [
+                                'type' => Column::TYPE_VARCHAR,
+                                'size' => 10,
+                            ]
+                        ),
+                        new Column(
+                            'column2',
+                            [
+                                'type'     => Column::TYPE_INTEGER,
+                                'size'     => 18,
+                                'unsigned' => true,
+                                'notNull'  => false,
+                            ]
+                        ),
                     ],
                 ],
                 rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example1.sql'))),
@@ -74,23 +80,32 @@ class CreateTableCest
                 '',
                 [
                     'columns' => [
-                        new Column('column2', [
-                            'type'     => Column::TYPE_INTEGER,
-                            'size'     => 18,
-                            'unsigned' => true,
-                            'notNull'  => false,
-                        ]),
-                        new Column('column3', [
-                            'type'     => Column::TYPE_DECIMAL,
-                            'size'     => 10,
-                            'scale'    => 2,
-                            'unsigned' => false,
-                            'notNull'  => true,
-                        ]),
-                        new Column('column1', [
-                            'type' => Column::TYPE_VARCHAR,
-                            'size' => 10,
-                        ]),
+                        new Column(
+                            'column2',
+                            [
+                                'type'     => Column::TYPE_INTEGER,
+                                'size'     => 18,
+                                'unsigned' => true,
+                                'notNull'  => false,
+                            ]
+                        ),
+                        new Column(
+                            'column3',
+                            [
+                                'type'     => Column::TYPE_DECIMAL,
+                                'size'     => 10,
+                                'scale'    => 2,
+                                'unsigned' => false,
+                                'notNull'  => true,
+                            ]
+                        ),
+                        new Column(
+                            'column1',
+                            [
+                                'type' => Column::TYPE_VARCHAR,
+                                'size' => 10,
+                            ]
+                        ),
                     ],
                     'indexes' => [
                         new Index('PRIMARY', ['column3']),

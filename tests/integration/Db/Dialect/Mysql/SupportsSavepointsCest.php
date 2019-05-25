@@ -13,21 +13,24 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 
-/**
- * Class SupportsSavepointsCest
- */
 class SupportsSavepointsCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: supportsSavepoints()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
      */
     public function dbDialectMysqlSupportsSavepoints(IntegrationTester $I)
     {
         $I->wantToTest('Db\Dialect\Mysql - supportsSavepoints()');
-        $I->skipTest('Need implementation');
+
+        $dialect = new Mysql();
+
+        $I->assertTrue(
+            $dialect->supportsSavepoints()
+        );
     }
 }
