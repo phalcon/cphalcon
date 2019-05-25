@@ -639,9 +639,9 @@ class Postgresql extends Dialect
         var sql, table;
 
         if schemaName {
-            let table = schemaName . "." . tableName;
+            let table = this->prepareTable(tableName, schemaName);
         } else {
-            let table = tableName;
+            let table = this->prepareTable(tableName);
         }
 
         let sql = "TRUNCATE TABLE " . table;
