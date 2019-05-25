@@ -12,22 +12,46 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 
-/**
- * Class ListViewsCest
- */
 class ListViewsCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: listViews()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
+     *
+     * @dataProvider getListViewFixtures
      */
-    public function dbDialectMysqlListViews(IntegrationTester $I)
+    public function dbDialectMysqlListViews(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Mysql - listViews()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $expected = $example[1];
+
+        $dialect = new Mysql();
+
+        $actual = $dialect->listViews($schema);
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getListViewFixtures(): array
+    {
+        return [
+            [
+                null,
+                'SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = DATABASE() ORDER BY view_name',
+            ],
+
+            [
+                'schema',
+                "SELECT `TABLE_NAME` AS view_name FROM `INFORMATION_SCHEMA`.`VIEWS` WHERE `TABLE_SCHEMA` = 'schema' ORDER BY view_name",
+            ],
+        ];
     }
 }

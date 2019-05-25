@@ -28,7 +28,9 @@ class AddIndexCest
     public function dbDialectPostgresqlAddIndex(IntegrationTester $I)
     {
         $I->wantToTest("Db\Dialect\Postgresql - addIndex()");
+
         $data = $this->getAddIndexFixtures();
+
         foreach ($data as $item) {
             $schema   = $item[0];
             $index    = $item[1];
@@ -41,10 +43,7 @@ class AddIndexCest
         }
     }
 
-    /**
-     * @return array
-     */
-    protected function getAddIndexFixtures()
+    protected function getAddIndexFixtures(): array
     {
         return [
             ['', 'index1', 'CREATE INDEX "index1" ON "table" ("column1")'],

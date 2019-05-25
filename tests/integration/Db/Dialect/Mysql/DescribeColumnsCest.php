@@ -12,22 +12,57 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 
-/**
- * Class DescribeColumnsCest
- */
 class DescribeColumnsCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: describeColumns()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @issue  https://github.com/phalcon/cphalcon/issues/12536
+     * @issue  https://github.com/phalcon/cphalcon/issues/11359
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-02-26
+     *
+     * @dataProvider getDescribeColumnsFixtures
      */
-    public function dbDialectMysqlDescribeColumns(IntegrationTester $I)
+    public function dbDialectMysqlDescribeColumns(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Mysql - describeColumns()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $expected = $example[1];
+
+        $dialect = new Mysql();
+
+        $actual = $dialect->describeColumns(
+            'table',
+            $schema
+        );
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getDescribeColumnsFixtures(): array
+    {
+        return [
+            [
+                'schema.name.with.dots',
+                'DESCRIBE `schema.name.with.dots`.`table`',
+            ],
+
+            [
+                null,
+                'DESCRIBE `table`',
+            ],
+
+            [
+                'schema',
+                'DESCRIBE `schema`.`table`',
+            ],
+        ];
     }
 }

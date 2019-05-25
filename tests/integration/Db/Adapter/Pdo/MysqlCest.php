@@ -280,12 +280,12 @@ class MysqlCest extends MysqlHelper
     {
         return [
             [
-                'sql'      => $this->dropForeignKeySql('test_name_key'),
+                'sql'      => 'ALTER TABLE `foreign_key_child` DROP FOREIGN KEY test_name_key',
                 'expected' => true,
             ],
 
             [
-                'sql'      => $this->dropForeignKeySql('foreign_key_child_ibfk_1'),
+                'sql'      => 'ALTER TABLE `foreign_key_child` DROP FOREIGN KEY foreign_key_child_ibfk_1',
                 'expected' => true,
             ],
         ];

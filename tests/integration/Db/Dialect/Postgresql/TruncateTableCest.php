@@ -12,22 +12,47 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
-/**
- * Class TruncateTableCest
- */
 class TruncateTableCest
 {
+    use DialectTrait;
+
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: truncateTable()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
+     *
+     * @dataProvider getTruncateTableFixtures
      */
-    public function dbDialectPostgresqlTruncateTable(IntegrationTester $I)
+    public function dbDialectPostgresqlTruncateTable(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Postgresql - truncateTable()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $expected = $example[1];
+
+        $dialect = $this->getDialectPostgresql();
+
+        $actual = $dialect->truncateTable('table', $schema);
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getTruncateTableFixtures(): array
+    {
+        return [
+            [
+                '',
+                'TRUNCATE TABLE "table"',
+            ],
+            [
+                'schema',
+                'TRUNCATE TABLE "schema"."table"',
+            ],
+        ];
     }
 }
