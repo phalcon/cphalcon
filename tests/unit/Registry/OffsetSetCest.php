@@ -15,26 +15,35 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-class SetCest
+class OffsetSetCest
 {
     /**
-     * Tests Phalcon\Registry :: set()
+     * Unit Tests Phalcon\Registry :: offsetSet()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
-    public function collectionSet(UnitTester $I)
+    public function registryOffsetSet(UnitTester $I)
     {
-        $I->wantToTest('Registry - set()');
+        $I->wantToTest('Registry - offsetSet()');
 
         $registry = new Registry();
 
 
 
-        $registry->set('three', 'two');
+        $registry->offsetSet('three', 123);
 
         $I->assertEquals(
-            'two',
+            123,
+            $registry->get('three')
+        );
+
+
+
+        $registry['three'] = 456;
+
+        $I->assertEquals(
+            456,
             $registry->get('three')
         );
     }

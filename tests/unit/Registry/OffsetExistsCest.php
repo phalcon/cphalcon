@@ -15,17 +15,17 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-class HasCest
+class OffsetExistsCest
 {
     /**
-     * Tests Phalcon\Registry :: has()
+     * Unit Tests Phalcon\Registry :: offsetExists()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
-    public function collectionHas(UnitTester $I)
+    public function registryOffsetExists(UnitTester $I)
     {
-        $I->wantToTest('Registry - has()');
+        $I->wantToTest('Registry - offsetExists()');
 
         $data = [
             'one'   => 'two',
@@ -36,11 +36,19 @@ class HasCest
         $registry = new Registry($data);
 
         $I->assertTrue(
-            $registry->has('three')
+            isset($registry['three'])
         );
 
         $I->assertFalse(
-            $registry->has('unknown')
+            isset($registry['unknown'])
+        );
+
+        $I->assertTrue(
+            $registry->offsetExists('three')
+        );
+
+        $I->assertFalse(
+            $registry->offsetExists('unknown')
         );
     }
 }

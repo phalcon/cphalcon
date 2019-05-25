@@ -15,17 +15,17 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-class GetCest
+class UnderscoreGetCest
 {
     /**
-     * Tests Phalcon\Registry :: get()
+     * Unit Tests Phalcon\Registry :: __get()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
-    public function collectionGet(UnitTester $I)
+    public function registryUnderscoreGet(UnitTester $I)
     {
-        $I->wantToTest('Registry - get()');
+        $I->wantToTest('Registry - __get()');
 
         $data = [
             'one'   => 'two',
@@ -37,7 +37,7 @@ class GetCest
 
         $I->assertEquals(
             'four',
-            $registry->get('three')
+            $registry->three
         );
     }
 }
