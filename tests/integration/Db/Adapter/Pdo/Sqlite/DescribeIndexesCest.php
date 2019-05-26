@@ -13,12 +13,21 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Sqlite;
 
 use IntegrationTester;
+use Phalcon\Db\Index;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class DescribeIndexesCest
- */
 class DescribeIndexesCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newDi();
+        $this->setDiModelsManager();
+        $this->setDiModelsMetadata();
+        $this->setDiSqlite();
+    }
+
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: describeIndexes()
      *
@@ -28,6 +37,40 @@ class DescribeIndexesCest
     public function dbAdapterPdoSqliteDescribeIndexes(IntegrationTester $I)
     {
         $I->wantToTest('Db\Adapter\Pdo\Sqlite - describeIndexes()');
-        $I->skipTest('Need implementation');
+
+        $connection = $this->getService('db');
+
+        $expectedIndexes = [
+            'sqlite_autoindex_COMPANY_1' => Index::__set_state(
+                [
+                    'name'    => 'sqlite_autoindex_COMPANY_1',
+                    'columns' => ['ID'],
+                    'type'    => 'PRIMARY',
+                ]
+            ),
+            'salary_index'               => Index::__set_state(
+                [
+                    'name'    => 'salary_index',
+                    'columns' => ['SALARY'],
+                ]
+            ),
+            'name_index'                 => Index::__set_state(
+                [
+                    'name'    => 'name_index',
+                    'columns' => ['NAME'],
+                    'type'    => 'UNIQUE',
+                ]
+            ),
+        ];
+
+        $I->assertEquals(
+            $expectedIndexes,
+            $connection->describeIndexes('COMPANY')
+        );
+
+        $I->assertEquals(
+            $expectedIndexes,
+            $connection->describeIndexes('company', 'main')
+        );
     }
 }
