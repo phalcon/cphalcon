@@ -66,7 +66,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
     protected container;
 
-    protected metaData;
+    protected metaData = [];
 
     protected strategy;
 
