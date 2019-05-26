@@ -13,12 +13,20 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Sqlite;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class ListTablesCest
- */
 class ListTablesCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newDi();
+        $this->setDiModelsManager();
+        $this->setDiModelsMetadata();
+        $this->setDiSqlite();
+    }
+
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: listTables()
      *
@@ -27,7 +35,35 @@ class ListTablesCest
      */
     public function dbAdapterPdoSqliteListTables(IntegrationTester $I)
     {
-        $I->wantToTest('Db\Adapter\Pdo\Sqlite - listTables()');
-        $I->skipTest('Need implementation');
+        $connection = $this->getService('db');
+
+        $expectedTables = [
+            'COMPANY',
+            'customers',
+            'm2m_parts',
+            'm2m_robots',
+            'm2m_robots_parts',
+            'parts',
+            'personas',
+            'personnes',
+            'ph_select',
+            'prueba',
+            'robots',
+            'robots_parts',
+            'sqlite_sequence',
+            'subscriptores',
+            'table_with_string_field',
+            'tipo_documento',
+        ];
+
+        $I->assertEquals(
+            $expectedTables,
+            $connection->listTables()
+        );
+
+        $I->assertEquals(
+            $expectedTables,
+            $connection->listTables('public')
+        );
     }
 }
