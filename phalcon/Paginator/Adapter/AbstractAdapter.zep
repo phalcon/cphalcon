@@ -21,7 +21,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Configuration of paginator by model
      */
-    protected config = null;
+    protected config;
 
     /**
      * Number of rows to show in the paginator. By default is null
