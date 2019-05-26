@@ -13,21 +13,85 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Profiler;
 
 use IntegrationTester;
+use Phalcon\Events\Manager;
+use Phalcon\Test\Fixtures\Db\ProfilerListener;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetNumberTotalStatementsCest
- */
 class GetNumberTotalStatementsCest
 {
-    /**
-     * Tests Phalcon\Db\Profiler :: getNumberTotalStatements()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function dbProfilerGetNumberTotalStatements(IntegrationTester $I)
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
     {
-        $I->wantToTest('Db\Profiler - getNumberTotalStatements()');
-        $I->skipTest('Need implementation');
+        $this->newDi();
+    }
+
+
+
+    public function testDbMysql(IntegrationTester $I)
+    {
+        $this->setDiMysql();
+
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
+    }
+
+    public function testDbPostgresql(IntegrationTester $I)
+    {
+        $this->setDiPostgresql();
+
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
+    }
+
+    public function testDbSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
+    }
+
+
+
+    private function executeTests(IntegrationTester $I, $connection)
+    {
+        $eventsManager = new Manager();
+        $listener      = new ProfilerListener();
+
+        $eventsManager->attach('db', $listener);
+
+        $connection->setEventsManager($eventsManager);
+
+        $profiler = $listener->getProfiler();
+
+        $I->assertEquals(
+            0,
+            $profiler->getNumberTotalStatements()
+        );
+
+        $connection->query('SELECT * FROM personas LIMIT 3');
+
+        $I->assertEquals(
+            1,
+            $profiler->getNumberTotalStatements()
+        );
+
+        $connection->query('SELECT * FROM personas LIMIT 100');
+
+        $I->assertEquals(
+            2,
+            $profiler->getNumberTotalStatements()
+        );
+
+        $connection->query('SELECT * FROM personas LIMIT 5');
+
+        $I->assertEquals(
+            3,
+            $profiler->getNumberTotalStatements()
+        );
     }
 }
