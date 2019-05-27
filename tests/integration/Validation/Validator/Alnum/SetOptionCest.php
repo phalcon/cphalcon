@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\Alnum;
 
-/**
- * Class SetOptionCest
- */
 class SetOptionCest
 {
     use ValidationTrait;
