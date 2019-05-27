@@ -14,6 +14,7 @@ namespace Phalcon\Test\Cli\Cli;
 use CliTester;
 use EchoTask;
 use MainTask;
+use OnConstructTask;
 use Phalcon\Registry;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -79,6 +80,20 @@ class TaskCest
         $I->assertEquals(
             'echoMainAction',
             $task->mainAction()
+        );
+    }
+
+    public function testOnConstruct(CliTester $I)
+    {
+        /**
+         * @todo Check the loader
+         */
+        require_once dataDir('fixtures/tasks/OnConstructTask.php');
+
+        $task = new OnConstructTask();
+
+        $I->assertTrue(
+            $task->onConstructExecuted
         );
     }
 }
