@@ -399,9 +399,9 @@ class Micro extends Injectable implements \ArrayAccess
                 if typeof eventsManager == "object" {
                     if eventsManager->fire("micro:beforeExecuteRoute", this) === false {
                         return false;
-                    } else {
-                        let handler = this->activeHandler;
                     }
+
+                    let handler = this->activeHandler;
                 }
 
                 let beforeHandlers = this->beforeHandlers;
