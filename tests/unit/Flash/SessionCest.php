@@ -37,7 +37,7 @@ class SessionCest
         $this->setDiSessionFiles();
 
         if (PHP_SESSION_ACTIVE !== session_status()) {
-            @session_start();
+            session_start();
         }
 
         if (!isset($_SESSION)) {
@@ -47,7 +47,7 @@ class SessionCest
 
     public function _after(UnitTester $I)
     {
-        @session_destroy();
+        session_destroy();
     }
 
 
