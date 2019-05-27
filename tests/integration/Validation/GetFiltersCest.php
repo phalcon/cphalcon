@@ -13,22 +13,42 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation;
 
 use IntegrationTester;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\PresenceOf;
 
-/**
- * Class GetFiltersCest
- */
 class GetFiltersCest
 {
     /**
      * Tests Phalcon\Validation :: getFilters()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-16
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-27
      */
     public function validationGetFilters(IntegrationTester $I)
     {
         $I->wantToTest('Validation - getFilters()');
 
-        $I->skipTest('Need implementation');
+        $validation = new Validation();
+
+        $validation->add(
+            'name',
+            new PresenceOf()
+        );
+
+        $validation->add(
+            'email',
+            new PresenceOf()
+        );
+
+        $validation->setFilters('name', 'trim');
+        $validation->setFilters('email', 'lower');
+
+        $I->assertEquals(
+            [
+                'name'  => 'trim',
+                'email' => 'lower',
+            ],
+            $validation->getFilters()
+        );
     }
 }
