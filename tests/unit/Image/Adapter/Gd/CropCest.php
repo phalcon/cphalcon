@@ -141,7 +141,7 @@ class CropCest
         $height    = 40;
         $cropImage = 'crop.png';
         $output    = outputDir($outputDir . '/' . $cropImage);
-        $md5       = '01a9ae91d41f3f15563b55e60ea013ce';
+        $md5       = '7c16dbb681d89358c8522384c5829155';
 
         // Resize to 200 pixels on the shortest side
         $image->crop($width, $height)->save(outputDir($outputDir . '/' . $cropImage));
@@ -184,7 +184,7 @@ class CropCest
         $I->wantToTest('Image\Adapter\Gd - crop() - png with offset');
 
         $image = new Gd(
-            dataDir('assets/images/phalconphp.jpg')
+            dataDir('assets/images/logo.png')
         );
 
         $outputDir = 'tests/image/gd';
@@ -194,7 +194,7 @@ class CropCest
         $offsetY   = 25;
         $cropImage = 'crop.png';
         $output    = outputDir($outputDir . '/' . $cropImage);
-        $md5       = '0b1e7f13da29b9eb38c76b19c67384b5';
+        $md5       = '0adb4da73573cf1544c0765a906d6fb5';
 
         // Resize to 200 pixels on the shortest side
         $image->crop($width, $height, $offsetX, $offsetY)->save($output);
