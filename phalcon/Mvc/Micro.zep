@@ -13,7 +13,6 @@ namespace Phalcon\Mvc;
 use Phalcon\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Mvc\Controller;
-use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro\Exception;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Mvc\Micro\Collection;
@@ -298,13 +297,7 @@ class Micro extends Injectable implements \ArrayAccess
     {
         var container;
 
-        let container = this->container;
-
-        if typeof container != "object" {
-            let container = new FactoryDefault();
-
-            let this->container = container;
-        }
+        let container = this->getDI();
 
         return container->get(serviceName);
     }
@@ -318,13 +311,7 @@ class Micro extends Injectable implements \ArrayAccess
     {
         var container;
 
-        let container = this->container;
-
-        if typeof container != "object" {
-            let container = new FactoryDefault();
-
-            let this->container = container;
-        }
+        let container = this->getDI();
 
         return container->getShared(serviceName);
     }
@@ -829,13 +816,7 @@ class Micro extends Injectable implements \ArrayAccess
     {
         var container;
 
-        let container = this->container;
-
-        if typeof container != "object" {
-            let container = new FactoryDefault();
-
-            let this->container = container;
-        }
+        let container = this->getDI();
 
         return container->has(serviceName);
     }
@@ -1039,13 +1020,7 @@ class Micro extends Injectable implements \ArrayAccess
     {
         var container;
 
-        let container = this->container;
-
-        if typeof container != "object" {
-            let container = new FactoryDefault();
-
-            let this->container = container;
-        }
+        let container = this->getDI();
 
         container->remove(alias);
     }
@@ -1246,13 +1221,7 @@ class Micro extends Injectable implements \ArrayAccess
     {
         var container;
 
-        let container = this->container;
-
-        if typeof container != "object" {
-            let container = new FactoryDefault();
-
-            let this->container = container;
-        }
+        let container = this->getDI();
 
         return container->set(serviceName, definition, shared);
     }
