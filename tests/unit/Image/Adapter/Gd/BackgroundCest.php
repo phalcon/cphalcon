@@ -36,9 +36,9 @@ class BackgroundCest
             [null, 150, Image::HEIGHT, '#0F0', 75, '3e9d69ef425efda75f0e2f80d7cb6d22'],
         ];
 
-        $outputDir = 'tests/image/gd';
+        $outputDir   = 'tests/image/gd';
         $resultImage = 'bg.png';
-        $output    = outputDir($outputDir . '/' . $resultImage);
+        $output      = outputDir($outputDir . '/' . $resultImage);
 
         foreach ($params as list($width, $height, $master, $color, $opacity, $md5)) {
             $image = new Gd(

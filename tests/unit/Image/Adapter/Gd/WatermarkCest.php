@@ -40,12 +40,12 @@ class WatermarkCest
         );
         $watermark->resize(250, null, Image::WIDTH);
 
-        $outputDir = 'tests/image/gd';
+        $outputDir   = 'tests/image/gd';
         $outputImage = 'watermark.jpg';
-        $output = outputDir($outputDir . '/' . $outputImage);
-        $offsetX = 200;
-        $offsetY = 200;
-        $opacity = 50;
+        $output      = outputDir($outputDir . '/' . $outputImage);
+        $offsetX     = 200;
+        $offsetY     = 200;
+        $opacity     = 50;
 
         $md5 = 'efe02a362cedfbf06b8d5924201e4c93';
 
@@ -85,11 +85,11 @@ class WatermarkCest
             dataDir('assets/images/logo.png')
         );
 
-        $outputDir = 'tests/image/gd';
+        $outputDir   = 'tests/image/gd';
         $outputImage = 'watermark.jpg';
-        $output = outputDir($outputDir . '/' . $outputImage);
-        $offsetX = 200;
-        $offsetY = 200;
+        $output      = outputDir($outputDir . '/' . $outputImage);
+        $offsetX     = 200;
+        $offsetY     = 200;
 
         $md5 = 'd0c3e8e7b25902c5d7359b33280f7f4a';
 
@@ -129,12 +129,12 @@ class WatermarkCest
         );
         $watermark->resize(50, 50, Image::NONE);
 
-        $outputDir = 'tests/image/gd';
+        $outputDir   = 'tests/image/gd';
         $outputImage = 'watermark.png';
-        $output = outputDir($outputDir . '/' . $outputImage);
-        $offsetX = 10;
-        $offsetY = 10;
-        $opacity = 50;
+        $output      = outputDir($outputDir . '/' . $outputImage);
+        $offsetX     = 10;
+        $offsetY     = 10;
+        $opacity     = 50;
 
         $md5 = '8387b67de267841d924b924cc0b5e6b0';
 
@@ -175,12 +175,12 @@ class WatermarkCest
         );
         $watermark->resize(null, 30, Image::HEIGHT);
 
-        $outputDir = 'tests/image/gd';
+        $outputDir   = 'tests/image/gd';
         $outputImage = 'watermark.png';
-        $output = outputDir($outputDir . '/' . $outputImage);
-        $offsetX = 20;
-        $offsetY = 20;
-        $opacity = 75;
+        $output      = outputDir($outputDir . '/' . $outputImage);
+        $offsetX     = 20;
+        $offsetY     = 20;
+        $opacity     = 75;
 
         $md5 = 'cce083bc0fefccb5a281d5ce1f9e1bd8';
 

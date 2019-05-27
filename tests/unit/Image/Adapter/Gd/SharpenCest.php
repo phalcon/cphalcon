@@ -31,12 +31,12 @@ class SharpenCest
         $I->wantToTest('Image\Adapter\Gd - sharpen()');
 
         $outputDir = 'tests/image/gd';
-        $params = [
+        $params    = [
             [10, '9b94b582851e0df3d06960abae30ce7a'],
             [50, '2f39d4ccd43c058ca243f784f61b8487'],
             [100, '71fe7f3643aee3af73f30b7b53795e82'],
         ];
-        $i = 0;
+        $i         = 0;
 
         foreach ($params as list($amount, $md5)) {
             $image = new Gd(
@@ -44,7 +44,7 @@ class SharpenCest
             );
 
             $outputImage = $i++ . 'sharpen.jpg';
-            $output = outputDir($outputDir . '/' . $outputImage);
+            $output      = outputDir($outputDir . '/' . $outputImage);
 
             $image->sharpen($amount)
                 ->save($output);

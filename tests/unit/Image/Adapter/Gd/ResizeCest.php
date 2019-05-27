@@ -35,8 +35,8 @@ class ResizeCest
         );
 
         $outputDir = 'tests/image/gd';
-        $width = 200;
-        $height= 200;
+        $width     = 200;
+        $height    = 200;
 
         // Resize to 200 pixels on the shortest side
         $image->resize($width, $height)->save(outputDir($outputDir . '/resize.jpg'));
@@ -75,8 +75,8 @@ class ResizeCest
         );
 
         $outputDir = 'tests/image/gd';
-        $width = 50;
-        $height= 50;
+        $width     = 50;
+        $height    = 50;
 
         // Resize to 50 pixels on the shortest side
         $image->resize($width, $height)->save(outputDir($outputDir . '/resize.jpg'));
