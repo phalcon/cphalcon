@@ -413,48 +413,30 @@ class Micro extends Injectable implements \ArrayAccess
                      * Calls the before handlers
                      */
                     for before in beforeHandlers {
-                        if typeof before == "object" {
-                            if before instanceof MiddlewareInterface {
-                                /**
-                                 * Call the middleware
-                                 */
-                                let status = before->call(this);
-
-                                /**
-                                 * Reload the status
-                                 * break the execution if the middleware was stopped
-                                 */
-                                if this->stopped {
-                                    break;
-                                }
-
-                                continue;
+                        if typeof before == "object" && before instanceof MiddlewareInterface {
+                            /**
+                             * Call the middleware
+                             */
+                            let status = before->call(this);
+                        } else {
+                            if unlikely !is_callable(before) {
+                                throw new Exception(
+                                    "'before' handler is not callable"
+                                );
                             }
-                        }
 
-                        if unlikely !is_callable(before) {
-                            throw new Exception(
-                                "'before' handler is not callable"
-                            );
+                            /**
+                             * Call the before handler
+                             */
+                            let status = call_user_func(before);
                         }
 
                         /**
-                         * Call the before handler
-                         */
-                        let status = call_user_func(before);
-
-                        /**
-                         * break the execution if the middleware was stopped
+                         * Return the status if the middleware was stopped
                          */
                         if this->stopped {
-                            break;
+                            return status;
                         }
-                    }
-                    /**
-                     * Reload the 'stopped' status
-                     */
-                    if this->stopped {
-                        return status;
                     }
                 }
 
@@ -549,42 +531,25 @@ class Micro extends Injectable implements \ArrayAccess
                              * Call the middleware
                              */
                             let status = afterBinding->call(this);
-
-                            /**
-                             * Reload the status
-                             * break the execution if the middleware was stopped
-                             */
-                            if this->stopped {
-                                break;
+                        } else {
+                            if unlikely !is_callable(afterBinding) {
+                                throw new Exception(
+                                    "'afterBinding' handler is not callable"
+                                );
                             }
 
-                            continue;
-                        }
-
-                        if unlikely !is_callable(afterBinding) {
-                            throw new Exception(
-                                "'afterBinding' handler is not callable"
-                            );
+                            /**
+                             * Call the afterBinding handler
+                             */
+                            let status = call_user_func(afterBinding);
                         }
 
                         /**
-                         * Call the afterBinding handler
-                         */
-                        let status = call_user_func(afterBinding);
-
-                        /**
-                         * break the execution if the middleware was stopped
+                         * Return the status if the middleware was stopped
                          */
                         if this->stopped {
-                            break;
+                            return status;
                         }
-                    }
-
-                    /**
-                     * Reload the 'stopped' status
-                     */
-                    if this->stopped {
-                        return status;
                     }
                 }
 
@@ -609,31 +574,20 @@ class Micro extends Injectable implements \ArrayAccess
                      * Calls the after handlers
                      */
                     for after in afterHandlers {
-                        if typeof after == "object" {
-                            if after instanceof MiddlewareInterface {
-                                /**
-                                 * Call the middleware
-                                 */
-                                let status = after->call(this);
-
-                                /**
-                                 * break the execution if the middleware was stopped
-                                 */
-                                if this->stopped {
-                                    break;
-                                }
-
-                                continue;
+                        if typeof after == "object" && after instanceof MiddlewareInterface {
+                            /**
+                             * Call the middleware
+                             */
+                            let status = after->call(this);
+                        } else {
+                            if unlikely !is_callable(after) {
+                                throw new Exception(
+                                    "One of the 'after' handlers is not callable"
+                                );
                             }
-                        }
 
-                        if unlikely !is_callable(after) {
-                            throw new Exception(
-                                "One of the 'after' handlers is not callable"
-                            );
+                            let status = call_user_func(after);
                         }
-
-                        let status = call_user_func(after);
 
                         /**
                          * break the execution if the middleware was stopped
@@ -643,7 +597,6 @@ class Micro extends Injectable implements \ArrayAccess
                         }
                     }
                 }
-
             } else {
                 /**
                  * Calling beforeNotFound event
@@ -694,38 +647,27 @@ class Micro extends Injectable implements \ArrayAccess
                     /**
                      * Try to execute middleware as plugins
                      */
-                    if typeof finish == "object" {
-                        if finish instanceof MiddlewareInterface {
-                            /**
-                             * Call the middleware
-                             */
-                            let status = finish->call(this);
-
-                            /**
-                             * break the execution if the middleware was stopped
-                             */
-                            if this->stopped {
-                                break;
-                            }
-
-                            continue;
+                    if typeof finish == "object" && finish instanceof MiddlewareInterface {
+                        /**
+                         * Call the middleware
+                         */
+                        let status = finish->call(this);
+                    } else {
+                        if unlikely !is_callable(finish) {
+                            throw new Exception(
+                                "One of the 'finish' handlers is not callable"
+                            );
                         }
-                    }
 
-                    if unlikely !is_callable(finish) {
-                        throw new Exception(
-                            "One of the 'finish' handlers is not callable"
-                        );
-                    }
+                        if params === null {
+                            let params = [this];
+                        }
 
-                    if params === null {
-                        let params = [this];
+                        /**
+                         * Call the 'finish' middleware
+                         */
+                        let status = call_user_func_array(finish, params);
                     }
-
-                    /**
-                     * Call the 'finish' middleware
-                     */
-                    let status = call_user_func_array(finish, params);
 
                     /**
                      * break the execution if the middleware was stopped
