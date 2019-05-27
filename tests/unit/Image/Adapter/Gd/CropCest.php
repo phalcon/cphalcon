@@ -104,19 +104,19 @@ class CropCest
         $I->assertSame(
             $width,
             $image->getWidth(),
-            'Check width'
+            'Checking width'
         );
 
         $I->assertSame(
             $height,
             $image->getHeight(),
-            'Check height'
+            'Checking height'
         );
 
         $I->assertSame(
             $md5,
             md5_file($output),
-            'MD5 checksum'
+            'Checking MD5 checksum'
         );
 
         $I->safeDeleteFile($cropImage);
@@ -141,7 +141,7 @@ class CropCest
         $height    = 40;
         $cropImage = 'crop.png';
         $output    = outputDir($outputDir . '/' . $cropImage);
-        $md5       = '7c16dbb681d89358c8522384c5829155';
+        $md5       = '01a9ae91d41f3f15563b55e60ea013ce';
 
         // Resize to 200 pixels on the shortest side
         $image->crop($width, $height)->save(outputDir($outputDir . '/' . $cropImage));
@@ -154,18 +154,20 @@ class CropCest
 
         $I->assertSame(
             $width,
-            $image->getWidth()
+            $image->getWidth(),
+            'Checking width'
         );
 
         $I->assertSame(
             $height,
-            $image->getHeight()
+            $image->getHeight(),
+            'Checking height'
         );
 
         $I->assertSame(
             $md5,
             md5_file($output),
-            'MD5 checksum'
+            'Checking MD5 checksum'
         );
 
         $I->safeDeleteFile($cropImage);
@@ -179,7 +181,7 @@ class CropCest
      */
     public function imageAdapterGdCropPngWithOffset(UnitTester $I)
     {
-        $I->wantToTest('Image\Adapter\Gd - crop()');
+        $I->wantToTest('Image\Adapter\Gd - crop() - png with offset');
 
         $image = new Gd(
             dataDir('assets/images/phalconphp.jpg')
@@ -192,7 +194,7 @@ class CropCest
         $offsetY   = 25;
         $cropImage = 'crop.png';
         $output    = outputDir($outputDir . '/' . $cropImage);
-        $md5       = '7207a8d735abdfb3fcaf744cd71e15d3';
+        $md5       = '0b1e7f13da29b9eb38c76b19c67384b5';
 
         // Resize to 200 pixels on the shortest side
         $image->crop($width, $height, $offsetX, $offsetY)->save($output);
@@ -206,19 +208,19 @@ class CropCest
         $I->assertSame(
             $width,
             $image->getWidth(),
-            'Check width'
+            'Checking width'
         );
 
         $I->assertSame(
             $height,
             $image->getHeight(),
-            'Check height'
+            'Checking height'
         );
 
         $I->assertSame(
             $md5,
             md5_file($output),
-            'MD5 checksum'
+            'Png MD5 checksum'
         );
 
         $I->safeDeleteFile($cropImage);
