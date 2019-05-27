@@ -323,6 +323,10 @@ class Gd extends AbstractAdapter
                 let x1 = x + amount/2;
                 let y1 = y + amount/2;
 
+                if (x1 >= this->width || y1 >= this->height) {
+                    break;
+                }
+
                 let color = imagecolorat(this->image, x1, y1);
 
                 let x2 = x + amount;
