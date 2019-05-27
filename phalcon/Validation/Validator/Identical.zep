@@ -62,29 +62,24 @@ class Identical extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var message, label, replacePairs, value, valid, accepted, valueOption,
-            code;
+        var message, label, value, accepted, valueOption, code;
+        array replacePairs;
+        bool valid;
 
         let value = validation->getValue(field);
 
         if this->hasOption("accepted") {
             let accepted = this->getOption("accepted");
+        } elseif this->hasOption("value") {
+            let accepted = this->getOption("value");
+        }
 
+        if accepted {
             if typeof accepted == "array" {
                 let accepted = accepted[field];
             }
 
             let valid = value == accepted;
-        } else {
-            if this->hasOption("value") {
-                let valueOption = this->getOption("value");
-
-                if typeof valueOption == "array" {
-                    let valueOption = valueOption[field];
-                }
-
-                let valid = value == valueOption;
-            }
         }
 
         if !valid {

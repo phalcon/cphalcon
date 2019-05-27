@@ -13,21 +13,48 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
+use Phalcon\Db\Column;
+use Phalcon\Db\Dialect\Sqlite;
+use Phalcon\Db\Exception;
 
-/**
- * Class ModifyColumnCest
- */
 class ModifyColumnCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: modifyColumn()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-26
      */
     public function dbDialectSqliteModifyColumn(IntegrationTester $I)
     {
         $I->wantToTest('Db\Dialect\Sqlite - modifyColumn()');
-        $I->skipTest('Need implementation');
+
+        $dialect = new Sqlite();
+
+        $I->expectThrowable(
+            new Exception('Altering a DB column is not supported by SQLite'),
+            function () use ($dialect) {
+                $oldColumn = new Column(
+                    'old',
+                    [
+                        'type' => Column::TYPE_VARCHAR,
+                    ]
+                );
+
+                $newColumn = new Column(
+                    'new',
+                    [
+                        'type' => Column::TYPE_VARCHAR,
+                    ]
+                );
+
+                $dialect->modifyColumn(
+                    'table',
+                    'schema',
+                    $newColumn,
+                    $oldColumn
+                );
+            }
+        );
     }
 }

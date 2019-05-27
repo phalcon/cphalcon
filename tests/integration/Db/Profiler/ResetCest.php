@@ -27,18 +27,6 @@ class ResetCest
     }
 
 
-    /**
-     * Tests Phalcon\Db\Profiler :: reset()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function dbProfilerReset(IntegrationTester $I)
-    {
-        $I->wantToTest('Db\Profiler - reset()');
-        $I->skipTest('Need implementation');
-    }
-
 
     public function testDbMysql(IntegrationTester $I)
     {
@@ -48,6 +36,26 @@ class ResetCest
 
         $this->executeTests($I, $connection);
     }
+
+    public function testDbPostgresql(IntegrationTester $I)
+    {
+        $this->setDiPostgresql();
+
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
+    }
+
+    public function testDbSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+
+        $connection = $this->getService('db');
+
+        $this->executeTests($I, $connection);
+    }
+
+
 
     private function executeTests(IntegrationTester $I, $connection)
     {
@@ -97,23 +105,5 @@ class ResetCest
             0,
             $profiler->getNumberTotalStatements()
         );
-    }
-
-    public function testDbPostgresql(IntegrationTester $I)
-    {
-        $this->setDiPostgresql();
-
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
-    }
-
-    public function testDbSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
     }
 }

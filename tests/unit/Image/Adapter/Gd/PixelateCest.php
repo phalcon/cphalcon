@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image\Adapter\Gd;
 use UnitTester;
 
 class PixelateCest
@@ -26,6 +27,36 @@ class PixelateCest
     {
         $I->wantToTest('Image\Adapter\Gd - pixelate()');
 
-        $I->skipTest('Need implementation - getting errors from imagecolorat');
+        $params = [
+            [7, 'da12b2b4a80803ab3c2d8306b7df4157'],
+            [21, '12acefc11dc6cbb93186402612f17566'],
+            [35, '94dcaa6b3d3117aad79b9f4b90886682'],
+            [60, '3832ac0fd32441252b8ddde56980f36d'],
+        ];
+        foreach ($params as list($amount, $md5)) {
+            $image = new Gd(
+                dataDir('assets/images/phalconphp.jpg')
+            );
+
+            $outputDir   = 'tests/image/gd';
+            $outputImage = $amount . '-pixelate.jpg';
+            $output      = outputDir($outputDir . '/' . $outputImage);
+
+            $image->pixelate($amount)->save($output);
+
+            $I->amInPath(
+                outputDir($outputDir)
+            );
+
+            $I->seeFileFound($outputImage);
+
+            $I->assertSame(
+                $md5,
+                md5_file($output),
+                'Checking MD5'
+            );
+
+            $I->safeDeleteFile($outputImage);
+        }
     }
 }
