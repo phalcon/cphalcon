@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image;
+use Phalcon\Image\Adapter\Gd;
 use UnitTester;
 
 class MaskCest
@@ -26,6 +28,35 @@ class MaskCest
     {
         $I->wantToTest('Image\Adapter\Gd - mask()');
 
-        $I->skipTest('Need implementation');
+        $image = new Gd(
+            dataDir('assets/images/logo.png')
+        );
+
+        $mask = new Gd(
+            dataDir('assets/images/phalconphp.jpg')
+        );
+
+        $outputDir   = 'tests/image/gd';
+        $outputImage = 'mask.png';
+        $output      = outputDir($outputDir . '/' . $outputImage);
+
+        $md5 = '3976b4f9e4c249bf9ae799520713f35f';
+
+        // Resize to 200 pixels on the shortest side
+        $mask->mask($image)->save($output);
+
+        $I->amInPath(
+            outputDir($outputDir)
+        );
+
+        $I->seeFileFound($outputImage);
+
+        $I->assertSame(
+            $md5,
+            md5_file($output),
+            'Checking MD5'
+        );
+
+        $I->safeDeleteFile($outputImage);
     }
 }
