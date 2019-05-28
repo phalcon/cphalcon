@@ -12,22 +12,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Css;
 use UnitTester;
 
 class SetTargetUriCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Css :: setTargetUri() - css local
+     * Tests Phalcon\Assets\Asset\Css :: setTargetUri()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetCssSetTargetUriLocal(UnitTester $I)
+    public function assetsAssetCssSetTargetUri(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setTargetUri() - css local');
+        $I->wantToTest('Assets\Asset\Css - setTargetUri()');
 
-        $asset = new Css('css/docs.css');
+        $asset = new Css(
+            $example['path'],
+            $example['local']
+        );
 
         $targetUri = '/new/path';
 
@@ -39,25 +45,17 @@ class SetTargetUriCest
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset\Css :: setTargetUri() - css remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetCssSetTargetUriRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - setTargetUri() - css remote');
-
-        $asset = new Css('https://phalcon.ld/css/docs.css');
-
-        $targetUri = '/new/path';
-
-        $asset->setTargetUri($targetUri);
-
-        $I->assertEquals(
-            $targetUri,
-            $asset->getTargetUri()
-        );
+        return [
+            [
+                'path'  => 'css/docs.css',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/css/docs.css',
+                'local' => false,
+            ],
+        ];
     }
 }

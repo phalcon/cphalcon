@@ -18,33 +18,16 @@ use UnitTester;
 class GetFilterCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getFilter() - js local
+     * Tests Phalcon\Assets\Asset\Js :: getFilter()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetJsGetFilterJsFilter(UnitTester $I)
+    public function assetsAssetJsGetFilterJs(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getFilter() - js local');
+        $I->wantToTest('Assets\Asset\Js - getFilter()');
 
         $asset = new Js('js/jquery.js');
-
-        $I->assertTrue(
-            $asset->getFilter()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset\Js :: getFilter() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetJsGetFilterRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getFilter() - js remote');
-
-        $asset = new Js('https://phalcon.ld/js/jquery.js');
 
         $I->assertTrue(
             $asset->getFilter()

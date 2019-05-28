@@ -12,66 +12,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
 class SetPathCest
 {
     /**
-     * Tests Phalcon\Assets\Asset :: setPath() - css local
+     * Tests Phalcon\Assets\Asset :: setPath() - local
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
-     */
-    public function assetsAssetSetPathCssLocal(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - setPath() - css local');
-
-        $asset = new Asset('css', 'css/docs.css');
-
-        $path = '/new/path';
-
-        $asset->setPath($path);
-
-        $I->assertEquals(
-            $path,
-            $asset->getPath()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: setPath() - css remote
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider localProvider
      */
-    public function assetsAssetSetPathCssRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - setPath() - css remote');
-
-        $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
-
-        $path = '/new/path';
-
-        $asset->setPath($path);
-
-        $I->assertEquals(
-            $path,
-            $asset->getPath()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: setPath() - js local
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetSetPathJsLocal(UnitTester $I)
+    public function assetsAssetSetPathLocal(UnitTester $I, Example $example)
     {
         $I->wantToTest('Assets\Asset - setPath() - js local');
 
-        $asset = new Asset('js', 'js/jquery.js');
+        $asset = new Asset(
+            $example['type'],
+            $example['path']
+        );
 
         $path = '/new/path';
 
@@ -84,16 +46,22 @@ class SetPathCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: setPath() - js remote
+     * Tests Phalcon\Assets\Asset :: setPath() - remote
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider remoteProvider
      */
-    public function assetsAssetSetPathJsRemote(UnitTester $I)
+    public function assetsAssetSetPathRemote(UnitTester $I, Example $example)
     {
         $I->wantToTest('Assets\Asset - setPath() - js remote');
 
-        $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
+        $asset = new Asset(
+            $example['type'],
+            $example['path'],
+            false
+        );
 
         $path = '/new/path';
 
@@ -103,5 +71,33 @@ class SetPathCest
             $path,
             $asset->getPath()
         );
+    }
+
+    protected function localProvider(): array
+    {
+        return [
+            [
+                'type' => 'css',
+                'path' => 'css/docs.css',
+            ],
+            [
+                'type' => 'js',
+                'path' => 'js/jquery.js',
+            ],
+        ];
+    }
+
+    protected function remoteProvider(): array
+    {
+        return [
+            [
+                'type' => 'css',
+                'path' => 'https://phalcon.ld/css/docs.css',
+            ],
+            [
+                'type' => 'js',
+                'path' => 'https://phalcon.ld/js/jquery.js',
+            ],
+        ];
     }
 }

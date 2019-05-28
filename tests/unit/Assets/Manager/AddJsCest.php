@@ -49,18 +49,14 @@ class AddJsCest
 
         $collection = $assets->get('js');
 
-        $number = 0;
-
         foreach ($collection as $resource) {
             $I->assertEquals(
                 'js',
                 $resource->getType()
             );
-
-            $number++;
         }
 
-        $I->assertEquals(2, $number);
+        $I->assertCount(2, $collection);
     }
 
     /**

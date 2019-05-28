@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset;
 
+use Codeception\Example;
 use function dataDir;
 use function filemtime;
 use Phalcon\Assets\Asset;
@@ -33,16 +34,21 @@ class GetTargetUriCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getTargetUri() - css local
+     * Tests Phalcon\Assets\Asset :: getTargetUri() - local
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider localProvider
      */
-    public function assetsAssetGetTargetUriCssLocal(UnitTester $I)
+    public function assetsAssetGetTargetUriLocal(UnitTester $I, Example $example)
     {
         $I->wantToTest('Assets\Asset - getTargetUri() - css local');
 
-        $asset = new Asset('css', 'css/docs.css');
+        $asset = new Asset(
+            $example['type'],
+            $example['path']
+        );
 
         $expected = '/phalcon/path';
 
@@ -55,60 +61,22 @@ class GetTargetUriCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getTargetUri() - css remote
+     * Tests Phalcon\Assets\Asset :: getTargetUri() - remote
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider remoteProvider
      */
-    public function assetsAssetGetTargetUriCssRemote(UnitTester $I)
+    public function assetsAssetGetTargetUriRemote(UnitTester $I, Example $example)
     {
         $I->wantToTest('Assets\Asset - getTargetUri() - css remote');
 
-        $asset = new Asset('css', 'https://phalcon.ld/css/docs.css', false);
-
-        $expected = '/phalcon/path';
-
-        $asset->setTargetUri($expected);
-
-        $I->assertEquals(
-            $expected,
-            $asset->getTargetUri()
+        $asset = new Asset(
+            $example['type'],
+            $example['path'],
+            false
         );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: getTargetUri() - js local
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetTargetUriJsLocal(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getTargetUri() - js local');
-
-        $asset = new Asset('js', 'js/jquery.js');
-
-        $expected = '/phalcon/path';
-
-        $asset->setTargetUri($expected);
-
-        $I->assertEquals(
-            $expected,
-            $asset->getTargetUri()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: getTargetUri() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetTargetUriJsRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getTargetUri() - js remote');
-
-        $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js', false);
 
         $expected = '/phalcon/path';
 
@@ -182,5 +150,33 @@ class GetTargetUriCest
             $expected,
             $asset->getTargetUri()
         );
+    }
+
+    protected function localProvider(): array
+    {
+        return [
+            [
+                'type' => 'css',
+                'path' => 'css/docs.css',
+            ],
+            [
+                'type' => 'js',
+                'path' => 'js/jquery.js',
+            ],
+        ];
+    }
+
+    protected function remoteProvider(): array
+    {
+        return [
+            [
+                'type' => 'css',
+                'path' => 'https://phalcon.ld/css/docs.css',
+            ],
+            [
+                'type' => 'js',
+                'path' => 'https://phalcon.ld/js/jquery.js',
+            ],
+        ];
     }
 }

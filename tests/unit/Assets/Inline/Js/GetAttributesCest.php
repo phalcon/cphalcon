@@ -28,7 +28,8 @@ class GetAttributesCest
         $I->wantToTest('Assets\Inline\Js - getAttributes()');
 
         $attributes = [
-            'data-key' => 'phalcon',];
+            'data-key' => 'phalcon',
+        ];
 
         $asset = new Js(
             '<script>alert("Hello");</script>',

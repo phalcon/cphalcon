@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
@@ -22,31 +23,20 @@ class ConstructCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
-     */
-    public function assetsAssetConstructLocal(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - __construct() - local');
-
-        $asset = new Js('js/jquery.js');
-
-        $I->assertTrue(
-            $asset->getLocal()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset\Js :: __construct() - remote
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider provider
      */
-    public function assetsAssetConstructRemote(UnitTester $I)
+    public function assetsAssetJsConstructLocal(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - __construct() - remote');
+        $I->wantToTest('Assets\Asset\Js - __construct() - local');
 
-        $asset = new Js('js/jquery.js', false);
+        $asset = new Js(
+            $example['path'],
+            $example['local']
+        );
 
-        $I->assertFalse(
+        $I->assertEquals(
+            $example['local'],
             $asset->getLocal()
         );
     }
@@ -57,7 +47,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetConstructFilter(UnitTester $I)
+    public function assetsAssetJsConstructFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - filter');
 
@@ -74,9 +64,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetConstructFilterSet(UnitTester $I)
+    public function assetsAssetJsConstructFilterSet(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - __construct() - filter set');
+        $I->wantToTest('Assets\Asset\Js - __construct() - filter set');
 
         $asset = new Js('js/jquery.js', true, false);
 
@@ -91,9 +81,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetConstructAttributes(UnitTester $I)
+    public function assetsAssetJsConstructAttributes(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - __construct() - attributes');
+        $I->wantToTest('Assets\Asset\Js - __construct() - attributes');
 
         $asset = new Js('js/jquery.js');
 
@@ -109,19 +99,38 @@ class ConstructCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetConstructAttributesSet(UnitTester $I)
+    public function assetsAssetJsConstructAttributesSet(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - __construct() - attributes set');
+        $I->wantToTest('Assets\Asset\Js - __construct() - attributes set');
 
         $attributes = [
             'data' => 'phalcon',
         ];
 
-        $asset = new Js('js/jquery.js', true, true, $attributes);
+        $asset = new Js(
+            'js/jquery.js',
+            true,
+            true,
+            $attributes
+        );
 
         $I->assertEquals(
             $attributes,
             $asset->getAttributes()
         );
+    }
+
+    protected function provider(): array
+    {
+        return [
+            [
+                'path'  => 'js/jquery.js',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/js/jquery.js',
+                'local' => false,
+            ],
+        ];
     }
 }

@@ -26,7 +26,7 @@ class GetContentCest
      */
     public function assetsAssetCssGetContent(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getContent()');
+        $I->wantToTest('Assets\Asset\Css - getContent()');
 
         $asset = new Css('assets/assets/1198.css');
 

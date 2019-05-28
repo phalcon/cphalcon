@@ -12,22 +12,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
 class SetAttributesCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Js :: setAttributes() - js local
+     * Tests Phalcon\Assets\Asset\Js :: setAttributes()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetJsSetAttributesLocal(UnitTester $I)
+    public function assetsAssetJsSetAttributes(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setAttributes() - js local');
+        $I->wantToTest('Assets\Asset\Js - setAttributes()');
 
-        $asset = new Js('js/jquery.js');
+        $asset = new Js(
+            $example['path'],
+            $example['local']
+        );
 
         $attributes = [
             'data-key' => 'phalcon',
@@ -41,27 +47,17 @@ class SetAttributesCest
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset\Js :: setAttributes() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetJsSetAttributesRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - setAttributes() - js remote');
-
-        $asset = new Js('https://phalcon.ld/js/jquery.js', false);
-
-        $attributes = [
-            'data-key' => 'phalcon',
+        return [
+            [
+                'path'  => 'js/jquery.js',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/js/jquery.js',
+                'local' => false,
+            ],
         ];
-
-        $asset->setAttributes($attributes);
-
-        $I->assertEquals(
-            $attributes,
-            $asset->getAttributes()
-        );
     }
 }

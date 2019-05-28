@@ -12,88 +12,54 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
 class GetPathCest
 {
     /**
-     * Tests Phalcon\Assets\Asset :: getPath() - css local
+     * Tests Phalcon\Assets\Asset :: getPath()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetGetPathCssLocal(UnitTester $I)
+    public function assetsAssetGetPath(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getPath() - css local');
+        $I->wantToTest('Assets\Asset - getPath()');
 
-        $path = 'css/docs.css';
-
-        $asset = new Asset('css', $path);
+        $asset = new Asset(
+            $example['type'],
+            $example['path']
+        );
 
         $I->assertEquals(
-            $path,
+            $example['path'],
             $asset->getPath()
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: getPath() - css remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetPathCssRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - getPath() - css remote');
-
-        $path = 'https://phalcon.ld/css/docs.css';
-
-        $asset = new Asset('css', $path);
-
-        $I->assertEquals(
-            $path,
-            $asset->getPath()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: getPath() - js local
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetPathJsLocal(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getPath() - js local');
-
-        $path = 'js/jquery.js';
-
-        $asset = new Asset('js', $path);
-
-        $I->assertEquals(
-            $path,
-            $asset->getPath()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: getPath() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetPathJsRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getPath() - js remote');
-
-        $path = 'https://phalcon.ld/js/jquery.js';
-
-        $asset = new Asset('js', $path);
-
-        $I->assertEquals(
-            $path,
-            $asset->getPath()
-        );
+        return [
+            [
+                'type' => 'css',
+                'path' => 'css/docs.css',
+            ],
+            [
+                'type' => 'css',
+                'path' => 'https://phalcon.ld/css/docs.css',
+            ],
+            [
+                'type' => 'js',
+                'path' => 'js/jquery.js',
+            ],
+            [
+                'type' => 'js',
+                'path' => 'https://phalcon.ld/js/jquery.js',
+            ],
+        ];
     }
 }

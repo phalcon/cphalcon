@@ -12,84 +12,95 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
 class GetLocalCest
 {
     /**
-     * Tests Phalcon\Assets\Asset :: getLocal() - css local
+     * Tests Phalcon\Assets\Asset :: getLocal() - default
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider defaultProvider
      */
-    public function assetsAssetGetLocalCssLocal(UnitTester $I)
+    public function assetsAssetGetLocalJsDefault(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getLocal() - css local');
+        $I->wantToTest('Assets\Asset - getLocal() - default');
 
-        $file = 'css/docs.css';
-
-        $asset = new Asset('css', $file);
+        $asset = new Asset(
+            $example['type'],
+            $example['path']
+        );
 
         $I->assertTrue(
             $asset->getLocal()
         );
     }
 
+    protected function defaultProvider(): array
+    {
+        return [
+            [
+                'type' => 'css',
+                'path' => 'css/docs.css',
+            ],
+            [
+                'type' => 'js',
+                'path' => 'js/jquery.js',
+            ],
+        ];
+    }
+
     /**
-     * Tests Phalcon\Assets\Asset :: getLocal() - css remote
+     * Tests Phalcon\Assets\Asset :: getLocal()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetGetLocalCssRemote(UnitTester $I)
+    public function assetsAssetGetLocal(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getLocal() - css remote');
+        $I->wantToTest('Assets\Asset - getLocal()');
 
-        $file = 'https://phalcon.ld/css/docs.css';
+        $asset = new Asset(
+            $example['type'],
+            $example['path'],
+            $example['local']
+        );
 
-        $asset = new Asset('css', $file);
-
-        $I->assertTrue(
+        $I->assertEquals(
+            $example['local'],
             $asset->getLocal()
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: getLocal() - js local
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetLocalJsLocal(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - getLocal() - js local');
-
-        $file = 'js/jquery.js';
-
-        $asset = new Asset('js', $file);
-
-        $I->assertTrue(
-            $asset->getLocal()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: getLocal() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetLocalJsRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getLocal() - js remote');
-
-        $file = 'https://phalcon.ld/js/jquery.js';
-
-        $asset = new Asset('js', $file);
-
-        $I->assertTrue(
-            $asset->getLocal()
-        );
+        return [
+            [
+                'type'  => 'css',
+                'path'  => 'css/docs.css',
+                'local' => true,
+            ],
+            [
+                'type'  => 'css',
+                'path'  => 'https://phalcon.ld/css/docs.css',
+                'local' => false,
+            ],
+            [
+                'type'  => 'js',
+                'path'  => 'js/jquery.js',
+                'local' => true,
+            ],
+            [
+                'type'  => 'js',
+                'path'  => 'https://phalcon.ld/js/jquery.js',
+                'local' => false,
+            ],
+        ];
     }
 }

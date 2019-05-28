@@ -38,18 +38,14 @@ class AddCest
             new Asset('js', 'js/jquery-ui.js')
         );
 
-        $number = 0;
-
         foreach ($collection as $asset) {
             $I->assertEquals(
                 'js',
                 $asset->getType()
             );
-
-            $number++;
         }
 
-        $I->assertEquals(2, $number);
+        $I->assertCount(2, $collection);
     }
 
     /**
@@ -62,7 +58,7 @@ class AddCest
      */
     public function assetsCollectionAddDuplicate(UnitTester $I)
     {
-        $I->wantToTest('Assets\Collection - add()');
+        $I->wantToTest('Assets\Collection - add() - duplicate');
 
         $collection = new Collection();
 

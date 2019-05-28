@@ -12,104 +12,50 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
 class GetAssetKeyCest
 {
     /**
-     * Tests Phalcon\Assets\Asset :: getAssetKey() - css local
+     * Tests Phalcon\Assets\Asset :: getAssetKey()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetGetAssetKeyCssLocal(UnitTester $I)
+    public function assetsAssetGetAssetKey(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getAssetKey() - css local');
+        $I->wantToTest('Assets\Asset - getAssetKey()');
 
-        $file = 'css/docs.css';
+        $asset = new Asset(
+            $example['type'],
+            $example['path']
+        );
 
-        $asset = new Asset('css', $file);
-
-        $expected = md5(
-            'css:' . $file
+        $assetKey = md5(
+            $example['type'] . ':' . $example['path']
         );
 
         $I->assertEquals(
-            $expected,
+            $assetKey,
             $asset->getAssetKey()
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: getAssetKey() - css remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetAssetKeyCssRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - getAssetKey() - css remote');
-
-        $file = 'https://phalcon.ld/css/docs.css';
-
-        $asset = new Asset('css', $file);
-
-        $expected = md5(
-            'css:' . $file
-        );
-
-        $I->assertEquals(
-            $expected,
-            $asset->getAssetKey()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: getAssetKey() - js local
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetAssetKeyJsLocal(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getAssetKey() - js local');
-
-        $file = 'js/jquery.js';
-
-        $asset = new Asset('js', $file);
-
-        $expected = md5(
-            'js:' . $file
-        );
-
-        $I->assertEquals(
-            $expected,
-            $asset->getAssetKey()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: getAssetKey() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetAssetKeyJsRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getAssetKey() - js remote');
-
-        $file = 'https://phalcon.ld/js/jquery.js';
-
-        $asset = new Asset('js', $file);
-
-        $expected = md5(
-            'js:' . $file
-        );
-
-        $I->assertEquals(
-            $expected,
-            $asset->getAssetKey()
-        );
+        return [
+            [
+                'type' => 'css',
+                'path' => 'css/docs.css',
+            ],
+            [
+                'type' => 'js',
+                'path' => 'js/jquery.js',
+            ],
+        ];
     }
 }

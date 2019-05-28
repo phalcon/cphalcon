@@ -18,14 +18,14 @@ use UnitTester;
 class GetRealSourcePathCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Css :: getRealSourcePath() - css local
+     * Tests Phalcon\Assets\Asset\Css :: getRealSourcePath() - local
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function assetsAssetCssGetRealSourcePathLocal(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getRealSourcePath() - css local');
+        $I->wantToTest('Assets\Asset - getRealSourcePath() - local');
 
         $asset = new Css('css/docs.css');
 
@@ -35,19 +35,21 @@ class GetRealSourcePathCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset\Css :: getRealSourcePath() - css remote
+     * Tests Phalcon\Assets\Asset\Css :: getRealSourcePath() - remote
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function assetsAssetCssGetRealSourcePathRemote(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getRealSourcePath() - css remote');
+        $I->wantToTest('Assets\Asset - getRealSourcePath() - remote');
 
-        $asset = new Css('https://phalcon.ld/css/docs.css', false);
+        $path = 'https://phalcon.ld/css/docs.css';
+
+        $asset = new Css($path, false);
 
         $I->assertEquals(
-            'https://phalcon.ld/css/docs.css',
+            $path,
             $asset->getRealSourcePath()
         );
     }

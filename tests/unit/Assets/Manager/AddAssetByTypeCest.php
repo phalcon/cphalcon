@@ -25,6 +25,7 @@ class AddAssetByTypeCest
     public function assetsManagerAddAssetByType(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - addAssetByType()');
+
         $I->skipTest('Need implementation');
     }
 }

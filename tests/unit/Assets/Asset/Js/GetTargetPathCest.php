@@ -12,52 +12,50 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
 class GetTargetPathCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getTargetPath() - js local
+     * Tests Phalcon\Assets\Asset\Js :: getTargetPath()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetJsGetTargetPathLocal(UnitTester $I)
+    public function assetsAssetJsGetTargetPath(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getTargetPath() - js local');
+        $I->wantToTest('Assets\Asset\Js - getTargetPath()');
 
-        $asset = new Js('js/jquery.js');
+        $asset = new Js(
+            $example['path'],
+            $example['local']
+        );
 
-        $expected = '/phalcon/path';
+        $targetPath = '/phalcon/path';
 
-        $asset->setTargetPath($expected);
+        $asset->setTargetPath($targetPath);
 
         $I->assertEquals(
-            $expected,
+            $targetPath,
             $asset->getTargetPath()
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset\Js :: getTargetPath() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetJsGetTargetPathRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - getTargetPath() - js remote');
-
-        $asset = new Js('https://phalcon.ld/js/jquery.js', false);
-
-        $expected = '/phalcon/path';
-
-        $asset->setTargetPath($expected);
-
-        $I->assertEquals(
-            $expected,
-            $asset->getTargetPath()
-        );
+        return [
+            [
+                'path'  => 'js/jquery.js',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/js/jquery.js',
+                'local' => false,
+            ],
+        ];
     }
 }

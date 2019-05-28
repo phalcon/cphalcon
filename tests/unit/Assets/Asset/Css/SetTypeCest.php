@@ -12,22 +12,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Css;
 use UnitTester;
 
 class SetTypeCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Css :: setType() - css local
+     * Tests Phalcon\Assets\Asset\Css :: setType()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetCssSetTypeLocal(UnitTester $I)
+    public function assetsAssetCssSetType(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setType() - css local');
+        $I->wantToTest('Assets\Asset\Css - setType()');
 
-        $asset = new Css('css/docs.css');
+        $asset = new Css(
+            $example['path'],
+            $example['local']
+        );
 
         $type = 'js';
 
@@ -39,25 +45,17 @@ class SetTypeCest
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset\Css :: setType() - css remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetCssSetTypeRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - setType() - css remote');
-
-        $asset = new Css('https://phalcon.ld/css/docs.css');
-
-        $type = 'js';
-
-        $asset->setType($type);
-
-        $I->assertEquals(
-            $type,
-            $asset->getType()
-        );
+        return [
+            [
+                'path'  => 'css/docs.css',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/css/docs.css',
+                'local' => false,
+            ],
+        ];
     }
 }
