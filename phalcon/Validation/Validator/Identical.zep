@@ -62,7 +62,7 @@ class Identical extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var message, label, value, accepted, valueOption, code;
+        var message, label, value, accepted, code;
         array replacePairs;
         bool valid;
 
