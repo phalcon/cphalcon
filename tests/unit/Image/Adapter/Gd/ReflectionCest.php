@@ -32,23 +32,23 @@ class ReflectionCest
 
         $params = [
             'jpg' => [
-                [100, 75, false, 'ee03ed1356319622eb4afdbc3df97763'],
-                [100, 75, true, 'ee03ed1356319622eb4afdbc3df97763'],
-                [60, 40, false, '721bd5766f4c63378532dc8aa2f19cea'],
-                [60, 40, true, '721bd5766f4c63378532dc8aa2f19cea'],
+                [100, 75, false, 'fbfbf7c3c3c18383'],
+                [100, 75, true, 'fbfbf7c3c3c18383'],
+                [60, 40, false, 'fbfbf3e3c3c38303'],
+                [60, 40, true, 'fbfbf3e3c3c38303'],
             ],
             'png' => [
-                [10, 75, false, 'cae4fe2091be1f202d4f129323d28552'],
-                [10, 75, true, '6f310fbd54b8cf2d58096db28e7197ba'],
-                [30, 40, false, '1161b35d84280641b5125544b63965e8'],
-                [30, 40, true, '0c515780919d5e5f7bfee81cd1a33199'],
+                [10, 75, false, '30787c3e1f381800'],
+                [10, 75, true, '30787c3e1f381800'],
+                [30, 40, false, '307c3c1f38180010'],
+                [30, 40, true, '307c3c1f38180018'],
             ],
         ];
 
         $outputDir = 'tests/image/gd';
 
         foreach ($this->getImages() as $type => $imagePath) {
-            foreach ($params[$type] as list($height, $opacity, $fade, $md5)) {
+            foreach ($params[$type] as list($height, $opacity, $fade, $hash)) {
                 $resultImage = 'reflection-' . $height . '-' . $opacity . '-' . ((int)$fade) . '.' . $type;
                 $output      = outputDir($outputDir . '/' . $resultImage);
 
@@ -62,9 +62,8 @@ class ReflectionCest
 
                 $I->seeFileFound($resultImage);
 
-                $I->assertSame(
-                    $md5,
-                    md5_file($output)
+                $I->assertTrue(
+                    $this->checkImageHash($output, $hash)
                 );
 
                 $I->safeDeleteFile($output);

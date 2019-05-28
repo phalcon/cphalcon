@@ -14,10 +14,13 @@ namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
 use Phalcon\Image;
 use Phalcon\Image\Adapter\Gd;
+use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
 class MaskCest
 {
+    use GdTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Gd :: mask()
      *
@@ -40,7 +43,7 @@ class MaskCest
         $outputImage = 'mask.png';
         $output      = outputDir($outputDir . '/' . $outputImage);
 
-        $md5 = '3976b4f9e4c249bf9ae799520713f35f';
+        $hash = '30787c3c3f191800';
 
         // Resize to 200 pixels on the shortest side
         $mask->mask($image)->save($output);
@@ -51,10 +54,8 @@ class MaskCest
 
         $I->seeFileFound($outputImage);
 
-        $I->assertSame(
-            $md5,
-            md5_file($output),
-            'Checking MD5'
+        $I->assertTrue(
+            $this->checkImageHash($output, $hash)
         );
 
         $I->safeDeleteFile($outputImage);

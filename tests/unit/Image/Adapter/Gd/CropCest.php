@@ -39,7 +39,7 @@ class CropCest
         $height    = 200;
         $cropImage = 'crop.jpg';
         $output    = outputDir($outputDir . '/' . $cropImage);
-        $md5       = '58de018ca54ed429032544c5c9f6e309';
+        $hash      = '7f7f7b571f1f1f7f';
 
         // Resize to 200 pixels on the shortest side
         $image->crop($width, $height)->save(outputDir($outputDir . '/' . $cropImage));
@@ -60,10 +60,8 @@ class CropCest
             $image->getHeight()
         );
 
-        $I->assertSame(
-            $md5,
-            md5_file($output),
-            'MD5 checksum'
+        $I->assertTrue(
+            $this->checkImageHash($output, $hash)
         );
 
         $I->safeDeleteFile($cropImage);
@@ -90,7 +88,7 @@ class CropCest
         $offsetY   = 200;
         $cropImage = 'crop.jpg';
         $output    = outputDir($outputDir . '/' . $cropImage);
-        $md5       = '9d16cdd5878348812e5e602b6e21b603';
+        $hash       = 'fffff00000000000';
 
         // Resize to 200 pixels on the shortest side
         $image->crop($width, $height, $offsetX, $offsetY)->save($output);
@@ -113,10 +111,8 @@ class CropCest
             'Checking height'
         );
 
-        $I->assertSame(
-            $md5,
-            md5_file($output),
-            'Checking MD5 checksum'
+        $I->assertTrue(
+            $this->checkImageHash($output, $hash)
         );
 
         $I->safeDeleteFile($cropImage);
@@ -141,7 +137,7 @@ class CropCest
         $height    = 40;
         $cropImage = 'crop.png';
         $output    = outputDir($outputDir . '/' . $cropImage);
-        $md5       = '7c16dbb681d89358c8522384c5829155';
+        $hash       = '0203273b3f1f0f0f';
 
         // Resize to 200 pixels on the shortest side
         $image->crop($width, $height)->save(outputDir($outputDir . '/' . $cropImage));
@@ -164,10 +160,8 @@ class CropCest
             'Checking height'
         );
 
-        $I->assertSame(
-            $md5,
-            md5_file($output),
-            'Checking MD5 checksum'
+        $I->assertTrue(
+            $this->checkImageHash($output, $hash)
         );
 
         $I->safeDeleteFile($cropImage);
@@ -194,7 +188,7 @@ class CropCest
         $offsetY   = 25;
         $cropImage = 'crop.png';
         $output    = outputDir($outputDir . '/' . $cropImage);
-        $md5       = '0adb4da73573cf1544c0765a906d6fb5';
+        $hash       = '0cc6f07f3f3cf838';
 
         // Resize to 200 pixels on the shortest side
         $image->crop($width, $height, $offsetX, $offsetY)->save($output);
@@ -217,10 +211,8 @@ class CropCest
             'Checking height'
         );
 
-        $I->assertSame(
-            $md5,
-            md5_file($output),
-            'Png MD5 checksum'
+        $I->assertTrue(
+            $this->checkImageHash($output, $hash)
         );
 
         $I->safeDeleteFile($cropImage);

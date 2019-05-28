@@ -47,7 +47,7 @@ class WatermarkCest
         $offsetY     = 200;
         $opacity     = 50;
 
-        $md5 = 'efe02a362cedfbf06b8d5924201e4c93';
+        $hash = 'fbf9f3e3c3c18183';
 
         // Resize to 200 pixels on the shortest side
         $image->watermark($watermark, $offsetX, $offsetY, $opacity)->save($output);
@@ -58,10 +58,8 @@ class WatermarkCest
 
         $I->seeFileFound($outputImage);
 
-        $I->assertSame(
-            $md5,
-            md5_file($output),
-            'Checking MD5'
+        $I->assertTrue(
+            $this->checkImageHash($output, $hash)
         );
 
         $I->safeDeleteFile($outputImage);
@@ -91,7 +89,7 @@ class WatermarkCest
         $offsetX     = 200;
         $offsetY     = 200;
 
-        $md5 = 'd0c3e8e7b25902c5d7359b33280f7f4a';
+        $hash = 'fbf9f3e3c3c18183';
 
         $image->watermark($watermark, $offsetX, $offsetY)->save($output);
 
@@ -101,10 +99,8 @@ class WatermarkCest
 
         $I->seeFileFound($outputImage);
 
-        $I->assertSame(
-            $md5,
-            md5_file($output),
-            'Checking MD5'
+        $I->assertTrue(
+            $this->checkImageHash($output, $hash)
         );
 
         $I->safeDeleteFile($outputImage);
@@ -136,7 +132,7 @@ class WatermarkCest
         $offsetY     = 10;
         $opacity     = 50;
 
-        $md5 = '8387b67de267841d924b924cc0b5e6b0';
+        $hash = '107c7c7c7e1c1818';
 
         // Resize to 200 pixels on the shortest side
         $image->watermark($watermark, $offsetX, $offsetY, $opacity)->save($output);
@@ -147,10 +143,8 @@ class WatermarkCest
 
         $I->seeFileFound($outputImage);
 
-        $I->assertSame(
-            $md5,
-            md5_file($output),
-            'Checking MD5'
+        $I->assertTrue(
+            $this->checkImageHash($output, $hash)
         );
 
         $I->safeDeleteFile($outputImage);
@@ -182,7 +176,7 @@ class WatermarkCest
         $offsetY     = 20;
         $opacity     = 75;
 
-        $md5 = 'cce083bc0fefccb5a281d5ce1f9e1bd8';
+        $hash = '10787c3c3e181818';
 
         $image->watermark($watermark, $offsetX, $offsetY, $opacity)->save($output);
 
@@ -192,10 +186,8 @@ class WatermarkCest
 
         $I->seeFileFound($outputImage);
 
-        $I->assertSame(
-            $md5,
-            md5_file($output),
-            'Checking MD5'
+        $I->assertTrue(
+            $this->checkImageHash($output, $hash)
         );
 
         $I->safeDeleteFile($outputImage);

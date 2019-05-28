@@ -32,15 +32,16 @@ class BackgroundCest
         $I->wantToTest('Image\Adapter\Gd - background()');
 
         $params = [
-            [200, null, Image::WIDTH, '#000', 30, 'a82effa97654a9bda836e1138bf43637'],
-            [null, 150, Image::HEIGHT, '#0F0', 75, '3e9d69ef425efda75f0e2f80d7cb6d22'],
+            [200, null, Image::WIDTH, '000000', 30, '10787c3c1e1c3818'],
+            [null, 150, Image::HEIGHT, '00FF00', 75, '10787c3c1e1c3818'],
         ];
 
         $outputDir   = 'tests/image/gd';
-        $resultImage = 'bg.png';
-        $output      = outputDir($outputDir . '/' . $resultImage);
 
-        foreach ($params as list($width, $height, $master, $color, $opacity, $md5)) {
+        foreach ($params as list($width, $height, $master, $color, $opacity, $hash)) {
+            $resultImage = $color . 'bg.png';
+            $output      = outputDir($outputDir . '/' . $resultImage);
+
             $image = new Gd(
                 dataDir('assets/images/logo.png')
             );
@@ -55,9 +56,8 @@ class BackgroundCest
 
             $I->seeFileFound($resultImage);
 
-            $I->assertSame(
-                $md5,
-                md5_file($output)
+            $I->assertTrue(
+                $this->checkImageHash($output, $hash)
             );
 
             $I->safeDeleteFile($resultImage);

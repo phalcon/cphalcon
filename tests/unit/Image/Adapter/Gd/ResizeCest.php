@@ -35,11 +35,13 @@ class ResizeCest
         );
 
         $outputDir = 'tests/image/gd';
+        $output    = outputDir($outputDir . '/resize.jpg');
         $width     = 200;
-        $height    = 200;
+        $height    = 76;
+        $hash      = 'fbf9f3e3c3c1c183';
 
         // Resize to 200 pixels on the shortest side
-        $image->resize($width, $height)->save(outputDir($outputDir . '/resize.jpg'));
+        $image->resize($width, $height)->save($output);
 
         $I->amInPath(
             outputDir($outputDir)
@@ -47,14 +49,18 @@ class ResizeCest
 
         $I->seeFileFound('resize.jpg');
 
-        $I->assertLessThanOrEqual(
+        $I->assertSame(
             $width,
             $image->getWidth()
         );
 
-        $I->assertLessThanOrEqual(
+        $I->assertSame(
             $height,
             $image->getHeight()
+        );
+
+        $I->assertTrue(
+            $this->checkImageHash($output, $hash)
         );
 
         $I->safeDeleteFile('resize.jpg');
@@ -75,28 +81,34 @@ class ResizeCest
         );
 
         $outputDir = 'tests/image/gd';
+        $output    = outputDir($outputDir . '/resize.png');
         $width     = 50;
         $height    = 50;
+        $hash      = 'bf9f8fc5bf9bc0d0';
 
         // Resize to 50 pixels on the shortest side
-        $image->resize($width, $height)->save(outputDir($outputDir . '/resize.jpg'));
+        $image->resize($width, $height)->save($output);
 
         $I->amInPath(
             outputDir($outputDir)
         );
 
-        $I->seeFileFound('resize.jpg');
+        $I->seeFileFound('resize.png');
 
-        $I->assertLessThanOrEqual(
+        $I->assertSame(
             $width,
             $image->getWidth()
         );
 
-        $I->assertLessThanOrEqual(
+        $I->assertSame(
             $height,
             $image->getHeight()
         );
 
-        $I->safeDeleteFile('resize.jpg');
+        $I->assertTrue(
+            $this->checkImageHash($output, $hash)
+        );
+
+        $I->safeDeleteFile('resize.png');
     }
 }

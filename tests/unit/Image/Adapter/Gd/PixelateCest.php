@@ -13,10 +13,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
 use Phalcon\Image\Adapter\Gd;
+use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
 class PixelateCest
 {
+    use GdTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Gd :: pixelate()
      *
@@ -28,12 +31,12 @@ class PixelateCest
         $I->wantToTest('Image\Adapter\Gd - pixelate()');
 
         $params = [
-            [7, 'da12b2b4a80803ab3c2d8306b7df4157'],
-            [21, '12acefc11dc6cbb93186402612f17566'],
-            [35, '94dcaa6b3d3117aad79b9f4b90886682'],
-            [60, '3832ac0fd32441252b8ddde56980f36d'],
+            [7, 'fbf9f7e3c3c18183'],
+            [21, 'fbf9f7e3c1c3c183'],
+            [35, 'fbf9f3e3c3c18183'],
+            [60, 'fbfbf3e3c3c3c383'],
         ];
-        foreach ($params as list($amount, $md5)) {
+        foreach ($params as list($amount, $hash)) {
             $image = new Gd(
                 dataDir('assets/images/phalconphp.jpg')
             );
@@ -50,10 +53,8 @@ class PixelateCest
 
             $I->seeFileFound($outputImage);
 
-            $I->assertSame(
-                $md5,
-                md5_file($output),
-                'Checking MD5'
+            $I->assertTrue(
+                $this->checkImageHash($output, $hash)
             );
 
             $I->safeDeleteFile($outputImage);

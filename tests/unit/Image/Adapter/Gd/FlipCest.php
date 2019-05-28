@@ -33,19 +33,19 @@ class FlipCest
 
         $params = [
             'jpg' => [
-                [Image::HORIZONTAL, 'de60965c3f89164f3709c8826b2e62c5'],
-                [Image::VERTICAL, '93b3e9033a359ab3594c06482ceabd5e'],
+                [Image::HORIZONTAL, 'df9fcfc7c38381c1'],
+                [Image::VERTICAL, '8381c1c3e3f3f9fb'],
             ],
             'png' => [
-                [Image::HORIZONTAL, '8f1d9613781b45bb0be1509613d45aef'],
-                [Image::VERTICAL, '27f30b2172484a98d0beb14e08ce0880'],
+                [Image::HORIZONTAL, '0c1e3e3c78181818'],
+                [Image::VERTICAL, '1818181e3c7c7830'],
             ],
         ];
 
         $outputDir = 'tests/image/gd';
 
         foreach ($this->getImages() as $type => $imagePath) {
-            foreach ($params[$type] as list($direction, $md5)) {
+            foreach ($params[$type] as list($direction, $hash)) {
                 $resultImage = 'flip-' . $direction . '.' . $type;
                 $output      = outputDir($outputDir . '/' . $resultImage);
 
@@ -59,9 +59,8 @@ class FlipCest
 
                 $I->seeFileFound($resultImage);
 
-                $I->assertSame(
-                    $md5,
-                    md5_file($output)
+                $I->assertTrue(
+                    $this->checkImageHash($output, $hash)
                 );
 
                 $I->safeDeleteFile($output);

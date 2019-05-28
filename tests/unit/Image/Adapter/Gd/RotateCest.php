@@ -32,25 +32,25 @@ class RotateCest
 
         $params = [
             'jpg' => [
-                [0, '3df18f591c4c8d166f3d9e08dec118cb'],
-                [45, '9adc6f82d097800e5a13f59e873eb905'],
-                [90, 'de4ba68f1ebae8b4ed158be67d5d504a'],
-                [180, '26f83d7a5157a469e6d07b71cb296cae'],
-                [270, 'e41b1e28fa8df37223818c4eb3ff17eb'],
+                [0, 'fbf9f3e3c3c18183'],
+                [45, '60f0f83c1c0f0f06'],
+                [90, 'ff3f0f0703009dff'],
+                [180, 'c18183c3c7cf9fdf'],
+                [270, 'ffb900c0e0f0fcff'],
             ],
             'png' => [
-                [0, '17909972f73be3698ad96bcd18e043f0'],
-                [45, '32bc2f284c213d5d0e674e46a4af3672'],
-                [90, '6aeb9ab424a852701a2449f7d8db71f1'],
-                [180, '4508bdd74d338a685a5268cc1caee604'],
-                [270, 'f90e485c532fdbec85ad22bfaf87b7cd'],
+                [0, '30787c3c1e181818'],
+                [45, '001c1c1c7c3c0000'],
+                [90, '00060ffffe1c1000'],
+                [180, '181818783c3e1e0c'],
+                [270, '0008387ffff06000'],
             ],
         ];
 
         $outputDir = 'tests/image/gd';
 
         foreach ($this->getImages() as $type => $imagePath) {
-            foreach ($params[$type] as list($degrees, $md5)) {
+            foreach ($params[$type] as list($degrees, $hash)) {
                 $resultImage = 'rotate-' . $degrees . '.' . $type;
                 $output      = outputDir($outputDir . '/' . $resultImage);
 
@@ -64,9 +64,8 @@ class RotateCest
 
                 $I->seeFileFound($resultImage);
 
-                $I->assertSame(
-                    $md5,
-                    md5_file($output)
+                $I->assertTrue(
+                    $this->checkImageHash($output, $hash)
                 );
 
                 $I->safeDeleteFile($output);

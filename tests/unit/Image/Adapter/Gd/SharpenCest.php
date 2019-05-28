@@ -32,13 +32,13 @@ class SharpenCest
 
         $outputDir = 'tests/image/gd';
         $params    = [
-            [10, '9b94b582851e0df3d06960abae30ce7a'],
-            [50, '2f39d4ccd43c058ca243f784f61b8487'],
-            [100, '71fe7f3643aee3af73f30b7b53795e82'],
+            [10, 'fbf9f3e3c3c18183'],
+            [50, 'fbf9f3e3c3c18183'],
+            [100, 'fbf9f7e3c3c1c183'],
         ];
         $i         = 0;
 
-        foreach ($params as list($amount, $md5)) {
+        foreach ($params as list($amount, $hash)) {
             $image = new Gd(
                 dataDir('assets/images/phalconphp.jpg')
             );
@@ -55,10 +55,8 @@ class SharpenCest
 
             $I->seeFileFound($outputImage);
 
-            $I->assertSame(
-                $md5,
-                md5_file($output),
-                'Checking MD5'
+            $I->assertTrue(
+                $this->checkImageHash($output, $hash)
             );
 
             $I->safeDeleteFile($outputImage);

@@ -31,8 +31,8 @@ class RenderCest
         $I->wantToTest('Image\Adapter\Gd - render()');
 
         $params = [
-            'jpg' => [130699, '679ce149f0b54b6a5ee6b0f7b476efa8'],
-            'png' => [8802, '17909972f73be3698ad96bcd18e043f0'],
+            'jpg' => [130699, 'fbf9f3e3c3c18183'],
+            'png' => [8802, '30787c3c1e181818'],
         ];
 
         foreach ($this->getImages() as $type => $imagePath) {
@@ -40,10 +40,13 @@ class RenderCest
                 $imagePath
             );
 
-            list($lenght, $md5) = $params[$type];
+            list($lenght, $hash) = $params[$type];
 
             $I->assertSame($lenght, mb_strlen($image->render()));
-            $I->assertSame($md5, md5($image->render()));
+
+            $I->assertTrue(
+                $this->checkImageHash($imagePath, $hash)
+            );
         }
     }
 }

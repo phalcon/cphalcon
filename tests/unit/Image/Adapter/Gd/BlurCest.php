@@ -32,21 +32,21 @@ class BlurCest
 
         $params = [
             'jpg' => [
-                [1, '424556b7c8c854850e4adc6b28a5ce1b'],
-                [2, '96cae9c251abbc20f232936d4c1dfb0d'],
-                [5, 'aada4fe1b7d69a8b24f6784d1033e501'],
+                [1, 'fbf9f3e3c3c18183'],
+                [2, 'fbf9f3e3c3c18183'],
+                [5, 'fbf9f3e3c3c18183'],
             ],
             'png' => [
-                [1, '73d7bc80509b72672091c08c6ae5ef17'],
-                [2, '82a57800ff1ca4f09a9214830d59b46e'],
-                [5, 'c28c252bde26e3d506f29cad746ad191'],
+                [1, '30787c3c1e1c1818'],
+                [2, '30787c3c3e181818'],
+                [5, '30787c3c3e181818'],
             ],
         ];
 
         $outputDir = 'tests/image/gd';
 
         foreach ($this->getImages() as $type => $imagePath) {
-            foreach ($params[$type] as list($level, $md5)) {
+            foreach ($params[$type] as list($level, $hash)) {
                 $resultImage = 'blur-' . $level . '.' . $type;
                 $output      = outputDir($outputDir . '/' . $resultImage);
 
@@ -60,9 +60,8 @@ class BlurCest
 
                 $I->seeFileFound($resultImage);
 
-                $I->assertSame(
-                    $md5,
-                    md5_file($output)
+                $I->assertTrue(
+                    $this->checkImageHash($output, $hash)
                 );
 
                 $I->safeDeleteFile($output);
