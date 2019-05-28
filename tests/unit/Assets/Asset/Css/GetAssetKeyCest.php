@@ -18,45 +18,23 @@ use UnitTester;
 class GetAssetKeyCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Css :: getAssetKey() - css local
+     * Tests Phalcon\Assets\Asset\Css :: getAssetKey()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetCssGetAssetKeyLocal(UnitTester $I)
+    public function assetsAssetCssGetAssetKey(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getAssetKey() - css local');
+        $I->wantToTest('Assets\Asset\Css - getAssetKey()');
 
-        $file = 'css/docs.css';
+        $path = 'css/docs.css';
 
-        $asset = new Css($file);
-
-        $assetKey = md5(
-            'css:' . $file
+        $asset = new Css(
+            $path
         );
 
-        $I->assertEquals(
-            $assetKey,
-            $asset->getAssetKey()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset\Css :: getAssetKey() - css remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetCssGetAssetKeyRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getAssetKey() - css remote');
-
-        $file = 'https://phalcon.ld/css/docs.css';
-
-        $asset = new Css($file);
-
         $assetKey = md5(
-            'css:' . $file
+            'css:' . $path
         );
 
         $I->assertEquals(

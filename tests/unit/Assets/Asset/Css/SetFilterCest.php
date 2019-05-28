@@ -12,22 +12,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Css;
 use UnitTester;
 
 class SetFilterCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Css :: setFilter() - css local
+     * Tests Phalcon\Assets\Asset\Css :: setFilter()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetCssSetFilterCssFilter(UnitTester $I)
+    public function assetsAssetCssSetFilter(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setFilter() - css local');
+        $I->wantToTest('Assets\Asset\Css - setFilter()');
 
-        $asset = new Css('https://phalcon.ld/css/docs.css');
+        $asset = new Css(
+            $example['path'],
+            $example['local']
+        );
 
         $I->assertTrue(
             $asset->getFilter()
@@ -40,28 +46,17 @@ class SetFilterCest
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset\Css :: setFilter() - css remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetCssSetFilterRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - setFilter() - css remote');
-
-        $I->skipTest('TODO - Need checking');
-
-        $asset = new Css('https://phalcon.ld/css/docs.css');
-
-        $I->assertTrue(
-            $asset->getFilter()
-        );
-
-        $asset->setFilter(false);
-
-        $I->assertFalse(
-            $asset->getFilter()
-        );
+        return [
+            [
+                'path'  => 'css/docs.css',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/css/docs.css',
+                'local' => false,
+            ],
+        ];
     }
 }

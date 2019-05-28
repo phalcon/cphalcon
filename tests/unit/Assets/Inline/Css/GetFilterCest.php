@@ -18,14 +18,14 @@ use UnitTester;
 class GetFilterCest
 {
     /**
-     * Tests Phalcon\Assets\Inline :: getFilter()
+     * Tests Phalcon\Assets\Inline\Css :: getFilter()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineGetFilter(UnitTester $I)
+    public function assetsInlineCssGetFilter(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - getFilter()');
+        $I->wantToTest('Assets\Inline\Css - getFilter()');
 
         $asset = new Css(
             'p {color: #000099}'

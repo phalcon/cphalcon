@@ -18,14 +18,14 @@ use UnitTester;
 class GetTypeCest
 {
     /**
-     * Tests Phalcon\Assets\Inline :: getType()
+     * Tests Phalcon\Assets\Inline\Css :: getType()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineGetType(UnitTester $I)
+    public function assetsInlineCssGetType(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - getType()');
+        $I->wantToTest('Assets\Inline\Css - getType()');
 
         $asset = new Css(
             'p {color: #000099}'

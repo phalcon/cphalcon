@@ -18,14 +18,14 @@ use UnitTester;
 class GetAttributesCest
 {
     /**
-     * Tests Phalcon\Assets\Inline :: getAttributes()
+     * Tests Phalcon\Assets\Inline\Css :: getAttributes()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineGetAttributes(UnitTester $I)
+    public function assetsInlineCssGetAttributes(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - getAttributes()');
+        $I->wantToTest('Assets\Inline\Css - getAttributes()');
 
         $attributes = [
             'data-key' => 'phalcon',

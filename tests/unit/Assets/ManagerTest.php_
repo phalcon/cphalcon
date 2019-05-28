@@ -88,9 +88,11 @@ class ManagerTest extends UnitTest
             "The outputCss using a collection does not produce the correct result",
             function () {
                 $assets = new Manager();
+
                 $assets->collection('footer')->addCss('css/style1.css');
 
                 $footer = $assets->collection('footer');
+
                 $footer->addCss('css/style2.css');
 
                 $expected = sprintf(
@@ -126,13 +128,14 @@ class ManagerTest extends UnitTest
                     ->addJs('js/script2.js');
 
                 $assets->useImplicitOutput(false);
-                $actual = $assets->outputJs('header');
 
                 $expected = sprintf(
                     "%s\n%s\n",
                     '<script type="text/javascript" src="http:://cdn.example.com/js/script1.js"></script>',
                     '<script type="text/javascript" src="http:://cdn.example.com/js/script2.js"></script>'
                 );
+
+                $actual = $assets->outputJs('header');
 
                 expect($actual)->equals($expected);
             }
@@ -159,22 +162,31 @@ class ManagerTest extends UnitTest
                     ->addJs('js/script2.js')
                     ->addCss('css/styles1.css')
                     ->addCss('css/styles2.css');
+
                 $assets->useImplicitOutput(false);
 
-                $actualJS = $assets->outputJs('header');
+
+
                 $expectedJS = sprintf(
                     "%s\n%s\n",
                     '<script type="text/javascript" src="http:://cdn.example.com/js/script1.js"></script>',
                     '<script type="text/javascript" src="http:://cdn.example.com/js/script2.js"></script>'
                 );
+
+                $actualJS = $assets->outputJs('header');
+
                 expect($actualJS)->equals($expectedJS);
 
-                $actualCSS = $assets->outputCss('header');
+
+
                 $expectedCSS = sprintf(
                     "%s\n%s\n",
                     '<link rel="stylesheet" type="text/css" href="http:://cdn.example.com/css/styles1.css" />',
                     '<link rel="stylesheet" type="text/css" href="http:://cdn.example.com/css/styles2.css" />'
                 );
+
+                $actualCSS = $assets->outputCss('header');
+
                 expect($actualCSS)->equals($expectedCSS);
             }
         );
@@ -194,11 +206,14 @@ class ManagerTest extends UnitTest
         $this->specify(
             "Setting local target does not works correctly",
             function () {
-                $I      = $this->tester;
-                $file   = md5(microtime(true)) . '.js';
+                $I = $this->tester;
+
+                $file = md5(microtime(true)) . '.js';
+
                 $assets = new Manager();
 
                 $assets->useImplicitOutput(false);
+
                 $assets->collection('js')
                     ->addJs(PATH_DATA. 'assets/jquery.js')
                     ->join(true)
@@ -210,8 +225,13 @@ class ManagerTest extends UnitTest
 
                 expect($assets->outputJs('js'))->equals('<script type="text/javascript" src="//phalconphp.com/js/jquery.js"></script>' . PHP_EOL);
 
-                $I->seeFileFound(PATH_OUTPUT . "tests/assets/{$file}");
-                $I->deleteFile(PATH_OUTPUT . "tests/assets/{$file}");
+                $I->seeFileFound(
+                    PATH_OUTPUT . "tests/assets/{$file}"
+                );
+
+                $I->deleteFile(
+                    PATH_OUTPUT . "tests/assets/{$file}"
+                );
             }
         );
     }
@@ -230,6 +250,7 @@ class ManagerTest extends UnitTest
                 $assets = new Manager();
 
                 $assets->useImplicitOutput(false);
+
                 $assets->collection('js')
                     ->addJs(PATH_DATA. 'assets/jquery.js', false, false)
                     ->setTargetPath(PATH_OUTPUT . "tests/assets/combined.js")
@@ -260,6 +281,7 @@ class ManagerTest extends UnitTest
                 $assets = new Manager();
 
                 $assets->useImplicitOutput(false);
+
                 $assets->collection('js')
                     ->addJs(PATH_DATA. 'assets/jquery.js', false, false)
                     ->setTargetPath(PATH_OUTPUT . "tests/assets/combined.js")
@@ -291,6 +313,7 @@ class ManagerTest extends UnitTest
                 $assets = new Manager();
 
                 $assets->useImplicitOutput(false);
+
                 $assets->collection('js')
                     ->addJs(PATH_DATA. 'assets/jquery.js', false, false)
                     ->setTargetPath(PATH_OUTPUT . "tests/assets/combined.js")
@@ -304,75 +327,6 @@ class ManagerTest extends UnitTest
                 );
 
                 expect($assets->outputJs('js'))->equals($expected);
-            }
-        );
-    }
-
-    /**
-     * Tests output with disabled join
-     *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2016-01-24
-     */
-    public function testOutputWithJoinAndFilter()
-    {
-        $this->specify(
-            "The outputJs using a collection and with enabled join and filter does not produce the correct result",
-            function () {
-                $assets = new Manager();
-
-                $assets->useImplicitOutput(false);
-                $assets->collection('js')
-                    ->addJs(PATH_DATA. 'assets/jquery.js', false, false)
-                    ->setTargetPath(PATH_OUTPUT . "tests/assets/combined.js")
-                    ->setTargetUri('production/combined.js')
-                    ->join(false)
-                    ->addFilter(new None());
-
-                $expected = sprintf(
-                    '<script type="text/javascript" src="%s"></script>%s',
-                    PATH_DATA. 'assets/jquery.js',
-                    PHP_EOL
-                );
-
-                expect($assets->outputJs('js'))->equals($expected);
-            }
-        );
-    }
-
-    /**
-     * Tests avoid duplication of resources when adding a
-     * new one with existing name
-     *
-     * @test
-     * @issue  https://github.com/phalcon/cphalcon/issues/10938
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
-     * @since  2017-06-02
-     */
-    public function doNotAddTheSameRecources()
-    {
-        $this->specify(
-            "The assets collection incorrectly stores resources",
-            function () {
-                $assets = new Manager();
-
-                for ($i = 0; $i < 10; $i++) {
-                    $assets
-                        ->addCss('css/style.css')
-                        ->addJs('script.js');
-                }
-
-                expect($assets->getCss())->count(1);
-                expect($assets->getJs())->count(1);
-
-                for ($i = 0; $i < 2; $i++) {
-                    $assets
-                        ->addCss('style_' . $i . '.css')
-                        ->addJs('script_' . $i . '.js');
-                }
-
-                expect($assets->getCss())->count(3);
-                expect($assets->getJs())->count(3);
             }
         );
     }

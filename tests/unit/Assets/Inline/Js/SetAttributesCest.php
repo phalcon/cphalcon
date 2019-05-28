@@ -18,14 +18,14 @@ use UnitTester;
 class SetAttributesCest
 {
     /**
-     * Tests Phalcon\Assets\Inline :: setAttributes()
+     * Tests Phalcon\Assets\Inline\Js :: setAttributes()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineSetAttributes(UnitTester $I)
+    public function assetsInlineJsSetAttributes(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - setAttributes()');
+        $I->wantToTest('Assets\Inline\Js - setAttributes()');
 
         $asset = new Js(
             '<script>alert("Hello");</script>'

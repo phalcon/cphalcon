@@ -12,48 +12,46 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
 class GetRealTargetUriCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getRealTargetUri() - js local
+     * Tests Phalcon\Assets\Asset\Js :: getRealTargetUri()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetJsGetAssetKeyLocal(UnitTester $I)
+    public function assetsAssetJsGetAssetKey(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getRealTargetUri() - js local');
+        $I->wantToTest('Assets\Asset\Js - getRealTargetUri()');
 
-        $realTargetUri = 'js/jquery.js';
-
-        $asset = new Js($realTargetUri);
+        $asset = new Js(
+            $example['path'],
+            $example['local']
+        );
 
         $I->assertEquals(
-            $realTargetUri,
+            $example['path'],
             $asset->getRealTargetUri()
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset\Js :: getRealTargetUri() - js
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetJsGetAssetKeyRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - getRealTargetUri() - js remote');
-
-        $realTargetUri = 'https://phalcon.ld/js/jquery.js';
-
-        $asset = new Js($realTargetUri, false);
-
-        $I->assertEquals(
-            $realTargetUri,
-            $asset->getRealTargetUri()
-        );
+        return [
+            [
+                'path'  => 'js/jquery.js',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/js/jquery.js',
+                'local' => false,
+            ],
+        ];
     }
 }

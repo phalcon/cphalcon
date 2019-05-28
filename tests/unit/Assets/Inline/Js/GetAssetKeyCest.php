@@ -18,20 +18,22 @@ use UnitTester;
 class GetAssetKeyCest
 {
     /**
-     * Tests Phalcon\Assets\Inline :: getAssetKey()
+     * Tests Phalcon\Assets\Inline\Js :: getAssetKey()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineGetAssetKey(UnitTester $I)
+    public function assetsInlineJsGetAssetKey(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - getAssetKey()');
+        $I->wantToTest('Assets\Inline\Js - getAssetKey()');
 
         $content = '<script>alert("Hello");</script>';
 
         $asset = new Js($content);
 
-        $expected = md5('js:' . $content);
+        $expected = md5(
+            'js:' . $content
+        );
 
         $I->assertEquals(
             $expected,

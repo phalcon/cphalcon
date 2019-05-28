@@ -26,12 +26,14 @@ class ConstructCest
     public function assetsInlineConstructCss(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - css');
+
         $content = 'p {color: #000099}';
         $asset   = new Inline('css', $content);
 
-        $expected = 'css';
-        $actual   = $asset->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'css',
+            $asset->getType()
+        );
     }
 
     /**
@@ -43,11 +45,13 @@ class ConstructCest
     public function assetsInlineConstructCssFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - css filter');
+
         $content = 'p {color: #000099}';
         $asset   = new Inline('css', $content);
 
-        $actual = $asset->getFilter();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -59,11 +63,11 @@ class ConstructCest
     public function assetsInlineConstructCssFilterSet(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - css filter set');
+
         $content = 'p {color: #000099}';
         $asset   = new Inline('css', $content, false);
 
-        $actual = $asset->getFilter();
-        $I->assertFalse($actual);
+        $I->assertFalse($asset->getFilter());
     }
 
     /**
@@ -75,12 +79,14 @@ class ConstructCest
     public function assetsInlineConstructCssAttributes(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - css attributes');
+
         $content = 'p {color: #000099}';
         $asset   = new Inline('css', $content);
 
-        $expected = [];
-        $actual   = $asset->getAttributes();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [],
+            $asset->getAttributes()
+        );
     }
 
     /**
@@ -92,12 +98,24 @@ class ConstructCest
     public function assetsInlineConstructCssAttributesSet(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - css attributes set');
-        $content = 'p {color: #000099}';
-        $asset   = new Inline('css', $content, true, ['data' => 'phalcon']);
 
-        $expected = ['data' => 'phalcon'];
-        $actual   = $asset->getAttributes();
-        $I->assertEquals($expected, $actual);
+        $content = 'p {color: #000099}';
+
+        $attributes = [
+            'data' => 'phalcon',
+        ];
+
+        $asset = new Inline(
+            'css',
+            $content,
+            true,
+            $attributes
+        );
+
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
+        );
     }
 
     /**
@@ -109,12 +127,14 @@ class ConstructCest
     public function assetsInlineConstructJs(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - js');
+
         $content = '<script>alert("Hello");</script>';
         $asset   = new Inline('js', $content);
 
-        $expected = 'js';
-        $actual   = $asset->getType();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'js',
+            $asset->getType()
+        );
     }
 
     /**
@@ -126,11 +146,13 @@ class ConstructCest
     public function assetsInlineConstructJsFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - js filter');
+
         $content = '<script>alert("Hello");</script>';
         $asset   = new Inline('js', $content);
 
-        $actual = $asset->getFilter();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -142,11 +164,13 @@ class ConstructCest
     public function assetsInlineConstructJsFilterSet(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - js filter set');
+
         $content = '<script>alert("Hello");</script>';
         $asset   = new Inline('js', $content, false);
 
-        $actual = $asset->getFilter();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $asset->getFilter()
+        );
     }
 
     /**
@@ -158,12 +182,14 @@ class ConstructCest
     public function assetsInlineConstructJsAttributes(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - js attributes');
+
         $content = '<script>alert("Hello");</script>';
         $asset   = new Inline('js', $content);
 
-        $expected = [];
-        $actual   = $asset->getAttributes();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [],
+            $asset->getAttributes()
+        );
     }
 
     /**
@@ -175,11 +201,18 @@ class ConstructCest
     public function assetsInlineConstructJsAttributesSet(UnitTester $I)
     {
         $I->wantToTest('Assets\Asset - __construct() - js attributes set');
-        $content = '<script>alert("Hello");</script>';
-        $asset   = new Inline('js', $content, true, ['data' => 'phalcon']);
 
-        $expected = ['data' => 'phalcon'];
-        $actual   = $asset->getAttributes();
-        $I->assertEquals($expected, $actual);
+        $content = '<script>alert("Hello");</script>';
+
+        $attributes = [
+            'data' => 'phalcon',
+        ];
+
+        $asset = new Inline('js', $content, true, $attributes);
+
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
+        );
     }
 }

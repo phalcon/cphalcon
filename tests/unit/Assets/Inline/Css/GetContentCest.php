@@ -18,14 +18,14 @@ use UnitTester;
 class GetContentCest
 {
     /**
-     * Tests Phalcon\Assets\Inline :: getContent()
+     * Tests Phalcon\Assets\Inline\Css :: getContent()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineGetContent(UnitTester $I)
+    public function assetsInlineCssGetContent(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - getContent()');
+        $I->wantToTest('Assets\Inline\Css - getContent()');
 
         $content = 'p {color: #000099}';
 

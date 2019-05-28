@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Inline;
 
+use Codeception\Example;
 use Phalcon\Assets\Inline;
 use UnitTester;
 
@@ -22,14 +23,16 @@ class SetFilterCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsInlineSetFilterCss(UnitTester $I)
+    public function assetsInlineSetFilter(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Inline - setFilter() - css');
+        $I->wantToTest('Assets\Inline - setFilter()');
 
         $asset = new Inline(
-            'css',
-            'p {color: #000099}'
+            $example['type'],
+            $example['content']
         );
 
         $I->assertTrue(
@@ -43,29 +46,17 @@ class SetFilterCest
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Inline :: setFilter() - js
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsInlineSetFilterJs(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Inline - setFilter() - js');
-
-        $asset = new Inline(
-            'js',
-            '<script>alert("Hello");</script>'
-        );
-
-        $I->assertTrue(
-            $asset->getFilter()
-        );
-
-        $asset->setFilter(false);
-
-        $I->assertFalse(
-            $asset->getFilter()
-        );
+        return [
+            [
+                'type'    => 'css',
+                'content' => 'p {color: #000099}',
+            ],
+            [
+                'type'    => 'js',
+                'content' => '<script>alert("Hello");</script>',
+            ],
+        ];
     }
 }
