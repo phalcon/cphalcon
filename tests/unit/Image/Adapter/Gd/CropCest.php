@@ -161,7 +161,7 @@ class CropCest
         );
 
         $I->assertTrue(
-            $this->checkImageHash($output, $hash)
+            $this->checkImageHash($output, $hash, 85.0)
         );
 
         $I->safeDeleteFile($cropImage);
@@ -212,7 +212,7 @@ class CropCest
         );
 
         $I->assertTrue(
-            $this->checkImageHash($output, $hash)
+            $this->checkImageHash($output, $hash, 85.0)
         );
 
         $I->safeDeleteFile($cropImage);
