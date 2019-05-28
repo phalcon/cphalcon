@@ -86,7 +86,7 @@ class CropCest
         $height    = 200;
         $offsetX   = 200;
         $offsetY   = 200;
-        $cropImage = 'crop.jpg';
+        $cropImage = 'cropwithoffset.jpg';
         $output    = outputDir($outputDir . '/' . $cropImage);
         $hash       = 'fffff00000000000';
 
@@ -186,7 +186,7 @@ class CropCest
         $height    = 42;
         $offsetX   = 25;
         $offsetY   = 25;
-        $cropImage = 'crop.png';
+        $cropImage = 'cropwithoffset.png';
         $output    = outputDir($outputDir . '/' . $cropImage);
         $hash       = '0cc6f07f3f3cf838';
 
