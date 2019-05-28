@@ -51,8 +51,6 @@ trait GdTrait
     {
         $imageHash = $this->hashAsString($this->getHash($image));
 
-        codecept_debug($imageHash);
-
         return $this->getSimilarityHamming($imageHash, $hash) >= round($simility, 1);
     }
 
