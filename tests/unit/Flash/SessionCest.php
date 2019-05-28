@@ -35,7 +35,22 @@ class SessionCest
         $this->newDi();
         $this->setDiEscaper();
         $this->setDiSessionFiles();
+
+        if (PHP_SESSION_ACTIVE !== session_status()) {
+            session_start();
+        }
+
+        if (!isset($_SESSION)) {
+            $_SESSION = [];
+        }
     }
+
+    public function _after(UnitTester $I)
+    {
+        session_destroy();
+    }
+
+
 
     /**
      * Tests auto escaping
@@ -48,11 +63,6 @@ class SessionCest
      */
     public function testShouldAutoEscapeHtml(UnitTester $I, Example $example)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
-
         $function = $example[0];
 
         $flash = $this->getFlash();
@@ -151,11 +161,6 @@ class SessionCest
      */
     public function testGetMessagesTypeRemoveMessages(UnitTester $I)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
-
         $flash = $this->getFlash();
 
         $flash->success('sample success');
@@ -189,11 +194,6 @@ class SessionCest
      */
     public function testGetNonExistentType(UnitTester $I)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
-
         $flash = $this->getFlash();
 
         $flash->error('sample error');
@@ -217,11 +217,6 @@ class SessionCest
      */
     public function testClearMessagesFormSession(UnitTester $I)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
-
         $flash = $this->getFlash();
 
         ob_start();
@@ -247,11 +242,6 @@ class SessionCest
      */
     public function testMessageFormat(UnitTester $I, Example $example)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
-
         $function = $example[0];
 
         $flash = $this->getFlash();
@@ -296,11 +286,6 @@ class SessionCest
      */
     public function testCustomFormat(UnitTester $I)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
-
         $flash = $this->getFlash();
 
         $template = '<span class="%cssClass%" aria-label="clickme">%message%</span>';
