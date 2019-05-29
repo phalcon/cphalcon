@@ -14,14 +14,14 @@ use Phalcon\Paginator\Repository;
 use Phalcon\Paginator\RepositoryInterface;
 
 /**
- * Phalcon\Paginator\Adapter
+ * Phalcon\Paginator\Adapter\AbstractAdapter
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
     /**
-     * Configuration of paginator by model
+     * Configuration of paginator
      */
-    protected config = null;
+    protected config;
 
     /**
      * Number of rows to show in the paginator. By default is null
@@ -41,7 +41,7 @@ abstract class AbstractAdapter implements AdapterInterface
     protected repository;
 
     /**
-     * Phalcon\Paginator\Adapter\Model constructor
+     * Phalcon\Paginator\Adapter\AbstractAdapter constructor
      */
     public function __construct(array! config) -> void
     {

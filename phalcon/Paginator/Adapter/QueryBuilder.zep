@@ -26,7 +26,7 @@ use Phalcon\Db;
  *
  * $builder = $this->modelsManager->createBuilder()
  *                 ->columns("id, name")
- *                 ->from("Robots")
+ *                 ->from(Robots::class)
  *                 ->orderBy("name");
  *
  * $paginator = new QueryBuilder(

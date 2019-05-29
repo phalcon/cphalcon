@@ -140,9 +140,20 @@ interface CriteriaInterface
      * Adds an INNER join to the query
      *
      *<code>
-     * $criteria->innerJoin("Robots");
-     * $criteria->innerJoin("Robots", "r.id = RobotsParts.robots_id");
-     * $criteria->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+     * $criteria->innerJoin(
+     *     Robots::class
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id"
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r"
+     * );
      *</code>
      */
     public function innerJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>;
@@ -160,7 +171,11 @@ interface CriteriaInterface
      * Adds a LEFT join to the query
      *
      *<code>
-     * $criteria->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+     * $criteria->leftJoin(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r"
+     * );
      *</code>
      */
     public function leftJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>;
@@ -208,7 +223,11 @@ interface CriteriaInterface
      * Adds a RIGHT join to the query
      *
      *<code>
-     * $criteria->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+     * $criteria->rightJoin(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r"
+     * );
      *</code>
      */
     public function rightJoin(string! model, conditions = null, alias = null) -> <CriteriaInterface>;

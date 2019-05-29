@@ -580,7 +580,13 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             let mongoId = id;
         }
 
-        return static::findFirst([["_id": mongoId]]);
+        return static::findFirst(
+            [
+                [
+                    "_id": mongoId
+                ]
+            ]
+        );
     }
 
     /**
@@ -1027,7 +1033,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         /**
          * Uses a javascript hash to group the results
          */
-        let initial = ["summatory": []];
+        let initial = [
+            "summatory": []
+        ];
 
         /**
          * Uses a javascript hash to group the results, however this is slow

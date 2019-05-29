@@ -34,7 +34,7 @@ class PaginatorFactory extends AbstractFactory
      *      ->modelsManager
      *      ->createBuilder()
      *      ->columns("id, name")
-     *      ->from("Robots")
+     *      ->from(Robots::class)
      *      ->orderBy("name");
      *
      * $options = [

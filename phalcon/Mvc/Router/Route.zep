@@ -43,7 +43,7 @@ class Route implements RouteInterface
         this->reConfigure(pattern, paths);
 
         // Update the HTTP method constraints
-        let this->methods = httpMethods;
+        this->via(httpMethods);
 
         // Get the unique Id from the static member uniqueId
         let uniqueId = self::uniqueId;
@@ -588,9 +588,7 @@ class Route implements RouteInterface
      */
     public function setHttpMethods(var httpMethods) -> <RouteInterface>
     {
-        let this->methods = httpMethods;
-
-        return this;
+        return this->via(httpMethods);
     }
 
     /**

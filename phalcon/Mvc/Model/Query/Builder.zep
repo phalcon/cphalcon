@@ -245,9 +245,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         /**
          * Update the dependency injector if any
          */
-        if typeof container == "object" {
-            let this->container = container;
-        }
+        let this->container = container;
     }
 
     /**
@@ -255,10 +253,15 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *
      *<code>
      * // Load data from models Robots
-     * $builder->addFrom("Robots");
+     * $builder->addFrom(
+     *     Robots::class
+     * );
      *
      * // Load data from model 'Robots' using 'r' as alias in PHQL
-     * $builder->addFrom("Robots", "r");
+     * $builder->addFrom(
+     *     Robots::class,
+     *     "r"
+     * );
      *</code>
      */
     public function addFrom(string model, string alias = null) -> <BuilderInterface>
@@ -637,6 +640,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                         "Cannot build the query. Invalid condition"
                     );
                 }
+
                 let model = models[0];
             } else {
                 let model = models;
@@ -651,8 +655,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
             let noPrimary = true,
                 primaryKeys = metaData->getPrimaryKeyAttributes(modelInstance);
-            if count(primaryKeys) {
 
+            if count(primaryKeys) {
                 if fetch firstPrimaryKey, primaryKeys[0] {
 
                     /**
@@ -722,7 +726,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             } else {
                 let phql .= columns;
             }
-
         } else {
             /**
              * Automatically generate an array of models
@@ -1085,7 +1088,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *<code>
      * // Inner Join model 'Robots' with automatic conditions and alias
      * $builder->innerJoin(
-     *     Robots::class);
+     *     Robots::class
+     * );
      *
      * // Inner Join model 'Robots' specifying conditions
      * $builder->innerJoin(
@@ -1489,7 +1493,12 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
         if unlikely (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
-            throw new Exception(sprintf("Operator % is not available.", operator));
+            throw new Exception(
+                sprintf(
+                    "Operator % is not available.",
+                    operator
+                )
+            );
         }
 
         let operatorMethod = operator . clause;

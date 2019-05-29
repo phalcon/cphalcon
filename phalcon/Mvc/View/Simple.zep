@@ -229,9 +229,9 @@ class Simple extends Injectable implements ViewBaseInterface
      *<code>
      * $this->view->registerEngines(
      *     [
-     *         ".phtml" => "Phalcon\\Mvc\\View\\Engine\\Php",
-     *         ".volt"  => "Phalcon\\Mvc\\View\\Engine\\Volt",
-     *         ".mhtml" => "MyCustomEngine",
+     *         ".phtml" => \Phalcon\Mvc\View\Engine\Php::class,
+     *         ".volt"  => \Phalcon\Mvc\View\Engine\Volt::class,
+     *         ".mhtml" => \MyCustomEngine::class,
      *     ]
      * );
      *</code>
@@ -295,9 +295,7 @@ class Simple extends Injectable implements ViewBaseInterface
      */
     public function setParamToView(string! key, var value) -> <Simple>
     {
-        let this->viewParams[key] = value;
-
-        return this;
+        return this->setVar(key, value);
     }
 
     /**
