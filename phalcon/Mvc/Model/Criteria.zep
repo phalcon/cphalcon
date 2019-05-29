@@ -550,7 +550,8 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function limit(int limit, int offset = 0) -> <CriteriaInterface>
     {
-        let limit = abs(limit);
+        let limit  = abs(limit);
+        let offset = abs(offset);
 
         if unlikely limit == 0 {
             return this;

@@ -45,6 +45,7 @@
 - Fixed `Phalcon\Db\Dialect\Postgresql::truncateTable()` to now escape table names. [#14125](https://github.com/phalcon/cphalcon/pull/14125)
 - Fixed `Phalcon\Mvc\Model\MetaData::write()` to throw an exception if `orm.exception_on_failed_metadata_save` is set to true. [#13433](https://github.com/phalcon/cphalcon/issues/13433)
 - Fixed `Phalcon\Image\Adapter\Gd` to throw an error with `imagecolorat`. [#14139](https://github.com/phalcon/cphalcon/issues/14139)
+- `Phalcon\Mvc\Model\Criteria::limit()` now corrects negative offsets.
 
 ## Removed
 - Removed `Phalcon\Session\Factory`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)

@@ -55,35 +55,82 @@ class CriteriaCest
      * @issue  https://github.com/phalcon/cphalcon/issues/12419
      * @author Serghei Iakovelv <serghei@phalconphp.com>
      * @since  2016-12-18
+     *
+     * @dataProvider getLimitOffset
      */
-    public function shouldCorrectHandleLimitAndOffset(IntegrationTester $I)
+    public function shouldCorrectHandleLimitAndOffset(IntegrationTester $I, Example $example)
     {
-        $I->skipTest('TODO - Check the test data');
-        $examples = $this->getLimitOffset();
-        foreach ($examples as $item) {
-            $limit    = $item[0];
-            $offset   = $item[1];
-            $expected = $item[2];
-            /** @var Criteria $query */
-            $query = Users::query();
-            $query->limit($limit, $offset);
+        $limit    = $example[0];
+        $offset   = $example[1];
+        $expected = $example[2];
 
-            $actual = $query->getLimit();
-            $I->assertEquals($expected, $actual);
-        }
+        /** @var Criteria $query */
+        $query = Users::query();
+
+        $query->limit($limit, $offset);
+
+        $I->assertEquals(
+            $expected,
+            $query->getLimit()
+        );
     }
 
     private function getLimitOffset(): array
     {
         return [
-            [-7, null, 7],
-            ['-7234', null, 7234],
-            ['18', null, 18],
-            ['18', 2, ['number' => 18, 'offset' => 2]],
-            ['-1000', -200, ['number' => 1000, 'offset' => 200]],
-            ['1000', '-200', ['number' => 1000, 'offset' => 200]],
-            ['0', '-200', null],
-            ['%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E', 50, null],
+            [
+                -7,
+                0,
+                [
+                    'number' => 7,
+                    'offset' => 0,
+                ],
+            ],
+            [
+                '-7234',
+                0,
+                [
+                    'number' => 7234,
+                    'offset' => 0,
+                ],
+            ],
+            [
+                '18',
+                0,
+                [
+                    'number' => 18,
+                    'offset' => 0,
+                ],
+            ],
+            [
+                '18',
+                2,
+                [
+                    'number' => 18,
+                    'offset' => 2,
+                ],
+            ],
+            [
+                '-1000',
+                -200,
+                [
+                    'number' => 1000,
+                    'offset' => 200,
+                ],
+            ],
+            [
+                '1000',
+                '-200',
+                [
+                    'number' => 1000,
+                    'offset' => 200,
+                ],
+            ],
+            [
+                '0',
+                '-200',
+                null,
+            ],
         ];
     }
 
