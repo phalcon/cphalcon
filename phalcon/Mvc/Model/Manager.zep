@@ -318,25 +318,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * Returns the prefix for all model sources.
-     *
-     * <code>
-     * use Phalcon\Mvc\Model\Manager;
-     *
-     * $di->set(
-     *     "modelsManager",
-     *     function () {
-     *         $modelsManager = new Manager();
-     *
-     *         $modelsManager->setModelPrefix("wp_");
-     *
-     *         return $modelsManager;
-     *     }
-     * );
-     *
-     * $robots = new Robots();
-     *
-     * echo $robots->getSource(); // wp_robots
-     * </code>
      */
     public function getModelPrefix() -> string
     {

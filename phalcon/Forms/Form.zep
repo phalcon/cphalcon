@@ -274,6 +274,7 @@ class Form extends Injectable implements \Countable, \Iterator, AttributesInterf
                 }
             }
         }
+
         return this;
     }
 

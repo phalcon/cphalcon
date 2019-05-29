@@ -622,15 +622,15 @@ class Sqlite extends Dialect
      */
     public function truncateTable(string! tableName, string! schemaName) -> string
     {
-        var sql, table;
+        string table, sql;
 
         if schemaName {
-            let table = schemaName . "\".\"" . tableName;
+            let table = "\"" . schemaName . "\".\"" . tableName . "\"";
         } else {
-            let table = tableName;
+            let table = "\"" . tableName . "\"";
         }
 
-        let sql = "DELETE FROM \"" . table . "\"";
+        let sql = "DELETE FROM " . table;
 
         return sql;
     }

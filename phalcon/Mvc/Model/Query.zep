@@ -2127,7 +2127,9 @@ class Query implements QueryInterface, InjectionAwareInterface
         }
 
         if unlikely typeof metaData != "object" {
-            throw new Exception("A meta-data is required to execute the query");
+            throw new Exception(
+                "A meta-data is required to execute the query"
+            );
         }
 
         // Process selected models
@@ -2292,6 +2294,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                         select["joins"] = automaticJoins;
                 }
             }
+
             let sqlJoins = this->_getJoins(select);
         } else {
             if count(automaticJoins) {

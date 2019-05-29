@@ -99,7 +99,7 @@ class Str
 
 
         for argument in arguments {
-            let data[] = rtrim(ltrim(argument, delimiter), delimiter);
+            let data[] = trim(argument, delimiter);
         }
 
         return prefix . implode(delimiter, data) . suffix;
@@ -321,10 +321,15 @@ class Str
     ) -> string
     {
         if function_exists("mb_strstr") {
-            return trim(mb_strstr(mb_strstr(text, start), end, true), start . end);
+            let text = (string) mb_strstr(mb_strstr(text, start), end, true);
         } else {
-            return trim(strstr(strstr(text, start), end, true), start . end);
+            let text = (string) strstr(strstr(text, start), end, true);
         }
+
+        return trim(
+            text,
+            start . end
+        );
     }
 
     /**
