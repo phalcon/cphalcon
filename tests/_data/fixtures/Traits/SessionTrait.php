@@ -21,14 +21,13 @@ use Phalcon\Session\Adapter\Stream;
 use Phalcon\Storage\AdapterFactory;
 use Phalcon\Storage\SerializerFactory;
 
-/**
- * Trait SessionTrait
- */
 trait SessionTrait
 {
     protected function getSessionStream(): Stream
     {
-        return new Stream(getOptionsSessionStream());
+        return new Stream(
+            getOptionsSessionStream()
+        );
     }
 
 
@@ -37,7 +36,10 @@ trait SessionTrait
         $serializer = new SerializerFactory();
         $factory    = new AdapterFactory($serializer);
 
-        return new Libmemcached($factory, getOptionsLibmemcached());
+        return new Libmemcached(
+            $factory,
+            getOptionsLibmemcached()
+        );
     }
 
 
@@ -52,6 +54,9 @@ trait SessionTrait
         $serializer = new SerializerFactory();
         $factory    = new AdapterFactory($serializer);
 
-        return new Redis($factory, getOptionsRedis());
+        return new Redis(
+            $factory,
+            getOptionsRedis()
+        );
     }
 }

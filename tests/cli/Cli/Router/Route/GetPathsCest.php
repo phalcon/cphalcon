@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Cli\Cli\Router\Route;
 
-use Codeception\Example;
 use CliTester;
+use Codeception\Example;
 use Phalcon\Cli\Router;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Test\Fixtures\Traits\DiTrait;

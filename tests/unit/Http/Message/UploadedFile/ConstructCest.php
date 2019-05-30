@@ -94,12 +94,30 @@ class ConstructCest
     private function getStreamExamples(): array
     {
         return [
-            ['array', ['array']],
-            ['boolean', true],
-            ['float', 123.45],
-            ['integer', 123],
-            ['null', null],
-            ['object', new stdClass()],
+            [
+                'array',
+                ['array'],
+            ],
+            [
+                'boolean',
+                true,
+            ],
+            [
+                'float',
+                123.45,
+            ],
+            [
+                'integer',
+                123,
+            ],
+            [
+                'null',
+                null,
+            ],
+            [
+                'object',
+                new stdClass(),
+            ],
         ];
     }
 }

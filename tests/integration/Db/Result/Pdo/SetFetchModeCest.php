@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Db\Result\Pdo;
 
 use IntegrationTester;
 
-/**
- * Class SetFetchModeCest
- */
 class SetFetchModeCest
 {
     /**

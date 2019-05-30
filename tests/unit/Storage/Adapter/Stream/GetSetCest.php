@@ -35,7 +35,13 @@ class GetSetCest
         $I->wantToTest('Storage\Adapter\Stream - set()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
 
         $data   = 'Phalcon Framework';
         $result = $adapter->set('test-key', $data);
@@ -62,12 +68,20 @@ class GetSetCest
         $I->wantToTest('Storage\Adapter\Stream - get()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
 
         $target = outputDir() . 'phstrm-/te/st/-k/';
         $data   = 'Phalcon Framework';
-        $result = $adapter->set('test-key', $data);
-        $I->assertTrue($result);
+ 
+        $I->assertTrue(
+            $adapter->set('test-key', $data)
+        );
 
         $expected = 'Phalcon Framework';
         $actual   = $adapter->get('test-key');
@@ -90,33 +104,48 @@ class GetSetCest
         $I->wantToTest('Storage\Adapter\Stream - get() - errors');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
 
         $target = outputDir() . 'phstrm-/te/st/-k/';
 
         // Unknown key
-        $expected = 'test';
-        $actual   = $adapter->get('unknown', 'test');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'test',
+            $adapter->get('unknown', 'test')
+        );
 
         // Invalid JSON object
-        $result = file_put_contents($target . 'test-key', '{');
-        $I->assertNotFalse($result);
+        $I->assertNotFalse(
+            file_put_contents(
+                $target . 'test-key',
+                '{'
+            )
+        );
 
-        $expected = 'test';
-        $actual   = $adapter->get('test-key', 'test');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'test',
+            $adapter->get('test-key', 'test')
+        );
 
         // Expiry
-        $data   = 'Phalcon Framework';
-        $result = $adapter->set('test-key', $data, 1);
-        $I->assertTrue($result);
+        $data = 'Phalcon Framework';
+
+        $I->assertTrue(
+            $adapter->set('test-key', $data, 1)
+        );
 
         sleep(2);
 
-        $expected = 'test';
-        $actual   = $adapter->get('test-key', 'test');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'test',
+            $adapter->get('test-key', 'test')
+        );
 
         $I->safeDeleteFile($target . 'test-key');
     }

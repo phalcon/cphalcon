@@ -31,10 +31,8 @@ class IntegrationTester extends Actor
      *
      * @param string $path
      * @param string $separator
-     *
-     * @return string
      */
-    public function preparePathToFileWithDelimiter($path, $separator)
+    public function preparePathToFileWithDelimiter($path, $separator): string
     {
         $virtual_str = '';
 

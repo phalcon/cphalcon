@@ -106,34 +106,6 @@ class RouterCest
     }
 
     /**
-     * Tests getting named route
-     *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
-     * @since  2012-08-27
-     */
-    public function testGettingNamedRoutes(IntegrationTester $I)
-    {
-        $I->skipTest('TODO - Check the getRouteById');
-
-        $router    = $this->getRouter(false);
-        $usersFind = $router->add('/api/users/find')->setHttpMethods('GET')->setName('usersFind');
-        $usersAdd  = $router->add('/api/users/add')->setHttpMethods('POST')->setName('usersAdd');
-
-        $expected = $usersAdd;
-        $actual   = $router->getRouteByName('usersAdd');
-        $I->assertEquals($expected, $actual);
-
-        // second check when the same route goes from name lookup
-        $expected = $usersAdd;
-        $actual   = $router->getRouteByName('usersAdd');
-        $I->assertEquals($expected, $actual);
-
-        $expected = $usersFind;
-        $actual   = $router->getRouteById(0);
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
      * Tests router
      *
      * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
@@ -707,7 +679,7 @@ class RouterCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-26
      */
-    public function shouldMathWithHostnameRegexWithHostPort111(IntegrationTester $I)
+    public function shouldMatchWithHostnameRegexWithHostPort111(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check');
 

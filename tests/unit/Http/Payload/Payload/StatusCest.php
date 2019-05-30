@@ -27,25 +27,25 @@ class StatusCest
     {
         $I->wantToTest('Http\Payload\Status - constants');
 
-        $I->assertEquals("ACCEPTED", Status::ACCEPTED);
-        $I->assertEquals("AUTHENTICATED", Status::AUTHENTICATED);
-        $I->assertEquals("AUTHORIZED", Status::AUTHORIZED);
-        $I->assertEquals("CREATED", Status::CREATED);
-        $I->assertEquals("DELETED", Status::DELETED);
-        $I->assertEquals("ERROR", Status::ERROR);
-        $I->assertEquals("FAILURE", Status::FAILURE);
-        $I->assertEquals("FOUND", Status::FOUND);
-        $I->assertEquals("NOT_ACCEPTED", Status::NOT_ACCEPTED);
-        $I->assertEquals("NOT_AUTHENTICATED", Status::NOT_AUTHENTICATED);
-        $I->assertEquals("NOT_AUTHORIZED", Status::NOT_AUTHORIZED);
-        $I->assertEquals("NOT_CREATED", Status::NOT_CREATED);
-        $I->assertEquals("NOT_DELETED", Status::NOT_DELETED);
-        $I->assertEquals("NOT_FOUND", Status::NOT_FOUND);
-        $I->assertEquals("NOT_UPDATED", Status::NOT_UPDATED);
-        $I->assertEquals("NOT_VALID", Status::NOT_VALID);
-        $I->assertEquals("PROCESSING", Status::PROCESSING);
-        $I->assertEquals("SUCCESS", Status::SUCCESS);
-        $I->assertEquals("UPDATED", Status::UPDATED);
-        $I->assertEquals("VALID", Status::VALID);
+        $I->assertEquals('ACCEPTED', Status::ACCEPTED);
+        $I->assertEquals('AUTHENTICATED', Status::AUTHENTICATED);
+        $I->assertEquals('AUTHORIZED', Status::AUTHORIZED);
+        $I->assertEquals('CREATED', Status::CREATED);
+        $I->assertEquals('DELETED', Status::DELETED);
+        $I->assertEquals('ERROR', Status::ERROR);
+        $I->assertEquals('FAILURE', Status::FAILURE);
+        $I->assertEquals('FOUND', Status::FOUND);
+        $I->assertEquals('NOT_ACCEPTED', Status::NOT_ACCEPTED);
+        $I->assertEquals('NOT_AUTHENTICATED', Status::NOT_AUTHENTICATED);
+        $I->assertEquals('NOT_AUTHORIZED', Status::NOT_AUTHORIZED);
+        $I->assertEquals('NOT_CREATED', Status::NOT_CREATED);
+        $I->assertEquals('NOT_DELETED', Status::NOT_DELETED);
+        $I->assertEquals('NOT_FOUND', Status::NOT_FOUND);
+        $I->assertEquals('NOT_UPDATED', Status::NOT_UPDATED);
+        $I->assertEquals('NOT_VALID', Status::NOT_VALID);
+        $I->assertEquals('PROCESSING', Status::PROCESSING);
+        $I->assertEquals('SUCCESS', Status::SUCCESS);
+        $I->assertEquals('UPDATED', Status::UPDATED);
+        $I->assertEquals('VALID', Status::VALID);
     }
 }

@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Crypt;
 
 use Phalcon\Crypt;
-use Phalcon\Crypt\Exception;
 use Phalcon\Crypt\Mismatch;
 use UnitTester;
 
@@ -46,16 +45,13 @@ class DecryptCest
      * Tests decrypt using HMAC
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/13379
-     * @author                   <k@yejune.com>
-     * @since                    2018-05-16
-     *
-     * @expectedException        Mismatch
-     * @expectedExceptionMessage Hash does not match.
+     * @author <k@yejune.com>
+     * @since  2018-05-16
      */
     public function shouldThrowExceptionIfHashMismatch(UnitTester $I)
     {
         $I->expectThrowable(
-            Exception::class,
+            new Mismatch('Hash does not match.'),
             function () {
                 $crypt = new Crypt();
 
@@ -82,8 +78,7 @@ class DecryptCest
 
         $crypt->useSigning(true);
 
-        $key = 'secret';
-        $crypt->setKey($key);
+        $crypt->setKey('secret');
 
         $expected  = 'le text';
         $encrypted = $crypt->encrypt($expected);

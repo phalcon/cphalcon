@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Libmemcached;
 
 use function dataDir;
-use function env;
 use function getOptionsLibmemcached;
 use IntegrationTester;
 use Phalcon\Cache\AdapterFactory;

@@ -33,15 +33,22 @@ class GetFilteredPostCest
     public function httpRequestGetFilteredPost1(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Request - getFiltered*() - ' . $example[0]);
+
         $container = $this->newFactoryDefault();
+
         /** @var Request $request */
         $request = $container->get('request');
+
         $request->setParameterFilters($example[1], $example[2], $example[3]);
 
         if ('query' === $example[0]) {
-            $_GET = [$example[1] => $example[4]];
+            $_GET = [
+                $example[1] => $example[4],
+            ];
         } elseif ('post' === $example[0]) {
-            $_POST = [$example[1] => $example[4]];
+            $_POST = [
+                $example[1] => $example[4],
+            ];
         }
 
         $method   = 'getFiltered' . ucfirst($example[0]);

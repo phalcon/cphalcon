@@ -52,12 +52,11 @@ class HttpBase
     /**
      * Initializes the response object and returns it
      *
-     * @return Response
      * @since  2014-10-05
      *
      * @author Phalcon Team <team@phalconphp.com>
      */
-    protected function getResponseObject()
+    protected function getResponseObject(): Response
     {
         $container = Di::getDefault();
 
@@ -82,12 +81,11 @@ class HttpBase
     /**
      * Initializes the request object and returns it
      *
-     * @return Request
      * @since  2014-10-05
      *
      * @author Phalcon Team <team@phalconphp.com>
      */
-    protected function getRequestObject()
+    protected function getRequestObject(): Request
     {
         $container = Di::getDefault();
 

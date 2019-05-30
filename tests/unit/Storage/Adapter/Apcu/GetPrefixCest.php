@@ -35,8 +35,10 @@ class GetPrefixCest
         $adapter    = new Apcu($serializer, ['prefix' => 'my-prefix']);
 
         $expected = 'my-prefix';
-        $actual   = $adapter->getPrefix();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $adapter->getPrefix()
+        );
     }
 
     /**
@@ -53,7 +55,9 @@ class GetPrefixCest
         $adapter    = new Apcu($serializer);
 
         $expected = 'ph-apcu-';
-        $actual   = $adapter->getPrefix();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $adapter->getPrefix()
+        );
     }
 }

@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\Row;
@@ -97,17 +98,43 @@ class ManagerCest
     public function shouldReturnDesiredFieldsFromRelatedModel(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check test');
+
         $parts = RobotsParts::findFirst();
 
         $robot = $parts->getRobots();
 
-        $I->assertInstanceOf(Row::class, $robot);
-        $I->assertEquals(['id' => 1, 'name' => 'Robotina'], $robot->toArray());
+        $I->assertInstanceOf(
+            Row::class,
+            $robot
+        );
 
-        $robot = $parts->getRobots(['columns' => 'id,type,name']);
+        $I->assertEquals(
+            [
+                'id'   => 1,
+                'name' => 'Robotina',
+            ],
+            $robot->toArray()
+        );
 
-        $I->assertInstanceOf(Row::class, $robot);
-        $I->assertEquals(['id' => 1, 'type' => 'mechanical', 'name' => 'Robotina'], $robot->toArray());
+        $robot = $parts->getRobots(
+            [
+                'columns' => 'id,type,name',
+            ]
+        );
+
+        $I->assertInstanceOf(
+            Row::class,
+            $robot
+        );
+
+        $I->assertEquals(
+            [
+                'id'   => 1,
+                'type' => 'mechanical',
+                'name' => 'Robotina',
+            ],
+            $robot->toArray()
+        );
     }
 
     /**
@@ -115,11 +142,27 @@ class ManagerCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-08-12
+     *
+     * @dataProvider publicPropertiesProvider
      */
-    public function testModelPublicProperties(IntegrationTester $I)
+    public function testModelPublicProperties(IntegrationTester $I, Example $example)
     {
-        $manager  = $this->getService('modelsManager');
-        $examples = [
+        $manager = $this->getService('modelsManager');
+
+        $property = $example[0];
+        $expected = $example[1];
+
+        $actual = $manager->isVisibleModelProperty(
+            new Customers(),
+            $property
+        );
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function publicPropertiesProvider(): array
+    {
+        return [
             ['id', true],
             ['document_id', true],
             ['customer_id', true],
@@ -129,11 +172,5 @@ class ManagerCest
             ['protected_field', false],
             ['private_field', false],
         ];
-        foreach ($examples as $item) {
-            $property = $item[0];
-            $expected = $item[1];
-            $actual   = $manager->isVisibleModelProperty(new Customers(), $property);
-            $I->assertEquals($expected, $actual);
-        }
     }
 }

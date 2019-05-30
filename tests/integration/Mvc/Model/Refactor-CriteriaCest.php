@@ -45,8 +45,15 @@ class CriteriaCest
     {
         $criteria = Users::query()->inWhere(Users::class . '.id', []);
 
-        $I->assertEquals(Users::class . '.id != ' . Users::class . '.id', $criteria->getWhere());
-        $I->assertInstanceOf(Simple::class, $criteria->execute());
+        $I->assertEquals(
+            Users::class . '.id != ' . Users::class . '.id',
+            $criteria->getWhere()
+        );
+
+        $I->assertInstanceOf(
+            Simple::class,
+            $criteria->execute()
+        );
     }
 
     /**
@@ -151,8 +158,15 @@ class CriteriaCest
     {
         $query = Personas::query()->groupBy('estado')->having('SUM(cupo) > 1000000');
 
-        $I->assertEquals('estado', $query->getGroupBy());
-        $I->assertEquals('SUM(cupo) > 1000000', $query->getHaving());
+        $I->assertEquals(
+            'estado',
+            $query->getGroupBy()
+        );
+
+        $I->assertEquals(
+            'SUM(cupo) > 1000000',
+            $query->getHaving()
+        );
     }
 
     /**
@@ -165,8 +179,15 @@ class CriteriaCest
         $personas = Personas::query()->where("estado='I'")->execute();
         $people   = People::find("estado='I'");
 
-        $I->assertEquals(count($personas->toArray()), count($people->toArray()));
-        $I->assertInstanceOf(Simple::class, $personas);
+        $I->assertEquals(
+            count($personas->toArray()),
+            count($people->toArray())
+        );
+
+        $I->assertInstanceOf(
+            Simple::class,
+            $personas
+        );
     }
 
     /**
@@ -176,7 +197,10 @@ class CriteriaCest
     {
         $this->container->setShared('db', $example['adapter']);
 
-        $I->assertInstanceOf(Simple::class, Personers::query()->where("status='I'")->execute());
+        $I->assertInstanceOf(
+            Simple::class,
+            Personers::query()->where("status='I'")->execute()
+        );
     }
 
     /**
@@ -189,7 +213,10 @@ class CriteriaCest
         $personas = Personas::query()->conditions("estado='I'")->execute();
         $people   = People::find("estado='I'");
 
-        $I->assertEquals(count($personas->toArray()), count($people->toArray()));
+        $I->assertEquals(
+            count($personas->toArray()),
+            count($people->toArray())
+        );
     }
 
     /**
@@ -199,7 +226,10 @@ class CriteriaCest
     {
         $this->container->setShared('db', $example['adapter']);
 
-        $I->assertInstanceOf(Simple::class, Personers::query()->conditions("status='I'")->execute());
+        $I->assertInstanceOf(
+            Simple::class,
+            Personers::query()->conditions("status='I'")->execute()
+        );
     }
 
     /**
@@ -215,10 +245,22 @@ class CriteriaCest
                             ->execute()
         ;
 
-        $people = People::find(["estado='A'", 'order' => 'nombres']);
+        $people = People::find(
+            [
+                "estado='A'",
+                'order' => 'nombres',
+            ]
+        );
 
-        $I->assertEquals(count($personas->toArray()), count($people->toArray()));
-        $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
+        $I->assertEquals(
+            count($personas->toArray()),
+            count($people->toArray())
+        );
+
+        $I->assertEquals(
+            $personas->getFirst()->cedula,
+            $people->getFirst()->cedula
+        );
     }
 
     /**
@@ -234,8 +276,15 @@ class CriteriaCest
                               ->execute()
         ;
 
-        $I->assertInstanceOf(Simple::class, $personers);
-        $I->assertInstanceOf(Personers::class, $personers->getFirst());
+        $I->assertInstanceOf(
+            Simple::class,
+            $personers
+        );
+
+        $I->assertInstanceOf(
+            Personers::class,
+            $personers->getFirst()
+        );
     }
 
     /**
@@ -252,14 +301,23 @@ class CriteriaCest
                             ->execute()
         ;
 
-        $people = People::find([
-            "estado='A'",
-            'order' => 'nombres',
-            'limit' => 100,
-        ]);
+        $people = People::find(
+            [
+                "estado='A'",
+                'order' => 'nombres',
+                'limit' => 100,
+            ]
+        );
 
-        $I->assertEquals(count($personas->toArray()), count($people->toArray()));
-        $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
+        $I->assertEquals(
+            count($personas->toArray()),
+            count($people->toArray())
+        );
+
+        $I->assertEquals(
+            $personas->getFirst()->cedula,
+            $people->getFirst()->cedula
+        );
     }
 
     /**
@@ -276,8 +334,15 @@ class CriteriaCest
                               ->execute()
         ;
 
-        $I->assertInstanceOf(Simple::class, $personers);
-        $I->assertInstanceOf(Personers::class, $personers->getFirst());
+        $I->assertInstanceOf(
+            Simple::class,
+            $personers
+        );
+
+        $I->assertInstanceOf(
+            Personers::class,
+            $personers->getFirst()
+        );
     }
 
     /**
@@ -295,15 +360,24 @@ class CriteriaCest
                             ->execute()
         ;
 
-        $people = People::find([
-            'estado=?1',
-            'bind'  => [1 => 'A'],
-            'order' => 'nombres',
-            'limit' => 100,
-        ]);
+        $people = People::find(
+            [
+                'estado=?1',
+                'bind'  => [1 => 'A'],
+                'order' => 'nombres',
+                'limit' => 100,
+            ]
+        );
 
-        $I->assertEquals(count($personas->toArray()), count($people->toArray()));
-        $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
+        $I->assertEquals(
+            count($personas->toArray()),
+            count($people->toArray())
+        );
+
+        $I->assertEquals(
+            $personas->getFirst()->cedula,
+            $people->getFirst()->cedula
+        );
     }
 
     /**
@@ -321,8 +395,15 @@ class CriteriaCest
                               ->execute()
         ;
 
-        $I->assertInstanceOf(Simple::class, $personers);
-        $I->assertInstanceOf(Personers::class, $personers->getFirst());
+        $I->assertInstanceOf(
+            Simple::class,
+            $personers
+        );
+
+        $I->assertInstanceOf(
+            Personers::class,
+            $personers->getFirst()
+        );
     }
 
     /**
@@ -340,8 +421,15 @@ class CriteriaCest
                               ->execute()
         ;
 
-        $I->assertInstanceOf(Simple::class, $personers);
-        $I->assertInstanceOf(Personers::class, $personers->getFirst());
+        $I->assertInstanceOf(
+            Simple::class,
+            $personers
+        );
+
+        $I->assertInstanceOf(
+            Personers::class,
+            $personers->getFirst()
+        );
     }
 
     /**
@@ -359,15 +447,27 @@ class CriteriaCest
                             ->execute()
         ;
 
-        $people = People::find([
-            'estado=?1',
-            'bind'  => [1 => 'A'],
-            'order' => 'nombres',
-            'limit' => ['number' => 100, 'offset' => 10],
-        ]);
+        $people = People::find(
+            [
+                'estado=?1',
+                'bind'  => [1 => 'A'],
+                'order' => 'nombres',
+                'limit' => [
+                    'number' => 100,
+                    'offset' => 10,
+                ],
+            ]
+        );
 
-        $I->assertEquals(count($personas->toArray()), count($people->toArray()));
-        $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
+        $I->assertEquals(
+            count($personas->toArray()),
+            count($people->toArray())
+        );
+
+        $I->assertEquals(
+            $personas->getFirst()->cedula,
+            $people->getFirst()->cedula
+        );
     }
 
     /**
@@ -385,15 +485,24 @@ class CriteriaCest
                             ->execute()
         ;
 
-        $people = People::find([
-            'estado=:estado:',
-            'bind'  => ['estado' => 'A'],
-            'order' => 'nombres',
-            'limit' => 100,
-        ]);
+        $people = People::find(
+            [
+                'estado=:estado:',
+                'bind'  => ['estado' => 'A'],
+                'order' => 'nombres',
+                'limit' => 100,
+            ]
+        );
 
-        $I->assertEquals(count($personas->toArray()), count($people->toArray()));
-        $I->assertEquals($personas->getFirst()->cedula, $people->getFirst()->cedula);
+        $I->assertEquals(
+            count($personas->toArray()),
+            count($people->toArray())
+        );
+
+        $I->assertEquals(
+            $personas->getFirst()->cedula,
+            $people->getFirst()->cedula
+        );
     }
 
     /**
@@ -405,17 +514,23 @@ class CriteriaCest
 
         $personas = Personas::query()->orderBy('nombres');
 
-        $I->assertEquals($personas->getOrderBy(), 'nombres');
+        $I->assertEquals(
+            'nombres',
+            $personas->getOrderBy()
+        );
     }
 
     /**
      * @issue        https://github.com/phalcon/cphalcon/issues/2131
+     *
      * @dataprovider adapterProvider
      */
     public function freshCache(IntegrationTester $I, Example $example)
     {
         $this->container->setShared('db', $example['adapter']);
+
         $cache = $this->getAndSetModelsCacheStream();
+
         $cache->clear();
 
         $personas = Personas::query()
@@ -424,7 +539,9 @@ class CriteriaCest
                             ->execute()
         ;
 
-        $I->assertTrue($personas->isFresh());
+        $I->assertTrue(
+            $personas->isFresh()
+        );
 
         $personas = Personas::query()
                             ->where("estado='I'")
@@ -432,19 +549,22 @@ class CriteriaCest
                             ->execute()
         ;
 
-        $I->assertFalse($personas->isFresh());
+        $I->assertFalse(
+            $personas->isFresh()
+        );
 
-        $I->amInPath(cacheModelsDir());
+        $I->amInPath(
+            cacheModelsDir()
+        );
+
         $I->safeDeleteFile('cache-for-issue-2131');
         $I->dontSeeFileFound('cache-for-issue-2131');
     }
 
     /**
      * The data providers
-     *
-     * @return array
      */
-    protected function adapterProvider()
+    protected function adapterProvider(): array
     {
         return [
             [

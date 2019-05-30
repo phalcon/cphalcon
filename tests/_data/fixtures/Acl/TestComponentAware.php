@@ -29,11 +29,7 @@ class TestComponentAware implements ComponentAware
      */
     protected $resourceName;
 
-    /**
-     * @param $user
-     * @param $resourceName
-     */
-    public function __construct($user, $resourceName)
+    public function __construct($user, string $resourceName)
     {
         $this->user         = $user;
         $this->resourceName = $resourceName;

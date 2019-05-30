@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use IntegrationTester;
 
-/**
- * Class EscapeCest
- */
 class EscapeCest
 {
     /**

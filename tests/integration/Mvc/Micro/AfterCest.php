@@ -94,12 +94,15 @@ class AfterCest
     public function testMicroResponseAlreadySentError(IntegrationTester $I)
     {
         $app = new Micro();
+
         $app->after(
             function () use ($app) {
                 $content = $app->getReturnedValue();
+
                 $app->response->setJsonContent($content)->send();
             }
         );
+
         $app->map(
             '/api',
             function () {
@@ -107,8 +110,11 @@ class AfterCest
             }
         );
 
-        $expected = 'success';
-        $actual   = $app->handle('/api');
-        $I->assertEquals($expected, $actual);
+        // Micro echoes out its result as well
+        ob_start();
+        $actual = $app->handle('/api');
+        ob_end_clean();
+
+        $I->assertEquals('success', $actual);
     }
 }
