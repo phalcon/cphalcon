@@ -15,9 +15,6 @@ namespace Phalcon\Test\Integration\Db\RawValue;
 use IntegrationTester;
 use Phalcon\Db\RawValue;
 
-/**
- * Class ToStringCest
- */
 class ToStringCest
 {
     /**

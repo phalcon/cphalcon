@@ -48,12 +48,11 @@ class MemorySession implements ManagerInterface
         }
     }
 
-    /**
-     * @return string
-     */
-    private function generateId()
+    private function generateId(): string
     {
-        return md5(time());
+        return md5(
+            time()
+        );
     }
 
     /**
@@ -92,12 +91,7 @@ class MemorySession implements ManagerInterface
         return $return;
     }
 
-    /**
-     * @param $index
-     *
-     * @return string
-     */
-    private function prepareIndex($index)
+    private function prepareIndex(string $index): string
     {
         if ($this->sessionId) {
             $key = $this->sessionId . '#' . $index;
@@ -118,10 +112,8 @@ class MemorySession implements ManagerInterface
 
     /**
      * Alias: Check whether a session variable is set in an application context
-     *
-     * @return bool
      */
-    public function __isset(string $index)
+    public function __isset(string $index): bool
     {
         return $this->has($index);
     }
@@ -156,12 +148,8 @@ class MemorySession implements ManagerInterface
 
     /**
      * @inheritdoc
-     *
-     * @param bool $removeData
-     *
-     * @return bool
      */
-    public function destroy($removeData = false)
+    public function destroy(bool $removeData = false): bool
     {
         if ($removeData) {
             if (!empty($this->sessionId)) {
@@ -235,11 +223,9 @@ class MemorySession implements ManagerInterface
     /**
      * @inheritdoc
      *
-     * @param bool $deleteOldSession
-     *
      * @return AdapterInterface
      */
-    public function regenerateId($deleteOldSession = true): ManagerInterface
+    public function regenerateId(bool $deleteOldSession = true): ManagerInterface
     {
         $this->sessionId = $this->generateId();
 
@@ -291,10 +277,8 @@ class MemorySession implements ManagerInterface
 
     /**
      * Dump all session
-     *
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return (array) $this->memory;
     }

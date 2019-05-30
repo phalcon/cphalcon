@@ -105,7 +105,11 @@ class SaveCest
          */
         $I->assertEquals(
             1,
-            Users::count(['id = 54321'])
+            Users::count(
+                [
+                    'id = 54321',
+                ]
+            )
         );
 
         /**
@@ -339,17 +343,22 @@ class SaveCest
     {
         $I->wantToTest('Mvc\Model::save() with circular unsaved relations');
 
-        $album = new Albums([
-            'name' => 'Loopback'
-        ]);
-        $artist = new Artists([
-            'name' => 'Evil Robot'
-        ]);
+        $album = new Albums(
+            [
+                'name' => 'Loopback',
+            ]
+        );
+
+        $artist = new Artists(
+            [
+                'name' => 'Evil Robot',
+            ]
+        );
 
         // Assign relationship in both directions on unsaved models
         $album->artist = $artist;
         $artist->albums = [
-            $album
+            $album,
         ];
 
         // Save should handle the circular relation without issue
@@ -358,7 +367,7 @@ class SaveCest
         );
 
         // Both should have an ID now
-        $I->assertNotEquals(null, $album->id);
-        $I->assertNotEquals(null, $artist->id);
+        $I->assertNotNull($album->id);
+        $I->assertNotNull($artist->id);
     }
 }

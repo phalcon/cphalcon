@@ -21,9 +21,13 @@ trait LoggerTrait
 {
     protected function runLoggerFile(UnitTester $I, string $level)
     {
-        $logPath  = logsDir();
+        $logPath = logsDir();
+
         $fileName = $I->getNewFileName('log', 'log');
-        $adapter  = new Stream($logPath . $fileName);
+
+        $adapter = new Stream(
+            $logPath . $fileName
+        );
 
         $logString = 'Hello';
 

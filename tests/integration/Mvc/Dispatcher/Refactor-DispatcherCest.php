@@ -803,27 +803,39 @@ class DispatcherCest extends BaseDispatcher
         $caughtException        = false;
 
         $dispatcher = $this->getDispatcher();
+
         $dispatcher->setActionName('exception');
+
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function ($event, $dispatcher) use (&$beforeExceptionHandled, $I) {
                 $beforeExceptionHandled = true;
-                $expected               = 'Phalcon\Test\Integration\Mvc\Dispatcher\Helper';
-                $actual                 = $dispatcher->getNamespaceName();
-                $I->assertEquals($expected, $actual);
-                $expected = 'dispatcher-test-default';
-                $actual   = $dispatcher->getControllerName();
-                $I->assertEquals($expected, $actual);
-                $expected = 'exception';
-                $actual   = $dispatcher->getActionName();
-                $I->assertEquals($expected, $actual);
-                $expected = DispatcherTestDefaultController::class;
-                $actual   = $dispatcher->getControllerClass();
-                $I->assertEquals($expected, $actual);
 
-                $expected = DispatcherTestDefaultController::class;
-                $actual   = $dispatcher->getLastController();
-                $I->assertEquals($expected, $actual);
+                $I->assertEquals(
+                    'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+                    $dispatcher->getNamespaceName()
+                );
+
+                $I->assertEquals(
+                    'dispatcher-test-default',
+                    $dispatcher->getControllerName()
+                );
+
+                $I->assertEquals(
+                    'exception',
+                    $dispatcher->getActionName()
+                );
+
+                $I->assertEquals(
+                    DispatcherTestDefaultController::class,
+                    $dispatcher->getControllerClass()
+                );
+
+                $I->assertEquals(
+                    DispatcherTestDefaultController::class,
+                    $dispatcher->getLastController()
+                );
+
                 // Forwarding; however, will throw a new exception preventing this
                 $dispatcher->forward(
                     [
@@ -841,27 +853,42 @@ class DispatcherCest extends BaseDispatcher
             $handler = $dispatcher->dispatch();
         } catch (Exception $exception) {
             $caughtException = true;
-            $I->assertEquals('Custom error in before exception', $exception->getMessage());
+
+            $I->assertEquals(
+                'Custom error in before exception',
+                $exception->getMessage()
+            );
         } finally {
             $I->assertTrue($beforeExceptionHandled);
             $I->assertTrue($caughtException);
+
             // The string properties get updated
-            $expected = 'Phalcon\Test\Integration\Mvc\Dispatcher\Helper';
-            $actual   = $dispatcher->getNamespaceName();
-            $I->assertEquals($expected, $actual);
-            $expected = 'dispatcher-test-default-two';
-            $actual   = $dispatcher->getControllerName();
-            $I->assertEquals($expected, $actual);
-            $expected = 'index';
-            $actual   = $dispatcher->getActionName();
-            $I->assertEquals($expected, $actual);
-            $expected = DispatcherTestDefaultTwoController::class;
-            $actual   = $dispatcher->getControllerClass();
-            $I->assertEquals($expected, $actual);
+
+            $I->assertEquals(
+                'Phalcon\Test\Integration\Mvc\Dispatcher\Helper',
+                $dispatcher->getNamespaceName()
+            );
+
+            $I->assertEquals(
+                'dispatcher-test-default-two',
+                $dispatcher->getControllerName()
+            );
+
+            $I->assertEquals(
+                'index',
+                $dispatcher->getActionName()
+            );
+
+            $I->assertEquals(
+                DispatcherTestDefaultTwoController::class,
+                $dispatcher->getControllerClass()
+            );
+
             // But not the last controller since dispatching didn't take place
-            $class  = DispatcherTestDefaultController::class;
-            $actual = $dispatcher->getLastController();
-            $I->assertInstanceOf($class . $actual);
+            $I->assertInstanceOf(
+                DispatcherTestDefaultController::class,
+                $dispatcher->getLastController()
+            );
         }
     }
 }

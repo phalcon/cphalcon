@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Db\Index;
 
 use IntegrationTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**

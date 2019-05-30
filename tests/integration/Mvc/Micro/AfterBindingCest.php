@@ -64,11 +64,13 @@ class AfterBindingCest
     {
         $di    = new FactoryDefault();
         $micro = new Micro($di);
+
         $micro->afterBinding(
             function () {
                 return false;
             }
         );
+
         $micro->get(
             '/test',
             function () {
@@ -78,9 +80,12 @@ class AfterBindingCest
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
-        $expected = 'test';
-        $actual   = $micro->handle('/test');
-        $I->assertEquals($expected, $actual);
+        // Micro echoes out its result as well
+        ob_start();
+        $actual = $micro->handle('/test');
+        ob_end_clean();
+
+        $I->assertEquals('test', $actual);
     }
 
     public function testStopMiddlewareOnAfterBindingClosure(IntegrationTester $I)

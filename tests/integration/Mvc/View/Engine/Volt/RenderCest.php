@@ -64,12 +64,15 @@ class RenderCest
 
         $volt->setEventsManager($eventsManager);
 
+        // render() echoes out its result
+        ob_start();
         $volt->render(
             dataDir('fixtures/views/compiler/partial.volt'),
             [
                 'some_var' => 'aaa',
             ]
         );
+        ob_end_clean();
 
         $I->assertEquals(
             'Before fired',

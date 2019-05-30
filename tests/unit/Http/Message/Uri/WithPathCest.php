@@ -74,8 +74,10 @@ class WithPathCest
                 'Method requires a string argument instead of ' . $example[0]
             ),
             function () use ($example) {
-                $query    = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
-                $uri      = new Uri($query);
+                $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
+
+                $uri = new Uri($query);
+
                 $instance = $uri->withPath($example[2]);
             }
         );
@@ -84,23 +86,72 @@ class WithPathCest
     private function getExamples(): array
     {
         return [
-            ['empty', '', '', ''],
-            ['normal', '/login', '/login', '/login'],
-            ['double slash', '//login', '/login', '/login'],
-            ['no leading slash', 'login', 'login', '/login'],
-            ['garbled', '/l^ogin/si gh', '/l%5Eogin/si%20gh', '/l%5Eogin/si%20gh'],
+            [
+                'empty',
+                '',
+                '',
+                '',
+            ],
+            [
+                'normal',
+                '/login',
+                '/login',
+                '/login',
+            ],
+            [
+                'double slash',
+                '//login',
+                '/login',
+                '/login',
+            ],
+            [
+                'no leading slash',
+                'login',
+                'login',
+                '/login',
+            ],
+            [
+                'garbled',
+                '/l^ogin/si gh',
+                '/l%5Eogin/si%20gh',
+                '/l%5Eogin/si%20gh',
+            ],
         ];
     }
 
     private function getExceptions(): array
     {
         return [
-            ['NULL', 'null', null],
-            ['boolean', 'true', true],
-            ['boolean', 'false', false],
-            ['integer', 'number', 1234],
-            ['array', 'array', ['/action']],
-            ['stdClass', 'object', (object) ['/action']],
+            [
+                'NULL',
+                'null',
+                null,
+            ],
+            [
+                'boolean',
+                'true',
+                true,
+            ],
+            [
+                'boolean',
+                'false',
+                false,
+            ],
+            [
+                'integer',
+                'number',
+                1234,
+            ],
+            [
+                'array',
+                'array',
+                ['/action'],
+            ],
+            [
+                'stdClass',
+                'object',
+                (object) ['/action'],
+            ],
         ];
     }
 }

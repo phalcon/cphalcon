@@ -75,13 +75,11 @@ class Unit extends Module
      * @param string $prefix A prefix for the file
      * @param string $suffix A suffix for the file
      *
-     * @return string
-     *
      * @since  2014-09-13
      *
      * @author Nikos Dimopoulos <nikos@phalconphp.com>
      */
-    public function getNewFileName(string $prefix = '', string $suffix = 'log')
+    public function getNewFileName(string $prefix = '', string $suffix = 'log'): string
     {
         $prefix = ($prefix) ? $prefix . '_' : '';
         $suffix = ($suffix) ? $suffix : 'log';

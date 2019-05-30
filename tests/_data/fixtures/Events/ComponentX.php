@@ -24,10 +24,7 @@ class ComponentX
         $this->eventsManager = $eventsManager;
     }
 
-    /**
-     * @return Manager
-     */
-    public function getEventsManager()
+    public function getEventsManager(): Manager
     {
         return $this->eventsManager;
     }
