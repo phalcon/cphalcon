@@ -263,10 +263,13 @@ class DispatcherBeforeDispatchLoopCest extends BaseDispatcher
         $dispatcher         = $this->getDispatcher();
         $dispatcherListener = $this->getDispatcherListener();
 
-        $dispatcher->getEventsManager()->attach('dispatch:beforeDispatchLoop', function () {
-            throw new Exception('beforeDispatchLoop exception occurred');
-        })
-        ;
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:beforeDispatchLoop',
+            function () {
+                throw new Exception('beforeDispatchLoop exception occurred');
+            }
+        );
+
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function () use ($dispatcherListener) {
@@ -274,18 +277,15 @@ class DispatcherBeforeDispatchLoopCest extends BaseDispatcher
 
                 return null;
             }
-        )
-        ;
+        );
 
-        $caughtException = false;
+        $I->expectThrowable(
+            Exception::class,
+            function () use ($dispatcher) {
+                $dispatcher->dispatch();
+            }
+        );
 
-        try {
-            $dispatcher->dispatch();
-        } catch (Exception $exception) {
-            $caughtException = true;
-        }
-
-        $I->assertTrue($caughtException);
         $expected = [
             'beforeDispatchLoop',
             'beforeException: beforeDispatchLoop exception occurred',
@@ -314,8 +314,15 @@ class DispatcherBeforeDispatchLoopCest extends BaseDispatcher
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function ($event, $dispatcher) use ($dispatcherListener) {
-                $dispatcherListener->trace('beforeException: custom before exception forward');
-                $dispatcher->forward(['action' => 'index2']);
+                $dispatcherListener->trace(
+                    'beforeException: custom before exception forward'
+                );
+
+                $dispatcher->forward(
+                    [
+                        'action' => 'index2',
+                    ]
+                );
             }
         )
         ;

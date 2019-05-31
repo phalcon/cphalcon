@@ -13,21 +13,31 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router\Annotations;
 
 use IntegrationTester;
+use Phalcon\Mvc\Router\Annotations;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class IsExactControllerNameCest
- */
 class IsExactControllerNameCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newDi();
+        $this->setDiRequest();
+        $this->setDiAnnotations();
+    }
+
     /**
      * Tests Phalcon\Mvc\Router\Annotations :: isExactControllerName()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function mvcRouterAnnotationsIsExactControllerName(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Router\Annotations - isExactControllerName()');
-        $I->skipTest('Need implementation');
+
+        $router = new Annotations(false);
+
+        $I->assertTrue(
+            $router->isExactControllerName()
+        );
     }
 }

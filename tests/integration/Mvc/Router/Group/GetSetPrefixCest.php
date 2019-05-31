@@ -15,17 +15,17 @@ namespace Phalcon\Test\Integration\Mvc\Router\Group;
 use IntegrationTester;
 use Phalcon\Mvc\Router\Group;
 
-class GetPrefixCest
+class GetSetPrefixCest
 {
     /**
-     * Tests Phalcon\Mvc\Router\Group :: getPrefix()
+     * Tests Phalcon\Mvc\Router\Group :: getPrefix() when nothing is set
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
     public function mvcRouterGroupGetPrefixEmpty(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Router\Group - empty getPrefix()');
+        $I->wantToTest('Mvc\Router\Group - getPrefix() when nothing is set');
 
         $group = new Group();
 
@@ -36,14 +36,14 @@ class GetPrefixCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Router\Group :: getPrefix() when nothing is set
+     * Tests Phalcon\Mvc\Router\Group :: getPrefix()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
-    public function mvcRouterGroupGetPrefix(IntegrationTester $I)
+    public function mvcRouterGroupGetSetPrefix(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Router\Group - getPrefix()');
+        $I->wantToTest('Mvc\Router\Group - getPrefix() / setPrefix()');
 
         $group = new Group();
 

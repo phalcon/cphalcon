@@ -58,9 +58,10 @@ class DispatcherInitializeMethodCest extends BaseDispatcher
             'beforeException: Forwarding inside a controller\'s initialize() method is forbidden',
         ];
 
-        $actual = $this->getDispatcherListener()->getTrace();
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
@@ -91,9 +92,10 @@ class DispatcherInitializeMethodCest extends BaseDispatcher
             'afterDispatchLoop',
         ];
 
-        $actual = $this->getDispatcherListener()->getTrace();
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
@@ -110,11 +112,13 @@ class DispatcherInitializeMethodCest extends BaseDispatcher
 
         $dispatcher->setControllerName('dispatcher-test-initialize-exception');
 
-        $dispatcher->getEventsManager()->attach('dispatch:beforeException', function () {
-            // Returning <tt>false</tt> should prevent the exception from bubbling up.
-            return false;
-        })
-        ;
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:beforeException',
+            function () {
+                // Returning <tt>false</tt> should prevent the exception from bubbling up.
+                return false;
+            }
+        );
 
         $dispatcher->dispatch();
 
@@ -128,9 +132,10 @@ class DispatcherInitializeMethodCest extends BaseDispatcher
             'afterDispatchLoop',
         ];
 
-        $actual = $this->getDispatcherListener()->getTrace();
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
@@ -179,8 +184,11 @@ class DispatcherInitializeMethodCest extends BaseDispatcher
             'beforeException: initialize exception occurred',
             'beforeException: custom before exception bubble',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
@@ -194,19 +202,24 @@ class DispatcherInitializeMethodCest extends BaseDispatcher
     {
         $dispatcher         = $this->getDispatcher();
         $dispatcherListener = $this->getDispatcherListener();
+
         $dispatcher->setControllerName('dispatcher-test-initialize-exception');
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function ($event, $dispatcher) use ($dispatcherListener) {
-                $dispatcherListener->trace('beforeException: custom before exception forward');
-                $dispatcher->forward([
-                    'controller' => 'dispatcher-test-default',
-                    'action'     => 'index',
-                ]);
+                $dispatcherListener->trace(
+                    'beforeException: custom before exception forward'
+                );
+
+                $dispatcher->forward(
+                    [
+                        'controller' => 'dispatcher-test-default',
+                        'action'     => 'index',
+                    ]
+                );
             }
-        )
-        ;
+        );
 
         $dispatcher->dispatch();
 
@@ -230,8 +243,9 @@ class DispatcherInitializeMethodCest extends BaseDispatcher
             'afterDispatchLoop',
         ];
 
-        $actual = $this->getDispatcherListener()->getTrace();
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 }

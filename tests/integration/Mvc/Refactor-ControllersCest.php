@@ -53,13 +53,13 @@ class ControllersCest
 
     public function testControllers(IntegrationTester $I)
     {
+        $di = Di::getDefault();
+
         $controller = new ViewRequestController();
 
-        $controller->setDI(
-            Di::getDefault()
-        );
+        $controller->setDI($di);
 
-        $view = Di::getDefault()->getShared('view');
+        $view = $di->getShared('view');
 
         $_POST['email'] = ';ans@ecom.com';
 

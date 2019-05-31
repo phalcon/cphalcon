@@ -24,6 +24,7 @@ class ModelCest
     public function _before(IntegrationTester $I)
     {
         $this->newDi();
+ 
         $this->setDiModelsManager();
         $this->setDiModelsMetadata();
     }
@@ -31,6 +32,7 @@ class ModelCest
     public function testMySql(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check me');
+
         $this->setDiMysql();
 
         $this->executeCamelCaseRelation($I);

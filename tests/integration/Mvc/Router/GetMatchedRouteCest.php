@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Mvc\Router;
 
 use IntegrationTester;
 
-/**
- * Class GetMatchedRouteCest
- */
 class GetMatchedRouteCest
 {
     /**
