@@ -70,11 +70,8 @@ class ViewEnginesCest
             $params['engines']
         );
 
-        foreach ($params['setVar'] as $var) {
-            $view->setVar(
-                $var[0],
-                $var[1]
-            );
+        foreach ($params['setVar'] as $key => $value) {
+            $view->setVar($key, $value);
         }
 
 
@@ -109,10 +106,10 @@ class ViewEnginesCest
                         '.volt' => \Phalcon\Mvc\View\Engine\Volt::class,
                     ],
                     'setVar'      => [
-                        ['arr', [1, 2, 3, 4]],
-                        ['obj', new IteratorObject([1, 2, 3, 4])],
-                        ['str', 'hello'],
-                        ['no_str', 1234],
+                        'arr'    => [1, 2, 3, 4],
+                        'obj'    => new IteratorObject([1, 2, 3, 4]),
+                        'str'    => 'hello',
+                        'no_str' => 1234,
                     ],
                     'render'      => ['builtinfunction', 'index'],
                     'removeFiles' => [],
@@ -143,6 +140,7 @@ class ViewEnginesCest
         $view = $this->getService('view');
 
         $view->registerEngines($engine);
+
         $this->setParamAndCheckData($I, $errorMessage, $params, $view);
     }
 
@@ -174,7 +172,10 @@ class ViewEnginesCest
     private function setParamAndCheckData(IntegrationTester $I, string $errorMessage, array $params, View $view)
     {
         foreach ($params as $param) {
-            $view->setParamToView($param['paramToView'][0], $param['paramToView'][1]);
+            $view->setParamToView(
+                $param['paramToView'][0],
+                $param['paramToView'][1]
+            );
 
             $view->start();
             $view->setRenderLevel($param['renderLevel']);
@@ -187,24 +188,6 @@ class ViewEnginesCest
                 $errorMessage
             );
         }
-    }
-
-    /**
-     * Tests the View::registerEngines
-     *
-     * @author Kamil Skowron <git@hedonsoftware.com>
-     * @since  2014-05-28
-     */
-    public function shouldRegisterEngines(IntegrationTester $I)
-    {
-        $engines = $this->getViewRegisterEngines();
-
-        $view = $this->getService('view');
-        $view->registerEngines($engines);
-
-        $expected = $engines;
-        $actual   = $view->getRegisteredEngines();
-        $I->assertEquals($expected, $actual);
     }
 
 //    /**
@@ -255,16 +238,6 @@ class ViewEnginesCest
 //        );
 //    }
 
-    private function getViewRegisterEngines(): array
-    {
-        return [
-            '.mhtml' => MustacheEngine::class,
-            '.phtml' => PhpEngine::class,
-            '.twig'  => TwigEngine::class,
-            '.volt'  => VoltEngine::class,
-        ];
-    }
-
     /**
      * Tests Twig template engine
      *
@@ -282,6 +255,7 @@ class ViewEnginesCest
         $view = $this->getService('view');
 
         $view->registerEngines($engine);
+
         $this->setParamAndCheckData($I, $errorMessage, $params, $view);
     }
 
@@ -316,6 +290,7 @@ class ViewEnginesCest
     public function shouldWorkMixPhpTwigEngines(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check Layout');
+
         $data = $this->getTwigPhpEngine();
 
         $errorMessage = $data['errorMessage'];
@@ -325,6 +300,7 @@ class ViewEnginesCest
         $view = $this->getService('view');
 
         $view->registerEngines($engine);
+
         $this->setParamAndCheckData($I, $errorMessage, $params, $view);
     }
 
@@ -356,6 +332,7 @@ class ViewEnginesCest
     public function shouldWorkMixPhpMustacheEngines(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check Layout');
+
         $data = $this->getPhpMustache();
 
         $errorMessage = $data['errorMessage'];
@@ -365,6 +342,7 @@ class ViewEnginesCest
         $view = $this->getService('view');
 
         $view->registerEngines($engine);
+
         $this->setParamAndCheckData($I, $errorMessage, $params, $view);
     }
 

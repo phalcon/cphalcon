@@ -28,19 +28,8 @@ class AnnotationsCest
         $this->setDiAnnotations();
     }
 
-    /**
-     * @dataProvider getRoutes
-     */
-    public function testRouterFullResources(IntegrationTester $I, Example $example)
+    public function testRouterFullResources1(IntegrationTester $I)
     {
-        require_once dataDir('fixtures/controllers/NamespacedAnnotationController.php');
-
-        $uri        = $example['uri'];
-        $method     = $example['method'];
-        $controller = $example['controller'];
-        $action     = $example['action'];
-        $params     = $example['params'];
-
         $container = $this->getDi();
         $router    = new Annotations(false);
 
@@ -57,29 +46,48 @@ class AnnotationsCest
             $router->getRoutes()
         );
 
+
+
         $router = new Annotations(false);
 
         $router->setDI($container);
+
         $router->addResource("Phalcon\Test\Controllers\Robots", '/');
         $router->addResource("Phalcon\Test\Controllers\Products", '/products');
         $router->addResource("Phalcon\Test\Controllers\About", '/about');
+
         $router->handle('/about');
 
         $I->assertCount(
             5,
             $router->getRoutes()
         );
+    }
+
+    public function testRouterFullResourcesNamespaced(IntegrationTester $I)
+    {
+        require_once dataDir('fixtures/controllers/NamespacedAnnotationController.php');
+
+        $container = $this->getDi();
+
+
 
         $router = new Annotations(false);
+
         $router->setDI($container);
+
         $router->setDefaultNamespace('MyNamespace\\Controllers');
+
         $router->addResource('NamespacedAnnotation', '/namespaced');
+
         $router->handle('/namespaced');
 
         $I->assertCount(
             1,
             $router->getRoutes()
         );
+
+
 
         $router = new Annotations(false);
 
@@ -91,15 +99,30 @@ class AnnotationsCest
         );
 
         $router->handle('/namespaced/');
+    }
 
+    /**
+     * @dataProvider getRoutes
+     */
+    public function testRouterFullResources2(IntegrationTester $I, Example $example)
+    {
+        $uri        = $example['uri'];
+        $method     = $example['method'];
+        $controller = $example['controller'];
+        $action     = $example['action'];
+        $params     = $example['params'];
+
+        $container = $this->getDi();
 
         $router = new Annotations(false);
 
         $router->setDI($container);
+
         $router->addResource("Phalcon\Test\Controllers\Robots");
         $router->addResource("Phalcon\Test\Controllers\Products");
         $router->addResource("Phalcon\Test\Controllers\About");
         $router->addResource("Phalcon\Test\Controllers\Main");
+
         $router->handle('/');
 
         $I->assertCount(
@@ -139,10 +162,6 @@ class AnnotationsCest
         $I->assertEquals(
             $params,
             $router->getParams()
-        );
-
-        $I->assertTrue(
-            $router->isExactControllerName()
         );
     }
 

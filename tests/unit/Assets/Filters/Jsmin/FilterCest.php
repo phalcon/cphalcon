@@ -31,9 +31,12 @@ class FilterCest
 
         $jsmin = new Jsmin();
 
-        $expected = "\n" . '{}}';
-        $actual   = $jsmin->filter('{}}');
-        $I->assertEquals($expected, $actual);
+        $actual = $jsmin->filter('{}}');
+
+        $I->assertEquals(
+            "\n" . '{}}',
+            $actual
+        );
     }
 
     /**
@@ -50,9 +53,14 @@ class FilterCest
 
         $jsmin = new Jsmin();
 
-        $expected = "\n" . 'if(a==b){document.writeln("hello");}';
-        $actual   = $jsmin->filter('if ( a == b ) {    document . writeln("hello") ; }');
-        $I->assertEquals($expected, $actual);
+        $actual = $jsmin->filter(
+            'if ( a == b ) {    document . writeln("hello") ; }'
+        );
+
+        $I->assertEquals(
+            "\n" . 'if(a==b){document.writeln("hello");}',
+            $actual
+        );
     }
 
     /**
@@ -69,9 +77,14 @@ class FilterCest
 
         $jsmin = new Jsmin();
 
-        $expected = "\n" . "if(a==b){document.writeln('\t');}";
-        $actual   = $jsmin->filter("\n" . "if ( a == b ) {    document . writeln('\t') ; }");
-        $I->assertEquals($expected, $actual);
+        $actual = $jsmin->filter(
+            "\n" . "if ( a == b ) {    document . writeln('\t') ; }"
+        );
+
+        $I->assertEquals(
+            "\n" . "if(a==b){document.writeln('\t');}",
+            $actual
+        );
     }
 
     /**
@@ -88,10 +101,14 @@ class FilterCest
 
         $jsmin = new Jsmin();
 
-        $source   = "/** this is a comment */ if ( a == b ) {    document . writeln('\t') ; /** this is a comment */ }";
-        $expected = "\nif(a==b){document.writeln('\t');}";
-        $actual   = $jsmin->filter($source);
-        $I->assertEquals($expected, $actual);
+        $actual = $jsmin->filter(
+            "/** this is a comment */ if ( a == b ) {    document . writeln('\t') ; /** this is a comment */ }"
+        );
+
+        $I->assertEquals(
+            "\nif(a==b){document.writeln('\t');}",
+            $actual
+        );
     }
 
     /**

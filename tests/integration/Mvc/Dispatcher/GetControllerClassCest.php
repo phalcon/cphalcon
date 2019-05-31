@@ -13,18 +13,44 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
 use IntegrationTester;
+use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
 
-class GetControllerClassCest
+class GetControllerClassCest extends BaseDispatcher
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getControllerClass()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Mark Johnson <https://github.com/virgofx>
+     * @since  2017-10-07
      */
     public function mvcDispatcherGetControllerClass(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - getControllerClass()');
-        $I->skipTest('Need implementation');
+
+        $dispatcher = $this->getDispatcher();
+
+        $dispatcher->setNamespaceName('Foo');
+        $dispatcher->setControllerName('');
+        $dispatcher->setActionName('');
+
+        $I->assertEquals(
+            'Foo',
+            $dispatcher->getNamespaceName()
+        );
+        
+        $I->assertEquals(
+            '',
+            $dispatcher->getControllerName()
+        );
+        
+        $I->assertEquals(
+            '',
+            $dispatcher->getActionName()
+        );
+
+        $I->assertEquals(
+            \Foo\IndexController::class,
+            $dispatcher->getControllerClass()
+        );
     }
 }

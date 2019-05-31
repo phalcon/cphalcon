@@ -17,9 +17,6 @@ use Phalcon\Di;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Users;
 
-/**
- * Class GetDICest
- */
 class GetDICest
 {
     use DiTrait;

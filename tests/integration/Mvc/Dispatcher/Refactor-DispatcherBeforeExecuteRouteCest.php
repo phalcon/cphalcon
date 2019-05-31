@@ -191,15 +191,12 @@ class DispatcherBeforeExecuteRouteCest extends BaseDispatcher
         )
         ;
 
-        $caughtException = false;
-
-        try {
-            $dispatcher->dispatch();
-        } catch (Exception $exception) {
-            $caughtException = true;
-        }
-
-        $I->assertTrue($caughtException);
+        $I->expectThrowable(
+            Exception::class,
+            function () use ($dispatcher) {
+                $dispatcher->dispatch();
+            }
+        );
 
         $expected = [
             'beforeDispatchLoop',

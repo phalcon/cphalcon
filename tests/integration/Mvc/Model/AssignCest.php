@@ -14,11 +14,9 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Personas;
 use Phalcon\Test\Models\Users;
 
-/**
- * Class AssignCest
- */
 class AssignCest
 {
     use DiTrait;
@@ -64,6 +62,41 @@ class AssignCest
                 'name' => 'Sid',
             ],
             $user->toArray()
+        );
+    }
+
+    public function testAssign(IntegrationTester $I)
+    {
+        $persona = new Personas();
+
+        $persona->assign(
+            [
+                'tipo_documento_id' => 1,
+                'nombres'           => 'LOST CREATE',
+                'telefono'          => '1',
+                'cupo'              => 21000,
+                'estado'            => 'A',
+                'notField'          => 'SOME VALUE',
+            ]
+        );
+
+        $expected = [
+            'cedula'            => null,
+            'tipo_documento_id' => 1,
+            'nombres'           => 'LOST CREATE',
+            'telefono'          => '1',
+            'direccion'         => null,
+            'email'             => null,
+            'fecha_nacimiento'  => null,
+            'ciudad_id'         => null,
+            'creado_at'         => null,
+            'cupo'              => 21000,
+            'estado'            => 'A',
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $persona->toArray()
         );
     }
 }

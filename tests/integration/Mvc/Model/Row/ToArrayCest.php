@@ -13,21 +13,33 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Row;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Row;
 
-/**
- * Class ToArrayCest
- */
 class ToArrayCest
 {
     /**
      * Tests Phalcon\Mvc\Model\Row :: toArray()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-01
      */
     public function mvcModelRowToArray(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Row - toArray()');
-        $I->skipTest('Need implementation');
+
+        $row = new Row();
+
+        $row->writeAttribute('id', 1);
+        $row->writeAttribute('name', 'Sid');
+        $row->writeAttribute('city', 'Busan');
+
+        $I->assertEquals(
+            [
+                'id'   => 1,
+                'name' => 'Sid',
+                'city' => 'Busan',
+            ],
+            $row->toArray()
+        );
     }
 }

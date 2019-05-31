@@ -13,21 +13,39 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Query\Builder;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Snapshot\Robots;
 
-/**
- * Class GroupByCest
- */
 class GroupByCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model\Query\Builder :: groupBy()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function mvcModelQueryBuilderGroupBy(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Query\Builder - groupBy()');
-        $I->skipTest('Need implementation');
+
+        $builder = new Builder();
+
+        $phql = $builder->setDi($this->container)
+                        ->columns(['name', 'SUM(price)'])
+                        ->from(Robots::class)
+                        ->groupBy('id, name')
+                        ->getPhql()
+        ;
+
+        $I->assertEquals(
+            'SELECT name, SUM(price) FROM [' . Robots::class . '] GROUP BY [id], [name]',
+            $phql
+        );
     }
 }

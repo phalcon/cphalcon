@@ -28,13 +28,17 @@ class ModelsRelationsMagicCest
 
     /*public function testModelsPostgresql()
     {
-
         $di = $this->_getDI();
 
-        $di->set('db', function(){
-            require 'unit-tests/config.db.php';
-            return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
-        }, true);
+        $di->set(
+            'db',
+            function () {
+                require 'unit-tests/config.db.php';
+
+                return new Phalcon\Db\Adapter\Pdo\Postgresql($configPostgresql);
+            },
+            true
+        );
 
         $this->_executeQueryRelated();
         $this->_executeSaveRelatedBelongsTo($connection);
@@ -42,13 +46,17 @@ class ModelsRelationsMagicCest
 
     public function testModelsSqlite()
     {
-
         $di = $this->_getDI();
 
-        $di->set('db', function(){
-            require 'unit-tests/config.db.php';
-            return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
-        }, true);
+        $di->set(
+            'db',
+            function () {
+                require 'unit-tests/config.db.php';
+
+                return new Phalcon\Db\Adapter\Pdo\Sqlite($configSqlite);
+            },
+            true
+        );
 
         $this->_executeQueryRelated();
         $this->_executeSaveRelatedBelongsTo($connection);
@@ -56,7 +64,6 @@ class ModelsRelationsMagicCest
 
     private function executeQueryRelated(IntegrationTester $I)
     {
-
         //Belongs to
         $album = Albums::findFirst();
         $I->assertInstanceOf(Albums::class, $album);
@@ -65,12 +72,12 @@ class ModelsRelationsMagicCest
         $I->assertInstanceOf(Artists::class, $artist);
 
         $albums = $artist->albums;
-        $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $albums);
+        $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $albums);
         $I->assertCount(2, $albums);
         $I->assertInstanceOf(Albums::class, $albums[0]);
 
         $songs = $album->songs;
-        $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $songs);
+        $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $songs);
         $I->assertCount(7, $songs);
         $I->assertInstanceOf(Songs::class, $songs[0]);
 
@@ -91,10 +98,13 @@ class ModelsRelationsMagicCest
          */
 //        //Due to not null fields on both models the album/artist aren't saved
 //        $I->assertFalse($album->save());
-//        $I->assertFalse((bool) $connection->isUnderTransaction());
+//        $I->assertFalse($connection->isUnderTransaction());
 //
         //The artists must no be saved
-        $I->assertEquals($artist->getDirtyState(), Model::DIRTY_STATE_TRANSIENT);
+        $I->assertEquals(
+            Model::DIRTY_STATE_TRANSIENT,
+            $artist->getDirtyState()
+        );
 
         /**
          * @todo Check this
@@ -108,12 +118,24 @@ class ModelsRelationsMagicCest
         $artist->name = 'Van She';
 
         //Due to not null fields on album model the whole
-        $I->assertFalse($album->save());
-        $I->assertFalse((bool) $connection->isUnderTransaction());
+        $I->assertFalse(
+            $album->save()
+        );
+
+        $I->assertFalse(
+            $connection->isUnderTransaction()
+        );
 
         //The artist model was saved correctly but album not
-        $I->assertEquals($artist->getDirtyState(), Model::DIRTY_STATE_PERSISTENT);
-        $I->assertEquals($album->getDirtyState(), Model::DIRTY_STATE_TRANSIENT);
+        $I->assertEquals(
+            Model::DIRTY_STATE_PERSISTENT,
+            $artist->getDirtyState()
+        );
+
+        $I->assertEquals(
+            Model::DIRTY_STATE_TRANSIENT,
+            $album->getDirtyState()
+        );
 
         /**
          * @todo Check this
@@ -126,11 +148,23 @@ class ModelsRelationsMagicCest
         $album->name = 'Idea of Happiness';
 
         //Saving OK
-        $I->assertTrue($album->save());
-        $I->assertFalse((bool) $connection->isUnderTransaction());
+        $I->assertTrue(
+            $album->save()
+        );
+
+        $I->assertFalse(
+            $connection->isUnderTransaction()
+        );
 
         //Both messages must be saved correctly
-        $I->assertEquals($artist->getDirtyState(), Model::DIRTY_STATE_PERSISTENT);
-        $I->assertEquals($album->getDirtyState(), Model::DIRTY_STATE_PERSISTENT);
+        $I->assertEquals(
+            Model::DIRTY_STATE_PERSISTENT,
+            $artist->getDirtyState()
+        );
+
+        $I->assertEquals(
+            Model::DIRTY_STATE_PERSISTENT,
+            $album->getDirtyState()
+        );
     }
 }

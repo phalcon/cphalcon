@@ -18,9 +18,6 @@ use Phalcon\Mvc\Model\Transaction\Failed;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Personas;
 
-/**
- * Class RollbackCest
- */
 class RollbackCest
 {
     use DiTrait;
@@ -128,19 +125,12 @@ class RollbackCest
             $I->assertTrue($result);
         }
 
-        try {
-            $transaction->rollback();
-
-            $I->assertTrue(
-                false,
-                "The transaction's rollback didn't throw an expected exception. Emergency stop"
-            );
-        } catch (Failed $e) {
-            $I->assertEquals(
-                'Transaction aborted',
-                $e->getMessage()
-            );
-        }
+        $I->expectThrowable(
+            new Failed('Transaction aborted'),
+            function () use ($transaction) {
+                $transaction->rollback();
+            }
+        );
 
         $I->assertEquals(
             $count,

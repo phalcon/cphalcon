@@ -152,7 +152,9 @@ class ValidationCest
      */
     public function testFilteringEntity(IntegrationTester $I)
     {
-        $users = new Users(
+        $users = new Users();
+
+        $users->assign(
             [
                 'name' => 'SomeName      ',
             ]
@@ -160,7 +162,10 @@ class ValidationCest
 
         $this->validation->validate(null, $users);
 
-        $I->assertEquals($users->name, 'SomeName');
+        $I->assertEquals(
+            'SomeName',
+            $users->name
+        );
     }
 
     public function testGetDefaultValidationMessageShouldReturnEmptyStringIfNoneIsSet(IntegrationTester $I)

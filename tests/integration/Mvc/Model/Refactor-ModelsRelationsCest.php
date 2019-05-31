@@ -30,6 +30,25 @@ class ModelsRelationsCest
         $this->testIssue11042($I);
     }
 
+    public function testModelsPostgresql(IntegrationTester $I)
+    {
+        $this->setDiPostgresql();
+
+        $this->executeTestsNormal($I);
+        $this->executeTestsRenamed($I);
+        $this->testIssue11042($I);
+    }
+
+    public function testModelsSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+
+        $this->executeTestsNormal($I);
+        $this->executeTestsRenamed($I);
+        $this->testIssue938($I);
+        $this->testIssue11042($I);
+    }
+
     private function executeTestsNormal(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check the relationships - new model classes needed');
@@ -451,24 +470,5 @@ class ModelsRelationsCest
 //        $robotsParts = $robot->relationsRobotsParts;
 //        $I->assertEquals($robot->getDirtyState(), $robot::DIRTY_STATE_PERSISTENT);
 //        $I->assertInstanceOf('RelationsRobotsParts', $robotsParts->getFirst());
-    }
-
-    public function testModelsPostgresql(IntegrationTester $I)
-    {
-        $this->setDiPostgresql();
-
-        $this->executeTestsNormal($I);
-        $this->executeTestsRenamed($I);
-        $this->testIssue11042($I);
-    }
-
-    public function testModelsSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-
-        $this->executeTestsNormal($I);
-        $this->executeTestsRenamed($I);
-        $this->testIssue938($I);
-        $this->testIssue11042($I);
     }
 }

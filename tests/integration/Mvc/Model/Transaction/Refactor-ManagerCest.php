@@ -12,7 +12,6 @@
 namespace Phalcon\Test\Integration\Mvc\Model\Transaction;
 
 use IntegrationTester;
-use Phalcon\Mvc\Model\Transaction;
 use Phalcon\Mvc\Model\Transaction\Failed;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Personas;
@@ -37,43 +36,41 @@ class ManagerCest
     {
         $this->setDiMysql();
 
-        $this->testGetNewExistingTransactionOnce($I);
         $this->testCommitNewInserts($I);
         $this->testTransactionRemovedOnCommit($I);
         $this->testTransactionRemovedOnRollback($I);
     }
 
-    private function testGetNewExistingTransactionOnce(IntegrationTester $I)
+    /**
+     * Tests Manager::get
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2012-08-07
+     */
+    public function checkTransactionPostgresql(IntegrationTester $I)
     {
-        $tm = $this->container->getShared('transactionManager');
-        $db = $this->container->getShared('db');
+        $this->setDiPostgresql();
 
-        $transaction = $tm->get();
+        $this->testCommitNewInserts($I);
+        $this->testTransactionRemovedOnCommit($I);
+        $this->testTransactionRemovedOnRollback($I);
+    }
 
-        $I->assertInstanceOf(
-            Transaction::class,
-            $transaction
-        );
+    /**
+     * Tests Manager::get
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2012-08-07
+     */
+    public function checkTransactionSqlite(IntegrationTester $I)
+    {
+        $I->skipTest('TODO - Check Sqlite locking');
 
-        $I->assertSame(
-            $transaction,
-            $tm->get(true)
-        );
+        $this->setDiSqlite();
 
-        $I->assertSame(
-            $transaction,
-            $tm->get(false)
-        );
-
-        $I->assertInstanceOf(
-            \Phalcon\Db\AdapterInterface::class,
-            $transaction->getConnection()
-        );
-
-        /**
-         * @todo - Check why this returns different Ids in db and TM
-         */
-//        $I->assertEquals($db->getConnectionId(), $transaction->getConnection()->getConnectionId());
+        $this->testCommitNewInserts($I);
+        $this->testTransactionRemovedOnCommit($I);
+        $this->testTransactionRemovedOnRollback($I);
     }
 
     private function testCommitNewInserts(IntegrationTester $I)
@@ -174,8 +171,15 @@ class ManagerCest
         $select->create();
 
 
-        $I->assertEquals(1, $I->getProtectedProperty($tm, 'number'));
-        $I->assertCount(1, $I->getProtectedProperty($tm, 'transactions'));
+        $I->assertEquals(
+            1,
+            $I->getProtectedProperty($tm, 'number')
+        );
+
+        $I->assertCount(
+            1,
+            $I->getProtectedProperty($tm, 'transactions')
+        );
 
         try {
             $transaction->rollback();
@@ -192,39 +196,5 @@ class ManagerCest
             0,
             $I->getProtectedProperty($tm, 'transactions')
         );
-    }
-
-    /**
-     * Tests Manager::get
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2012-08-07
-     */
-    public function checkTransactionPostgresql(IntegrationTester $I)
-    {
-        $this->setDiPostgresql();
-
-        $this->testGetNewExistingTransactionOnce($I);
-        $this->testCommitNewInserts($I);
-        $this->testTransactionRemovedOnCommit($I);
-        $this->testTransactionRemovedOnRollback($I);
-    }
-
-    /**
-     * Tests Manager::get
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2012-08-07
-     */
-    public function checkTransactionSqlite(IntegrationTester $I)
-    {
-        $I->skipTest('TODO - Check Sqlite locking');
-
-        $this->setDiSqlite();
-
-        $this->testGetNewExistingTransactionOnce($I);
-        $this->testCommitNewInserts($I);
-        $this->testTransactionRemovedOnCommit($I);
-        $this->testTransactionRemovedOnRollback($I);
     }
 }

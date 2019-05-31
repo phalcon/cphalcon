@@ -13,10 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model;
 
-/**
- * Class AddBehaviorCest
- */
 class AddBehaviorCest
 {
     /**
@@ -29,5 +27,15 @@ class AddBehaviorCest
     {
         $I->wantToTest('Mvc\Model - addBehavior()');
         $I->skipTest('Need implementation');
+    }
+
+    public function testIssue10371(IntegrationTester $I)
+    {
+        $I->assertContains(
+            'addBehavior',
+            get_class_methods(
+                Model::class
+            )
+        );
     }
 }
