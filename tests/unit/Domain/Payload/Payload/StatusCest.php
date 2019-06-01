@@ -10,22 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\Payload\Payload;
+namespace Phalcon\Test\Unit\Domain\Payload\Payload;
 
-use Phalcon\Http\Payload\Status;
+use Phalcon\Domain\Payload\Status;
 use UnitTester;
 
 class StatusCest
 {
     /**
-     * Unit Tests Phalcon\Http\Payload\Status :: constants
+     * Unit Tests Phalcon\Domain\Payload\Status :: constants
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-24
      */
     public function httpPayloadPayloadStatus(UnitTester $I)
     {
-        $I->wantToTest('Http\Payload\Status - constants');
+        $I->wantToTest('Domain\Payload\Status - constants');
 
         $I->assertEquals('ACCEPTED', Status::ACCEPTED);
         $I->assertEquals('AUTHENTICATED', Status::AUTHENTICATED);
