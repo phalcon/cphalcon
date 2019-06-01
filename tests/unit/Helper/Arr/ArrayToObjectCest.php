@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Helper\Arr;
 
+use Phalcon\Helper\Arr;
+use stdClass;
 use UnitTester;
 
 class ArrayToObjectCest
@@ -26,6 +28,17 @@ class ArrayToObjectCest
     {
         $I->wantToTest('Helper\Arr - arrayToObject()');
 
-        $I->skipTest('Need implementation');
+        $source = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+
+        $actual = Arr::arrayToObject($source);
+
+        $expected        = new stdClass();
+        $expected->one   = 'two';
+        $expected->three = 'four';
+
+        $I->assertEquals($expected, $actual);
     }
 }

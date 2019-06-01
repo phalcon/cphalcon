@@ -9,7 +9,7 @@
 
 namespace Phalcon\Session;
 
-use Phalcon\Collection;
+use Phalcon\Collection\Collection;
 use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;

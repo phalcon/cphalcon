@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Collection;
+namespace Phalcon\Test\Unit\Collection\Collection;
 
-use Phalcon\Collection;
+use Phalcon\Collection\Collection;
 use UnitTester;
 
 class UnserializeCest

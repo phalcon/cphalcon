@@ -8,18 +8,33 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon;
+namespace Phalcon\Collection;
+
+use ArrayAccess;
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use JsonSerializable;
+use Serializable;
+use Traversable;
 
 /**
- * Phalcon\Collection
+ * Phalcon\Collection\Collection
  *
- * Phalcon\Collection is a supercharged object oriented array. It implements
- * ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Serializable
+ * Phalcon\Collection\Collection is a supercharged object oriented array. It
+ * implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable,
+ * Serializable
  *
  * It can be used in any part of the application that needs collection of data
- * Such implementatins are for instance accessing globals `$_GET`, `$_POST` etc.
+ * Such implementations are for instance accessing globals `$_GET`, `$_POST`
+ * etc.
  */
-class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable, \Serializable
+class Collection implements
+    ArrayAccess,
+    Countable,
+    IteratorAggregate,
+    JsonSerializable,
+    Serializable
 {
     /**
      * @var array
@@ -31,41 +46,57 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
      */
     protected lowerKeys = [];
 
-
-
-    public function __construct(array! data = []) -> void
+    /**
+     * Collection constructor.
+     *
+     * @param array $data
+     */
+    public function __construct(array data = [])
     {
         this->init(data);
     }
 
     /**
      * Magic getter to get an element from the collection
+     *
+     * @param string $element
+     *
+     * @return mixed
      */
-    public function __get(string! element) -> var
+    public function __get(string element)
     {
         return this->get(element);
     }
 
     /**
      * Magic isset to check whether an element exists or not
+     *
+     * @param string $element
+     *
+     * @return bool
      */
-    public function __isset(string! element) -> bool
+    public function __isset(string element) -> bool
     {
         return this->has(element);
     }
 
     /**
      * Magic setter to assign values to an element
+     *
+     * @param string $element
+     * @param mixed  $value
      */
-    public function __set(string! element, var value) -> void
+    public function __set(string element, value)
     {
         this->set(element, value);
     }
 
     /**
      * Magic unset to remove an element from the collection
+     *
+     * @param string $element
      */
-    public function __unset(string! element) -> void
+    public function __unset(string element) -> void
     {
         this->remove(element);
     }
@@ -91,6 +122,12 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 
     /**
      * Get the element from the collection
+     *
+     * @param string     $element
+     * @param mixed|null $defaultValue
+     * @param bool       $insensitive
+     *
+     * @return mixed
      */
     public function get(string! element, var defaultValue = null, bool insensitive = true) -> var
     {
@@ -112,7 +149,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
      */
     public function getIterator() -> <Traversable>
     {
-        return new \ArrayIterator(this);
+        return new ArrayIterator(this->data);
     }
 
     /**
@@ -144,7 +181,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
      *
      * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
      */
-    public function jsonSerialize () -> array
+    public function jsonSerialize() -> array
     {
         return this->data;
     }
@@ -229,20 +266,18 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
      */
     public function serialize() -> string
     {
-        return serialize(this->data);
+        return serialize(this->toArray());
     }
 
     /**
      * Set an element in the collection
+     *
+     * @param string $element
+     * @param        $value
      */
     public function set(string! element, var value) -> void
     {
-        var key;
-
-        let key = element->lower();
-
-        let this->data[element]  = value,
-            this->lowerKeys[key] = element;
+        this->setData(element, value);
     }
 
     /**
@@ -258,21 +293,28 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
      *
      * The default string uses the following options for json_encode
      *
-     * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT, JSON_UNESCAPED_SLASHES
+     * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT,
+     * JSON_UNESCAPED_SLASHES
      *
      * @see https://www.ietf.org/rfc/rfc4627.txt
+     *
+     * @param int $options
+     *
+     * @return string
      */
     public function toJson(int options = 79) -> string
     {
-        return json_encode(this->data, options);
+        return json_encode(this->toArray(), options);
     }
 
     /**
      * Constructs the object
      *
      * @link https://php.net/manual/en/serializable.unserialize.php
+     *
+     * @param string $serialized
      */
-    public function unserialize(var serialized) -> void
+    public function unserialize(serialized) -> void
     {
         var data;
 
@@ -280,5 +322,21 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
             data       = unserialize(serialized);
 
         this->init(data);
+    }
+
+    /**
+     * Internal method to set data
+     *
+     * @param string $element
+     * @param mixed  $value
+     */
+    protected function setData(string element, var value) -> void
+    {
+        var key;
+
+        let key = mb_strtolower(element);
+
+        let this->data[element]  = value,
+            this->lowerKeys[key] = element;
     }
 }
