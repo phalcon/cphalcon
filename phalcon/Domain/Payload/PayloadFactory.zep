@@ -16,13 +16,13 @@
  * @see Original inspiration for the https://github.com/phalcon/phalcon-api
  */
 
-namespace Phalcon\Http\Payload;
+namespace Phalcon\Domain\Payload;
 
-use Phalcon\Http\Payload\Payload;
-use Phalcon\Http\Payload\PayloadInterface;
+use Phalcon\Domain\Payload\Payload;
+use Phalcon\Domain\Payload\PayloadInterface;
 
 /**
- * Phalcon\Http\Payload\PayloadFactory
+ * Phalcon\Domain\Payload\PayloadFactory
  *
  * Factory to create payload objects
  */

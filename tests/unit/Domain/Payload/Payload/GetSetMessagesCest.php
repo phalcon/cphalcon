@@ -10,22 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\Payload\Payload;
+namespace Phalcon\Test\Unit\Domain\Payload\Payload;
 
-use Phalcon\Http\Payload\Payload;
+use Phalcon\Domain\Payload\Payload;
 use UnitTester;
 
 class GetSetMessagesCest
 {
     /**
-     * Unit Tests Phalcon\Http\Payload\Payload :: getMessages()/setMessages()
+     * Unit Tests Phalcon\Domain\Payload\Payload :: getMessages()/setMessages()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-24
      */
     public function httpPayloadPayloadGetSetMessages(UnitTester $I)
     {
-        $I->wantToTest('Http\Payload\Payload - getMessages()/setMessages()');
+        $I->wantToTest('Domain\Payload\Payload - getMessages()/setMessages()');
 
         $payload = new Payload();
         $payload->setMessages('messages');

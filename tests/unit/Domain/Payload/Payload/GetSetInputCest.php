@@ -10,22 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\Payload\Payload;
+namespace Phalcon\Test\Unit\Domain\Payload\Payload;
 
-use Phalcon\Http\Payload\Payload;
+use Phalcon\Domain\Payload\Payload;
 use UnitTester;
 
 class GetSetInputCest
 {
     /**
-     * Unit Tests Phalcon\Http\Payload\Payload :: getInput()/setInput()
+     * Unit Tests Phalcon\Domain\Payload\Payload :: getInput()/setInput()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-24
      */
     public function httpPayloadPayloadGetSetInput(UnitTester $I)
     {
-        $I->wantToTest('Http\Payload\Payload - getInput()/setInput()');
+        $I->wantToTest('Domain\Payload\Payload - getInput()/setInput()');
 
         $payload = new Payload();
         $payload->setInput('input');

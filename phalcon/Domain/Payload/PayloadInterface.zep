@@ -16,13 +16,13 @@
  * @see Original inspiration for the https://github.com/phalcon/phalcon-api
  */
 
-namespace Phalcon\Http\Payload;
+namespace Phalcon\Domain\Payload;
 
-use Phalcon\Http\Payload\ReadableInterface;
-use Phalcon\Http\Payload\WriteableInterface;
+use Phalcon\Domain\Payload\ReadableInterface;
+use Phalcon\Domain\Payload\WriteableInterface;
 
 /**
- * Phalcon\Http\Payload\PayableInterface
+ * Phalcon\Domain\Payload\PayableInterface
  *
  * This interface is used for consumers
  */

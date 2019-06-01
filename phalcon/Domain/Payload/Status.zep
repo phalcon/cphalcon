@@ -16,10 +16,10 @@
  * @see Original inspiration for the https://github.com/phalcon/phalcon-api
  */
 
-namespace Phalcon\Http\Payload;
+namespace Phalcon\Domain\Payload;
 
 /**
- * Phalcon\Http\Payload\Status
+ * Phalcon\Domain\Payload\Status
  *
  * Holds the status codes for the payload
  */
