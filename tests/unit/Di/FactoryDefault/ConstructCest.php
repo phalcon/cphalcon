@@ -100,10 +100,10 @@ class ConstructCest
                 'class'   => Session::class,
             ],
 
-             [
-                 'service' => 'filter',
-                 'class'   => Filter::class,
-             ],
+            [
+                'service' => 'filter',
+                'class'   => Filter::class,
+            ],
 
             [
                 'service' => 'modelsManager',
