@@ -19,7 +19,10 @@ use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
 
-class UploadedFileFactory implements UploadedFileFactoryInterface
+/**
+ * PSR-17 UploadedFileFactory
+ */
+final class UploadedFileFactory implements UploadedFileFactoryInterface
 {
     /**
      * Create a new uploaded file.
