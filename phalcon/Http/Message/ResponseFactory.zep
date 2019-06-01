@@ -18,7 +18,10 @@ use Phalcon\Http\Message\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 
-class ResponseFactory implements ResponseFactoryInterface
+/**
+ * PSR-17 ResponseFactory
+ */
+final class ResponseFactory implements ResponseFactoryInterface
 {
     /**
      * Create a new response.
