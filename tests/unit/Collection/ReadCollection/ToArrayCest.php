@@ -10,22 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Collection;
+namespace Phalcon\Test\Unit\Collection\ReadCollection;
 
-use Phalcon\Collection;
+use Phalcon\Collection\ReadCollection;
 use UnitTester;
 
-class ToJsonCest
+class ToArrayCest
 {
     /**
-     * Tests Phalcon\Collection :: toJson()
+     * Tests Phalcon\Collection :: toArray()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function collectionToJson(UnitTester $I)
+    public function collectionToArray(UnitTester $I)
     {
-        $I->wantToTest('Collection - toJson()');
+        $I->wantToTest('Collection - toArray()');
 
         $data = [
             'one'   => 'two',
@@ -33,16 +33,11 @@ class ToJsonCest
             'five'  => 'six',
         ];
 
-        $collection = new Collection($data);
+        $collection = new ReadCollection($data);
 
         $I->assertEquals(
-            json_encode($data),
-            $collection->toJson()
-        );
-
-        $I->assertEquals(
-            json_encode($data, JSON_PRETTY_PRINT),
-            $collection->toJson(JSON_PRETTY_PRINT)
+            $data,
+            $collection->toArray()
         );
     }
 }

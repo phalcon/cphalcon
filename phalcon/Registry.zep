@@ -10,7 +10,7 @@
 
 namespace Phalcon;
 
-use Phalcon\Collection;
+use Phalcon\Collection\Collection;
 
 /**
  * Phalcon\Registry

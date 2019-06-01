@@ -10,22 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Collection;
+namespace Phalcon\Test\Unit\Collection\Collection;
 
-use Phalcon\Collection;
+use Phalcon\Collection\Collection;
 use UnitTester;
 
-class SerializeCest
+class InitCest
 {
     /**
-     * Tests Phalcon\Collection :: serialize()
+     * Tests Phalcon\Collection :: init()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function collectionSerialize(UnitTester $I)
+    public function collectionInit(UnitTester $I)
     {
-        $I->wantToTest('Collection - serialize()');
+        $I->wantToTest('Collection - init()');
 
         $data = [
             'one'   => 'two',
@@ -33,11 +33,18 @@ class SerializeCest
             'five'  => 'six',
         ];
 
-        $collection = new Collection($data);
+        $collection = new Collection();
 
         $I->assertEquals(
-            serialize($data),
-            $collection->serialize()
+            0,
+            $collection->count()
+        );
+
+        $collection->init($data);
+
+        $I->assertEquals(
+            $data,
+            $collection->toArray()
         );
     }
 }

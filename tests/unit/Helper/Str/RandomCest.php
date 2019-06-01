@@ -211,22 +211,6 @@ class RandomCest
         );
     }
 
-    private function oneToTenProvider(): array
-    {
-        return [
-            [1],
-            [2],
-            [3],
-            [4],
-            [5],
-            [6],
-            [7],
-            [8],
-            [9],
-            [10],
-        ];
-    }
-
     /**
      * Tests Phalcon\Helper\Str :: random() - distinct type
      *
@@ -253,6 +237,22 @@ class RandomCest
             $example[0],
             strlen($source)
         );
+    }
+
+    private function oneToTenProvider(): array
+    {
+        return [
+            [1],
+            [2],
+            [3],
+            [4],
+            [5],
+            [6],
+            [7],
+            [8],
+            [9],
+            [10],
+        ];
     }
 
     private function helperStrRandomDistinctProvider(): array

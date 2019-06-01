@@ -10,9 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Collection;
+namespace Phalcon\Test\Unit\Collection\ReadCollection;
 
-use Phalcon\Collection;
+use Phalcon\Collection\ReadCollection;
 use UnitTester;
 
 class HasCest
@@ -33,7 +33,7 @@ class HasCest
             'five'  => 'six',
         ];
 
-        $collection = new Collection($data);
+        $collection = new ReadCollection($data);
 
         $I->assertTrue(
             $collection->has('three')

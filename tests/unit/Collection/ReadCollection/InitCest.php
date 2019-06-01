@@ -10,22 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Collection;
+namespace Phalcon\Test\Unit\Collection\ReadCollection;
 
-use Phalcon\Collection;
+use Phalcon\Collection\ReadCollection;
 use UnitTester;
 
-class CountCest
+class InitCest
 {
     /**
-     * Tests Phalcon\Collection :: count()
+     * Tests Phalcon\Collection :: init()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function collectionCount(UnitTester $I)
+    public function collectionInit(UnitTester $I)
     {
-        $I->wantToTest('Collection - count()');
+        $I->wantToTest('Collection - init()');
 
         $data = [
             'one'   => 'two',
@@ -33,16 +33,18 @@ class CountCest
             'five'  => 'six',
         ];
 
-        $collection = new Collection($data);
-
-        $I->assertCount(
-            3,
-            $collection->toArray()
-        );
+        $collection = new ReadCollection();
 
         $I->assertEquals(
-            3,
+            0,
             $collection->count()
+        );
+
+        $collection->init($data);
+
+        $I->assertEquals(
+            $data,
+            $collection->toArray()
         );
     }
 }

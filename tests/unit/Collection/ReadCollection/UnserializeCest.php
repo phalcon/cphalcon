@@ -10,22 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Collection;
+namespace Phalcon\Test\Unit\Collection\ReadCollection;
 
-use Phalcon\Collection;
+use Phalcon\Collection\ReadCollection;
 use UnitTester;
 
-class ClearCest
+class UnserializeCest
 {
     /**
-     * Tests Phalcon\Collection :: clear()
+     * Tests Phalcon\Collection :: serialize()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function collectionClear(UnitTester $I)
+    public function collectionSerialize(UnitTester $I)
     {
-        $I->wantToTest('Collection - clear()');
+        $I->wantToTest('Collection - serialize()');
 
         $data = [
             'one'   => 'two',
@@ -33,18 +33,15 @@ class ClearCest
             'five'  => 'six',
         ];
 
-        $collection = new Collection($data);
+        $serialized = serialize($data);
+
+        $collection = new ReadCollection();
+
+        $collection->unserialize($serialized);
 
         $I->assertEquals(
             $data,
             $collection->toArray()
-        );
-
-        $collection->clear();
-
-        $I->assertEquals(
-            0,
-            $collection->count()
         );
     }
 }

@@ -10,22 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Collection;
+namespace Phalcon\Test\Unit\Collection\Collection;
 
-use Phalcon\Collection;
+use Phalcon\Collection\Collection;
 use UnitTester;
 
-class JsonSerializeCest
+class ToJsonCest
 {
     /**
-     * Tests Phalcon\Collection :: jsonSerialize()
+     * Tests Phalcon\Collection :: toJson()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function collectionJsonSerialize(UnitTester $I)
+    public function collectionToJson(UnitTester $I)
     {
-        $I->wantToTest('Collection - jsonSerialize()');
+        $I->wantToTest('Collection - toJson()');
 
         $data = [
             'one'   => 'two',
@@ -36,8 +36,13 @@ class JsonSerializeCest
         $collection = new Collection($data);
 
         $I->assertEquals(
-            $data,
-            $collection->jsonSerialize()
+            json_encode($data),
+            $collection->toJson()
+        );
+
+        $I->assertEquals(
+            json_encode($data, JSON_PRETTY_PRINT),
+            $collection->toJson(JSON_PRETTY_PRINT)
         );
     }
 }
