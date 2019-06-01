@@ -15,11 +15,14 @@
 namespace Phalcon\Http\Message;
 
 use Phalcon\Http\Message\Stream;
-use Psr\Http\Message\StreamInterface;
+use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Psr\Http\Message\StreamFactoryInterface;
-use Psr\Http\Message\UriInterface;
+use Psr\Http\Message\StreamInterface;
 
-class StreamFactory implements StreamFactoryInterface
+/**
+ * PSR-17 StreamFactory
+ */
+final class StreamFactory implements StreamFactoryInterface
 {
     /**
      * Create a new stream from a string.
@@ -27,17 +30,22 @@ class StreamFactory implements StreamFactoryInterface
      * The stream SHOULD be created with a temporary resource.
      *
      * @param string $content String content with which to populate the stream.
+     *
+     * @return StreamInterface
      */
-    public function createStream(string content = "") -> <StreamInterface>
+    public function createStream(string! content = "") -> <StreamInterface>
     {
-        var tempResource;
+        var handle;
 
-        let tempResource = fopen("php://temp", "r+b");
+        let handle = fopen("php://temp", "r+b");
+        if unlikely false === handle {
+            throw new InvalidArgumentException("Cannot write to file.");
+        }
 
-        fwrite(tempResource, content);
-        rewind(tempResource);
+        fwrite(handle, content);
+        rewind(handle);
 
-        return this->createStreamFromResource(tempResource);
+        return this->createStreamFromResource(handle);
     }
 
     /**
@@ -48,13 +56,14 @@ class StreamFactory implements StreamFactoryInterface
      *
      * The `$filename` MAY be any string supported by `fopen()`.
      *
-     * @param string $filename The filename or stream URI to use as basis of stream.
-     * @param string $mode The mode with which to open the underlying filename/stream.
+     * @param string $filename The filename or stream URI to use as basis of
+     *                         stream.
+     * @param string $mode     The mode with which to open the underlying
+     *                         filename/stream.
      *
-     * @throws \RuntimeException If the file cannot be opened.
-     * @throws \InvalidArgumentException If the mode is invalid.
+     * @return StreamInterface
      */
-    public function createStreamFromFile(string filename, string mode = "r+b") -> <StreamInterface>
+    public function createStreamFromFile(string! filename, string! mode = "r+b") -> <StreamInterface>
     {
         return new Stream(filename, mode);
     }
@@ -66,16 +75,11 @@ class StreamFactory implements StreamFactoryInterface
      */
     public function createStreamFromResource(var phpResource) -> <StreamInterface>
     {
-        var stream;
-
-        if unlikely (typeof phpResource !== "resource"  || "stream" !== get_resource_type(phpResource)) {
-            throw new \InvalidArgumentException(
-                "Invalid stream provided"
-            );
+        if unlikely (typeof phpResource !== "resource" ||
+           "stream" !== get_resource_type(phpResource)) {
+            throw new InvalidArgumentException("Invalid stream provided");
         }
 
-        let stream = new Stream(phpResource);
-
-        return stream;
+        return new Stream(phpResource);
     }
 }

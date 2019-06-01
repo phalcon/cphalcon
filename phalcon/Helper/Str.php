@@ -2,13 +2,13 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Cardoe Framework.
+ * This file is part of the Phalcon Framework.
  *
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 
-namespace Cardoe\Helper;
+namespace Phalcon\Helper;
 
 use function array_merge;
 use function count;
@@ -35,7 +35,7 @@ use const DIRECTORY_SEPARATOR;
 use const PATHINFO_FILENAME;
 
 /**
- * Cardoe\Helper\Str
+ * Phalcon\Helper\Str
  *
  * This class offers quick string functions throughout the framework
  */

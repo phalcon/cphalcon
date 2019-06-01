@@ -36,9 +36,9 @@ class Input extends Stream
     private eof = false;
 
     /**
-     * Constructor
+     * Input constructor.
      */
-    public function __construct() -> void
+    public function __construct()
     {
         parent::__construct("php://input", "rb");
     }
@@ -58,7 +58,7 @@ class Input extends Stream
      */
     public function __toString() -> string
     {
-        if true === this->eof {
+        if unlikely true === this->eof {
             return this->data;
         }
 
@@ -70,25 +70,29 @@ class Input extends Stream
     /**
      * Returns the remaining contents in a string
      *
-     * @throws \RuntimeException if unable to read.
-     * @throws \RuntimeException if error occurs while reading.
+     * @throws RuntimeException if unable to read.
+     * @throws RuntimeException if error occurs while reading.
+     *
+     * @param int $length
+     *
+     * @return string
      */
     public function getContents(int length = -1) -> string
     {
         var data;
 
-        if this->eof {
-            return data;
+        if unlikely true === this->eof {
+            return this->data;
         }
 
         let data       = stream_get_contents(this->handle, length),
             this->data = data;
 
-        if -1 === length || this->eof() {
+        if unlikely (-1 === length || true === this->eof()) {
             let this->eof = true;
         }
 
-        return data;
+        return this->data;
     }
 
     /**
@@ -101,6 +105,10 @@ class Input extends Stream
 
     /**
      * Read data from the stream.
+     *
+     * @param int $length
+     *
+     * @return string
      */
     public function read(var length)-> string
     {
@@ -108,11 +116,11 @@ class Input extends Stream
 
         let data = parent::read(length);
 
-        if true !== this->eof {
-            let this->data = data;
+        if unlikely true !== this->eof {
+            let this->data = $data;
         }
 
-        if true === this->eof() {
+        if unlikely true === this->eof() {
             let this->eof = true;
         }
 

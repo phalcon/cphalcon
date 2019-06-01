@@ -109,10 +109,10 @@ final class Uri extends AbstractCommon implements UriInterface
     {
         var urlParts;
 
-        if "" !== $uri {
+        if unlikely "" !== $uri {
             let urlParts = parse_url(uri);
 
-            if false === urlParts {
+            if unlikely false === urlParts {
                 let urlParts = [];
             }
 
@@ -153,7 +153,7 @@ final class Uri extends AbstractCommon implements UriInterface
          *   - If the path is starting with more than one "/" and no authority
          *     is present, the starting slashes MUST be reduced to one.
          */
-        if "" !== path && true !== starts_with(path, "/") && "" !== authority {
+        if unlikely ("" !== path && true !== starts_with(path, "/") && "" !== authority) {
             let path = "/" . path;
         }
 
@@ -179,7 +179,7 @@ final class Uri extends AbstractCommon implements UriInterface
          * If no authority information is present, this method MUST return an
          * empty string.
          */
-        if "" === this->host {
+        if unlikely "" === this->host {
             return "";
         }
 
@@ -191,7 +191,7 @@ final class Uri extends AbstractCommon implements UriInterface
          *
          * [user-info@]host[:port]
          */
-        if "" !== userInfo {
+        if unlikely "" !== userInfo {
             let authority = userInfo . "@" . authority;
         }
 
@@ -199,7 +199,7 @@ final class Uri extends AbstractCommon implements UriInterface
          * If the port component is not set or is the standard port for the
          * current scheme, it SHOULD NOT be included.
          */
-        if null !== this->port {
+        if unlikely null !== this->port {
             let authority .= ":" . this->port;
         }
 
@@ -223,7 +223,7 @@ final class Uri extends AbstractCommon implements UriInterface
      */
     public function getUserInfo() -> string
     {
-        if true !== empty(this->pass) {
+        if unlikely true !== empty(this->pass) {
             return this->user . ":" . this->pass;
         }
 
@@ -281,7 +281,7 @@ final class Uri extends AbstractCommon implements UriInterface
     {
         $this->checkStringParameter($path);
 
-        if !strpos(path, "?") || !strpos(path, "#") {
+        if unlikely (!strpos(path, "?") || !strpos(path, "#")) {
             throw new InvalidArgumentException(
                 "Path cannot contain a query string or fragment"
             );
@@ -311,10 +311,10 @@ final class Uri extends AbstractCommon implements UriInterface
      */
     public function withPort(var port) -> <Uri>
     {
-        if null !== port {
+        if unlikely null !== port {
             let port = this->filterPort(port);
 
-            if null !== port && (port < 1 || port > 65535) {
+            if unlikely (null !== port && (port < 1 || port > 65535)) {
                 throw new InvalidArgumentException(
                     "Method expects valid port (1-65535)"
                 );
@@ -344,7 +344,7 @@ final class Uri extends AbstractCommon implements UriInterface
     {
         this->checkStringParameter(query);
 
-        if false !== strpos(query, "#") {
+        if unlikely false !== strpos(query, "#") {
             throw new InvalidArgumentException(
                 "Query cannot contain a query fragment"
             );
@@ -395,13 +395,13 @@ final class Uri extends AbstractCommon implements UriInterface
 
         this->checkStringParameter(user);
 
-        if null !== password {
+        if unlikely null !== password {
             this->checkStringParameter(user);
         }
 
         let user = rawurlencode(user);
 
-        if null !== password {
+        if unlikely null !== password {
             let password = rawurlencode(password);
         }
 
@@ -449,7 +449,7 @@ final class Uri extends AbstractCommon implements UriInterface
         string! suffix = ""
     ) -> string
     {
-        if "" !== value {
+        if unlikely "" !== value {
             let value = prefix . value . suffix;
         }
 
@@ -509,7 +509,7 @@ final class Uri extends AbstractCommon implements UriInterface
     {
         var element, key, parts;
 
-        if "" === path || true !== starts_with(path, "/") {
+        if unlikely ("" === path || true !== starts_with(path, "/")) {
             return path;
         }
 
@@ -539,9 +539,9 @@ final class Uri extends AbstractCommon implements UriInterface
             443 : 1
         ];
 
-        if null !== port {
+        if unlikely null !== port {
             let port = (int) port;
-            if true === isset(ports[port]) {
+            if unlikely isset ports[port] {
                 let port = null;
             }
         }
@@ -574,7 +574,7 @@ final class Uri extends AbstractCommon implements UriInterface
     {
         var index, part, parts, split;
 
-        if "" === query {
+        if unlikely "" === query {
             return "";
         }
 
@@ -583,7 +583,7 @@ final class Uri extends AbstractCommon implements UriInterface
 
         for index, part in parts {
             let split = this->splitQueryValue(part);
-            if null === split[1] {
+            if unlikely null === split[1] {
                 let parts[index] = rawurlencode(split[0]);
                 continue;
             }
@@ -612,11 +612,11 @@ final class Uri extends AbstractCommon implements UriInterface
                 "https" : 1
             ];
 
-        if "" === filtered {
+        if unlikely "" === filtered {
             return "";
         }
 
-        if !isset schemes[filtered] {
+        if unlikely !isset schemes[filtered] {
             throw new InvalidArgumentException(
                 "Unsupported scheme [" . filtered . "]. " .
                 "Scheme must be one of [" .
@@ -637,7 +637,7 @@ final class Uri extends AbstractCommon implements UriInterface
         var data;
 
         let data = explode("=", element, 2);
-        if !isset data[1] {
+        if unlikely !isset data[1] {
             let data[] = null;
         }
 
