@@ -37,6 +37,6 @@ class Anchor extends AbstractHelper
 
         let overrides = array_merge(overrides, attributes);
 
-        return $this->renderFullElement("a", text, overrides);
+        return this->renderFullElement("a", text, overrides);
     }
 }

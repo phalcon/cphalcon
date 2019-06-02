@@ -37,6 +37,6 @@ class AnchorRaw extends AbstractHelper
 
         let overrides = array_merge(overrides, attributes);
 
-        return $this->renderFullElement("a", text, overrides, true);
+        return this->renderFullElement("a", text, overrides, true);
     }
 }

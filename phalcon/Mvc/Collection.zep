@@ -1192,7 +1192,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          */
         let status = collection->update(
             [
-                "_id": $this->_id
+                "_id": this->_id
             ],
             data,
             [

@@ -10,6 +10,8 @@
 
 namespace Phalcon\Collection;
 
+use Phalcon\Collection\Collection;
+
 /**
  * Phalcon\Collection
  *

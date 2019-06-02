@@ -585,7 +585,7 @@ class Request implements RequestInterface, InjectionAwareInterface
             }
         }
 
-        return "https" === $this->getScheme() ? 443 : 80;
+        return "https" === this->getScheme() ? 443 : 80;
     }
 
     /**

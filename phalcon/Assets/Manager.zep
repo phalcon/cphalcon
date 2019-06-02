@@ -60,7 +60,7 @@ class Manager implements InjectionAwareInterface
      * );
      *</code>
      */
-    public function addAsset(<$Asset> asset) -> <Manager>
+    public function addAsset(<Asset> asset) -> <Manager>
     {
         /**
          * Adds the asset by its type
@@ -83,7 +83,7 @@ class Manager implements InjectionAwareInterface
      * );
      *</code>
      */
-    public function addAssetByType(string! type, <$Asset> asset) -> <Manager>
+    public function addAssetByType(string! type, <Asset> asset) -> <Manager>
     {
         var collection;
 
@@ -234,11 +234,11 @@ class Manager implements InjectionAwareInterface
 
         for asset in assets {
             if asset->getType() == type {
-                let $filtered[] = asset;
+                let filtered[] = asset;
             }
         }
 
-        return $filtered;
+        return filtered;
     }
 
     /**
