@@ -207,8 +207,8 @@ class ServerRequest implements ServerRequestInterface
 
         let this->protocolVersion = this->processProtocol(protocol),
             this->method          = this->processMethod(method),
-            this->headers         = this->processHeaders(headers),
             this->uri             = this->processUri(uri),
+            this->headers         = this->processHeaders(headers),
             this->body            = this->processBody(body, "w+b"),
             this->uploadedFiles   = uploadFiles,
             this->parsedBody      = parsedBody,
