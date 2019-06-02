@@ -42,9 +42,9 @@ class ConstructCest
     public function httpMessageServerRequestConstructIssues14151(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - __construct()');
-        $request = new ServerRequest("GET",new Uri(),[],'php://input',['host'=>['127.0.0.1']]);
+        $request = new ServerRequest("GET", new Uri(), [], 'php://input', ['host' => ['127.0.0.1']]);
         $expected = ['127.0.0.1'];
-        $actual   = $request->getHeader('host');
+        $actual = $request->getHeader('host');
         $I->assertEquals($expected, $actual);
     }
 }
