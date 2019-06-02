@@ -4,8 +4,6 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -20,7 +18,6 @@ class WithoutHeaderCest
     /**
      * Tests Phalcon\Http\Message\Response :: withoutHeader()
      *
-     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
      */
     public function httpMessageResponseWithoutHeader(UnitTester $I)
@@ -30,16 +27,16 @@ class WithoutHeaderCest
             'Accept'        => ['text/html'],
             'Cache-Control' => ['max-age=0'],
         ];
-        $request     = new Response('php://memory', 200, $data);
-        $newInstance = $request->withoutHeader('Accept');
+        $response     = new Response('php://memory', 200, $data);
+        $newInstance = $response->withoutHeader('Accept');
 
-        $I->assertNotEquals($request, $newInstance);
+        $I->assertNotEquals($response, $newInstance);
 
         $expected = [
             'Accept'        => ['text/html'],
             'Cache-Control' => ['max-age=0'],
         ];
-        $actual   = $request->getHeaders();
+        $actual   = $response->getHeaders();
         $I->assertEquals($expected, $actual);
 
         $expected = [

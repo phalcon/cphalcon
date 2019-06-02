@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Request;
 
+use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\Request;
+use Codeception\Example;
 use UnitTester;
 
 class WithHeaderCest
@@ -42,8 +44,6 @@ class WithHeaderCest
 
         $I->assertNotEquals($request, $newInstance);
 
-
-
         $expected = [
             'Accept' => ['text/html'],
         ];
@@ -52,8 +52,6 @@ class WithHeaderCest
             $expected,
             $request->getHeaders()
         );
-
-
 
         $expected = [
             'Accept'        => ['text/html'],
@@ -64,5 +62,74 @@ class WithHeaderCest
             $expected,
             $newInstance->getHeaders()
         );
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Request :: withHeader() - exception
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-06-01
+     */
+    public function httpMessageRequestWithHeaderException(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Request - withHeader() - value');
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Invalid header name Cache Control'
+            ),
+            function () {
+                $request = new Request();
+
+                $newInstance = $request->withHeader(
+                    'Cache Control',
+                    [
+                        'max-age=0',
+                    ]
+                );
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Request :: withHeader() - exception value
+     *
+     * @dataProvider getExamples
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-06-01
+     */
+    public function httpMessageRequestWithHeaderExceptionValue(UnitTester $I, Example $example)
+    {
+        $I->wantToTest('Http\Message\Request - withHeader() - exception value ' . $example[0]);
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Invalid header value'
+            ),
+            function () use ($example) {
+                $request = new Request();
+
+                $newInstance = $request->withHeader(
+                    'Cache-Control',
+                    [
+                        $example[1],
+                    ]
+                );
+            }
+        );
+    }
+
+    /**
+     * @return array
+     */
+    private function getExamples(): array
+    {
+        return [
+            ['not numeric or string', true],
+            ['invalid\r\n', "some \r\n"],
+            ['invalid\r', "some \r"],
+            ['invalid\n', "some \n"],
+        ];
     }
 }

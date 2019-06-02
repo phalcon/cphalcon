@@ -4,8 +4,6 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -20,7 +18,6 @@ class WithAddedHeaderCest
     /**
      * Tests Phalcon\Http\Message\Response :: withAddedHeader()
      *
-     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
      */
     public function httpMessageResponseWithAddedHeader(UnitTester $I)
@@ -29,15 +26,15 @@ class WithAddedHeaderCest
         $data        = [
             'Accept' => ['text/html'],
         ];
-        $request     = new Response('php://memory', 200, $data);
-        $newInstance = $request->withAddedHeader('Cache-Control', ['max-age=0']);
+        $response     = new Response('php://memory', 200, $data);
+        $newInstance = $response->withAddedHeader('Cache-Control', ['max-age=0']);
 
-        $I->assertNotEquals($request, $newInstance);
+        $I->assertNotEquals($response, $newInstance);
 
         $expected = [
             'Accept' => ['text/html'],
         ];
-        $actual   = $request->getHeaders();
+        $actual   = $response->getHeaders();
         $I->assertEquals($expected, $actual);
 
         $expected = [
@@ -51,7 +48,6 @@ class WithAddedHeaderCest
     /**
      * Tests Phalcon\Http\Message\Response :: withAddedHeader() - merge
      *
-     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
      */
     public function httpMessageResponseWithAddedHeaderMerge(UnitTester $I)
@@ -59,15 +55,15 @@ class WithAddedHeaderCest
         $data        = [
             'Accept' => ['text/html'],
         ];
-        $request     = new Response('php://memory', 200, $data);
-        $newInstance = $request->withAddedHeader('Accept', ['text/json']);
+        $response     = new Response('php://memory', 200, $data);
+        $newInstance = $response->withAddedHeader('Accept', ['text/json']);
 
-        $I->assertNotEquals($request, $newInstance);
+        $I->assertNotEquals($response, $newInstance);
 
         $expected = [
             'Accept' => ['text/html'],
         ];
-        $actual   = $request->getHeaders();
+        $actual   = $response->getHeaders();
         $I->assertEquals($expected, $actual);
 
         $expected = [

@@ -4,8 +4,6 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -44,6 +42,23 @@ class ToStringCest
         $uri = new Uri('https://dev.phalcon.ld');
 
         $newInstance = $uri->withPath('action/reaction');
+        $expected    = 'https://dev.phalcon.ld/action/reaction';
+        $actual      = $newInstance->__toString();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Uri :: __toString() - path many slashes
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-06-01
+     */
+    public function httpUriToStringPathManySlashes(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - __toString() - path many slashes');
+        $uri = new Uri('https://dev.phalcon.ld');
+
+        $newInstance = $uri->withPath('///action/reaction');
         $expected    = 'https://dev.phalcon.ld/action/reaction';
         $actual      = $newInstance->__toString();
         $I->assertEquals($expected, $actual);

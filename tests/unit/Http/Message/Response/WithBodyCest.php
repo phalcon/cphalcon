@@ -4,8 +4,6 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -21,7 +19,6 @@ class WithBodyCest
     /**
      * Tests Phalcon\Http\Message\Response :: withBody()
      *
-     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
      */
     public function httpMessageResponseWithBody(UnitTester $I)
@@ -29,11 +26,11 @@ class WithBodyCest
         $I->wantToTest('Http\Message\Response - withBody()');
         $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $stream   = new Stream($fileName, 'rb');
-        $request  = new Response();
+        $response  = new Response();
 
-        $newInstance = $request->withBody($stream);
+        $newInstance = $response->withBody($stream);
 
-        $I->assertNotEquals($request, $newInstance);
+        $I->assertNotEquals($response, $newInstance);
 
         $I->openFile($fileName);
 

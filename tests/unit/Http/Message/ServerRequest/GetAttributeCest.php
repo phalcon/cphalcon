@@ -4,8 +4,6 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -20,7 +18,6 @@ class GetAttributeCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getAttribute()
      *
-     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-11
      */
     public function httpMessageServerRequestGetAttribute(UnitTester $I)
@@ -41,7 +38,6 @@ class GetAttributeCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getAttribute() - unknown
      *
-     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-11
      */
     public function httpMessageServerRequestGetAttributeUnknown(UnitTester $I)

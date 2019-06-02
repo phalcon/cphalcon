@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Request;
 
+use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\Request;
 use UnitTester;
 
@@ -59,6 +60,66 @@ class WithAddedHeaderCest
         $I->assertEquals(
             $expected,
             $newInstance->getHeaders()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Request :: withAddedHeader() - string value
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-06-01
+     */
+    public function httpMessageRequestWithAddedHeaderStringValue(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Request - withAddedHeader() - string value');
+
+        $data = [
+            'Accept' => ['text/html'],
+        ];
+
+        $request = new Request('GET', null, 'php://memory', $data);
+
+        $newInstance = $request->withAddedHeader(
+            'Cache-Control',
+            'max-age=0'
+        );
+
+        $I->assertNotEquals($request, $newInstance);
+
+        $expected = [
+            'Accept'        => ['text/html'],
+            'Cache-Control' => ['max-age=0'],
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $newInstance->getHeaders()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Request :: withAddedHeader() - empty value
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-06-01
+     */
+    public function httpMessageRequestWithAddedHeaderEmptyValue(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Request - withAddedHeader() - empty value');
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Invalid header value: must be a string or ' .
+                'array of strings; cannot be an empty array'
+            ),
+            function () {
+                $request = new Request();
+
+                $newInstance = $request->withAddedHeader(
+                    'Cache-Control',
+                    []
+                );
+            }
         );
     }
 

@@ -4,17 +4,15 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 
 namespace Phalcon\Test\Unit\Http\Message\Uri;
 
+use Phalcon\Http\Message\Uri;
 use Codeception\Example;
 use InvalidArgumentException;
-use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 class WithHostCest
@@ -64,7 +62,7 @@ class WithHostCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Method requires a string argument instead of ' . $example[0]
+                'Method requires a string argument'
             ),
             function () use ($example) {
                 $uri = new Uri(
@@ -76,6 +74,9 @@ class WithHostCest
         );
     }
 
+    /**
+     * @return array
+     */
     private function getExamples(): array
     {
         return [

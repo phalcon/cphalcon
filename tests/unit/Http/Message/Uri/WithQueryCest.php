@@ -4,17 +4,15 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 
 namespace Phalcon\Test\Unit\Http\Message\Uri;
 
+use Phalcon\Http\Message\Uri;
 use Codeception\Example;
 use InvalidArgumentException;
-use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 class WithQueryCest
@@ -63,7 +61,7 @@ class WithQueryCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Method requires a string argument instead of ' . $example[0]
+                'Method requires a string argument'
             ),
             function () use ($example) {
                 $uri = new Uri(
@@ -75,6 +73,33 @@ class WithQueryCest
         );
     }
 
+    /**
+     * Tests Phalcon\Http\Message\Uri :: withQuery() - exception with fragment
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-02-07
+     */
+    public function httpUriWithQueryExceptionWithFragment(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - withQuery() - exception - with fragment');
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Query cannot contain a query fragment'
+            ),
+            function () {
+                $uri = new Uri(
+                    'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag'
+                );
+
+                $instance = $uri->withQuery('/login#frag');
+            }
+        );
+    }
+
+    /**
+     * @return array
+     */
     private function getExamples(): array
     {
         return [
@@ -82,10 +107,14 @@ class WithQueryCest
             ['key and value', 'p^aram=valu`', 'p%5Earam=valu%60'],
             ['key as array', 'param[]', 'param%5B%5D'],
             ['key as array and value', 'param[]=valu`', 'param%5B%5D=valu%60'],
+            ['key with questionmark', '?param=valu', 'param=valu'],
             ['complex', 'p^aram&all[]=va lu`&f<>=`bar', 'p%5Earam&all%5B%5D=va%20lu%60&f%3C%3E=%60bar'],
         ];
     }
 
+    /**
+     * @return array
+     */
     private function getExceptions(): array
     {
         return [

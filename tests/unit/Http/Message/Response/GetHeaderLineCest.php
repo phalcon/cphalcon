@@ -4,8 +4,6 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -20,7 +18,6 @@ class GetHeaderLineCest
     /**
      * Tests Phalcon\Http\Message\Response :: getHeaderLine()
      *
-     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
      */
     public function httpMessageResponseGetHeaderLine(UnitTester $I)
@@ -34,36 +31,35 @@ class GetHeaderLineCest
             ],
         ];
 
-        $request = new Response('php://memory', 200, $data);
+        $response = new Response('php://memory', 200, $data);
 
         $expected = 'text/html,text/json';
 
         $I->assertEquals(
             $expected,
-            $request->getHeaderLine('accept')
+            $response->getHeaderLine('accept')
         );
 
         $I->assertEquals(
             $expected,
-            $request->getHeaderLine('aCCepT')
+            $response->getHeaderLine('aCCepT')
         );
     }
 
     /**
      * Tests Phalcon\Http\Message\Response :: getHeaderLine() - empty
      *
-     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
      */
     public function httpMessageResponseGetHeaderLineEmpty(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Response - getHeaderLine() - empty');
 
-        $request = new Response();
+        $response = new Response();
 
         $I->assertEquals(
             '',
-            $request->getHeaderLine('accept')
+            $response->getHeaderLine('accept')
         );
     }
 }

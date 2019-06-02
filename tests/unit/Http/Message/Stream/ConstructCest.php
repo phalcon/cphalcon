@@ -4,8 +4,6 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -16,6 +14,7 @@ use Codeception\Example;
 use Phalcon\Http\Message\Exception;
 use Phalcon\Http\Message\Stream;
 use Psr\Http\Message\StreamInterface;
+use RuntimeException;
 use stdClass;
 use UnitTester;
 
@@ -24,7 +23,6 @@ class ConstructCest
     /**
      * Tests Phalcon\Http\Message\Stream :: __construct()
      *
-     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-08
      */
     public function httpMessageStreamConstruct(UnitTester $I)
@@ -44,14 +42,13 @@ class ConstructCest
      *
      * @dataProvider getExceptionExamples
      *
-     * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-08
      */
     public function httpMessageStreamConstructException(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Message\Stream - __construct() ' . $example[0]);
         $I->expectThrowable(
-            new Exception(
+            new RuntimeException(
                 'The stream provided is not valid ' .
                 '(string/resource) or could not be opened.'
             ),
