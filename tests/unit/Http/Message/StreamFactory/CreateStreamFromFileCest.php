@@ -4,8 +4,6 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -21,20 +19,16 @@ class CreateStreamFromFileCest
     /**
      * Tests Phalcon\Http\Message\StreamFactory :: createStreamFromFile()
      *
-     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
     public function httpMessageStreamFactoryCreateStreamFromFile(UnitTester $I)
     {
         $I->wantToTest('Http\Message\StreamFactory - createStreamFromFile()');
 
-        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
-
+        $fileName = dataDir('assets/stream/bill-of-rights.txt');
         $expected = file_get_contents($fileName);
-
-        $factory = new StreamFactory();
-
-        $stream = $factory->createStreamFromFile($fileName);
+        $factory  = new StreamFactory();
+        $stream   = $factory->createStreamFromFile($fileName);
 
         $I->assertInstanceOf(
             Stream::class,

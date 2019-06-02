@@ -4,8 +4,6 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -20,7 +18,6 @@ class GetReasonPhraseCest
     /**
      * Tests Phalcon\Http\Message\Response :: getReasonPhrase()
      *
-     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
      */
     public function httpMessageResponseGetReasonPhrase(UnitTester $I)
@@ -38,7 +35,6 @@ class GetReasonPhraseCest
     /**
      * Tests Phalcon\Http\Message\Response :: getReasonPhrase() - other port
      *
-     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
      */
     public function httpMessageResponseGetReasonPhraseOtherPort(UnitTester $I)
@@ -48,7 +44,7 @@ class GetReasonPhraseCest
         $response = new Response('php://memory', 420);
 
         $I->assertEquals(
-            'Enhance Your Calm',
+            'Method Failure',
             $response->getReasonPhrase()
         );
     }

@@ -4,8 +4,6 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -14,6 +12,7 @@ namespace Phalcon\Test\Unit\Http\Message\Stream;
 
 use Codeception\Example;
 use Phalcon\Http\Message\Stream;
+use function logsDir;
 use UnitTester;
 
 class IsWritableCest
@@ -23,14 +22,13 @@ class IsWritableCest
      *
      * @dataProvider getExamples
      *
-     * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-10
      */
     public function httpMessageStreamIsWritable(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Message\Stream - isWritable() - ' . $example[0]);
 
-        $fileName = dataDir('/assets/stream/bill-of-rights-empty.txt');
+        $fileName = dataDir('assets/stream/bill-of-rights-empty.txt');
 
         $stream = new Stream($fileName, $example[0]);
 
@@ -45,7 +43,6 @@ class IsWritableCest
      *
      * @dataProvider getExamplesX
      *
-     * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-10
      */
     public function httpMessageStreamIsWritableWithX(UnitTester $I, Example $example)
@@ -55,7 +52,7 @@ class IsWritableCest
         );
 
         $fileName = $I->getNewFileName();
-        $fileName = outputDir('tests/stream/' . $fileName);
+        $fileName = logsDir($fileName);
 
         $stream = new Stream($fileName, $example[0]);
 

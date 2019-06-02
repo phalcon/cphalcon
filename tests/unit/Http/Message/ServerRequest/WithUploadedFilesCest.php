@@ -4,8 +4,6 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -22,7 +20,6 @@ class WithUploadedFilesCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: withUploadedFiles()
      *
-     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
     public function httpMessageServerRequestWithUploadedFiles(UnitTester $I)
@@ -30,7 +27,9 @@ class WithUploadedFilesCest
         $I->wantToTest('Http\Message\ServerRequest - withUploadedFiles()');
         $files       = [
             new UploadedFile('php://memory', 0),
-            new UploadedFile('php://memory', 0),
+            [
+                new UploadedFile('php://memory', 0),
+            ],
         ];
         $request     = new ServerRequest();
         $newInstance = $request->withUploadedFiles($files);
@@ -45,7 +44,6 @@ class WithUploadedFilesCest
      * Tests Phalcon\Http\Message\ServerRequest :: withUploadedFiles() -
      * exception
      *
-     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
     public function httpMessageServerRequestWithUploadedFilesException(UnitTester $I)

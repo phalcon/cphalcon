@@ -4,17 +4,15 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 
 namespace Phalcon\Test\Unit\Http\Message\Uri;
 
+use Phalcon\Http\Message\Uri;
 use Codeception\Example;
 use InvalidArgumentException;
-use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 class WithUserInfoCest
@@ -66,11 +64,11 @@ class WithUserInfoCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Method requires a string argument instead of ' . $example[0]
+                'Method requires a string argument'
             ),
             function () use ($example) {
-                $query    = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
-                $uri      = new Uri($query);
+                $query = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
+                $uri   = new Uri($query);
 
                 $instance = $uri->withUserInfo($example[2]);
             }
