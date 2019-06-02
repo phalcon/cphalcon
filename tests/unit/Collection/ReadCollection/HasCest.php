@@ -18,14 +18,14 @@ use UnitTester;
 class HasCest
 {
     /**
-     * Tests Phalcon\Collection :: has()
+     * Tests Phalcon\ReadCollection :: has()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionHas(UnitTester $I)
     {
-        $I->wantToTest('Collection - has()');
+        $I->wantToTest('ReadCollection - has()');
 
         $data = [
             'one'   => 'two',

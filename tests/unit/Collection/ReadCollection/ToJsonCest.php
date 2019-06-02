@@ -18,14 +18,14 @@ use UnitTester;
 class ToJsonCest
 {
     /**
-     * Tests Phalcon\Collection :: toJson()
+     * Tests Phalcon\ReadCollection :: toJson()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionToJson(UnitTester $I)
     {
-        $I->wantToTest('Collection - toJson()');
+        $I->wantToTest('ReadCollection - toJson()');
 
         $data = [
             'one'   => 'two',

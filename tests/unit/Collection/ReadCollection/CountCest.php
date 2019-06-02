@@ -18,14 +18,14 @@ use UnitTester;
 class CountCest
 {
     /**
-     * Tests Phalcon\Collection :: count()
+     * Tests Phalcon\ReadCollection :: count()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionCount(UnitTester $I)
     {
-        $I->wantToTest('Collection - count()');
+        $I->wantToTest('ReadCollection - count()');
 
         $data = [
             'one'   => 'two',

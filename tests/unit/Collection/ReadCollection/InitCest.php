@@ -18,14 +18,14 @@ use UnitTester;
 class InitCest
 {
     /**
-     * Tests Phalcon\Collection :: init()
+     * Tests Phalcon\ReadCollection :: init()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionInit(UnitTester $I)
     {
-        $I->wantToTest('Collection - init()');
+        $I->wantToTest('ReadCollection - init()');
 
         $data = [
             'one'   => 'two',
