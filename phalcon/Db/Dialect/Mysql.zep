@@ -74,7 +74,7 @@ class Mysql extends Dialect
 
         let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD";
         if reference->getName() {
-            let sql .= " CONSTRAINT `" . $reference->getName() . "`";
+            let sql .= " CONSTRAINT `" . reference->getName() . "`";
         }
 
         let sql .= " FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ") REFERENCES " . this->prepareTable(reference->getReferencedTable(), reference->getReferencedSchema()) . "(" . this->getColumnList(reference->getReferencedColumns()) . ")";

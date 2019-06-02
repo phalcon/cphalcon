@@ -112,7 +112,7 @@ class Redis extends AbstractAdapter
      */
     public function getAdapter() -> var
     {
-        var auth, connection, host, index, method, options, 
+        var auth, connection, host, index, method, options,
             persistent, port, result;
 
         if null === this->adapter {
@@ -171,7 +171,7 @@ class Redis extends AbstractAdapter
      */
     public function has(string! key) -> bool
     {
-        return (bool) this->getAdapter()->exists($key);
+        return (bool) this->getAdapter()->exists(key);
     }
 
     /**
@@ -185,7 +185,7 @@ class Redis extends AbstractAdapter
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        return this->getAdapter()->incrBy($key, $value);
+        return this->getAdapter()->incrBy(key, value);
     }
 
     /**
