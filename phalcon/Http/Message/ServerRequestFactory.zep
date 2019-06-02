@@ -108,11 +108,11 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             let postArray = _POST;
         }
 
-        let method      = Arr::get(server, "REQUEST_METHOD", "GET"),
-            protocol    = Arr::get(server, "SERVER_PROTOCOL", "1.1"),
+        let method      = Arr::get(serverArray, "REQUEST_METHOD", "GET"),
+            protocol    = Arr::get(serverArray, "SERVER_PROTOCOL", "1.1"),
             serverArray = this->parseServer(serverArray),
             headers     = this->parseHeaders(serverArray),
-            filesArray  = $this->parseUploadedFiles(filesArray);
+            filesArray  = this->parseUploadedFiles(filesArray);
 
         if unlikely (true === empty(cookiesArray) && headers->has("cookie")) {
             let cookiesArray = this->parseCookieHeader(headers->get("cookie"));
@@ -124,7 +124,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             serverArray->toArray(),
             "php://input",
             headers->toArray(),
-            cookies,
+            cookiesArray,
             getArray,
             filesArray->toArray(),
             postArray,
@@ -190,7 +190,6 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
 
         let port = null;
 
-        // works for regname, IPv4 & IPv6
         if (preg_match("|:(\d+)$|", host, matches)) {
             let host = substr(host, 0, -1 * (strlen(matches[1]) + 1)),
                 port = (int) matches[1];
@@ -216,7 +215,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         let iisRewrite   = server->get("IIS_WasUrlRewritten", null),
             unencodedUrl = server->get("UNENCODED_URL", "");
 
-        if unlikely ("1" === $iisRewrite && true !== empty(unencodedUrl)) {
+        if unlikely ("1" === iisRewrite && true !== empty(unencodedUrl)) {
             return unencodedUrl;
         }
 
@@ -225,8 +224,8 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
          */
         let requestUri = server->get("REQUEST_URI", null);
 
-        if unlikely (null !== $requestUri) {
-            return preg_replace("#^[^/:]+://[^/]+#", "", $requestUri);
+        if unlikely (null !== requestUri) {
+            return preg_replace("#^[^/:]+://[^/]+#", "", requestUri);
         }
 
         /**
@@ -269,7 +268,6 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         let scheme  = "https",
             isHttps = true;
         if likely (true === server->has("HTTPS")) {
-            /** @var mixed $isHttps */
             let isHttps = (string) server->get("HTTPS", "on"),
                 isHttps = "off" !== strtolower(isHttps);
         }
@@ -327,7 +325,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
 
         let value = headers->get(name, defaultValue);
 
-        if unlikely true === is_array(value) {
+        if unlikely typeof value === "array" {
             let value = implode(",", value);
         }
 
@@ -372,11 +370,16 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      */
     private function parseHeaders(<Collection> server) -> <Collection>
     {
-        var headers, key, name, value;
+        var headers, key, name, serverArray, value;
 
-        let headers = new Collection();
-        for key, value in server {
-            if likely "" !== $value {
+        /**
+         * @todo Figure out why server is not iterable
+         */
+        let headers     = new Collection(),
+            serverArray = server->toArray();
+
+        for key, value in serverArray {
+            if likely "" !== value {
                 /**
                  * Apache prefixes environment variables with REDIRECT_
                  * if they are added by rewrite rules
@@ -451,7 +454,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
     {
         var collection, data, file, key;
 
-        let $collection = new Collection();
+        let collection = new Collection();
 
         /**
          * Loop through the files and check them recursively
@@ -506,7 +509,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
          * Scheme
          */
         let scheme = this->calculateUriScheme(server, headers),
-            $uri   = uri->withScheme(scheme);
+            uri    = uri->withScheme(scheme);
 
         /**
          * Host/Port
@@ -522,7 +525,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         /**
          * Path
          */
-        let path  = $this->calculateUriPath(server),
+        let path  = this->calculateUriPath(server),
             split = explode("#", path),
             path  = explode("?", split[0]),
             uri   = uri->withPath(path[0]);

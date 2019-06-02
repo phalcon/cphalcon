@@ -186,7 +186,7 @@ class Stream implements StreamInterface
             let stats = fstat(this->handle);
 
             if likely false !== stats {
-                return Arr::get($stats, "size", null);
+                return Arr::get(stats, "size", null);
             }
         }
 
