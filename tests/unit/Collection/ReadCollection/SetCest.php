@@ -19,14 +19,14 @@ use UnitTester;
 class SetCest
 {
     /**
-     * Tests Phalcon\Collection :: set()
+     * Tests Phalcon\ReadCollection :: set()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionSet(UnitTester $I)
     {
-        $I->wantToTest('Collection - set()');
+        $I->wantToTest('ReadCollection - set()');
 
         $I->expectThrowable(
             new Exception('The object is read only'),

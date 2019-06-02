@@ -51,7 +51,7 @@ class Collection implements
      *
      * @param array $data
      */
-    public function __construct(array data = [])
+    public function __construct(array! data = [])
     {
         this->init(data);
     }
@@ -86,7 +86,7 @@ class Collection implements
      * @param string $element
      * @param mixed  $value
      */
-    public function __set(string element, value)
+    public function __set(string element, var value)
     {
         this->set(element, value);
     }
@@ -154,6 +154,11 @@ class Collection implements
 
     /**
      * Get the element from the collection
+     *
+     * @param string $element
+     * @param bool   $insensitive
+     *
+     * @return bool
      */
     public function has(string! element, bool insensitive = true) -> bool
     {
@@ -166,13 +171,15 @@ class Collection implements
 
     /**
      * Initialize internal array
+     *
+     * @param array $data
      */
     public function init(array! data = []) -> void
     {
         var key, value;
 
         for key, value in data {
-            this->set(key, value);
+            this->setData(key, value);
         }
     }
 
@@ -190,6 +197,10 @@ class Collection implements
      * Whether a offset exists
      *
      * @link https://php.net/manual/en/arrayaccess.offsetexists.php
+     *
+     * @param mixed $element
+     *
+     * @return bool
      */
     public function offsetExists(var element) -> bool
     {
@@ -202,6 +213,10 @@ class Collection implements
      * Offset to retrieve
      *
      * @link https://php.net/manual/en/arrayaccess.offsetget.php
+     *
+     * @param mixed $element
+     *
+     * @return mixed
      */
     public function offsetGet(var element) -> var
     {
@@ -214,6 +229,9 @@ class Collection implements
      * Offset to set
      *
      * @link https://php.net/manual/en/arrayaccess.offsetset.php
+     *
+     * @param mixed $element
+     * @param mixed $value
      */
     public function offsetSet(var element, var value) -> void
     {
@@ -226,6 +244,8 @@ class Collection implements
      * Offset to unset
      *
      * @link https://php.net/manual/en/arrayaccess.offsetunset.php
+     *
+     * @param mixed $element
      */
     public function offsetUnset(var element) -> void
     {
@@ -236,6 +256,9 @@ class Collection implements
 
     /**
      * Delete the element from the collection
+     *
+     * @param string $element
+     * @param bool   $insensitive
      */
     public function remove(string! element, bool insensitive = true) -> void
     {
@@ -253,10 +276,10 @@ class Collection implements
 
             unset lowerKeys[element];
             unset data[value];
-        }
 
-        let this->data      = data,
-            this->lowerKeys = lowerKeys;
+            let this->data      = data,
+                this->lowerKeys = lowerKeys;
+        }
     }
 
     /**
@@ -334,7 +357,7 @@ class Collection implements
     {
         var key;
 
-        let key = mb_strtolower(element);
+        let key = element->lower();
 
         let this->data[element]  = value,
             this->lowerKeys[key] = element;

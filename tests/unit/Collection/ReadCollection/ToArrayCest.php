@@ -18,14 +18,14 @@ use UnitTester;
 class ToArrayCest
 {
     /**
-     * Tests Phalcon\Collection :: toArray()
+     * Tests Phalcon\ReadCollection :: toArray()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionToArray(UnitTester $I)
     {
-        $I->wantToTest('Collection - toArray()');
+        $I->wantToTest('ReadCollection - toArray()');
 
         $data = [
             'one'   => 'two',

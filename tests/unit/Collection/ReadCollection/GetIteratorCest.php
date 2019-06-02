@@ -18,14 +18,14 @@ use UnitTester;
 class GetIteratorCest
 {
     /**
-     * Tests Phalcon\Collection :: getIterator()
+     * Tests Phalcon\ReadCollection :: getIterator()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionGetIterator(UnitTester $I)
     {
-        $I->wantToTest('Collection - getIterator()');
+        $I->wantToTest('ReadCollection - getIterator()');
 
         $data = [
             'one'   => 'two',

@@ -19,14 +19,14 @@ use UnitTester;
 class RemoveCest
 {
     /**
-     * Tests Phalcon\Collection :: remove()
+     * Tests Phalcon\ReadCollection :: remove()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionRemove(UnitTester $I)
     {
-        $I->wantToTest('Collection - remove()');
+        $I->wantToTest('ReadCollection - remove()');
 
         $data       = [
             'one'   => 'two',

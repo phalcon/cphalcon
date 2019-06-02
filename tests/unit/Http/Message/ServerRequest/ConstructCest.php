@@ -35,11 +35,21 @@ class ConstructCest
      *
      * @author cq-z <64899484@qq.com>
      * @since  2019-06-02
+     * @issue  https://github.com/phalcon/cphalcon/pull/14152
      */
-    public function httpMessageServerRequestConstructIssues14151(UnitTester $I)
+    public function httpMessageServerRequestConstructGetHostNonObject(UnitTester $I)
     {
-        $I->wantToTest('Http\Message\ServerRequest - __construct()');
-        $request = new ServerRequest("GET", new Uri(), [], 'php://input', ['host' => ['127.0.0.1']]);
+        $I->wantToTest('Http\Message\ServerRequest - __construct() - getHost non object');
+        $request = new ServerRequest(
+            "GET",
+            new Uri(),
+            [],
+            'php://input',
+            [
+                'host' => ['127.0.0.1']
+            ]
+        );
+
         $expected = ['127.0.0.1'];
         $actual = $request->getHeader('host');
         $I->assertEquals($expected, $actual);

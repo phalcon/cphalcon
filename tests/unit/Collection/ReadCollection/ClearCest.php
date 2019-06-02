@@ -18,14 +18,14 @@ use UnitTester;
 class ClearCest
 {
     /**
-     * Tests Phalcon\Collection :: clear()
+     * Tests Phalcon\ReadCollection :: clear()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionClear(UnitTester $I)
     {
-        $I->wantToTest('Collection - clear()');
+        $I->wantToTest('ReadCollection - clear()');
 
         $data = [
             'one'   => 'two',

@@ -18,14 +18,14 @@ use UnitTester;
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Collection :: __construct()
+     * Tests Phalcon\ReadCollection :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionConstruct(UnitTester $I)
     {
-        $I->wantToTest('Collection - __construct()');
+        $I->wantToTest('ReadCollection - __construct()');
         $collection = new ReadCollection();
 
         $class = ReadCollection::class;

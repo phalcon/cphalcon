@@ -18,14 +18,14 @@ use UnitTester;
 class GetCest
 {
     /**
-     * Tests Phalcon\Collection :: get()
+     * Tests Phalcon\ReadCollection :: get()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionGet(UnitTester $I)
     {
-        $I->wantToTest('Collection - get()');
+        $I->wantToTest('ReadCollection - get()');
 
         $data = [
             'one'   => 'two',
