@@ -45,7 +45,7 @@ final class Uri extends AbstractCommon implements UriInterface
     /**
      * @var string
      */
-    private $pass = "";
+    private pass = "";
 
     /**
      * Returns the path of the URL
@@ -109,7 +109,7 @@ final class Uri extends AbstractCommon implements UriInterface
     {
         var urlParts;
 
-        if unlikely "" !== $uri {
+        if unlikely "" !== uri {
             let urlParts = parse_url(uri);
 
             if unlikely false === urlParts {
@@ -119,10 +119,10 @@ final class Uri extends AbstractCommon implements UriInterface
             let this->fragment = this->filterFragment(Arr::get(urlParts, "fragment", "")),
                 this->host     = strtolower(Arr::get(urlParts, "host", "")),
                 this->pass     = rawurlencode(Arr::get(urlParts, "pass", "")),
-                this->path     = $this->filterPath(Arr::get(urlParts, "path", "")),
-                this->port     = $this->filterPort(Arr::get(urlParts, "port", null)),
-                this->query    = $this->filterQuery(Arr::get(urlParts, "query", "")),
-                this->scheme   = $this->filterScheme(Arr::get(urlParts, "scheme", "")),
+                this->path     = this->filterPath(Arr::get(urlParts, "path", "")),
+                this->port     = this->filterPort(Arr::get(urlParts, "port", null)),
+                this->query    = this->filterQuery(Arr::get(urlParts, "query", "")),
+                this->scheme   = this->filterScheme(Arr::get(urlParts, "scheme", "")),
                 this->user     = rawurlencode(Arr::get(urlParts, "user", ""));
         }
     }
@@ -184,7 +184,7 @@ final class Uri extends AbstractCommon implements UriInterface
         }
 
         let authority = this->host,
-            userInfo  = $this->getUserInfo();
+            userInfo  = this->getUserInfo();
 
         /**
          * The authority syntax of the URI is:
@@ -279,9 +279,9 @@ final class Uri extends AbstractCommon implements UriInterface
      */
     public function withPath(var path) -> <Uri>
     {
-        $this->checkStringParameter($path);
+        this->checkStringParameter(path);
 
-        if unlikely (!strpos(path, "?") || !strpos(path, "#")) {
+        if unlikely (false !== strpos(path, "?") || false !== strpos(path, "#")) {
             throw new InvalidArgumentException(
                 "Path cannot contain a query string or fragment"
             );
@@ -606,7 +606,7 @@ final class Uri extends AbstractCommon implements UriInterface
         var filtered;
         array schemes;
 
-        let filtered = preg_replace("#:(//)?$#", "", mb_strtolower($scheme)),
+        let filtered = preg_replace("#:(//)?$#", "", mb_strtolower(scheme)),
             schemes  = [
                 "http"  : 1,
                 "https" : 1
@@ -632,7 +632,7 @@ final class Uri extends AbstractCommon implements UriInterface
      *
      * @return array
      */
-    private function splitQueryValue(string $element) -> array
+    private function splitQueryValue(string element) -> array
     {
         var data;
 

@@ -117,7 +117,7 @@ class Input extends Stream
         let data = parent::read(length);
 
         if unlikely true !== this->eof {
-            let this->data = $data;
+            let this->data = data;
         }
 
         if unlikely true === this->eof() {

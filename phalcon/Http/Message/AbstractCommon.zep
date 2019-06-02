@@ -42,7 +42,7 @@ abstract class AbstractCommon
      */
     final protected function checkStringParameter(var element) -> void
     {
-        if typeof element === "string" {
+        if typeof element !== "string" {
             throw new InvalidArgumentException(
                 "Method requires a string argument"
             );
@@ -60,7 +60,7 @@ abstract class AbstractCommon
      */
     final protected function processWith(var element, string! property) -> var
     {
-        this->checkStringParameter($element);
+        this->checkStringParameter(element);
 
         return this->cloneInstance(element, property);
     }
