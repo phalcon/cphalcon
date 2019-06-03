@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image\Adapter\Gd;
+use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
 class DestructCest
 {
+    use GdTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Gd :: __destruct()
      *
@@ -25,7 +29,6 @@ class DestructCest
     public function imageAdapterGdDestruct(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Gd - __destruct()');
-
         $I->skipTest('Need implementation');
     }
 }

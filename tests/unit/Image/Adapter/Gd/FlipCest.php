@@ -12,10 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image;
+use Phalcon\Image\Adapter\Gd;
+use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
 class FlipCest
 {
+    use GdTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Gd :: flip()
      *
@@ -26,6 +31,40 @@ class FlipCest
     {
         $I->wantToTest('Image\Adapter\Gd - flip()');
 
-        $I->skipTest('Need implementation');
+        $params = [
+            'jpg' => [
+                [Image::HORIZONTAL, 'df9fcfc7c38381c1'],
+                [Image::VERTICAL, '8381c1c3e3f3f9fb'],
+            ],
+            'png' => [
+                [Image::HORIZONTAL, '0c1e3e3c78181818'],
+                [Image::VERTICAL, '1818181e3c7c7830'],
+            ],
+        ];
+
+        $outputDir = 'tests/image/gd';
+
+        foreach ($this->getImages() as $type => $imagePath) {
+            foreach ($params[$type] as list($direction, $hash)) {
+                $resultImage = 'flip-' . $direction . '.' . $type;
+                $output      = outputDir($outputDir . '/' . $resultImage);
+
+                $image = new Gd($imagePath);
+
+                $image->flip($direction)->save($output);
+
+                $I->amInPath(
+                    outputDir($outputDir)
+                );
+
+                $I->seeFileFound($resultImage);
+
+                $I->assertTrue(
+                    $this->checkImageHash($output, $hash)
+                );
+
+                $I->safeDeleteFile($output);
+            }
+        }
     }
 }

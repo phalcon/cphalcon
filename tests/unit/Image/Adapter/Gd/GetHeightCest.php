@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image\Adapter\Gd;
 use UnitTester;
 
 class GetHeightCest
@@ -22,10 +23,33 @@ class GetHeightCest
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function imageAdapterGdGetHeight(UnitTester $I)
+    public function imageAdapterGdGetHeightJpg(UnitTester $I)
     {
-        $I->wantToTest('Image\Adapter\Gd - getHeight()');
+        $I->wantToTest('Image\Adapter\Gd - getHeight() - from jpg image');
 
-        $I->skipTest('Need implementation');
+        $gd = new Gd(dataDir('assets/images/phalconphp.jpg'));
+
+        $I->assertSame(
+            694,
+            $gd->getHeight()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Image\Adapter\Gd :: getHeight()
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function imageAdapterGdGetHeightPng(UnitTester $I)
+    {
+        $I->wantToTest('Image\Adapter\Gd - getHeight() - from png image');
+
+        $gd = new Gd(dataDir('assets/images/logo.png'));
+
+        $I->assertSame(
+            82,
+            $gd->getHeight()
+        );
     }
 }
