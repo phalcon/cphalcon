@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image\Adapter\Gd;
+use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
 class CheckCest
 {
+    use GdTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Gd :: check()
      *
@@ -26,6 +30,6 @@ class CheckCest
     {
         $I->wantToTest('Image\Adapter\Gd - check()');
 
-        $I->skipTest('Need implementation');
+        $I->assertTrue(Gd::check());
     }
 }
