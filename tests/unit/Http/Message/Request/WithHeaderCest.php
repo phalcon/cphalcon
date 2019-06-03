@@ -68,11 +68,11 @@ class WithHeaderCest
      * Tests Phalcon\Http\Message\Request :: withHeader() - exception
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-06-01
+     * @since  2019-02-10
      */
     public function httpMessageRequestWithHeaderException(UnitTester $I)
     {
-        $I->wantToTest('Http\Message\Request - withHeader() - value');
+        $I->wantToTest('Http\Message\Request - withHeader() value');
 
         $I->expectThrowable(
             new InvalidArgumentException(
@@ -97,7 +97,7 @@ class WithHeaderCest
      * @dataProvider getExamples
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-06-01
+     * @since  2019-02-10
      */
     public function httpMessageRequestWithHeaderExceptionValue(UnitTester $I, Example $example)
     {

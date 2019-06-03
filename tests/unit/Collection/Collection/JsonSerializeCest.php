@@ -18,7 +18,7 @@ use UnitTester;
 class JsonSerializeCest
 {
     /**
-     * Tests Phalcon\Collection :: jsonSerialize()
+     * Tests Phalcon\Collection\Collection :: jsonSerialize()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -18,7 +18,7 @@ use UnitTester;
 class UnserializeCest
 {
     /**
-     * Tests Phalcon\ReadCollection :: serialize()
+     * Tests Phalcon\Collection\ReadCollection :: serialize()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -14,30 +14,15 @@
 
 namespace Phalcon\Http\Message;
 
-use Phalcon\Collection\Collection;
 use Phalcon\Helper\Number;
 use Phalcon\Http\Message\AbstractMessage;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
-use Phalcon\Http\Message\Stream;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
 
 /**
- * Representation of an outgoing, server-side response.
- *
- * Per the HTTP specification, this interface includes properties for
- * each of the following:
- *
- * - Protocol version
- * - Status code and reason phrase
- * - Headers
- * - Message body
- *
- * Responses are considered immutable; all methods that might change state MUST
- * be implemented such that they retain the internal state of the current
- * message and return an instance that contains the changed state
+ * PSR-7 Response
  */
-class Response extends AbstractMessage implements ResponseInterface
+final class Response extends AbstractMessage implements ResponseInterface
 {
     /**
      * Gets the response reason phrase associated with the status code.
@@ -101,7 +86,7 @@ class Response extends AbstractMessage implements ResponseInterface
      *
      * @return Response
      */
-    public function withStatus(code, reasonPhrase = "") -> <Response>
+    public function withStatus(var code, var reasonPhrase = "") -> <Response>
     {
         var newInstance;
 
@@ -117,9 +102,9 @@ class Response extends AbstractMessage implements ResponseInterface
      *
      * @param mixed $code
      */
-    private function checkCodeType(code) -> void
+    private function checkCodeType(var code) -> void
     {
-        if unlikely typeof code !== "int" && typeof code !== "string" {
+        if unlikely (typeof code !== "int" && typeof code !== "string") {
             throw new InvalidArgumentException(
                 "Invalid status code; it must be an integer or string"
             );
@@ -133,10 +118,9 @@ class Response extends AbstractMessage implements ResponseInterface
      */
     private function checkCodeValue(int code) -> void
     {
-        if unlikely true !== Number::between(code, 100, 599) {
+        if (true !== Number::between(code, 100, 599)) {
             throw new InvalidArgumentException(
-                "Invalid status code '" . code .
-                "', (allowed values 100-599)"
+                "Invalid status code '" . code . "', (allowed values 100-599)"
             );
         }
     }
@@ -244,7 +228,7 @@ class Response extends AbstractMessage implements ResponseInterface
      * @param mixed $code
      * @param mixed $phrase
      */
-    private function processCode(code, phrase = "") -> void
+    private function processCode(var code, var phrase = "") -> void
     {
         var phrases;
 
@@ -259,7 +243,7 @@ class Response extends AbstractMessage implements ResponseInterface
             throw new InvalidArgumentException("Invalid response reason");
         }
 
-        if unlikely "" === phrase && isset phrases[code] {
+        if likely "" === phrase && isset phrases[code] {
             let phrase = phrases[code];
         }
 

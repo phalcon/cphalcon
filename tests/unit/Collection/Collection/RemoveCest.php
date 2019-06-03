@@ -18,7 +18,7 @@ use UnitTester;
 class RemoveCest
 {
     /**
-     * Tests Phalcon\Collection :: remove()
+     * Tests Phalcon\Collection\Collection :: remove()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

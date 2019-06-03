@@ -4,6 +4,8 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -20,6 +22,7 @@ class GetMetadataCest
     /**
      * Tests Phalcon\Http\Message\Stream :: getMetadata()
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
     public function httpMessageStreamGetMetadata(UnitTester $I)
@@ -50,6 +53,7 @@ class GetMetadataCest
      *
      * @dataProvider getExamples
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since        2019-02-10
      */
     public function httpMessageStreamGetMetadataByKey(UnitTester $I, Example $example)
@@ -66,6 +70,7 @@ class GetMetadataCest
     /**
      * Tests Phalcon\Http\Message\Stream :: getMetadata() - invalid handle
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since        2019-02-10
      */
     public function httpMessageStreamGetMetadataInvalidHandle(UnitTester $I)

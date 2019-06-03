@@ -1,26 +1,22 @@
 
 /**
- * This file is part of the Phalcon Framework.
- *
- * (c) Phalcon Team <team@phalconphp.com>
- *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
- */
+* This file is part of the Phalcon Framework.
+*
+* (c) Phalcon Team <team@phalconphp.com>
+*
+* For the full copyright and license information, please view the LICENSE.txt
+* file that was distributed with this source code.
+*/
 
 namespace Phalcon\Collection;
 
 use Phalcon\Collection\Collection;
+use Phalcon\Collection\Exception;
 
 /**
- * Phalcon\Collection
+ * Phalcon\Collection\ReadCollection
  *
- * Phalcon\Collection is a supercharged object oriented array. It implements
- * ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Serializable
- *
- * It can be used in any part of the application that needs collection of data
- * Such implementations are for instance accessing globals `$_GET`, `$_POST`
- * etc.
+ * Phalcon\Collection\ReadCollection is a read only Collection object
  */
 class ReadCollection extends Collection
 {
@@ -32,7 +28,7 @@ class ReadCollection extends Collection
      *
      * @throws Exception
      */
-    public function remove(string element, bool insensitive = true) -> void
+    public function remove(string element) -> void
     {
         throw new Exception("The object is read only");
     }

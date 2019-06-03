@@ -49,7 +49,7 @@ class WithRequestTargetCest
      * Tests Phalcon\Http\Message\Request :: withRequestTarget() - exception
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-06-01
+     * @since  2019-02-10
      */
     public function httpMessageRequestWithRequestTargetException(UnitTester $I)
     {

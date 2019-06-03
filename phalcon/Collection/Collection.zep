@@ -42,6 +42,11 @@ class Collection implements
     protected data = [];
 
     /**
+     * @var bool
+     */
+    protected insensitive = true;
+
+    /**
      * @var array
      */
     protected lowerKeys = [];
@@ -50,9 +55,11 @@ class Collection implements
      * Collection constructor.
      *
      * @param array $data
+     * @param bool  $insensitive
      */
-    public function __construct(array! data = [])
+    public function __construct(array data = [], bool insensitive = true)
     {
+        let this->insensitive = insensitive;
         this->init(data);
     }
 
@@ -63,7 +70,7 @@ class Collection implements
      *
      * @return mixed
      */
-    public function __get(string element)
+    public function __get(string element) -> var
     {
         return this->get(element);
     }
@@ -86,7 +93,7 @@ class Collection implements
      * @param string $element
      * @param mixed  $value
      */
-    public function __set(string element, var value)
+    public function __set(string element, value) -> void
     {
         this->set(element, value);
     }
@@ -125,20 +132,21 @@ class Collection implements
      *
      * @param string     $element
      * @param mixed|null $defaultValue
-     * @param bool       $insensitive
      *
      * @return mixed
      */
-    public function get(string! element, var defaultValue = null, bool insensitive = true) -> var
+    public function get(string element, defaultValue = null) -> var
     {
-        var value;
+        var key;
 
-        if likely insensitive {
+        if likely this->insensitive {
             let element = element->lower();
         }
 
-        if likely fetch value, this->lowerKeys[element] {
-            return this->data[value];
+        if likely isset this->lowerKeys[element] {
+            let key = this->lowerKeys[element];
+
+            return this->data[key];
         }
 
         return defaultValue;
@@ -156,13 +164,12 @@ class Collection implements
      * Get the element from the collection
      *
      * @param string $element
-     * @param bool   $insensitive
      *
      * @return bool
      */
-    public function has(string! element, bool insensitive = true) -> bool
+    public function has(string element) -> bool
     {
-        if likely insensitive {
+        if likely this->insensitive {
             let element = element->lower();
         }
 
@@ -174,7 +181,7 @@ class Collection implements
      *
      * @param array $data
      */
-    public function init(array! data = []) -> void
+    public function init(array data = []) -> void
     {
         var key, value;
 
@@ -218,7 +225,7 @@ class Collection implements
      *
      * @return mixed
      */
-    public function offsetGet(var element) -> var
+    public function offsetGet(var element)
     {
         let element = (string) element;
 
@@ -258,28 +265,38 @@ class Collection implements
      * Delete the element from the collection
      *
      * @param string $element
-     * @param bool   $insensitive
      */
-    public function remove(string! element, bool insensitive = true) -> void
+    public function remove(string element) -> void
     {
-        var data, lowerKeys, value;
+        var key;
+        array lowerKeys, data;
 
-        let data      = this->data,
-            lowerKeys = this->lowerKeys;
-
-        if this->has(element) {
-            if likely insensitive {
+        if likely this->has(element) {
+            if likely this->insensitive {
                 let element = element->lower();
             }
 
-            let value = lowerKeys[element];
+            let data      = this->data,
+                lowerKeys = this->lowerKeys,
+                key       = lowerKeys[element];
 
             unset lowerKeys[element];
-            unset data[value];
+            unset data[key];
 
             let this->data      = data,
                 this->lowerKeys = lowerKeys;
         }
+    }
+
+    /**
+     * Set an element in the collection
+     *
+     * @param string $element
+     * @param        $value
+     */
+    public function set(string element, var value) -> void
+    {
+        this->setData(element, value);
     }
 
     /**
@@ -290,17 +307,6 @@ class Collection implements
     public function serialize() -> string
     {
         return serialize(this->toArray());
-    }
-
-    /**
-     * Set an element in the collection
-     *
-     * @param string $element
-     * @param        $value
-     */
-    public function set(string! element, var value) -> void
-    {
-        this->setData(element, value);
     }
 
     /**
@@ -337,7 +343,7 @@ class Collection implements
      *
      * @param string $serialized
      */
-    public function unserialize(serialized) -> void
+    public function unserialize(var serialized) -> void
     {
         var data;
 
@@ -357,7 +363,7 @@ class Collection implements
     {
         var key;
 
-        let key = element->lower();
+        let key = (true === this->insensitive) ? element->lower() : element;
 
         let this->data[element]  = value,
             this->lowerKeys[key] = element;

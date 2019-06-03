@@ -18,7 +18,7 @@ use UnitTester;
 class ConstructCest
 {
     /**
-     * Tests Phalcon\ReadCollection :: __construct()
+     * Tests Phalcon\Collection\ReadCollection :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

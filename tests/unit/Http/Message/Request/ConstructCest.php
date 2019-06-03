@@ -41,7 +41,7 @@ class ConstructCest
      * Tests Phalcon\Http\Message\Request :: __construct() - body exception
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-06-01
+     * @since  2019-02-08
      */
     public function httpMessageRequestConstructExceptionBody(UnitTester $I)
     {
@@ -61,7 +61,7 @@ class ConstructCest
      * Tests Phalcon\Http\Message\Request :: __construct() - exception uri
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-06-01
+     * @since  2019-02-08
      */
     public function httpMessageRequestConstructExceptionUri(UnitTester $I)
     {
@@ -81,7 +81,7 @@ class ConstructCest
      * Tests Phalcon\Http\Message\Request :: __construct() - exception headers
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-06-01
+     * @since  2019-02-08
      */
     public function httpMessageRequestConstructExceptionHeaders(UnitTester $I)
     {
@@ -106,7 +106,7 @@ class ConstructCest
      * Tests Phalcon\Http\Message\Request :: __construct() - headers with host
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-06-01
+     * @since  2019-02-08
      */
     public function httpMessageRequestConstructHeadersWithHost(UnitTester $I)
     {

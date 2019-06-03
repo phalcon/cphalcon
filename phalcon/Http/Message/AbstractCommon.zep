@@ -6,6 +6,10 @@
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by Zend Diactoros
+ * @link    https://github.com/zendframework/zend-diactoros
+ * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
 
 namespace Phalcon\Http\Message;
@@ -25,7 +29,7 @@ abstract class AbstractCommon
      *
      * @return mixed
      */
-    final protected function cloneInstance(element, string! property) -> var
+    final protected function cloneInstance(var element, string property) -> object
     {
         var newInstance;
 
@@ -40,7 +44,7 @@ abstract class AbstractCommon
      *
      * @param mixed $element
      */
-    final protected function checkStringParameter(var element) -> void
+    final protected function checkStringParameter(element) -> void
     {
         if typeof element !== "string" {
             throw new InvalidArgumentException(
@@ -58,7 +62,7 @@ abstract class AbstractCommon
      *
      * @return mixed
      */
-    final protected function processWith(var element, string! property) -> var
+    final protected function processWith(var element, string property) -> object
     {
         this->checkStringParameter(element);
 

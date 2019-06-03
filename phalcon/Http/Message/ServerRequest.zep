@@ -1,16 +1,16 @@
 
 /**
- * This file is part of the Phalcon Framework.
- *
- * (c) Phalcon Team <team@phalconphp.com>
- *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
- *
- * Implementation of this file has been influenced by Zend Diactoros
- * @link    https://github.com/zendframework/zend-diactoros
- * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
- */
+* This file is part of the Phalcon Framework.
+*
+* (c) Phalcon Team <team@phalconphp.com>
+*
+* For the full copyright and license information, please view the LICENSE.txt
+* file that was distributed with this source code.
+*
+* Implementation of this file has been influenced by Zend Diactoros
+* @link    https://github.com/zendframework/zend-diactoros
+* @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
+*/
 
 namespace Phalcon\Http\Message;
 
@@ -19,52 +19,19 @@ use Phalcon\Http\Message\AbstractRequest;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\Stream\Input;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
+use Psr\Http\Message\UriInterface;
 
 /**
- * Representation of an incoming, server-side HTTP request.
- *
- * Per the HTTP specification, this interface includes properties for
- * each of the following:
- *
- * - Protocol version
- * - HTTP method
- * - URI
- * - Headers
- * - Message body
- *
- * Additionally, it encapsulates all data as it has arrived at the
- * application from the CGI and/or PHP environment, including:
- *
- * - The values represented in _SERVER.
- * - Any cookies provided (generally via _COOKIE)
- * - Query string arguments (generally via _GET, or as parsed via parse_str())
- * - Upload files, if any (as represented by _FILES)
- * - Deserialized body parameters (generally from _POST)
- *
- * _SERVER values MUST be treated as immutable, as they represent application
- * state at the time of request; as such, no methods are provided to allow
- * modification of those values. The other values provide such methods, as they
- * can be restored from _SERVER or the request body, and may need treatment
- * during the application (e.g., body parameters may be deserialized based on
- * content type).
- *
- * Additionally, this interface recognizes the utility of introspecting a
- * request to derive and match additional parameters (e.g., via URI path
- * matching, decrypting cookie values, deserializing non-form-encoded body
- * content, matching authorization headers to users, etc). These parameters
- * are stored in an "attributes" property.
- *
- * Requests are considered immutable; all methods that might change state MUST
- * be implemented such that they retain the internal state of the current
- * message and return an instance that contains the changed state.
+ * PSR-7 ServerRequest
  */
 final class ServerRequest extends AbstractRequest implements ServerRequestInterface
 {
     /**
      * @var Collection
      */
-    protected attributes;
+    private attributes;
 
     /**
      * Retrieve cookies.
@@ -76,7 +43,7 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
      *
      * @var array
      */
-    protected cookieParams = [] { get };
+    private cookieParams = [] { get };
 
     /**
      * Retrieve any parameters provided in the request body.
@@ -92,7 +59,7 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
      *
      * @var mixed
      */
-    protected parsedBody { get };
+    private parsedBody { get };
 
     /**
      * Retrieve query string arguments.
@@ -106,7 +73,7 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
      *
      * @var array
      */
-    protected queryParams = [] { get };
+    private queryParams = [] { get };
 
     /**
      * Retrieve server parameters.
@@ -117,7 +84,7 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
      *
      * @var array
      */
-    protected serverParams = [] { get };
+    private serverParams = [] { get };
 
     /**
      * Retrieve normalized file upload data.
@@ -130,7 +97,7 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
      *
      * @var array
      */
-    protected uploadedFiles = [] { get };
+    private uploadedFiles = [] { get };
 
     /**
      * ServerRequest constructor.
@@ -158,7 +125,7 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
         var parsedBody = null,
         string protocol = "1.1"
     ) {
-        if "php://input" === body {
+        if unlikely "php://input" === body {
             let body = new Input();
         }
 
@@ -166,8 +133,8 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
 
         let this->protocolVersion = this->processProtocol(protocol),
             this->method          = this->processMethod(method),
-            this->uri             = this->processUri(uri),
             this->headers         = this->processHeaders(headers),
+            this->uri             = this->processUri(uri),
             this->body            = this->processBody(body, "w+b"),
             this->uploadedFiles   = uploadFiles,
             this->parsedBody      = parsedBody,
@@ -380,11 +347,8 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
             if unlikely typeof file === "array" {
                 this->checkUploadedFiles(file);
             } else {
-                if unlikely !(typeof file === "object" &&
-                    file instanceof UploadedFileInterface) {
-                    throw new InvalidArgumentException(
-                        "Invalid uploaded file"
-                    );
+                if unlikely !(typeof file === "object" && file instanceof UploadedFileInterface) {
+                    throw new InvalidArgumentException("Invalid uploaded file");
                 }
             }
         }

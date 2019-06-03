@@ -49,7 +49,7 @@ class WithProtocolVersionCest
      * Tests Phalcon\Http\Message\Request :: withProtocolVersion() - unsupported protocol
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-06-01
+     * @since  2019-02-10
      */
     public function httpMessageRequestWithProtocolVersionEmpty(UnitTester $I)
     {
@@ -71,7 +71,7 @@ class WithProtocolVersionCest
      * Tests Phalcon\Http\Message\Request :: withProtocolVersion() - empty protocol
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-06-01
+     * @since  2019-02-10
      */
     public function httpMessageRequestWithProtocolVersionUnsupported(UnitTester $I)
     {

@@ -18,7 +18,7 @@ use UnitTester;
 class SetCest
 {
     /**
-     * Tests Phalcon\Collection :: set()
+     * Tests Phalcon\Collection\Collection :: set()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

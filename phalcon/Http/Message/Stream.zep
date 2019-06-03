@@ -74,8 +74,8 @@ class Stream implements StreamInterface
     public function __toString() -> string
     {
         try {
-            if likely true === this->isReadable() {
-                if likely true === this->isSeekable() {
+            if likely this->isReadable() {
+                if likely this->isSeekable() {
                     this->rewind();
                 }
 
@@ -302,7 +302,7 @@ class Stream implements StreamInterface
             restore_error_handler();
         }
 
-        if unlikely (true === this->warning || typeof handle !== "resource" || "stream" !== get_resource_type(handle)) {
+        if unlikely (this->warning || typeof handle !== "resource" || "stream" !== get_resource_type(handle)) {
             throw new RuntimeException(
                 "The stream provided is not valid (string/resource) or could not be opened."
             );
