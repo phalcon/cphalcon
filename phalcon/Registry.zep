@@ -11,6 +11,7 @@
 namespace Phalcon;
 
 use Phalcon\Collection\Collection;
+use Traversable;
 
 /**
  * Phalcon\Registry
