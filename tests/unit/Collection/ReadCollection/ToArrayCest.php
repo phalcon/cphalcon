@@ -18,7 +18,7 @@ use UnitTester;
 class ToArrayCest
 {
     /**
-     * Tests Phalcon\ReadCollection :: toArray()
+     * Tests Phalcon\Collection\ReadCollection :: toArray()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

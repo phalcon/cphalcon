@@ -18,14 +18,14 @@ use UnitTester;
 class HasCest
 {
     /**
-     * Tests Phalcon\ReadCollection :: has()
+     * Tests Phalcon\Collection\ReadCollection :: has()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionHas(UnitTester $I)
     {
-        $I->wantToTest('ReadCollection - has()');
+        $I->wantToTest('Collection - has()');
 
         $data = [
             'one'   => 'two',
@@ -44,7 +44,54 @@ class HasCest
         );
 
         $I->assertFalse(
-            $collection->has('THREE', false)
+            $collection->has('unknown')
+        );
+
+        $I->assertTrue(
+            $collection->__isset('three')
+        );
+
+        $I->assertTrue(
+            isset($collection['three'])
+        );
+
+        $I->assertFalse(
+            isset($collection['unknown'])
+        );
+
+        $I->assertTrue(
+            $collection->offsetExists('three')
+        );
+
+        $I->assertFalse(
+            $collection->offsetExists('unknown')
+        );
+    }
+
+    /**
+     * Tests Phalcon\Collection\ReadCollection :: has() - sensitive
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function collectionHasSensitive(UnitTester $I)
+    {
+        $I->wantToTest('Collection - has()');
+
+        $data = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+
+        $collection = new ReadCollection($data, false);
+
+        $I->assertTrue(
+            $collection->has('three')
+        );
+
+        $I->assertFalse(
+            $collection->has('THREE')
         );
 
         $I->assertFalse(

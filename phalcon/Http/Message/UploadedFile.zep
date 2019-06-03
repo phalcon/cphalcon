@@ -161,7 +161,7 @@ final class UploadedFile implements UploadedFileInterface
             );
         }
 
-        if unlikely true === this->alreadyMoved {
+        if unlikely this->alreadyMoved {
             throw new InvalidArgumentException(
                 "The file has already been moved to the target location"
             );
@@ -212,7 +212,7 @@ final class UploadedFile implements UploadedFileInterface
     {
         var sapi;
 
-        if unlikely true === this->alreadyMoved {
+        if unlikely this->alreadyMoved {
             throw new InvalidArgumentException("File has already been moved");
         }
 
@@ -226,9 +226,9 @@ final class UploadedFile implements UploadedFileInterface
          * All together for early failure
          */
         if unlikely !(typeof targetPath === "string" &&
-            true !== empty(targetPath) &&
-            true === is_dir(dirname(targetPath)) &&
-            true === is_writable(dirname(targetPath))) {
+            !empty(targetPath) &&
+            is_dir(dirname(targetPath)) &&
+            is_writable(dirname(targetPath))) {
             throw new InvalidArgumentException(
                 "Target folder is empty string, not a folder or not writable"
             );
@@ -236,10 +236,10 @@ final class UploadedFile implements UploadedFileInterface
 
         let sapi = constant("PHP_SAPI");
 
-        if unlikely (true === empty(sapi) ||
-           true !== empty(this->fileName) ||
-           true === starts_with(sapi, "cli") ||
-           true === starts_with(sapi, "phpdbg")) {
+        if unlikely (empty(sapi) ||
+           !empty(this->fileName) ||
+           starts_with(sapi, "cli") ||
+           starts_with(sapi, "phpdbg")) {
             this->storeFile(targetPath);
         } else {
             if true !== move_uploaded_file(this->fileName, targetPath) {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -18,6 +20,7 @@ class WithAddedHeaderCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: withAddedHeader()
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
     public function httpMessageServerRequestWithAddedHeader(UnitTester $I)
@@ -48,6 +51,7 @@ class WithAddedHeaderCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: withAddedHeader() - merge
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10
      */
     public function httpMessageServerRequestWithAddedHeaderMerge(UnitTester $I)

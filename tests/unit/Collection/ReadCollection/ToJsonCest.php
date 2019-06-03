@@ -18,7 +18,7 @@ use UnitTester;
 class ToJsonCest
 {
     /**
-     * Tests Phalcon\ReadCollection :: toJson()
+     * Tests Phalcon\Collection\ReadCollection :: toJson()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

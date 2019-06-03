@@ -2,8 +2,14 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by Zend Diactoros
+ * @link    https://github.com/zendframework/zend-diactoros
+ * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
 
 namespace Phalcon\Http\Message;
@@ -16,7 +22,7 @@ use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
 /**
- * Common methods
+ * Message methods
  */
 abstract class AbstractMessage extends AbstractCommon
 {
@@ -35,8 +41,8 @@ abstract class AbstractMessage extends AbstractCommon
     /**
      * Retrieves the HTTP protocol version as a string.
      *
-     * The string MUST contain only the HTTP version number (e.g., "1.1",
-     * "1.0").
+     * The string MUST contain only the HTTP version number (e.g., '1.1',
+     * '1.0').
      *
      * @return string HTTP protocol version.
      *
@@ -53,7 +59,7 @@ abstract class AbstractMessage extends AbstractCommon
      *
      * @var UriInterface
      */
-    protected uri;
+    protected uri { get };
 
     /**
      * Retrieves a message header value by the given case-insensitive name.
@@ -93,13 +99,13 @@ abstract class AbstractMessage extends AbstractCommon
      *
      * @return string
      */
-    public function getHeaderLine(string name) -> string
+    public function getHeaderLine(var name) -> string
     {
         var header;
 
         let header = this->getHeader(name);
 
-        return implode(",", header);
+        return implode(',', header);
     }
 
     /**
@@ -109,14 +115,14 @@ abstract class AbstractMessage extends AbstractCommon
      * each value is an array of strings associated with the header.
      *
      *     // Represent the headers as a string
-     *     foreach ($message->getHeaders() as $name : $values) {
-     *         echo $name . ": " . implode(", ", $values);
+     *     foreach ($message->getHeaders() as $name => $values) {
+     *         echo $name . ': ' . implode(', ', $values);
      *     }
      *
      *     // Emit headers iteratively:
-     *     foreach ($message->getHeaders() as $name : $values) {
+     *     foreach ($message->getHeaders() as $name => $values) {
      *         foreach ($values as $value) {
-     *             header(sprintf("%s: %s", $name, $value), false);
+     *             header(sprintf('%s: %s', $name, $value), false);
      *         }
      *     }
      *
@@ -137,7 +143,7 @@ abstract class AbstractMessage extends AbstractCommon
      *
      * @return bool
      */
-    public function hasHeader(string name) -> bool
+    public function hasHeader(name) -> bool
     {
         return this->headers->has(name);
     }
@@ -235,7 +241,7 @@ abstract class AbstractMessage extends AbstractCommon
      * Return an instance with the specified HTTP protocol version.
      *
      * The version string MUST contain only the HTTP version number (e.g.,
-     * "1.1", "1.0").
+     * '1.1', '1.0').
      *
      * This method MUST be implemented in such a way as to retain the
      * immutability of the message, and MUST return an instance that has the
@@ -270,6 +276,7 @@ abstract class AbstractMessage extends AbstractCommon
         var headers;
 
         let headers = clone this->headers;
+
         headers->remove(name);
 
         return this->cloneInstance(headers, "headers");
@@ -280,30 +287,31 @@ abstract class AbstractMessage extends AbstractCommon
      *
      * @see: http://tools.ietf.org/html/rfc7230#section-5.4
      *
-     * @param <Collection> $collection
+     * @param Collection $collection
      *
-     * @return <Collection>
+     * @return Collection
      */
     final protected function checkHeaderHost(<Collection> collection) -> <Collection>
     {
-        var data, host;
+        var data, host, hostArray;
         array header;
 
-        if unlikely (true === collection->has("host") &&
-            true !== empty(this->uri) &&
+        if unlikely (collection->has("host") &&
+            !empty(this->uri) &&
             "" !== this->uri->getHost()) {
 
-            let host = this->getUriHost(this->uri);
+            let host      = this->getUriHost(this->uri),
+                hostArray = host;
+            if unlikely typeof host !== "array" {
+                let hostArray = [host];
+            }
 
-            collection->set("Host", [host]);
+            collection->remove("host");
 
             let data           = collection->toArray(),
                 header         = [],
-                header["Host"] = data["Host"];
-
-            unset data["Host"];
-
-            let header = header + (array) data;
+                header["Host"] = hostArray,
+                header         = header + (array) data;
 
             collection->clear();
             collection->init(header);
@@ -321,7 +329,7 @@ abstract class AbstractMessage extends AbstractCommon
      */
     final protected function checkHeaderName(var name) -> void
     {
-        if unlikely (typeof name !== "string" ||
+        if unlikely (typeof name !== "string"  ||
             !preg_match("/^[a-zA-Z0-9'`#$%&*+.^_|~!-]+$/", name)) {
             throw new InvalidArgumentException(
                 "Invalid header name " . name
@@ -336,7 +344,7 @@ abstract class AbstractMessage extends AbstractCommon
      * components (token, quoted-string, and comment) separated by
      * whitespace or specific delimiting characters.  Delimiters are chosen
      * from the set of US-ASCII visual characters not allowed in a token
-     * (DQUOTE and '(),/:;<:?@[\]{}').
+     * (DQUOTE and '(),/:;<=>?@[\]{}').
      *
      *     token          = 1*tchar
      *
@@ -393,21 +401,20 @@ abstract class AbstractMessage extends AbstractCommon
     /**
      * Returns the header values checked for validity
      *
-     * @param values
+     * @param $values
      *
      * @return array
      */
     final protected function getHeaderValue(var values) -> array
     {
-        var value, valueArray;
-        array valueData;
+        var value, valueArray, valueData;
 
         let valueArray = values;
         if unlikely typeof values !== "array" {
             let valueArray = [values];
         }
 
-        if unlikely true === empty(valueArray) {
+        if unlikely empty(valueArray) {
             throw new InvalidArgumentException(
                 "Invalid header value: must be a string or " .
                 "array of strings; cannot be an empty array"
@@ -456,7 +463,6 @@ abstract class AbstractMessage extends AbstractCommon
         var collection, name, value;
 
         let collection = new Collection();
-
         for name, value in headers {
             this->checkHeaderName(name);
 
@@ -477,13 +483,13 @@ abstract class AbstractMessage extends AbstractCommon
      *
      * @return StreamInterface
      */
-    final protected function processBody(var body = "php://memory", string mode = "r+b") -> <StreamInterface>
+    final protected function processBody(var body = "php://memory", string! mode = "r+b") -> <StreamInterface>
     {
-        if unlikely body instanceof StreamInterface {
+        if unlikely (typeof body === "object" && body instanceof StreamInterface) {
             return body;
         }
 
-        if unlikely typeof body !== "string" && typeof body !== "resource" {
+        if unlikely (typeof body !== "string" && typeof body !== "resource") {
             throw new InvalidArgumentException(
                 "Invalid stream passed as a parameter"
             );
@@ -507,13 +513,13 @@ abstract class AbstractMessage extends AbstractCommon
             let collection = this->populateHeaderCollection(headers);
             let collection = this->checkHeaderHost(collection);
         } else {
-            if likely typeof headers === "object" && headers instanceof Collection {
-                let collection = headers;
-            } else {
+            if unlikely !(typeof headers === "object" && headers instanceof Collection) {
                 throw new InvalidArgumentException(
                     "Headers needs to be either an array or instance of Phalcon\\Collection\\Collection"
                 );
             }
+
+            let collection = headers;
         }
 
         return collection;
@@ -526,9 +532,9 @@ abstract class AbstractMessage extends AbstractCommon
      *
      * @return string
      */
-    final protected function processProtocol(protocol = "") -> string
+    final protected function processProtocol(var protocol = "") -> string
     {
-        array protocols;
+        var protocols;
 
         let protocols = [
             "1.0" : 1,
@@ -537,7 +543,7 @@ abstract class AbstractMessage extends AbstractCommon
             "3.0" : 1
         ];
 
-        if unlikely true === empty(protocol) || typeof protocol !== "string" {
+        if unlikely (empty(protocol) || typeof protocol !== "string") {
             throw new InvalidArgumentException("Invalid protocol value");
         }
 

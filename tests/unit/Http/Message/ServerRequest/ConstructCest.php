@@ -4,6 +4,8 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -20,6 +22,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: __construct()
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-08
      */
     public function httpMessageServerRequestConstructCest(UnitTester $I)
@@ -28,30 +31,5 @@ class ConstructCest
         $request = new ServerRequest();
         $class   = ServerRequestInterface::class;
         $I->assertInstanceOf($class, $request);
-    }
-
-    /**
-     * Tests Phalcon\Http\Message\ServerRequest :: __construct()
-     *
-     * @author cq-z <64899484@qq.com>
-     * @since  2019-06-02
-     * @issue  https://github.com/phalcon/cphalcon/pull/14152
-     */
-    public function httpMessageServerRequestConstructGetHostNonObject(UnitTester $I)
-    {
-        $I->wantToTest('Http\Message\ServerRequest - __construct() - getHost non object');
-        $request = new ServerRequest(
-            "GET",
-            new Uri(),
-            [],
-            'php://input',
-            [
-                'host' => ['127.0.0.1']
-            ]
-        );
-
-        $expected = ['127.0.0.1'];
-        $actual = $request->getHeader('host');
-        $I->assertEquals($expected, $actual);
     }
 }

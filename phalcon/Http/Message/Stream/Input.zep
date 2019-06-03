@@ -58,7 +58,7 @@ class Input extends Stream
      */
     public function __toString() -> string
     {
-        if unlikely true === this->eof {
+        if unlikely this->eof {
             return this->data;
         }
 
@@ -81,14 +81,14 @@ class Input extends Stream
     {
         var data;
 
-        if unlikely true === this->eof {
+        if unlikely this->eof {
             return this->data;
         }
 
         let data       = stream_get_contents(this->handle, length),
             this->data = data;
 
-        if unlikely (-1 === length || true === this->eof()) {
+        if unlikely (-1 === length || this->eof()) {
             let this->eof = true;
         }
 
@@ -120,7 +120,7 @@ class Input extends Stream
             let this->data = data;
         }
 
-        if unlikely true === this->eof() {
+        if unlikely this->eof() {
             let this->eof = true;
         }
 

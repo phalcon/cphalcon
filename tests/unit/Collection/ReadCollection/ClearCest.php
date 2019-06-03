@@ -18,7 +18,7 @@ use UnitTester;
 class ClearCest
 {
     /**
-     * Tests Phalcon\ReadCollection :: clear()
+     * Tests Phalcon\Collection\ReadCollection :: clear()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

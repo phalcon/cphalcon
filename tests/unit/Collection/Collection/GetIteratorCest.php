@@ -18,7 +18,7 @@ use UnitTester;
 class GetIteratorCest
 {
     /**
-     * Tests Phalcon\Collection :: getIterator()
+     * Tests Phalcon\Collection\Collection :: getIterator()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

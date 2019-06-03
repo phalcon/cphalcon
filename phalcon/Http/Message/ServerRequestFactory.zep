@@ -1,22 +1,23 @@
 
 /**
- * This file is part of the Phalcon Framework.
- *
- * (c) Phalcon Team <team@phalconphp.com>
- *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
- *
- * Implementation of this file has been influenced by Zend Diactoros
- * @link    https://github.com/zendframework/zend-diactoros
- * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
- */
+* This file is part of the Phalcon Framework.
+*
+* (c) Phalcon Team <team@phalconphp.com>
+*
+* For the full copyright and license information, please view the LICENSE.txt
+* file that was distributed with this source code.
+*
+* Implementation of this file has been influenced by Zend Diactoros
+* @link    https://github.com/zendframework/zend-diactoros
+* @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
+*/
 
 namespace Phalcon\Http\Message;
 
 use Phalcon\Collection\Collection;
 use Phalcon\Helper\Arr;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
+use Phalcon\Http\Message\ServerRequest;
 use Phalcon\Http\Message\UploadedFile;
 use Phalcon\Http\Message\Uri;
 use Psr\Http\Message\ServerRequestFactoryInterface;
@@ -50,8 +51,12 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      *
      * @return ServerRequestInterface
      */
-    public function createServerRequest(string method, var uri, array serverParams = []) -> <ServerRequestInterface>
-    {
+    public function createServerRequest(
+        string method,
+        var uri,
+        array serverParams = []
+    ) -> <ServerRequestInterface> {
+
         return new ServerRequest(method, uri, serverParams);
     }
 
@@ -71,76 +76,54 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      * @param array $files   $_FILES superglobal
      *
      * @return ServerRequest
+     * @see fromServer()
      */
     public function load(
-        array! server = null,
-        array! get = null,
-        array! post = null,
-        array! cookies = null,
-        array! files = null) -> <ServerRequest>
-    {
-        var cookiesArray, filesArray, getArray, headers, method,
-            postArray, protocol, serverArray;
+        array server = null,
+        array get = null,
+        array post = null,
+        array cookies = null,
+        array files = null
+    ) -> <ServerRequest> {
+        var cookies, filesCollection, headers, method, protocol, serverCollection;
 
-        let serverArray  = server,
-            getArray     = get,
-            postArray    = post,
-            cookiesArray = cookies,
-            filesArray   = files;
+        let server           = this->checkNullArray(server, _SERVER),
+            files            = this->checkNullArray(files, _FILES),
+            cookies          = this->checkNullArray(cookies, _COOKIE),
+            get              = this->checkNullArray(get, _GET),
+            post             = this->checkNullArray(post, _POST),
+            serverCollection = this->parseServer(server),
+            method           = serverCollection->get("REQUEST_METHOD", "GET"),
+            protocol         = serverCollection->get("SERVER_PROTOCOL", "1.1"),
+            headers          = this->parseHeaders(serverCollection),
+            filesCollection  = this->parseUploadedFiles(files);
 
-        if unlikely null === serverArray {
-            let serverArray = _SERVER;
-        }
-
-        if unlikely null === filesArray {
-            let filesArray = _FILES;
-        }
-
-        if unlikely null === cookiesArray {
-            let cookiesArray = _COOKIE;
-        }
-
-        if unlikely null === getArray {
-            let getArray = _GET;
-        }
-
-        if unlikely null === postArray {
-            let postArray = _POST;
-        }
-
-        let method      = Arr::get(serverArray, "REQUEST_METHOD", "GET"),
-            protocol    = Arr::get(serverArray, "SERVER_PROTOCOL", "1.1"),
-            serverArray = this->parseServer(serverArray),
-            headers     = this->parseHeaders(serverArray),
-            filesArray  = this->parseUploadedFiles(filesArray);
-
-        if unlikely (true === empty(cookiesArray) && headers->has("cookie")) {
-            let cookiesArray = this->parseCookieHeader(headers->get("cookie"));
+        if unlikely (empty(cookies) && headers->has("cookie")) {
+            let cookies = this->parseCookieHeader(headers->get("cookie"));
         }
 
         return new ServerRequest(
             method,
-            this->parseUri(serverArray, headers),
-            serverArray->toArray(),
+            this->parseUri(serverCollection, headers),
+            serverCollection->toArray(),
             "php://input",
             headers->toArray(),
-            cookiesArray,
-            getArray,
-            filesArray->toArray(),
-            postArray,
+            cookies,
+            get,
+            filesCollection->toArray(),
+            post,
             protocol
         );
     }
-
 
     /**
      * Returns the apache_request_headers if it exists
      *
      * @return array|false
      */
-    protected function getHeaders() -> array | bool
+    protected function getHeaders()
     {
-        if likely (true === function_exists("apache_request_headers")) {
+        if likely function_exists("apache_request_headers") {
             return apache_request_headers();
         }
 
@@ -162,12 +145,12 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
 
         let defaults = ["", null];
 
-        if unlikely  (false !== this->getHeader(headers, "host", false)) {
+        if unlikely this->getHeader(headers, "host", false) {
             let host = this->getHeader(headers, "host");
             return this->calculateUriHostFromHeader(host);
         }
 
-        if unlikely (true !== server->has("SERVER_NAME")) {
+        if unlikely !server->has("SERVER_NAME") {
             return defaults;
         }
 
@@ -190,7 +173,8 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
 
         let port = null;
 
-        if (preg_match("|:(\d+)$|", host, matches)) {
+        // works for regname, IPv4 & IPv6
+        if unlikely preg_match("|:(\d+)$|", host, matches) {
             let host = substr(host, 0, -1 * (strlen(matches[1]) + 1)),
                 port = (int) matches[1];
         }
@@ -215,7 +199,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         let iisRewrite   = server->get("IIS_WasUrlRewritten", null),
             unencodedUrl = server->get("UNENCODED_URL", "");
 
-        if unlikely ("1" === iisRewrite && true !== empty(unencodedUrl)) {
+        if unlikely ("1" === iisRewrite && !empty(unencodedUrl)) {
             return unencodedUrl;
         }
 
@@ -224,7 +208,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
          */
         let requestUri = server->get("REQUEST_URI", null);
 
-        if unlikely (null !== requestUri) {
+        if unlikely null !== requestUri {
             return preg_replace("#^[^/:]+://[^/]+#", "", requestUri);
         }
 
@@ -232,7 +216,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
          * ORIG_PATH_INFO
          */
         let origPathInfo = server->get("ORIG_PATH_INFO", null);
-        if unlikely (true === empty(origPathInfo)) {
+        if unlikely  empty(origPathInfo) {
             return "/";
         }
 
@@ -267,17 +251,30 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         // URI scheme
         let scheme  = "https",
             isHttps = true;
-        if likely (true === server->has("HTTPS")) {
+        if likely server->has("HTTPS") {
             let isHttps = (string) server->get("HTTPS", "on"),
                 isHttps = "off" !== strtolower(isHttps);
         }
 
         let header = this->getHeader(headers, "x-forwarded-proto", "https");
-        if (true !== isHttps || "https" !== header) {
+        if unlikely (!isHttps || "https" !== header) {
             let scheme = "http";
         }
 
         return scheme;
+    }
+
+    /**
+     * Checks the source if it null and returns the super, otherwise the source
+     * array
+     */
+    private function checkNullArray(var source, array super) -> array
+    {
+        if unlikely null === source {
+            return super;
+        }
+
+        return source;
     }
 
     /**
@@ -291,29 +288,31 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      */
     private function createUploadedFile(array file) -> <UploadedFile>
     {
-        if unlikely (true !== isset(file["tmp_name"]) ||
-            true !== isset(file["size"]) ||
-            true !== isset(file["error"])
-        ) {
+        var name, type;
+
+        if unlikely (!isset file["tmp_name"] || !isset file["size"] || !isset file["error"]) {
             throw new InvalidArgumentException(
                 "The file array must contain tmp_name, size and error; " .
                 "one or more are missing"
             );
         }
 
+        let name = isset file["name"] ? file["name"] : null,
+            type = isset file["type"] ? file["type"] : null;
+
         return new UploadedFile(
             file["tmp_name"],
             file["size"],
             file["error"],
-            isset(file["name"]) ? file["name"] : null,
-            isset(file["type"]) ? file["type"] : null
+            name,
+            type
         );
     }
 
     /**
      * Returns a header
      *
-     * @param <Collection> $headers
+     * @param Collection $headers
      * @param string     $name
      * @param mixed|null $defaultValue
      *
@@ -325,7 +324,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
 
         let value = headers->get(name, defaultValue);
 
-        if unlikely typeof value === "array" {
+        if typeof value === "array" {
             let value = implode(",", value);
         }
 
@@ -345,7 +344,6 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         var cookies;
 
         let cookies = [];
-
         parse_str(
             strtr(
                 cookieHeader,
@@ -401,12 +399,14 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
                         "-",
                         strtolower(substr(key, 5))
                     );
+
                     headers->set(name, value);
                     continue;
                 }
 
                 if unlikely strpos(key, "CONTENT_") === 0 {
                     let name = "content-" . strtolower(substr(key, 8));
+
                     headers->set(name, value);
                     continue;
                 }
@@ -427,15 +427,19 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      */
     private function parseServer(array server) -> <Collection>
     {
-        var collection, headers;
+        var collection, headers, headersCollection;
 
         let collection = new Collection(server),
             headers    = this->getHeaders();
 
-        if unlikely !isset server["HTTP_AUTHORIZATION"] && false !== headers {
-            let headers = new Collection(headers);
-            if unlikely true === headers->has("Authorization") {
-                collection->set("HTTP_AUTHORIZATION", headers->get("Authorization"));
+        if unlikely (!collection->has("HTTP_AUTHORIZATION") && false !== headers) {
+            let headersCollection = new Collection(headers);
+
+            if likely headersCollection->has("Authorization") {
+                collection->set(
+                    "HTTP_AUTHORIZATION",
+                    headersCollection->get("Authorization")
+                );
             }
         }
 
@@ -452,7 +456,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      */
     private function parseUploadedFiles(array files) -> <Collection>
     {
-        var collection, data, file, key;
+        var collection, data, key, file;
 
         let collection = new Collection();
 
@@ -465,7 +469,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             /**
              * UriInterface
              */
-            if unlikely file instanceof UploadedFileInterface {
+            if unlikely (typeof file === "object" && file instanceof UploadedFileInterface) {
                 collection->set(key, file);
                 continue;
             }
@@ -473,7 +477,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             /**
              * file is array with 'tmp_name'
              */
-            if  likely typeof file === "array" && isset file["tmp_name"] {
+            if likely (typeof file === "array" && isset file["tmp_name"]) {
                 collection->set(key, this->createUploadedFile(file));
                 continue;
             }
@@ -483,12 +487,13 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
              */
             if unlikely typeof file === "array" {
                 let data = this->parseUploadedFiles(file);
+
                 collection->set(key, data->toArray());
                 continue;
             }
         }
 
-        return collection;
+        return $collection;
     }
 
     /**
@@ -515,9 +520,9 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
          * Host/Port
          */
         let split = this->calculateUriHost(server, headers);
-        if likely true !== empty(split[0]) {
+        if likely !empty(split[0]) {
             let uri = uri->withHost(split[0]);
-            if unlikely true !== empty(split[1]) {
+            if unlikely !empty(split[1]) {
                 let uri = uri->withPort(split[1]);
             }
         }
@@ -530,9 +535,6 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             path  = explode("?", split[0]),
             uri   = uri->withPath(path[0]);
 
-        /**
-         * Fragment
-         */
         if unlikely count(split) > 1 {
             let uri = uri->withFragment(split[1]);
         }

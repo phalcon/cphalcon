@@ -18,7 +18,7 @@ use UnitTester;
 class InitCest
 {
     /**
-     * Tests Phalcon\ReadCollection :: init()
+     * Tests Phalcon\Collection\ReadCollection :: init()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -67,7 +67,7 @@ class WithAddedHeaderCest
      * Tests Phalcon\Http\Message\Request :: withAddedHeader() - string value
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-06-01
+     * @since  2019-02-10
      */
     public function httpMessageRequestWithAddedHeaderStringValue(UnitTester $I)
     {
@@ -101,7 +101,7 @@ class WithAddedHeaderCest
      * Tests Phalcon\Http\Message\Request :: withAddedHeader() - empty value
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-06-01
+     * @since  2019-02-10
      */
     public function httpMessageRequestWithAddedHeaderEmptyValue(UnitTester $I)
     {

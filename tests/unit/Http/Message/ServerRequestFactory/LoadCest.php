@@ -4,6 +4,8 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -16,6 +18,7 @@ use Phalcon\Http\Message\UploadedFile;
 use Phalcon\Test\Fixtures\Http\Message\ServerRequestFactoryFixture;
 use Codeception\Example;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
 use UnitTester;
 
 class LoadCest
@@ -23,6 +26,7 @@ class LoadCest
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load()
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoad(UnitTester $I)
@@ -39,6 +43,7 @@ class LoadCest
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - header host
      * prefixed
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadHeaderCookie(UnitTester $I)
@@ -74,6 +79,7 @@ class LoadCest
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - header host
      * prefixed
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadHeaderHost(UnitTester $I)
@@ -99,6 +105,7 @@ class LoadCest
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - header host array
      * prefixed
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadHeaderHostArray(UnitTester $I)
@@ -123,6 +130,7 @@ class LoadCest
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - IIS path
      * name/port prefixed
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since        2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadIisPath(UnitTester $I)
@@ -145,6 +153,7 @@ class LoadCest
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - original path info
      * name/port prefixed
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since        2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadOriginalPathInfo(UnitTester $I)
@@ -165,6 +174,7 @@ class LoadCest
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - server header
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since        2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadServerHeader(UnitTester $I)
@@ -180,7 +190,8 @@ class LoadCest
         $headers = $request->getHeaders();
 
         $expected = [
-            'host' => ['test.phalcon.ld'],
+            'host'          => ['test.phalcon.ld'],
+            'authorization' => ['Bearer'],
         ];
 
         $I->assertEquals($expected, $headers);
@@ -192,6 +203,7 @@ class LoadCest
      *
      * @dataProvider getServerNameExamples
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since        2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadServerNamePort(UnitTester $I, Example $example)
@@ -220,6 +232,7 @@ class LoadCest
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - server
      * prefixed
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadServerPrefixed(UnitTester $I)
@@ -253,6 +266,7 @@ class LoadCest
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - files
      * prefixed
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadFiles(UnitTester $I)
@@ -314,6 +328,7 @@ class LoadCest
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - files
      * exception prefixed
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadFilesException(UnitTester $I)
@@ -321,7 +336,7 @@ class LoadCest
         $I->wantToTest('Http\Message\ServerRequestFactory - load() - files exception');
 
         $I->expectThrowable(
-            new \InvalidArgumentException(
+            new InvalidArgumentException(
                 'The file array must contain tmp_name, size and error; ' .
                 'one or more are missing'
             ),
@@ -345,6 +360,7 @@ class LoadCest
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - scheme https
      * prefixed
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadSchemeHttps(UnitTester $I)

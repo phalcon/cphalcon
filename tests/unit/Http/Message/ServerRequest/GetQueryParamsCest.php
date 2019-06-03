@@ -4,6 +4,8 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -18,6 +20,7 @@ class GetQueryParamsCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getQueryParams()
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-03
      */
     public function httpMessageServerRequestGetQueryParams(UnitTester $I)
@@ -34,6 +37,7 @@ class GetQueryParamsCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getQueryParams() - empty
      *
+     * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-03
      */
     public function httpMessageServerRequestGetQueryParamsEmpty(UnitTester $I)

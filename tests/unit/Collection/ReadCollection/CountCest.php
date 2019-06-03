@@ -18,7 +18,7 @@ use UnitTester;
 class CountCest
 {
     /**
-     * Tests Phalcon\ReadCollection :: count()
+     * Tests Phalcon\Collection\ReadCollection :: count()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

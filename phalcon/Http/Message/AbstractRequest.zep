@@ -2,8 +2,14 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
+ *
+ * Implementation of this file has been influenced by Zend Diactoros
+ * @link    https://github.com/zendframework/zend-diactoros
+ * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
 
 namespace Phalcon\Http\Message;
@@ -15,31 +21,10 @@ use Phalcon\Http\Message\Uri;
 use Psr\Http\Message\UriInterface;
 
 /**
- * Representation of an outgoing, client-side request.
- *
- * Per the HTTP specification, this interface includes properties for
- * each of the following:
- *
- * - Protocol version
- * - HTTP method
- * - URI
- * - Headers
- * - Message body
- *
- * During construction, implementations MUST attempt to set the Host header from
- * a provided URI if no Host header is provided.
- *
- * Requests are considered immutable; all methods that might change state MUST
- * be implemented such that they retain the internal state of the current
- * message and return an instance that contains the changed state.
+ * Request methods
  */
 abstract class AbstractRequest extends AbstractMessage
 {
-    /**
-     * @var Collection
-     */
-    protected headers;
-
     /**
      * Retrieves the HTTP method of the request.
      *
@@ -87,11 +72,11 @@ abstract class AbstractRequest extends AbstractMessage
         if unlikely null === requestTarget {
             let requestTarget = this->uri->getPath();
 
-            if unlikely true !== empty(this->uri->getQuery()) {
+            if unlikely !empty(this->uri->getQuery()) {
                 let requestTarget .= "?" . this->uri->getQuery();
             }
 
-            if unlikely true === empty(requestTarget) {
+            if unlikely empty(requestTarget) {
                 let requestTarget = "/";
             }
         }
@@ -112,7 +97,7 @@ abstract class AbstractRequest extends AbstractMessage
      *
      * @param string $method
      *
-     * @return self
+     * @return object
      * @throws InvalidArgumentException for invalid HTTP methods.
      *
      */
@@ -140,7 +125,7 @@ abstract class AbstractRequest extends AbstractMessage
      *
      * @param mixed $requestTarget
      *
-     * @return self
+     * @return object
      */
     public function withRequestTarget(var requestTarget) -> object
     {
@@ -184,7 +169,7 @@ abstract class AbstractRequest extends AbstractMessage
      * @param UriInterface $uri
      * @param bool         $preserveHost
      *
-     * @return self
+     * @return object
      */
     public function withUri(<UriInterface> uri, var preserveHost = false) -> object
     {
@@ -194,7 +179,7 @@ abstract class AbstractRequest extends AbstractMessage
             headers          = clone this->headers,
             newInstance      = this->cloneInstance(uri, "uri");
 
-        if unlikely true !== preserveHost {
+        if unlikely !preserveHost {
             let headers = this->checkHeaderHost(headers);
 
             let newInstance->headers = headers;
@@ -210,9 +195,9 @@ abstract class AbstractRequest extends AbstractMessage
      *
      * @return string
      */
-    final protected function processMethod(var method = "") -> string
+    final protected function processMethod(method = "") -> string
     {
-        array methods;
+        var methods;
 
         let methods = [
             "GET"     : 1,
@@ -226,8 +211,8 @@ abstract class AbstractRequest extends AbstractMessage
             "TRACE"   : 1
         ];
 
-        if unlikely !(true !== empty(method) &&
-            typeof method === "string" &&
+        if unlikely !(!empty(method) &&
+            typeof method === "string"  &&
             isset methods[method]) {
             throw new InvalidArgumentException(
                 "Invalid or unsupported method " . method
@@ -246,7 +231,7 @@ abstract class AbstractRequest extends AbstractMessage
      */
     final protected function processUri(var uri) -> <UriInterface>
     {
-        if unlikely uri instanceof UriInterface {
+        if unlikely (typeof uri === "object" && uri instanceof UriInterface) {
             return uri;
         }
 
@@ -254,7 +239,7 @@ abstract class AbstractRequest extends AbstractMessage
             return new Uri(uri);
         }
 
-        if unlikely null === uri {
+        if (null === uri) {
             return new Uri();
         }
 

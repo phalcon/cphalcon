@@ -18,7 +18,7 @@ use UnitTester;
 class GetCest
 {
     /**
-     * Tests Phalcon\Collection :: get()
+     * Tests Phalcon\Collection\Collection :: get()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
