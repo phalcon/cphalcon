@@ -103,9 +103,9 @@ class Bag extends Collection implements InjectionAwareInterface
     /**
      * Removes a property from the internal bag
      */
-    public function remove(string! element, bool insensitive = true) -> void
+    public function remove(string! element) -> void
     {
-        parent::remove(element, insensitive);
+        parent::remove(element);
 
         this->session->set(this->name, this->data);
     }
