@@ -24,9 +24,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 use function serialize;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use DiTrait;
@@ -36,8 +33,10 @@ class ConstructCest
     public function _before(IntegrationTester $I)
     {
         $I->checkExtensionIsLoaded('apcu');
+
         $this->setNewFactoryDefault();
         $this->setDiMysql();
+
         $this->container->setShared(
             'modelsMetadata',
             function () {
@@ -58,6 +57,11 @@ class ConstructCest
         apcu_clear_cache();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model\MetaData\Apcu :: __construct()
      *
@@ -67,9 +71,9 @@ class ConstructCest
     public function mvcModelMetadataApcuConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\MetaData\Apcu - __construct()');
+
         /** @var MetaDataInterface $md */
         $md = $this->container->getShared('modelsMetadata');
-
 
         $md->reset();
         $I->assertTrue($md->isEmpty());

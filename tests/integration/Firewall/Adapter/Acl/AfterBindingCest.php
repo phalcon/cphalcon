@@ -79,6 +79,8 @@ class AfterBindingCest
     public function _after()
     {
         ob_end_clean();
+
+        $this->container['db']->close();
     }
 
     /**
@@ -137,14 +139,78 @@ class AfterBindingCest
     private function getAfterBinding(): array
     {
         return [
-            ['four', 'first', new BindingRole('ROLE1', 1), ['album' => 1], 'allowed'],
-            ['four', 'first', new BindingRole('ROLE1', 2), ['album' => 1], 'allowed'],
-            ['four', 'first', new BindingRole('ROLE2', 1), ['album' => 1], 'allowed'],
-            ['four', 'first', new BindingRole('ROLE2', 2), ['album' => 1], null],
-            ['four', 'second', new BindingRole('ROLE1', 1), ['album' => 1], 'allowed'],
-            ['four', 'second', new BindingRole('ROLE1', 2), ['album' => 1], 'allowed'],
-            ['four', 'second', new BindingRole('ROLE2', 1), ['album' => 1], 'allowed'],
-            ['four', 'second', new BindingRole('ROLE2', 2), ['album' => 1], 'allowed'],
+            [
+                'four',
+                'first',
+                new BindingRole('ROLE1', 1),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+            ],
+            [
+                'four',
+                'first',
+                new BindingRole('ROLE1', 2),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+            ],
+            [
+                'four',
+                'first',
+                new BindingRole('ROLE2', 1),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+            ],
+            [
+                'four',
+                'first',
+                new BindingRole('ROLE2', 2),
+                [
+                    'album' => 1,
+                ],
+                null,
+            ],
+            [
+                'four',
+                'second',
+                new BindingRole('ROLE1', 1),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+            ],
+            [
+                'four',
+                'second',
+                new BindingRole('ROLE1', 2),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+            ],
+            [
+                'four',
+                'second',
+                new BindingRole('ROLE2', 1),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+            ],
+            [
+                'four',
+                'second',
+                new BindingRole('ROLE2', 2),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+            ],
         ];
     }
 }

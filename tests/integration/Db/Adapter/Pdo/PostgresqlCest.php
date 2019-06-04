@@ -28,6 +28,11 @@ class PostgresqlCest
         $this->setDiPostgresql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Postgresql::describeReferences
      *

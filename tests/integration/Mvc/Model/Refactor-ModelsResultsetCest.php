@@ -17,6 +17,11 @@ class ModelsResultsetCest
         $this->setNewFactoryDefault();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     public function testResultsetNormalMysql(IntegrationTester $I)
     {
         $this->setDiMysql();

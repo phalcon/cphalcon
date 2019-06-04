@@ -244,9 +244,18 @@ class ParseCest
     private function getVoltSyntaxErrors(): array
     {
         return [
-            ['{{', 'Syntax error, unexpected EOF in eval code'],
-            ['{{ }}', 'Syntax error, unexpected EOF in eval code'],
-            ['{{ ++v }}', 'Syntax error, unexpected token ++ in eval code on line 1'],
+            [
+                '{{',
+                'Syntax error, unexpected EOF in eval code',
+            ],
+            [
+                '{{ }}',
+                'Syntax error, unexpected EOF in eval code',
+            ],
+            [
+                '{{ ++v }}',
+                'Syntax error, unexpected token ++ in eval code on line 1',
+            ],
             [
                 '{{
                     ++v }}',
@@ -310,13 +319,22 @@ class ParseCest
                 '<div>{% extends "some/file.volt" %}{% set a = 1 %}</div>',
                 'Extends statement must be placed at the first line in the template in eval code on line 1',
             ],
-            ['{% extends "some/file.volt" %}{{ "hello"}}', 'Child templates only may contain blocks in eval code on line 1'],
+            [
+                '{% extends "some/file.volt" %}{{ "hello"}}',
+                'Child templates only may contain blocks in eval code on line 1',
+            ],
             [
                 '{% extends "some/file.volt" %}{{% if true %}} {%endif%}',
                 'Child templates only may contain blocks in eval code on line 1',
             ],
-            ['{% extends "some/file.volt" %}{{% set a = 1 %}', 'Child templates only may contain blocks in eval code on line 1'],
-            ['{% extends "some/file.volt" %}{{% set a = 1 %}', 'Child templates only may contain blocks in eval code on line 1'],
+            [
+                '{% extends "some/file.volt" %}{{% set a = 1 %}',
+                'Child templates only may contain blocks in eval code on line 1',
+            ],
+            [
+                '{% extends "some/file.volt" %}{{% set a = 1 %}',
+                'Child templates only may contain blocks in eval code on line 1',
+            ],
         ];
     }
 }

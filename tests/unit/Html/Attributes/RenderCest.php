@@ -26,7 +26,7 @@ class RenderCest
     }
 
     /**
-     * Unit Tests Phalcon\Html\Attributes :: render()
+     * Tests Phalcon\Html\Attributes :: render()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-25

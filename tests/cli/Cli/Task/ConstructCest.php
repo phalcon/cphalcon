@@ -13,9 +13,18 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Task;
 
 use CliTester;
+use OnConstructTask;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class ConstructCest
 {
+    use DiTrait;
+
+    public function _before(CliTester $I)
+    {
+        $this->setNewCliFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Cli\Task :: __construct()
      *
@@ -25,6 +34,21 @@ class ConstructCest
     public function cliTaskConstruct(CliTester $I)
     {
         $I->wantToTest('Cli\Task - __construct()');
+
         $I->skipTest('Need implementation');
+    }
+
+    public function testOnConstruct(CliTester $I)
+    {
+        /**
+         * @todo Check the loader
+         */
+        require_once dataDir('fixtures/tasks/OnConstructTask.php');
+
+        $task = new OnConstructTask();
+
+        $I->assertTrue(
+            $task->onConstructExecuted
+        );
     }
 }

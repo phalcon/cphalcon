@@ -32,6 +32,11 @@ class SnapshotCest
         $this->setDiMysql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests dynamic update for identityless models
      *
@@ -48,14 +53,36 @@ class SnapshotCest
         $requests->uri    = '/api/status';
         $requests->count  = 1;
 
-        $I->assertTrue($requests->save());
-        $I->assertEquals([], $requests->getChangedFields());
-        $I->assertNotEmpty($requests->getSnapshotData());
-        $I->assertEquals($requests->toArray(), $requests->getSnapshotData());
+        $I->assertTrue(
+            $requests->save()
+        );
 
-        $I->assertEquals('GET', $requests->method);
-        $I->assertEquals('/api/status', $requests->uri);
-        $I->assertEquals(1, $requests->count);
+        $I->assertEquals(
+            [],
+            $requests->getChangedFields()
+        );
+
+        $I->assertNotEmpty(
+            $requests->getSnapshotData()
+        );
+
+        $I->assertEquals(
+            $requests->toArray(),
+            $requests->getSnapshotData()
+        );
+
+        $I->assertEquals(
+            'GET',
+            $requests->method
+        );
+        $I->assertEquals(
+            '/api/status',
+            $requests->uri
+        );
+        $I->assertEquals(
+            1,
+            $requests->count
+        );
     }
 
     /** @test */
@@ -366,17 +393,46 @@ class SnapshotCest
             ]
         );
 
-        $I->assertTrue($robots->create());
-        $I->assertNotEmpty($robots->getSnapshotData());
-        $I->assertEquals($robots->toArray(), $robots->getSnapshotData());
+        $I->assertTrue(
+            $robots->create()
+        );
+
+        $I->assertNotEmpty(
+            $robots->getSnapshotData()
+        );
+
+        $I->assertEquals(
+            $robots->toArray(),
+            $robots->getSnapshotData()
+        );
 
         $robots->name = 'testabc';
-        $I->assertTrue($robots->hasChanged('name'));
-        $I->assertTrue($robots->update());
-        $I->assertEquals('testabc', $robots->name);
-        $I->assertNotEmpty($robots->getSnapshotData());
-        $I->assertEquals($robots->toArray(), $robots->getSnapshotData());
-        $I->assertFalse($robots->hasChanged('name'));
+
+        $I->assertTrue(
+            $robots->hasChanged('name')
+        );
+
+        $I->assertTrue(
+            $robots->update()
+        );
+
+        $I->assertEquals(
+            'testabc',
+            $robots->name
+        );
+
+        $I->assertNotEmpty(
+            $robots->getSnapshotData()
+        );
+
+        $I->assertEquals(
+            $robots->toArray(),
+            $robots->getSnapshotData()
+        );
+
+        $I->assertFalse(
+            $robots->hasChanged('name')
+        );
     }
 
     /**
@@ -399,14 +455,37 @@ class SnapshotCest
             ]
         );
 
-        $I->assertTrue($robots->create());
-        $I->assertNotEmpty($robots->getSnapshotData());
-        $I->assertEquals($robots->toArray(), $robots->getSnapshotData());
+        $I->assertTrue(
+            $robots->create()
+        );
 
-        $I->assertInstanceOf(Robots::class, $robots->refresh());
-        $I->assertEquals('mechanical', $robots->type);
-        $I->assertNotEmpty($robots->getSnapshotData());
-        $I->assertEquals($robots->toArray(), $robots->getSnapshotData());
+        $I->assertNotEmpty(
+            $robots->getSnapshotData()
+        );
+
+        $I->assertEquals(
+            $robots->toArray(),
+            $robots->getSnapshotData()
+        );
+
+        $I->assertInstanceOf(
+            Robots::class,
+            $robots->refresh()
+        );
+
+        $I->assertEquals(
+            'mechanical',
+            $robots->type
+        );
+
+        $I->assertNotEmpty(
+            $robots->getSnapshotData()
+        );
+
+        $I->assertEquals(
+            $robots->toArray(),
+            $robots->getSnapshotData()
+        );
     }
 
     /**
@@ -416,8 +495,14 @@ class SnapshotCest
     public function testNewInstanceUpdate(IntegrationTester $I)
     {
         $robots = Robots::findFirst();
-        $robots = new Robots($robots->toArray());
-        $I->assertTrue($robots->save());
+
+        $robots = new Robots(
+            $robots->toArray()
+        );
+
+        $I->assertTrue(
+            $robots->save()
+        );
     }
 
     /**
@@ -598,21 +683,43 @@ class SnapshotCest
         $robots->name = 'test2';
 
         $I->assertTrue(
-            $robots->hasChanged(['name', 'year'])
+            $robots->hasChanged(
+                [
+                    'name',
+                    'year',
+                ]
+            )
         );
 
         $I->assertTrue(
-            $robots->hasChanged(['text', 'year'])
+            $robots->hasChanged(
+                [
+                    'text',
+                    'year',
+                ]
+            )
         );
 
         $I->assertFalse(
-            $robots->hasChanged(['name', 'year'], true)
+            $robots->hasChanged(
+                [
+                    'name',
+                    'year',
+                ],
+                true
+            )
         );
 
         $robots->year = 2018;
 
         $I->assertTrue(
-            $robots->hasChanged(['name', 'year'], true)
+            $robots->hasChanged(
+                [
+                    'name',
+                    'year',
+                ],
+                true
+            )
         );
     }
 

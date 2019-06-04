@@ -12,20 +12,38 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
 use UnitTester;
 
 class ToJsonCest
 {
     /**
-     * Unit Tests Phalcon\Html\Attributes :: toJson()
+     * Tests Phalcon\Html\Attributes :: toJson()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-25
+     * @since  2019-06-02
      */
     public function htmlAttributesToJson(UnitTester $I)
     {
         $I->wantToTest('Html\Attributes - toJson()');
 
-        $I->skipTest('Need implementation');
+        $data = [
+            'type'  => 'text',
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes($data);
+
+        $I->assertEquals(
+            json_encode($data),
+            $attributes->toJson()
+        );
+
+        $I->assertEquals(
+            json_encode($data, JSON_PRETTY_PRINT),
+            $attributes->toJson(JSON_PRETTY_PRINT)
+        );
     }
 }

@@ -22,7 +22,7 @@ class Unit extends Module
      *
      * @throws ReflectionException
      */
-    public function callProtectedMethod($obj, $method)
+    public function callProtectedMethod($obj, string $method)
     {
         $reflectionClass = new ReflectionClass($obj);
 
@@ -54,7 +54,10 @@ class Unit extends Module
     {
         if (true !== extension_loaded($extension)) {
             $this->skipTest(
-                sprintf("Extension '%s' is not loaded. Skipping test", $extension)
+                sprintf(
+                    "Extension '%s' is not loaded. Skipping test",
+                    $extension
+                )
             );
         }
     }

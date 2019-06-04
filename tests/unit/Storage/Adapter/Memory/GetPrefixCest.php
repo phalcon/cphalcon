@@ -29,7 +29,13 @@ class GetPrefixCest
         $I->wantToTest('Storage\Adapter\Memory - getPrefix()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Memory($serializer, ['prefix' => 'my-prefix']);
+
+        $adapter = new Memory(
+            $serializer,
+            [
+                'prefix' => 'my-prefix',
+            ]
+        );
 
         $I->assertEquals(
             'my-prefix',

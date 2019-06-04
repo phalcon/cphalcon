@@ -31,19 +31,35 @@ class GetKeysCest
         $I->wantToTest('Storage\Adapter\Stream - getKeys()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
 
         $adapter->clear();
 
+
+
         $key = 'key-1';
         $adapter->set($key, 'test');
-        $actual = $adapter->has($key);
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->has($key)
+        );
+
+
 
         $key = 'key-2';
         $adapter->set($key, 'test');
-        $actual = $adapter->has($key);
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->has($key)
+        );
+
+
 
         $expected = [
             'phstrm-key-1',

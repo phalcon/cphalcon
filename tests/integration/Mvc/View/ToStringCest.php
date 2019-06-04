@@ -18,9 +18,6 @@ use Phalcon\Di;
 use Phalcon\Helper\Str;
 use Phalcon\Mvc\View;
 
-/**
- * Class ToStringCest
- */
 class ToStringCest
 {
     /**
@@ -34,19 +31,28 @@ class ToStringCest
         $I->wantToTest('Mvc\View - toString()');
 
         $container = new Di();
+
         $view = new View();
-        $view->setViewsDir(Str::dirSeparator(dataDir('fixtures/views')));
+
+        $view->setViewsDir(
+            Str::dirSeparator(
+                dataDir('fixtures/views')
+            )
+        );
 
         $view->setDI($container);
 
-        $expected = 'lolphalcon';
-        $actual   = $view->toString(
+        $actual = $view->toString(
             'currentrender',
             'query',
             [
                 'name' => 'phalcon',
             ]
         );
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            'lolphalcon',
+            $actual
+        );
     }
 }

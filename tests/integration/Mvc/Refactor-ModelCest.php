@@ -29,17 +29,19 @@ class ModelCest
         $this->setDiModelsMetadata();
     }
 
-    public function testMySql(IntegrationTester $I)
+    public function _after(IntegrationTester $I)
+    {
+        if (isset($this->container['db'])) {
+            $this->container['db']->close();
+        }
+    }
+
+    public function executeCamelCaseRelation(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check me');
 
         $this->setDiMysql();
 
-        $this->executeCamelCaseRelation($I);
-    }
-
-    private function executeCamelCaseRelation(IntegrationTester $I)
-    {
         $album = Albums::findFirst();
 
         $album->artist->name = 'NotArtist';

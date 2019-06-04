@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Mvc\Model\Behavior\SoftDelete;
 
 use IntegrationTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
@@ -28,6 +25,7 @@ class ConstructCest
     public function mvcModelBehaviorSoftdeleteConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Behavior\SoftDelete - __construct()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -25,7 +25,7 @@ class CountCest
      */
     public function collectionCount(UnitTester $I)
     {
-        $I->wantToTest('Collection - count()');
+        $I->wantToTest('Collection\Collection - count()');
 
         $data = [
             'one'   => 'two',

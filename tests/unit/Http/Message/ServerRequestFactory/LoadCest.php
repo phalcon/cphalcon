@@ -12,13 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequestFactory;
 
+use Codeception\Example;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\ServerRequestFactory;
 use Phalcon\Http\Message\UploadedFile;
 use Phalcon\Test\Fixtures\Http\Message\ServerRequestFactoryFixture;
-use Codeception\Example;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\UriInterface;
 use UnitTester;
 
 class LoadCest
@@ -34,9 +33,13 @@ class LoadCest
         $I->wantToTest('Http\Message\ServerRequestFactory - load()');
 
         $factory = new ServerRequestFactory();
+
         $request = $factory->load();
-        $class   = ServerRequestInterface::class;
-        $I->assertInstanceOf($class, $request);
+
+        $I->assertInstanceOf(
+            ServerRequestInterface::class,
+            $request
+        );
     }
 
     /**
@@ -60,8 +63,8 @@ class LoadCest
         ];
 
         $factory = new ServerRequestFactory();
+
         $request = $factory->load($server);
-        $actual  = $request->getCookieParams();
 
         $expected = [
             'TESTSESS' => 'face28e8-daae-10e0-a774-00000abbdf6c:3447789008',
@@ -72,7 +75,11 @@ class LoadCest
             'secure'   => '',
             'httponly' => '',
         ];
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $request->getCookieParams()
+        );
     }
 
     /**
@@ -94,11 +101,30 @@ class LoadCest
         $request = $factory->load($server);
         $uri     = $request->getUri();
 
-        $I->assertEquals('dev.phalcon.ld', $uri->getHost());
-        $I->assertEquals(8080, $uri->getPort());
-        $I->assertEquals('/', $uri->getPath());
-        $I->assertEquals('', $uri->getQuery());
-        $I->assertEquals('', $uri->getFragment());
+        $I->assertEquals(
+            'dev.phalcon.ld',
+            $uri->getHost()
+        );
+
+        $I->assertEquals(
+            8080,
+            $uri->getPort()
+        );
+
+        $I->assertEquals(
+            '/',
+            $uri->getPath()
+        );
+
+        $I->assertEquals(
+            '',
+            $uri->getQuery()
+        );
+
+        $I->assertEquals(
+            '',
+            $uri->getFragment()
+        );
     }
 
     /**
@@ -123,7 +149,10 @@ class LoadCest
         $request = $factory->load($server);
         $uri     = $request->getUri();
 
-        $I->assertEquals('dev.phalcon.ld,test.phalcon.ld', $uri->getHost());
+        $I->assertEquals(
+            'dev.phalcon.ld,test.phalcon.ld',
+            $uri->getHost()
+        );
     }
 
     /**
@@ -146,7 +175,10 @@ class LoadCest
         $request = $factory->load($server);
         $uri     = $request->getUri();
 
-        $I->assertEquals('/action/reaction', $uri->getPath());
+        $I->assertEquals(
+            '/action/reaction',
+            $uri->getPath()
+        );
     }
 
     /**
@@ -168,7 +200,10 @@ class LoadCest
         $request = $factory->load($server);
         $uri     = $request->getUri();
 
-        $I->assertEquals('/action/reaction', $uri->getPath());
+        $I->assertEquals(
+            '/action/reaction',
+            $uri->getPath()
+        );
     }
 
     /**
@@ -187,14 +222,16 @@ class LoadCest
 
         $factory = new ServerRequestFactoryFixture();
         $request = $factory->load($server);
-        $headers = $request->getHeaders();
 
         $expected = [
             'host'          => ['test.phalcon.ld'],
             'authorization' => ['Bearer'],
         ];
 
-        $I->assertEquals($expected, $headers);
+        $I->assertEquals(
+            $expected,
+            $request->getHeaders()
+        );
     }
 
     /**
@@ -221,11 +258,30 @@ class LoadCest
         $request = $factory->load($server);
         $uri     = $request->getUri();
 
-        $I->assertEquals($example[5], $uri->getHost());
-        $I->assertEquals($example[6], $uri->getPort());
-        $I->assertEquals($example[7], $uri->getPath());
-        $I->assertEquals($example[8], $uri->getQuery());
-        $I->assertEquals($example[9], $uri->getFragment());
+        $I->assertEquals(
+            $example[5],
+            $uri->getHost()
+        );
+
+        $I->assertEquals(
+            $example[6],
+            $uri->getPort()
+        );
+
+        $I->assertEquals(
+            $example[7],
+            $uri->getPath()
+        );
+
+        $I->assertEquals(
+            $example[8],
+            $uri->getQuery()
+        );
+
+        $I->assertEquals(
+            $example[9],
+            $uri->getFragment()
+        );
     }
 
     /**
@@ -385,9 +441,7 @@ class LoadCest
         $I->assertEquals('http', $uri->getScheme());
     }
 
-    /**
-     * @return array
-     */
+    
     private function getServerNameExamples(): array
     {
         return [

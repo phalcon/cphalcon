@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -21,32 +22,20 @@ class ModelsForeignKeysCest
         $this->setNewFactoryDefault();
     }
 
-    public function testForeignKeysMysql(IntegrationTester $I)
+    public function _after(IntegrationTester $I)
     {
-        $this->setDiMysql();
-
-        $this->executeTestsNormal($I);
-        $this->executeTestsRenamed($I);
+        $this->container['db']->close();
     }
 
-    public function testForeignKeysPostgresql(IntegrationTester $I)
+    /**
+     * @dataProvider adaptersProvider
+     */
+    public function executeTestsNormal(IntegrationTester $I, Example $example)
     {
-        $this->setDiPostgresql();
+        $diFunction = 'setDi' . $example[0];
 
-        $this->executeTestsNormal($I);
-        $this->executeTestsRenamed($I);
-    }
+        $this->{$diFunction}();
 
-    public function testForeignKeysSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-
-        $this->executeTestsNormal($I);
-        $this->executeTestsRenamed($I);
-    }
-
-    private function executeTestsNormal(IntegrationTester $I)
-    {
         //Normal foreign keys
 
         $robotsParts = new RobotsParts();
@@ -152,8 +141,15 @@ class ModelsForeignKeysCest
         );
     }
 
-    private function executeTestsRenamed(IntegrationTester $I)
+    /**
+     * @dataProvider adaptersProvider
+     */
+    public function executeTestsRenamed(IntegrationTester $I, Example $example)
     {
+        $diFunction = 'setDi' . $example[0];
+
+        $this->{$diFunction}();
+
         //Normal foreign keys with column renaming
 
         $robottersDeles = new RobottersDeles();
@@ -259,5 +255,20 @@ class ModelsForeignKeysCest
             $messages,
             $dele->getMessages()
         );
+    }
+
+    private function adaptersProvider(): array
+    {
+        return [
+            [
+                'Mysql',
+            ],
+            [
+                'Postgresql',
+            ],
+            [
+                'Sqlite',
+            ],
+        ];
     }
 }

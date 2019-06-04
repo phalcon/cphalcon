@@ -12,20 +12,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
 use UnitTester;
 
 class UnderscoreSetCest
 {
     /**
-     * Unit Tests Phalcon\Html\Attributes :: __set()
+     * Tests Phalcon\Html\Attributes :: __set()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-25
+     * @since  2019-06-02
      */
     public function htmlAttributesUnderscoreSet(UnitTester $I)
     {
         $I->wantToTest('Html\Attributes - __set()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes();
+
+        $attributes->class = 'form-control';
+
+        $I->assertEquals(
+            'form-control',
+            $attributes->get('class')
+        );
     }
 }

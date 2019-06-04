@@ -38,7 +38,12 @@ class ExclusionInCest
             )
         );
 
-        $messages = $validation->validate(['status' => 'A']);
+        $messages = $validation->validate(
+            [
+                'status' => 'A',
+            ]
+        );
+
         $expected = new Messages(
             [
                 new Message(
@@ -70,11 +75,13 @@ class ExclusionInCest
      */
     public function validationValidatorMultipleFieldSingleDomain(IntegrationTester $I)
     {
-        $validation         = new Validation();
+        $validation = new Validation();
+
         $validationMessages = [
             'type'        => 'Type cant be mechanic or cyborg.',
             'anotherType' => 'AnotherType cant by mechanic or cyborg.',
         ];
+
         $validation->add(
             [
                 'type',
@@ -194,7 +201,14 @@ class ExclusionInCest
             )
         );
 
-        $messages = $validation->validate(['status' => 'A']);
+
+
+        $messages = $validation->validate(
+            [
+                'status' => 'A',
+            ]
+        );
+
         $expected = new Messages(
             [
                 new Message(
@@ -205,16 +219,30 @@ class ExclusionInCest
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['status' => 'A']);
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $messages);
 
-        $messages = $validation->validate(['status' => 'X']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+
+        $messages = $validation->validate(
+            [
+                'status' => 'A',
+            ]
+        );
+
+        $I->assertEquals($expected, $messages);
+
+
+
+        $messages = $validation->validate(
+            [
+                'status' => 'X',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 }

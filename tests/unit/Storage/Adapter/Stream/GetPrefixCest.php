@@ -30,7 +30,8 @@ class GetPrefixCest
         $I->wantToTest('Storage\Adapter\Stream - getPrefix()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream(
+
+        $adapter = new Stream(
             $serializer,
             [
                 'cacheDir' => outputDir(),

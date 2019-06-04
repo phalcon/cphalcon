@@ -19,19 +19,23 @@ use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use DiTrait;
-
 
     public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
-        $I->cleanDir(cacheModelsDir());
+
+        $I->cleanDir(
+            cacheModelsDir()
+        );
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
     }
 
     /**
@@ -46,18 +50,17 @@ class ConstructCest
     {
         $I->wantToTest('Mvc\Model\Resultset\Simple - __construct() - complete PHQL');
 
-        $cache    = $this->getAndSetModelsCacheStream();
-        $manager  = $this->getService('modelsManager');
-        $filePath = cacheModelsDir()
-            . 'phstrm-/'
-            . Str::dirFromFile('test-resultset');
+        $cache   = $this->getAndSetModelsCacheStream();
+        $manager = $this->getService('modelsManager');
+
+        $filePath = cacheModelsDir() . 'phstrm-/' . Str::dirFromFile('test-resultset');
 
         $robots = $manager->executeQuery('SELECT * FROM ' . Robots::class);
 
         $I->assertInstanceOf(Simple::class, $robots);
 
         $I->assertCount(6, $robots);
-        $I->assertEquals($robots->count(), 6);
+        $I->assertEquals(6, $robots->count());
 
         $cache->set('test-resultset', $robots);
 
@@ -67,13 +70,20 @@ class ConstructCest
 
         $I->assertInstanceOf(Simple::class, $robots);
         $I->assertCount(6, $robots);
-        $I->assertEquals($robots->count(), 6);
+        $I->assertEquals(6, $robots->count());
 
-        $result = $cache->clear();
-        $I->assertTrue($result);
+        $I->assertTrue(
+            $cache->clear()
+        );
 
-        $I->amInPath(cacheModelsDir());
-        $I->dontSeeFileFound('test-resultset', $filePath);
+        $I->amInPath(
+            cacheModelsDir()
+        );
+
+        $I->dontSeeFileFound(
+            'test-resultset',
+            $filePath
+        );
     }
 
     /**
@@ -88,17 +98,16 @@ class ConstructCest
     {
         $I->wantToTest('Mvc\Model\Resultset\Simple - __construct() - incomplete PHQL');
 
-        $cache    = $this->getAndSetModelsCacheStream();
-        $manager  = $this->getService('modelsManager');
-        $filePath = cacheModelsDir()
-            . 'phstrm-/'
-            . Str::dirFromFile('test-resultset');
+        $cache   = $this->getAndSetModelsCacheStream();
+        $manager = $this->getService('modelsManager');
+
+        $filePath = cacheModelsDir() . 'phstrm-/' . Str::dirFromFile('test-resultset');
 
         $robots = $manager->executeQuery('SELECT id FROM ' . Robots::class);
 
         $I->assertInstanceOf(Simple::class, $robots);
         $I->assertCount(6, $robots);
-        $I->assertEquals($robots->count(), 6);
+        $I->assertEquals(6, $robots->count());
 
         $cache->set('test-resultset', $robots);
 
@@ -108,7 +117,7 @@ class ConstructCest
 
         $I->assertInstanceOf(Simple::class, $robots);
         $I->assertCount(6, $robots);
-        $I->assertEquals($robots->count(), 6);
+        $I->assertEquals(6, $robots->count());
 
         $cache->delete('test-resultset');
 

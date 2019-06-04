@@ -32,8 +32,10 @@ class ConstructCest
     public function _before(IntegrationTester $I)
     {
         $I->checkExtensionIsLoaded('redis');
+
         $this->setNewFactoryDefault();
         $this->setDiMysql();
+
         $this->container->setShared(
             'modelsMetadata',
             function () {
@@ -42,6 +44,11 @@ class ConstructCest
         );
 
         $this->data = require dataDir('fixtures/metadata/robots.php');
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
     }
 
     /**

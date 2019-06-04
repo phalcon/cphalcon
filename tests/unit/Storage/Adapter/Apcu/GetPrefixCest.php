@@ -32,11 +32,16 @@ class GetPrefixCest
         $I->wantToTest('Storage\Adapter\Apcu - getPrefix()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Apcu($serializer, ['prefix' => 'my-prefix']);
 
-        $expected = 'my-prefix';
+        $adapter = new Apcu(
+            $serializer,
+            [
+                'prefix' => 'my-prefix',
+            ]
+        );
+
         $I->assertEquals(
-            $expected,
+            'my-prefix',
             $adapter->getPrefix()
         );
     }
@@ -54,9 +59,8 @@ class GetPrefixCest
         $serializer = new SerializerFactory();
         $adapter    = new Apcu($serializer);
 
-        $expected = 'ph-apcu-';
         $I->assertEquals(
-            $expected,
+            'ph-apcu-',
             $adapter->getPrefix()
         );
     }

@@ -34,6 +34,11 @@ class CriteriaCest
         $this->setDiMysql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Criteria::inWhere with empty array.
      *
@@ -151,7 +156,11 @@ class CriteriaCest
     public function createBuilderFromCriteria(IntegrationTester $I)
     {
         $criteria = Robots::query()->where("type='mechanical'");
-        $I->assertInstanceOf(Builder::class, $criteria->createBuilder());
+
+        $I->assertInstanceOf(
+            Builder::class,
+            $criteria->createBuilder()
+        );
     }
 
     public function havingNotOverwritingGroupBy(IntegrationTester $I)

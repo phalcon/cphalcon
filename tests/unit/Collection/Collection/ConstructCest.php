@@ -25,10 +25,13 @@ class ConstructCest
      */
     public function collectionConstruct(UnitTester $I)
     {
-        $I->wantToTest('Collection - __construct()');
+        $I->wantToTest('Collection\Collection - __construct()');
+
         $collection = new Collection();
 
-        $class = Collection::class;
-        $I->assertInstanceOf($class, $collection);
+        $I->assertInstanceOf(
+            Collection::class,
+            $collection
+        );
     }
 }

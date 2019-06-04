@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
-use Phalcon\Http\Message\Exception;
 use Phalcon\Http\Message\Stream;
 use RuntimeException;
 use UnitTester;

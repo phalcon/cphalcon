@@ -12,20 +12,37 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
 use UnitTester;
 
 class UnserializeCest
 {
     /**
-     * Unit Tests Phalcon\Html\Attributes :: unserialize()
+     * Tests Phalcon\Html\Attributes :: unserialize()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-25
+     * @since  2019-06-02
      */
     public function htmlAttributesUnserialize(UnitTester $I)
     {
         $I->wantToTest('Html\Attributes - unserialize()');
 
-        $I->skipTest('Need implementation');
+        $data = [
+            'type'  => 'text',
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $serialized = serialize($data);
+
+        $attributes = new Attributes();
+
+        $attributes->unserialize($serialized);
+
+        $I->assertEquals(
+            $data,
+            $attributes->toArray()
+        );
     }
 }

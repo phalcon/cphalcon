@@ -80,7 +80,10 @@ class ReaderCest
         $reader  = new Reader();
         $parsing = $reader->parse('TestClass');
 
-        $I->assertTrue(isset($parsing['class']));
+        $I->assertTrue(
+            isset($parsing['class'])
+        );
+
         $I->assertCount(9, $parsing['class']);
 
         // Simple
@@ -220,7 +223,9 @@ class ReaderCest
         $I->assertEquals('NamedMultipleParams', $parsing['methods']['testMethod1'][4]['name']);
 
         // Comment without content
-        $I->assertFalse(isset($parsing['methods']['testMethod2']));
+        $I->assertFalse(
+            isset($parsing['methods']['testMethod2'])
+        );
 
         // Same line annotations
         $I->assertCount(3, $parsing['methods']['testMethod3']);

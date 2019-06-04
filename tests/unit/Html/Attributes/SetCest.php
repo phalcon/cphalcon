@@ -12,20 +12,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
 use UnitTester;
 
 class SetCest
 {
     /**
-     * Unit Tests Phalcon\Html\Attributes :: set()
+     * Tests Phalcon\Html\Attributes :: set()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-25
+     * @since  2019-06-02
      */
     public function htmlAttributesSet(UnitTester $I)
     {
         $I->wantToTest('Html\Attributes - set()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes();
+
+        $attributes->set('class', 'form-control');
+
+        $I->assertEquals(
+            'form-control',
+            $attributes->get('class')
+        );
     }
 }

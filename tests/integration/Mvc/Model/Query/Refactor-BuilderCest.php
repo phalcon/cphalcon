@@ -34,6 +34,11 @@ class BuilderCest
         $this->setDiMysql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Models cache
      *
@@ -116,103 +121,6 @@ class BuilderCest
                 outputDir('tests/cache/robots-cache-complex')
             );
         }
-    }
-
-    /**
-     * Tests merge bind types for Builder::where
-     *
-     * @issue https://github.com/phalcon/cphalcon/issues/11487
-     */
-    public function shouldMergeBinTypesForWhere(IntegrationTester $I)
-    {
-        $builder = new Builder();
-
-        $builder->setDi($this->container);
-
-        $builder
-            ->from(Robots::class)
-            ->where(
-                'id = :id:',
-                [
-                    ':id:' => 3,
-                ],
-                [
-                    ':id:' => PDO::PARAM_INT,
-                ]
-            )
-        ;
-
-        $builder->where(
-            'name = :name:',
-            [
-                ':name:' => 'Terminator',
-            ],
-            [
-                ':name:' => PDO::PARAM_STR,
-            ]
-        );
-
-        $expected = [
-            ':id:'   => 1,
-            ':name:' => 2,
-        ];
-
-        $I->assertEquals(
-            $expected,
-            $builder->getQuery()->getBindTypes()
-        );
-    }
-
-    /**
-     * Tests merge bind types for Builder::having
-     *
-     * @issue https://github.com/phalcon/cphalcon/issues/11487
-     */
-    public function shouldMergeBinTypesForHaving(IntegrationTester $I)
-    {
-        $builder = new Builder();
-
-        $builder->setDi($this->container);
-
-        $builder
-            ->from(Robots::class)
-            ->columns(
-                [
-                    'COUNT(id)',
-                    'name',
-                ]
-            )
-            ->groupBy('COUNT(id)')
-            ->having(
-                'COUNT(id) > :cnt:',
-                [
-                    ':cnt:' => 5,
-                ],
-                [
-                    ':cnt:' => PDO::PARAM_INT,
-                ]
-            )
-        ;
-
-        $builder->having(
-            "CONCAT('is_', type) = :type:",
-            [
-                ':type:' => 'mechanical',
-            ],
-            [
-                ':type:' => PDO::PARAM_STR,
-            ]
-        );
-
-        $expected = [
-            ':cnt:'  => 1,
-            ':type:' => 2,
-        ];
-
-        $I->assertEquals(
-            $expected,
-            $builder->getQuery()->getBindTypes()
-        );
     }
 
     public function testAction(IntegrationTester $I)
@@ -839,69 +747,6 @@ class BuilderCest
         $I->assertEquals(
             'SELECT Robots.name FROM [' . Robots::class . '] HAVING Robots.price > 1000',
             $phql
-        );
-    }
-
-    /**
-     * Test checks passing dependency injector into constructor
-     */
-    public function testConstructor(IntegrationTester $I)
-    {
-        $params = [
-            'models'     => Robots::class,
-            'columns'    => ['id', 'name', 'status'],
-            'conditions' => 'a > 5',
-            'group'      => ['type', 'source'],
-            'having'     => 'b < 5',
-            'order'      => ['name', 'created'],
-            'limit'      => 10,
-            'offset'     => 15,
-        ];
-
-        $builder = new Builder($params, $this->container);
-
-        $I->assertEquals(
-            $this->container,
-            $builder->getDI()
-        );
-    }
-
-    /**
-     * Test checks passing 'limit'/'offset' query param into constructor.
-     * limit key can take:
-     * - single numeric value
-     * - array of 2 values (limit, offset)
-     */
-    public function testConstructorLimit(IntegrationTester $I)
-    {
-        // separate limit and offset
-        $params = [
-            'models' => Robots::class,
-            'limit'  => 10,
-            'offset' => 15,
-        ];
-
-        $builderLimitAndOffset = new Builder($params);
-
-        // separate limit with offset
-
-        $params = [
-            'models' => Robots::class,
-            'limit'  => [10, 15],
-        ];
-
-        $builderLimitWithOffset = new Builder($params);
-
-        $expectedPhql = 'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] LIMIT :APL0: OFFSET :APL1:';
-
-        $I->assertEquals(
-            $expectedPhql,
-            $builderLimitAndOffset->getPhql()
-        );
-
-        $I->assertEquals(
-            $expectedPhql,
-            $builderLimitWithOffset->getPhql()
         );
     }
 
