@@ -53,6 +53,7 @@
 - Fixed `Phalcon\Image\Adapter\Gd` to throw an error with `imagecolorat`. [#14139](https://github.com/phalcon/cphalcon/issues/14139)
 - `Phalcon\Mvc\Model\Criteria::limit()` now corrects negative offsets.
 - `Phalcon\Di\FactoryDefault\Cli` can now use the new Filter system.
+- Fixed `Phalcon\Mvc\Router` now parses and uses path. [#14087](https://github.com/phalcon/cphalcon/issues/14087)
 
 ## Removed
 - Removed `Phalcon\Session\Factory`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
