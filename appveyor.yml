@@ -111,6 +111,7 @@ build_script:
     - cmd: '"%VSCOMNTOOLS%\VsDevCmd" -arch=%PLATFORM%'
     - cmd: '"%VCVARSALL_FILE%" %ARCH%'
     - cmd: C:\php-sdk\bin\phpsdk_setvars
+    - cmd:  C:\php\php.exe zephir.phar fullclean
     - cmd:  C:\php\php.exe zephir.phar generate --backend=ZendEngine3 -Wnonexistent-function -Wnonexistent-class -Wunused-variable
     - ps: Set-Location "${Env:APPVEYOR_BUILD_FOLDER}\build"
     - cmd: C:\php\php.exe gen-build.php
