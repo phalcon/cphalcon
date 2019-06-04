@@ -13,21 +13,45 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Behavior\SoftDelete;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Users;
 
-/**
- * Class MissingMethodCest
- */
 class MissingMethodCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model\Behavior\SoftDelete :: missingMethod()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-03
      */
     public function mvcModelBehaviorSoftdeleteMissingMethod(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Behavior\SoftDelete - missingMethod()');
-        $I->skipTest('Need implementation');
+
+        $user = new Users();
+
+        $behavior = new SoftDelete();
+
+        $I->assertNull(
+            $behavior->missingMethod(
+                $user,
+                'somethingAmazing',
+                []
+            )
+        );
     }
 }

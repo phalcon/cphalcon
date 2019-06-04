@@ -12,20 +12,36 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
 use UnitTester;
 
 class UnderscoreIsSetCest
 {
     /**
-     * Unit Tests Phalcon\Html\Attributes :: __isset()
+     * Tests Phalcon\Html\Attributes :: __isset()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-25
+     * @since  2019-06-02
      */
     public function htmlAttributesUnderscoreIsSet(UnitTester $I)
     {
         $I->wantToTest('Html\Attributes - __isset()');
 
-        $I->skipTest('Need implementation');
+        $data = [
+            'type'  => 'text',
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes($data);
+
+        $I->assertTrue(
+            isset($attributes->class)
+        );
+
+        $I->assertFalse(
+            isset($attributes->unknown)
+        );
     }
 }

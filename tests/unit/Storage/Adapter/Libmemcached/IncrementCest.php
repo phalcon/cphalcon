@@ -33,7 +33,11 @@ class IncrementCest
         $I->wantToTest('Storage\Adapter\Libmemcached - increment()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
+
+        $adapter = new Libmemcached(
+            $serializer,
+            getOptionsLibmemcached()
+        );
 
         $key    = 'cache-data';
         $result = $adapter->set($key, 1);

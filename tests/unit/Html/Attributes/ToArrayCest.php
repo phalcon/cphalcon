@@ -12,20 +12,33 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
 use UnitTester;
 
 class ToArrayCest
 {
     /**
-     * Unit Tests Phalcon\Html\Attributes :: toArray()
+     * Tests Phalcon\Html\Attributes :: toArray()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-25
+     * @since  2019-06-02
      */
     public function htmlAttributesToArray(UnitTester $I)
     {
         $I->wantToTest('Html\Attributes - toArray()');
 
-        $I->skipTest('Need implementation');
+        $data = [
+            'type'  => 'text',
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes($data);
+
+        $I->assertEquals(
+            $data,
+            $attributes->toArray()
+        );
     }
 }

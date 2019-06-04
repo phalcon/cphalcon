@@ -413,6 +413,8 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
             matched, pattern, handledUri, beforeMatch, paths, converters, part,
             position, matchPosition, converter, eventsManager;
 
+        let uri = parse_url(uri, PHP_URL_PATH);
+
         /**
          * Remove extra slashes in the route
          */

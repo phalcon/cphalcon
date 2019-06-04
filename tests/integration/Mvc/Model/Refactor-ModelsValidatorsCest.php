@@ -16,6 +16,11 @@ class ModelsValidatorsCest
         $this->setNewFactoryDefault();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     public function testValidatorsMysql(IntegrationTester $I)
     {
         $this->setDiMysql();

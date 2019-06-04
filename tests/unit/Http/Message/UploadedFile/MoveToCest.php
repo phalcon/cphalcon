@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\UploadedFile;
 
+use function outputDir;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\Stream;
 use Phalcon\Http\Message\UploadedFile;
 use UnitTester;
-use function outputDir;
 
 class MoveToCest
 {

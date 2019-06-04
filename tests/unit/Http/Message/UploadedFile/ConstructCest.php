@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\UploadedFile;
 
-use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Codeception\Example;
-use Phalcon\Http\Message\UploadedFile;
 use function fopen;
+use Phalcon\Http\Message\Exception\InvalidArgumentException;
+use Phalcon\Http\Message\UploadedFile;
 use Psr\Http\Message\UploadedFileInterface;
 use stdClass;
 use UnitTester;
@@ -57,6 +57,7 @@ class ConstructCest
         $stream = logsDir(
             uniqid('test')
         );
+
         $stream = fopen($stream, 'w+b');
         $file = new UploadedFile($stream, 100);
 
@@ -103,7 +104,7 @@ class ConstructCest
         );
 
         $I->expectThrowable(
-            new InvalidArgumentException("Invalid error. Must be one of the UPLOAD_ERR_* constants"),
+            new InvalidArgumentException('Invalid error. Must be one of the UPLOAD_ERR_* constants'),
             function () {
                 $stream = logsDir(
                     uniqid('test')
@@ -117,12 +118,30 @@ class ConstructCest
     private function getStreamExamples(): array
     {
         return [
-            ['array', ['array']],
-            ['boolean', true],
-            ['float', 123.45],
-            ['integer', 123],
-            ['null', null],
-            ['object', new stdClass()],
+            [
+                'array',
+                ['array'],
+            ],
+            [
+                'boolean',
+                true,
+            ],
+            [
+                'float',
+                123.45,
+            ],
+            [
+                'integer',
+                123,
+            ],
+            [
+                'null',
+                null,
+            ],
+            [
+                'object',
+                new stdClass(),
+            ],
         ];
     }
 }

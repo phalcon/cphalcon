@@ -65,7 +65,9 @@ class CurrentCest
                 '_field'    => 'MyField1',
                 '_type'     => 'MyType1',
                 '_code'     => 111,
-                '_metaData' => ['My1' => 'Metadata1'],
+                '_metaData' => [
+                    'My1' => 'Metadata1',
+                ],
             ]
         );
 

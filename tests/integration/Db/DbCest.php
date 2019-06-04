@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Db;
 
+use Codeception\Example;
 use IntegrationTester;
 use PDO;
 use Phalcon\Db;
@@ -26,25 +27,29 @@ class DbCest
         $this->newDi();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
-     * Tests Phalcon\Db :: Mysql
+     * Tests Phalcon\Db
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider adaptersProvider
      */
-    public function dbMySql(IntegrationTester $I)
+    public function db(IntegrationTester $I, Example $example)
     {
-        $I->wantToTest('Db - MySql');
+        $I->wantToTest('Db - ' . $example[0]);
 
-        $this->setDiMysql();
+        $diFunction = 'setDi' . $example[0];
+
+        $this->{$diFunction}();
 
         $connection = $this->getService('db');
 
-        $this->executeTests($I, $connection);
-    }
-
-    private function executeTests(IntegrationTester $I, $connection)
-    {
         $I->assertTrue(
             $connection->execute('DELETE FROM prueba')
         );
@@ -509,37 +514,18 @@ class DbCest
         );
     }
 
-    /**
-     * Tests Phalcon\Db :: Postgresql
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function dbPostgresql(IntegrationTester $I)
+    private function adaptersProvider(): array
     {
-        $I->wantToTest('Db - Postgresql');
-
-        $this->setDiPostgresql();
-
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
-    }
-
-    /**
-     * Tests Phalcon\Db :: Sqlite
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function dbSqlite(IntegrationTester $I)
-    {
-        $I->wantToTest('Db - Sqlite');
-
-        $this->setDiSqlite();
-
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
+        return [
+            [
+                'Mysql',
+            ],
+            [
+                'Postgresql',
+            ],
+            [
+                'Sqlite',
+            ],
+        ];
     }
 }

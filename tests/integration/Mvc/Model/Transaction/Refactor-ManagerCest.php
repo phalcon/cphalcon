@@ -26,6 +26,11 @@ class ManagerCest
         $this->setNewFactoryDefault();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Manager::get
      *
@@ -64,9 +69,9 @@ class ManagerCest
      */
     public function checkTransactionSqlite(IntegrationTester $I)
     {
-        $I->skipTest('TODO - Check Sqlite locking');
-
         $this->setDiSqlite();
+
+        $I->skipTest('TODO - Check Sqlite locking');
 
         $this->testCommitNewInserts($I);
         $this->testTransactionRemovedOnCommit($I);

@@ -14,8 +14,6 @@ namespace Phalcon\Test\Unit\Http\Message\Response;
 
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\Response;
-use Phalcon\Http\Message\Stream;
-use function dataDir;
 use UnitTester;
 
 class WithStatusCest

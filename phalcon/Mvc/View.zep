@@ -269,7 +269,7 @@ class View extends Injectable implements ViewInterface
             }
         }
 
-        if typeof activeRenderPath == "null" {
+        if activeRenderPath === null {
             let activeRenderPath = "";
         }
 
@@ -401,9 +401,7 @@ class View extends Injectable implements ViewInterface
         /**
          * Set the render variables
          */
-        if typeof params == "array" {
-            view->setVars(params);
-        }
+        view->setVars(params);
 
         /**
          * Perform extra configurations over the cloned object
@@ -547,13 +545,13 @@ class View extends Injectable implements ViewInterface
      *
      * class ProductsController extends Controller
      * {
-     *    public function saveAction()
-     *    {
+     *     public function saveAction()
+     *     {
      *         // Do some save stuff...
      *
      *         // Then show the list view
      *         $this->view->pick("products/list");
-     *    }
+     *     }
      * }
      * </code>
      */
@@ -1102,9 +1100,7 @@ class View extends Injectable implements ViewInterface
         let this->controllerName = controllerName,
             this->actionName     = actionName;
 
-        if typeof params == "array" {
-            this->setVars(params);
-        }
+        this->setVars(params);
 
         /**
          * Check if there is a layouts directory set

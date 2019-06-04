@@ -12,20 +12,40 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
 use UnitTester;
 
 class ClearCest
 {
     /**
-     * Unit Tests Phalcon\Html\Attributes :: clear()
+     * Tests Phalcon\Html\Attributes :: clear()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-25
+     * @since  2019-06-02
      */
     public function htmlAttributesClear(UnitTester $I)
     {
         $I->wantToTest('Html\Attributes - clear()');
 
-        $I->skipTest('Need implementation');
+        $data = [
+            'type'  => 'text',
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes($data);
+
+        $I->assertEquals(
+            $data,
+            $attributes->toArray()
+        );
+
+        $attributes->clear();
+
+        $I->assertEquals(
+            0,
+            $attributes->count()
+        );
     }
 }

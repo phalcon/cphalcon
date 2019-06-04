@@ -24,9 +24,6 @@ use Phalcon\Test\Models\Select as MvcModel;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
 
-/**
- * Class ClearCest
- */
 class ClearCest
 {
     /**
@@ -50,6 +47,7 @@ class ClearCest
     public function formsFormClear(IntegrationTester $I)
     {
         $I->wantToTest('Forms\Form - clear()');
+
         $I->skipTest('Need implementation');
     }
 
@@ -185,7 +183,10 @@ class ClearCest
         );
 
         $I->assertEquals(
-            ['passwd' => 'secret', 'name' => 'Andres Gutierrez'],
+            [
+                'passwd' => 'secret',
+                'name'   => 'Andres Gutierrez',
+            ],
             $_POST
         );
     }

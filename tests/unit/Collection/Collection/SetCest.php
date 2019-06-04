@@ -25,7 +25,7 @@ class SetCest
      */
     public function collectionSet(UnitTester $I)
     {
-        $I->wantToTest('Collection - set()');
+        $I->wantToTest('Collection\Collection - set()');
 
         $collection = new Collection();
 
@@ -33,27 +33,6 @@ class SetCest
 
         $I->assertEquals(
             'two',
-            $collection->get('three')
-        );
-
-        $collection->three = 'Phalcon';
-
-        $I->assertEquals(
-            'Phalcon',
-            $collection->get('three')
-        );
-
-        $collection->offsetSet('three', 123);
-
-        $I->assertEquals(
-            123,
-            $collection->get('three')
-        );
-
-
-        $collection['three'] = true;
-
-        $I->assertTrue(
             $collection->get('three')
         );
     }

@@ -25,6 +25,11 @@ class DbBindCest
         $this->newDi();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Db :: Mysql
      *

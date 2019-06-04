@@ -80,6 +80,8 @@ class SetCacheCest
     public function _after()
     {
         ob_end_clean();
+
+        $this->container['db']->close();
     }
 
     /**
@@ -152,19 +154,149 @@ class SetCacheCest
         $this->container->set('dispatcher', $dispatcher);
 
         $examples = [
-            ['four', 'first', new BindingRole('ROLE1', 1), ['album' => 1], 'allowed', 'ROLE1!Four!first', true],
-            ['four', 'first', new BindingRole('ROLE1', 2), ['album' => 1], 'allowed', 'ROLE1!Four!first', true],
-            ['four', 'first', new BindingRole('ROLE2', 1), ['album' => 1], 'allowed', 'ROLE2!Four!first!1!1', true],
-            ['four', 'first', new BindingRole('ROLE2', 2), ['album' => 1], null, 'ROLE2!Four!first!1!2', false],
-            ['four', 'second', new BindingRole('ROLE1', 1), ['album' => 1], 'allowed', 'ROLE1!Four!second', true],
-            ['four', 'second', new BindingRole('ROLE1', 2), ['album' => 1], 'allowed', 'ROLE1!Four!second', true],
-            ['four', 'second', new BindingRole('ROLE2', 1), ['album' => 1], 'allowed', 'ROLE2!Four!second', true],
-            ['four', 'second', new BindingRole('ROLE2', 2), ['album' => 1], 'allowed', 'ROLE2!Four!second', true],
-            ['three', 'deny', new BindingRole('ROLE1', 2), ['album' => 1], 'allowed', 'ROLE1!Three!*', true],
-            ['four', 'first', new BindingRole('ROLE4', 1), ['album' => 1], 'allowed', 'ROLE4!Four!*!1!1', true],
-            ['four', 'first', new BindingRole('ROLE4', 2), ['album' => 1], null, 'ROLE4!Four!*!1!2', false],
-            ['three', 'deny', new BindingRole('ROLE5', 2), ['album' => 1], null, 'ROLE5!*!*!2', false],
-            ['three', 'deny', new BindingRole('ROLE5', 3), ['album' => 1], 'allowed', 'ROLE5!*!*!3', true],
+            [
+                'four',
+                'first',
+                new BindingRole('ROLE1', 1),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+                'ROLE1!Four!first',
+                true,
+            ],
+            [
+                'four',
+                'first',
+                new BindingRole('ROLE1', 2),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+                'ROLE1!Four!first',
+                true,
+            ],
+            [
+                'four',
+                'first',
+                new BindingRole('ROLE2', 1),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+                'ROLE2!Four!first!1!1',
+                true,
+            ],
+            [
+                'four',
+                'first',
+                new BindingRole('ROLE2', 2),
+                [
+                    'album' => 1,
+                ],
+                null,
+                'ROLE2!Four!first!1!2',
+                false,
+            ],
+            [
+                'four',
+                'second',
+                new BindingRole('ROLE1', 1),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+                'ROLE1!Four!second',
+                true,
+            ],
+            [
+                'four',
+                'second',
+                new BindingRole('ROLE1', 2),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+                'ROLE1!Four!second',
+                true,
+            ],
+            [
+                'four',
+                'second',
+                new BindingRole('ROLE2', 1),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+                'ROLE2!Four!second',
+                true,
+            ],
+            [
+                'four',
+                'second',
+                new BindingRole('ROLE2', 2),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+                'ROLE2!Four!second',
+                true,
+            ],
+            [
+                'three',
+                'deny',
+                new BindingRole('ROLE1', 2),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+                'ROLE1!Three!*',
+                true,
+            ],
+            [
+                'four',
+                'first',
+                new BindingRole('ROLE4', 1),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+                'ROLE4!Four!*!1!1',
+                true,
+            ],
+            [
+                'four',
+                'first',
+                new BindingRole('ROLE4', 2),
+                [
+                    'album' => 1,
+                ],
+                null,
+                'ROLE4!Four!*!1!2',
+                false,
+            ],
+            [
+                'three',
+                'deny',
+                new BindingRole('ROLE5', 2),
+                [
+                    'album' => 1,
+                ],
+                null,
+                'ROLE5!*!*!2',
+                false,
+            ],
+            [
+                'three',
+                'deny',
+                new BindingRole('ROLE5', 3),
+                [
+                    'album' => 1,
+                ],
+                'allowed',
+                'ROLE5!*!*!3',
+                true,
+            ],
         ];
 
         foreach ($examples as $example) {

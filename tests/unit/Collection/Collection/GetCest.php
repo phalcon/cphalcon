@@ -25,7 +25,7 @@ class GetCest
      */
     public function collectionGet(UnitTester $I)
     {
-        $I->wantToTest('Collection - get()');
+        $I->wantToTest('Collection\Collection - get()');
 
         $data = [
             'one'   => 'two',
@@ -50,21 +50,6 @@ class GetCest
         $I->assertEquals(
             $expected,
             $collection->get('unknown', 'four')
-        );
-
-        $I->assertEquals(
-            $expected,
-            $collection['three']
-        );
-
-        $I->assertEquals(
-            $expected,
-            $collection->three
-        );
-
-        $I->assertEquals(
-            $expected,
-            $collection->offsetGet('three')
         );
     }
 }

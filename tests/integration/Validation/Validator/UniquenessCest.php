@@ -81,6 +81,11 @@ class UniquenessCest
         );
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests uniqueness validator with single fields
      *

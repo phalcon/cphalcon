@@ -31,7 +31,12 @@ class AddAdapterCest
         $adapter1   = new Stream($outputPath . $fileName1);
         $adapter2   = new Stream($outputPath . $fileName2);
 
-        $logger = new Logger('my-logger', ['one' => $adapter1]);
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter1,
+            ]
+        );
 
         $expected = 1;
         $actual   = $logger->getAdapters();

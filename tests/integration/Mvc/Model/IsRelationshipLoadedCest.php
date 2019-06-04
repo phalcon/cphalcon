@@ -26,6 +26,11 @@ class IsRelationshipLoadedCest
         $this->setDiMysql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Testing relationship loading using Model::__get()
      *

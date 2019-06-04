@@ -28,6 +28,11 @@ class OrderByCest
         $this->setDiMysql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Builder::orderBy to create correct PHQL query
      *

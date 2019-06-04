@@ -17,9 +17,6 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models;
 
-/**
- * Class GetRelatedCest
- */
 class GetRelatedCest
 {
     use DiTrait;
@@ -28,6 +25,11 @@ class GetRelatedCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
     }
 
     /**

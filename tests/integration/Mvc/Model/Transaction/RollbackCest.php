@@ -39,6 +39,8 @@ class RollbackCest
         }
 
         $this->records = [];
+
+        $db->close();
     }
 
     /**

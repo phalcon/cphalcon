@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models;
 
-/**
- * Class UnderscoreGetCest
- */
 class UnderscoreGetCest
 {
     use DiTrait;
@@ -27,6 +24,11 @@ class UnderscoreGetCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
     }
 
     /**

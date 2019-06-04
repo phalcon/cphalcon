@@ -16,7 +16,6 @@ use UnitTester;
 
 /**
  * Trait GdTrait
- * @package Phalcon\Test\Fixtures\Traits
  */
 trait GdTrait
 {
@@ -30,8 +29,6 @@ trait GdTrait
 
     /**
      * Images to process
-     *
-     * @return array
      */
     private function getImages(): array
     {
@@ -45,7 +42,6 @@ trait GdTrait
      * @param string $image path to image
      * @param string $hash expected hasd
      * @param int $simility percent of similarity
-     * @return bool
      */
     private function checkImageHash(string $image, string $hash, float $simility = 95.0): bool
     {
@@ -62,8 +58,6 @@ trait GdTrait
      * @author https://github.com/xwiz/phash
      * @param array|string $hash1
      * @param array|string $hash2
-     * @param int $precision
-     * @return float
      */
     private function getSimilarityHamming($hash1, $hash2, int $precision = 1): float
     {
@@ -98,7 +92,6 @@ trait GdTrait
 
     /**
      * @author https://github.com/xwiz/phash
-     * @param string $filepath
      * @return array|string
      */
     private function getHash(string $filepath)
@@ -172,7 +165,6 @@ trait GdTrait
      * @author https://github.com/xwiz/phash
      * @param $hash
      * @param bool $hex
-     * @return string|null
      */
     private function hashAsString(array $hash, $hex = true): ?string
     {
@@ -189,6 +181,7 @@ trait GdTrait
                     $bucket = null;
                 }
             }
+
             return $result;
         }
 
@@ -231,7 +224,6 @@ trait GdTrait
      * @param $src_w
      * @param $src_h
      * @param int $quality
-     * @return bool
      */
     private function fastimagecopyresampled(
         &$dst_image,
@@ -305,7 +297,6 @@ trait GdTrait
      * @param array binary array to perform shift on
      * @param int integer value to shift
      * @param int amount of places to left shift
-     * @return void
      */
     private function leftShift(&$bin, $val, $places): void
     {

@@ -13,18 +13,49 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
+use Phalcon\Cli\Dispatcher\Exception;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class GetHandlerSuffixCest
 {
+    use DiTrait;
+
+    public function _before(CliTester $I)
+    {
+        $this->setNewCliFactoryDefault();
+    }
+
     /**
      * Tests Phalcon\Cli\Dispatcher :: getHandlerSuffix()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-01
      */
     public function cliDispatcherGetHandlerSuffix(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - getHandlerSuffix()');
-        $I->skipTest('Need implementation');
+
+        $dispatcher = new Dispatcher();
+
+        $this->container->setShared('dispatcher', $dispatcher);
+
+        $dispatcher->setDI(
+            $this->container
+        );
+
+        $dispatcher->setTaskName('Index');
+
+        $dispatcher->setTaskSuffix('Bleh');
+
+        $I->expectThrowable(
+            new Exception(
+                'IndexBleh handler class cannot be loaded',
+                Dispatcher::EXCEPTION_HANDLER_NOT_FOUND
+            ),
+            function () use ($dispatcher) {
+                $dispatcher->dispatch();
+            }
+        );
     }
 }

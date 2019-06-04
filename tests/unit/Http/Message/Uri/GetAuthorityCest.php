@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Uri;
 
-use Phalcon\Http\Message\Uri;
 use Codeception\Example;
+use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 class GetAuthorityCest
@@ -40,9 +40,7 @@ class GetAuthorityCest
         );
     }
 
-    /**
-     * @return array
-     */
+    
     private function getExamples(): array
     {
         return [

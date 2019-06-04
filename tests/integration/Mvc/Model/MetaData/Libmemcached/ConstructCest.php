@@ -22,9 +22,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use DiTrait;
@@ -34,19 +31,29 @@ class ConstructCest
     public function _before(IntegrationTester $I)
     {
         $I->checkExtensionIsLoaded('memcached');
+
         $this->setNewFactoryDefault();
         $this->setDiMysql();
+
         $this->container->setShared(
             'modelsMetadata',
             function () {
                 $serializer = new SerializerFactory();
                 $factory    = new AdapterFactory($serializer);
 
-                return new Libmemcached($factory, getOptionsLibmemcached());
+                return new Libmemcached(
+                    $factory,
+                    getOptionsLibmemcached()
+                );
             }
         );
 
         $this->data = require dataDir('fixtures/metadata/robots.php');
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
     }
 
     /**

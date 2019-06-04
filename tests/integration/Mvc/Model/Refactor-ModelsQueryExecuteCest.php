@@ -15,6 +15,11 @@ class ModelsQueryExecuteCest
         $this->setNewFactoryDefault();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     public function testExecuteMysql(IntegrationTester $I)
     {
         $this->setDiMysql();
@@ -45,10 +50,11 @@ class ModelsQueryExecuteCest
 
     public function testExecuteSqlite(IntegrationTester $I)
     {
+        $this->setDiSqlite();
+
         /**
          * @todo Check Sqlite tests - they lock up
          */
-//        $this->setDiSqlite();
 
 //        $this->testSelectExecute($I);
 //        $this->testSelectRenamedExecute($I);

@@ -32,6 +32,8 @@ class ModelsCest
                 'phqlLiterals' => true,
             ]
         );
+
+        $this->container['db']->close();
     }
 
     public function testModelsMysql(IntegrationTester $I)
@@ -69,7 +71,6 @@ class ModelsCest
 
     private function executeTestsNormal(IntegrationTester $I)
     {
-        //TODO SID
         $this->prepareDb();
 
 

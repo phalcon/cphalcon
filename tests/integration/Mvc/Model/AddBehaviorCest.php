@@ -26,6 +26,7 @@ class AddBehaviorCest
     public function mvcModelAddBehavior(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model - addBehavior()');
+
         $I->skipTest('Need implementation');
     }
 

@@ -28,6 +28,11 @@ class PaginateCest
         $this->setDiMysql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     public function paginatorAdapterModelPaginate(IntegrationTester $I)
     {
         $personnes = Personnes::find();
@@ -160,7 +165,10 @@ class PaginateCest
         $personnes = Personnes::find(
             [
                 'conditions' => 'cedula >=:d1: AND cedula>=:d2: ',
-                'bind'       => ['d1' => '1', 'd2' => '5'],
+                'bind'       => [
+                    'd1' => '1',
+                    'd2' => '5',
+                ],
                 'order'      => 'cedula, nombres',
                 'limit'      => '33',
             ]
