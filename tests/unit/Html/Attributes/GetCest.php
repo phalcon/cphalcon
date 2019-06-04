@@ -12,20 +12,45 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
 use UnitTester;
 
 class GetCest
 {
     /**
-     * Unit Tests Phalcon\Html\Attributes :: get()
+     * Tests Phalcon\Html\Attributes :: get()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-25
+     * @since  2019-06-02
      */
     public function htmlAttributesGet(UnitTester $I)
     {
         $I->wantToTest('Html\Attributes - get()');
 
-        $I->skipTest('Need implementation');
+        $data = [
+            'type'  => 'text',
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes($data);
+
+        $expected = 'form-control';
+
+        $I->assertEquals(
+            $expected,
+            $attributes->get('class')
+        );
+
+        $I->assertEquals(
+            $expected,
+            $attributes->get('CLASS')
+        );
+
+        $I->assertEquals(
+            $expected,
+            $attributes->get('unknown', 'form-control')
+        );
     }
 }

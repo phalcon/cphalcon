@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Uri;
 
-use Phalcon\Http\Message\Uri;
 use Codeception\Example;
 use InvalidArgumentException;
+use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 class WithUserInfoCest
@@ -80,23 +80,72 @@ class WithUserInfoCest
     private function getExamples(): array
     {
         return [
-            ['valid', 'phalcon', 'secret', 'phalcon:secret'],
-            ['user only', 'phalcon', '', 'phalcon'],
-            ['email', 'phalcon@secret', 'secret@phalcon', 'phalcon%40secret:secret%40phalcon'],
-            ['email', 'phalcon:secret', 'secret:phalcon', 'phalcon%3Asecret:secret%3Aphalcon'],
-            ['percent', 'phalcon%secret', 'secret%phalcon', 'phalcon%25secret:secret%25phalcon'],
+            [
+                'valid',
+                'phalcon',
+                'secret',
+                'phalcon:secret',
+            ],
+            [
+                'user only',
+                'phalcon',
+                '',
+                'phalcon',
+            ],
+            [
+                'email',
+                'phalcon@secret',
+                'secret@phalcon',
+                'phalcon%40secret:secret%40phalcon',
+            ],
+            [
+                'email',
+                'phalcon:secret',
+                'secret:phalcon',
+                'phalcon%3Asecret:secret%3Aphalcon',
+            ],
+            [
+                'percent',
+                'phalcon%secret',
+                'secret%phalcon',
+                'phalcon%25secret:secret%25phalcon',
+            ],
         ];
     }
 
     private function getExceptions(): array
     {
         return [
-            ['NULL', 'null', null],
-            ['boolean', 'true', true],
-            ['boolean', 'false', false],
-            ['integer', 'number', 1234],
-            ['array', 'array', ['/action']],
-            ['stdClass', 'object', (object) ['/action']],
+            [
+                'NULL',
+                'null',
+                null,
+            ],
+            [
+                'boolean',
+                'true',
+                true,
+            ],
+            [
+                'boolean',
+                'false',
+                false,
+            ],
+            [
+                'integer',
+                'number',
+                1234,
+            ],
+            [
+                'array',
+                'array',
+                ['/action'],
+            ],
+            [
+                'stdClass',
+                'object',
+                (object) ['/action'],
+            ],
         ];
     }
 }

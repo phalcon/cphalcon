@@ -20,9 +20,6 @@ use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\AlbumORama\Artists;
 use Phalcon\Test\Models\AlbumORama\Songs;
 
-/**
- * Class GetRelationRecordsCest
- */
 class GetRelationRecordsCest
 {
     use DiTrait;
@@ -31,6 +28,11 @@ class GetRelationRecordsCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
     }
 
     /**

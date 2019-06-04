@@ -20,6 +20,14 @@ use UnitTester;
 class ReflectionCest
 {
     /**
+     * executed before each test
+     */
+    protected function _before(UnitTester $I)
+    {
+        require_once dataDir('fixtures/Annotations/TestClass.php');
+    }
+
+    /**
      * Tests creating empty Reflection object
      *
      * @author Phalcon Team <team@phalconphp.com>
@@ -174,13 +182,5 @@ class ReflectionCest
         }
 
         $I->assertEquals(10, $total);
-    }
-
-    /**
-     * executed before each test
-     */
-    protected function _before(UnitTester $I)
-    {
-        require_once dataDir('fixtures/Annotations/TestClass.php');
     }
 }

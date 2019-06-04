@@ -29,17 +29,36 @@ class EmailCest
     {
         $validation = new Validation();
 
-        $validation->add('email', new Email());
+        $validation->add(
+            'email',
+            new Email()
+        );
 
-        $messages = $validation->validate(['email' => 'test@somemail.com']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['email' => 'rootlocalhost']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'email' => 'test@somemail.com',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+
+
+
+        $messages = $validation->validate(
+            [
+                'email' => 'rootlocalhost',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
 
         $expected = new Messages(
             [
@@ -51,8 +70,8 @@ class EmailCest
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals($expected, $messages);
     }
 
     /**
@@ -63,11 +82,13 @@ class EmailCest
      */
     public function validationValidatorMultipleField(IntegrationTester $I)
     {
-        $validation         = new Validation();
+        $validation = new Validation();
+
         $validationMessages = [
             'email'        => 'Email must be correct email.',
             'anotherEmail' => 'AnotherEmail must be correct email.',
         ];
+
         $validation->add(
             [
                 'email',
@@ -79,32 +100,63 @@ class EmailCest
                 ]
             )
         );
-        $messages = $validation->validate(['email' => 'test@somemail.com', 'anotherEmail' => 'test@somemail.com']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['email' => 'rootlocalhost', 'anotherEmail' => 'test@somemail.com']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['email'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['email' => 'rootlocalhost', 'anotherEmail' => 'rootlocalhost']);
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'email'        => 'test@somemail.com',
+                'anotherEmail' => 'test@somemail.com',
+            ]
+        );
 
-        $expected = $validationMessages['email'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
 
-        $expected = $validationMessages['anotherEmail'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+
+
+        $messages = $validation->validate(
+            [
+                'email'        => 'rootlocalhost',
+                'anotherEmail' => 'test@somemail.com',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['email'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+
+
+        $messages = $validation->validate(
+            [
+                'email'        => 'rootlocalhost',
+                'anotherEmail' => 'rootlocalhost',
+            ]
+        );
+
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['email'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $I->assertEquals(
+            $validationMessages['anotherEmail'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 
     public function validationValidatorCustomMessage(IntegrationTester $I)

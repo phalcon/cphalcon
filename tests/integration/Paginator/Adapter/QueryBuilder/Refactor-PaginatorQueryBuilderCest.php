@@ -27,6 +27,11 @@ class PaginatorQueryBuilderCest
         $this->setDiMysql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     public function testQueryBuilderPaginator(IntegrationTester $I)
     {
         $manager = $this->getService('modelsManager');

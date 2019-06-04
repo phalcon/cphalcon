@@ -12,10 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
+use function dataDir;
 use Phalcon\Http\Message\Stream;
 use Phalcon\Test\Fixtures\Http\Message\StreamFixture;
-use function dataDir;
-use function fopen;
 use UnitTester;
 
 class GetSizeCest

@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 
-/**
- * Class JsonSerializeCest
- */
 class JsonSerializeCest
 {
     /**
@@ -28,6 +25,7 @@ class JsonSerializeCest
     public function mvcModelJsonSerialize(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model - jsonSerialize()');
+
         $I->skipTest('Need implementation');
     }
 }

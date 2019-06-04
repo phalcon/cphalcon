@@ -31,15 +31,71 @@ class TextCest
         $I->wantToTest('Image\Adapter\Gd - text()');
 
         $outputDir = 'tests/image/gd';
-        $params    = [
-            ["Hello Phalcon!", false, false, 100, '000000', 12, null, 'fbf9f3e3c3c18183'],
-            ["Hello Phalcon!", 50, false, 100, '000000', 12, null, 'fbf9f3e3c3c18183'],
-            ["Hello Phalcon!", 50, 75, 100, '000000', 12, null, 'fbf9f3e3c3c18183'],
-            ["Hello Phalcon!", 50, 75, 60, '000000', 12, null, 'fbf9f3e3c3c18183'],
-            ["Hello Phalcon!", 50, 75, 60, '00FF00', 12, null, 'fbf9f3e3c3c18183'],
-            ["Hello Phalcon!", 50, 75, 60, '0000FF', 24, null, 'fbf9f3e3c3c18183'],
+
+        $params = [
+            [
+                'Hello Phalcon!',
+                false,
+                false,
+                100,
+                '000000',
+                12,
+                null,
+                'fbf9f3e3c3c18183',
+            ],
+            [
+                'Hello Phalcon!',
+                50,
+                false,
+                100,
+                '000000',
+                12,
+                null,
+                'fbf9f3e3c3c18183',
+            ],
+            [
+                'Hello Phalcon!',
+                50,
+                75,
+                100,
+                '000000',
+                12,
+                null,
+                'fbf9f3e3c3c18183',
+            ],
+            [
+                'Hello Phalcon!',
+                50,
+                75,
+                60,
+                '000000',
+                12,
+                null,
+                'fbf9f3e3c3c18183',
+            ],
+            [
+                'Hello Phalcon!',
+                50,
+                75,
+                60,
+                '00FF00',
+                12,
+                null,
+                'fbf9f3e3c3c18183',
+            ],
+            [
+                'Hello Phalcon!',
+                50,
+                75,
+                60,
+                '0000FF',
+                24,
+                null,
+                'fbf9f3e3c3c18183',
+            ],
         ];
-        $i         = 0;
+
+        $i = 0;
 
         foreach ($params as list($text, $offsetX, $offsetY, $opacity, $color, $size, $font, $hash)) {
             $image = new Gd(

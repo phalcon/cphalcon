@@ -12,20 +12,48 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
 use UnitTester;
 
 class UnderscoreUnsetCest
 {
     /**
-     * Unit Tests Phalcon\Html\Attributes :: __unset()
+     * Tests Phalcon\Html\Attributes :: __unset()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-25
+     * @since  2019-06-02
      */
     public function htmlAttributesUnderscoreUnset(UnitTester $I)
     {
         $I->wantToTest('Html\Attributes - __unset()');
 
-        $I->skipTest('Need implementation');
+        $data = [
+            'type'  => 'text',
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes($data);
+
+        $I->assertEquals(
+            $data,
+            $attributes->toArray()
+        );
+
+
+
+        unset($attributes['class']);
+
+        $expected = [
+            'type'  => 'text',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $attributes->toArray()
+        );
     }
 }

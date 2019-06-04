@@ -62,6 +62,11 @@ class ValidationCest
         $this->validation->setFilters('name', 'trim');
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests the get
      *

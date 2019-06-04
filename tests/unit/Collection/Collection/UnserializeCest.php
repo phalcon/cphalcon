@@ -18,14 +18,14 @@ use UnitTester;
 class UnserializeCest
 {
     /**
-     * Tests Phalcon\Collection\Collection :: serialize()
+     * Tests Phalcon\Collection\Collection :: unserialize()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function collectionSerialize(UnitTester $I)
+    public function collectionUnserialize(UnitTester $I)
     {
-        $I->wantToTest('Collection - serialize()');
+        $I->wantToTest('Collection\Collection - unserialize()');
 
         $data = [
             'one'   => 'two',

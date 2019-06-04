@@ -28,6 +28,11 @@ trait PostgresqlTrait
         $this->connection = $this->getService('db');
     }
 
+    public function _after()
+    {
+        $this->connection->close();
+    }
+
     /**
      * @inheritdoc
      */

@@ -46,6 +46,11 @@ class DynamicOperationsCest
         $connection->setEventsManager($manager);
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests dynamic update create then update
      *

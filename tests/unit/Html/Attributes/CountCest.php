@@ -12,20 +12,38 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
 use UnitTester;
 
 class CountCest
 {
     /**
-     * Unit Tests Phalcon\Html\Attributes :: count()
+     * Tests Phalcon\Html\Attributes :: count()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-25
+     * @since  2019-06-02
      */
     public function htmlAttributesCount(UnitTester $I)
     {
         $I->wantToTest('Html\Attributes - count()');
 
-        $I->skipTest('Need implementation');
+        $data = [
+            'type'  => 'text',
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes($data);
+
+        $I->assertCount(
+            4,
+            $attributes->toArray()
+        );
+
+        $I->assertEquals(
+            4,
+            $attributes->count()
+        );
     }
 }

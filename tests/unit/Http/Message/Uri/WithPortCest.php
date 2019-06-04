@@ -12,12 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Uri;
 
-use Phalcon\Http\Message\Uri;
 use Codeception\Example;
 use InvalidArgumentException;
-use stdClass;
-use UnitTester;
+use Phalcon\Http\Message\Uri;
 use function sprintf;
+use UnitTester;
 
 class WithPortCest
 {
@@ -85,23 +84,44 @@ class WithPortCest
         );
     }
 
-    /**
-     * @return array
-     */
+    
     private function getExamples(): array
     {
         return [
-            ['null', null, null, ''],
-            ['int', 8080, 8080, ':8080'],
-            ['string-int', '8080', 8080, ':8080'],
-            ['http', 80, null, ''],
-            ['https', 443, null, ''],
+            [
+                'null',
+                null,
+                null,
+                '',
+            ],
+            [
+                'int',
+                8080,
+                8080,
+                ':8080',
+            ],
+            [
+                'string-int',
+                '8080',
+                8080,
+                ':8080',
+            ],
+            [
+                'http',
+                80,
+                null,
+                '',
+            ],
+            [
+                'https',
+                443,
+                null,
+                '',
+            ],
         ];
     }
 
-    /**
-     * @return array
-     */
+    
     private function getExceptions(): array
     {
         return [

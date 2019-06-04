@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
-use Phalcon\Http\Message\Exception;
 use Phalcon\Http\Message\Stream;
 use RuntimeException;
 use UnitTester;
@@ -28,8 +27,10 @@ class ReadCest
     public function httpMessageStreamRead(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - read()');
+
         $fileName = dataDir('assets/stream/bill-of-rights.txt');
-        $stream   = new Stream($fileName, 'rb');
+
+        $stream = new Stream($fileName, 'rb');
 
         $expected = 'Congress shall make no law respecting an establishment of '
             . 'religion, or prohibiting the free exercise thereof; or '
@@ -49,13 +50,16 @@ class ReadCest
     public function httpMessageStreamReadDetached(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - read() - detached');
+
         $I->expectThrowable(
             new RuntimeException(
                 'A valid resource is required.'
             ),
             function () {
                 $fileName = dataDir('assets/stream/bill-of-rights.txt');
-                $stream   = new Stream($fileName, 'rb');
+
+                $stream = new Stream($fileName, 'rb');
+
                 $stream->detach();
 
                 $stream->read(10);

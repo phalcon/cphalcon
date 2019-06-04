@@ -44,7 +44,7 @@ class TextCest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10398
      * @author       Phalcon Team <team@phalconphp.com>
-     * @since        2016-07-17name
+     * @since        2016-07-17
      *
      * @dataProvider testCreatingTextElementWithNameSimilarToTheFormMethodsProvider
      */

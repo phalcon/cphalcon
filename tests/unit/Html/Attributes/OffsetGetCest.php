@@ -12,20 +12,33 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
 use UnitTester;
 
 class OffsetGetCest
 {
     /**
-     * Unit Tests Phalcon\Html\Attributes :: offsetGet()
+     * Tests Phalcon\Html\Attributes :: offsetGet()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-25
+     * @since  2019-06-02
      */
     public function htmlAttributesOffsetGet(UnitTester $I)
     {
         $I->wantToTest('Html\Attributes - offsetGet()');
 
-        $I->skipTest('Need implementation');
+        $data = [
+            'type'  => 'text',
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes($data);
+
+        $I->assertEquals(
+            'text',
+            $attributes['type']
+        );
     }
 }

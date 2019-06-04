@@ -76,6 +76,8 @@ class BeforeExecuteRouteCest
     public function _after()
     {
         ob_end_clean();
+
+        $this->container['db']->close();
     }
 
     /**

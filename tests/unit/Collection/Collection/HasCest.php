@@ -25,7 +25,7 @@ class HasCest
      */
     public function collectionHas(UnitTester $I)
     {
-        $I->wantToTest('Collection - has()');
+        $I->wantToTest('Collection\Collection - has()');
 
         $data = [
             'one'   => 'two',
@@ -96,26 +96,6 @@ class HasCest
 
         $I->assertFalse(
             $collection->has('unknown')
-        );
-
-        $I->assertTrue(
-            $collection->__isset('three')
-        );
-
-        $I->assertTrue(
-            isset($collection['three'])
-        );
-
-        $I->assertFalse(
-            isset($collection['unknown'])
-        );
-
-        $I->assertTrue(
-            $collection->offsetExists('three')
-        );
-
-        $I->assertFalse(
-            $collection->offsetExists('unknown')
         );
     }
 }

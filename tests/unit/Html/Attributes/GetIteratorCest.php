@@ -12,20 +12,35 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
 use UnitTester;
 
 class GetIteratorCest
 {
     /**
-     * Unit Tests Phalcon\Html\Attributes :: getIterator()
+     * Tests Phalcon\Html\Attributes :: getIterator()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-25
+     * @since  2019-06-02
      */
     public function htmlAttributesGetIterator(UnitTester $I)
     {
         $I->wantToTest('Html\Attributes - getIterator()');
 
-        $I->skipTest('Need implementation');
+        $data = [
+            'type'  => 'text',
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes($data);
+
+        foreach ($attributes as $key => $value) {
+            $I->assertEquals(
+                $data[$key],
+                $attributes[$key]
+            );
+        }
     }
 }

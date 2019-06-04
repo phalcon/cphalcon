@@ -16,9 +16,6 @@ use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 
-/**
- * Class CompileFileCest
- */
 class CompileFileCest
 {
     /**

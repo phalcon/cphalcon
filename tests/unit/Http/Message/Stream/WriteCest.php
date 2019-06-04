@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
-use Phalcon\Test\Fixtures\Http\Message\StreamFixture;
 use function logsDir;
 use Phalcon\Http\Message\Stream;
+use Phalcon\Test\Fixtures\Http\Message\StreamFixture;
 use RuntimeException;
 use UnitTester;
 

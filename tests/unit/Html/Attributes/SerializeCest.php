@@ -12,20 +12,33 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
 use UnitTester;
 
 class SerializeCest
 {
     /**
-     * Unit Tests Phalcon\Html\Attributes :: serialize()
+     * Tests Phalcon\Html\Attributes :: serialize()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-25
+     * @since  2019-06-02
      */
     public function htmlAttributesSerialize(UnitTester $I)
     {
         $I->wantToTest('Html\Attributes - serialize()');
 
-        $I->skipTest('Need implementation');
+        $data = [
+            'type'  => 'text',
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes($data);
+
+        $I->assertEquals(
+            serialize($data),
+            $attributes->serialize()
+        );
     }
 }

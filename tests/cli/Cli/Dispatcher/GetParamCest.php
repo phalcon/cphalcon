@@ -32,6 +32,8 @@ class GetParamCest
 
     public function testCliParameters(CliTester $I)
     {
+        $I->wantToTest('Cli\Dispatcher - getParam()');
+
         $dispatcher = new Dispatcher();
 
         $this->container->setShared('dispatcher', $dispatcher);

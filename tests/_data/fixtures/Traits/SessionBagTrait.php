@@ -22,9 +22,7 @@ trait SessionBagTrait
         $this->setDiSessionFiles();
     }
 
-
     abstract protected function setNewFactoryDefault();
-
 
     abstract protected function setDiSessionFiles();
 }

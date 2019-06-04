@@ -187,7 +187,9 @@ class AnnotationsCest
                 'method'     => 'GET',
                 'controller' => 'products',
                 'action'     => 'edit',
-                'params'     => ['id' => '100'],
+                'params'     => [
+                    'id' => '100',
+                ],
             ],
             [
                 'uri'        => '/products',
@@ -201,7 +203,9 @@ class AnnotationsCest
                 'method'     => 'GET',
                 'controller' => 'robots',
                 'action'     => 'edit',
-                'params'     => ['id' => '100'],
+                'params'     => [
+                    'id' => '100',
+                ],
             ],
             [
                 'uri'        => '/robots',

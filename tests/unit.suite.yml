@@ -22,7 +22,7 @@ modules:
     - Apc
     - Asserts
     - Filesystem
-    - Redis
-    - Helper\Unit
     #    - Helper\PhalconCacheFile
     - Helper\PhalconLibmemcached
+    - Helper\Unit
+    - Redis
