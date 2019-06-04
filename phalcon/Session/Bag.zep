@@ -43,27 +43,21 @@ class Bag extends Collection implements InjectionAwareInterface
     {
         var container, data, session;
 
-        let this->name = name,
-            session    = this->session;
+        let this->name = name;
 
-        if typeof session != "object" {
-            let container = this->container;
+        let container = Di::getDefault();
 
-            if typeof container != "object" {
-                let container = Di::getDefault();
-
-                if unlikely typeof container != "object" {
-                    throw new Exception(
-                        Exception::containerServiceNotFound(
-                            "the 'session' service"
-                        )
-                    );
-                }
-            }
-
-            let session       = container->getShared("session"),
-                this->session = session;
+        if unlikely typeof container != "object" {
+            throw new Exception(
+                Exception::containerServiceNotFound(
+                    "the 'session' service"
+                )
+            );
         }
+
+        let session         = container->getShared("session"),
+            this->container = container,
+            this->session   = session;
 
         let data = session->get(this->name);
 
