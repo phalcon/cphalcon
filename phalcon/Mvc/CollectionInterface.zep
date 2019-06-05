@@ -25,11 +25,6 @@ interface CollectionInterface
     public function appendMessage(<MessageInterface> message);
 
     /**
-     * Returns a cloned collection
-     */
-    public static function cloneResult(<CollectionInterface> collection, array! document) -> <CollectionInterface>;
-
-    /**
      * Perform a count over a collection
      */
     public static function count(array parameters = null) -> int;
@@ -54,7 +49,7 @@ interface CollectionInterface
     /**
      * Allows to query the first record that match the specified conditions
      */
-    public static function findFirst(array parameters = null) -> array;
+    public static function findFirst(array parameters = null) -> <CollectionInterface> | null;
 
     /**
      * Fires an event, implicitly calls behaviors and listeners in the events
@@ -126,9 +121,4 @@ interface CollectionInterface
      * @param mixed id
      */
     public function setId(id);
-
-    /**
-     * Check whether validation process has generated any messages
-     */
-    public function validationHasFailed() -> bool;
 }

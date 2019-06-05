@@ -10,6 +10,8 @@
 
 namespace Phalcon\Mvc;
 
+use MongoDB\BSON\ObjectId;
+use MongoDB\BSON\Unserializable;
 use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -28,7 +30,7 @@ use Phalcon\Storage\Serializer\SerializerInterface;
  * This component implements a high level abstraction for NoSQL databases which
  * works with documents
  */
-abstract class Collection implements EntityInterface, CollectionInterface, InjectionAwareInterface, \Serializable
+abstract class Collection implements EntityInterface, CollectionInterface, InjectionAwareInterface, Unserializable, \Serializable
 {
     const DIRTY_STATE_DETACHED = 2;
     const DIRTY_STATE_PERSISTENT = 0;
@@ -172,30 +174,11 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     }
 
     /**
-     * Returns a cloned collection
-     */
-    public static function cloneResult(<CollectionInterface> collection, array! document) -> <CollectionInterface>
-    {
-        var clonedCollection, key, value;
-
-        let clonedCollection = clone collection;
-        for key, value in document {
-            clonedCollection->writeAttribute(key, value);
-        }
-
-        if method_exists(clonedCollection, "afterFetch") {
-            clonedCollection->{"afterFetch"}();
-        }
-
-        return clonedCollection;
-    }
-
-    /**
      * Creates a collection based on the values in the attributes
      */
     public function create() -> bool
     {
-        var data, success, status, id, ok, collection;
+        var data, success, status, collection;
         bool exists;
 
         let collection = this->prepareCU();
@@ -227,18 +210,13 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          * We always use safe stores to get the success state
          * Save the document
          */
-        let status = collection->insert(data, ["w": true]);
-        if typeof status == "array" {
-            if fetch ok, status["ok"] {
-                if ok {
-                    let success = true;
-                    if !exists {
-                        if fetch id, data["_id"] {
-                            let this->_id = id;
-                        }
-                        let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
-                    }
-                }
+        let status = collection->insertOne(data, ["w": true]);
+        if status->isAcknowledged() {
+            let success = true;
+
+            if exists === false {
+                let this->_id = status->getInsertedId();
+                let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
             }
         }
 
@@ -386,7 +364,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     public function delete() -> bool
     {
         var disableEvents, status, id, connection, source,
-            collection, mongoId, success, ok;
+            collection, objectId, success;
 
         if unlikely !fetch id, this->_id {
             throw new Exception(
@@ -414,20 +392,20 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         }
 
         /**
-         * Get the \MongoCollection
+         * Get the \MongoDB\Collection
          */
         let collection = connection->selectCollection(source);
 
         if typeof id == "object" {
-            let mongoId = id;
+            let objectId = id;
         } else {
             /**
              * Is the collection using implicit object Ids?
              */
             if this->modelsManager->isUsingImplicitObjectIds(this) {
-                let mongoId = new \MongoId(id);
+                let objectId = new ObjectId(id);
             } else {
-                let mongoId = id;
+                let objectId = id;
             }
         }
 
@@ -436,30 +414,28 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         /**
          * Remove the instance
          */
-        let status = collection->remove(
+        let status = collection->deleteOne(
             [
-                "_id": mongoId
+                "_id": objectId
             ],
             [
                 "w": true
             ]
         );
 
-        if typeof status != "array" {
+        if status->getDeletedCount() === 0 {
             return false;
         }
 
         /**
          * Check the operation status
          */
-        if fetch ok, status["ok"] {
-            if ok {
-                let success = true;
-                if !disableEvents {
-                    this->fireEvent("afterDelete");
-                }
-                let this->dirtyState = self::DIRTY_STATE_DETACHED;
+        if status->isAcknowledged() {
+            let success = true;
+            if !disableEvents {
+                this->fireEvent("afterDelete");
             }
+            let this->dirtyState = self::DIRTY_STATE_DETACHED;
         } else {
             let success = false;
         }
@@ -540,9 +516,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * Find a document by its id (_id)
      *
      * <code>
-     * // Find user by using \MongoId object
+     * // Find user by using \MongoDB\BSON\ObjectId object
      * $user = Users::findById(
-     *     new \MongoId("545eb081631d16153a293a66")
+     *     new \MongoDB\BSON\ObjectId("545eb081631d16153a293a66")
      * );
      *
      * // Find user by using id as sting
@@ -556,7 +532,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      */
     public static function findById(var id) -> <CollectionInterface> | null
     {
-        var className, collection, mongoId;
+        var className, collection, objectId;
 
         if typeof id != "object" {
             if !preg_match("/^[a-f\d]{24}$/i", id) {
@@ -571,19 +547,19 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
              * Check if the model use implicit ids
              */
             if collection->getCollectionManager()->isUsingImplicitObjectIds(collection) {
-                let mongoId = new \MongoId(id);
+                let objectId = new ObjectId(id);
             } else {
-                let mongoId = id;
+                let objectId = id;
             }
 
         } else {
-            let mongoId = id;
+            let objectId = id;
         }
 
         return static::findFirst(
             [
                 [
-                    "_id": mongoId
+                    "_id": objectId
                 ]
             ]
         );
@@ -627,7 +603,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * $robot = Robots::findFirst(
      *     [
      *         [
-     *             "_id" => new \MongoId("45cbc4a0e4123f6920000002"),
+     *             "_id" => new \MongoDB\BSON\ObjectId("45cbc4a0e4123f6920000002"),
      *         ]
      *     ]
      * );
@@ -635,7 +611,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * echo "The robot id is ", $robot->_id, "\n";
      * </code>
      */
-    public static function findFirst(array parameters = null) -> array
+    public static function findFirst(array parameters = null) -> <CollectionInterface> | null
     {
         var className, collection, connection;
 
@@ -748,7 +724,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Returns the value of the _id property
      *
-     * @return \MongoId
+     * @return \MongoDB\BSON\ObjectId
      */
     public function getId()
     {
@@ -844,7 +820,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      */
     public function save() -> bool
     {
-        var exists, data, success, status, id, ok, collection;
+        var exists, data, success, status, collection;
 
         let collection = this->prepareCU();
 
@@ -880,18 +856,25 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          * We always use safe stores to get the success state
          * Save the document
          */
-        let status = collection->save(data, ["w": true]);
-        if typeof status == "array" {
-            if fetch ok, status["ok"] {
-                if ok {
-                    let success = true;
-                    if exists === false {
-                        if fetch id, data["_id"] {
-                            let this->_id = id;
-                        }
-                        let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
-                    }
-                }
+        switch(this->operationMade) {
+            case self::OP_CREATE:
+                let status = collection->insertOne(data, ["w": true]);
+                break;
+
+            case self::OP_UPDATE:
+                let status = collection->updateOne(["_id": this->_id], ["$set": data], ["w": true]);
+                break;
+
+            default:
+                throw new Exception("Invalid operation requested for " . __METHOD__);
+        }
+
+        if status->isAcknowledged() {
+            let success = true;
+
+            if exists === false {
+                let this->_id = status->getInsertedId();
+                let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
             }
         }
 
@@ -967,13 +950,13 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     }
 
     /**
-     * Sets a value for the _id property, creates a MongoId object if needed
+     * Sets a value for the _id property, creates a ObjectId object if needed
      *
      * @param mixed id
      */
     public function setId(id)
     {
-        var mongoId;
+        var objectId;
 
         if typeof id != "object" {
 
@@ -981,15 +964,15 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
              * Check if the model use implicit ids
              */
             if this->modelsManager->isUsingImplicitObjectIds(this) {
-                let mongoId = new \MongoId(id);
+                let objectId = new ObjectId(id);
             } else {
-                let mongoId = id;
+                let objectId = id;
             }
 
         } else {
-            let mongoId = id;
+            let objectId = id;
         }
-        let this->_id = mongoId;
+        let this->_id = objectId;
     }
 
     /**
@@ -1152,7 +1135,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      */
     public function update() -> bool
     {
-        var exists, data, success, status, ok, collection;
+        var exists, data, success, status, collection;
 
         let collection = this->prepareCU();
 
@@ -1190,7 +1173,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          * We always use safe stores to get the success state
          * Save the document
          */
-        let status = collection->update(
+        let status = collection->updateOne(
             [
                 "_id": $this->_id
             ],
@@ -1200,14 +1183,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             ]
         );
 
-        if typeof status == "array" {
-            if fetch ok, status["ok"] {
-                if ok {
-                    let success = true;
-                }
-            }
-        } else {
-            let success = false;
+        if status->isAcknowledged() {
+            let success = true;
         }
 
         /**
@@ -1320,24 +1297,24 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      */
     protected function exists(collection) -> bool
     {
-        var id, mongoId, exists;
+        var id, objectId, exists;
 
         if !fetch id, this->_id {
             return false;
         }
 
         if typeof id == "object" {
-            let mongoId = id;
+            let objectId = id;
         } else {
 
             /**
              * Check if the model use implicit ids
              */
             if this->modelsManager->isUsingImplicitObjectIds(this) {
-                let mongoId = new \MongoId(id);
-                let this->_id = mongoId;
+                let objectId = new ObjectId(id);
+                let this->_id = objectId;
             } else {
-                let mongoId = id;
+                let objectId = id;
             }
         }
 
@@ -1351,7 +1328,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         /**
          * Perform the count using the function provided by the driver
          */
-        let exists = collection->count(["_id": mongoId]) > 0;
+        let exists = collection->count(["_id": objectId]) > 0;
 
         if exists {
             let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
@@ -1370,7 +1347,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      */
     protected static function getGroupResultset(params, <Collection> collection, connection) -> int
     {
-        var source, mongoCollection, conditions, limit, sort, documentsCursor;
+        var source, mongoCollection, conditions;
 
         let source = collection->getSource();
         if unlikely empty source {
@@ -1388,41 +1365,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             }
         }
 
-        if isset params["limit"] || isset params["sort"] || isset params["skip"] {
-
-            /**
-             * Perform the find
-             */
-            let documentsCursor = mongoCollection->find(conditions);
-
-            /**
-             * Check if a "limit" clause was defined
-             */
-            if fetch limit, params["limit"] {
-                documentsCursor->limit(limit);
-            }
-
-            /**
-             * Check if a "sort" clause was defined
-             */
-            if fetch sort, params["sort"] {
-                documentsCursor->sort(sort);
-            }
-
-            /**
-             * Check if a "skip" clause was defined
-             */
-            if fetch sort, params["skip"] {
-                documentsCursor->skip(sort);
-            }
-
-            /**
-             * Only "count" is supported
-             */
-            return count(documentsCursor);
-        }
-
-        return mongoCollection->count(conditions);
+        return mongoCollection->count(conditions, params);
     }
 
     /**
@@ -1434,8 +1377,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      */
     protected static function getResultset(var params, <CollectionInterface> collection, connection, bool unique)
     {
-        var source, mongoCollection, conditions, base, documentsCursor,
-            fields, skip, limit, sort, document, collections, className;
+        var source, mongoCollection, conditions, base,
+        documentsCursor, document, className;
 
         /**
          * Check if "class" clause was defined
@@ -1481,33 +1424,10 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         }
 
         /**
-         * Perform the find
+         * Check if a "typeMap" clause was defined or force default
          */
-        if fetch fields, params["fields"] {
-            let documentsCursor = mongoCollection->find(conditions, fields);
-        } else {
-            let documentsCursor = mongoCollection->find(conditions);
-        }
-
-        /**
-         * Check if a "limit" clause was defined
-         */
-        if fetch limit, params["limit"] {
-            documentsCursor->limit(limit);
-        }
-
-        /**
-         * Check if a "sort" clause was defined
-         */
-        if fetch sort, params["sort"] {
-            documentsCursor->sort(sort);
-        }
-
-        /**
-         * Check if a "skip" clause was defined
-         */
-        if fetch skip, params["skip"] {
-            documentsCursor->skip(skip);
+        if !isset params["typeMap"] {
+            let params["typeMap"] = ["root": get_class(base), "document": "array"];
         }
 
         if unique {
@@ -1515,33 +1435,29 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             /**
              * Requesting a single result
              */
-            documentsCursor->rewind();
+            let document = mongoCollection->findOne(conditions, params);
 
-            let document = documentsCursor->current();
-
-            if typeof document != "array" {
+            if empty document {
                 return false;
             }
 
-            /**
-             * Assign the values to the base object
-             */
-            return static::cloneResult(base, document);
+            if method_exists(base, "afterFetch") {
+                base->{"afterFetch"}();
+            }
+
+            return document;
         }
 
         /**
          * Requesting a complete resultset
          */
-        let collections = [];
-        for document in iterator_to_array(documentsCursor, false) {
+        let documentsCursor = mongoCollection->find(conditions, params);
 
-            /**
-             * Assign the values to the base object
-             */
-            let collections[] = static::cloneResult(base, document);
+        if method_exists(base, "afterFetch") {
+            base->{"afterFetch"}();
         }
 
-        return collections;
+        return documentsCursor->toArray();
     }
 
     /**
@@ -1685,4 +1601,46 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
         return collection;
     }
+
+    /**
+	 * {@inheritdoc}
+	 */
+	public function bsonUnserialize(array data)
+	{
+		var container, manager, key, value;
+
+		/**
+		 * Obtain the default DI
+		 */
+		let container = Di::getDefault();
+		if typeof container != "object" {
+			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
+		}
+
+		/**
+		 * Update the dependency injector
+		 */
+		let this->container = container;
+
+		let manager = container->getShared("collectionManager");
+		if typeof manager != "object" {
+			throw new Exception("The injected service 'collectionManager' is not valid");
+		}
+
+		/**
+		 * Update the models manager
+		 */
+		let this->modelsManager = manager;
+
+		/**
+		 * Update the objects attributes
+		 */
+		for key, value in data {
+			let this->{key} = value;
+		}
+
+		if (method_exists(this, "afterFetch")) {
+			this->{"afterFetch"}();
+		}
+	}
 }
