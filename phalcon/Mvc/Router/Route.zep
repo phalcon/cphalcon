@@ -30,7 +30,7 @@ class Route implements RouteInterface
     protected name;
     protected paths;
     protected pattern;
-    protected static uniqueId;
+    protected static uniqueId = 0;
 
     /**
      * Phalcon\Mvc\Router\Route constructor
@@ -47,10 +47,6 @@ class Route implements RouteInterface
 
         // Get the unique Id from the static member uniqueId
         let uniqueId = self::uniqueId;
-
-        if uniqueId === null {
-            let uniqueId = 0;
-        }
 
         // TODO: Add a function that increase static members
         let routeId = uniqueId,
@@ -552,7 +548,7 @@ class Route implements RouteInterface
      */
     public static function reset() -> void
     {
-        let self::uniqueId = null;
+        let self::uniqueId = 0;
     }
 
     /**

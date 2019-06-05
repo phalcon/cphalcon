@@ -39,7 +39,7 @@ class Route
 
     protected pattern;
 
-    protected static uniqueId;
+    protected static uniqueId = 0;
 
     /**
      * Phalcon\Cli\Router\Route constructor
@@ -58,9 +58,6 @@ class Route
 
         // Get the unique Id from the static member uniqueId
         let uniqueId = self::uniqueId;
-        if uniqueId === null {
-            let uniqueId = 0;
-        }
 
         // TODO: Add a function that increase static members
         let routeId = uniqueId,
@@ -546,7 +543,7 @@ class Route
      */
     public static function reset() -> void
     {
-        let self::uniqueId = null;
+        let self::uniqueId = 0;
     }
 
     /**
