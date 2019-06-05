@@ -391,16 +391,9 @@ class Route
      */
     public function getReversedPaths() -> array
     {
-        var path, position;
-        array reversed;
-
-        let reversed = [];
-
-        for path, position in this->paths {
-            let reversed[position] = path;
-        }
-
-        return reversed;
+        return array_flip(
+            this->paths
+        );
     }
 
     /**
