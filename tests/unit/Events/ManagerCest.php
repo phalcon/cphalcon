@@ -12,11 +12,11 @@
 namespace Phalcon\Test\Unit\Events;
 
 use Codeception\Example;
-use ComponentX;
-use ComponentY;
 use function dataDir;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
+use Phalcon\Test\Fixtures\Events\ComponentX;
+use Phalcon\Test\Fixtures\Events\ComponentY;
 use Phalcon\Test\Fixtures\Listener\FirstListener;
 use Phalcon\Test\Fixtures\Listener\SecondListener;
 use Phalcon\Test\Fixtures\Listener\ThirdListener;
@@ -25,15 +25,6 @@ use UnitTester;
 class ManagerCest
 {
     protected $listener;
-
-    /**
-     * executed before each test
-     */
-    public function _before(UnitTester $I)
-    {
-        include_once dataDir('fixtures/Events/ComponentX.php');
-        include_once dataDir('fixtures/Events/ComponentY.php');
-    }
 
     /**
      * Tests attaching event listeners by event name after detaching all

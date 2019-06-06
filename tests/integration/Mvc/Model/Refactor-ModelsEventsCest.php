@@ -26,7 +26,7 @@ class ModelsEventsCest
             $trace,
             [
                 'afterFetch' => [
-                    'Phalcon\Test\Models\GossipRobots' => 1,
+                    GossipRobots::class => 1,
                 ],
             ]
         );
@@ -88,28 +88,28 @@ class ModelsEventsCest
             $trace,
             [
                 'prepareSave'              => [
-                    'Phalcon\Test\Models\GossipRobots' => 1,
+                    GossipRobots::class => 1,
                 ],
                 'beforeValidation'         => [
-                    'Phalcon\Test\Models\GossipRobots' => 2,
+                    GossipRobots::class => 2,
                 ],
                 'beforeValidationOnCreate' => [
-                    'Phalcon\Test\Models\GossipRobots' => 1,
+                    GossipRobots::class => 1,
                 ],
                 'validation'               => [
-                    'Phalcon\Test\Models\GossipRobots' => 2,
+                    GossipRobots::class => 2,
                 ],
                 'afterValidationOnCreate'  => [
-                    'Phalcon\Test\Models\GossipRobots' => 1,
+                    GossipRobots::class => 1,
                 ],
                 'afterValidation'          => [
-                    'Phalcon\Test\Models\GossipRobots' => 2,
+                    GossipRobots::class => 2,
                 ],
                 'beforeSave'               => [
-                    'Phalcon\Test\Models\GossipRobots' => 2,
+                    GossipRobots::class => 2,
                 ],
                 'beforeCreate'             => [
-                    'Phalcon\Test\Models\GossipRobots' => 1,
+                    GossipRobots::class => 1,
                 ],
             ]
         );
@@ -132,37 +132,37 @@ class ModelsEventsCest
             $trace,
             [
                 'prepareSave'              => [
-                    'Phalcon\Test\Models\GossipRobots' => 1,
+                    GossipRobots::class => 1,
                 ],
                 'beforeValidation'         => [
-                    'Phalcon\Test\Models\GossipRobots' => 2,
+                    GossipRobots::class => 2,
                 ],
                 'beforeValidationOnUpdate' => [
-                    'Phalcon\Test\Models\GossipRobots' => 2,
+                    GossipRobots::class => 2,
                 ],
                 'validation'               => [
-                    'Phalcon\Test\Models\GossipRobots' => 2,
+                    GossipRobots::class => 2,
                 ],
                 'afterValidationOnUpdate'  => [
-                    'Phalcon\Test\Models\GossipRobots' => 2,
+                    GossipRobots::class => 2,
                 ],
                 'afterValidation'          => [
-                    'Phalcon\Test\Models\GossipRobots' => 2,
+                    GossipRobots::class => 2,
                 ],
                 'beforeSave'               => [
-                    'Phalcon\Test\Models\GossipRobots' => 2,
+                    GossipRobots::class => 2,
                 ],
                 'beforeUpdate'             => [
-                    'Phalcon\Test\Models\GossipRobots' => 2,
+                    GossipRobots::class => 2,
                 ],
                 'afterUpdate'              => [
-                    'Phalcon\Test\Models\GossipRobots' => 2,
+                    GossipRobots::class => 2,
                 ],
                 'afterSave'                => [
-                    'Phalcon\Test\Models\GossipRobots' => 2,
+                    GossipRobots::class => 2,
                 ],
                 'afterFetch'               => [
-                    'Phalcon\Test\Models\GossipRobots' => 1,
+                    GossipRobots::class => 1,
                 ],
             ]
         );
@@ -185,10 +185,10 @@ class ModelsEventsCest
             $trace,
             [
                 'afterFetch'   => [
-                    'Phalcon\Test\Models\GossipRobots' => 1,
+                    GossipRobots::class => 1,
                 ],
                 'beforeDelete' => [
-                    'Phalcon\Test\Models\GossipRobots' => 1,
+                    GossipRobots::class => 1,
                 ],
             ]
         );

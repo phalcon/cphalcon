@@ -320,10 +320,10 @@ class ModelCest
 //                // Single row serialization
 //                $result = $modelsManager->executeQuery("SELECT id FROM " . Robots::class . " LIMIT 1");
 //
-//                expect($result)->isInstanceOf('Phalcon\Mvc\Model\Resultset\Simple');
+//                expect($result)->isInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class);
 //
 //                foreach ($result as $row) {
-//                    expect($row)->isInstanceOf('Phalcon\Mvc\Model\Row');
+//                    expect($row)->isInstanceOf(\Phalcon\Mvc\Model\Row::class);
 //                    expect($row->id)->equals($robot->id);
 //
 //                    $json = json_encode($row);

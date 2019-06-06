@@ -30,7 +30,9 @@ class StreamCest
 
 
 
-        $classAnnotations = $adapter->get('TestClass');
+        $classAnnotations = $adapter->get(
+            \TestClass::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
@@ -46,7 +48,9 @@ class StreamCest
 
 
 
-        $classAnnotations = $adapter->get('TestClass');
+        $classAnnotations = $adapter->get(
+            \TestClass::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
@@ -62,7 +66,9 @@ class StreamCest
 
 
 
-        $classAnnotations = $adapter->get('User\TestClassNs');
+        $classAnnotations = $adapter->get(
+            \User\TestClassNs::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
@@ -78,7 +84,9 @@ class StreamCest
 
 
 
-        $classAnnotations = $adapter->get('User\TestClassNs');
+        $classAnnotations = $adapter->get(
+            \User\TestClassNs::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
