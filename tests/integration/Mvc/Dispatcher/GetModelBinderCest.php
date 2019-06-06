@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
 use IntegrationTester;
 
-/**
- * Class GetModelBinderCest
- */
 class GetModelBinderCest
 {
     /**
@@ -28,6 +25,7 @@ class GetModelBinderCest
     public function mvcDispatcherGetModelBinder(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - getModelBinder()');
+
         $I->skipTest('Need implementation');
     }
 }
