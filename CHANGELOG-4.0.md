@@ -12,6 +12,7 @@
 - Added `Phalcon\Http\PayloadFactory`: Factory to create payload objects. [#14123](https://github.com/phalcon/cphalcon/issues/14123)
 - Added `Phalcon\Http\Message\ServerRequestFactory::load`: Method to create a `ServerRequest` object from globals. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
 - Added `Phalcon\Collection\ReadCollection`: Read only collection. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
+- Added `save()`, `create()`, `update()`, `delete()`, `refresh()` and `has()` to `Phalcon\Mvc\Model\Manager`.
 
 ## Changed
 - Renamed `Phalcon\Annotations\Adapter\Files` to `Phalcon\Annotations\Adapter\Stream`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)

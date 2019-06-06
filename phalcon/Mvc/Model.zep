@@ -3910,7 +3910,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *
      * @param string|array table
      */
-    protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> bool
+    public function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> bool
     {
         int numberEmpty, numberPrimary;
         var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,

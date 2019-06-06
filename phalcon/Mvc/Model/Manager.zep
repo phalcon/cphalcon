@@ -1819,6 +1819,124 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
+     * Inserts or updates a model instance. Returning true on success or false
+     * otherwise.
+     *
+     *<code>
+     * // Creating a new robot
+     * $robot = new Robots();
+     *
+     * $robot->type = "mechanical";
+     * $robot->name = "Astro Boy";
+     * $robot->year = 1952;
+     *
+     * $modelsManager->save($robot);
+     *
+     * // Updating a robot name
+     * $robot = Robots::findFirst("id = 100");
+     *
+     * $robot->name = "Biomass";
+     *
+     * $modelsManager->save($robot);
+     *</code>
+     */
+    public function save(<ModelInterface> model) -> bool
+    {
+        return model->save();
+    }
+
+    /**
+     * Inserts a model instance. If the instance already exists in the
+     * persistence it will throw an exception
+     * Returning true on success or false otherwise.
+     *
+     *<code>
+     * // Creating a new robot
+     * $robot = new Robots();
+     *
+     * $robot->type = "mechanical";
+     * $robot->name = "Astro Boy";
+     * $robot->year = 1952;
+     *
+     * $modelsManager->create($robot);
+     *
+     * // Passing an array to create
+     * $robot = new Robots();
+     *
+     * $robot->assign(
+     *     [
+     *         "type" => "mechanical",
+     *         "name" => "Astro Boy",
+     *         "year" => 1952,
+     *     ]
+     * );
+     *
+     * $modelsManager->create($robot);
+     *</code>
+     */
+    public function create(<ModelInterface> model) -> bool
+    {
+        return model->create();
+    }
+
+    /**
+     * Updates a model instance. If the instance doesn't exist in the
+     * persistence it will throw an exception. Returning true on success or
+     * false otherwise.
+     *
+     *<code>
+     * // Updating a robot name
+     * $robot = Robots::findFirst("id = 100");
+     *
+     * $robot->name = "Biomass";
+     *
+     * $modelsManager->update($robot);
+     *</code>
+     */
+    public function update(<ModelInterface> model) -> bool
+    {
+        return model->update();
+    }
+
+    /**
+     * Deletes a model instance. Returning true on success or false otherwise.
+     *
+     * <code>
+     * $robot = Robots::findFirst("id=100");
+     *
+     * $modelsManager->delete($robot);
+     *
+     * $robots = Robots::find("type = 'mechanical'");
+     *
+     * foreach ($robots as $robot) {
+     *     $modelsManager->delete($robot);
+     * }
+     * </code>
+     */
+    public function delete(<ModelInterface> model) -> bool
+    {
+        return model->delete();
+    }
+
+    /**
+     * Refreshes the model attributes re-querying the record from the database
+     */
+    public function refresh(<ModelInterface> model) -> <ModelInterface>
+    {
+        return model->refresh();
+    }
+
+    public function has(<ModelInterface> model) -> bool
+    {
+        var metaData, connection;
+
+        let metaData = model->getModelsMetaData();
+        let connection = this->getReadConnection(model);
+
+        return model->_exists(metaData, connection);
+    }
+
+    /**
      * Destroys the current PHQL cache
      */
     public function __destruct()
