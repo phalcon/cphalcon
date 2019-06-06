@@ -131,13 +131,13 @@ class BinderCest
                 ]
             );
 
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+            $I->assertInstanceOf(People::class, $returnedValue);
 
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test10Controller_viewAction')
             );
@@ -219,8 +219,8 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
-                    'robots' => 'Phalcon\\Test\\Models\\Robots',
+                    'people' => People::class,
+                    'robots' => Robots::class,
                 ],
                 $this->cache->get('_PHMB_Test10Controller_multipleAction')
             );
@@ -257,7 +257,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test11Controller_viewAction')
             );
@@ -301,8 +301,8 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
-                    'robots' => 'Phalcon\\Test\\Models\\Robots',
+                    'people' => People::class,
+                    'robots' => Robots::class,
                 ],
                 $this->cache->get('_PHMB_Test11Controller_multipleAction')
             );
@@ -355,7 +355,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test9Controller_viewAction')
             );
@@ -395,7 +395,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_people')
             );
@@ -455,8 +455,8 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
-                    'robots' => 'Phalcon\\Test\\Models\\Robots',
+                    'people' => People::class,
+                    'robots' => Robots::class,
                 ],
                 $this->cache->get('_PHMB_/{people}/robot/{robots}')
             );
@@ -508,7 +508,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_/{people}')
             );
@@ -550,7 +550,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test10Controller_viewAction')
             );
@@ -598,8 +598,8 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
-                    'robots' => 'Phalcon\\Test\\Models\\Robots',
+                    'people' => People::class,
+                    'robots' => Robots::class,
                 ],
                 $this->cache->get('_PHMB_Test10Controller_multipleAction')
             );
@@ -639,7 +639,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test11Controller_viewAction')
             );
@@ -687,8 +687,8 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
-                    'robots' => 'Phalcon\\Test\\Models\\Robots',
+                    'people' => People::class,
+                    'robots' => Robots::class,
                 ],
                 $this->cache->get('_PHMB_Test11Controller_multipleAction')
             );
@@ -742,7 +742,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test9Controller_viewAction')
             );
@@ -783,7 +783,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test10Controller_viewAction')
             );
@@ -832,8 +832,8 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
-                    'robots' => 'Phalcon\\Test\\Models\\Robots',
+                    'people' => People::class,
+                    'robots' => Robots::class,
                 ],
                 $this->cache->get('_PHMB_Test10Controller_multipleAction')
             );
@@ -874,7 +874,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test11Controller_viewAction')
             );
@@ -923,8 +923,8 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
-                    'robots' => 'Phalcon\\Test\\Models\\Robots',
+                    'people' => People::class,
+                    'robots' => Robots::class,
                 ],
                 $this->cache->get('_PHMB_Test11Controller_multipleAction')
             );
@@ -979,7 +979,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test9Controller_viewAction')
             );

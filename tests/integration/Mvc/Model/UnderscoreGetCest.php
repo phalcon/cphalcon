@@ -137,7 +137,7 @@ class UnderscoreGetCest
         $robotParts = $robot->robotsParts;
 
         $I->assertInstanceOf(
-            'Phalcon\Mvc\Model\Resultset\Simple',
+            \Phalcon\Mvc\Model\Resultset\Simple::class,
             $robotParts
         );
     }
@@ -160,7 +160,7 @@ class UnderscoreGetCest
         $robotsParts = $robot->robotsParts;
 
         $I->assertInstanceOf(
-            'Phalcon\Mvc\Model\Resultset\Simple',
+            \Phalcon\Mvc\Model\Resultset\Simple::class,
             $robotsParts
         );
 

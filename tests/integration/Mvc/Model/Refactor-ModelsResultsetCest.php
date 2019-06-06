@@ -163,7 +163,7 @@ class ModelsResultsetCest
         $data   = serialize(Robots::find(['order' => 'id']));
         $robots = unserialize($data);
 
-        $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
+        $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robots);
 
         $this->applyTests($I, $robots);
     }
@@ -175,7 +175,7 @@ class ModelsResultsetCest
         $data   = serialize(Robots::find(['order' => 'id']));
         $robots = unserialize($data);
 
-        $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
+        $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robots);
 
         $this->applyTests($I, $robots);
     }
@@ -187,7 +187,7 @@ class ModelsResultsetCest
         $data   = serialize(Robots::find(['order' => 'id']));
         $robots = unserialize($data);
 
-        $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
+        $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robots);
 
         $this->applyTests($I, $robots);
     }
@@ -206,7 +206,7 @@ class ModelsResultsetCest
         ]));
 
         $robots = unserialize($data);
-        $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
+        $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robots);
 
         $this->applyTests($I, $robots);
     }
@@ -226,7 +226,7 @@ class ModelsResultsetCest
 
         $robots = unserialize($data);
 
-        $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
+        $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robots);
 
         $this->applyTests($I, $robots);
     }
@@ -246,7 +246,7 @@ class ModelsResultsetCest
 
         $robots = unserialize($data);
 
-        $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robots);
+        $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $robots);
 
         $this->applyTests($I, $robots);
     }
@@ -261,7 +261,7 @@ class ModelsResultsetCest
 
         $personas = unserialize($data);
 
-        $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $personas);
+        $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $personas);
 
         $this->applyTestsBig($I, $personas);
     }
@@ -291,19 +291,19 @@ class ModelsResultsetCest
         $personas->seek(1);
         $personas->valid();
         $persona = $personas->current();
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
+        $I->assertInstanceOf(Personas::class, $persona);
 
         $persona = $personas->getFirst();
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
+        $I->assertInstanceOf(Personas::class, $persona);
 
         $persona = $personas->getLast();
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
+        $I->assertInstanceOf(Personas::class, $persona);
 
         $persona = $personas[0];
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
+        $I->assertInstanceOf(Personas::class, $persona);
 
         $persona = $personas[2];
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona);
+        $I->assertInstanceOf(Personas::class, $persona);
 
         $I->assertFalse(isset($personas[40]));
     }
@@ -318,7 +318,7 @@ class ModelsResultsetCest
 
         $personas = unserialize($data);
 
-        $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $personas);
+        $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $personas);
 
         $this->applyTestsBig($I, $personas);
     }
@@ -333,7 +333,7 @@ class ModelsResultsetCest
 
         $personas = unserialize($data);
 
-        $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $personas);
+        $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $personas);
 
         $this->applyTestsBig($I, $personas);
     }
@@ -414,21 +414,21 @@ class ModelsResultsetCest
         $I->assertTrue($iterator->valid());
         $I->assertEquals($iterator->key(), 0);
         $I->assertEquals($iterator->getIteratorIndex(), 0);
-        $I->assertInstanceOf('Phalcon\Test\Models\Robots', $iterator->current());
+        $I->assertInstanceOf(Robots::class, $iterator->current());
         $I->assertEquals($robots_first_0->name, $iterator->current()->name);
 
         $iterator->next();
         $I->assertTrue($iterator->valid());
         $I->assertEquals($iterator->key(), 1);
         $I->assertEquals($iterator->getIteratorIndex(), 0);
-        $I->assertInstanceOf('Phalcon\Test\Models\Robots', $iterator->current());
+        $I->assertInstanceOf(Robots::class, $iterator->current());
         $I->assertEquals($robots_first_1->name, $iterator->current()->name);
 
         $iterator->next();
         $I->assertTrue($iterator->valid());
         $I->assertEquals($iterator->key(), 0);
         $I->assertEquals($iterator->getIteratorIndex(), 1);
-        $I->assertInstanceOf('Phalcon\Test\Models\Robots', $iterator->current());
+        $I->assertInstanceOf(Robots::class, $iterator->current());
         $I->assertEquals($robots_second_0->name, $iterator->current()->name);
 
         $iterator->next();
@@ -446,11 +446,11 @@ class ModelsResultsetCest
 
         $I->assertCount(33, $personas);
 
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $personas->getLast());
+        $I->assertInstanceOf(Personas::class, $personas->getLast());
 
         // take first object as reference
         $persona_first = $personas[0];
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $persona_first);
+        $I->assertInstanceOf(Personas::class, $persona_first);
 
         // make sure objects are the same -> object was not recreared
         $I->assertSame($personas[0], $persona_first);
@@ -500,13 +500,13 @@ class ModelsResultsetCest
         // move to second element and validate
         $personas->next();
         $I->assertTrue($personas->valid());
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $personas[1]);
+        $I->assertInstanceOf(Personas::class, $personas[1]);
         $I->assertSame($personas->current(), $personas[1]);
         $I->assertEquals($persona_second, $personas[1]);
 
         // pick some random indices
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $personas[12]);
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $personas[23]);
-        $I->assertInstanceOf('Phalcon\Test\Models\Personas', $personas[23]);
+        $I->assertInstanceOf(Personas::class, $personas[12]);
+        $I->assertInstanceOf(Personas::class, $personas[23]);
+        $I->assertInstanceOf(Personas::class, $personas[23]);
     }
 }

@@ -17,6 +17,7 @@
 namespace Phalcon\Test\Unit\Di;
 
 use function dataDir;
+use InjectableComponent;
 use Phalcon\Config;
 use Phalcon\Di;
 use Phalcon\Di\Exception;
@@ -234,7 +235,9 @@ class DiCest
      */
     public function testMagicSetCall(UnitTester $I)
     {
-        $this->phDi->setRequest9('Phalcon\Http\Request');
+        $this->phDi->setRequest9(
+            Request::class
+        );
 
         $I->assertInstanceOf(
             Request::class,
@@ -257,7 +260,10 @@ class DiCest
             }
         );
 
-        $this->phDi->set('someComponent2', 'SomeComponent');
+        $this->phDi->set(
+            'someComponent2',
+            SomeComponent::class
+        );
 
 
         $someComponent1 = $this->phDi->get(
@@ -360,7 +366,10 @@ class DiCest
      */
     public function testResolvingViaArrayAccess(UnitTester $I)
     {
-        $this->phDi->set('simple', 'SimpleComponent');
+        $this->phDi->set(
+            'simple',
+            SimpleComponent::class
+        );
 
         $I->assertInstanceOf(
             SimpleComponent::class,
@@ -421,7 +430,7 @@ class DiCest
         $this->phDi->set(
             'simpleConstructor',
             [
-                'className' => \InjectableComponent::class,
+                'className' => InjectableComponent::class,
                 'arguments' => [
                     [
                         'type'  => 'parameter',
@@ -435,7 +444,7 @@ class DiCest
         $this->phDi->set(
             'simpleSetters',
             [
-                'className' => \InjectableComponent::class,
+                'className' => InjectableComponent::class,
                 'calls'     => [
                     [
                         'method'    => 'setResponse',
@@ -454,7 +463,7 @@ class DiCest
         $this->phDi->set(
             'simpleProperties',
             [
-                'className'  => \InjectableComponent::class,
+                'className'  => InjectableComponent::class,
                 'properties' => [
                     [
                         'name'  => 'response',
@@ -471,7 +480,7 @@ class DiCest
         $this->phDi->set(
             'complexConstructor',
             [
-                'className' => \InjectableComponent::class,
+                'className' => InjectableComponent::class,
                 'arguments' => [
                     [
                         'type' => 'service',
@@ -485,7 +494,7 @@ class DiCest
         $this->phDi->set(
             'complexSetters',
             [
-                'className' => \InjectableComponent::class,
+                'className' => InjectableComponent::class,
                 'calls'     => [
                     [
                         'method'    => 'setResponse',
@@ -504,7 +513,7 @@ class DiCest
         $this->phDi->set(
             'complexProperties',
             [
-                'className'  => \InjectableComponent::class,
+                'className'  => InjectableComponent::class,
                 'properties' => [
                     [
                         'name'  => 'response',

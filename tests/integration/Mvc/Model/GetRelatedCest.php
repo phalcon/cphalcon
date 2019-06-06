@@ -94,7 +94,7 @@ class GetRelatedCest
         $robotParts = $robot->getRelated('robotsParts');
 
         $I->assertInstanceOf(
-            'Phalcon\Mvc\Model\Resultset\Simple',
+            \Phalcon\Mvc\Model\Resultset\Simple::class,
             $robotParts
         );
 

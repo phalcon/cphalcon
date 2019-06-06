@@ -1,5 +1,7 @@
 <?php
 
+namespace Phalcon\Test\Fixtures\Tasks;
+
 class ParamsTask extends \Phalcon\CLI\Task
 {
     public function paramsAction()
