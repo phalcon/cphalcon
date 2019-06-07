@@ -2171,7 +2171,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * We need to check if the record exists
              */
-            if unlikely !this->_exists(metaData, readConnection, table) {
+            if unlikely !this->_exists(metaData, readConnection) {
                 throw new Exception(
                     "The record cannot be refreshed because it does not exist or is deleted"
                 );
@@ -2309,7 +2309,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * We need to check if the record exists
          */
-        let exists = this->_exists(metaData, readConnection, table);
+        let exists = this->_exists(metaData, readConnection);
 
         if exists {
             let this->operationMade = self::OP_UPDATE;
@@ -3907,15 +3907,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
     /**
      * Checks whether the current record already exists
-     *
-     * @param string|array table
      */
-    protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> bool
+    protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection) -> bool
     {
         int numberEmpty, numberPrimary;
         var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,
             wherePk, field, attributeField, value, bindDataTypes, joinWhere,
-            num, type, schema, source;
+            num, type, schema, source, table;
 
         let uniqueParams = null,
             uniqueTypes = null;
