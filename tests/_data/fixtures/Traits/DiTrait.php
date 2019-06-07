@@ -19,6 +19,7 @@ use function getOptionsMysql;
 use function getOptionsPostgresql;
 use function getOptionsRedis;
 use function getOptionsSqlite;
+use MongoDB\Client;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cache\Adapter\Libmemcached as StorageLibmemcached;
 use Phalcon\Cache\Adapter\Stream as StorageStream;
@@ -37,6 +38,7 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
+use Phalcon\Mvc\Collection\Manager as CollectionManager;
 use Phalcon\Mvc\Models\Manager as ModelsManager;
 use Phalcon\Mvc\Models\Metadata\Memory as MetadataMemory;
 use Phalcon\Mvc\View;
@@ -234,6 +236,14 @@ trait DiTrait
     }
 
     /**
+     * Setup a new Collection Manager
+     */
+    protected function setDiCollectionManager()
+    {
+        $this->container->setShared('collectionManager', CollectionManager::class);
+    }
+
+    /**
      * Setup a new Models Metadata
      */
     protected function setDiModelsMetadata()
@@ -249,6 +259,36 @@ trait DiTrait
         $this->container->setShared(
             'db',
             $this->newDiMysql()
+        );
+    }
+
+    /**
+     * Set up mongo service
+     */
+    protected function setDiMongo()
+    {
+        $options = getOptionsMongo();
+
+        if (isset($options['username']) && isset($options['password'])) {
+            $dsn = sprintf(
+                'mongodb://%s:%s@%s',
+                $options['username'],
+                $options['password'],
+                $options['host']
+            );
+
+        } else {
+            $dsn = sprintf(
+                'mongodb://%s',
+                $options['host']
+            );
+        }
+
+        $mongo = new Client($dsn);
+
+        $this->container->setShared(
+            'mongo',
+            $mongo->selectDatabase($options['dbname'])
         );
     }
 

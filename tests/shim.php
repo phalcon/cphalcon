@@ -204,6 +204,21 @@ if (true !== function_exists('getOptionsMysql')) {
     }
 }
 
+if (true !== function_exists('getOptionsMongo')) {
+    /**
+     * Get mongodb options
+     */
+    function getOptionsMongo(): array
+    {
+        return [
+            'host'     => env('DATA_MONGO_HOST', '127.0.0.1'),
+            'dbname'   => env('DATA_MONGO_NAME', 'tests'),
+            'username' => env('DATA_MONGO_USER'),
+            'password' => env('DATA_MONGO_PASS'),
+        ];
+    }
+}
+
 if (true !== function_exists('getOptionsPostgresql')) {
     /**
      * Get postgresql db options
