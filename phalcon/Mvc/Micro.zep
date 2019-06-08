@@ -1140,12 +1140,8 @@ class Micro extends Injectable implements \ArrayAccess
      */
     public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <Micro>
     {
-        var container;
-
         if typeof cache == "string" {
-            let container = this->container;
-
-            let cache = container->get(cache);
+            let cache = this->getService(cache);
         }
 
         if cache != null {
