@@ -54,22 +54,20 @@ class ConstructCest
 
     /**
      * Default CLI factory services
-     *
-     * @return array
      */
     private function getServices(): array
     {
         return [
-            "annotations"        => Memory::class,
-            "dispatcher"         => Dispatcher::class,
-            "escaper"            => Escaper::class,
-            "eventsManager"      => Manager::class,
-            "filter"             => Filter::class,
-            "modelsManager"      => ModelManager::class,
-            "modelsMetadata"     => MemoryMedaData::class,
-            "router"             => Router::class,
-            "security"           => Security::class,
-            "transactionManager" => ManagerTransaction::class,
+            'annotations'        => Memory::class,
+            'dispatcher'         => Dispatcher::class,
+            'escaper'            => Escaper::class,
+            'eventsManager'      => Manager::class,
+            'filter'             => Filter::class,
+            'modelsManager'      => ModelManager::class,
+            'modelsMetadata'     => MemoryMedaData::class,
+            'router'             => Router::class,
+            'security'           => Security::class,
+            'transactionManager' => ManagerTransaction::class,
         ];
     }
 }

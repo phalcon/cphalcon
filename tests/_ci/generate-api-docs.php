@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-$baseDir   = dirname(dirname(dirname(__FILE__)));
+$baseDir   = dirname(dirname(__DIR__));
 $sourceDir = $baseDir . '/phalcon/';
 $outputDir = $baseDir . '/nikos/api/';
 
@@ -833,7 +833,6 @@ title: '{$document['title']}'
 {$signature}
 ";
         }
-
     }
 
     file_put_contents(
@@ -844,10 +843,6 @@ title: '{$document['title']}'
 
 /**
  * Read the file and parse it
- *
- * @param string $file
- *
- * @return array
  */
 function processDocument(string $file): array
 {
@@ -860,11 +855,13 @@ function processDocument(string $file): array
 
         if ('namespace' === $type) {
             $return['namespace'] = $item['name'];
+
             continue;
         }
 
         if ('comment' === $type) {
             $return['comment'] = getDocblockMethod($item['value']);
+
             continue;
         }
 
@@ -882,10 +879,10 @@ function processDocument(string $file): array
             $signature = '';
             if (1 === ($item['final'] ?? 0)) {
                 $signature .= ' Final';
-            };
+            }
             if (1 === ($item['abstract'] ?? 0)) {
                 $signature .= ' Abstract';
-            };
+            }
 
             $signature           .= ('class' === $type) ? ' Class ' : ' Interface ';
             $signature           .= $return['namespace'] . '\\' . $item['name'];
@@ -1034,6 +1031,7 @@ function parseProperties(array $item): array
         foreach ($temp as $li) {
             if (strpos($li, '@var') > 0) {
                 $retVal = str_replace(' * @var ', '', $li);
+
                 break;
             }
         }
@@ -1134,16 +1132,19 @@ function orderMethods($methods): array
         foreach ($methods as $name => $method) {
             if (substr($name, 0, 2) === '__') {
                 $reserved[$name] = $method;
+
                 continue;
             }
 
             if (strpos($method['signature'], 'public function') !== false) {
                 $public[$name] = $method;
+
                 continue;
             }
 
             if (strpos($method['signature'], 'protected function') !== false) {
                 $protected[$name] = $method;
+
                 continue;
             }
         }

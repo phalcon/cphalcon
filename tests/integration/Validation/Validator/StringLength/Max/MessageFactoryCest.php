@@ -31,28 +31,28 @@ class MessageFactoryCest
         $I->wantToTest('Validation\Validator\StringLength\Max - messageFactory()');
 
         $validator = new Max([
-            "max" => [
-                "last_name" => 10,
+            'max' => [
+                'last_name' => 10,
             ],
         ]);
 
         $validation = new Validation();
         $validation->add(
             [
-                "last_name",
+                'last_name',
             ],
             $validator
         );
 
-        $messages = $validation->validate(["last_name" => "A name too long"]);
+        $messages = $validation->validate(['last_name' => 'A name too long']);
 
         $I->assertInstanceOf(Messages::class, $messages, 'Failed validation instance of Messages\Messages');
         $I->assertEquals(1, $messages->count(), 'Has 1 Message');
 
         $actual = $validator->messageFactory(
             $validation,
-            "last_name",
-            [":max" => 10]
+            'last_name',
+            [':max' => 10]
         );
 
         $expected = new Message(

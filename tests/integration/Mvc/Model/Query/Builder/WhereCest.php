@@ -12,17 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\Query\Builder;
 
-use Codeception\Example;
 use IntegrationTester;
-use function outputDir;
 use PDO;
-use Phalcon\Cache\Backend\File;
-use Phalcon\Cache\Frontend\Data;
 use Phalcon\Mvc\Model\Query\Builder;
-use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Parts;
-use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\Snapshot\Robots;
 
 class WhereCest

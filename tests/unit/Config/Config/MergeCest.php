@@ -200,7 +200,7 @@ class MergeCest
                     ],
                     'options'      => [
                         'case'     => 'lower',
-                        "encoding" => 'SET NAMES utf8',
+                        'encoding' => 'SET NAMES utf8',
                     ],
                 ],
             ]

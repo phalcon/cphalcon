@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Di;
 use SomeComponent;
 use SomeServiceProvider;
-use Phalcon\Di;
 use UnitTester;
 
 class RegisterCest

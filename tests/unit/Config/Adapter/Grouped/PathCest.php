@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
-use function sprintf;
 
 class PathCest
 {

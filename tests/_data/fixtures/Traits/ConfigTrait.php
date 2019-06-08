@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use function dataDir;
 use Phalcon\Config\Adapter\Grouped;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Adapter\Json;
@@ -20,7 +21,6 @@ use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
 use UnitTester;
-use function dataDir;
 
 trait ConfigTrait
 {

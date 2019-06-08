@@ -203,8 +203,8 @@ class IsAllowedCest
 
         $I->expectThrowable(
             new Exception(
-                "Number of parameters in array is higher than the " .
-                "number of parameters in defined function when checking if " .
+                'Number of parameters in array is higher than the ' .
+                'number of parameters in defined function when checking if ' .
                 "'Members' can 'update' 'Post'. Extra parameters will be ignored.",
                 512
             ),
@@ -255,7 +255,7 @@ class IsAllowedCest
 
         $I->expectThrowable(
             new AclException(
-                "You did not provide all necessary parameters for the " .
+                'You did not provide all necessary parameters for the ' .
                 "defined function when checking if 'Members' can 'update' for 'Post'."
             ),
             function () use ($I) {
@@ -304,8 +304,8 @@ class IsAllowedCest
 
         $I->expectThrowable(
             new AclException(
-                "Object passed as roleName must implement " .
-                "Phalcon\\Acl\\RoleAware or Phalcon\\Acl\\RoleInterface"
+                'Object passed as roleName must implement ' .
+                'Phalcon\\Acl\\RoleAware or Phalcon\\Acl\\RoleInterface'
             ),
             function () {
                 $acl = new Memory();
@@ -319,8 +319,8 @@ class IsAllowedCest
 
         $I->expectThrowable(
             new AclException(
-                "Object passed as componentName must implement " .
-                "Phalcon\\Acl\\ComponentAware or Phalcon\\Acl\\ComponentInterface"
+                'Object passed as componentName must implement ' .
+                'Phalcon\\Acl\\ComponentAware or Phalcon\\Acl\\ComponentInterface'
             ),
             function () {
                 $acl = new Memory();

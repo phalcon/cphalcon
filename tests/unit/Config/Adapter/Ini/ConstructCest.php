@@ -12,12 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Ini;
 
+use function dataDir;
 use Phalcon\Config\Adapter\Ini;
-use Phalcon\Config\Exception;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
-use function dataDir;
-use function sprintf;
 
 class ConstructCest
 {

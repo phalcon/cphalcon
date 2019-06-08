@@ -12,14 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use function cacheDir;
+use function file_get_contents;
 use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Component;
 use Phalcon\Acl\Role;
-use UnitTester;
-use function cacheDir;
-use function file_get_contents;
 use function serialize;
+use UnitTester;
 use function unserialize;
 
 class ConstructCest

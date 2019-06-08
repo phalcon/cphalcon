@@ -12,7 +12,6 @@
 namespace Phalcon\Test\Unit\Events;
 
 use Codeception\Example;
-use function dataDir;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Test\Fixtures\Events\ComponentX;
