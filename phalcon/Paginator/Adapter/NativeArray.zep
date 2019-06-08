@@ -76,7 +76,11 @@ class NativeArray extends AbstractAdapter
             let totalPages++;
         }
 
-        let items = array_slice(items, show * (pageNumber - 1), show);
+        let items = array_slice(
+            items,
+            show * (pageNumber - 1),
+            show
+        );
 
         //Fix next
         if pageNumber < totalPages {
