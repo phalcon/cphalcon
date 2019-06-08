@@ -10,12 +10,6 @@ php:
 git:
   depth: 1
 
-branches:
-  only:
-    - master
-    - /^(4|5)\.\d+\.(\d+|x)$/
-    - /^T\d+-[a-zA-Z-]+/
-
 addons:
   apt:
     packages:
