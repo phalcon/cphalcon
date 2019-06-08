@@ -31,28 +31,28 @@ class MessageFactoryCest
         $I->wantToTest('Validation\Validator\StringLength\Min - messageFactory()');
 
         $validator = new Min([
-            "min" => [
-                "last_name" => 20,
+            'min' => [
+                'last_name' => 20,
             ],
         ]);
 
         $validation = new Validation();
         $validation->add(
             [
-                "last_name",
+                'last_name',
             ],
             $validator
         );
 
-        $messages = $validation->validate(["last_name" => "A name too short"]);
+        $messages = $validation->validate(['last_name' => 'A name too short']);
 
         $I->assertInstanceOf(Messages::class, $messages, 'Failed validation instance of Messages\Messages');
         $I->assertEquals(1, $messages->count(), 'Has 1 Message');
 
         $actual = $validator->messageFactory(
             $validation,
-            "last_name",
-            [":min" => 10]
+            'last_name',
+            [':min' => 10]
         );
 
         $expected = new Message(

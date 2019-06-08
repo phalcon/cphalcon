@@ -120,7 +120,7 @@ class UnderscoreSetCest
      */
     public function mvcModelUnderscoreSetWithBelongsToRelatedRecord(IntegrationTester $I)
     {
-        $I->wantToTest('Tests Mvc\Model - __set() with belongs-to related record');
+        $I->wantToTest('Mvc\Model - __set() with belongs-to related record');
 
         $robotPart = new Models\RobotsParts();
         $robotPart->robot = new Models\Robots();
@@ -146,7 +146,7 @@ class UnderscoreSetCest
      */
     public function mvcModelUnderscoreSetWithArrayOfBelongsToRelatedRecord(IntegrationTester $I)
     {
-        $I->wantToTest('Tests Mvc\Model - __set() with an array as properties of a belongs-to related record');
+        $I->wantToTest('Mvc\Model - __set() with an array as properties of a belongs-to related record');
 
         $robotPart = new Models\RobotsParts();
         $robotPart->robot = ['name' => 'TestRobotName'];
@@ -177,7 +177,7 @@ class UnderscoreSetCest
      */
     public function mvcModelUnderscoreSetWithHasOneRelatedRecord(IntegrationTester $I)
     {
-        $I->wantToTest('Tests Mvc\Model - __set() with has-one related record');
+        $I->wantToTest('Mvc\Model - __set() with has-one related record');
 
         $customer = new Models\Customers();
         $customer->user = new Models\Users();
@@ -203,7 +203,7 @@ class UnderscoreSetCest
      */
     public function mvcModelUnderscoreSetWithArrayOfHasOneRelatedRecord(IntegrationTester $I)
     {
-        $I->wantToTest('Tests Mvc\Model - __set() with an array as properties of a has-one related record');
+        $I->wantToTest('Mvc\Model - __set() with an array as properties of a has-one related record');
 
         $customer = new Models\Customers();
         $customer->user = ['name' => 'TestUserName'];
@@ -234,7 +234,7 @@ class UnderscoreSetCest
      */
     public function mvcModelUnderscoreSetWithHasManyRelatedRecords(IntegrationTester $I)
     {
-        $I->wantToTest('Tests Mvc\Model - __set() with has-many related records');
+        $I->wantToTest('Mvc\Model - __set() with has-many related records');
 
         $robot = new Models\Robots();
         $robot->robotsParts = [
@@ -273,7 +273,7 @@ class UnderscoreSetCest
      */
     public function mvcModelUnderscoreSetWithHasManyToManyRelatedRecords(IntegrationTester $I)
     {
-        $I->wantToTest('Tests Mvc\Model - __set() with has-many-to-many related records');
+        $I->wantToTest('Mvc\Model - __set() with has-many-to-many related records');
 
         $robot = new Models\Relations\M2MRobots();
         $robot->M2MParts = [
@@ -312,7 +312,7 @@ class UnderscoreSetCest
      */
     public function mvcModelUnderscoreSetWithAssociativeArray(IntegrationTester $I)
     {
-        $I->wantToTest('Tests Mvc\Model - __set() with associative array');
+        $I->wantToTest('Mvc\Model - __set() with associative array');
 
         $associativeArray = [
             'firstName' => 'First name',
@@ -342,7 +342,7 @@ class UnderscoreSetCest
      */
     public function mvcModelUnderscoreSetUndefinedPropertyWithAssociativeArray(IntegrationTester $I)
     {
-        $I->wantToTest('Tests Mvc\Model - __set() undefined property with associative array');
+        $I->wantToTest('Mvc\Model - __set() undefined property with associative array');
 
         $associativeArray = [
             'id'   => 123,

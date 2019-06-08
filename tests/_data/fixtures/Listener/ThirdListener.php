@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Listener;
 
-use function dataDir;
 use Phalcon\Events\Event;
 use Phalcon\Test\Fixtures\Events\ComponentX;
 use Phalcon\Test\Unit\Events\ManagerCest;

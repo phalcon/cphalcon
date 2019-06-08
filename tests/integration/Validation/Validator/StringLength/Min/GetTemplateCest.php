@@ -29,12 +29,12 @@ class GetTemplateCest
 
         $validator = new Min();
 
-        $expected = "Field :field must be at least :min characters long";
+        $expected = 'Field :field must be at least :min characters long';
         $I->assertEquals($expected, $validator->getTemplate(), 'Default template message for Min');
 
         $validator->setTemplate('');
 
-        $expected = "The field :field is not valid for " . Min::class;
+        $expected = 'The field :field is not valid for ' . Min::class;
         $I->assertEquals($expected, $validator->getTemplate(), 'Default template message');
 
         $expected = 'New custom template';

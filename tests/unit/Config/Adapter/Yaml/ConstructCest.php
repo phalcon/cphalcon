@@ -12,11 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Yaml;
 
+use function dataDir;
 use Phalcon\Config\Adapter\Yaml;
-use Phalcon\Config\Exception;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
-use function dataDir;
 
 class ConstructCest
 {

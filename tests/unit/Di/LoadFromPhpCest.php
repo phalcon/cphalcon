@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Di;
 
 use Phalcon\Config\Config;
 use Phalcon\Di;
-use Phalcon\Test\Module\UnitTest;
 use UnitTester;
 
 class LoadFromPhpCest

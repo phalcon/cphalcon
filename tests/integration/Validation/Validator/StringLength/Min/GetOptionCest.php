@@ -35,7 +35,7 @@ class GetOptionCest
         $validator->setOption('min', $expected);
         $I->assertSame($expected, $validator->getOption('min'), 'Min option is 1234');
 
-        $expected = "1234";
+        $expected = '1234';
         $validator->setOption('min', $expected);
         $I->assertEquals($expected, $validator->getOption('min'), 'Min option is "1234"');
     }

@@ -13,13 +13,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation\Validator\Url;
 
 use Codeception\Example;
+use const FILTER_FLAG_PATH_REQUIRED;
+use const FILTER_FLAG_QUERY_REQUIRED;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Url;
-use const FILTER_FLAG_PATH_REQUIRED;
-use const FILTER_FLAG_QUERY_REQUIRED;
 
 /**
  * Class ValidateCest

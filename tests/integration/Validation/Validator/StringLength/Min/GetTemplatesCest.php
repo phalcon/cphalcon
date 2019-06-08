@@ -37,17 +37,17 @@ class GetTemplatesCest
 
         $validator = new Min(
             [
-                "min"      => [
-                    "name_last"  => 50,
-                    "name_first" => 40,
+                'min'      => [
+                    'name_last'  => 50,
+                    'name_first' => 40,
                 ],
-                "message"  => [
-                    "name_last"  => $messageLastName,
-                    "name_first" => $messageFirstName,
+                'message'  => [
+                    'name_last'  => $messageLastName,
+                    'name_first' => $messageFirstName,
                 ],
-                "included" => [
-                    "name_last"  => false,
-                    "name_first" => true,
+                'included' => [
+                    'name_last'  => false,
+                    'name_first' => true,
                 ],
             ]
         );

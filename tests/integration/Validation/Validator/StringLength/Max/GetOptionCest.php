@@ -35,7 +35,7 @@ class GetOptionCest
         $validator->setOption('max', $expected);
         $I->assertSame($expected, $validator->getOption('max'), 'Max option is 1234');
 
-        $expected = "1234";
+        $expected = '1234';
         $validator->setOption('max', $expected);
         $I->assertEquals($expected, $validator->getOption('max'), 'Max option is "1234"');
     }
