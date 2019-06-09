@@ -28,65 +28,6 @@ class ReflectionCest
     }
 
     /**
-     * Tests creating empty Reflection object
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2016-01-26
-     */
-    public function testEmptyReflection(UnitTester $I)
-    {
-        $reflection = new Reflection();
-
-        $I->assertFalse(
-            $reflection->getClassAnnotations()
-        );
-
-        $I->assertFalse(
-            $reflection->getMethodsAnnotations()
-        );
-
-        $I->assertFalse(
-            $reflection->getPropertiesAnnotations()
-        );
-    }
-
-    /**
-     * Tests parsing a real class
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2016-01-26
-     */
-    public function testParsingARealClass(UnitTester $I)
-    {
-        $reader = new Reader();
-
-        $reflection = new Reflection(
-            $reader->parse('TestClass')
-        );
-
-        $classAnnotations = $reflection->getClassAnnotations();
-
-        $I->assertInstanceOf(
-            Collection::class,
-            $classAnnotations
-        );
-
-        $number = 0;
-
-        foreach ($classAnnotations as $annotation) {
-            $I->assertInstanceOf(
-                Annotation::class,
-                $annotation
-            );
-
-            $number++;
-        }
-
-        $I->assertEquals(9, $number);
-        $I->assertCount(9, $classAnnotations);
-    }
-
-    /**
      * Tests parsing class annotations
      *
      * @author Phalcon Team <team@phalconphp.com>
