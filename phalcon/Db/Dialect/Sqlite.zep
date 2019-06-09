@@ -21,7 +21,7 @@ use Phalcon\Db\ReferenceInterface;
 /**
  * Phalcon\Db\Dialect\Sqlite
  *
- * Generates database specific SQL for the Sqlite RDBMS
+ * Generates database specific SQL for the SQLite RDBMS
  */
 class Sqlite extends Dialect
 {
@@ -74,23 +74,24 @@ class Sqlite extends Dialect
      */
     public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> string
     {
-        var sql, indexType;
+        var indexType;
+        string sql;
 
         let indexType = index->getType();
 
         if !empty indexType {
-            let sql = "CREATE " . indexType . " INDEX \"";
+            let sql = "CREATE " . indexType . " INDEX ";
         } else {
-            let sql = "CREATE INDEX \"";
+            let sql = "CREATE INDEX ";
         }
 
         if schemaName {
-            let sql .= schemaName . "\".\"" . index->getName() . "\" ON \"" . tableName . "\" (";
+            let sql .= "\"" . schemaName . "\".\"" . index->getName() . "\"";
         } else {
-            let sql .= index->getName() . "\" ON \"" . tableName . "\" (";
+            let sql .= "\"" . index->getName() . "\"";
         }
 
-        let sql .= this->getColumnList(index->getColumns()) . ")";
+        let sql .= " ON \"" . tableName . "\" (" . this->getColumnList(index->getColumns()) . ")";
 
         return sql;
     }
@@ -112,7 +113,9 @@ class Sqlite extends Dialect
     {
         var columns, table, temporary, options, createLines, columnLine,
             column, indexes, index, indexName, indexType, references, reference,
-            defaultValue, referenceSql, onDelete, onUpdate, sql, hasPrimary;
+            defaultValue, referenceSql, onDelete, onUpdate;
+        bool hasPrimary;
+        string sql;
 
         let table = this->prepareTable(tableName, schemaName);
 
@@ -131,10 +134,12 @@ class Sqlite extends Dialect
          * Create a temporary or normal table
          */
         if temporary {
-            let sql = "CREATE TEMPORARY TABLE " . table . " (\n\t";
+            let sql = "CREATE TEMPORARY TABLE " . table;
         } else {
-            let sql = "CREATE TABLE " . table . " (\n\t";
+            let sql = "CREATE TABLE " . table;
         }
+
+        let sql .= " (\n\t";
 
         let hasPrimary = false;
         let createLines = [];
@@ -357,7 +362,7 @@ class Sqlite extends Dialect
     }
 
     /**
-     * Returns a SQL modified with a FOR UPDATE clause. For sqlite it returns
+     * Returns a SQL modified with a FOR UPDATE clause. For SQLite it returns
      * the original query
      */
     public function forUpdate(string! sqlQuery) -> string
@@ -622,7 +627,7 @@ class Sqlite extends Dialect
      */
     public function truncateTable(string! tableName, string! schemaName) -> string
     {
-        string table, sql;
+        string table;
 
         if schemaName {
             let table = "\"" . schemaName . "\".\"" . tableName . "\"";
@@ -630,9 +635,7 @@ class Sqlite extends Dialect
             let table = "\"" . tableName . "\"";
         }
 
-        let sql = "DELETE FROM " . table;
-
-        return sql;
+        return "DELETE FROM " . table;
     }
 
     /**
