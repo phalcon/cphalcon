@@ -12,20 +12,70 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Reflection;
 
+use Phalcon\Annotations\Annotation;
+use Phalcon\Annotations\Collection;
+use Phalcon\Annotations\Reader;
+use Phalcon\Annotations\Reflection;
 use UnitTester;
 
 class GetClassAnnotationsCest
 {
     /**
-     * Tests Phalcon\Annotations\Reflection :: getClassAnnotations()
+     * executed before each test
+     */
+    protected function _before(UnitTester $I)
+    {
+        require_once dataDir('fixtures/Annotations/TestClass.php');
+    }
+
+    /**
+     * Tests creating empty Reflection object
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2016-01-26
      */
-    public function annotationsReflectionGetClassAnnotations(UnitTester $I)
+    public function testEmptyReflection(UnitTester $I)
     {
-        $I->wantToTest('Annotations\Reflection - getClassAnnotations()');
+        $reflection = new Reflection();
 
-        $I->skipTest('Need implementation');
+        $I->assertFalse(
+            $reflection->getClassAnnotations()
+        );
+    }
+
+    /**
+     * Tests parsing a real class
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2016-01-26
+     */
+    public function testParsingARealClass(UnitTester $I)
+    {
+        $reader = new Reader();
+
+        $reflection = new Reflection(
+            $reader->parse('TestClass')
+        );
+
+        $classAnnotations = $reflection->getClassAnnotations();
+
+        $I->assertInstanceOf(
+            Collection::class,
+            $classAnnotations
+        );
+
+        $number = 0;
+
+        foreach ($classAnnotations as $annotation) {
+            $I->assertInstanceOf(
+                Annotation::class,
+                $annotation
+            );
+
+            $number++;
+        }
+
+        $I->assertEquals(9, $number);
+        $I->assertCount(9, $classAnnotations);
     }
 }
