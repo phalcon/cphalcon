@@ -88,6 +88,7 @@ class ConstructCest
         ];
 
         $object = new Grouped($config, 'json');
+
         $this->compareConfig(
             $I,
             $this->config,

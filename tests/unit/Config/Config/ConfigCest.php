@@ -20,26 +20,6 @@ class ConfigCest
     use ConfigTrait;
 
     /**
-     * Tests access by numeric key
-     *
-     * @author Rian Orie <rian.orie@gmail.com>
-     * @since  2014-11-12
-     */
-    public function testNumericConfig(UnitTester $I)
-    {
-        $config = new Config(
-            [
-                'abc',
-            ]
-        );
-
-        $I->assertEquals(
-            'abc',
-            $config->{0}
-        );
-    }
-
-    /**
      * Tests converting child array to config object
      *
      * @author Rian Orie <rian.orie@gmail.com>
