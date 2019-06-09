@@ -443,8 +443,9 @@ class MergeCest
             ],
         ];
 
-        $config->merge(new Config($params2));
-        $actual = $config->toArray();
+        $config->merge(
+            new Config($params2)
+        );
 
         $expected = [
             '1' => 'aaa',
@@ -456,16 +457,28 @@ class MergeCest
             '3' => 'ccc',
         ];
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $config->toArray()
+        );
 
-        $config = new Config(['0.4' => 0.4]);
-        $config->merge(new Config([
-            '1.1'                => 1,
-            '1.2'                => 1.2,
-            '2.8610229492188E-6' => 3,
-        ]));
 
-        $actual = $config->toArray();
+
+        $config = new Config(
+            [
+                '0.4' => 0.4,
+            ]
+        );
+
+        $config->merge(
+            new Config(
+                [
+                    '1.1'                => 1,
+                    '1.2'                => 1.2,
+                    '2.8610229492188E-6' => 3,
+                ]
+            )
+        );
 
         $expected = [
             '0.4'                => 0.4,
@@ -474,7 +487,10 @@ class MergeCest
             '2.8610229492188E-6' => 3,
         ];
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $config->toArray()
+        );
     }
 
     /**
@@ -503,8 +519,9 @@ class MergeCest
             ],
         ];
 
-        $config->merge(new Config($params2));
-        $actual = $config->toArray();
+        $config->merge(
+            new Config($params2)
+        );
 
         $expected = [
             'a' => 'aaa',
@@ -515,6 +532,9 @@ class MergeCest
             'c' => 'ccc',
         ];
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $config->toArray()
+        );
     }
 }
