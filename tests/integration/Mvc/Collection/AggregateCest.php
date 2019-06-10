@@ -25,12 +25,13 @@ class AggregateCest
 {
     use DiTrait;
 
+    /** @var string $source */
     private $source;
 
     /** @var Database $mongo */
     private $mongo;
 
-    public function _before(IntegrationTester $I)
+    public function _before()
     {
         $this->setNewFactoryDefault();
         $this->setDiCollectionManager();
@@ -56,8 +57,9 @@ class AggregateCest
     /**
      * Tests Phalcon\Mvc\Collection :: aggregate()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
      * @since  2018-11-13
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function mvcCollectionAggregate(IntegrationTester $I)
     {
@@ -77,7 +79,7 @@ class AggregateCest
         $I->assertNotEmpty($robots->toArray());
     }
 
-    public function _after(IntegrationTester $I)
+    public function _after()
     {
         $this->mongo->dropCollection($this->source);
     }

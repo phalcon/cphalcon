@@ -11,13 +11,25 @@
 
 namespace Phalcon\Test\Fixtures\Mvc\Collections;
 
+use Phalcon\Messages\Message;
 use Phalcon\Mvc\Collection;
 
 class Robots extends Collection
 {
     public $first_name;
     public $last_name;
+    public $version = 1;
 
     protected $protected_field;
     private $private_field;
+
+    public function validation()
+    {
+        if ($this->version < 1) {
+            $message = new Message("The version must be greater than 1", "version");
+            $this->appendMessage($message);
+
+            return false;
+        }
+    }
 }

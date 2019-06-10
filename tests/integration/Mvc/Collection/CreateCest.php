@@ -29,7 +29,7 @@ class CreateCest
     /** @var Database $mongo */
     private $mongo;
 
-    public function _before(IntegrationTester $I)
+    public function _before()
     {
         $this->setNewFactoryDefault();
         $this->setDiCollectionManager();
@@ -42,8 +42,9 @@ class CreateCest
     /**
      * Tests Phalcon\Mvc\Collection :: create()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
      * @since  2018-11-13
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function mvcCollectionCreate(IntegrationTester $I)
     {
@@ -52,10 +53,10 @@ class CreateCest
         $robot = new Robots;
         $robot->first_name = null;
 
-        $I->assertTrue($robot->save());
+        $I->assertTrue($robot->create());
     }
 
-    public function _after(IntegrationTester $I)
+    public function _after()
     {
         $this->mongo->dropCollection($this->source);
     }
