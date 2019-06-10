@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class ToArrayCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: toArray()
      *
@@ -26,6 +30,18 @@ class ToArrayCest
     {
         $I->wantToTest('Html\Attributes - toArray()');
 
-        $I->skipTest('Need implementation');
+        $expected = [
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes(
+            $expected
+        );
+
+        $actual = $attributes->toArray();
+
+        $I->assertSame($expected, $actual);
     }
 }

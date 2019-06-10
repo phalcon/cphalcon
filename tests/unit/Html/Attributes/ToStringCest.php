@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class ToStringCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: __toString()
      *
@@ -26,6 +30,23 @@ class ToStringCest
     {
         $I->wantToTest('Html\Attributes - __toString()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes(
+            [
+                'class' => 'form-control',
+                'name'  => 'q',
+                'value' => '',
+            ]
+        );
+
+        // __toString
+        $expected = ' name="q" value="" class="form-control"';
+        $actual   = $attributes->__toString();
+
+        $I->assertSame($expected, $actual);
+
+        // (string)
+        $actual = (string) $attributes;
+
+        $I->assertSame($expected, $actual);
     }
 }

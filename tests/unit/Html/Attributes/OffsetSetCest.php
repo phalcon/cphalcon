@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class OffsetSetCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: offsetSet()
      *
@@ -26,6 +30,24 @@ class OffsetSetCest
     {
         $I->wantToTest('Html\Attributes - offsetSet()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes([
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ]);
+
+        // overwrite name
+        $expected = 'other name';
+        $attributes->offsetSet('name', $expected);
+
+        $actual = $attributes->offsetGet('name');
+        $I->assertSame($expected, $actual);
+
+        // set new
+        $expected = 'other value';
+        $attributes->offsetSet('other-attr', $expected);
+
+        $actual = $attributes->offsetGet('other-attr');
+        $I->assertSame($expected, $actual);
     }
 }

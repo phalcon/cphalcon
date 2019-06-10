@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class SetCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: set()
      *
@@ -26,6 +30,24 @@ class SetCest
     {
         $I->wantToTest('Html\Attributes - set()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes([
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ]);
+
+        // overwrite name
+        $expected = 'other name';
+        $attributes->set('name', $expected);
+
+        $actual = $attributes->offsetGet('name');
+        $I->assertSame($expected, $actual);
+
+        // set new
+        $expected = 'other value';
+        $attributes->set('other-attr', $expected);
+
+        $actual = $attributes->offsetGet('other-attr');
+        $I->assertSame($expected, $actual);
     }
 }

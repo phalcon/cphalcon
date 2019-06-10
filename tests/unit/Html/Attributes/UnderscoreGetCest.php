@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class UnderscoreGetCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: __get()
      *
@@ -26,6 +30,26 @@ class UnderscoreGetCest
     {
         $I->wantToTest('Html\Attributes - __get()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes([
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ]);
+
+        $expected = 'q';
+        $actual   = $attributes->__get('name');
+        $I->assertSame($expected, $actual);
+
+        $expected = null;
+        $actual   = $attributes->__get('non-exists');
+        $I->assertSame($expected, $actual);
+
+        $expected = 'q';
+        $actual   = $attributes['name'];
+        $I->assertSame($expected, $actual);
+
+        $expected = null;
+        $actual   = $attributes['non-exists'];
+        $I->assertSame($expected, $actual);
     }
 }

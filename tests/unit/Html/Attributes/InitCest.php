@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class InitCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: init()
      *
@@ -26,6 +30,18 @@ class InitCest
     {
         $I->wantToTest('Html\Attributes - init()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes();
+
+        $expected = [
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes->init($expected);
+
+        $actual = $attributes->toArray();
+
+        $I->assertSame($expected, $actual);
     }
 }

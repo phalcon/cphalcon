@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class OffsetExistsCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: offsetExists()
      *
@@ -26,6 +30,22 @@ class OffsetExistsCest
     {
         $I->wantToTest('Html\Attributes - offsetExists()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes([
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ]);
+
+        $actual = $attributes->offsetExists('name');
+        $I->assertTrue($actual);
+
+        $actual = $attributes->offsetExists('non-exists');
+        $I->assertFalse($actual);
+
+        $actual = isset($attributes['name']);
+        $I->assertTrue($actual);
+
+        $actual = isset($attributes['non-exists']);
+        $I->assertFalse($actual);
     }
 }

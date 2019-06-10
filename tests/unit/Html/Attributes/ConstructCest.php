@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class ConstructCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: __construct()
      *
@@ -26,6 +30,25 @@ class ConstructCest
     {
         $I->wantToTest('Html\Attributes - __construct()');
 
-        $I->skipTest('Need implementation');
+        $expected = [
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes($expected);
+
+        $actual = $attributes->toArray();
+
+        $I->assertSame($expected, $actual);
+
+        // empty construct
+        $expected = [];
+
+        $attributes = new Attributes();
+
+        $actual = $attributes->toArray();
+
+        $I->assertSame($expected, $actual);
     }
 }

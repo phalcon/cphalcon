@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class HasCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: has()
      *
@@ -26,6 +30,18 @@ class HasCest
     {
         $I->wantToTest('Html\Attributes - has()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes([
+            'class' => 'form-control',
+        ]);
+
+        // exists attribute
+        $actual = $attributes->has('class');
+
+        $I->assertTrue($actual);
+
+        // non exists attribute
+        $actual = $attributes->has('id');
+
+        $I->assertFalse($actual);
     }
 }

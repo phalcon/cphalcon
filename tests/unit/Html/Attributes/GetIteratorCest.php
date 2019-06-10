@@ -12,10 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use ArrayIterator;
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class GetIteratorCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: getIterator()
      *
@@ -26,6 +31,12 @@ class GetIteratorCest
     {
         $I->wantToTest('Html\Attributes - getIterator()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes([
+            'class' => 'form-control',
+        ]);
+
+        $actual = $attributes->getIterator();
+
+        $I->assertInstanceOf(ArrayIterator::class, $actual);
     }
 }

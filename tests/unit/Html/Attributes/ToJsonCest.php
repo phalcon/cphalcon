@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class ToJsonCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: toJson()
      *
@@ -26,6 +30,19 @@ class ToJsonCest
     {
         $I->wantToTest('Html\Attributes - toJson()');
 
-        $I->skipTest('Need implementation');
+        $array = [
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes(
+            $array
+        );
+
+        $expected = json_encode($array);
+        $actual   = $attributes->toJson();
+
+        $I->assertSame($expected, $actual);
     }
 }

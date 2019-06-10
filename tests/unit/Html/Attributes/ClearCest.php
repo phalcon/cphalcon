@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class ClearCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: clear()
      *
@@ -26,6 +30,24 @@ class ClearCest
     {
         $I->wantToTest('Html\Attributes - clear()');
 
-        $I->skipTest('Need implementation');
+        $expected = [
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes($expected);
+
+        $actual = $attributes->toArray();
+
+        $I->assertSame($expected, $actual);
+
+        // clear
+        $attributes->clear();
+
+        $actual   = $attributes->toArray();
+        $expected = [];
+
+        $I->assertSame($expected, $actual);
     }
 }

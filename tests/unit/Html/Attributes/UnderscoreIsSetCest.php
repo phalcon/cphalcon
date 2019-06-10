@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class UnderscoreIsSetCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: __isset()
      *
@@ -26,6 +30,22 @@ class UnderscoreIsSetCest
     {
         $I->wantToTest('Html\Attributes - __isset()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes([
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ]);
+
+        $actual = $attributes->__isset('name');
+        $I->assertTrue($actual);
+
+        $actual = $attributes->__isset('non-exists');
+        $I->assertFalse($actual);
+
+        $actual = isset($attributes['name']);
+        $I->assertTrue($actual);
+
+        $actual = isset($attributes['non-exists']);
+        $I->assertFalse($actual);
     }
 }

@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class CountCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: count()
      *
@@ -26,6 +30,27 @@ class CountCest
     {
         $I->wantToTest('Html\Attributes - count()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes([
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ]);
+
+        $expected = 3;
+        $actual   = $attributes->count();
+
+        $I->assertSame($expected, $actual);
+
+        $expected = 4;
+        $attributes->set('other', 1234);
+        $actual = $attributes->count();
+
+        $I->assertSame($expected, $actual);
+
+        $expected = 3;
+        $attributes->remove('other');
+        $actual = $attributes->count();
+
+        $I->assertSame($expected, $actual);
     }
 }

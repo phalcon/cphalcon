@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class JsonSerializeCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: jsonSerialize()
      *
@@ -26,6 +30,17 @@ class JsonSerializeCest
     {
         $I->wantToTest('Html\Attributes - jsonSerialize()');
 
-        $I->skipTest('Need implementation');
+        $expected = [
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        // serialize with json
+        $attributes = new Attributes($expected);
+
+        $actual = $attributes->jsonSerialize();
+
+        $I->assertSame($expected, $actual);
     }
 }

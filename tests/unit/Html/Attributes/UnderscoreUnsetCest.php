@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class UnderscoreUnsetCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: __unset()
      *
@@ -26,6 +30,21 @@ class UnderscoreUnsetCest
     {
         $I->wantToTest('Html\Attributes - __unset()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes([
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ]);
+
+        // name attribute exists
+        $actual = $attributes->has('name');
+
+        $I->assertTrue($actual);
+
+        // unset attribute name
+        $attributes->__unset('name');
+        $actual = $attributes->has('name');
+
+        $I->assertFalse($actual);
     }
 }

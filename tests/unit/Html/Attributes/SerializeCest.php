@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class SerializeCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: serialize()
      *
@@ -26,6 +30,17 @@ class SerializeCest
     {
         $I->wantToTest('Html\Attributes - serialize()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes(
+            [
+                'class' => 'form-control',
+                'name'  => 'q',
+                'value' => '',
+            ]
+        );
+
+        $actual   = $attributes->serialize();
+        $expected = 'a:3:{s:5:"class";s:12:"form-control";s:4:"name";s:1:"q";s:5:"value";s:0:"";}';
+
+        $I->assertSame($expected, $actual);
     }
 }

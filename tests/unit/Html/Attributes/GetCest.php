@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class GetCest
 {
+    use DiTrait;
+
     /**
      * Unit Tests Phalcon\Html\Attributes :: get()
      *
@@ -26,6 +30,27 @@ class GetCest
     {
         $I->wantToTest('Html\Attributes - get()');
 
-        $I->skipTest('Need implementation');
+        $array = [
+            'class' => 'form-control',
+            'name'  => 'q',
+            'value' => '',
+        ];
+
+        $attributes = new Attributes($array);
+
+        $expected = $array['class'];
+        $actual   = $attributes->get('class');
+
+        $I->assertSame($expected, $actual);
+
+        $expected = 1234;
+        $attributes->set('other', $expected);
+
+        $actual = $attributes->get('other');
+        $I->assertSame($expected, $actual);
+
+        // non exists attribute
+        $actual = $attributes->get('non-exists');
+        $I->assertNull($actual);
     }
 }
