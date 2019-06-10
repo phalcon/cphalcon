@@ -188,16 +188,18 @@ class Annotations extends Router
                 let lowerControllerName = uncamelize(controllerName);
 
                 for method, collection in methodAnnotations {
-                    if typeof collection == "object" {
-                        for annotation in collection->getAnnotations() {
-                            this->processActionAnnotation(
-                                moduleName,
-                                namespaceName,
-                                lowerControllerName,
-                                method,
-                                annotation
-                            );
-                        }
+                    if typeof collection != "object" {
+                        continue;
+                    }
+
+                    for annotation in collection->getAnnotations() {
+                        this->processActionAnnotation(
+                            moduleName,
+                            namespaceName,
+                            lowerControllerName,
+                            method,
+                            annotation
+                        );
                     }
                 }
             }
@@ -232,136 +234,122 @@ class Annotations extends Router
                 break;
 
             case "Get":
-                let isRoute = true, methods = "GET";
-                break;
-
             case "Post":
-                let isRoute = true, methods = "POST";
-                break;
-
             case "Put":
-                let isRoute = true, methods = "PUT";
-                break;
-
             case "Patch":
-                let isRoute = true, methods = "PATCH";
-                break;
-
             case "Delete":
-                let isRoute = true, methods = "DELETE";
-                break;
-
             case "Options":
-                let isRoute = true, methods = "OPTIONS";
+                let isRoute = true,
+                    methods = strtoupper(name);
                 break;
         }
 
-        if isRoute {
-            let actionName = strtolower(str_replace(this->actionSuffix, "", action)),
-                routePrefix = this->routePrefix;
-
-            /**
-             * Check for existing paths in the annotation
-             */
-            let paths = annotation->getNamedArgument("paths");
-
-            if typeof paths != "array" {
-                let paths = [];
-            }
-
-            /**
-             * Update the module if any
-             */
-            if !empty module {
-                let paths["module"] = module;
-            }
-
-            /**
-             * Update the namespace if any
-             */
-            if !empty namespaceName {
-                let paths["namespace"] = namespaceName;
-            }
-
-            let paths["controller"] = controller,
-                paths["action"] = actionName;
-
-            let value = annotation->getArgument(0);
-
-            /**
-             * Create the route using the prefix
-             */
-            if value !== null {
-                if value != "/" {
-                    let uri = routePrefix . value;
-                } else {
-                    if routePrefix !== null {
-                        let uri = routePrefix;
-                    } else {
-                        let uri = value;
-                    }
-                }
-            } else {
-                let uri = routePrefix . actionName;
-            }
-
-            /**
-             * Add the route to the router
-             */
-            let route = this->add(uri, paths);
-
-            /**
-             * Add HTTP constraint methods
-             */
-            if methods !== null {
-                route->via(methods);
-            } else {
-                let methods = annotation->getNamedArgument("methods");
-
-                if typeof methods == "array" || typeof methods == "string" {
-                    route->via(methods);
-                }
-            }
-
-            /**
-             * Add the converters
-             */
-            let converts = annotation->getNamedArgument("converts");
-
-            if typeof converts == "array" {
-                for param, convert in converts {
-                    route->convert(param, convert);
-                }
-            }
-
-            /**
-             * Add the conversors
-             */
-            let converts = annotation->getNamedArgument("conversors");
-
-            if typeof converts == "array" {
-                for conversorParam, convert in converts {
-                    route->convert(conversorParam, convert);
-                }
-            }
-
-            /**
-             * Add the conversors
-             */
-            let beforeMatch = annotation->getNamedArgument("beforeMatch");
-
-            if typeof beforeMatch == "array" || typeof beforeMatch == "string" {
-                route->beforeMatch(beforeMatch);
-            }
-
-            let routeName = annotation->getNamedArgument("name");
-
-            if typeof routeName == "string" {
-                route->setName(routeName);
-            }
-
-            return true;
+        if !isRoute {
+            return;
         }
+
+        let actionName = strtolower(str_replace(this->actionSuffix, "", action)),
+            routePrefix = this->routePrefix;
+
+        /**
+         * Check for existing paths in the annotation
+         */
+        let paths = annotation->getNamedArgument("paths");
+
+        if typeof paths != "array" {
+            let paths = [];
+        }
+
+        /**
+         * Update the module if any
+         */
+        if !empty module {
+            let paths["module"] = module;
+        }
+
+        /**
+         * Update the namespace if any
+         */
+        if !empty namespaceName {
+            let paths["namespace"] = namespaceName;
+        }
+
+        let paths["controller"] = controller,
+            paths["action"] = actionName;
+
+        let value = annotation->getArgument(0);
+
+        /**
+         * Create the route using the prefix
+         */
+        if value !== null {
+            if value != "/" {
+                let uri = routePrefix . value;
+            } else {
+                if routePrefix !== null {
+                    let uri = routePrefix;
+                } else {
+                    let uri = value;
+                }
+            }
+        } else {
+            let uri = routePrefix . actionName;
+        }
+
+        /**
+         * Add the route to the router
+         */
+        let route = this->add(uri, paths);
+
+        /**
+         * Add HTTP constraint methods
+         */
+        if methods === null {
+            let methods = annotation->getNamedArgument("methods");
+        }
+
+        if typeof methods == "array" || typeof methods == "string" {
+            route->via(methods);
+        }
+
+        /**
+         * Add the converters
+         */
+        let converts = annotation->getNamedArgument("converts");
+
+        if typeof converts == "array" {
+            for param, convert in converts {
+                route->convert(param, convert);
+            }
+        }
+
+        /**
+         * Add the conversors
+         */
+        let converts = annotation->getNamedArgument("conversors");
+
+        if typeof converts == "array" {
+            for conversorParam, convert in converts {
+                route->convert(conversorParam, convert);
+            }
+        }
+
+        /**
+         * Add the conversors
+         */
+        let beforeMatch = annotation->getNamedArgument("beforeMatch");
+
+        if typeof beforeMatch == "array" || typeof beforeMatch == "string" {
+            route->beforeMatch(beforeMatch);
+        }
+
+        let routeName = annotation->getNamedArgument("name");
+
+        if typeof routeName == "string" {
+            route->setName(routeName);
+        }
+
+        return true;
     }
 
     /**
