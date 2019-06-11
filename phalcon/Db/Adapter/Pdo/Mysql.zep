@@ -82,7 +82,7 @@ class Mysql extends PdoAdapter
      */
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
-        var columns, columnType, field, oldColumn, sizePattern, matches,
+        var columns, columnType, fields, field, oldColumn, sizePattern, matches,
             matchOne, matchTwo, columnName;
         array definition;
 
@@ -91,14 +91,18 @@ class Mysql extends PdoAdapter
 
         let columns = [];
 
+        let fields = this->fetchAll(
+            this->dialect->describeColumns(table, schema),
+            Db::FETCH_NUM
+        );
+
         /**
          * Get the SQL to describe a table
          * We're using FETCH_NUM to fetch the columns
          * Get the describe
          * Field Indexes: 0:name, 1:type, 2:not null, 3:key, 4:default, 5:extra
          */
-        for field in this->fetchAll(this->dialect->describeColumns(table, schema), Db::FETCH_NUM) {
-
+        for field in fields {
             /**
              * By default the bind types is two
              */

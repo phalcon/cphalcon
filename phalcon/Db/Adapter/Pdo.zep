@@ -110,27 +110,26 @@ abstract class Pdo extends Adapter
             }
 
             return pdo->beginTransaction();
-        } else {
-            /**
-             * Check if the current database system supports nested transactions
-             */
-            if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
-
-                let eventsManager = <ManagerInterface> this->eventsManager,
-                    savepointName = this->getNestedTransactionSavepointName();
-
-                /**
-                 * Notify the events manager about the created savepoint
-                 */
-                if typeof eventsManager == "object" {
-                    eventsManager->fire("db:createSavepoint", this, savepointName);
-                }
-
-                return this->createSavepoint(savepointName);
-            }
         }
 
-        return false;
+        /**
+         * Check if the current database system supports nested transactions
+         */
+        if !transactionLevel || !nesting || !this->isNestedTransactionsWithSavepoints() {
+            return false;
+        }
+
+        let eventsManager = <ManagerInterface> this->eventsManager,
+            savepointName = this->getNestedTransactionSavepointName();
+
+        /**
+         * Notify the events manager about the created savepoint
+         */
+        if typeof eventsManager == "object" {
+            eventsManager->fire("db:createSavepoint", this, savepointName);
+        }
+
+        return this->createSavepoint(savepointName);
     }
 
     /**
@@ -168,37 +167,38 @@ abstract class Pdo extends Adapter
             let this->transactionLevel--;
 
             return pdo->commit();
-        } else {
+        }
+
+        /**
+         * Check if the current database system supports nested transactions
+         */
+        if !transactionLevel || !nesting || !this->isNestedTransactionsWithSavepoints() {
             /**
-             * Check if the current database system supports nested transactions
+             * Reduce the transaction nesting level
              */
-            if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
-                /**
-                 * Notify the events manager about the committed savepoint
-                 */
-                let eventsManager = <ManagerInterface> this->eventsManager,
-                    savepointName = this->getNestedTransactionSavepointName();
-                if typeof eventsManager == "object" {
-                    eventsManager->fire("db:releaseSavepoint", this, savepointName);
-                }
-
-                /**
-                 * Reduce the transaction nesting level
-                 */
+            if transactionLevel > 0 {
                 let this->transactionLevel--;
-
-                return this->releaseSavepoint(savepointName);
             }
+
+            return false;
+        }
+
+        /**
+         * Notify the events manager about the committed savepoint
+         */
+        let eventsManager = <ManagerInterface> this->eventsManager,
+            savepointName = this->getNestedTransactionSavepointName();
+
+        if typeof eventsManager == "object" {
+            eventsManager->fire("db:releaseSavepoint", this, savepointName);
         }
 
         /**
          * Reduce the transaction nesting level
          */
-        if transactionLevel > 0 {
-            let this->transactionLevel--;
-        }
+        let this->transactionLevel--;
 
-        return false;
+        return this->releaseSavepoint(savepointName);
     }
 
     /**
@@ -207,13 +207,7 @@ abstract class Pdo extends Adapter
      */
     public function close() -> bool
     {
-        var pdo;
-
-        let pdo = this->pdo;
-
-        if typeof pdo == "object" {
-            let this->pdo = null;
-        }
+        let this->pdo = null;
 
         return true;
     }
@@ -621,11 +615,11 @@ abstract class Pdo extends Adapter
 
         let pdo = this->pdo;
 
-        if typeof pdo == "object" {
-            return pdo->inTransaction();
+        if typeof pdo != "object" {
+            return false;
         }
 
-        return false;
+        return pdo->inTransaction();
     }
 
     /**
@@ -800,39 +794,38 @@ abstract class Pdo extends Adapter
             let this->transactionLevel--;
 
             return pdo->rollback();
-        } else {
+        }
+
+        /**
+         * Check if the current database system supports nested transactions
+         */
+        if !transactionLevel || !nesting || !this->isNestedTransactionsWithSavepoints() {
             /**
-             * Check if the current database system supports nested transactions
+             * Reduce the transaction nesting level
              */
-            if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
-
-                let savepointName = this->getNestedTransactionSavepointName();
-
-                /**
-                 * Notify the events manager about the rolled back savepoint
-                 */
-                let eventsManager = <ManagerInterface> this->eventsManager;
-                if typeof eventsManager == "object" {
-                    eventsManager->fire("db:rollbackSavepoint", this, savepointName);
-                }
-
-                /**
-                 * Reduce the transaction nesting level
-                 */
+            if transactionLevel > 0 {
                 let this->transactionLevel--;
-
-                return this->rollbackSavepoint(savepointName);
             }
+
+            return false;
+        }
+
+        let savepointName = this->getNestedTransactionSavepointName();
+
+        /**
+         * Notify the events manager about the rolled back savepoint
+         */
+        let eventsManager = <ManagerInterface> this->eventsManager;
+        if typeof eventsManager == "object" {
+            eventsManager->fire("db:rollbackSavepoint", this, savepointName);
         }
 
         /**
          * Reduce the transaction nesting level
          */
-        if transactionLevel > 0 {
-            let this->transactionLevel--;
-        }
+        let this->transactionLevel--;
 
-        return false;
+        return this->rollbackSavepoint(savepointName);
     }
 
     /**

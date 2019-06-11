@@ -73,11 +73,10 @@ class Pdo implements ResultInterface
         sqlStatement = null, bindParams = null, bindTypes = null) -> void
     {
         let this->connection = connection,
-            this->pdoStatement = result;
-
-        let this->sqlStatement = sqlStatement;
-        let this->bindParams = bindParams;
-        let this->bindTypes = bindTypes;
+            this->pdoStatement = result,
+            this->sqlStatement = sqlStatement,
+            this->bindParams = bindParams,
+            this->bindTypes = bindTypes;
     }
 
     /**
@@ -191,24 +190,23 @@ class Pdo implements ResultInterface
 
         let pdoStatement = this->pdoStatement;
 
-        if typeof fetchStyle == "integer" {
-
-            if fetchStyle == Db::FETCH_CLASS {
-                return pdoStatement->fetchAll(
-                    fetchStyle,
-                    fetchArgument,
-                    ctorArgs
-                );
-            }
-
-            if fetchStyle == Db::FETCH_COLUMN || fetchStyle == Db::FETCH_FUNC {
-                return pdoStatement->fetchAll(fetchStyle, fetchArgument);
-            }
-
-            return pdoStatement->fetchAll(fetchStyle);
+        if typeof fetchStyle != "integer" {
+            return pdoStatement->fetchAll();
         }
 
-        return pdoStatement->fetchAll();
+        if fetchStyle == Db::FETCH_CLASS {
+            return pdoStatement->fetchAll(
+                fetchStyle,
+                fetchArgument,
+                ctorArgs
+            );
+        }
+
+        if fetchStyle == Db::FETCH_COLUMN || fetchStyle == Db::FETCH_FUNC {
+            return pdoStatement->fetchAll(fetchStyle, fetchArgument);
+        }
+
+        return pdoStatement->fetchAll(fetchStyle);
     }
 
     /**

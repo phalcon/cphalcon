@@ -32,7 +32,8 @@ class Postgresql extends Dialect
      */
     public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
     {
-        var sql, columnDefinition;
+        var columnDefinition;
+        string sql;
 
         let columnDefinition = this->getColumnDefinition(column);
 
@@ -55,12 +56,15 @@ class Postgresql extends Dialect
      */
     public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
     {
-        var sql, onDelete, onUpdate;
+        var onDelete, onUpdate;
+        string sql;
 
         let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD";
+
         if reference->getName() {
             let sql .= " CONSTRAINT \"" . reference->getName() . "\"";
         }
+
         let sql .= " FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
                  . " REFERENCES \"" . reference->getReferencedTable() . "\" (" . this->getColumnList(reference->getReferencedColumns()) . ")";
 
@@ -82,7 +86,8 @@ class Postgresql extends Dialect
      */
     public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> string
     {
-        var sql, indexType;
+        var indexType;
+        string sql;
 
         if index->getName() === "PRIMARY" {
             return this->addPrimaryKey(tableName, schemaName, index);
@@ -114,10 +119,11 @@ class Postgresql extends Dialect
      */
     public function createTable(string! tableName, string! schemaName, array! definition) -> string
     {
-        var temporary, options, table, createLines, columns, column, indexes,
-            index, reference, references, indexName, indexSql,
-            indexSqlAfterCreate, sql, columnLine, indexType, referenceSql,
-            onDelete, onUpdate, primaryColumns, columnDefinition;
+        var temporary, options, table, columns, column, indexes, index,
+            reference, references, indexName, indexType, onDelete, onUpdate,
+            columnDefinition;
+        array createLines, primaryColumns;
+        string indexSql, indexSqlAfterCreate, columnLine, referenceSql, sql;
 
         if unlikely !fetch columns, definition["columns"] {
             throw new Exception(
@@ -143,8 +149,8 @@ class Postgresql extends Dialect
 
         let createLines = [];
         let primaryColumns = [];
-        for column in columns {
 
+        for column in columns {
             let columnDefinition = this->getColumnDefinition(column);
             let columnLine = "\"" . column->getName() . "\" " . columnDefinition;
 
@@ -180,10 +186,9 @@ class Postgresql extends Dialect
          * Create related indexes
          */
         let indexSqlAfterCreate = "";
+
         if fetch indexes, definition["indexes"] {
-
             for index in indexes {
-
                 let indexName = index->getName();
                 let indexType = index->getType();
                 let indexSql = "";
@@ -214,7 +219,6 @@ class Postgresql extends Dialect
          */
         if fetch references, definition["references"] {
             for reference in references {
-
                 let referenceSql = "CONSTRAINT \"" . reference->getName() . "\" FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ") REFERENCES ";
 
                 let referenceSql .= this->prepareTable(
@@ -338,17 +342,15 @@ class Postgresql extends Dialect
      */
     public function dropTable(string! tableName, string schemaName = null, bool! ifExists = true) -> string
     {
-        var table, sql;
+        var table;
 
         let table = this->prepareTable(tableName, schemaName);
 
         if ifExists {
-            let sql = "DROP TABLE IF EXISTS " . table;
-        } else {
-            let sql = "DROP TABLE " . table;
+            return "DROP TABLE IF EXISTS " . table;
         }
 
-        return sql;
+        return "DROP TABLE " . table;
     }
 
     /**
@@ -356,17 +358,15 @@ class Postgresql extends Dialect
      */
     public function dropView(string! viewName, string schemaName = null, bool! ifExists = true) -> string
     {
-        var view, sql;
+        var view;
 
         let view = this->prepareTable(viewName, schemaName);
 
         if ifExists {
-            let sql = "DROP VIEW IF EXISTS " . view;
-        } else {
-            let sql = "DROP VIEW " . view;
+            return "DROP VIEW IF EXISTS " . view;
         }
 
-        return sql;
+        return "DROP VIEW " . view;
     }
 
     /**
@@ -495,7 +495,8 @@ class Postgresql extends Dialect
                 let typeValues = column->getTypeValues();
                 if !empty typeValues {
                     if typeof typeValues == "array" {
-                        var value, valueSql;
+                        var value;
+                        string valueSql;
 
                         let valueSql = "";
 
@@ -548,7 +549,8 @@ class Postgresql extends Dialect
      */
     public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
     {
-        var sql = "", sqlAlterTable, defaultValue, columnDefinition;
+        var defaultValue, columnDefinition;
+        string sql = "", sqlAlterTable;
 
         let columnDefinition = this->getColumnDefinition(column),
             sqlAlterTable = "ALTER TABLE " . this->prepareTable(tableName, schemaName);
@@ -636,7 +638,7 @@ class Postgresql extends Dialect
      */
     public function truncateTable(string! tableName, string! schemaName) -> string
     {
-        var sql, table;
+        var table;
 
         if schemaName {
             let table = this->prepareTable(tableName, schemaName);
@@ -644,9 +646,7 @@ class Postgresql extends Dialect
             let table = this->prepareTable(tableName);
         }
 
-        let sql = "TRUNCATE TABLE " . table;
-
-        return sql;
+        return "TRUNCATE TABLE " . table;
     }
 
     /**
@@ -663,7 +663,8 @@ class Postgresql extends Dialect
 
     protected function castDefault(<ColumnInterface> column) -> string
     {
-        var defaultValue, preparedValue, columnDefinition, columnType;
+        var defaultValue, columnDefinition, columnType;
+        string  preparedValue;
 
         let defaultValue = column->getDefault(),
             columnDefinition = this->getColumnDefinition(column),
