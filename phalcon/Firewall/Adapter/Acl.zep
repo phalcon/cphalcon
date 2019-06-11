@@ -130,7 +130,7 @@ class Acl extends Adapter
 		var explodedKey, access, keyWithValues, originalKeysJoin;
 
 		if roleCacheKey != null {
-			let roleCacheKey = "!".roleCacheKey;
+			let roleCacheKey = "!" . roleCacheKey;
 		}
 
 
@@ -149,7 +149,7 @@ class Acl extends Adapter
 		 */
 		if !empty originalValues {
 			let originalKeysJoin = join("!", originalValues),
-			    keyWithValues    = key."!".originalKeysJoin.roleCacheKey,
+			    keyWithValues    = key . "!" . originalKeysJoin . roleCacheKey,
 			    access           = parent::getAccessFromCache(keyWithValues);
 
 			if access !== null {
@@ -181,7 +181,9 @@ class Acl extends Adapter
 			}
 		}
 
-		let access = parent::getAccessFromCache(key.roleCacheKey);
+		let access = parent::getAccessFromCache(
+			key . roleCacheKey
+		);
 
 		if access !== null {
 			return null;
@@ -202,7 +204,9 @@ class Acl extends Adapter
 		 * Try role-*-*
 		 */
 
-		let access = parent::getAccessFromCache(explodedKey[0]."!*!*".roleCacheKey);
+		let access = parent::getAccessFromCache(
+			explodedKey[0] . "!*!*" . roleCacheKey
+		);
 
 		return access;
 	}
@@ -217,7 +221,9 @@ class Acl extends Adapter
 
 		let container = dispatcher->getDI();
 		if typeof container != "object" {
-			throw new Exception(Exception::containerServiceNotFound("the ACL service"));
+			throw new Exception(
+				Exception::containerServiceNotFound("the ACL service")
+			);
 		}
 
 		let defaultAccess     = (bool) this->defaultAccess,
@@ -227,14 +233,17 @@ class Acl extends Adapter
 		    boundModelsKeyMap = this->boundModelsKeyMap;
 
 		if !this->multiModuleConfiguration {
-			let componentName = ucfirst(dispatcher->getControllerName());
+			let componentName = ucfirst(
+				dispatcher->getControllerName()
+			);
 		} else {
 			let moduleSeparator = this->moduleSeparator,
 			    moduleName      = dispatcher->getModuleName(),
-			    componentName   = moduleName.moduleSeparator.ucfirst(dispatcher->getControllerName());
+			    componentName   = moduleName . moduleSeparator . ucfirst(dispatcher->getControllerName());
 		}
 
 		let actionName = dispatcher->getActionName();
+
 		if this->activeRole == null || this->alwaysResolvingRole {
 			let this->activeRole     = null,
 			    this->activeIdentity = null;
@@ -272,6 +281,7 @@ class Acl extends Adapter
 		if aclAccess === null {
 			let aclServiceName = this->aclServiceName,
 			    acl            = container->get(aclServiceName);
+
 			if typeof acl != "object" || !(acl instanceof \Phalcon\Acl\AdapterInterface) {
 				throw new Exception(
 				    "You need to add acl service to dependency injector " .
@@ -281,7 +291,7 @@ class Acl extends Adapter
 
 			// check if role exist
 			if !acl->isRole(aclRole) {
-				throw new Exception("Role ".aclRole." doesn't exist in ACL");
+				throw new Exception("Role " . aclRole . " doesn't exist in ACL");
 			}
 
 			// if component doesn't exist check against firewall defaultAccess
@@ -292,11 +302,16 @@ class Acl extends Adapter
 				    controllerName,
 				    defaultAccess
                 );
+
 				if roleCacheKey != null {
-					this->saveAccessInCache(cacheKey."!".roleCacheKey, defaultAccess);
+					this->saveAccessInCache(
+						cacheKey . "!" . roleCacheKey,
+						defaultAccess
+					);
 				} else {
 					this->saveAccessInCache(cacheKey, defaultAccess);
 				}
+
 				if value === false {
 					return false;
 				}
@@ -322,10 +337,10 @@ class Acl extends Adapter
 
 			if acl->getActiveFunction() != null {
 				if !empty parameters && acl->getActiveFunctionCustomArgumentsCount() > 0 {
-					let cacheKey .= "!".join("!", originalValues);
+					let cacheKey .= "!" . join("!", originalValues);
 				}
 				if roleCacheKey != null && typeof role == "object" {
-					let cacheKey .= "!".roleCacheKey;
+					let cacheKey .= "!" . roleCacheKey;
 				}
 			}
 

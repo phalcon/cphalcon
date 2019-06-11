@@ -73,7 +73,7 @@ class Annotations extends Adapter
 		    controllerClass    = dispatcher->getControllerClass(),
 		    actionName         = dispatcher->getActionName(),
 		    this->resolvedRole = null,
-		    container         = dispatcher->getDI();
+		    container          = dispatcher->getDI();
 
 		if this->activeRole == null || this->alwaysResolvingRole {
 			let this->activeRole     = null,
@@ -87,6 +87,7 @@ class Annotations extends Adapter
 			for singleRole in role {
 				let cacheKey = singleRole . "!" . controllerName . "!" . actionName,
 				    access   = this->getAccessFromCache(cacheKey);
+
 				if typeof access == "boolean" {
 					break;
 				}
@@ -109,29 +110,52 @@ class Annotations extends Adapter
 			    "on annotations configurator to work"
             );
 		}
+
 		if typeof eventsManager == "object" {
 			eventsManager->fire("firewall:beforeCheck", this);
 		}
 
 		if typeof access != "boolean" {
-			let access = this->checkControllerAnnotationAccess(controllerClass, controllerName, role);
+			let access = this->checkControllerAnnotationAccess(
+				controllerClass,
+				controllerName,
+				role
+			);
+
 			if typeof access != "boolean" {
-				let access = this->checkActionAnnotationAccess(controllerClass, controllerName, actionName, role);
+				let access = this->checkActionAnnotationAccess(
+					controllerClass,
+					controllerName,
+					actionName,
+					role
+				);
 			}
 
 			if typeof access != "boolean" {
 				let access = defaultAccess;
+
 				if typeof role == "array" {
                 	for singleRole in role {
-						this->saveAccessInCache(singleRole."!".controllerName."!".actionName, access);
+						this->saveAccessInCache(
+							singleRole . "!" . controllerName . "!" . actionName,
+							access
+						);
 					}
 				} else {
-					this->saveAccessInCache(role."!".controllerName."!".actionName, access);
+					this->saveAccessInCache(
+						role . "!" . controllerName . "!" . actionName,
+						access
+					);
 				}
 			}
 		}
 
-		let value = this->fireEventOrThrowException(role, actionName, controllerName, access);
+		let value = this->fireEventOrThrowException(
+			role,
+			actionName,
+			controllerName,
+			access
+		);
 
 		if value === false {
 			return false;
@@ -148,25 +172,36 @@ class Annotations extends Adapter
 
 	protected function checkControllerAnnotationAccess(string controllerClass, string controllerName, var role)
 	{
-		var annotationsAdapter, reflector, annotations, access, singleRole, resolvedRole;
+		var annotationsAdapter, reflector, annotations, access, singleRole,
+			resolvedRole;
 
 		let annotationsAdapter = this->annotationsAdapter,
 		    reflector          = annotationsAdapter->get(controllerClass),
 		    annotations        = reflector->getClassAnnotations(),
-		    access             = this->checkAnnotations(annotations, role);
+			access             = this->checkAnnotations(annotations, role);
 
 		if typeof access == "boolean" {
 			if this->activeArgumentsNumber > 0 {
 				let resolvedRole = this->resolvedRole;
+
 				if typeof resolvedRole == "array" {
 					for singleRole in resolvedRole {
-						this->saveAccessInCache(singleRole."!".controllerName."!*", access);
+						this->saveAccessInCache(
+							singleRole . "!" . controllerName . "!*",
+							access
+						);
 					}
 				} else {
-					this->saveAccessInCache(resolvedRole."!".controllerName."!*", access);
+					this->saveAccessInCache(
+						resolvedRole . "!" . controllerName . "!*",
+						access
+					);
 				}
 			} else {
-				this->saveAccessInCache("*!".controllerName."!*", access);
+				this->saveAccessInCache(
+					"*!" . controllerName . "!*",
+					access
+				);
 			}
 		}
 
@@ -179,13 +214,24 @@ class Annotations extends Adapter
 
 		if !empty annotations {
 			if annotations->has("Allow") {
-				let returnAllow = this->handleAnnotation(annotations->get("Allow"), true, role);
+				let returnAllow = this->handleAnnotation(
+					annotations->get("Allow"),
+					true,
+					role
+				);
+
 				if typeof returnAllow == "boolean" {
 					return returnAllow;
 				}
 			}
+
 			if annotations->has("Deny") {
-				let returnAllow = this->handleAnnotation(annotations->get("Deny"), false, role);
+				let returnAllow = this->handleAnnotation(
+					annotations->get("Deny"),
+					false,
+					role
+				);
+
 				if typeof returnAllow == "boolean" {
 					return returnAllow;
 				}
@@ -205,22 +251,32 @@ class Annotations extends Adapter
 		var annotationsAdapter, annotations, access, singleRole, resolvedRole;
 
 		let annotationsAdapter = this->annotationsAdapter,
-		    annotations        = annotationsAdapter->getMethod(controllerClass, actionName."Action");
+		    annotations        = annotationsAdapter->getMethod(controllerClass, actionName . "Action");
 
 		let access = this->checkAnnotations(annotations, role);
 
 		if typeof access == "boolean" {
 			if this->activeArgumentsNumber > 0 {
 				let resolvedRole = this->resolvedRole;
+
 				if typeof resolvedRole == "array" {
 					for singleRole in resolvedRole {
-						this->saveAccessInCache(singleRole."!".controllerName."!".actionName, access);
+						this->saveAccessInCache(
+							singleRole . "!" . controllerName . "!" . actionName,
+							access
+						);
 					}
 				} else {
-					this->saveAccessInCache(resolvedRole."!".controllerName."!".actionName, access);
+					this->saveAccessInCache(
+						resolvedRole . "!" . controllerName . "!" . actionName,
+						access
+					);
 				}
 			} else {
-				this->saveAccessInCache("*!".controllerName."!".actionName, access);
+				this->saveAccessInCache(
+					"*!" . controllerName . "!" . actionName,
+					access
+				);
 			}
 		}
 
@@ -270,7 +326,9 @@ class Annotations extends Adapter
 		 * Try *-component-*
 		 */
 
-		let access = parent::getAccessFromCache("*!" . explodedKey[1] . "!*");
+		let access = parent::getAccessFromCache(
+			"*!" . explodedKey[1] . "!*"
+		);
 
 		return access;
 	}
@@ -281,8 +339,10 @@ class Annotations extends Adapter
 
 		let numberArguments             = annotation->numberArguments(),
 		    this->activeArgumentsNumber = numberArguments;
+
 		if numberArguments === 1 {
 			let annotationRoles = annotation->getArguments()[0];
+
 			if typeof annotationRoles == "array" {
 				if typeof role == "string" && in_array(role, annotationRoles) {
 					let this->resolvedRole = role;
@@ -290,6 +350,7 @@ class Annotations extends Adapter
 					return access;
 				} elseif typeof role == "array" {
 					let roleIntersect = array_intersect(role, annotationRoles);
+
 					if (bool) roleIntersect {
 						let this->resolvedRole = roleIntersect;
 
@@ -325,6 +386,7 @@ class Annotations extends Adapter
 			}
 		} elseif numberArguments === 0 {
 			let this->resolvedRole = role;
+
 			return access;
 		} else {
 			throw new Exception(
