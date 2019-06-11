@@ -40,7 +40,6 @@ use Phalcon\Db\ReferenceInterface;
  */
 class Postgresql extends PdoAdapter
 {
-
     protected dialectType = "postgresql";
 
     protected type = "pgsql";
@@ -111,7 +110,7 @@ class Postgresql extends PdoAdapter
 
         let sql = this->dialect->createTable(tableName, schemaName, definition);
 
-        let queries = explode(";",sql);
+        let queries = explode(";", sql);
 
         if count(queries) > 1 {
             try {
@@ -121,6 +120,7 @@ class Postgresql extends PdoAdapter
                     if empty query {
                         continue;
                     }
+
                     this->{"query"}(query . ";");
                 }
 
@@ -627,7 +627,7 @@ class Postgresql extends PdoAdapter
             currentColumn
         );
 
-        let queries = explode(";",sql);
+        let queries = explode(";", sql);
 
         if count(queries) > 1 {
             try {

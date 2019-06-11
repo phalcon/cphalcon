@@ -32,7 +32,8 @@ class Sqlite extends Dialect
      */
     public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
     {
-        var sql, defaultValue;
+        var defaultValue;
+        string sql;
 
         let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD COLUMN ";
 
@@ -189,9 +190,7 @@ class Sqlite extends Dialect
          * Create related indexes
          */
         if fetch indexes, definition["indexes"] {
-
             for index in indexes {
-
                 let indexName = index->getName();
                 let indexType = index->getType();
 
@@ -332,17 +331,15 @@ class Sqlite extends Dialect
      */
     public function dropTable(string! tableName, string schemaName = null, bool! ifExists = true) -> string
     {
-        var sql, table;
+        var table;
 
         let table = this->prepareTable(tableName, schemaName);
 
         if ifExists {
-            let sql = "DROP TABLE IF EXISTS " . table;
-        } else {
-            let sql = "DROP TABLE " . table;
+            return "DROP TABLE IF EXISTS " . table;
         }
 
-        return sql;
+        return "DROP TABLE " . table;
     }
 
     /**

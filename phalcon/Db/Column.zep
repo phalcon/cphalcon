@@ -446,9 +446,10 @@ class Column implements ColumnInterface
      */
     public static function __set_state(array! data) -> <ColumnInterface>
     {
-        var definition, columnType, notNull, size, dunsigned, after, isNumeric,
-            first, bindType, primary, columnName, scale, defaultValue,
-            autoIncrement, columnTypeReference, columnTypeValues;
+        var columnType, notNull, size, dunsigned, after, isNumeric, first,
+            bindType, primary, columnName, scale, defaultValue, autoIncrement,
+            columnTypeReference, columnTypeValues;
+        array definition;
 
         if !fetch columnName, data["columnName"] {
             if unlikely !fetch columnName, data["name"] {
