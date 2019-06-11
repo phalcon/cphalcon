@@ -24,6 +24,7 @@ use Phalcon\Config;
  *     "filePath" => "path/config",
  *     "adapter"  => "php",
  * ];
+ *
  * $config = (new ConfigFactory())->load($options);
  *</code>
  */

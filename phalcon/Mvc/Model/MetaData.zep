@@ -875,14 +875,14 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     private function throwWriteException(var option) -> void
     {
+        string message;
+
+        let message = "Failed to store metaData to the cache adapter";
+
         if option {
-            throw new Exception(
-                "Failed to store metaData to the cache adapter"
-            );
+            throw new Exception(message);
         } else {
-            trigger_error(
-                "Failed to store metaData to the cache adapter"
-            );
+            trigger_error(message);
         }
     }
 }

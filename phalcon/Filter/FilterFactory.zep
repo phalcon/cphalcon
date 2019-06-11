@@ -20,7 +20,9 @@ class FilterFactory
      */
     public function newInstance() -> <LocatorInterface>
     {
-        return new Filter(this->getAdapters());
+        return new Filter(
+            this->getAdapters()
+        );
     }
     
     protected function getAdapters() -> array
@@ -50,5 +52,3 @@ class FilterFactory
         ];
     }
 }
-
-

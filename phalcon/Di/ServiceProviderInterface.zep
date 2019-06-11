@@ -15,8 +15,8 @@ use Phalcon\DiInterface;
 /**
  * Phalcon\Di\ServiceProviderInterface
  *
- * Should be implemented by service providers, or such components,
- * which register a service in the service container.
+ * Should be implemented by service providers, or such components, which
+ * register a service in the service container.
  *
  * <code>
  * namespace Acme;
