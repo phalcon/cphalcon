@@ -22,9 +22,9 @@ use Phalcon\Mvc\Model\BinderInterface;
 use Phalcon\Mvc\Router;
 
 /**
- * Phalcon\Mvc\Dispatcher\Firewall\Adapter\Micro\Acl
+ * Phalcon\Firewall\Adapter\Micro\Acl
  *
- * Firewall for Phalcon\Mvc\Micro which depends on acl
+ * Firewall for Phalcon\Mvc\Micro which depends on ACL
  */
 class Acl extends Adapter
 {
@@ -41,7 +41,8 @@ class Acl extends Adapter
 	protected boundModels;
 
 	/**
-	 * Property used for setting different key names in associated acl function than got from Binder
+	 * Property used for setting different key names in associated ACL function
+	 * than got from Binder
 	 */
 	protected boundModelsKeyMap { get, set };
 
@@ -70,14 +71,12 @@ class Acl extends Adapter
 	protected router;
 
 	/**
-	 * By default using route names which are required, you can change it to false to use route patterns
+	 * By default using route names which are required, you can change it to
+	 * false to use route patterns
 	 * @var bool
 	 */
 	protected routeNameConfiguration = true { set };
 
-	/**
-	 * Constructor
-	 */
 	public function __construct(string! aclServiceName, array! boundModelsKeyMap = null)
 	{
 		let this->aclServiceName    = aclServiceName,
@@ -139,6 +138,7 @@ class Acl extends Adapter
 			} else {
 				let roleName = role;
 			}
+
 			if this->routeNameConfiguration {
 				return this->throwFirewallException(
 				    "Role name " . roleName . " doesn't have access to route called " . actionName, 
@@ -146,8 +146,7 @@ class Acl extends Adapter
                 );
 			} else {
 				return this->throwFirewallException(
-				    "Role name " . roleName . " doesn't have access to route with pattern " .
-				    actionName, 
+				    "Role name " . roleName . " doesn't have access to route with pattern " . actionName,
 				    403
                 );
 			}
@@ -163,7 +162,7 @@ class Acl extends Adapter
 		var explodedKey, access, keyWithValues, originalKeysJoin;
 
 		if roleCacheKey != null {
-			let roleCacheKey = "!".roleCacheKey;
+			let roleCacheKey = "!" . roleCacheKey;
 		}
 
 		let explodedKey = explode("!", key);
@@ -181,7 +180,7 @@ class Acl extends Adapter
 		 */
 		if !empty originalValues {
 			let originalKeysJoin = join("!", originalValues),
-			    keyWithValues    = key."!".originalKeysJoin.roleCacheKey,
+			    keyWithValues    = key . "!" . originalKeysJoin . roleCacheKey,
 			    access           = parent::getAccessFromCache(keyWithValues);
 
 			if access !== null {
@@ -195,6 +194,7 @@ class Acl extends Adapter
 			if access !== null {
 				return access;
 			}
+
 			let access = parent::getAccessFromCache(
 			    explodedKey[0] . "!*!*!" . originalKeysJoin . roleCacheKey
             );
@@ -204,7 +204,9 @@ class Acl extends Adapter
             }
 		}
 
-		let access = parent::getAccessFromCache(key.roleCacheKey);
+		let access = parent::getAccessFromCache(
+			key . roleCacheKey
+		);
 
 		if access !== null {
 			return access;
@@ -214,7 +216,9 @@ class Acl extends Adapter
 		 * Try role-component-*
 		 */
 
-		let access = parent::getAccessFromCache(explodedKey[0]."!".explodedKey[1]."!*".roleCacheKey);
+		let access = parent::getAccessFromCache(
+			explodedKey[0] . "!" . explodedKey[1] . "!*" . roleCacheKey
+		);
 
 		if access !== null {
 			return access;
@@ -224,7 +228,9 @@ class Acl extends Adapter
 		 * Try role-*-*
 		 */
 
-		let access = parent::getAccessFromCache(explodedKey[0]."!*!*".roleCacheKey);
+		let access = parent::getAccessFromCache(
+			explodedKey[0] . "!*!*" . roleCacheKey
+		);
 
 		return access;
 	}
@@ -239,7 +245,9 @@ class Acl extends Adapter
 
 		let container = micro->getDI();
 		if typeof container != "object" {
-			throw new Exception("A dependency injector container is required to obtain ACL service");
+			throw new Exception(
+				"A dependency injector container is required to obtain ACL service"
+			);
 		}
 
 		let defaultAccess     = (bool) this->defaultAccess,
@@ -257,6 +265,7 @@ class Acl extends Adapter
 		if this->activeRole == null || this->alwaysResolvingRole {
 			let this->activeRole     = null,
 			    this->activeIdentity = null;
+
 			this->callRoleCallback(container);
 		}
 
@@ -264,7 +273,9 @@ class Acl extends Adapter
 		    componentName = this->componentName;
 
 		if typeof aclRole != "string" {
-			throw new Exception("When using ACL service as firewall configuration you can pass role only as string or object implementing 'Phalcon\\Acl\\RoleAware'.");
+			throw new Exception(
+				"When using ACL service as firewall configuration you can pass role only as string or object implementing 'Phalcon\\Acl\\RoleAware'."
+			);
 		}
 
 		// handle role as object
@@ -276,18 +287,23 @@ class Acl extends Adapter
 
 		let cacheKey    = aclRole . "!" . componentName . "!" . actionName,
 		    modelBinder = micro->getModelBinder();
+
 		if modelBinder != null {
 			let originalValues = modelBinder->getOriginalValues();
 		}
+
 		let roleCacheCallback = this->roleCacheCallback;
+
 		if typeof role == "object" && roleCacheCallback != null {
 			let roleCacheKey = {roleCacheCallback}(role);
 		}
+
 		let aclAccess = this->getAccessFromCache(cacheKey, originalValues, roleCacheKey);
 
 		if aclAccess === null {
 			let aclServiceName = this->aclServiceName,
 			    acl            = container->get(aclServiceName);
+
 			if typeof acl != "object" || !(acl instanceof \Phalcon\Acl\AdapterInterface) {
 				throw new Exception(
 				    "You need to add acl service to dependency injector " .
@@ -297,7 +313,9 @@ class Acl extends Adapter
 
 			// check if role exist
 			if !acl->isRole(aclRole) {
-				throw new Exception("Role ".aclRole." doesn't exist in ACL");
+				throw new Exception(
+					"Role " . aclRole . " doesn't exist in ACL"
+				);
 			}
 
 			// if component doesn't exist check against firewall defaultAccess
@@ -308,11 +326,16 @@ class Acl extends Adapter
 				    componentName,
 				    defaultAccess
                 );
+
 				if roleCacheKey != null {
-					this->saveAccessInCache(cacheKey."!".roleCacheKey, defaultAccess);
+					this->saveAccessInCache(
+						cacheKey . "!" . roleCacheKey,
+						defaultAccess
+					);
 				} else {
 					this->saveAccessInCache(cacheKey, defaultAccess);
 				}
+
 				if value === false {
 					return false;
 				}
@@ -338,17 +361,23 @@ class Acl extends Adapter
 
 			if acl->getActiveFunction() != null {
 				if !empty parameters && acl->getActiveFunctionCustomArgumentsCount() > 0 {
-					let cacheKey .= "!".join("!", originalValues);
+					let cacheKey .= "!" . join("!", originalValues);
 				}
+
 				if roleCacheKey != null && typeof role == "object" {
-					let cacheKey .= "!".roleCacheKey;
+					let cacheKey .= "!" . roleCacheKey;
 				}
 			}
 
 			this->saveAccessInCache(cacheKey, aclAccess);
 		}
 
-		let value = this->fireEventOrThrowException(aclRole, actionName, componentName, aclAccess);
+		let value = this->fireEventOrThrowException(
+			aclRole,
+			actionName,
+			componentName,
+			aclAccess
+		);
 
 		if value === false {
 			return false;
