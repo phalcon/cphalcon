@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Di;
+use Phalcon\Escaper;
 use UnitTester;
 
 class GetServicesCest
@@ -26,6 +28,16 @@ class GetServicesCest
     {
         $I->wantToTest('Di - getServices()');
 
-        $I->skipTest('Need implementation');
+        $di = new Di();
+
+        $I->assertEmpty($di->getServices());
+
+        $di->set('escaper', Escaper::class);
+
+        $I->assertCount(1, $di->getServices());
+
+        $di->remove('escaper');
+
+        $I->assertCount(0, $di->getServices());
     }
 }
