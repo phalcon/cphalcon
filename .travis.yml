@@ -74,6 +74,7 @@ before_install:
     export PHP_PEAR_PHP_BIN=$(phpenv which php)
 
 install:
+  - .ci/install-mysql-5.7.sh
   - tests/_ci/setup-dbs.sh
   - tests/_ci/pear-setup.sh
   - .ci/install-prereqs.sh
