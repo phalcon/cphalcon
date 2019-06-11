@@ -191,7 +191,7 @@ class Route
         int intermediate = 0, numberMatches = 0;
         string route, item, variable, regexp;
 
-        if strlen(pattern) <= 0 {
+        if strlen(pattern) === 0 {
             return false;
         }
 
