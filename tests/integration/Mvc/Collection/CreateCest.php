@@ -54,6 +54,7 @@ class CreateCest
         $robot->first_name = null;
 
         $I->assertTrue($robot->create());
+        $I->assertNotNull($this->mongo->selectCollection($this->source)->findOne(['_id' => $robot->getId()]));
     }
 
     public function _after()

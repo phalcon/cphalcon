@@ -13,21 +13,71 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Collection;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Mvc\Collections\Robots;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
  * Class FindCest
  */
 class FindCest
 {
+    use DiTrait;
+
+    /** @var string $source */
+    private $source;
+
+    /** @var Database $mongo */
+    private $mongo;
+
+    public function _before()
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiCollectionManager();
+        $this->setDiMongo();
+
+        $this->source = (new Robots)->getSource();
+        $this->mongo = $this->getDi()->get('mongo');
+
+        $this->mongo->selectCollection($this->source)->insertMany(
+            [
+                [
+                    'first_name' => 'Wall',
+                    'last_name' => 'E',
+                ],
+                [
+                    'first_name' => 'Unknown',
+                    'last_name' => 'Nobody',
+                ],
+                [
+                    'first_name' => 'Termin',
+                    'last_name' => 'E',
+                ]
+            ]
+        );
+    }
+
     /**
      * Tests Phalcon\Mvc\Collection :: find()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
      * @since  2018-11-13
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function mvcCollectionFind(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Collection - find()');
-        $I->skipTest('Need implementation');
+
+        $robots = Robots::find();
+        $robotsE = Robots::find([['last_name' => 'E']]);
+
+        $I->assertNotEmpty($robots);
+        $I->assertInstanceOf(Robots::class, $robots[0]);
+        $I->assertEquals(3, count($robots));
+        $I->assertEquals(2, count($robotsE));
+    }
+
+    public function _after()
+    {
+        $this->mongo->dropCollection($this->source);
     }
 }
