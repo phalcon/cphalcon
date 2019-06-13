@@ -17,10 +17,10 @@ use UnitTester;
 class GetServicesCest
 {
     /**
-     * Tests Phalcon\Di :: getServices()
+     * Unit Tests Phalcon\Di :: getServices()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diGetServices(UnitTester $I)
     {

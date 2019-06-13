@@ -17,10 +17,10 @@ use UnitTester;
 class SetDefaultCest
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault :: setDefault()
+     * Unit Tests Phalcon\Di\FactoryDefault :: setDefault()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diFactoryDefaultSetDefault(UnitTester $I)
     {

@@ -17,10 +17,10 @@ use UnitTester;
 class LoadFromPhpCest
 {
     /**
-     * Tests Phalcon\Di :: loadFromPhp()
+     * Unit Tests Phalcon\Di :: loadFromPhp()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diLoadFromPhp(UnitTester $I)
     {

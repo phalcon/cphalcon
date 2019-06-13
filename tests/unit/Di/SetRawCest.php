@@ -17,10 +17,10 @@ use UnitTester;
 class SetRawCest
 {
     /**
-     * Tests Phalcon\Di :: setRaw()
+     * Unit Tests Phalcon\Di :: setRaw()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diSetRaw(UnitTester $I)
     {

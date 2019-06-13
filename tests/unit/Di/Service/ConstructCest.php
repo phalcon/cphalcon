@@ -17,10 +17,10 @@ use UnitTester;
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Di\Service :: __construct()
+     * Unit Tests Phalcon\Di\Service :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diServiceConstruct(UnitTester $I)
     {

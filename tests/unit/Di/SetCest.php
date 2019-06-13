@@ -17,10 +17,10 @@ use UnitTester;
 class SetCest
 {
     /**
-     * Tests Phalcon\Di :: set()
+     * Unit Tests Phalcon\Di :: set()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diSet(UnitTester $I)
     {

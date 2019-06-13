@@ -17,10 +17,10 @@ use UnitTester;
 class IsSharedCest
 {
     /**
-     * Tests Phalcon\Di\Service :: isShared()
+     * Unit Tests Phalcon\Di\Service :: isShared()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diServiceIsShared(UnitTester $I)
     {

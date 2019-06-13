@@ -17,10 +17,10 @@ use UnitTester;
 class ResetCest
 {
     /**
-     * Tests Phalcon\Di :: reset()
+     * Unit Tests Phalcon\Di :: reset()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diReset(UnitTester $I)
     {
