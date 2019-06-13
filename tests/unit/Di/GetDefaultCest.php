@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Di;
 use UnitTester;
 
 class GetDefaultCest
@@ -26,6 +27,6 @@ class GetDefaultCest
     {
         $I->wantToTest('Di - getDefault()');
 
-        $I->skipTest('Need implementation');
+        $I->assertInstanceOf(Di::class, Di::getDefault());
     }
 }
