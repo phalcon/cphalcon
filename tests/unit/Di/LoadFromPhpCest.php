@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Config;
+use Phalcon\Di;
+use Phalcon\Test\Module\UnitTest;
 use UnitTester;
 
 class LoadFromPhpCest
@@ -26,6 +29,20 @@ class LoadFromPhpCest
     {
         $I->wantToTest('Di - loadFromPhp()');
 
-        $I->skipTest('Need implementation');
+        $di = new Di();
+
+        // load php
+        $di->loadFromPhp(dataDir('fixtures/Di/services.php'));
+
+        // there are 3
+        $I->assertCount(3, $di->getServices());
+
+        // check some services
+        $actual = $di->get('config');
+        $I->assertInstanceOf(Config::class, $actual);
+
+        $I->assertTrue($di->has('config'));
+        $I->assertTrue($di->has('unit-test'));
+        $I->assertTrue($di->has('component'));
     }
 }

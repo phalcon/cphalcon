@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Config;
+use Phalcon\Di;
 use UnitTester;
 
 class LoadFromYamlCest
@@ -26,6 +28,20 @@ class LoadFromYamlCest
     {
         $I->wantToTest('Di - loadFromYaml()');
 
-        $I->skipTest('Need implementation');
+        $di = new Di();
+
+        // load php
+        $di->loadFromYaml(dataDir('fixtures/Di/services.yml'));
+
+        // there are 3
+        $I->assertCount(3, $di->getServices());
+
+        // check some services
+        $actual = $di->get('config');
+        $I->assertInstanceOf(Config::class, $actual);
+
+        $I->assertTrue($di->has('config'));
+        $I->assertTrue($di->has('unit-test'));
+        $I->assertTrue($di->has('component'));
     }
 }
