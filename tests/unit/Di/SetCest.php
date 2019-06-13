@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Crypt;
+use Phalcon\Di;
+use Phalcon\Escaper;
 use UnitTester;
 
 class SetCest
@@ -26,6 +29,24 @@ class SetCest
     {
         $I->wantToTest('Di - set()');
 
-        $I->skipTest('Need implementation');
+        $di = new Di();
+
+        // set non shared service
+        $di->set('escaper', Escaper::class);
+
+        $actual = $di->get('escaper');
+        $I->assertInstanceOf(Escaper::class, $actual);
+
+        $actual = $di->getService('escaper');
+        $I->assertFalse($actual->isShared());
+
+        // set shared service
+        $di->set('crypt', Crypt::class, true);
+
+        $actual = $di->get('crypt');
+        $I->assertInstanceOf(Crypt::class, $actual);
+
+        $actual = $di->getService('crypt');
+        $I->assertTrue($actual->isShared());
     }
 }

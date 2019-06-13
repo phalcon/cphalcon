@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Crypt;
+use Phalcon\Di;
+use Phalcon\Escaper;
 use UnitTester;
 
 class OffsetSetCest
@@ -26,6 +29,18 @@ class OffsetSetCest
     {
         $I->wantToTest('Di - offsetSet()');
 
-        $I->skipTest('Need implementation');
+        $di = new Di();
+
+        $di->offsetSet('escaper', Escaper::class);
+
+        $actual = $di->offsetGet('escaper');
+
+        $I->assertInstanceOf(Escaper::class, $actual);
+
+        $di['crypt'] = new Crypt();
+
+        $actual = $di->offsetGet('crypt');
+
+        $I->assertInstanceOf(Crypt::class, $actual);
     }
 }
