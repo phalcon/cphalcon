@@ -13,9 +13,12 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use Codeception\Example;
+use Phalcon\Annotations\Adapter\Memory as MemoryAnnotations;
+use Phalcon\Assets\Manager as ManagerAssets;
 use Phalcon\Crypt;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Escaper;
+use Phalcon\Events\Manager as ManagerEvents;
 use Phalcon\Filter\Filter;
 use Phalcon\Flash\Direct;
 use Phalcon\Flash\Session;
@@ -23,6 +26,7 @@ use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\Model\Manager as ManagerModel;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\Transaction\Manager;
 use Phalcon\Mvc\Router;
@@ -57,12 +61,12 @@ class ConstructCest
         return [
             [
                 'service' => 'annotations',
-                'class'   => \Phalcon\Annotations\Adapter\Memory::class,
+                'class'   => MemoryAnnotations::class,
             ],
 
             [
                 'service' => 'assets',
-                'class'   => \Phalcon\Assets\Manager::class,
+                'class'   => ManagerAssets::class,
             ],
 
             [
@@ -87,7 +91,7 @@ class ConstructCest
 
             [
                 'service' => 'eventsManager',
-                'class'   => \Phalcon\Events\Manager::class,
+                'class'   => ManagerEvents::class,
             ],
 
             [
@@ -107,7 +111,7 @@ class ConstructCest
 
             [
                 'service' => 'modelsManager',
-                'class'   => \Phalcon\Mvc\Model\Manager::class,
+                'class'   => ManagerModel::class,
             ],
 
             [
