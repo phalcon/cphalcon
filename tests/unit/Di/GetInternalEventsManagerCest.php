@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Di;
+use Phalcon\Events\Manager;
+use Phalcon\Events\ManagerInterface;
 use UnitTester;
 
 class GetInternalEventsManagerCest
@@ -26,6 +29,17 @@ class GetInternalEventsManagerCest
     {
         $I->wantToTest('Di - getInternalEventsManager()');
 
-        $I->skipTest('Need implementation');
+        $di = new Di();
+
+        $I->assertNull(
+            $di->getInternalEventsManager()
+        );
+
+        $di->setInternalEventsManager(new Manager());
+
+        $I->assertInstanceOf(
+            ManagerInterface::class,
+            $di->getInternalEventsManager()
+        );
     }
 }

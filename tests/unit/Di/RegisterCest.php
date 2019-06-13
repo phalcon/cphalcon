@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use SomeComponent;
+use SomeServiceProvider;
+use Phalcon\Di;
 use UnitTester;
 
 class RegisterCest
@@ -26,6 +29,14 @@ class RegisterCest
     {
         $I->wantToTest('Di - register()');
 
-        $I->skipTest('Need implementation');
+        require_once dataDir('fixtures/Di/SomeComponent.php');
+        require_once dataDir('fixtures/Di/SomeServiceProvider.php');
+
+        $di = new Di();
+
+        $di->register(new SomeServiceProvider());
+
+        $I->assertEquals('bar', $di->get('foo'));
+        $I->assertInstanceOf(SomeComponent::class, $di->get('fooAction'));
     }
 }
