@@ -32,7 +32,5 @@ class ConstructCest
         $I->assertInstanceOf(Di::class, $di);
 
         $I->assertInstanceOf(Di::class, Di::getDefault());
-
-        $I->assertSame(Di::getDefault(), $di);
     }
 }
