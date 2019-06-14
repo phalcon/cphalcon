@@ -13,21 +13,25 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 
-/**
- * Class RollbackSavepointCest
- */
 class RollbackSavepointCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: rollbackSavepoint()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
      */
     public function dbDialectMysqlRollbackSavepoint(IntegrationTester $I)
     {
         $I->wantToTest('Db\Dialect\Mysql - rollbackSavepoint()');
-        $I->skipTest('Need implementation');
+
+        $dialect = new Mysql();
+
+        $I->assertEquals(
+            'ROLLBACK TO SAVEPOINT PH_SAVEPOINT_1',
+            $dialect->rollbackSavepoint('PH_SAVEPOINT_1')
+        );
     }
 }

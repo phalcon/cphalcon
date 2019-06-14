@@ -33,6 +33,11 @@ class SaveCest
         $this->setDiMysql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model :: save()
      *
@@ -105,7 +110,11 @@ class SaveCest
          */
         $I->assertEquals(
             1,
-            Users::count(['id = 54321'])
+            Users::count(
+                [
+                    'id = 54321',
+                ]
+            )
         );
 
         /**
@@ -333,5 +342,37 @@ class SaveCest
         $I->assertTrue(
             $robot->delete()
         );
+    }
+
+    public function mvcModelSaveCircularRelation(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model::save() with circular unsaved relations');
+
+        $album = new Albums(
+            [
+                'name' => 'Loopback',
+            ]
+        );
+
+        $artist = new Artists(
+            [
+                'name' => 'Evil Robot',
+            ]
+        );
+
+        // Assign relationship in both directions on unsaved models
+        $album->artist = $artist;
+        $artist->albums = [
+            $album,
+        ];
+
+        // Save should handle the circular relation without issue
+        $I->assertTrue(
+            $artist->save()
+        );
+
+        // Both should have an ID now
+        $I->assertNotNull($album->id);
+        $I->assertNotNull($artist->id);
     }
 }

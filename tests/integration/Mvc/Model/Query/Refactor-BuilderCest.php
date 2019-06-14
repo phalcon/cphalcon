@@ -34,6 +34,11 @@ class BuilderCest
         $this->setDiMysql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Models cache
      *
@@ -44,7 +49,9 @@ class BuilderCest
     public function shouldSaveToUseComplexSnapshotCache(IntegrationTester $I)
     {
         $I->wantToTest('Saving snapshot using complex resultset while using modelsCache');
+
         $I->skipTest('TODO - Check me');
+
         $I->addServiceToContainer(
             'modelsCache',
             function () {
@@ -52,7 +59,9 @@ class BuilderCest
                     new Data(
                         ['lifetime' => 20,]
                     ),
-                    ['cacheDir' => outputDir('tests/cache/')]
+                    [
+                        'cacheDir' => outputDir('tests/cache/'),
+                    ]
                 );
             },
             true
@@ -60,7 +69,8 @@ class BuilderCest
 
         for ($i = 0; $i <= 1; $i++) {
             $builder = new Builder();
-            $result  = $builder->columns(['rp.*,r.*'])
+
+            $result = $builder->columns(['rp.*,r.*'])
                                ->from(['rp' => RobotsParts::class])
                                ->leftJoin(Robots::class, 'r.id = rp.robots_id', 'r')
                                ->where('rp.id = 1')
@@ -75,8 +85,8 @@ class BuilderCest
 
             /** @var Robots $robot */
             $robot = $result['r'];
-            /** @var RobotsParts $robotParts */
 
+            /** @var RobotsParts $robotParts */
             $robotParts = $result['rp'];
 
             $I->assertInstanceOf(
@@ -93,7 +103,10 @@ class BuilderCest
                 $robot->getSnapshotData()
             );
 
-            $I->assertInstanceOf(RobotsParts::class, $robotParts);
+            $I->assertInstanceOf(
+                RobotsParts::class,
+                $robotParts
+            );
 
             $I->assertNotEmpty(
                 $robotParts->getSnapshotData()
@@ -110,86 +123,13 @@ class BuilderCest
         }
     }
 
-    /**
-     * Tests merge bind types for Builder::where
-     *
-     * @issue https://github.com/phalcon/cphalcon/issues/11487
-     */
-    public function shouldMergeBinTypesForWhere(IntegrationTester $I)
-    {
-        $builder = new Builder();
-        $builder->setDi($this->container);
-
-        $builder
-            ->from(Robots::class)
-            ->where(
-                'id = :id:',
-                [':id:' => 3],
-                [':id:' => PDO::PARAM_INT]
-            )
-        ;
-
-        $builder->where(
-            'name = :name:',
-            [':name:' => 'Terminator'],
-            [':name:' => PDO::PARAM_STR]
-        );
-
-        $expected = [
-            ':id:'   => 1,
-            ':name:' => 2,
-        ];
-
-        $I->assertEquals(
-            $expected,
-            $builder->getQuery()->getBindTypes()
-        );
-    }
-
-    /**
-     * Tests merge bind types for Builder::having
-     *
-     * @issue https://github.com/phalcon/cphalcon/issues/11487
-     */
-    public function shouldMergeBinTypesForHaving(IntegrationTester $I)
-    {
-        $builder = new Builder();
-        $builder->setDi($this->container);
-
-        $builder
-            ->from(Robots::class)
-            ->columns(
-                [
-                    'COUNT(id)',
-                    'name',
-                ]
-            )
-            ->groupBy('COUNT(id)')
-            ->having(
-                'COUNT(id) > :cnt:',
-                [':cnt:' => 5],
-                [':cnt:' => PDO::PARAM_INT]
-            )
-        ;
-
-        $builder->having(
-            "CONCAT('is_', type) = :type:",
-            [':type:' => 'mechanical'],
-            [':type:' => PDO::PARAM_STR]
-        );
-
-        $actual   = $builder->getQuery()->getBindTypes();
-        $expected = [':cnt:' => 1, ':type:' => 2];
-
-        $I->assertEquals($expected, $actual);
-    }
-
     public function testAction(IntegrationTester $I)
     {
         $builder = new Builder();
-        $phql    = $builder->setDi($this->container)
-                           ->from(Robots::class)
-                           ->getPhql()
+
+        $phql = $builder->setDi($this->container)
+                        ->from(Robots::class)
+                        ->getPhql()
         ;
 
         $I->assertEquals(
@@ -810,135 +750,6 @@ class BuilderCest
         );
     }
 
-    public function testSelectDistinctAll(IntegrationTester $I)
-    {
-        $builder = new Builder();
-
-        $phql = $builder->setDi($this->container)
-                        ->distinct(true)
-                        ->columns(['Robots.name'])
-                        ->from(Robots::class)
-                        ->getPhql()
-        ;
-
-        $I->assertEquals(
-            'SELECT DISTINCT Robots.name FROM [' . Robots::class . ']',
-            $phql
-        );
-
-
-        $builder = new Builder();
-
-        $phql = $builder->setDi($this->container)
-                        ->distinct(false)
-                        ->columns(['Robots.name'])
-                        ->from(Robots::class)
-                        ->getPhql()
-        ;
-
-        $I->assertEquals(
-            'SELECT ALL Robots.name FROM [' . Robots::class . ']',
-            $phql
-        );
-
-
-        $builder = new Builder();
-
-        $phql = $builder->setDi($this->container)
-                        ->distinct(true)
-                        ->distinct(null)
-                        ->columns(['Robots.name'])
-                        ->from(Robots::class)
-                        ->getPhql()
-        ;
-
-        $I->assertEquals(
-            'SELECT Robots.name FROM [' . Robots::class . ']',
-            $phql
-        );
-
-
-        $builder = new Builder();
-
-        $phql = $builder->setDi($this->container)
-                        ->distinct(true)
-                        ->from(Robots::class)
-                        ->getPhql()
-        ;
-
-        $I->assertEquals(
-            'SELECT DISTINCT [' . Robots::class . '].* FROM [' . Robots::class . ']',
-            $phql
-        );
-    }
-
-    /**
-     * Test checks passing query params and dependency injector into
-     * constructor
-     */
-    public function testConstructor(IntegrationTester $I)
-    {
-        $params = [
-            'models'     => Robots::class,
-            'columns'    => ['id', 'name', 'status'],
-            'conditions' => 'a > 5',
-            'group'      => ['type', 'source'],
-            'having'     => 'b < 5',
-            'order'      => ['name', 'created'],
-            'limit'      => 10,
-            'offset'     => 15,
-        ];
-
-        $builder = new Builder($params, $this->container);
-
-        $expectedPhql = 'SELECT id, name, status FROM [' . Robots::class . '] '
-            . 'WHERE a > 5 GROUP BY [type], [source] '
-            . 'HAVING b < 5 ORDER BY [name], [created] '
-            . 'LIMIT :APL0: OFFSET :APL1:';
-
-        $I->assertEquals($expectedPhql, $builder->getPhql());
-        $I->assertEquals($this->container, $builder->getDI());
-    }
-
-    /**
-     * Test checks passing 'limit'/'offset' query param into constructor.
-     * limit key can take:
-     * - single numeric value
-     * - array of 2 values (limit, offset)
-     */
-    public function testConstructorLimit(IntegrationTester $I)
-    {
-        // separate limit and offset
-        $params = [
-            'models' => Robots::class,
-            'limit'  => 10,
-            'offset' => 15,
-        ];
-
-        $builderLimitAndOffset = new Builder($params);
-
-        // separate limit with offset
-
-        $params = [
-            'models' => Robots::class,
-            'limit'  => [10, 15],
-        ];
-
-        $builderLimitWithOffset = new Builder($params);
-
-        $expectedPhql = 'SELECT [' . Robots::class . '].* FROM [' . Robots::class . '] LIMIT :APL0: OFFSET :APL1:';
-
-        $I->assertEquals(
-            $expectedPhql,
-            $builderLimitAndOffset->getPhql()
-        );
-
-        $I->assertEquals(
-            $expectedPhql,
-            $builderLimitWithOffset->getPhql()
-        );
-    }
-
     /**
      * Test checks passing 'condition' query param into constructor.
      * Conditions can now be passed as an string(as before) and
@@ -1036,70 +847,5 @@ class BuilderCest
             Simple::class,
             $multipleConditionResult
         );
-    }
-
-    public function testGroup(IntegrationTester $I)
-    {
-        $builder = new Builder();
-
-        $phql = $builder->setDi($this->container)
-                        ->columns(['name', 'SUM(price)'])
-                        ->from(Robots::class)
-                        ->groupBy('id, name')
-                        ->getPhql()
-        ;
-
-        $I->assertEquals(
-            'SELECT name, SUM(price) FROM [' . Robots::class . '] GROUP BY [id], [name]',
-            $phql
-        );
-    }
-
-    /**
-     * Tests work with limit / offset
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/12419
-     * @author       Serghei Iakovelv <serghei@phalconphp.com>
-     * @since        2016-12-18
-     *
-     * @dataProvider limitOffsetProvider
-     */
-    public function shouldCorrectHandleLimitAndOffset(IntegrationTester $I, Example $example)
-    {
-        $limit    = $example[0];
-        $offset   = $example[1];
-        $expected = $example[2];
-
-        $builder = new Builder(null, $this->container);
-
-        $phql = $builder
-            ->columns(['name'])
-            ->from(Robots::class)
-            ->limit($limit, $offset)
-            ->getPhql()
-        ;
-
-        $I->assertEquals(
-            /** Just prevent IDE to highlight this as not valid SQL dialect */
-            'SELECT name ' . "FROM {$expected}",
-            $phql
-        );
-    }
-
-    protected function limitOffsetProvider(): array
-    {
-        return [
-            [-7, null, '[' . Robots::class . '] LIMIT :APL0:'],
-            /**
-             * @todo Check these examples
-             */
-            //            ["-7234", null, "[" . Robots::class . "] LIMIT :APL0:"],
-            //            ["18", null, "[" . Robots::class . "] LIMIT :APL0:"],
-            //            ["18", 2, "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
-            //            ["-1000", -200, "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
-            //            ["1000", "-200", "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
-            //            ["0", "-200", "[" . Robots::class . "]"],
-            //            ["%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E", 50, "[" . Robots::class . "]"],
-        ];
     }
 }

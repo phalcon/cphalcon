@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Users;
 
-/**
- * Class WriteAttributeCest
- */
 class WriteAttributeCest
 {
     use DiTrait;
@@ -27,6 +24,11 @@ class WriteAttributeCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
     }
 
     /**

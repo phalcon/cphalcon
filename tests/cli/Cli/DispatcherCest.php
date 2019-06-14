@@ -12,7 +12,6 @@
 namespace Phalcon\Test\Cli\Cli;
 
 use CliTester;
-use Exception;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -31,21 +30,13 @@ class DispatcherCest
         $this->setNewCliFactoryDefault();
     }
 
-    public function testDispatcher(CliTester $I)
+    public function testDispatcher1(CliTester $I)
     {
-        $this->container->set(
-            'data',
-            function () {
-                return 'data';
-            }
-        );
-
         $dispatcher = new Dispatcher();
 
         $dispatcher->setDI(
             $this->container
         );
-
 
         $dispatcher->dispatch();
 
@@ -68,7 +59,15 @@ class DispatcherCest
             'mainAction',
             $dispatcher->getReturnedValue()
         );
+    }
 
+    public function testDispatcher2(CliTester $I)
+    {
+        $dispatcher = new Dispatcher();
+
+        $dispatcher->setDI(
+            $this->container
+        );
 
         $dispatcher->setTaskName('echo');
 
@@ -93,7 +92,15 @@ class DispatcherCest
             'echoMainAction',
             $dispatcher->getReturnedValue()
         );
+    }
 
+    public function testDispatcher3(CliTester $I)
+    {
+        $dispatcher = new Dispatcher();
+
+        $dispatcher->setDI(
+            $this->container
+        );
 
         $dispatcher->setTaskName('main');
         $dispatcher->setActionName('hello');
@@ -119,12 +126,23 @@ class DispatcherCest
             'Hello !',
             $dispatcher->getReturnedValue()
         );
+    }
 
+    public function testDispatcher4(CliTester $I)
+    {
+        $dispatcher = new Dispatcher();
+
+        $dispatcher->setDI(
+            $this->container
+        );
 
         $dispatcher->setActionName('hello');
 
         $dispatcher->setParams(
-            ['World', '######']
+            [
+                'World',
+                '######',
+            ]
         );
 
         $dispatcher->dispatch();
@@ -140,7 +158,10 @@ class DispatcherCest
         );
 
         $I->assertEquals(
-            ['World', '######'],
+            [
+                'World',
+                '######',
+            ],
             $dispatcher->getParams()
         );
 
@@ -148,7 +169,15 @@ class DispatcherCest
             'Hello World######',
             $dispatcher->getReturnedValue()
         );
+    }
 
+    public function testDispatcher5(CliTester $I)
+    {
+        $dispatcher = new Dispatcher();
+
+        $dispatcher->setDI(
+            $this->container
+        );
 
         $dispatcher->setActionName('hello');
 
@@ -172,43 +201,5 @@ class DispatcherCest
         $I->assertFalse(
             $dispatcher->hasParam('salutations')
         );
-
-        // testing namespace
-        try {
-            $dispatcher->setDefaultNamespace('Dummy\\');
-            $dispatcher->setTaskName('main');
-            $dispatcher->setActionName('hello');
-
-            $dispatcher->setParams(
-                ['World']
-            );
-
-            $dispatcher->dispatch();
-
-            $I->assertEquals(
-                'main',
-                $dispatcher->getTaskName()
-            );
-
-            $I->assertEquals(
-                'hello',
-                $dispatcher->getActionName()
-            );
-
-            $I->assertEquals(
-                ['World'],
-                $dispatcher->getParams()
-            );
-
-            $I->assertEquals(
-                'Hello World!',
-                $dispatcher->getReturnedValue()
-            );
-        } catch (Exception $e) {
-            $I->assertEquals(
-                'Dummy\MainTask handler class cannot be loaded',
-                $e->getMessage()
-            );
-        }
     }
 }

@@ -42,31 +42,31 @@ interface ValidatorInterface
     public function validate(<\Phalcon\Validation> validation, var field) -> bool;
 
     /**
-    * Get the advice message
+    * Get the template message
     *
     * @return string
     * @throw InvalidArgumentException When the field does not exists
     */
-    public function getAdvice(string! field) -> string;
+    public function getTemplate(string! field) -> string;
 
     /**
-    * Get advices collection object
+    * Get message templates
     *
-    * @return Collection
+    * @return <>
     */
-    public function getAdvices() -> <Collection>;
+    public function getTemplates() -> array;
 
     /**
-    * Clear current advices and set new from an array,
-    *
-    * @return ValidatorInterface
-    */
-    public function setAdvices(array! advices) -> <ValidatorInterface>;
-
-    /**
-    * Set a new advice message
+    * Clear current template and set new from an array,
     *
     * @return ValidatorInterface
     */
-    public function setAdvice(string! advice) -> <ValidatorInterface>;
+    public function setTemplates(array! advices) -> <ValidatorInterface>;
+
+    /**
+    * Set a new temlate message
+    *
+    * @return ValidatorInterface
+    */
+    public function setTemplate(string! advice) -> <ValidatorInterface>;
 }

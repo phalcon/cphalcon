@@ -62,7 +62,7 @@ use Phalcon\Validation\Validator;
  */
 class Callback extends Validator
 {
-    protected advice = "Field :field must match the callback function";
+    protected template = "Field :field must match the callback function";
 
     /**
      * Executes the validation

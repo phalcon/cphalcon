@@ -57,35 +57,30 @@ use Phalcon\Validation\Validator;
  */
 class Identical extends Validator
 {
-    protected advice = "Field :field does not have the expected value";
+    protected template = "Field :field does not have the expected value";
 
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, valid, accepted, valueOption;
+        var value, accepted, valueOption;
+        bool valid;
 
         let value = validation->getValue(field);
 
         if this->hasOption("accepted") {
             let accepted = this->getOption("accepted");
+        } elseif this->hasOption("value") {
+            let accepted = this->getOption("value");
+        }
 
+        if accepted {
             if typeof accepted == "array" {
                 let accepted = accepted[field];
             }
 
             let valid = value == accepted;
-        } else {
-            if this->hasOption("value") {
-                let valueOption = this->getOption("value");
-
-                if typeof valueOption == "array" {
-                    let valueOption = valueOption[field];
-                }
-
-                let valid = value == valueOption;
-            }
         }
 
         if !valid {

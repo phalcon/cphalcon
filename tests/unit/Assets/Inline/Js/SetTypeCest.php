@@ -18,14 +18,14 @@ use UnitTester;
 class SetTypeCest
 {
     /**
-     * Tests Phalcon\Assets\Inline :: setType()
+     * Tests Phalcon\Assets\Inline\Js :: setType()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineSetType(UnitTester $I)
+    public function assetsInlineJsSetType(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - setType()');
+        $I->wantToTest('Assets\Inline\Js - setType()');
 
         $asset = new Js(
             '<script>alert("Hello");</script>'

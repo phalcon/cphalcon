@@ -13,21 +13,64 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Index;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
-/**
- * Class GetNameCest
- */
 class GetNameCest
 {
+    use DialectTrait;
+
     /**
      * Tests Phalcon\Db\Index :: getName()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function dbIndexGetName(IntegrationTester $I)
     {
         $I->wantToTest('Db\Index - getName()');
-        $I->skipTest('Need implementation');
+
+        $indexes = $this->getIndexes();
+
+
+
+        $index1 = $indexes['index1'];
+
+        $I->assertEquals(
+            'index1',
+            $index1->getName()
+        );
+
+
+
+        $index2 = $indexes['index2'];
+
+        $I->assertEquals(
+            'index2',
+            $index2->getName()
+        );
+
+
+
+        $index3 = $indexes['PRIMARY'];
+
+        $I->assertEquals(
+            'PRIMARY',
+            $index3->getName()
+        );
+
+
+
+        $index4 = $indexes['index4'];
+
+        $I->assertEquals(
+            'index4',
+            $index4->getName()
+        );
+
+
+
+        $index5 = $indexes['index5'];
+
+        $I->assertEquals(
+            'index5',
+            $index5->getName()
+        );
     }
 }

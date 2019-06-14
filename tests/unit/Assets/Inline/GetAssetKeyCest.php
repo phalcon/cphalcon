@@ -12,27 +12,31 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Inline;
 
+use Codeception\Example;
 use Phalcon\Assets\Inline;
 use UnitTester;
 
 class GetAssetKeyCest
 {
     /**
-     * Tests Phalcon\Assets\Inline :: getAssetKey() - css
+     * Tests Phalcon\Assets\Inline :: getAssetKey()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsInlineGetAssetKeyCss(UnitTester $I)
+    public function assetsInlineGetAssetKey(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Inline - getAssetKey() - css');
+        $I->wantToTest('Assets\Inline - getAssetKey()');
 
-        $content = 'p {color: #000099}';
-
-        $asset = new Inline('css', $content);
+        $asset = new Inline(
+            $example['type'],
+            $example['content']
+        );
 
         $expected = md5(
-            'css:' . $content
+            $example['type'] . ':' . $example['content']
         );
 
         $I->assertEquals(
@@ -41,27 +45,17 @@ class GetAssetKeyCest
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Inline :: getAssetKey() - js
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsInlineGetAssetKeyJs(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Inline - getAssetKey() - js');
-
-        $content = '<script>alert("Hello");</script>';
-
-        $asset = new Inline('js', $content);
-
-        $expected = md5(
-            'js:' . $content
-        );
-
-        $I->assertEquals(
-            $expected,
-            $asset->getAssetKey()
-        );
+        return [
+            [
+                'type'    => 'css',
+                'content' => 'p {color: #000099}',
+            ],
+            [
+                'type'    => 'js',
+                'content' => '<script>alert("Hello");</script>',
+            ],
+        ];
     }
 }

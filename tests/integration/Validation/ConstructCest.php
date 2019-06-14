@@ -13,22 +13,36 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation;
 
 use IntegrationTester;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Date;
+use Phalcon\Validation\Validator\Email;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Validation :: __construct()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-16
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
     public function validationConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation - __construct()');
 
-        $I->skipTest('Need implementation');
+        $validators = [
+            'date' => [
+                new Date(),
+            ],
+            'email' => [
+                new Email(),
+            ],
+        ];
+
+        $validation = new Validation($validators);
+
+        $I->assertEquals(
+            $validators,
+            $validation->getValidators()
+        );
     }
 }

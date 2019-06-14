@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
 
 use IntegrationTester;
+use Phalcon\Db\Adapter\Pdo\Mysql;
+use Phalcon\Db\Reference;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -74,6 +76,39 @@ class DescribeReferencesCest
 
         /** @var Reference $reference */
         foreach ($directReferences as $reference) {
+            $I->assertCount(
+                1,
+                $reference->getColumns()
+            );
+        }
+    }
+
+    /**
+     * Tests Mysql::describeReferences
+     *
+     * @author Wojciechj Ślawski <jurigag@gmail.com>
+     * @since  2016-09-28
+     */
+    public function testDescribeReferencesColumnsCount(IntegrationTester $I)
+    {
+        $actual = $this->connection->describeReferences(
+            'robots_parts',
+            env('DATA_MYSQL_NAME')
+        );
+
+        $I->assertCount(2, $actual);
+
+
+        $I->assertCount(
+            2,
+            $this->connection->describeReferences('robots_parts', null)
+        );
+
+
+        $references = $actual;
+
+        /** @var Reference $reference */
+        foreach ($references as $reference) {
             $I->assertCount(
                 1,
                 $reference->getColumns()

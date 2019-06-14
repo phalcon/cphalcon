@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Db;
 
+use Codeception\Example;
 use IntegrationTester;
 use PDO;
 use Phalcon\Db;
@@ -26,94 +27,28 @@ class DbCest
         $this->newDi();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
-     * Tests Phalcon\Db :: Mysql
+     * Tests Phalcon\Db
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider adaptersProvider
      */
-    public function dbMySql(IntegrationTester $I)
+    public function db(IntegrationTester $I, Example $example)
     {
-        $I->wantToTest('Db - MySql');
+        $I->wantToTest('Db - ' . $example[0]);
 
-        $this->setDiMysql();
+        $diFunction = 'setDi' . $example[0];
+
+        $this->{$diFunction}();
 
         $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
-    }
-
-    private function executeTests(IntegrationTester $I, $connection)
-    {
-        $result = $connection->query('SELECT * FROM personas LIMIT 3');
-
-        $I->assertInternalType('object', $result);
-
-        $I->assertInstanceOf(
-            \Phalcon\Db\Result\Pdo::class,
-            $result
-        );
-
-        for ($i = 0; $i < 3; $i++) {
-            $row = $result->fetch();
-            $I->assertCount(22, $row);
-        }
-
-        $row = $result->fetch();
-        $I->assertFalse($row);
-        $I->assertEquals(3, $result->numRows());
-
-
-
-        $number = 0;
-        $result = $connection->query('SELECT * FROM personas LIMIT 5');
-        $I->assertInternalType('object', $result);
-
-        while ($row = $result->fetch()) {
-            $number++;
-        }
-        $I->assertEquals(5, $number);
-
-
-
-        $result = $connection->query('SELECT * FROM personas LIMIT 5');
-        $result->setFetchMode(Db::FETCH_NUM);
-        $row = $result->fetch();
-        $I->assertInternalType('array', $row);
-        $I->assertCount(11, $row);
-        $I->assertTrue(isset($row[0]));
-        $I->assertFalse(isset($row['cedula']));
-        $I->assertFalse(isset($row->cedula));
-
-
-
-        $result = $connection->query('SELECT * FROM personas LIMIT 5');
-        $result->setFetchMode(Db::FETCH_ASSOC);
-        $row = $result->fetch();
-        $I->assertInternalType('array', $row);
-        $I->assertCount(11, $row);
-        $I->assertFalse(isset($row[0]));
-        $I->assertTrue(isset($row['cedula']));
-        $I->assertFalse(isset($row->cedula));
-
-
-
-        $result = $connection->query('SELECT * FROM personas LIMIT 5');
-        $result->setFetchMode(Db::FETCH_OBJ);
-        $row = $result->fetch();
-        $I->assertInternalType('object', $row);
-        $I->assertTrue(isset($row->cedula));
-
-
-
-        $result = $connection->query('SELECT * FROM personas LIMIT 5');
-        $result->setFetchMode(Db::FETCH_BOTH);
-        $result->dataSeek(4);
-        $row = $result->fetch();
-        $row = $result->fetch();
-        $I->assertEquals($row, false);
-
-
 
         $I->assertTrue(
             $connection->execute('DELETE FROM prueba')
@@ -579,37 +514,18 @@ class DbCest
         );
     }
 
-    /**
-     * Tests Phalcon\Db :: Postgresql
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function dbPostgresql(IntegrationTester $I)
+    private function adaptersProvider(): array
     {
-        $I->wantToTest('Db - Postgresql');
-
-        $this->setDiPostgresql();
-
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
-    }
-
-    /**
-     * Tests Phalcon\Db :: Sqlite
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function dbSqlite(IntegrationTester $I)
-    {
-        $I->wantToTest('Db - Sqlite');
-
-        $this->setDiSqlite();
-
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
+        return [
+            [
+                'Mysql',
+            ],
+            [
+                'Postgresql',
+            ],
+            [
+                'Sqlite',
+            ],
+        ];
     }
 }

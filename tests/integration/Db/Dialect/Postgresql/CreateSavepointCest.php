@@ -13,12 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
+use Phalcon\Db\Dialect\Postgresql;
 
 class CreateSavepointCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: createSavepoint()
      *
@@ -28,16 +26,12 @@ class CreateSavepointCest
     public function dbDialectPostgresqlCreateSavepoint(IntegrationTester $I)
     {
         $I->wantToTest("Db\Dialect\Postgresql - createSavepoint()");
-        $dialect  = $this->getDialectPostgresql();
-        $expected = $this->getCreateSavepointSql();
-        $actual   = $dialect->createSavepoint('PH_SAVEPOINT_1');
 
-        $I->assertEquals($expected, $actual);
-    }
+        $dialect = new Postgresql();
 
-
-    protected function getCreateSavepointSql(): string
-    {
-        return 'SAVEPOINT PH_SAVEPOINT_1';
+        $I->assertEquals(
+            'SAVEPOINT PH_SAVEPOINT_1',
+            $dialect->createSavepoint('PH_SAVEPOINT_1')
+        );
     }
 }

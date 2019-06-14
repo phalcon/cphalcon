@@ -12,48 +12,45 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
 class GetRealTargetPathCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getRealTargetPath() - js local
+     * Tests Phalcon\Assets\Asset\Js :: getRealTargetPath()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetJsGetAssetKeyLocal(UnitTester $I)
+    public function assetsAssetJsGetAssetKey(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getRealTargetPath() - js local');
+        $I->wantToTest('Assets\Asset\Js - getRealTargetPath()');
 
-        $realTargetPath = 'js/jquery.js';
-
-        $asset = new Js($realTargetPath);
+        $asset = new Js(
+            $example['path']
+        );
 
         $I->assertEquals(
-            $realTargetPath,
+            $example['path'],
             $asset->getRealTargetPath()
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset\Js :: getRealTargetPath() - js
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetJsGetAssetKeyRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - getRealTargetPath() - js remote');
-
-        $realTargetPath =  'https://phalcon.ld/js/jquery.js';
-
-        $asset = new Js($realTargetPath, false);
-
-        $I->assertEquals(
-            $realTargetPath,
-            $asset->getRealTargetPath()
-        );
+        return [
+            [
+                'path'  => 'js/jquery.js',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/js/jquery.js',
+                'local' => false,
+            ],
+        ];
     }
 }

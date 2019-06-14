@@ -63,6 +63,11 @@ class ValidationCest
         $this->validation->setFilters('name', 'trim');
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests the get
      *
@@ -153,7 +158,9 @@ class ValidationCest
      */
     public function testFilteringEntity(IntegrationTester $I)
     {
-        $users = new Users(
+        $users = new Users();
+
+        $users->assign(
             [
                 'name' => 'SomeName      ',
             ]
@@ -161,7 +168,10 @@ class ValidationCest
 
         $this->validation->validate(null, $users);
 
-        $I->assertEquals($users->name, 'SomeName');
+        $I->assertEquals(
+            'SomeName',
+            $users->name
+        );
     }
 
     public function testValidationFiltering(IntegrationTester $I)

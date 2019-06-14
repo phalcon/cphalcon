@@ -17,10 +17,10 @@ use UnitTester;
 class HasCest
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault :: has()
+     * Unit Tests Phalcon\Di\FactoryDefault :: has()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diFactoryDefaultHas(UnitTester $I)
     {

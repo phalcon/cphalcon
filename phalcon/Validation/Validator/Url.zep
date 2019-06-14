@@ -52,7 +52,7 @@ use Phalcon\Validation\Validator;
  */
 class Url extends Validator
 {
-    protected advice = "Field :field must be a url";
+    protected template = "Field :field must be a url";
 
     /**
      * Executes the validation

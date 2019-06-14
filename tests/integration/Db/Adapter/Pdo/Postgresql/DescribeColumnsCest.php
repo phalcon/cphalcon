@@ -38,7 +38,6 @@ class DescribeColumnsCest
             Column::__set_state(
                 [
                     'columnName'    => 'id',
-                    'schemaName'    => null,
                     'type'          => 14,
                     'typeReference' => -1,
                     'typeValues'    => null,
@@ -58,7 +57,6 @@ class DescribeColumnsCest
             Column::__set_state(
                 [
                     'columnName'    => 'base64',
-                    'schemaName'    => null,
                     'type'          => 6,
                     'typeReference' => -1,
                     'typeValues'    => null,

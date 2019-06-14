@@ -13,18 +13,36 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
 use IntegrationTester;
+use Phalcon\Dispatcher;
+use Phalcon\Mvc\Dispatcher\Exception;
+use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
 
-class GetHandlerSuffixCest
+class GetHandlerSuffixCest extends BaseDispatcher
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: getHandlerSuffix()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-01
      */
     public function mvcDispatcherGetHandlerSuffix(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - getHandlerSuffix()');
-        $I->skipTest('Need implementation');
+
+        $dispatcher = $this->getDispatcher();
+
+        $dispatcher->setControllerName('Index');
+
+        $dispatcher->setControllerSuffix('Bleh');
+
+        $I->expectThrowable(
+            new Exception(
+                'Phalcon\Test\Integration\Mvc\Dispatcher\Helper\IndexBleh handler class cannot be loaded',
+                Dispatcher::EXCEPTION_HANDLER_NOT_FOUND
+            ),
+            function () use ($dispatcher) {
+                $dispatcher->dispatch();
+            }
+        );
     }
 }

@@ -22,11 +22,6 @@ class GetParamsCest
 
     public function _before(CliTester $I)
     {
-        /**
-         * @todo Check the loader
-         */
-        require_once dataDir('fixtures/tasks/ParamsTask.php');
-
         $this->setNewCliFactoryDefault();
     }
 
@@ -41,6 +36,7 @@ class GetParamsCest
         );
 
         // Test $this->dispatcher->getParams()
+        $dispatcher->setNamespaceName('Phalcon\Test\Fixtures\Tasks');
         $dispatcher->setTaskName('params');
         $dispatcher->setActionName('params');
 

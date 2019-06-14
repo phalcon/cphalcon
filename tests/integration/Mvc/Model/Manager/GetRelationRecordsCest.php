@@ -13,16 +13,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Manager;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\AlbumORama\Artists;
 use Phalcon\Test\Models\AlbumORama\Songs;
 
-/**
- * Class GetRelationRecordsCest
- */
 class GetRelationRecordsCest
 {
     use DiTrait;
@@ -31,6 +28,11 @@ class GetRelationRecordsCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
     }
 
     /**
@@ -44,12 +46,12 @@ class GetRelationRecordsCest
         $I->wantToTest('Mvc\Model\Manager - getRelationRecords()');
 
         /**
-         * @var Albums $album
+         * @var Albums
          */
         $album = Albums::findFirst(1);
 
         /**
-         * @var Manager $modelsManager
+         * @var Manager
          */
         $modelsManager = $album->getModelsManager();
 
@@ -75,7 +77,7 @@ class GetRelationRecordsCest
         $I->assertEquals(
             [
                 'id'   => 1,
-                'name' => 'Lana del Rey'
+                'name' => 'Lana del Rey',
             ],
             $artistRelationRecord->toArray()
         );
@@ -105,7 +107,7 @@ class GetRelationRecordsCest
             $songsRelation,
             $album,
             [
-                'id <= 5'
+                'id <= 5',
             ]
         );
 
@@ -157,7 +159,7 @@ class GetRelationRecordsCest
             [
                 'id'        => 1,
                 'albums_id' => $album->id,
-                'name'      => 'Born to Die'
+                'name'      => 'Born to Die',
             ],
             $singlesRelationRecords->getFirst()->toArray()
         );

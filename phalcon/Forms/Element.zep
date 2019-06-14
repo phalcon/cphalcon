@@ -32,7 +32,7 @@ abstract class Element implements ElementInterface
     protected options;
 
     /**
-     * @var
+     * @var array
      */
     protected validators = [];
 

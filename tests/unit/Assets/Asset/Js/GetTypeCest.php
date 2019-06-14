@@ -12,22 +12,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
 class GetTypeCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getType() - js local
+     * Tests Phalcon\Assets\Asset\Js :: getType()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetJsGetTypeLocal(UnitTester $I)
+    public function assetsAssetJsGetType(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getType() - js local');
+        $I->wantToTest('Assets\Asset - getType()');
 
-        $asset = new Js('js/jquery.js');
+        $asset = new Js(
+            $example['path'],
+            $example['local']
+        );
 
         $I->assertEquals(
             'js',
@@ -35,21 +41,17 @@ class GetTypeCest
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset\Js :: getType() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetJsGetTypeRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - getType() - js remote');
-
-        $asset = new Js('https://phalcon.ld/js/jquery.js');
-
-        $I->assertEquals(
-            'js',
-            $asset->getType()
-        );
+        return [
+            [
+                'path'  => 'js/jquery.js',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/js/jquery.js',
+                'local' => false,
+            ],
+        ];
     }
 }

@@ -18,49 +18,27 @@ use UnitTester;
 class GetAssetKeyCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getAssetKey() - js local
+     * Tests Phalcon\Assets\Asset\Js :: getAssetKey()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetJsGetAssetKeyLocal(UnitTester $I)
+    public function assetsAssetJsGetAssetKey(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getAssetKey() - js local');
+        $I->wantToTest('Assets\Asset\Js - getAssetKey()');
 
-        $file = 'js/jquery.js';
+        $path = 'js/jquery.js';
 
-        $asset = new Js($file);
+        $asset = new Js(
+            $path
+        );
 
-        $expected = md5(
-            'js:' . $file
+        $assetKey = md5(
+            'js:' . $path
         );
 
         $I->assertEquals(
-            $expected,
-            $asset->getAssetKey()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset\Js :: getAssetKey() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetJsGetAssetKeyRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getAssetKey() - js remote');
-
-        $file = 'https://phalcon.ld/js/jquery.js';
-
-        $asset = new Js($file, false);
-
-        $expected = md5(
-            'js:' . $file
-        );
-
-        $I->assertEquals(
-            $expected,
+            $assetKey,
             $asset->getAssetKey()
         );
     }

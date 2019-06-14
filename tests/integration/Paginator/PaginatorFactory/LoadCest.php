@@ -40,19 +40,19 @@ class LoadCest
 
         $this->setNewFactoryDefault();
 
+        $modelsManager = $this->container->get('modelsManager');
+
         $options = $this->config->paginator;
 
-        $options->options->builder = $this
-            ->container
-            ->get('modelsManager')
+        $options->options->builder = $modelsManager
             ->createBuilder()
             ->columns('id,name')
             ->from('Robots')
             ->orderBy('name')
         ;
 
-
         $factory = new PaginatorFactory();
+
         $adapter = $factory->load($options);
 
         $I->assertInstanceOf(
@@ -71,11 +71,11 @@ class LoadCest
     {
         $I->wantToTest('Paginator\AdapterFactory - load() - array');
 
+        $modelsManager = $this->container->get('modelsManager');
+
         $options = $this->arrayConfig['paginator'];
 
-        $options['options']['builder'] = $this
-            ->container
-            ->get('modelsManager')
+        $options['options']['builder'] = $modelsManager
             ->createBuilder()
             ->columns('id,name')
             ->from('Robots')
@@ -83,6 +83,7 @@ class LoadCest
         ;
 
         $factory = new PaginatorFactory();
+
         $adapter = $factory->load($options);
 
         $I->assertInstanceOf(

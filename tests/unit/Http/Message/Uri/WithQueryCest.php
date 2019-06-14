@@ -63,7 +63,7 @@ class WithQueryCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Method requires a string argument instead of ' . $example[0]
+                'Method requires a string argument'
             ),
             function () use ($example) {
                 $uri = new Uri(
@@ -75,26 +75,99 @@ class WithQueryCest
         );
     }
 
+    /**
+     * Tests Phalcon\Http\Message\Uri :: withQuery() - exception with fragment
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-02-07
+     */
+    public function httpUriWithQueryExceptionWithFragment(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - withQuery() - exception - with fragment');
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Query cannot contain a query fragment'
+            ),
+            function () {
+                $uri = new Uri(
+                    'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag'
+                );
+
+                $instance = $uri->withQuery('/login#frag');
+            }
+        );
+    }
+
     private function getExamples(): array
     {
         return [
-            ['key only', 'p^aram', 'p%5Earam'],
-            ['key and value', 'p^aram=valu`', 'p%5Earam=valu%60'],
-            ['key as array', 'param[]', 'param%5B%5D'],
-            ['key as array and value', 'param[]=valu`', 'param%5B%5D=valu%60'],
-            ['complex', 'p^aram&all[]=va lu`&f<>=`bar', 'p%5Earam&all%5B%5D=va%20lu%60&f%3C%3E=%60bar'],
+            [
+                'key only',
+                'p^aram',
+                'p%5Earam',
+            ],
+            [
+                'key and value',
+                'p^aram=valu`',
+                'p%5Earam=valu%60',
+            ],
+            [
+                'key as array',
+                'param[]',
+                'param%5B%5D',
+            ],
+            [
+                'key as array and value',
+                'param[]=valu`',
+                'param%5B%5D=valu%60',
+            ],
+            [
+                'key with questionmark',
+                '?param=valu',
+                'param=valu',
+            ],
+            [
+                'complex',
+                'p^aram&all[]=va lu`&f<>=`bar',
+                'p%5Earam&all%5B%5D=va%20lu%60&f%3C%3E=%60bar',
+            ],
         ];
     }
 
     private function getExceptions(): array
     {
         return [
-            ['NULL', 'null', null],
-            ['boolean', 'true', true],
-            ['boolean', 'false', false],
-            ['integer', 'number', 1234],
-            ['array', 'array', ['/action']],
-            ['stdClass', 'object', (object) ['/action']],
+            [
+                'NULL',
+                'null',
+                null,
+            ],
+            [
+                'boolean',
+                'true',
+                true,
+            ],
+            [
+                'boolean',
+                'false',
+                false,
+            ],
+            [
+                'integer',
+                'number',
+                1234,
+            ],
+            [
+                'array',
+                'array',
+                ['/action'],
+            ],
+            [
+                'stdClass',
+                'object',
+                (object) ['/action'],
+            ],
         ];
     }
 }

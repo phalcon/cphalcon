@@ -54,9 +54,11 @@ class ManagerCest
     public function testAssetsManagerOutputCssWithoutImplicitOutputFromCollection(UnitTester $I)
     {
         $assets = new Manager();
+
         $assets->collection('footer')->addCss('css/style1.css');
 
         $footer = $assets->collection('footer');
+
         $footer->addCss('css/style2.css');
 
         $expected = sprintf(
@@ -66,8 +68,11 @@ class ManagerCest
         );
 
         $assets->useImplicitOutput(false);
-        $actual = $assets->outputCss('footer');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $assets->outputCss('footer')
+        );
     }
 
     /**
@@ -89,14 +94,17 @@ class ManagerCest
         ;
 
         $assets->useImplicitOutput(false);
-        $actual = $assets->outputJs('header');
 
         $expected = sprintf(
             "%s\n%s\n",
             '<script src="http:://cdn.example.com/js/script1.js"></script>',
             '<script src="http:://cdn.example.com/js/script2.js"></script>'
         );
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $assets->outputJs('header')
+        );
     }
 
     /**
@@ -121,21 +129,27 @@ class ManagerCest
 
         $assets->useImplicitOutput(false);
 
+
+
         $expectedJS = sprintf(
             "%s\n%s\n",
             '<script src="http:://cdn.example.com/js/script1.js"></script>',
             '<script src="http:://cdn.example.com/js/script2.js"></script>'
         );
+
         $I->assertEquals(
             $expectedJS,
             $assets->outputJs('header')
         );
+
+
 
         $expectedCSS = sprintf(
             "%s\n%s\n",
             '<link rel="stylesheet" type="text/css" href="http:://cdn.example.com/css/styles1.css" />',
             '<link rel="stylesheet" type="text/css" href="http:://cdn.example.com/css/styles2.css" />'
         );
+
         $I->assertEquals(
             $expectedCSS,
             $assets->outputCss('header')

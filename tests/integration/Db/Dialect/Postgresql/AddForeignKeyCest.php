@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
 use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class AddForeignKeyCest
@@ -32,10 +33,11 @@ class AddForeignKeyCest
     {
         $I->wantToTest("Db\Dialect\Postgresql - addForeignKey()");
 
-        $schema     = $example[0];
-        $reference  = $example[1];
-        $expected   = $example[2];
-        $dialect    = $this->getDialectPostgresql();
+        $schema    = $example[0];
+        $reference = $example[1];
+        $expected  = $example[2];
+
+        $dialect    = new Postgresql();
         $references = $this->getReferences();
 
         $actual = $dialect->addForeignKey(

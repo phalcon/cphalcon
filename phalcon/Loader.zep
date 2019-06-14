@@ -538,13 +538,13 @@ class Loader implements EventsAwareInterface
         return this;
     }
 
-    protected function prepareNamespace(array! $namespace) -> array
+    protected function prepareNamespace(array! namespaceName) -> array
     {
         var localPaths, name, paths, prepared;
 
         let prepared = [];
 
-        for name, paths in $namespace {
+        for name, paths in namespaceName {
             if typeof paths != "array" {
                 let localPaths = [paths];
             } else {

@@ -93,7 +93,7 @@ use Phalcon\Mvc\Collection;
  */
 class Uniqueness extends CombinedFieldsValidator
 {
-    protected advice = "Field :field must be unique";
+    protected template = "Field :field must be unique";
 
     private columnMap = null;
 

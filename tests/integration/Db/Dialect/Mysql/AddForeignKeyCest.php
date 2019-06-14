@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class AddForeignKeyCest
@@ -24,23 +26,24 @@ class AddForeignKeyCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @dataProvider getAddForeignKeyFixtures
      */
-    public function dbDialectMysqlAddForeignKey(IntegrationTester $I)
+    public function dbDialectMysqlAddForeignKey(IntegrationTester $I, Example $example)
     {
         $I->wantToTest("Db\Dialect\Mysql - addForeignKey()");
-        $data = $this->getAddForeignKeyFixtures();
-        foreach ($data as $item) {
-            $schema     = $item[0];
-            $reference  = $item[1];
-            $expected   = $item[2];
-            $dialect    = $this->getDialectMysql();
-            $references = $this->getReferences();
-            $actual     = $dialect->addForeignKey('table', $schema, $references[$reference]);
 
-            $I->assertEquals($expected, $actual);
-        }
+        $schema    = $example[0];
+        $reference = $example[1];
+        $expected  = $example[2];
+
+        $dialect    = new Mysql();
+        $references = $this->getReferences();
+
+        $actual = $dialect->addForeignKey('table', $schema, $references[$reference]);
+
+        $I->assertEquals($expected, $actual);
     }
-
 
     protected function getAddForeignKeyFixtures(): array
     {

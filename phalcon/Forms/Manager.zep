@@ -63,5 +63,4 @@ class Manager
 
         return this;
     }
-
 }

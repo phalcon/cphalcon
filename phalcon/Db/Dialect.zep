@@ -207,7 +207,8 @@ abstract class Dialect implements DialectInterface
     public function getSqlExpression(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
         int i;
-        var type, times, postTimes, placeholders, rawValue, value;
+        var type, times, postTimes, rawValue, value;
+        array placeholders;
 
         if unlikely !fetch type, expression["type"] {
             throw new Exception("Invalid SQL expression");
@@ -458,8 +459,8 @@ abstract class Dialect implements DialectInterface
      */
     public function select(array! definition) -> string
     {
-        var tables, columns, sql, distinct, joins, where, escapeChar,
-            groupBy, having, orderBy, limit, forUpdate, bindCounts;
+        var tables, columns, sql, distinct, joins, where, escapeChar, groupBy,
+            having, orderBy, limit, forUpdate, bindCounts;
 
         if unlikely !fetch tables, definition["tables"] {
             throw new Exception(
@@ -651,7 +652,8 @@ abstract class Dialect implements DialectInterface
      */
     final protected function getSqlExpressionCase(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
-        var sql, whenClause;
+        var whenClause;
+        string sql;
 
         let sql = "CASE " . this->getSqlExpression(expression["expr"], escapeChar, bindCounts);
 
@@ -813,11 +815,11 @@ abstract class Dialect implements DialectInterface
      */
     final protected function getSqlExpressionJoins(var expression, string escapeChar = null, bindCounts = null) -> string
     {
-        var condition, join, sql = "", joinCondition, joinTable, joinType = "",
+        var condition, join, joinCondition, joinTable, joinType = "",
             joinConditionsArray;
+        string sql = "";
 
         for join in expression {
-
             /**
              * Check if the join has conditions
              */
@@ -904,7 +906,8 @@ abstract class Dialect implements DialectInterface
      */
     final protected function getSqlExpressionList(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
-        var items, item, values, separator;
+        var item, values, separator;
+        array items;
 
         let items = [];
         let separator = ", ";

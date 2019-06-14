@@ -87,30 +87,24 @@ abstract class BaseDispatcher
 
     /**
      * Returns the current Dependency Injector.
-     *
-     * @return Di
      */
-    protected function getDI()
+    protected function getDI(): Di
     {
         return $this->di;
     }
 
     /**
      * Returns the current dispatcher instance.
-     *
-     * @return Dispatcher
      */
-    protected function getDispatcher()
+    protected function getDispatcher(): Dispatcher
     {
         return $this->di->getShared('dispatcher');
     }
 
     /**
      * Returns the current dispatcher listener instance.
-     *
-     * @return DispatcherListener
      */
-    protected function getDispatcherListener()
+    protected function getDispatcherListener(): DispatcherListener
     {
         return $this->di->getShared('dispatcherListener');
     }

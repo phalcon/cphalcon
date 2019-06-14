@@ -109,7 +109,7 @@ class Libmemcached extends AbstractAdapter
      */
     public function getAdapter() -> var
     {
-        var client, connection, failover, options, persistentId, 
+        var client, connection, failover, options, persistentId,
 	        servers, serverList;
 
         if null === this->adapter {
@@ -158,8 +158,8 @@ class Libmemcached extends AbstractAdapter
     public function getKeys() -> array
     {
     	var keys;
-	
-        let keys = $this->getAdapter()->getAllKeys();
+
+        let keys = this->getAdapter()->getAllKeys();
 
         return !keys ? [] : keys;
     }

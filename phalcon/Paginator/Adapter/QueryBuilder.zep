@@ -26,7 +26,7 @@ use Phalcon\Db;
  *
  * $builder = $this->modelsManager->createBuilder()
  *                 ->columns("id, name")
- *                 ->from("Robots")
+ *                 ->from(Robots::class)
  *                 ->orderBy("name");
  *
  * $paginator = new QueryBuilder(
@@ -184,7 +184,11 @@ class QueryBuilder extends AbstractAdapter
                     ]
                 );
             } else {
-                totalBuilder->columns(["DISTINCT " . groupColumn]);
+                totalBuilder->columns(
+                    [
+                        "DISTINCT " . groupColumn
+                    ]
+                );
             }
         }
 

@@ -28,19 +28,31 @@ class DeleteCest
     public function storageAdapterStreamDelete(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - delete()');
+
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
 
         $key = 'cache-data';
+
         $adapter->set($key, 'test');
-        $actual = $adapter->has($key);
-        $I->assertTrue($actual);
 
-        $actual = $adapter->delete($key);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->has($key)
+        );
 
-        $actual = $adapter->has($key);
-        $I->assertFalse($actual);
+        $I->assertTrue(
+            $adapter->delete($key)
+        );
+
+        $I->assertFalse(
+            $adapter->has($key)
+        );
     }
 
     /**
@@ -52,19 +64,31 @@ class DeleteCest
     public function storageAdapterStreamDeleteTwice(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - delete() - twice');
+
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
 
         $key = 'cache-data';
+
         $adapter->set($key, 'test');
-        $actual = $adapter->has($key);
-        $I->assertTrue($actual);
 
-        $actual = $adapter->delete($key);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->has($key)
+        );
 
-        $actual = $adapter->delete($key);
-        $I->assertFalse($actual);
+        $I->assertTrue(
+            $adapter->delete($key)
+        );
+
+        $I->assertFalse(
+            $adapter->delete($key)
+        );
     }
 
     /**
@@ -78,10 +102,18 @@ class DeleteCest
         $I->wantToTest('Storage\Adapter\Stream - delete() - unknown');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
 
-        $key    = 'cache-data';
-        $actual = $adapter->delete($key);
-        $I->assertFalse($actual);
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
+
+        $key = 'cache-data';
+
+        $I->assertFalse(
+            $adapter->delete($key)
+        );
     }
 }

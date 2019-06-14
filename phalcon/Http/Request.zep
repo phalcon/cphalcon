@@ -393,9 +393,7 @@ class Request implements RequestInterface, InjectionAwareInterface
         let authHeaders = this->resolveAuthorizationHeaders();
 
         // Protect for future (child classes) changes
-        if typeof authHeaders === "array" {
-            let headers = array_merge(headers, authHeaders);
-        }
+        let headers = array_merge(headers, authHeaders);
 
         return headers;
     }
@@ -587,7 +585,7 @@ class Request implements RequestInterface, InjectionAwareInterface
             }
         }
 
-        return "https" === $this->getScheme() ? 443 : 80;
+        return "https" === this->getScheme() ? 443 : 80;
     }
 
     /**
@@ -1346,7 +1344,9 @@ class Request implements RequestInterface, InjectionAwareInterface
             let resolved = eventsManager->fire(
                 "request:beforeAuthorizationResolve",
                 this,
-                ["server": _SERVER]
+                [
+                    "server": _SERVER
+                ]
             );
 
             if typeof resolved === "array" {

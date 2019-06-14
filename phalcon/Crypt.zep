@@ -233,12 +233,7 @@ class Crypt implements CryptInterface
     public function decryptBase64(string! text, key = null, bool! safe = false) -> string
     {
         if safe {
-            return this->decrypt(
-                base64_decode(
-                    strtr(text, "-_", "+/") . substr("===", (strlen(text) + 3) % 4)
-                ),
-                key
-            );
+            let text = strtr(text, "-_", "+/") . substr("===", (strlen(text) + 3) % 4);
         }
 
         return this->decrypt(
@@ -738,7 +733,8 @@ class Crypt implements CryptInterface
                     let i = length - 1;
 
                     while i > 0 && text[i] == 0x00 && paddingSize < blockSize {
-                        let paddingSize++, i--;
+                        let paddingSize++,
+                            i--;
                     }
 
                     if text[i] == 0x80 {
@@ -753,7 +749,8 @@ class Crypt implements CryptInterface
                     let i = length - 1;
 
                     while i >= 0 && text[i] == 0x00 && paddingSize <= blockSize {
-                        let paddingSize++, i--;
+                        let paddingSize++,
+                            i--;
                     }
 
                     break;
@@ -762,7 +759,8 @@ class Crypt implements CryptInterface
                     let i = length - 1;
 
                     while i >= 0 && text[i] == 0x20 && paddingSize <= blockSize {
-                        let paddingSize++, i--;
+                        let paddingSize++,
+                            i--;
                     }
 
                     break;

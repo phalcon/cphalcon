@@ -15,10 +15,8 @@ use IntegrationTester;
 use Phalcon\Mvc\Model\Manager;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\People;
 use Phalcon\Test\Models\Relations\RobotsParts;
-use Phalcon\Test\Models\Robots;
 
 class ManagerCest
 {
@@ -30,37 +28,9 @@ class ManagerCest
         $this->setDiMysql();
     }
 
-    /**
-     * Tests empty prefix for model
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/10328
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2017-04-15
-     */
-    public function testShouldReturnSourceWithoutPrefix(IntegrationTester $I)
+    public function _after(IntegrationTester $I)
     {
-        $robots = new Robots();
-
-        $I->assertEquals('robots', $robots->getModelsManager()->getModelSource($robots));
-        $I->assertEquals('robots', $robots->getSource());
-    }
-
-    /**
-     * Tests non-empty prefix for model
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/10328
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2017-04-15
-     */
-    public function testShouldReturnSourceWithPrefix(IntegrationTester $I)
-    {
-        $manager = new Manager();
-        $manager->setModelPrefix('wp_');
-
-        $robots = new Robots(null, null, $manager);
-
-        $I->assertEquals('wp_robots', $robots->getModelsManager()->getModelSource($robots));
-        $I->assertEquals('wp_robots', $robots->getSource());
+        $this->container['db']->close();
     }
 
     /**
@@ -97,43 +67,42 @@ class ManagerCest
     public function shouldReturnDesiredFieldsFromRelatedModel(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check test');
+
         $parts = RobotsParts::findFirst();
 
         $robot = $parts->getRobots();
 
-        $I->assertInstanceOf(Row::class, $robot);
-        $I->assertEquals(['id' => 1, 'name' => 'Robotina'], $robot->toArray());
+        $I->assertInstanceOf(
+            Row::class,
+            $robot
+        );
 
-        $robot = $parts->getRobots(['columns' => 'id,type,name']);
+        $I->assertEquals(
+            [
+                'id'   => 1,
+                'name' => 'Robotina',
+            ],
+            $robot->toArray()
+        );
 
-        $I->assertInstanceOf(Row::class, $robot);
-        $I->assertEquals(['id' => 1, 'type' => 'mechanical', 'name' => 'Robotina'], $robot->toArray());
-    }
+        $robot = $parts->getRobots(
+            [
+                'columns' => 'id,type,name',
+            ]
+        );
 
-    /**
-     * Tests Manager::isVisibleModelProperty
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2016-08-12
-     */
-    public function testModelPublicProperties(IntegrationTester $I)
-    {
-        $manager  = $this->getService('modelsManager');
-        $examples = [
-            ['id', true],
-            ['document_id', true],
-            ['customer_id', true],
-            ['first_name', true],
-            ['some_field', false],
-            ['', false],
-            ['protected_field', false],
-            ['private_field', false],
-        ];
-        foreach ($examples as $item) {
-            $property = $item[0];
-            $expected = $item[1];
-            $actual   = $manager->isVisibleModelProperty(new Customers(), $property);
-            $I->assertEquals($expected, $actual);
-        }
+        $I->assertInstanceOf(
+            Row::class,
+            $robot
+        );
+
+        $I->assertEquals(
+            [
+                'id'   => 1,
+                'type' => 'mechanical',
+                'name' => 'Robotina',
+            ],
+            $robot->toArray()
+        );
     }
 }

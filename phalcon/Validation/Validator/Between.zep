@@ -63,7 +63,7 @@ use Phalcon\Validation\Validator;
  */
 class Between extends Validator
 {
-    protected advice = "Field :field must be within the range of :min to :max";
+    protected template = "Field :field must be within the range of :min to :max";
 
     /**
      * Executes the validation

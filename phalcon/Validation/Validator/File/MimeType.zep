@@ -66,7 +66,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  */
 class MimeType extends FileAbstract
 {
-    protected advice = "File :field must be of type: :types";
+    protected template = "File :field must be of type: :types";
 
     /**
      * Executes the validation

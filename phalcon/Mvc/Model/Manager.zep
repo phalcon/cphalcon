@@ -318,25 +318,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * Returns the prefix for all model sources.
-     *
-     * <code>
-     * use Phalcon\Mvc\Model\Manager;
-     *
-     * $di->set(
-     *     "modelsManager",
-     *     function () {
-     *         $modelsManager = new Manager();
-     *
-     *         $modelsManager->setModelPrefix("wp_");
-     *
-     *         return $modelsManager;
-     *     }
-     * );
-     *
-     * $robots = new Robots();
-     *
-     * echo $robots->getSource(); // wp_robots
-     * </code>
      */
     public function getModelPrefix() -> string
     {
@@ -1195,11 +1176,19 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var key, value;
         array findParams;
 
-        if typeof findParamsOne == "string" && typeof findParamsTwo == "string" {
-            return ["(" . findParamsOne . ") AND (" . findParamsTwo . ")"];
+        let findParams = [];
+
+        if typeof findParamsOne == "string" {
+            let findParamsOne = [
+                "conditions": findParamsOne
+            ];
         }
 
-        let findParams = [];
+        if typeof findParamsTwo == "string" {
+            let findParamsTwo = [
+                "conditions": findParamsTwo
+            ];
+        }
 
         if typeof findParamsOne == "array"  {
             for key, value in findParamsOne {
@@ -1209,15 +1198,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                     } else {
                         let findParams[0] = "(" . findParams[0] . ") AND (" . value . ")";
                     }
-
-                    continue;
+                } else {
+                    let findParams[key] = value;
                 }
-
-                let findParams[key] = value;
-            }
-        } else {
-            if typeof findParamsOne == "string" {
-                let findParams = ["conditions": findParamsOne];
             }
         }
 
@@ -1229,35 +1212,19 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                     } else {
                         let findParams[0] = "(" . findParams[0] . ") AND (" . value . ")";
                     }
-
-                    continue;
-                }
-
-                if key === "bind" || key === "bindTypes" {
-                    if !isset findParams[key] {
-                        if typeof value == "array" {
+                } elseif key === "bind" || key === "bindTypes" {
+                    if typeof value == "array" {
+                        if !isset findParams[key] {
                             let findParams[key] = value;
-                        }
-                    } else {
-                        if typeof value == "array" {
+                        } else {
                             let findParams[key] = array_merge(
                                 findParams[key],
                                 value
                             );
                         }
                     }
-
-                    continue;
-                }
-
-                let findParams[key] = value;
-            }
-        } else {
-            if typeof findParamsTwo == "string" {
-                if !isset findParams[0] {
-                    let findParams[0] = findParamsTwo;
                 } else {
-                    let findParams[0] = "(" . findParams[0] . ") AND (" . findParamsTwo . ")";
+                    let findParams[key] = value;
                 }
             }
         }

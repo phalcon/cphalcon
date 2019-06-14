@@ -38,12 +38,12 @@ class Albums extends Model
         $this->hasMany(
             [
                 'id',
-                'name'
+                'name',
             ],
             Songs::class,
             [
                 'albums_id',
-                'name'
+                'name',
             ],
             [
                 'alias' => 'singles',

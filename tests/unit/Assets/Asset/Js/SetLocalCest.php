@@ -12,46 +12,52 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
 class SetLocalCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Js :: setLocal() - js local
+     * Tests Phalcon\Assets\Asset\Js :: setLocal()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetJsSetLocalLocal(UnitTester $I)
+    public function assetsAssetJsSetLocal(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setLocal() - js local');
+        $I->wantToTest('Assets\Asset\Js - setLocal()');
 
-        $asset = new Js('https://phalcon.ld/js/jquery.js');
+        $asset = new Js(
+            $example['path'],
+            $example['local']
+        );
 
-        $asset->setLocal(true);
+        $asset->setLocal(
+            $example['newLocal']
+        );
 
-        $I->assertTrue(
+        $I->assertEquals(
+            $example['newLocal'],
             $asset->getLocal()
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset\Js :: setLocal() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetJsSetLocalRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - setLocal() - js remote');
-        $I->skipTest('TODO - Need checking');
-        $asset = new Js('https://phalcon.ld/js/jquery.js');
-
-        $asset->setLocal(false);
-
-        $I->assertFalse(
-            $asset->getLocal()
-        );
+        return [
+            [
+                'path'     => 'js/jquery.js',
+                'local'    => true,
+                'newLocal' => false,
+            ],
+            [
+                'path'     => 'https://phalcon.ld/js/jquery.js',
+                'local'    => false,
+                'newLocal' => true,
+            ],
+        ];
     }
 }

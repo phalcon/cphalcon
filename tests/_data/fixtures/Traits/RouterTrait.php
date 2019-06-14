@@ -105,12 +105,12 @@ trait RouterTrait
             '/{controller:[a-z\-]+}/{action:[a-z\-]+}/this-is-a-country'
         )->convert(
             'controller',
-            function ($controller) {
+            function (string $controller): string {
                 return str_replace('-', '', $controller);
             }
         )->convert(
             'action',
-            function ($action) {
+            function (string $action): string {
                 return str_replace('-', '', $action);
             }
         );
@@ -124,17 +124,17 @@ trait RouterTrait
             ]
         )->convert(
             'controller',
-            function (string $controller) {
+            function (string $controller): string {
                 return strtolower($controller);
             }
         )->convert(
             'action',
-            function (string $action) {
+            function (string $action): string {
                 return $action == 'default' ? 'index' : $action;
             }
         )->convert(
             'id',
-            function ($id) {
+            function (string $id): string {
                 return strrev($id);
             }
         );

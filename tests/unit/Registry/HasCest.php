@@ -42,21 +42,5 @@ class HasCest
         $I->assertFalse(
             $registry->has('unknown')
         );
-
-        $I->assertTrue(
-            isset($registry['three'])
-        );
-
-        $I->assertFalse(
-            isset($registry['unknown'])
-        );
-
-        $I->assertTrue(
-            $registry->offsetExists('three')
-        );
-
-        $I->assertFalse(
-            $registry->offsetExists('unknown')
-        );
     }
 }

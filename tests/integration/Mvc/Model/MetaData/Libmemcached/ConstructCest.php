@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Libmemcached;
 
 use function dataDir;
-use function env;
+use function getOptionsLibmemcached;
 use IntegrationTester;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Mvc\Model\MetaData\Libmemcached;
@@ -22,9 +22,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use DiTrait;
@@ -34,8 +31,10 @@ class ConstructCest
     public function _before(IntegrationTester $I)
     {
         $I->checkExtensionIsLoaded('memcached');
+
         $this->setNewFactoryDefault();
         $this->setDiMysql();
+
         $this->container->setShared(
             'modelsMetadata',
             function () {
@@ -44,20 +43,17 @@ class ConstructCest
 
                 return new Libmemcached(
                     $factory,
-                    [
-                        'servers' => [
-                            [
-                                'host'   => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
-                                'port'   => env('DATA_MEMCACHED_PORT', 11211),
-                                'weight' => 1,
-                            ],
-                        ],
-                    ]
+                    getOptionsLibmemcached()
                 );
             }
         );
 
         $this->data = require dataDir('fixtures/metadata/robots.php');
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
     }
 
     /**

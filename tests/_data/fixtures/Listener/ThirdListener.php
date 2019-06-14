@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Listener;
 
-use ComponentX;
 use function dataDir;
 use Phalcon\Events\Event;
+use Phalcon\Test\Fixtures\Events\ComponentX;
 use Phalcon\Test\Unit\Events\ManagerCest;
 use UnitTester;
 
@@ -29,11 +29,6 @@ class ThirdListener
     protected $before = 0;
 
     protected $after = 0;
-
-    public function __construct()
-    {
-        include_once dataDir('fixtures/Events/ComponentX.php');
-    }
 
     public function setTestCase(ManagerCest $testCase, UnitTester $tester)
     {

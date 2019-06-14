@@ -52,7 +52,7 @@ use Phalcon\Validation\Validator;
  */
 class Email extends Validator
 {
-    protected advice = "Field :field must be an email address";
+    protected template = "Field :field must be an email address";
     /**
      * Executes the validation
      */

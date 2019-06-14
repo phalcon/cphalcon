@@ -58,7 +58,7 @@ use Phalcon\Validation\Validator;
  */
 class Confirmation extends Validator
 {
-    protected advice = "Field :field must be the same as :with";
+    protected template = "Field :field must be the same as :with";
 
     /**
      * Executes the validation

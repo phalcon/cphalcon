@@ -12,24 +12,27 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Inline;
 
+use Codeception\Example;
 use Phalcon\Assets\Inline;
 use UnitTester;
 
 class SetAttributesCest
 {
     /**
-     * Tests Phalcon\Assets\Inline :: setAttributes() - css
+     * Tests Phalcon\Assets\Inline :: setAttributes()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsInlineSetAttributesCss(UnitTester $I)
+    public function assetsInlineSetAttributes(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Inline - setAttributes() - css');
+        $I->wantToTest('Assets\Inline - setAttributes()');
 
         $asset = new Inline(
-            'css',
-            'p {color: #000099}'
+            $example['type'],
+            $example['content']
         );
 
         $expected = [
@@ -44,30 +47,17 @@ class SetAttributesCest
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Inline :: setAttributes() - js
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsInlineSetAttributesJs(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Inline - setAttributes() - js');
-
-        $asset = new Inline(
-            'js',
-            '<script>alert("Hello");</script>'
-        );
-
-        $expected = [
-            'data-key' => 'phalcon',
+        return [
+            [
+                'type'    => 'css',
+                'content' => 'p {color: #000099}',
+            ],
+            [
+                'type'    => 'js',
+                'content' => '<script>alert("Hello");</script>',
+            ],
         ];
-
-        $asset->setAttributes($expected);
-
-        $I->assertEquals(
-            $expected,
-            $asset->getAttributes()
-        );
     }
 }

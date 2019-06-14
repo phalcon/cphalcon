@@ -111,7 +111,7 @@ class Stream extends AbstractAdapter
             let this->handler = fopen(this->name, this->mode);
 
             if !is_resource(this->handler) {
-                let $this->handler = null;
+                let this->handler = null;
 
                 throw new \UnexpectedValueException(
                     sprintf(

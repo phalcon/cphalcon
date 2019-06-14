@@ -51,7 +51,7 @@ use Phalcon\Validation\Validator;
  */
 class Alnum extends Validator
 {
-    protected advice = "Field :field must contain only letters and numbers";
+    protected template = "Field :field must contain only letters and numbers";
 
     /**
      * Executes the validation

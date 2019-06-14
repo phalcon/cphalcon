@@ -36,7 +36,6 @@ class WithFragmentCest
         );
 
         $newInstance = $uri->withFragment('newspaper');
-
         $I->assertNotEquals($uri, $newInstance);
 
         $I->assertEquals(
@@ -46,6 +45,19 @@ class WithFragmentCest
 
         $I->assertEquals(
             sprintf($query, 'newspaper'),
+            (string) $newInstance
+        );
+
+        $newInstance = $uri->withFragment('#newspaper');
+        $I->assertNotEquals($uri, $newInstance);
+
+        $I->assertEquals(
+            '%23newspaper',
+            $newInstance->getFragment()
+        );
+
+        $I->assertEquals(
+            sprintf($query, '%23newspaper'),
             (string) $newInstance
         );
     }
@@ -64,7 +76,7 @@ class WithFragmentCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Method requires a string argument instead of ' . $example[0]
+                'Method requires a string argument'
             ),
             function () use ($example) {
                 $uri = new Uri(
@@ -76,6 +88,7 @@ class WithFragmentCest
         );
     }
 
+    
     private function getExamples(): array
     {
         return [

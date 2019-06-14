@@ -22,11 +22,16 @@ class GroupCest
 {
     use DiTrait;
 
-    public function testGroups(IntegrationTester $I)
+    /**
+     * @dataProvider groupsProvider
+     */
+    public function testGroups(IntegrationTester $I, Example $example)
     {
         Route::reset();
+
         $router = new Router(false);
-        $blog   = new Group(
+
+        $blog = new Group(
             [
                 'module'     => 'blog',
                 'controller' => 'index',
@@ -34,18 +39,21 @@ class GroupCest
         );
 
         $blog->setPrefix('/blog');
+
         $blog->add(
             '/save',
             [
                 'action' => 'save',
             ]
         );
+
         $blog->add(
             '/edit/{id}',
             [
                 'action' => 'edit',
             ]
         );
+
         $blog->add(
             '/about',
             [
@@ -53,53 +61,62 @@ class GroupCest
                 'action'     => 'index',
             ]
         );
+
         $router->mount($blog);
 
-        $routes = [
-            '/blog/save'   => [
+
+
+        $router->handle(
+            $example['route']
+        );
+
+        $I->assertTrue(
+            $router->wasMatched()
+        );
+
+        $I->assertEquals(
+            $example['module'],
+            $router->getModuleName()
+        );
+
+        $I->assertEquals(
+            $example['controller'],
+            $router->getControllerName()
+        );
+
+        $I->assertEquals(
+            $example['action'],
+            $router->getActionName()
+        );
+
+        $I->assertEquals(
+            $blog,
+            $router->getMatchedRoute()->getGroup()
+        );
+    }
+
+    private function groupsProvider(): array
+    {
+        return [
+            [
+                'route'      => '/blog/save',
                 'module'     => 'blog',
                 'controller' => 'index',
                 'action'     => 'save',
             ],
-            '/blog/edit/1' => [
+            [
+                'route'      => '/blog/edit/1',
                 'module'     => 'blog',
                 'controller' => 'index',
                 'action'     => 'edit',
             ],
-            '/blog/about'  => [
+            [
+                'route'      => '/blog/about',
                 'module'     => 'blog',
                 'controller' => 'about',
                 'action'     => 'index',
             ],
         ];
-
-        foreach ($routes as $route => $paths) {
-            $router->handle($route);
-
-            $I->assertTrue(
-                $router->wasMatched()
-            );
-
-            $I->assertEquals(
-                $paths['module'],
-                $router->getModuleName()
-            );
-
-            $I->assertEquals(
-                $paths['controller'],
-                $router->getControllerName()
-            );
-
-            $I->assertEquals(
-                $paths['action'],
-                $router->getActionName()
-            );
-
-            $I->assertEquals(
-                $blog,
-                $router->getMatchedRoute()->getGroup()
-            );
-        }
     }
 
     /**
@@ -162,9 +179,21 @@ class GroupCest
     private function getHostnameRoutes(): array
     {
         return [
-            ['localhost', null, 'posts3'],
-            ['my.phalconphp.com', 'my.phalconphp.com', 'posts'],
-            [null, null, 'posts3'],
+            [
+                'localhost',
+                null,
+                'posts3',
+            ],
+            [
+                'my.phalconphp.com',
+                'my.phalconphp.com',
+                'posts',
+            ],
+            [
+                null,
+                null,
+                'posts3',
+            ],
         ];
     }
 
@@ -178,8 +207,10 @@ class GroupCest
         $controller   = $example[2];
 
         Route::reset();
+
         $this->newDi();
         $this->setDiRequest();
+
         $container = $this->getDi();
 
         $router = new Router(false);
@@ -226,9 +257,21 @@ class GroupCest
     private function getHostnameRoutesRegex(): array
     {
         return [
-            ['localhost', null, 'posts3'],
-            ['my.phalconphp.com', '([a-z]+).phalconphp.com', 'posts'],
-            [null, null, 'posts3'],
+            [
+                'localhost',
+                null,
+                'posts3',
+            ],
+            [
+                'my.phalconphp.com',
+                '([a-z]+).phalconphp.com',
+                'posts',
+            ],
+            [
+                null,
+                null,
+                'posts3',
+            ],
         ];
     }
 }

@@ -26,7 +26,7 @@ class DetachCest
     public function httpMessageStreamDetach(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - detach()');
-        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('assets/stream/bill-of-rights.txt');
         $handle   = fopen($fileName, 'rb');
         $stream   = new Stream($handle);
 

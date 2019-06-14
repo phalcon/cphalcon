@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
 use Codeception\Example;
+use function logsDir;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
 
@@ -23,7 +24,7 @@ class IsSeekableCest
      *
      * @dataProvider getExamples
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since        2019-02-10
      */
     public function httpMessageStreamIsSeekable(UnitTester $I, Example $example)
@@ -45,7 +46,7 @@ class IsSeekableCest
      *
      * @dataProvider getExamplesX
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalconphp.com>
      * @since        2019-02-10
      */
     public function httpMessageStreamIsSeekableWithX(UnitTester $I, Example $example)
@@ -55,7 +56,7 @@ class IsSeekableCest
         );
 
         $fileName = $I->getNewFileName();
-        $fileName = outputDir('tests/stream/' . $fileName);
+        $fileName = logsDir($fileName);
 
         $stream = new Stream($fileName, $example[0]);
 

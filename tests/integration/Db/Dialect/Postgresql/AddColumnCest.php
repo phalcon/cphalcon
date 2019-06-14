@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
 use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class AddColumnCest
@@ -36,7 +37,7 @@ class AddColumnCest
         $column   = $example[1];
         $expected = $example[2];
         $columns  = $this->getColumns();
-        $dialect  = $this->getDialectPostgresql();
+        $dialect  = new Postgresql();
         $actual = $dialect->addColumn(
             'table',
             $schema,

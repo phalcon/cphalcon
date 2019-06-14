@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
+use Codeception\Example;
 use Phalcon\Cli\Router;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -26,79 +27,79 @@ class GetPathsCest
         $this->setNewCliFactoryDefault();
     }
 
-    public function testShortPaths(CliTester $I)
+    /**
+     * @dataProvider shortPathsProvider
+     */
+    public function testShortPaths(CliTester $I, Example $example)
     {
         Route::reset();
 
         $router = new Router(false);
 
-
-        $route = $router->add('route0', 'Feed');
-
-        $I->assertEquals(
-            [
-                'task' => 'feed',
-            ],
-            $route->getPaths()
+        $route = $router->add(
+            'route',
+            $example['path']
         );
 
-
-        $route = $router->add('route1', 'Feed::get');
-
         $I->assertEquals(
-            [
-                'task'   => 'feed',
-                'action' => 'get',
-            ],
+            $example['expected'],
             $route->getPaths()
         );
+    }
 
-
-        $route = $router->add('route2', 'News::Posts::show');
-
-        $I->assertEquals(
+    protected function shortPathsProvider(): array
+    {
+        return [
             [
-                'module' => 'News',
-                'task'   => 'posts',
-                'action' => 'show',
+                'path'     => 'Feed',
+                'expected' => [
+                    'task' => 'feed',
+                ],
             ],
-            $route->getPaths()
-        );
 
-
-        $route = $router->add('route3', 'MyApp\\Tasks\\Posts::show');
-
-        $I->assertEquals(
             [
-                'namespace' => 'MyApp\\Tasks',
-                'task'      => 'posts',
-                'action'    => 'show',
+                'path'     => 'Feed::get',
+                'expected' => [
+                    'task'   => 'feed',
+                    'action' => 'get',
+                ],
             ],
-            $route->getPaths()
-        );
 
-
-        $route = $router->add('route3', 'News::MyApp\\Tasks\\Posts::show');
-
-        $I->assertEquals(
             [
-                'module'    => 'News',
-                'namespace' => 'MyApp\\Tasks',
-                'task'      => 'posts',
-                'action'    => 'show',
+                'path'     => 'News::Posts::show',
+                'expected' => [
+                    'module' => 'News',
+                    'task'   => 'posts',
+                    'action' => 'show',
+                ],
             ],
-            $route->getPaths()
-        );
 
-
-        $route = $router->add('route3', '\\Posts::show');
-
-        $I->assertEquals(
             [
-                'task'   => 'posts',
-                'action' => 'show',
+                'path'     => 'MyApp\\Tasks\\Posts::show',
+                'expected' => [
+                    'namespace' => 'MyApp\\Tasks',
+                    'task'      => 'posts',
+                    'action'    => 'show',
+                ],
             ],
-            $route->getPaths()
-        );
+
+            [
+                'path'     => 'News::MyApp\\Tasks\\Posts::show',
+                'expected' => [
+                    'module'    => 'News',
+                    'namespace' => 'MyApp\\Tasks',
+                    'task'      => 'posts',
+                    'action'    => 'show',
+                ],
+            ],
+
+            [
+                'path'     => '\\Posts::show',
+                'expected' => [
+                    'task'   => 'posts',
+                    'action' => 'show',
+                ],
+            ],
+        ];
     }
 }

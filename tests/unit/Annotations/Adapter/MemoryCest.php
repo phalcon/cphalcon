@@ -32,7 +32,9 @@ class MemoryCest
 
         $adapter = new Memory();
 
-        $classAnnotations = $adapter->get('TestClass');
+        $classAnnotations = $adapter->get(
+            \TestClass::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
@@ -46,7 +48,9 @@ class MemoryCest
             $classAnnotations->getClassAnnotations()
         );
 
-        $classAnnotations = $adapter->get('TestClass');
+        $classAnnotations = $adapter->get(
+            \TestClass::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
@@ -60,7 +64,9 @@ class MemoryCest
             $classAnnotations->getClassAnnotations()
         );
 
-        $classAnnotations = $adapter->get('User\TestClassNs');
+        $classAnnotations = $adapter->get(
+            \User\TestClassNs::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
@@ -74,7 +80,9 @@ class MemoryCest
             $classAnnotations->getClassAnnotations()
         );
 
-        $classAnnotations = $adapter->get('User\TestClassNs');
+        $classAnnotations = $adapter->get(
+            \User\TestClassNs::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
@@ -88,7 +96,10 @@ class MemoryCest
             $classAnnotations->getClassAnnotations()
         );
 
-        $property = $adapter->getProperty('TestClass', 'testProp1');
+        $property = $adapter->getProperty(
+            \TestClass::class,
+            'testProp1'
+        );
 
         $I->assertInternalType('object', $property);
 

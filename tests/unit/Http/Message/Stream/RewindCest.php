@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
-use Phalcon\Http\Message\Exception;
 use Phalcon\Http\Message\Stream;
+use RuntimeException;
 use UnitTester;
 
 class RewindCest
@@ -27,7 +27,7 @@ class RewindCest
     public function httpMessageStreamRewind(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - rewind()');
-        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('assets/stream/bill-of-rights.txt');
         $stream   = new Stream($fileName);
 
         $stream->seek(10);
@@ -51,11 +51,11 @@ class RewindCest
     {
         $I->wantToTest('Http\Message\Stream - rewind() - detached');
         $I->expectThrowable(
-            new Exception(
+            new RuntimeException(
                 'A valid resource is required.'
             ),
             function () {
-                $fileName = dataDir('/assets/stream/bill-of-rights.txt');
+                $fileName = dataDir('assets/stream/bill-of-rights.txt');
                 $stream   = new Stream($fileName, 'rb');
                 $stream->detach();
 

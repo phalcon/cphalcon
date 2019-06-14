@@ -18,14 +18,14 @@ use UnitTester;
 class GetRealSourcePathCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getRealSourcePath() - js local
+     * Tests Phalcon\Assets\Asset\Js :: getRealSourcePath() - local
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function assetsAssetJsGetRealSourcePathLocal(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getRealSourcePath() - js local');
+        $I->wantToTest('Assets\Asset - getRealSourcePath() - local');
 
         $asset = new Js('js/jquery.js');
 
@@ -35,19 +35,21 @@ class GetRealSourcePathCest
     }
 
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getRealSourcePath() - js remote
+     * Tests Phalcon\Assets\Asset\Js :: getRealSourcePath() - remote
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function assetsAssetJsGetRealSourcePathRemote(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getRealSourcePath() - js remote');
+        $I->wantToTest('Assets\Asset - getRealSourcePath() - remote');
 
-        $asset = new Js('https://phalcon.ld/js/jquery.js', false);
+        $path = 'https://phalcon.ld/js/jquery.js';
+
+        $asset = new Js($path, false);
 
         $I->assertEquals(
-            'https://phalcon.ld/js/jquery.js',
+            $path,
             $asset->getRealSourcePath()
         );
     }

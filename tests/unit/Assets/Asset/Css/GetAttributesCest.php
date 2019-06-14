@@ -18,14 +18,14 @@ use UnitTester;
 class GetAttributesCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Css :: getAttributes() - css local
+     * Tests Phalcon\Assets\Asset\Css :: getAttributes()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetCssGetAttributesLocal(UnitTester $I)
+    public function assetsAssetCssGetAttributes(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getAttributes() - css local');
+        $I->wantToTest('Assets\Asset\Css - getAttributes()');
 
         $attributes = [
             'data-key' => 'phalcon',
@@ -34,33 +34,6 @@ class GetAttributesCest
         $asset = new Css(
             'css/docs.css',
             true,
-            false,
-            $attributes
-        );
-
-        $I->assertEquals(
-            $attributes,
-            $asset->getAttributes()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset\Css :: getAttributes() - css remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetCssGetAttributesRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getAttributes() - css remote');
-
-        $attributes = [
-            'data-key' => 'phalcon',
-        ];
-
-        $asset = new Css(
-            'https://phalcon.ld/css/docs.css',
-            false,
             false,
             $attributes
         );

@@ -52,7 +52,7 @@ use Phalcon\Validation\Validator;
  */
 class Digit extends Validator
 {
-    protected advice = "Field :field must be numeric";
+    protected template = "Field :field must be numeric";
 
     /**
      * Executes the validation

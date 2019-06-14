@@ -52,7 +52,7 @@ use Phalcon\Validation\Validator;
  */
 class PresenceOf extends Validator
 {
-    protected advice = "Field :field is required";
+    protected template = "Field :field is required";
 
     /**
      * Executes the validation

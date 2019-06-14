@@ -13,21 +13,27 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Row;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Row;
 
-/**
- * Class OffsetGetCest
- */
 class OffsetGetCest
 {
     /**
      * Tests Phalcon\Mvc\Model\Row :: offsetGet()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-01
      */
     public function mvcModelRowOffsetGet(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Row - offsetGet()');
-        $I->skipTest('Need implementation');
+
+        $row = new Row();
+
+        $row->writeAttribute('estado', 'A');
+
+        $I->assertEquals(
+            'A',
+            $row['estado']
+        );
     }
 }

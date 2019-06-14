@@ -57,7 +57,7 @@ use Phalcon\Validation\Validator;
  */
 class Regex extends Validator
 {
-    protected advice = "Field :field does not match the required format";
+    protected template = "Field :field does not match the required format";
     /**
      * Executes the validation
      */

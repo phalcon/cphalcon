@@ -12,22 +12,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
 class SetFilterCest
 {
     /**
-     * Tests Phalcon\Assets\Asset :: setFilter() - css local
+     * Tests Phalcon\Assets\Asset :: setFilter()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetSetFilterCssFilter(UnitTester $I)
+    public function assetsAssetSetFilter(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setFilter() - css local');
+        $I->wantToTest('Assets\Asset - setFilter()');
 
-        $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
+        $asset = new Asset(
+            $example['type'],
+            $example['path']
+        );
 
         $I->assertTrue(
             $asset->getFilter()
@@ -40,72 +46,17 @@ class SetFilterCest
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: setFilter() - css remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetSetFilterCssRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - setFilter() - css remote');
-
-        $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
-
-        $I->assertTrue(
-            $asset->getFilter()
-        );
-
-        $asset->setFilter(false);
-
-        $I->assertFalse(
-            $asset->getFilter()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: setFilter() - js local
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetSetFilterJsFilter(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - setFilter() - js local');
-
-        $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
-
-        $I->assertTrue(
-            $asset->getFilter()
-        );
-
-        $asset->setFilter(false);
-
-        $I->assertFalse(
-            $asset->getFilter()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: setFilter() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetSetFilterJsRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - setFilter() - js remote');
-        $I->skipTest('TODO - Need checking');
-        $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
-
-        $I->assertTrue(
-            $asset->getFilter()
-        );
-
-        $asset->setFilter(false);
-
-        $I->assertFalse(
-            $assert->getFilter()
-        );
+        return [
+            [
+                'type' => 'css',
+                'path' => 'css/docs.css',
+            ],
+            [
+                'type' => 'js',
+                'path' => 'js/jquery.js',
+            ],
+        ];
     }
 }

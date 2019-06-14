@@ -33,7 +33,9 @@ class SetArgumentCest
     public function cliConsoleSetArgument(CliTester $I)
     {
         require_once dataDir('fixtures/tasks/MainTask.php');
+
         $I->wantToTest("Cli\Console - setArgument()");
+
         $this->setNewCliFactoryDefault();
 
         $this->container->setShared(

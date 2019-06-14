@@ -18,7 +18,10 @@ use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
 use Phalcon\Http\Message\Uri;
 
-class UriFactory implements UriFactoryInterface
+/**
+ * PSR-17 UriFactory
+ */
+final class UriFactory implements UriFactoryInterface
 {
     /**
      * Returns a Locator object with all the helpers defined in anonynous

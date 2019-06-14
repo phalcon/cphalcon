@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Relations\Deles;
@@ -20,18 +21,20 @@ class ModelsRelationsCest
         $this->setNewFactoryDefault();
     }
 
-    public function testModelsMysql(IntegrationTester $I)
+    public function _after(IntegrationTester $I)
     {
-        $this->setDiMysql();
-
-        $this->executeTestsNormal($I);
-        $this->executeTestsRenamed($I);
-        $this->testIssue938($I);
-        $this->testIssue11042($I);
+        $this->container['db']->close();
     }
 
-    private function executeTestsNormal(IntegrationTester $I)
+    /**
+     * @dataProvider adaptersProvider
+     */
+    public function executeTestsNormal(IntegrationTester $I, Example $example)
     {
+        $diFunction = 'setDi' . $example[0];
+
+        $this->{$diFunction}();
+
         $I->skipTest('TODO - Check the relationships - new model classes needed');
 
         $robot = RelationsRobots::findFirst();
@@ -256,24 +259,43 @@ class ModelsRelationsCest
         $I->assertEquals(3, $robotsParts->getFirst()->parts_id);
     }
 
-    private function executeTestsRenamed(IntegrationTester $I)
+    /**
+     * @dataProvider adaptersProvider
+     */
+    public function executeTestsRenamed(IntegrationTester $I, Example $example)
     {
+        $diFunction = 'setDi' . $example[0];
+
+        $this->{$diFunction}();
+
         $manager = $this->container->getShared('modelsManager');
 
         $I->assertTrue(
-            $manager->existsBelongsTo(RobottersDeles::class, Robotters::class)
+            $manager->existsBelongsTo(
+                RobottersDeles::class,
+                Robotters::class
+            )
         );
 
         $I->assertTrue(
-            $manager->existsBelongsTo(RobottersDeles::class, Deles::class)
+            $manager->existsBelongsTo(
+                RobottersDeles::class,
+                Deles::class
+            )
         );
 
         $I->assertTrue(
-            $manager->existsHasMany(Robotters::class, RobottersDeles::class)
+            $manager->existsHasMany(
+                Robotters::class,
+                RobottersDeles::class
+            )
         );
 
         $I->assertTrue(
-            $manager->existsHasMany(Deles::class, RobottersDeles::class)
+            $manager->existsHasMany(
+                Deles::class,
+                RobottersDeles::class
+            )
         );
 
 
@@ -358,6 +380,22 @@ class ModelsRelationsCest
 //        $I->assertEquals($robottersDeles->getFirst()->delesCode, 3);
     }
 
+    public function testIssue938Mysql(IntegrationTester $I)
+    {
+        $this->setDiMysql();
+
+        $this->testIssue938($I);
+    }
+
+    public function testIssue938Sqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+
+        $I->skipTest('Check Sqlite - locking');
+
+        $this->testIssue938($I);
+    }
+
     private function testIssue938(IntegrationTester $I)
     {
         $manager = $this->container->getShared('modelsManager');
@@ -424,8 +462,15 @@ class ModelsRelationsCest
 //        }
     }
 
-    protected function testIssue11042(IntegrationTester $I)
+    /**
+     * @dataProvider adaptersProvider
+     */
+    public function testIssue11042(IntegrationTester $I, Example $example)
     {
+        $diFunction = 'setDi' . $example[0];
+
+        $this->{$diFunction}();
+
         $robot = RelationsRobots::findFirst();
 
         $I->assertNotFalse($robot);
@@ -453,22 +498,18 @@ class ModelsRelationsCest
 //        $I->assertInstanceOf('RelationsRobotsParts', $robotsParts->getFirst());
     }
 
-    public function testModelsPostgresql(IntegrationTester $I)
+    private function adaptersProvider(): array
     {
-        $this->setDiPostgresql();
-
-        $this->executeTestsNormal($I);
-        $this->executeTestsRenamed($I);
-        $this->testIssue11042($I);
-    }
-
-    public function testModelsSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-
-        $this->executeTestsNormal($I);
-        $this->executeTestsRenamed($I);
-        $this->testIssue938($I);
-        $this->testIssue11042($I);
+        return [
+            [
+                'Mysql',
+            ],
+            [
+                'Postgresql',
+            ],
+            [
+                'Sqlite',
+            ],
+        ];
     }
 }

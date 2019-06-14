@@ -13,12 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
+use Phalcon\Db\Dialect\Sqlite;
 
 class CreateSavepointCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: createSavepoint()
      *
@@ -29,16 +27,11 @@ class CreateSavepointCest
     {
         $I->wantToTest("Db\Dialect\Sqlite - createSavepoint()");
 
-        $dialect  = $this->getDialectSqlite();
+        $dialect = new Sqlite();
 
         $I->assertEquals(
-            $this->getCreateSavepointSql(),
+            'SAVEPOINT PH_SAVEPOINT_1',
             $dialect->createSavepoint('PH_SAVEPOINT_1')
         );
-    }
-
-    protected function getCreateSavepointSql(): string
-    {
-        return 'SAVEPOINT PH_SAVEPOINT_1';
     }
 }

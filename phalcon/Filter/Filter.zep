@@ -226,7 +226,8 @@ class Filter implements FilterInterface
         array sanitizerParams = []
     ) -> array
     {
-        var arrayValue, itemKey, itemValue;
+        var itemKey, itemValue;
+        array arrayValue;
 
         let arrayValue = [];
 
@@ -252,13 +253,13 @@ class Filter implements FilterInterface
     {
         var sanitizerObject, params;
 
-        if this->has(sanitizerName) {
-            let sanitizerObject = this->get(sanitizerName),
-                params          = array_merge([value], sanitizerParams);
-
-            return call_user_func_array(sanitizerObject, params);
+        if !this->has(sanitizerName) {
+            return value;
         }
 
-        return value;
+        let sanitizerObject = this->get(sanitizerName),
+            params          = array_merge([value], sanitizerParams);
+
+        return call_user_func_array(sanitizerObject, params);
     }
 }

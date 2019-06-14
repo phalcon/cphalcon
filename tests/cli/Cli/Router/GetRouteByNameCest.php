@@ -36,18 +36,13 @@ class GetRouteByNameCest
         $usersAdd  = $router->add('api users add')->setName('usersAdd');
 
         $I->assertEquals(
-            $usersAdd,
-            $router->getRouteByName('usersAdd')
-        );
-
-        $I->assertEquals(
-            $usersAdd,
-            $router->getRouteByName('usersAdd')
-        );
-
-        $I->assertEquals(
             $usersFind,
-            $router->getRouteById(0)
+            $router->getRouteByName('usersFind')
+        );
+
+        $I->assertEquals(
+            $usersAdd,
+            $router->getRouteByName('usersAdd')
         );
     }
 }

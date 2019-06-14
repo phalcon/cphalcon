@@ -57,7 +57,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  */
 class Equal extends FileAbstract
 {
-    protected advice = "The resolution of the field :field has to be equal :resolution";
+    protected template = "The resolution of the field :field has to be equal :resolution";
 
     /**
      * Executes the validation

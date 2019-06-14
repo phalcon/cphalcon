@@ -12,58 +12,52 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Inline;
 
+use Codeception\Example;
 use Phalcon\Assets\Inline;
 use UnitTester;
 
 class SetTypeCest
 {
     /**
-     * Tests Phalcon\Assets\Inline :: setType() - css
+     * Tests Phalcon\Assets\Inline :: setType()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsInlineSetTypeCss(UnitTester $I)
+    public function assetsInlineSetType(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Inline - setType() - css');
+        $I->wantToTest('Assets\Inline - setType()');
 
         $asset = new Inline(
-            'css',
-            'p {color: #000099}'
+            $example['type'],
+            $example['content']
         );
 
-        $newType = 'js';
-
-        $asset->setType($newType);
+        $asset->setType(
+            $example['newType']
+        );
 
         $I->assertEquals(
-            $newType,
+            $example['newType'],
             $asset->getType()
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Inline :: setType() - js
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsInlineSetTypeJs(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Inline - setType() - js');
-
-        $asset = new Inline(
-            'js',
-            '<script>alert("Hello");</script>'
-        );
-
-        $newType = 'css';
-
-        $asset->setType($newType);
-
-        $I->assertEquals(
-            $newType,
-            $asset->getType()
-        );
+        return [
+            [
+                'type'    => 'css',
+                'content' => 'p {color: #000099}',
+                'newType' => 'js',
+            ],
+            [
+                'type'    => 'js',
+                'content' => '<script>alert("Hello");</script>',
+                'newType' => 'css',
+            ],
+        ];
     }
 }

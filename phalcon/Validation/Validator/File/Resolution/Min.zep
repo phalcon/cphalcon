@@ -62,7 +62,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  */
 class Min extends FileAbstract
 {
-    protected advice = "File :field can not have the minimum resolution of :resolution";
+    protected template = "File :field can not have the minimum resolution of :resolution";
 
     /**
      * Executes the validation

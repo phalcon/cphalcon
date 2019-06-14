@@ -16,10 +16,30 @@ class ModelsValidatorsCest
         $this->setNewFactoryDefault();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     public function testValidatorsMysql(IntegrationTester $I)
     {
         $this->setDiMysql();
         $this->testValidatorsRenamed($I);
+    }
+
+    public function testValidatorsPostgresql(IntegrationTester $I)
+    {
+        $this->setupPostgres();
+        $this->testValidatorsRenamed($I);
+    }
+
+    public function testValidatorsSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+        /**
+         * @todo Check Sqlite - tests lock up
+         */
+//        $this->testValidatorsRenamed($I);
     }
 
     protected function testValidatorsRenamed(IntegrationTester $I)
@@ -354,20 +374,5 @@ class ModelsValidatorsCest
             'Le courrier électronique est invalide',
             $messages[0]->getMessage()
         );
-    }
-
-    public function testValidatorsPostgresql(IntegrationTester $I)
-    {
-        $this->setupPostgres();
-        $this->testValidatorsRenamed($I);
-    }
-
-    public function testValidatorsSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-        /**
-         * @todo Check Sqlite - tests lock up
-         */
-//        $this->testValidatorsRenamed($I);
     }
 }

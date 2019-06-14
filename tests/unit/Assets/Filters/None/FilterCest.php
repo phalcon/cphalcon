@@ -26,9 +26,12 @@ class FilterCest
     public function assetsFiltersNoneFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Filters\None - filter()');
-        $cssmin   = new None();
-        $expected = ' ';
-        $actual   = $cssmin->filter(' ');
-        $I->assertEquals($expected, $actual);
+
+        $filter = new None();
+
+        $I->assertEquals(
+            ' ',
+            $filter->filter(' ')
+        );
     }
 }

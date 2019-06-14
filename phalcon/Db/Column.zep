@@ -273,13 +273,6 @@ class Column implements ColumnInterface
     protected scale = 0 { get };
 
     /**
-     * Schema which table related is
-     *
-     * @var string
-     */
-    protected schemaName { get };
-
-    /**
      * Integer column size
      *
      * @var int
@@ -453,9 +446,10 @@ class Column implements ColumnInterface
      */
     public static function __set_state(array! data) -> <ColumnInterface>
     {
-        var definition, columnType, notNull, size, dunsigned, after, isNumeric,
-            first, bindType, primary, columnName, scale, defaultValue,
-            autoIncrement, columnTypeReference, columnTypeValues;
+        var columnType, notNull, size, dunsigned, after, isNumeric, first,
+            bindType, primary, columnName, scale, defaultValue, autoIncrement,
+            columnTypeReference, columnTypeValues;
+        array definition;
 
         if !fetch columnName, data["columnName"] {
             if unlikely !fetch columnName, data["name"] {

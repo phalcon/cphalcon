@@ -17,10 +17,10 @@ use UnitTester;
 class SetEventsManagerCest
 {
     /**
-     * Tests Phalcon\Di\Injectable :: setEventsManager()
+     * Unit Tests Phalcon\Di\Injectable :: setEventsManager()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diInjectableSetEventsManager(UnitTester $I)
     {

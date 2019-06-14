@@ -58,7 +58,7 @@ use Phalcon\Validation\Exception;
  */
 class InclusionIn extends Validator
 {
-    protected advice = "Field :field must be a part of list: :domain";
+    protected template = "Field :field must be a part of list: :domain";
 
     /**
      * Executes the validation

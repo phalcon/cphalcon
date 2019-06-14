@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use function dataDir;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
 
@@ -25,7 +26,7 @@ class GetContentCest
      */
     public function assetsAssetJsGetContent(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getContent()');
+        $I->wantToTest('Assets\Asset\Js - getContent()');
 
         $asset = new Js('assets/assets/signup.js');
 

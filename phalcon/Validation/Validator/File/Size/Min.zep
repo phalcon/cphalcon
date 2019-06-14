@@ -63,7 +63,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  */
 class Min extends FileAbstract
 {
-    protected advice = "File :field can not have the minimum size of :size";
+    protected template = "File :field can not have the minimum size of :size";
 
     /**
      * Executes the validation

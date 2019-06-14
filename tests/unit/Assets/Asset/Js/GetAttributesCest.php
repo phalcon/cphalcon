@@ -18,14 +18,14 @@ use UnitTester;
 class GetAttributesCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Js :: getAttributes() - js local
+     * Tests Phalcon\Assets\Asset\Js :: getAttributes()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetJsGetAttributesLocal(UnitTester $I)
+    public function assetsAssetJsGetAttributes(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getAttributes() - js local');
+        $I->wantToTest('Assets\Asset\Js - getAttributes()');
 
         $attributes = [
             'data-key' => 'phalcon',
@@ -37,41 +37,6 @@ class GetAttributesCest
             false,
             $attributes
         );
-
-        $attributes = [
-            'data-key' => 'phalcon',
-        ];
-
-        $I->assertEquals(
-            $attributes,
-            $asset->getAttributes()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset\Js :: getAttributes() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetJsGetAttributesRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getAttributes() - js remote');
-
-        $attributes = [
-            'data-key' => 'phalcon',
-        ];
-
-        $asset = new Js(
-            'https://phalcon.ld/js/jquery.js',
-            false,
-            false,
-            $attributes
-        );
-
-        $attributes = [
-            'data-key' => 'phalcon',
-        ];
 
         $I->assertEquals(
             $attributes,

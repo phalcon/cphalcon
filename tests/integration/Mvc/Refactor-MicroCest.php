@@ -40,39 +40,45 @@ class MicroCest
 
         $app->handle('/api/site');
 
-        $expected = 1;
-        $actual   = $handler->getNumberAccess();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $handler->getNumberAccess()
+        );
 
-        $expected = ['find'];
-        $actual   = $handler->getTrace();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            ['find'],
+            $handler->getTrace()
+        );
 
         //Getting the url from _url using POST
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
         $app->handle('/api/site/save');
 
-        $expected = 2;
-        $actual   = $handler->getNumberAccess();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            2,
+            $handler->getNumberAccess()
+        );
 
-        $expected = ['find', 'save'];
-        $actual   = $handler->getTrace();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            ['find', 'save'],
+            $handler->getTrace()
+        );
 
         //Passing directly a URI
         $_SERVER['REQUEST_METHOD'] = 'DELETE';
 
         $app->handle('/api/site/delete/1');
 
-        $expected = 3;
-        $actual   = $handler->getNumberAccess();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            3,
+            $handler->getNumberAccess()
+        );
 
-        $expected = ['find', 'save', 'delete'];
-        $actual   = $handler->getTrace();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            ['find', 'save', 'delete'],
+            $handler->getTrace()
+        );
     }
 
     public function testMicroEvents(IntegrationTester $I)
@@ -112,6 +118,7 @@ class MicroCest
     public function testMicroMiddlewareSimple(IntegrationTester $I)
     {
         $app = new Micro();
+
         $app->map(
             '/api/site',
             function () {
@@ -158,6 +165,7 @@ class MicroCest
         );
 
         $app->handle('/api/site');
+
         $I->assertEquals(6, $trace);
     }
 
@@ -185,13 +193,16 @@ class MicroCest
 
         $app->handle('/api/site');
 
-        $actual = $middleware->getNumber();
-        $I->assertEquals(6, $actual);
+        $I->assertEquals(
+            6,
+            $middleware->getNumber()
+        );
     }
 
     public function testMicroStopMiddlewareOnBeforeClasses(IntegrationTester $I)
     {
         $app = new Micro();
+
         $app->map(
             '/api/site',
             function () {
@@ -212,13 +223,16 @@ class MicroCest
 
         $app->handle('/api/site');
 
-        $actual = $middleware->getNumber();
-        $I->assertEquals(1, $actual);
+        $I->assertEquals(
+            1,
+            $middleware->getNumber()
+        );
     }
 
     public function testMicroStopMiddlewareOnAfterAndFinishClasses(IntegrationTester $I)
     {
         $app = new Micro();
+
         $app->map(
             '/api/site',
             function () {
@@ -236,7 +250,9 @@ class MicroCest
 
         $app->handle('/api/site');
 
-        $actual = $middleware->getNumber();
-        $I->assertEquals(2, $actual);
+        $I->assertEquals(
+            2,
+            $middleware->getNumber()
+        );
     }
 }

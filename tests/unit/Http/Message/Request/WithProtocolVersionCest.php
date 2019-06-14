@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Request;
 
+use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\Request;
 use UnitTester;
 
@@ -41,6 +42,50 @@ class WithProtocolVersionCest
         $I->assertEquals(
             '2.0',
             $newInstance->getProtocolVersion()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Request :: withProtocolVersion() - unsupported protocol
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageRequestWithProtocolVersionEmpty(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Request - withProtocolVersion() - unsupported protocol');
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Invalid protocol value'
+            ),
+            function () {
+                $request = new Request();
+
+                $newInstance = $request->withProtocolVersion('');
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Request :: withProtocolVersion() - empty protocol
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageRequestWithProtocolVersionUnsupported(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Request - withProtocolVersion() - empty protocol');
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Unsupported protocol 4.0'
+            ),
+            function () {
+                $request = new Request();
+
+                $newInstance = $request->withProtocolVersion('4.0');
+            }
         );
     }
 }

@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Http\Message\UriFactory;
 
 use Phalcon\Http\Message\UriFactory;
 use Psr\Http\Message\UriInterface;
-use TypeError;
 use UnitTester;
 
 class CreateUriCest
@@ -33,31 +32,5 @@ class CreateUriCest
         $uri     = $factory->createUri();
         $class   = UriInterface::class;
         $I->assertInstanceOf($class, $uri);
-    }
-
-    /**
-     * Tests Phalcon\Http\Message\UriFactory :: createUri() - exception
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function httpUriFactoryCreateUriException(UnitTester $I)
-    {
-        $I->wantToTest('Http\UriFactory - createUri() - exception');
-        $message = 'Argument 1 passed to Phalcon\Http\Message\UriFactory::createUri() ' .
-            'must be of the type string, ';
-        if (PHP_VERSION_ID >= 70300) {
-            $message .= 'int given';
-        } else {
-            $message .= 'integer given';
-        }
-
-        $I->expectThrowable(
-            new TypeError($message),
-            function () {
-                $factory = new UriFactory();
-                $factory->createUri(123);
-            }
-        );
     }
 }

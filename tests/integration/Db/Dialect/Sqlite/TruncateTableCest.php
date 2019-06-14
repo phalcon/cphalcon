@@ -12,22 +12,45 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Sqlite;
 
-/**
- * Class TruncateTableCest
- */
 class TruncateTableCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: truncateTable()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
+     *
+     * @dataProvider getTruncateTableFixtures
      */
-    public function dbDialectSqliteTruncateTable(IntegrationTester $I)
+    public function dbDialectSqliteTruncateTable(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Sqlite - truncateTable()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $expected = $example[1];
+
+        $dialect = new Sqlite();
+
+        $actual = $dialect->truncateTable('table', $schema);
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getTruncateTableFixtures(): array
+    {
+        return [
+            [
+                '',
+                'DELETE FROM "table"',
+            ],
+            [
+                'schema',
+                'DELETE FROM "schema"."table"',
+            ],
+        ];
     }
 }

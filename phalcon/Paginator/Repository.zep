@@ -10,6 +10,8 @@
 
 namespace Phalcon\Paginator;
 
+use Phalcon\Helper\Arr;
+
 /**
  * Phalcon\Paginator\Repository
  *
@@ -34,7 +36,9 @@ class Repository implements RepositoryInterface
     {
         var method;
 
-        let method = "get" . camelize(this->getRealNameProperty(property));
+        let method = "get" . camelize(
+            this->getRealNameProperty(property)
+        );
 
         if method_exists(this, method) {
             return this->{method}();
@@ -147,21 +151,20 @@ class Repository implements RepositoryInterface
      */
     protected function getProperty(string property, var defaultValue = null) -> var
     {
-        var value;
-
-        if !fetch value, this->properties[property] {
-            return defaultValue;
-        }
-
-        return value;
+        return Arr::get(
+            this->properties,
+            property,
+            defaultValue
+        );
     }
 
     /**
-     * Resolve legacy alias for compatibility with version 2.0.x
+     * Resolve alias property name
      */
     protected function getRealNameProperty(string property) -> string
     {
         var aliases;
+
         let aliases = this->getAliases();
 
         if isset aliases[property] {

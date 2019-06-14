@@ -63,7 +63,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  */
 class Max extends FileAbstract
 {
-    protected advice = "File :field exceeds the size of :size";
+    protected template = "File :field exceeds the size of :size";
 
     /**
      * Executes the validation

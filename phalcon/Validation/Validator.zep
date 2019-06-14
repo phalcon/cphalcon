@@ -23,9 +23,15 @@ use Phalcon\Validation\ValidatorInterface;
  */
 abstract class Validator implements ValidatorInterface
 {
-    protected advice;
+    /**
+    * Message template
+    */
+    protected template;
 
-    protected advices;
+    /**
+    *
+    */
+    protected advices = [];
 
     protected options;
 
@@ -40,8 +46,8 @@ abstract class Validator implements ValidatorInterface
         let this->advices = new Collection();
 
         // fetch advice, message or "0" index to set message
-        if isset options["advice"] {
-            let advice = options["advice"];
+        if isset options["template"] {
+            let advice = options["template"];
             unset options["advice"];
         } elseif isset options["message"] {
             let advice = options["message"];

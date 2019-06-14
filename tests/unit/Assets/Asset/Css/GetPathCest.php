@@ -12,48 +12,46 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Css;
 use UnitTester;
 
 class GetPathCest
 {
     /**
-     * Tests Phalcon\Assets\Asset\Css :: getPath() - css local
+     * Tests Phalcon\Assets\Asset\Css :: getPath()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetCssGetPathLocal(UnitTester $I)
+    public function assetsAssetCssGetPath(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getPath() - css local');
+        $I->wantToTest('Assets\Asset\Css - getPath()');
 
-        $path = 'css/docs.css';
-
-        $asset = new Css($path);
+        $asset = new Css(
+            $example['path'],
+            $example['local']
+        );
 
         $I->assertEquals(
-            $path,
+            $example['path'],
             $asset->getPath()
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset\Css :: getPath() - css remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetCssGetPathRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - getPath() - css remote');
-
-        $path = 'https://phalcon.ld/css/docs.css';
-
-        $asset = new Css($path);
-
-        $I->assertEquals(
-            $path,
-            $asset->getPath()
-        );
+        return [
+            [
+                'path'  => 'css/docs.css',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/css/docs.css',
+                'local' => false,
+            ],
+        ];
     }
 }

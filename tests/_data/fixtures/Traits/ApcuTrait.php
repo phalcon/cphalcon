@@ -14,9 +14,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 
 use UnitTester;
 
-/**
- * Trait RedisTrait
- */
 trait ApcuTrait
 {
     public function _before(UnitTester $I)

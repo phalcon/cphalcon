@@ -15,9 +15,6 @@ namespace Phalcon\Test\Integration\Mvc\Router;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class GetRouteByNameCest
- */
 class GetRouteByNameCest
 {
     use RouterTrait;
@@ -47,5 +44,30 @@ class GetRouteByNameCest
 
             $I->assertEquals($expected, $actual);
         }
+    }
+
+    /**
+     * Tests getting named route
+     *
+     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since  2012-08-27
+     */
+    public function testGettingNamedRoutes(IntegrationTester $I)
+    {
+        $router = $this->getRouter(false);
+
+        $usersFind = $router->add('/api/users/find')->setHttpMethods('GET')->setName('usersFind');
+        $usersAdd  = $router->add('/api/users/add')->setHttpMethods('POST')->setName('usersAdd');
+
+        $I->assertEquals(
+            $usersAdd,
+            $router->getRouteByName('usersAdd')
+        );
+
+        // second check when the same route goes from name lookup
+        $I->assertEquals(
+            $usersAdd,
+            $router->getRouteByName('usersAdd')
+        );
     }
 }

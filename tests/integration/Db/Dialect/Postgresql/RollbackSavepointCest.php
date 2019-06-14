@@ -13,21 +13,25 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
 use IntegrationTester;
+use Phalcon\Db\Dialect\Postgresql;
 
-/**
- * Class RollbackSavepointCest
- */
 class RollbackSavepointCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: rollbackSavepoint()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
      */
     public function dbDialectPostgresqlRollbackSavepoint(IntegrationTester $I)
     {
         $I->wantToTest('Db\Dialect\Postgresql - rollbackSavepoint()');
-        $I->skipTest('Need implementation');
+
+        $dialect = new Postgresql();
+
+        $I->assertEquals(
+            'ROLLBACK TO SAVEPOINT PH_SAVEPOINT_1',
+            $dialect->rollbackSavepoint('PH_SAVEPOINT_1')
+        );
     }
 }

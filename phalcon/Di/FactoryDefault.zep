@@ -11,6 +11,7 @@
 namespace Phalcon\Di;
 
 use Phalcon\Filter\FilterFactory;
+
 /**
  * Phalcon\Di\FactoryDefault
  *

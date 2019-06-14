@@ -12,20 +12,49 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Di;
+use Phalcon\Di\Exception;
+use Phalcon\Escaper;
 use UnitTester;
 
 class OffsetGetCest
 {
     /**
-     * Tests Phalcon\Di :: offsetGet()
+     * Unit Tests Phalcon\Di :: offsetGet()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diOffsetGet(UnitTester $I)
     {
         $I->wantToTest('Di - offsetGet()');
 
-        $I->skipTest('Need implementation');
+        $di = new Di();
+
+        $I->expectThrowable(
+            new Exception("Service 'non-exists' wasn't found in the dependency injection container"),
+            function () use ($di) {
+                $di['non-exists'];
+            }
+        );
+
+        $I->expectThrowable(
+            new Exception("Service 'non-exists' wasn't found in the dependency injection container"),
+            function () use ($di) {
+                $di->offsetGet('non-exists');
+            }
+        );
+
+        $di->set('escaper', Escaper::class);
+
+        $I->assertInstanceOf(
+            Escaper::class,
+            $di->offsetGet('escaper')
+        );
+
+        $I->assertInstanceOf(
+            Escaper::class,
+            $di['escaper']
+        );
     }
 }

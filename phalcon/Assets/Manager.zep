@@ -60,7 +60,7 @@ class Manager implements InjectionAwareInterface
      * );
      *</code>
      */
-    public function addAsset(<$Asset> asset) -> <Manager>
+    public function addAsset(<Asset> asset) -> <Manager>
     {
         /**
          * Adds the asset by its type
@@ -83,7 +83,7 @@ class Manager implements InjectionAwareInterface
      * );
      *</code>
      */
-    public function addAssetByType(string! type, <$Asset> asset) -> <Manager>
+    public function addAssetByType(string! type, <Asset> asset) -> <Manager>
     {
         var collection;
 
@@ -234,11 +234,11 @@ class Manager implements InjectionAwareInterface
 
         for asset in assets {
             if asset->getType() == type {
-                let $filtered[] = asset;
+                let filtered[] = asset;
             }
         }
 
-        return $filtered;
+        return filtered;
     }
 
     /**
@@ -372,14 +372,12 @@ class Manager implements InjectionAwareInterface
          * Prepare options if the collection must be filtered
          */
         if count(filters) {
-
             let options = this->options;
 
             /**
              * Check for global options in the assets manager
              */
             if typeof options == "array" {
-
                 /**
                  * The source base path is a global location where all assets
                  * are located
@@ -456,7 +454,6 @@ class Manager implements InjectionAwareInterface
          * walk in assets
          */
         for asset in assets {
-
             let filterNeeded = false,
                 type         = asset->getType();
 
@@ -471,7 +468,6 @@ class Manager implements InjectionAwareInterface
              */
             if count(filters) {
                 if local {
-
                     /**
                      * Get the complete path
                      */
@@ -490,7 +486,6 @@ class Manager implements InjectionAwareInterface
                         );
                     }
                 } else {
-
                     /**
                      * Get the complete source path
                      */
@@ -518,7 +513,6 @@ class Manager implements InjectionAwareInterface
                 }
 
                 if local {
-
                     /**
                      * Make sure the target path is not the same source path
                      */
@@ -537,7 +531,6 @@ class Manager implements InjectionAwareInterface
                     }
                 }
             } else {
-
                 /**
                  * If there are not filters, just print/buffer the HTML
                  */
@@ -566,12 +559,11 @@ class Manager implements InjectionAwareInterface
                 /**
                  * Prepare the parameters for the callback
                  */
-                let parameters = [];
                 if typeof attributes == "array" {
                     let attributes[0] = prefixedPath;
-                    let parameters[] = attributes;
+                    let parameters = [attributes];
                 } else {
-                    let parameters[] = prefixedPath;
+                    let parameters = [prefixedPath];
                 }
                 let parameters[] = local;
 
@@ -593,7 +585,6 @@ class Manager implements InjectionAwareInterface
             }
 
             if filterNeeded == true {
-
                 /**
                  * Gets the asset's content
                  */
@@ -609,7 +600,6 @@ class Manager implements InjectionAwareInterface
                  */
                 if mustFilter == true {
                     for filter in filters {
-
                         /**
                          * Filters must be valid objects
                          */
@@ -624,6 +614,7 @@ class Manager implements InjectionAwareInterface
                         let filteredContent = filter->filter(content),
                             content         = filteredContent;
                     }
+
                     /**
                      * Update the joined filtered content
                      */
@@ -635,7 +626,6 @@ class Manager implements InjectionAwareInterface
                         }
                     }
                 } else {
-
                     /**
                      * Update the joined filtered content
                      */
@@ -656,7 +646,6 @@ class Manager implements InjectionAwareInterface
             }
 
             if !join {
-
                 /**
                  * Generate the HTML using the original path in the asset
                  */
@@ -664,7 +653,6 @@ class Manager implements InjectionAwareInterface
                     prefixedPath = this->getPrefixedPath(collection, path);
 
                 if null === asset->getVersion() && asset->isAutoVersion() {
-
 					let version     = collection->getVersion(),
 					    autoVersion = collection->isAutoVersion();
 
@@ -691,12 +679,11 @@ class Manager implements InjectionAwareInterface
                 /**
                  * Prepare the parameters for the callback
                  */
-                let parameters = [];
                 if typeof attributes == "array" {
                     let attributes[0] = prefixedPath;
-                    let parameters[] = attributes;
+                    let parameters = [attributes];
                 } else {
-                    let parameters[] = prefixedPath;
+                    let parameters = [prefixedPath];
                 }
                 let parameters[] = local;
 
@@ -717,9 +704,7 @@ class Manager implements InjectionAwareInterface
         }
 
         if count(filters) {
-
             if join == true {
-
                 /**
                  * Write the file using file_put_contents. This respects the
                  * openbase-dir also writes to streams
@@ -756,12 +741,11 @@ class Manager implements InjectionAwareInterface
                 /**
                  * Prepare the parameters for the callback
                  */
-                let parameters = [];
                 if typeof attributes == "array" {
                     let attributes[0] = prefixedPath,
-                        parameters[]  = attributes;
+                        parameters = [attributes];
                 } else {
-                    let parameters[] = prefixedPath;
+                    let parameters = [prefixedPath];
                 }
                 let parameters[] = local;
 
@@ -982,11 +966,10 @@ class Manager implements InjectionAwareInterface
 
         let prefix = collection->getPrefix();
 
-
-        if prefix {
-            return prefix . path;
-        } else {
+        if !prefix {
             return path;
         }
+
+        return prefix . path;
     }
 }

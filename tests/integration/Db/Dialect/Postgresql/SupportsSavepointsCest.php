@@ -13,21 +13,24 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
 use IntegrationTester;
+use Phalcon\Db\Dialect\Postgresql;
 
-/**
- * Class SupportsSavepointsCest
- */
 class SupportsSavepointsCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: supportsSavepoints()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
      */
     public function dbDialectPostgresqlSupportsSavepoints(IntegrationTester $I)
     {
         $I->wantToTest('Db\Dialect\Postgresql - supportsSavepoints()');
-        $I->skipTest('Need implementation');
+
+        $dialect = new Postgresql();
+
+        $I->assertTrue(
+            $dialect->supportsSavepoints()
+        );
     }
 }

@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
 use IntegrationTester;
 
-/**
- * Class LimitCest
- */
 class LimitCest
 {
     /**

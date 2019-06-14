@@ -18,14 +18,14 @@ use UnitTester;
 class GetAssetKeyCest
 {
     /**
-     * Tests Phalcon\Assets\Inline :: getAssetKey()
+     * Tests Phalcon\Assets\Inline\Css :: getAssetKey()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineGetAssetKey(UnitTester $I)
+    public function assetsInlineCssGetAssetKey(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - getAssetKey()');
+        $I->wantToTest('Assets\Inline\Css - getAssetKey()');
 
         $content = 'p {color: #000099}';
 

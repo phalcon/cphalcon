@@ -12,7 +12,7 @@
 use Dotenv\Dotenv;
 
 if (!function_exists('env')) {
-    function env($key, $default = null)
+    function env(string $key, $default = null)
     {
         if (defined($key)) {
             return constant($key);
@@ -36,15 +36,29 @@ if (!function_exists('loadEnvironment')) {
         /**
          * Necessary evil. We need to set some constants for INI files to work
          */
-        (defined('DATA_MYSQL_CHARSET') || define('DATA_MYSQL_CHARSET', env('DATA_MYSQL_CHARSET')));
-        (defined('DATA_MYSQL_HOST') || define('DATA_MYSQL_HOST', env('DATA_MYSQL_HOST')));
-        (defined('DATA_MYSQL_NAME') || define('DATA_MYSQL_NAME', env('DATA_MYSQL_NAME')));
-        (defined('DATA_MYSQL_PASS') || define('DATA_MYSQL_PASS', env('DATA_MYSQL_PASS')));
-        (defined('DATA_MYSQL_PORT') || define('DATA_MYSQL_PORT', env('DATA_MYSQL_PORT')));
-        (defined('DATA_MYSQL_USER') || define('DATA_MYSQL_USER', env('DATA_MYSQL_USER')));
-        (defined('PATH_CACHE') || define('PATH_CACHE', env('PATH_CACHE')));
-        (defined('PATH_DATA') || define('PATH_DATA', env('PATH_DATA')));
-        (defined('PATH_OUTPUT') || define('PATH_OUTPUT', env('PATH_OUTPUT')));
+        defineFromEnv('DATA_MYSQL_CHARSET');
+        defineFromEnv('DATA_MYSQL_HOST');
+        defineFromEnv('DATA_MYSQL_NAME');
+        defineFromEnv('DATA_MYSQL_PASS');
+        defineFromEnv('DATA_MYSQL_PORT');
+        defineFromEnv('DATA_MYSQL_USER');
+        defineFromEnv('PATH_CACHE');
+        defineFromEnv('PATH_DATA');
+        defineFromEnv('PATH_OUTPUT');
+    }
+}
+
+if (!function_exists('defineFromEnv')) {
+    function defineFromEnv(string $name)
+    {
+        if (defined($name)) {
+            return;
+        }
+
+        define(
+            $name,
+            env($name)
+        );
     }
 }
 
@@ -66,8 +80,10 @@ if (!function_exists('loadFolders')) {
             'session',
             'stream',
         ];
+
         foreach ($folders as $folder) {
             $item = outputDir('tests/' . $folder);
+
             if (true !== file_exists($item)) {
                 mkdir($item, 0777, true);
             }
@@ -98,7 +114,7 @@ if (!function_exists('dataDir')) {
 /**
  * Returns the output folder
  */
-if (true !== function_exists('logsDir')) {
+if (!function_exists('logsDir')) {
     function logsDir(string $fileName = ''): string
     {
         return codecept_output_dir() . 'tests/logs/' . $fileName;
@@ -108,7 +124,7 @@ if (true !== function_exists('logsDir')) {
 /**
  * Returns the output folder
  */
-if (true !== function_exists('outputDir')) {
+if (!function_exists('outputDir')) {
     function outputDir(string $fileName = ''): string
     {
         return codecept_output_dir() . $fileName;
@@ -118,7 +134,7 @@ if (true !== function_exists('outputDir')) {
 /**
  * Returns the output folder
  */
-if (true !== function_exists('cacheModelsDir')) {
+if (!function_exists('cacheModelsDir')) {
     function cacheModelsDir(string $fileName = ''): string
     {
         return codecept_output_dir() . 'tests/cache/models/' . $fileName;
@@ -128,7 +144,7 @@ if (true !== function_exists('cacheModelsDir')) {
 /*******************************************************************************
  * Options
  *******************************************************************************/
-if (true !== function_exists('getOptionsLibmemcached')) {
+if (!function_exists('getOptionsLibmemcached')) {
     function getOptionsLibmemcached(): array
     {
         return [
@@ -144,7 +160,7 @@ if (true !== function_exists('getOptionsLibmemcached')) {
     }
 }
 
-if (true !== function_exists('getOptionsRedis')) {
+if (!function_exists('getOptionsRedis')) {
     function getOptionsRedis(): array
     {
         return [
@@ -155,7 +171,7 @@ if (true !== function_exists('getOptionsRedis')) {
     }
 }
 
-if (true !== function_exists('getOptionsSessionStream')) {
+if (!function_exists('getOptionsSessionStream')) {
     /**
      * Get Session Stream options
      */
@@ -171,14 +187,16 @@ if (true !== function_exists('getOptionsSessionStream')) {
     }
 }
 
-if (true !== function_exists('getOptionsModelCacheStream')) {
+if (!function_exists('getOptionsModelCacheStream')) {
     /**
      * Get Model cache options - Stream
      */
     function getOptionsModelCacheStream(): array
     {
         if (!is_dir(cacheDir('models'))) {
-            mkdir(cacheDir('models'));
+            mkdir(
+                cacheDir('models')
+            );
         }
 
         return [
@@ -188,7 +206,7 @@ if (true !== function_exists('getOptionsModelCacheStream')) {
     }
 }
 
-if (true !== function_exists('getOptionsMysql')) {
+if (!function_exists('getOptionsMysql')) {
     /**
      * Get mysql db options
      */
@@ -204,7 +222,7 @@ if (true !== function_exists('getOptionsMysql')) {
     }
 }
 
-if (true !== function_exists('getOptionsPostgresql')) {
+if (!function_exists('getOptionsPostgresql')) {
     /**
      * Get postgresql db options
      */
@@ -220,7 +238,7 @@ if (true !== function_exists('getOptionsPostgresql')) {
     }
 }
 
-if (true !== function_exists('getOptionsSqlite')) {
+if (!function_exists('getOptionsSqlite')) {
     /**
      * Get sqlite db options
      */

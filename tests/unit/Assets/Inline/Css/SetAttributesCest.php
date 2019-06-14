@@ -18,14 +18,14 @@ use UnitTester;
 class SetAttributesCest
 {
     /**
-     * Tests Phalcon\Assets\Inline :: setAttributes()
+     * Tests Phalcon\Assets\Inline\Css :: setAttributes()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineSetAttributes(UnitTester $I)
+    public function assetsInlineCssSetAttributes(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - setAttributes()');
+        $I->wantToTest('Assets\Inline\Css - setAttributes()');
 
         $asset = new Css(
             'p {color: #000099}'

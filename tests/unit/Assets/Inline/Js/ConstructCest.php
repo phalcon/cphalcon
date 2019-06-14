@@ -18,85 +18,105 @@ use UnitTester;
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Assets\Asset :: __construct()
+     * Tests Phalcon\Assets\Inline\Js :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineConstruct(UnitTester $I)
+    public function assetsInlineJsConstruct(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - __construct()');
-        $content = '<script>alert("Hello");</script>';
-        $asset   = new Js($content);
+        $I->wantToTest('Assets\Inline\Js - __construct()');
 
-        $expected = 'js';
-        $actual   = $asset->getType();
-        $I->assertEquals($expected, $actual);
+        $asset = new Js('<script>alert("Hello");</script>');
+
+        $I->assertEquals(
+            'js',
+            $asset->getType()
+        );
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: __construct() - js filter
+     * Tests Phalcon\Assets\Inline\Js :: __construct() - filter
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineConstructFilter(UnitTester $I)
+    public function assetsInlineJsConstructFilter(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - __construct() - js filter');
-        $content = '<script>alert("Hello");</script>';
-        $asset   = new Js($content);
+        $I->wantToTest('Assets\Inline\Js - __construct() - filter');
 
-        $actual = $asset->getFilter();
-        $I->assertTrue($actual);
+        $asset = new Js('<script>alert("Hello");</script>');
+
+        $I->assertTrue(
+            $asset->getFilter()
+        );
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: __construct() - js filter set
+     * Tests Phalcon\Assets\Inline\Js :: __construct() - filter set
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineConstructFilterSet(UnitTester $I)
+    public function assetsInlineJsConstructFilterSet(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - __construct() - js filter set');
-        $content = '<script>alert("Hello");</script>';
-        $asset   = new Js($content, false);
+        $I->wantToTest('Assets\Inline\Js - __construct() - filter set');
 
-        $actual = $asset->getFilter();
-        $I->assertFalse($actual);
+        $asset = new Js(
+            '<script>alert("Hello");</script>',
+            false
+        );
+
+        $I->assertFalse(
+            $asset->getFilter()
+        );
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: __construct() - js attributes
+     * Tests Phalcon\Assets\Inline\Js :: __construct() - attributes
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineConstructAttributes(UnitTester $I)
+    public function assetsInlineJsConstructAttributes(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - __construct() - js attributes');
-        $content = '<script>alert("Hello");</script>';
-        $asset   = new Js($content);
+        $I->wantToTest('Assets\Inline\Js - __construct() - attributes');
 
-        $expected = ['type' => 'text/javascript'];
-        $actual   = $asset->getAttributes();
-        $I->assertEquals($expected, $actual);
+        $asset = new Js('<script>alert("Hello");</script>');
+
+        $expected = [
+            'type' => 'text/javascript',
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $asset->getAttributes()
+        );
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: __construct() - js attributes set
+     * Tests Phalcon\Assets\Inline\Js :: __construct() - attributes set
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineConstructAttributesSet(UnitTester $I)
+    public function assetsInlineJsConstructAttributesSet(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - __construct() - js attributes set');
-        $content = '<script>alert("Hello");</script>';
-        $asset   = new Js($content, true, ['data' => 'phalcon']);
+        $I->wantToTest('Assets\Inline\Js - __construct() - attributes set');
 
-        $expected = ['data' => 'phalcon'];
-        $actual   = $asset->getAttributes();
-        $I->assertEquals($expected, $actual);
+        $attributes = [
+            'data' => 'phalcon',
+        ];
+
+        $asset = new Js(
+            '<script>alert("Hello");</script>',
+            true,
+            $attributes
+        );
+
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
+        );
     }
 }

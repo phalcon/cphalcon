@@ -13,11 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router;
 
 use IntegrationTester;
+use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class GetRouteByIdCest
- */
 class GetRouteByIdCest
 {
     use RouterTrait;
@@ -63,10 +61,37 @@ class GetRouteByIdCest
          * We reverse routes so we first check last added route
          */
         foreach (array_reverse($router->getRoutes()) as $route) {
-            $expected = $router->getRoutebyId($route->getId());
-            $actual   = $route;
+            $actual = $router->getRoutebyId(
+                $route->getId()
+            );
 
-            $I->assertEquals($expected, $actual);
+            $I->assertEquals($route, $actual);
         }
+    }
+
+    /**
+     * Tests getting named route
+     *
+     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since  2012-08-27
+     */
+    public function testGettingNamedRoutes(IntegrationTester $I)
+    {
+        Route::reset();
+
+        $router = $this->getRouter(false);
+
+        $usersFind = $router->add('/api/users/find')->setHttpMethods('GET')->setName('usersFind');
+        $usersAdd  = $router->add('/api/users/add')->setHttpMethods('POST')->setName('usersAdd');
+
+        $I->assertEquals(
+            $usersFind,
+            $router->getRouteById(0)
+        );
+
+        $I->assertEquals(
+            $usersAdd,
+            $router->getRouteById(1)
+        );
     }
 }

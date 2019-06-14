@@ -32,6 +32,11 @@ trait MysqlTrait
         $this->connection = $this->getService('db');
     }
 
+    public function _after()
+    {
+        $this->connection->close();
+    }
+
     /**
      * @inheritdoc
      */
@@ -83,7 +88,6 @@ trait MysqlTrait
         return [
             0  => [
                 'columnName'    => 'field_primary',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_INTEGER,
                 'isNumeric'     => true,
                 'size'          => 11,
@@ -99,7 +103,6 @@ trait MysqlTrait
             ],
             1  => [
                 'columnName'    => 'field_blob',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_BLOB,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -115,7 +118,6 @@ trait MysqlTrait
             ],
             2  => [
                 'columnName'    => 'field_bit',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_BIT,
                 'isNumeric'     => false,
                 'size'          => 1,
@@ -131,7 +133,6 @@ trait MysqlTrait
             ],
             3  => [
                 'columnName'    => 'field_bit_default',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_BIT,
                 'isNumeric'     => false,
                 'size'          => 1,
@@ -147,7 +148,6 @@ trait MysqlTrait
             ],
             4  => [
                 'columnName'    => 'field_bigint',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_BIGINTEGER,
                 'isNumeric'     => true,
                 'size'          => 20,
@@ -163,7 +163,6 @@ trait MysqlTrait
             ],
             5  => [
                 'columnName'    => 'field_bigint_default',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_BIGINTEGER,
                 'isNumeric'     => true,
                 'size'          => 20,
@@ -179,7 +178,6 @@ trait MysqlTrait
             ],
             6  => [
                 'columnName'    => 'field_boolean',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_BOOLEAN,
                 'isNumeric'     => true,
                 'size'          => 1,
@@ -195,7 +193,6 @@ trait MysqlTrait
             ],
             7  => [
                 'columnName'    => 'field_boolean_default',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_BOOLEAN,
                 'isNumeric'     => true,
                 'size'          => 1,
@@ -211,7 +208,6 @@ trait MysqlTrait
             ],
             8  => [
                 'columnName'    => 'field_char',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_CHAR,
                 'isNumeric'     => false,
                 'size'          => 10,
@@ -227,7 +223,6 @@ trait MysqlTrait
             ],
             9  => [
                 'columnName'    => 'field_char_default',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_CHAR,
                 'isNumeric'     => false,
                 'size'          => 10,
@@ -243,7 +238,6 @@ trait MysqlTrait
             ],
             10 => [
                 'columnName'    => 'field_decimal',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_DECIMAL,
                 'isNumeric'     => true,
                 'size'          => 10,
@@ -259,7 +253,6 @@ trait MysqlTrait
             ],
             11 => [
                 'columnName'    => 'field_decimal_default',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_DECIMAL,
                 'isNumeric'     => true,
                 'size'          => 10,
@@ -275,7 +268,6 @@ trait MysqlTrait
             ],
             12 => [
                 'columnName'    => 'field_enum',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_ENUM,
                 'isNumeric'     => false,
                 'size'          => "'xs','s','m','l','xl'",
@@ -291,7 +283,6 @@ trait MysqlTrait
             ],
             13 => [
                 'columnName'    => 'field_integer',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_INTEGER,
                 'isNumeric'     => true,
                 'size'          => 10,
@@ -307,7 +298,6 @@ trait MysqlTrait
             ],
             14 => [
                 'columnName'    => 'field_integer_default',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_INTEGER,
                 'isNumeric'     => true,
                 'size'          => 10,
@@ -323,7 +313,6 @@ trait MysqlTrait
             ],
             15 => [
                 'columnName'    => 'field_json',
-                'schemaName'    => false,
                 'type'          => Column::TYPE_JSON,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -339,7 +328,6 @@ trait MysqlTrait
             ],
             16 => [
                 'columnName'    => 'field_float',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_FLOAT,
                 'isNumeric'     => true,
                 'size'          => 10,
@@ -355,7 +343,6 @@ trait MysqlTrait
             ],
             17 => [
                 'columnName'    => 'field_float_default',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_FLOAT,
                 'isNumeric'     => true,
                 'size'          => 10,
@@ -371,7 +358,6 @@ trait MysqlTrait
             ],
             18 => [
                 'columnName'    => 'field_date',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_DATE,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -387,7 +373,6 @@ trait MysqlTrait
             ],
             19 => [
                 'columnName'    => 'field_date_default',
-                'schemaName'    => false,
                 'type'          => Column::TYPE_DATE,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -403,7 +388,6 @@ trait MysqlTrait
             ],
             20 => [
                 'columnName'    => 'field_datetime',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_DATETIME,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -419,7 +403,6 @@ trait MysqlTrait
             ],
             21 => [
                 'columnName'    => 'field_datetime_default',
-                'schemaName'    => false,
                 'type'          => Column::TYPE_DATETIME,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -435,7 +418,6 @@ trait MysqlTrait
             ],
             22 => [
                 'columnName'    => 'field_time',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_TIME,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -451,7 +433,6 @@ trait MysqlTrait
             ],
             23 => [
                 'columnName'    => 'field_time_default',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_TIME,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -467,7 +448,6 @@ trait MysqlTrait
             ],
             24 => [
                 'columnName'    => 'field_timestamp',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_TIMESTAMP,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -483,7 +463,6 @@ trait MysqlTrait
             ],
             25 => [
                 'columnName'    => 'field_timestamp_default',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_TIMESTAMP,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -499,7 +478,6 @@ trait MysqlTrait
             ],
             26 => [
                 'columnName'    => 'field_mediumint',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_MEDIUMINTEGER,
                 'isNumeric'     => true,
                 'size'          => 10,
@@ -515,7 +493,6 @@ trait MysqlTrait
             ],
             27 => [
                 'columnName'    => 'field_mediumint_default',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_MEDIUMINTEGER,
                 'isNumeric'     => true,
                 'size'          => 10,
@@ -531,7 +508,6 @@ trait MysqlTrait
             ],
             28 => [
                 'columnName'    => 'field_smallint',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_SMALLINTEGER,
                 'isNumeric'     => true,
                 'size'          => 10,
@@ -547,7 +523,6 @@ trait MysqlTrait
             ],
             29 => [
                 'columnName'    => 'field_smallint_default',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_SMALLINTEGER,
                 'isNumeric'     => true,
                 'size'          => 10,
@@ -563,7 +538,6 @@ trait MysqlTrait
             ],
             30 => [
                 'columnName'    => 'field_tinyint',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_TINYINTEGER,
                 'isNumeric'     => true,
                 'size'          => 10,
@@ -579,7 +553,6 @@ trait MysqlTrait
             ],
             31 => [
                 'columnName'    => 'field_tinyint_default',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_TINYINTEGER,
                 'isNumeric'     => true,
                 'size'          => 10,
@@ -595,7 +568,6 @@ trait MysqlTrait
             ],
             32 => [
                 'columnName'    => 'field_longtext',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_LONGTEXT,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -611,7 +583,6 @@ trait MysqlTrait
             ],
             33 => [
                 'columnName'    => 'field_mediumtext',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_MEDIUMTEXT,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -627,7 +598,6 @@ trait MysqlTrait
             ],
             34 => [
                 'columnName'    => 'field_tinytext',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_TINYTEXT,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -643,7 +613,6 @@ trait MysqlTrait
             ],
             35 => [
                 'columnName'    => 'field_text',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_TEXT,
                 'isNumeric'     => false,
                 'size'          => 0,
@@ -659,7 +628,6 @@ trait MysqlTrait
             ],
             36 => [
                 'columnName'    => 'field_varchar',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_VARCHAR,
                 'isNumeric'     => false,
                 'size'          => 10,
@@ -675,7 +643,6 @@ trait MysqlTrait
             ],
             37 => [
                 'columnName'    => 'field_varchar_default',
-                'schemaName'    => null,
                 'type'          => Column::TYPE_VARCHAR,
                 'isNumeric'     => false,
                 'size'          => 10,

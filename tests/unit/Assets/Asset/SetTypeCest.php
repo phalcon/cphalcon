@@ -12,96 +12,52 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset;
 use UnitTester;
 
 class SetTypeCest
 {
     /**
-     * Tests Phalcon\Assets\Asset :: setType() - css local
+     * Tests Phalcon\Assets\Asset :: setType()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetSetTypeCssLocal(UnitTester $I)
+    public function assetsAssetSetType(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setType() - css local');
+        $I->wantToTest('Assets\Asset - setType()');
 
-        $asset = new Asset('css', 'css/docs.css');
+        $asset = new Asset(
+            $example['type'],
+            $example['path']
+        );
 
-        $type = 'js';
-
-        $asset->setType($type);
+        $asset->setType(
+            $example['newType']
+        );
 
         $I->assertEquals(
-            $type,
+            $example['newType'],
             $asset->getType()
         );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: setType() - css remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetSetTypeCssRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - setType() - css remote');
-
-        $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
-
-        $type = 'js';
-
-        $asset->setType($type);
-
-        $I->assertEquals(
-            $type,
-            $asset->getType()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: setType() - js local
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetSetTypeJsLocal(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - setType() - js local');
-
-        $asset = new Asset('js', 'js/jquery.js');
-
-        $type = 'css';
-
-        $asset->setType($type);
-
-        $I->assertEquals(
-            $type,
-            $asset->getType()
-        );
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: setType() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetSetTypeJsRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - setType() - js remote');
-
-        $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
-
-        $type = 'css';
-
-        $asset->setType($type);
-
-        $I->assertEquals(
-            $type,
-            $asset->getType()
-        );
+        return [
+            [
+                'type'    => 'css',
+                'path'    => 'css/docs.css',
+                'newType' => 'js',
+            ],
+            [
+                'type'    => 'css',
+                'path'    => 'js/jquery.js',
+                'newType' => 'js',
+            ],
+        ];
     }
 }
