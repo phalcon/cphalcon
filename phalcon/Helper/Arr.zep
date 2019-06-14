@@ -395,4 +395,44 @@ class Arr
 
         return array_filter(collection, method);
     }
+
+    /**
+     * White list filter by key: obtain elements of an array filtering
+     * by the keys obtained from the elements of a whitelist
+     *
+     * @param array $collection
+     * @param array $whiteList
+     *
+     * @return array
+     */
+    final public static function whiteList(array! collection, array! whiteList) -> array
+    {
+        array result;
+
+
+        let whiteList = array_filter(
+            whiteList,
+            function (element)
+            {
+                if (is_int(element)) {
+                    return true;
+                }
+
+                if (is_string(element)) {
+                    let element = trim(element);
+
+                    return mb_strlen(element) > 0;
+                }
+
+                return false;
+            }
+        );
+
+        let result = array_intersect_key(
+            collection,
+            array_flip(whiteList)
+        );
+
+        return result;
+    }
 }
