@@ -10,21 +10,21 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Di;
+namespace Phalcon\Test\Unit\Di\FactoryDefault\Cli;
 
 use UnitTester;
 
-class WasFreshInstanceCest
+class GetInternalEventsManagerCest
 {
     /**
-     * Tests Phalcon\Di :: wasFreshInstance()
+     * Unit Tests Phalcon\Di\FactoryDefault\Cli :: getInternalEventsManager()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
-    public function diWasFreshInstance(UnitTester $I)
+    public function diFactoryDefaultCliGetInternalEventsManager(UnitTester $I)
     {
-        $I->wantToTest('Di - wasFreshInstance()');
+        $I->wantToTest('Di\FactoryDefault\Cli - getInternalEventsManager()');
 
         $I->skipTest('Need implementation');
     }

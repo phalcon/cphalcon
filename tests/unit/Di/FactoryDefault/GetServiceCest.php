@@ -17,10 +17,10 @@ use UnitTester;
 class GetServiceCest
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault :: getService()
+     * Unit Tests Phalcon\Di\FactoryDefault :: getService()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diFactoryDefaultGetService(UnitTester $I)
     {

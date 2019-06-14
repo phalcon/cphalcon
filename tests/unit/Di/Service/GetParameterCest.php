@@ -17,10 +17,10 @@ use UnitTester;
 class GetParameterCest
 {
     /**
-     * Tests Phalcon\Di\Service :: getParameter()
+     * Unit Tests Phalcon\Di\Service :: getParameter()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diServiceGetParameter(UnitTester $I)
     {
