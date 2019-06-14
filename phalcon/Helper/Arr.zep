@@ -407,32 +407,20 @@ class Arr
      */
     final public static function whiteList(array! collection, array! whiteList) -> array
     {
-        array result;
-
-
+        /**
+         * Clean whitelist, just strings and integers
+         */
         let whiteList = array_filter(
             whiteList,
             function (element)
             {
-                if (is_int(element)) {
-                    return true;
-                }
-
-                if (is_string(element)) {
-                    let element = trim(element);
-
-                    return mb_strlen(element) > 0;
-                }
-
-                return false;
+                return is_int(element) || is_string(element);
             }
         );
 
-        let result = array_intersect_key(
+        return array_intersect_key(
             collection,
             array_flip(whiteList)
         );
-
-        return result;
     }
 }
