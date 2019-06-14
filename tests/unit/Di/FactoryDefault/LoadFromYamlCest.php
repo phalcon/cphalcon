@@ -17,10 +17,10 @@ use UnitTester;
 class LoadFromYamlCest
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault :: loadFromYaml()
+     * Unit Tests Phalcon\Di\FactoryDefault :: loadFromYaml()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diFactoryDefaultLoadFromYaml(UnitTester $I)
     {

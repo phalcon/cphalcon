@@ -17,10 +17,10 @@ use UnitTester;
 class AttemptCest
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault :: attempt()
+     * Unit Tests Phalcon\Di\FactoryDefault :: attempt()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diFactoryDefaultAttempt(UnitTester $I)
     {

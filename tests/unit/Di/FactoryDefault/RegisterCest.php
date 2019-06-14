@@ -17,10 +17,10 @@ use UnitTester;
 class RegisterCest
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault :: register()
+     * Unit Tests Phalcon\Di\FactoryDefault :: register()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diFactoryDefaultRegister(UnitTester $I)
     {

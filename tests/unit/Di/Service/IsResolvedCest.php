@@ -17,10 +17,10 @@ use UnitTester;
 class IsResolvedCest
 {
     /**
-     * Tests Phalcon\Di\Service :: isResolved()
+     * Unit Tests Phalcon\Di\Service :: isResolved()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diServiceIsResolved(UnitTester $I)
     {
