@@ -434,10 +434,10 @@ class Memory extends Adapter
             return false;
         }
 
-        let this->roles[] = roleObject;
-        let this->rolesNames[roleName] = true;
+        let this->roles[]              = roleObject,
+            this->rolesNames[roleName] = true;
 
-        if (null !== accessInherits) {
+        if null !== accessInherits {
             return this->addInherit(roleName, accessInherits);
         }
 
@@ -513,7 +513,7 @@ class Memory extends Adapter
     {
         var innerRoleName;
 
-        if ("*" !== roleName) {
+        if "*" !== roleName {
             this->allowOrDeny(roleName, componentName, access, Acl::DENY, func);
         } else {
             for innerRoleName, _ in this->rolesNames {
