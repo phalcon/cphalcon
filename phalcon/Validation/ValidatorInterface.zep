@@ -61,12 +61,12 @@ interface ValidatorInterface
     *
     * @return ValidatorInterface
     */
-    public function setTemplates(array! advices) -> <ValidatorInterface>;
+    public function setTemplates(array! templates) -> <ValidatorInterface>;
 
     /**
     * Set a new temlate message
     *
     * @return ValidatorInterface
     */
-    public function setTemplate(string! advice) -> <ValidatorInterface>;
+    public function setTemplate(string! template) -> <ValidatorInterface>;
 }

@@ -11,6 +11,7 @@
 namespace Phalcon\Validation;
 
 use Phalcon\Collection;
+use Phalcon\Helper\Arr;
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
 use Phalcon\Validation\Exception;
@@ -29,9 +30,9 @@ abstract class Validator implements ValidatorInterface
     protected template;
 
     /**
-    *
+    * Message templates
     */
-    protected advices = [];
+    protected templates = [];
 
     protected options;
 
@@ -40,93 +41,86 @@ abstract class Validator implements ValidatorInterface
      */
     public function __construct(array! options = []) -> void
     {
-        var advice;
+        var template;
 
-        // collection of advices for combined fields
-        let this->advices = new Collection();
+        let template = current(Arr::whiteList(options, ["template", "message", 0]));
 
-        // fetch advice, message or "0" index to set message
-        if isset options["template"] {
-            let advice = options["template"];
-            unset options["advice"];
-        } elseif isset options["message"] {
-            let advice = options["message"];
-            unset options["message"];
-        } elseif isset options[0] {
-            let advice = options[0];
-            unset options[0];
+        if typeof template == "array" {
+            this->setTemplates(template);
+        } elseif typeof template == "string" {
+            this->setTemplate(template);
         }
 
-        if typeof advice == "array" {
-            this->setAdvices(advice);
-        } elseif typeof advice == "string" {
-            this->setAdvice(advice);
+        if (template) {
+            unset options["template"];
+            unset options["message"];
+            unset options[0];
         }
 
         let this->options = options;
     }
 
     /**
-    * Get the advice message
+    * Get the template message
     *
     * @return string
     * @throw InvalidArgumentException When the field does not exists
     */
-    public function getAdvice(string! field = null) -> string
+    public function getTemplate(string! field = null) -> string
     {
-        // there is a advice in field
-        if field !== null && this->advices->has(field) {
-            return this->advices->get(field);
+        // there is a template in field
+        if field !== null && isset this->templates[field] {
+            return this->templates[field];
         }
 
-        // there is a custom advice
-        if (this->advice) {
-            return this->advice;
+        // there is a custom template
+        if (this->template) {
+            return this->template;
         }
 
-        // default advice message
+        // default template message
         return "The field :field is not valid for " . get_class(this);
     }
 
     /**
-    * Get advices collection object
+    * Get templates collection object
     *
     * @return Collection
     */
-    public function getAdvices() -> <Collection>
+    public function getTemplates() -> <Collection>
     {
-        return this->advices;
+        return this->templates;
     }
 
     /**
-    * Clear current advices and set new from an array,
+    * Clear current templates and set new from an array,
     *
     * @return Validator
     */
-    public function setAdvices(array! advices) -> <ValidatorInterface>
+    public function setTemplates(array! templates) -> <ValidatorInterface>
     {
-        var field, advice;
+        var field, template;
 
-        this->advices->clear();
+        let this->templates = [];
 
-        for field, advice in advices {
-            this->getAdvices()->set(
-                (string) field,
-                (string) advice
-            );
+        for field, template in templates {
+            let field = (string) field;
+            let template = (string) template;
+
+            let this->templates[field] = template;
         }
 
         return this;
     }
 
     /**
-    * Set a new advice message
+    * Set a new template message
     *
     * @return Validator
     */
-    public function setAdvice(string! advice) -> <ValidatorInterface>
+    public function setTemplate(string! template) -> <ValidatorInterface>
     {
-        let this->advice = advice;
+        let this->template = template;
 
         return this;
     }
@@ -228,7 +222,7 @@ abstract class Validator implements ValidatorInterface
         );
 
         return new Message(
-            strtr(this->getAdvice(field), replacements),
+            strtr(this->getTemplate(field), replacements),
             field,
             get_class(this),
             this->prepareCode(field)
