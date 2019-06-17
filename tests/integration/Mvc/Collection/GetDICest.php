@@ -13,21 +13,36 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Collection;
 
 use IntegrationTester;
+use Phalcon\DiInterface;
+use Phalcon\Test\Fixtures\Mvc\Collections\Robots;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
  * Class GetDICest
  */
 class GetDICest
 {
+    use DiTrait;
+
+    public function _before()
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiCollectionManager();
+        $this->setDiMongo();
+    }
+
     /**
      * Tests Phalcon\Mvc\Collection :: getDI()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
      * @since  2018-11-13
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function mvcCollectionGetDI(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Collection - getDI()');
-        $I->skipTest('Need implementation');
+
+        $robot = new Robots;
+        $I->assertTrue(is_subclass_of($robot->getDI(), DiInterface::class));
     }
 }

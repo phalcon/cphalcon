@@ -13,21 +13,66 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Collection;
 
 use IntegrationTester;
+use MongoDB\Database;
+use MongoDB\InsertOneResult;
+use Phalcon\Test\Fixtures\Mvc\Collections\Robots;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
  * Class GetIdCest
  */
 class GetIdCest
 {
+    use DiTrait;
+
+    /** @var string $source */
+    private $source;
+
+    /** @var Database $mongo */
+    private $mongo;
+
+    /** @var mixed $id */
+    private $id;
+
+    public function _before()
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiCollectionManager();
+        $this->setDiMongo();
+
+        $this->source = (new Robots)->getSource();
+        $this->mongo = $this->getDi()->get('mongo');
+
+        /** @var InsertOneResult $return */
+        $return = $this->mongo->selectCollection($this->source)->insertOne(
+            [
+                'first_name' => 'Wall',
+                'last_name' => 'E',
+            ]
+        );
+
+        $this->id = $return->getInsertedId();
+    }
+
     /**
      * Tests Phalcon\Mvc\Collection :: getId()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
      * @since  2018-11-13
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function mvcCollectionGetId(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Collection - getId()');
-        $I->skipTest('Need implementation');
+
+        $robot = Robots::findFirst();
+
+        $I->assertNotFalse($robot);
+        $I->assertEquals($robot->getId(), $this->id);
+    }
+
+    public function _after()
+    {
+        $this->mongo->dropCollection($this->source);
     }
 }

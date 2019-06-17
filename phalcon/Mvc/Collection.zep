@@ -1177,7 +1177,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             [
                 "_id": $this->_id
             ],
-            data,
+            ["$set": data],
             [
                 "w": true
             ]

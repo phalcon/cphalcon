@@ -13,17 +13,17 @@ namespace Phalcon\Mvc\Collection;
 use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
-use Phalcon\Events\ManagerInterface;
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Phalcon\Mvc\CollectionInterface;
 use Phalcon\Mvc\Collection\BehaviorInterface;
 
 /**
  * Phalcon\Mvc\Collection\Manager
  *
- * This components controls the initialization of models, keeping record of relations
- * between the different models of the application.
+ * This components controls the initialization of collections, keeping record of relations
+ * between the different collections of the application.
  *
- * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\Di.
+ * A CollectionManager is injected to a collection via a Dependency Injector Container such as Phalcon\Di.
  *
  * <code>
  * $di = new \Phalcon\Di();
@@ -38,7 +38,7 @@ use Phalcon\Mvc\Collection\BehaviorInterface;
  * $robot = new Robots($di);
  * </code>
  */
-class Manager implements InjectionAwareInterface, EventsAwareInterface
+class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareInterface
 {
     protected behaviors;
 
@@ -59,42 +59,42 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
     protected serviceName = "mongo" { get, set };
 
     /**
-     * Binds a behavior to a model
+     * Binds a behavior to a collection
      */
-    public function addBehavior(<CollectionInterface> model, <BehaviorInterface> behavior)
+    public function addBehavior(<CollectionInterface> collection, <BehaviorInterface> behavior)
     {
-        var entityName, modelsBehaviors;
+        var entityName, collectionsBehaviors;
 
-        let entityName = get_class_lower(model);
+        let entityName = get_class_lower(collection);
 
         /**
          * Get the current behaviors
          */
-        if !fetch modelsBehaviors, this->behaviors[entityName] {
-            let modelsBehaviors = [];
+        if !fetch collectionsBehaviors, this->behaviors[entityName] {
+            let collectionsBehaviors = [];
         }
 
         /**
          * Append the behavior to the list of behaviors
          */
-        let modelsBehaviors[] = behavior;
+        let collectionsBehaviors[] = behavior;
 
         /**
          * Update the behaviors list
          */
-        let this->behaviors[entityName] = modelsBehaviors;
+        let this->behaviors[entityName] = collectionsBehaviors;
     }
 
     /**
-     * Returns a custom events manager related to a model
+     * Returns a custom events manager related to a collection
      */
-    public function getCustomEventsManager(<CollectionInterface> model) -> var | null
+    public function getCustomEventsManager(<CollectionInterface> collection) -> var | null
     {
         var customEventsManager, className;
 
         let customEventsManager = this->customEventsManager;
         if typeof customEventsManager == "array" {
-            let className = get_class_lower(model);
+            let className = get_class_lower(collection);
             if isset customEventsManager[className] {
                 return customEventsManager[className];
             }
@@ -104,21 +104,21 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
     }
 
     /**
-     * Returns the connection related to a model
+     * Returns the connection related to a collection
      *
-     * @return \Mongo
+     * @return \MongoDB\Database
      */
-    public function getConnection(<CollectionInterface> model)
+    public function getConnection(<CollectionInterface> collection)
     {
         var service, connectionService, connection, container, entityName;
 
         let service = this->serviceName;
         let connectionService = this->connectionServices;
         if typeof connectionService == "array" {
-            let entityName = get_class(model);
+            let entityName = get_class(collection);
 
             /**
-            * Check if the model has a custom connection service
+            * Check if the collection has a custom connection service
             */
             if isset connectionService[entityName] {
                 let service = connectionService[entityName];
@@ -129,7 +129,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
         if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound(
-                    "the services related to the ORM"
+                    "the services related to the ODM"
                 )
             );
         }
@@ -146,14 +146,14 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
     }
 
     /**
-     * Gets a connection service for a specific model
+     * Gets a connection service for a specific collection
      */
-    public function getConnectionService(<CollectionInterface> model) -> string
+    public function getConnectionService(<CollectionInterface> collection) -> string
     {
         var service, entityName;
 
         let service = this->serviceName;
-        let entityName = get_class(model);
+        let entityName = get_class(collection);
         if isset this->connectionServices[entityName] {
             let service = this->connectionServices[entityName];
         }
@@ -172,13 +172,13 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
     /**
      * Returns the internal event manager
      */
-    public function getEventsManager() -> <ManagerInterface>
+    public function getEventsManager() -> <EventsManagerInterface>
     {
         return this->eventsManager;
     }
 
     /**
-     * Get the latest initialized model
+     * Get the latest initialized collection
      */
     public function getLastInitialized() -> <CollectionInterface>
     {
@@ -186,16 +186,16 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
     }
 
     /**
-     * Checks if a model is using implicit object ids
+     * Checks if a collection is using implicit object ids
      */
-    public function isUsingImplicitObjectIds(<CollectionInterface> model) -> bool
+    public function isUsingImplicitObjectIds(<CollectionInterface> collection) -> bool
     {
         var implicit;
 
         /**
         * All collections use by default are using implicit object ids
         */
-        if fetch implicit, this->implicitObjectsIds[get_class(model)] {
+        if fetch implicit, this->implicitObjectsIds[get_class(collection)] {
             return implicit;
         }
 
@@ -203,7 +203,7 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
     }
 
     /**
-     * Check whether a model is already initialized
+     * Check whether a collection is already initialized
      */
     public function isInitialized(string! className) -> bool
     {
@@ -211,36 +211,36 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
     }
 
     /**
-     * Initializes a model in the models manager
+     * Initializes a collection in the collections manager
      */
-    public function initialize(<CollectionInterface> model) -> void
+    public function initialize(<CollectionInterface> collection) -> void
     {
         var className, initialized, eventsManager;
 
-        let className = get_class_lower(model);
+        let className = get_class_lower(collection);
         let initialized = this->initialized;
 
         /**
-         * Models are just initialized once per request
+         * Collections are just initialized once per request
          */
         if !isset initialized[className] {
             /**
              * Call the 'initialize' method if it's implemented
              */
-            if method_exists(model, "initialize") {
-                model->{"initialize"}();
+            if method_exists(collection, "initialize") {
+                collection->{"initialize"}();
             }
 
             /**
-             * If an EventsManager is available we pass to it every initialized model
+             * If an EventsManager is available we pass to it every initialized collection
              */
             let eventsManager = this->eventsManager;
             if typeof eventsManager == "object" {
-                eventsManager->fire("collectionManager:afterInitialize", model);
+                eventsManager->fire("collectionManager:afterInitialize", collection);
             }
 
-            let this->initialized[className] = model;
-            let this->lastInitialized = model;
+            let this->initialized[className] = collection;
+            let this->lastInitialized = collection;
         }
     }
 
@@ -249,9 +249,9 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
      * This method expects that the endpoint listeners/behaviors returns true
      * meaning that at least one was implemented
      */
-    public function missingMethod(<CollectionInterface> model, string! eventName, var data) -> bool
+    public function missingMethod(<CollectionInterface> collection, string! eventName, var data) -> bool
     {
-        var behaviors, modelsBehaviors, result, eventsManager, behavior;
+        var behaviors, collectionsBehaviors, result, eventsManager, behavior;
 
         /**
          * Dispatch events to the global events manager
@@ -259,13 +259,13 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
         let behaviors = this->behaviors;
         if typeof behaviors == "array" {
 
-            if fetch modelsBehaviors, behaviors[get_class_lower(model)] {
+            if fetch collectionsBehaviors, behaviors[get_class_lower(collection)] {
 
                 /**
                  * Notify all the events on the behavior
                  */
-                for behavior in modelsBehaviors {
-                    let result = behavior->missingMethod(model, eventName, data);
+                for behavior in collectionsBehaviors {
+                    let result = behavior->missingMethod(collection, eventName, data);
                     if result !== null {
                         return result;
                     }
@@ -278,30 +278,30 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
          */
         let eventsManager = this->eventsManager;
         if typeof eventsManager == "object" {
-            return eventsManager->fire("model:" . eventName, model, data);
+            return eventsManager->fire("collection:" . eventName, collection, data);
         }
 
         return false;
     }
 
     /**
-     * Receives events generated in the models and dispatches them to an events-manager if available
-     * Notify the behaviors that are listening in the model
+     * Receives events generated in the collections and dispatches them to an events-manager if available
+     * Notify the behaviors that are listening in the collection
      */
-    public function notifyEvent(string! eventName, <CollectionInterface> model)
+    public function notifyEvent(string! eventName, <CollectionInterface> collection)
     {
-        var behavior, behaviors, modelsBehaviors, eventsManager, status = null,
+        var behavior, behaviors, collectionsBehaviors, eventsManager, status = null,
             customEventsManager;
 
         let behaviors = this->behaviors;
         if typeof behaviors == "array" {
-            if fetch modelsBehaviors, behaviors[get_class_lower(model)] {
+            if fetch collectionsBehaviors, behaviors[get_class_lower(collection)] {
 
                 /**
                  * Notify all the events on the behavior
                  */
-                for behavior in modelsBehaviors {
-                    let status = behavior->notify(eventName, model);
+                for behavior in collectionsBehaviors {
+                    let status = behavior->notify(eventName, collection);
                     if status === false {
                         return false;
                     }
@@ -314,19 +314,19 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
          */
         let eventsManager = this->eventsManager;
         if typeof eventsManager == "object" {
-            let status = eventsManager->fire( "collection:". eventName, model);
+            let status = eventsManager->fire( "collection:". eventName, collection);
             if !status {
                 return status;
             }
         }
 
         /**
-         * A model can has a specific events manager for it
+         * A collection can has a specific events manager for it
          */
         let customEventsManager = this->customEventsManager;
         if typeof customEventsManager == "array" {
-            if isset customEventsManager[get_class_lower(model)] {
-                let status = customEventsManager->fire("collection:" . eventName, model);
+            if isset customEventsManager[get_class_lower(collection)] {
+                let status = customEventsManager->fire("collection:" . eventName, collection);
                 if !status {
                     return status;
                 }
@@ -337,19 +337,19 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
     }
 
     /**
-     * Sets a custom events manager for a specific model
+     * Sets a custom events manager for a specific collection
      */
-    public function setCustomEventsManager(<CollectionInterface> model, <ManagerInterface> eventsManager) -> void
+    public function setCustomEventsManager(<CollectionInterface> collection, <EventsManagerInterface> eventsManager) -> void
     {
-        let this->customEventsManager[get_class(model)] = eventsManager;
+        let this->customEventsManager[get_class(collection)] = eventsManager;
     }
 
     /**
-     * Sets a connection service for a specific model
+     * Sets a connection service for a specific collection
      */
-    public function setConnectionService(<CollectionInterface> model, string! connectionService) -> void
+    public function setConnectionService(<CollectionInterface> collection, string! connectionService) -> void
     {
-        let this->connectionServices[get_class(model)] = connectionService;
+        let this->connectionServices[get_class(collection)] = connectionService;
     }
 
     /**
@@ -363,16 +363,16 @@ class Manager implements InjectionAwareInterface, EventsAwareInterface
     /**
      * Sets the event manager
      */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> void
+    public function setEventsManager(<EventsManagerInterface> eventsManager) -> void
     {
         let this->eventsManager = eventsManager;
     }
 
     /**
-     * Sets whether a model must use implicit objects ids
+     * Sets whether a collection must use implicit objects ids
      */
-    public function useImplicitObjectIds(<CollectionInterface> model, bool useImplicitObjectIds) -> void
+    public function useImplicitObjectIds(<CollectionInterface> collection, bool useImplicitObjectIds) -> void
     {
-        let this->implicitObjectsIds[get_class(model)] = useImplicitObjectIds;
+        let this->implicitObjectsIds[get_class(collection)] = useImplicitObjectIds;
     }
 }
