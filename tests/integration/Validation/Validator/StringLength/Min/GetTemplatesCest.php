@@ -13,25 +13,24 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation\Validator\StringLength\Min;
 
 use IntegrationTester;
-use Phalcon\Collection;
 use Phalcon\Validation\Validator\StringLength\Min;
 
-class GetAdvicesCest
+class GetTemplatesCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Min :: getAdvices()
+     * Tests Phalcon\Validation\Validator\StringLength\Min :: getTemplates()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMinGetAdvices(IntegrationTester $I)
+    public function validationValidatorStringLengthMinGetTemplates(IntegrationTester $I)
     {
-        $I->wantToTest('Validation\Validator\StringLength\Min - getAdvices()');
+        $I->wantToTest('Validation\Validator\StringLength\Min - getTemplates()');
 
         $validator = new Min();
 
-        $I->assertInstanceOf(Collection::class, $validator->getAdvices(), 'Advices instance of Collection');
-        $I->assertCount(0, $validator->getAdvices(), 'Advices count 0');
+        $I->assertTrue(is_array($validator->getTemplates()), 'Templates have to be an array');
+        $I->assertCount(0, $validator->getTemplates(), 'templates count 0');
 
         $messageLastName = "We don't like really long last names";
         $messageFirstName = "We don't like really long first names";
@@ -53,16 +52,16 @@ class GetAdvicesCest
             ]
         );
 
-        $I->assertInstanceOf(Collection::class, $validator->getAdvices(), 'Multi advices instance of Collection');
+        $I->assertTrue(is_array($validator->getTemplates()), 'Multi templates have to be an array');
         $I->assertEquals(
             $messageLastName,
-            $validator->getAdvices()->get('name_last'),
-            'Last name advice'
+            $validator->getTemplates()->get('name_last'),
+            'Last name template'
         );
         $I->assertEquals(
             $messageFirstName,
-            $validator->getAdvices()->get('name_first'),
-            'First name advice'
+            $validator->getTemplates()->get('name_first'),
+            'First name template'
         );
     }
 }

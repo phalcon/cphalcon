@@ -15,30 +15,30 @@ namespace Phalcon\Test\Integration\Validation\Validator\StringLength\Min;
 use IntegrationTester;
 use Phalcon\Validation\Validator\StringLength\Min;
 
-class SetAdviceCest
+class SetTemplateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Min :: setAdvice()
+     * Tests Phalcon\Validation\Validator\StringLength\Min :: setTemplate()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMinSetAdvice(IntegrationTester $I)
+    public function validationValidatorStringLengthMinSetTemplate(IntegrationTester $I)
     {
-        $I->wantToTest('Validation\Validator\StringLength\Min - setAdvice()');
+        $I->wantToTest('Validation\Validator\StringLength\Min - setTemplate()');
 
         $validator = new Min();
 
-        $expected = 'New custom advice message';
+        $expected = 'New custom template message';
 
-        $actual = $validator->setAdvice($expected);
+        $actual = $validator->setTemplate($expected);
 
         $I->assertInstanceOf(Min::class, $actual, 'Instance of Min');
 
         $I->assertEquals(
             $expected,
-            $validator->getAdvice(),
-            'Get equals advice message'
+            $validator->getTemplate(),
+            'Get equals template message'
         );
     }
 }

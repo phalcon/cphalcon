@@ -85,9 +85,9 @@ abstract class Validator implements ValidatorInterface
     /**
     * Get templates collection object
     *
-    * @return Collection
+    * @return array
     */
-    public function getTemplates() -> <Collection>
+    public function getTemplates() -> array
     {
         return this->templates;
     }

@@ -15,17 +15,17 @@ namespace Phalcon\Test\Integration\Validation\Validator\StringLength\Min;
 use IntegrationTester;
 use Phalcon\Validation\Validator\StringLength\Min;
 
-class SetAdvicesCest
+class SetTemplatesCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Min :: setAdvices()
+     * Tests Phalcon\Validation\Validator\StringLength\Min :: setTemplates()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMinSetAdvices(IntegrationTester $I)
+    public function validationValidatorStringLengthMinSetTemplates(IntegrationTester $I)
     {
-        $I->wantToTest('Validation\Validator\StringLength\Min - setAdvices()');
+        $I->wantToTest('Validation\Validator\StringLength\Min - setTemplates()');
 
         $validator = new Min();
 
@@ -35,14 +35,14 @@ class SetAdvicesCest
             'key-3' => 'value-3',
         ];
 
-        $actual = $validator->setAdvices($expected);
+        $actual = $validator->setTemplates($expected);
 
         $I->assertInstanceOf(Min::class, $actual, 'Instance of Min');
 
         $I->assertEquals(
             $expected,
-            $validator->getAdvices()->toArray(),
-            'Get equals advices'
+            $validator->getTemplates(),
+            'Get equals templates'
         );
     }
 }

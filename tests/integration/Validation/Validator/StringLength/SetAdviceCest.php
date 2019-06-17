@@ -15,30 +15,30 @@ namespace Phalcon\Test\Unit\Validation\Validator\StringLength;
 use UnitTester;
 use Phalcon\Validation\Validator\StringLength;
 
-class SetAdviceCest
+class SetTemplateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: setAdvice()
+     * Tests Phalcon\Validation\Validator\StringLength :: setTemplate()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthSetAdvice(UnitTester $I)
+    public function validationValidatorStringLengthSetTemplate(UnitTester $I)
     {
-        $I->wantToTest('Validation\Validator\StringLength - setAdvice()');
+        $I->wantToTest('Validation\Validator\StringLength - setTemplate()');
 
         $validator = new StringLength();
 
-        $expected = 'New custom advice message';
+        $expected = 'New custom template message';
 
-        $actual = $validator->setAdvice($expected);
+        $actual = $validator->setTemplate($expected);
 
         $I->assertInstanceOf(StringLength::class, $actual, 'Instance of StringLenght');
 
         $I->assertEquals(
             $expected,
-            $validator->getAdvice(),
-            'Get equals advice message'
+            $validator->getTemplate(),
+            'Get equals template message'
         );
     }
 }

@@ -15,17 +15,17 @@ namespace Phalcon\Test\Integration\Validation\Validator\StringLength\Max;
 use IntegrationTester;
 use Phalcon\Validation\Validator\StringLength\Max;
 
-class SetAdvicesCest
+class SetTemplatesCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Max :: setAdvices()
+     * Tests Phalcon\Validation\Validator\StringLength\Max :: setTemplates()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMaxSetAdvices(IntegrationTester $I)
+    public function validationValidatorStringLengthMaxSetTemplates(IntegrationTester $I)
     {
-        $I->wantToTest('Validation\Validator\StringLength\Max - setAdvices()');
+        $I->wantToTest('Validation\Validator\StringLength\Max - setTemplates()');
 
         $validator = new Max();
 
@@ -35,14 +35,14 @@ class SetAdvicesCest
             'key-3' => 'value-3',
         ];
 
-        $actual = $validator->setAdvices($expected);
+        $actual = $validator->setTemplates($expected);
 
         $I->assertInstanceOf(Max::class, $actual, 'Instance of Max');
 
         $I->assertEquals(
             $expected,
-            $validator->getAdvices()->toArray(),
-            'Get equals advices'
+            $validator->getTemplates(),
+            'Get equals templates'
         );
     }
 }

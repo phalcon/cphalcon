@@ -15,31 +15,31 @@ namespace Phalcon\Test\Unit\Validation\Validator\StringLength\Min;
 use IntegrationTester;
 use Phalcon\Validation\Validator\StringLength\Min;
 
-class GetAdviceCest
+class GetTemplateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Min :: getAdvice()
+     * Tests Phalcon\Validation\Validator\StringLength\Min :: getTemplate()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMinGetAdvice(IntegrationTester $I)
+    public function validationValidatorStringLengthMinGetTemplate(IntegrationTester $I)
     {
-        $I->wantToTest('Validation\Validator\StringLength\Min - getAdvice()');
+        $I->wantToTest('Validation\Validator\StringLength\Min - getTemplate()');
 
         $validator = new Min();
 
         $expected = "Field :field must be at least :min characters long";
-        $I->assertEquals($expected, $validator->getAdvice(), 'Default advice message for Min');
+        $I->assertEquals($expected, $validator->getTemplate(), 'Default template message for Min');
 
-        $validator->setAdvice('');
+        $validator->setTemplate('');
 
         $expected = "The field :field is not valid for " . Min::class;
-        $I->assertEquals($expected, $validator->getAdvice(), 'Default advice message');
+        $I->assertEquals($expected, $validator->getTemplate(), 'Default template message');
 
-        $expected = 'New custom advice';
-        $validator->setAdvice($expected);
+        $expected = 'New custom template';
+        $validator->setTemplate($expected);
 
-        $I->assertEquals($expected, $validator->getAdvice(), 'New advice message');
+        $I->assertEquals($expected, $validator->getTemplate(), 'New template message');
     }
 }

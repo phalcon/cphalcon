@@ -12,34 +12,32 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Validation\Validator\StringLength;
 
-use Phalcon\Collection;
 use Phalcon\Validation\Validator\StringLength;
 use UnitTester;
 
-class GetAdvicesCest
+class GetTemplatesCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: getAdvices()
+     * Tests Phalcon\Validation\Validator\StringLength :: getTemplates()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthGetAdvices(UnitTester $I)
+    public function validationValidatorStringLengthGetTemplates(UnitTester $I)
     {
-        $I->wantToTest('Validation\Validator\StringLength - getAdvices()');
+        $I->wantToTest('Validation\Validator\StringLength - getTemplates()');
 
         $validator = new StringLength();
 
-        $I->assertInstanceOf(
-            Collection::class,
-            $validator->getAdvices(),
-            'Instance of Collection'
+        $I->assertTrue(
+            is_array($validator->getTemplates()),
+            'Templates have to be a array'
         );
 
         $I->assertCount(
             0,
-            $validator->getAdvices(),
-            'Empty advices'
+            $validator->getTemplates(),
+            'Empty templates'
         );
     }
 }

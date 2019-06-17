@@ -15,31 +15,31 @@ namespace Phalcon\Test\Unit\Validation\Validator\StringLength\Max;
 use IntegrationTester;
 use Phalcon\Validation\Validator\StringLength\Max;
 
-class GetAdviceCest
+class GetTemplateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength\Max :: getAdvice()
+     * Tests Phalcon\Validation\Validator\StringLength\Max :: getTemplate()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMaxGetAdvice(IntegrationTester $I)
+    public function validationValidatorStringLengthMaxGetTemplate(IntegrationTester $I)
     {
-        $I->wantToTest('Validation\Validator\StringLength\Max - getAdvice()');
+        $I->wantToTest('Validation\Validator\StringLength\Max - getTemplate()');
 
         $validator = new Max();
 
         $expected = "Field :field must not exceed :max characters long";
-        $I->assertEquals($expected, $validator->getAdvice(), 'Default advice message for Max');
+        $I->assertEquals($expected, $validator->getTemplate(), 'Default template message for Max');
 
-        $validator->setAdvice('');
+        $validator->setTemplate('');
 
         $expected = "The field :field is not valid for " . Max::class;
-        $I->assertEquals($expected, $validator->getAdvice(), 'Default advice message');
+        $I->assertEquals($expected, $validator->getTemplate(), 'Default template message');
 
-        $expected = 'New custom advice';
-        $validator->setAdvice($expected);
+        $expected = 'New custom template';
+        $validator->setTemplate($expected);
 
-        $I->assertEquals($expected, $validator->getAdvice(), 'New advice message');
+        $I->assertEquals($expected, $validator->getTemplate(), 'New template message');
     }
 }
