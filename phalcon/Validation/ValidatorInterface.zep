@@ -52,7 +52,7 @@ interface ValidatorInterface
     /**
     * Get message templates
     *
-    * @return <>
+    * @return array
     */
     public function getTemplates() -> array;
 

@@ -43,7 +43,7 @@ class ConstructCest
         $I->assertInstanceOf(
             ValidatorCompositeInterface::class,
             $validator,
-            'StringLenght implements ValidatorCompositeInterface'
+            'StringLength implements ValidatorCompositeInterface'
         );
     }
 }

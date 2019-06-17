@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Validation\Validator\StringLength;
 
-use Phalcon\Validation\Validator\StringLength;
 use UnitTester;
 
 class GetTemplatesCest
@@ -27,17 +26,6 @@ class GetTemplatesCest
     {
         $I->wantToTest('Validation\Validator\StringLength - getTemplates()');
 
-        $validator = new StringLength();
-
-        $I->assertTrue(
-            is_array($validator->getTemplates()),
-            'Templates have to be a array'
-        );
-
-        $I->assertCount(
-            0,
-            $validator->getTemplates(),
-            'Empty templates'
-        );
+        $I->skipTest('Need implementation');
     }
 }
