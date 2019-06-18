@@ -107,9 +107,7 @@ class ConfigCest
                 ],
             ]
         );
-
-        $actual = new Config($settings);
-
+        $actual   = new Config($settings);
         $I->assertEquals($expected, $actual);
     }
 }
