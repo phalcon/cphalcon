@@ -39,7 +39,7 @@ use Phalcon\Config\Exception;
  * );
  *</code>
  */
-class Config implements \ArrayAccess, \Countable
+class Config extends \ArrayObject
 {
     const DEFAULT_PATH_DELIMITER = ".";
 
@@ -50,39 +50,40 @@ class Config implements \ArrayAccess, \Countable
      */
     public function __construct(array! arrayConfig = null) -> void
     {
-        var key, value;
+        this->setFlags(\ArrayObject::ARRAY_AS_PROPS);
 
-        for key, value in arrayConfig {
-            this->offsetSet(key, value);
+        if typeof arrayConfig !== "null" {
+            this->fromArray(arrayConfig);
         }
     }
 
     /**
-     * Restores the state of a Phalcon\Config object
+     * Sets an attribute using the array-syntax
+     *
+     *<code>
+     * $config["database"] = [
+     *     "type" => "Sqlite",
+     * ];
+     *</code>
      */
-    public static function __set_state(array! data) -> <Config>
+    public function offsetSet(var index, var value) -> void
     {
-        return new self(data);
-    }
+        var data;
 
-    /**
-     * Returns the count of properties set in the config
-     *
-     *<code>
-     * print count($config);
-     *</code>
-     *
-     * or
-     *
-     *<code>
-     * print $config->count();
-     *</code>
-     */
-    public function count() -> int
-    {
-        return count(
-            get_object_vars(this)
-        );
+        switch typeof value {
+            case "array":
+                let data = new self(value);
+                break;
+            case "object":
+                let data = value;
+                break;
+            default:
+                let data = (string) value;
+        }
+
+        let index = (string) index;
+
+        parent::offsetSet(index, data);
     }
 
     /**
@@ -96,13 +97,13 @@ class Config implements \ArrayAccess, \Countable
      */
     public function get(var index, var defaultValue = null) -> var
     {
-        let index = strval(index);
+        let index = (string) index;
 
-        if !isset this->{index} {
+        if !this->offsetExists(index) {
             return defaultValue;
         }
 
-        return this->{index};
+        return this->offsetGet(index);
     }
 
     /**
@@ -138,11 +139,11 @@ class Config implements \ArrayAccess, \Countable
      */
     public function merge(var configParam) -> <Config>
     {
-        var config;
+        var config, result, source, target;
 
         switch typeof configParam {
             case "array":
-                let config = new Config(configParam);
+                let config = new self(configParam);
                 break;
             case "object":
                 let config = configParam;
@@ -151,75 +152,15 @@ class Config implements \ArrayAccess, \Countable
                 throw new Exception("Invalid data type for merge.");
         }
 
-        return this->internalMerge(config);
-    }
+        let source = this->toArray();
+        let target = config->toArray();
 
-    /**
-     * Gets an attribute using the array-syntax
-     *
-     *<code>
-     * print_r(
-     *     $config["database"]
-     * );
-     *</code>
-     */
-    public function offsetGet(var index) -> var
-    {
-        let index = strval(index);
+        let result = this->internalMerge(source, target);
 
-        return this->{index};
-    }
+        this->reset();
+        this->fromArray(result);
 
-
-    /**
-     * Allows to check whether an attribute is defined using the array-syntax
-     *
-     *<code>
-     * var_dump(
-     *     isset($config["database"])
-     * );
-     *</code>
-     */
-    public function offsetExists(var index) -> bool
-    {
-        let index = strval(index);
-
-        return isset this->{index};
-    }
-
-    /**
-     * Sets an attribute using the array-syntax
-     *
-     *<code>
-     * $config["database"] = [
-     *     "type" => "Sqlite",
-     * ];
-     *</code>
-     */
-    public function offsetSet(var index, var value) -> void
-    {
-        let index = strval(index);
-
-        if typeof value === "array" {
-            let this->{index} = new self(value);
-        } else {
-            let this->{index} = value;
-        }
-    }
-
-    /**
-     * Unsets an attribute using the array-syntax
-     *
-     *<code>
-     * unset($config["database"]);
-     *</code>
-     */
-    public function offsetUnset(var index) -> void
-    {
-        let index = strval(index);
-
-        //unset(this->{index});
-        let this->{index} = null;
+        return this;
     }
 
     /**
@@ -285,10 +226,10 @@ class Config implements \ArrayAccess, \Countable
     public function toArray() -> array
     {
         var key, value, arrayConfig;
-
+      
         let arrayConfig = [];
 
-        for key, value in get_object_vars(this) {
+        for key, value in this->getArrayCopy() {
             if typeof value === "object" && method_exists(value, "toArray") {
                 let value = value->toArray();
             }
@@ -300,46 +241,40 @@ class Config implements \ArrayAccess, \Countable
     }
 
     /**
-     * Helper method for merge configs (forwarding nested config instance)
+     * Unsets all the values in object.
      */
-    final protected function internalMerge(<Config> config, <Config> instance = null) -> <Config>
+    public function reset() -> void
     {
-        var key, value, number, localObject, property;
+        var key;
 
-        if typeof instance !== "object" {
-            let instance = this;
+        for key in array_keys(this->getArrayCopy()) {
+            this->offsetUnset(key);
+        }
+    }
+
+    protected function fromArray(array arrayConfig) -> void
+    {
+        var key, value;
+
+        for key, value in arrayConfig {
+            this->offsetSet(key, value);
+        }
+    }
+
+    final protected function internalMerge(array source, array target) -> array
+    {
+        var key, value;
+
+        for key, value in target {
+            if typeof value === "array" && isset source[key] && typeof source[key] === "array" {
+                let source[key] = this->internalMerge(source[key], value);
+            } elseif typeof key === "integer" {
+                let source[] = value;
+            } else {
+                let source[key] = value;
+            }
         }
 
-        let number = instance->count();
-
-        for key, value in get_object_vars(config) {
-            let property = strval(key);
-
-            if fetch localObject, instance->{property} {
-                if typeof localObject === "object" && typeof value === "object" {
-                    if localObject instanceof Config && value instanceof Config {
-                        this->internalMerge(value, localObject);
-                        continue;
-                    }
-                }
-            }
-
-            if is_numeric(key) {
-                let key = strval(key);
-
-                while instance->offsetExists(key) {
-                    /**
-                     * Increment the number afterwards, because "number" starts
-                     * at one not zero.
-                     */
-                    let key = strval(number);
-                    let number++;
-                }
-            }
-
-            let instance->{key} = value;
-        }
-
-        return instance;
+        return source;
     }
 }

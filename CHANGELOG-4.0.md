@@ -40,6 +40,7 @@
 - Refactored `Phalcon\Registry` to align with the `Phalcon\Collection\Collection` interface. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
 - `Phalcon\Mvc\Micro::setModelBinder()` now uses the Factory Default DI if none is set. [#14171](https://github.com/phalcon/cphalcon/pull/14171)
 - `Phalcon\Mvc\Model\ValidationFailed` now works with `ModelInterface`.
+- Refactored `Phalcon\Config` to extend `ArrayObject`
 
 ## Fixed
 - Fixed `Phalcon\Mvc\View::getRender()` to call `view->finish()` instead of `ob_end_clean()`. [#14095](https://github.com/phalcon/cphalcon/issues/14095)
@@ -58,12 +59,14 @@
 - `Phalcon\Di\FactoryDefault\Cli` can now use the new Filter system.
 - Fixed `Phalcon\Mvc\Router` now parses and uses path. [#14087](https://github.com/phalcon/cphalcon/issues/14087)
 - Fixed various areas in `Phalcon\Acl\Adapter` and `Phalcon\Acl\Adapter\Memory` including comments, logic, `denyComponentAccess` and `AdapterInterface`. Added tests. [#13870](https://github.com/phalcon/cphalcon/issues/13870)
+- Fixed `Phalcon\Config::merge()` not merging numeric values properly [#13201](https://github.com/phalcon/cphalcon/issues/13201)
 
 ## Removed
 - Removed `Phalcon\Session\Factory`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 - Removed `Phalcon\Factory` and `Phalcon\FactoryInterface`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 - Removed `Phalcon\Translate`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
 - Removed `Phalcon\Db\Column::getSchemaName()` as its not relevant or settable.
+- Removed `Phalcon\Config::__set_state()` as it does not serve any purpose and skipped the constructor.
 
 # [4.0.0-alpha.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.5) (2019-05-18)
 

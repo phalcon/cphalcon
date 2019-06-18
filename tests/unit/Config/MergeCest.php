@@ -68,23 +68,25 @@ class MergeCest
         $config = new Config(
             [
                 'keys' => [
-                    'scott',
-                    'cheetah',
+                    '0' => 'scott',
+                    '1' => 'cheetah',
                 ],
             ]
         );
 
+        $b = new Config(
+                [
+                    'keys' => ['peter'],
+                ]
+            );
 
-
-        $expected = Config::__set_state(
+        $expected = new Config(
             [
-                'keys' => Config::__set_state(
-                    [
-                        '0' => 'scott',
-                        '1' => 'cheetah',
-                        '2' => 'peter',
-                    ]
-                ),
+                'keys' => [
+                    '0' => 'scott',
+                    '1' => 'cheetah',
+                    '2' => 'peter',
+                ],
             ]
         );
 
@@ -96,9 +98,8 @@ class MergeCest
             )
         );
 
-        $I->assertEquals($expected, $actual);
 
-
+        $I->assertEquals($expected->toArray(), $actual->toArray());
 
         $config = new Config(
             [
@@ -106,15 +107,13 @@ class MergeCest
             ]
         );
 
-        $expected = Config::__set_state(
+        $expected = new Config(
             [
-                'keys' => Config::__set_state(
-                    [
+                'keys' => [
                         '0' => 'peter',
                         '1' => 'scott',
                         '2' => 'cheetah',
-                    ]
-                ),
+                ],
             ]
         );
 
@@ -129,7 +128,7 @@ class MergeCest
             )
         );
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected->toArray(), $actual->toArray());
     }
 
     /**
@@ -182,41 +181,33 @@ class MergeCest
 
         $config1->merge($config2);
 
-        $expected = Config::__set_state(
+        $expected = new Config(
             [
                 'controllersDir' => '../x/y/z',
                 'modelsDir'      => '../x/y/z',
-                'database'       => Config::__set_state(
-                    [
-                        'adapter'      => 'Postgresql',
-                        'host'         => 'localhost',
-                        'username'     => 'peter',
-                        'password'     => 'cheetah',
-                        'name'         => 'test_db',
-                        'charset'      => Config::__set_state(
-                            [
-                                'primary' => 'utf8',
-                            ]
-                        ),
-                        'alternatives' => Config::__set_state(
-                            [
-                                'primary' => 'swedish',
-                                'second'  => 'latin1',
-                                'third'   => 'american',
-                            ]
-                        ),
-                        'options'      => Config::__set_state(
-                            [
-                                'case'                                => 'lower',
-                                (string) PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-                            ]
-                        ),
-                    ]
-                ),
+                'database'       => [
+                    'adapter'      => 'Postgresql',
+                    'host'         => 'localhost',
+                    'username'     => 'peter',
+                    'password'     => 'cheetah',
+                    'name'         => 'test_db',
+                    'charset'      => [
+                        'primary' => 'utf8',
+                    ],
+                    'alternatives' => [
+                        'primary' => 'swedish',
+                        'second'  => 'latin1',
+                        'third'   => 'american',
+                    ],
+                    'options'      => [
+                        'case'                                => 'lower',
+                        (string) PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+                    ],
+                ],
             ]
         );
 
-        $I->assertEquals($expected, $config1);
+        $I->assertEquals($expected->toArray(), $config1->toArray());
     }
 
     /**
@@ -426,5 +417,221 @@ class MergeCest
         );
 
         return $config;
+    }
+
+
+
+    /**
+     * Tests issue 12779
+     *
+     * @issue  https://github.com/phalcon/cphalcon/issues/12779
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2017-06-19
+     */
+    public function testIssue12779(UnitTester $I)
+    {
+        $config = new Config(
+            [
+                'a' => [
+                    [
+                        1,
+                    ],
+                ],
+            ]
+        );
+
+        $config->merge(
+            new Config(
+                [
+                    'a' => [
+                        [
+                            2,
+                        ],
+                    ],
+                ]
+            )
+        );
+
+
+        $expected = [
+            'a' => [
+                [
+                    1,
+                    2,
+                ],
+            ],
+        ];
+        $actual   = $config->toArray();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests issue 13351
+     *
+     * @link   https://github.com/phalcon/cphalcon/issues/13351
+     * @author Zamrony P. Juhara <zamronypj@yahoo.com>
+     * @since  2018-04-27
+     */
+    public function testIssue13351MergeNonZeroBasedNumericKey(UnitTester $I)
+    {
+        $config  = new Config([1 => 'Apple']);
+        $config2 = new Config([2 => 'Banana']);
+        $config->merge($config2);
+
+        $expected = [
+            1 => 'Apple',
+            2 => 'Banana',
+        ];
+        $actual   = $config->toArray();
+        $I->assertEquals($expected, $actual);
+
+
+        $config  = new Config([0 => 'Apple']);
+        $config2 = new Config([1 => 'Banana']);
+        $config->merge($config2);
+
+        $expected = [
+            0 => 'Apple',
+            1 => 'Banana',
+        ];
+        $actual   = $config->toArray();
+        $I->assertEquals($expected, $actual);
+
+        $config  = new Config([1 => 'Apple', 'p' => 'Pineapple']);
+        $config2 = new Config([2 => 'Banana']);
+        $config->merge($config2);
+
+        $expected = [
+            1   => 'Apple',
+            'p' => 'Pineapple',
+            2   => 'Banana',
+        ];
+        $actual   = $config->toArray();
+        $I->assertEquals($expected, $actual);
+
+        $config  = new Config([
+            'One' => [1 => 'Apple', 'p' => 'Pineapple'],
+            'Two' => [1 => 'Apple'],
+        ]);
+        $config2 = new Config([
+            'One' => [2 => 'Banana'],
+            'Two' => [2 => 'Banana'],
+        ]);
+        $config->merge($config2);
+
+        $expected = [
+            'One' => [
+                1   => 'Apple',
+                'p' => 'Pineapple',
+                2   => 'Banana',
+            ],
+            'Two' => [
+                1 => 'Apple',
+                2 => 'Banana',
+            ],
+        ];
+        $actual = $config->toArray();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Config :: merge()
+     *
+     * @author Cameron Hall <me@chall.id.au>
+     * @link https://github.com/phalcon/cphalcon/issues/13201
+     * @since  2019-06-19
+     */
+    public function testNumericKeyMerge(UnitTester $I)
+    {
+    	$params1 = [
+    		'1' => 'aaa',
+    		'2' => [
+    			'11' => 'rrr',
+    			'12' => 'zzz',
+    		]
+        ];
+
+		$config = new Config($params1);
+
+		$params2 = [
+			'3' => 'ccc', 
+			'2' => [
+				'12' => 'xxx',
+			]
+		];
+
+		$config->merge(new Config($params2));
+		$actual = $config->toArray();
+
+        $expected = [
+            '1' => 'aaa',
+            '2' => [
+                '11' => 'rrr',
+                '12' => 'zzz',
+                '13' => 'xxx'
+            ],
+            '3' => 'ccc',
+        ];
+
+        $I->assertEquals($expected, $actual);
+
+        $config = new Config(['0.4' => 0.4]);
+        $config->merge(new Config([
+            '1.1' => 1,
+            '1.2' => 1.2,
+            '2.8610229492188E-6' => 3
+        ]));
+
+        $actual = $config->toArray();
+
+        $expected = [
+            '0.4' => 0.4,
+            '1.1' => 1,
+            '1.2' => 1.2,
+            '2.8610229492188E-6' => 3,
+        ];
+
+        $I->assertEquals($expected, $actual);
+	}
+
+    /**
+     * Tests Phalcon\Config :: merge()
+     *
+     * @author Cameron Hall <me@chall.id.au>
+     * @link https://github.com/phalcon/cphalcon/issues/13768
+     * @since  2019-06-19
+     */
+    public function testAssociativeMergeReplacements(UnitTester $I)
+    {
+        $params1 = [
+            'a' => 'aaa',
+            'b' => [
+                'bar' => 'rrr',
+                'baz' => 'zzz',
+            ]
+        ];
+
+        $config = new Config($params1);
+
+        $params2 = [
+            'c' => 'ccc',
+            'b' => [
+                'baz' => 'xxx',
+            ]
+        ];
+
+        $config->merge(new Config($params2));
+        $actual = $config->toArray();
+
+        $expected = [
+            'a' => 'aaa',
+            'b' => [
+                'bar' => 'rrr',
+                'baz' => 'xxx',
+            ],
+            'c' => 'ccc',
+        ];
+
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -76,9 +76,7 @@ class Grouped extends Config
     {
         var configName, configInstance, configArray;
 
-        parent::__construct(
-            []
-        );
+        parent::__construct([]);
 
         for configName in arrayConfig {
             let configInstance = configName;
