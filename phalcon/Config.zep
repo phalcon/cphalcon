@@ -43,6 +43,9 @@ class Config extends \ArrayObject
 {
     const DEFAULT_PATH_DELIMITER = ".";
 
+    /**
+     * @var string
+     */
     protected pathDelimiter;
 
     /**
@@ -55,35 +58,6 @@ class Config extends \ArrayObject
         if typeof arrayConfig !== "null" {
             this->fromArray(arrayConfig);
         }
-    }
-
-    /**
-     * Sets an attribute using the array-syntax
-     *
-     *<code>
-     * $config["database"] = [
-     *     "type" => "Sqlite",
-     * ];
-     *</code>
-     */
-    public function offsetSet(var index, var value) -> void
-    {
-        var data;
-
-        switch typeof value {
-            case "array":
-                let data = new self(value);
-                break;
-            case "object":
-                let data = value;
-                break;
-            default:
-                let data = (string) value;
-        }
-
-        let index = (string) index;
-
-        parent::offsetSet(index, data);
     }
 
     /**
@@ -123,16 +97,6 @@ class Config extends \ArrayObject
     }
 
     /**
-     * Sets the default path delimiter
-     */
-    public function setPathDelimiter(string! delimiter = null) -> <Config>
-    {
-        let this->pathDelimiter = delimiter;
-
-        return this;
-    }
-
-    /**
      * Merges a configuration into the current one
      *
      *<code>
@@ -153,7 +117,7 @@ class Config extends \ArrayObject
 
         switch typeof configParam {
             case "array":
-                let config = new self(configParam);
+                let config = new Config(configParam);
                 break;
             case "object":
                 let config = configParam;
@@ -162,15 +126,38 @@ class Config extends \ArrayObject
                 throw new Exception("Invalid data type for merge.");
         }
 
-        let source = this->toArray();
-        let target = config->toArray();
-
-        let result = this->internalMerge(source, target);
+        let source = this->toArray(),
+            target = config->toArray(),
+            result = this->internalMerge(source, target);
 
         this->reset();
         this->fromArray(result);
 
         return this;
+    }
+
+    /**
+     * Sets an attribute using the array-syntax
+     *
+     *<code>
+     * $config["database"] = [
+     *     "type" => "Sqlite",
+     * ];
+     *</code>
+     */
+    public function offsetSet(var index, var value) -> void
+    {
+        var data;
+
+        if typeof value === "array" {
+            let data = new Config(value);
+        } else {
+            let data = value;
+        }
+
+        let index = (string) index;
+
+        parent::offsetSet(index, data);
     }
 
     /**
@@ -184,29 +171,29 @@ class Config extends \ArrayObject
     {
         var key, keys, config;
 
-        if isset this->{path} {
-            return this->{path};
+        if this->offsetExists(path) {
+            return this->offsetGet(path);
         }
 
         if empty delimiter {
-            let delimiter = self::getPathDelimiter();
+            let delimiter = this->getPathDelimiter();
         }
 
         let config = this,
-            keys = explode(delimiter, path);
+            keys   = explode(delimiter, path);
 
         while !empty keys {
             let key = array_shift(keys);
 
-            if !isset config->{key} {
+            if !config->offsetExists(key) {
                 break;
             }
 
             if empty keys {
-                return config->{key};
+                return config->offsetGet(key);
             }
 
-            let config = config->{key};
+            let config = config->offsetGet(key);
 
             if empty config {
                 break;
@@ -214,6 +201,24 @@ class Config extends \ArrayObject
         }
 
         return defaultValue;
+    }
+
+    /**
+     * Unsets all the values in object.
+     */
+    public function reset() -> void
+    {
+        this->exchangeArray([]);
+    }
+
+    /**
+     * Sets the default path delimiter
+     */
+    public function setPathDelimiter(string! delimiter = null) -> <Config>
+    {
+        let this->pathDelimiter = delimiter;
+
+        return this;
     }
 
     /**
@@ -227,11 +232,13 @@ class Config extends \ArrayObject
      */
     public function toArray() -> array
     {
-        var key, value, arrayConfig;
-      
-        let arrayConfig = [];
+        var key, value, arrayCopy;
+        array arrayConfig;
 
-        for key, value in this->getArrayCopy() {
+        let arrayConfig = [],
+            arrayCopy   = this->getArrayCopy();
+
+        for key, value in arrayCopy {
             if typeof value === "object" && method_exists(value, "toArray") {
                 let value = value->toArray();
             }
@@ -243,17 +250,8 @@ class Config extends \ArrayObject
     }
 
     /**
-     * Unsets all the values in object.
+     * Populates the internal collection
      */
-    public function reset() -> void
-    {
-        var key;
-
-        for key in array_keys(this->getArrayCopy()) {
-            this->offsetUnset(key);
-        }
-    }
-
     protected function fromArray(array arrayConfig) -> void
     {
         var key, value;
@@ -263,6 +261,9 @@ class Config extends \ArrayObject
         }
     }
 
+    /**
+     * Performs a merge recursively
+     */
     final private function internalMerge(array source, array target) -> array
     {
         var key, value;

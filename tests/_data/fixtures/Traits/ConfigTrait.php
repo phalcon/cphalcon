@@ -331,8 +331,8 @@ trait ConfigTrait
 
         $config->offsetUnset('database');
 
-        $I->assertNull(
-            $config->offsetGet('database')
+        $I->assertFalse(
+            $config->offsetExists('database')
         );
     }
 
