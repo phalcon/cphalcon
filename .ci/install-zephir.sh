@@ -21,9 +21,8 @@ echo 'extension="zephir_parser.so"' > "$(phpenv root)/versions/$(phpenv version-
 wget --no-clobber -O $HOME/bin/zephir https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar
 chmod +x $HOME/bin/zephir
 
-# Local variables: 
+# Local variables:
 # tab-width: 4
-
 # c-basic-offset: 4
 # End:
 # vim600: noet sw=4 ts=4
