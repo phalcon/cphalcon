@@ -8,7 +8,7 @@
 # file that was distributed with this source code.
 #
 
-PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../../")
+PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../")
 
 echo -e "Create MySQL database..."
 mysql -u root -e "CREATE DATABASE IF NOT EXISTS phalcon_test charset=utf8mb4 collate=utf8mb4_unicode_ci;"

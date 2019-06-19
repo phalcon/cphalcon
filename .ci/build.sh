@@ -8,7 +8,7 @@
 # file that was distributed with this source code.
 #
 
-PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../../")
+PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../")
 LCOV_REPORT=${PROJECT_ROOT}/tests/_output/lcov.info
 
 shopt -s nullglob
@@ -71,7 +71,7 @@ fi
 make -j"$(getconf _NPROCESSORS_ONLN)" > /dev/null 2> ${PROJECT_ROOT}/compile-errors.log
 make install
 
-phpenv config-add ${PROJECT_ROOT}/tests/_ci/phalcon.ini
+phpenv config-add ${PROJECT_ROOT}/.ci/phalcon.ini
 
 cd ..
 
