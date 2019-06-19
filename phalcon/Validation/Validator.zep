@@ -211,21 +211,33 @@ abstract class Validator implements ValidatorInterface
     * Create a default message by factory
     *
     * @return Message
+    *
+    * @throw Exception
     */
-    public function messageFactory(<Validation> validation, string! field, array! replacements = []) -> <Message>
+    public function messageFactory(<Validation> validation, var field, array! replacements = []) -> <Message>
     {
+        var singleField;
+
+        if (is_array(field)) {
+            let singleField = implode(", ", field);
+        } elseif (is_string(field)) {
+            let singleField = field;
+        } else {
+            throw new Exception("The field can not be printed");
+        }
+
         let replacements = array_merge(
             [
-                ":field" : this->prepareLabel(validation, field)
+                ":field" : this->prepareLabel(validation, singleField)
             ],
             replacements
         );
 
         return new Message(
-            strtr(this->getTemplate(field), replacements),
+            strtr(this->getTemplate(singleField), replacements),
             field,
             get_class(this),
-            this->prepareCode(field)
+            this->prepareCode(singleField)
         );
     }
 }
