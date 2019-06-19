@@ -113,13 +113,23 @@ class Config extends \ArrayObject
     {
         var delimiter;
 
-        let delimiter = self::pathDelimiter;
+        let delimiter = this->pathDelimiter;
 
         if !delimiter {
             let delimiter = self::DEFAULT_PATH_DELIMITER;
         }
 
         return delimiter;
+    }
+
+    /**
+     * Sets the default path delimiter
+     */
+    public static function setPathDelimiter(string! delimiter = null) -> <Config>
+    {
+        let this->pathDelimiter = delimiter;
+
+        return this;
     }
 
     /**
@@ -204,16 +214,6 @@ class Config extends \ArrayObject
         }
 
         return defaultValue;
-    }
-
-    /**
-     * Sets the default path delimiter
-     */
-    public static function setPathDelimiter(string! delimiter = null) -> <Config>
-    {
-        let self::pathDelimiter = delimiter;
-
-        return this;
     }
 
     /**
