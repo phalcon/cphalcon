@@ -43,7 +43,7 @@ class Config extends \ArrayObject
 {
     const DEFAULT_PATH_DELIMITER = ".";
 
-    protected static pathDelimiter;
+    protected pathDelimiter;
 
     /**
      * Phalcon\Config constructor
@@ -209,9 +209,11 @@ class Config extends \ArrayObject
     /**
      * Sets the default path delimiter
      */
-    public static function setPathDelimiter(string! delimiter = null) -> void
+    public static function setPathDelimiter(string! delimiter = null) -> <Config>
     {
         let self::pathDelimiter = delimiter;
+
+        return this;
     }
 
     /**
@@ -261,7 +263,7 @@ class Config extends \ArrayObject
         }
     }
 
-    final protected function internalMerge(array source, array target) -> array
+    final private function internalMerge(array source, array target) -> array
     {
         var key, value;
 
