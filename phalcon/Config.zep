@@ -109,7 +109,7 @@ class Config extends \ArrayObject
     /**
      * Gets the default path delimiter
      */
-    public static function getPathDelimiter() -> string
+    public function getPathDelimiter() -> string
     {
         var delimiter;
 
@@ -125,7 +125,7 @@ class Config extends \ArrayObject
     /**
      * Sets the default path delimiter
      */
-    public static function setPathDelimiter(string! delimiter = null) -> <Config>
+    public function setPathDelimiter(string! delimiter = null) -> <Config>
     {
         let this->pathDelimiter = delimiter;
 
