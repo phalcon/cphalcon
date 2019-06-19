@@ -88,17 +88,15 @@ class ConfigCest
             'other'    => [1, 2, 3, 4],
         ];
 
-        $expected = Config::__set_state(
+        $expected = new Config(
             [
-                'database' => Config::__set_state(
-                    [
+                'database' => [
                         'adapter'  => 'Mysql',
                         'host'     => 'localhost',
                         'username' => 'scott',
                         'password' => 'cheetah',
                         'name'     => 'test_db',
-                    ]
-                ),
+                ],
                 'other'    => [
                     0 => 1,
                     1 => 2,
