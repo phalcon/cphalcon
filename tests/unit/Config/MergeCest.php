@@ -419,52 +419,6 @@ class MergeCest
         return $config;
     }
 
-
-
-    /**
-     * Tests issue 12779
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/12779
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-06-19
-     */
-    public function testIssue12779(UnitTester $I)
-    {
-        $config = new Config(
-            [
-                'a' => [
-                    [
-                        1,
-                    ],
-                ],
-            ]
-        );
-
-        $config->merge(
-            new Config(
-                [
-                    'a' => [
-                        [
-                            2,
-                        ],
-                    ],
-                ]
-            )
-        );
-
-
-        $expected = [
-            'a' => [
-                [
-                    1,
-                    2,
-                ],
-            ],
-        ];
-        $actual   = $config->toArray();
-        $I->assertEquals($expected, $actual);
-    }
-
     /**
      * Tests issue 13351
      *
