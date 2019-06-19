@@ -75,10 +75,10 @@ class MergeCest
         );
 
         $b = new Config(
-                [
+            [
                     'keys' => ['peter'],
                 ]
-            );
+        );
 
         $expected = new Config(
             [
@@ -428,25 +428,25 @@ class MergeCest
      */
     public function testNumericKeyMerge(UnitTester $I)
     {
-    	$params1 = [
-    		'1' => 'aaa',
-    		'2' => [
-    			'11' => 'rrr',
-    			'12' => 'zzz',
-    		]
+        $params1 = [
+            '1' => 'aaa',
+            '2' => [
+                '11' => 'rrr',
+                '12' => 'zzz',
+            ]
         ];
 
-		$config = new Config($params1);
+        $config = new Config($params1);
 
-		$params2 = [
-			'3' => 'ccc', 
-			'2' => [
-				'12' => 'xxx',
-			]
-		];
+        $params2 = [
+            '3' => 'ccc',
+            '2' => [
+                '12' => 'xxx',
+            ]
+        ];
 
-		$config->merge(new Config($params2));
-		$actual = $config->toArray();
+        $config->merge(new Config($params2));
+        $actual = $config->toArray();
 
         $expected = [
             '1' => 'aaa',
@@ -477,7 +477,7 @@ class MergeCest
         ];
 
         $I->assertEquals($expected, $actual);
-	}
+    }
 
     /**
      * Tests Phalcon\Config :: merge()
