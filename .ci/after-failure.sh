@@ -12,7 +12,7 @@ shopt -s nullglob
 
 export LC_ALL=C
 
-PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../../")
+PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../")
 
 for i in `find ${PROJECT_ROOT}/tests/syntax -name "*.out" 2>/dev/null`; do
 	echo "-- START ${i}"; cat ${i}; echo "-- END";

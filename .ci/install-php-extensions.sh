@@ -7,17 +7,7 @@
 # For the full copyright and license information, please view the
 # LICENSE.txt file that was distributed with this source code.
 
-# Ensure that this is being run inside a CI container
-if [ "${CI}" != "true" ];
-then
-	>&2 echo "This script is designed to run inside a CI container only."
-	>&2 echo "Aborting."
-	exit 1
-fi
-
 PHP_INI="$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
-
-: ${ZEPHIR_PARSER_VERSION:=master}
 
 # Install latest APC(u)
 printf "\n" | pecl install --force apcu_bc 1> /dev/null
@@ -53,15 +43,6 @@ printf "\n" | pecl install --force igbinary 1> /dev/null
 printf "\n" | pecl install --force imagick 1> /dev/null
 printf "\n" | pecl install --force psr 1> /dev/null
 printf "\n" | pecl install --force yaml 1> /dev/null
-
-# Install zephir_parser
-git clone -b "${ZEPHIR_PARSER_VERSION}" --depth 1 -q https://github.com/phalcon/php-zephir-parser
-cd php-zephir-parser
-$(phpenv which phpize)
-./configure --silent --with-php-config=$(phpenv which php-config) --enable-zephir_parser
-make --silent -j"$(getconf _NPROCESSORS_ONLN)"
-make --silent install
-echo 'extension="zephir_parser.so"' > "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/zephir_parser.ini"
 
 # Install redis
 redis_ext=`$(phpenv which php-config) --extension-dir`/redis.so

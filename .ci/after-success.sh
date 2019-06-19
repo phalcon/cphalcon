@@ -10,7 +10,7 @@
 
 set -e +o pipefail
 
-PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../../")
+PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../")
 LCOV_REPORT=${PROJECT_ROOT}/tests/_output/lcov.info
 
 if [[ -z ${REPORT_COVERAGE+x} ]] || [[ "$REPORT_COVERAGE" != "1" ]]; then

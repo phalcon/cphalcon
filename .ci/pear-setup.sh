@@ -52,12 +52,7 @@ pear config-set data_dir "$(phpenv root)/versions/$(phpenv version-name)/share/p
 pear config-set test_dir "$(phpenv root)/versions/$(phpenv version-name)/share/pear/tests"
 pear config-set www_dir "$(phpenv root)/versions/$(phpenv version-name)/share/pear/www"
 pear config-set sig_keydir "$(phpenv root)/versions/$(phpenv version-name)/etc/pearkeys"
-
-# Does not work on PHP 5.x
-if [ "$(echo `$(phpenv which php-config) --version` | cut -d '.' -f 1)" != "5" ]; then
-	pear config-set man_dir "$(phpenv root)/versions/$(phpenv version-name)/php/man"
-fi
-
+pear config-set man_dir "$(phpenv root)/versions/$(phpenv version-name)/php/man"
 pear config-set php_ini "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
 
 pecl channel-update pecl.php.net || true

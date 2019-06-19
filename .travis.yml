@@ -7,6 +7,8 @@ php:
   - '7.3'
   - '7.2'
 
+dist: trusty
+
 git:
   depth: 1
 
@@ -49,9 +51,6 @@ env:
 
 before_install:
   - |
-    # General settings
-    set -e
-    stty cols 120
     ulimit -c unlimited -S || true
 
     if [ ! -z "${GITHUB_TOKEN}" ]; then
@@ -63,25 +62,16 @@ before_install:
 
     git config --global advice.detachedHead false
 
-    # Export tests environment variables
-    source tests/_ci/environment
-    export $(cut -d= -f1 tests/_ci/environment)
-
-    # Export build environment variables
-    export PHP_MAJOR="$(php -r 'echo phpversion();' | cut -d '.' -f 1)"
-    export PHP_MINOR="$(php -r 'echo phpversion();' | cut -d '.' -f 2)"
-    export PHP_VERNUM="$(php-config --vernum)"
-    export PHP_PEAR_PHP_BIN=$(phpenv which php)
+  - source .ci/export-variables.sh
 
 install:
   - .ci/install-mysql-5.7.sh
-  - tests/_ci/setup-dbs.sh
-  - tests/_ci/pear-setup.sh
-  - .ci/install-prereqs.sh
-  - tests/_ci/install-re2c.sh
+  - .ci/setup-dbs.sh
+  - .ci/pear-setup.sh
+  - .ci/install-re2c.sh
+  - .ci/install-zephir.sh
+  - .ci/install-php-extensions.sh
   - travis_retry composer install $DEFAULT_COMPOSER_FLAGS
-  - wget --no-clobber -O $HOME/bin/zephir https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar
-  - chmod +x $HOME/bin/zephir
 
 before_script:
   - |
@@ -90,12 +80,9 @@ before_script:
     echo 'session.save_path = "/tmp"' >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     echo 'opcache.enable_cli = 1'     >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
-  - tests/_ci/build.sh
+  - .ci/build.sh
 
 script:
-  # Does not ready to work PHP 7.3
-  - if [ "$PHP_VERNUM" -ge "70300" ]; then phpenv config-rm xdebug.ini || true; fi
-
   - vendor/bin/codecept build --quiet
   - vendor/bin/codecept run --ext DotReporter tests/cli/
   - vendor/bin/codecept run --ext DotReporter tests/integration/
@@ -117,13 +104,10 @@ jobs:
         - vendor/bin/phpcs
 
 after_failure:
-  - tests/_ci/after-failure.sh
+  - .ci/after-failure.sh
 
 after_success:
-  # Does not ready to work PHP 7.3
-  - if [ "$PHP_VERNUM" -ge "70300" ]; then export REPORT_COVERAGE=0; fi
-
-  - tests/_ci/after-success.sh
+  - .ci/after-success.sh
 
 notifications:
   email: false
