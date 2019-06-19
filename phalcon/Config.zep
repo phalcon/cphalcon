@@ -189,7 +189,7 @@ class Config extends \ArrayObject
         }
 
         if empty delimiter {
-            let delimiter = self::getPathDelimiter();
+            let delimiter = this->getPathDelimiter();
         }
 
         let config = this,
