@@ -84,7 +84,7 @@ class Grouped extends Config
             // Set to default adapter if passed as string
             if typeof configName === "string" {
                 if defaultAdapter === "" {
-                    this->internalMerge(
+                    this->merge(
                         (new ConfigFactory())->load(configName)
                     );
 
@@ -112,7 +112,7 @@ class Grouped extends Config
                 let configInstance = (new ConfigFactory())->load(configInstance);
             }
 
-            this->internalMerge(configInstance);
+            this->merge(configInstance);
         }
     }
 }
