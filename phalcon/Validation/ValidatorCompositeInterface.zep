@@ -25,5 +25,5 @@ interface ValidatorCompositeInterface
     /**
      * Executes the validation
      */
-    public function validate(<\Phalcon\Validation> validation, var field) -> bool;
+    public function validate(<Validation> validation, var field) -> bool;
 }

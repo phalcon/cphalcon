@@ -60,17 +60,17 @@ abstract class FileAbstract extends Validator
     /**
     * Empty is empty
     */
-    protected messageFileEmpty = "Field :field must not be empty" { get, set };
+    protected messageFileEmpty = "Field :field must not be empty" {get, set};
 
     /**
     * File exceeed the file size setted in PHP configuration
     */
-    protected messageIniSize = "File :field exceeds the maximum file size" { get, set };
+    protected messageIniSize = "File :field exceeds the maximum file size" {get, set};
 
     /**
     * File is not valid
     */
-    protected messageValid = "Field :field is not valid" { get, set };
+    protected messageValid = "Field :field is not valid" {get, set};
 
     /**
      * Check on empty
