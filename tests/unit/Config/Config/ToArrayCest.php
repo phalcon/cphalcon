@@ -10,24 +10,25 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Config;
+namespace Phalcon\Test\Unit\Config\Config;
 
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-class ConstructCest
+class ToArrayCest
 {
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config :: __construct()
+     * Tests Phalcon\Config :: toArray()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-19
      */
-    public function configConstruct(UnitTester $I)
+    public function configToArray(UnitTester $I)
     {
-        $I->wantToTest('Config - __construct()');
-        $this->checkOffsetGet($I);
+        $I->wantToTest('Config - toArray()');
+
+        $this->checkToArray($I);
     }
 }

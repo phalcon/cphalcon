@@ -10,24 +10,24 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Config;
+namespace Phalcon\Test\Unit\Config\Config;
 
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-class SetPathDelimiterCest
+class ConstructCest
 {
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config :: setPathDelimiter()
+     * Tests Phalcon\Config :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-19
      */
-    public function configSetPathDelimiter(UnitTester $I)
+    public function configConstruct(UnitTester $I)
     {
-        $I->wantToTest('Config - setPathDelimiter()');
-        $this->checkSetPathDelimiter($I);
+        $I->wantToTest('Config - __construct()');
+        $this->checkConstruct($I);
     }
 }

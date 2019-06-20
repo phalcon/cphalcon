@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit;
+namespace Phalcon\Test\Unit\Config\Config;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
@@ -91,11 +91,11 @@ class ConfigCest
         $expected = new Config(
             [
                 'database' => [
-                        'adapter'  => 'Mysql',
-                        'host'     => 'localhost',
-                        'username' => 'scott',
-                        'password' => 'cheetah',
-                        'name'     => 'test_db',
+                    'adapter'  => 'Mysql',
+                    'host'     => 'localhost',
+                    'username' => 'scott',
+                    'password' => 'cheetah',
+                    'name'     => 'test_db',
                 ],
                 'other'    => [
                     0 => 1,

@@ -10,24 +10,24 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Config;
+namespace Phalcon\Test\Unit\Config\Config;
 
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-class CountCest
+class OffsetUnsetCest
 {
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config :: count()
+     * Tests Phalcon\Config :: offsetUnset()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-19
      */
-    public function configCount(UnitTester $I)
+    public function configOffsetUnset(UnitTester $I)
     {
-        $I->wantToTest('Config - count()');
-        $this->checkCount($I);
+        $I->wantToTest('Config - offsetUnset()');
+        $this->checkOffsetUnset($I);
     }
 }

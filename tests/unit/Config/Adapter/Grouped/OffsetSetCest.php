@@ -12,10 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class OffsetSetCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: offsetSet()
      *
@@ -24,8 +27,6 @@ class OffsetSetCest
      */
     public function configAdapterGroupedOffsetSet(UnitTester $I)
     {
-        $I->wantToTest('Config\Adapter\Grouped - offsetSet()');
-
-        $I->skipTest('Need implementation');
+        $this->checkOffsetSet($I, 'Grouped');
     }
 }

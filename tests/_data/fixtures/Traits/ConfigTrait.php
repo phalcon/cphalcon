@@ -12,13 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use function dataDir;
-use Phalcon\Config;
+use Phalcon\Config\Adapter\Grouped;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Adapter\Json;
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
+use Phalcon\Config\Config;
+use Phalcon\Config\Exception;
 use UnitTester;
+use function dataDir;
 
 trait ConfigTrait
 {
@@ -129,6 +131,25 @@ trait ConfigTrait
                     dataDir('assets/config/config.yml')
                 );
 
+            case 'Grouped':
+                $config = [
+                    dataDir('assets/config/config.php'),
+                    [
+                        'adapter'  => 'json',
+                        'filePath' => dataDir('assets/config/config.json'),
+                    ],
+                    [
+                        'adapter' => 'array',
+                        'config'  => [
+                            'test' => [
+                                'property2' => 'something-else',
+                            ],
+                        ],
+                    ],
+                ];
+
+                return new Grouped($config);
+
             default:
                 return new Config($this->config);
         }
@@ -218,12 +239,10 @@ trait ConfigTrait
         $existing = $config->getPathDelimiter();
 
 
-
         $I->assertEquals(
             '.',
             $config->getPathDelimiter()
         );
-
 
 
         $config->setPathDelimiter('/');
@@ -234,8 +253,33 @@ trait ConfigTrait
         );
 
 
-
         $config->setPathDelimiter($existing);
+    }
+
+    /**
+     * Tests Phalcon\Config\Adapter\* :: merge() - exception
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-06-19
+     */
+    private function checkMergeException(UnitTester $I, string $adapter = '')
+    {
+        $I->wantToTest(
+            sprintf(
+                $this->getMessage($adapter),
+                'merge()'
+            )
+        );
+
+        $config = $this->getConfig($adapter);
+        $I->expectThrowable(
+            new Exception(
+                'Invalid data type for merge.'
+            ),
+            function () use ($config) {
+                $config->merge(false);
+            }
+        );
     }
 
     /**
@@ -352,6 +396,12 @@ trait ConfigTrait
         );
 
         $config = $this->getConfig($adapter);
+
+        $I->assertCount(
+            1,
+            $config->path('test')
+        );
+
 
         $I->assertEquals(
             'yeah',
