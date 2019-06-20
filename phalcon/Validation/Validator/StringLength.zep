@@ -83,8 +83,9 @@ use Phalcon\Validation\Exception;
  */
 class StringLength extends ValidatorComposite
 {
-    private validators = [] {get};
-
+    /**
+     * Constructor
+     */
     public function __construct(array! options = []) -> void
     {
         var included, key, message, validator, value;

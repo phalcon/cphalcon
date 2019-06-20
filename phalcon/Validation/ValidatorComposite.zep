@@ -18,6 +18,11 @@ namespace Phalcon\Validation;
 abstract class ValidatorComposite extends Validator implements ValidatorCompositeInterface
 {
     /**
+     * @var array
+     */
+    private validators = [] { get };
+
+    /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
