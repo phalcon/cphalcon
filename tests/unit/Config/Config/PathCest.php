@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Config;
+namespace Phalcon\Test\Unit\Config\Config;
 
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
@@ -23,7 +23,7 @@ class PathCest
      * Tests Phalcon\Config :: path()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-19
      */
     public function configPath(UnitTester $I)
     {
@@ -36,7 +36,7 @@ class PathCest
      * Tests Phalcon\Config :: path() - default
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-19
      */
     public function configPathDefault(UnitTester $I)
     {

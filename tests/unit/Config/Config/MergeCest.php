@@ -10,10 +10,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Config;
+namespace Phalcon\Test\Unit\Config\Config;
 
-use PDO;
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
@@ -76,8 +75,8 @@ class MergeCest
 
         $b = new Config(
             [
-                    'keys' => ['peter'],
-                ]
+                'keys' => ['peter'],
+            ]
         );
 
         $expected = new Config(
@@ -110,9 +109,9 @@ class MergeCest
         $expected = new Config(
             [
                 'keys' => [
-                        '0' => 'peter',
-                        '1' => 'scott',
-                        '2' => 'cheetah',
+                    '0' => 'peter',
+                    '1' => 'scott',
+                    '2' => 'cheetah',
                 ],
             ]
         );
@@ -168,8 +167,8 @@ class MergeCest
                     'host'         => 'localhost',
                     'username'     => 'peter',
                     'options'      => [
-                        'case'                       => 'lower',
-                        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+                        'case'     => 'lower',
+                        'encoding' => 'SET NAMES utf8',
                     ],
                     'alternatives' => [
                         'primary' => 'swedish',
@@ -200,8 +199,8 @@ class MergeCest
                         'third'   => 'american',
                     ],
                     'options'      => [
-                        'case'                                => 'lower',
-                        (string) PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+                        'case'     => 'lower',
+                        "encoding" => 'SET NAMES utf8',
                     ],
                 ],
             ]
@@ -240,7 +239,6 @@ class MergeCest
                 ]
             )
         );
-
 
 
         $expected = [
@@ -423,7 +421,7 @@ class MergeCest
      * Tests Phalcon\Config :: merge()
      *
      * @author Cameron Hall <me@chall.id.au>
-     * @link https://github.com/phalcon/cphalcon/issues/13201
+     * @link   https://github.com/phalcon/cphalcon/issues/13201
      * @since  2019-06-19
      */
     public function testNumericKeyMerge(UnitTester $I)
@@ -433,7 +431,7 @@ class MergeCest
             '2' => [
                 '11' => 'rrr',
                 '12' => 'zzz',
-            ]
+            ],
         ];
 
         $config = new Config($params1);
@@ -442,7 +440,7 @@ class MergeCest
             '3' => 'ccc',
             '2' => [
                 '12' => 'xxx',
-            ]
+            ],
         ];
 
         $config->merge(new Config($params2));
@@ -453,7 +451,7 @@ class MergeCest
             '2' => [
                 '11' => 'rrr',
                 '12' => 'zzz',
-                '13' => 'xxx'
+                '13' => 'xxx',
             ],
             '3' => 'ccc',
         ];
@@ -462,17 +460,17 @@ class MergeCest
 
         $config = new Config(['0.4' => 0.4]);
         $config->merge(new Config([
-            '1.1' => 1,
-            '1.2' => 1.2,
-            '2.8610229492188E-6' => 3
+            '1.1'                => 1,
+            '1.2'                => 1.2,
+            '2.8610229492188E-6' => 3,
         ]));
 
         $actual = $config->toArray();
 
         $expected = [
-            '0.4' => 0.4,
-            '1.1' => 1,
-            '1.2' => 1.2,
+            '0.4'                => 0.4,
+            '1.1'                => 1,
+            '1.2'                => 1.2,
             '2.8610229492188E-6' => 3,
         ];
 
@@ -483,7 +481,7 @@ class MergeCest
      * Tests Phalcon\Config :: merge()
      *
      * @author Cameron Hall <me@chall.id.au>
-     * @link https://github.com/phalcon/cphalcon/issues/13768
+     * @link   https://github.com/phalcon/cphalcon/issues/13768
      * @since  2019-06-19
      */
     public function testAssociativeMergeReplacements(UnitTester $I)
@@ -493,7 +491,7 @@ class MergeCest
             'b' => [
                 'bar' => 'rrr',
                 'baz' => 'zzz',
-            ]
+            ],
         ];
 
         $config = new Config($params1);
@@ -502,7 +500,7 @@ class MergeCest
             'c' => 'ccc',
             'b' => [
                 'baz' => 'xxx',
-            ]
+            ],
         ];
 
         $config->merge(new Config($params2));

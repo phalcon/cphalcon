@@ -18,7 +18,7 @@ namespace Phalcon\Test\Unit\Di;
 
 use function dataDir;
 use InjectableComponent;
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Service;

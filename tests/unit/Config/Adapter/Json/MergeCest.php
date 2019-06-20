@@ -12,10 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Json;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class MergeCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Json :: merge()
      *
@@ -25,6 +28,7 @@ class MergeCest
     public function configAdapterJsonMerge(UnitTester $I)
     {
         $I->wantToTest("Config\Adapter\Json - merge()");
-        $I->skipTest('Need implementation');
+
+        $this->checkMergeException($I, 'Json');
     }
 }

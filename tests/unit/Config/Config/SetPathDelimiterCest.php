@@ -10,24 +10,24 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Config;
+namespace Phalcon\Test\Unit\Config\Config;
 
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-class OffsetUnsetCest
+class SetPathDelimiterCest
 {
     use ConfigTrait;
 
     /**
-     * Tests Phalcon\Config :: offsetUnset()
+     * Tests Phalcon\Config :: setPathDelimiter()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-19
      */
-    public function configOffsetUnset(UnitTester $I)
+    public function configSetPathDelimiter(UnitTester $I)
     {
-        $I->wantToTest('Config - offsetUnset()');
-        $this->checkOffsetUnset($I);
+        $I->wantToTest('Config - setPathDelimiter()');
+        $this->checkSetPathDelimiter($I);
     }
 }

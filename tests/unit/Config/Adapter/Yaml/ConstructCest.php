@@ -12,10 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Yaml;
 
-use function dataDir;
 use Phalcon\Config\Adapter\Yaml;
+use Phalcon\Config\Exception;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
+use function dataDir;
 
 class ConstructCest
 {
@@ -49,11 +50,6 @@ class ConstructCest
     {
         $I->wantToTest('Config\Adapter\Yaml - construct - callbacks');
 
-        define(
-            'CALLBACK_APPROOT',
-            dirname(__DIR__)
-        );
-
         $config = new Yaml(
             dataDir('assets/config/callbacks.yml'),
             [
@@ -61,13 +57,13 @@ class ConstructCest
                     return hash('sha256', $value);
                 },
                 '!approot' => function ($value) {
-                    return CALLBACK_APPROOT . $value;
+                    return PATH_DATA . $value;
                 },
             ]
         );
 
         $I->assertEquals(
-            CALLBACK_APPROOT . '/app/controllers/',
+            PATH_DATA . '/app/controllers/',
             $config->application->controllersDir
         );
 

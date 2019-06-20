@@ -51,5 +51,20 @@ class GetCest
             $expected,
             $collection->get('unknown', 'four')
         );
+
+        $I->assertEquals(
+            $expected,
+            $collection['three']
+        );
+
+        $I->assertEquals(
+            $expected,
+            $collection->three
+        );
+
+        $I->assertEquals(
+            $expected,
+            $collection->offsetGet('three')
+        );
     }
 }

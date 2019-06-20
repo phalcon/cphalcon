@@ -26,32 +26,58 @@ class RemoveCest
     public function collectionRemove(UnitTester $I)
     {
         $I->wantToTest('Collection\Collection - remove()');
-
-        $data = [
+        $data       = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
-
         $collection = new Collection($data);
 
-        $I->assertEquals(
-            $data,
-            $collection->toArray()
-        );
-
-
+        $expected = $data;
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
 
         $collection->remove('five');
-
         $expected = [
             'one'   => 'two',
             'three' => 'four',
         ];
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
 
-        $I->assertEquals(
-            $expected,
-            $collection->toArray()
-        );
+        $collection->remove('FIVE');
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
+
+        $collection->init($data);
+        unset($collection['five']);
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
+
+        $collection->init($data);
+        $collection->__unset('five');
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
+
+        $collection->init($data);
+        $collection->offsetUnset('five');
+        $expected = [
+            'one'   => 'two',
+            'three' => 'four',
+        ];
+        $actual   = $collection->toArray();
+        $I->assertEquals($expected, $actual);
     }
 }
