@@ -10,7 +10,7 @@
 
 namespace Phalcon\Config\Adapter;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
 
 /**
@@ -58,15 +58,20 @@ use Phalcon\Config\Exception;
 class Ini extends Config
 {
     /**
-     * Phalcon\Config\Adapter\Ini constructor
+     * Ini constructor.
+     *
+     * @param string $filePath
+     * @param null   $mode
+     *
+     * @throws Exception
      */
-    public function __construct(string! filePath, mode = null) -> void
+    public function __construct(string! filePath, var mode = null) -> void
     {
-        var iniConfig, section, sections, directives, path, lastValue;
+        var directives, iniConfig, lastValue, path, section, sections;
         array config;
 
         // Default to INI_SCANNER_RAW if not specified
-        if null === mode {
+        if likely null === mode {
             let mode = INI_SCANNER_RAW;
         }
 
@@ -74,14 +79,14 @@ class Ini extends Config
 
         if unlikely iniConfig === false {
             throw new Exception(
-                "Configuration file " . basename(filePath) . " can't be loaded"
+                "Configuration file " . basename(filePath) . " cannot be loaded"
             );
         }
 
         let config = [];
 
         for section, directives in iniConfig {
-            if typeof directives == "array" {
+            if typeof directives === "array" {
                 let sections = [];
 
                 for path, lastValue in directives {
@@ -109,37 +114,41 @@ class Ini extends Config
      * We have to cast values manually because parse_ini_file() has a poor
      * implementation.
      *
-     * @param mixed ini The array casted by `parse_ini_file`
+     * @param mixed $ini The array casted by `parse_ini_file`
+     *
+     * @return array|bool|false|float|int|mixed|string|string[]|null
      */
     protected function cast(var ini) -> bool | null | double | int | string
     {
-        var key, val;
+        var key, lowerIni, value;
 
-        if typeof ini == "array" {
-            for key, val in ini {
-                let ini[key] = this->cast(val);
+        if typeof ini === "array" {
+            for key, value in ini {
+                let ini[key] = this->cast(value);
             }
 
             return ini;
         }
 
         // Decode true
-        if ini === "true" || ini === "yes" || strtolower(ini) === "on" {
-            return true;
-        }
+        let ini      = (string) ini,
+            lowerIni = strtolower(ini);
 
-        // Decode false
-        if ini === "false" || ini === "no" || strtolower(ini) === "off" {
-            return false;
-        }
-
-        // Decode null
-        if ini === "null" {
-            return null;
+        switch (lowerIni) {
+            case "true":
+            case "yes":
+            case "on":
+                return true;
+            case "false":
+            case "no":
+            case "off":
+                return false;
+            case "null":
+                return null;
         }
 
         // Decode float/int
-        if typeof ini == "string" && is_numeric(ini) {
+        if typeof ini === "string" && is_numeric(ini) {
             if preg_match("/[.]+/", ini) {
                 return (double) ini;
             } else {
@@ -149,41 +158,33 @@ class Ini extends Config
 
         return ini;
     }
-    
+
     /**
      * Build multidimensional array from string
      *
-     * <code>
-     * $this->parseIniString("path.hello.world", "value for last key");
+     * @param string $path
+     * @param mixed  $value
      *
-     * // result
-     * [
-     *      "path" => [
-     *          "hello" => [
-     *              "world" => "value for last key",
-     *          ],
-     *      ],
-     * ];
-     * </code>
+     * @return array
      */
     protected function parseIniString(string! path, var value) -> array
     {
-        var pos, key;
+        var key, position;
 
-        let value = this->cast(value);
-        let pos = strpos(path, ".");
+        let value    = this->cast(value),
+            position = strpos(path, ".");
 
-        if pos === false {
+        if false === position {
             return [
-                path: value
+                path : value
             ];
         }
 
-        let key = substr(path, 0, pos);
-        let path = substr(path, pos + 1);
+        let key  = substr(path, 0, position),
+            path = substr(path, position + 1);
 
         return [
-            key: this->parseIniString(path, value)
+            key : this->parseIniString(path, value)
         ];
     }
 }
