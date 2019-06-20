@@ -6,6 +6,13 @@ use function date;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Abonnes;
+use Phalcon\Validation\Validator\Email;
+use Phalcon\Validation\Validator\ExclusionIn;
+use Phalcon\Validation\Validator\InclusionIn;
+use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Validation\Validator\StringLength\Max;
+use Phalcon\Validation\Validator\StringLength\Min;
+use Phalcon\Validation\Validator\Uniqueness;
 
 class ModelsValidatorsCest
 {
@@ -85,7 +92,7 @@ class ModelsValidatorsCest
         $I->assertCount(1, $messages);
 
         $I->assertEquals(
-            'PresenceOf',
+            PresenceOf::class,
             $messages[0]->getType()
         );
 
@@ -120,7 +127,7 @@ class ModelsValidatorsCest
         $messages = $abonne->getMessages();
 
         $I->assertEquals(
-            'Email',
+            Email::class,
             $messages[0]->getType()
         );
         $I->assertEquals(
@@ -145,7 +152,7 @@ class ModelsValidatorsCest
         $messages = $abonne->getMessages();
 
         $I->assertEquals(
-            'ExclusionIn',
+            ExclusionIn::class,
             $messages[0]->getType()
         );
         $I->assertEquals(
@@ -169,7 +176,7 @@ class ModelsValidatorsCest
         $messages = $abonne->getMessages();
 
         $I->assertEquals(
-            'InclusionIn',
+            InclusionIn::class,
             $messages[0]->getType()
         );
 
@@ -196,7 +203,7 @@ class ModelsValidatorsCest
         $messages = $abonne->getMessages();
 
         $I->assertEquals(
-            'Uniqueness',
+            Uniqueness::class,
             $messages[0]->getType()
         );
 
@@ -221,7 +228,7 @@ class ModelsValidatorsCest
         );
 
         $messages = $abonne->getMessages();
-        $I->assertEquals($messages[0]->getType(), 'Regex');
+        $I->assertEquals($messages[0]->getType(), Regex::class);
         $I->assertEquals($messages[0]->getField(), 'statut');
         $I->assertEquals($messages[0]->getMessage(), "L'état ne correspond pas à l'expression régulière");
 
@@ -238,7 +245,7 @@ class ModelsValidatorsCest
         $messages = $abonne->getMessages();
 
         $I->assertEquals(
-            'TooLong',
+            Max::class,
             $messages[0]->getType()
         );
 
@@ -265,7 +272,7 @@ class ModelsValidatorsCest
         $messages = $abonne->getMessages();
 
         $I->assertEquals(
-            'TooShort',
+            Min::class,
             $messages[0]->getType()
         );
 
