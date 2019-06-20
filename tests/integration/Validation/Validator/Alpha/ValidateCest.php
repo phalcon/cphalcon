@@ -175,7 +175,7 @@ class ValidateCest
                 new Message(
                     'name must contain only letters',
                     'name',
-                    'Alpha',
+                    Alpha::class,
                     0
                 ),
             ]

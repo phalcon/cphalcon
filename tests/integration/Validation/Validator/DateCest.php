@@ -203,7 +203,7 @@ class DateCest
                 new Message(
                     'Field date is not a valid date',
                     'date',
-                    'Date',
+                    Date::class,
                     0
                 ),
             ]
@@ -240,5 +240,40 @@ class DateCest
             ['2015-01', 'Y-m-d'],
             ['2015-01-01', 'd-m-Y'],
         ];
+
+        foreach ($dates as $item) {
+            $date   = $item[0];
+            $format = $item[1];
+
+            $validation = new Validation();
+
+            $validation->add(
+                'date',
+                new Date(
+                    [
+                        'format' => $format,
+                    ]
+                )
+            );
+
+            $expected = new Messages(
+                [
+                    new Message(
+                        'Field date is not a valid date',
+                        'date',
+                        Date::class,
+                        0
+                    ),
+                ]
+            );
+
+            $actual = $validation->validate(
+                [
+                    'date' => $date,
+                ]
+            );
+
+            $I->assertEquals($expected, $actual);
+        }
     }
 }

@@ -17,10 +17,10 @@ use UnitTester;
 class UnderscoreGetCest
 {
     /**
-     * Tests Phalcon\Di\Injectable :: __get()
+     * Unit Tests Phalcon\Di\Injectable :: __get()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diInjectableUnderscoreGet(UnitTester $I)
     {

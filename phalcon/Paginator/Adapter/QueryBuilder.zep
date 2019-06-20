@@ -184,7 +184,11 @@ class QueryBuilder extends AbstractAdapter
                     ]
                 );
             } else {
-                totalBuilder->columns(["DISTINCT " . groupColumn]);
+                totalBuilder->columns(
+                    [
+                        "DISTINCT " . groupColumn
+                    ]
+                );
             }
         }
 

@@ -125,6 +125,20 @@ class Memory extends Adapter
     protected activeKey { get };
 
     /**
+     * Components
+     *
+     * @var mixed
+     */
+    protected components;
+
+    /**
+     * Component Names
+     *
+     * @var mixed
+     */
+    protected componentsNames;
+
+    /**
      * Function List
      *
      * @var mixed
@@ -160,187 +174,12 @@ class Memory extends Adapter
     protected rolesNames;
 
     /**
-     * Components
-     *
-     * @var mixed
-     */
-    protected components;
-
-    /**
-     * Component Names
-     *
-     * @var mixed
-     */
-    protected componentsNames;
-
-    /**
      * Phalcon\Acl\Adapter\Memory constructor
      */
     public function __construct() -> void
     {
         let this->componentsNames = ["*": true];
         let this->accessList = ["*!*": true];
-    }
-
-    /**
-     * Do a role inherit from another existing role
-     *
-     * Example:
-     * <code>
-     *
-     * $acl->addRole("administrator", "consultant");
-     * $acl->addRole("administrator", ["consultant", "consultant2"]);
-     * </code>
-     *
-     * @param  array|string               accessInherits
-     * @param  RoleInterface|string|array role
-     */
-    public function addInherit(string roleName, var roleToInherits) -> bool
-    {
-        var roleInheritName, rolesNames, roleToInherit, checkRoleToInherit,
-            roleToInheritList, usedRoleToInherit;
-        array checkRoleToInherits, usedRoleToInherits;
-
-        let rolesNames = this->rolesNames;
-
-        if unlikely !isset rolesNames[roleName] {
-            throw new Exception(
-                "Role '" . roleName . "' does not exist in the role list"
-            );
-        }
-
-        if !isset this->roleInherits[roleName] {
-            let this->roleInherits[roleName] = [];
-        }
-
-        /**
-         * Type conversion
-         */
-        if typeof roleToInherits != "array" {
-            let roleToInheritList = [roleToInherits];
-        } else {
-            let roleToInheritList = roleToInherits;
-        }
-
-        /**
-         * inherits
-         */
-        for roleToInherit in roleToInheritList {
-            if typeof roleToInherit == "object" && roleToInherit instanceof RoleInterface {
-                let roleInheritName = roleToInherit->getName();
-            } else {
-                let roleInheritName = roleToInherit;
-            }
-
-            /**
-             * Check if the role to inherit is repeat
-             */
-            if in_array(roleInheritName, this->roleInherits[roleName]) {
-                continue;
-            }
-
-            /**
-             * Check if the role to inherit is valid
-             */
-            if unlikely !isset rolesNames[roleInheritName] {
-                throw new Exception(
-                    "Role '" . roleInheritName . "' (to inherit) does not exist in the role list"
-                );
-            }
-
-            if roleName == roleInheritName {
-                return false;
-            }
-
-            /**
-             * Deep check if the role to inherit is valid
-             */
-            if isset this->roleInherits[roleInheritName] {
-                let checkRoleToInherits = [];
-
-                for usedRoleToInherit in this->roleInherits[roleInheritName] {
-                    array_push(checkRoleToInherits, usedRoleToInherit);
-                }
-
-                let usedRoleToInherits = [];
-
-                while !empty checkRoleToInherits {
-                    let checkRoleToInherit = array_shift(checkRoleToInherits);
-                    
-                    if isset usedRoleToInherits[checkRoleToInherit] {
-                        continue;
-                    }
-
-                    let usedRoleToInherits[checkRoleToInherit] = true;
-
-                    if unlikely roleName == checkRoleToInherit {
-                        throw new Exception(
-                            "Role '" . roleInheritName . "' (to inherit) is infinite loop "
-                        );
-                    }
-
-                    /**
-                     * Push inherited roles
-                     */
-                    if isset this->roleInherits[checkRoleToInherit] {
-                        for usedRoleToInherit in this->roleInherits[checkRoleToInherit] {
-                            array_push(checkRoleToInherits, usedRoleToInherit);
-                        }
-                    }
-                }
-            }
-
-            let this->roleInherits[roleName][] = roleInheritName;
-        }
-
-        return true;
-    }
-
-    /**
-     * Adds a role to the ACL list. Second parameter allows inheriting access data from other existing role
-     *
-     * Example:
-     * <code>
-     * $acl->addRole(
-     *     new Phalcon\Acl\Role("administrator"),
-     *     "consultant"
-     * );
-     *
-     * $acl->addRole("administrator", "consultant");
-     * $acl->addRole("administrator", ["consultant", "consultant2"]);
-     * </code>
-     *
-     * @param  array|string               accessInherits
-     * @param  RoleInterface|string|array role
-     */
-    public function addRole(role, accessInherits = null) -> bool
-    {
-        var roleName, roleObject;
-
-        if typeof role == "object" && role instanceof RoleInterface {
-            let roleObject = role;
-        } elseif is_string(role) {
-            let roleObject = new Role(role);
-        } else {
-            throw new Exception(
-                "Role must be either an string or implement RoleInterface"
-            );
-        }
-
-        let roleName = roleObject->getName();
-
-        if isset this->rolesNames[roleName] {
-            return false;
-        }
-
-        let this->roles[] = roleObject;
-        let this->rolesNames[roleName] = true;
-
-        if accessInherits != null {
-            return this->addInherit(roleName, accessInherits);
-        }
-
-        return true;
     }
 
     /**
@@ -443,6 +282,169 @@ class Memory extends Adapter
     }
 
     /**
+     * Do a role inherit from another existing role
+     *
+     * Example:
+     * <code>
+     *
+     * $acl->addRole("administrator", "consultant");
+     * $acl->addRole("administrator", ["consultant", "consultant2"]);
+     * </code>
+     *
+     * @param  array|string               accessInherits
+     * @param  RoleInterface|string|array role
+     */
+    public function addInherit(string roleName, var roleToInherits) -> bool
+    {
+        var roleInheritName, rolesNames, roleToInherit, checkRoleToInherit,
+            roleToInheritList, usedRoleToInherit;
+        array checkRoleToInherits, usedRoleToInherits;
+
+        let rolesNames = this->rolesNames;
+
+        if unlikely !isset rolesNames[roleName] {
+            throw new Exception(
+                "Role '" . roleName . "' does not exist in the role list"
+            );
+        }
+
+        if !isset this->roleInherits[roleName] {
+            let this->roleInherits[roleName] = [];
+        }
+
+        /**
+         * Type conversion
+         */
+        if typeof roleToInherits != "array" {
+            let roleToInheritList = [roleToInherits];
+        } else {
+            let roleToInheritList = roleToInherits;
+        }
+
+        /**
+         * inherits
+         */
+        for roleToInherit in roleToInheritList {
+            if typeof roleToInherit == "object" && roleToInherit instanceof RoleInterface {
+                let roleInheritName = roleToInherit->getName();
+            } else {
+                let roleInheritName = roleToInherit;
+            }
+
+            /**
+             * Check if the role to inherit is repeat
+             */
+            if in_array(roleInheritName, this->roleInherits[roleName]) {
+                continue;
+            }
+
+            /**
+             * Check if the role to inherit is valid
+             */
+            if unlikely !isset rolesNames[roleInheritName] {
+                throw new Exception(
+                    "Role '" . roleInheritName .
+                    "' (to inherit) does not exist in the role list"
+                );
+            }
+
+            if roleName == roleInheritName {
+                return false;
+            }
+
+            /**
+             * Deep check if the role to inherit is valid
+             */
+            if isset this->roleInherits[roleInheritName] {
+                let checkRoleToInherits = [];
+
+                for usedRoleToInherit in this->roleInherits[roleInheritName] {
+                    array_push(checkRoleToInherits, usedRoleToInherit);
+                }
+
+                let usedRoleToInherits = [];
+
+                while !empty checkRoleToInherits {
+                    let checkRoleToInherit = array_shift(checkRoleToInherits);
+
+                    if isset usedRoleToInherits[checkRoleToInherit] {
+                        continue;
+                    }
+
+                    let usedRoleToInherits[checkRoleToInherit] = true;
+
+                    if unlikely roleName == checkRoleToInherit {
+                        throw new Exception(
+                            "Role '" . roleInheritName .
+                            "' (to inherit) produces an infinite loop"
+                        );
+                    }
+
+                    /**
+                     * Push inherited roles
+                     */
+                    if isset this->roleInherits[checkRoleToInherit] {
+                        for usedRoleToInherit in this->roleInherits[checkRoleToInherit] {
+                            array_push(checkRoleToInherits, usedRoleToInherit);
+                        }
+                    }
+                }
+            }
+
+            let this->roleInherits[roleName][] = roleInheritName;
+        }
+
+        return true;
+    }
+
+    /**
+     * Adds a role to the ACL list. Second parameter allows inheriting access data from other existing role
+     *
+     * Example:
+     * <code>
+     * $acl->addRole(
+     *     new Phalcon\Acl\Role("administrator"),
+     *     "consultant"
+     * );
+     *
+     * $acl->addRole("administrator", "consultant");
+     * $acl->addRole("administrator", ["consultant", "consultant2"]);
+     * </code>
+     *
+     * @param  array|string               accessInherits
+     * @param  RoleInterface|string|array role
+     */
+    public function addRole(role, accessInherits = null) -> bool
+    {
+        var roleName, roleObject;
+
+        if typeof role == "object" && role instanceof RoleInterface {
+            let roleObject = role;
+        } elseif is_string(role) {
+            let roleObject = new Role(role);
+        } else {
+            throw new Exception(
+                "Role must be either a string or implement RoleInterface"
+            );
+        }
+
+        let roleName = roleObject->getName();
+
+        if isset this->rolesNames[roleName] {
+            return false;
+        }
+
+        let this->roles[]              = roleObject,
+            this->rolesNames[roleName] = true;
+
+        if null !== accessInherits {
+            return this->addInherit(roleName, accessInherits);
+        }
+
+        return true;
+    }
+
+    /**
      * Allow access to a role on a component
      *
      * You can use '*' as wildcard
@@ -511,7 +513,7 @@ class Memory extends Adapter
     {
         var innerRoleName;
 
-        if roleName != "*" {
+        if "*" !== roleName {
             this->allowOrDeny(roleName, componentName, access, Acl::DENY, func);
         } else {
             for innerRoleName, _ in this->rolesNames {
@@ -535,13 +537,16 @@ class Memory extends Adapter
     {
         var accessName;
         string accessKey;
+        array localAccess = [];
 
         if typeof accessList == "string" {
-            let accessList = [accessList];
+            let localAccess = [accessList];
+        } else {
+            let localAccess = accessList;
         }
 
         if typeof accessList == "array" {
-            for accessName in accessList {
+            for accessName in localAccess {
                 let accessKey = componentName . "!" . accessName;
 
                 if isset this->accessList[accessKey] {
@@ -609,7 +614,8 @@ class Memory extends Adapter
                 let roleName = roleName->getName();
             } else {
                 throw new Exception(
-                    "Object passed as roleName must implement Phalcon\\Acl\\RoleAware or Phalcon\\Acl\\RoleInterface"
+                    "Object passed as roleName must implement " .
+                    "Phalcon\\Acl\\RoleAware or Phalcon\\Acl\\RoleInterface"
                 );
             }
         }
@@ -622,7 +628,8 @@ class Memory extends Adapter
                 let componentName = componentName->getName();
             } else {
                 throw new Exception(
-                    "Object passed as componentName must implement Phalcon\\Acl\\ComponentAware or Phalcon\\Acl\\ComponentInterface"
+                    "Object passed as componentName must implement " .
+                    "Phalcon\\Acl\\ComponentAware or Phalcon\\Acl\\ComponentInterface"
                 );
             }
         }
@@ -713,7 +720,10 @@ class Memory extends Adapter
 
                 if reflectionClass !== null {
                     // roleObject is this class
-                    if roleObject !== null && reflectionClass->isInstance(roleObject) && !hasRole {
+                    if (roleObject !== null &&
+                        reflectionClass->isInstance(roleObject) &&
+                        !hasRole
+                    ) {
                         let hasRole                 = true,
                             parametersForFunction[] = roleObject;
                         let userParametersSizeShouldBe--;
@@ -722,7 +732,10 @@ class Memory extends Adapter
                     }
 
                     // componentObject is this class
-                    if componentObject !== null && reflectionClass->isInstance(componentObject) && !hasComponent {
+                    if (componentObject !== null &&
+                        reflectionClass->isInstance(componentObject) &&
+                        !hasComponent
+                    ) {
                         let hasComponent            = true,
                             parametersForFunction[] = componentObject;
                         let userParametersSizeShouldBe--;
@@ -734,9 +747,18 @@ class Memory extends Adapter
                      * This is some user defined class, check if his parameter
                      * is instance of it
                      */
-                    if unlikely (isset parameters[parameterToCheck] && typeof parameters[parameterToCheck] == "object" && !reflectionClass->isInstance(parameters[parameterToCheck])) {
+                    if unlikely (isset(parameters[parameterToCheck]) &&
+                        is_object(parameters[parameterToCheck]) &&
+                        !reflectionClass->isInstance(parameters[parameterToCheck])
+                    ) {
                         throw new Exception(
-                            "Your passed parameter doesn't have the same class as the parameter in defined function when check " . roleName . " can " . access . " " . componentName . ". Class passed: " . get_class(parameters[parameterToCheck])." , Class in defined function: " . reflectionClass->getName() . "."
+                            "Your passed parameter doesn't have the " .
+                            "same class as the parameter in defined function " .
+                            "when checking if " . roleName . " can " . access .
+                            " " . componentName . ". Class passed: " .
+                            get_class(parameters[parameterToCheck]) .
+                            " , Class in defined function: " .
+                            reflectionClass->getName() . "."
                         );
                     }
                 }
@@ -752,18 +774,21 @@ class Memory extends Adapter
 
             let this->activeFunctionCustomArgumentsCount = userParametersSizeShouldBe;
 
-            if count(parameters) > userParametersSizeShouldBe {
+            if unlikely count(parameters) > userParametersSizeShouldBe {
                 trigger_error(
-                    "Number of parameters in array is higher than the number of parameters in defined function when check " . roleName . " can " . access . " " . componentName . ". Remember that more parameters than defined in function will be ignored.",
+                    "Number of parameters in array is higher than " .
+                    "the number of parameters in defined function when checking if '" .
+                    roleName . "' can '" . access . "' '" . componentName .
+                    "'. Extra parameters will be ignored.",
                     E_USER_WARNING
                 );
             }
 
             // We dont have any parameters so check default action
             if count(parametersForFunction) == 0 {
-                if numberOfRequiredParameters > 0 {
+                if unlikely numberOfRequiredParameters > 0 {
                     trigger_error(
-                        "You didn't provide any parameters when '" . roleName .
+                        "You did not provide any parameters when '" . roleName .
                         "' can '" . access . "' '"  . componentName .
                         "'. We will use default action when no arguments."
                     );
@@ -785,8 +810,9 @@ class Memory extends Adapter
 
             // We don't have enough parameters
             throw new Exception(
-                "You didn't provide all necessary parameters for defined function when check " .
-                roleName . " can " . access . " " . componentName
+                "You did not provide all necessary parameters for the " .
+                "defined function when checking if '" . roleName . "' can '" .
+                access . "' for '" . componentName . "'."
             );
         }
 
@@ -828,13 +854,13 @@ class Memory extends Adapter
 
         if unlikely !isset this->rolesNames[roleName] {
             throw new Exception(
-                "Role '" . roleName . "' does not exist in ACL"
+                "Role '" . roleName . "' does not exist in the ACL"
             );
         }
 
         if unlikely !isset this->componentsNames[componentName] {
             throw new Exception(
-                "Component '" . componentName . "' does not exist in ACL"
+                "Component '" . componentName . "' does not exist in the ACL"
             );
         }
 
@@ -846,7 +872,8 @@ class Memory extends Adapter
 
                 if unlikely !isset accessList[accessKey] {
                     throw new Exception(
-                        "Access '" . accessName . "' does not exist in component '" . componentName . "'"
+                        "Access '" . accessName .
+                        "' does not exist in component '" . componentName . "'"
                     );
                 }
             }
@@ -865,7 +892,8 @@ class Memory extends Adapter
 
                 if unlikely !isset accessList[accessKey] {
                     throw new Exception(
-                        "Access '" . access . "' does not exist in component '" . componentName . "'"
+                        "Access '" . access .
+                        "' does not exist in component '" . componentName . "'"
                     );
                 }
             }

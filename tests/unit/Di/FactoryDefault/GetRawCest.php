@@ -17,10 +17,10 @@ use UnitTester;
 class GetRawCest
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault :: getRaw()
+     * Unit Tests Phalcon\Di\FactoryDefault :: getRaw()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diFactoryDefaultGetRaw(UnitTester $I)
     {

@@ -63,16 +63,18 @@ use Phalcon\Validation\Validator;
  */
 class Between extends Validator
 {
+    protected template = "Field :field must be within the range of :min to :max";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, minimum, maximum, message, label, replacePairs, code;
+        var value, minimum, maximum, replacePairs;
 
         let value = validation->getValue(field),
-                minimum = this->getOption("minimum"),
-                maximum = this->getOption("maximum");
+            minimum = this->getOption("minimum"),
+            maximum = this->getOption("maximum");
 
         if typeof minimum == "array" {
             let minimum = minimum[field];
@@ -83,23 +85,13 @@ class Between extends Validator
         }
 
         if value < minimum || value > maximum {
-            let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Between"),
-                code = this->prepareCode(field);
-
             let replacePairs = [
-                ":field": label,
                 ":min":   minimum,
                 ":max":   maximum
             ];
 
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "Between",
-                    code
-                )
+                this->messageFactory(validation, field, replacePairs)
             );
 
             return false;

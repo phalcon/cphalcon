@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Di;
 use UnitTester;
 
 class ConstructCest
@@ -26,6 +27,10 @@ class ConstructCest
     {
         $I->wantToTest('Di - __construct()');
 
-        $I->skipTest('Need implementation');
+        $di = new Di();
+
+        $I->assertInstanceOf(Di::class, $di);
+
+        $I->assertInstanceOf(Di::class, Di::getDefault());
     }
 }

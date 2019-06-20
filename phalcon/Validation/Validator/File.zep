@@ -12,7 +12,14 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\ValidatorComposite;
+use Phalcon\Validation\Validator\File\MimeType;
+use Phalcon\Validation\Validator\File\Resolution\Equal as EqualResolution;
+use Phalcon\Validation\Validator\File\Resolution\Max as MaxResolution;
+use Phalcon\Validation\Validator\File\Resolution\Min as MinResolution;
+use Phalcon\Validation\Validator\File\Size\Equal as EqualFileSize;
+use Phalcon\Validation\Validator\File\Size\Max as MaxFileSize;
+use Phalcon\Validation\Validator\File\Size\Min as MinFileSize;
 
 /**
  * Phalcon\Validation\Validator\File
@@ -30,14 +37,14 @@ use Phalcon\Validation\Validator;
  *     new FileValidator(
  *         [
  *             "maxSize"              => "2M",
- *             "messageSize"          => ":field exceeds the max filesize (:max)",
+ *             "messageSize"          => ":field exceeds the max filesize (:size)",
  *             "allowedTypes"         => [
  *                 "image/jpeg",
  *                 "image/png",
  *             ],
  *             "messageType"          => "Allowed file types are :types",
  *             "maxResolution"        => "800x600",
- *             "messageMaxResolution" => "Max resolution of :field is :max",
+ *             "messageMaxResolution" => "Max resolution of :field is :resolution",
  *         ]
  *     )
  * );
@@ -83,295 +90,170 @@ use Phalcon\Validation\Validator;
  * );
  * </code>
  */
-class File extends Validator
+class File extends ValidatorComposite
 {
-    /**
-     * Check on empty
-     */
-    public function isAllowEmpty(<Validation> validation, string! field) -> bool
+    private validators = [] {get};
+
+    public function __construct(array! options = [])
     {
-        var value;
+        var included, key, message, validator, value;
 
-        let value = validation->getValue(field);
+        // create individual validators
+        for key, value in options {
+            // min filesize
+            if strtolower(key) === "minSize" {
+                // get custom message
+                if isset options["messageMinSize"] {
+                    let message = options["messageMinSize"];
+                }
 
-        return empty value || isset value["error"] && value["error"] === UPLOAD_ERR_NO_FILE;
-    }
+                // get included option
+                if isset options["includedMinSize"] {
+                    let included = options["includedMinSize"];
+                }
 
-    /**
-     * Executes the validation
-     */
-    public function validate(<Validation> validation, var field) -> bool
-    {
-        var value, message, label, replacePairs, types, byteUnits, unit,
-            maxSize, matches, bytes, mime, tmp, width, height, minResolution,
-            maxResolution, minWidth, maxWidth, minHeight, maxHeight, fieldTypes,
-            code, minResolutionArray, maxResolutionArray;
-
-        let value = validation->getValue(field),
-            label = this->prepareLabel(validation, field),
-            code = this->prepareCode(field);
-
-        // Upload is larger than PHP allowed size (post_max_size or upload_max_filesize)
-        if _SERVER["REQUEST_METHOD"] == "POST" && empty _POST && empty _FILES && _SERVER["CONTENT_LENGTH"] > 0 || isset value["error"] && value["error"] === UPLOAD_ERR_INI_SIZE {
-            let message = this->prepareMessage(
-                validation,
-                field,
-                "FileIniSize",
-                "messageIniSize"
-            );
-
-            let replacePairs = [
-                ":field": label
-            ];
-
-            validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "FileIniSize",
-                    code
-                )
-            );
-
-            return false;
-        }
-
-        if !isset value["error"] || !isset value["tmp_name"] || value["error"] !== UPLOAD_ERR_OK || !is_uploaded_file(value["tmp_name"]) {
-            let message = this->prepareMessage(
-                validation,
-                field,
-                "FileEmpty",
-                "messageEmpty"
-            );
-
-            let replacePairs = [":field": label];
-
-            validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "FileEmpty",
-                    code
-                )
-            );
-
-            return false;
-        }
-
-        if !isset value["name"] || !isset value["type"] || !isset value["size"] {
-            let message = this->prepareMessage(
-                validation,
-                field,
-                "FileValid",
-                "messageValid"
-            );
-
-            let replacePairs = [
-                ":field": label
-            ];
-
-            validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "FileValid",
-                    code
-                )
-            );
-
-            return false;
-        }
-
-        if this->hasOption("maxSize") {
-            let byteUnits = [
-                "B": 0,
-                "K": 10,
-                "M": 20,
-                "G": 30,
-                "T": 40,
-                "KB": 10,
-                "MB": 20,
-                "GB": 30,
-                "TB": 40
-            ];
-
-            let maxSize = this->getOption("maxSize"),
-                matches = null,
-                unit = "B";
-
-            if typeof maxSize == "array" {
-                let maxSize = maxSize[field];
-            }
-
-            preg_match(
-                "/^([0-9]+(?:\\.[0-9]+)?)(" . implode("|", array_keys(byteUnits)) . ")?$/Di",
-                maxSize,
-                matches
-            );
-
-            if isset matches[2] {
-                let unit = matches[2];
-            }
-
-            let bytes = floatval(matches[1]) * pow(2, byteUnits[unit]);
-
-            if floatval(value["size"]) > floatval(bytes) {
-                let message = this->prepareMessage(
-                    validation,
-                    field,
-                    "FileSize",
-                    "messageSize"
+                let validator = new MinFileSize(
+                    [
+                        "size"     : value,
+                        "message"  : message,
+                        "included" : included
+                    ]
                 );
 
-                let replacePairs = [
-                    ":field": label,
-                    ":max":   maxSize
-                ];
+                unset options["messageMinSize"];
+                unset options["includedMinSize"];
+            }
 
-                validation->appendMessage(
-                    new Message(
-                        strtr(message, replacePairs),
-                        field,
-                        "FileSize",
-                        code
-                    )
+            // max filesize
+            elseif strtolower(key) === "maxSize" {
+                // get custom message
+                if isset options["messageSize"] {
+                    let message = options["messageSize"];
+                }
+
+                // get included option
+                if isset options["includedSize"] {
+                    let included = options["includedSize"];
+                }
+
+                let validator = new MaxFileSize(
+                    [
+                        "size"      : value,
+                        "message"  : message,
+                        "included" : included
+                    ]
                 );
 
-                return false;
-            }
-        }
-
-        if this->hasOption("allowedTypes") {
-            let types = this->getOption("allowedTypes");
-
-            if fetch fieldTypes, types[field] {
-                let types = fieldTypes;
+                unset options["maxSize"];
+                unset options["messageSize"];
+                unset options["includedSize"];
             }
 
-            if unlikely typeof types != "array" {
-                throw new \Phalcon\Validation\Exception(
-                    "Option 'allowedTypes' must be an array"
+            // equal filesize
+            elseif strtolower(key) === "equalSize" {
+                // get custom message
+                if isset options["messageEqualSize"] {
+                    let message = options["messageEqualSize"];
+                }
+
+                let validator = new EqualFileSize(
+                    [
+                        "size"    : value,
+                        "message" : message
+                    ]
                 );
+
+                unset options["equalSize"];
+                unset options["messageEqualSize"];
             }
 
-            if function_exists("finfo_open") {
-                let tmp = finfo_open(FILEINFO_MIME_TYPE),
-                    mime = finfo_file(tmp, value["tmp_name"]);
+            // mime types
+            elseif strtolower(key) === "allowedTypes" {
+                if isset options["messageType"] {
+                    let message = options["messageType"];
+                }
 
-                finfo_close(tmp);
+                let validator = new MimeType(
+                    [
+                        "types"   : value,
+                        "message" : message
+                    ]
+                );
+
+                unset options["allowedTypes"];
+                unset options["messageType"];
+            }
+
+            // max resolution
+            elseif strtolower(key) === "maxResolution" {
+                if isset options["messageMaxResolution"] {
+                    let message = options["messageMaxResolution"];
+                }
+
+                // get included option
+                if isset options["includedMaxResolution"] {
+                    let included = options["includedMaxResolution"];
+                }
+
+                let validator = new MaxResolution(
+                    [
+                        "resolution" : value,
+                        "included"   : included,
+                        "message"    : message
+                    ]
+                );
+
+                unset options["maxResolution"];
+                unset options["includedMaxResolution"];
+                unset options["messageMaxResolution"];
+            }
+
+            // min resolution
+            elseif strtolower(key) === "minResolution" {
+                if isset options["messageMinResolution"] {
+                    let message = options["messageMinResolution"];
+                }
+
+                // get included option
+                if isset options["includedMinResolution"] {
+                    let included = options["includedMinResolution"];
+                }
+
+                let validator = new MinResolution(
+                    [
+                        "resolution" : value,
+                        "included"   : included,
+                        "message"    : message
+                    ]
+                );
+
+                unset options["minResolution"];
+                unset options["includedMinResolution"];
+                unset options["messageMinResolution"];
+            }
+
+            // equal resolution
+            elseif strtolower(key) === "equalResolution" {
+                if isset options["messageEqualResolution"] {
+                    let message = options["messageEqualResolution"];
+                }
+
+                let validator = new EqualResolution(
+                    [
+                        "resolution" : value,
+                        "message"    : message
+                    ]
+                );
+
+                unset options["equalResolution"];
+                unset options["messageEqualResolution"];
             } else {
-                let mime = value["type"];
+                continue;
             }
 
-            if !in_array(mime, types) {
-                let message = this->prepareMessage(
-                    validation,
-                    field,
-                    "FileType",
-                    "messageType"
-                );
-
-                let replacePairs = [
-                    ":field": label,
-                    ":types": join(", ", types)
-                ];
-
-                validation->appendMessage(
-                    new Message(
-                        strtr(message, replacePairs),
-                        field,
-                        "FileType",
-                        code
-                    )
-                );
-
-                return false;
-            }
+            let this->validators[] = validator;
         }
 
-        if this->hasOption("minResolution") || this->hasOption("maxResolution") {
-            let tmp = getimagesize(value["tmp_name"]),
-                width = tmp[0],
-                height = tmp[1];
-
-            if this->hasOption("minResolution") {
-                let minResolution = this->getOption("minResolution");
-
-                if typeof minResolution == "array" {
-                    let minResolution = minResolution[field];
-                }
-
-                let minResolutionArray = explode("x", minResolution),
-                    minWidth = minResolutionArray[0],
-                    minHeight = minResolutionArray[1];
-            } else {
-                let minWidth = 1,
-                    minHeight = 1;
-            }
-
-            if width < minWidth || height < minHeight {
-                let message = this->prepareMessage(
-                    validation,
-                    field,
-                    "FileMinResolution",
-                    "messageMinResolution"
-                );
-
-                let replacePairs = [
-                    ":field": label,
-                    ":min":   minResolution
-                ];
-
-                validation->appendMessage(
-                    new Message(
-                        strtr(message, replacePairs),
-                        field,
-                        "FileMinResolution",
-                        code
-                    )
-                );
-
-                return false;
-            }
-
-            if this->hasOption("maxResolution") {
-                let maxResolution = this->getOption("maxResolution");
-
-                if typeof maxResolution == "array" {
-                    let maxResolution = maxResolution[field];
-                }
-
-                let maxResolutionArray = explode("x", maxResolution),
-                    maxWidth = maxResolutionArray[0],
-                    maxHeight = maxResolutionArray[1];
-
-                if width > maxWidth || height > maxHeight {
-                    let message = this->prepareMessage(
-                        validation,
-                        field,
-                        "FileMaxResolution",
-                        "messageMaxResolution"
-                    );
-
-                    let replacePairs = [
-                        ":field": label,
-                        ":max":   maxResolution
-                    ];
-
-                    validation->appendMessage(
-                        new Message(
-                            strtr(message, replacePairs),
-                            field,
-                            "FileMaxResolution",
-                            code
-                        )
-                    );
-
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        parent::__construct(options);
     }
 }

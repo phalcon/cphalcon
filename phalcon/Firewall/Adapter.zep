@@ -25,236 +25,236 @@ use Phalcon\Mvc\Dispatcher;
  */
 abstract class Adapter implements AdapterInterface, EventsAwareInterface
 {
-	/**
-	 * Storing active identity object implementing Phalcon/Acl/RoleAware
-	 */
-	protected activeIdentity { get };
+    /**
+     * Storing active identity object implementing Phalcon/Acl/RoleAware
+     */
+    protected activeIdentity { get };
 
-	/**
-	 * Storing active user role
-	 */
-	protected activeRole { get };
+    /**
+     * Storing active user role
+     */
+    protected activeRole { get };
 
-	/**
-	 * Should role always be resolved using role callback or just once?
-	 * @var bool
-	 */
-	protected alwaysResolvingRole = false { set };
+    /**
+     * Should role always be resolved using role callback or just once?
+     * @var bool
+     */
+    protected alwaysResolvingRole = false { set };
 
-	/**
-	 * Cache for caching access
-	 * @var <CacheAdapterInterface>
-	 */
-	protected cache;
+    /**
+     * Cache for caching access
+     * @var <CacheAdapterInterface>
+     */
+    protected cache;
 
-	/**
-	 * Default access
-	 * @var int
-	 */
-	protected defaultAccess = Acl::DENY { get };
+    /**
+     * Default access
+     * @var int
+     */
+    protected defaultAccess = Acl::DENY { get };
 
-	/**
-	 * Events manager
-	 * @var mixed
-	 */
-	protected eventsManager;
+    /**
+     * Events manager
+     * @var mixed
+     */
+    protected eventsManager;
 
-	/**
-	 * Internal cache for caching access during request time
-	 * @var mixed
-	 */
-	protected internalCache;
+    /**
+     * Internal cache for caching access during request time
+     * @var mixed
+     */
+    protected internalCache;
 
-	/**
-	 * Anonymous function for getting user identity - this function must
-	 * return string, array or object implementing Phalcon\Acl\RoleAware
-	 * @var mixed
-	 */
-	protected roleCallback;
+    /**
+     * Anonymous function for getting user identity - this function must
+     * return string, array or object implementing Phalcon\Acl\RoleAware
+     * @var mixed
+     */
+    protected roleCallback;
 
-	/**
-	 * Returns the internal event manager
-	 */
-	public function getEventsManager() -> <ManagerInterface>
-	{
-		return this->eventsManager;
-	}
+    /**
+     * Returns the internal event manager
+     */
+    public function getEventsManager() -> <ManagerInterface>
+    {
+        return this->eventsManager;
+    }
 
-	/**
-	 * Gets role callback to fetch role name
-	 */
-	public function getRoleCallback() -> <\Closure>
-	{
-		return this->roleCallback;
-	}
+    /**
+     * Gets role callback to fetch role name
+     */
+    public function getRoleCallback() -> <\Closure>
+    {
+        return this->roleCallback;
+    }
 
-	/**
-	 * Gets always resolving role option
-	 */
-	public function isAlwaysResolvingRole() -> bool
-	{
-		return this->alwaysResolvingRole;
-	}
+    /**
+     * Gets always resolving role option
+     */
+    public function isAlwaysResolvingRole() -> bool
+    {
+        return this->alwaysResolvingRole;
+    }
 
     /**
      * Sets the cache adapter
      */
-	public function setCache(<CacheAdapterInterface> cache) -> <AdapterInterface>
-	{
-		let this->cache = cache;
+    public function setCache(<CacheAdapterInterface> cache) -> <AdapterInterface>
+    {
+        let this->cache = cache;
 
-		if this->internalCache === null {
-			let this->internalCache = cache->get("_PHF_");
-		}
+        if this->internalCache === null {
+            let this->internalCache = cache->get("_PHF_");
+        }
 
-		return this;
-	}
+        return this;
+    }
 
-	/**
-	 * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
-	 */
-	public function setDefaultAccess(int defaultAccess) -> <AdapterInterface>
-	{
-	    let this->defaultAccess = defaultAccess;
+    /**
+     * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+     */
+    public function setDefaultAccess(int defaultAccess) -> <AdapterInterface>
+    {
+        let this->defaultAccess = defaultAccess;
 
-	    return this;
-	}
+        return this;
+    }
 
-	/**
-	 * Sets the events manager
-	 */
-	public function setEventsManager(<ManagerInterface> eventsManager) -> <AdapterInterface>
-	{
-		let this->eventsManager = eventsManager;
+    /**
+     * Sets the events manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager) -> <AdapterInterface>
+    {
+        let this->eventsManager = eventsManager;
 
-		return this;
-	}
+        return this;
+    }
 
-	/**
-	 * Sets role callback to fetch role name
-	 */
-	public function setRoleCallback(var callback) -> <AdapterInterface>
-	{
-		if !is_callable(callback){
-			throw new Exception("Role callback must be function.");
-		}
-		let this->roleCallback = callback;
+    /**
+     * Sets role callback to fetch role name
+     */
+    public function setRoleCallback(var callback) -> <AdapterInterface>
+    {
+        if !is_callable(callback){
+            throw new Exception("Role callback must be function.");
+        }
+        let this->roleCallback = callback;
 
-		return this;
-	}
+        return this;
+    }
 
-	protected function callRoleCallback(<DiInterface> container) -> void
-	{
-		var roleCallback, identity;
+    protected function callRoleCallback(<DiInterface> container) -> void
+    {
+        var roleCallback, identity;
 
-		let roleCallback = this->roleCallback,
-		    identity     = {roleCallback}(container);
+        let roleCallback = this->roleCallback,
+            identity     = {roleCallback}(container);
 
-		if empty identity {
-			throw new Exception("Function defined as roleCallback must return something.");
-		}
+        if empty identity {
+            throw new Exception("Function defined as roleCallback must return something.");
+        }
 
-		if typeof identity == "object" {
-			if !(identity instanceof RoleAware) {
-				throw new Exception("Role passed as object must implement 'Phalcon\\Acl\\RoleAware'");
-			}
-			let this->activeIdentity = identity,
-			    this->activeRole     = identity->getRoleName();
-		} else {
-			let this->activeRole = identity;
-		}
-	}
+        if typeof identity == "object" {
+            if !(identity instanceof RoleAware) {
+                throw new Exception("Role passed as object must implement 'Phalcon\\Acl\\RoleAware'");
+            }
+            let this->activeIdentity = identity,
+                this->activeRole     = identity->getRoleName();
+        } else {
+            let this->activeRole = identity;
+        }
+    }
 
-	/**
-	 * Gets access from cache
-	 */
-	protected function getAccessFromCache(
-	    string! key,
-	    array originalValues = null,
-	    string roleCacheKey = null
+    /**
+     * Gets access from cache
+     */
+    protected function getAccessFromCache(
+        string! key,
+        array originalValues = null,
+        string roleCacheKey = null
     ) -> bool | null
-	{
-		var access;
+    {
+        var access;
 
-		fetch access, this->internalCache[key];
+        fetch access, this->internalCache[key];
 
-		return access;
-	}
+        return access;
+    }
 
-	/**
-	 * Handles a user exception
-	 */
-	protected function handleException(<\Exception> exception)
-	{
-		var eventsManager;
-		let eventsManager = <ManagerInterface> this->eventsManager;
-		if typeof eventsManager == "object" {
-			if eventsManager->fire("firewall:beforeException", this, exception) === false {
-				return false;
-			}
-		}
-	}
+    /**
+     * Handles a user exception
+     */
+    protected function handleException(<\Exception> exception)
+    {
+        var eventsManager;
+        let eventsManager = <ManagerInterface> this->eventsManager;
+        if typeof eventsManager == "object" {
+            if eventsManager->fire("firewall:beforeException", this, exception) === false {
+                return false;
+            }
+        }
+    }
 
-	/**
-	 * Fires event or throwing exception
-	 */
-	protected function fireEventOrThrowException(
-	    var role,
-	    string actionName,
-	    string controllerName,
-	    bool access
+    /**
+     * Fires event or throwing exception
+     */
+    protected function fireEventOrThrowException(
+        var role,
+        string actionName,
+        string controllerName,
+        bool access
     )
-	{
-		var eventsManager, roleName;
+    {
+        var eventsManager, roleName;
 
-		let eventsManager = this->eventsManager;
-		if access {
-			if typeof eventsManager == "object" {
-				eventsManager->fire("firewall:afterCheck",this);
-			}
-		} else {
-			if typeof role == "array" {
-				let roleName = implode(", ",role);
-			} else {
-				let roleName = role;
-			}
+        let eventsManager = this->eventsManager;
+        if access {
+            if typeof eventsManager == "object" {
+                eventsManager->fire("firewall:afterCheck",this);
+            }
+        } else {
+            if typeof role == "array" {
+                let roleName = implode(", ",role);
+            } else {
+                let roleName = role;
+            }
 
-			return this->throwFirewallException(
-			    "Role name " . roleName . " doesn't have access to action " .
-			    actionName . " in controller " . controllerName,
-			    403
+            return this->throwFirewallException(
+                "Role name " . roleName . " doesn't have access to action " .
+                actionName . " in controller " . controllerName,
+                403
             );
-		}
-	}
+        }
+    }
 
-	/**
-	* Saves access in cache and internal cache
-	*/
-	protected function saveAccessInCache(string! key, bool access) -> void
-	{
-		var cache;
+    /**
+    * Saves access in cache and internal cache
+    */
+    protected function saveAccessInCache(string! key, bool access) -> void
+    {
+        var cache;
 
-		let this->internalCache[key] = access,
-		    cache                    = this->cache;
+        let this->internalCache[key] = access,
+            cache                    = this->cache;
 
-		if cache != null {
-			cache->set("_PHF_", this->internalCache);
-		}
-	}
+        if cache != null {
+            cache->set("_PHF_", this->internalCache);
+        }
+    }
 
-	/**
-	 * Throws an internal exception
-	 */
-	protected function throwFirewallException(string message, int exceptionCode = 0) -> bool
-	{
-		var exception;
+    /**
+     * Throws an internal exception
+     */
+    protected function throwFirewallException(string message, int exceptionCode = 0) -> bool
+    {
+        var exception;
 
-		let exception = new Exception(message, exceptionCode);
+        let exception = new Exception(message, exceptionCode);
 
-		if this->handleException(exception) === false {
-			return false;
-		}
+        if this->handleException(exception) === false {
+            return false;
+        }
 
-		throw exception;
-	}
+        throw exception;
+    }
 }

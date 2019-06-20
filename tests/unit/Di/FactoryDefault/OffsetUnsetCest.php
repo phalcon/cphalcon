@@ -17,10 +17,10 @@ use UnitTester;
 class OffsetUnsetCest
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault :: offsetUnset()
+     * Unit Tests Phalcon\Di\FactoryDefault :: offsetUnset()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diFactoryDefaultOffsetUnset(UnitTester $I)
     {

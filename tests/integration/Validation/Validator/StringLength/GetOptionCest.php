@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Validation\Validator\StringLength;
+namespace Phalcon\Test\Integration\Validation\Validator\StringLength2;
 
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;

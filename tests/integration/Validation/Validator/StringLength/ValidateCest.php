@@ -10,13 +10,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Validation\Validator\StringLength;
+namespace Phalcon\Test\Integration\Validation\Validator\StringLength2;
 
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Validation\Validator\StringLength\Max;
+use Phalcon\Validation\Validator\StringLength\Min;
 
 /**
  * Class ValidateCest
@@ -110,7 +112,7 @@ class ValidateCest
                 new Message(
                     'Field name must be at least 3 characters long',
                     'name',
-                    'TooShort',
+                    Min::class,
                     0
                 ),
             ]
@@ -168,7 +170,7 @@ class ValidateCest
                 new Message(
                     'The message is too short',
                     'message',
-                    'TooShort',
+                    Min::class,
                     0
                 ),
             ]
@@ -222,7 +224,7 @@ class ValidateCest
                 new Message(
                     'Field name must not exceed 4 characters long',
                     'name',
-                    'TooLong',
+                    Max::class,
                     0
                 ),
             ]
@@ -280,7 +282,7 @@ class ValidateCest
                 new Message(
                     'The message is too long',
                     'message',
-                    'TooLong',
+                    Max::class,
                     0
                 ),
             ]

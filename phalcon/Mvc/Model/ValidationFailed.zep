@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\ModelInterface;
 
 /**
  * Phalcon\Mvc\Model\ValidationFailed
@@ -18,7 +18,7 @@ use Phalcon\Mvc\Model;
  * This exception is generated when a model fails to save a record
  * Phalcon\Mvc\Model must be set up to have this behavior
  */
-class ValidationFailed extends \Phalcon\Mvc\Model\Exception
+class ValidationFailed extends Exception
 {
     protected messages;
 
@@ -29,7 +29,7 @@ class ValidationFailed extends \Phalcon\Mvc\Model\Exception
      *
      * @param Message[] validationMessages
      */
-    public function __construct(<Model> model, array! validationMessages) -> void
+    public function __construct(<ModelInterface> model, array! validationMessages) -> void
     {
         var messageStr, message;
 
@@ -64,7 +64,7 @@ class ValidationFailed extends \Phalcon\Mvc\Model\Exception
     /**
      * Returns the model that generated the messages
      */
-    public function getModel() -> <Model>
+    public function getModel() -> <ModelInterface>
     {
         return this->model;
     }

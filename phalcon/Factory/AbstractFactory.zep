@@ -18,7 +18,7 @@ class AbstractFactory
     /**
      * @var array
      */
-    protected mapper   = [];
+    protected mapper = [];
 
     /**
      * @var array

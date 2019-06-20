@@ -17,10 +17,10 @@ use UnitTester;
 class GetInternalEventsManagerCest
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault :: getInternalEventsManager()
+     * Unit Tests Phalcon\Di\FactoryDefault :: getInternalEventsManager()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diFactoryDefaultGetInternalEventsManager(UnitTester $I)
     {

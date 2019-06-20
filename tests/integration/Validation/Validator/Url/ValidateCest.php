@@ -53,7 +53,7 @@ class ValidateCest
                 new Message(
                     'Field url must be a url',
                     'url',
-                    'Url',
+                    Url::class,
                     0
                 ),
             ]
@@ -194,7 +194,7 @@ class ValidateCest
                 new Message(
                     'The url is not valid',
                     'url',
-                    'Url',
+                    Url::class,
                     0
                 ),
             ]
@@ -263,7 +263,7 @@ class ValidateCest
                 new Message(
                     'Field url must be a url',
                     'url',
-                    'Url',
+                    Url::class,
                     0
                 ),
             ]

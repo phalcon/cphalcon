@@ -12,6 +12,7 @@
 - Added `Phalcon\Http\PayloadFactory`: Factory to create payload objects. [#14123](https://github.com/phalcon/cphalcon/issues/14123)
 - Added `Phalcon\Http\Message\ServerRequestFactory::load`: Method to create a `ServerRequest` object from globals. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
 - Added `Phalcon\Collection\ReadCollection`: Read only collection. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
+- Added `whiteList()` to `Phalcon\Helper\Arr` [#13954](https://github.com/phalcon/cphalcon/pull/13954)
 
 ## Changed
 - Renamed `Phalcon\Annotations\Adapter\Files` to `Phalcon\Annotations\Adapter\Stream`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
@@ -33,11 +34,13 @@
 - Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getBelongsToRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
 - Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getHasOneRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
 - Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getHasManyRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)  
+- Validator messages were moved into each validator. [#13208](https://github.com/phalcon/cphalcon/issues/13208)  
 - `Phalcon\Paginator\Repository::getProperty()` now uses `Phalcon\Helper\Arr::get()`.
 - Renamed `Phalcon\Collection` to `Phalcon\Collection\Collection`. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
 - Refactored `Phalcon\Collection\Collection` to allow conditional key case sensitivity. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
 - Refactored `Phalcon\Registry` to align with the `Phalcon\Collection\Collection` interface. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
 - `Phalcon\Mvc\Micro::setModelBinder()` now uses the Factory Default DI if none is set. [#14171](https://github.com/phalcon/cphalcon/pull/14171)
+- `Phalcon\Mvc\Model\ValidationFailed` now works with `ModelInterface`.
 
 ## Fixed
 - Fixed `Phalcon\Mvc\View::getRender()` to call `view->finish()` instead of `ob_end_clean()`. [#14095](https://github.com/phalcon/cphalcon/issues/14095)
@@ -55,6 +58,7 @@
 - `Phalcon\Mvc\Model\Criteria::limit()` now corrects negative offsets.
 - `Phalcon\Di\FactoryDefault\Cli` can now use the new Filter system.
 - Fixed `Phalcon\Mvc\Router` now parses and uses path. [#14087](https://github.com/phalcon/cphalcon/issues/14087)
+- Fixed various areas in `Phalcon\Acl\Adapter` and `Phalcon\Acl\Adapter\Memory` including comments, logic, `denyComponentAccess` and `AdapterInterface`. Added tests. [#13870](https://github.com/phalcon/cphalcon/issues/13870)
 
 ## Removed
 - Removed `Phalcon\Session\Factory`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
