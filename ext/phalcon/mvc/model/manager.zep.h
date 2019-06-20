@@ -499,15 +499,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager__merge
 	ZEND_ARG_INFO(0, findParamsTwo)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelationrecords, 0, 0, 3)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelationrecords, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, relation, Phalcon\\Mvc\\Model\\RelationInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\ModelInterface, 0)
+	ZEND_ARG_INFO(0, parameters)
 #if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 1)
 #else
 	ZEND_ARG_INFO(0, method)
 #endif
-	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\ModelInterface, 0)
-	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getreusablerecords, 0, 0, 2)
@@ -537,59 +537,79 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_setreusablerecords, 0, 
 	ZEND_ARG_INFO(0, records)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getbelongstorecords, 0, 0, 4)
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, method)
-#endif
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getbelongstorecords, 0, 0, 3)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
 #else
 	ZEND_ARG_INFO(0, modelName)
 #endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, modelRelation, IS_STRING, 0)
+#else
 	ZEND_ARG_INFO(0, modelRelation)
+#endif
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasmanyrecords, 0, 0, 4)
 #if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 1)
 #else
 	ZEND_ARG_INFO(0, method)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasmanyrecords, 0, 0, 3)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
 #else
 	ZEND_ARG_INFO(0, modelName)
 #endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, modelRelation, IS_STRING, 0)
+#else
 	ZEND_ARG_INFO(0, modelRelation)
+#endif
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_INFO(0, parameters)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasonerecords, 0, 0, 4)
 #if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 1)
 #else
 	ZEND_ARG_INFO(0, method)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasonerecords, 0, 0, 3)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
 #else
 	ZEND_ARG_INFO(0, modelName)
 #endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, modelRelation, IS_STRING, 0)
+#else
 	ZEND_ARG_INFO(0, modelRelation)
+#endif
 	ZEND_ARG_OBJ_INFO(0, record, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_INFO(0, parameters)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 1)
+#else
+	ZEND_ARG_INFO(0, method)
+#endif
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_getbelongsto, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_getbelongsto, 0, 1, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_getbelongsto, 0, 1, IS_ARRAY, NULL, 0)
+#endif
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasmany, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasmany, 0, 1, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasmany, 0, 1, IS_ARRAY, NULL, 0)
+#endif
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
@@ -601,22 +621,26 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_gethas
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasmanytomany, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
-ZEND_END_ARG_INFO()
-
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasoneandhasmany, 0, 1, Phalcon\\Mvc\\Model\\RelationInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasmanytomany, 0, 1, IS_ARRAY, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasoneandhasmany, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\RelationInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasmanytomany, 0, 1, IS_ARRAY, NULL, 0)
 #endif
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelations, 0, 1, Phalcon\\Mvc\\Model\\RelationInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasoneandhasmany, 0, 1, IS_ARRAY, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelations, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\RelationInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_gethasoneandhasmany, 0, 1, IS_ARRAY, NULL, 0)
+#endif
+	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelations, 0, 1, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_manager_getrelations, 0, 1, IS_ARRAY, NULL, 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)

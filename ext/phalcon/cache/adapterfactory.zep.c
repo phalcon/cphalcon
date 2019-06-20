@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, newInstance) {
 			ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0, &_5$$3, &options);
 			zephir_check_call_status();
 		}
-		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3 TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_6, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_7, &_6, &name, PH_NOISY | PH_READONLY, "phalcon/Cache/AdapterFactory.zep", 49 TSRMLS_CC);

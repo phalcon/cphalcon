@@ -17,6 +17,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 /**

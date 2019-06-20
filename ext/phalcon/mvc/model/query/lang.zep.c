@@ -17,6 +17,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "phalcon/mvc/model/query/scanner.h"
 #include "phalcon/mvc/model/query/phql.h"
 

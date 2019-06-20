@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance) {
 			ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0, &_5$$3);
 			zephir_check_call_status();
 		}
-		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3 TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_6, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_7, &_6, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 54 TSRMLS_CC);

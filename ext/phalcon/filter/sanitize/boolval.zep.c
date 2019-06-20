@@ -12,9 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/memory.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**

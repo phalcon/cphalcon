@@ -107,11 +107,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 	zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_string_fetch(&options, &_0, SL("options"), 0)) {
 		ZVAL_LONG(&_1$$3, 273);
-		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 209, &value, &_1$$3, &options);
+		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 227, &value, &_1$$3, &options);
 		zephir_check_call_status();
 	} else {
 		ZVAL_LONG(&_2$$4, 273);
-		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 209, &value, &_2$$4);
+		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 227, &value, &_2$$4);
 		zephir_check_call_status();
 	}
 	if (!(zephir_is_true(&result))) {
@@ -128,11 +128,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_NVAR(&_3$$5);
 		object_init_ex(&_3$$5, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_4$$5, "strtr", NULL, 66, &message, &replacePairs);
+		ZEPHIR_CALL_FUNCTION(&_4$$5, "strtr", NULL, 80, &message, &replacePairs);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_5$$5);
 		ZVAL_STRING(&_5$$5, "Url");
-		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 404, &_4$$5, field, &_5$$5, &code);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 411, &_4$$5, field, &_5$$5, &code);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_3$$5);
 		zephir_check_call_status();
