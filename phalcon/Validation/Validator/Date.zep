@@ -57,6 +57,9 @@ use Phalcon\Validation\Validator;
  */
 class Date extends Validator
 {
+    /**
+     * @var string
+     */
     protected template = "Field :field is not a valid date";
 
     /**

@@ -65,6 +65,9 @@ use Phalcon\Validation\Exception;
  */
 class Max extends Validator
 {
+    /**
+     * @var string
+     */
     protected template = "Field :field must not exceed :max characters long";
 
     /**

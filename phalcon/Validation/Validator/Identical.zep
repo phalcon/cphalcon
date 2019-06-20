@@ -57,6 +57,9 @@ use Phalcon\Validation\Validator;
  */
 class Identical extends Validator
 {
+    /**
+     * @var string
+     */
     protected template = "Field :field does not have the expected value";
 
     /**

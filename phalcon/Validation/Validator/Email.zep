@@ -52,6 +52,9 @@ use Phalcon\Validation\Validator;
  */
 class Email extends Validator
 {
+    /**
+     * @var string
+     */
     protected template = "Field :field must be an email address";
     /**
      * Executes the validation

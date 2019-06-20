@@ -52,6 +52,9 @@ use Phalcon\Validation\Validator;
  */
 class Alpha extends Validator
 {
+    /**
+     * @var string
+     */
     protected template = "Field :field must contain only letters";
 
     /**

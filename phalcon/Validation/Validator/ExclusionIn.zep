@@ -64,6 +64,9 @@ use Phalcon\Validation\Exception;
  */
 class ExclusionIn extends Validator
 {
+    /**
+     * @var string
+     */
     protected template = "Field :field must not be a part of list: :domain";
 
     /**
