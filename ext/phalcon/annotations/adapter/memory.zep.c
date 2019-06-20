@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 
 	ZEPHIR_INIT_VAR(&lowercasedKey);
 	zephir_fast_strtolower(&lowercasedKey, &key);
-	zephir_update_property_array(this_ptr, SL("data"), &lowercasedKey, data TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("data"), &lowercasedKey, data);
 	ZEPHIR_MM_RESTORE();
 
 }

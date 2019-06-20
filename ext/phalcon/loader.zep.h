@@ -189,7 +189,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_loader_preparenamespace,
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_loader_preparenamespace, 0, 1, IS_ARRAY, NULL, 0)
 #endif
-	ZEND_ARG_ARRAY_INFO(0, namespace, 0)
+	ZEND_ARG_ARRAY_INFO(0, namespaceName, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_loader_method_entry) {

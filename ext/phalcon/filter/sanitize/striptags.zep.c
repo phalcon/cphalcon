@@ -17,6 +17,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 /**
@@ -67,7 +68,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Striptags, __invoke) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("strip_tags", NULL, 213, &input);
+	ZEPHIR_RETURN_CALL_FUNCTION("strip_tags", NULL, 231, &input);
 	zephir_check_call_status();
 	RETURN_MM();
 

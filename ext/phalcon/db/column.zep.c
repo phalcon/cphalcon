@@ -121,13 +121,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 	zend_declare_property_long(phalcon_db_column_ce, SL("scale"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
-	 * Schema which table related is
-	 *
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_db_column_ce, SL("schemaName"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	/**
 	 * Integer column size
 	 *
 	 * @var int
@@ -374,18 +367,6 @@ PHP_METHOD(Phalcon_Db_Column, getScale) {
 }
 
 /**
- * Schema which table related is
- */
-PHP_METHOD(Phalcon_Db_Column, getSchemaName) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "schemaName");
-
-}
-
-/**
  * Integer column size
  */
 PHP_METHOD(Phalcon_Db_Column, getSize) {
@@ -481,7 +462,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 	zephir_update_property_zval(this_ptr, SL("name"), &name);
 	ZEPHIR_OBS_VAR(&type);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&type, &definition, SL("type"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/Db/Column.zep", 332);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/Db/Column.zep", 325);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("type"), &type);
@@ -512,7 +493,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 				zephir_update_property_zval(this_ptr, SL("scale"), &scale);
 				break;
 			}
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/Db/Column.zep", 380);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/Db/Column.zep", 373);
 			return;
 		} while(0);
 
@@ -547,7 +528,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 					}
 					break;
 				}
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/Db/Column.zep", 424);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/Db/Column.zep", 417);
 				return;
 			} while(0);
 
@@ -572,8 +553,8 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 PHP_METHOD(Phalcon_Db_Column, __set_state) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data_param = NULL, definition, columnType, notNull, size, dunsigned, after, isNumeric, first, bindType, primary, columnName, scale, defaultValue, autoIncrement, columnTypeReference, columnTypeValues, _0$$7, _1$$12;
-	zval data;
+	zval *data_param = NULL, columnType, notNull, size, dunsigned, after, isNumeric, first, bindType, primary, columnName, scale, defaultValue, autoIncrement, columnTypeReference, columnTypeValues, _0$$7, _1$$12;
+	zval data, definition;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data);
@@ -606,7 +587,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 	if (!(zephir_array_isset_string_fetch(&columnName, &data, SL("columnName"), 0))) {
 		ZEPHIR_OBS_NVAR(&columnName);
 		if (UNEXPECTED(!(zephir_array_isset_string_fetch(&columnName, &data, SL("name"), 0)))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column name is required", "phalcon/Db/Column.zep", 462);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column name is required", "phalcon/Db/Column.zep", 456);
 			return;
 		}
 	}
@@ -635,7 +616,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		zephir_array_update_string(&definition, SL("size"), &size, PH_COPY | PH_SEPARATE);
 	}
 	if (zephir_array_isset_string_fetch(&scale, &data, SL("scale"), 1)) {
-		zephir_array_fetch_string(&_1$$12, &definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/Db/Column.zep", 496 TSRMLS_CC);
+		zephir_array_fetch_string(&_1$$12, &definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/Db/Column.zep", 490 TSRMLS_CC);
 		do {
 			if (ZEPHIR_IS_LONG(&_1$$12, 0) || ZEPHIR_IS_LONG(&_1$$12, 7) || ZEPHIR_IS_LONG(&_1$$12, 3) || ZEPHIR_IS_LONG(&_1$$12, 9) || ZEPHIR_IS_LONG(&_1$$12, 14)) {
 				zephir_array_update_string(&definition, SL("scale"), &scale, PH_COPY | PH_SEPARATE);
@@ -666,7 +647,7 @@ PHP_METHOD(Phalcon_Db_Column, __set_state) {
 		zephir_array_update_string(&definition, SL("bindType"), &bindType, PH_COPY | PH_SEPARATE);
 	}
 	object_init_ex(return_value, phalcon_db_column_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 165, &columnName, &definition);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 182, &columnName, &definition);
 	zephir_check_call_status();
 	RETURN_MM();
 

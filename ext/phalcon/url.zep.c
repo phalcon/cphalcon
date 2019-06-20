@@ -360,9 +360,10 @@ PHP_METHOD(Phalcon_Url, getBasePath) {
  */
 PHP_METHOD(Phalcon_Url, getBaseUri) {
 
-	zval *_SERVER, baseUri, phpSelf, uri, _0;
+	zval _SERVER, baseUri, phpSelf, uri, _0;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&_SERVER);
 	ZVAL_UNDEF(&baseUri);
 	ZVAL_UNDEF(&phpSelf);
 	ZVAL_UNDEF(&uri);
@@ -375,7 +376,7 @@ PHP_METHOD(Phalcon_Url, getBaseUri) {
 	ZEPHIR_CPY_WRT(&baseUri, &_0);
 	if (Z_TYPE_P(&baseUri) == IS_NULL) {
 		ZEPHIR_OBS_VAR(&phpSelf);
-		if (zephir_array_isset_string_fetch(&phpSelf, _SERVER, SL("PHP_SELF"), 0)) {
+		if (zephir_array_isset_string_fetch(&phpSelf, &_SERVER, SL("PHP_SELF"), 0)) {
 			ZEPHIR_INIT_VAR(&uri);
 			phalcon_get_uri(&uri, &phpSelf);
 		} else {
