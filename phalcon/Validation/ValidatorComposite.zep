@@ -20,7 +20,7 @@ abstract class ValidatorComposite extends Validator implements ValidatorComposit
     /**
      * @var array
      */
-    private validators = [] { get };
+    protected validators = [] { get };
 
     /**
      * Executes the validation
