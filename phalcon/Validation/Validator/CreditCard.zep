@@ -52,9 +52,6 @@ use Phalcon\Validation\Validator;
  */
 class CreditCard extends Validator
 {
-    /**
-     * @var string
-     */
     protected template = "Field :field is not valid for a credit card number";
 
     /**

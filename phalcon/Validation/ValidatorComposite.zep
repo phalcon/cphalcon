@@ -10,8 +10,6 @@
 
 namespace Phalcon\Validation;
 
-use Phalcon\Validation as BaseValidation;
-
 /**
  * Phalcon\Validation\CombinedFieldsValidator
  *
@@ -22,7 +20,7 @@ abstract class ValidatorComposite extends Validator implements ValidatorComposit
     /**
      * Executes the validation
      */
-    public function validate(<BaseValidation> validation, var field) -> bool
+    public function validate(<Validation> validation, var field) -> bool
     {
         var validator;
 

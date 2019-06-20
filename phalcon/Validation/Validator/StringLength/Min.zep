@@ -65,9 +65,6 @@ use Phalcon\Validation\Exception;
  */
 class Min extends Validator
 {
-    /**
-     * @var string
-     */
     protected template = "Field :field must be at least :min characters long";
 
     /**

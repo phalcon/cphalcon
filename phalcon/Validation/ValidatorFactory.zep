@@ -16,7 +16,7 @@ use Phalcon\Helper\Arr;
 class ValidatorFactory extends AbstractFactory
 {
     /**
-     * ValidatorFactory constructor.
+     * TagFactory constructor.
      */
     public function __construct(array! services = [])
     {

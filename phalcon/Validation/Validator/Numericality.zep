@@ -52,9 +52,6 @@ use Phalcon\Validation\Validator;
  */
 class Numericality extends Validator
 {
-    /**
-     * @var string
-     */
     protected template = "Field :field does not have a valid numeric format";
 
     /**

@@ -62,9 +62,6 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  */
 class Max extends FileAbstract
 {
-    /**
-     * @var string
-     */
     protected template = "File :field exceeds the maximum resolution of :resolution";
 
     /**

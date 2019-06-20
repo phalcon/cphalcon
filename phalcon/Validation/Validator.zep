@@ -25,22 +25,19 @@ use Phalcon\Validation\ValidatorInterface;
 abstract class Validator implements ValidatorInterface
 {
     /**
-     * Message template
-     *
-     * @var string|null
-     */
+    * Message template
+    *
+    * @var string|null
+    */
     protected template;
 
     /**
-     * Message templates
-     *
-     * @var array
-     */
+    * Message templates
+    *
+    * @var array
+    */
     protected templates = [];
 
-    /**
-     * @var array
-     */
     protected options;
 
     /**

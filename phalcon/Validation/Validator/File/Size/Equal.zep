@@ -63,9 +63,6 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  */
 class Equal extends FileAbstract
 {
-    /**
-     * @var string
-     */
     protected template = "File :field does not have the exact :size filesize";
 
     /**

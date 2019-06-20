@@ -72,9 +72,6 @@ class Ip extends Validator
     const VERSION_4  = FILTER_FLAG_IPV4;
     const VERSION_6  = FILTER_FLAG_IPV6;
 
-    /**
-     * @var string
-     */
     protected template = "Field :field must be a valid IP address";
 
     /**

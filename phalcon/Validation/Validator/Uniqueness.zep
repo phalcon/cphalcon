@@ -93,9 +93,6 @@ use Phalcon\Mvc\Collection;
  */
 class Uniqueness extends CombinedFieldsValidator
 {
-    /**
-     * @var string
-     */
     protected template = "Field :field must be unique";
 
     private columnMap = null;

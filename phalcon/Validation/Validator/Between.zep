@@ -63,9 +63,6 @@ use Phalcon\Validation\Validator;
  */
 class Between extends Validator
 {
-    /**
-     * @var string
-     */
     protected template = "Field :field must be within the range of :min to :max";
 
     /**

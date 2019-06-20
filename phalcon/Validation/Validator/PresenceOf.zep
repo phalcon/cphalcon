@@ -52,9 +52,6 @@ use Phalcon\Validation\Validator;
  */
 class PresenceOf extends Validator
 {
-    /**
-     * @var string
-     */
     protected template = "Field :field is required";
 
     /**
