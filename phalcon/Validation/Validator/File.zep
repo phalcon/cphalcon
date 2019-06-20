@@ -92,7 +92,10 @@ use Phalcon\Validation\Validator\File\Size\Min as MinFileSize;
  */
 class File extends ValidatorComposite
 {
-    private validators = [] {get};
+    /**
+     * @var array
+     */
+    private validators = [] { get };
 
     public function __construct(array! options = [])
     {

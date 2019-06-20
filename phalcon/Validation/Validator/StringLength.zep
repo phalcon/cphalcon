@@ -83,7 +83,10 @@ use Phalcon\Validation\Exception;
  */
 class StringLength extends ValidatorComposite
 {
-    private validators = [] {get};
+    /**
+     * @var array
+     */
+    private validators = [] { get };
 
     public function __construct(array! options = []) -> void
     {
