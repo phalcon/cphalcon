@@ -10,7 +10,7 @@
 
 namespace Phalcon\Translate;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
 use Phalcon\Translate\InterpolatorFactory;
