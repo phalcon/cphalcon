@@ -1,7 +1,7 @@
 <?php
 
 use Codeception\Lib\Connector\Phalcon\MemorySession as CodeceptionMemorySession;
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Loader;
 use Phalcon\Mvc\Application;
