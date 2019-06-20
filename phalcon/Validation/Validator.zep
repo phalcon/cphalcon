@@ -26,11 +26,15 @@ abstract class Validator implements ValidatorInterface
 {
     /**
     * Message template
+    *
+    * @var string|null
     */
     protected template;
 
     /**
     * Message templates
+    *
+    * @var array
     */
     protected templates = [];
 
