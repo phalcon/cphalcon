@@ -53,7 +53,6 @@ class SetFiltersCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'name' => '        ',

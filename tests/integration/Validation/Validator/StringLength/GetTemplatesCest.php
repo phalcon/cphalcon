@@ -10,24 +10,21 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Validation;
+namespace Phalcon\Test\Unit\Validation\Validator\StringLength;
 
-use IntegrationTester;
+use UnitTester;
 
-/**
- * Class GetDefaultMessageCest
- */
-class GetDefaultMessageCest
+class GetTemplatesCest
 {
     /**
-     * Tests Phalcon\Validation :: getDefaultMessage()
+     * Tests Phalcon\Validation\Validator\StringLength :: getTemplates()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-16
+     * @since  2019-05-23
      */
-    public function validationGetDefaultMessage(IntegrationTester $I)
+    public function validationValidatorStringLengthGetTemplates(UnitTester $I)
     {
-        $I->wantToTest('Validation - getDefaultMessage()');
+        $I->wantToTest('Validation\Validator\StringLength - getTemplates()');
 
         $I->skipTest('Need implementation');
     }

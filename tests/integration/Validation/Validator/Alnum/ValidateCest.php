@@ -75,17 +75,22 @@ class ValidateCest
             'type' => 'Type must be alnum',
         ];
 
+        $al = new Alnum(
+            [
+                'message' => $validationMessages,
+            ]
+        );
+
         $validation->add(
             [
                 'name',
                 'type',
             ],
-            new Alnum(
-                [
-                    'message' => $validationMessages,
-                ]
-            )
+            $al
         );
+
+        codecept_debug($validation);
+        codecept_debug($al);
 
 
         $messages = $validation->validate(

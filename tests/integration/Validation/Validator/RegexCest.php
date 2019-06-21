@@ -47,7 +47,7 @@ class RegexCest
                 new Message(
                     'Field car_plate does not match the required format',
                     'car_plate',
-                    'Regex',
+                    Regex::class,
                     0
                 ),
             ]
@@ -273,7 +273,7 @@ class RegexCest
                 new Message(
                     'The car plate is not valid',
                     'car_plate',
-                    'Regex',
+                    Regex::class,
                     0
                 ),
             ]

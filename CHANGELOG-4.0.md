@@ -36,6 +36,7 @@
 - Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getBelongsToRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
 - Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getHasOneRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
 - Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getHasManyRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)  
+- Validator messages were moved into each validator. [#13208](https://github.com/phalcon/cphalcon/issues/13208)  
 - `Phalcon\Paginator\Repository::getProperty()` now uses `Phalcon\Helper\Arr::get()`.
 - Renamed `Phalcon\Collection` to `Phalcon\Collection\Collection`. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
 - Refactored `Phalcon\Collection\Collection` to allow conditional key case sensitivity. [#14154](https://github.com/phalcon/cphalcon/pull/14154)

@@ -93,6 +93,8 @@ use Phalcon\Mvc\Collection;
  */
 class Uniqueness extends CombinedFieldsValidator
 {
+    protected template = "Field :field must be unique";
+
     private columnMap = null;
 
     /**
@@ -100,32 +102,9 @@ class Uniqueness extends CombinedFieldsValidator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var message, label;
-
         if !this->isUniqueness(validation, field) {
-            let label   = this->getOption("label"),
-                message = this->getOption("message");
-
-            if empty label {
-                let label = validation->getLabel(field);
-            }
-
-            if empty message {
-                let message = validation->getDefaultMessage("Uniqueness");
-            }
-
             validation->appendMessage(
-                new Message(
-                    strtr(
-                        message,
-                        [
-                            ":field": label
-                        ]
-                    ),
-                    field,
-                    "Uniqueness",
-                    this->getOption("code")
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

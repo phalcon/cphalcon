@@ -10,6 +10,9 @@
 
 namespace Phalcon\Validation;
 
+use Phalcon\Collection;
+use Phalcon\Helper\Arr;
+use Phalcon\Messages\Message;
 use Phalcon\Validation;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\ValidatorInterface;
@@ -21,6 +24,20 @@ use Phalcon\Validation\ValidatorInterface;
  */
 abstract class Validator implements ValidatorInterface
 {
+    /**
+    * Message template
+    *
+    * @var string|null
+    */
+    protected template;
+
+    /**
+    * Message templates
+    *
+    * @var array
+    */
+    protected templates = [];
+
     protected options;
 
     /**
@@ -28,7 +45,88 @@ abstract class Validator implements ValidatorInterface
      */
     public function __construct(array! options = []) -> void
     {
+        var template;
+
+        let template = current(Arr::whiteList(options, ["template", "message", 0]));
+
+        if typeof template == "array" {
+            this->setTemplates(template);
+        } elseif typeof template == "string" {
+            this->setTemplate(template);
+        }
+
+        if (template) {
+            unset options["template"];
+            unset options["message"];
+            unset options[0];
+        }
+
         let this->options = options;
+    }
+
+    /**
+    * Get the template message
+    *
+    * @return string
+    * @throw InvalidArgumentException When the field does not exists
+    */
+    public function getTemplate(string! field = null) -> string
+    {
+        // there is a template in field
+        if field !== null && isset this->templates[field] {
+            return this->templates[field];
+        }
+
+        // there is a custom template
+        if (this->template) {
+            return this->template;
+        }
+
+        // default template message
+        return "The field :field is not valid for " . get_class(this);
+    }
+
+    /**
+    * Get templates collection object
+    *
+    * @return array
+    */
+    public function getTemplates() -> array
+    {
+        return this->templates;
+    }
+
+    /**
+    * Clear current templates and set new from an array,
+    *
+    * @return Validator
+    */
+    public function setTemplates(array! templates) -> <ValidatorInterface>
+    {
+        var field, template;
+
+        let this->templates = [];
+
+        for field, template in templates {
+            let field = (string) field;
+            let template = (string) template;
+
+            let this->templates[field] = template;
+        }
+
+        return this;
+    }
+
+    /**
+    * Set a new template message
+    *
+    * @return Validator
+    */
+    public function setTemplate(string! template) -> <ValidatorInterface>
+    {
+        let this->template = template;
+
+        return this;
     }
 
     /**
@@ -114,22 +212,36 @@ abstract class Validator implements ValidatorInterface
     }
 
     /**
-     * Prepares a validation message.
-     */
-    protected function prepareMessage(<Validation> validation, string! field, string! type, string! option = "message") -> var
+    * Create a default message by factory
+    *
+    * @return Message
+    *
+    * @throw Exception
+    */
+    public function messageFactory(<Validation> validation, var field, array! replacements = []) -> <Message>
     {
-        var message;
+        var singleField;
 
-        let message = this->getOption(option);
-
-        if typeof message == "array" {
-            let message = message[field];
+        if (is_array(field)) {
+            let singleField = implode(", ", field);
+        } elseif (is_string(field)) {
+            let singleField = field;
+        } else {
+            throw new Exception("The field can not be printed");
         }
 
-        if empty message {
-            let message = validation->getDefaultMessage(type);
-        }
+        let replacements = array_merge(
+            [
+                ":field" : this->prepareLabel(validation, singleField)
+            ],
+            replacements
+        );
 
-        return message;
+        return new Message(
+            strtr(this->getTemplate(singleField), replacements),
+            field,
+            get_class(this),
+            this->prepareCode(singleField)
+        );
     }
 }

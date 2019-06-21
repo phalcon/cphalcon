@@ -216,7 +216,7 @@ class ValidateCest
                     new Message(
                         'Field creditCard is not valid for a credit card number',
                         'creditCard',
-                        'CreditCard',
+                        CreditCard::class,
                         0
                     ),
                 ]

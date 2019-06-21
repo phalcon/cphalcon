@@ -58,13 +58,14 @@ use Phalcon\Validation\Validator;
  */
 class Confirmation extends Validator
 {
+    protected template = "Field :field must be the same as :with";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var fieldWith, value, valueWith, message, label, labelWith,
-            replacePairs, code;
+        var fieldWith, value, valueWith, labelWith, replacePairs;
 
         let fieldWith = this->getOption("with");
 
@@ -76,16 +77,6 @@ class Confirmation extends Validator
             valueWith = validation->getValue(fieldWith);
 
         if !this->compare(value, valueWith) {
-            let label = this->prepareLabel(validation, field);
-
-            let message = this->prepareMessage(
-                validation,
-                field,
-                "Confirmation"
-            );
-
-            let code = this->prepareCode(field);
-
             let labelWith = this->getOption("labelWith");
 
             if typeof labelWith == "array" {
@@ -97,17 +88,11 @@ class Confirmation extends Validator
             }
 
             let replacePairs = [
-                ":field": label,
                 ":with":  labelWith
             ];
 
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "Confirmation",
-                    code
-                )
+                this->messageFactory(validation, field, replacePairs)
             );
 
             return false;
