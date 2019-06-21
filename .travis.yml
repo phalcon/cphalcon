@@ -3,6 +3,7 @@ sudo: false
 language: php
 php:
   - nightly
+  - 7.4snapshot
   - 7.3
   - 7.2
 
@@ -22,6 +23,7 @@ matrix:
   fast_finish: true
   allow_failures:
     - php: nightly
+    - php: 7.4snapshot
 
 cache:
   apt: true
