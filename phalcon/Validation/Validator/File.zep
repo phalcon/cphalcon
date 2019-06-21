@@ -102,7 +102,7 @@ class File extends ValidatorComposite
         // create individual validators
         for key, value in options {
             // min filesize
-            if strtolower(key) === "minsize") {
+            if strtolower(key) === "minsize" {
                 // get custom message
                 if isset options["messageMinSize"] {
                     let message = options["messageMinSize"];
