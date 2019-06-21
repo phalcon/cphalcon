@@ -10,6 +10,7 @@ use Phalcon\Validation\Validator\Email;
 use Phalcon\Validation\Validator\ExclusionIn;
 use Phalcon\Validation\Validator\InclusionIn;
 use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Validation\Validator\Regex;
 use Phalcon\Validation\Validator\StringLength\Max;
 use Phalcon\Validation\Validator\StringLength\Min;
 use Phalcon\Validation\Validator\Uniqueness;
