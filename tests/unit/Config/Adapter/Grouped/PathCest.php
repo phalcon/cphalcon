@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
+use function sprintf;
 
 class PathCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: path()
      *
@@ -26,6 +30,28 @@ class PathCest
     {
         $I->wantToTest('Config\Adapter\Grouped - path()');
 
-        $I->skipTest('Need implementation');
+        $config = $this->getConfig('Grouped');
+
+        $I->assertCount(
+            2,
+            $config->path('test')
+        );
+
+
+        $I->assertEquals(
+            'something-else',
+            $config->path('test.property2')
+        );
+    }
+
+    /**
+     * Tests Phalcon\Config\Adapter\Grouped :: path() - default
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function configAdapterGroupedPathDefault(UnitTester $I)
+    {
+        $this->checkPathDefault($I, 'Grouped');
     }
 }

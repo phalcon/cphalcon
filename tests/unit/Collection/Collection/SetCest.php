@@ -35,5 +35,26 @@ class SetCest
             'two',
             $collection->get('three')
         );
+
+        $collection->three = 'Cardoe';
+
+        $I->assertEquals(
+            'Cardoe',
+            $collection->get('three')
+        );
+
+        $collection->offsetSet('three', 123);
+
+        $I->assertEquals(
+            123,
+            $collection->get('three')
+        );
+
+
+        $collection['three'] = true;
+
+        $I->assertTrue(
+            $collection->get('three')
+        );
     }
 }

@@ -10,8 +10,9 @@
 
 namespace Phalcon\Config\Adapter;
 
-use Phalcon\Config;
-use Phalcon\Factory\Exception;
+use Phalcon\Config\Config;
+use Phalcon\Config\Exception;
+use Phalcon\Factory\Exception as FactoryException;
 use Phalcon\Config\ConfigFactory;
 
 /**
@@ -71,22 +72,28 @@ class Grouped extends Config
 {
     /**
      * Phalcon\Config\Adapter\Grouped constructor
+     *
+     * Grouped constructor.
+     *
+     * @param array  $arrayConfig
+     * @param string $defaultAdapter
+     *
+     * @throws Exception
+     * @throws FactoryException
      */
-    public function __construct(array! arrayConfig, string! defaultAdapter = "php") -> void
+    public function __construct(array! arrayConfig, string! defaultAdapter = "php")
     {
-        var configName, configInstance, configArray;
+        var configArray, configInstance, configName;
 
-        parent::__construct(
-            []
-        );
+        parent::__construct([]);
 
         for configName in arrayConfig {
             let configInstance = configName;
 
             // Set to default adapter if passed as string
             if typeof configName === "string" {
-                if defaultAdapter === "" {
-                    this->internalMerge(
+                if ("" === defaultAdapter) {
+                    this->merge(
                         (new ConfigFactory())->load(configName)
                     );
 
@@ -94,27 +101,28 @@ class Grouped extends Config
                 }
 
                 let configInstance = [
-                    "filePath": configName,
-                    "adapter":  defaultAdapter
+                    "filePath" : configName,
+                    "adapter"  : defaultAdapter
                 ];
             } elseif !isset configInstance["adapter"] {
                 let configInstance["adapter"] = defaultAdapter;
             }
 
-            if configInstance["adapter"] === "array" {
-                if unlikely !isset configInstance["config"] {
+            if "array" === configInstance["adapter"] {
+                if !isset configInstance["config"] {
                     throw new Exception(
-                        "To use 'array' adapter you have to specify the 'config' as an array."
+                        "To use 'array' adapter you have to specify " .
+                        "the 'config' as an array."
                     );
                 }
 
-                let configArray = configInstance["config"];
-                let configInstance = new Config(configArray);
+                let configArray    = configInstance["config"],
+                    configInstance = new Config(configArray);
             } else {
                 let configInstance = (new ConfigFactory())->load(configInstance);
             }
 
-            this->internalMerge(configInstance);
+            this->merge(configInstance);
         }
     }
 }

@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetch) {
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll) {
 
-	zend_bool _1$$3;
+	zend_bool _1;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *fetchStyle = NULL, fetchStyle_sub, *fetchArgument = NULL, fetchArgument_sub, *ctorArgs = NULL, ctorArgs_sub, __$null, pdoStatement, _0;
 	zval *this_ptr = getThis();
@@ -323,26 +323,26 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll) {
 
 	zephir_read_property(&_0, this_ptr, SL("pdoStatement"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&pdoStatement, &_0);
-	if (Z_TYPE_P(fetchStyle) == IS_LONG) {
-		if (ZEPHIR_IS_LONG(fetchStyle, 8)) {
-			ZEPHIR_RETURN_CALL_METHOD(&pdoStatement, "fetchall", NULL, 0, fetchStyle, fetchArgument, ctorArgs);
-			zephir_check_call_status();
-			RETURN_MM();
-		}
-		_1$$3 = ZEPHIR_IS_LONG(fetchStyle, 7);
-		if (!(_1$$3)) {
-			_1$$3 = ZEPHIR_IS_LONG(fetchStyle, 10);
-		}
-		if (_1$$3) {
-			ZEPHIR_RETURN_CALL_METHOD(&pdoStatement, "fetchall", NULL, 0, fetchStyle, fetchArgument);
-			zephir_check_call_status();
-			RETURN_MM();
-		}
-		ZEPHIR_RETURN_CALL_METHOD(&pdoStatement, "fetchall", NULL, 0, fetchStyle);
+	if (Z_TYPE_P(fetchStyle) != IS_LONG) {
+		ZEPHIR_RETURN_CALL_METHOD(&pdoStatement, "fetchall", NULL, 0);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&pdoStatement, "fetchall", NULL, 0);
+	if (ZEPHIR_IS_LONG(fetchStyle, 8)) {
+		ZEPHIR_RETURN_CALL_METHOD(&pdoStatement, "fetchall", NULL, 0, fetchStyle, fetchArgument, ctorArgs);
+		zephir_check_call_status();
+		RETURN_MM();
+	}
+	_1 = ZEPHIR_IS_LONG(fetchStyle, 7);
+	if (!(_1)) {
+		_1 = ZEPHIR_IS_LONG(fetchStyle, 10);
+	}
+	if (_1) {
+		ZEPHIR_RETURN_CALL_METHOD(&pdoStatement, "fetchall", NULL, 0, fetchStyle, fetchArgument);
+		zephir_check_call_status();
+		RETURN_MM();
+	}
+	ZEPHIR_RETURN_CALL_METHOD(&pdoStatement, "fetchall", NULL, 0, fetchStyle);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -464,7 +464,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 				ZVAL_STRING(&_7$$6, "/^SELECT\\s+(.*)/i");
 				zephir_preg_match(&_6$$6, &_7$$6, &sqlStatement, &matches, 0, 0 , 0  TSRMLS_CC);
 				if (zephir_is_true(&_6$$6)) {
-					zephir_array_fetch_long(&_8$$7, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Db/Result/Pdo.zep", 293 TSRMLS_CC);
+					zephir_array_fetch_long(&_8$$7, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Db/Result/Pdo.zep", 291 TSRMLS_CC);
 					ZEPHIR_INIT_VAR(&_9$$7);
 					ZEPHIR_CONCAT_SVS(&_9$$7, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", &_8$$7, ")");
 					zephir_read_property(&_10$$7, this_ptr, SL("bindParams"), PH_NOISY_CC | PH_READONLY);
@@ -474,7 +474,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 					ZEPHIR_CALL_METHOD(&row, &result, "fetch", NULL, 0);
 					zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&rowCount);
-					zephir_array_fetch_string(&rowCount, &row, SL("numrows"), PH_NOISY, "phalcon/Db/Result/Pdo.zep", 299 TSRMLS_CC);
+					zephir_array_fetch_string(&rowCount, &row, SL("numrows"), PH_NOISY, "phalcon/Db/Result/Pdo.zep", 297 TSRMLS_CC);
 				}
 			} else {
 				ZEPHIR_INIT_NVAR(&rowCount);

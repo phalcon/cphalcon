@@ -478,12 +478,12 @@ PHP_METHOD(Phalcon_Dispatcher, dispatch) {
 			}
 			break;
 		}
-		ZEPHIR_CALL_FUNCTION(&handlerHash, "spl_object_hash", &_37, 72, &handler);
+		ZEPHIR_CALL_FUNCTION(&handlerHash, "spl_object_hash", &_37, 86, &handler);
 		zephir_check_call_status();
 		zephir_read_property(&_38$$10, this_ptr, SL("handlerHashes"), PH_NOISY_CC | PH_READONLY);
 		isNewHandler = !((zephir_array_isset(&_38$$10, &handlerHash)));
 		if (isNewHandler) {
-			zephir_update_property_array(this_ptr, SL("handlerHashes"), &handlerHash, &__$true TSRMLS_CC);
+			zephir_update_property_array(this_ptr, SL("handlerHashes"), &handlerHash, &__$true);
 		}
 		zephir_update_property_zval(this_ptr, SL("activeHandler"), &handler);
 		zephir_read_property(&_39$$10, this_ptr, SL("namespaceName"), PH_NOISY_CC | PH_READONLY);
@@ -1075,11 +1075,11 @@ PHP_METHOD(Phalcon_Dispatcher, getActiveMethod) {
 		zephir_read_property(&_3$$3, this_ptr, SL("actionName"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "tocamelcase", NULL, 0, &_3$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&activeMethodName, "lcfirst", NULL, 68, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&activeMethodName, "lcfirst", NULL, 82, &_2$$3);
 		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(&_4$$3);
 		zephir_read_property(&_4$$3, this_ptr, SL("actionName"), PH_NOISY_CC);
-		zephir_update_property_array(this_ptr, SL("activeMethodMap"), &_4$$3, &activeMethodName TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("activeMethodMap"), &_4$$3, &activeMethodName);
 	}
 	zephir_read_property(&_5, this_ptr, SL("actionSuffix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VV(return_value, &activeMethodName, &_5);
@@ -1472,7 +1472,7 @@ PHP_METHOD(Phalcon_Dispatcher, setParam) {
 
 
 
-	zephir_update_property_array(this_ptr, SL("params"), param, value TSRMLS_CC);
+	zephir_update_property_array(this_ptr, SL("params"), param, value);
 
 }
 
@@ -1771,15 +1771,15 @@ PHP_METHOD(Phalcon_Dispatcher, toCamelCase) {
 	if (!(zephir_array_isset_fetch(&camelCaseInput, &_0, &input, 0 TSRMLS_CC))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "/[_-]+/");
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "preg_split", NULL, 73, &_1$$3, &input);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "preg_split", NULL, 87, &_1$$3, &input);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "ucfirst");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_map", NULL, 74, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_map", NULL, 88, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&camelCaseInput);
 		zephir_fast_join_str(&camelCaseInput, SL(""), &_3$$3 TSRMLS_CC);
-		zephir_update_property_array(this_ptr, SL("camelCaseMap"), &input, &camelCaseInput TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("camelCaseMap"), &input, &camelCaseInput);
 	}
 	RETURN_CCTOR(&camelCaseInput);
 

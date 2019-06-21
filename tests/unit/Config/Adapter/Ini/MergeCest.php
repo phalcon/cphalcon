@@ -12,10 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Ini;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class MergeCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Ini :: merge()
      *
@@ -25,6 +28,6 @@ class MergeCest
     public function configAdapterIniMerge(UnitTester $I)
     {
         $I->wantToTest("Config\Adapter\Ini - merge()");
-        $I->skipTest('Need implementation');
+        $this->checkMergeException($I, 'Ini');
     }
 }

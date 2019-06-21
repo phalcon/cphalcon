@@ -16,8 +16,8 @@
 #include "kernel/memory.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/array.h"
 #include "kernel/object.h"
+#include "kernel/array.h"
 #include "kernel/operators.h"
 
 
@@ -106,17 +106,17 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load) {
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "file");
-	ZEPHIR_CALL_CE_STATIC(&file, phalcon_helper_arr_ce, "get", &_1, 5, config, &_2);
+	ZEPHIR_CALL_CE_STATIC(&file, phalcon_helper_arr_ce, "get", &_1, 8, config, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "height");
 	ZVAL_NULL(&_3);
-	ZEPHIR_CALL_CE_STATIC(&height, phalcon_helper_arr_ce, "get", &_1, 5, config, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&height, phalcon_helper_arr_ce, "get", &_1, 8, config, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "width");
 	ZVAL_NULL(&_3);
-	ZEPHIR_CALL_CE_STATIC(&width, phalcon_helper_arr_ce, "get", &_1, 5, config, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&width, phalcon_helper_arr_ce, "get", &_1, 8, config, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &file, &width, &height);
 	zephir_check_call_status();
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance) {
 			ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0, &file, &_5$$3, &_6$$3);
 			zephir_check_call_status();
 		}
-		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3 TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_7, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_8, &_7, &name, PH_NOISY | PH_READONLY, "phalcon/Image/ImageFactory.zep", 76 TSRMLS_CC);

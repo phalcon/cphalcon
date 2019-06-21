@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/operators.h"
@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 7, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 207, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 

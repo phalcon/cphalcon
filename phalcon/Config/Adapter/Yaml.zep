@@ -10,7 +10,7 @@
 
 namespace Phalcon\Config\Adapter;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
 
 /**
@@ -66,10 +66,10 @@ class Yaml extends Config
             throw new Exception("Yaml extension not loaded");
         }
 
-        if callbacks !== null {
-            let yamlConfig = yaml_parse_file(filePath, 0, ndocs, callbacks);
-        } else {
+        if empty(callbacks) {
             let yamlConfig = yaml_parse_file(filePath);
+        } else {
+            let yamlConfig = yaml_parse_file(filePath, 0, ndocs, callbacks);
         }
 
         if unlikely yamlConfig === false {

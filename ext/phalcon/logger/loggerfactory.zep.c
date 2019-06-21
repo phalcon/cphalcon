@@ -71,7 +71,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load) {
 	zval data;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *config = NULL, config_sub, adapter, adapterClass, adapterFileName, adapterOptions, adapters, name, options, _3, _4, _5, *_6, _1$$3, _7$$6, _8$$6, _9$$6, _10$$6;
+	zval *config = NULL, config_sub, adapter, adapterClass, adapterFileName, adapterOptions, adapters, name, options, _3, _4, _5, *_6, _7, _1$$3, _8$$6, _9$$6, _10$$6, _11$$6, _12$$7, _13$$7, _14$$7, _15$$7;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&config_sub);
@@ -85,11 +85,16 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load) {
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_7$$6);
 	ZVAL_UNDEF(&_8$$6);
 	ZVAL_UNDEF(&_9$$6);
 	ZVAL_UNDEF(&_10$$6);
+	ZVAL_UNDEF(&_11$$6);
+	ZVAL_UNDEF(&_12$$7);
+	ZVAL_UNDEF(&_13$$7);
+	ZVAL_UNDEF(&_14$$7);
+	ZVAL_UNDEF(&_15$$7);
 	ZVAL_UNDEF(&data);
 
 	ZEPHIR_MM_GROW();
@@ -100,7 +105,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load) {
 
 	_0 = Z_TYPE_P(config) == IS_OBJECT;
 	if (_0) {
-		_0 = zephir_instance_of_ev(config, phalcon_config_ce TSRMLS_CC);
+		_0 = zephir_instance_of_ev(config, phalcon_config_config_ce TSRMLS_CC);
 	}
 	if (_0) {
 		ZEPHIR_CALL_METHOD(&_1$$3, config, "toarray", NULL, 0);
@@ -121,40 +126,74 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load) {
 	array_init(&_3);
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "options");
-	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_2, 5, config, &_4, &_3);
+	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_2, 8, config, &_4, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_4);
 	array_init(&_4);
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "adapters");
-	ZEPHIR_CALL_CE_STATIC(&adapters, phalcon_helper_arr_ce, "get", &_2, 5, config, &_5, &_4);
+	ZEPHIR_CALL_CE_STATIC(&adapters, phalcon_helper_arr_ce, "get", &_2, 8, config, &_5, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&data);
 	array_init(&data);
 	zephir_is_iterable(&adapters, 0, "phalcon/Logger/LoggerFactory.zep", 77);
-	ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&adapters), _6)
-	{
-		ZEPHIR_INIT_NVAR(&adapter);
-		ZVAL_COPY(&adapter, _6);
-		ZEPHIR_INIT_NVAR(&_7$$6);
-		ZVAL_STRING(&_7$$6, "adapter");
-		ZEPHIR_CALL_CE_STATIC(&adapterClass, phalcon_helper_arr_ce, "get", &_2, 5, &adapter, &_7$$6);
+	if (Z_TYPE_P(&adapters) == IS_ARRAY) {
+		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&adapters), _6)
+		{
+			ZEPHIR_INIT_NVAR(&adapter);
+			ZVAL_COPY(&adapter, _6);
+			ZEPHIR_INIT_NVAR(&_8$$6);
+			ZVAL_STRING(&_8$$6, "adapter");
+			ZEPHIR_CALL_CE_STATIC(&adapterClass, phalcon_helper_arr_ce, "get", &_2, 8, &adapter, &_8$$6);
+			zephir_check_call_status();
+			ZEPHIR_INIT_NVAR(&_8$$6);
+			ZVAL_STRING(&_8$$6, "name");
+			ZEPHIR_CALL_CE_STATIC(&adapterFileName, phalcon_helper_arr_ce, "get", &_2, 8, &adapter, &_8$$6);
+			zephir_check_call_status();
+			ZEPHIR_INIT_NVAR(&_8$$6);
+			array_init(&_8$$6);
+			ZEPHIR_INIT_NVAR(&_9$$6);
+			ZVAL_STRING(&_9$$6, "options");
+			ZEPHIR_CALL_CE_STATIC(&adapterOptions, phalcon_helper_arr_ce, "get", &_2, 8, &adapter, &_9$$6, &_8$$6);
+			zephir_check_call_status();
+			zephir_read_property(&_10$$6, this_ptr, SL("adapterFactory"), PH_NOISY_CC | PH_READONLY);
+			ZEPHIR_CALL_METHOD(&_11$$6, &_10$$6, "newinstance", NULL, 0, &adapterClass, &adapterFileName, &adapterOptions);
+			zephir_check_call_status();
+			zephir_array_append(&data, &_11$$6, PH_SEPARATE, "phalcon/Logger/LoggerFactory.zep", 74);
+		} ZEND_HASH_FOREACH_END();
+	} else {
+		ZEPHIR_CALL_METHOD(NULL, &adapters, "rewind", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_INIT_NVAR(&_7$$6);
-		ZVAL_STRING(&_7$$6, "name");
-		ZEPHIR_CALL_CE_STATIC(&adapterFileName, phalcon_helper_arr_ce, "get", &_2, 5, &adapter, &_7$$6);
-		zephir_check_call_status();
-		ZEPHIR_INIT_NVAR(&_7$$6);
-		array_init(&_7$$6);
-		ZEPHIR_INIT_NVAR(&_8$$6);
-		ZVAL_STRING(&_8$$6, "options");
-		ZEPHIR_CALL_CE_STATIC(&adapterOptions, phalcon_helper_arr_ce, "get", &_2, 5, &adapter, &_8$$6, &_7$$6);
-		zephir_check_call_status();
-		zephir_read_property(&_9$$6, this_ptr, SL("adapterFactory"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(&_10$$6, &_9$$6, "newinstance", NULL, 0, &adapterClass, &adapterFileName, &adapterOptions);
-		zephir_check_call_status();
-		zephir_array_append(&data, &_10$$6, PH_SEPARATE, "phalcon/Logger/LoggerFactory.zep", 74);
-	} ZEND_HASH_FOREACH_END();
+		while (1) {
+			ZEPHIR_CALL_METHOD(&_7, &adapters, "valid", NULL, 0);
+			zephir_check_call_status();
+			if (!zend_is_true(&_7)) {
+				break;
+			}
+			ZEPHIR_CALL_METHOD(&adapter, &adapters, "current", NULL, 0);
+			zephir_check_call_status();
+				ZEPHIR_INIT_NVAR(&_12$$7);
+				ZVAL_STRING(&_12$$7, "adapter");
+				ZEPHIR_CALL_CE_STATIC(&adapterClass, phalcon_helper_arr_ce, "get", &_2, 8, &adapter, &_12$$7);
+				zephir_check_call_status();
+				ZEPHIR_INIT_NVAR(&_12$$7);
+				ZVAL_STRING(&_12$$7, "name");
+				ZEPHIR_CALL_CE_STATIC(&adapterFileName, phalcon_helper_arr_ce, "get", &_2, 8, &adapter, &_12$$7);
+				zephir_check_call_status();
+				ZEPHIR_INIT_NVAR(&_12$$7);
+				array_init(&_12$$7);
+				ZEPHIR_INIT_NVAR(&_13$$7);
+				ZVAL_STRING(&_13$$7, "options");
+				ZEPHIR_CALL_CE_STATIC(&adapterOptions, phalcon_helper_arr_ce, "get", &_2, 8, &adapter, &_13$$7, &_12$$7);
+				zephir_check_call_status();
+				zephir_read_property(&_14$$7, this_ptr, SL("adapterFactory"), PH_NOISY_CC | PH_READONLY);
+				ZEPHIR_CALL_METHOD(&_15$$7, &_14$$7, "newinstance", NULL, 0, &adapterClass, &adapterFileName, &adapterOptions);
+				zephir_check_call_status();
+				zephir_array_append(&data, &_15$$7, PH_SEPARATE, "phalcon/Logger/LoggerFactory.zep", 74);
+			ZEPHIR_CALL_METHOD(NULL, &adapters, "next", NULL, 0);
+			zephir_check_call_status();
+		}
+	}
 	ZEPHIR_INIT_NVAR(&adapter);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &data);
 	zephir_check_call_status();
@@ -203,7 +242,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance) {
 
 
 	object_init_ex(return_value, phalcon_logger_logger_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 403, &name, &adapters);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 410, &name, &adapters);
 	zephir_check_call_status();
 	RETURN_MM();
 

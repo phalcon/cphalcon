@@ -4,7 +4,6 @@ extern zend_class_entry *phalcon_mvc_model_metadata_apcu_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apcu);
 
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, __construct);
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData_Apcu(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_apcu___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, factory, Phalcon\\Cache\\AdapterFactory, 0)

@@ -10,7 +10,7 @@
 
 namespace Phalcon\Factory;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Factory\Exception;
 
 class AbstractFactory

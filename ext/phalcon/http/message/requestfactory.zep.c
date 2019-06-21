@@ -13,8 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 /**
@@ -29,9 +32,12 @@
  * @link    https://github.com/zendframework/zend-diactoros
  * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
+/**
+ * PSR-17 RequestFactory
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Message_RequestFactory) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, RequestFactory, phalcon, http_message_requestfactory, phalcon_http_message_requestfactory_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, RequestFactory, phalcon, http_message_requestfactory, phalcon_http_message_requestfactory_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	zend_class_implements(phalcon_http_message_requestfactory_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\requestfactoryinterface")));
 	return SUCCESS;
@@ -40,6 +46,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_RequestFactory) {
 
 /**
  * Create a new request.
+ *
+ * @param string                   $method
+ * @param UriInterface|string|null $uri
+ *
+ * @return RequestInterface
  */
 PHP_METHOD(Phalcon_Http_Message_RequestFactory, createRequest) {
 
@@ -54,11 +65,20 @@ PHP_METHOD(Phalcon_Http_Message_RequestFactory, createRequest) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &method_param, &uri);
 
-	zephir_get_strval(&method, method_param);
+	if (UNEXPECTED(Z_TYPE_P(method_param) != IS_STRING && Z_TYPE_P(method_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be of the type string") TSRMLS_CC);
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(method_param) == IS_STRING)) {
+		zephir_get_strval(&method, method_param);
+	} else {
+		ZEPHIR_INIT_VAR(&method);
+		ZVAL_EMPTY_STRING(&method);
+	}
 
 
 	object_init_ex(return_value, phalcon_http_message_request_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 279, &method, uri);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 283, &method, uri);
 	zephir_check_call_status();
 	RETURN_MM();
 

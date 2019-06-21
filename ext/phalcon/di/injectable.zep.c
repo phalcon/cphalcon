@@ -68,7 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Injectable) {
 	/**
 	 * Dependency Injector
 	 *
-	 * @var \Phalcon\DiInterface
+	 * @var DiInterface
 	 */
 	zend_declare_property_null(phalcon_di_injectable_ce, SL("container"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -93,15 +93,14 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	zval _8$$7;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL, *_4 = NULL;
-	zval *propertyName_param = NULL, container, service, persistent, _0, _6, _2$$4, _3$$4, _5$$4, _7$$7, _9$$7;
-	zval propertyName, _10;
+	zval *propertyName_param = NULL, container, service, _0, _6, _2$$4, _3$$4, _5$$4, _7$$7, _9$$7, _10$$7;
+	zval propertyName, _11;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&propertyName);
-	ZVAL_UNDEF(&_10);
+	ZVAL_UNDEF(&_11);
 	ZVAL_UNDEF(&container);
 	ZVAL_UNDEF(&service);
-	ZVAL_UNDEF(&persistent);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_2$$4);
@@ -109,6 +108,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&_7$$7);
 	ZVAL_UNDEF(&_9$$7);
+	ZVAL_UNDEF(&_10$$7);
 	ZVAL_UNDEF(&_8$$7);
 
 	ZEPHIR_MM_GROW();
@@ -167,13 +167,14 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		ZVAL_STRING(&_9$$7, "sessionBag");
 		ZEPHIR_CALL_METHOD(&_7$$7, &container, "get", NULL, 0, &_9$$7, &_8$$7);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(&persistent, &_7$$7);
-		zephir_update_property_zval(this_ptr, SL("persistent"), &persistent);
-		RETURN_CCTOR(&persistent);
+		zephir_update_property_zval(this_ptr, SL("persistent"), &_7$$7);
+		ZEPHIR_OBS_VAR(&_10$$7);
+		zephir_read_property(&_10$$7, this_ptr, SL("persistent"), PH_NOISY_CC);
+		RETURN_CCTOR(&_10$$7);
 	}
-	ZEPHIR_INIT_VAR(&_10);
-	ZEPHIR_CONCAT_SV(&_10, "Access to undefined property ", &propertyName);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 2, &_10);
+	ZEPHIR_INIT_VAR(&_11);
+	ZEPHIR_CONCAT_SV(&_11, "Access to undefined property ", &propertyName);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 2, &_11);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 

@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, load) {
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "options");
-	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 5, config, &_3, &_2);
+	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 8, config, &_3, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance) {
 			ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0, &_5$$3, &options);
 			zephir_check_call_status();
 		}
-		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3 TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_6, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_7, &_6, &name, PH_NOISY | PH_READONLY, "phalcon/Translate/TranslateFactory.zep", 63 TSRMLS_CC);

@@ -12,20 +12,30 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
+use function sprintf;
 
 class ToArrayCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: toArray()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author kjdev
+     * @since  2013-07-18
      */
     public function configAdapterGroupedToArray(UnitTester $I)
     {
-        $I->wantToTest('Config\Adapter\Grouped - toArray()');
+        $config = $this->getConfig('Grouped');
 
-        $I->skipTest('Need implementation');
+        $options = $this->config;
+        $options['test']['property2'] = 'something-else';
+
+        $I->assertEquals(
+            $options,
+            $config->toArray()
+        );
     }
 }
