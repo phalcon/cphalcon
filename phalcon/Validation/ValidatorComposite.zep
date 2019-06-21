@@ -10,6 +10,8 @@
 
 namespace Phalcon\Validation;
 
+use Phalcon\Validation;
+
 /**
  * Phalcon\Validation\CombinedFieldsValidator
  *

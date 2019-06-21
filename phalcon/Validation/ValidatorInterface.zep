@@ -11,6 +11,7 @@
 namespace Phalcon\Validation;
 
 use Phalcon\Collection;
+use Phalcon\Validation;
 
 /**
  * Phalcon\Validation\ValidatorInterface
@@ -39,7 +40,7 @@ interface ValidatorInterface
      *
      * @return boolean
      */
-    public function validate(<\Phalcon\Validation> validation, var field) -> bool;
+    public function validate(<Validation> validation, var field) -> bool;
 
     /**
     * Get the template message
