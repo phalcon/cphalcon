@@ -310,7 +310,7 @@ class ModelsValidatorsCest
         $messages = $abonne->getMessages();
 
         $I->assertEquals(
-            'PresenceOf',
+            PresenceOf::class,
             $messages[0]->getType()
         );
 
@@ -327,7 +327,7 @@ class ModelsValidatorsCest
 
 
         $I->assertEquals(
-            'Email',
+            Email::class,
             $messages[1]->getType()
         );
 
@@ -348,7 +348,7 @@ class ModelsValidatorsCest
         $I->assertCount(1, $messages);
 
         $I->assertEquals(
-            'PresenceOf',
+            PresenceOf::class,
             $messages[0]->getType()
         );
 
@@ -369,7 +369,7 @@ class ModelsValidatorsCest
         $I->assertCount(1, $messages);
 
         $I->assertEquals(
-            'Email',
+            Email::class,
             $messages[0]->getType()
         );
 
