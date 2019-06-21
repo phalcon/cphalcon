@@ -23,6 +23,7 @@ use Phalcon\Tag;
 use Phalcon\Test\Models\Select as MvcModel;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Validation\Validator\StringLength\Min;
 
 class ClearCest
 {
@@ -260,7 +261,7 @@ class ClearCest
                 new Message(
                     'The text is too short',
                     'password',
-                    'TooShort',
+                    Min::class,
                     0
                 ),
             ]

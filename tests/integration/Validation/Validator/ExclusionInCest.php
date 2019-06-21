@@ -202,7 +202,6 @@ class ExclusionInCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'status' => 'A',
@@ -223,7 +222,6 @@ class ExclusionInCest
         $I->assertEquals($expected, $messages);
 
 
-
         $messages = $validation->validate(
             [
                 'status' => 'A',
@@ -231,7 +229,6 @@ class ExclusionInCest
         );
 
         $I->assertEquals($expected, $messages);
-
 
 
         $messages = $validation->validate(

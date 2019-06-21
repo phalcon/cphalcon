@@ -141,8 +141,8 @@ class DateCest
     /**
      * Tests detect valid dates
      *
-     * @author Gustavo Verzola <verzola@gmail.com>
-     * @since  2015-03-09
+     * @author       Gustavo Verzola <verzola@gmail.com>
+     * @since        2015-03-09
      *
      * @dataProvider shouldDetectValidDatesProvider
      */
@@ -177,8 +177,8 @@ class DateCest
     /**
      * Tests detect invalid dates
      *
-     * @author Gustavo Verzola <verzola@gmail.com>
-     * @since  2015-03-09
+     * @author       Gustavo Verzola <verzola@gmail.com>
+     * @since        2015-03-09
      *
      * @dataProvider shouldDetectInvalidDatesProvider
      */

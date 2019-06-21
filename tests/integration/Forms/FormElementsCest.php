@@ -133,12 +133,12 @@ class FormElementsCest
                 new Message(
                     'user.lastName.presenceOf',
                     'lastName',
-                    'PresenceOf'
+                    PresenceOf::class
                 ),
                 new Message(
                     'user.firstName.presenceOf',
                     'firstName',
-                    'PresenceOf'
+                    PresenceOf::class
                 ),
             ]
         );

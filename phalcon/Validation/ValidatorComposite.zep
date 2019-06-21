@@ -10,6 +10,8 @@
 
 namespace Phalcon\Validation;
 
+use Phalcon\Validation;
+
 /**
  * Phalcon\Validation\CombinedFieldsValidator
  *
@@ -17,6 +19,11 @@ namespace Phalcon\Validation;
  */
 abstract class ValidatorComposite extends Validator implements ValidatorCompositeInterface
 {
+    /**
+     * @var array
+     */
+    protected validators = [] { get };
+
     /**
      * Executes the validation
      */

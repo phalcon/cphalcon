@@ -35,7 +35,6 @@ class EmailCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'email' => 'test@somemail.com',
@@ -46,7 +45,6 @@ class EmailCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -102,7 +100,6 @@ class EmailCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'email'        => 'test@somemail.com',
@@ -114,7 +111,6 @@ class EmailCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -133,7 +129,6 @@ class EmailCest
             $validationMessages['email'],
             $messages->offsetGet(0)->getMessage()
         );
-
 
 
         $messages = $validation->validate(

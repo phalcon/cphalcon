@@ -32,7 +32,7 @@ class GetTemplatesCest
         $I->assertTrue(is_array($validator->getTemplates()), 'Templates have to be an array');
         $I->assertCount(0, $validator->getTemplates(), 'templates count 0');
 
-        $messageLastName = "We don't like really long last names";
+        $messageLastName  = "We don't like really long last names";
         $messageFirstName = "We don't like really long first names";
 
         $validator = new Min(

@@ -28,14 +28,14 @@ class ValidateCest
      *
      * @dataProvider getExamples
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      */
     public function validationValidatorNumericalityValidate(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Validation\Validator\Numericality - validate() ' . $example[0]);
 
-        $entity = new stdClass();
+        $entity        = new stdClass();
         $entity->price = $example[0];
 
         $validation = new Validation();
