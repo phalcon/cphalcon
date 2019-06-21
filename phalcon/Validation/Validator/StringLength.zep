@@ -88,7 +88,7 @@ class StringLength extends ValidatorComposite
      */
     public function __construct(array! options = []) -> void
     {
-        var included, key, message, validator, value;
+        var included = null, key, message = null, validator, value;
 
         // create individual validators
         for key, value in options {
