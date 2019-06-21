@@ -68,7 +68,7 @@ class IdenticalCest
                 new Message(
                     'Field name does not have the expected value',
                     'name',
-                    'Identical',
+                    Identical::class,
                     0
                 ),
             ]
@@ -271,7 +271,7 @@ class IdenticalCest
 
         $validation->add(
             'name',
-            new Validation\Validator\Identical(
+            new Identical(
                 [
                     'accepted' => 'Peter',
                     'message'  => 'The name must be peter',
@@ -289,7 +289,7 @@ class IdenticalCest
                 new Message(
                     'The name must be peter',
                     'name',
-                    'Identical',
+                    Identical::class,
                     0
                 ),
             ]

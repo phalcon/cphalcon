@@ -50,7 +50,7 @@ class ValidationCest
                 new Message(
                     'Field foo is required',
                     'foo',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]

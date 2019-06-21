@@ -49,7 +49,7 @@ class ExclusionInCest
                 new Message(
                     'Field status must not be a part of list: A, I',
                     'status',
-                    'ExclusionIn',
+                    ExclusionIn::class,
                     0
                 ),
             ]
@@ -202,7 +202,6 @@ class ExclusionInCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'status' => 'A',
@@ -214,14 +213,13 @@ class ExclusionInCest
                 new Message(
                     'The status must not be A=Active or I=Inactive',
                     'status',
-                    'ExclusionIn',
+                    ExclusionIn::class,
                     0
                 ),
             ]
         );
 
         $I->assertEquals($expected, $messages);
-
 
 
         $messages = $validation->validate(
@@ -231,7 +229,6 @@ class ExclusionInCest
         );
 
         $I->assertEquals($expected, $messages);
-
 
 
         $messages = $validation->validate(

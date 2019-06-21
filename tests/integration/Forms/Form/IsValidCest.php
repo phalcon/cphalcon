@@ -109,13 +109,13 @@ class IsValidCest
                 new Message(
                     'The telephone has an invalid format',
                     'telephone',
-                    'Regex',
+                    Regex::class,
                     0
                 ),
                 new Message(
                     'The telephone is required',
                     'telephone',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
@@ -188,7 +188,7 @@ class IsValidCest
                 new Message(
                     'your fullname is required',
                     'fullname',
-                    'PresenceOf'
+                    PresenceOf::class
                 ),
             ]
         );

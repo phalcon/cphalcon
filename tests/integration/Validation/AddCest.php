@@ -53,7 +53,7 @@ class AddCest
 
         $I->assertEquals(
             [
-                'name' => [
+                'name'  => [
                     $alpha,
                     $presenceOf,
                 ],

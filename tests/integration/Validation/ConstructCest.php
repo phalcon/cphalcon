@@ -30,7 +30,7 @@ class ConstructCest
         $I->wantToTest('Validation - __construct()');
 
         $validators = [
-            'date' => [
+            'date'  => [
                 new Date(),
             ],
             'email' => [

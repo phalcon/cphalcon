@@ -11,7 +11,6 @@
 
 namespace Phalcon\Test\Integration\Validation\Validator;
 
-use function date;
 use Exception;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -19,6 +18,7 @@ use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Some\Robotters;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Uniqueness;
+use function date;
 
 class UniquenessCest
 {
@@ -277,14 +277,12 @@ class UniquenessCest
             $messages->count()
         );
 
-
         $messages = $validation->validate(null, $this->anotherRobot);
 
         $I->assertEquals(
             0,
             $messages->count()
         );
-
 
         $messages = $validation->validate(null, $this->deletedRobot);
 

@@ -35,7 +35,6 @@ class EmailCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'email' => 'test@somemail.com',
@@ -46,7 +45,6 @@ class EmailCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -65,7 +63,7 @@ class EmailCest
                 new Message(
                     'Field email must be an email address',
                     'email',
-                    'Email',
+                    Email::class,
                     0
                 ),
             ]
@@ -102,7 +100,6 @@ class EmailCest
         );
 
 
-
         $messages = $validation->validate(
             [
                 'email'        => 'test@somemail.com',
@@ -114,7 +111,6 @@ class EmailCest
             0,
             $messages->count()
         );
-
 
 
         $messages = $validation->validate(
@@ -133,7 +129,6 @@ class EmailCest
             $validationMessages['email'],
             $messages->offsetGet(0)->getMessage()
         );
-
 
 
         $messages = $validation->validate(
@@ -178,7 +173,7 @@ class EmailCest
                 new Message(
                     'The email is not valid',
                     'email',
-                    'Email',
+                    Email::class,
                     0
                 ),
             ]

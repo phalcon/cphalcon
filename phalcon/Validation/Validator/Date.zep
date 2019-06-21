@@ -57,12 +57,14 @@ use Phalcon\Validation\Validator;
  */
 class Date extends Validator
 {
+    protected template = "Field :field is not a valid date";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, format, label, message, replacePairs, code;
+        var value, format;
 
         let value = validation->getValue(field);
         let format = this->getOption("format");
@@ -76,21 +78,8 @@ class Date extends Validator
         }
 
         if !this->checkDate(value, format) {
-            let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Date"),
-                code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "Date",
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

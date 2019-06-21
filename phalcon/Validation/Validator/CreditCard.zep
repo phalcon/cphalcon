@@ -52,33 +52,22 @@ use Phalcon\Validation\Validator;
  */
 class CreditCard extends Validator
 {
+    protected template = "Field :field is not valid for a credit card number";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var message, label, replacePairs, value, valid, code;
+        var value, valid;
 
         let value = validation->getValue(field);
 
         let valid = this->verifyByLuhnAlgorithm(value);
 
         if !valid {
-            let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "CreditCard"),
-                code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "CreditCard",
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

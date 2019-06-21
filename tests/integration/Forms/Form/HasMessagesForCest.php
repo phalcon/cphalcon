@@ -85,7 +85,7 @@ class HasMessagesForCest
                 new Message(
                     'The telephone has an invalid format',
                     'telephone',
-                    'Regex',
+                    Regex::class,
                     0
                 ),
             ]
@@ -103,7 +103,6 @@ class HasMessagesForCest
             $expected,
             $form->getMessagesFor('address')
         );
-
 
 
         $I->assertTrue(

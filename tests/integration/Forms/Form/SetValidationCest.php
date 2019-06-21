@@ -102,7 +102,7 @@ class SetValidationCest
                 new Message(
                     'The telephone has an invalid format',
                     'telephone',
-                    'Regex',
+                    Regex::class,
                     0
                 ),
             ]

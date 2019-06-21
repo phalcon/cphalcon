@@ -184,7 +184,7 @@ class ValidateCest
                 new Message(
                     'Field password must be the same as password2',
                     'password',
-                    'Confirmation',
+                    Confirmation::class,
                     0
                 ),
             ]

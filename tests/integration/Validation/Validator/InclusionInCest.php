@@ -48,7 +48,7 @@ class InclusionInCest
                 new Message(
                     'Field status must be a part of list: A, I',
                     'status',
-                    'InclusionIn',
+                    InclusionIn::class,
                     0
                 ),
             ]
@@ -293,7 +293,7 @@ class InclusionInCest
                 new Message(
                     'The status must be A=Active or I=Inactive',
                     'status',
-                    'InclusionIn',
+                    InclusionIn::class,
                     0
                 ),
             ]
