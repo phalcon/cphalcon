@@ -102,7 +102,7 @@ class File extends ValidatorComposite
         // create individual validators
         for key, value in options {
             // min filesize
-            if strtolower(key) === "minsize" {
+            if strcasecmp(key, "minSize") === 0 {
                 // get custom message
                 if isset options["messageMinSize"] {
                     let message = options["messageMinSize"];
@@ -126,7 +126,7 @@ class File extends ValidatorComposite
             }
 
             // max filesize
-            elseif strtolower(key) === "maxsize" {
+            elseif strcasecmp(key, "maxSize") === 0 {
                 // get custom message
                 if isset options["messageSize"] {
                     let message = options["messageSize"];
@@ -151,7 +151,7 @@ class File extends ValidatorComposite
             }
 
             // equal filesize
-            elseif strtolower(key) === "equalsize" {
+            elseif strcasecmp(key, "equalSize") === 0 {
                 // get custom message
                 if isset options["messageEqualSize"] {
                     let message = options["messageEqualSize"];
@@ -169,7 +169,7 @@ class File extends ValidatorComposite
             }
 
             // mime types
-            elseif strtolower(key) === "allowedtypes" {
+            elseif strcasecmp(key, "allowedTypes") === 0 {
                 if isset options["messageType"] {
                     let message = options["messageType"];
                 }
@@ -186,7 +186,7 @@ class File extends ValidatorComposite
             }
 
             // max resolution
-            elseif strtolower(key) === "maxresolution" {
+            elseif strcasecmp(key, "maxResolution") === 0 {
                 if isset options["messageMaxResolution"] {
                     let message = options["messageMaxResolution"];
                 }
@@ -210,7 +210,7 @@ class File extends ValidatorComposite
             }
 
             // min resolution
-            elseif strtolower(key) === "minresolution" {
+            elseif strcasecmp(key, "minResolution") === 0 {
                 if isset options["messageMinResolution"] {
                     let message = options["messageMinResolution"];
                 }
@@ -234,7 +234,7 @@ class File extends ValidatorComposite
             }
 
             // equal resolution
-            elseif strtolower(key) === "equalresolution" {
+            elseif strcasecmp(key, "equalResolution") === 0 {
                 if isset options["messageEqualResolution"] {
                     let message = options["messageEqualResolution"];
                 }
