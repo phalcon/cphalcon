@@ -32,14 +32,14 @@ class MessageFactoryCest
 
         $validator = new Max([
             "max" => [
-                "last_name" => 10
-            ]
+                "last_name" => 10,
+            ],
         ]);
 
         $validation = new Validation();
         $validation->add(
             [
-                "last_name"
+                "last_name",
             ],
             $validator
         );

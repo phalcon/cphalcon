@@ -12,37 +12,33 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Validation\Validator\StringLength;
 
-use UnitTester;
 use Phalcon\Validation\Validator\StringLength;
+use UnitTester;
 
-class SetTemplatesCest
+class SetTemplateCest
 {
     /**
-     * Tests Phalcon\Validation\Validator\StringLength :: setTemplates()
+     * Tests Phalcon\Validation\Validator\StringLength :: setTemplate()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthSetTemplates(UnitTester $I)
+    public function validationValidatorStringLengthSetTemplate(UnitTester $I)
     {
-        $I->wantToTest('Validation\Validator\StringLength - setTemplates()');
+        $I->wantToTest('Validation\Validator\StringLength - setTemplate()');
 
         $validator = new StringLength();
 
-        $expected = [
-            'key-1' => 'value-1',
-            'key-2' => 'value-2',
-            'key-3' => 'value-3',
-        ];
+        $expected = 'New custom template message';
 
-        $actual = $validator->setTemplates($expected);
+        $actual = $validator->setTemplate($expected);
 
         $I->assertInstanceOf(StringLength::class, $actual, 'Instance of StringLenght');
 
         $I->assertEquals(
             $expected,
-            $validator->getTemplates(),
-            'Get equals templates'
+            $validator->getTemplate(),
+            'Get equals template message'
         );
     }
 }

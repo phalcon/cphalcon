@@ -32,14 +32,14 @@ class MessageFactoryCest
 
         $validator = new Min([
             "min" => [
-                "last_name" => 20
-            ]
+                "last_name" => 20,
+            ],
         ]);
 
         $validation = new Validation();
         $validation->add(
             [
-                "last_name"
+                "last_name",
             ],
             $validator
         );

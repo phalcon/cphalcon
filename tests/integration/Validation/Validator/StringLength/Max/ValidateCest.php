@@ -13,8 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation\Validator\StringLength\Max;
 
 use IntegrationTester;
-use Phalcon\Messages\Message;
-use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\StringLength\Max;
 
@@ -29,8 +27,6 @@ class ValidateCest
     public function validationValidatorStringLengthMaxValidate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength\Max - validate()');
-
-
     }
 
     /**
