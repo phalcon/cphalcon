@@ -21,7 +21,7 @@ use Phalcon\Logger\Item;
  *
  * Sends logs to the system logger
  *
- * <code>
+ * ```php
  * use Phalcon\Logger;
  * use Phalcon\Logger\Adapter\Syslog;
  *
@@ -37,7 +37,7 @@ use Phalcon\Logger\Item;
  * $logger->log("This is a message");
  * $logger->log(Logger::ERROR, "This is an error");
  * $logger->error("This is another error");
- *</code>
+ *```
  */
 class Syslog extends AbstractAdapter
 {

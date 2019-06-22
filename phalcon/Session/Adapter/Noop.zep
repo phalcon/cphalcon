@@ -18,7 +18,7 @@ use SessionHandlerInterface;
  * This is an "empty" or null adapter. It can be used for testing or any
  * other purpose that no session needs to be invoked
  *
- * <code>
+ * ```php
  * <?php
  *
  * use Phalcon\Session\Manager;
@@ -26,7 +26,7 @@ use SessionHandlerInterface;
  *
  * $session = new Manager();
  * $session->setHandler(new Noop());
- * </code>
+ * ```
  */
 class Noop implements SessionHandlerInterface
 {

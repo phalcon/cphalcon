@@ -21,7 +21,7 @@ use Phalcon\Db;
  *
  * Pagination using a PHQL query builder as source of data
  *
- * <code>
+ * ```php
  * use Phalcon\Paginator\Adapter\QueryBuilder;
  *
  * $builder = $this->modelsManager->createBuilder()
@@ -36,7 +36,7 @@ use Phalcon\Db;
  *         "page"    => 1,
  *     ]
  * );
- *</code>
+ *```
  */
 class QueryBuilder extends AbstractAdapter
 {

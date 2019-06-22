@@ -270,11 +270,11 @@ class Postgresql extends Dialect
     /**
      * Generates SQL describing a table
      *
-     * <code>
+     * ```php
      * print_r(
      *     $dialect->describeColumns("posts")
      * );
-     * </code>
+     * ```
      */
     public function describeColumns(string! table, string schema = null) -> string
     {
@@ -517,11 +517,11 @@ class Postgresql extends Dialect
     /**
      * List all tables in database
      *
-     * <code>
+     * ```php
      * print_r(
      *     $dialect->listTables("blog")
      * );
-     * </code>
+     * ```
      */
     public function listTables(string schemaName = null) -> string
     {
@@ -610,11 +610,11 @@ class Postgresql extends Dialect
     /**
      * Generates SQL checking for the existence of a schema.table
      *
-     * <code>
+     * ```php
      * echo $dialect->tableExists("posts", "blog");
      *
      * echo $dialect->tableExists("posts");
-     * </code>
+     * ```
      */
     public function tableExists(string! tableName, string schemaName = null) -> string
     {

@@ -29,7 +29,7 @@ interface ResultsetInterface
     /**
      * Filters a resultset returning only those the developer requires
      *
-     *<code>
+     *```php
      * $filtered = $robots->filter(
      *     function ($robot) {
      *         if ($robot->id < 3) {
@@ -37,7 +37,7 @@ interface ResultsetInterface
      *         }
      *     }
      * );
-     *</code>
+     *```
      */
     public function filter(callable filter) -> <ModelInterface[]>;
 

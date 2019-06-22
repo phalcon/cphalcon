@@ -13,8 +13,6 @@ namespace Phalcon\Acl;
 use Phalcon\Acl\Exception;
 
 /**
- * Phalcon\Acl\Role
- *
  * This class defines role entity and its description
  */
 class Role implements RoleInterface

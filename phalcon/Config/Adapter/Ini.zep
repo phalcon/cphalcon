@@ -20,7 +20,7 @@ use Phalcon\Config\Exception;
  *
  * Given the next configuration file:
  *
- *<code>
+ *```php
  * [database]
  * adapter = Mysql
  * host = localhost
@@ -32,28 +32,28 @@ use Phalcon\Config\Exception;
  * controllersDir = "../app/controllers/"
  * modelsDir = "../app/models/"
  * viewsDir = "../app/views/"
- * </code>
+ * ```
  *
  * You can read it as follows:
  *
- *<code>
+ *```php
  * $config = new \Phalcon\Config\Adapter\Ini("path/config.ini");
  *
  * echo $config->phalcon->controllersDir;
  * echo $config->database->username;
- *</code>
+ *```
  *
  * PHP constants may also be parsed in the ini file, so if you define a constant
  * as an ini value before calling the constructor, the constant's value will be
  * integrated into the results. To use it this way you must specify the optional
  * second parameter as INI_SCANNER_NORMAL when calling the constructor:
  *
- * <code>
+ * ```php
  * $config = new \Phalcon\Config\Adapter\Ini(
  *     "path/config-with-constants.ini",
  *     INI_SCANNER_NORMAL
  * );
- * </code>
+ * ```
  */
 class Ini extends Config
 {

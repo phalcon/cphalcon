@@ -20,13 +20,13 @@ use Phalcon\Mvc\View\Engine\Volt\Exception;
  *
  * This class reads and compiles Volt templates into PHP plain code
  *
- *<code>
+ *```php
  * $compiler = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
  *
  * $compiler->compile("views/partials/header.volt");
  *
  * require $compiler->getCompiledTemplatePath();
- *</code>
+ *```
  */
 class Compiler implements InjectionAwareInterface
 {
@@ -161,11 +161,11 @@ class Compiler implements InjectionAwareInterface
      * Compiles a template into a file applying the compiler options
      * This method does not return the compiled path if the template was not compiled
      *
-     *<code>
+     *```php
      * $compiler->compile("views/layouts/main.volt");
      *
      * require $compiler->getCompiledTemplatePath();
-     *</code>
+     *```
      */
     public function compile(string! templatePath, bool extendsMode = false)
     {
@@ -598,12 +598,12 @@ class Compiler implements InjectionAwareInterface
     /**
      * Compiles a template into a file forcing the destination path
      *
-     *<code>
+     *```php
      * $compiler->compileFile(
      *     "views/layouts/main.volt",
      *     "views/layouts/main.volt.php"
      * );
-     *</code>
+     *```
      *
      * @return string|array
      */
@@ -1111,9 +1111,9 @@ class Compiler implements InjectionAwareInterface
     /**
      * Compiles a template into a string
      *
-     *<code>
+     *```php
      * echo $compiler->compileString('{{ "hello world" }}');
-     *</code>
+     *```
      */
     public function compileString(string! viewCode, bool extendsMode = false) -> string
     {
@@ -1952,11 +1952,11 @@ class Compiler implements InjectionAwareInterface
     /**
      * Parses a Volt template returning its intermediate representation
      *
-     *<code>
+     *```php
      * print_r(
      *     $compiler->parse("{{ 3 + 2 }}")
      * );
-     *</code>
+     *```
      *
      * @return array
      */

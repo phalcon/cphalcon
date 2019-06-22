@@ -24,7 +24,7 @@ use Phalcon\Mvc\Model\TransactionInterface;
  * be used with Phalcon_Model_Base. Phalcon Transactions should be created using
  * Phalcon\Transaction\Manager.
  *
- * <code>
+ * ```php
  * use Phalcon\Mvc\Model\Transaction\Failed;
  * use Phalcon\Mvc\Model\Transaction\Manager;
  *
@@ -58,7 +58,7 @@ use Phalcon\Mvc\Model\TransactionInterface;
  * } catch(Failed $e) {
  *     echo "Failed, reason: ", $e->getMessage();
  * }
- * </code>
+ * ```
  */
 class Transaction implements TransactionInterface
 {

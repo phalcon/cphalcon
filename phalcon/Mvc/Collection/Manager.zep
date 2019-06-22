@@ -25,7 +25,7 @@ use Phalcon\Mvc\Collection\BehaviorInterface;
  *
  * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\Di.
  *
- * <code>
+ * ```php
  * $di = new \Phalcon\Di();
  *
  * $di->set(
@@ -36,7 +36,7 @@ use Phalcon\Mvc\Collection\BehaviorInterface;
  * );
  *
  * $robot = new Robots($di);
- * </code>
+ * ```
  */
 class Manager implements InjectionAwareInterface, EventsAwareInterface
 {

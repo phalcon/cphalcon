@@ -23,7 +23,7 @@ use Phalcon\Di\Injectable;
  * interrogating the models for data, and passing that data on to the views for
  * presentation.
  *
- *<code>
+ *```php
  * <?php
  *
  * class PeopleController extends \Phalcon\Mvc\Controller
@@ -50,7 +50,7 @@ use Phalcon\Di\Injectable;
  *         );
  *     }
  * }
- *</code>
+ *```
  */
 abstract class Controller extends Injectable implements ControllerInterface
 {

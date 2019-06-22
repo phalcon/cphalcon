@@ -148,7 +148,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Appends a customized message on the validation process
      *
-     *<code>
+     *```php
      * use \Phalcon\Messages\Message as Message;
      *
      * class Robots extends \Phalcon\Mvc\Model
@@ -164,7 +164,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      *         }
      *     }
      * }
-     *</code>
+     *```
      */
     public function appendMessage(<MessageInterface> message)
     {
@@ -253,7 +253,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * criteria. Preferred way to avoid duplication is to create index o
      * attribute
      *
-     * <code>
+     * ```php
      * $robot = new Robot();
      *
      * $robot->name = "MyRobot";
@@ -266,7 +266,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      *         "type",
      *     ]
      * );
-     * </code>
+     * ```
      */
     public function createIfNotExist(array! criteria) -> bool
     {
@@ -351,9 +351,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Perform a count over a collection
      *
-     *<code>
+     *```php
      * echo "There are ", Robots::count(), " robots";
-     *</code>
+     *```
      */
     public static function count(array parameters = null) -> int
     {
@@ -371,7 +371,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Deletes a model instance. Returning true on success or false otherwise.
      *
-     * <code>
+     * ```php
      * $robot = Robots::findFirst();
      *
      * $robot->delete();
@@ -381,7 +381,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * foreach ($robots as $robot) {
      *     $robot->delete();
      * }
-     * </code>
+     * ```
      */
     public function delete() -> bool
     {
@@ -470,7 +470,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Allows to query a set of records that match the specified conditions
      *
-     * <code>
+     * ```php
      * // How many robots are there?
      * $robots = Robots::find();
      *
@@ -519,7 +519,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * foreach ($robots as $robot) {
      *       echo $robot->name, "\n";
      * }
-     * </code>
+     * ```
      */
     public static function find(array parameters = null) -> array
     {
@@ -539,7 +539,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Find a document by its id (_id)
      *
-     * <code>
+     * ```php
      * // Find user by using \MongoId object
      * $user = Users::findById(
      *     new \MongoId("545eb081631d16153a293a66")
@@ -552,7 +552,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * if ($user = Users::findById($_POST["id"])) {
      *     // ...
      * }
-     * </code>
+     * ```
      */
     public static function findById(var id) -> <CollectionInterface> | null
     {
@@ -592,7 +592,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Allows to query the first record that match the specified conditions
      *
-     * <code>
+     * ```php
      * // What's the first robot in the robots table?
      * $robot = Robots::findFirst();
      *
@@ -633,7 +633,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * );
      *
      * echo "The robot id is ", $robot->_id, "\n";
-     * </code>
+     * ```
      */
     public static function findFirst(array parameters = null) -> array
     {
@@ -758,7 +758,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Returns all the validation messages
      *
-     * <code>
+     * ```php
      * $robot = new Robots();
      *
      * $robot->type = "mechanical";
@@ -776,7 +776,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * } else {
      *     echo "Great, a new robot was saved successfully!";
      * }
-     * </code>
+     * ```
      */
     public function getMessages() -> <MessageInterface[]>
     {
@@ -826,9 +826,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Reads an attribute value by its name
      *
-     *<code>
+     *```php
      *    echo $robot->readAttribute("name");
-     *</code>
+     *```
      */
     public function readAttribute(string! attribute) -> var | null
     {
@@ -1061,11 +1061,11 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Returns the instance as an array representation
      *
-     *<code>
+     *```php
      * print_r(
      *     $robot->toArray()
      * );
-     *</code>
+     *```
      */
     public function toArray() -> array
     {
@@ -1219,7 +1219,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Executes validators on every validation call
      *
-     *<code>
+     *```php
      * use Phalcon\Mvc\Collection;
      * use Phalcon\Validation;
      * use Phalcon\Validation\Validator\ExclusionIn;
@@ -1245,7 +1245,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      *         return $this->validate($validator);
      *     }
      * }
-     *</code>
+     *```
      */
     protected function validate(<ValidationInterface> validator) -> bool
     {
@@ -1286,9 +1286,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Writes an attribute value by its name
      *
-     *<code>
+     *```php
      *    $robot->writeAttribute("name", "Rosey");
-     *</code>
+     *```
      */
     public function writeAttribute(string attribute, var value)
     {

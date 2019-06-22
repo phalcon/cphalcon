@@ -15,7 +15,7 @@ namespace Phalcon\Db;
  *
  * Allows to define reference constraints on tables
  *
- *<code>
+ *```php
  * $reference = new \Phalcon\Db\Reference(
  *     "field_fk",
  *     [
@@ -31,7 +31,7 @@ namespace Phalcon\Db;
  *         ],
  *     ]
  * );
- *</code>
+ *```
  */
 class Reference implements ReferenceInterface
 {

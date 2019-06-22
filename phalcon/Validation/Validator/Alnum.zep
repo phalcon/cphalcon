@@ -18,7 +18,7 @@ use Phalcon\Validation\Validator;
  *
  * Check for alphanumeric character(s)
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Alnum as AlnumValidator;
  *
@@ -47,7 +47,7 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Alnum extends Validator
 {

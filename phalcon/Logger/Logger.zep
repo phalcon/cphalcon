@@ -23,7 +23,7 @@ use Phalcon\Logger\Exception;
  * component accepts multiple adapters, working also as a multiple logger.
  * Phalcon\Logger implements PSR-3.
  *
- *<code>
+ *```php
  * use Phalcon\Logger;
  * use Phalcon\Logger\Adapter\Stream;
  *
@@ -47,7 +47,7 @@ use Phalcon\Logger\Exception;
  * $logger
  *         ->excludeAdapters(['manager'])
  *         ->info('This does not go to the "manager" logger);
- *</code>
+ *```
  */
 class Logger implements LoggerInterface
 {

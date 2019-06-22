@@ -24,7 +24,7 @@ use Phalcon\Events\ManagerInterface;
 abstract class Application extends Injectable implements EventsAwareInterface
 {
     protected container;
-    
+
     /**
      * @var string
      */
@@ -95,7 +95,7 @@ abstract class Application extends Injectable implements EventsAwareInterface
     /**
      * Register an array of modules present in the application
      *
-     * <code>
+     * ```php
      * $this->registerModules(
      *     [
      *         "frontend" => [
@@ -108,7 +108,7 @@ abstract class Application extends Injectable implements EventsAwareInterface
      *         ],
      *     ]
      * );
-     * </code>
+     * ```
      */
     public function registerModules(array modules, bool merge = false) -> <Application>
     {

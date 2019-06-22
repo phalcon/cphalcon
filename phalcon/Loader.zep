@@ -20,7 +20,7 @@ use Phalcon\Events\EventsAwareInterface;
  * This component helps to load your project classes automatically based on some
  * conventions
  *
- *<code>
+ *```php
  * use Phalcon\Loader;
  *
  * // Creates the autoloader
@@ -40,7 +40,7 @@ use Phalcon\Events\EventsAwareInterface;
  *
  * // Requiring this class will automatically include file vendor/example/adapter/Some.php
  * $adapter = new \Example\Adapter\Some();
- *</code>
+ *```
  */
 class Loader implements EventsAwareInterface
 {
@@ -490,7 +490,7 @@ class Loader implements EventsAwareInterface
     /**
      * Sets the file check callback.
      *
-     * <code>
+     * ```php
      * // Default behavior.
      * $loader->setFileCheckingCallback("is_file");
      *
@@ -500,7 +500,7 @@ class Loader implements EventsAwareInterface
      *
      * // Do not check file existence.
      * $loader->setFileCheckingCallback(null);
-     * </code>
+     * ```
      */
     public function setFileCheckingCallback(var callback = null) -> <Loader>
     {

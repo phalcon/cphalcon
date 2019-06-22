@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator;
  *
  * Allows validate if the value of a field matches a regular expression
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Regex as RegexValidator;
  *
@@ -53,7 +53,7 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Regex extends Validator
 {

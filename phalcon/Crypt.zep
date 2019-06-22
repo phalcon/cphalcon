@@ -19,7 +19,7 @@ use Phalcon\Crypt\Mismatch;
  *
  * Provides encryption facilities to Phalcon applications.
  *
- * <code>
+ * ```php
  * use Phalcon\Crypt;
  *
  * $crypt = new Crypt();
@@ -32,7 +32,7 @@ use Phalcon\Crypt\Mismatch;
  * $encrypted = $crypt->encrypt($text, $key);
  *
  * echo $crypt->decrypt($encrypted, $key);
- * </code>
+ * ```
  */
 class Crypt implements CryptInterface
 {
@@ -110,12 +110,12 @@ class Crypt implements CryptInterface
     /**
      * Decrypts an encrypted text.
      *
-     * <code>
+     * ```php
      * $encrypted = $crypt->decrypt(
      *     $encrypted,
      *     "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3"
      * );
-     * </code>
+     * ```
      *
      * @throws \Phalcon\Crypt\Mismatch
      */
@@ -245,12 +245,12 @@ class Crypt implements CryptInterface
     /**
      * Encrypts a text.
      *
-     * <code>
+     * ```php
      * $encrypted = $crypt->encrypt(
      *     "Top secret",
      *     "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3"
      * );
-     * </code>
+     * ```
      */
     public function encrypt(string! text, string! key = null) -> string
     {

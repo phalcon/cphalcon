@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  *
  * Checks if a value has a correct file mime type
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\File\MimeType;
  *
@@ -62,7 +62,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class MimeType extends FileAbstract
 {

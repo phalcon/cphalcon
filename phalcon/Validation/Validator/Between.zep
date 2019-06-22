@@ -20,7 +20,7 @@ use Phalcon\Validation\Validator;
  * Validates that a value is between an inclusive range of two values.
  * For a value x, the test is passed if minimum<=x<=maximum.
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Between;
  *
@@ -59,7 +59,7 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Between extends Validator
 {

@@ -62,9 +62,9 @@ class Document implements EntityInterface, \ArrayAccess
     /**
      * Reads an attribute value by its name
      *
-     *<code>
+     *```php
      *  echo $robot->readAttribute("name");
-     *</code>
+     *```
      */
     public function readAttribute(string! attribute) -> var | null
     {
@@ -88,9 +88,9 @@ class Document implements EntityInterface, \ArrayAccess
     /**
      * Writes an attribute value by its name
      *
-     *<code>
+     *```php
      *  $robot->writeAttribute("name", "Rosey");
-     *</code>
+     *```
      */
     public function writeAttribute(string! attribute, var value) -> void
     {

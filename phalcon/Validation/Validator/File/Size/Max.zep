@@ -20,7 +20,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  *
  * Checks if a value has a correct file
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\File\Size;
  *
@@ -59,7 +59,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Max extends FileAbstract
 {

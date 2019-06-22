@@ -22,7 +22,7 @@ use Phalcon\Config\ConfigFactory;
  *
  * @see Phalcon\Config\Factory::load To load Config Adapter class using 'adapter' option.
  *
- * <code>
+ * ```php
  * use Phalcon\Config\Adapter\Grouped;
  *
  * $config = new Grouped(
@@ -31,9 +31,9 @@ use Phalcon\Config\ConfigFactory;
  *         "path/to/config.dist.php",
  *     ]
  * );
- * </code>
+ * ```
  *
- * <code>
+ * ```php
  * use Phalcon\Config\Adapter\Grouped;
  *
  * $config = new Grouped(
@@ -43,9 +43,9 @@ use Phalcon\Config\ConfigFactory;
  *     ],
  *     "json"
  * );
- * </code>
+ * ```
  *
- * <code>
+ * ```php
  * use Phalcon\Config\Adapter\Grouped;
  *
  * $config = new Grouped(
@@ -66,7 +66,7 @@ use Phalcon\Config\ConfigFactory;
  *         ],
  *     ],
  * );
- * </code>
+ * ```
  */
 class Grouped extends Config
 {

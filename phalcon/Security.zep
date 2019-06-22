@@ -22,7 +22,7 @@ use Phalcon\Session\ManagerInterface as SessionInterface;
  * This component provides a set of functions to improve the security in Phalcon
  * applications
  *
- *<code>
+ *```php
  * $login    = $this->request->getPost("login");
  * $password = $this->request->getPost("password");
  *
@@ -33,7 +33,7 @@ use Phalcon\Session\ManagerInterface as SessionInterface;
  *         // The password is valid
  *     }
  * }
- *</code>
+ *```
  */
 class Security implements InjectionAwareInterface
 {

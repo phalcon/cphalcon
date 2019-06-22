@@ -59,7 +59,7 @@ class Route implements RouteInterface
      * The developer can implement any arbitrary conditions here
      * If the callback returns false the route is treated as not matched
      *
-     *<code>
+     *```php
      * $router->add(
      *     "/login",
      *     [
@@ -76,7 +76,7 @@ class Route implements RouteInterface
      *         return true;
      *     }
      * );
-     *</code>
+     *```
      */
     public function beforeMatch(var callback) -> <RouteInterface>
     {
@@ -471,7 +471,7 @@ class Route implements RouteInterface
     /**
      * Allows to set a callback to handle the request directly in the route
      *
-     *<code>
+     *```php
      * $router->add(
      *     "/help",
      *     []
@@ -480,7 +480,7 @@ class Route implements RouteInterface
      *         return $this->getResponse()->redirect("https://support.google.com/", true);
      *     }
      * );
-     *</code>
+     *```
      */
     public function match(var callback) -> <RouteInterface>
     {
@@ -558,7 +558,7 @@ class Route implements RouteInterface
     /**
      * Sets a set of HTTP methods that constraint the matching of the route (alias of via)
      *
-     *<code>
+     *```php
      * $route->setHttpMethods("GET");
      *
      * $route->setHttpMethods(
@@ -567,7 +567,7 @@ class Route implements RouteInterface
      *         "POST",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function setHttpMethods(var httpMethods) -> <RouteInterface>
     {
@@ -577,9 +577,9 @@ class Route implements RouteInterface
     /**
      * Sets a hostname restriction to the route
      *
-     *<code>
+     *```php
      * $route->setHostname("localhost");
-     *</code>
+     *```
      */
     public function setHostname(string! hostname) -> <RouteInterface>
     {
@@ -591,14 +591,14 @@ class Route implements RouteInterface
     /**
      * Sets the route's name
      *
-     *<code>
+     *```php
      * $router->add(
      *     "/about",
      *     [
      *         "controller" => "about",
      *     ]
      * )->setName("about");
-     *</code>
+     *```
      */
     public function setName(string name) -> <RouteInterface>
     {
@@ -610,7 +610,7 @@ class Route implements RouteInterface
     /**
      * Set one or more HTTP methods that constraint the matching of the route
      *
-     *<code>
+     *```php
      * $route->via("GET");
      *
      * $route->via(
@@ -619,7 +619,7 @@ class Route implements RouteInterface
      *         "POST",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function via(var httpMethods) -> <RouteInterface>
     {

@@ -23,11 +23,9 @@ use Phalcon\Acl\RoleInterface;
 use Phalcon\Acl\ComponentInterface;
 
 /**
- * Phalcon\Acl\Adapter\Memory
- *
  * Manages ACL lists in memory
  *
- *<code>
+ *```php
  * $acl = new \Phalcon\Acl\Adapter\Memory();
  *
  * $acl->setDefaultAction(
@@ -85,7 +83,7 @@ use Phalcon\Acl\ComponentInterface;
  *         $acl->allow("Users", $component, $action);
  *     }
  * }
- *</code>
+ *```
  */
 class Memory extends Adapter
 {
@@ -189,7 +187,7 @@ class Memory extends Adapter
      * search, update, delete, etc or a list of them
      *
      * Example:
-     * <code>
+     * ```php
      * // Add a component to the the list allowing access to an action
      * $acl->addComponent(
      *     new Phalcon\Acl\Component("customers"),
@@ -214,7 +212,7 @@ class Memory extends Adapter
      *         "search",
      *     ]
      * );
-     * </code>
+     * ```
      *
      * @param   Phalcon\Acl\Component|string componentValue
      * @param   array|string                 accessList
@@ -285,11 +283,11 @@ class Memory extends Adapter
      * Do a role inherit from another existing role
      *
      * Example:
-     * <code>
+     * ```php
      *
      * $acl->addRole("administrator", "consultant");
      * $acl->addRole("administrator", ["consultant", "consultant2"]);
-     * </code>
+     * ```
      *
      * @param  array|string               accessInherits
      * @param  RoleInterface|string|array role
@@ -401,7 +399,7 @@ class Memory extends Adapter
      * Adds a role to the ACL list. Second parameter allows inheriting access data from other existing role
      *
      * Example:
-     * <code>
+     * ```php
      * $acl->addRole(
      *     new Phalcon\Acl\Role("administrator"),
      *     "consultant"
@@ -409,7 +407,7 @@ class Memory extends Adapter
      *
      * $acl->addRole("administrator", "consultant");
      * $acl->addRole("administrator", ["consultant", "consultant2"]);
-     * </code>
+     * ```
      *
      * @param  array|string               accessInherits
      * @param  RoleInterface|string|array role
@@ -450,7 +448,7 @@ class Memory extends Adapter
      * You can use '*' as wildcard
      *
      * Example:
-     * <code>
+     * ```php
      * //Allow access to guests to search on customers
      * $acl->allow("guests", "customers", "search");
      *
@@ -462,7 +460,7 @@ class Memory extends Adapter
      *
      * //Allow access to any role to browse on any component
      * $acl->allow("*", "*", "browse");
-     * </code>
+     * ```
      */
     public function allow(string roleName, string componentName, var access, var func = null) -> void
     {
@@ -495,7 +493,7 @@ class Memory extends Adapter
      * You can use '*' as wildcard
      *
      * Example:
-     * <code>
+     * ```php
      * //Deny access to guests to search on customers
      * $acl->deny("guests", "customers", "search");
      *
@@ -507,7 +505,7 @@ class Memory extends Adapter
      *
      * //Deny access to any role to browse on any component
      * $acl->deny("*", "*", "browse");
-     * </code>
+     * ```
      */
     public function deny(string roleName, string componentName, var access, var func = null) -> void
     {
@@ -584,13 +582,13 @@ class Memory extends Adapter
     /**
      * Check whether a role is allowed to access an action from a component
      *
-     * <code>
+     * ```php
      * //Does andres have access to the customers component to create?
      * $acl->isAllowed("andres", "Products", "create");
      *
      * //Do guests have access to any component to edit?
      * $acl->isAllowed("guests", "*", "edit");
-     * </code>
+     * ```
      *
      * @param  RoleInterface|RoleAware|string roleName
      * @param  ComponentInterface|ComponentAware|string componentName

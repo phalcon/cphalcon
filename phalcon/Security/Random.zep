@@ -31,7 +31,7 @@ namespace Phalcon\Security;
  * - Generating random passwords for new user accounts
  * - Encryption systems
  *
- *<code>
+ *```php
  * $random = new \Phalcon\Security\Random();
  *
  * // Random binary string
@@ -76,7 +76,7 @@ namespace Phalcon\Security;
  * echo $random->base58();   // Umjxqf7ZPwh765yR
  * echo $random->base58(24); // qoXcgmw4A9dys26HaNEdCRj9
  * echo $random->base58(7);  // 774SJD3vgP
- *</code>
+ *```
  *
  * This class partially borrows SecureRandom library from Ruby
  *
@@ -94,11 +94,11 @@ class Random
      * modified to avoid both non-alphanumeric characters and letters which
      * might look ambiguous when printed.
      *
-     *<code>
+     *```php
      * $random = new \Phalcon\Security\Random();
      *
      * echo $random->base58(); // 4kUgL2pdQMSCQtjE
-     *</code>
+     *```
      *
      * @see    \Phalcon\Security\Random:base64
      * @link   https://en.wikipedia.org/wiki/Base58
@@ -123,11 +123,11 @@ class Random
      * without needing to take extra characters into consideration because it is
      * [A-Za-z0-9].
      *
-     *<code>
+     *```php
      * $random = new \Phalcon\Security\Random();
      *
      * echo $random->base62(); // z0RkwHfh8ErDM1xw
-     *</code>
+     *```
      *
      * @see    \Phalcon\Security\Random:base58
      * @throws Exception If secure random number generator is not available or unexpected partial read
@@ -148,11 +148,11 @@ class Random
      * The length of the result string is usually greater of $len.
      * Size formula: 4 * ($len / 3) rounded up to a multiple of 4.
      *
-     *<code>
+     *```php
      * $random = new \Phalcon\Security\Random();
      *
      * echo $random->base64(12); // 3rcq39QzGK9fUqh8
-     *</code>
+     *```
      *
      * @throws Exception If secure random number generator is not available or unexpected partial read
      */
@@ -174,11 +174,11 @@ class Random
      * used if $padding is true. See RFC 3548 for the definition of URL-safe
      * base64.
      *
-     *<code>
+     *```php
      * $random = new \Phalcon\Security\Random();
      *
      * echo $random->base64Safe(); // GD8JojhzSTrqX7Q8J6uug
-     *</code>
+     *```
      *
      * @link https://www.ietf.org/rfc/rfc3548.txt
      * @throws Exception If secure random number generator is not available or unexpected partial read
@@ -217,13 +217,13 @@ class Random
      * If $len is not specified, 16 is assumed. It may be larger in future.
      * The result may contain any byte: "x00" - "xFF".
      *
-     *<code>
+     *```php
      * $random = new \Phalcon\Security\Random();
      *
      * $bytes = $random->bytes();
      * var_dump(bin2hex($bytes));
      * // Possible output: string(32) "00f6c04b144b41fad6a59111c126e1ee"
-     *</code>
+     *```
      *
      * @throws Exception If secure random number generator is not available or unexpected partial read
      */
@@ -278,11 +278,11 @@ class Random
      * If $len is not specified, 16 is assumed. It may be larger in future.
      * The length of the result string is usually greater of $len.
      *
-     *<code>
+     *```php
      * $random = new \Phalcon\Security\Random();
      *
      * echo $random->hex(10); // a29f470508d5ccb8e289
-     *</code>
+     *```
      *
      * @throws Exception If secure random number generator is not available or unexpected partial read
      */
@@ -301,11 +301,11 @@ class Random
      *
      * Returns an integer: 0 <= result <= $len.
      *
-     *<code>
+     *```php
      * $random = new \Phalcon\Security\Random();
      *
      * echo $random->number(16); // 8
-     *</code>
+     *```
      * @throws Exception If secure random number generator is not available, unexpected partial read or $len <= 0
      */
     public function number(int len) -> int
@@ -375,11 +375,11 @@ class Random
      * xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx where x is any hexadecimal digit and
      * y is one of 8, 9, A, or B (e.g., f47ac10b-58cc-4372-a567-0e02b2c3d479).
      *
-     *<code>
+     *```php
      * $random = new \Phalcon\Security\Random();
      *
      * echo $random->uuid(); // 1378c906-64bb-4f81-a8d6-4ae1bfcdec22
-     *</code>
+     *```
      *
      * @link https://www.ietf.org/rfc/rfc4122.txt
      * @throws Exception If secure random number generator is not available or unexpected partial read

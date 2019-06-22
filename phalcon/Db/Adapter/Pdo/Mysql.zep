@@ -25,7 +25,7 @@ use Phalcon\Db\ReferenceInterface;
  *
  * Specific functions for the Mysql database system
  *
- *<code>
+ *```php
  * use Phalcon\Db\Adapter\Pdo\Mysql;
  *
  * $config = [
@@ -37,7 +37,7 @@ use Phalcon\Db\ReferenceInterface;
  * ];
  *
  * $connection = new Mysql($config);
- *</code>
+ *```
  */
 class Mysql extends PdoAdapter
 {
@@ -74,11 +74,11 @@ class Mysql extends PdoAdapter
     /**
      * Returns an array of Phalcon\Db\Column objects describing a table
      *
-     * <code>
+     * ```php
      * print_r(
      *     $connection->describeColumns("posts")
      * );
-     * </code>
+     * ```
      */
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
@@ -449,11 +449,11 @@ class Mysql extends PdoAdapter
     /**
      * Lists table indexes
      *
-     * <code>
+     * ```php
      * print_r(
      *     $connection->describeIndexes("robots_parts")
      * );
-     * </code>
+     * ```
      */
     public function describeIndexes(string! table, string! schema = null) -> <IndexInterface[]>
     {
@@ -505,11 +505,11 @@ class Mysql extends PdoAdapter
     /**
      * Lists table references
      *
-     *<code>
+     *```php
      * print_r(
      *     $connection->describeReferences("robots_parts")
      * );
-     *</code>
+     *```
      */
     public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
     {

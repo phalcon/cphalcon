@@ -163,7 +163,7 @@ interface AdapterInterface
     /**
      * Returns the n'th field of first row in a SQL query result
      *
-     *<code>
+     *```php
      * // Getting count of robots
      * $robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
      * print_r($robotsCount);
@@ -174,7 +174,7 @@ interface AdapterInterface
      *     1
      * );
      * print_r($robot);
-     *</code>
+     *```
      *
      * @param  int|string column
      */
@@ -275,7 +275,7 @@ interface AdapterInterface
     /**
      * Inserts data into a table using custom RBDM SQL syntax
      *
-     * <code>
+     * ```php
      * // Inserting a new robot
      * $success = $connection->insertAsDict(
      *     "robots",
@@ -287,7 +287,7 @@ interface AdapterInterface
      *
      * // Next SQL sentence is sent to the database system
      * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
-     * </code>
+     * ```
      *
      * @param     array data
      * @param     array dataTypes
@@ -395,7 +395,7 @@ interface AdapterInterface
      * Updates data on a table using custom RBDM SQL syntax
      * Another, more convenient syntax
      *
-     * <code>
+     * ```php
      * // Updating existing robot
      * $success = $connection->updateAsDict(
      *     "robots",
@@ -407,7 +407,7 @@ interface AdapterInterface
      *
      * // Next SQL sentence is sent to the database system
      * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
-     * </code>
+     * ```
      *
      * @param     array data
      * @param     string whereCondition

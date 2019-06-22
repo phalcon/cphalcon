@@ -28,7 +28,7 @@ use Phalcon\Storage\Serializer\SerializerInterface;
  * it will dump all the rows into a big array. Then unserialize will retrieve the rows as they were before
  * serializing.
  *
- * <code>
+ * ```php
  *
  * // Using a standard foreach
  * $robots = Robots::find(
@@ -59,7 +59,7 @@ use Phalcon\Storage\Serializer\SerializerInterface;
  *
  *     $robots->next();
  * }
- * </code>
+ * ```
  */
 abstract class Resultset
     implements ResultsetInterface, \Iterator, \SeekableIterator, \Countable, \ArrayAccess, \Serializable, \JsonSerializable
@@ -247,7 +247,7 @@ abstract class Resultset
     /**
      * Filters a resultset returning only those the developer requires
      *
-     *<code>
+     *```php
      * $filtered = $robots->filter(
      *     function ($robot) {
      *         if ($robot->id < 3) {
@@ -255,7 +255,7 @@ abstract class Resultset
      *         }
      *     }
      * );
-     *</code>
+     *```
      */
     public function filter(callable filter) -> <ModelInterface[]>
     {
@@ -369,11 +369,11 @@ abstract class Resultset
      * Returns serialised model objects as array for json_encode.
      * Calls jsonSerialize on each object if present
      *
-     *<code>
+     *```php
      * $robots = Robots::find();
      *
      * echo json_encode($robots);
-     *</code>
+     *```
      */
     public function jsonSerialize() -> array
     {

@@ -15,9 +15,9 @@ namespace Phalcon\Assets;
  *
  * Represents an asset asset
  *
- *<code>
+ *```php
  * $asset = new \Phalcon\Assets\Asset("js", "javascripts/jquery.js");
- *</code>
+ *```
  */
 class Asset implements AssetInterface
 {

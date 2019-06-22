@@ -24,7 +24,7 @@ use Phalcon\Db\ReferenceInterface;
  *
  * Specific functions for the Postgresql database system
  *
- * <code>
+ * ```php
  * use Phalcon\Db\Adapter\Pdo\Postgresql;
  *
  * $config = [
@@ -36,7 +36,7 @@ use Phalcon\Db\ReferenceInterface;
  * ];
  *
  * $connection = new Postgresql($config);
- * </code>
+ * ```
  */
 class Postgresql extends PdoAdapter
 {
@@ -140,11 +140,11 @@ class Postgresql extends PdoAdapter
     /**
      * Returns an array of Phalcon\Db\Column objects describing a table
      *
-     * <code>
+     * ```php
      * print_r(
      *     $connection->describeColumns("posts")
      * );
-     * </code>
+     * ```
      */
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
@@ -523,11 +523,11 @@ class Postgresql extends PdoAdapter
     /**
      * Lists table references
      *
-     *<code>
+     *```php
      * print_r(
      *     $connection->describeReferences("robots_parts")
      * );
-     *</code>
+     *```
      */
     public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
     {
@@ -591,7 +591,7 @@ class Postgresql extends PdoAdapter
     /**
      * Returns the default identity value to be inserted in an identity column
      *
-     *<code>
+     *```php
      * // Inserting a new robot with a valid default value for the column 'id'
      * $success = $connection->insert(
      *     "robots",
@@ -606,7 +606,7 @@ class Postgresql extends PdoAdapter
      *         "year",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function getDefaultIdValue() -> <RawValue>
     {

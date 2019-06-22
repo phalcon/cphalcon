@@ -18,11 +18,11 @@ use Phalcon\Annotations\Reflection;
  *
  * Stores the parsed annotations in APCu. This adapter is suitable for production
  *
- *<code>
+ *```php
  * use Phalcon\Annotations\Adapter\Apcu;
  *
  * $annotations = new Apcu();
- *</code>
+ *```
  */
 class Apcu extends AbstractAdapter
 {

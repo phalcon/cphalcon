@@ -20,7 +20,7 @@ use Traversable;
  * space. By storing the value in a registry, the same object is always
  * available throughout your application.
  *
- *<code>
+ *```php
  * $registry = new \Phalcon\Registry();
  *
  * // Set value
@@ -42,7 +42,7 @@ use Traversable;
  * unset($registry->something);
  * // or
  * unset($registry["something"]);
- *</code>
+ *```
  *
  * In addition to ArrayAccess, Phalcon\Registry also implements Countable
  * (count($registry) will return the number of elements in the registry),

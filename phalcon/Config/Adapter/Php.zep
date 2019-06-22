@@ -19,7 +19,7 @@ use Phalcon\Config\Config;
  *
  * Given the next configuration file:
  *
- *<code>
+ *```php
  * <?php
  *
  * return [
@@ -36,16 +36,16 @@ use Phalcon\Config\Config;
  *         "viewsDir"       => "../app/views/",
  *     ],
  * ];
- *</code>
+ *```
  *
  * You can read it as follows:
  *
- *<code>
+ *```php
  * $config = new \Phalcon\Config\Adapter\Php("path/config.php");
  *
  * echo $config->phalcon->controllersDir;
  * echo $config->database->username;
- *</code>
+ *```
  */
 class Php extends Config
 {

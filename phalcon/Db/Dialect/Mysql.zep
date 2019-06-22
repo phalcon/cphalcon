@@ -277,11 +277,11 @@ class Mysql extends Dialect
     /**
      * Generates SQL describing a table
      *
-     * <code>
+     * ```php
      * print_r(
      *     $dialect->describeColumns("posts")
      * );
-     * </code>
+     * ```
      */
     public function describeColumns(string! table, string schema = null) -> string
     {
@@ -635,11 +635,11 @@ class Mysql extends Dialect
     /**
      * List all tables in database
      *
-     * <code>
+     * ```php
      * print_r(
      *     $dialect->listTables("blog")
      * );
-     * </code>
+     * ```
      */
     public function listTables(string schemaName = null) -> string
     {
@@ -717,11 +717,11 @@ class Mysql extends Dialect
     /**
      * Returns a SQL modified with a LOCK IN SHARE MODE clause
      *
-     *<code>
+     *```php
      * $sql = $dialect->sharedLock("SELECT * FROM robots");
      *
      * echo $sql; // SELECT * FROM robots LOCK IN SHARE MODE
-     *</code>
+     *```
      */
     public function sharedLock(string! sqlQuery) -> string
     {
@@ -731,11 +731,11 @@ class Mysql extends Dialect
     /**
      * Generates SQL checking for the existence of a schema.table
      *
-     * <code>
+     * ```php
      * echo $dialect->tableExists("posts", "blog");
      *
      * echo $dialect->tableExists("posts");
-     * </code>
+     * ```
      */
     public function tableExists(string! tableName, string schemaName = null) -> string
     {

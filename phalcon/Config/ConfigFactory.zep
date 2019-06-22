@@ -24,7 +24,7 @@ use Phalcon\Helper\Arr;
  * Loads Config Adapter class using 'adapter' option, if no extension is
  * provided it will be added to filePath
  *
- *<code>
+ *```php
  * use Phalcon\Config\ConfigFactory;
  *
  * $options = [
@@ -33,7 +33,7 @@ use Phalcon\Helper\Arr;
  * ];
  *
  * $config = (new ConfigFactory())->load($options);
- *</code>
+ *```
  */
 class ConfigFactory extends AbstractFactory
 {

@@ -25,7 +25,7 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  *
  * This component allows to render views without hierarchical levels
  *
- *<code>
+ *```php
  * use Phalcon\Mvc\View\Simple as View;
  *
  * $view = new View();
@@ -45,7 +45,7 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  *         "parameter" => $here,
  *     ]
  * );
- *</code>
+ *```
  */
 class Simple extends Injectable implements ViewBaseInterface
 {
@@ -80,9 +80,9 @@ class Simple extends Injectable implements ViewBaseInterface
     /**
      * Magic method to retrieve a variable passed to the view
      *
-     *<code>
+     *```php
      * echo $this->view->products;
-     *</code>
+     *```
      */
     public function __get(string! key) -> var | null
     {
@@ -98,9 +98,9 @@ class Simple extends Injectable implements ViewBaseInterface
     /**
      * Magic method to pass variables to the views
      *
-     *<code>
+     *```php
      * $this->view->products = $products;
-     *</code>
+     *```
      */
     public function __set(string! key, var value)
     {
@@ -156,12 +156,12 @@ class Simple extends Injectable implements ViewBaseInterface
     /**
      * Renders a partial view
      *
-     * <code>
+     * ```php
      * // Show a partial inside another view
      * $this->partial("shared/footer");
-     * </code>
+     * ```
      *
-     * <code>
+     * ```php
      * // Show a partial inside another view with parameters
      * $this->partial(
      *     "shared/footer",
@@ -169,7 +169,7 @@ class Simple extends Injectable implements ViewBaseInterface
      *         "content" => $html,
      *     ]
      * );
-     * </code>
+     * ```
      */
     public function partial(string! partialPath, var params = null)
     {
@@ -226,7 +226,7 @@ class Simple extends Injectable implements ViewBaseInterface
     /**
      * Register templating engines
      *
-     *<code>
+     *```php
      * $this->view->registerEngines(
      *     [
      *         ".phtml" => \Phalcon\Mvc\View\Engine\Php::class,
@@ -234,7 +234,7 @@ class Simple extends Injectable implements ViewBaseInterface
      *         ".mhtml" => \MyCustomEngine::class,
      *     ]
      * );
-     *</code>
+     *```
      */
     public function registerEngines(array! engines)
     {
@@ -275,9 +275,9 @@ class Simple extends Injectable implements ViewBaseInterface
     /**
      * Externally sets the view content
      *
-     *<code>
+     *```php
      * $this->view->setContent("<h1>hello</h1>");
-     *</code>
+     *```
      */
     public function setContent(string! content) -> <Simple>
     {
@@ -289,9 +289,9 @@ class Simple extends Injectable implements ViewBaseInterface
     /**
      * Adds parameters to views (alias of setVar)
      *
-     *<code>
+     *```php
      * $this->view->setParamToView("products", $products);
-     *</code>
+     *```
      */
     public function setParamToView(string! key, var value) -> <Simple>
     {
@@ -301,9 +301,9 @@ class Simple extends Injectable implements ViewBaseInterface
     /**
      * Set a single view parameter
      *
-     *<code>
+     *```php
      * $this->view->setVar("products", $products);
-     *</code>
+     *```
      */
     public function setVar(string! key, var value) -> <Simple>
     {
@@ -315,13 +315,13 @@ class Simple extends Injectable implements ViewBaseInterface
     /**
      * Set all the render params
      *
-     *<code>
+     *```php
      * $this->view->setVars(
      *     [
      *         "products" => $products,
      *     ]
      * );
-     *</code>
+     *```
      */
     public function setVars(array! params, bool merge = true) -> <Simple>
     {

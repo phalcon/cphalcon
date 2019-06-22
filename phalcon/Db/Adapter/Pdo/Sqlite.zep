@@ -26,7 +26,7 @@ use Phalcon\Db\ReferenceInterface;
  *
  * Specific functions for the Sqlite database system
  *
- * <code>
+ * ```php
  * use Phalcon\Db\Adapter\Pdo\Sqlite;
  *
  * $connection = new Sqlite(
@@ -34,7 +34,7 @@ use Phalcon\Db\ReferenceInterface;
  *         "dbname" => "/tmp/test.sqlite",
  *     ]
  * );
- * </code>
+ * ```
  */
 class Sqlite extends PdoAdapter
 {
@@ -84,11 +84,11 @@ class Sqlite extends PdoAdapter
     /**
      * Returns an array of Phalcon\Db\Column objects describing a table
      *
-     * <code>
+     * ```php
      * print_r(
      *     $connection->describeColumns("posts")
      * );
-     * </code>
+     * ```
      */
     public function describeColumns(string! table, string! schema = null) -> <ColumnInterface[]>
     {
@@ -311,11 +311,11 @@ class Sqlite extends PdoAdapter
     /**
      * Lists table indexes
      *
-     * <code>
+     * ```php
      * print_r(
      *     $connection->describeIndexes("robots_parts")
      * );
-     * </code>
+     * ```
      */
     public function describeIndexes(string! table, string! schema = null) -> <IndexInterface[]>
     {
@@ -434,7 +434,7 @@ class Sqlite extends PdoAdapter
      * Returns the default value to make the RBDM use the default value declared
      * in the table definition
      *
-     *<code>
+     *```php
      * // Inserting a new robot with a valid default value for the column 'year'
      * $success = $connection->insert(
      *     "robots",
@@ -447,7 +447,7 @@ class Sqlite extends PdoAdapter
      *         "year",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function getDefaultValue() -> <RawValue>
     {
