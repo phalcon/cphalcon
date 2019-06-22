@@ -11,8 +11,6 @@
 namespace Phalcon\Acl;
 
 /**
- * Phalcon\Acl\AdapterInterface
- *
  * Interface for Phalcon\Acl adapters
  */
 interface AdapterInterface

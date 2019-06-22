@@ -36,7 +36,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * A ModelsManager is injected to a model via a Dependency Injector/Services
  * Container such as Phalcon\Di.
  *
- * <code>
+ * ```php
  * use Phalcon\Di;
  * use Phalcon\Mvc\Model\Manager as ModelsManager;
  *
@@ -50,7 +50,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * );
  *
  * $robot = new Robots($di);
- * </code>
+ * ```
  */
 class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareInterface
 {
@@ -292,7 +292,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Sets the prefix for all model sources.
      *
-     * <code>
+     * ```php
      * use Phalcon\Mvc\Model\Manager;
      *
      * $di->set(
@@ -309,7 +309,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * $robots = new Robots();
      *
      * echo $robots->getSource(); // wp_robots
-     * </code>
+     * ```
      */
     public function setModelPrefix(string! prefix) -> void
     {
@@ -335,12 +335,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Check whether a model property is declared as public.
      *
-     * <code>
+     * ```php
      * $isPublic = $manager->isVisibleModelProperty(
      *     new Robots(),
      *     "name"
      * );
-     * </code>
+     * ```
      */
     final public function isVisibleModelProperty(<ModelInterface> model, string property) -> bool
     {
@@ -1560,11 +1560,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Gets all the belongsTo relations defined in a model
      *
-     *<code>
+     *```php
      * $relations = $modelsManager->getBelongsTo(
      *     new Robots()
      * );
-     *</code>
+     *```
      */
     public function getBelongsTo(<ModelInterface> model) -> <RelationInterface[]> | array
     {

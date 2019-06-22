@@ -19,7 +19,7 @@ use Phalcon\Messages\Message;
  *
  * Check for IP addresses
  *
- * <code>
+ * ```php
  * use Phalcon\Validation\Validator\Ip as IpValidator;
  *
  * $validator->add(
@@ -65,7 +65,7 @@ use Phalcon\Messages\Message;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Ip extends Validator
 {

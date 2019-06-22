@@ -17,19 +17,19 @@ use Phalcon\Di;
  *
  * Dumps information about a variable(s)
  *
- * <code>
+ * ```php
  * $foo = 123;
  *
  * echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
- * </code>
+ * ```
  *
- * <code>
+ * ```php
  * $foo = "string";
  * $bar = ["key" => "value"];
  * $baz = new stdClass();
  *
  * echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
- * </code>
+ * ```
  */
 class Dump
 {
@@ -115,7 +115,7 @@ class Dump
     /**
      * Returns an JSON string of information about a single variable.
      *
-     * <code>
+     * ```php
      * $foo = [
      *     "key" => "value",
      * ];
@@ -126,7 +126,7 @@ class Dump
      * $foo->bar = "buz";
      *
      * echo (new \Phalcon\Debug\Dump())->toJson($foo);
-     * </code>
+     * ```
      */
     public function toJson(var variable) -> string
     {
@@ -139,9 +139,9 @@ class Dump
     /**
      * Returns an HTML string of information about a single variable.
      *
-     * <code>
+     * ```php
      * echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
-     * </code>
+     * ```
      */
     public function variable(var variable, string name = null) -> string
     {
@@ -158,13 +158,13 @@ class Dump
      * Returns an HTML string of debugging information about any number of
      * variables, each wrapped in a "pre" tag.
      *
-     * <code>
+     * ```php
      * $foo = "string";
      * $bar = ["key" => "value"];
      * $baz = new stdClass();
      *
      * echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
-     * </code>
+     * ```
      *
      * @param mixed variable
      * @param ...

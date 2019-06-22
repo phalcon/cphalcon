@@ -22,14 +22,14 @@ use Phalcon\Di\Service\Builder;
  *
  * Represents individually a service in the services container
  *
- *<code>
+ *```php
  * $service = new \Phalcon\Di\Service(
  *     "request",
  *     \Phalcon\Http\Request::class
  * );
  *
  * $request = service->resolve();
- *</code>
+ *```
  */
 class Service implements ServiceInterface
 {

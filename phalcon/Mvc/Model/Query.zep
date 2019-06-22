@@ -37,7 +37,7 @@ use Phalcon\Cache\Adapter\AdapterInterface;
  *
  * This class takes a PHQL intermediate representation and executes it.
  *
- *<code>
+ *```php
  * $phql = "SELECT c.price*0.16 AS taxes, c.* FROM Cars AS c JOIN Brands AS b
  *          WHERE b.name = :name: ORDER BY c.name";
  *
@@ -80,7 +80,7 @@ use Phalcon\Cache\Adapter\AdapterInterface;
  *
  * $queryWithOutTransaction = new Query($phql, $di);
  * $resultWithOutEntries = $queryWithTransaction->execute();
- *</code>
+ *```
  */
 class Query implements QueryInterface, InjectionAwareInterface
 {

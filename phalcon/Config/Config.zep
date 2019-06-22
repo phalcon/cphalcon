@@ -21,7 +21,7 @@ use Phalcon\Config\Exception;
  * based user interface for accessing this configuration data within application
  * code.
  *
- *<code>
+ *```php
  * $config = new \Phalcon\Config(
  *     [
  *         "database" => [
@@ -38,7 +38,7 @@ use Phalcon\Config\Exception;
  *         ],
  *     ]
  * );
- *</code>
+ *```
  */
 class Config extends Collection
 {
@@ -66,7 +66,7 @@ class Config extends Collection
     /**
      * Merges a configuration into the current one
      *
-     *<code>
+     *```php
      * $appConfig = new \Phalcon\Config(
      *     [
      *         "database" => [
@@ -76,7 +76,7 @@ class Config extends Collection
      * );
      *
      * $globalConfig->merge($appConfig);
-     *</code>
+     *```
      *
      * @param $toMerge
      *
@@ -108,9 +108,9 @@ class Config extends Collection
     /**
      * Returns a value from current config using a dot separated path.
      *
-     *<code>
+     *```php
      * echo $config->path("unknown.path", "default", ".");
-     *</code>
+     *```
      *
      * @param string     $path
      * @param null|mixed $defaultValue
@@ -170,11 +170,11 @@ class Config extends Collection
     /**
      * Converts recursively the object to an array
      *
-     *<code>
+     *```php
      * print_r(
      *     $config->toArray()
      * );
-     *</code>
+     *```
      */
     public function toArray() -> array
     {

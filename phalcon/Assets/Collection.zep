@@ -287,7 +287,7 @@ class Collection implements \Countable, \Iterator
     /**
      * Checks this the asset is added to the collection.
      *
-     * <code>
+     * ```php
      * use Phalcon\Assets\Asset;
      * use Phalcon\Assets\Collection;
      *
@@ -297,7 +297,7 @@ class Collection implements \Countable, \Iterator
      *
      * $collection->add($asset);
      * $collection->has($asset); // true
-     * </code>
+     * ```
      */
     public function has(<AssetInterface> asset) -> bool
     {

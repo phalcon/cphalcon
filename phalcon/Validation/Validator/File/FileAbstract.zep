@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator;
  *
  * Checks if a value has a correct file
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\File\Size;
  *
@@ -53,7 +53,7 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 abstract class FileAbstract extends Validator
 {

@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  *
  * Checks if a file has the rigth resolution
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\File\Resolution\Equal;
  *
@@ -53,7 +53,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Equal extends FileAbstract
 {

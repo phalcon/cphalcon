@@ -20,17 +20,17 @@ use Phalcon\Config\Exception;
  *
  * Given the following configuration file:
  *
- *<code>
+ *```php
  * phalcon:
  *   baseuri:        /phalcon/
  *   controllersDir: !approot  /app/controllers/
  * models:
  *   metadata: memory
- *</code>
+ *```
  *
  * You can read it as follows:
  *
- *<code>
+ *```php
  * define(
  *     "APPROOT",
  *     dirname(__DIR__)
@@ -48,7 +48,7 @@ use Phalcon\Config\Exception;
  * echo $config->phalcon->controllersDir;
  * echo $config->phalcon->baseuri;
  * echo $config->models->metadata;
- *</code>
+ *```
  */
 class Yaml extends Config
 {

@@ -30,9 +30,9 @@ interface CriteriaInterface
     /**
      * Appends a BETWEEN condition to the current conditions
      *
-     *<code>
+     *```php
      * $criteria->betweenWhere("price", 100.25, 200.50);
-     *</code>
+     *```
      *
      * @param mixed minimum
      * @param mixed maximum
@@ -139,7 +139,7 @@ interface CriteriaInterface
     /**
      * Adds an INNER join to the query
      *
-     *<code>
+     *```php
      * $criteria->innerJoin(
      *     Robots::class
      * );
@@ -154,29 +154,29 @@ interface CriteriaInterface
      *     "r.id = RobotsParts.robots_id",
      *     "r"
      * );
-     *</code>
+     *```
      */
     public function innerJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>;
 
     /**
      * Appends an IN condition to the current conditions
      *
-     *<code>
+     *```php
      * $criteria->inWhere("id", [1, 2, 3]);
-     *</code>
+     *```
      */
     public function inWhere(string! expr, array! values) -> <CriteriaInterface>;
 
     /**
      * Adds a LEFT join to the query
      *
-     *<code>
+     *```php
      * $criteria->leftJoin(
      *     Robots::class,
      *     "r.id = RobotsParts.robots_id",
      *     "r"
      * );
-     *</code>
+     *```
      */
     public function leftJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>;
 
@@ -188,9 +188,9 @@ interface CriteriaInterface
     /**
      * Appends a NOT BETWEEN condition to the current conditions
      *
-     *<code>
+     *```php
      * $criteria->notBetweenWhere("price", 100.25, 200.50);
-     *</code>
+     *```
      *
      * @param mixed minimum
      * @param mixed maximum
@@ -200,9 +200,9 @@ interface CriteriaInterface
     /**
      * Appends a NOT IN condition to the current conditions
      *
-     *<code>
+     *```php
      * $criteria->notInWhere("id", [1, 2, 3]);
-     *</code>
+     *```
      */
     public function notInWhere(string! expr, array! values) -> <CriteriaInterface>;
 
@@ -222,13 +222,13 @@ interface CriteriaInterface
     /**
      * Adds a RIGHT join to the query
      *
-     *<code>
+     *```php
      * $criteria->rightJoin(
      *     Robots::class,
      *     "r.id = RobotsParts.robots_id",
      *     "r"
      * );
-     *</code>
+     *```
      */
     public function rightJoin(string! model, conditions = null, alias = null) -> <CriteriaInterface>;
 

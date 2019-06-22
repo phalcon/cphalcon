@@ -50,19 +50,19 @@ interface BuilderInterface
     /**
      * Sets SELECT DISTINCT / SELECT ALL flag
      *
-     *<code>
+     *```php
      * $builder->distinct("status");
      * $builder->distinct(null);
-     *</code>
+     *```
      */
     public function distinct(var distinct) -> <BuilderInterface>;
 
     /**
      * Sets a FOR UPDATE clause
      *
-     *<code>
+     *```php
      * $builder->forUpdate(true);
-     *</code>
+     *```
      */
     public function forUpdate(bool forUpdate) -> <BuilderInterface>;
 

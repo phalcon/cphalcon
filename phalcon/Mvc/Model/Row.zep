@@ -83,9 +83,9 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
     /**
      * Reads an attribute value by its name
      *
-     *<code>
+     *```php
      * echo $robot->readAttribute("name");
-     *</code>
+     *```
      *
      * @return mixed
      */
@@ -119,9 +119,9 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
     /**
      * Writes an attribute value by its name
      *
-     *<code>
+     *```php
      * $robot->writeAttribute("name", "Rosey");
-     *</code>
+     *```
      *
      * @param mixed value
      */

@@ -14,8 +14,6 @@ use Phalcon\Events\ManagerInterface;
 use Phalcon\Events\EventsAwareInterface;
 
 /**
- * Phalcon\Acl\Adapter
- *
  * Adapter for Phalcon\Acl adapters
  */
 abstract class Adapter implements AdapterInterface, EventsAwareInterface

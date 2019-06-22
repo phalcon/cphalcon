@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator;
  *
  * Checks if a value has a valid credit card number
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\CreditCard as CreditCardValidator;
  *
@@ -48,7 +48,7 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class CreditCard extends Validator
 {

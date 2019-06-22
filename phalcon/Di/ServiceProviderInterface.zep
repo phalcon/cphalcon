@@ -18,7 +18,7 @@ use Phalcon\DiInterface;
  * Should be implemented by service providers, or such components, which
  * register a service in the service container.
  *
- * <code>
+ * ```php
  * namespace Acme;
  *
  * use Phalcon\DiInterface;
@@ -36,7 +36,7 @@ use Phalcon\DiInterface;
  *         );
  *     }
  * }
- * </code>
+ * ```
  */
 interface ServiceProviderInterface
 {

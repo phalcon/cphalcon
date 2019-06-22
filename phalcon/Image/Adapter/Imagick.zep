@@ -18,7 +18,7 @@ use Phalcon\Image\Exception;
  *
  * Image manipulation support. Allows images to be resized, cropped, etc.
  *
- *<code>
+ *```php
  * $image = new \Phalcon\Image\Adapter\Imagick("upload/test.jpg");
  *
  * $image->resize(200, 200)->rotate(90)->crop(100, 100);
@@ -26,7 +26,7 @@ use Phalcon\Image\Exception;
  * if ($image->save()) {
  *     echo "success";
  * }
- *</code>
+ *```
  */
 class Imagick extends AbstractAdapter
 {

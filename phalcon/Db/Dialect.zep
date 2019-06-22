@@ -87,11 +87,11 @@ abstract class Dialect implements DialectInterface
     /**
      * Returns a SQL modified with a FOR UPDATE clause
      *
-     *<code>
+     *```php
      * $sql = $dialect->forUpdate("SELECT * FROM robots");
      *
      * echo $sql; // SELECT * FROM robots FOR UPDATE
-     *</code>
+     *```
      */
     public function forUpdate(string! sqlQuery) -> string
     {
@@ -101,14 +101,14 @@ abstract class Dialect implements DialectInterface
     /**
      * Gets a list of columns with escaped identifiers
      *
-     * <code>
+     * ```php
      * echo $dialect->getColumnList(
      *     [
      *         "column1",
      *         "column",
      *     ]
      * );
-     * </code>
+     * ```
      */
     final public function getColumnList(array! columnList, string escapeChar = null, bindCounts = null) -> string
     {
@@ -399,7 +399,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Generates the SQL for LIMIT clause
      *
-     * <code>
+     * ```php
      * // SELECT * FROM robots LIMIT 10
      * echo $dialect->limit(
      *     "SELECT * FROM robots",
@@ -411,7 +411,7 @@ abstract class Dialect implements DialectInterface
      *     "SELECT * FROM robots",
      *     [10, 50]
      * );
-     * </code>
+     * ```
      */
     public function limit(string! sqlQuery, var number) -> string
     {

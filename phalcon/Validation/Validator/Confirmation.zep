@@ -20,7 +20,7 @@ use Phalcon\Validation\Validator;
  *
  * Checks that two values have the same value
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Confirmation;
  *
@@ -54,7 +54,7 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Confirmation extends Validator
 {

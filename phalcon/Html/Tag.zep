@@ -112,18 +112,18 @@ class Tag implements InjectionAwareInterface
     /**
      * Builds a HTML input[type="button"] tag
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
      *
      * echo $tag->button('Click Me');
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ button('Click Me') }}
-     * </code>
+     * ```
      */
     public function button(string! name, array parameters = []) -> string
     {
@@ -196,7 +196,7 @@ class Tag implements InjectionAwareInterface
      * Parameters
      * `useEol`    Append PHP_EOL at the end
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tab = new Tag();
@@ -213,7 +213,7 @@ class Tag implements InjectionAwareInterface
      *         'useEol' => true,
      *     ]
      * ); // '</aside>' . PHP_EOL
-     * </code>
+     * ```
      */
     public function elementClose(string! tag, array parameters = []) -> string
     {
@@ -244,7 +244,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Builds a HTML FORM tag
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tab = new Tag();
@@ -257,13 +257,13 @@ class Tag implements InjectionAwareInterface
      *         "method" => "post",
      *     ]
      * );
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ form('posts/save') }}
      * {{ form('posts/save', ['method': 'post') }}
-     * </code>
+     * ```
      */
     public function form(string action, array parameters = []) -> string
     {
@@ -298,7 +298,7 @@ class Tag implements InjectionAwareInterface
      * `lowercase` Convert to lowercase
      * `replace`
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tab = new Tag();
@@ -309,12 +309,12 @@ class Tag implements InjectionAwareInterface
      *         'separator' => '-',
      *     ]
      * );
-     * </code>
+     * ```
      *
      * Volt Syntax:
-     * <code>
+     * ```php
      * {{ friendly_title(['text': 'These are big important news', 'separator': '-']) }}
-     * </code>
+     * ```
      */
     public function friendlyTitle(string! text, array parameters = []) -> string
     {
@@ -435,7 +435,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Gets the current document title. The title will be automatically escaped.
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -450,12 +450,12 @@ class Tag implements InjectionAwareInterface
      * echo $tag->getTitle(false);        // World from Phalcon
      * echo $tag->getTitle(true, false);  // Hello World
      * echo $tag->getTitle(false, false); // World
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ get_title() }}
-     * </code>
+     * ```
      */
     public function getTitle(bool prepend = true, bool append = true) -> string
     {
@@ -503,18 +503,18 @@ class Tag implements InjectionAwareInterface
     /**
      * Gets the current document title separator
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
      *
      * echo $tag->getTitleSeparator();
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ get_title_separator() }}
-     * </code>
+     * ```
      */
     public function getTitleSeparator() -> string
     {
@@ -564,7 +564,7 @@ class Tag implements InjectionAwareInterface
      * Parameters
      * `local` Local resource or not (default `true`)
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -584,14 +584,14 @@ class Tag implements InjectionAwareInterface
      *         'local' => false,
      *     ]
      * );
-     * </code>
+     * ```
      *
      * Volt Syntax:
-     * <code>
+     * ```php
      * {{ image('img/bg.png') }}
      * {{ image('img/photo.jpg', ['alt': 'Some Photo') }}
      * {{ image('http://static.mywebsite.com/img/bg.png', ['local': false]) }}
-     * </code>
+     * ```
      */
     public function image(string url = "", array parameters = []) -> string
     {
@@ -620,19 +620,19 @@ class Tag implements InjectionAwareInterface
     /**
      * Builds a HTML input[type="check"] tag
      *
-     * <code>
+     * ```php
      * echo $tag->inputCheckbox(
      *     [
      *         'name'  => 'terms,
      *         'value' => 'Y',
      *     ]
      * );
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ input_checkbox(['name': 'terms, 'value': 'Y']) }}
-     * </code>
+     * ```
      */
     public function inputCheckbox(string! name, array parameters = []) -> string
     {
@@ -650,7 +650,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Builds a HTML input[type='date'] tag
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -661,12 +661,12 @@ class Tag implements InjectionAwareInterface
      *         'value' => '14-12-1980',
      *     ]
      * );
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ input_date(['name':'born', 'value':'14-12-1980']) }}
-     * </code>
+     * ```
      */
     public function inputDate(string! name, array parameters = []) -> string
     {
@@ -676,7 +676,7 @@ class Tag implements InjectionAwareInterface
     /**
     * Builds a HTML input[type='datetime'] tag
     *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -687,12 +687,12 @@ class Tag implements InjectionAwareInterface
      *         'value' => '14-12-1980',
      *     ]
      * );
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ input_date_time(['name':'born', 'value':'14-12-1980']) }}
-     * </code>
+     * ```
     */
     public function inputDateTime(string! name, array parameters = []) -> string
     {
@@ -702,7 +702,7 @@ class Tag implements InjectionAwareInterface
     /**
     * Builds a HTML input[type='datetime-local'] tag
     *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -713,12 +713,12 @@ class Tag implements InjectionAwareInterface
      *         'value' => '14-12-1980',
      *     ]
      * );
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ input_date_time_local(['name':'born', 'value':'14-12-1980']) }}
-     * </code>
+     * ```
     */
     public function inputDateTimeLocal(string! name, array parameters = []) -> string
     {
@@ -728,7 +728,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Builds a HTML input[type='email'] tag
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -738,12 +738,12 @@ class Tag implements InjectionAwareInterface
      *         'name' => 'email',
       *     ]
      * );
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ input_email(['name': 'email']);
-     * </code>
+     * ```
      */
     public function inputEmail(string! name, array parameters = []) -> string
     {
@@ -753,7 +753,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Builds a HTML input[type='file'] tag
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -763,12 +763,12 @@ class Tag implements InjectionAwareInterface
      *         'name' => 'file',
       *     ]
      * );
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ input_file(['name': 'file']);
-     * </code>
+     * ```
      */
     public function inputFile(string! name, array parameters = []) -> string
     {
@@ -778,7 +778,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Builds a HTML input[type='hidden'] tag
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -789,7 +789,7 @@ class Tag implements InjectionAwareInterface
      *         'value' => 'mike',
      *     ]
      * );
-     * </code>
+     * ```
      */
     public function inputHidden(string! name, array parameters = []) -> string
     {
@@ -799,7 +799,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Builds a HTML input[type="image"] tag
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -808,12 +808,12 @@ class Tag implements InjectionAwareInterface
      *         'src' => '/img/button.png',
      *     ]
      * );
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ input_image(['src': '/img/button.png']) }}
-     * </code>
+     * ```
      */
     public function inputImage(string! name, array parameters = []) -> string
     {
@@ -831,7 +831,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Builds a HTML input[type='number'] tag
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -843,7 +843,7 @@ class Tag implements InjectionAwareInterface
      *         'max'  => '5',
      *     ]
      * );
-     * </code>
+     * ```
      */
     public function inputNumeric(string! name, array parameters = []) -> string
     {
@@ -853,7 +853,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Builds a HTML input[type='password'] tag
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -864,7 +864,7 @@ class Tag implements InjectionAwareInterface
      *         'size' => 30,
      *     ]
      * );
-     * </code>
+     * ```
      */
     public function inputPassword(string! name, array parameters = []) -> string
     {
@@ -874,7 +874,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Builds a HTML input[type="radio"] tag
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -885,12 +885,12 @@ class Tag implements InjectionAwareInterface
      *         'value" => 'hot',
      *     ]
      * );
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ input_radio(['name': 'weather', 'value": 'hot']) }}
-     * </code>
+     * ```
      */
     public function inputRadio(string! name, array parameters = []) -> string
     {
@@ -924,7 +924,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Builds a HTML input[type='text'] tag
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -935,7 +935,7 @@ class Tag implements InjectionAwareInterface
      *         'size' => 30,
      *     ]
      * );
-     * </code>
+     * ```
      */
     public function inputText(string! name, array parameters = []) -> string
     {
@@ -972,7 +972,7 @@ class Tag implements InjectionAwareInterface
      * Parameters
      * `local` Local resource or not (default `true`)
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -985,13 +985,13 @@ class Tag implements InjectionAwareInterface
      * );
      *
      * echo $tag->javascript('javascript/jquery.js');
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ javascript('http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js', ['local': false]) }}
      * {{ javascript('javascript/jquery.js') }}
-     * </code>
+     * ```
      */
     public function javascript(string url, array parameters = []) -> string
     {
@@ -1030,7 +1030,7 @@ class Tag implements InjectionAwareInterface
      * Parameters
      * `local` Local resource or not (default `true`)
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -1061,7 +1061,7 @@ class Tag implements InjectionAwareInterface
      *         'target' => '_new',
      *     ]
      * );
-     * </code>
+     * ```
      */
     public function link(string url, string text = "", array parameters = []) -> string
     {
@@ -1102,7 +1102,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Renders the title with title tags. The title is automaticall escaped
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -1117,11 +1117,11 @@ class Tag implements InjectionAwareInterface
      * echo $tag->renderTitle(false);        // <title>World from Phalcon</title>
      * echo $tag->renderTitle(true, false);  // <title>Hello World</title>
      * echo $tag->renderTitle(false, false); // <title>World</title>
-     * </code>
+     * ```
      *
-     * <code>
+     * ```php
      * {{ render_title() }}
-     * </code>
+     * ```
      */
     public function renderTitle(bool prepend = true, bool append = true) -> string
     {
@@ -1131,18 +1131,18 @@ class Tag implements InjectionAwareInterface
     /**
      * Builds a HTML input[type="reset"] tag
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
      *
      * echo $tag->reset('Reset')
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ reset('Save') }}
-     * </code>
+     * ```
      */
     public function reset(string! name, array parameters = []) -> string
     {
@@ -1153,7 +1153,7 @@ class Tag implements InjectionAwareInterface
      * Builds a select element. It accepts an array or a resultset from
      * a Phalcon\Mvc\Model
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -1193,7 +1193,7 @@ class Tag implements InjectionAwareInterface
      *         ]
      *     )
      * );
-     * </code>
+     * ```
      *
      * @param array data
      */
@@ -1285,7 +1285,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Assigns default values to generated tags by helpers
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -1295,7 +1295,7 @@ class Tag implements InjectionAwareInterface
      *
      * // Later in the view
      * echo $tag->inputText('name'); // Will have the value 'peter' by default
-     * </code>
+     * ```
      */
     public function setAttribute(string! name, value) -> <Tag>
     {
@@ -1315,7 +1315,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Assigns default values to generated tags by helpers
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -1329,7 +1329,7 @@ class Tag implements InjectionAwareInterface
      *
      * // Later in the view
      * echo $tag->inputText('name'); // Will have the value 'peter' by default
-     * </code>
+     * ```
      */
     public function setAttributes(array! values, bool merge = false) -> <Tag>
     {
@@ -1369,13 +1369,13 @@ class Tag implements InjectionAwareInterface
     /**
      * Set the title separator of view content
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
      *
      * $tag->setTitle('Phalcon Framework');
-     * </code>
+     * ```
      */
     public function setTitle(string title) -> <Tag>
     {
@@ -1387,13 +1387,13 @@ class Tag implements InjectionAwareInterface
     /**
      * Set the title separator of view content
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
      *
      * echo $tag->setTitleSeparator('-');
-     * </code>
+     * ```
      */
     public function setTitleSeparator(string separator) -> <Tag>
     {
@@ -1408,7 +1408,7 @@ class Tag implements InjectionAwareInterface
      * Parameters
      * `local` Local resource or not (default `true`)
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -1421,13 +1421,13 @@ class Tag implements InjectionAwareInterface
      * );
      *
      * echo $tag->stylesheet('css/style.css');
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ stylesheet('http://fonts.googleapis.com/css?family=Rosario', ['local': false]) }}
      * {{ stylesheet('css/style.css') }}
-     * </code>
+     * ```
      */
     public function stylesheet(string url, array parameters = []) -> string
     {
@@ -1461,18 +1461,18 @@ class Tag implements InjectionAwareInterface
     /**
      * Builds a HTML input[type="submit"] tag
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
      *
      * echo $tag->submit('Save');
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ submit('Save') }}
-     * </code>
+     * ```
      */
     public function submit(string! name, array parameters = []) -> string
     {
@@ -1482,7 +1482,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Builds a HTML TEXTAREA tag
      *
-     * <code>
+     * ```php
      * use Phalcon\Html\Tag;
      *
      * $tag = new Tag();
@@ -1494,12 +1494,12 @@ class Tag implements InjectionAwareInterface
      *         'rows' => 4,
      *     ]
      * );
-     * </code>
+     * ```
      *
      * Volt syntax:
-     * <code>
+     * ```php
      * {{ text_area('comments', ['cols': 10, 'rows': 4]) }}
-     * </code>
+     * ```
      */
     public function textArea(string! name, array parameters = []) -> string
     {

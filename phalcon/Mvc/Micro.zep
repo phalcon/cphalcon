@@ -32,7 +32,7 @@ use Phalcon\Mvc\Micro\CollectionInterface;
  * application. Micro applications are suitable to small applications, APIs and
  * prototypes in a practical way.
  *
- *<code>
+ *```php
  * $app = new \Phalcon\Mvc\Micro();
  *
  * $app->get(
@@ -43,7 +43,7 @@ use Phalcon\Mvc\Micro\CollectionInterface;
  * );
  *
  * $app->handle("/say/welcome/Phalcon");
- *</code>
+ *```
  */
 class Micro extends Injectable implements \ArrayAccess
 {
@@ -938,11 +938,11 @@ class Micro extends Injectable implements \ArrayAccess
      * Allows to obtain a shared service in the internal services container
      * using the array syntax
      *
-     *<code>
+     *```php
      * var_dump(
      *     $app["request"]
      * );
-     *</code>
+     *```
      */
     public function offsetGet(var alias) -> var
     {
@@ -953,9 +953,9 @@ class Micro extends Injectable implements \ArrayAccess
      * Allows to register a shared service in the internal services container
      * using the array syntax
      *
-     *<code>
+     *```php
      *    $app["request"] = new \Phalcon\Http\Request();
-     *</code>
+     *```
      */
     public function offsetSet(var alias, var definition) -> void
     {
@@ -1129,14 +1129,14 @@ class Micro extends Injectable implements \ArrayAccess
     /**
      * Sets model binder
      *
-     * <code>
+     * ```php
      * $micro = new Micro($di);
      *
      * $micro->setModelBinder(
      *     new Binder(),
      *     'cache'
      * );
-     * </code>
+     * ```
      */
     public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <Micro>
     {

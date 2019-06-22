@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator;
  *
  * Calls user function for validation
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Callback as CallbackValidator;
  * use Phalcon\Validation\Validator\Numericality as NumericalityValidator;
@@ -58,7 +58,7 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Callback extends Validator
 {

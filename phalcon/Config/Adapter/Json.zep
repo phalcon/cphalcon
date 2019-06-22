@@ -19,18 +19,18 @@ use Phalcon\Config\Config;
  *
  * Given the following configuration file:
  *
- *<code>
+ *```php
  * {"phalcon":{"baseuri":"\/phalcon\/"},"models":{"metadata":"memory"}}
- *</code>
+ *```
  *
  * You can read it as follows:
  *
- *<code>
+ *```php
  * $config = new Phalcon\Config\Adapter\Json("path/config.json");
  *
  * echo $config->phalcon->baseuri;
  * echo $config->models->metadata;
- *</code>
+ *```
  */
 class Json extends Config
 {

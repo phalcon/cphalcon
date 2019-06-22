@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator;
  *
  * Validates that a value is not null or empty string
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\PresenceOf;
  *
@@ -48,7 +48,7 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class PresenceOf extends Validator
 {

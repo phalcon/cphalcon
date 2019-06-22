@@ -26,7 +26,7 @@ use Phalcon\Validation\Validator\File\Size\Min as MinFileSize;
  *
  * Checks if a value has a correct file
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\File as FileValidator;
  *
@@ -88,7 +88,7 @@ use Phalcon\Validation\Validator\File\Size\Min as MinFileSize;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class File extends ValidatorComposite
 {

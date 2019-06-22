@@ -20,7 +20,7 @@ use Phalcon\Validation\Exception;
  *
  * Check if a value is included into a list of values
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\InclusionIn;
  *
@@ -54,7 +54,7 @@ use Phalcon\Validation\Exception;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class InclusionIn extends Validator
 {

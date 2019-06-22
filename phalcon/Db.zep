@@ -27,7 +27,7 @@ use \PDO as Pdo;
  * Phalcon\Db is an abstract class. You only can use it with a database adapter
  * like Phalcon\Db\Adapter\Pdo
  *
- *<code>
+ *```php
  * use Phalcon\Db;
  * use Phalcon\Db\Exception;
  * use Phalcon\Db\Adapter\Pdo\Mysql as MysqlConnection;
@@ -55,7 +55,7 @@ use \PDO as Pdo;
  * } catch (Exception $e) {
  *     echo $e->getMessage(), PHP_EOL;
  * }
- * </code>
+ * ```
  */
 abstract class Db
 {

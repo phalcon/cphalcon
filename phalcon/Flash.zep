@@ -19,10 +19,10 @@ use Phalcon\Di\InjectionAwareInterface;
  * Shows HTML notifications related to different circumstances. Classes can be
  * stylized using CSS
  *
- *<code>
+ *```php
  * $flash->success("The record was successfully deleted");
  * $flash->error("Cannot open the file");
- *</code>
+ *```
  */
 abstract class Flash implements FlashInterface, InjectionAwareInterface
 {
@@ -85,9 +85,9 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     /**
      * Shows a HTML error message
      *
-     *<code>
+     *```php
      * $flash->error("This is an error");
-     *</code>
+     *```
      */
     public function error(string message) -> string
     {
@@ -147,9 +147,9 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     /**
      * Shows a HTML notice/information message
      *
-     *<code>
+     *```php
      * $flash->notice("This is an information");
-     *</code>
+     *```
      */
     public function notice(string message) -> string
     {
@@ -230,9 +230,9 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     /**
      * Shows a HTML success message
      *
-     *<code>
+     *```php
      * $flash->success("The process was finished successfully");
-     *</code>
+     *```
      */
     public function success(string message) -> string
     {
@@ -242,9 +242,9 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     /**
      * Outputs a message formatting it with HTML
      *
-     *<code>
+     *```php
      * $flash->outputMessage("error", $message);
-     *</code>
+     *```
      *
      * @param string|array message
      * @return string|void
@@ -321,9 +321,9 @@ abstract class Flash implements FlashInterface, InjectionAwareInterface
     /**
      * Shows a HTML warning message
      *
-     *<code>
+     *```php
      * $flash->warning("Hey, this is important");
-     *</code>
+     *```
      */
     public function warning(string message) -> string
     {

@@ -28,7 +28,7 @@ use Phalcon\Events\EventsAwareInterface;
  * base URL) and decomposing it into parameters to determine which module,
  * controller, and action of that controller should receive the request
  *
- * <code>
+ * ```php
  * use Phalcon\Mvc\Router;
  *
  * $router = new Router();
@@ -46,7 +46,7 @@ use Phalcon\Events\EventsAwareInterface;
  * );
  *
  * echo $router->getControllerName();
- * </code>
+ * ```
  */
 class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInterface
 {
@@ -111,7 +111,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     /**
      * Adds a route to the router without any HTTP constraint
      *
-     *<code>
+     *```php
      * use Phalcon\Mvc\Router;
      *
      * $router->add("/about", "About::index");
@@ -128,7 +128,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
      *     ["GET", "POST"],
      *     Router::POSITION_FIRST
      * );
-     *</code>
+     *```
      */
     public function add(string! pattern, var paths = null, var httpMethods = null, var position = Router::POSITION_LAST) -> <RouteInterface>
     {
@@ -228,7 +228,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     /**
      * Attach Route object to the routes stack.
      *
-     * <code>
+     * ```php
      * use Phalcon\Mvc\Router;
      * use Phalcon\Mvc\Router\Route;
      *
@@ -242,7 +242,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
      *     new CustomRoute("/about", "About::index", ["GET", "HEAD"]),
      *     Router::POSITION_FIRST
      * );
-     * </code>
+     * ```
      */
     public function attach(<RouteInterface> route, var position = Router::POSITION_LAST) -> <RouterInterface>
     {
@@ -400,10 +400,10 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     /**
      * Handles routing information received from the rewrite engine
      *
-     *<code>
+     *```php
      * // Passing a URL
      * $router->handle("/posts/edit/1");
-     *</code>
+     *```
      */
     public function handle(string! uri)
     {
@@ -904,14 +904,14 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
      * will use the defined here. This method must not be used to set a 404
      * route
      *
-     *<code>
+     *```php
      * $router->setDefaults(
      *     [
      *         "module" => "common",
      *         "action" => "index",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function setDefaults(array! defaults) -> <RouterInterface>
     {

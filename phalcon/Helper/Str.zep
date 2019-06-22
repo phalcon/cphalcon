@@ -30,13 +30,13 @@ class Str
     /**
      * Converts strings to camelize style
      *
-     * <code>
+     * ```php
      * use Phalcon\Helper\Str;
      *
      * echo Str::camelize("coco_bongo");            // CocoBongo
      * echo Str::camelize("co_co-bon_go", "-");     // Co_coBon_go
      * echo Str::camelize("co_co-bon_go", "_-");    // CoCoBonGo
-     * </code>
+     * ```
      *
      * @param string $text
      * @param mixed  $delimiter
@@ -52,7 +52,7 @@ class Str
      * Concatenates strings using the separator only once without duplication in
      * places concatenation
      *
-     * <code>
+     * ```php
      * $str = Phalcon\Helper\Str::concat(
      *     "/",
      *     "/tmp/",
@@ -62,7 +62,7 @@ class Str
      * );
      *
      * echo $str;   // /tmp/folder_1/folder_2/folder_3/
-     * </code>
+     * ```
      *
      * @param string separator
      * @param string a
@@ -168,11 +168,11 @@ class Str
      * Accepts a file name (without extension) and returns a calculated
      * directory structure with the filename in the end
      *
-     * <code>
+     * ```php
      * use Phalcon\Helper\Str;
      *
      * echo Str::dirFromFile("file1234.jpg"); // /fi/le/12/file1234.jpg
-     * </code>
+     * ```
      *
      * @param string $file
      *
@@ -196,11 +196,11 @@ class Str
      * Accepts a directory name and ensures that it ends with
      * DIRECTORY_SEPARATOR
      *
-     * <code>
+     * ```php
      * use Phalcon\Helper\Str;
      *
      * echo Str::dirSeparator("/home/phalcon"); // /home/phalcon/
-     * </code>
+     * ```
      *
      * @param string $directory
      *
@@ -214,7 +214,7 @@ class Str
     /**
      * Generates random text in accordance with the template
      *
-     * <code>
+     * ```php
      * use Phalcon\Helper\Str;
      *
      * // Hi my name is a Bob
@@ -232,7 +232,7 @@ class Str
      *     "[", "]",
      *     "/"
      * );
-     * </code>
+     * ```
      *
      * @param string $text
      * @param string $leftDelimiter
@@ -285,13 +285,13 @@ class Str
     /**
      * Check if a string ends with a given string
      *
-     * <code>
+     * ```php
      * use Phalcon\Helper\Str;
      *
      * echo Str::endsWith("Hello", "llo");          // true
      * echo Str::endsWith("Hello", "LLO", false);   // false
      * echo Str::endsWith("Hello", "LLO");          // true
-     * </code>
+     * ```
      *
      * @param string $text
      * @param string $end
@@ -335,12 +335,12 @@ class Str
     /**
      * Makes an underscored or dashed phrase human-readable
      *
-     * <code>
+     * ```php
      * use Phalcon\Helper\Str;
      *
      * echo Str::humanize("start-a-horse"); // "start a horse"
      * echo Str::humanize("five_cats");     // "five cats"
-     * </code>
+     * ```
      *
      * @param string $text
      *
@@ -372,12 +372,12 @@ class Str
      * Adds a number to a string or increment that number if it already is
      * defined
      *
-     * <code>
+     * ```php
      * use Phalcon\Helper\Str;
      *
      * echo Str::increment("a");    // "a_1"
      * echo Str::increment("a_1");  // "a_2"
-     * </code>
+     * ```
      *
      * @param string $text
      * @param string $separator
@@ -463,9 +463,9 @@ class Str
      * Lowercases a string, this function makes use of the mbstring extension if
      * available
      *
-     * <code>
+     * ```php
      * echo Phalcon\Helper\Str::lower("HELLO"); // hello
-     * </code>
+     * ```
      *
      * @param string $text
      * @param string $encoding
@@ -489,11 +489,11 @@ class Str
      * Generates a random string based on the given type. Type is one of the
      * RANDOM_* constants
      *
-     * <code>
+     * ```php
      * use Phalcon\Helper\Str;
      *
      * echo Str::random(Str::RANDOM_ALNUM); // "aloiwkqz"
-     * </code>
+     * ```
      *
      * @param int $type
      * @param int $length
@@ -551,13 +551,13 @@ class Str
     /**
      * Reduces multiple slashes in a string to single slashes
      *
-     * <code>
+     * ```php
      * // foo/bar/baz
      * echo Phalcon\Helper\Str::reduceSlashes("foo//bar/baz");
      *
      * // http://foo.bar/baz/buz
      * echo Phalcon\Helper\Str::reduceSlashes("http://foo.bar///baz/buz");
-     * </code>
+     * ```
      *
      * @param string $text
      *
@@ -571,13 +571,13 @@ class Str
     /**
      * Check if a string starts with a given string
      *
-     * <code>
+     * ```php
      * use Phalcon\Helper\Str;
      *
      * echo Str::startsWith("Hello", "He");         // true
      * echo Str::startsWith("Hello", "he", false);  // false
      * echo Str::startsWith("Hello", "he");         // true
-     * </code>
+     * ```
      *
      * @param string $text
      * @param string $start
@@ -593,12 +593,12 @@ class Str
     /**
      * Uncamelize strings which are camelized
      *
-     * <code>
+     * ```php
      * use Phalcon\Helper\Str;
      *
      * echo Str::uncamelize("CocoBongo");       // coco_bongo
      * echo Str::uncamelize("CocoBongo", "-");  // coco-bongo
-     * </code>
+     * ```
      *
      * @param string $text
      * @param mixed  $delimiter
@@ -613,12 +613,12 @@ class Str
     /**
      * Makes a phrase underscored instead of spaced
      *
-     * <code>
+     * ```php
      * use Phalcon\Helper\Str;
      *
      * echo Str::underscore("look behind");     // "look_behind"
      * echo Str::underscore("Awesome Phalcon"); // "Awesome_Phalcon"
-     * </code>
+     * ```
      *
      * @param string $text
      *
@@ -633,9 +633,9 @@ class Str
      * Uppercases a string, this function makes use of the mbstring extension if
      * available
      *
-     * <code>
+     * ```php
      * echo Phalcon\Helper\Str::upper("hello"); // HELLO
-     * </code>
+     * ```
      *
      * @param string $text
      * @param string $encoding

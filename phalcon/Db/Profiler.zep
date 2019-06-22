@@ -20,7 +20,7 @@ use Phalcon\Db\Profiler\Item;
  * information includes execution time in milliseconds.
  * This helps you to identify bottlenecks in your applications.
  *
- * <code>
+ * ```php
  * use Phalcon\Db\Profiler;
  * use Phalcon\Events\Event;
  * use Phalcon\Events\Manager;
@@ -63,7 +63,7 @@ use Phalcon\Db\Profiler\Item;
  * echo "Start Time: ", $profile->getInitialTime(), "\n";
  * echo "Final Time: ", $profile->getFinalTime(), "\n";
  * echo "Total Elapsed Time: ", $profile->getTotalElapsedSeconds(), "\n";
- * </code>
+ * ```
  */
 class Profiler
 {

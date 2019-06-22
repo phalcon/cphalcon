@@ -370,7 +370,7 @@ class Form extends Injectable implements \Countable, \Iterator, AttributesInterf
     /**
      * Returns the messages generated in the validation.
      *
-     * <code>
+     * ```php
      * if ($form->isValid($_POST) == false) {
      *     $messages = $form->getMessages();
      *
@@ -378,7 +378,7 @@ class Form extends Injectable implements \Countable, \Iterator, AttributesInterf
      *         echo $message, "<br>";
      *     }
      * }
-     * </code>
+     * ```
      */
     public function getMessages() -> <Messages> | array
     {

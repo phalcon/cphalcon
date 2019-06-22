@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator;
  *
  * Check for alphabetic character(s)
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Alpha as AlphaValidator;
  *
@@ -48,7 +48,7 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Alpha extends Validator
 {

@@ -22,7 +22,7 @@ use Phalcon\Validation\Exception;
  * The test is passed if for a string's length L, L<=max, i.e. L must
  * be at most max.
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\StringLength\Max;
  *
@@ -61,7 +61,7 @@ use Phalcon\Validation\Exception;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Max extends Validator
 {

@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator;
  *
  * Checks if a value is a valid date
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Date as DateValidator;
  *
@@ -53,7 +53,7 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Date extends Validator
 {

@@ -27,7 +27,7 @@ class PaginatorFactory extends AbstractFactory
     /**
      * Factory to create an instace from a Config object
      *
-     *<code>
+     *```php
      * use Phalcon\Paginator\PaginatorFactory;
      *
      * $builder = $this
@@ -45,7 +45,7 @@ class PaginatorFactory extends AbstractFactory
      * ];
      *
      * $paginator = (new PaginatorFactory())->load($options);
-     *</code>
+     *```
      */
     public function load(var config) -> var
     {

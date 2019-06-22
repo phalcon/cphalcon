@@ -25,7 +25,7 @@ use Phalcon\Validation\Exception;
  * be at least min, and at most max.
  * Since Phalcon v4.0 this valitor works like a container
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\StringLength as StringLength;
  *
@@ -79,7 +79,7 @@ use Phalcon\Validation\Exception;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class StringLength extends ValidatorComposite
 {

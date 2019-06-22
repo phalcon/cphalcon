@@ -551,14 +551,14 @@ class Route
     /**
      * Sets the route's name
      *
-     *<code>
+     *```php
      * $router->add(
      *     "/about",
      *     [
      *         "controller" => "about",
      *     ]
      * )->setName("about");
-     *</code>
+     *```
      */
     public function setName(string! name) -> <RouteInterface>
     {

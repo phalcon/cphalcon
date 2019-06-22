@@ -20,55 +20,55 @@ class Version
     /**
      * The constant referencing the major version. Returns 0
      *
-     * <code>
+     * ```php
      * echo Phalcon\Version::getPart(
      *     Phalcon\Version::VERSION_MAJOR
      * );
-     * </code>
+     * ```
      */
     const VERSION_MAJOR = 0;
 
     /**
      * The constant referencing the major version. Returns 1
      *
-     * <code>
+     * ```php
      * echo Phalcon\Version::getPart(
      *     Phalcon\Version::VERSION_MEDIUM
      * );
-     * </code>
+     * ```
      */
     const VERSION_MEDIUM = 1;
 
     /**
      * The constant referencing the major version. Returns 2
      *
-     * <code>
+     * ```php
      * echo Phalcon\Version::getPart(
      *     Phalcon\Version::VERSION_MINOR
      * );
-     * </code>
+     * ```
      */
     const VERSION_MINOR = 2;
 
     /**
      * The constant referencing the major version. Returns 3
      *
-     * <code>
+     * ```php
      * echo Phalcon\Version::getPart(
      *     Phalcon\Version::VERSION_SPECIAL
      * );
-     * </code>
+     * ```
      */
     const VERSION_SPECIAL = 3;
 
     /**
      * The constant referencing the major version. Returns 4
      *
-     * <code>
+     * ```php
      * echo Phalcon\Version::getPart(
      *     Phalcon\Version::VERSION_SPECIAL_NUMBER
      * );
-     * </code>
+     * ```
      */
     const VERSION_SPECIAL_NUMBER = 4;
 
@@ -112,9 +112,9 @@ class Version
     /**
      * Returns the active version (string)
      *
-     * <code>
+     * ```php
      * echo Phalcon\Version::get();
-     * </code>
+     * ```
      */
     public static function get() -> string
     {
@@ -151,9 +151,9 @@ class Version
     /**
      * Returns the numeric active version
      *
-     * <code>
+     * ```php
      * echo Phalcon\Version::getId();
-     * </code>
+     * ```
      */
     public static function getId() -> string
     {
@@ -174,11 +174,11 @@ class Version
      * Returns a specific part of the version. If the wrong parameter is passed
      * it will return the full version
      *
-     * <code>
+     * ```php
      * echo Phalcon\Version::getPart(
      *     Phalcon\Version::VERSION_MAJOR
      * );
-     * </code>
+     * ```
      */
     public static function getPart(int part) -> string
     {

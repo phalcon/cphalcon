@@ -254,12 +254,12 @@ interface ManagerInterface
     /**
      * Check whether a model property is declared as public.
      *
-     * <code>
+     * ```php
      * $isPublic = $manager->isVisibleModelProperty(
      *     new Robots(),
      *     "name"
      * );
-     * </code>
+     * ```
      */
     final public function isVisibleModelProperty(<ModelInterface> model, string property) -> bool;
 

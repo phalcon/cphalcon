@@ -94,13 +94,13 @@ interface ResponseInterface
     /**
      * Sets HTTP response body. The parameter is automatically converted to JSON
      *
-     *<code>
+     *```php
      * $response->setJsonContent(
      *     [
      *         "status" => "OK",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function setJsonContent(content) -> <ResponseInterface>;
 

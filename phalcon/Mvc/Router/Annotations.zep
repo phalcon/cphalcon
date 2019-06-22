@@ -20,7 +20,7 @@ use Phalcon\Mvc\Router\Exception;
  *
  * A router that reads routes annotations from classes/resources
  *
- * <code>
+ * ```php
  * use Phalcon\Mvc\Router\Annotations;
  *
  * $di->setShared(
@@ -35,7 +35,7 @@ use Phalcon\Mvc\Router\Exception;
  *         return $router;
  *     }
  * );
- * </code>
+ * ```
  */
 class Annotations extends Router
 {

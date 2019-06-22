@@ -28,7 +28,7 @@ use Phalcon\Mvc\Model\TransactionInterface;
  * A transaction produces a unique connection that is passed to every object
  * part of the transaction.
  *
- * <code>
+ * ```php
  * use Phalcon\Mvc\Model\Transaction\Failed;
  * use Phalcon\Mvc\Model\Transaction\Manager;
  *
@@ -62,7 +62,7 @@ use Phalcon\Mvc\Model\TransactionInterface;
  * } catch (Failed $e) {
  *    echo "Failed, reason: ", $e->getMessage();
  * }
- *</code>
+ *```
  */
 class Manager implements ManagerInterface, InjectionAwareInterface
 {

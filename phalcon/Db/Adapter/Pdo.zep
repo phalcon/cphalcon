@@ -23,7 +23,7 @@ use Phalcon\Events\ManagerInterface;
  * Phalcon\Db\Adapter\Pdo is the Phalcon\Db that internally uses PDO to connect
  * to a database
  *
- * <code>
+ * ```php
  * use Phalcon\Db\Adapter\Pdo\Mysql;
  *
  * $config = [
@@ -35,7 +35,7 @@ use Phalcon\Events\ManagerInterface;
  * ];
  *
  * $connection = new Mysql($config);
- *</code>
+ *```
  */
 abstract class Pdo extends Adapter
 {
@@ -65,13 +65,13 @@ abstract class Pdo extends Adapter
      * Returns the number of affected rows by the latest INSERT/UPDATE/DELETE
      * executed in the database system
      *
-     *<code>
+     *```php
      * $connection->execute(
      *     "DELETE FROM robots"
      * );
      *
      * echo $connection->affectedRows(), " were deleted";
-     *</code>
+     *```
      */
     public function affectedRows() -> int
     {
@@ -218,7 +218,7 @@ abstract class Pdo extends Adapter
      *
      * Call it when you need to restore a database connection.
      *
-     *<code>
+     *```php
      * use Phalcon\Db\Adapter\Pdo\Mysql;
      *
      * // Make a connection
@@ -234,7 +234,7 @@ abstract class Pdo extends Adapter
      *
      * // Reconnect
      * $connection->connect();
-     * </code>
+     * ```
      */
     public function connect(array descriptor = null) -> bool
     {
@@ -314,7 +314,7 @@ abstract class Pdo extends Adapter
     /**
      * Converts bound parameters such as :name: or ?1 into PDO bind params ?
      *
-     *<code>
+     *```php
      * print_r(
      *     $connection->convertBoundParams(
      *         "SELECT * FROM robots WHERE name = :name:",
@@ -323,7 +323,7 @@ abstract class Pdo extends Adapter
      *         ]
      *     )
      * );
-     *</code>
+     *```
      */
     public function convertBoundParams(string! sql, array params = []) -> array
     {
@@ -369,9 +369,9 @@ abstract class Pdo extends Adapter
      * Escapes a value to avoid SQL injections according to the active charset
      * in the connection
      *
-     *<code>
+     *```php
      * $escapedStr = $connection->escapeString("some dangerous value");
-     *</code>
+     *```
      */
     public function escapeString(string str) -> string
     {
@@ -383,7 +383,7 @@ abstract class Pdo extends Adapter
      * Use this method only when the SQL statement sent to the server doesn't
      * return any rows
      *
-     *<code>
+     *```php
      * // Inserting data
      * $success = $connection->execute(
      *     "INSERT INTO robots VALUES (1, 'Astro Boy')"
@@ -396,7 +396,7 @@ abstract class Pdo extends Adapter
      *         "Astro Boy",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function execute(string! sqlStatement, var bindParams = null, var bindTypes = null) -> bool
     {
@@ -457,7 +457,7 @@ abstract class Pdo extends Adapter
      * Executes a prepared statement binding. This function uses integer indexes
      * starting from zero
      *
-     *<code>
+     *```php
      * use Phalcon\Db\Column;
      *
      * $statement = $db->prepare(
@@ -473,7 +473,7 @@ abstract class Pdo extends Adapter
      *         "name" => Column::BIND_PARAM_INT,
      *     ]
      * );
-     *</code>
+     *```
      *
      * @param array dataTypes
      */
@@ -600,14 +600,14 @@ abstract class Pdo extends Adapter
     /**
      * Checks whether the connection is under a transaction
      *
-     *<code>
+     *```php
      * $connection->begin();
      *
      * // true
      * var_dump(
      *     $connection->isUnderTransaction()
      * );
-     *</code>
+     *```
      */
     public function isUnderTransaction() -> bool
     {
@@ -626,7 +626,7 @@ abstract class Pdo extends Adapter
      * Returns the insert id for the auto_increment/serial column inserted in
      * the latest executed SQL statement
      *
-     *<code>
+     *```php
      * // Inserting a new robot
      * $success = $connection->insert(
      *     "robots",
@@ -642,7 +642,7 @@ abstract class Pdo extends Adapter
      *
      * // Getting the generated id
      * $id = $connection->lastInsertId();
-     *</code>
+     *```
      *
      * @param string sequenceName
      */
@@ -662,7 +662,7 @@ abstract class Pdo extends Adapter
     /**
      * Returns a PDO prepared statement to be executed with 'executePrepared'
      *
-     *<code>
+     *```php
      * use Phalcon\Db\Column;
      *
      * $statement = $db->prepare(
@@ -678,7 +678,7 @@ abstract class Pdo extends Adapter
      *         "name" => Column::BIND_PARAM_INT,
      *     ]
      * );
-     *</code>
+     *```
      */
     public function prepare(string! sqlStatement) -> <\PDOStatement>
     {
@@ -690,7 +690,7 @@ abstract class Pdo extends Adapter
      * Use this method only when the SQL statement sent to the server is
      * returning rows
      *
-     *<code>
+     *```php
      * // Querying data
      * $resultset = $connection->query(
      *     "SELECT * FROM robots WHERE type = 'mechanical'"
@@ -702,7 +702,7 @@ abstract class Pdo extends Adapter
      *         "mechanical",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function query(string! sqlStatement, var bindParams = null, var bindTypes = null) -> <ResultInterface> | bool
     {

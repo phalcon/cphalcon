@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator;
  *
  * Check for a valid numeric value
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Numericality;
  *
@@ -48,7 +48,7 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Numericality extends Validator
 {

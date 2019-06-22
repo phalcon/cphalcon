@@ -18,7 +18,7 @@ use Phalcon\Db\ColumnInterface;
  *
  * Allows to define columns to be used on create or alter table operations
  *
- *<code>
+ *```php
  * use Phalcon\Db\Column as Column;
  *
  * // Column definition
@@ -36,7 +36,7 @@ use Phalcon\Db\ColumnInterface;
  *
  * // Add column to existing table
  * $connection->addColumn("robots", null, $column);
- *</code>
+ *```
  */
 class Column implements ColumnInterface
 {

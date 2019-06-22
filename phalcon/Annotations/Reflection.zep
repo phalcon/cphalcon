@@ -17,7 +17,7 @@ use Phalcon\Annotations\Collection;
  *
  * Allows to manipulate the annotations reflection in an OO manner
  *
- *<code>
+ *```php
  * use Phalcon\Annotations\Reader;
  * use Phalcon\Annotations\Reflection;
  *
@@ -30,7 +30,7 @@ use Phalcon\Annotations\Collection;
  *
  * // Get the annotations in the class docblock
  * $classAnnotations = $reflection->getClassAnnotations();
- *</code>
+ *```
  */
 class Reflection
 {

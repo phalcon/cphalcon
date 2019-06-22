@@ -20,7 +20,7 @@ use Phalcon\Logger\Item;
  *
  * Adapter to store logs in plain text files
  *
- *<code>
+ *```php
  * $logger = new \Phalcon\Logger\Adapter\Stream("app/logs/test.log");
  *
  * $logger->log("This is a message");
@@ -28,7 +28,7 @@ use Phalcon\Logger\Item;
  * $logger->error("This is another error");
  *
  * $logger->close();
- *</code>
+ *```
  */
 class Stream extends AbstractAdapter
 {

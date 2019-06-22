@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator;
  *
  * Checks if a value is identical to other
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Identical;
  *
@@ -53,7 +53,7 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Identical extends Validator
 {

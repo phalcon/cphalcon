@@ -22,7 +22,7 @@ use Phalcon\Validation\Exception;
  * The test is passed if for a string's length L, min<=L, i.e. L must
  * be at least min.
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\StringLength\Min;
  *
@@ -61,7 +61,7 @@ use Phalcon\Validation\Exception;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Min extends Validator
 {

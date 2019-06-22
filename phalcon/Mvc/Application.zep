@@ -28,7 +28,7 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
  * every component needed and integrating it with the rest to allow the MVC
  * pattern to operate as desired.
  *
- *<code>
+ *```php
  * use Phalcon\Mvc\Application;
  *
  * class MyApp extends Application
@@ -65,7 +65,7 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
  * $application = new MyApp();
  *
  * $application->main();
- *</code>
+ *```
  */
 class Application extends BaseApplication
 {

@@ -21,12 +21,12 @@ use Phalcon\Di\InjectionAwareInterface;
  * this way you can easily create groups of session variables into the
  * application
  *
- * <code>
+ * ```php
  * $user = new \Phalcon\Session\Bag("user");
  *
  * $user->name = "Kimbra Johnson";
  * $user->age  = 22;
- * </code>
+ * ```
  */
 class Bag extends Collection implements InjectionAwareInterface
 {
