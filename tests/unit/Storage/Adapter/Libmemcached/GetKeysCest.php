@@ -39,25 +39,19 @@ class GetKeysCest
             getOptionsLibmemcached()
         );
 
-        $actual = $adapter->clear();
-        $I->assertTrue($actual);
+        $adapter->clear();
 
-        $key = 'key-1';
-        $adapter->set($key, 'test');
-        $actual = $adapter->has($key);
-        $I->assertTrue($actual);
+        $adapter->set('key-1', 'test');
+        $adapter->set('key-2', 'test');
 
-        $key = 'key-2';
-        $adapter->set($key, 'test');
-        $actual = $adapter->has($key);
-        $I->assertTrue($actual);
-
-        $expected = [
-            'ph-memc-key-1',
-            'ph-memc-key-2',
-        ];
-        $actual   = $adapter->getKeys();
+        $actual = $adapter->getKeys();
         sort($actual);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [
+                'ph-memc-key-1',
+                'ph-memc-key-2',
+            ],
+            $actual
+        );
     }
 }
