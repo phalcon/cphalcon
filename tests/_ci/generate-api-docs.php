@@ -271,14 +271,11 @@ function parseMethods(array $item): array
         $count   = count($params);
         foreach ($params as $param) {
             if ('parameter' === $param['type']) {
-                $type = $param['data-type'];
-                if ('variable' === $type) {
-                    $type = 'mixed';
-                }
+                $type = transformType($param['data-type']);
                 $signature .= ' ' . $type . ' $' . $param['name'];
                 // Default value
                 $retVal = $param['default']['type'] ?? '';
-                $retVal = str_replace('empty-array', '[]', $retVal);
+                $retVal = transformType($retVal);
                 if (!empty($retVal)) {
                     $signature .= ' = ' . $retVal;
                 }
@@ -295,7 +292,6 @@ function parseMethods(array $item): array
 
         // Return
         $retType = $method['return-type'] ?? [];
-
         if (1 === ($retType['void'] ?? 0)) {
             $signature .= ': void';
         } else {
@@ -305,18 +301,14 @@ function parseMethods(array $item): array
                 foreach ($list as $li) {
                     $cast = $li['cast'] ?? [];
                     if (count($cast) > 0) {
-                        $rt = $cast['value'];
+                        $rt = transformType($cast['value']);
                         if (1 === $li['collection']) {
                             $rt .= '[]';
                         }
 
                         $retTypes[] = $rt;
                     } else {
-                        $retTypes[] = str_replace(
-                            'empty-array',
-                            '[]',
-                            $li['data-type']
-                        );
+                        $retTypes[] = transformType($li['data-type']);
                     }
                 }
 
@@ -482,5 +474,17 @@ function orderMethods($methods): array
         return array_merge($reserved, $public, $protected);
     } else {
         return $methods;
+    }
+}
+
+function transformType(string $type): string
+{
+    switch ($type) {
+        case 'variable':
+            return 'mixed';
+        case 'empty-array':
+            return '[]';
+        default:
+            return $type;
     }
 }
