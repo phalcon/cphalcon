@@ -1,43 +1,48 @@
 <?php
 declare(strict_types=1);
 
-$base = dirname(dirname(dirname(__FILE__)));
-$root = $base . '/phalcon/';
+$baseDir = dirname(dirname(dirname(__FILE__)));
+$sourceDir = $baseDir . '/phalcon/';
+$outputDir = $baseDir . '/nikos/api/';
+
+if (!is_dir($outputDir)) {
+    mkdir($outputDir, 0777, true);
+}
 
 $documents = [
     [
         'title'  => 'Phalcon\Acl',
         'output' => 'Phalcon_Acl.md',
         'docs'   => [
-            '#Acl'                => 'Acl.zep',
-            '#Adapter_Memory'     => 'Acl/Adapter/Memory.zep',
-            '#Adapter'            => 'Acl/Adapter.zep',
-            '#AdapterInterface'   => 'Acl/AdapterInterface.zep',
-            '#Component'          => 'Acl/Component.zep',
-            '#ComponentAware'     => 'Acl/ComponentAware.zep',
-            '#ComponentInterface' => 'Acl/ComponentInterface.zep',
-            '#Exception'          => 'Acl/Exception.zep',
-            '#Role'               => 'Acl/Role.zep',
-            '#RoleAware'          => 'Acl/RoleAware.zep',
-            '#RoleInterface'      => 'Acl/RoleInterface.zep',
+            'Acl'                => 'Acl.zep',
+            'Adapter_Memory'     => 'Acl/Adapter/Memory.zep',
+            'Adapter'            => 'Acl/Adapter.zep',
+            'AdapterInterface'   => 'Acl/AdapterInterface.zep',
+            'Component'          => 'Acl/Component.zep',
+            'ComponentAware'     => 'Acl/ComponentAware.zep',
+            'ComponentInterface' => 'Acl/ComponentInterface.zep',
+            'Exception'          => 'Acl/Exception.zep',
+            'Role'               => 'Acl/Role.zep',
+            'RoleAware'          => 'Acl/RoleAware.zep',
+            'RoleInterface'      => 'Acl/RoleInterface.zep',
         ],
     ],
     [
         'title'  => 'Phalcon\Annotations',
         'output' => 'Phalcon_Annotations.md',
         'docs'   => [
-            '#Adapter_AbstractAdapter'  => 'Annotations/Adapter/AbstractAdapter.zep',
-            '#Adapter_AdapterInterface' => 'Annotations/Adapter/AdapterInterface.zep',
-            '#Adapter_Apcu'             => 'Annotations/Adapter/Apcu.zep',
-            '#Adapter_Memory'           => 'Annotations/Adapter/Memory.zep',
-            '#Adapter_Stream'           => 'Annotations/Adapter/Stream.zep',
-            '#Annotation'               => 'Annotations/Annotation.zep',
-            '#AnnotationsFactory'       => 'Annotations/AnnotationsFactory.zep',
-            '#Collection'               => 'Annotations/Collection.zep',
-            '#Exception'                => 'Annotations/Exception.zep',
-            '#Reader'                   => 'Annotations/Reader.zep',
-            '#ReaderInterface'          => 'Annotations/ReaderInterface.zep',
-            '#Reflection'               => 'Annotations/Reflection.zep',
+            'Adapter_AbstractAdapter'  => 'Annotations/Adapter/AbstractAdapter.zep',
+            'Adapter_AdapterInterface' => 'Annotations/Adapter/AdapterInterface.zep',
+            'Adapter_Apcu'             => 'Annotations/Adapter/Apcu.zep',
+            'Adapter_Memory'           => 'Annotations/Adapter/Memory.zep',
+            'Adapter_Stream'           => 'Annotations/Adapter/Stream.zep',
+            'Annotation'               => 'Annotations/Annotation.zep',
+            'AnnotationsFactory'       => 'Annotations/AnnotationsFactory.zep',
+            'Collection'               => 'Annotations/Collection.zep',
+            'Exception'                => 'Annotations/Exception.zep',
+            'Reader'                   => 'Annotations/Reader.zep',
+            'ReaderInterface'          => 'Annotations/ReaderInterface.zep',
+            'Reflection'               => 'Annotations/Reflection.zep',
         ],
     ],
 ];
@@ -51,11 +56,17 @@ version: '4.0'
 title: '{$document['title']}'
 ---
 ";
+    foreach ($document['docs'] as $href => $file) {
+        $link = str_replace(['.zep', '/'], ['', '\\'], $file);
+        $output .= "
+* [Phalcon\\{$link}](#$href)";
+    }
 
+    $outputDoc    = str_replace('.md', '', $document['output']);
     foreach ($document['docs'] as $href => $file) {
         echo '    - ' . $file . PHP_EOL;
         $github = strtolower($file);
-        $file   = $root . $file;
+        $file   = $sourceDir . $file;
 
         $data = processDocument($file);
 
@@ -74,8 +85,8 @@ title: '{$document['title']}'
         $methods      = orderMethods($methods);
 
         $output .= "
-<a name='{$href}'></a>
-# {$signature}
+        
+<h1 id=\"{$href}\">{$signature}</h1>
 
 [Source on GitHub](https://github.com/phalcon/cphalcon/tree/v{{ page.version }}.0/phalcon/{$github})
 ";
@@ -145,7 +156,7 @@ title: '{$document['title']}'
     }
 
     file_put_contents(
-        $base . '/tests/_ci/' . $document['output'],
+        $outputDir . $document['output'],
         $output
     );
 }
@@ -267,6 +278,7 @@ function parseMethods(array $item): array
                 $signature .= ' ' . $type . ' $' . $param['name'];
                 // Default value
                 $retVal = $param['default']['type'] ?? '';
+                $retVal = str_replace('empty-array', '[]', $retVal);
                 if (!empty($retVal)) {
                     $signature .= ' = ' . $retVal;
                 }
@@ -300,7 +312,11 @@ function parseMethods(array $item): array
 
                         $retTypes[] = $rt;
                     } else {
-                        $retTypes[] = $li['data-type'];
+                        $retTypes[] = str_replace(
+                            'empty-array',
+                            '[]',
+                            $li['data-type']
+                        );
                     }
                 }
 
