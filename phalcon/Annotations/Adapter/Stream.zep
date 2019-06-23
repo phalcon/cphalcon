@@ -15,8 +15,6 @@ use Phalcon\Annotations\Reflection;
 use Phalcon\Annotations\Exception;
 
 /**
- * Phalcon\Annotations\Adapter\Stream
- *
  * Stores the parsed annotations in files. This adapter is suitable for production
  *
  *```php

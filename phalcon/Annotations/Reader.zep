@@ -13,8 +13,6 @@ namespace Phalcon\Annotations;
 use Phalcon\Annotations\ReaderInterface;
 
 /**
- * Phalcon\Annotations\Reader
- *
  * Parses docblocks returning an array with the found annotations
  */
 class Reader implements ReaderInterface

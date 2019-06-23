@@ -18,20 +18,22 @@ use Phalcon\Annotations\Reflection;
 use Phalcon\Annotations\ReaderInterface;
 
 /**
- * Phalcon\Annotations\Adapter
- *
  * This is the base class for Phalcon\Annotations adapters
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
+    /**
+     * @var array
+     */
     protected annotations = [];
 
+    /**
+     * @var Reader
+     */
     protected reader;
 
     /**
      * Parses or retrieves all the annotations found in a class
-     *
-     * @param string|object className
      */
     public function get(var className) -> <Reflection>
     {
