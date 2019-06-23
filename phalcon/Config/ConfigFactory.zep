@@ -39,8 +39,6 @@ class ConfigFactory extends AbstractFactory
 {
     /**
      * ConfigFactory constructor.
-     *
-     * @param array services
      */
     public function __construct(array services = [])
     {
@@ -49,12 +47,6 @@ class ConfigFactory extends AbstractFactory
 
     /**
      * Load a config to create a new instance
-     *
-     * @param $config
-     *
-     * @return object
-     * @throws Exception
-     * @throws FactoryException
      */
     public function load(config) -> object
     {
@@ -116,12 +108,7 @@ class ConfigFactory extends AbstractFactory
     }
 
     /**
-     * @param string $name
-     * @param string $fileName
-     * @param null   $params
-     *
-     * @return object
-     * @throws FactoryException
+     * Returns a new Config instance
      */
     public function newInstance(string name, string fileName, var params = null) -> object
     {

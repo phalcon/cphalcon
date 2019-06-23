@@ -14,13 +14,11 @@ use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
 
 /**
- * Phalcon\Config\Adapter\Ini
- *
  * Reads ini files and converts them to Phalcon\Config objects.
  *
  * Given the next configuration file:
  *
- *```php
+ *```ini
  * [database]
  * adapter = Mysql
  * host = localhost
@@ -37,7 +35,9 @@ use Phalcon\Config\Exception;
  * You can read it as follows:
  *
  *```php
- * $config = new \Phalcon\Config\Adapter\Ini("path/config.ini");
+ * use Phalcon\Config\Adapter\Ini;
+ *
+ * $config = new Ini("path/config.ini");
  *
  * echo $config->phalcon->controllersDir;
  * echo $config->database->username;
@@ -46,7 +46,7 @@ use Phalcon\Config\Exception;
  * PHP constants may also be parsed in the ini file, so if you define a constant
  * as an ini value before calling the constructor, the constant's value will be
  * integrated into the results. To use it this way you must specify the optional
- * second parameter as INI_SCANNER_NORMAL when calling the constructor:
+ * second parameter as `INI_SCANNER_NORMAL` when calling the constructor:
  *
  * ```php
  * $config = new \Phalcon\Config\Adapter\Ini(
@@ -59,11 +59,6 @@ class Ini extends Config
 {
     /**
      * Ini constructor.
-     *
-     * @param string $filePath
-     * @param null   $mode
-     *
-     * @throws Exception
      */
     public function __construct(string! filePath, var mode = null) -> void
     {
@@ -113,10 +108,6 @@ class Ini extends Config
     /**
      * We have to cast values manually because parse_ini_file() has a poor
      * implementation.
-     *
-     * @param mixed $ini The array casted by `parse_ini_file`
-     *
-     * @return array|bool|false|float|int|mixed|string|string[]|null
      */
     protected function cast(var ini) -> bool | null | double | int | string
     {
@@ -161,11 +152,6 @@ class Ini extends Config
 
     /**
      * Build multidimensional array from string
-     *
-     * @param string $path
-     * @param mixed  $value
-     *
-     * @return array
      */
     protected function parseIniString(string! path, var value) -> array
     {

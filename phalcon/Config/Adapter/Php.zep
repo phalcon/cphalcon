@@ -13,8 +13,6 @@ namespace Phalcon\Config\Adapter;
 use Phalcon\Config\Config;
 
 /**
- * Phalcon\Config\Adapter\Php
- *
  * Reads php files and converts them to Phalcon\Config objects.
  *
  * Given the next configuration file:
@@ -41,7 +39,9 @@ use Phalcon\Config\Config;
  * You can read it as follows:
  *
  *```php
- * $config = new \Phalcon\Config\Adapter\Php("path/config.php");
+ * use Phalcon\Config\Adapter\Php;
+ *
+ * $config = new Php("path/config.php");
  *
  * echo $config->phalcon->controllersDir;
  * echo $config->database->username;
