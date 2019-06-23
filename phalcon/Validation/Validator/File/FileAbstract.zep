@@ -153,6 +153,8 @@ abstract class FileAbstract extends Validator
     {
         var label, replacePairs, value;
 
+        let value = validation->getValue(field);
+
         if !isset value["error"] || !isset value["tmp_name"] || value["error"] !== UPLOAD_ERR_OK || !is_uploaded_file(value["tmp_name"]) {
             let label = this->prepareLabel(validation, field),
                 replacePairs = [
@@ -184,6 +186,8 @@ abstract class FileAbstract extends Validator
     public function checkUploadIsValid(<Validation> validation, var field) -> bool
     {
         var label, replacePairs, value;
+
+        let value = validation->getValue(field);
 
         if !isset value["name"] || !isset value["type"] || !isset value["size"] {
             let label = this->prepareLabel(validation, field),
