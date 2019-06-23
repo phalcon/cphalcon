@@ -18,8 +18,6 @@ use Phalcon\Db\ResultInterface;
 }%
 
 /**
- * Phalcon\Db\Result\Pdo
- *
  * Encapsulates the resultset internals
  *
  * ```php
@@ -62,12 +60,6 @@ class Pdo implements ResultInterface
 
     /**
      * Phalcon\Db\Result\Pdo constructor
-     *
-     * @param \Phalcon\Db\AdapterInterface connection
-     * @param \PDOStatement result
-     * @param string sqlStatement
-     * @param array bindParams
-     * @param array bindTypes
      */
     public function __construct(<Db\AdapterInterface> connection, <\PDOStatement> result,
         sqlStatement = null, bindParams = null, bindTypes = null) -> void

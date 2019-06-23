@@ -11,8 +11,6 @@
 namespace Phalcon\Db;
 
 /**
- * Phalcon\Db\ColumnInterface
- *
  * Interface for Phalcon\Db\Column
  */
 interface ColumnInterface
@@ -24,8 +22,6 @@ interface ColumnInterface
 
     /**
      * Check whether field absolute to position in table
-     *
-     * @return string
      */
     public function getAfterPosition() -> string;
 
@@ -36,10 +32,8 @@ interface ColumnInterface
 
     /**
      * Returns default value of column
-     *
-     * @return mixed|null
      */
-    public function getDefault();
+    public function getDefault() -> var;
 
     /**
      * Returns column name
@@ -58,8 +52,6 @@ interface ColumnInterface
 
     /**
      * Returns column type
-     *
-     * @return int|string
      */
     public function getType() -> int;
 
@@ -70,8 +62,6 @@ interface ColumnInterface
 
     /**
      * Returns column type values
-     *
-     * @return array|string
      */
     public function getTypeValues() -> array | string;
 
@@ -80,6 +70,7 @@ interface ColumnInterface
      * Check whether column has default value
      */
     public function hasDefault() -> bool;
+
     /**
      * Auto-Increment
      */

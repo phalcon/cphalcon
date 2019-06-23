@@ -19,12 +19,13 @@ use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\ReferenceInterface;
 
 /**
- * Phalcon\Db\Dialect\Sqlite
- *
  * Generates database specific SQL for the SQLite RDBMS
  */
 class Sqlite extends Dialect
 {
+    /**
+     * @var string
+     */
     protected escapeChar = "\"";
 
     /**

@@ -11,8 +11,6 @@
 namespace Phalcon\Db;
 
 /**
- * Phalcon\Db\IndexInterface
- *
  * Interface for Phalcon\Db\Index
  */
 interface IndexInterface

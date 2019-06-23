@@ -11,8 +11,6 @@
 namespace Phalcon\Db;
 
 /**
- * Phalcon\Db\AdapterInterface
- *
  * Interface for Phalcon\Db adapters
  */
 interface AdapterInterface
@@ -82,10 +80,6 @@ interface AdapterInterface
 
     /**
      * Deletes data from a table using custom RDBMS SQL syntax
-     *
-     * @param  string whereCondition
-     * @param  array placeholders
-     * @param  array dataTypes
      */
     public function delete(string table, whereCondition = null, placeholders = null, dataTypes = null) -> bool;
 
@@ -136,8 +130,6 @@ interface AdapterInterface
 
     /**
      * Escapes a column/table/schema name
-     *
-     * @param string identifier
      */
     public function escapeIdentifier(identifier) -> string;
 
@@ -155,8 +147,6 @@ interface AdapterInterface
 
     /**
      * Dumps the complete result of a query into an array
-     *
-     * @param int placeholders
      */
     public function fetchAll(string! sqlQuery, int fetchMode = 2, placeholders = null) -> array;
 
@@ -175,15 +165,11 @@ interface AdapterInterface
      * );
      * print_r($robot);
      *```
-     *
-     * @param  int|string column
      */
     public function fetchColumn(string sqlQuery, array placeholders = [], var column = 0) -> string | bool;
 
     /**
      * Returns the first row in a SQL query result
-     *
-     * @param int placeholders
      */
     public function fetchOne(string! sqlQuery, int fetchMode = 2, placeholders = null) -> array;
 
@@ -199,8 +185,6 @@ interface AdapterInterface
 
     /**
      * Gets a list of columns
-     *
-     * @param    array columnList
      */
     public function getColumnList(var columnList) -> string;
 
@@ -266,9 +250,6 @@ interface AdapterInterface
 
     /**
      * Inserts data into a table using custom RDBMS SQL syntax
-     *
-     * @param     array fields
-     * @param     array dataTypes
      */
     public function insert(string table, array! values, fields = null, dataTypes = null) -> bool;
 
@@ -288,9 +269,6 @@ interface AdapterInterface
      * // Next SQL sentence is sent to the database system
      * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
      * ```
-     *
-     * @param     array data
-     * @param     array dataTypes
      */
     public function insertAsDict(string table, data, var dataTypes = null) -> bool;
 
@@ -307,9 +285,6 @@ interface AdapterInterface
     /**
      * Returns insert id for the auto_increment column inserted in the last SQL
      * statement
-     *
-     * @param string sequenceName
-     * @return int
      */
     public function lastInsertId(sequenceName = null);
 
@@ -383,11 +358,6 @@ interface AdapterInterface
 
     /**
      * Updates data on a table using custom RDBMS SQL syntax
-     *
-     * @param     array fields
-     * @param     array values
-     * @param     string whereCondition
-     * @param     array dataTypes
      */
     public function update(string table, fields, values, whereCondition = null, dataTypes = null) -> bool;
 
@@ -408,10 +378,6 @@ interface AdapterInterface
      * // Next SQL sentence is sent to the database system
      * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
      * ```
-     *
-     * @param     array data
-     * @param     string whereCondition
-     * @param     array dataTypes
      */
     public function updateAsDict(string table, var data, var whereCondition = null, var dataTypes = null) -> bool;
 

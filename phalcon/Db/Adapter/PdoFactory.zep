@@ -16,6 +16,9 @@ use Phalcon\Helper\Arr;
 
 class PdoFactory extends AbstractFactory
 {
+    /**
+     * Constructor
+     */
     public function __construct(array! services = [])
     {
         this->init(services);
@@ -55,6 +58,9 @@ class PdoFactory extends AbstractFactory
         return this->services[name];
     }
 
+    /**
+     * Returns the available adapters
+     */
     protected function getAdapters() -> array
     {
         return [

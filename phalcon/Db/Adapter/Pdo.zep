@@ -18,8 +18,6 @@ use Phalcon\Db\ResultInterface;
 use Phalcon\Events\ManagerInterface;
 
 /**
- * Phalcon\Db\Adapter\Pdo
- *
  * Phalcon\Db\Adapter\Pdo is the Phalcon\Db that internally uses PDO to connect
  * to a database
  *
@@ -474,8 +472,6 @@ abstract class Pdo extends Adapter
      *     ]
      * );
      *```
-     *
-     * @param array dataTypes
      */
     public function executePrepared(<\PDOStatement> statement, array! placeholders, dataTypes) -> <\PDOStatement>
     {
@@ -573,8 +569,6 @@ abstract class Pdo extends Adapter
 
     /**
      * Return the error info, if any
-     *
-     * @return array
      */
     public function getErrorInfo()
     {
@@ -643,8 +637,6 @@ abstract class Pdo extends Adapter
      * // Getting the generated id
      * $id = $connection->lastInsertId();
      *```
-     *
-     * @param string sequenceName
      */
     public function lastInsertId(sequenceName = null) -> int | bool
     {

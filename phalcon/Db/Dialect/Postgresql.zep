@@ -19,12 +19,13 @@ use Phalcon\Db\ReferenceInterface;
 use Phalcon\Db\DialectInterface;
 
 /**
- * Phalcon\Db\Dialect\Postgresql
- *
  * Generates database specific SQL for the PostgreSQL RDBMS
  */
 class Postgresql extends Dialect
 {
+    /**
+     * @var string
+     */
     protected escapeChar = "\"";
 
     /**

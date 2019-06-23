@@ -21,8 +21,6 @@ use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
 
 /**
- * Phalcon\Db\Adapter\Pdo\Mysql
- *
  * Specific functions for the Mysql database system
  *
  *```php
@@ -41,8 +39,14 @@ use Phalcon\Db\ReferenceInterface;
  */
 class Mysql extends PdoAdapter
 {
+    /**
+     * @var string
+     */
     protected dialectType = "mysql";
 
+    /**
+     * @var string
+     */
     protected type = "mysql";
 
     /**

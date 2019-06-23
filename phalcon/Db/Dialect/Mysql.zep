@@ -19,12 +19,13 @@ use Phalcon\Db\ReferenceInterface;
 use Phalcon\Db\DialectInterface;
 
 /**
- * Phalcon\Db\Dialect\Mysql
- *
  * Generates database specific SQL for the MySQL RDBMS
  */
 class Mysql extends Dialect
 {
+    /**
+     * @var string
+     */
     protected escapeChar = "`";
 
     /**
