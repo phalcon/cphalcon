@@ -13,8 +13,6 @@ namespace Phalcon\Annotations;
 use Phalcon\Annotations\Collection;
 
 /**
- * Phalcon\Annotations\Reflection
- *
  * Allows to manipulate the annotations reflection in an OO manner
  *
  *```php

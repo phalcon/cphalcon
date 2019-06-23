@@ -11,8 +11,6 @@
 namespace Phalcon\Assets;
 
 /**
- * Phalcon\Assets\Asset
- *
  * Represents an asset asset
  *
  *```php

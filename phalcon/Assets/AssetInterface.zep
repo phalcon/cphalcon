@@ -11,8 +11,6 @@
 namespace Phalcon\Assets;
 
 /**
- * Phalcon\Assets\AssetInterface
- *
  * Interface for custom Phalcon\Assets reources
  */
 interface AssetInterface
