@@ -13,8 +13,6 @@ namespace Phalcon\Cli;
 use Phalcon\Cli\Router\RouteInterface;
 
 /**
- * Phalcon\Cli\RouterInterface
- *
  * Interface for Phalcon\Cli\Router
  */
 interface RouterInterface

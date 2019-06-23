@@ -13,8 +13,6 @@ namespace Phalcon\Cache\Adapter;
 use Phalcon\Storage\Adapter\AdapterInterface as StorageAdapterInterface;
 
 /**
- * Phalcon\Logger\AdapterInterface
- *
  * Interface for Phalcon\Cache adapters
  */
 interface AdapterInterface extends StorageAdapterInterface

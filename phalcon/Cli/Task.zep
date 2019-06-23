@@ -13,8 +13,6 @@ namespace Phalcon\Cli;
 use Phalcon\Di\Injectable;
 
 /**
- * Phalcon\Cli\Task
- *
  * Every command-line task should extend this class that encapsulates all the
  * task functionality
  *

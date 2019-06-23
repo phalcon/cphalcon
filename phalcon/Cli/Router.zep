@@ -15,8 +15,6 @@ use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Router\Exception;
 
 /**
- * Phalcon\Cli\Router
- *
  * Phalcon\Cli\Router is the standard framework router. Routing is the process
  * of taking a command-line arguments and decomposing it into parameters to
  * determine which module, task, and action of that task should receive the

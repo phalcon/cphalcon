@@ -14,8 +14,6 @@ use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 use Phalcon\Storage\Adapter\Apcu as StorageApcu;
 
 /**
- * Phalcon\Cache\Adapter\Apcu
- *
  * Apcu adapter
  */
 class Apcu extends StorageApcu implements CacheAdapterInterface
