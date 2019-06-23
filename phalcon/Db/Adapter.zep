@@ -16,8 +16,6 @@ use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 
 /**
- * Phalcon\Db\Adapter
- *
  * Base class for Phalcon\Db adapters
  */
 abstract class Adapter implements AdapterInterface, EventsAwareInterface
@@ -257,10 +255,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      * // Next SQL sentence is generated
      * DELETE FROM `robots` WHERE `id` = 101
      * ```
-     *
-     * @param  string whereCondition
-     * @param  array placeholders
-     * @param  array dataTypes
      */
     public function delete(string table, var whereCondition = null, var placeholders = null, var dataTypes = null) -> bool
     {
@@ -478,8 +472,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *     ]
      * );
      *```
-     *
-     * @param array|string identifier
      */
     public function escapeIdentifier(var identifier) -> string
     {
@@ -516,9 +508,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *     print_r($robot);
      * }
      *```
-     *
-     * @param array bindParams
-     * @param array bindTypes
      */
     public function fetchAll(string sqlQuery, int fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
     {
@@ -550,8 +539,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      * );
      * print_r($robot);
      *```
-     *
-     * @param  int|string column
      */
     public function fetchColumn(string sqlQuery, array placeholders = [], var column = 0) -> string | bool
     {
@@ -617,8 +604,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Gets a list of columns
-     *
-     * @param    array columnList
      */
     public function getColumnList(var columnList) -> string
     {
@@ -752,9 +737,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      * // Next SQL sentence is sent to the database system
      * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
      * ```
-     *
-     * @param     array fields
-     * @param     array dataTypes
      */
     public function insert(string table, array! values, var fields = null, var dataTypes = null) -> bool
     {
@@ -851,9 +833,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      * // Next SQL sentence is sent to the database system
      * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
      * ```
-     *
-     * @param     array data
-     * @param     array dataTypes
      */
     public function insertAsDict(string table, data, var dataTypes = null) -> bool
     {
@@ -1129,11 +1108,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      * ```
      *
      * Warning! If $whereCondition is string it not escaped.
-     *
-     * @param array fields
-     * @param array values
-     * @param string|array whereCondition
-     * @param array dataTypes
      */
     public function update(string table, var fields, var values, var whereCondition = null, var dataTypes = null) -> bool
     {
@@ -1262,10 +1236,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      * // Next SQL sentence is sent to the database system
      * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
      * ```
-     *
-     * @param array data
-     * @param string whereCondition
-     * @param array dataTypes
      */
     public function updateAsDict(string table, var data, var whereCondition = null, var dataTypes = null) -> bool
     {

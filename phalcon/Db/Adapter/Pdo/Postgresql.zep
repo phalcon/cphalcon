@@ -20,8 +20,6 @@ use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
 
 /**
- * Phalcon\Db\Adapter\Pdo\Postgresql
- *
  * Specific functions for the Postgresql database system
  *
  * ```php
@@ -40,8 +38,14 @@ use Phalcon\Db\ReferenceInterface;
  */
 class Postgresql extends PdoAdapter
 {
+    /**
+     * @var string
+     */
     protected dialectType = "postgresql";
 
+    /**
+     * @var string
+     */
     protected type = "pgsql";
 
     /**

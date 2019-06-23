@@ -13,8 +13,6 @@ namespace Phalcon;
 use Phalcon\Helper\Arr;
 
 /**
- * Phalcon\Debug
- *
  * Provides debug capabilities to Phalcon applications
  */
 class Debug

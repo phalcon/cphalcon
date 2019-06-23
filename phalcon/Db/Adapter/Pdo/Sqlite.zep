@@ -22,8 +22,6 @@ use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
 
 /**
- * Phalcon\Db\Adapter\Pdo\Sqlite
- *
  * Specific functions for the Sqlite database system
  *
  * ```php
@@ -38,8 +36,14 @@ use Phalcon\Db\ReferenceInterface;
  */
 class Sqlite extends PdoAdapter
 {
+    /**
+     * @var string
+     */
     protected dialectType = "sqlite";
 
+    /**
+     * @var string
+     */
     protected type = "sqlite";
 
     /**

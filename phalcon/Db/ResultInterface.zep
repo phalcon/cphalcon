@@ -11,8 +11,6 @@
 namespace Phalcon\Db;
 
 /**
- * Phalcon\Db\ResultInterface
- *
  * Interface for Phalcon\Db\Result objects
  */
 interface ResultInterface
@@ -20,8 +18,6 @@ interface ResultInterface
     /**
      * Moves internal resultset cursor to another position letting us to fetch a
      * certain row
-     *
-     * @param long number
      */
     public function dataSeek(long number);
 
@@ -36,10 +32,8 @@ interface ResultInterface
      * Fetches an array/object of strings that corresponds to the fetched row,
      * or FALSE if there are no more rows. This method is affected by the active
      * fetch flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
-     *
-     * @return mixed
      */
-    public function $fetch();
+    public function $fetch() -> var;
 
     /**
      * Returns an array of arrays containing all the records in the result. This
@@ -52,17 +46,13 @@ interface ResultInterface
      * Returns an array of strings that corresponds to the fetched row, or FALSE
      * if there are no more rows. This method is affected by the active fetch
      * flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
-     *
-     * @return mixed
      */
-    public function fetchArray();
+    public function fetchArray() -> var;
 
     /**
      * Gets the internal PDO result object
-     *
-     * @return \PDOStatement
      */
-    public function getInternalResult();
+    public function getInternalResult() -> <\PDOStatement>;
 
     /**
      * Gets number of rows returned by a resultset

@@ -14,8 +14,6 @@ use Phalcon\Db\Exception;
 use Phalcon\Db\ColumnInterface;
 
 /**
- * Phalcon\Db\Column
- *
  * Allows to define columns to be used on create or alter table operations
  *
  *```php

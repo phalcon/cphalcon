@@ -11,8 +11,6 @@
 namespace Phalcon\Db;
 
 /**
- * Phalcon\Db\Reference
- *
  * Interface for Phalcon\Db\Reference
  */
 interface ReferenceInterface

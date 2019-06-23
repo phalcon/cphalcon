@@ -13,8 +13,6 @@ namespace Phalcon\Debug;
 use Phalcon\Di;
 
 /**
- * Phalcon\Debug\Dump
- *
  * Dumps information about a variable(s)
  *
  * ```php
@@ -50,8 +48,6 @@ class Dump
 
     /**
      * Phalcon\Debug\Dump constructor
-     *
-     * @param bool detailed debug object's private and protected properties
      */
     public function __construct(array! styles = [], bool detailed = false) -> void
     {
@@ -63,9 +59,6 @@ class Dump
 
     /**
      * Alias of variables() method
-     *
-     * @param mixed variable
-     * @param ...
      */
     public function all() -> string
     {
@@ -165,9 +158,6 @@ class Dump
      *
      * echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
      * ```
-     *
-     * @param mixed variable
-     * @param ...
      */
     public function variables() -> string
     {

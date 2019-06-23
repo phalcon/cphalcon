@@ -11,8 +11,6 @@
 namespace Phalcon\Db;
 
 /**
- * Phalcon\Db\Reference
- *
  * Allows to define reference constraints on tables
  *
  *```php

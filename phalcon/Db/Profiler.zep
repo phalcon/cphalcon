@@ -13,8 +13,6 @@ namespace Phalcon\Db;
 use Phalcon\Db\Profiler\Item;
 
 /**
- * Phalcon\Db\Profiler
- *
  * Instances of Phalcon\Db can generate execution profiles
  * on SQL statements sent to the relational database. Profiled
  * information includes execution time in milliseconds.

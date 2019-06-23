@@ -11,8 +11,6 @@
 namespace Phalcon\Db;
 
 /**
- * Phalcon\Db\RawValue
- *
  * This class allows to insert/update raw data without quoting or formatting.
  *
  * The next example shows how to use the MySQL now() function as a field value.

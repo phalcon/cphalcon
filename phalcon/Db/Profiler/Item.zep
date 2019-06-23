@@ -11,10 +11,7 @@
 namespace Phalcon\Db\Profiler;
 
 /**
- * Phalcon\Db\Profiler\Item
- *
  * This class identifies each profile in a Phalcon\Db\Profiler
- *
  */
 class Item
 {

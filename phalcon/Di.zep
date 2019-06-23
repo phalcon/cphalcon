@@ -23,8 +23,6 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
 /**
- * Phalcon\Di
- *
  * Phalcon\Di is a component that implements Dependency Injection/Service
  * Location of services and it's itself a container for them.
  *
@@ -77,7 +75,7 @@ class Di implements DiInterface
     /**
      * Events Manager
      *
-     * @var \Phalcon\Events\ManagerInterface
+     * @var ManagerInterface
      */
     protected eventsManager;
 
@@ -316,8 +314,6 @@ class Di implements DiInterface
     /**
      * Resolves a service, the resolved service is stored in the DI, subsequent
      * requests for this service will return the same instance
-     *
-     * @param array parameters
      */
     public function getShared(string! name, parameters = null) -> var
     {
