@@ -2,10 +2,9 @@ sudo: false
 
 language: php
 php:
-  # PHP 7.4 is not ready yet
-  # - 'master'
-  - '7.3'
-  - '7.2'
+  - 7.4snapshot
+  - 7.3
+  - 7.2
 
 dist: trusty
 
@@ -21,9 +20,8 @@ addons:
 
 matrix:
   fast_finish: true
-  # PHP 7.4 is not ready yet
-  # allow_failures:
-  #  - php: 'master'
+  allow_failures:
+    - php: 7.4snapshot
 
 cache:
   apt: true
@@ -78,8 +76,10 @@ before_script:
     # Setting up Travis' PHP
     echo 'variables_order = EGPCS'    >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     echo 'session.save_path = "/tmp"' >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-    echo 'opcache.enable_cli = 1'     >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-
+    echo 'opcache.enable_cli = 1'     >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini 
+    if [ "$(php-config --vernum)" -ge "70400" ]; then
+      export REPORT_COVERAGE=0
+    fi
   - .ci/build.sh
 
 script:
