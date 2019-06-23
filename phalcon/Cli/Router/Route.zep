@@ -11,8 +11,6 @@
 namespace Phalcon\Cli\Router;
 
 /**
- * Phalcon\Cli\Router\Route
- *
  * This class represents every route added to the router
  */
 class Route

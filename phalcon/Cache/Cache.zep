@@ -16,8 +16,6 @@ use Phalcon\Cache\Exception\InvalidArgumentException;
 use Psr\SimpleCache\CacheInterface;
 
 /**
- * Phalcon\Cache
- *
  * This component offers caching capabilities for your application.
  * Phalcon\Cache implements PSR-16.
  */
