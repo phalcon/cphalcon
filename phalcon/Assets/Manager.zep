@@ -30,6 +30,9 @@ class Manager implements InjectionAwareInterface
 {
     protected collections;
 
+    /**
+     * @var DiInterface
+     */
     protected container;
 
     /**
@@ -44,7 +47,7 @@ class Manager implements InjectionAwareInterface
     protected implicitOutput = true;
 
     /**
-     * Phalcon\Assets\Manager
+     * Phalcon\Assets\Manager constructor
      */
     public function __construct(array options = []) -> void
     {

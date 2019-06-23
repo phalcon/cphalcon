@@ -13,14 +13,12 @@ namespace Phalcon\Assets\Asset;
 use Phalcon\Assets\Asset as AssetBase;
 
 /**
- * Phalcon\Assets\Asset\Css
- *
  * Represents CSS assets
  */
 class Css extends AssetBase
 {
     /**
-     * Phalcon\Assets\Asset\Css
+     * Phalcon\Assets\Asset\Css constructor
      */
     public function __construct(
         string! path,

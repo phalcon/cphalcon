@@ -14,6 +14,9 @@ use Phalcon\Annotations\Adapter\AbstractAdapter;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
 
+/**
+ * Factory to create annotations components
+ */
 class AnnotationsFactory extends AbstractFactory
 {
     /**

@@ -13,16 +13,12 @@ namespace Phalcon\Assets\Inline;
 use Phalcon\Assets\Inline as InlineBase;
 
 /**
- * Phalcon\Assets\Inline\Css
- *
  * Represents an inlined CSS
  */
 class Css extends InlineBase
 {
     /**
-     * Phalcon\Assets\Inline\Css
-     *
-     * @param array attributes
+     * Phalcon\Assets\Inline\Css constructor
      */
     public function __construct(string content, bool filter = true, attributes = null) -> void
     {

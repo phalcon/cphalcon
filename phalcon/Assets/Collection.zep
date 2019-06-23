@@ -19,8 +19,6 @@ use Phalcon\Assets\Inline\Js as InlineJs;
 use Phalcon\Assets\Inline\Css as InlineCss;
 
 /**
- * Phalcon\Assets\Collection
- *
  * Represents a collection of assets
  */
 class Collection implements \Countable, \Iterator
@@ -51,6 +49,9 @@ class Collection implements \Countable, \Iterator
      */
     protected filters = [] { get };
 
+    /**
+     * @var array
+     */
     protected includedAssets;
 
     /**
@@ -68,6 +69,9 @@ class Collection implements \Countable, \Iterator
      */
     protected prefix { get };
 
+    /**
+     * @var int
+     */
     protected position { get };
 
     /**

@@ -11,8 +11,6 @@
 namespace Phalcon\Assets;
 
 /**
- * Phalcon\Assets\Inline
- *
  * Represents an inline asset
  *
  *```php
@@ -26,6 +24,9 @@ class $Inline implements AssetInterface
      */
     protected attributes { get };
 
+    /**
+     * @var string
+     */
     protected content { get };
 
     /**

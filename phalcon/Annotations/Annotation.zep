@@ -14,8 +14,6 @@ use Phalcon\Annotations\Annotation;
 use Phalcon\Annotations\Exception;
 
 /**
- * Phalcon\Annotations\Annotation
- *
  * Represents a single annotation in an annotations collection
  */
 class Annotation

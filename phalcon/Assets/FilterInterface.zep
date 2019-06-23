@@ -11,8 +11,6 @@
 namespace Phalcon\Assets;
 
 /**
- * Phalcon\Assets\FilterInterface
- *
  * Interface for custom Phalcon\Assets filters
  */
 interface FilterInterface
