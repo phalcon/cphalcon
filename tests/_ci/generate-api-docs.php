@@ -11,7 +11,7 @@ $documents = [
 //            '#Acl'                => 'Acl.zep',
 //            '#Adapter_Memory'     => 'Acl/Adapter/Memory.zep',
 //            '#Adapter'            => 'Acl/Adapter.zep',
-            '#AdapterInterface'   => 'Acl/AdapterInterface.zep',
+'#AdapterInterface' => 'Acl/AdapterInterface.zep',
 //            '#Component'          => 'Acl/Component.zep',
 //            '#ComponentAware'     => 'Acl/ComponentAware.zep',
 //            '#ComponentInterface' => 'Acl/ComponentInterface.zep',
@@ -19,8 +19,8 @@ $documents = [
 //            '#Role'               => 'Acl/Role.zep',
 //            '#RoleAware'          => 'Acl/RoleAware.zep',
 //            '#RoleInterface'      => 'Acl/RoleInterface.zep',
-        ]
-    ]
+        ],
+    ],
 ];
 
 foreach ($documents as $document) {
@@ -48,8 +48,8 @@ title: '{$document['title']}'
         $implements   = $data['implements'] ?? '';
         $constants    = $data['constants'] ?? [];
         // Check the shortcuts
-        $properties   = $data['properties'] ?? [];
-        $methods      = $data['methods'] ?? [];
+        $properties = $data['properties'] ?? [];
+        $methods    = $data['methods'] ?? [];
 
         $output .= "
 <a name='{$href}'></a>
@@ -64,7 +64,7 @@ title: '{$document['title']}'
         }
 
         if (!empty($uses)) {
-            $uses = implode(', ', $uses);
+            $uses   = implode(', ', $uses);
             $output .= "
 | Uses       | {$uses} |";
         }
@@ -76,7 +76,7 @@ title: '{$document['title']}'
 
         if (!empty($implements)) {
             $implements = implode(', ', $implements);
-            $output .= "
+            $output     .= "
 | Implements | {$implements} |";
         }
 
@@ -87,7 +87,7 @@ title: '{$document['title']}'
 
         if (count($constants) > 0) {
             $constants = implode(PHP_EOL, $constants);
-            $output .= "
+            $output    .= "
 ## Constants
 ```php
 {$constants}
@@ -97,7 +97,7 @@ title: '{$document['title']}'
 
         if (count($properties) > 0) {
             $properties = implode(PHP_EOL, $properties);
-            $output .= "
+            $output     .= "
 ## Properties
 ```php
 {$properties}
@@ -114,7 +114,7 @@ title: '{$document['title']}'
                     . $method['comment'] . PHP_EOL;
             }
             $signature = implode(PHP_EOL, $elements);
-            $output .= "
+            $output    .= "
 ## Methods
 {$signature}
 ";
@@ -170,8 +170,8 @@ function processDocument(string $file): array
                 $signature .= ' Abstract';
             };
 
-            $signature .= ('class' === $type) ? ' Class ' : ' Interface ';
-            $signature .= $return['namespace'] .'\\' . $item['name'];
+            $signature           .= ('class' === $type) ? ' Class ' : ' Interface ';
+            $signature           .= $return['namespace'] . '\\' . $item['name'];
             $return['signature'] = ltrim($signature);
 
             $return['extends'] = $item['extends'] ?? '';
@@ -195,10 +195,10 @@ function processDocument(string $file): array
 function parseConstants(array $item): array
 {
     $constants = $item['constants'] ?? [];
-    $return     = [];
+    $return    = [];
     foreach ($constants as $constant) {
         if ('const' === $constant['type']) {
-            $signature  = 'const ' . $constant['name'];
+            $signature = 'const ' . $constant['name'];
             if (isset($constant['default']['value'])) {
                 $signature .= ' = ' . $constant['default']['value'];
             }
@@ -227,7 +227,7 @@ function parseMethods(array $item): array
 
         $signature .= ' function ' . $method['name'] . '(';
 
-        $params = $method['parameters'] ?? [];
+        $params  = $method['parameters'] ?? [];
         $counter = 1;
         $count   = count($params);
         foreach ($params as $param) {
@@ -259,7 +259,7 @@ function parseMethods(array $item): array
         if (1 === ($retType['void'] ?? 0)) {
             $signature .= ': void';
         } else {
-            $list     = $retType['list'] ?? [];
+            $list = $retType['list'] ?? [];
             if (count($list) > 0) {
                 $retTypes = [];
                 foreach ($list as $li) {
@@ -315,6 +315,7 @@ function parseProperties(array $item): array
 
     return $return;
 }
+
 //    "properties": [
 //        {
 //            "visibility": [
@@ -364,8 +365,7 @@ function getDocblockMethod(string $source): string
 function getDocblock(string $source): string
 {
     $linesArray = [];
-    $description = '';
-    $lines = explode("\n", trim($source));
+    $lines      = explode("\n", trim($source));
 
     foreach ($lines as $line) {
         $linesArray[] = str_replace(
@@ -382,77 +382,6 @@ function getDocblock(string $source): string
     }
 
     $doc = implode(PHP_EOL, $linesArray);
-//    $count = \count($lines);
-//
-//    foreach ($lines as $i => $line) {
-//        $line = preg_replace('#^([\s\t]+)?/?([*]+)([\s\t]+)?$#im', '', rtrim($line));
-//        $line = preg_replace('#^([\s\t]+)?([*]+)([\s\t]+)?/?$#im', '', rtrim($line));
-//
-//        if ((0 === $i || $i === $count - 1) && empty($line)) {
-//            continue;
-//        }
-//
-//        $cleaned = trim($line, "\t*\0 ");
-//        $cleaned = str_replace('$$', '$', $cleaned);
-//
-//        if (0 === strpos($cleaned, '@')) {
-//            $linesArray[] = $line = $cleaned;
-//        } else {
-//            $line = preg_replace('#([\s\t]+)?[*]#', '', $line);
-//            $line = preg_replace('#([\s\t]+)?[*]([\s\t]){1,2}#', '$1* ', ' * '.$line);
-//            $line = preg_replace('#[*]([\s\t])+$#', '*', $line);
-//            $line = preg_replace('#\t#', '', $line);
-//
-//            $linesArray[] = array_pop($linesArray)."\n".$line;
-//        }
-//    }
-//
-//    if (!empty($linesArray) && 0 !== strpos(trim($linesArray[0], "\t*\0 "), '@')) {
-//        $description = array_shift($linesArray);
-//        $description = explode("\n", $description);
-//
-//        $cleaned = [];
-//        $empty = 0;
-//        foreach ($description as $i => $line) {
-//            if (preg_match('#^([\s\t]+)?[*]([\s\t]+)?$#', $line)) {
-//                ++$empty;
-//            } else {
-//                $empty = 0;
-//            }
-//
-//            if ($empty > 1) {
-//                continue;
-//            }
-//
-//            $cleaned[] = $line;
-//        }
-//
-//        $reversed = array_reverse($cleaned);
-//        if (empty($reversed[0]) || '' === trim($reversed[0], "\t*\0 ")) {
-//            unset($reversed[0]);
-//        }
-//
-//        $description = implode("\n", array_reverse($reversed));
-//    }
-//
-//    $doc = '';
-//
-//    if (!empty($description)) {
-//        $doc = $description;
-//    }
-//
-//    if (!empty($linesArray)) {
-//        $lines = array_map(function ($line) use ($indent) {
-//            return "$indent * $line";
-//        }, $linesArray);
-//
-//        if (!empty($doc)) {
-//            $doc .= "\n$indent *";
-//        }
-//
-//        $doc .= "\n".implode("\n", $lines);
-//    }
-//
+
     return '/' . $doc . '/';
-//    return '' === $doc ? '' : "/**$doc\n */";
 }
