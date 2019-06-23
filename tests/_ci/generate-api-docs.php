@@ -8,10 +8,10 @@ $documents = [
         'title'  => 'Phalcon\Acl',
         'output' => 'Phalcon_Acl.md',
         'docs'   => [
-            '#Acl'                => 'Acl.zep',
-            '#Adapter_Memory'     => 'Acl/Adapter/Memory.zep',
+//            '#Acl'                => 'Acl.zep',
+//            '#Adapter_Memory'     => 'Acl/Adapter/Memory.zep',
 //            '#Adapter'            => 'Acl/Adapter.zep',
-//            '#AdapterInterface'   => 'Acl/AdapterInterface.zep',
+            '#AdapterInterface'   => 'Acl/AdapterInterface.zep',
 //            '#Component'          => 'Acl/Component.zep',
 //            '#ComponentAware'     => 'Acl/ComponentAware.zep',
 //            '#ComponentInterface' => 'Acl/ComponentInterface.zep',
@@ -44,9 +44,12 @@ title: '{$document['title']}'
         $namespace    = $data['namespace'] ?? '';
         $uses         = $data['uses'] ?? '';
         $signature    = $data['signature'] ?? '';
+        $extends      = $data['extends'] ?? '';
         $implements   = $data['implements'] ?? '';
         $constants    = $data['constants'] ?? [];
+        // Check the shortcuts
         $properties   = $data['properties'] ?? [];
+        $methods      = $data['methods'] ?? [];
 
         $output .= "
 <a name='{$href}'></a>
@@ -64,6 +67,11 @@ title: '{$document['title']}'
             $uses = implode(', ', $uses);
             $output .= "
 | Uses       | {$uses} |";
+        }
+
+        if (!empty($extends)) {
+            $output .= "
+| Extends    | {$extends} |";
         }
 
         if (!empty($implements)) {
@@ -97,6 +105,21 @@ title: '{$document['title']}'
 ";
         }
 
+        if (count($methods) > 0) {
+            $elements = [];
+            foreach ($methods as $method) {
+                $elements[] = '```php' . PHP_EOL
+                    . $method['signature'] . PHP_EOL
+                    . '```' . PHP_EOL
+                    . $method['comment'] . PHP_EOL;
+            }
+            $signature = implode(PHP_EOL, $elements);
+            $output .= "
+## Methods
+{$signature}
+";
+        }
+
     }
 
     echo $output;
@@ -114,6 +137,7 @@ function processDocument(string $file): array
     $return   = [];
     $contents = file_get_contents($file);
     $parse    = zephir_parse_file($contents, '(eval code)');
+
     foreach ($parse as $item) {
         $type = $item['type'] ?? '';
 
@@ -123,7 +147,7 @@ function processDocument(string $file): array
         }
 
         if ('comment' === $type) {
-            $return['comment'] = parseClassDocblock($item['value']);
+            $return['comment'] = getDocblock($item['value']);
             continue;
         }
 
@@ -137,17 +161,20 @@ function processDocument(string $file): array
             $return['uses'] = $uses;
         }
 
-        if ('class' === $type) {
+        if ('class' === $type || 'interface' === $type) {
             $signature = '';
-            if (1 === $item['final']) {
+            if (1 === ($item['final'] ?? 0)) {
                 $signature .= ' Final';
             };
-            if (1 === $item['abstract']) {
+            if (1 === ($item['abstract'] ?? 0)) {
                 $signature .= ' Abstract';
             };
 
-            $signature .= ' Class ' . $return['namespace'] .'\\' . $item['name'];
+            $signature .= ('class' === $type) ? ' Class ' : ' Interface ';
+            $signature .= $return['namespace'] .'\\' . $item['name'];
             $return['signature'] = ltrim($signature);
+
+            $return['extends'] = $item['extends'] ?? '';
 
             $implements = $item['implements'] ?? [];
             if (count($implements) > 0) {
@@ -158,41 +185,11 @@ function processDocument(string $file): array
 
             $return['constants']  = parseConstants($item['definition']);
             $return['properties'] = parseProperties($item['definition']);
+            $return['methods']    = parseMethods($item['definition']);
         }
     }
 
     return $return;
-}
-
-function parseClassDocblock(string $text): string
-{
-    //"**\n * Manages ACL lists in memory\n *\n *```php\n * $acl = new \\Phalcon\\Acl\\Adapter\\Memory();\n *\n * $acl->setDefaultAction(\n *     \\Phalcon\\Acl::DENY\n * );\n *\n * \/\/ Register roles\n * $roles = [\n *     \"users\"  => new \\Phalcon\\Acl\\Role(\"Users\"),\n *     \"guests\" => new \\Phalcon\\Acl\\Role(\"Guests\"),\n * ];\n * foreach ($roles as $role) {\n *     $acl->addRole($role);\n * }\n *\n * \/\/ Private area components\n * $privateComponents = [\n *     \"companies\" => [\"index\", \"search\", \"new\", \"edit\", \"save\", \"create\", \"delete\"],\n *     \"products\"  => [\"index\", \"search\", \"new\", \"edit\", \"save\", \"create\", \"delete\"],\n *     \"invoices\"  => [\"index\", \"profile\"],\n * ];\n *\n * foreach ($privateComponents as $componentName => $actions) {\n *     $acl->addComponent(\n *         new \\Phalcon\\Acl\\Component($componentName),\n *         $actions\n *     );\n * }\n *\n * \/\/ Public area components\n * $publicComponents = [\n *     \"index\"   => [\"index\"],\n *     \"about\"   => [\"index\"],\n *     \"session\" => [\"index\", \"register\", \"start\", \"end\"],\n *     \"contact\" => [\"index\", \"send\"],\n * ];\n *\n * foreach ($publicComponents as $componentName => $actions) {\n *     $acl->addComponent(\n *         new \\Phalcon\\Acl\\Component($componentName),\n *         $actions\n *     );\n * }\n *\n * \/\/ Grant access to public areas to both users and guests\n * foreach ($roles as $role){\n *     foreach ($publicComponents as $component => $actions) {\n *         $acl->allow($role->getName(), $component, \"*\");\n *     }\n * }\n *\n * \/\/ Grant access to private area to role Users\n * foreach ($privateComponents as $component => $actions) {\n *     foreach ($actions as $action) {\n *         $acl->allow(\"Users\", $component, $action);\n *     }\n * }\n *```\n *",
-    return str_replace(
-        [
-            '**' . PHP_EOL,
-            ' * ',
-            ' *',
-        ],
-        [
-            '',
-            '',
-            '',
-        ],
-        $text
-    );
-}
-
-function parseDocblock(string $text): string
-{
-    return str_replace(
-        [
-            "    *",
-        ],
-        [
-            "*",
-        ],
-        $text
-    );
 }
 
 function parseConstants(array $item): array
@@ -213,6 +210,85 @@ function parseConstants(array $item): array
     return $return;
 }
 
+function parseMethods(array $item): array
+{
+    $methods = $item['methods'] ?? [];
+    $return  = [];
+
+    foreach ($methods as $method) {
+        $line = $method['docblock'] ?? '';
+        $line = getDocblockMethod($line);
+
+        $signature  = '';
+        $visibility = $method['visibility'] ?? [];
+        foreach ($visibility as $vis) {
+            $signature .= ' ' . $vis;
+        }
+
+        $signature .= ' function ' . $method['name'] . '(';
+
+        $params = $method['parameters'] ?? [];
+        $counter = 1;
+        $count   = count($params);
+        foreach ($params as $param) {
+            if ('parameter' === $param['type']) {
+                $type = $param['data-type'];
+                if ('variable' === $type) {
+                    $type = 'mixed';
+                }
+                $signature .= ' ' . $type . ' $' . $param['name'];
+                // Default value
+                $retVal = $param['default']['type'] ?? '';
+                if (!empty($retVal)) {
+                    $signature .= ' = ' . $retVal;
+                }
+
+                if ($counter < $count) {
+                    $signature .= ',';
+                }
+
+                $counter++;
+            }
+        }
+
+        $signature .= ($count > 0 ? ' ' : '') . ')';
+
+        // Return
+        $retType = $method['return-type'] ?? [];
+
+        if (1 === ($retType['void'] ?? 0)) {
+            $signature .= ': void';
+        } else {
+            $list     = $retType['list'] ?? [];
+            if (count($list) > 0) {
+                $retTypes = [];
+                foreach ($list as $li) {
+                    $cast = $li['cast'] ?? [];
+                    if (count($cast) > 0) {
+                        $rt = $cast['value'];
+                        if (1 === $li['collection']) {
+                            $rt .= '[]';
+                        }
+
+                        $retTypes[] = $rt;
+                    } else {
+                        $retTypes[] = $li['data-type'];
+                    }
+                }
+
+                $signature .= ': ' . implode(' | ', $retTypes);
+            }
+        }
+
+        $return[] = [
+            'comment'   => $line,
+            'signature' => ltrim($signature) . ';',
+        ];
+    }
+
+    return $return;
+}
+
 function parseProperties(array $item): array
 {
     $properties = $item['properties'] ?? [];
@@ -220,7 +296,7 @@ function parseProperties(array $item): array
 
     foreach ($properties as $property) {
         $line = $property['docblock'] ?? '';
-        $line = parseDocblock($line);
+        $line = getDocblock($line);
 
         $signature  = '';
         $visibility = $property['visibility'] ?? [];
@@ -234,7 +310,7 @@ function parseProperties(array $item): array
             $signature .= ' = ' . $property['default']['value'];
         }
 
-        $return[] = '/' . $line . '/' . PHP_EOL . ltrim($signature) . ';' . PHP_EOL;
+        $return[] = $line . PHP_EOL . ltrim($signature) . ';' . PHP_EOL;
     }
 
     return $return;
@@ -256,20 +332,127 @@ function parseProperties(array $item): array
 //              "char": 34
 //            }
 //          ],
-//          "file": "(eval code)",
-//          "line": 32,
-//          "char": 6
-//        },
-//    {
-//        "visibility": [
-//        "protected"
-//    ],
-//          "type": "property",
-//          "name": "accessGranted",
-//          "default": {
-//              "type": "bool",
-//              "value": "false",
-//          },
-//          "docblock": "**\n     * Access Granted\n     *\n     * @var bool\n     *",
 //        },
 
+
+function getDocblockMethod(string $source): string
+{
+    $doc = getDocblock($source);
+
+    return str_replace(
+        [
+            '/**' . PHP_EOL,
+            '/**',
+            ' */' . PHP_EOL,
+            ' */',
+            ' * ',
+            ' *',
+        ],
+        [
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+        ],
+        $doc
+    );
+}
+
+
+function getDocblock(string $source): string
+{
+    $linesArray = [];
+    $description = '';
+    $lines = explode("\n", trim($source));
+
+    foreach ($lines as $line) {
+        $linesArray[] = str_replace(
+            [
+                '    /*',
+                '     *',
+            ],
+            [
+                '/*',
+                ' *',
+            ],
+            $line
+        );
+    }
+
+    $doc = implode(PHP_EOL, $linesArray);
+//    $count = \count($lines);
+//
+//    foreach ($lines as $i => $line) {
+//        $line = preg_replace('#^([\s\t]+)?/?([*]+)([\s\t]+)?$#im', '', rtrim($line));
+//        $line = preg_replace('#^([\s\t]+)?([*]+)([\s\t]+)?/?$#im', '', rtrim($line));
+//
+//        if ((0 === $i || $i === $count - 1) && empty($line)) {
+//            continue;
+//        }
+//
+//        $cleaned = trim($line, "\t*\0 ");
+//        $cleaned = str_replace('$$', '$', $cleaned);
+//
+//        if (0 === strpos($cleaned, '@')) {
+//            $linesArray[] = $line = $cleaned;
+//        } else {
+//            $line = preg_replace('#([\s\t]+)?[*]#', '', $line);
+//            $line = preg_replace('#([\s\t]+)?[*]([\s\t]){1,2}#', '$1* ', ' * '.$line);
+//            $line = preg_replace('#[*]([\s\t])+$#', '*', $line);
+//            $line = preg_replace('#\t#', '', $line);
+//
+//            $linesArray[] = array_pop($linesArray)."\n".$line;
+//        }
+//    }
+//
+//    if (!empty($linesArray) && 0 !== strpos(trim($linesArray[0], "\t*\0 "), '@')) {
+//        $description = array_shift($linesArray);
+//        $description = explode("\n", $description);
+//
+//        $cleaned = [];
+//        $empty = 0;
+//        foreach ($description as $i => $line) {
+//            if (preg_match('#^([\s\t]+)?[*]([\s\t]+)?$#', $line)) {
+//                ++$empty;
+//            } else {
+//                $empty = 0;
+//            }
+//
+//            if ($empty > 1) {
+//                continue;
+//            }
+//
+//            $cleaned[] = $line;
+//        }
+//
+//        $reversed = array_reverse($cleaned);
+//        if (empty($reversed[0]) || '' === trim($reversed[0], "\t*\0 ")) {
+//            unset($reversed[0]);
+//        }
+//
+//        $description = implode("\n", array_reverse($reversed));
+//    }
+//
+//    $doc = '';
+//
+//    if (!empty($description)) {
+//        $doc = $description;
+//    }
+//
+//    if (!empty($linesArray)) {
+//        $lines = array_map(function ($line) use ($indent) {
+//            return "$indent * $line";
+//        }, $linesArray);
+//
+//        if (!empty($doc)) {
+//            $doc .= "\n$indent *";
+//        }
+//
+//        $doc .= "\n".implode("\n", $lines);
+//    }
+//
+    return '/' . $doc . '/';
+//    return '' === $doc ? '' : "/**$doc\n */";
+}
