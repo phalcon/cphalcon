@@ -13,20 +13,20 @@ namespace Phalcon\Config\Adapter;
 use Phalcon\Config\Config;
 
 /**
- * Phalcon\Config\Adapter\Json
- *
  * Reads JSON files and converts them to Phalcon\Config objects.
  *
  * Given the following configuration file:
  *
- *```php
+ *```json
  * {"phalcon":{"baseuri":"\/phalcon\/"},"models":{"metadata":"memory"}}
  *```
  *
  * You can read it as follows:
  *
  *```php
- * $config = new Phalcon\Config\Adapter\Json("path/config.json");
+ * use Phalcon\Config\Adapter\Json;
+ *
+ * $config = new Json("path/config.json");
  *
  * echo $config->phalcon->baseuri;
  * echo $config->models->metadata;

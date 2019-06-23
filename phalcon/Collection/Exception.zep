@@ -13,8 +13,6 @@ namespace Phalcon\Collection;
 use Throwable;
 
 /**
- * Phalcon\Collection\Exception
- *
  * Exceptions for the Collection object
  */
 class Exception extends \Exception implements Throwable

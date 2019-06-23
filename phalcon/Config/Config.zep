@@ -14,9 +14,7 @@ use Phalcon\Collection\Collection;
 use Phalcon\Config\Exception;
 
 /**
- * Phalcon\Config
- *
- * Phalcon\Config is designed to simplify the access to, and the use of,
+ * `Phalcon\Config` is designed to simplify the access to, and the use of,
  * configuration data within applications. It provides a nested object property
  * based user interface for accessing this configuration data within application
  * code.
@@ -77,11 +75,6 @@ class Config extends Collection
      *
      * $globalConfig->merge($appConfig);
      *```
-     *
-     * @param $toMerge
-     *
-     * @return Config
-     * @throws Exception
      */
     public function merge(var toMerge) -> <Config>
     {
@@ -111,12 +104,6 @@ class Config extends Collection
      *```php
      * echo $config->path("unknown.path", "default", ".");
      *```
-     *
-     * @param string     $path
-     * @param null|mixed $defaultValue
-     * @param null|mixed $delimiter
-     *
-     * @return mixed|null
      */
     public function path(string path, defaultValue = null, var delimiter = null)
     {
@@ -155,10 +142,6 @@ class Config extends Collection
 
     /**
      * Sets the default path delimiter
-     *
-     * @param string|null $delimiter
-     *
-     * @return Config
      */
     public function setPathDelimiter(string delimiter = null) -> <Config>
     {
@@ -197,11 +180,6 @@ class Config extends Collection
 
     /**
      * Performs a merge recursively
-     *
-     * @param array $source
-     * @param array $target
-     *
-     * @return array
      */
     final protected function internalMerge(array source, array target) -> array
     {
@@ -221,8 +199,7 @@ class Config extends Collection
     }
 
     /**
-     * @param mixed $element
-     * @param mixed $value
+     * Sets the collection data
      */
     protected function setData(var element, var value) -> void
     {

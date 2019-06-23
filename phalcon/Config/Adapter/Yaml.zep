@@ -14,13 +14,11 @@ use Phalcon\Config\Config;
 use Phalcon\Config\Exception;
 
 /**
- * Phalcon\Config\Adapter\Yaml
- *
  * Reads YAML files and converts them to Phalcon\Config objects.
  *
  * Given the following configuration file:
  *
- *```php
+ *```yaml
  * phalcon:
  *   baseuri:        /phalcon/
  *   controllersDir: !approot  /app/controllers/
@@ -36,7 +34,9 @@ use Phalcon\Config\Exception;
  *     dirname(__DIR__)
  * );
  *
- * $config = new \Phalcon\Config\Adapter\Yaml(
+ * use Phalcon\Config\Adapter\Yaml;
+ *
+ * $config = new Yaml(
  *     "path/config.yaml",
  *     [
  *         "!approot" => function($value) {
@@ -54,8 +54,6 @@ class Yaml extends Config
 {
     /**
      * Phalcon\Config\Adapter\Yaml constructor
-     *
-     * @throws \Phalcon\Config\Exception
      */
     public function __construct(string! filePath, array! callbacks = null) -> void
     {

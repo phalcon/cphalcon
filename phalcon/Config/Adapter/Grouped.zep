@@ -16,11 +16,9 @@ use Phalcon\Factory\Exception as FactoryException;
 use Phalcon\Config\ConfigFactory;
 
 /**
- * Phalcon\Config\Adapter\Grouped
- *
  * Reads multiple files (or arrays) and merges them all together.
  *
- * @see Phalcon\Config\Factory::load To load Config Adapter class using 'adapter' option.
+ * See `Phalcon\Config\Factory::load` To load Config Adapter class using 'adapter' option.
  *
  * ```php
  * use Phalcon\Config\Adapter\Grouped;
@@ -72,14 +70,6 @@ class Grouped extends Config
 {
     /**
      * Phalcon\Config\Adapter\Grouped constructor
-     *
-     * Grouped constructor.
-     *
-     * @param array  $arrayConfig
-     * @param string $defaultAdapter
-     *
-     * @throws Exception
-     * @throws FactoryException
      */
     public function __construct(array! arrayConfig, string! defaultAdapter = "php")
     {
