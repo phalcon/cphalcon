@@ -213,9 +213,6 @@ class Memory extends Adapter
      *     ]
      * );
      * ```
-     *
-     * @param   Phalcon\Acl\Component|string componentValue
-     * @param   array|string                 accessList
      */
     public function addComponent(var componentValue, var accessList) -> bool
     {
@@ -239,8 +236,6 @@ class Memory extends Adapter
 
     /**
      * Adds access to components
-     *
-     * @param array|string accessList
      */
     public function addComponentAccess(string componentName, var accessList) -> bool
     {
@@ -282,15 +277,10 @@ class Memory extends Adapter
     /**
      * Do a role inherit from another existing role
      *
-     * Example:
      * ```php
-     *
      * $acl->addRole("administrator", "consultant");
      * $acl->addRole("administrator", ["consultant", "consultant2"]);
      * ```
-     *
-     * @param  array|string               accessInherits
-     * @param  RoleInterface|string|array role
      */
     public function addInherit(string roleName, var roleToInherits) -> bool
     {
@@ -398,7 +388,6 @@ class Memory extends Adapter
     /**
      * Adds a role to the ACL list. Second parameter allows inheriting access data from other existing role
      *
-     * Example:
      * ```php
      * $acl->addRole(
      *     new Phalcon\Acl\Role("administrator"),
@@ -408,9 +397,6 @@ class Memory extends Adapter
      * $acl->addRole("administrator", "consultant");
      * $acl->addRole("administrator", ["consultant", "consultant2"]);
      * ```
-     *
-     * @param  array|string               accessInherits
-     * @param  RoleInterface|string|array role
      */
     public function addRole(role, accessInherits = null) -> bool
     {
@@ -443,24 +429,20 @@ class Memory extends Adapter
     }
 
     /**
-     * Allow access to a role on a component
+     * Allow access to a role on a component. You can use `*` as wildcard
      *
-     * You can use '*' as wildcard
-     *
-     * Example:
      * ```php
-     * //Allow access to guests to search on customers
+     * // Allow access to guests to search on customers
      * $acl->allow("guests", "customers", "search");
      *
-     * //Allow access to guests to search or create on customers
+     * // Allow access to guests to search or create on customers
      * $acl->allow("guests", "customers", ["search", "create"]);
      *
-     * //Allow access to any role to browse on products
+     * // Allow access to any role to browse on products
      * $acl->allow("*", "products", "browse");
      *
-     * //Allow access to any role to browse on any component
+     * // Allow access to any role to browse on any component
      * $acl->allow("*", "*", "browse");
-     * ```
      */
     public function allow(string roleName, string componentName, var access, var func = null) -> void
     {
@@ -488,22 +470,19 @@ class Memory extends Adapter
     }
 
     /**
-     * Deny access to a role on a component
+     * Deny access to a role on a component. You can use `*` as wildcard
      *
-     * You can use '*' as wildcard
-     *
-     * Example:
      * ```php
-     * //Deny access to guests to search on customers
+     * // Deny access to guests to search on customers
      * $acl->deny("guests", "customers", "search");
      *
-     * //Deny access to guests to search or create on customers
+     * // Deny access to guests to search or create on customers
      * $acl->deny("guests", "customers", ["search", "create"]);
      *
-     * //Deny access to any role to browse on products
+     * // Deny access to any role to browse on products
      * $acl->deny("*", "products", "browse");
      *
-     * //Deny access to any role to browse on any component
+     * // Deny access to any role to browse on any component
      * $acl->deny("*", "*", "browse");
      * ```
      */
@@ -528,8 +507,6 @@ class Memory extends Adapter
 
     /**
      * Removes an access from a component
-     *
-     * @param array|string accessList
      */
     public function dropComponentAccess(string componentName, var accessList) -> void
     {
@@ -556,7 +533,7 @@ class Memory extends Adapter
 
     /**
      * Returns the default ACL access level for no arguments provided in
-     * isAllowed action if there exists func for accessKey
+     * `isAllowed` action if a `func` (callable) exists for `accessKey`
      */
     public function getNoArgumentsDefaultAction() -> int
     {
@@ -583,15 +560,12 @@ class Memory extends Adapter
      * Check whether a role is allowed to access an action from a component
      *
      * ```php
-     * //Does andres have access to the customers component to create?
+     * // Does andres have access to the customers component to create?
      * $acl->isAllowed("andres", "Products", "create");
      *
-     * //Do guests have access to any component to edit?
+     * // Do guests have access to any component to edit?
      * $acl->isAllowed("guests", "*", "edit");
      * ```
-     *
-     * @param  RoleInterface|RoleAware|string roleName
-     * @param  ComponentInterface|ComponentAware|string componentName
      */
     public function isAllowed(var roleName, var componentName, string access, array parameters = null) -> bool
     {
@@ -834,7 +808,7 @@ class Memory extends Adapter
     }
 
     /**
-     * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+     * Sets the default access level (`Phalcon\Acl::ALLOW` or `Phalcon\Acl::DENY`)
      * for no arguments provided in isAllowed action if there exists func for
      * accessKey
      */
