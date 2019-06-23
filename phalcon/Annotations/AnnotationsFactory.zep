@@ -58,6 +58,9 @@ class AnnotationsFactory extends AbstractFactory
         return this->services[name];
     }
 
+    /**
+     * The available adapters
+     */
     protected function getAdapters() -> array
     {
         return [

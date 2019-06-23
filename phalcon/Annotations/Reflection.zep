@@ -40,6 +40,9 @@ class Reflection
 
     protected propertyAnnotations;
 
+    /**
+     * @var array
+     */
     protected reflectionData;
 
     /**

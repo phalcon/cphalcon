@@ -14,8 +14,6 @@ use Phalcon\Annotations\Adapter\AbstractAdapter;
 use Phalcon\Annotations\Reflection;
 
 /**
- * Phalcon\Annotations\Adapter\Apcu
- *
  * Stores the parsed annotations in APCu. This adapter is suitable for production
  *
  *```php

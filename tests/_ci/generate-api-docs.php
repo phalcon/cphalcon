@@ -1,24 +1,43 @@
 <?php
 declare(strict_types=1);
 
-$root = dirname(dirname(dirname(__FILE__))) . '/phalcon/';
+$base = dirname(dirname(dirname(__FILE__)));
+$root = $base . '/phalcon/';
 
 $documents = [
     [
         'title'  => 'Phalcon\Acl',
         'output' => 'Phalcon_Acl.md',
         'docs'   => [
-//            '#Acl'                => 'Acl.zep',
-//            '#Adapter_Memory'     => 'Acl/Adapter/Memory.zep',
-//            '#Adapter'            => 'Acl/Adapter.zep',
-'#AdapterInterface' => 'Acl/AdapterInterface.zep',
-//            '#Component'          => 'Acl/Component.zep',
-//            '#ComponentAware'     => 'Acl/ComponentAware.zep',
-//            '#ComponentInterface' => 'Acl/ComponentInterface.zep',
-//            '#Exception'          => 'Acl/Exception.zep',
-//            '#Role'               => 'Acl/Role.zep',
-//            '#RoleAware'          => 'Acl/RoleAware.zep',
-//            '#RoleInterface'      => 'Acl/RoleInterface.zep',
+            '#Acl'                => 'Acl.zep',
+            '#Adapter_Memory'     => 'Acl/Adapter/Memory.zep',
+            '#Adapter'            => 'Acl/Adapter.zep',
+            '#AdapterInterface'   => 'Acl/AdapterInterface.zep',
+            '#Component'          => 'Acl/Component.zep',
+            '#ComponentAware'     => 'Acl/ComponentAware.zep',
+            '#ComponentInterface' => 'Acl/ComponentInterface.zep',
+            '#Exception'          => 'Acl/Exception.zep',
+            '#Role'               => 'Acl/Role.zep',
+            '#RoleAware'          => 'Acl/RoleAware.zep',
+            '#RoleInterface'      => 'Acl/RoleInterface.zep',
+        ],
+    ],
+    [
+        'title'  => 'Phalcon\Annotations',
+        'output' => 'Phalcon_Annotations.md',
+        'docs'   => [
+            '#Adapter_AbstractAdapter'  => 'Annotations/Adapter/AbstractAdapter.zep',
+            '#Adapter_AdapterInterface' => 'Annotations/Adapter/AdapterInterface.zep',
+            '#Adapter_Apcu'             => 'Annotations/Adapter/Apcu.zep',
+            '#Adapter_Memory'           => 'Annotations/Adapter/Memory.zep',
+            '#Adapter_Stream'           => 'Annotations/Adapter/Stream.zep',
+            '#Annotation'               => 'Annotations/Annotation.zep',
+            '#AnnotationsFactory'       => 'Annotations/AnnotationsFactory.zep',
+            '#Collection'               => 'Annotations/Collection.zep',
+            '#Exception'                => 'Annotations/Exception.zep',
+            '#Reader'                   => 'Annotations/Reader.zep',
+            '#ReaderInterface'          => 'Annotations/ReaderInterface.zep',
+            '#Reflection'               => 'Annotations/Reflection.zep',
         ],
     ],
 ];
@@ -47,9 +66,12 @@ title: '{$document['title']}'
         $extends      = $data['extends'] ?? '';
         $implements   = $data['implements'] ?? '';
         $constants    = $data['constants'] ?? [];
-        // Check the shortcuts
-        $properties = $data['properties'] ?? [];
-        $methods    = $data['methods'] ?? [];
+        $temp         = $data['properties'] ?? [];
+        $properties   = $temp['properties'] ?? [];
+        $shortcuts    = $temp['shortcuts'] ?? [];
+        $methods      = $data['methods'] ?? [];
+        $methods      = array_merge($shortcuts, $methods);
+        $methods      = orderMethods($methods);
 
         $output .= "
 <a name='{$href}'></a>
@@ -122,7 +144,10 @@ title: '{$document['title']}'
 
     }
 
-    echo $output;
+    file_put_contents(
+        $base . '/tests/_ci/' . $document['output'],
+        $output
+    );
 }
 
 /**
@@ -147,7 +172,7 @@ function processDocument(string $file): array
         }
 
         if ('comment' === $type) {
-            $return['comment'] = getDocblock($item['value']);
+            $return['comment'] = getDocblockMethod($item['value']);
             continue;
         }
 
@@ -183,9 +208,10 @@ function processDocument(string $file): array
                 }
             }
 
-            $return['constants']  = parseConstants($item['definition']);
-            $return['properties'] = parseProperties($item['definition']);
-            $return['methods']    = parseMethods($item['definition']);
+            $definition           = $item['definition'] ?? [];
+            $return['constants']  = parseConstants($definition);
+            $return['properties'] = parseProperties($definition);
+            $return['methods']    = parseMethods($definition);
         }
     }
 
@@ -203,9 +229,11 @@ function parseConstants(array $item): array
                 $signature .= ' = ' . $constant['default']['value'];
             }
 
-            $return[] = $signature . ';';
+            $return[$constant['name']] = $signature . ';';
         }
     }
+
+    ksort($return);
 
     return $return;
 }
@@ -280,7 +308,7 @@ function parseMethods(array $item): array
             }
         }
 
-        $return[] = [
+        $return[$method['name']] = [
             'comment'   => $line,
             'signature' => ltrim($signature) . ';',
         ];
@@ -293,12 +321,14 @@ function parseProperties(array $item): array
 {
     $properties = $item['properties'] ?? [];
     $return     = [];
+    $sigReturn  = [];
 
     foreach ($properties as $property) {
         $line = $property['docblock'] ?? '';
         $line = getDocblock($line);
 
-        $signature  = '';
+        $signature = '';
+
         $visibility = $property['visibility'] ?? [];
         foreach ($visibility as $vis) {
             $signature .= ' ' . $vis;
@@ -310,31 +340,51 @@ function parseProperties(array $item): array
             $signature .= ' = ' . $property['default']['value'];
         }
 
-        $return[] = $line . PHP_EOL . ltrim($signature) . ';' . PHP_EOL;
+        $retVal = '';
+        $temp   = explode(PHP_EOL, $line);
+        foreach ($temp as $li) {
+            if (strpos($li, '@var') > 0) {
+                $retVal = str_replace(' * @var ', '', $li);
+                break;
+            }
+        }
+
+        $shortcuts = $property['shortcuts'] ?? [];
+        foreach ($shortcuts as $shortcut) {
+            $stub = $shortcut['name'];
+            if ('get' === $stub) {
+                $name = 'get' . ucfirst($property['name']);
+                $sigReturn[$name] = [
+                    'comment'   => '',
+                    'signature' => 'public function ' . $name .
+                        '()' . (!empty($retVal) ? ': ' . $retVal : ''),
+                ];
+            } elseif ('set' === $stub) {
+                $name = 'set' . ucfirst($property['name']);
+                $sigReturn[$name] = [
+                    'comment'   => '',
+                    'signature' => 'public function ' . $name .
+                        '( ' . (!empty($retVal) ? $retVal . ' ' : '') .
+                        '$' . $property['name'] .
+                        ' )',
+                ];
+            } elseif ('__toString' === $stub) {
+                $sigReturn['__toString'] = [
+                    'comment'   => '',
+                    'signature' => 'public function __toString(): string',
+                ];
+            }
+        }
+
+        $return[$property['name']] = $line . PHP_EOL .
+            ltrim($signature) . ';' . PHP_EOL;
     }
 
-    return $return;
+    return [
+        'properties' => $return,
+        'shortcuts'  => $sigReturn,
+    ];
 }
-
-//    "properties": [
-//        {
-//            "visibility": [
-//            "protected"
-//        ],
-//          "type": "property",
-//          "name": "activeAccess",
-//          "docblock": "**\n     * Active access which the list is checking if some role can access it\n     *\n     * @var string\n     *",
-//          "shortcuts": [
-//            {
-//                "type": "shortcut",
-//              "name": "get",
-//              "file": "(eval code)",
-//              "line": 26,
-//              "char": 34
-//            }
-//          ],
-//        },
-
 
 function getDocblockMethod(string $source): string
 {
@@ -361,7 +411,6 @@ function getDocblockMethod(string $source): string
     );
 }
 
-
 function getDocblock(string $source): string
 {
     $linesArray = [];
@@ -384,4 +433,38 @@ function getDocblock(string $source): string
     $doc = implode(PHP_EOL, $linesArray);
 
     return '/' . $doc . '/';
+}
+
+function orderMethods($methods): array
+{
+    if (is_array($methods)) {
+        $public    = [];
+        $reserved  = [];
+        $protected = [];
+
+        foreach ($methods as $name => $method) {
+            if (substr($name, 0, 2) === '__') {
+                $reserved[$name] = $method;
+                continue;
+            }
+
+            if (strpos($method['signature'], 'public function') !== false) {
+                $public[$name] = $method;
+                continue;
+            }
+
+            if (strpos($method['signature'], 'protected function') !== false) {
+                $protected[$name] = $method;
+                continue;
+            }
+        }
+
+        ksort($reserved);
+        ksort($public);
+        ksort($protected);
+
+        return array_merge($reserved, $public, $protected);
+    } else {
+        return $methods;
+    }
 }
