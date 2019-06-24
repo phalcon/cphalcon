@@ -533,7 +533,7 @@ class Compiler implements InjectionAwareInterface
     }
 
     /**
-     * Compiles a '{{' '}}' statement returning PHP code
+     * Compiles a {% raw %}`{{` `}}`{% endraw %} statement returning PHP code
      */
     public function compileEcho(array! statement) -> string
     {
@@ -1112,7 +1112,7 @@ class Compiler implements InjectionAwareInterface
      * Compiles a template into a string
      *
      *```php
-     * echo $compiler->compileString('{{ "hello world" }}');
+     * echo $compiler->compileString({% raw %}'{{ "hello world" }}'{% endraw %});
      *```
      */
     public function compileString(string! viewCode, bool extendsMode = false) -> string
@@ -1954,7 +1954,7 @@ class Compiler implements InjectionAwareInterface
      *
      *```php
      * print_r(
-     *     $compiler->parse("{{ 3 + 2 }}")
+     *     $compiler->parse("{% raw %}{{ 3 + 2 }}{% endraw %}")
      * );
      *```
      *
