@@ -19,8 +19,6 @@ use Phalcon\Firewall\Exception;
 use Phalcon\Mvc\DispatcherInterface;
 
 /**
- * Phalcon\Mvc\Dispatcher\Firewall\Adapter\Acl
- *
  * FirewallZ for Phalcon\Application which depends on acl and dispatcher
  */
 class Acl extends Adapter
@@ -69,9 +67,6 @@ class Acl extends Adapter
 
     /**
      * Phalcon\Firewall\Adapter\Acl constructor
-     *
-     * @param string aclServiceName
-     * @param array boundModelsKeyMap
      */
     public function __construct(string aclServiceName, array boundModelsKeyMap = null)
     {

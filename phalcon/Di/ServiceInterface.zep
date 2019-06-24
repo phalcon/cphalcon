@@ -13,8 +13,6 @@ namespace Phalcon\Di;
 use Phalcon\DiInterface;
 
 /**
- * Phalcon\Di\ServiceInterface
- *
  * Represents a service in the services container
  */
 interface ServiceInterface

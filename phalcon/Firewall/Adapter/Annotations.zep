@@ -19,8 +19,6 @@ use Phalcon\Mvc\DispatcherInterface;
 use ReflectionClass;
 
 /**
- * Phalcon\Firewall\Adapter\Annotations
- *
  * Firewall which depends on annotations and dispatcher
  */
 class Annotations extends Adapter
@@ -50,8 +48,6 @@ class Annotations extends Adapter
 
     /**
      * Phalcon\Firewall\Adapter\Annotations constructor
-     *
-     * @param mixed annotationsAdapter
      */
     public function __construct(<AdapterInterface> annotationsAdapter)
     {

@@ -19,8 +19,6 @@ use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
 
 /**
- * Phalcon\Http\Request
- *
  * Encapsulates request information for easy and secure access from application
  * controllers.
  *

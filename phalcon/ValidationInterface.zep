@@ -17,8 +17,6 @@ use Phalcon\Validation\Exception;
 use Phalcon\Validation\ValidatorInterface;
 
 /**
- * Phalcon\ValidationInterface
- *
  * Interface for the Phalcon\Validation component
  */
 interface ValidationInterface

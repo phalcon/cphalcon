@@ -19,8 +19,6 @@
 namespace Phalcon\Domain\Payload;
 
 /**
- * Phalcon\Domain\Payload\Status
- *
  * Holds the status codes for the payload
  */
 class Status

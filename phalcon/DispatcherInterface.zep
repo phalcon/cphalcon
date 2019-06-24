@@ -11,8 +11,6 @@
 namespace Phalcon;
 
 /**
- * Phalcon\DispatcherInterface
- *
  * Interface for Phalcon\Dispatcher
  */
 interface DispatcherInterface

@@ -13,8 +13,6 @@ namespace Phalcon;
 use Phalcon\Helper\Str;
 
 /**
- * Phalcon\Text
- *
  * Provides utilities to work with texts
  */
 abstract class Text

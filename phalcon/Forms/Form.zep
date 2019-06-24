@@ -24,8 +24,6 @@ use Phalcon\Validation;
 use Phalcon\ValidationInterface;
 
 /**
- * Phalcon\Forms\Form
- *
  * This component allows to build forms using an object-oriented interface
  */
 class Form extends Injectable implements \Countable, \Iterator, AttributesInterface
@@ -50,8 +48,6 @@ class Form extends Injectable implements \Countable, \Iterator, AttributesInterf
 
     /**
      * Phalcon\Forms\Form constructor
-     *
-     * @param object entity
      */
     public function __construct(var entity = null, array userOptions = []) -> void
     {

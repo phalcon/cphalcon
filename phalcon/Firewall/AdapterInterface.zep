@@ -14,8 +14,6 @@ use Phalcon\Mvc\DispatcherInterface;
 use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 
 /**
- * Phalcon\Mvc\Dispatcher\Firewall\AdapterInterface
- *
  * Interface for Phalcon\Mvc\Dispatcher\Firewall adapters
  */
 interface AdapterInterface

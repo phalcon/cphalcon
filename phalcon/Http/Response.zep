@@ -22,8 +22,6 @@ use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 
 /**
- * Phalcon\Http\Response
- *
  * Part of the HTTP cycle is return responses to the clients.
  * Phalcon\HTTP\Response is the Phalcon component responsible to achieve this task.
  * HTTP responses are usually composed by headers and body.

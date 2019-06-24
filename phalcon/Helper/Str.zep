@@ -14,8 +14,6 @@ use Phalcon\Helper\Arr;
 use Phalcon\Helper\Exception;
 
 /**
- * Phalcon\Helper\Str
- *
  * This class offers quick string functions throughout the framework
  */
 class Str

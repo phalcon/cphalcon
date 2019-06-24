@@ -17,8 +17,6 @@ use Phalcon\Messages\Messages;
 use Phalcon\Validation\ValidatorInterface;
 
 /**
- * Phalcon\Forms\Element
- *
  * This is a base class for form elements
  */
 abstract class Element implements ElementInterface

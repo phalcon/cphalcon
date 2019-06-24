@@ -18,8 +18,6 @@ use Phalcon\Mvc\ControllerInterface;
 use Phalcon\Dispatcher as BaseDispatcher;
 
 /**
- * Phalcon\Mvc\Dispatcher
- *
  * Dispatching is the process of taking the request object, extracting the
  * module name, controller name, action name, and optional parameters contained
  * in it, and then instantiating a controller and calling an action of that

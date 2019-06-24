@@ -40,8 +40,6 @@ class Route
     protected static uniqueId = 0;
 
     /**
-     * Phalcon\Cli\Router\Route constructor
-     *
      * @param array|string paths
      */
     public function __construct(string! pattern, paths = null) -> void

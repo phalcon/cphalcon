@@ -14,8 +14,6 @@ use Phalcon\Tag;
 use Phalcon\Forms\Element;
 
 /**
- * Phalcon\Forms\Element\TextArea
- *
  * Component TEXTAREA for forms
  */
 class TextArea extends Element

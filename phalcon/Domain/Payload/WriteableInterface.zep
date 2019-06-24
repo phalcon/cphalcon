@@ -21,8 +21,6 @@ namespace Phalcon\Domain\Payload;
 use Phalcon\Domain\Payload\PayloadInterface;
 
 /**
- * Phalcon\Domain\Payload\WriteableInterface
- *
  * This interface is used for consumers (write)
  */
 interface WriteableInterface

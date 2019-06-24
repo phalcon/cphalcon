@@ -14,8 +14,6 @@ use Phalcon\Validation;
 use Phalcon\Validation\Validator;
 
 /**
- * Phalcon\Validation\Validator\Alnum
- *
  * Check for alphanumeric character(s)
  *
  * ```php

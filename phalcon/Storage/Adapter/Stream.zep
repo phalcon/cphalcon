@@ -18,8 +18,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
- * Phalcon\Storage\Adapter\Stream
- *
  * Stream adapter
  */
 class Stream extends AbstractAdapter
@@ -138,11 +136,11 @@ class Stream extends AbstractAdapter
         var content, directory, payload;
 
         let directory = this->getDir(key);
-	
+
         if !file_exists(directory . key) {
             return defaultValue;
         }
-	
+
         let payload   = file_get_contents(directory . key),
             payload = json_decode(payload, true);
 
