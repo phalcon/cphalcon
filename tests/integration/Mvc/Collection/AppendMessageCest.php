@@ -45,7 +45,7 @@ class AppendMessageCest
         $I->wantToTest('Mvc\Collection - appendMessage()');
 
         $robot = new Robots;
-        $robot->version = 0;
+        $robot->version = 0; // If version < 0, message appened !
 
         $I->assertFalse($robot->save());
         $I->assertNotEmpty($robot->getMessages());

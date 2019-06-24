@@ -13,21 +13,36 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Collection;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Mvc\Collections\Robots;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
  * Class SetConnectionServiceCest
  */
 class SetConnectionServiceCest
 {
+    use DiTrait;
+
+    public function _before()
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiCollectionManager();
+        $this->setDiMongo();
+    }
+
     /**
      * Tests Phalcon\Mvc\Collection :: setConnectionService()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
      * @since  2018-11-13
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function mvcCollectionSetConnectionService(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Collection - setConnectionService()');
-        $I->skipTest('Need implementation');
+
+        $robot = new Robots;
+        $robot->setConnectionService('otherMongo');
+        $I->assertEquals('otherMongo', $robot->getConnectionService());
     }
 }
