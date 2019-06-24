@@ -27,7 +27,7 @@ use Phalcon\UrlInterface;
 class Tag implements InjectionAwareInterface
 {
     /**
-     * @var <DiInterface>
+     * @var DiInterface
      */
     protected container;
 
@@ -122,7 +122,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ button('Click Me') }}
+     * {% raw %}{{ button('Click Me') }}{% endraw %}
      * ```
      */
     public function button(string! name, array parameters = []) -> string
@@ -261,8 +261,8 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ form('posts/save') }}
-     * {{ form('posts/save', ['method': 'post') }}
+     * {% raw %}{{ form('posts/save') }}{% endraw %}
+     * {% raw %}{{ form('posts/save', ['method': 'post') }}{% endraw %}
      * ```
      */
     public function form(string action, array parameters = []) -> string
@@ -313,7 +313,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt Syntax:
      * ```php
-     * {{ friendly_title(['text': 'These are big important news', 'separator': '-']) }}
+     * {% raw %}{{ friendly_title(['text': 'These are big important news', 'separator': '-']) }}{% endraw %}
      * ```
      */
     public function friendlyTitle(string! text, array parameters = []) -> string
@@ -454,7 +454,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ get_title() }}
+     * {% raw %}{{ get_title() }}{% endraw %}
      * ```
      */
     public function getTitle(bool prepend = true, bool append = true) -> string
@@ -513,7 +513,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ get_title_separator() }}
+     * {% raw %}{{ get_title_separator() }}{% endraw %}
      * ```
      */
     public function getTitleSeparator() -> string
@@ -588,9 +588,9 @@ class Tag implements InjectionAwareInterface
      *
      * Volt Syntax:
      * ```php
-     * {{ image('img/bg.png') }}
-     * {{ image('img/photo.jpg', ['alt': 'Some Photo') }}
-     * {{ image('http://static.mywebsite.com/img/bg.png', ['local': false]) }}
+     * {% raw %}{{ image('img/bg.png') }}{% endraw %}
+     * {% raw %}{{ image('img/photo.jpg', ['alt': 'Some Photo') }}{% endraw %}
+     * {% raw %}{{ image('http://static.mywebsite.com/img/bg.png', ['local': false]) }}{% endraw %}
      * ```
      */
     public function image(string url = "", array parameters = []) -> string
@@ -631,7 +631,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ input_checkbox(['name': 'terms, 'value': 'Y']) }}
+     * {% raw %}{{ input_checkbox(['name': 'terms, 'value': 'Y']) }}{% endraw %}
      * ```
      */
     public function inputCheckbox(string! name, array parameters = []) -> string
@@ -665,7 +665,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ input_date(['name':'born', 'value':'14-12-1980']) }}
+     * {% raw %}{{ input_date(['name':'born', 'value':'14-12-1980']) }}{% endraw %}
      * ```
      */
     public function inputDate(string! name, array parameters = []) -> string
@@ -691,7 +691,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ input_date_time(['name':'born', 'value':'14-12-1980']) }}
+     * {% raw %}{{ input_date_time(['name':'born', 'value':'14-12-1980']) }}{% endraw %}
      * ```
     */
     public function inputDateTime(string! name, array parameters = []) -> string
@@ -717,7 +717,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ input_date_time_local(['name':'born', 'value':'14-12-1980']) }}
+     * {% raw %}{{ input_date_time_local(['name':'born', 'value':'14-12-1980']) }}{% endraw %}
      * ```
     */
     public function inputDateTimeLocal(string! name, array parameters = []) -> string
@@ -742,7 +742,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ input_email(['name': 'email']);
+     * {% raw %}{{ input_email(['name': 'email']);{% endraw %}
      * ```
      */
     public function inputEmail(string! name, array parameters = []) -> string
@@ -767,7 +767,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ input_file(['name': 'file']);
+     * {% raw %}{{ input_file(['name': 'file']){% endraw %}
      * ```
      */
     public function inputFile(string! name, array parameters = []) -> string
@@ -812,7 +812,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ input_image(['src': '/img/button.png']) }}
+     * {% raw %}{{ input_image(['src': '/img/button.png']) }}{% endraw %}
      * ```
      */
     public function inputImage(string! name, array parameters = []) -> string
@@ -889,7 +889,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ input_radio(['name': 'weather', 'value": 'hot']) }}
+     * {% raw %}{{ input_radio(['name': 'weather', 'value": 'hot']) }}{% endraw %}
      * ```
      */
     public function inputRadio(string! name, array parameters = []) -> string
@@ -989,8 +989,8 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ javascript('http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js', ['local': false]) }}
-     * {{ javascript('javascript/jquery.js') }}
+     * {% raw %}{{ javascript('http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js', ['local': false]) }}{% endraw %}
+     * {% raw %}{{ javascript('javascript/jquery.js') }}{% endraw %}
      * ```
      */
     public function javascript(string url, array parameters = []) -> string
@@ -1120,7 +1120,7 @@ class Tag implements InjectionAwareInterface
      * ```
      *
      * ```php
-     * {{ render_title() }}
+     * {% raw %}{{ render_title() }}{% endraw %}
      * ```
      */
     public function renderTitle(bool prepend = true, bool append = true) -> string
@@ -1141,7 +1141,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ reset('Save') }}
+     * {% raw %}{{ reset('Save') }}{% endraw %}
      * ```
      */
     public function reset(string! name, array parameters = []) -> string
@@ -1194,8 +1194,6 @@ class Tag implements InjectionAwareInterface
      *     )
      * );
      * ```
-     *
-     * @param array data
      */
     public function select(string! name, array parameters = [], data = null) -> string
     {
@@ -1352,8 +1350,6 @@ class Tag implements InjectionAwareInterface
 
     /**
      * Set the document type of content
-     *
-     * @param int doctype A valid doctype for the content
      */
     public function setDocType(int doctype) -> <Tag>
     {
@@ -1425,8 +1421,8 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ stylesheet('http://fonts.googleapis.com/css?family=Rosario', ['local': false]) }}
-     * {{ stylesheet('css/style.css') }}
+     * {% raw %}{{ stylesheet('http://fonts.googleapis.com/css?family=Rosario', ['local': false]) }}{% endraw %}
+     * {% raw %}{{ stylesheet('css/style.css') }}{% endraw %}
      * ```
      */
     public function stylesheet(string url, array parameters = []) -> string
@@ -1471,7 +1467,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ submit('Save') }}
+     * {% raw %}{{ submit('Save') }}{% endraw %}
      * ```
      */
     public function submit(string! name, array parameters = []) -> string
@@ -1498,7 +1494,7 @@ class Tag implements InjectionAwareInterface
      *
      * Volt syntax:
      * ```php
-     * {{ text_area('comments', ['cols': 10, 'rows': 4]) }}
+     * {% raw %}{{ text_area('comments', ['cols': 10, 'rows': 4]) }}{% endraw %}
      * ```
      */
     public function textArea(string! name, array parameters = []) -> string
