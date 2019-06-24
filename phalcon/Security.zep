@@ -17,8 +17,6 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Session\ManagerInterface as SessionInterface;
 
 /**
- * Phalcon\Security
- *
  * This component provides a set of functions to improve the security in Phalcon
  * applications
  *

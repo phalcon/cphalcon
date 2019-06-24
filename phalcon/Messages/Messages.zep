@@ -15,8 +15,6 @@ use Phalcon\Messages\Exception;
 use Phalcon\Messages\MessageInterface;
 
 /**
- * Phalcon\Messages\Messages
- *
  * Represents a collection of messages
  */
 class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable

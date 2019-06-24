@@ -18,8 +18,6 @@ use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Service\Builder;
 
 /**
- * Phalcon\Di\Service
- *
  * Represents individually a service in the services container
  *
  *```php

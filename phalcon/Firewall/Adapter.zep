@@ -19,8 +19,6 @@ use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\Dispatcher;
 
 /**
- * Phalcon\Firewall\Adapter
- *
  * Adapter for Phalcon\Firewall adapters
  */
 abstract class Adapter implements AdapterInterface, EventsAwareInterface

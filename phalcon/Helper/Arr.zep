@@ -13,8 +13,6 @@ namespace Phalcon\Helper;
 use Phalcon\Helper\Exception;
 
 /**
- * Phalcon\Helper\Arr
- *
  * This class offers quick array functions throughout the framework
  */
 class Arr

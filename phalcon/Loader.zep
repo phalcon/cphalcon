@@ -15,8 +15,6 @@ use Phalcon\Events\ManagerInterface;
 use Phalcon\Events\EventsAwareInterface;
 
 /**
- * Phalcon\Loader
- *
  * This component helps to load your project classes automatically based on some
  * conventions
  *

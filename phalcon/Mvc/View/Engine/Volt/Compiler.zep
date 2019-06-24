@@ -16,8 +16,6 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\View\Engine\Volt\Exception;
 
 /**
- * Phalcon\Mvc\View\Engine\Volt\Compiler
- *
  * This class reads and compiles Volt templates into PHP plain code
  *
  *```php

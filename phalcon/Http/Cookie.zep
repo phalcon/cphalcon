@@ -20,8 +20,6 @@ use Phalcon\Crypt\Mismatch;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
 
 /**
- * Phalcon\Http\Cookie
- *
  * Provide OO wrappers to manage a HTTP cookie.
  */
 class Cookie implements CookieInterface, InjectionAwareInterface

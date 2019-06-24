@@ -20,8 +20,6 @@ use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Collection;
 
 /**
- * Phalcon\Validation\Validator\Uniqueness
- *
  * Check that a field is unique in the related table
  *
  * ```php

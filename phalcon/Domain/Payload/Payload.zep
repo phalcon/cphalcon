@@ -21,8 +21,6 @@ namespace Phalcon\Domain\Payload;
 use Phalcon\Domain\Payload\PayloadInterface;
 
 /**
- * Phalcon\Domain\Payload\Payload
- *
  * Holds the payload
  */
 class Payload implements PayloadInterface

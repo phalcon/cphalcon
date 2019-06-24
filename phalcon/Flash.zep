@@ -14,8 +14,6 @@ use Phalcon\Flash\Exception;
 use Phalcon\Di\InjectionAwareInterface;
 
 /**
- * Phalcon\Flash
- *
  * Shows HTML notifications related to different circumstances. Classes can be
  * stylized using CSS
  *

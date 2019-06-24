@@ -15,8 +15,6 @@ use Phalcon\Di\Injectable;
 use Phalcon\Mvc\ViewBaseInterface;
 
 /**
- * Phalcon\Mvc\View\Engine
- *
  * All the template engine adapters must inherit this class. This provides
  * basic interfacing between the engine and the Phalcon\Mvc\View component.
  */

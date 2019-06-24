@@ -19,8 +19,6 @@
 namespace Phalcon\Domain\Payload;
 
 /**
- * Phalcon\Domain\Payload\RadableInterface
- *
  * This interface is used for consumers (read only)
  */
 interface ReadableInterface

@@ -22,8 +22,6 @@ use Phalcon\Domain\Payload\ReadableInterface;
 use Phalcon\Domain\Payload\WriteableInterface;
 
 /**
- * Phalcon\Domain\Payload\PayableInterface
- *
  * This interface is used for consumers
  */
 interface PayloadInterface extends ReadableInterface, WriteableInterface

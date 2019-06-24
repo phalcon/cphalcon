@@ -16,8 +16,6 @@ use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
 
 /**
- * Phalcon\Mvc\View\Engine\Volt
- *
  * Designer friendly and fast template engine for PHP written in Zephir/C
  */
 class Volt extends Engine

@@ -22,8 +22,6 @@ use Phalcon\Domain\Payload\Payload;
 use Phalcon\Domain\Payload\PayloadInterface;
 
 /**
- * Phalcon\Domain\Payload\PayloadFactory
- *
  * Factory to create payload objects
  */
 class PayloadFactory

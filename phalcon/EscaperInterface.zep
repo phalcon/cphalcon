@@ -11,8 +11,6 @@
 namespace Phalcon;
 
 /**
- * Phalcon\EscaperInterface
- *
  * Interface for Phalcon\Escaper
  */
 interface EscaperInterface

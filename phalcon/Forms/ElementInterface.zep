@@ -16,8 +16,6 @@ use Phalcon\Messages\Messages;
 use Phalcon\Validation\ValidatorInterface;
 
 /**
- * Phalcon\Forms\Element
- *
  * Interface for Phalcon\Forms\Element classes
  */
 interface ElementInterface

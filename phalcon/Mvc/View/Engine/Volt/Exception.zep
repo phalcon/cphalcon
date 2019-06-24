@@ -13,8 +13,6 @@ namespace Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\View\Exception as BaseException;
 
 /**
- * Phalcon\Mvc\View\Exception
- *
  * Class for exceptions thrown by Phalcon\Mvc\View
  */
 class Exception extends BaseException

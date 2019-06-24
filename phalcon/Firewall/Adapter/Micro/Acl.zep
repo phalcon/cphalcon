@@ -22,8 +22,6 @@ use Phalcon\Mvc\Model\BinderInterface;
 use Phalcon\Mvc\Router;
 
 /**
- * Phalcon\Firewall\Adapter\Micro\Acl
- *
  * Firewall for Phalcon\Mvc\Micro which depends on ACL
  */
 class Acl extends Adapter
@@ -120,9 +118,9 @@ class Acl extends Adapter
      * Fires event or throwing exception
      */
     protected function fireEventOrThrowException(
-        var role, 
-        string actionName, 
-        string controllerName, 
+        var role,
+        string actionName,
+        string controllerName,
         bool access
     )
     {
@@ -141,7 +139,7 @@ class Acl extends Adapter
 
             if this->routeNameConfiguration {
                 return this->throwFirewallException(
-                    "Role name " . roleName . " doesn't have access to route called " . actionName, 
+                    "Role name " . roleName . " doesn't have access to route called " . actionName,
                     403
                 );
             } else {
@@ -154,8 +152,8 @@ class Acl extends Adapter
     }
 
     protected function getAccessFromCache(
-        string! key, 
-        array originalValues = null, 
+        string! key,
+        array originalValues = null,
         string roleCacheKey = null
     ) -> bool | null
     {

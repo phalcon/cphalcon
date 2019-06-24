@@ -18,8 +18,6 @@ use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Di\InjectionAwareInterface;
 
 /**
- * Phalcon\Url
- *
  * This components helps in the generation of: URIs, URLs and Paths
  *
  *```php

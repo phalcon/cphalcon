@@ -14,8 +14,6 @@ use Phalcon\Tag;
 use Phalcon\Forms\Element;
 
 /**
- * Phalcon\Forms\Element\Date
- *
  * Component INPUT[type=date] for forms
  */
 class Date extends Element

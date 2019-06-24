@@ -13,8 +13,6 @@ namespace Phalcon\Http;
 use Phalcon\Http\Request\FileInterface;
 
 /**
- * Phalcon\Http\RequestInterface
- *
  * Interface for Phalcon\Http\Request
  */
 interface RequestInterface
