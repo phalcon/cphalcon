@@ -97,7 +97,7 @@ class Min extends Validator
             let included = (bool) included;
         }
 
-        if (included) {
+        if included {
             let result = length <= minimum;
         } else {
             let result = length < minimum;

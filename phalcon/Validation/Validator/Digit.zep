@@ -59,9 +59,7 @@ class Digit extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value;
-
-        let value = validation->getValue(field);
+        var value = validation->getValue(field);
 
         if is_int(value) || ctype_digit(value) {
             return true;

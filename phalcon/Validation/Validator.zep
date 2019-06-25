@@ -55,7 +55,7 @@ abstract class Validator implements ValidatorInterface
             this->setTemplate(template);
         }
 
-        if (template) {
+        if template {
             unset options["template"];
             unset options["message"];
             unset options[0];
@@ -78,7 +78,7 @@ abstract class Validator implements ValidatorInterface
         }
 
         // there is a custom template
-        if (this->template) {
+        if this->template {
             return this->template;
         }
 
@@ -108,10 +108,9 @@ abstract class Validator implements ValidatorInterface
         let this->templates = [];
 
         for field, template in templates {
-            let field = (string) field;
-            let template = (string) template;
-
-            let this->templates[field] = template;
+            let field                  = (string) field,
+                template               = (string) template,
+                this->templates[field] = template;
         }
 
         return this;
@@ -222,9 +221,9 @@ abstract class Validator implements ValidatorInterface
     {
         var singleField;
 
-        if (is_array(field)) {
+        if typeof field == "array" {
             let singleField = implode(", ", field);
-        } elseif (is_string(field)) {
+        } elseif typeof field == "string" {
             let singleField = field;
         } else {
             throw new Exception("The field can not be printed");
