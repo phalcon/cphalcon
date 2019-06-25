@@ -10,6 +10,7 @@
 
 namespace Phalcon\Validation\Validator;
 
+use Phalcon\Helper\Arr;
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
 use Phalcon\Validation\ValidatorComposite;
@@ -103,15 +104,8 @@ class File extends ValidatorComposite
         for key, value in options {
             // min filesize
             if strcasecmp(key, "minSize") === 0 {
-                // get custom message
-                if isset options["messageMinSize"] {
-                    let message = options["messageMinSize"];
-                }
-
-                // get included option
-                if isset options["includedMinSize"] {
-                    let included = options["includedMinSize"];
-                }
+                let message  = Arr::get(options, "messageMinSize"),
+                    included = Arr::get(options, "includedMinSize");
 
                 let validator = new MinFileSize(
                     [
@@ -127,15 +121,8 @@ class File extends ValidatorComposite
 
             // max filesize
             elseif strcasecmp(key, "maxSize") === 0 {
-                // get custom message
-                if isset options["messageSize"] {
-                    let message = options["messageSize"];
-                }
-
-                // get included option
-                if isset options["includedSize"] {
-                    let included = options["includedSize"];
-                }
+                let message  = Arr::get(options, "messageSize"),
+                    included = Arr::get(options, "includedSize");
 
                 let validator = new MaxFileSize(
                     [
@@ -152,10 +139,7 @@ class File extends ValidatorComposite
 
             // equal filesize
             elseif strcasecmp(key, "equalSize") === 0 {
-                // get custom message
-                if isset options["messageEqualSize"] {
-                    let message = options["messageEqualSize"];
-                }
+                let message = Arr::get(options, "messageEqualSize");
 
                 let validator = new EqualFileSize(
                     [
@@ -170,9 +154,7 @@ class File extends ValidatorComposite
 
             // mime types
             elseif strcasecmp(key, "allowedTypes") === 0 {
-                if isset options["messageType"] {
-                    let message = options["messageType"];
-                }
+                let message = Arr::get(options, "messageType");
 
                 let validator = new MimeType(
                     [
@@ -187,14 +169,8 @@ class File extends ValidatorComposite
 
             // max resolution
             elseif strcasecmp(key, "maxResolution") === 0 {
-                if isset options["messageMaxResolution"] {
-                    let message = options["messageMaxResolution"];
-                }
-
-                // get included option
-                if isset options["includedMaxResolution"] {
-                    let included = options["includedMaxResolution"];
-                }
+                let message  = Arr::get(options, "messageMaxResolution"),
+                    included = Arr::get(options, "includedMaxResolution");
 
                 let validator = new MaxResolution(
                     [
@@ -211,14 +187,8 @@ class File extends ValidatorComposite
 
             // min resolution
             elseif strcasecmp(key, "minResolution") === 0 {
-                if isset options["messageMinResolution"] {
-                    let message = options["messageMinResolution"];
-                }
-
-                // get included option
-                if isset options["includedMinResolution"] {
-                    let included = options["includedMinResolution"];
-                }
+                let message  = Arr::get(options, "messageMinResolution"),
+                    included = Arr::get(options, "includedMinResolution");
 
                 let validator = new MinResolution(
                     [
@@ -235,9 +205,7 @@ class File extends ValidatorComposite
 
             // equal resolution
             elseif strcasecmp(key, "equalResolution") === 0 {
-                if isset options["messageEqualResolution"] {
-                    let message = options["messageEqualResolution"];
-                }
+                let message = Arr::get(options, "messageEqualResolution");
 
                 let validator = new EqualResolution(
                     [
