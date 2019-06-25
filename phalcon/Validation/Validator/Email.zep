@@ -58,9 +58,7 @@ class Email extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value;
-
-        let value = validation->getValue(field);
+        var value = validation->getValue(field);
 
         if !filter_var(value, FILTER_VALIDATE_EMAIL) {
             validation->appendMessage(

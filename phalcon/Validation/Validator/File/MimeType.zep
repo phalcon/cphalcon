@@ -80,7 +80,7 @@ class MimeType extends FileAbstract
         var fieldTypes, mime, replacePairs, tmp, types, value;
 
         // Check file upload
-        if (this->checkUpload(validation, field) === false) {
+        if this->checkUpload(validation, field) === false {
             return false;
         }
 

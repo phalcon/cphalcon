@@ -73,7 +73,7 @@ class Max extends FileAbstract
         var bytes, fileSize, included = false, replacePairs, result, size, value;
 
         // Check file upload
-        if (this->checkUpload(validation, field) === false) {
+        if this->checkUpload(validation, field) === false {
             return false;
         }
 
@@ -95,13 +95,13 @@ class Max extends FileAbstract
             let included = (bool) included;
         }
 
-        if (included) {
+        if included {
             let result = fileSize >= bytes;
         } else {
             let result = fileSize > bytes;
         }
 
-        if (result) {
+        if result {
             let replacePairs = [
                 ":size"  : size
             ];

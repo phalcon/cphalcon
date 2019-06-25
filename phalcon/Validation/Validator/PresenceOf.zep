@@ -59,9 +59,7 @@ class PresenceOf extends Validator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value;
-
-        let value = validation->getValue(field);
+        var value = validation->getValue(field);
 
         if value === null || value === "" {
             validation->appendMessage(

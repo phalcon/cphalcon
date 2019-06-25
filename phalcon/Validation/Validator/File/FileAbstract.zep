@@ -81,9 +81,7 @@ abstract class FileAbstract extends Validator
      */
     public function isAllowEmpty(<Validation> validation, string! field) -> bool
     {
-        var value;
-
-        let value = validation->getValue(field);
+        var value = validation->getValue(field);
 
         return empty value || isset value["error"] && value["error"] === UPLOAD_ERR_NO_FILE;
     }

@@ -97,7 +97,7 @@ class Max extends Validator
             let included = (bool) included;
         }
 
-        if (included) {
+        if included {
             let result = length >= maximum;
         } else {
             let result = length > maximum;

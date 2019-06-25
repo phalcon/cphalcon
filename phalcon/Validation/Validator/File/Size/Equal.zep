@@ -73,7 +73,7 @@ class Equal extends FileAbstract
         var bytes, fileSize, replacePairs, size, value;
 
         // Check file upload
-        if (this->checkUpload(validation, field) === false) {
+        if this->checkUpload(validation, field) === false {
             return false;
         }
 
