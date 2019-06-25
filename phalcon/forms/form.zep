@@ -240,7 +240,9 @@ class Form extends Injectable implements \Countable, \Iterator
 			/**
 			 * Use the public property if it doesn't have a setter
 			 */
-			let entity->{key} = filteredValue;
+			 if property_exists(entity, key) {
+			 	let entity->{key} = filteredValue;
+			 }
 		}
 
 		let this->_data = data;
