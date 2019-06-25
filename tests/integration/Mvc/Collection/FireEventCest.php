@@ -22,8 +22,9 @@ class FireEventCest
     /**
      * Tests Phalcon\Mvc\Collection :: fireEvent()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
      * @since  2018-11-13
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function mvcCollectionFireEvent(IntegrationTester $I)
     {

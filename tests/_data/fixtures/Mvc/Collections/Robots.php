@@ -75,4 +75,15 @@ class Robots extends Collection
     {
         $this->private_field = $private_field;
     }
+
+    /**
+     * @return array
+     */
+    public function revealObjectVars()
+    {
+        // Ignore private field for <Mvc\Collection - getReservedAttributes()> test
+        return array_diff_key(get_object_vars($this), [
+            'private_field' => null
+        ]);
+    }
 }

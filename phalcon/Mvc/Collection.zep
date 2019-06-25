@@ -770,7 +770,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let reserved = self::reserved;
         if typeof reserved != "array" {
             let reserved = [
-                "_connection"   : true,
+                "connection"    : true,
                 "container"     : true,
                 "source"        : true,
                 "operationMade" : true,

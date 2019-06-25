@@ -13,21 +13,39 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Collection;
 
 use IntegrationTester;
+use MongoDB\Database;
+use Phalcon\Test\Fixtures\Mvc\Collections\Robots;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
  * Class WriteAttributeCest
  */
 class WriteAttributeCest
 {
+    use DiTrait;
+
+    public function _before()
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiCollectionManager();
+        $this->setDiMongo();
+    }
+
     /**
      * Tests Phalcon\Mvc\Collection :: writeAttribute()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
      * @since  2018-11-13
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function mvcCollectionWriteAttribute(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Collection - writeAttribute()');
-        $I->skipTest('Need implementation');
+
+        $robot = new Robots;
+        $first_name = 'Hola';
+        $robot->writeAttribute('first_name', $first_name);
+
+        $I->assertEquals($first_name, $robot->first_name);
     }
 }

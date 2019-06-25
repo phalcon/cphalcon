@@ -28,6 +28,9 @@ class GetConnectionServiceCest
         $this->setNewFactoryDefault();
         $this->setDiCollectionManager();
         $this->setDiMongo();
+
+        $mongo = $this->getDi()->get('mongo');
+        $this->getDi()->set('otherMongo', $mongo);
     }
 
     /**
@@ -43,5 +46,9 @@ class GetConnectionServiceCest
 
         $robot = new Robots;
         $I->assertEquals("mongo", $robot->getConnectionService());
+
+        $connectionService = 'otherMongo';
+        $robot->setConnectionService($connectionService);
+        $I->assertEquals($connectionService, $robot->getConnectionService());
     }
 }

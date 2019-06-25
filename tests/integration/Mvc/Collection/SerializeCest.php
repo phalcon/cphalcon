@@ -13,21 +13,60 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Collection;
 
 use IntegrationTester;
+use MongoDB\Database;
+use Phalcon\Test\Fixtures\Mvc\Collections\Robots;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
  * Class SerializeCest
  */
 class SerializeCest
 {
+    use DiTrait;
+
+    /** @var string $source */
+    private $source;
+
+    /** @var Database $mongo */
+    private $mongo;
+
+    public function _before()
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiCollectionManager();
+        $this->setDiMongo();
+
+        $this->source = (new Robots)->getSource();
+        $this->mongo = $this->getDi()->get('mongo');
+
+        $this->mongo->selectCollection($this->source)->insertOne(
+            [
+                'first_name' => 'Wall',
+                'last_name' => 'E',
+            ]
+        );
+    }
+
     /**
      * Tests Phalcon\Mvc\Collection :: serialize()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
      * @since  2018-11-13
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function mvcCollectionSerialize(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Collection - serialize()');
-        $I->skipTest('Need implementation');
+
+        /** @var Robots $robot */
+        $robot = Robots::findFirst();
+        $serialized = $robot->serialize();
+
+        $I->assertEquals($robot->toArray(), unserialize($serialized));
+    }
+
+    public function _after()
+    {
+        $this->mongo->dropCollection($this->source);
     }
 }

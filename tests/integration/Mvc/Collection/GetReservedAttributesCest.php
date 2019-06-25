@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Collection;
 
 use IntegrationTester;
+use MongoDB\BSON\ObjectId;
 use Phalcon\Test\Fixtures\Mvc\Collections\Robots;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -42,15 +43,13 @@ class GetReservedAttributesCest
         $I->wantToTest('Mvc\Collection - getReservedAttributes()');
 
         $robot = new Robots;
-        $I->assertEquals([
-            "_connection" => true,
-            "container" => true,
-            "source" => true,
-            "operationMade" => true,
-            "errorMessages" => true,
-            "dirtyState" => true,
-            "modelsManager" => true,
-            "skipped" => true
-        ], $robot->getReservedAttributes());
+        $robot->setId(new ObjectId);
+
+        $allVars = $robot->revealObjectVars();
+        $fields = $robot->toArray();
+        $reservedDiff = array_diff_key($allVars, $fields);
+        $reservedAttributes = array_fill_keys(array_keys($reservedDiff), true);
+
+        $I->assertEquals($reservedAttributes, $robot->getReservedAttributes());
     }
 }

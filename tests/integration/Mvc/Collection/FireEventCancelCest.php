@@ -22,8 +22,9 @@ class FireEventCancelCest
     /**
      * Tests Phalcon\Mvc\Collection :: fireEventCancel()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
      * @since  2018-11-13
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function mvcCollectionFireEventCancel(IntegrationTester $I)
     {

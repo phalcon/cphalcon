@@ -22,8 +22,9 @@ class UnserializeCest
     /**
      * Tests Phalcon\Mvc\Collection :: unserialize()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @param IntegrationTester $I
      * @since  2018-11-13
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function mvcCollectionUnserialize(IntegrationTester $I)
     {
