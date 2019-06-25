@@ -21,6 +21,7 @@ use Phalcon\Acl\RoleAware;
 use Phalcon\Acl\ComponentAware;
 use Phalcon\Acl\RoleInterface;
 use Phalcon\Acl\ComponentInterface;
+use ReflectionFunction;
 
 /**
  * Manages ACL lists in memory
@@ -670,7 +671,7 @@ class Memory extends Adapter
          * If we have funcAccess then do all the checks for it
          */
         if is_callable(funcAccess) {
-            let reflectionFunction   = new \ReflectionFunction(funcAccess),
+            let reflectionFunction   = new ReflectionFunction(funcAccess),
                 reflectionParameters = reflectionFunction->getParameters(),
                 parameterNumber      = count(reflectionParameters);
 

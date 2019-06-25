@@ -17,6 +17,8 @@ use Phalcon\Http\Request\FileInterface;
 use Phalcon\Http\Request\Exception;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use UnexpectedValueException;
+use stdClass;
 
 /**
  * Encapsulates request information for easy and secure access from application
@@ -472,7 +474,7 @@ class Request implements RequestInterface, InjectionAwareInterface
              * the hyphen ('-') as per RFC 952/2181
              */
             if unlikely ("" !== preg_replace("/[a-z0-9-]+\.?/", "", host)) {
-                throw new \UnexpectedValueException("Invalid host " . host);
+                throw new UnexpectedValueException("Invalid host " . host);
             }
         }
 
@@ -496,7 +498,7 @@ class Request implements RequestInterface, InjectionAwareInterface
     /**
      * Gets decoded JSON HTTP raw request body
      */
-    public function getJsonRawBody(bool associative = false) -> <\stdClass> | array | bool
+    public function getJsonRawBody(bool associative = false) -> <stdClass> | array | bool
     {
         var rawBody;
 

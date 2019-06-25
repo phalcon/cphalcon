@@ -11,6 +11,7 @@
 namespace Phalcon\Cli;
 
 use Phalcon\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Router\Exception;
 
@@ -34,7 +35,7 @@ use Phalcon\Cli\Router\Exception;
  * echo $router->getTaskName();
  *```
  */
-class Router implements \Phalcon\Di\InjectionAwareInterface
+class Router implements InjectionAwareInterface
 {
     protected action;
 

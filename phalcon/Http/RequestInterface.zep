@@ -11,6 +11,7 @@
 namespace Phalcon\Http;
 
 use Phalcon\Http\Request\FileInterface;
+use stdClass;
 
 /**
  * Interface for Phalcon\Http\Request
@@ -150,7 +151,7 @@ interface RequestInterface
     /**
      * Gets decoded JSON HTTP raw request body
      */
-    public function getJsonRawBody(bool associative = false) -> <\stdClass> | array | bool;
+    public function getJsonRawBody(bool associative = false) -> <stdClass> | array | bool;
 
     /**
      * Gets languages array and their quality accepted by the browser/client

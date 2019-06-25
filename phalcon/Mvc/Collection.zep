@@ -10,6 +10,9 @@
 
 namespace Phalcon\Mvc;
 
+use Mongo;
+use MongoCollection;
+use MongoId;
 use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -21,6 +24,7 @@ use Phalcon\Mvc\Collection\ManagerInterface;
 use Phalcon\Messages\Message as Message;
 use Phalcon\ValidationInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use Serializable;
 
 /**
  * Phalcon\Mvc\Collection
@@ -28,7 +32,7 @@ use Phalcon\Storage\Serializer\SerializerInterface;
  * This component implements a high level abstraction for NoSQL databases which
  * works with documents
  */
-abstract class Collection implements EntityInterface, CollectionInterface, InjectionAwareInterface, \Serializable
+abstract class Collection implements EntityInterface, CollectionInterface, InjectionAwareInterface, Serializable
 {
     const DIRTY_STATE_DETACHED = 2;
     const DIRTY_STATE_PERSISTENT = 0;
@@ -414,7 +418,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         }
 
         /**
-         * Get the \MongoCollection
+         * Get the MongoCollection
          */
         let collection = connection->selectCollection(source);
 
@@ -425,7 +429,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
              * Is the collection using implicit object Ids?
              */
             if this->modelsManager->isUsingImplicitObjectIds(this) {
-                let mongoId = new \MongoId(id);
+                let mongoId = new MongoId(id);
             } else {
                 let mongoId = id;
             }
@@ -571,7 +575,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
              * Check if the model use implicit ids
              */
             if collection->getCollectionManager()->isUsingImplicitObjectIds(collection) {
-                let mongoId = new \MongoId(id);
+                let mongoId = new MongoId(id);
             } else {
                 let mongoId = id;
             }
@@ -981,7 +985,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
              * Check if the model use implicit ids
              */
             if this->modelsManager->isUsingImplicitObjectIds(this) {
-                let mongoId = new \MongoId(id);
+                let mongoId = new MongoId(id);
             } else {
                 let mongoId = id;
             }
@@ -1316,7 +1320,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Checks if the document exists in the collection
      *
-     * @param \MongoCollection collection
+     * @param MongoCollection collection
      */
     protected function exists(collection) -> bool
     {
@@ -1334,7 +1338,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
              * Check if the model use implicit ids
              */
             if this->modelsManager->isUsingImplicitObjectIds(this) {
-                let mongoId = new \MongoId(id);
+                let mongoId = new MongoId(id);
                 let this->_id = mongoId;
             } else {
                 let mongoId = id;

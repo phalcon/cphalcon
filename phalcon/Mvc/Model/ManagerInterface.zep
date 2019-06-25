@@ -12,6 +12,7 @@ namespace Phalcon\Mvc\Model;
 
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 use Phalcon\Mvc\Model\QueryInterface;
@@ -26,7 +27,7 @@ interface ManagerInterface
     /**
      * Binds a behavior to a model
      */
-    public function addBehavior(<ModelInterface> model, <\Phalcon\Mvc\Model\BehaviorInterface> behavior) -> void;
+    public function addBehavior(<ModelInterface> model, <BehaviorInterface> behavior) -> void;
 
     /**
      * Setup a relation reverse 1-1  between two models

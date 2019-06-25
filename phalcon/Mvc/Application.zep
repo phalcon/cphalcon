@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc;
 
+use Closure;
 use Phalcon\Application as BaseApplication;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ViewInterface;
@@ -122,8 +123,8 @@ class Application extends BaseApplication
             let match = matchedRoute->getMatch();
 
             if match !== null {
-                if match instanceof \Closure {
-                    let match = \Closure::bind(match, container);
+                if match instanceof Closure {
+                    let match = Closure::bind(match, container);
                 }
 
                 /**
@@ -230,7 +231,7 @@ class Application extends BaseApplication
                 /**
                  * A module definition object, can be a Closure instance
                  */
-                if unlikely !(module instanceof \Closure) {
+                if unlikely !(module instanceof Closure) {
                     throw new Exception("Invalid module definition");
                 }
 

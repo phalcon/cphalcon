@@ -10,13 +10,14 @@
 
 namespace Phalcon;
 
+use ArrayAccess;
 use Phalcon\DiInterface;
 use Phalcon\Di\ServiceInterface;
 
 /**
  * Interface for Phalcon\Di
  */
-interface DiInterface extends \ArrayAccess
+interface DiInterface extends ArrayAccess
 {
     /**
      * Attempts to register a service in the services container

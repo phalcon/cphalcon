@@ -10,6 +10,7 @@
 
 namespace Phalcon\Logger\Adapter;
 
+use LogicException;
 use Phalcon\Logger\Logger;
 use Phalcon\Logger\Adapter;
 use Phalcon\Logger\Exception;
@@ -122,7 +123,7 @@ class Syslog extends AbstractAdapter
         let result = openlog(name, option, facility);
 
         if (!result) {
-            throw new \LogicException(
+            throw new LogicException(
                 sprintf(
                     "Cannot open syslog for name [%s] and facility [%s]",
                     name,

@@ -9,6 +9,7 @@
 
 namespace Phalcon\Mvc;
 
+use JsonSerializable;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\DialectInterface;
@@ -40,6 +41,7 @@ use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\ValidationInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Serializable;
 
 /**
  * Phalcon\Mvc\Model
@@ -78,7 +80,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * }
  * ```
  */
-abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable, \JsonSerializable
+abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, Serializable, JsonSerializable
 {
     const DIRTY_STATE_DETACHED   = 2;
     const DIRTY_STATE_PERSISTENT = 0;

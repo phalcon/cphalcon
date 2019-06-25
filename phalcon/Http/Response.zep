@@ -10,6 +10,9 @@
 
 namespace Phalcon\Http;
 
+use DateTime;
+use DateTimeZone;
+use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Response\HeadersInterface;
@@ -109,7 +112,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         let container = <DiInterface> this->container;
 
         if typeof container != "object" {
-            let container = \Phalcon\Di::getDefault();
+            let container = Di::getDefault();
 
             if unlikely typeof container != "object" {
                 throw new Exception(
@@ -396,7 +399,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var date;
 
-        let date = new \DateTime();
+        let date = new DateTime();
 
         date->modify(
             "+" . minutes . " minutes"
@@ -504,7 +507,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      * );
      *```
      */
-    public function setExpires(<\DateTime> datetime) -> <ResponseInterface>
+    public function setExpires(<DateTime> datetime) -> <ResponseInterface>
     {
         var date;
 
@@ -515,7 +518,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          * Change the timezone to UTC
          */
         date->setTimezone(
-            new \DateTimeZone("UTC")
+            new DateTimeZone("UTC")
         );
 
         /**
@@ -631,7 +634,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      * );
      *```
      */
-    public function setLastModified(<\DateTime> datetime) -> <ResponseInterface>
+    public function setLastModified(<DateTime> datetime) -> <ResponseInterface>
     {
         var date;
 
@@ -642,7 +645,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          * Change the timezone to UTC
          */
         date->setTimezone(
-            new \DateTimeZone("UTC")
+            new DateTimeZone("UTC")
         );
 
         /**

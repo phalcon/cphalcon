@@ -10,6 +10,7 @@
 
 namespace Phalcon\Translate\Adapter;
 
+use ArrayAccess;
 use Phalcon\Translate\Exception;
 use Phalcon\Translate\Adapter\AbstractAdapter;
 use Phalcon\Translate\InterpolatorFactory;
@@ -32,7 +33,7 @@ use Phalcon\Translate\InterpolatorFactory;
  *
  * Allows translate using gettext
  */
-class Gettext extends AbstractAdapter implements \ArrayAccess
+class Gettext extends AbstractAdapter implements ArrayAccess
 {
     /**
      * @var int

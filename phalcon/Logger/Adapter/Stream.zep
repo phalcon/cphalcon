@@ -14,6 +14,7 @@ use Phalcon\Logger\Adapter;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Item;
+use UnexpectedValueException;
 
 /**
  * Phalcon\Logger\Adapter\Stream
@@ -113,7 +114,7 @@ class Stream extends AbstractAdapter
             if !is_resource(this->handler) {
                 let this->handler = null;
 
-                throw new \UnexpectedValueException(
+                throw new UnexpectedValueException(
                     sprintf(
                         "The file '%s' cannot be opened with mode '%s'",
                         this->name,

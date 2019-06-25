@@ -10,6 +10,8 @@
 
 namespace Phalcon\Mvc;
 
+use ArrayAccess;
+use Closure;
 use Phalcon\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Mvc\Controller;
@@ -23,6 +25,7 @@ use Phalcon\Mvc\Model\BinderInterface;
 use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 use Phalcon\Mvc\Micro\CollectionInterface;
+use Throwable;
 
 /**
  * Phalcon\Mvc\Micro
@@ -45,7 +48,7 @@ use Phalcon\Mvc\Micro\CollectionInterface;
  * $app->handle("/say/welcome/Phalcon");
  *```
  */
-class Micro extends Injectable implements \ArrayAccess
+class Micro extends Injectable implements ArrayAccess
 {
     protected activeHandler;
 
@@ -445,8 +448,8 @@ class Micro extends Injectable implements \ArrayAccess
                 /**
                  * Bound the app to the handler
                  */
-                if typeof handler == "object" && handler instanceof \Closure {
-                    let handler = \Closure::bind(handler, this);
+                if typeof handler == "object" && handler instanceof Closure {
+                    let handler = Closure::bind(handler, this);
 
                     if modelBinder != null {
                         let routeName = matchedRoute->getName();
@@ -666,7 +669,7 @@ class Micro extends Injectable implements \ArrayAccess
                     break;
                 }
             }
-        } catch \Throwable, e {
+        } catch Throwable, e {
             /**
              * Calling beforeNotFound event
              */

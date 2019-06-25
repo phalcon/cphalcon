@@ -18,6 +18,7 @@ use Phalcon\Db\Exception;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
+use Throwable;
 
 /**
  * Specific functions for the Postgresql database system
@@ -129,7 +130,7 @@ class Postgresql extends PdoAdapter
                 }
 
                 return this->{"commit"}();
-            } catch \Throwable, exception {
+            } catch Throwable, exception {
                 this->{"rollback"}();
 
                 throw exception;
@@ -646,7 +647,7 @@ class Postgresql extends PdoAdapter
                 }
 
                 return this->{"commit"}();
-            } catch \Throwable, exception {
+            } catch Throwable, exception {
                 this->{"rollback"}();
 
                 throw exception;

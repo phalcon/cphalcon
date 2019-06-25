@@ -10,6 +10,8 @@
 
 namespace Phalcon\Annotations;
 
+use Countable;
+use Iterator;
 use Phalcon\Annotations\Annotation;
 use Phalcon\Annotations\Exception;
 
@@ -30,7 +32,7 @@ use Phalcon\Annotations\Exception;
  * $annotation = $classAnnotations->get("Cacheable");
  *```
  */
-class Collection implements \Iterator, \Countable
+class Collection implements Iterator, Countable
 {
     /**
      * @var array

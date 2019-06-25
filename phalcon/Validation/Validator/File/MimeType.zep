@@ -12,6 +12,7 @@ namespace Phalcon\Validation\Validator\File;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
+use Phalcon\Validation\Exception;
 use Phalcon\Validation\Validator\File\FileAbstract;
 
 /**
@@ -93,7 +94,7 @@ class MimeType extends FileAbstract
         }
 
         if unlikely typeof types != "array" {
-            throw new \Phalcon\Validation\Exception(
+            throw new Exception(
                 "Option 'allowedTypes' must be an array"
             );
         }

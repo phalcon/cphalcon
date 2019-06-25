@@ -10,6 +10,7 @@
 
 namespace Phalcon\Storage\Adapter;
 
+use APCUIterator;
 use Phalcon\Helper\Arr;
 use Phalcon\Storage\Adapter\AbstractAdapter;
 use Phalcon\Storage\Exception;
@@ -53,7 +54,7 @@ class Apcu extends AbstractAdapter
         bool result;
 
         let pattern = "/^" . this->prefix . "/",
-            apc     = new \APCUIterator(pattern),
+            apc     = new APCUIterator(pattern),
             result  = true;
 
         if typeof apc !== "object" {
@@ -133,7 +134,7 @@ class Apcu extends AbstractAdapter
         array results;
 
         let pattern = "/^" . this->prefix . "/",
-            apc     = new \APCUIterator(pattern),
+            apc     = new APCUIterator(pattern),
             results = [];
 
         if typeof apc !== "object" {
