@@ -11,6 +11,7 @@
 namespace Phalcon\Storage\Adapter;
 
 use DateInterval;
+use DateTime;
 use Phalcon\Helper\Arr;
 use Phalcon\Storage\Adapter\AdapterInterface;
 use Phalcon\Storage\Exception;
@@ -159,8 +160,8 @@ abstract class AbstractAdapter implements AdapterInterface
             return this->lifetime;
         }
 
-        if typeof ttl === "object" && ttl instanceof \DateInterval {
-            let dateTime = new \DateTime("@0");
+        if typeof ttl === "object" && ttl instanceof DateInterval {
+            let dateTime = new DateTime("@0");
             return dateTime->add(ttl)->getTimestamp();
         }
 

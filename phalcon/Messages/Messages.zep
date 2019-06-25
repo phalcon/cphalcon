@@ -10,6 +10,10 @@
 
 namespace Phalcon\Messages;
 
+use ArrayAccess;
+use Countable;
+use Iterator;
+use JsonSerializable;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Exception;
 use Phalcon\Messages\MessageInterface;
@@ -17,7 +21,7 @@ use Phalcon\Messages\MessageInterface;
 /**
  * Represents a collection of messages
  */
-class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
+class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
 {
     /**
      * @var int

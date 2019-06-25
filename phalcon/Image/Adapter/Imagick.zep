@@ -10,6 +10,9 @@
 
 namespace Phalcon\Image\Adapter;
 
+use Imagick;
+use ImagickDraw;
+use ImagickPixel;
 use Phalcon\Image\Adapter\AbstractAdapter;
 use Phalcon\Image\Exception;
 
@@ -46,7 +49,7 @@ class Imagick extends AbstractAdapter
 
         let this->file = file;
 
-        let this->image = new \Imagick();
+        let this->image = new Imagick();
 
         if file_exists(this->file) {
             let this->realpath = realpath(this->file);
@@ -81,7 +84,7 @@ class Imagick extends AbstractAdapter
             this->image->newImage(
                 width,
                 height,
-                new \ImagickPixel("transparent")
+                new ImagickPixel("transparent")
             );
 
             this->image->setFormat("png");
@@ -157,12 +160,12 @@ class Imagick extends AbstractAdapter
         var background, color, pixel1, pixel2, ret;
 
         let color = sprintf("rgb(%d, %d, %d)", r, g, b);
-        let pixel1 = new \ImagickPixel(color);
+        let pixel1 = new ImagickPixel(color);
         let opacity = opacity / 100;
 
-        let pixel2 = new \ImagickPixel("transparent");
+        let pixel2 = new ImagickPixel("transparent");
 
-        let background = new \Imagick();
+        let background = new Imagick();
 
         this->image->setIteratorIndex(0);
 
@@ -320,7 +323,7 @@ class Imagick extends AbstractAdapter
     {
         var mask, ret;
 
-        let mask = new \Imagick();
+        let mask = new Imagick();
 
         mask->readImageBlob(
             image->render()
@@ -413,7 +416,7 @@ class Imagick extends AbstractAdapter
         }
 
         let pseudo = fadeIn ? "gradient:black-transparent" : "gradient:transparent-black",
-            fade = new \Imagick();
+            fade = new Imagick();
 
         fade->newPseudoImage(
             reflection->getImageWidth(),
@@ -450,8 +453,8 @@ class Imagick extends AbstractAdapter
 
         fade->destroy();
 
-        let image = new \Imagick(),
-            pixel = new \ImagickPixel(),
+        let image = new Imagick(),
+            pixel = new ImagickPixel(),
             height = this->image->getImageHeight() + height;
 
         this->image->setIteratorIndex(0);
@@ -580,7 +583,7 @@ class Imagick extends AbstractAdapter
 
         this->image->setIteratorIndex(0);
 
-        let pixel = new \ImagickPixel();
+        let pixel = new ImagickPixel();
 
         loop {
             this->image->rotateImage(pixel, degrees);
@@ -674,11 +677,11 @@ class Imagick extends AbstractAdapter
         var x, y, draw, color, gravity;
 
         let opacity = opacity / 100,
-            draw = new \ImagickDraw(),
+            draw = new ImagickDraw(),
             color = sprintf("rgb(%d, %d, %d)", r, g, b);
 
         draw->setFillColor(
-            new \ImagickPixel(color)
+            new ImagickPixel(color)
         );
 
         if fontfile {
@@ -804,7 +807,7 @@ class Imagick extends AbstractAdapter
         var watermark, ret;
 
         let opacity = opacity / 100,
-            watermark = new \Imagick();
+            watermark = new Imagick();
 
         watermark->readImageBlob(
             image->render()

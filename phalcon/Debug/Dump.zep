@@ -11,6 +11,10 @@
 namespace Phalcon\Debug;
 
 use Phalcon\Di;
+use Reflection;
+use ReflectionClass;
+use ReflectionProperty;
+use stdClass;
 
 /**
  * Dumps information about a variable(s)
@@ -249,7 +253,7 @@ class Dump
             if variable instanceof Di {
                 // Skip debugging di
                 let output .= str_repeat(space, tab) . "[skipped]\n";
-            } elseif !this->detailed || variable instanceof \stdClass {
+            } elseif !this->detailed || variable instanceof stdClass {
                 // Debug only public properties
                 for key, value in get_object_vars(variable) {
                     let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": "public"]);
@@ -259,11 +263,11 @@ class Dump
                 // Debug all properties
                 var reflect, props, property;
 
-                let reflect = new \ReflectionClass(variable);
+                let reflect = new ReflectionClass(variable);
                 let props = reflect->getProperties(
-                    \ReflectionProperty::IS_PUBLIC |
-                    \ReflectionProperty::IS_PROTECTED |
-                    \ReflectionProperty::IS_PRIVATE
+                    ReflectionProperty::IS_PUBLIC |
+                    ReflectionProperty::IS_PROTECTED |
+                    ReflectionProperty::IS_PRIVATE
                 );
 
                 for property in props {
@@ -273,7 +277,7 @@ class Dump
 
                     let type = implode(
                         " ",
-                        \Reflection::getModifierNames(
+                        Reflection::getModifierNames(
                             property->getModifiers()
                         )
                     );

@@ -182,7 +182,7 @@ interface BuilderInterface
      * @param string conditions
      * @param string alias
      * @param string type
-     * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+     * @return BuilderInterface
      */
     public function join(string model, string conditions = null, string alias = null) -> <BuilderInterface>;
 

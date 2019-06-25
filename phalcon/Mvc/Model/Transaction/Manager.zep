@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model\Transaction;
 
+use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\Transaction\ManagerInterface;
@@ -87,7 +88,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     public function __construct(<DiInterface> container = null) -> void
     {
         if !container {
-            let container = \Phalcon\Di::getDefault();
+            let container = Di::getDefault();
         }
 
         let this->container = container;

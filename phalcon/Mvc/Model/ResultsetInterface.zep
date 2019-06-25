@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Closure;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Cache\Adapter\AdapterInterface;
@@ -24,7 +25,7 @@ interface ResultsetInterface
     /**
      * Deletes every record in the resultset
      */
-    public function delete(<\Closure> conditionCallback = null) -> bool;
+    public function delete(<Closure> conditionCallback = null) -> bool;
 
     /**
      * Filters a resultset returning only those the developer requires
@@ -97,5 +98,5 @@ interface ResultsetInterface
      *
      * @param array data
      */
-    public function update(var data, <\Closure> conditionCallback = null) -> bool;
+    public function update(var data, <Closure> conditionCallback = null) -> bool;
 }

@@ -10,6 +10,8 @@
 
 namespace Phalcon\Assets;
 
+use Countable;
+use Iterator;
 use Phalcon\Assets\Asset;
 use Phalcon\Assets\FilterInterface;
 use Phalcon\Assets\Inline;
@@ -21,7 +23,7 @@ use Phalcon\Assets\Inline\Css as InlineCss;
 /**
  * Represents a collection of assets
  */
-class Collection implements \Countable, \Iterator
+class Collection implements Countable, Iterator
 {
     /**
      * @var array

@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Collection\Behavior;
 
+use Closure;
 use Phalcon\Mvc\CollectionInterface;
 use Phalcon\Mvc\Collection\Behavior;
 use Phalcon\Mvc\Collection\Exception;
@@ -60,7 +61,7 @@ class Timestampable extends Behavior
                      * A generator is a closure that produce the correct timestamp value
                      */
                     if typeof generator == "object" {
-                        if generator instanceof \Closure {
+                        if generator instanceof Closure {
                             let timestamp = call_user_func(generator);
                         }
                     }

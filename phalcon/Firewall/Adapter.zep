@@ -10,6 +10,7 @@
 
 namespace Phalcon\Firewall;
 
+use Closure;
 use Phalcon\Acl;
 use Phalcon\Acl\RoleAware;
 use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
@@ -81,7 +82,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Gets role callback to fetch role name
      */
-    public function getRoleCallback() -> <\Closure>
+    public function getRoleCallback() -> <Closure>
     {
         return this->roleCallback;
     }

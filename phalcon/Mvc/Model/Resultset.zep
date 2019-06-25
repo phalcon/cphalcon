@@ -10,7 +10,11 @@
 
 namespace Phalcon\Mvc\Model;
 
+use ArrayAccess;
 use Closure;
+use Countable;
+use Iterator;
+use JsonSerializable;
 use Phalcon\Db;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model;
@@ -19,6 +23,8 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use SeekableIterator;
+use Serializable;
 
 /**
  * Phalcon\Mvc\Model\Resultset
@@ -62,7 +68,7 @@ use Phalcon\Storage\Serializer\SerializerInterface;
  * ```
  */
 abstract class Resultset
-    implements ResultsetInterface, \Iterator, \SeekableIterator, \Countable, \ArrayAccess, \Serializable, \JsonSerializable
+    implements ResultsetInterface, Iterator, SeekableIterator, Countable, ArrayAccess, Serializable, JsonSerializable
 {
     const HYDRATE_ARRAYS      = 1;
     const HYDRATE_OBJECTS     = 2;

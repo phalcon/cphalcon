@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\View\Engine\Volt;
 
+use Closure;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -302,7 +303,7 @@ class Compiler implements InjectionAwareInterface
             } else {
                 let compiledTemplatePath = compiledPath . prefix . templateSepPath . compiledExtension;
             }
-        } elseif typeof compiledPath == "object" && compiledPath instanceof \Closure {
+        } elseif typeof compiledPath == "object" && compiledPath instanceof Closure {
             /**
              * A closure can dynamically compile the path
              */
@@ -1631,7 +1632,7 @@ class Compiler implements InjectionAwareInterface
                      * definition
                      */
                     if typeof definition == "object" {
-                        if definition instanceof \Closure {
+                        if definition instanceof Closure {
                             return call_user_func_array(
                                 definition,
                                 [arguments, funcArguments]
@@ -1929,7 +1930,7 @@ class Compiler implements InjectionAwareInterface
          * The user could use a closure generator
          */
         if typeof this->prefix == "object" {
-            if this->prefix instanceof \Closure {
+            if this->prefix instanceof Closure {
                 let this->prefix = call_user_func_array(
                     this->prefix,
                     [
@@ -2340,7 +2341,7 @@ class Compiler implements InjectionAwareInterface
              * The definition is a closure
              */
             if typeof definition == "object" {
-                if definition instanceof \Closure {
+                if definition instanceof Closure {
                     return call_user_func_array(
                         definition,
                         [arguments, funcArguments]

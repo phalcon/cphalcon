@@ -11,6 +11,7 @@
 namespace Phalcon\Helper;
 
 use Phalcon\Helper\Exception;
+use stdClass;
 
 /**
  * This class offers quick array functions throughout the framework
@@ -21,7 +22,7 @@ class Arr
     {
         var returnObject, key, value;
 
-        let returnObject = new \stdClass();
+        let returnObject = new stdClass();
 
         for key, value in collection {
             let returnObject->{key} = value;

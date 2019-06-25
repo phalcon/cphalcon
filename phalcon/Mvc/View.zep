@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc;
 
+use Closure;
 use Phalcon\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\ManagerInterface;
@@ -1032,8 +1033,8 @@ class View extends Injectable implements ViewInterface
                         /**
                          * Engine can be a closure
                          */
-                        if engineService instanceof \Closure {
-                            let engineService = \Closure::bind(
+                        if engineService instanceof Closure {
+                            let engineService = Closure::bind(
                                 engineService,
                                 di
                             );

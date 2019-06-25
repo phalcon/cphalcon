@@ -10,6 +10,7 @@
 
 namespace Phalcon\Messages;
 
+use JsonSerializable;
 use Phalcon\Messages\MessageInterface;
 
 /**
@@ -17,7 +18,7 @@ use Phalcon\Messages\MessageInterface;
  *
  * Stores a message from various components
  */
-class Message implements MessageInterface, \JsonSerializable
+class Message implements MessageInterface, JsonSerializable
 {
     /**
      * @var int

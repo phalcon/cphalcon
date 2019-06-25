@@ -9,6 +9,8 @@
 
 namespace Phalcon\Http\Message\Exception;
 
-class InvalidArgumentException extends \InvalidArgumentException implements \Throwable
+use Throwable;
+
+class InvalidArgumentException extends \InvalidArgumentException implements Throwable
 {
 }

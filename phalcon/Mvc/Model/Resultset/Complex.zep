@@ -20,6 +20,7 @@ use Phalcon\DiInterface;
 use Phalcon\Di;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use stdClass;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Complex
@@ -113,7 +114,7 @@ class Complex extends Resultset implements ResultsetInterface
 
             case Resultset::HYDRATE_OBJECTS:
             default:
-                let activeRow = new \stdClass();
+                let activeRow = new stdClass();
                 break;
         }
 

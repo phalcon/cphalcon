@@ -10,6 +10,7 @@
 
 namespace Phalcon\Filter;
 
+use Closure;
 use Phalcon\Filter\Exception;
 use Phalcon\Filter\FilterInterface;
 
@@ -77,7 +78,7 @@ class Filter implements FilterInterface
             let definition = this->mapper[name];
             if typeof definition === "string" {
                 let this->services[name] = create_instance(definition);
-            } elseif definition instanceof \Closure {
+            } elseif definition instanceof Closure {
                 let this->services[name] = call_user_func(definition);
             } else {
                 let this->services[name] = definition;

@@ -12,6 +12,7 @@ namespace Phalcon\Helper;
 
 use Phalcon\Helper\Arr;
 use Phalcon\Helper\Exception;
+use RuntimeException;
 
 /**
  * This class offers quick string functions throughout the framework
@@ -250,7 +251,7 @@ class Str
         string pattern;
 
         if unlikely substr_count(text, leftDelimiter) !== substr_count(text, rightDelimiter) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 "Syntax error in string \"" . text . "\""
             );
         }

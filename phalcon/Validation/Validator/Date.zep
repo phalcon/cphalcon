@@ -10,6 +10,7 @@
 
 namespace Phalcon\Validation\Validator;
 
+use DateTime;
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator;
@@ -96,8 +97,8 @@ class Date extends Validator
             return false;
         }
 
-        let date = \DateTime::createFromFormat(format, value);
-        let errors = \DateTime::getLastErrors();
+        let date = DateTime::createFromFormat(format, value);
+        let errors = DateTime::getLastErrors();
 
         return errors["warning_count"] == 0 && errors["error_count"] == 0;
     }
