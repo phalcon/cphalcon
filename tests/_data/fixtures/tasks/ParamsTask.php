@@ -2,7 +2,7 @@
 
 namespace Phalcon\Test\Fixtures\Tasks;
 
-class ParamsTask extends \Phalcon\CLI\Task
+class ParamsTask extends \Phalcon\Cli\Task
 {
     public function paramsAction()
     {
