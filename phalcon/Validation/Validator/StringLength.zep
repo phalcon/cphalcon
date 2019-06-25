@@ -90,7 +90,7 @@ class StringLength extends ValidatorComposite
 
         // create individual validators
         for key, value in options {
-            if strtolower(key) === "min" {
+            if strcasecmp(key, "min") === 0 {
                 // get custom message
                 if isset options["message"] {
                     let message = options["message"];
@@ -118,7 +118,7 @@ class StringLength extends ValidatorComposite
                 unset options["messageMinimum"];
                 unset options["included"];
                 unset options["includedMinimum"];
-            } elseif strtolower(key) === "max" {
+            } elseif strcasecmp(key, "max") === 0 {
                 // get custom message
                 if isset options["message"] {
                     let message = options["message"];

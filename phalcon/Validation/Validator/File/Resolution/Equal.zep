@@ -68,14 +68,14 @@ class Equal extends FileAbstract
             tmp, value, width, replacePairs;
 
         // Check file upload
-        if (this->checkUpload(validation, field) === false) {
+        if this->checkUpload(validation, field) === false {
             return false;
         }
 
-        let tmp = getimagesize(value["tmp_name"]),
-            width = tmp[0],
-            height = tmp[1],
-            value = validation->getValue(field);
+        let value  = validation->getValue(field),
+            tmp    = getimagesize(value["tmp_name"]),
+            width  = tmp[0],
+            height = tmp[1];
 
         let resolution = this->getOption("resolution");
 
@@ -91,7 +91,7 @@ class Equal extends FileAbstract
             let resolution = resolution[field];
         }
 
-        if (width != equalWidth || height != equalHeight) {
+        if width != equalWidth || height != equalHeight {
             let replacePairs = [
                 ":resolution" : resolution
             ];
