@@ -73,14 +73,14 @@ class Min extends FileAbstract
             tmp, value, width, replacePairs, included = false, result;
 
         // Check file upload
-        if (this->checkUpload(validation, field) === false) {
+        if this->checkUpload(validation, field) === false {
             return false;
         }
 
-        let tmp = getimagesize(value["tmp_name"]),
-            width = tmp[0],
-            height = tmp[1],
-            value = validation->getValue(field);
+        let value  = validation->getValue(field),
+            tmp    = getimagesize(value["tmp_name"]),
+            width  = tmp[0],
+            height = tmp[1];
 
         let resolution = this->getOption("resolution");
 
@@ -100,7 +100,7 @@ class Min extends FileAbstract
             let included = (bool) included;
         }
 
-        if (included) {
+        if included {
             let result = width <= minWidth || height <= minHeight;
         } else {
             let result = width < minWidth || height < minHeight;
@@ -110,7 +110,7 @@ class Min extends FileAbstract
             let resolution = resolution[field];
         }
 
-        if (result) {
+        if result {
             let replacePairs = [
                 ":resolution" : resolution
             ];
