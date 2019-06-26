@@ -117,7 +117,7 @@ class Stream extends Noop
         if file_exists(name) {
             let data = file_get_contents(name);
 
-            if (false === data) {
+            if false === data {
                 return "";
             }
         }

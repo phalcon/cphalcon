@@ -408,7 +408,7 @@ class Security implements InjectionAwareInterface
                  * alphabet "./0-9A-Za-z".
                  */
 
-                if (hash == self::CRYPT_EXT_DES) {
+                if hash == self::CRYPT_EXT_DES {
                     let saltBytes = "_" . this->getSaltBytes(8);
                 } else {
                     let saltBytes = this->getSaltBytes(2);

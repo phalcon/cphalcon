@@ -72,7 +72,7 @@ use ReflectionFunction;
  * }
  *
  * // Grant access to public areas to both users and guests
- * foreach ($roles as $role){
+ * foreach ($roles as $role) {
  *     foreach ($publicComponents as $component => $actions) {
  *         $acl->allow($role->getName(), $component, "*");
  *     }
