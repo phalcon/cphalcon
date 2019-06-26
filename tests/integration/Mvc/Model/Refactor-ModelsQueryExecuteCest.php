@@ -822,29 +822,23 @@ class ModelsQueryExecuteCest
             'INSERT INTO Phalcon\Test\Models\Subscriptores VALUES (NULL, "marina@hotmail.com", "2011-01-01 09:01:01", "P")'
         );
         $I->assertFalse($status->success());
-        $I->assertEquals($status->getMessages(), [
-            0 => Message::__set_state([
-                '_type'     => null,
-                '_message'  => 'Sorry Marina, but you are not allowed here',
-                '_field'    => null,
-                '_code'     => 0,
-                '_metaData' => [],
-            ]),
-        ]);
+        $messages = $status->getMessages();
+        $I->assertEquals(null, $messages[0]->getType());
+        $I->assertEquals('Sorry Marina, but you are not allowed here', $messages[0]->getMessage());
+        $I->assertEquals(null, $messages[0]->getField());
+        $I->assertEquals(0, $messages[0]->getCode());
+        $I->assertEquals([], $messages[0]->getMetaData());
 
         $status = $manager->executeQuery(
             'INSERT INTO Phalcon\Test\Models\Subscriptores VALUES (NULL, "dtmail.com", "2011-01-01 09:01:01", "P")'
         );
         $I->assertFalse($status->success());
-        $I->assertEquals($status->getMessages(), [
-            0 => Message::__set_state([
-                '_type'     => 'Email',
-                '_message'  => 'Field email must be an email address',
-                '_field'    => 'email',
-                '_code'     => 0,
-                '_metaData' => [],
-            ]),
-        ]);
+        $messages = $status->getMessages();
+        $I->assertEquals('Email', $messages[0]->getType());
+        $I->assertEquals('Field email must be an email address', $messages[0]->getMessage());
+        $I->assertEquals('email', $messages[0]->getField());
+        $I->assertEquals(0, $messages[0]->getCode());
+        $I->assertEquals([], $messages[0]->getMetaData());
 
         $status = $manager->executeQuery(
             'INSERT INTO Phalcon\Test\Models\Subscriptores VALUES (NULL, "le-marina@hotmail.com", "2011-01-01 09:01:01", "P")'
@@ -890,15 +884,13 @@ class ModelsQueryExecuteCest
             'INSERT INTO Phalcon\Test\Models\Abonnes VALUES (NULL, "marina@hotmail.com", "2011-01-01 09:01:01", "P")'
         );
         $I->assertFalse($status->success());
-        $I->assertEquals($status->getMessages(), [
-            0 => Message::__set_state([
-                '_type'     => null,
-                '_message'  => 'Désolé Marina, mais vous n\'êtes pas autorisé ici',
-                '_field'    => null,
-                '_code'     => 0,
-                '_metaData' => [],
-            ]),
-        ]);
+        $messages = $status->getMessages();
+        $I->assertEquals(null, $messages[0]->getType());
+        $I->assertEquals('Désolé Marina, mais vous n\'êtes pas autorisé ici', $messages[0]->getMessage());
+        $I->assertEquals(null, $messages[0]->getField());
+        $I->assertEquals(0, $messages[0]->getCode());
+        $I->assertEquals([], $messages[0]->getMetaData());
+
 
         /**
          * This test must fail because the email is invalid
@@ -907,15 +899,12 @@ class ModelsQueryExecuteCest
             'INSERT INTO Phalcon\Test\Models\Abonnes VALUES (NULL, "dtmail.com", "2011-01-01 09:01:01", "P")'
         );
         $I->assertFalse($status->success());
-        $I->assertEquals($status->getMessages(), [
-            0 => Message::__set_state([
-                '_type'     => 'Email',
-                '_message'  => 'Le courrier électronique est invalide',
-                '_field'    => 'courrierElectronique',
-                '_code'     => 0,
-                '_metaData' => [],
-            ]),
-        ]);
+        $messages = $status->getMessages();
+        $I->assertEquals('Email', $messages[0]->getType());
+        $I->assertEquals('Le courrier électronique est invalide', $messages[0]->getMessage());
+        $I->assertEquals('courrierElectronique', $messages[0]->getField());
+        $I->assertEquals(0, $messages[0]->getCode());
+        $I->assertEquals([], $messages[0]->getMetaData());
 
         /**
          * This test must pass

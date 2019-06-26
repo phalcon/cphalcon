@@ -61,18 +61,10 @@ class NextCest
         );
 
 
-        $expected = Message::__set_state(
-            [
-                '_message'  => 'This is a message #2',
-                '_field'    => 'MyField2',
-                '_type'     => 'MyType2',
-                '_code'     => 222,
-                '_metaData' => [
-                    'My2' => 'Metadata2',
-                ],
-            ]
-        );
-
-        $I->assertEquals($expected, $message);
+        $I->assertEquals('This is a message #2', $message->getMessage());
+        $I->assertEquals('MyField2', $message->getField());
+        $I->assertEquals('MyType2', $message->getType());
+        $I->assertEquals(222, $message->getCode());
+        $I->assertEquals(['My1' => 'Metadata2'], $message->getMetaData());
     }
 }

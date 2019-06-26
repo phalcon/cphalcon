@@ -126,10 +126,6 @@ foreach ($phalconClasses as $class) {
                 $method = 'wakeup';
 
                 break;
-            case '__set_state':
-                $method = 'setState';
-
-                break;
         }
 
         $placeholders['%m%'] = ucfirst($method);
