@@ -40,9 +40,10 @@ class IsSoapCest extends HttpBase
      */
     public function testHttpRequestIsSoap(UnitTester $I)
     {
+        $this->setServerVar('CONTENT_TYPE', 'application/soap+xml');
+
         $request = $this->getRequestObject();
 
-        $this->setServerVar('CONTENT_TYPE', 'application/soap+xml');
         $actual = $request->isSoap();
         $this->unsetServerVar('CONTENT_TYPE');
 

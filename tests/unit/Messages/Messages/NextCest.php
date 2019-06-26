@@ -65,6 +65,6 @@ class NextCest
         $I->assertEquals('MyField2', $message->getField());
         $I->assertEquals('MyType2', $message->getType());
         $I->assertEquals(222, $message->getCode());
-        $I->assertEquals(['My1' => 'Metadata2'], $message->getMetaData());
+        $I->assertEquals(['My2' => 'Metadata2'], $message->getMetaData());
     }
 }
