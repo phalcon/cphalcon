@@ -668,34 +668,10 @@ trait MysqlTrait
     protected function getExpectedIndexes(): array
     {
         return [
-            'PRIMARY'                  => Index::__set_state(
-                [
-                    'name'    => 'PRIMARY',
-                    'columns' => ['field_primary'],
-                    'type'    => 'PRIMARY',
-                ]
-            ),
-            'dialect_table_unique'     => Index::__set_state(
-                [
-                    'name'    => 'dialect_table_unique',
-                    'columns' => ['field_integer'],
-                    'type'    => 'UNIQUE',
-                ]
-            ),
-            'dialect_table_index'      => Index::__set_state(
-                [
-                    'name'    => 'dialect_table_index',
-                    'columns' => ['field_bigint'],
-                    'type'    => '',
-                ]
-            ),
-            'dialect_table_two_fields' => Index::__set_state(
-                [
-                    'name'    => 'dialect_table_two_fields',
-                    'columns' => ['field_char', 'field_char_default'],
-                    'type'    => '',
-                ]
-            ),
+            'PRIMARY'                  => new Index('PRIMARY', ['field_primary'], 'PRIMARY'),
+            'dialect_table_unique'     => new Index('dialect_table_unique', ['field_integer'], 'UNIQUE'),
+            'dialect_table_index'      => new Index('dialect_table_index', ['field_bigint'], ''),
+            'dialect_table_two_fields' => new Index('dialect_table_two_fields', ['field_char', 'field_char_default'], ''),
         ];
     }
 
@@ -708,9 +684,9 @@ trait MysqlTrait
     protected function getExpectedReferences(): array
     {
         return [
-            'dialect_table_intermediate_primary__fk' => Reference::__set_state(
+            'dialect_table_intermediate_primary__fk' => new Reference(
+                'dialect_table_intermediate_primary__fk',
                 [
-                    'referenceName'     => 'dialect_table_intermediate_primary__fk',
                     'referencedTable'   => 'dialect_table',
                     'columns'           => ['field_primary_id'],
                     'referencedColumns' => ['field_primary'],
@@ -719,9 +695,9 @@ trait MysqlTrait
                     'onDelete'          => 'RESTRICT',
                 ]
             ),
-            'dialect_table_intermediate_remote__fk'  => Reference::__set_state(
+            'dialect_table_intermediate_remote__fk'  => new Reference(
+                'dialect_table_intermediate_remote__fk',
                 [
-                    'referenceName'     => 'dialect_table_intermediate_remote__fk',
                     'referencedTable'   => 'dialect_table_remote',
                     'columns'           => ['field_remote_id'],
                     'referencedColumns' => ['field_primary'],

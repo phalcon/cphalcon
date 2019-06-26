@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits\Db;
 
+use Phalcon\Db\Index;
+use Phalcon\Db\Reference;
+
 trait PostgresqlTrait
 {
     protected $connection = null;
@@ -664,34 +667,10 @@ trait PostgresqlTrait
     protected function getExpectedIndexes(): array
     {
         return [
-            'dialect_table_pk'         => Index::__set_state(
-                [
-                    '_name'    => 'dialect_table_pk',
-                    '_columns' => ['field_primary'],
-                    '_type'    => '',
-                ]
-            ),
-            'dialect_table_unique'     => Index::__set_state(
-                [
-                    '_name'    => 'dialect_table_unique',
-                    '_columns' => ['field_integer'],
-                    '_type'    => '',
-                ]
-            ),
-            'dialect_table_index'      => Index::__set_state(
-                [
-                    '_name'    => 'dialect_table_index',
-                    '_columns' => ['field_bigint'],
-                    '_type'    => '',
-                ]
-            ),
-            'dialect_table_two_fields' => Index::__set_state(
-                [
-                    '_name'    => 'dialect_table_two_fields',
-                    '_columns' => ['field_char', 'field_char_default'],
-                    '_type'    => '',
-                ]
-            ),
+            'dialect_table_pk'         => new Index('dialect_table_pk', ['field_primary'], ''),
+            'dialect_table_unique'     => new Index('dialect_table_unique', ['field_integer'], ''),
+            'dialect_table_index'      => new Index('dialect_table_index', ['field_bigint'], ''),
+            'dialect_table_two_fields' => new Index('dialect_table_two_fields', ['field_char', 'field_char_default'], ''),
         ];
     }
 
@@ -704,9 +683,9 @@ trait PostgresqlTrait
     protected function getExpectedReferences(): array
     {
         return [
-            'dialect_table_intermediate_primary__fk' => Reference::__set_state(
+            'dialect_table_intermediate_primary__fk' => new Reference(
+                'dialect_table_intermediate_primary__fk',
                 [
-                    '_referenceName'     => 'dialect_table_intermediate_primary__fk',
                     '_referencedTable'   => 'dialect_table',
                     '_columns'           => ['field_primary_id'],
                     '_referencedColumns' => ['field_primary'],
@@ -715,9 +694,9 @@ trait PostgresqlTrait
                     '_onDelete'          => 'NO ACTION',
                 ]
             ),
-            'dialect_table_intermediate_remote__fk'  => Reference::__set_state(
+            'dialect_table_intermediate_remote__fk'  => new Reference(
+                'dialect_table_intermediate_remote__fk',
                 [
-                    '_referenceName'     => 'dialect_table_intermediate_remote__fk',
                     '_referencedTable'   => 'dialect_table_remote',
                     '_columns'           => ['field_remote_id'],
                     '_referencedColumns' => ['field_primary'],

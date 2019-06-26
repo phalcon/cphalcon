@@ -300,29 +300,17 @@ class DiCest
      */
     public function testGetServices(UnitTester $I)
     {
-        $expectedServices = [
-            'service1' => Service::__set_state(
-                [
-                    '_definition'     => 'some-service',
-                    '_shared'         => false,
-                    '_sharedInstance' => null,
-                ]
-            ),
-            'service2' => Service::__set_state(
-                [
-                    '_definition'     => 'some-other-service',
-                    '_shared'         => false,
-                    '_sharedInstance' => null,
-                ]
-            ),
-        ];
-
         $this->phDi->set('service1', 'some-service');
         $this->phDi->set('service2', 'some-other-service');
 
+        $services = $this->phDi->getServices();
         $I->assertEquals(
-            $expectedServices,
-            $this->phDi->getServices()
+            'some-service',
+            $services['service1']->getDefinition()
+        );
+        $I->assertEquals(
+            'some-other-service',
+            $services['service2']->getDefinition()
         );
     }
 
