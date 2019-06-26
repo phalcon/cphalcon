@@ -40,9 +40,10 @@ class IsSecureCest extends HttpBase
      */
     public function testHttpRequestIsSecure(UnitTester $I)
     {
+        $this->setServerVar('HTTPS', 'on');
+
         $request = $this->getRequestObject();
 
-        $this->setServerVar('HTTPS', 'on');
         $actual = $request->isSecure();
         $this->unsetServerVar('HTTPS');
 

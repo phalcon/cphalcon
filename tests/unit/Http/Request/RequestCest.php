@@ -190,10 +190,9 @@ class RequestCest extends HttpBase
 
     public function testHttpRequestMethod(UnitTester $I)
     {
-        $request = $this->getRequestObject();
-
-
         $_SERVER['REQUEST_METHOD'] = 'POST';
+
+        $request = new Request();
 
         $I->assertEquals(
             'POST',
@@ -208,8 +207,9 @@ class RequestCest extends HttpBase
             $request->isGet()
         );
 
-
         $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $request = new Request();
 
         $I->assertEquals(
             'GET',
@@ -227,6 +227,8 @@ class RequestCest extends HttpBase
 
         $_SERVER['REQUEST_METHOD'] = 'PUT';
 
+        $request = new Request();
+
         $I->assertEquals(
             'PUT',
             $request->getMethod()
@@ -238,6 +240,8 @@ class RequestCest extends HttpBase
 
 
         $_SERVER['REQUEST_METHOD'] = 'DELETE';
+
+        $request = new Request();
 
         $I->assertEquals(
             'DELETE',
@@ -251,6 +255,8 @@ class RequestCest extends HttpBase
 
         $_SERVER['REQUEST_METHOD'] = 'OPTIONS';
 
+        $request = new Request();
+
         $I->assertEquals(
             'OPTIONS',
             $request->getMethod()
@@ -263,6 +269,8 @@ class RequestCest extends HttpBase
 
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
+        $request = new Request();
+
         $I->assertTrue(
             $request->isMethod('POST')
         );
@@ -273,6 +281,8 @@ class RequestCest extends HttpBase
 
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $request = new Request();
 
         $I->assertTrue(
             $request->isMethod('GET')
@@ -290,6 +300,8 @@ class RequestCest extends HttpBase
 
         $_SERVER['REQUEST_METHOD'] = 'CONNECT';
 
+        $request = new Request();
+
         $I->assertEquals(
             'CONNECT',
             $request->getMethod()
@@ -306,6 +318,8 @@ class RequestCest extends HttpBase
 
         $_SERVER['REQUEST_METHOD'] = 'TRACE';
 
+        $request = new Request();
+
         $I->assertEquals(
             'TRACE',
             $request->getMethod()
@@ -321,6 +335,8 @@ class RequestCest extends HttpBase
 
 
         $_SERVER['REQUEST_METHOD'] = 'PURGE';
+
+        $request = new Request();
 
         $I->assertEquals(
             'PURGE',
@@ -353,12 +369,9 @@ class RequestCest extends HttpBase
         $expected = $example[2];
 
 
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-
-        $request = $this->getRequestObject();
-
-
         $_SERVER[$header] = $method;
+
+        $request = new Request();
 
         $I->assertEquals(
             $expected,
@@ -368,6 +381,8 @@ class RequestCest extends HttpBase
 
         $_SERVER[$header] = strtolower($method);
 
+        $request = new Request();
+
         $I->assertEquals(
             $expected,
             $request->getMethod()
@@ -375,6 +390,8 @@ class RequestCest extends HttpBase
 
 
         $_SERVER[strtolower($header)] = $method;
+
+        $request = new Request();
 
         $I->assertEquals(
             $expected,
@@ -384,10 +401,10 @@ class RequestCest extends HttpBase
 
     public function testHttpRequestAcceptableContent(UnitTester $I)
     {
-        $request = $this->getRequestObject();
-
         $_SERVER['HTTP_ACCEPT'] = 'text/html,application/xhtml+xml,application/xml;'
             . 'q=0.9,*/*;q=0.8,application/json; level=2; q=0.7';
+
+        $request = new Request();
 
         $accept = $request->getAcceptableContent();
 
@@ -445,10 +462,9 @@ class RequestCest extends HttpBase
 
     public function testHttpRequestAcceptableCharsets(UnitTester $I)
     {
-        $request = $this->getRequestObject();
-
         $_SERVER['HTTP_ACCEPT_CHARSET'] = 'iso-8859-5,unicode-1-1;q=0.8';
 
+        $request = new Request();
 
         $accept = $request->getClientCharsets();
 
@@ -488,9 +504,9 @@ class RequestCest extends HttpBase
 
     public function testHttpRequestAcceptableLanguage(UnitTester $I)
     {
-        $request = $this->getRequestObject();
-
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'es,es-ar;q=0.8,en;q=0.5,en-us;q=0.3,de-de; q=0.9';
+
+        $request = new Request();
 
         $accept = $request->getLanguages();
 
@@ -540,11 +556,10 @@ class RequestCest extends HttpBase
 
     public function testHttpRequestClientAddress(UnitTester $I)
     {
-        $request = $this->getRequestObject();
-
-
         $_SERVER['REMOTE_ADDR']          = '192.168.0.1';
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '192.168.7.21';
+
+        $request = new Request();
 
         $I->assertEquals(
             '192.168.0.1',
@@ -556,8 +571,9 @@ class RequestCest extends HttpBase
             $request->getClientAddress(true)
         );
 
-
         $_SERVER['REMOTE_ADDR'] = '86.45.89.47, 214.55.34.56';
+
+        $request = new Request();
 
         $I->assertEquals(
             '86.45.89.47',

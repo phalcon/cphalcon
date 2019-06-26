@@ -26,10 +26,10 @@ class GetPortCest extends HttpBase
      */
     public function testHttpRequestPort(UnitTester $I)
     {
-        $request = $this->getRequestObject();
-
         $this->setServerVar('HTTPS', 'on');
         $this->setServerVar('HTTP_HOST', 'example.com');
+
+        $request = $this->getRequestObject();
 
         $I->assertEquals(
             443,
@@ -37,10 +37,10 @@ class GetPortCest extends HttpBase
         );
 
 
-        $request = $this->getRequestObject();
-
         $this->setServerVar('HTTPS', 'off');
         $this->setServerVar('HTTP_HOST', 'example.com');
+
+        $request = $this->getRequestObject();
 
         $I->assertEquals(
             80,
@@ -48,10 +48,10 @@ class GetPortCest extends HttpBase
         );
 
 
-        $request = $this->getRequestObject();
-
         $this->setServerVar('HTTPS', 'off');
         $this->setServerVar('HTTP_HOST', 'example.com:8080');
+
+        $request = $this->getRequestObject();
 
         $I->assertEquals(
             8080,
@@ -61,6 +61,8 @@ class GetPortCest extends HttpBase
 
         $this->setServerVar('HTTPS', 'on');
         $this->setServerVar('HTTP_HOST', 'example.com:8081');
+
+        $request = $this->getRequestObject();
 
         $I->assertEquals(
             8081,
@@ -72,6 +74,8 @@ class GetPortCest extends HttpBase
         );
 
         $this->setServerVar('HTTP_HOST', 'example.com:8082');
+
+        $request = $this->getRequestObject();
 
         $I->assertEquals(
             8082,
