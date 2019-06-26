@@ -52,23 +52,6 @@ class Reflection
     }
 
     /**
-     * Restores the state of a Phalcon\Annotations\Reflection variable export
-     */
-    public static function __set_state(array! data) -> <Reflection>
-    {
-        var reflectionData;
-
-        /**
-         * Check for a 'reflectionData' in the array to build the Reflection
-         */
-        if fetch reflectionData, data["reflectionData"] {
-            return new self(reflectionData);
-        }
-
-        return new self();
-    }
-
-    /**
      * Returns the annotations found in the class docblock
      */
     public function getClassAnnotations() -> <Collection> | bool

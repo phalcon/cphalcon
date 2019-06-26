@@ -16,11 +16,6 @@ namespace Phalcon\Db;
 interface ColumnInterface
 {
     /**
-     * Restores the internal state of a Phalcon\Db\Column object
-     */
-    public static function __set_state(array! data) -> <ColumnInterface>;
-
-    /**
      * Check whether field absolute to position in table
      */
     public function getAfterPosition() -> string;

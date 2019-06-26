@@ -10,6 +10,7 @@
 
 namespace Phalcon\Http;
 
+use Phalcon\Collection\Collection;
 use Phalcon\DiInterface;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Http\Request\File;
@@ -67,9 +68,22 @@ class Request implements RequestInterface, InjectionAwareInterface
     private rawBody;
 
     /**
+     * @var Collection
+     */
+    private server;
+
+    /**
      * @var bool
      */
     private strictHostCheck = false;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->init();
+    }
 
     /**
      * Gets a variable from the $_REQUEST superglobal applying filters if
@@ -110,13 +124,13 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getBasicAuth() -> array | null
     {
-        if !isset _SERVER["PHP_AUTH_USER"] || !isset _SERVER["PHP_AUTH_PW"] {
+        if !this->hasServer("PHP_AUTH_USER") || !this->hasServer("PHP_AUTH_PW") {
             return null;
         }
 
         return [
-            "username": _SERVER["PHP_AUTH_USER"],
-            "password": _SERVER["PHP_AUTH_PW"]
+            "username": this->getServer("PHP_AUTH_USER"),
+            "password": this->getServer("PHP_AUTH_PW")
         ];
     }
 
@@ -160,15 +174,15 @@ class Request implements RequestInterface, InjectionAwareInterface
          * Proxies uses this IP
          */
         if trustForwardedHeader {
-            fetch address, _SERVER["HTTP_X_FORWARDED_FOR"];
+            let address = this->server->get("HTTP_X_FORWARDED_FOR", null);
 
             if address === null {
-                fetch address, _SERVER["HTTP_CLIENT_IP"];
+                let address = this->getServer("HTTP_CLIENT_IP");
             }
         }
 
         if address === null {
-            fetch address, _SERVER["REMOTE_ADDR"];
+            let address = this->getServer("REMOTE_ADDR");
         }
 
         if typeof address != "string" {
@@ -200,13 +214,7 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getContentType() -> string | null
     {
-        var contentType;
-
-        if !fetch contentType, _SERVER["CONTENT_TYPE"] {
-            return null;
-        }
-
-        return contentType;
+        return this->server->get("CONTENT_TYPE", null);
     }
 
 
@@ -227,9 +235,10 @@ class Request implements RequestInterface, InjectionAwareInterface
         var digest, matches, match;
         array auth;
 
-        let auth = [];
+        let auth = [],
+            digest = this->server->get("PHP_AUTH_DIGEST", null);
 
-        if fetch digest, _SERVER["PHP_AUTH_DIGEST"] {
+        if null !== digest {
             let matches = [];
 
             if !preg_match_all("#(\\w+)=(['\"]?)([^'\" ,]+)\\2#", digest, matches, 2) {
@@ -311,18 +320,18 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     final public function getHeader(string! header) -> string
     {
-        var value, name;
+        var name;
 
         let name = strtoupper(
             strtr(header, "-", "_")
         );
 
-        if fetch value, _SERVER[name] {
-            return value;
+        if this->hasServer(name) {
+            return this->getServer(name);
         }
 
-        if fetch value, _SERVER["HTTP_" . name] {
-            return value;
+        if this->hasServer("HTTP_" . name) {
+            return this->getServer("HTTP_" . name);
         }
 
         return "";
@@ -344,7 +353,7 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getHeaders() -> array
     {
-        var name, value, authHeaders;
+        var authHeaders, name, server, value;
 
         array headers = [];
 
@@ -354,7 +363,9 @@ class Request implements RequestInterface, InjectionAwareInterface
             "CONTENT_MD5":    true
         ];
 
-        for name, value in _SERVER {
+        let server = this->server->toArray();
+
+        for name, value in server {
             // Note: The starts_with uses case insensitive search here
             if starts_with(name, "HTTP_") {
                 let name = ucwords(
@@ -486,13 +497,7 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getHTTPReferer() -> string
     {
-        var httpReferer;
-
-        if !fetch httpReferer, _SERVER["HTTP_REFERER"] {
-            return "";
-        }
-
-        return httpReferer;
+        return this->server->get("HTTP_REFERER", "");
     }
 
     /**
@@ -728,13 +733,7 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getServer(string! name) -> string | null
     {
-        var serverValue;
-
-        if !fetch serverValue, _SERVER[name] {
-            return null;
-        }
-
-        return serverValue;
+        return this->server->get(name, null);
     }
 
     /**
@@ -742,13 +741,7 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getServerAddress() -> string
     {
-        var serverAddr;
-
-        if !fetch serverAddr, _SERVER["SERVER_ADDR"] {
-            return gethostbyname("localhost");
-        }
-
-        return serverAddr;
+        return this->server->get("SERVER_NAME", gethostbyname("localhost"));
     }
 
     /**
@@ -756,13 +749,7 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getServerName() -> string
     {
-        var serverName;
-
-        if !fetch serverName, _SERVER["SERVER_NAME"] {
-            return "localhost";
-        }
-
-        return serverName;
+        return this->server->get("SERVER_NAME", "localhost");
     }
 
     /**
@@ -830,13 +817,7 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     final public function getURI() -> string
     {
-        var requestURI;
-
-        if !fetch requestURI, _SERVER["REQUEST_URI"] {
-            return "";
-        }
-
-        return requestURI;
+        return this->server->get("REQUEST_URI", "");
     }
 
     /**
@@ -844,13 +825,7 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getUserAgent() -> string
     {
-        var userAgent;
-
-        if !fetch userAgent, _SERVER["HTTP_USER_AGENT"] {
-            return "";
-        }
-
-        return userAgent;
+        return this->server->get("HTTP_USER_AGENT", "");
     }
 
     /**
@@ -906,7 +881,7 @@ class Request implements RequestInterface, InjectionAwareInterface
 
         let name = strtoupper(strtr(header, "-", "_"));
 
-        return isset _SERVER[name] || isset _SERVER["HTTP_" . name];
+        return this->hasServer(name) || this->hasServer("HTTP_" . name);
     }
 
     /**
@@ -942,7 +917,24 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     final public function hasServer(string! name) -> bool
     {
-        return isset _SERVER[name];
+        return this->server->has(name);
+    }
+
+    /**
+     * Initializes the interal $_SERVER array. If no array is passed then it
+     * uses the $_SERVER superglobal
+     */
+    public function init(array! data = [])
+    {
+        var server;
+
+        if empty(data) {
+            let server = _SERVER;
+        } else {
+            let server = data;
+        }
+
+        let this->server = new Collection(server);
     }
 
     /**
@@ -950,7 +942,7 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function isAjax() -> bool
     {
-        return isset _SERVER["HTTP_X_REQUESTED_WITH"] && _SERVER["HTTP_X_REQUESTED_WITH"] === "XMLHttpRequest";
+        return this->hasServer("HTTP_X_REQUESTED_WITH") && this->getServer("HTTP_X_REQUESTED_WITH") === "XMLHttpRequest";
     }
 
     /**
@@ -1093,7 +1085,7 @@ class Request implements RequestInterface, InjectionAwareInterface
     {
         var contentType;
 
-        if isset _SERVER["HTTP_SOAPACTION"] {
+        if this->hasServer("HTTP_SOAPACTION") {
             return true;
         }
 
@@ -1345,7 +1337,7 @@ class Request implements RequestInterface, InjectionAwareInterface
                 "request:beforeAuthorizationResolve",
                 this,
                 [
-                    "server": _SERVER
+                    "server": this->server->toArray()
                 ]
             );
 
@@ -1354,14 +1346,14 @@ class Request implements RequestInterface, InjectionAwareInterface
             }
         }
 
-        if isset _SERVER["PHP_AUTH_USER"] && isset _SERVER["PHP_AUTH_PW"] {
-            let headers["Php-Auth-User"] = _SERVER["PHP_AUTH_USER"],
-                headers["Php-Auth-Pw"] = _SERVER["PHP_AUTH_PW"];
+        if this->hasServer("PHP_AUTH_USER") && this->hasServer("PHP_AUTH_PW") {
+            let headers["Php-Auth-User"] = this->getServer("PHP_AUTH_USER"),
+                headers["Php-Auth-Pw"] = this->getServer("PHP_AUTH_PW");
         } else {
-            if isset _SERVER["HTTP_AUTHORIZATION"] {
-                let authHeader = _SERVER["HTTP_AUTHORIZATION"];
-            } elseif isset _SERVER["REDIRECT_HTTP_AUTHORIZATION"] {
-                let authHeader = _SERVER["REDIRECT_HTTP_AUTHORIZATION"];
+            if this->hasServer("HTTP_AUTHORIZATION") {
+                let authHeader = this->getServer("HTTP_AUTHORIZATION");
+            } elseif this->hasServer("REDIRECT_HTTP_AUTHORIZATION") {
+                let authHeader = this->getServer("REDIRECT_HTTP_AUTHORIZATION");
             }
 
             if authHeader {
@@ -1378,7 +1370,7 @@ class Request implements RequestInterface, InjectionAwareInterface
                         let headers["Php-Auth-User"] = exploded[0],
                             headers["Php-Auth-Pw"]   = exploded[1];
                     }
-                } elseif stripos(authHeader, "digest ") === 0 && !fetch digest, _SERVER["PHP_AUTH_DIGEST"] {
+                } elseif stripos(authHeader, "digest ") === 0 && !this->hasServer("PHP_AUTH_DIGEST") {
                     let headers["Php-Auth-Digest"] = authHeader;
                 } elseif stripos(authHeader, "bearer ") === 0 {
                     let headers["Authorization"] = authHeader;
@@ -1400,7 +1392,7 @@ class Request implements RequestInterface, InjectionAwareInterface
                 this,
                 [
                     "headers": headers,
-                    "server":  _SERVER
+                    "server":  this->server->toArray()
                 ]
             );
 

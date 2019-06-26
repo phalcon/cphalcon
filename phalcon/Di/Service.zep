@@ -55,24 +55,6 @@ class Service implements ServiceInterface
     }
 
     /**
-     * Restore the internal state of a service
-     */
-    public static function __set_state(array! attributes) -> <ServiceInterface>
-    {
-        var definition, shared;
-
-        if unlikely !fetch definition, attributes["_definition"] {
-            throw new Exception("The attribute '_definition' is required");
-        }
-
-        if unlikely !fetch shared, attributes["_shared"] {
-            throw new Exception("The attribute '_shared' is required");
-        }
-
-        return new self(definition, shared);
-    }
-
-    /**
      * Returns the service definition
      */
     public function getDefinition() -> var

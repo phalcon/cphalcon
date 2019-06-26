@@ -141,38 +141,4 @@ class Reference implements ReferenceInterface
             );
         }
     }
-
-    /**
-     * Restore a Phalcon\Db\Reference object from export
-     */
-    public static function __set_state(array! data) -> <ReferenceInterface>
-    {
-        var referencedSchema, referencedTable, columns, referencedColumns,
-            constraintName, onDelete, onUpdate;
-
-        if !fetch constraintName, data["referenceName"] {
-            if unlikely !fetch constraintName, data["name"] {
-                throw new Exception("name parameter is required");
-            }
-        }
-
-        fetch referencedSchema, data["referencedSchema"];
-        fetch referencedTable, data["referencedTable"];
-        fetch columns, data["columns"];
-        fetch referencedColumns, data["referencedColumns"];
-        fetch onDelete, data["onDelete"];
-        fetch onUpdate, data["onUpdate"];
-
-        return new Reference(
-            constraintName,
-            [
-                "referencedSchema":  referencedSchema,
-                "referencedTable":   referencedTable,
-                "columns":           columns,
-                "referencedColumns": referencedColumns,
-                "onDelete":          onDelete,
-                "onUpdate":          onUpdate
-            ]
-        );
-    }
 }
