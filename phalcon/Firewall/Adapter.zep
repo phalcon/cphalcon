@@ -133,7 +133,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function setRoleCallback(var callback) -> <AdapterInterface>
     {
-        if !is_callable(callback){
+        if !is_callable(callback) {
             throw new Exception("Role callback must be function.");
         }
         let this->roleCallback = callback;

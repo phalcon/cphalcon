@@ -1526,7 +1526,7 @@ class Tag implements InjectionAwareInterface
     {
         var service, container;
 
-        if ("escaper" === name) {
+        if "escaper" === name {
             let service = this->escaper;
         } else {
             let service = this->url;

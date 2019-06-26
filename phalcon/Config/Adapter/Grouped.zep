@@ -82,7 +82,7 @@ class Grouped extends Config
 
             // Set to default adapter if passed as string
             if typeof configName === "string" {
-                if ("" === defaultAdapter) {
+                if "" === defaultAdapter {
                     this->merge(
                         (new ConfigFactory())->load(configName)
                     );

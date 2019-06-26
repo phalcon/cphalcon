@@ -239,7 +239,7 @@ abstract class AbstractRequest extends AbstractMessage
             return new Uri(uri);
         }
 
-        if (null === uri) {
+        if null === uri {
             return new Uri();
         }
 
