@@ -67,8 +67,6 @@ class GetKeysCest
     /**
      * @author       ekmst <https://github.com/ekmst>
      * @since        2019-06-26
-     *
-     * @dataProvoder keys()
      */
     public function storageAdapterStreamGetKeysIssue14190(UnitTester $I)
     {
