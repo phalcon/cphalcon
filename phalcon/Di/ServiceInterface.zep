@@ -18,11 +18,6 @@ use Phalcon\DiInterface;
 interface ServiceInterface
 {
     /**
-     * Restore the internal state of a service
-     */
-    public static function __set_state(array! attributes) -> <ServiceInterface>;
-
-    /**
      * Returns the service definition
      */
     public function getDefinition() -> var;
