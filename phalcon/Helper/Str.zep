@@ -170,7 +170,7 @@ class Str
      * ```php
      * use Phalcon\Helper\Str;
      *
-     * echo Str::dirFromFile("file1234.jpg"); // /fi/le/12/file1234.jpg
+     * echo Str::dirFromFile("file1234.jpg"); // fi/le/12/
      * ```
      *
      * @param string $file

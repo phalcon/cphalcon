@@ -112,15 +112,15 @@ class Stream extends AbstractAdapter
      */
     public function delete(string! key) -> bool
     {
-        var directory;
+        var filepath;
 
         if !this->has(key) {
             return false;
         }
 
-        let directory = this->getDir(key);
+        let filepath = this->getFilepath(key);
 
-        return unlink(directory . key);
+        return unlink(filepath);
     }
 
     /**
@@ -133,15 +133,15 @@ class Stream extends AbstractAdapter
      */
     public function get(string! key, var defaultValue = null) -> var
     {
-        var content, directory, payload;
+        var content, payload, filepath;
 
-        let directory = this->getDir(key);
+        let filepath = this->getFilepath(key);
 
-        if !file_exists(directory . key) {
+        if !file_exists(filepath) {
             return defaultValue;
         }
 
-        let payload   = file_get_contents(directory . key),
+        let payload   = file_get_contents(filepath),
             payload = json_decode(payload, true);
 
         if json_last_error() !== JSON_ERROR_NONE {
@@ -196,16 +196,15 @@ class Stream extends AbstractAdapter
      */
     public function has(string! key) -> bool
     {
-        var directory, exists, payload;
+        var payload, filepath;
 
-        let directory = this->getDir(key),
-            exists    = file_exists(directory . key);
+        let filepath = this->getFilepath(key);
 
-        if !exists {
+        if !file_exists(filepath) {
             return false;
         }
 
-        let payload = file_get_contents(directory . key),
+        let payload = file_get_contents(filepath),
             payload = json_decode(payload);
 
         return !this->isExpired(payload);
@@ -276,9 +275,19 @@ class Stream extends AbstractAdapter
         var dirPrefix, dirFromFile;
 
         let dirPrefix   = this->cacheDir . this->prefix,
-            dirFromFile = Str::dirFromFile(key);
+            dirFromFile = Str::dirFromFile(
+                str_replace(this->prefix, "", key, 1)
+            );
 
-        return Str::dirSeparator(dirPrefix) . Str::dirSeparator(dirFromFile);
+        return Str::dirSeparator(dirPrefix) . dirFromFile;
+    }
+
+    /**
+     * Returns the full path to the file
+     */
+    private function getFilepath(string! key) -> string
+    {
+        return this->getDir(key) . str_replace(this->prefix, "", key, 1);
     }
 
     /**

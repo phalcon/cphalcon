@@ -41,16 +41,12 @@ class GetKeysCest
 
         $adapter->clear();
 
-
-
         $key = 'key-1';
         $adapter->set($key, 'test');
 
         $I->assertTrue(
             $adapter->has($key)
         );
-
-
 
         $key = 'key-2';
         $adapter->set($key, 'test');
@@ -59,8 +55,6 @@ class GetKeysCest
             $adapter->has($key)
         );
 
-
-
         $expected = [
             'phstrm-key-1',
             'phstrm-key-2',
@@ -68,5 +62,47 @@ class GetKeysCest
         $actual   = $adapter->getKeys();
         sort($actual);
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @author       ekmst <https://github.com/ekmst>
+     * @since        2019-06-26
+     *
+     * @dataProvoder keys()
+     */
+    public function storageAdapterStreamGetKeysIssue14190(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Stream - getKeys() - issue 14190');
+
+        $serializer = new SerializerFactory();
+
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+                'prefix'   => 'basePrefix-',
+            ]
+        );
+
+        $adapter->clear();
+
+        $adapter->set('key', 'test');
+        $adapter->set('key1', 'test');
+
+        $expected = [
+            'basePrefix-key',
+            'basePrefix-key1',
+        ];
+
+        $actual = $adapter->getKeys();
+        sort($actual);
+
+        $I->assertEquals($expected, $actual);
+
+        foreach ($expected as $key) {
+            $I->assertTrue(
+                $adapter->delete($key)
+            );
+        }
     }
 }
