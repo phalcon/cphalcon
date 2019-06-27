@@ -40,16 +40,155 @@ class ClearCest
     }
 
     /**
-     * Tests Phalcon\Forms\Form :: clear()
+     * Tests Phalcon\Forms\Form :: clear() - all
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-28
      */
-    public function formsFormClear(IntegrationTester $I)
+    public function formsFormClearAll(IntegrationTester $I)
     {
-        $I->wantToTest('Forms\Form - clear()');
+        $I->wantToTest('Forms\Form - clear() - all');
 
-        $I->skipTest('Need implementation');
+        $name     = new Text('name');
+        $email    = new Email('email');
+        $password = new Password('password');
+
+        $form = new Form();
+
+        $form
+            ->add($name)
+            ->add($email)
+            ->add($password)
+        ;
+
+        $entity = new \stdClass();
+
+        $form->bind(
+            [
+                'name'     => 'Sid Roberts',
+                'email'    => 'team@phalconphp.com',
+                'password' => 'hunter2',
+            ],
+            $entity
+        );
+
+        $form->clear();
+
+        $I->assertNull(
+            $form->get('name')->getValue()
+        );
+
+        $I->assertNull(
+            $form->get('email')->getValue()
+        );
+
+        $I->assertNull(
+            $form->get('password')->getValue()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Forms\Form :: clear() - fields array
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-28
+     */
+    public function formsFormClearFieldsArray(IntegrationTester $I)
+    {
+        $I->wantToTest('Forms\Form - clear() - fields array');
+
+        $name     = new Text('name');
+        $email    = new Email('email');
+        $password = new Password('password');
+
+        $form = new Form();
+
+        $form
+            ->add($name)
+            ->add($email)
+            ->add($password)
+        ;
+
+        $entity = new \stdClass();
+
+        $form->bind(
+            [
+                'name'     => 'Sid Roberts',
+                'email'    => 'team@phalconphp.com',
+                'password' => 'hunter2',
+            ],
+            $entity
+        );
+
+        $form->clear(
+            [
+                'email',
+                'password',
+            ]
+        );
+
+        $I->assertEquals(
+            'Sid Roberts',
+            $form->get('name')->getValue()
+        );
+
+        $I->assertNull(
+            $form->get('email')->getValue()
+        );
+
+        $I->assertNull(
+            $form->get('password')->getValue()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Forms\Form :: clear() - field string
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-28
+     */
+    public function formsFormClearFieldString(IntegrationTester $I)
+    {
+        $I->wantToTest('Forms\Form - clear() - field string');
+
+        $name     = new Text('name');
+        $email    = new Email('email');
+        $password = new Password('password');
+
+        $form = new Form();
+
+        $form
+            ->add($name)
+            ->add($email)
+            ->add($password)
+        ;
+
+        $entity = new \stdClass();
+
+        $form->bind(
+            [
+                'name'     => 'Sid Roberts',
+                'email'    => 'team@phalconphp.com',
+                'password' => 'hunter2',
+            ],
+            $entity
+        );
+
+        $form->clear('password');
+
+        $I->assertEquals(
+            'Sid Roberts',
+            $form->get('name')->getValue()
+        );
+
+        $I->assertEquals(
+            'team@phalconphp.com',
+            $form->get('email')->getValue()
+        );
+
+        $I->assertNull(
+            $form->get('password')->getValue()
+        );
     }
 
     /**
