@@ -31,7 +31,6 @@ class UnderscoreIssetCest
     public function sessionManagerUnderscoreIsset(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - __isset()');
-        $I->wantToTest('Session\Manager - has()');
         $manager = new Manager();
         $files   = $this->getSessionStream();
         $manager->setHandler($files);
