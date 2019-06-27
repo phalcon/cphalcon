@@ -17,10 +17,10 @@
 #include "kernel/operators.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
+#include "kernel/string.h"
 #include "kernel/fcall.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/string.h"
 
 
 /**
@@ -148,9 +148,9 @@ PHP_METHOD(Phalcon_Db_Adapter, getSqlVariables) {
  */
 PHP_METHOD(Phalcon_Db_Adapter, __construct) {
 
-	zend_class_entry *_4$$4;
+	zend_class_entry *_5$$4;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *descriptor_param = NULL, *dialectClass = NULL, *connectionId = NULL, *_0, *_1$$3, *_2$$4, *_3$$4 = NULL;
+	zval *descriptor_param = NULL, *dialectClass = NULL, *connectionId = NULL, *_0, *_1$$3, *_2$$3, *_3$$4, *_4$$4 = NULL;
 	zval *descriptor = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -167,20 +167,22 @@ PHP_METHOD(Phalcon_Db_Adapter, __construct) {
 	zephir_update_static_property_ce(phalcon_db_adapter_ce, SL("_connectionConsecutive"), &_0 TSRMLS_CC);
 	ZEPHIR_OBS_VAR(dialectClass);
 	if (!(zephir_array_isset_string_fetch(&dialectClass, descriptor, SS("dialectClass"), 0 TSRMLS_CC))) {
-		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_dialectType"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_1$$3);
+		_2$$3 = zephir_fetch_nproperty_this(this_ptr, SL("_dialectType"), PH_NOISY_CC);
+		zephir_ucfirst(_1$$3, _2$$3);
 		ZEPHIR_INIT_NVAR(dialectClass);
-		ZEPHIR_CONCAT_SV(dialectClass, "phalcon\\db\\dialect\\", _1$$3);
+		ZEPHIR_CONCAT_SV(dialectClass, "Phalcon\\Db\\Dialect\\", _1$$3);
 	}
 	if (Z_TYPE_P(dialectClass) == IS_STRING) {
-		ZEPHIR_INIT_VAR(_2$$4);
-		zephir_fetch_safe_class(_3$$4, dialectClass);
-			_4$$4 = zend_fetch_class(Z_STRVAL_P(_3$$4), Z_STRLEN_P(_3$$4), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
-		object_init_ex(_2$$4, _4$$4);
-		if (zephir_has_constructor(_2$$4 TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(NULL, _2$$4, "__construct", NULL, 0);
+		ZEPHIR_INIT_VAR(_3$$4);
+		zephir_fetch_safe_class(_4$$4, dialectClass);
+			_5$$4 = zend_fetch_class(Z_STRVAL_P(_4$$4), Z_STRLEN_P(_4$$4), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+		object_init_ex(_3$$4, _5$$4);
+		if (zephir_has_constructor(_3$$4 TSRMLS_CC)) {
+			ZEPHIR_CALL_METHOD(NULL, _3$$4, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
-		zephir_update_property_this(getThis(), SL("_dialect"), _2$$4 TSRMLS_CC);
+		zephir_update_property_this(getThis(), SL("_dialect"), _3$$4 TSRMLS_CC);
 	} else {
 		if (Z_TYPE_P(dialectClass) == IS_OBJECT) {
 			zephir_update_property_this(getThis(), SL("_dialect"), dialectClass TSRMLS_CC);
