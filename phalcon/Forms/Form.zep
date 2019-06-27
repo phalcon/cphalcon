@@ -223,13 +223,11 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         if fields === null {
             let data = [];
         } else {
-            if typeof fields == "array" {
-                for field in fields {
-                    if isset data[field] {
-                        unset data[field];
-                    }
-                }
-            } else {
+            if typeof fields != "array" {
+                let fields = [fields];
+            }
+
+            for field in fields {
                 if isset data[field] {
                     unset data[field];
                 }
