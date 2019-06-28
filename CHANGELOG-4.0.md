@@ -66,6 +66,7 @@
 - Fixed `Phalcon\Config::merge()` not merging numeric values properly [#13201](https://github.com/phalcon/cphalcon/issues/13201), [#13768](https://github.com/phalcon/cphalcon/issues/13768)
 - Fixed `Phalcon\Validation\Validator\File\AbstractFile` missing the resolution of the `value` property [#14198](https://github.com/phalcon/cphalcon/issues/14198)
 - Fixed `Phalcon\Storage\Adapter\Stream` [#14190](https://github.com/phalcon/cphalcon/issues/14190)
+- `Phalcon\Form\Form::clear()` now correctly clears single fields. [#14217](https://github.com/phalcon/cphalcon/issues/14217)
 
 ## Removed
 - Removed `Phalcon\Session\Factory`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)

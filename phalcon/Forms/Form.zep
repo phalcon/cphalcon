@@ -218,60 +218,43 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     {
         var elements, element, data, field;
 
-        let data = this->data;
-
-        if fields === null {
-            let data = [];
-        } else {
-            if typeof fields == "array" {
-                for field in fields {
-                    if isset data[field] {
-                        unset data[field];
-                    }
-                }
-            } else {
-                if isset data[field] {
-                    unset data[field];
-                }
-            }
-        }
-
-        let this->data = data,
+        let data = this->data,
             elements = this->elements;
 
         /**
-        * If fields is string, clear just that field.
-        * If it's array, clear only fields in array.
-        * If null, clear all
-        */
-        if typeof elements == "array" {
-            if fields === null {
-                for element in elements {
+         * If fields is string, clear just that field.
+         * If it's array, clear only fields in array.
+         * If null, clear all
+         */
+        if fields === null {
+            let data = [];
+
+            for element in elements {
+                Tag::setDefault(
+                    element->getName(),
+                    element->getDefault()
+                );
+            }
+        } else {
+            if typeof fields != "array" {
+                let fields = [fields];
+            }
+
+            for field in fields {
+                if isset data[field] {
+                    unset data[field];
+                }
+
+                if fetch element, elements[field] {
                     Tag::setDefault(
                         element->getName(),
                         element->getDefault()
                     );
                 }
-            } else {
-                if typeof fields == "array" {
-                    for element in elements {
-                        if in_array(element->getName(), fields) {
-                            Tag::setDefault(
-                                element->getName(),
-                                element->getDefault()
-                            );
-                        }
-                    }
-                } else {
-                    if fetch element, elements[fields] {
-                        Tag::setDefault(
-                            element->getName(),
-                            element->getDefault()
-                        );
-                    }
-                }
             }
         }
+
+        let this->data = data;
 
         return this;
     }
