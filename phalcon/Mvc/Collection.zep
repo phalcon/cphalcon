@@ -22,7 +22,7 @@ use Phalcon\Mvc\Collection\Document;
 use Phalcon\Mvc\Collection\Exception;
 use Phalcon\Mvc\Collection\ManagerInterface;
 use Phalcon\Messages\Message as Message;
-use Phalcon\ValidationInterface;
+use Phalcon\Validation\ValidationInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use Serializable;
 
@@ -1225,7 +1225,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      *
      *```php
      * use Phalcon\Mvc\Collection;
-     * use Phalcon\Validation;
+     * use Phalcon\Validation\Validation;
      * use Phalcon\Validation\Validator\ExclusionIn;
      *
      * class Subscriptors extends Collection

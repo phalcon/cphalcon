@@ -12,8 +12,8 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Helper\Arr;
 use Phalcon\Messages\Message;
-use Phalcon\Validation;
-use Phalcon\Validation\ValidatorComposite;
+use Phalcon\Validation\Validation;
+use Phalcon\Validation\AbstractValidatorComposite;
 use Phalcon\Validation\Validator\File\MimeType;
 use Phalcon\Validation\Validator\File\Resolution\Equal as EqualResolution;
 use Phalcon\Validation\Validator\File\Resolution\Max as MaxResolution;
@@ -23,12 +23,10 @@ use Phalcon\Validation\Validator\File\Size\Max as MaxFileSize;
 use Phalcon\Validation\Validator\File\Size\Min as MinFileSize;
 
 /**
- * Phalcon\Validation\Validator\File
- *
  * Checks if a value has a correct file
  *
  * ```php
- * use Phalcon\Validation;
+ * use Phalcon\Validation\Validation;
  * use Phalcon\Validation\Validator\File as FileValidator;
  *
  * $validator = new Validation();
@@ -91,7 +89,7 @@ use Phalcon\Validation\Validator\File\Size\Min as MinFileSize;
  * );
  * ```
  */
-class File extends ValidatorComposite
+class File extends AbstractValidatorComposite
 {
     /**
      * Constructor

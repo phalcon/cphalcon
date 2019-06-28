@@ -10,7 +10,7 @@
 
 namespace Phalcon\Cli;
 
-use Phalcon\Application as BaseApplication;
+use Phalcon\Application\AbstractApplication;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Console\Exception;
 use Phalcon\DiInterface;
@@ -19,7 +19,7 @@ use Phalcon\Events\ManagerInterface;
 /**
  * This component allows to create CLI applications using Phalcon
  */
-class Console extends BaseApplication
+class Console extends AbstractApplication
 {
     /**
      * @var array

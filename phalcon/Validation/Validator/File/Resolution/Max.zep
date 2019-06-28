@@ -11,16 +11,14 @@
 namespace Phalcon\Validation\Validator\File\Resolution;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\File\FileAbstract;
+use Phalcon\Validation\Validation;
+use Phalcon\Validation\Validator\File\AbstractFile;
 
 /**
- * Phalcon\Validation\Validator\File\Resolution\Max
- *
  * Checks if a file has the rigth resolution
  *
  * ```php
- * use Phalcon\Validation;
+ * use Phalcon\Validation\Validation;
  * use Phalcon\Validation\Validator\File\Resolution\Max;
  *
  * $validator = new Validation();
@@ -60,7 +58,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  * );
  * ```
  */
-class Max extends FileAbstract
+class Max extends AbstractFile
 {
     protected template = "File :field exceeds the maximum resolution of :resolution";
 

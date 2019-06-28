@@ -11,17 +11,15 @@
 namespace Phalcon\Validation\Validator\File\Size;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation;
+use Phalcon\Validation\Validation;
 use Phalcon\Validation\Validator\File\Size\Equal;
-use Phalcon\Validation\Validator\File\FileAbstract;
+use Phalcon\Validation\Validator\File\AbstractFile;
 
 /**
- * Phalcon\Validation\Validator\File
- *
  * Checks if a value has a correct file
  *
  * ```php
- * use Phalcon\Validation;
+ * use Phalcon\Validation\Validation;
  * use Phalcon\Validation\Validator\File\Size;
  *
  * $validator = new Validation();
@@ -61,7 +59,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  * );
  * ```
  */
-class Equal extends FileAbstract
+class Equal extends AbstractFile
 {
     protected template = "File :field does not have the exact :size filesize";
 

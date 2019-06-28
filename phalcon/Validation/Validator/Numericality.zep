@@ -11,16 +11,14 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\Validation;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\Numericality
- *
  * Check for a valid numeric value
  *
  * ```php
- * use Phalcon\Validation;
+ * use Phalcon\Validation\Validation;
  * use Phalcon\Validation\Validator\Numericality;
  *
  * $validator = new Validation();
@@ -50,7 +48,7 @@ use Phalcon\Validation\Validator;
  * );
  * ```
  */
-class Numericality extends Validator
+class Numericality extends AbstractValidator
 {
     protected template = "Field :field does not have a valid numeric format";
 

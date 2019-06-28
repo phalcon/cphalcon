@@ -11,19 +11,17 @@
 namespace Phalcon\Validation\Validator\StringLength;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\Validation;
+use Phalcon\Validation\AbstractValidator;
 use Phalcon\Validation\Exception;
 
 /**
- * Phalcon\Validation\Validator\StringLength
- *
  * Validates that a string has the specified minimum constraints
  * The test is passed if for a string's length L, min<=L, i.e. L must
  * be at least min.
  *
  * ```php
- * use Phalcon\Validation;
+ * use Phalcon\Validation\Validation;
  * use Phalcon\Validation\Validator\StringLength\Min;
  *
  * $validator = new Validation();
@@ -63,7 +61,7 @@ use Phalcon\Validation\Exception;
  * );
  * ```
  */
-class Min extends Validator
+class Min extends AbstractValidator
 {
     protected template = "Field :field must be at least :min characters long";
 

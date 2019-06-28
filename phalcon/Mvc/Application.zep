@@ -11,7 +11,7 @@
 namespace Phalcon\Mvc;
 
 use Closure;
-use Phalcon\Application as BaseApplication;
+use Phalcon\Application\AbstractApplication;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ViewInterface;
 use Phalcon\Mvc\RouterInterface;
@@ -68,7 +68,7 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
  * $application->main();
  *```
  */
-class Application extends BaseApplication
+class Application extends AbstractApplication
 {
     protected implicitView = true;
 

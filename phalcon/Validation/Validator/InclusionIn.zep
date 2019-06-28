@@ -11,17 +11,15 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\Validation;
+use Phalcon\Validation\AbstractValidator;
 use Phalcon\Validation\Exception;
 
 /**
- * Phalcon\Validation\Validator\InclusionIn
- *
  * Check if a value is included into a list of values
  *
  * ```php
- * use Phalcon\Validation;
+ * use Phalcon\Validation\Validation;
  * use Phalcon\Validation\Validator\InclusionIn;
  *
  * $validator = new Validation();
@@ -56,7 +54,7 @@ use Phalcon\Validation\Exception;
  * );
  * ```
  */
-class InclusionIn extends Validator
+class InclusionIn extends AbstractValidator
 {
     protected template = "Field :field must be a part of list: :domain";
 

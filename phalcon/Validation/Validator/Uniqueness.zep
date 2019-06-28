@@ -11,8 +11,8 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation;
-use Phalcon\Validation\CombinedFieldsValidator;
+use Phalcon\Validation\Validation;
+use Phalcon\Validation\AbstractCombinedFieldsValidator;
 use Phalcon\Validation\Exception;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\CollectionInterface;
@@ -23,7 +23,7 @@ use Phalcon\Mvc\Collection;
  * Check that a field is unique in the related table
  *
  * ```php
- * use Phalcon\Validation;
+ * use Phalcon\Validation\Validation;
  * use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
  *
  * $validator = new Validation();
@@ -89,7 +89,7 @@ use Phalcon\Mvc\Collection;
  * );
  * ```
  */
-class Uniqueness extends CombinedFieldsValidator
+class Uniqueness extends AbstractCombinedFieldsValidator
 {
     protected template = "Field :field must be unique";
 

@@ -39,7 +39,7 @@ use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\ValidationInterface;
+use Phalcon\Validation\ValidationInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Serializable;
 
@@ -5308,7 +5308,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *
      *```php
      * use Phalcon\Mvc\Model;
-     * use Phalcon\Validation;
+     * use Phalcon\Validation\Validation;
      * use Phalcon\Validation\Validator\ExclusionIn;
      *
      * class Subscriptors extends Model
@@ -5366,7 +5366,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *
      *```php
      * use Phalcon\Mvc\Model;
-     * use Phalcon\Validation;
+     * use Phalcon\Validation\Validation;
      * use Phalcon\Validation\Validator\ExclusionIn;
      *
      * class Subscriptors extends Model
