@@ -684,13 +684,11 @@ class Form extends Injectable implements \Countable, \Iterator
 		if is_null(fields) {
 			let data = [];
 		} else {
-			if typeof fields == "array" {
-				for field in fields {
-					if isset data[field] {
-						unset data[field];
-					}
-				}
-			} else {
+			if typeof fields != "array" {
+                let fields = [fields];
+            }
+
+			for field in fields {
 				if isset data[field] {
 					unset data[field];
 				}
