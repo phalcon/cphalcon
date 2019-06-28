@@ -11,16 +11,14 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\Validation;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\PresenceOf
- *
  * Validates that a value is not null or empty string
  *
  * ```php
- * use Phalcon\Validation;
+ * use Phalcon\Validation\Validation;
  * use Phalcon\Validation\Validator\PresenceOf;
  *
  * $validator = new Validation();
@@ -50,7 +48,7 @@ use Phalcon\Validation\Validator;
  * );
  * ```
  */
-class PresenceOf extends Validator
+class PresenceOf extends AbstractValidator
 {
     protected template = "Field :field is required";
 

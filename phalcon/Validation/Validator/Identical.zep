@@ -11,16 +11,14 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\Validation;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\Identical
- *
  * Checks if a value is identical to other
  *
  * ```php
- * use Phalcon\Validation;
+ * use Phalcon\Validation\Validation;
  * use Phalcon\Validation\Validator\Identical;
  *
  * $validator = new Validation();
@@ -55,7 +53,7 @@ use Phalcon\Validation\Validator;
  * );
  * ```
  */
-class Identical extends Validator
+class Identical extends AbstractValidator
 {
     protected template = "Field :field does not have the expected value";
 

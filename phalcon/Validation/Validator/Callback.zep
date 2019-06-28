@@ -11,16 +11,14 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\Validation;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\Callback
- *
  * Calls user function for validation
  *
  * ```php
- * use Phalcon\Validation;
+ * use Phalcon\Validation\Validation;
  * use Phalcon\Validation\Validator\Callback as CallbackValidator;
  * use Phalcon\Validation\Validator\Numericality as NumericalityValidator;
  *
@@ -60,7 +58,7 @@ use Phalcon\Validation\Validator;
  * );
  * ```
  */
-class Callback extends Validator
+class Callback extends AbstractValidator
 {
     protected template = "Field :field must match the callback function";
 

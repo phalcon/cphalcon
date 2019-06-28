@@ -12,16 +12,14 @@ namespace Phalcon\Validation\Validator;
 
 use DateTime;
 use Phalcon\Messages\Message;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\Validation;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\Date
- *
  * Checks if a value is a valid date
  *
  * ```php
- * use Phalcon\Validation;
+ * use Phalcon\Validation\Validation;
  * use Phalcon\Validation\Validator\Date as DateValidator;
  *
  * $validator = new Validation();
@@ -56,7 +54,7 @@ use Phalcon\Validation\Validator;
  * );
  * ```
  */
-class Date extends Validator
+class Date extends AbstractValidator
 {
     protected template = "Field :field is not a valid date";
 

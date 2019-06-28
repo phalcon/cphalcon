@@ -10,11 +10,9 @@
 
 namespace Phalcon\Validation;
 
-use Phalcon\Validation;
+use Phalcon\Validation\Validation;
 
 /**
- * Phalcon\Validation\CombinedFieldsValidator
- *
  * This is a base class for combined fields validators
  */
 interface ValidatorCompositeInterface

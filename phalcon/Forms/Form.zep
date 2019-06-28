@@ -22,8 +22,8 @@ use Phalcon\Html\Attributes;
 use Phalcon\Html\Attributes\AttributesInterface;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
-use Phalcon\Validation;
-use Phalcon\ValidationInterface;
+use Phalcon\Validation\Validation;
+use Phalcon\Validation\ValidationInterface;
 
 /**
  * This component allows to build forms using an object-oriented interface

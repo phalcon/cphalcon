@@ -97,7 +97,6 @@ class Breadcrumbs
      * Renders and outputs breadcrumbs based on previously set template.
      *
      * ```php
-     * // PHP Engine
      * echo $breadcrumbs->render();
      * ```
      */
