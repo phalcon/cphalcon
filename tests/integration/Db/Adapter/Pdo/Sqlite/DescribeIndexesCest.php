@@ -41,25 +41,19 @@ class DescribeIndexesCest
         $connection = $this->getService('db');
 
         $expectedIndexes = [
-            'sqlite_autoindex_COMPANY_1' => Index::__set_state(
-                [
-                    'name'    => 'sqlite_autoindex_COMPANY_1',
-                    'columns' => ['ID'],
-                    'type'    => 'PRIMARY',
-                ]
+            'sqlite_autoindex_COMPANY_1' => new Index(
+                'sqlite_autoindex_COMPANY_1',
+                ['ID'],
+                'PRIMARY'
             ),
-            'salary_index'               => Index::__set_state(
-                [
-                    'name'    => 'salary_index',
-                    'columns' => ['SALARY'],
-                ]
+            'salary_index'               => new Index(
+                'salary_index',
+                ['SALARY']
             ),
-            'name_index'                 => Index::__set_state(
-                [
-                    'name'    => 'name_index',
-                    'columns' => ['NAME'],
-                    'type'    => 'UNIQUE',
-                ]
+            'name_index'                 => new Index(
+                'name_index',
+                ['NAME'],
+                'UNIQUE'
             ),
         ];
 

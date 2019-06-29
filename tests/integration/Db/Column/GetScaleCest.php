@@ -36,7 +36,7 @@ class GetScaleCest
 
         foreach ($expectedColumns as $index => $column) {
             $I->assertEquals(
-                $columns[$index]['scale'],
+                $columns[$index]['scale'] ?? null,
                 $column->getScale()
             );
         }
