@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Http\Request;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
@@ -25,7 +26,7 @@ class GetServerAddressCest extends HttpBase
      */
     public function testHttpRequestGetServerAddressDefault(UnitTester $I)
     {
-        $request = $this->getRequestObject();
+        $request = new Request();
 
         $I->assertEquals(
             '127.0.0.1',
@@ -41,11 +42,8 @@ class GetServerAddressCest extends HttpBase
      */
     public function testHttpRequestGetServerAddress(UnitTester $I)
     {
-        $request = $this->getRequestObject();
-
-        $this->setServerVar('SERVER_ADDR', '192.168.4.1');
-        $actual = $request->getServerAddress();
-        $this->unsetServerVar('SERVER_ADDR');
+        $request = new Request();
+        $actual  = $request->getServerAddress();
 
         $I->assertEquals(
             '192.168.4.1',

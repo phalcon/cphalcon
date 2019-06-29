@@ -28,7 +28,7 @@ class GetSchemeCest extends HttpBase
         $request = $this->getRequestObject();
 
         $I->assertEquals(
-            'http',
+            'https',
             $request->getScheme()
         );
     }
