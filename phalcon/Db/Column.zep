@@ -356,12 +356,14 @@ class Column implements ColumnInterface
          */
         if fetch scale, definition["scale"] {
             switch type {
-
-                case self::TYPE_INTEGER:
-                case self::TYPE_FLOAT:
+                case self::TYPE_BIGINTEGER:
                 case self::TYPE_DECIMAL:
                 case self::TYPE_DOUBLE:
-                case self::TYPE_BIGINTEGER:
+                case self::TYPE_FLOAT:
+                case self::TYPE_INTEGER:
+                case self::TYPE_MEDIUMINTEGER:
+                case self::TYPE_SMALLINTEGER:
+                case self::TYPE_TINYINTEGER:
                     let this->scale = scale;
                     break;
 

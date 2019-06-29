@@ -15,6 +15,8 @@ namespace Phalcon\Test\Fixtures\Traits\Db;
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
+use function array_flip;
+use function array_shift;
 
 trait MysqlTrait
 {
@@ -71,7 +73,8 @@ trait MysqlTrait
         $columns = $this->getColumns();
 
         foreach ($columns as $index => $array) {
-            $result[$index] = Column::__set_state($array);
+            $name = array_shift($array);
+            $result[$index] = new Column($name, $array);
         }
 
         return $result;
@@ -106,7 +109,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_BLOB,
                 'isNumeric'     => false,
                 'size'          => 0,
-                'scale'         => 0,
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -121,7 +123,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_BIT,
                 'isNumeric'     => false,
                 'size'          => 1,
-                'scale'         => 0,
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -136,7 +137,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_BIT,
                 'isNumeric'     => false,
                 'size'          => 1,
-                'scale'         => 0,
                 'default'       => "b'1'",
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -181,7 +181,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_BOOLEAN,
                 'isNumeric'     => true,
                 'size'          => 1,
-                'scale'         => 0,
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -196,7 +195,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_BOOLEAN,
                 'isNumeric'     => true,
                 'size'          => 1,
-                'scale'         => 0,
                 'default'       => 1,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -211,7 +209,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_CHAR,
                 'isNumeric'     => false,
                 'size'          => 10,
-                'scale'         => 0,
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -226,7 +223,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_CHAR,
                 'isNumeric'     => false,
                 'size'          => 10,
-                'scale'         => 0,
                 'default'       => 'ABC',
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -271,7 +267,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_ENUM,
                 'isNumeric'     => false,
                 'size'          => "'xs','s','m','l','xl'",
-                'scale'         => 0,
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -316,7 +311,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_JSON,
                 'isNumeric'     => false,
                 'size'          => 0,
-                'scale'         => 0,
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -361,7 +355,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_DATE,
                 'isNumeric'     => false,
                 'size'          => 0,
-                'scale'         => 0,
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -376,7 +369,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_DATE,
                 'isNumeric'     => false,
                 'size'          => 0,
-                'scale'         => 0,
                 'default'       => '2018-10-01',
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -391,7 +383,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_DATETIME,
                 'isNumeric'     => false,
                 'size'          => 0,
-                'scale'         => 0,
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -406,7 +397,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_DATETIME,
                 'isNumeric'     => false,
                 'size'          => 0,
-                'scale'         => 0,
                 'default'       => '2018-10-01 12:34:56',
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -421,7 +411,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_TIME,
                 'isNumeric'     => false,
                 'size'          => 0,
-                'scale'         => 0,
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -436,7 +425,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_TIME,
                 'isNumeric'     => false,
                 'size'          => 0,
-                'scale'         => 0,
                 'default'       => '12:34:56',
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -451,7 +439,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_TIMESTAMP,
                 'isNumeric'     => false,
                 'size'          => 0,
-                'scale'         => 0,
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -466,7 +453,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_TIMESTAMP,
                 'isNumeric'     => false,
                 'size'          => 0,
-                'scale'         => 0,
                 'default'       => '2018-10-01 12:34:56',
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -571,7 +557,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_LONGTEXT,
                 'isNumeric'     => false,
                 'size'          => 0,
-                'scale'         => 0,
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -586,7 +571,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_MEDIUMTEXT,
                 'isNumeric'     => false,
                 'size'          => 0,
-                'scale'         => 0,
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -601,7 +585,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_TINYTEXT,
                 'isNumeric'     => false,
                 'size'          => 0,
-                'scale'         => 0,
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -616,7 +599,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_TEXT,
                 'isNumeric'     => false,
                 'size'          => 0,
-                'scale'         => 0,
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -631,7 +613,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_VARCHAR,
                 'isNumeric'     => false,
                 'size'          => 10,
-                'scale'         => 0,
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
@@ -646,7 +627,6 @@ trait MysqlTrait
                 'type'          => Column::TYPE_VARCHAR,
                 'isNumeric'     => false,
                 'size'          => 10,
-                'scale'         => 0,
                 'default'       => 'D',
                 'unsigned'      => false,
                 'notNull'       => false,

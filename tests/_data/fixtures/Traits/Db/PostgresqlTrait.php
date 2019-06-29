@@ -12,8 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits\Db;
 
+use Phalcon\Db\Column;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
+use function array_shift;
 
 trait PostgresqlTrait
 {
@@ -70,7 +72,8 @@ trait PostgresqlTrait
         $columns = $this->getColumns();
 
         foreach ($columns as $index => $array) {
-            $result[$index] = Column::__set_state($array);
+            $name = array_shift($array);
+            $result[$index] = new Column($name, $array);
         }
 
         return $result;
@@ -105,7 +108,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_TEXT,
                 '_isNumeric'     => false,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -120,7 +122,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_BIT,
                 '_isNumeric'     => false,
                 '_size'          => null,
-                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -135,7 +136,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_BIT,
                 '_isNumeric'     => false,
                 '_size'          => null,
-                '_scale'         => 0,
                 '_default'       => "B'1'::\"bit\"",
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -180,7 +180,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_BOOLEAN,
                 '_isNumeric'     => true,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -195,7 +194,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_BOOLEAN,
                 '_isNumeric'     => true,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => 'true',
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -210,7 +208,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_CHAR,
                 '_isNumeric'     => false,
                 '_size'          => 10,
-                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -225,7 +222,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_CHAR,
                 '_isNumeric'     => false,
                 '_size'          => 10,
-                '_scale'         => 0,
                 '_default'       => 'ABC',
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -270,7 +266,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_VARCHAR,
                 '_isNumeric'     => false,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -315,7 +310,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_JSON,
                 '_isNumeric'     => false,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -360,7 +354,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_DATE,
                 '_isNumeric'     => false,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -375,7 +368,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_DATE,
                 '_isNumeric'     => false,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => '2018-10-01',
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -390,7 +382,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_TIMESTAMP,
                 '_isNumeric'     => false,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -405,7 +396,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_TIMESTAMP,
                 '_isNumeric'     => false,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => '2018-10-01 12:34:56',
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -420,7 +410,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_TIME,
                 '_isNumeric'     => false,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -435,7 +424,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_TIME,
                 '_isNumeric'     => false,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => '12:34:56',
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -450,7 +438,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_TIMESTAMP,
                 '_isNumeric'     => false,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -465,7 +452,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_TIMESTAMP,
                 '_isNumeric'     => false,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => '2018-10-01 12:34:56',
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -570,7 +556,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_TEXT,
                 '_isNumeric'     => false,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -585,7 +570,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_TEXT,
                 '_isNumeric'     => false,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -600,7 +584,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_TEXT,
                 '_isNumeric'     => false,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -615,7 +598,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_TEXT,
                 '_isNumeric'     => false,
                 '_size'          => 0,
-                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -630,7 +612,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_VARCHAR,
                 '_isNumeric'     => false,
                 '_size'          => 10,
-                '_scale'         => 0,
                 '_default'       => null,
                 '_unsigned'      => false,
                 '_notNull'       => false,
@@ -645,7 +626,6 @@ trait PostgresqlTrait
                 '_type'          => Column::TYPE_VARCHAR,
                 '_isNumeric'     => false,
                 '_size'          => 10,
-                '_scale'         => 0,
                 '_default'       => 'D',
                 '_unsigned'      => false,
                 '_notNull'       => false,
