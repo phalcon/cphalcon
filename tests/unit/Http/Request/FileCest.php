@@ -28,7 +28,7 @@ class FileCest
     public function testRealType(UnitTester $I)
     {
         if (!extension_loaded('fileinfo')) {
-            $I->skipTest('Warning: fileinfo extension is not loaded');
+            $scenario->skip('Warning: fileinfo extension is not loaded');
         }
 
         $file = new File(

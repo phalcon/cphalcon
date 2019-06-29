@@ -27,11 +27,12 @@ class GetHttpHostCest extends HttpBase
      */
     public function testHttpRequestHttpHost(UnitTester $I)
     {
+        $request = $this->getRequestObject();
+
         $this->setServerVar('HTTP_HOST', '');
         $this->setServerVar('SERVER_NAME', '');
         $this->setServerVar('SERVER_ADDR', '');
 
-        $request = $this->getRequestObject();
 
         $I->assertInternalType(
             'string',
@@ -57,9 +58,10 @@ class GetHttpHostCest extends HttpBase
             $request->getHttpHost()
         );
 
-        $this->setServerVar('SERVER_NAME', 'host@name');
 
         $request = $this->getRequestObject();
+
+        $this->setServerVar('SERVER_NAME', 'host@name');
 
         $I->assertEquals(
             'host@name',
@@ -67,69 +69,71 @@ class GetHttpHostCest extends HttpBase
         );
 
 
+        $request = $this->getRequestObject();
+
         $this->setServerVar('HTTPS', 'off');
         $this->setServerVar('SERVER_NAME', 'localhost');
         $this->setServerVar('SERVER_PORT', 80);
-
-        $request = $this->getRequestObject();
 
         $I->assertEquals(
             'localhost',
             $request->getHttpHost()
         );
 
+
+        $request = $this->getRequestObject();
 
         $this->setServerVar('HTTPS', 'on');
         $this->setServerVar('SERVER_NAME', 'localhost');
         $this->setServerVar('SERVER_PORT', 80);
 
-        $request = $this->getRequestObject();
-
         $I->assertEquals(
             'localhost',
             $request->getHttpHost()
         );
 
+
+        $request = $this->getRequestObject();
 
         $this->setServerVar('HTTPS', 'on');
         $this->setServerVar('SERVER_NAME', 'localhost');
         $this->setServerVar('SERVER_PORT', 443);
 
-        $request = $this->getRequestObject();
-
         $I->assertEquals(
             'localhost',
             $request->getHttpHost()
         );
 
 
+        $request = $this->getRequestObject();
+
         $this->setServerVar('HTTP_HOST', '');
         $this->setServerVar('SERVER_NAME', '');
         $this->setServerVar('SERVER_ADDR', '8.8.8.8');
-
-        $request = $this->getRequestObject();
 
         $I->assertEquals(
             '8.8.8.8',
             $request->getHttpHost()
         );
 
+
+        $request = $this->getRequestObject();
+
         $this->setServerVar('HTTP_HOST', '');
         $this->setServerVar('SERVER_NAME', 'some.domain');
         $this->setServerVar('SERVER_ADDR', '8.8.8.8');
-
-        $request = $this->getRequestObject();
 
         $I->assertEquals(
             'some.domain',
             $request->getHttpHost()
         );
 
+
+        $request = $this->getRequestObject();
+
         $this->setServerVar('HTTP_HOST', 'example.com');
         $this->setServerVar('SERVER_NAME', 'some.domain');
         $this->setServerVar('SERVER_ADDR', '8.8.8.8');
-
-        $request = $this->getRequestObject();
 
         $I->assertEquals(
             'example.com',

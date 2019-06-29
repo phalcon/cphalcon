@@ -48,12 +48,13 @@ class AuthHeaderCest extends HttpBase
      */
     public function shouldGetAuthFromHeaders(UnitTester $I, Example $example)
     {
-        $_SERVER = $example[0];
-
         $request = $this->getRequestObject();
 
+        $server   = $example[0];
         $function = $example[1];
         $expected = $example[2];
+
+        $_SERVER = $server;
 
         $I->assertEquals(
             $expected,
@@ -71,10 +72,6 @@ class AuthHeaderCest extends HttpBase
      */
     public function shouldFireEventWhenResolveAuthorization(UnitTester $I)
     {
-        $_SERVER = [
-            'HTTP_CUSTOM_KEY' => 'Custom-Value',
-        ];
-
         $request = $this->getRequestObject();
 
         $container = $request->getDI();
@@ -85,6 +82,10 @@ class AuthHeaderCest extends HttpBase
             'request',
             new CustomAuthorizationListener()
         );
+
+        $_SERVER = [
+            'HTTP_CUSTOM_KEY' => 'Custom-Value',
+        ];
 
         $expected = [
             'Custom-Key'   => 'Custom-Value',
@@ -108,8 +109,6 @@ class AuthHeaderCest extends HttpBase
      */
     public function shouldEnableCustomAuthorizationResolver(UnitTester $I)
     {
-        $_SERVER['CUSTOM_KERBEROS_AUTH'] = 'Negotiate a87421000492aa874209af8bc028';
-
         $request = $this->getRequestObject();
 
         $container = $request->getDI();
@@ -121,6 +120,7 @@ class AuthHeaderCest extends HttpBase
             new NegotiateAuthorizationListener()
         );
 
+        $_SERVER['CUSTOM_KERBEROS_AUTH'] = 'Negotiate a87421000492aa874209af8bc028';
 
         $expected = [
             'Authorization' => 'Negotiate a87421000492aa874209af8bc028',
@@ -142,9 +142,9 @@ class AuthHeaderCest extends HttpBase
      */
     public function shouldResolveCustomAuthorizationHeaders(UnitTester $I)
     {
-        $_SERVER['HTTP_AUTHORIZATION'] = 'Enigma Secret';
-
         $request = $this->getRequestObject();
+
+        $_SERVER['HTTP_AUTHORIZATION'] = 'Enigma Secret';
 
         $expected = [
             'Authorization' => 'Enigma Secret',

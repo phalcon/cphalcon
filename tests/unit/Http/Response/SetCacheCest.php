@@ -40,20 +40,14 @@ class SetCacheCest extends HttpBase
 
         $response->setCache(60);
 
-
-
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'Expires'       => $expiry->format('D, d M Y H:i:s') . ' GMT',
-                    'Cache-Control' => 'max-age=3600',
-                ],
-            ]
-        );
-
+        $actual   = $response->getHeaders();
         $I->assertEquals(
-            $expected,
-            $response->getHeaders()
+            $expiry->format('D, d M Y H:i:s') . ' GMT',
+            $actual->get('Expires')
+        );
+        $I->assertEquals(
+            'max-age=3600',
+            $actual->get('Cache-Control')
         );
     }
 }

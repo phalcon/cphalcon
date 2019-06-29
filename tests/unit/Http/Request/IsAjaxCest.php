@@ -40,10 +40,9 @@ class IsAjaxCest extends HttpBase
      */
     public function testHttpRequestIsAjax(UnitTester $I)
     {
-        $this->setServerVar('HTTP_X_REQUESTED_WITH', 'XMLHttpRequest');
-
         $request = $this->getRequestObject();
 
+        $this->setServerVar('HTTP_X_REQUESTED_WITH', 'XMLHttpRequest');
         $actual = $request->isAjax();
         $this->unsetServerVar('HTTP_X_REQUESTED_WITH');
 
