@@ -32,17 +32,10 @@ class SetContentTypeCest extends HttpBase
 
         $response->setContentType('application/json');
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                ],
-            ]
-        );
-
+        $actual   = $response->getHeaders();
         $I->assertEquals(
-            $expected,
-            $response->getHeaders()
+            'application/json',
+            $actual->get('Content-Type')
         );
     }
 
@@ -60,17 +53,10 @@ class SetContentTypeCest extends HttpBase
 
         $response->setContentType('application/json', 'utf-8');
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'Content-Type' => 'application/json; charset=utf-8',
-                ],
-            ]
-        );
-
+        $actual   = $response->getHeaders();
         $I->assertEquals(
-            $expected,
-            $response->getHeaders()
+            'application/json; charset=utf-8',
+            $actual->get('Content-Type')
         );
     }
 }

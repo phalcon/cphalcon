@@ -57,18 +57,14 @@ class SetNotModifiedCest extends HttpBase
         $response->resetHeaders();
         $response->setNotModified();
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'HTTP/1.1 304 Not modified' => false,
-                    'Status'                    => '304 Not modified',
-                ],
-            ]
-        );
-
+        $actual   = $response->getHeaders();
         $I->assertEquals(
-            $expected,
-            $response->getHeaders()
+            false,
+            $actual->get('HTTP/1.1 304 Not modified')
+        );
+        $I->assertEquals(
+            '304 Not modified',
+            $actual->get('Status')
         );
     }
 }

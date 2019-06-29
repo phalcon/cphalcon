@@ -32,18 +32,14 @@ class SetStatusCodeCest extends HttpBase
 
         $response->setStatusCode(404, 'Not Found');
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'HTTP/1.1 404 Not Found' => '',
-                    'Status'                 => '404 Not Found',
-                ],
-            ]
-        );
-
+        $actual   = $response->getHeaders();
         $I->assertEquals(
-            $expected,
-            $response->getHeaders()
+            '',
+            $actual->get('HTTP/1.1 404 Not Found')
+        );
+        $I->assertEquals(
+            '404 Not Found',
+            $actual->get('Status')
         );
     }
 
@@ -64,18 +60,14 @@ class SetStatusCodeCest extends HttpBase
         $response->setStatusCode(404, 'Not Found');
         $response->setStatusCode(409, 'Conflict');
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'HTTP/1.1 409 Conflict' => '',
-                    'Status'                => '409 Conflict',
-                ],
-            ]
-        );
-
+        $actual   = $response->getHeaders();
         $I->assertEquals(
-            $expected,
-            $response->getHeaders()
+            '',
+            $actual->get('HTTP/1.1 409 Conflict')
+        );
+        $I->assertEquals(
+            '409 Conflict',
+            $actual->get('Status')
         );
     }
 
@@ -85,76 +77,52 @@ class SetStatusCodeCest extends HttpBase
 
         $response->resetHeaders();
 
-
-
         $response->setStatusCode(103);
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'HTTP/1.1 103 Early Hints' => '',
-                    'Status'                   => '103 Early Hints',
-                ],
-            ]
-        );
-
+        $actual   = $response->getHeaders();
         $I->assertEquals(
-            $expected,
-            $response->getHeaders()
+            '',
+            $actual->get('HTTP/1.1 103 Early Hints')
         );
-
-
+        $I->assertEquals(
+            '103 Early Hints',
+            $actual->get('Status')
+        );
 
         $response->setStatusCode(200);
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'HTTP/1.1 200 OK' => '',
-                    'Status'          => '200 OK',
-                ],
-            ]
-        );
-
+        $actual   = $response->getHeaders();
         $I->assertEquals(
-            $expected,
-            $response->getHeaders()
+            '',
+            $actual->get('HTTP/1.1 200 OK')
         );
-
-
+        $I->assertEquals(
+            '200 OK',
+            $actual->get('Status')
+        );
 
         $response->setStatusCode(418);
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    "HTTP/1.1 418 I'm a teapot" => '',
-                    'Status'                    => "418 I'm a teapot",
-                ],
-            ]
-        );
-
+        $actual   = $response->getHeaders();
         $I->assertEquals(
-            $expected,
-            $response->getHeaders()
+            '',
+            $actual->get("HTTP/1.1 418 I'm a teapot")
         );
-
-
+        $I->assertEquals(
+            "418 I'm a teapot",
+            $actual->get('Status')
+        );
 
         $response->setStatusCode(418, 'My own message');
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'HTTP/1.1 418 My own message' => '',
-                    'Status'                      => '418 My own message',
-                ],
-            ]
-        );
-
+        $actual   = $response->getHeaders();
         $I->assertEquals(
-            $expected,
-            $response->getHeaders()
+            '',
+            $actual->get('HTTP/1.1 418 My own message')
+        );
+        $I->assertEquals(
+            '418 My own message',
+            $actual->get('Status')
         );
     }
 }

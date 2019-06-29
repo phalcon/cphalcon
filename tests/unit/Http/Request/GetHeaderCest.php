@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
-use Phalcon\Http\Request;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
@@ -26,7 +25,7 @@ class GetHeaderCest extends HttpBase
      */
     public function testHttpRequestHeaderGetEmpty(UnitTester $I)
     {
-        $request = new Request();
+        $request = $this->getRequestObject();
 
         $I->assertEmpty(
             $request->getHeader('LOL')
@@ -41,14 +40,11 @@ class GetHeaderCest extends HttpBase
      */
     public function testHttpRequestHeaderGet(UnitTester $I)
     {
-        $request = new Request();
-        $request->init(
-            [
-                'HTTP_LOL' => 'zup',
-            ]
-        );
-
+        $request = $this->getRequestObject();
+        $this->setServerVar('HTTP_LOL', 'zup');
         $actual = $request->getHeader('LOL');
+        $this->unsetServerVar('HTTP_LOL');
+
         $I->assertEquals(
             'zup',
             $actual
@@ -64,14 +60,11 @@ class GetHeaderCest extends HttpBase
      */
     public function testHttpRequestCustomHeaderGet(UnitTester $I)
     {
-        $request = new Request();
-        $request->init(
-            [
-                'HTTP_FOO'     => 'Bar',
-                'HTTP_BLA_BLA' => 'boo',
-                'HTTP_AUTH'    => true,
-            ]
-        );
+        $_SERVER['HTTP_FOO']     = 'Bar';
+        $_SERVER['HTTP_BLA_BLA'] = 'boo';
+        $_SERVER['HTTP_AUTH']    = true;
+
+        $request = $this->getRequestObject();
 
         $expected = [
             'Foo'     => 'Bar',

@@ -32,17 +32,10 @@ class SetRawHeaderCest extends HttpBase
 
         $response->setRawHeader('HTTP/1.1 404 Not Found');
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'HTTP/1.1 404 Not Found' => '',
-                ],
-            ]
-        );
-
+        $actual   = $response->getHeaders();
         $I->assertEquals(
-            $expected,
-            $response->getHeaders()
+            '',
+            $actual->get('HTTP/1.1 304 Not modified')
         );
     }
 }

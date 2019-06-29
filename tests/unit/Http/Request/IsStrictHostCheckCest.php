@@ -25,11 +25,11 @@ class IsStrictHostCheckCest extends HttpBase
      */
     public function testHttpStrictHostCheck(UnitTester $I)
     {
-        $this->setServerVar('SERVER_NAME', 'LOCALHOST:80');
-
         $request = $this->getRequestObject();
 
         $request->setStrictHostCheck(true);
+
+        $this->setServerVar('SERVER_NAME', 'LOCALHOST:80');
 
         $I->assertEquals(
             'localhost',
@@ -37,11 +37,11 @@ class IsStrictHostCheckCest extends HttpBase
         );
 
 
+        $request = $this->getRequestObject();
+
         $request->setStrictHostCheck(false);
 
         $this->setServerVar('SERVER_NAME', 'LOCALHOST:80');
-
-        $request = $this->getRequestObject();
 
         $I->assertEquals(
             'LOCALHOST:80',

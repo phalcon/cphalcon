@@ -32,35 +32,22 @@ class SetHeaderCest extends HttpBase
 
         $response->setHeader('Content-Type', 'text/html');
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'Content-Type' => 'text/html',
-                ],
-            ]
-        );
-
+        $actual   = $response->getHeaders();
         $I->assertEquals(
-            $expected,
-            $response->getHeaders()
+            'text/html',
+            $actual->get('Content-Type')
         );
-
-
 
         $response->setHeader('Content-Length', '1234');
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'Content-Type'   => 'text/html',
-                    'Content-Length' => '1234',
-                ],
-            ]
-        );
-
+        $actual   = $response->getHeaders();
         $I->assertEquals(
-            $expected,
-            $response->getHeaders()
+            'text/html',
+            $actual->get('Content-Type')
+        );
+        $I->assertEquals(
+            '1234',
+            $actual->get('Content-Length')
         );
     }
 

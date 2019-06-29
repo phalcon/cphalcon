@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
-use Phalcon\Http\Request;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
@@ -20,16 +19,15 @@ class GetContentTypeCest extends HttpBase
 {
     public function testHttpRequestContentType(UnitTester $I)
     {
-        $request = new Request();
-        $request->init(
-            [
-                'CONTENT_TYPE' => 'application/xhtml+xml',
-            ]
-        );
+        $request = $this->getRequestObject();
+
+        $this->setServerVar('CONTENT_TYPE', 'application/xhtml+xml');
 
         $I->assertEquals(
             'application/xhtml+xml',
             $request->getContentType()
         );
+
+        $this->unsetServerVar('CONTENT_TYPE');
     }
 }
