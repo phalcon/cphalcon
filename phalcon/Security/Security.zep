@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon;
+namespace Phalcon\Security;
 
 use Phalcon\DiInterface;
 use Phalcon\Security\Random;
