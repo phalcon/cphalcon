@@ -459,10 +459,6 @@ class View extends Injectable implements ViewInterface
      */
     protected function getViewsDirs() -> array
     {
-        if typeof this->viewsDirs === "string" {
-            return [this->viewsDirs];
-        }
-
         return this->viewsDirs;
     }
 
@@ -837,27 +833,23 @@ class View extends Injectable implements ViewInterface
     {
         var position, directory, newViewsDir;
 
-        if typeof viewsDir != "string" && typeof viewsDir != "array" {
-            throw new Exception("Views directory must be a string or an array");
+        if typeof viewsDir != "array" {
+            let viewsDir = [viewsDir];
         }
 
-        if typeof viewsDir == "string" {
-            let this->viewsDirs = Str::dirSeparator(viewsDir);
-        } else {
-            let newViewsDir = [];
+        let newViewsDir = [];
 
-            for position, directory in viewsDir {
-                if typeof directory != "string" {
-                    throw new Exception(
-                        "Views directory item must be a string"
-                    );
-                }
-
-                let newViewsDir[position] = Str::dirSeparator(directory);
+        for position, directory in viewsDir {
+            if typeof directory != "string" {
+                throw new Exception(
+                    "Views directory item must be a string"
+                );
             }
 
-            let this->viewsDirs = newViewsDir;
+            let newViewsDir[position] = Str::dirSeparator(directory);
         }
+
+        let this->viewsDirs = newViewsDir;
 
         return this;
     }
