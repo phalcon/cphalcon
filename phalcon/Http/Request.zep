@@ -154,21 +154,23 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getClientAddress(bool trustForwardedHeader = false) -> string | bool
     {
-        var address = null;
+        var address = null, server;
+
+        let server = this->getServerArray();
 
         /**
          * Proxies uses this IP
          */
         if trustForwardedHeader {
-            fetch address, _SERVER["HTTP_X_FORWARDED_FOR"];
+            fetch address, server["HTTP_X_FORWARDED_FOR"];
 
             if address === null {
-                fetch address, _SERVER["HTTP_CLIENT_IP"];
+                fetch address, server["HTTP_CLIENT_IP"];
             }
         }
 
         if address === null {
-            fetch address, _SERVER["REMOTE_ADDR"];
+            fetch address, server["REMOTE_ADDR"];
         }
 
         if typeof address != "string" {
@@ -200,9 +202,11 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getContentType() -> string | null
     {
-        var contentType;
+        var contentType, server;
 
-        if !fetch contentType, _SERVER["CONTENT_TYPE"] {
+        let server = this->getServerArray();
+
+        if !fetch contentType, server["CONTENT_TYPE"] {
             return null;
         }
 
@@ -224,12 +228,13 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getDigestAuth() -> array
     {
-        var digest, matches, match;
+        var digest, matches, match, server;
         array auth;
 
-        let auth = [];
+        let auth   = [],
+            server = this->getServerArray();
 
-        if fetch digest, _SERVER["PHP_AUTH_DIGEST"] {
+        if fetch digest, server["PHP_AUTH_DIGEST"] {
             let matches = [];
 
             if !preg_match_all("#(\\w+)=(['\"]?)([^'\" ,]+)\\2#", digest, matches, 2) {
@@ -311,17 +316,19 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     final public function getHeader(string! header) -> string
     {
-        var value, name;
+        var value, name, server;
 
         let name = strtoupper(
             strtr(header, "-", "_")
         );
 
-        if fetch value, _SERVER[name] {
+        let server = this->getServerArray();
+
+        if fetch value, server[name] {
             return value;
         }
 
-        if fetch value, _SERVER["HTTP_" . name] {
+        if fetch value, server["HTTP_" . name] {
             return value;
         }
 
@@ -344,7 +351,7 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getHeaders() -> array
     {
-        var name, value, authHeaders;
+        var name, value, authHeaders, server;
 
         array headers = [];
 
@@ -354,7 +361,9 @@ class Request implements RequestInterface, InjectionAwareInterface
             "CONTENT_MD5":    true
         ];
 
-        for name, value in _SERVER {
+        let server = this->getServerArray();
+
+        for name, value in server {
             // Note: The starts_with uses case insensitive search here
             if starts_with(name, "HTTP_") {
                 let name = ucwords(
@@ -486,9 +495,11 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getHTTPReferer() -> string
     {
-        var httpReferer;
+        var httpReferer, server;
 
-        if !fetch httpReferer, _SERVER["HTTP_REFERER"] {
+        let server = this->getServerArray();
+
+        if !fetch httpReferer, server["HTTP_REFERER"] {
             return "";
         }
 
@@ -533,10 +544,12 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     final public function getMethod() -> string
     {
-        var overridedMethod, spoofedMethod, requestMethod;
+        var overridedMethod, spoofedMethod, requestMethod, server;
         string returnMethod = "";
 
-        if likely fetch requestMethod, _SERVER["REQUEST_METHOD"] {
+        let server = this->getServerArray();
+
+        if likely fetch requestMethod, server["REQUEST_METHOD"] {
             let returnMethod = strtoupper(requestMethod);
         } else {
             return "GET";
@@ -728,9 +741,11 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     public function getServer(string! name) -> string | null
     {
-        var serverValue;
+        var serverValue, server;
 
-        if !fetch serverValue, _SERVER[name] {
+        let server = this->getServerArray();
+
+        if !fetch serverValue, server[name] {
             return null;
         }
 
@@ -744,7 +759,9 @@ class Request implements RequestInterface, InjectionAwareInterface
     {
         var serverAddr;
 
-        if !fetch serverAddr, _SERVER["SERVER_ADDR"] {
+        let serverAddr = this->getServer("SERVER_ADDR");
+
+        if null === serverAddr {
             return gethostbyname("localhost");
         }
 
@@ -758,7 +775,9 @@ class Request implements RequestInterface, InjectionAwareInterface
     {
         var serverName;
 
-        if !fetch serverName, _SERVER["SERVER_NAME"] {
+        let serverName = this->getServer("SERVER_NAME");
+
+        if null === serverName {
             return "localhost";
         }
 
@@ -832,7 +851,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     {
         var requestURI;
 
-        if !fetch requestURI, _SERVER["REQUEST_URI"] {
+        let requestURI = this->getServer("REQUEST_URI");
+        if null === requestURI {
             return "";
         }
 
@@ -846,7 +866,8 @@ class Request implements RequestInterface, InjectionAwareInterface
     {
         var userAgent;
 
-        if !fetch userAgent, _SERVER["HTTP_USER_AGENT"] {
+        let userAgent = this->getServer("HTTP_USER_AGENT");
+        if null === userAgent {
             return "";
         }
 
@@ -942,7 +963,11 @@ class Request implements RequestInterface, InjectionAwareInterface
      */
     final public function hasServer(string! name) -> bool
     {
-        return isset _SERVER[name];
+        var server;
+
+        let server = this->getServerArray();
+
+        return isset server[name];
     }
 
     /**
@@ -1326,10 +1351,11 @@ class Request implements RequestInterface, InjectionAwareInterface
     protected function resolveAuthorizationHeaders() -> array
     {
         var resolved, eventsManager, hasEventsManager, container, exploded,
-            digest, authHeader = null;
+            digest, authHeader = null, server;
         array headers = [];
 
-        let container = <DiInterface> this->getDI();
+        let container = <DiInterface> this->getDI(),
+            server    = this->getServerArray();
 
         // TODO: Make Request implements EventsAwareInterface for v4.0.0
         if typeof container === "object" {
@@ -1345,7 +1371,7 @@ class Request implements RequestInterface, InjectionAwareInterface
                 "request:beforeAuthorizationResolve",
                 this,
                 [
-                    "server": _SERVER
+                    "server": server
                 ]
             );
 
@@ -1400,7 +1426,7 @@ class Request implements RequestInterface, InjectionAwareInterface
                 this,
                 [
                     "headers": headers,
-                    "server":  _SERVER
+                    "server":  server
                 ]
             );
 
@@ -1478,5 +1504,14 @@ class Request implements RequestInterface, InjectionAwareInterface
         }
 
         return this->filterService;
+    }
+
+    private function getServerArray() -> array
+    {
+        if _SERVER {
+            return _SERVER;
+        } else {
+            return [];
+        }
     }
 }
