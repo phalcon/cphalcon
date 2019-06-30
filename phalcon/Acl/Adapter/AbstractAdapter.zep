@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Acl;
+namespace Phalcon\Acl\Adapter;
 
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Events\EventsAwareInterface;
@@ -16,7 +16,7 @@ use Phalcon\Events\EventsAwareInterface;
 /**
  * Adapter for Phalcon\Acl adapters
  */
-abstract class Adapter implements AdapterInterface, EventsAwareInterface
+abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 {
     /**
      * Active access which the list is checking if some role can access it
