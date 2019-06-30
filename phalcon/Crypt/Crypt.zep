@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon;
+namespace Phalcon\Crypt;
 
-use Phalcon\CryptInterface;
+use Phalcon\Crypt\CryptInterface;
 use Phalcon\Crypt\Exception;
 use Phalcon\Crypt\Mismatch;
 
