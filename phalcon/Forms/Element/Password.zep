@@ -11,14 +11,14 @@
 namespace Phalcon\Forms\Element;
 
 use Phalcon\Tag;
-use Phalcon\Forms\Element;
+use Phalcon\Forms\Element\AbstractElement;
 
 /**
  * Phalcon\Forms\Element\Password
  *
  * Component INPUT[type=password] for forms
  */
-class Password extends Element
+class Password extends AbstractElement
 {
     /**
      * Renders the element widget returning html

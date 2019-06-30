@@ -10,7 +10,7 @@
 
 namespace Phalcon\Forms\Element;
 
-use Phalcon\Forms\Element;
+use Phalcon\Forms\Element\AbstractElement;
 use Phalcon\Tag\Select;
 
 /**
@@ -18,7 +18,7 @@ use Phalcon\Tag\Select;
  *
  * Component SELECT (choice) for forms
  */
-class Select extends Element
+class Select extends AbstractElement
 {
     protected optionsValues;
 
