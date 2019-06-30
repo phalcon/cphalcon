@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Firewall;
+namespace Phalcon\Firewall\Adapter;
 
 use Phalcon\Mvc\DispatcherInterface;
 use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;

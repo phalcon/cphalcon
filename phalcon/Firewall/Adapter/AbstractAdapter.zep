@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Firewall;
+namespace Phalcon\Firewall\Adapter;
 
 use Closure;
 use Phalcon\Acl;
@@ -17,12 +17,13 @@ use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 use Phalcon\DiInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Firewall\Exception;
 use Phalcon\Mvc\Dispatcher;
 
 /**
  * Adapter for Phalcon\Firewall adapters
  */
-abstract class Adapter implements AdapterInterface, EventsAwareInterface
+abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 {
     /**
      * Storing active identity object implementing Phalcon/Acl/RoleAware
