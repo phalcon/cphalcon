@@ -14,14 +14,14 @@ use Phalcon\Di;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Events\Event;
 use Phalcon\Events\ManagerInterface;
-use Phalcon\Firewall\Adapter;
+use Phalcon\Firewall\Adapter\AbstractAdapter;
 use Phalcon\Firewall\Exception;
 use Phalcon\Mvc\DispatcherInterface;
 
 /**
  * FirewallZ for Phalcon\Application which depends on acl and dispatcher
  */
-class Acl extends Adapter
+class Acl extends AbstractAdapter
 {
     /**
      * Acl service name

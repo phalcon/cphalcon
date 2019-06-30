@@ -15,7 +15,7 @@ use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\DiInterface;
 use Phalcon\Events\Event;
 use Phalcon\Events\ManagerInterface;
-use Phalcon\Firewall\Adapter;
+use Phalcon\Firewall\Adapter\AbstractAdapter;
 use Phalcon\Firewall\Exception;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Model\BinderInterface;
@@ -24,7 +24,7 @@ use Phalcon\Mvc\Router;
 /**
  * Firewall for Phalcon\Mvc\Micro which depends on ACL
  */
-class Acl extends Adapter
+class Acl extends AbstractAdapter
 {
     /**
      * Acl service name

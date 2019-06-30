@@ -13,7 +13,7 @@ namespace Phalcon\Firewall\Adapter;
 use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Events\Event;
 use Phalcon\Events\ManagerInterface;
-use Phalcon\Firewall\Adapter;
+use Phalcon\Firewall\Adapter\AbstractAdapter;
 use Phalcon\Firewall\Exception;
 use Phalcon\Mvc\DispatcherInterface;
 use ReflectionClass;
@@ -21,7 +21,7 @@ use ReflectionClass;
 /**
  * Firewall which depends on annotations and dispatcher
  */
-class Annotations extends Adapter
+class Annotations extends AbstractAdapter
 {
     /**
      * Number of active active arguments in active annotation
