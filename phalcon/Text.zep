@@ -15,7 +15,7 @@ use Phalcon\Helper\Str;
 /**
  * Provides utilities to work with texts
  */
-abstract class Text
+class Text
 {
     const RANDOM_ALNUM    = 0;
     const RANDOM_ALPHA    = 1;
