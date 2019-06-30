@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Forms;
+namespace Phalcon\Forms\Element;
 
 use InvalidArgumentException;
 use Phalcon\Tag;
@@ -20,7 +20,7 @@ use Phalcon\Validation\ValidatorInterface;
 /**
  * This is a base class for form elements
  */
-abstract class Element implements ElementInterface
+abstract class AbstractElement implements ElementInterface
 {
     protected attributes;
     protected filters;

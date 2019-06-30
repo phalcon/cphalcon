@@ -11,14 +11,14 @@
 namespace Phalcon\Forms\Element;
 
 use Phalcon\Tag;
-use Phalcon\Forms\Element;
+use Phalcon\Forms\Element\AbstractElement;
 
 /**
  * Phalcon\Forms\Element\Text
  *
  * Component INPUT[type=text] for forms
  */
-class Text extends Element
+class Text extends AbstractElement
 {
     /**
      * Renders the element widget

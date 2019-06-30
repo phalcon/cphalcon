@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Forms;
+namespace Phalcon\Forms\Element;
 
 use Phalcon\Forms\Form;
 use Phalcon\Messages\MessageInterface;
