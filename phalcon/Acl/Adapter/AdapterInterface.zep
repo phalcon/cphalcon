@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Acl;
+namespace Phalcon\Acl\Adapter;
 
 /**
  * Interface for Phalcon\Acl adapters
@@ -108,12 +108,12 @@ interface AdapterInterface
     public function isRole(string roleName) -> bool;
 
     /**
-     * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+     * Sets the default access level (Phalcon\Ac\Enuml::ALLOW or Phalcon\Acl\Enum::DENY)
      */
     public function setDefaultAction(int defaultAccess) -> void;
 
     /**
-     * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+     * Sets the default access level (Phalcon\Acl\Enum::ALLOW or Phalcon\Acl\Enum::DENY)
      * for no arguments provided in isAllowed action if there exists func for
      * accessKey
      */
