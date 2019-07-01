@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Firewall\Adapter\Acl;
 
 use IntegrationTester;
-use Phalcon\Acl as PhAcl;
+use Phalcon\Acl\Enum;
 use Phalcon\Firewall\Adapter\Acl;
 
 class GetSetDefaultAccessCest
@@ -29,9 +29,9 @@ class GetSetDefaultAccessCest
         $I->wantToTest('Firewall\Adapter\Acl - getDefaultAccess()');
 
         $firewall = new Acl('acl');
-        $firewall->setDefaultAccess(PhAcl::ALLOW);
+        $firewall->setDefaultAccess(Enum::ALLOW);
 
         $actual = $firewall->getDefaultAccess();
-        $I->assertEquals(PhAcl::ALLOW, $actual);
+        $I->assertEquals(Enum::ALLOW, $actual);
     }
 }

@@ -16,7 +16,7 @@ use IntegrationTester;
 use function ob_end_clean;
 use function ob_start;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl as PhAcl;
+use Phalcon\Acl\Enum;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Acl;
 use Phalcon\Mvc\Dispatcher;
@@ -90,7 +90,7 @@ class UseMultiModuleConfigurationCest
         $I->wantToTest('Firewall\Adapter\Acl - useMultiModuleConfiguration()');
 
         $acl = new Memory();
-        $acl->setDefaultAction(PhAcl::DENY);
+        $acl->setDefaultAction(Enum::DENY);
         $acl->addComponent('Module1:One', ['firstRole', 'secondRole']);
         $acl->addComponent('Module2:One', ['firstRole', 'secondRole']);
         $acl->addRole('ROLE1');

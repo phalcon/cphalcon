@@ -16,7 +16,7 @@ use IntegrationTester;
 use function ob_end_clean;
 use function ob_start;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl as PhAcl;
+use Phalcon\Acl\Enum;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Acl;
@@ -95,7 +95,7 @@ class SetCacheCest
         $I->wantToTest('Firewall\Adapter\Acl - setCache()');
 
         $acl = new Memory();
-        $acl->setDefaultAction(PhAcl::DENY);
+        $acl->setDefaultAction(Enum::DENY);
         $acl->addComponent('Four', ['first', 'second']);
         $acl->addComponent('Three', ['deny',]);
         $acl->addRole('ROLE1');

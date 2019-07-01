@@ -16,7 +16,7 @@ use IntegrationTester;
 use function ob_end_clean;
 use function ob_start;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl as PhAcl;
+use Phalcon\Acl\Enum;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Acl;
 use Phalcon\Mvc\Dispatcher;
@@ -93,7 +93,7 @@ class SetBoundModelsKeyMapCest
         $I->wantToTest('Firewall\Adapter\Acl - setBoundModelsKeyMap()');
 
         $acl = new Memory();
-        $acl->setDefaultAction(PhAcl::DENY);
+        $acl->setDefaultAction(Enum::DENY);
         $acl->addComponent('Four', ['first', 'second']);
         $acl->addRole('ROLE2');
         $acl->allow(

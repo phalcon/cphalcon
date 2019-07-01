@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Firewall\Adapter\Annotations;
 
 use IntegrationTester;
-use Phalcon\Acl as PhAcl;
+use Phalcon\Acl\Enum;
 use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Firewall\Adapter\Annotations;
 
@@ -31,9 +31,9 @@ class GetSetDefaultAccessCest
         $I->wantToTest('Firewall\Adapter\Annotations - getDefaultAccess()/setDefaultAccess()');
 
         $firewall = new Annotations(new Memory());
-        $firewall->setDefaultAccess(PhAcl::ALLOW);
+        $firewall->setDefaultAccess(Enum::ALLOW);
 
         $actual = $firewall->getDefaultAccess();
-        $I->assertEquals(PhAcl::ALLOW, $actual);
+        $I->assertEquals(Enum::ALLOW, $actual);
     }
 }
