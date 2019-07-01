@@ -13,7 +13,7 @@ namespace Phalcon\Test\Fixtures\Mvc\View\Engine;
 
 use Phalcon\DiInterface;
 use Phalcon\Mvc\View\Engine\AbstractEngine;
-use Phalcon\Mvc\View\EngineInterface;
+use Phalcon\Mvc\View\Engine\EngineInterface;
 use Phalcon\Mvc\ViewBaseInterface;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
