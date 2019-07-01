@@ -302,10 +302,10 @@ class Acl extends AbstractAdapter
             let aclServiceName = this->aclServiceName,
                 acl            = container->get(aclServiceName);
 
-            if typeof acl != "object" || !(acl instanceof \Phalcon\Acl\AdapterInterface) {
+            if typeof acl != "object" || !(acl instanceof AclAdapterInterface) {
                 throw new Exception(
                     "You need to add acl service to dependency injector " .
-                    "container which is implementing 'Phalcon\\Acl\\AdapterInterface'"
+                    "container which is implementing 'Phalcon\\Acl\\Adapter\\AdapterInterface'"
                 );
             }
 
