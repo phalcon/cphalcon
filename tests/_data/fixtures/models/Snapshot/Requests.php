@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Models\Snapshot;
 
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\AbstractModel;
 
 /**
  * @property string $method
@@ -20,7 +20,7 @@ use Phalcon\Mvc\Model;
  *
  * @method static Requests findFirst($parameters = null)
  */
-class Requests extends Model
+class Requests extends AbstractModel
 {
     public function initialize()
     {

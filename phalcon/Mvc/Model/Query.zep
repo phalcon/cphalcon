@@ -17,7 +17,7 @@ use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\DiInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Mvc\Model\Row;
-use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\QueryInterface;

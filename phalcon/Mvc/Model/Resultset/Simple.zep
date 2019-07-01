@@ -37,7 +37,7 @@ class Simple extends Resultset
      * Phalcon\Mvc\Model\Resultset\Simple constructor
      *
      * @param array                                             columnMap
-     * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row model
+     * @param \Phalcon\Mvc\Model\ModelInterface|Phalcon\Mvc\Model\Row model
      */
     public function __construct(
         var columnMap,

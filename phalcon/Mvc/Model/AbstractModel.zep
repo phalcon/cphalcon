@@ -7,13 +7,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Mvc;
+namespace Phalcon\Mvc\Model;
 
 use JsonSerializable;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\Dialect\DialectInterface;
-use Phalcon\Db\Enum;
+use Phalcon\Db\Enum as DbEnum;
 use Phalcon\Db\RawValue;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Di;
@@ -22,9 +22,11 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\MessageInterface;
+use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Model\Behavior\BehaviorInterface;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\CriteriaInterface;
+use Phalcon\Mvc\Model\Enum;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
@@ -39,17 +41,16 @@ use Phalcon\Mvc\Model\Relation;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\ValidationFailed;
-use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\ModelInterface;
 use Phalcon\Validation\ValidationInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Serializable;
 
 /**
- * Phalcon\Mvc\Model
- *
- * Phalcon\Mvc\Model connects business objects and database tables to create a
- * persistable domain model where logic and data are presented in one wrapping.
- * It‘s an implementation of the object-relational mapping (ORM).
+ * Phalcon\Mvc\Model\AbstractModel connects business objects and database
+ * tables to create a persistable domain model where logic and data are
+ * presented in one wrapping. It‘s an implementation of the object-relational
+ * mapping (ORM).
  *
  * A model represents the information (data) of the application and the rules to
  * manipulate that data. Models are primarily used for managing the rules of
@@ -81,17 +82,8 @@ use Serializable;
  * }
  * ```
  */
-abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, Serializable, JsonSerializable
+abstract class AbstractModel implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, Serializable, JsonSerializable
 {
-    const DIRTY_STATE_DETACHED   = 2;
-    const DIRTY_STATE_PERSISTENT = 0;
-    const DIRTY_STATE_TRANSIENT  = 1;
-    const OP_CREATE = 1;
-    const OP_DELETE = 3;
-    const OP_NONE   = 0;
-    const OP_UPDATE = 2;
-    const TRANSACTION_INDEX = "transaction";
-
     protected container;
 
     protected dirtyState = 1;
@@ -123,7 +115,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     protected uniqueTypes;
 
     /**
-     * Phalcon\Mvc\Model constructor
+     * Phalcon\Mvc\Model\AbstractModel constructor
      */
     final public function __construct(var data = null, <DiInterface> container = null, <ManagerInterface> modelsManager = null) -> void
     {
@@ -341,7 +333,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                 let dirtyState = this->dirtyState;
 
                 if (value->getDirtyState() != dirtyState) {
-                    let dirtyState = self::DIRTY_STATE_TRANSIENT;
+                    let dirtyState = Enum::DIRTY_STATE_TRANSIENT;
                 }
 
                 unset this->related[lowerProperty];
@@ -383,7 +375,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                             unset this->related[lowerProperty];
 
                             let this->dirtyRelated[lowerProperty] = referencedModel,
-                                this->dirtyState = self::DIRTY_STATE_TRANSIENT;
+                                this->dirtyState = Enum::DIRTY_STATE_TRANSIENT;
 
                             return value;
                         }
@@ -406,7 +398,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                             unset this->related[lowerProperty];
 
                             let this->dirtyRelated[lowerProperty] = related,
-                                this->dirtyState = self::DIRTY_STATE_TRANSIENT;
+                                this->dirtyState = Enum::DIRTY_STATE_TRANSIENT;
 
                             return value;
                         }
@@ -444,10 +436,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Setups a behavior in a model
      *
      *```php
-     * use Phalcon\Mvc\Model;
+     * use Phalcon\Mvc\Model\AbstractModel;
      * use Phalcon\Mvc\Model\Behavior\Timestampable;
      *
-     * class Robots extends Model
+     * class Robots extends AbstractModel
      * {
      *     public function initialize()
      *     {
@@ -474,10 +466,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Appends a customized message on the validation process
      *
      * ```php
-     * use Phalcon\Mvc\Model;
+     * use Phalcon\Mvc\Model\AbstractModel;
      * use Phalcon\Messages\Message as Message;
      *
-     * class Robots extends Model
+     * class Robots extends AbstractModel
      * {
      *     public function beforeSave()
      *     {
@@ -719,7 +711,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * );
      *```
      *
-     * @param \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row base
+     * @param \Phalcon\Mvc\Model\ModelInterface|\Phalcon\Mvc\Model\Row base
      * @param array columnMap
      */
     public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>
@@ -1007,7 +999,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Operation made is OP_DELETE
          */
-        let this->operationMade = self::OP_DELETE,
+        let this->operationMade = Enum::OP_DELETE,
             this->errorMessages = [];
 
         /**
@@ -1142,7 +1134,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Force perform the record existence checking again
          */
-        let this->dirtyState = self::DIRTY_STATE_DETACHED;
+        let this->dirtyState = Enum::DIRTY_STATE_DETACHED;
 
         return success;
     }
@@ -1225,7 +1217,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * $resultInsideTransaction = Robot::find(
      *     [
      *         'name' => 'test',
-     *         Model::TRANSACTION_INDEX => $myTransaction,
+     *         Enum::TRANSACTION_INDEX => $myTransaction,
      *     ]
      * );
      *
@@ -1275,7 +1267,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * $resultInFirstTransaction = Robot::find(
      *     [
      *         'name'                   => 'first-transaction-robot',
-     *         Model::TRANSACTION_INDEX => $myTransaction1,
+     *         Enum::TRANSACTION_INDEX => $myTransaction1,
      *     ]
      * );
      *
@@ -1283,7 +1275,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * $resultInSecondTransaction = Robot::find(
      *     [
      *         'name'                   => 'first-transaction-robot',
-     *         Model::TRANSACTION_INDEX => $myTransaction2,
+     *         Enum::TRANSACTION_INDEX => $myTransaction2,
      *     ]
      * );
      *
@@ -1298,7 +1290,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * $resultInFirstTransaction = Robot::find(
      *     [
      *         'name'                   => 'second-transaction-robot',
-     *         Model::TRANSACTION_INDEX => $myTransaction2,
+     *         Enum::TRANSACTION_INDEX => $myTransaction2,
      *     ]
      * );
      *
@@ -1306,7 +1298,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * $resultInSecondTransaction = Robot::find(
      *     [
      *         'name'                   => 'second-transaction-robot',
-     *         Model::TRANSACTION_INDEX => $myTransaction1,
+     *         Enum::TRANSACTION_INDEX => $myTransaction1,
      *     ]
      * );
      *
@@ -1398,7 +1390,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * $findsARobot = Robot::findFirst(
      *     [
      *         'name'                   => 'test',
-     *         Model::TRANSACTION_INDEX => $myTransaction,
+     *         Enum::TRANSACTION_INDEX => $myTransaction,
      *     ]
      * );
      *
@@ -1880,7 +1872,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Dirty state must be DIRTY_PERSISTENT to make the checking
          */
-        if unlikely this->dirtyState != self::DIRTY_STATE_PERSISTENT {
+        if unlikely this->dirtyState != Enum::DIRTY_STATE_PERSISTENT {
             throw new Exception(
                 "Change checking cannot be performed because the object has not been persisted or is deleted"
             );
@@ -2149,7 +2141,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             uniqueParams, dialect, row, attribute, manager, columnMap;
         array fields;
 
-        if unlikely this->dirtyState != self::DIRTY_STATE_PERSISTENT {
+        if unlikely this->dirtyState != Enum::DIRTY_STATE_PERSISTENT {
             throw new Exception(
                 "The record cannot be refreshed because it does not exist or is deleted"
             );
@@ -2214,7 +2206,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
         let row = readConnection->fetchOne(
             tables,
-            Enum::FETCH_ASSOC,
+            DbEnum::FETCH_ASSOC,
             uniqueParams,
             this->uniqueTypes
         );
@@ -2315,9 +2307,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         let exists = this->_exists(metaData, readConnection);
 
         if exists {
-            let this->operationMade = self::OP_UPDATE;
+            let this->operationMade = Enum::OP_UPDATE;
         } else {
-            let this->operationMade = self::OP_CREATE;
+            let this->operationMade = Enum::OP_CREATE;
         }
 
         /**
@@ -2376,7 +2368,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
          * Change the dirty state to persistent
          */
         if success {
-            let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
+            let this->dirtyState = Enum::DIRTY_STATE_PERSISTENT;
         }
 
         if hasDirtyRelated {
@@ -4054,11 +4046,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         );
 
         if num["rowcount"] {
-            let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
+            let this->dirtyState = Enum::DIRTY_STATE_PERSISTENT;
 
             return true;
         } else {
-            let this->dirtyState = self::DIRTY_STATE_TRANSIENT;
+            let this->dirtyState = Enum::DIRTY_STATE_TRANSIENT;
         }
 
         return false;
@@ -4222,7 +4214,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Try to check if the query must invoke a finder
      *
-     * @return \Phalcon\Mvc\ModelInterface[]|\Phalcon\Mvc\ModelInterface|bool
+     * @return \Phalcon\Mvc\Model\ModelInterface[]|\Phalcon\Mvc\Model\ModelInterface|bool
      */
     protected final static function _invokeFinder(string method, array arguments)
     {
@@ -4578,7 +4570,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Saves related records that must be stored prior to save the master record
      *
-     * @param \Phalcon\Mvc\ModelInterface[] related
+     * @param \Phalcon\Mvc\Model\ModelInterface[] related
      */
     protected function _preSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
     {
@@ -4636,7 +4628,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
                      * If dynamic update is enabled, saving the record must not take any action
                      * Only save if the model is dirty to prevent circular relations causing an infinite loop
                      */
-                    if record->dirtyState !== Model::DIRTY_STATE_PERSISTENT && !record->save() {
+                    if record->dirtyState !== Enum::DIRTY_STATE_PERSISTENT && !record->save() {
                         /**
                          * Get the validation messages generated by the
                          * referenced model
@@ -4698,7 +4690,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Save the related records assigned in the has-one/has-many relations
      *
-     * @param  Phalcon\Mvc\ModelInterface[] related
+     * @param  Phalcon\Mvc\Model\ModelInterface[] related
      */
     protected function _postSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
     {
@@ -4950,7 +4942,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      */
     protected function _cancelOperation()
     {
-        if this->operationMade == self::OP_DELETE {
+        if this->operationMade == Enum::OP_DELETE {
             this->fireEvent("notDeleted");
         } else {
             this->fireEvent("notSaved");
@@ -5026,7 +5018,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             }
         }
 
-        if fetch transaction, params[self::TRANSACTION_INDEX] {
+        if fetch transaction, params[Enum::TRANSACTION_INDEX] {
             if transaction instanceof TransactionInterface {
                 query->setTransaction(transaction);
             }
@@ -5145,7 +5137,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Sets if the model must keep the original record snapshot in memory
      *
      *```php
-     * use Phalcon\Mvc\Model;
+     * use Phalcon\Mvc\Model\AbstractModel;
      *
      * class Robots extends Model
      * {
@@ -5192,7 +5184,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * generated INSERT/UPDATE statement
      *
      *```php
-     * class Robots extends \Phalcon\Mvc\Model
+     * class Robots extends \Phalcon\Mvc\Model\AbstractModel
      * {
      *     public function initialize()
      *     {
@@ -5216,7 +5208,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * generated INSERT statement
      *
      *```php
-     * class Robots extends \Phalcon\Mvc\Model
+     * class Robots extends \Phalcon\Mvc\Model\AbstractModel
      * {
      *     public function initialize()
      *     {
@@ -5251,7 +5243,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * generated UPDATE statement
      *
      *```php
-     * class Robots extends \Phalcon\Mvc\Model
+     * class Robots extends \Phalcon\Mvc\Model\AbstractModel
      * {
      *     public function initialize()
      *     {
@@ -5285,7 +5277,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Sets if a model must use dynamic update instead of the all-field update
      *
      *```php
-     * use Phalcon\Mvc\Model;
+     * use Phalcon\Mvc\Model\AbstractModel;
      *
      * class Robots extends Model
      * {
@@ -5308,7 +5300,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Executes validators on every validation call
      *
      *```php
-     * use Phalcon\Mvc\Model;
+     * use Phalcon\Mvc\Model\AbstractModel;
      * use Phalcon\Validation\Validation;
      * use Phalcon\Validation\Validator\ExclusionIn;
      *

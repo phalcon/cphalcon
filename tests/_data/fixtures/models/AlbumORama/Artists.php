@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models\AlbumORama;
 
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\AbstractModel;
 
-class Artists extends Model
+class Artists extends AbstractModel
 {
     public function initialize()
     {

@@ -10,9 +10,9 @@
 
 namespace Phalcon\Mvc\Model\Behavior;
 
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Behavior\AbstractBehavior;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\ModelInterface;
 
 /**
  * Instead of permanently delete a record it marks the record as deleted

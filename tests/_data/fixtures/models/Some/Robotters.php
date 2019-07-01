@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models\Some;
 
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\AbstractModel;
 
-class Robotters extends Model
+class Robotters extends AbstractModel
 {
     public function columnMap()
     {

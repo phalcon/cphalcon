@@ -11,7 +11,7 @@
 namespace Phalcon\Mvc\Model\Behavior;
 
 use Closure;
-use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\ModelInterface;
 use Phalcon\Mvc\Model\Behavior\AbstractBehavior;
 use Phalcon\Mvc\Model\Exception;
 

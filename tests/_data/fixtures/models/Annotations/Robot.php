@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models\Annotations;
 
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\AbstractModel;
 
-class Robot extends Model
+class Robot extends AbstractModel
 {
     /**
      * @Primary

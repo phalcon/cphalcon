@@ -14,9 +14,9 @@ use Phalcon\Messages\Message;
 use Phalcon\Validation\Validation;
 use Phalcon\Validation\AbstractCombinedFieldsValidator;
 use Phalcon\Validation\Exception;
-use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\ModelInterface;
 use Phalcon\Mvc\CollectionInterface;
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Enum;
 use Phalcon\Mvc\Collection;
 
 /**
@@ -179,7 +179,8 @@ class Uniqueness extends AbstractCombinedFieldsValidator
             let params = this->isUniquenessCollection(record, field, values);
         } else {
             throw new Exception(
-                "The uniqueness validator works only with Phalcon\\Mvc\\Model or Phalcon\\Mvc\\Collection"
+                "The uniqueness validator works only with " .
+                "Phalcon\\Mvc\\Model or Phalcon\\Mvc\\Collection"
             );
         }
 
@@ -362,7 +363,7 @@ class Uniqueness extends AbstractCombinedFieldsValidator
         /**
          * If the operation is update, there must be values in the object
          */
-        if record->getDirtyState() == Model::DIRTY_STATE_PERSISTENT {
+        if record->getDirtyState() == Enum::DIRTY_STATE_PERSISTENT {
             let metaData = record->getDI()->getShared("modelsMetadata");
 
             for primaryField in metaData->getPrimaryKeyAttributes(record) {

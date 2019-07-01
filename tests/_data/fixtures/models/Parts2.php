@@ -12,9 +12,9 @@
 namespace Phalcon\Test\Models;
 
 use Phalcon\Events\Manager;
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\AbstractModel;
 
-class Parts2 extends Model
+class Parts2 extends AbstractModel
 {
     public function initialize()
     {
