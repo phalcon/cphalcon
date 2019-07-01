@@ -11,7 +11,9 @@
 namespace Phalcon\Mvc\Controller;
 
 /**
- *Interface for Phalcon\Mvc\Controller\BindModel
+ * Phalcon\Mvc\Controller\BindModelInterface
+ *
+ * Interface for Phalcon\Mvc\Controller
  */
 interface BindModelInterface
 {

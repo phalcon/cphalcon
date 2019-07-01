@@ -8,15 +8,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Mvc\Model\Behavior;
+namespace Phalcon\Mvc\Model;
 
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Mvc\Model\Behavior\BehaviorInterface;
+use Phalcon\Mvc\Model\BehaviorInterface;
 
 /**
+ * Phalcon\Mvc\Model\Behavior
+ *
  * This is an optional base class for ORM behaviors
  */
-abstract class AbstractBehavior implements BehaviorInterface
+abstract class Behavior implements BehaviorInterface
 {
     /**
      * @var array

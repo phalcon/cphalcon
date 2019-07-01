@@ -8,9 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Mvc\Controller;
+namespace Phalcon\Mvc;
 
 /**
+ * Phalcon\Mvc\ControllerInterface
+ *
  * Interface for controller handlers
  */
 interface ControllerInterface
