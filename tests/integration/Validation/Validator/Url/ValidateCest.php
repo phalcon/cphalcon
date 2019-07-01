@@ -18,7 +18,7 @@ use const FILTER_FLAG_QUERY_REQUIRED;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
+use Phalcon\Validation\Validation;
 use Phalcon\Validation\Validator\Url;
 
 /**

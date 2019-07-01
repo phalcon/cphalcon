@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Validation\Validator\StringLength\Max;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
+use Phalcon\Validation\Validation;
 use Phalcon\Validation\Validator\StringLength\Max;
 
 class MessageFactoryCest
