@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Controllers\Firewall;
 
-use Phalcon\Mvc\Controller;
+use Phalcon\Mvc\Controller\AbstractController;
 
-class OneController extends Controller
+class OneController extends AbstractController
 {
     /**
      * @Allow("ROLE1")

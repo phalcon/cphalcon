@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * Class ExceptionController
  */
-class ExceptionController extends \Phalcon\Mvc\Controller
+class ExceptionController extends \Phalcon\Mvc\Controller\AbstractController
 {
     public function indexAction()
     {

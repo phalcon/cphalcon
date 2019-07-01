@@ -2,7 +2,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Dispatcher\Helper;
 
-use Phalcon\Mvc\Controller;
+use Phalcon\Mvc\Controller\AbstractController;
 
 /**
  * \Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultSimpleController
@@ -20,7 +20,7 @@ use Phalcon\Mvc\Controller;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class DispatcherTestDefaultSimpleController extends Controller
+class DispatcherTestDefaultSimpleController extends AbstractController
 {
     public function indexAction()
     {

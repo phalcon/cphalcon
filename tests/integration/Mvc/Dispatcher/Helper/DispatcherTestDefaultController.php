@@ -3,7 +3,7 @@
 namespace Phalcon\Test\Integration\Mvc\Dispatcher\Helper;
 
 use Exception;
-use Phalcon\Mvc\Controller;
+use Phalcon\Mvc\Controller\AbstractController;
 
 /**
  * \Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultController
@@ -21,7 +21,7 @@ use Phalcon\Mvc\Controller;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class DispatcherTestDefaultController extends Controller
+class DispatcherTestDefaultController extends AbstractController
 {
     const RETURN_VALUE_STRING = 'string';
     const RETURN_VALUE_INT    = 5;
