@@ -454,6 +454,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         }
 
         let forbidden = [
+            "attributes":    true,
             "validation":    true,
             "action":        true,
             "useroption":    true,
