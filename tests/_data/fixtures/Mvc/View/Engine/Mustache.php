@@ -17,7 +17,7 @@ use Phalcon\Mvc\View\Engine\AbstractEngine;
 use Phalcon\Mvc\View\Engine\EngineInterface;
 use Phalcon\Mvc\ViewBaseInterface;
 
-class Mustache extends Engine implements EngineInterface
+class Mustache extends AbstractEngine implements EngineInterface
 {
     /**
      * The internal Mustache Engine
