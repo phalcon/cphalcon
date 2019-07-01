@@ -10,12 +10,10 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
-use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Mvc\Model\MetaData\AbstractMetaData;
 use Phalcon\Mvc\Model\Exception;
 
 /**
- * Phalcon\Mvc\Model\MetaData\Stream
- *
  * Stores model meta-data in PHP files.
  *
  *```php
@@ -26,7 +24,7 @@ use Phalcon\Mvc\Model\Exception;
  * );
  *```
  */
-class Stream extends MetaData
+class Stream extends AbstractMetaData
 {
     protected metaDataDir = "./";
 

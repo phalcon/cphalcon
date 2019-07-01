@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Db;
+namespace Phalcon\Db\Dialect;
 
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\ReferenceInterface;

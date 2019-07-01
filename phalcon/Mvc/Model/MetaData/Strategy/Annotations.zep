@@ -13,7 +13,7 @@ namespace Phalcon\Mvc\Model\MetaData\Strategy;
 use Phalcon\DiInterface;
 use Phalcon\Db\Column;
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Mvc\Model\MetaData\Enum;
 use Phalcon\Mvc\Model\MetaData\StrategyInterface;
 use Phalcon\Mvc\Model\Exception;
 
@@ -391,18 +391,18 @@ class Annotations implements StrategyInterface
          * Create an array using the MODELS_* constants as indexes
          */
         return [
-            MetaData::MODELS_ATTRIBUTES               : attributes,
-            MetaData::MODELS_PRIMARY_KEY              : primaryKeys,
-            MetaData::MODELS_NON_PRIMARY_KEY          : nonPrimaryKeys,
-            MetaData::MODELS_NOT_NULL                 : notNull,
-            MetaData::MODELS_DATA_TYPES               : fieldTypes,
-            MetaData::MODELS_DATA_TYPES_NUMERIC       : numericTyped,
-            MetaData::MODELS_IDENTITY_COLUMN          : identityField,
-            MetaData::MODELS_DATA_TYPES_BIND          : fieldBindTypes,
-            MetaData::MODELS_AUTOMATIC_DEFAULT_INSERT : skipOnInsert,
-            MetaData::MODELS_AUTOMATIC_DEFAULT_UPDATE : skipOnUpdate,
-            MetaData::MODELS_DEFAULT_VALUES           : defaultValues,
-            MetaData::MODELS_EMPTY_STRING_VALUES      : emptyStringValues
+            Enum::MODELS_ATTRIBUTES               : attributes,
+            Enum::MODELS_PRIMARY_KEY              : primaryKeys,
+            Enum::MODELS_NON_PRIMARY_KEY          : nonPrimaryKeys,
+            Enum::MODELS_NOT_NULL                 : notNull,
+            Enum::MODELS_DATA_TYPES               : fieldTypes,
+            Enum::MODELS_DATA_TYPES_NUMERIC       : numericTyped,
+            Enum::MODELS_IDENTITY_COLUMN          : identityField,
+            Enum::MODELS_DATA_TYPES_BIND          : fieldBindTypes,
+            Enum::MODELS_AUTOMATIC_DEFAULT_INSERT : skipOnInsert,
+            Enum::MODELS_AUTOMATIC_DEFAULT_UPDATE : skipOnUpdate,
+            Enum::MODELS_DEFAULT_VALUES           : defaultValues,
+            Enum::MODELS_EMPTY_STRING_VALUES      : emptyStringValues
         ];
     }
 }

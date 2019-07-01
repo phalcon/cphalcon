@@ -14,7 +14,7 @@ use Phalcon\DiInterface;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\ModelInterface;
-use Phalcon\Mvc\Model\MetaDataInterface;
+use Phalcon\Mvc\Model\MetaData\MetaDataInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\ModelInterface;
