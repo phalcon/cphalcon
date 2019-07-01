@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Db\Adapter;
+namespace Phalcon\Db\Adapter\Pdo;
 
 use Phalcon\Db\Adapter\AbstractAdapter;
 use Phalcon\Db\Column;
@@ -35,7 +35,7 @@ use Phalcon\Events\ManagerInterface;
  * $connection = new Mysql($config);
  *```
  */
-abstract class Pdo extends AbstractAdapter
+abstract class AbstractPdo extends AbstractAdapter
 {
     /**
      * Last affected rows

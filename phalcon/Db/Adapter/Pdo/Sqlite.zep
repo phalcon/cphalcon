@@ -10,7 +10,7 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
-use Phalcon\Db\Adapter\Pdo as PdoAdapter;
+use Phalcon\Db\Adapter\Pdo\AbstractPdo as PdoAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\Enum;
