@@ -17,11 +17,11 @@ use Codeception\Example;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Router;
 use Phalcon\Di\FactoryDefault\Cli;
-use Phalcon\Escaper;
+use Phalcon\Escaper\Escaper;
 use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Mvc\Model\Transaction\Manager;
-use Phalcon\Security;
+use Phalcon\Security\Security;
 
 class ConstructCest
 {
