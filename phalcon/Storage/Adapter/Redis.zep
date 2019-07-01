@@ -17,8 +17,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
- * Phalcon\Storage\Adapter\Redis
- *
  * Redis adapter
  */
 class Redis extends AbstractAdapter

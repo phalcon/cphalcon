@@ -18,8 +18,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
- * Phalcon\Storage\Adapter\Apcu
- *
  * Apcu adapter
  */
 class Apcu extends AbstractAdapter
@@ -106,7 +104,7 @@ class Apcu extends AbstractAdapter
     public function get(string! key, var defaultValue = null) -> var
     {
     	var content;
-	
+
         let content = apcu_fetch(this->getPrefixedKey(key));
 
         return this->getUnserializedData(content, defaultValue);

@@ -17,8 +17,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
- * Phalcon\Storage\Adapter\Libmemcached
- *
  * Libmemcached adapter
  */
 class Libmemcached extends AbstractAdapter
@@ -37,7 +35,7 @@ class Libmemcached extends AbstractAdapter
     {
         if !isset options["servers"] {
             let options["servers"] = [
-                0: [
+                0 : [
                     "host"   : "127.0.0.1",
                     "port"   : 11211,
                     "weight" : 1
@@ -109,7 +107,7 @@ class Libmemcached extends AbstractAdapter
      */
     public function getAdapter() -> var
     {
-        var client, connection, failover, options, persistentId, 
+        var client, connection, failover, options, persistentId,
             sasl, saslPass, saslUser, servers, serverList;
 
         if null === this->adapter {
