@@ -13,7 +13,6 @@ namespace Phalcon\Test\Models;
 
 use Phalcon\Messages\Message;
 use Phalcon\Mvc\Model;
-use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 use Phalcon\Validation\Validator\ExclusionIn as ExclusionInValidator;
 use Phalcon\Validation\Validator\InclusionIn as InclusionInValidator;

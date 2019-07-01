@@ -14,7 +14,7 @@ namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
 use Exception;
 use IntegrationTester;
-use Phalcon\Dispatcher;
+use Phalcon\Dispatcher\DispatcherInterface;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
 
@@ -100,7 +100,7 @@ class DispatchCest extends BaseDispatcher
             new Exception(
                 'Phalcon\Test\Integration\Mvc\Dispatcher\Helper\Non' .
                 'ExistentDispatcherHandlerController handler class cannot be loaded',
-                Dispatcher::EXCEPTION_HANDLER_NOT_FOUND
+                Exception::EXCEPTION_HANDLER_NOT_FOUND
             ),
             function () use ($dispatcher) {
                 $dispatcher->dispatch();
@@ -123,7 +123,7 @@ class DispatchCest extends BaseDispatcher
         $I->expectThrowable(
             new Exception(
                 "Action 'Invalid-Dispatcher-Action-Name' was not found on handler 'dispatcher-test-default'",
-                Dispatcher::EXCEPTION_ACTION_NOT_FOUND
+                Exception::EXCEPTION_ACTION_NOT_FOUND
             ),
             function () use ($dispatcher) {
                 $dispatcher->dispatch();

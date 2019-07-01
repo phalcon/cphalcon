@@ -51,7 +51,7 @@ class GetHandlerSuffixCest
         $I->expectThrowable(
             new Exception(
                 'IndexBleh handler class cannot be loaded',
-                Dispatcher::EXCEPTION_HANDLER_NOT_FOUND
+                Exception::EXCEPTION_HANDLER_NOT_FOUND
             ),
             function () use ($dispatcher) {
                 $dispatcher->dispatch();

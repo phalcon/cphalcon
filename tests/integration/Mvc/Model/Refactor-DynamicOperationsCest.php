@@ -13,7 +13,7 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use DateTime;
 use IntegrationTester;
-use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\RawValue;
 use Phalcon\Events\Event;
 use Phalcon\Test\Fixtures\Traits\DiTrait;

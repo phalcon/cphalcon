@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
-use Exception;
 use Phalcon\Cli\Dispatcher;
+use Phalcon\Cli\Dispatcher\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class DispatchCest
@@ -58,7 +58,7 @@ class DispatchCest
         $I->expectThrowable(
             new Exception(
                 'Dummy\MainTask handler class cannot be loaded',
-                Dispatcher::EXCEPTION_HANDLER_NOT_FOUND
+                Exception::EXCEPTION_HANDLER_NOT_FOUND
             ),
             function () use ($dispatcher) {
                 $dispatcher->dispatch();

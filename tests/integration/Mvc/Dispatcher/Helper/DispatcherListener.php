@@ -3,7 +3,7 @@
 namespace Phalcon\Test\Integration\Mvc\Dispatcher\Helper;
 
 use Exception;
-use Phalcon\DispatcherInterface;
+use Phalcon\Dispatcher\DispatcherInterface;
 use Phalcon\Events\Event;
 
 /**

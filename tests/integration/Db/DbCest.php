@@ -14,7 +14,7 @@ namespace Phalcon\Test\Integration\Db;
 use Codeception\Example;
 use IntegrationTester;
 use PDO;
-use Phalcon\Db;
+use Phalcon\Db\Enum;
 use Phalcon\Db\RawValue;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -223,7 +223,7 @@ class DbCest
 
         $row = $connection->fetchOne(
             'select count(*) as cnt from prueba where nombre=? and estado=?',
-            Db::FETCH_ASSOC,
+            Enum::FETCH_ASSOC,
             [
                 'LOL array syntax 2', 'X',
             ]
@@ -252,7 +252,7 @@ class DbCest
 
         $row = $connection->fetchOne(
             'select count(*) as cnt from prueba where nombre=? and estado=?',
-            Db::FETCH_ASSOC,
+            Enum::FETCH_ASSOC,
             [
                 'LOL array syntax 3', 'E',
             ]
@@ -272,7 +272,7 @@ class DbCest
 
         $row = $connection->fetchOne(
             'select count(*) as cnt from prueba where nombre=? and estado=?',
-            Db::FETCH_ASSOC,
+            Enum::FETCH_ASSOC,
             [
                 'LOL insertAsDict', 'E',
             ]
@@ -292,7 +292,7 @@ class DbCest
 
         $row = $connection->fetchOne(
             'select count(*) as cnt from prueba where nombre=? and estado=?',
-            Db::FETCH_ASSOC,
+            Enum::FETCH_ASSOC,
             [
                 'LOL updateAsDict', 'X',
             ]
@@ -319,7 +319,7 @@ class DbCest
 
         $I->assertCount(
             11,
-            $connection->fetchOne('SELECT * FROM personas', Db::FETCH_NUM)
+            $connection->fetchOne('SELECT * FROM personas', Enum::FETCH_NUM)
         );
 
         $I->assertCount(
@@ -329,7 +329,7 @@ class DbCest
 
         $rows = $connection->fetchAll(
             'SELECT * FROM personas LIMIT 10',
-            Db::FETCH_NUM
+            Enum::FETCH_NUM
         );
         $I->assertCount(10, $rows);
         $I->assertCount(11, $rows[0]);
