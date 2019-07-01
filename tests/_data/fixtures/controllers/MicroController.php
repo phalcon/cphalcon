@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Controllers;
 
 use Phalcon\Http\Response;
-use Phalcon\Mvc\Controller\AbstractController;
+use Phalcon\Mvc\Controller;
 
-class MicroController extends AbstractController
+class MicroController extends Controller
 {
     public function indexAction()
     {

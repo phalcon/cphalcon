@@ -2,7 +2,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Dispatcher\Helper;
 
-use Phalcon\Mvc\Controller\AbstractController;
+use Phalcon\Mvc\Controller;
 
 /**
  * \Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestInitializeReturnFalseController
@@ -20,7 +20,7 @@ use Phalcon\Mvc\Controller\AbstractController;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class DispatcherTestInitializeReturnFalseController extends AbstractController
+class DispatcherTestInitializeReturnFalseController extends Controller
 {
     public function beforeExecuteRoute()
     {

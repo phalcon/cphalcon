@@ -1,7 +1,7 @@
 <?php
 
 // @codingStandardsIgnoreStart
-use Phalcon\Mvc\Controller\AbstractController;
+use Phalcon\Mvc\Controller;
 
 // @codingStandardsIgnoreSEnd
 
@@ -21,7 +21,7 @@ use Phalcon\Mvc\Controller\AbstractController;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class DispatcherTestDefaultNoNamespaceController extends AbstractController
+class DispatcherTestDefaultNoNamespaceController extends Controller
 {
     const RETURN_VALUE_STRING = 'string';
     const RETURN_VALUE_INT    = 5;
