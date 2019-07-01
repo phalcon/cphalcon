@@ -2,9 +2,9 @@
 
 namespace Phalcon\Test\Modules\Backend\Controllers;
 
-use Phalcon\Mvc\Controller;
+use Phalcon\Mvc\Controller\AbstractController;
 
-class LoginController extends Controller
+class LoginController extends AbstractController
 {
     public function indexAction()
     {

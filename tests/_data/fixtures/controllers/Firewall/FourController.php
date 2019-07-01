@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Controllers\Firewall;
 
-use Phalcon\Mvc\Controller;
+use Phalcon\Mvc\Controller\AbstractController;
 use Phalcon\Test\Models\AlbumORama\Albums;
 
-class FourController extends Controller
+class FourController extends AbstractController
 {
     public function firstAction(Albums $album)
     {
