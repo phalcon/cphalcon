@@ -19,7 +19,7 @@ use Phalcon\Messages\Messages;
 use Phalcon\Validation\ValidationInterface;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\ValidatorInterface;
-use Phalcon\Validation\CombinedFieldsValidator;
+use Phalcon\Validation\AbstractCombinedFieldsValidator;
 
 /**
  * Phalcon\Validation
@@ -45,14 +45,14 @@ class Validation extends Injectable implements ValidationInterface
         let this->validators = array_filter(
             validators,
             function(var element) {
-                return typeof element[0] != "array" || !(element[1] instanceof CombinedFieldsValidator);
+                return typeof element[0] != "array" || !(element[1] instanceof AbstractCombinedFieldsValidator);
             }
         );
 
         let this->combinedFieldsValidators = array_filter(
             validators,
             function(var element) {
-                return typeof element[0] == "array" && element[1] instanceof CombinedFieldsValidator;
+                return typeof element[0] == "array" && element[1] instanceof AbstractCombinedFieldsValidator;
             }
         );
 
@@ -73,7 +73,7 @@ class Validation extends Injectable implements ValidationInterface
 
         if typeof field == "array" {
             // Uniqueness validator for combination of fields is handled differently
-            if validator instanceof CombinedFieldsValidator {
+            if validator instanceof AbstractCombinedFieldsValidator {
                 let this->combinedFieldsValidators[] = [field, validator];
             } else {
                 for singleField in field {
