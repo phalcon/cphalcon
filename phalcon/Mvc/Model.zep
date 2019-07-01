@@ -22,7 +22,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\MessageInterface;
-use Phalcon\Mvc\Model\BehaviorInterface;
+use Phalcon\Mvc\Model\Behavior\BehaviorInterface;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\CriteriaInterface;
 use Phalcon\Mvc\Model\Exception;
