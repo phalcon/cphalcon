@@ -58,7 +58,7 @@ class Security implements InjectionAwareInterface
     protected workFactor = 8 { set, get };
 
     /**
-     * Phalcon\Security constructor
+     * Phalcon\Security\Security constructor
      */
     public function __construct() -> void
     {

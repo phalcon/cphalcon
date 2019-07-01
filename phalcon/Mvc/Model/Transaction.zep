@@ -123,7 +123,7 @@ class Transaction implements TransactionInterface
     /**
      * Returns the connection related to transaction
      */
-    public function getConnection() -> <\Phalcon\Db\AdapterInterface>
+    public function getConnection() -> <\Phalcon\Db\Adapter\AdapterInterface>
     {
         if this->rollbackOnAbort {
             if connection_aborted() {

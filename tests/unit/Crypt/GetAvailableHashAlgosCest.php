@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Crypt;
 
-use Phalcon\Crypt;
+use Phalcon\Crypt\Crypt;
 use UnitTester;
 
 class GetAvailableHashAlgosCest
 {
     /**
-     * Tests Phalcon\Crypt :: getAvailableHashAlgos()
+     * Tests Phalcon\Crypt\Crypt :: getAvailableHashAlgos()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

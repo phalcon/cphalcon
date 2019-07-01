@@ -12,7 +12,7 @@ namespace Phalcon\Tag;
 
 use Phalcon\Tag\Exception;
 use Phalcon\Tag as BaseTag;
-use Phalcon\EscaperInterface;
+use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Mvc\Model\ResulsetInterface;
 
 /**

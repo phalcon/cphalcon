@@ -10,7 +10,7 @@
 
 namespace Phalcon\Escaper;
 
-use Phalcon\EscaperInterface;
+use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Escaper\Exception;
 
 /**

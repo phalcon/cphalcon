@@ -33,7 +33,7 @@ interface TransactionInterface
     /**
      * Returns connection related to transaction
      */
-    public function getConnection() -> <\Phalcon\Db\AdapterInterface>;
+    public function getConnection() -> <\Phalcon\Db\Adapter\AdapterInterface>;
 
     /**
      * Returns validations messages from last save try

@@ -11,7 +11,7 @@
 namespace Phalcon\Http;
 
 use Phalcon\DiInterface;
-use Phalcon\CryptInterface;
+use Phalcon\Crypt\CryptInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Http\Response\Exception;

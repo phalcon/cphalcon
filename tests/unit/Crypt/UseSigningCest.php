@@ -17,7 +17,7 @@ use UnitTester;
 class UseSigningCest
 {
     /**
-     * Tests Phalcon\Crypt :: useSigning()
+     * Tests Phalcon\Crypt\Crypt :: useSigning()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16

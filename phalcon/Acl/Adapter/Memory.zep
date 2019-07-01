@@ -86,7 +86,7 @@ use ReflectionFunction;
  * }
  *```
  */
-class Memory extends Adapter
+class Memory extends AbstractAdapter
 {
     /**
      * Access

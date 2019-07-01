@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc\Collection;
 
-use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Mvc\CollectionInterface;
 use Phalcon\Mvc\Collection\BehaviorInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;

@@ -10,7 +10,7 @@
 
 namespace Phalcon\Db\Result;
 
-use Phalcon\Db;
+use Phalcon\Db\Enum;
 use Phalcon\Db\ResultInterface;
 
 %{
@@ -24,7 +24,7 @@ use Phalcon\Db\ResultInterface;
  * $result = $connection->query("SELECT * FROM robots ORDER BY name");
  *
  * $result->setFetchMode(
- *     \Phalcon\Db::FETCH_NUM
+ *     \Phalcon\Db\Enum::FETCH_NUM
  * );
  *
  * while ($robot = $result->fetchArray()) {
@@ -43,7 +43,7 @@ class Pdo implements ResultInterface
     /**
      * Active fetch mode
      */
-    protected fetchMode = Db::FETCH_OBJ;
+    protected fetchMode = Enum::FETCH_OBJ;
 
     /**
      * Internal resultset
@@ -146,7 +146,7 @@ class Pdo implements ResultInterface
      * $result = $connection->query("SELECT * FROM robots ORDER BY name");
      *
      * $result->setFetchMode(
-     *     \Phalcon\Db::FETCH_OBJ
+     *     \Phalcon\Enum::FETCH_OBJ
      * );
      *
      * while ($robot = $result->fetch()) {
@@ -186,7 +186,7 @@ class Pdo implements ResultInterface
             return pdoStatement->fetchAll();
         }
 
-        if fetchStyle == Db::FETCH_CLASS {
+        if fetchStyle == Enum::FETCH_CLASS {
             return pdoStatement->fetchAll(
                 fetchStyle,
                 fetchArgument,
@@ -194,7 +194,7 @@ class Pdo implements ResultInterface
             );
         }
 
-        if fetchStyle == Db::FETCH_COLUMN || fetchStyle == Db::FETCH_FUNC {
+        if fetchStyle == Enum::FETCH_COLUMN || fetchStyle == Enum::FETCH_FUNC {
             return pdoStatement->fetchAll(fetchStyle, fetchArgument);
         }
 
@@ -210,7 +210,7 @@ class Pdo implements ResultInterface
      * $result = $connection->query("SELECT * FROM robots ORDER BY name");
      *
      * $result->setFetchMode(
-     *     \Phalcon\Db::FETCH_NUM
+     *     \Phalcon\Enum::FETCH_NUM
      * );
      *
      * while ($robot = result->fetchArray()) {
@@ -309,22 +309,22 @@ class Pdo implements ResultInterface
      *```php
      * // Return array with integer indexes
      * $result->setFetchMode(
-     *     \Phalcon\Db::FETCH_NUM
+     *     \Phalcon\Enum::FETCH_NUM
      * );
      *
      * // Return associative array without integer indexes
      * $result->setFetchMode(
-     *     \Phalcon\Db::FETCH_ASSOC
+     *     \Phalcon\Enum::FETCH_ASSOC
      * );
      *
      * // Return associative array together with integer indexes
      * $result->setFetchMode(
-     *     \Phalcon\Db::FETCH_BOTH
+     *     \Phalcon\Enum::FETCH_BOTH
      * );
      *
      * // Return an object
      * $result->setFetchMode(
-     *     \Phalcon\Db::FETCH_OBJ
+     *     \Phalcon\Enum::FETCH_OBJ
      * );
      *```
      */
@@ -334,11 +334,11 @@ class Pdo implements ResultInterface
 
         let pdoStatement = this->pdoStatement;
 
-        if fetchMode == Db::FETCH_CLASS || fetchMode == Db::FETCH_INTO {
+        if fetchMode == Enum::FETCH_CLASS || fetchMode == Enum::FETCH_INTO {
             if !pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject, ctorargs) {
                 return false;
             }
-        } elseif fetchMode == Db::FETCH_COLUMN {
+        } elseif fetchMode == Enum::FETCH_COLUMN {
             if !pdoStatement->setFetchMode(fetchMode, colNoOrClassNameOrObject) {
                 return false;
             }

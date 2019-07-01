@@ -33,11 +33,11 @@ use Phalcon\Session\BagInterface;
  * @property \Phalcon\Flash\Session $flashSession
  * @property \Phalcon\Session\ManagerInterface $session
  * @property \Phalcon\Events\Manager|\Phalcon\Events\ManagerInterface $eventsManager
- * @property \Phalcon\Db\AdapterInterface $db
- * @property \Phalcon\Security $security
- * @property \Phalcon\Crypt|\Phalcon\CryptInterface $crypt
+ * @property \Phalcon\Db\Adapter\AdapterInterface $db
+ * @property \Phalcon\Security\Security $security
+ * @property \Phalcon\Crypt\Crypt|\Phalcon\Crypt\CryptInterface $crypt
  * @property \Phalcon\Tag $tag
- * @property \Phalcon\Escaper|\Phalcon\EscaperInterface $escaper
+ * @property \Phalcon\Escaper|\Phalcon\Escaper\EscaperInterface $escaper
  * @property \Phalcon\Annotations\Adapter\Memory|\Phalcon\Annotations\Adapter $annotations
  * @property \Phalcon\Mvc\Model\Manager|\Phalcon\Mvc\Model\ManagerInterface $modelsManager
  * @property \Phalcon\Mvc\Model\MetaData\Memory|\Phalcon\Mvc\Model\MetadataInterface $modelsMetadata

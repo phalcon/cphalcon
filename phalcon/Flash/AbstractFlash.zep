@@ -13,7 +13,7 @@ namespace Phalcon\Flash;
 use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\EscaperInterface;
+use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Flash\Exception;
 
 /**
