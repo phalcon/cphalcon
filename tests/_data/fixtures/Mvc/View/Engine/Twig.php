@@ -18,7 +18,7 @@ use Phalcon\Mvc\ViewBaseInterface;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 
-class Twig extends Engine implements EngineInterface
+class Twig extends AbstractEngine implements EngineInterface
 {
     protected $twig;
 
