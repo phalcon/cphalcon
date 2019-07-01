@@ -12,6 +12,7 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation\Validation;
+use Phalcon\Validation\ValidatorInterface;
 use Phalcon\Validation\AbstractValidator;
 
 /**
@@ -90,7 +91,7 @@ class Callback extends AbstractValidator
                 }
 
                 return true;
-            } elseif typeof returnedValue == "object" && returnedValue instanceof Validator {
+            } elseif typeof returnedValue == "object" && returnedValue instanceof ValidatorInterface {
                 return returnedValue->validate(validation, field);
             }
 
