@@ -12,7 +12,7 @@ namespace Phalcon\Mvc;
 use JsonSerializable;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Column;
-use Phalcon\Db\DialectInterface;
+use Phalcon\Db\Dialect\DialectInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\RawValue;
 use Phalcon\Di\InjectionAwareInterface;
