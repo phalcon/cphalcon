@@ -119,7 +119,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
         if typeof container != "object" {
             this->{"throwDispatchException"}(
                 Exception::containerServiceNotFound("the 'filter' service"),
-                CliDispatcher::EXCEPTION_NO_DI
+                Exception::EXCEPTION_NO_DI
             );
         }
 

@@ -226,7 +226,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
         if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("the 'response' service"),
-                BaseDispatcher::EXCEPTION_NO_DI
+                Exception::EXCEPTION_NO_DI
             );
         }
 
