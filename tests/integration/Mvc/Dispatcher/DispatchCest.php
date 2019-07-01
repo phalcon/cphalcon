@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
-use Exception;
 use IntegrationTester;
+use Phalcon\Dispatcher\Exception;
 use Phalcon\Dispatcher\DispatcherInterface;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;

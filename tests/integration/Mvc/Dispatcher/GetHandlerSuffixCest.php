@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
 use IntegrationTester;
-use Phalcon\Dispatcher;
 use Phalcon\Mvc\Dispatcher\Exception;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
 
@@ -38,7 +37,7 @@ class GetHandlerSuffixCest extends BaseDispatcher
         $I->expectThrowable(
             new Exception(
                 'Phalcon\Test\Integration\Mvc\Dispatcher\Helper\IndexBleh handler class cannot be loaded',
-                Dispatcher::EXCEPTION_HANDLER_NOT_FOUND
+                Exception::EXCEPTION_HANDLER_NOT_FOUND
             ),
             function () use ($dispatcher) {
                 $dispatcher->dispatch();
