@@ -22,8 +22,6 @@ use Phalcon\Validation\ValidatorInterface;
 use Phalcon\Validation\AbstractCombinedFieldsValidator;
 
 /**
- * Phalcon\Validation
- *
  * Allows to validate data using custom or built-in validators
  */
 class Validation extends Injectable implements ValidationInterface
@@ -38,7 +36,7 @@ class Validation extends Injectable implements ValidationInterface
     protected values;
 
     /**
-     * Phalcon\Validation constructor
+     * Phalcon\Validation\Validation constructor
      */
     public function __construct(array validators = []) -> void
     {

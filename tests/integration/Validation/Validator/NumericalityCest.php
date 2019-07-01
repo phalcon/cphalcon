@@ -13,7 +13,7 @@ namespace Phalcon\Test\Integration\Validation\Validator;
 
 use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Validation;
+use Phalcon\Validation\Validation;
 use Phalcon\Validation\Validator\Numericality;
 
 class NumericalityCest

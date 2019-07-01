@@ -14,7 +14,7 @@ namespace Phalcon\Test\Integration\Validation\Validator;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation;
+use Phalcon\Validation\Validation;
 use Phalcon\Validation\Validator\InclusionIn;
 
 class InclusionInCest
