@@ -10,11 +10,13 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
-use Phalcon\Mvc\Model\MetaData\AbstractMetaData;
+use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Cache\AdapterFactory;
 
 /**
+ * Phalcon\Mvc\Model\MetaData\Apcu
+ *
  * Stores model meta-data in the APCu cache. Data will erased if the web server is restarted
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
@@ -30,7 +32,7 @@ use Phalcon\Cache\AdapterFactory;
  * );
  *```
  */
-class Apcu extends AbstractMetaData
+class Apcu extends MetaData
 {
     /**
      * Phalcon\Mvc\Model\MetaData\Apcu constructor

@@ -14,7 +14,7 @@ use ArrayAccess;
 use Closure;
 use Phalcon\DiInterface;
 use Phalcon\Di\Injectable;
-use Phalcon\Mvc\Controller\AbstractController;
+use Phalcon\Mvc\Controller;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro\Exception;
 use Phalcon\Di\ServiceInterface;
@@ -474,7 +474,7 @@ class Micro extends Injectable implements ArrayAccess
                 if typeof handler == "array" {
                     let realHandler = handler[0];
 
-                    if realHandler instanceof AbstractController && modelBinder != null {
+                    if realHandler instanceof Controller && modelBinder != null {
                         let methodName = handler[1];
                         let bindCacheKey = "_PHMB_" . get_class(realHandler) . "_" . methodName;
 

@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
-use Phalcon\Mvc\Model\MetaData\AbstractMetaData;
+use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\Exception;
 
 /**
@@ -19,7 +19,7 @@ use Phalcon\Mvc\Model\Exception;
  * Stores model meta-data in memory. Data will be erased when the request finishes
  *
  */
-class Memory extends AbstractMetaData
+class Memory extends MetaData
 {
     /**
      * Phalcon\Mvc\Model\MetaData\Memory constructor

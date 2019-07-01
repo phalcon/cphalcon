@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\Mvc\Controller\ControllerInterface;
+use Phalcon\Mvc\ControllerInterface;
 use Phalcon\Dispatcher\DispatcherInterface as DispatcherInterfaceBase;
 
 /**

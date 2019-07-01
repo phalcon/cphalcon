@@ -10,10 +10,12 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
-use Phalcon\Mvc\Model\MetaData\AbstractMetaData;
+use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Cache\AdapterFactory;
 
 /**
+ * Phalcon\Mvc\Model\MetaData\Redis
+ *
  * Stores model meta-data in the Redis.
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
@@ -32,7 +34,7 @@ use Phalcon\Cache\AdapterFactory;
  * );
  *```
  */
-class Redis extends AbstractMetaData
+class Redis extends MetaData
 {
     /**
      * Phalcon\Mvc\Model\MetaData\Redis constructor

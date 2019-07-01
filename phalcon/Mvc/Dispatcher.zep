@@ -14,7 +14,7 @@ use Phalcon\Mvc\DispatcherInterface;
 use Phalcon\Mvc\Dispatcher\Exception;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\ResponseInterface;
-use Phalcon\Mvc\Controller\ControllerInterface;
+use Phalcon\Mvc\ControllerInterface;
 use Phalcon\Dispatcher\AbstractDispatcher as BaseDispatcher;
 
 /**

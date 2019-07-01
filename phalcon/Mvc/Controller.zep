@@ -8,11 +8,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Mvc\Controller;
+namespace Phalcon\Mvc;
 
 use Phalcon\Di\Injectable;
 
 /**
+ * Phalcon\Mvc\Controller
+ *
  * Every application controller should extend this class that encapsulates all
  * the controller functionality
  *
@@ -24,7 +26,7 @@ use Phalcon\Di\Injectable;
  *```php
  * <?php
  *
- * class PeopleController extends \Phalcon\Mvc\Controller\AbstractController
+ * class PeopleController extends \Phalcon\Mvc\Controller
  * {
  *     // This action will be executed by default
  *     public function indexAction()
@@ -50,10 +52,10 @@ use Phalcon\Di\Injectable;
  * }
  *```
  */
-abstract class AbstractController extends Injectable implements ControllerInterface
+abstract class Controller extends Injectable implements ControllerInterface
 {
     /**
-     * Phalcon\Mvc\Controller\AbstractController constructor
+     * Phalcon\Mvc\Controller constructor
      */
     final public function __construct()
     {
