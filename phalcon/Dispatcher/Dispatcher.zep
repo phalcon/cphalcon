@@ -13,7 +13,7 @@ namespace Phalcon\Dispatcher;
 use Exception;
 use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\DispatcherInterface;
+use Phalcon\Dispatcher\DispatcherInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Exception as PhalconException;

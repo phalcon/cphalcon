@@ -15,7 +15,7 @@ use Phalcon\Mvc\Dispatcher\Exception;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\ControllerInterface;
-use Phalcon\Dispatcher as BaseDispatcher;
+use Phalcon\Dispatcher\AbstractDispatcher as BaseDispatcher;
 
 /**
  * Dispatching is the process of taking the request object, extracting the

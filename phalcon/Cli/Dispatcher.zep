@@ -11,7 +11,7 @@
 namespace Phalcon\Cli;
 
 use Phalcon\Cli\Dispatcher\Exception;
-use Phalcon\Dispatcher as CliDispatcher;
+use Phalcon\Dispatcher\AbstractDispatcher as CliDispatcher;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Filter\FilterInterface;
 
