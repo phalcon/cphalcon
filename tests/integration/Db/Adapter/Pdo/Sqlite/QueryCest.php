@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Sqlite;
 
+use Phalcon\Db\Enum;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 

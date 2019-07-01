@@ -13,13 +13,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation;
 
 use IntegrationTester;
-use Phalcon\Validation;
+use Phalcon\Validation\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 
 class GetFiltersCest
 {
     /**
-     * Tests Phalcon\Validation :: getFilters()
+     * Tests Phalcon\Validation\Validation :: getFilters()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-27

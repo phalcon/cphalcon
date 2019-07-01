@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation;
 
 use IntegrationTester;
-use Phalcon\Validation;
+use Phalcon\Validation\Validation;
 use stdClass;
 
 /**
@@ -22,7 +22,7 @@ use stdClass;
 class GetEntityCest
 {
     /**
-     * Tests Phalcon\Validation :: getEntity()
+     * Tests Phalcon\Validation\Validation :: getEntity()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17

@@ -20,7 +20,7 @@ use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Forms\ValidationForm;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Validation;
+use Phalcon\Validation\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Regex;
 

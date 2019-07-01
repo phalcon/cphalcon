@@ -20,7 +20,7 @@ use IntegrationTester;
 class SetEventsManagerCest
 {
     /**
-     * Tests Phalcon\Validation :: setEventsManager()
+     * Tests Phalcon\Validation\Validation :: setEventsManager()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16
