@@ -10,6 +10,7 @@
 
 namespace Phalcon\Firewall\Adapter\Micro;
 
+use Phalcon\Acl\Adapter\AdapterInterface as AclAdapterInterface;
 use Phalcon\Di;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\DiInterface;
