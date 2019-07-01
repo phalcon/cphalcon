@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Controllers;
 
-use Phalcon\Mvc\Controller\AbstractController;
+use Phalcon\Mvc\Controller;
 
 /**
  * Class ViewRequestController
  */
-class ViewRequestController extends AbstractController
+class ViewRequestController extends Controller
 {
     public function requestAction()
     {

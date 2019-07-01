@@ -3,7 +3,7 @@
 namespace Phalcon\Test\Integration\Mvc\Dispatcher\Helper;
 
 use Exception;
-use Phalcon\Mvc\Controller\AbstractController;
+use Phalcon\Mvc\Controller;
 
 /**
  * \Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestBeforeExecuteRouteExceptionController
@@ -21,7 +21,7 @@ use Phalcon\Mvc\Controller\AbstractController;
  * through the world-wide-web, please send an email to license@phalconphp.com
  * so that we can send you a copy immediately.
  */
-class DispatcherTestBeforeExecuteRouteExceptionController extends AbstractController
+class DispatcherTestBeforeExecuteRouteExceptionController extends Controller
 {
     public function initialize()
     {
