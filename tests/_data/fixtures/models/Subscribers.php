@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\AbstractModel;
 
-class Subscribers extends Model
+class Subscribers extends AbstractModel
 {
     public function initialize()
     {

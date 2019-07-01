@@ -11,8 +11,8 @@
 
 namespace Phalcon\Test\Models\Relations;
 
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\AbstractModel;
 
-class Robots extends Model
+class Robots extends AbstractModel
 {
 }

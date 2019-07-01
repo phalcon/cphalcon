@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models\BodyParts;
 
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\AbstractModel;
 
-class Body extends Model
+class Body extends AbstractModel
 {
     public $id;
     public $head_1_id;

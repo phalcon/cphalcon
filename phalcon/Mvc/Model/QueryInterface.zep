@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\ModelInterface;
 
 /**
  * Phalcon\Mvc\Model\QueryInterface

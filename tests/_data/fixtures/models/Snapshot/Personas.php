@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Models\Snapshot;
 
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\AbstractModel;
 
 /**
  * @property string $cedula
@@ -28,7 +28,7 @@ use Phalcon\Mvc\Model;
  *
  * @method static Personas findFirst($parameters = null)
  */
-class Personas extends Model
+class Personas extends AbstractModel
 {
     public function initialize()
     {

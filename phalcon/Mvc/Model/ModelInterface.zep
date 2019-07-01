@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Mvc;
+namespace Phalcon\Mvc\Model;
 
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\DiInterface;
@@ -17,11 +17,9 @@ use Phalcon\Mvc\Model\ModelInterface;
 use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
-use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\ModelInterface;
 
 /**
- * Phalcon\Mvc\ModelInterface
- *
  * Interface for Phalcon\Mvc\Model
  */
 interface ModelInterface

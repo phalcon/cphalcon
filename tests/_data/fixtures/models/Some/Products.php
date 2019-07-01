@@ -12,10 +12,10 @@
 namespace Phalcon\Test\Models\Some;
 
 use Phalcon\Db\Column;
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\AbstractModel;
 use Phalcon\Mvc\Model\MetaData;
 
-class Products extends Model
+class Products extends AbstractModel
 {
     public function initialize()
     {

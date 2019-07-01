@@ -5,7 +5,7 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 use IntegrationTester;
 use Phalcon\Db\RawValue;
 use Phalcon\Messages\Message as ModelMessage;
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\AbstractModel;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Childs;
 use Phalcon\Test\Models\I1534;

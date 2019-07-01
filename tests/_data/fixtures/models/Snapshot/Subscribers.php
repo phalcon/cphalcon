@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Models\Snapshot;
 
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\AbstractModel;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Mvc\Model\Behavior\Timestampable;
 
@@ -21,7 +21,7 @@ use Phalcon\Mvc\Model\Behavior\Timestampable;
  * @property string $status
  * @property string $created_at
  */
-class Subscribers extends Model
+class Subscribers extends AbstractModel
 {
     public function initialize()
     {

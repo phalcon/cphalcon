@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Models\Validation;
 
-use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\AbstractModel;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Validation\Validator\StringLength;
@@ -21,7 +21,7 @@ use Phalcon\Validation\Validator\StringLength;
  * @method static Simple findByType(string $type)
  * @method static Robots findFirstById(string | int $id)
  */
-class Robots extends Model
+class Robots extends AbstractModel
 {
     public function initialize()
     {
