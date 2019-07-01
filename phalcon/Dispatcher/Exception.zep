@@ -11,9 +11,9 @@
 namespace Phalcon\Dispatcher;
 
 /**
- * Constants for the Dispatcher
+ * Exceptions thrown in Phalcon\Dispatcher/* will use this class
  */
-class Enum
+class Exception extends \Phalcon\Exception
 {
     const EXCEPTION_ACTION_NOT_FOUND  = 5;
     const EXCEPTION_CYCLIC_ROUTING    = 1;
