@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon;
+namespace Phalcon\Image;
 
-class Image
+class Enum
 {
     // Resizing constraints
     const AUTO    = 4;

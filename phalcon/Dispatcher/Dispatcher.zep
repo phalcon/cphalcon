@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon;
+namespace Phalcon\Dispatcher;
 
 use Exception;
 use Phalcon\DiInterface;
@@ -26,7 +26,7 @@ use Phalcon\Mvc\Model\BinderInterface;
  * This class can't be instantiated directly, you can use it to create your own
  * dispatchers.
  */
-abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterface, EventsAwareInterface
+abstract class AbstractDispatcher implements DispatcherInterface, InjectionAwareInterface, EventsAwareInterface
 {
     const EXCEPTION_ACTION_NOT_FOUND  = 5;
     const EXCEPTION_CYCLIC_ROUTING    = 1;

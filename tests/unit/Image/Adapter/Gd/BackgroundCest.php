@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
-use Phalcon\Image;
+use Phalcon\Image\Enum;
 use Phalcon\Image\Adapter\Gd;
 use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
@@ -32,8 +32,8 @@ class BackgroundCest
         $I->wantToTest('Image\Adapter\Gd - background()');
 
         $params = [
-            [200, null, Image::WIDTH, '000000', 30, '10787c3c1e1c3818'],
-            [null, 150, Image::HEIGHT, '00FF00', 75, '10787c3c1e1c3818'],
+            [200, null, Enum::WIDTH, '000000', 30, '10787c3c1e1c3818'],
+            [null, 150, Enum::HEIGHT, '00FF00', 75, '10787c3c1e1c3818'],
         ];
 
         $outputDir   = 'tests/image/gd';
