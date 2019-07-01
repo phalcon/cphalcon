@@ -13,6 +13,7 @@ namespace Phalcon\Dispatcher;
 use Exception;
 use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Dispatcher\Enum;
 use Phalcon\Dispatcher\DispatcherInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
@@ -28,13 +29,6 @@ use Phalcon\Mvc\Model\BinderInterface;
  */
 abstract class AbstractDispatcher implements DispatcherInterface, InjectionAwareInterface, EventsAwareInterface
 {
-    const EXCEPTION_ACTION_NOT_FOUND  = 5;
-    const EXCEPTION_CYCLIC_ROUTING    = 1;
-    const EXCEPTION_HANDLER_NOT_FOUND = 2;
-    const EXCEPTION_INVALID_HANDLER   = 3;
-    const EXCEPTION_INVALID_PARAMS    = 4;
-    const EXCEPTION_NO_DI             = 0;
-
     protected activeHandler;
 
     /**
@@ -145,7 +139,7 @@ abstract class AbstractDispatcher implements DispatcherInterface, InjectionAware
                 PhalconException::containerServiceNotFound(
                     "related dispatching services"
                 ),
-                self::EXCEPTION_NO_DI
+                Enum::EXCEPTION_NO_DI
             );
 
             return false;
@@ -208,7 +202,7 @@ abstract class AbstractDispatcher implements DispatcherInterface, InjectionAware
             if unlikely numberDispatches == 256 {
                 this->{"throwDispatchException"}(
                     "Dispatcher has detected a cyclic routing causing stability problems",
-                    self::EXCEPTION_CYCLIC_ROUTING
+                    Enum::EXCEPTION_CYCLIC_ROUTING
                 );
 
                 break;
@@ -253,7 +247,7 @@ abstract class AbstractDispatcher implements DispatcherInterface, InjectionAware
             if !hasService {
                 let status = this->{"throwDispatchException"}(
                     handlerClass . " handler class cannot be loaded",
-                    self::EXCEPTION_HANDLER_NOT_FOUND
+                    Enum::EXCEPTION_HANDLER_NOT_FOUND
                 );
 
                 if status === false && this->finished === false {
@@ -269,7 +263,7 @@ abstract class AbstractDispatcher implements DispatcherInterface, InjectionAware
             if unlikely typeof handler !== "object" {
                 let status = this->{"throwDispatchException"}(
                     "Invalid handler returned from the services container",
-                    self::EXCEPTION_INVALID_HANDLER
+                    Enum::EXCEPTION_INVALID_HANDLER
                 );
 
                 if status === false && this->finished === false {
@@ -304,7 +298,7 @@ abstract class AbstractDispatcher implements DispatcherInterface, InjectionAware
                  */
                 let status = this->{"throwDispatchException"}(
                     "Action parameters must be an Array",
-                    self::EXCEPTION_INVALID_PARAMS
+                    Enum::EXCEPTION_INVALID_PARAMS
                 );
 
                 if status === false && this->finished === false {
@@ -334,7 +328,7 @@ abstract class AbstractDispatcher implements DispatcherInterface, InjectionAware
                  */
                 let status = this->{"throwDispatchException"}(
                     "Action '" . actionName . "' was not found on handler '" . handlerName . "'",
-                    self::EXCEPTION_ACTION_NOT_FOUND
+                    Enum::EXCEPTION_ACTION_NOT_FOUND
                 );
 
                 if status === false && this->finished === false {
@@ -808,7 +802,7 @@ abstract class AbstractDispatcher implements DispatcherInterface, InjectionAware
                 PhalconException::containerServiceNotFound(
                     "the 'filter' service"
                 ),
-                self::EXCEPTION_NO_DI
+                Enum::EXCEPTION_NO_DI
             );
         }
 
