@@ -10,12 +10,16 @@
 
 namespace Phalcon\Storage\Adapter;
 
+use FilesystemIterator;
+use Iterator;
 use Phalcon\Helper\Arr;
 use Phalcon\Helper\Str;
 use Phalcon\Storage\Adapter\AbstractAdapter;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 /**
  * Stream adapter
@@ -65,14 +69,15 @@ class Stream extends AbstractAdapter
      */
     public function clear() -> bool
     {
-        var directory, iterator, file, result;
+        var directory, iterator, file;
+        bool result;
 
         let result    = true,
             directory = Str::dirSeparator(this->cacheDir),
-            iterator  = this->rglob(directory . "/*");
+            iterator  = this->getIterator(directory);
 
         for file in iterator {
-            if !is_dir(file) && !unlink(file) {
+            if file->isFile() && !unlink(file->getPathName()) {
                 let result = false;
             }
         }
@@ -175,11 +180,11 @@ class Stream extends AbstractAdapter
 
         let results   = [],
             directory = Str::dirSeparator(this->cacheDir),
-            iterator  = this->rglob(directory . "/*");
+            iterator  = this->getIterator(directory);
 
         for file in iterator {
-            if !is_dir(file) {
-                let split     = explode("/", file),
+            if file->isFile() {
+                let split     = explode("/", file->getPathName()),
                     results[] = this->prefix . Arr::last(split);
             }
         }
@@ -290,6 +295,17 @@ class Stream extends AbstractAdapter
         return this->getDir(key) . str_replace(this->prefix, "", key, 1);
     }
 
+    private function getIterator(string! dir) -> <Iterator>
+    {
+        return new RecursiveIteratorIterator(
+           new RecursiveDirectoryIterator(
+                dir,
+                FilesystemIterator::SKIP_DOTS
+           ),
+           RecursiveIteratorIterator::CHILD_FIRST
+       );
+    }
+
     /**
      * Returns if the cache has expired for this item or not
      *
@@ -305,27 +321,5 @@ class Stream extends AbstractAdapter
             ttl     = Arr::get(payload, "ttl", 3600);
 
         return (created + ttl) < time();
-    }
-
-    /**
-     * @param string $pattern
-     *
-     * @return array
-     */
-    private function rglob(string! pattern) -> array
-    {
-        var dir, dirName, files, flags, recurse;
-
-        let dirName = dirname(pattern) . "/*",
-            files   = glob(pattern),
-            flags   = GLOB_ONLYDIR | GLOB_NOSORT;
-
-        for dir in glob(dirName, flags) {
-            let dir     = dir . "/" . basename(pattern),
-                recurse = this->rglob(dir),
-                files   = array_merge(files, recurse);
-        }
-
-        return files;
     }
 }
