@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Exception;
-use Phalcon\Acl;
+use Phalcon\Acl\Enum;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Component;
 use Phalcon\Acl\Exception as AclException;
@@ -37,7 +37,7 @@ class AllowCest
         $acl = new Memory();
 
         $acl->setDefaultAction(
-            Acl::DENY
+            Enum::DENY
         );
 
         $acl->addRole('Guests');
@@ -74,7 +74,7 @@ class AllowCest
         $I->wantToTest('Acl\Adapter\Memory - allow() - wildcard');
 
         $acl = new Memory();
-        $acl->setDefaultAction(Acl::DENY);
+        $acl->setDefaultAction(Enum::DENY);
         $acl->addRole('Member');
         $acl->addComponent('Post', ['update']);
 
@@ -84,7 +84,7 @@ class AllowCest
         );
 
         $acl = new Memory();
-        $acl->setDefaultAction(Acl::DENY);
+        $acl->setDefaultAction(Enum::DENY);
         $acl->addRole('Member');
         $acl->addComponent('Post', ['update']);
 
@@ -94,7 +94,7 @@ class AllowCest
         );
 
         $acl = new Memory();
-        $acl->setDefaultAction(Acl::DENY);
+        $acl->setDefaultAction(Enum::DENY);
         $acl->addRole('Member');
         $acl->addRole('Guest');
         $acl->addInherit('Guest', 'Member');
@@ -106,7 +106,7 @@ class AllowCest
         );
 
         $acl = new Memory();
-        $acl->setDefaultAction(Acl::DENY);
+        $acl->setDefaultAction(Enum::DENY);
 
         $aclRoles = [
             'Admin'  => new Role('Admin'),
@@ -156,7 +156,7 @@ class AllowCest
             ),
             function () {
                 $acl = new Memory();
-                $acl->setDefaultAction(Acl::DENY);
+                $acl->setDefaultAction(Enum::DENY);
                 $acl->addRole('Member');
                 $acl->addComponent('Post', ['update']);
                 $acl->allow('Unknown', 'Post', 'update');
@@ -169,7 +169,7 @@ class AllowCest
             ),
             function () {
                 $acl = new Memory();
-                $acl->setDefaultAction(Acl::DENY);
+                $acl->setDefaultAction(Enum::DENY);
                 $acl->addRole('Member');
                 $acl->addComponent('Post', ['update']);
                 $acl->allow('Member', 'Unknown', 'update');
@@ -182,7 +182,7 @@ class AllowCest
             ),
             function () {
                 $acl = new Memory();
-                $acl->setDefaultAction(Acl::DENY);
+                $acl->setDefaultAction(Enum::DENY);
                 $acl->addRole('Member');
                 $acl->addComponent('Post', ['update']);
                 $acl->allow('Member', 'Post', 'Unknown');
@@ -195,7 +195,7 @@ class AllowCest
             ),
             function () {
                 $acl = new Memory();
-                $acl->setDefaultAction(Acl::DENY);
+                $acl->setDefaultAction(Enum::DENY);
                 $acl->addRole('Member');
                 $acl->addComponent('Post', ['update']);
                 $acl->allow('Member', 'Post', ['Unknown']);
@@ -217,7 +217,7 @@ class AllowCest
 
         $acl = new Memory();
 
-        $acl->setDefaultAction(Acl::DENY);
+        $acl->setDefaultAction(Enum::DENY);
 
         $acl->addRole('Guests');
         $acl->addRole('Members', 'Guests');
@@ -285,11 +285,11 @@ class AllowCest
                 $acl = new Memory();
 
                 $acl->setDefaultAction(
-                    Acl::ALLOW
+                    Enum::ALLOW
                 );
 
                 $acl->setNoArgumentsDefaultAction(
-                    Acl::DENY
+                    Enum::DENY
                 );
 
                 $acl->addRole('Guests');

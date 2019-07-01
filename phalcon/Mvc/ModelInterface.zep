@@ -9,7 +9,7 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\DiInterface;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;

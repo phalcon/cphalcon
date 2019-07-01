@@ -8,7 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Db;
+namespace Phalcon\Db\Adapter;
+
+use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\IndexInterface;
+use Phalcon\Db\RawValue;
+use Phalcon\Db\ReferenceInterface;
 
 /**
  * Interface for Phalcon\Db adapters

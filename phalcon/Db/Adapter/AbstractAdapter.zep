@@ -8,17 +8,24 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Db;
+namespace Phalcon\Db\Adapter;
 
-use Phalcon\Db;
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\Enum;
+use Phalcon\Db\Exception;
+use Phalcon\Db\Index;
+use Phalcon\Db\IndexInterface;
+use Phalcon\Db\Reference;
+use Phalcon\Db\ReferenceInterface;
+use Phalcon\Db\RawValue;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 
 /**
  * Base class for Phalcon\Db adapters
  */
-abstract class Adapter implements AdapterInterface, EventsAwareInterface
+abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 {
     /**
      * Connection ID
@@ -289,7 +296,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
         let indexes = [];
 
-        for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Db::FETCH_NUM) {
+        for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Enum::FETCH_NUM) {
             let keyName = index[2];
 
             if !isset indexes[keyName] {
@@ -331,7 +338,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
         let references = [];
 
-        for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Db::FETCH_NUM) {
+        for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Enum::FETCH_NUM) {
             let constraintName = reference[2];
 
             if !isset references[constraintName] {
@@ -489,7 +496,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      * // Getting all robots with associative indexes only
      * $robots = $connection->fetchAll(
      *     "SELECT * FROM robots",
-     *     \Phalcon\Db::FETCH_ASSOC
+     *     \Phalcon\Db\Enum::FETCH_ASSOC
      * );
      *
      * foreach ($robots as $robot) {
@@ -499,7 +506,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *  // Getting all robots that contains word "robot" withing the name
      * $robots = $connection->fetchAll(
      *     "SELECT * FROM robots WHERE name LIKE :name",
-     *     \Phalcon\Db::FETCH_ASSOC,
+     *     \Phalcon\Db\Enum::FETCH_ASSOC,
      *     [
      *         "name" => "%robot%",
      *     ]
@@ -509,7 +516,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      * }
      *```
      */
-    public function fetchAll(string sqlQuery, int fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
+    public function fetchAll(string sqlQuery, int fetchMode = Enum::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
     {
         var result;
 
@@ -544,7 +551,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     {
         var row, columnValue;
 
-        let row = this->fetchOne(sqlQuery, Db::FETCH_BOTH, placeholders);
+        let row = this->fetchOne(sqlQuery, Enum::FETCH_BOTH, placeholders);
 
         if !fetch columnValue, row[column] {
             return false;
@@ -564,12 +571,12 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      * // Getting first robot with associative indexes only
      * $robot = $connection->fetchOne(
      *     "SELECT * FROM robots",
-     *     \Phalcon\Db::FETCH_ASSOC
+     *     \Phalcon\Db\Enum::FETCH_ASSOC
      * );
      * print_r($robot);
      *```
      */
-    public function fetchOne(string! sqlQuery, var fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
+    public function fetchOne(string! sqlQuery, var fetchMode = Enum::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
     {
         var result;
 
@@ -888,7 +895,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
         let tables = this->fetchAll(
             this->dialect->listTables(schemaName),
-            Db::FETCH_NUM
+            Enum::FETCH_NUM
         );
 
         for table in tables {
@@ -915,7 +922,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
         let tables = this->fetchAll(
             this->dialect->listViews(schemaName),
-            Db::FETCH_NUM
+            Enum::FETCH_NUM
         );
 
         for table in tables {
@@ -1050,7 +1057,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function tableExists(string! tableName, string! schemaName = null) -> bool
     {
-        return this->fetchOne(this->dialect->tableExists(tableName, schemaName), Db::FETCH_NUM)[0] > 0;
+        return this->fetchOne(this->dialect->tableExists(tableName, schemaName), Enum::FETCH_NUM)[0] > 0;
     }
 
     /**
@@ -1072,7 +1079,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
             return [];
         }
 
-        return this->fetchAll(sql, Db::FETCH_ASSOC)[0];
+        return this->fetchAll(sql, Enum::FETCH_ASSOC)[0];
     }
 
     /**
@@ -1274,6 +1281,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      */
     public function viewExists(string! viewName, string! schemaName = null) -> bool
     {
-        return this->fetchOne(this->dialect->viewExists(viewName, schemaName), Db::FETCH_NUM)[0] > 0;
+        return this->fetchOne(this->dialect->viewExists(viewName, schemaName), Enum::FETCH_NUM)[0] > 0;
     }
 }

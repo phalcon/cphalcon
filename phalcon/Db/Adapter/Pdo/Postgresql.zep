@@ -10,10 +10,10 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
-use Phalcon\Db;
 use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\Enum;
 use Phalcon\Db\Exception;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\Reference;
@@ -165,7 +165,7 @@ class Postgresql extends PdoAdapter
          */
         let fields = this->fetchAll(
             this->dialect->describeColumns(table, schema),
-            Db::FETCH_NUM
+            Enum::FETCH_NUM
         );
 
         for field in fields {
@@ -542,7 +542,7 @@ class Postgresql extends PdoAdapter
 
         let references = [];
 
-        for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Db::FETCH_NUM) {
+        for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Enum::FETCH_NUM) {
             let constraintName = reference[2];
 
             if !isset references[constraintName] {

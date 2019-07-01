@@ -18,7 +18,7 @@ use Phalcon\Crypt\Mismatch;
  * Provides encryption capabilities to Phalcon applications.
  *
  * ```php
- * use Phalcon\Crypt;
+ * use Phalcon\Crypt\Crypt;
  *
  * $crypt = new Crypt();
  *
@@ -95,7 +95,7 @@ class Crypt implements CryptInterface
     protected useSigning = true;
 
     /**
-     * Phalcon\Crypt constructor.
+     * Phalcon\Crypt\Crypt constructor.
      */
     public function __construct(string! cipher = "aes-256-cfb", bool useSigning = false) -> void
     {

@@ -17,7 +17,7 @@ use UnitTester;
 class GetAuthDataCest
 {
     /**
-     * Unit Tests Phalcon\Crypt :: getAuthData()
+     * Unit Tests Phalcon\Crypt\Crypt :: getAuthData()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-25

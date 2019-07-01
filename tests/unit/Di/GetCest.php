@@ -15,7 +15,7 @@ namespace Phalcon\Test\Unit\Di;
 use Phalcon\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Service;
-use Phalcon\Escaper;
+use Phalcon\Escaper\Escaper;
 use UnitTester;
 
 class GetCest

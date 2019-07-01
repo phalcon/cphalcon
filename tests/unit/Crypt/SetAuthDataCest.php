@@ -17,7 +17,7 @@ use UnitTester;
 class SetAuthDataCest
 {
     /**
-     * Unit Tests Phalcon\Crypt :: setAuthData()
+     * Unit Tests Phalcon\Crypt\Crypt :: setAuthData()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-25

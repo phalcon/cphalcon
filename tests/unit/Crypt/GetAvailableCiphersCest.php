@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Crypt;
 
-use Phalcon\Crypt;
+use Phalcon\Crypt\Crypt;
 use UnitTester;
 
 class GetAvailableCiphersCest
 {
     /**
-     * Tests Phalcon\Crypt :: getAvailableCiphers()
+     * Tests Phalcon\Crypt\Crypt :: getAvailableCiphers()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -11,7 +11,7 @@
 namespace Phalcon\Firewall\Adapter;
 
 use Closure;
-use Phalcon\Acl;
+use Phalcon\Acl\Enum;
 use Phalcon\Acl\RoleAware;
 use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 use Phalcon\DiInterface;
@@ -51,7 +51,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Default access
      * @var int
      */
-    protected defaultAccess = Acl::DENY { get };
+    protected defaultAccess = Enum::DENY { get };
 
     /**
      * Events manager
@@ -111,7 +111,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     }
 
     /**
-     * Sets the default access level (Phalcon\Acl::ALLOW or Phalcon\Acl::DENY)
+     * Sets the default access level (Phalcon\Acl\Enum::ALLOW or Phalcon\Acl\Enum::DENY)
      */
     public function setDefaultAccess(int defaultAccess) -> <AdapterInterface>
     {

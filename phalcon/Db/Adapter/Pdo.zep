@@ -10,7 +10,7 @@
 
 namespace Phalcon\Db\Adapter;
 
-use Phalcon\Db\Adapter;
+use Phalcon\Db\Adapter\AbstractAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Result\Pdo as ResultPdo;
@@ -35,7 +35,7 @@ use Phalcon\Events\ManagerInterface;
  * $connection = new Mysql($config);
  *```
  */
-abstract class Pdo extends Adapter
+abstract class Pdo extends AbstractAdapter
 {
     /**
      * Last affected rows

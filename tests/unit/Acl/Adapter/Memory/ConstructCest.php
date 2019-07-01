@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use function cacheDir;
 use function file_get_contents;
-use Phalcon\Acl;
+use Phalcon\Acl\Enum;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Component;
 use Phalcon\Acl\Role;
@@ -34,8 +34,8 @@ class ConstructCest
     {
         $I->wantToTest('Acl\Adapter\Memory - __construct() - constants');
 
-        $I->assertEquals(1, Acl::ALLOW);
-        $I->assertEquals(0, Acl::DENY);
+        $I->assertEquals(1, Enum::ALLOW);
+        $I->assertEquals(0, Enum::DENY);
     }
 
     /**
@@ -127,7 +127,7 @@ class ConstructCest
     public function testAclNegationOfInheritedRoles(UnitTester $I)
     {
         $acl = new Memory();
-        $acl->setDefaultAction(Acl::DENY);
+        $acl->setDefaultAction(Enum::DENY);
 
         $acl->addRole('Guests');
         $acl->addRole('Members', 'Guests');
@@ -164,7 +164,7 @@ class ConstructCest
         $acl = new Memory();
 
         $acl->setDefaultAction(
-            Acl::DENY
+            Enum::DENY
         );
 
         $roleGuest      = new Role('guest');
@@ -295,7 +295,7 @@ class ConstructCest
         $acl = new Memory();
 
         $acl->setDefaultAction(
-            Acl::DENY
+            Enum::DENY
         );
 
         $acl->addRole('Guests');
@@ -345,7 +345,7 @@ class ConstructCest
         $acl = new Memory();
 
         $acl->setDefaultAction(
-            Acl::DENY
+            Enum::DENY
         );
 
         $acl->addRole('Guests1');

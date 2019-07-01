@@ -15,7 +15,7 @@ use Closure;
 use Countable;
 use Iterator;
 use JsonSerializable;
-use Phalcon\Db;
+use Phalcon\Db\Enum;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\ModelInterface;
@@ -133,7 +133,7 @@ abstract class Resultset
         /**
          * Do the fetch using only associative indexes
          */
-        result->setFetchMode(Db::FETCH_ASSOC);
+        result->setFetchMode(Enum::FETCH_ASSOC);
 
         /**
          * Update the row-count

@@ -10,10 +10,10 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
-use Phalcon\Db;
 use Phalcon\Db\Adapter\Pdo as PdoAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\Enum;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
@@ -109,7 +109,7 @@ class Sqlite extends PdoAdapter
          */
         let fields = this->fetchAll(
             this->dialect->describeColumns(table, schema),
-            Db::FETCH_NUM
+            Enum::FETCH_NUM
         );
 
         for field in fields {
@@ -328,7 +328,7 @@ class Sqlite extends PdoAdapter
 
         let indexes = [];
 
-        for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
+        for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Enum::FETCH_ASSOC) {
             let keyName = index["name"];
 
             if !isset indexes[keyName] {
@@ -343,7 +343,7 @@ class Sqlite extends PdoAdapter
 
             let describeIndexes = this->fetchAll(
                 this->dialect->describeIndex(keyName),
-                Db::FETCH_ASSOC
+                Enum::FETCH_ASSOC
             );
 
             for describeIndex in describeIndexes {
@@ -391,7 +391,7 @@ class Sqlite extends PdoAdapter
 
         let references = [];
 
-        for number, reference in this->fetchAll(this->dialect->describeReferences(table, schema), Db::FETCH_NUM) {
+        for number, reference in this->fetchAll(this->dialect->describeReferences(table, schema), Enum::FETCH_NUM) {
             let constraintName = "foreign_key_" . number;
 
             if !isset references[constraintName] {

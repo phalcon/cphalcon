@@ -17,7 +17,7 @@ use const ENT_HTML401;
 use const ENT_HTML5;
 use const ENT_XHTML;
 use const ENT_XML1;
-use Phalcon\Escaper;
+use Phalcon\Escaper\Escaper;
 use UnitTester;
 
 class EscapeHtmlAttrCest

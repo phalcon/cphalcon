@@ -10,11 +10,12 @@
 namespace Phalcon\Mvc;
 
 use JsonSerializable;
-use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\DialectInterface;
-use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Db\Enum;
 use Phalcon\Db\RawValue;
+use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
@@ -2213,7 +2214,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
         let row = readConnection->fetchOne(
             tables,
-            \Phalcon\Db::FETCH_ASSOC,
+            Enum::FETCH_ASSOC,
             uniqueParams,
             this->uniqueTypes
         );

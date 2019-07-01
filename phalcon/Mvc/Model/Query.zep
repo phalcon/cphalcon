@@ -13,7 +13,7 @@ namespace Phalcon\Mvc\Model;
 use Phalcon\Db\Column;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\ResultInterface;
-use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\DiInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Mvc\Model\Row;

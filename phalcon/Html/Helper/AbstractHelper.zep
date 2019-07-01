@@ -11,7 +11,7 @@
 namespace Phalcon\Html\Helper;
 
 use Phalcon\Html\Exception;
-use Phalcon\EscaperInterface;
+use Phalcon\Escaper\EscaperInterface;
 
 /**
  * Phalcon\Html\Helper\AbstractHelper
@@ -56,7 +56,7 @@ abstract class AbstractHelper
     protected function renderElement(string! tag, array! attributes = []) -> string
     {
         var attrs, escapedAttrs;
-        
+
         let escapedAttrs = "";
         if count(attributes) > 0 {
             let attrs        = this->orderAttributes([], attributes),
@@ -77,7 +77,7 @@ abstract class AbstractHelper
     protected function orderAttributes(array overrides, array attributes) -> array
     {
         var intersect, order, results;
-        
+
         let order = [
             "rel"    : null,
             "type"   : null,
