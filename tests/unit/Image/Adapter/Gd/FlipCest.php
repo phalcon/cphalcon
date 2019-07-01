@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
-use Phalcon\Image;
+use Phalcon\Image\Enum;
 use Phalcon\Image\Adapter\Gd;
 use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
@@ -33,12 +33,12 @@ class FlipCest
 
         $params = [
             'jpg' => [
-                [Image::HORIZONTAL, 'df9fcfc7c38381c1'],
-                [Image::VERTICAL, '8381c1c3e3f3f9fb'],
+                [Enum::HORIZONTAL, 'df9fcfc7c38381c1'],
+                [Enum::VERTICAL, '8381c1c3e3f3f9fb'],
             ],
             'png' => [
-                [Image::HORIZONTAL, '0c1e3e3c78181818'],
-                [Image::VERTICAL, '1818181e3c7c7830'],
+                [Enum::HORIZONTAL, '0c1e3e3c78181818'],
+                [Enum::VERTICAL, '1818181e3c7c7830'],
             ],
         ];
 

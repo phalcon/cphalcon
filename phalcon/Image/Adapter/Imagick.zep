@@ -13,6 +13,7 @@ namespace Phalcon\Image\Adapter;
 use Imagick;
 use ImagickDraw;
 use ImagickPixel;
+use Phalcon\Image\Enum;
 use Phalcon\Image\Adapter\AbstractAdapter;
 use Phalcon\Image\Exception;
 
@@ -56,7 +57,7 @@ class Imagick extends AbstractAdapter
 
             if unlikely !this->image->readImage(this->realpath) {
                  throw new Exception(
-                     "Imagick::readImage " . this->file . " failed"
+                     "Enum::readImage " . this->file . " failed"
                  );
             }
 
@@ -93,10 +94,10 @@ class Imagick extends AbstractAdapter
             let this->realpath = this->file;
         }
 
-        let this->width = this->image->getImageWidth();
+        let this->width  = this->image->getImageWidth();
         let this->height = this->image->getImageHeight();
-        let this->type = this->image->getImageType();
-        let this->mime = "image/" . this->image->getImageFormat();
+        let this->type   = this->image->getImageType();
+        let this->mime   = "image/" . this->image->getImageFormat();
     }
 
     /**
@@ -125,8 +126,8 @@ class Imagick extends AbstractAdapter
             );
         }
 
-        if defined("Imagick::IMAGICK_EXTNUM") {
-            let self::version = constant("Imagick::IMAGICK_EXTNUM");
+        if defined("Enum::IMAGICK_EXTNUM") {
+            let self::version = constant("Enum::IMAGICK_EXTNUM");
         }
 
         let self::checked = true;
@@ -174,16 +175,16 @@ class Imagick extends AbstractAdapter
 
             if !background->getImageAlphaChannel() {
                 background->setImageAlphaChannel(
-                    constant("Imagick::ALPHACHANNEL_SET")
+                    constant("Enum::ALPHACHANNEL_SET")
                 );
             }
 
             background->setImageBackgroundColor(pixel2);
 
             background->evaluateImage(
-                constant("Imagick::EVALUATE_MULTIPLY"),
+                constant("Enum::EVALUATE_MULTIPLY"),
                 opacity,
-                constant("Imagick::CHANNEL_ALPHA")
+                constant("Enum::CHANNEL_ALPHA")
             );
 
             background->setColorspace(
@@ -192,13 +193,13 @@ class Imagick extends AbstractAdapter
 
             let ret = background->compositeImage(
                 this->image,
-                constant("Imagick::COMPOSITE_DISSOLVE"),
+                constant("Enum::COMPOSITE_DISSOLVE"),
                 0,
                 0
             );
 
             if unlikely ret !== true {
-                throw new Exception("Imagick::compositeImage failed");
+                throw new Exception("Enum::compositeImage failed");
             }
 
             if this->image->nextImage() === false {
@@ -263,7 +264,7 @@ class Imagick extends AbstractAdapter
 
         let func = "flipImage";
 
-        if direction == \Phalcon\Image::HORIZONTAL {
+        if direction == Enum::HORIZONTAL {
            let func = "flopImage";
         }
 
@@ -304,7 +305,7 @@ class Imagick extends AbstractAdapter
             );
 
             if unlikely ret !== true {
-                throw new Exception("Imagick::liquidRescale failed");
+                throw new Exception("Enum::liquidRescale failed");
             }
 
             if image->nextImage() === false {
@@ -336,13 +337,13 @@ class Imagick extends AbstractAdapter
 
             let ret = this->image->compositeImage(
                 mask,
-                constant("Imagick::COMPOSITE_DSTIN"),
+                constant("Enum::COMPOSITE_DSTIN"),
                 0,
                 0
             );
 
             if unlikely ret !== true {
-                throw new Exception("Imagick::compositeImage failed");
+                throw new Exception("Enum::compositeImage failed");
             }
 
             if this->image->nextImage() === false {
@@ -431,19 +432,19 @@ class Imagick extends AbstractAdapter
         loop {
             let ret = reflection->compositeImage(
                 fade,
-                constant("Imagick::COMPOSITE_DSTOUT"),
+                constant("Enum::COMPOSITE_DSTOUT"),
                 0,
                 0
             );
 
             if unlikely ret !== true {
-                throw new Exception("Imagick::compositeImage failed");
+                throw new Exception("Enum::compositeImage failed");
             }
 
             reflection->evaluateImage(
-                constant("Imagick::EVALUATE_MULTIPLY"),
+                constant("Enum::EVALUATE_MULTIPLY"),
                 opacity,
-                constant("Imagick::CHANNEL_ALPHA")
+                constant("Enum::CHANNEL_ALPHA")
             );
 
             if reflection->nextImage() === false {
@@ -463,7 +464,7 @@ class Imagick extends AbstractAdapter
             image->newImage(this->width, height, pixel);
 
             image->setImageAlphaChannel(
-                constant("Imagick::ALPHACHANNEL_SET")
+                constant("Enum::ALPHACHANNEL_SET")
             );
 
             image->setColorspace(
@@ -476,13 +477,13 @@ class Imagick extends AbstractAdapter
 
             let ret = image->compositeImage(
                 this->image,
-                constant("Imagick::COMPOSITE_SRC"),
+                constant("Enum::COMPOSITE_SRC"),
                 0,
                 0
             );
 
             if unlikely ret !== true {
-                throw new Exception("Imagick::compositeImage failed");
+                throw new Exception("Enum::compositeImage failed");
             }
 
             if this->image->nextImage() === false {
@@ -496,13 +497,13 @@ class Imagick extends AbstractAdapter
         loop {
             let ret = image->compositeImage(
                 reflection,
-                constant("Imagick::COMPOSITE_OVER"),
+                constant("Enum::COMPOSITE_OVER"),
                 0,
                 this->height
             );
 
             if unlikely ret !== true {
-                throw new Exception("Imagick::compositeImage failed");
+                throw new Exception("Enum::compositeImage failed");
             }
 
             if image->nextImage() === false || reflection->nextImage() === false {
@@ -541,7 +542,7 @@ class Imagick extends AbstractAdapter
         } else {
             if strcasecmp(extension, "jpg") === 0 || strcasecmp(extension, "jpeg") === 0 {
                 image->setImageCompression(
-                    constant("Imagick::COMPRESSION_JPEG")
+                    constant("Enum::COMPRESSION_JPEG")
                 );
             }
 
@@ -632,7 +633,7 @@ class Imagick extends AbstractAdapter
         } else {
             if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
                 this->image->setImageCompression(
-                    constant("Imagick::COMPRESSION_JPEG")
+                    constant("Enum::COMPRESSION_JPEG")
                 );
             }
 
@@ -703,7 +704,7 @@ class Imagick extends AbstractAdapter
                 let offsetX = 0,
                     offsetY = 0;
 
-                let gravity = constant("Imagick::GRAVITY_CENTER");
+                let gravity = constant("Enum::GRAVITY_CENTER");
             } else {
                 if typeof offsetY == "int" {
                     let y = (int) offsetY;
@@ -712,19 +713,19 @@ class Imagick extends AbstractAdapter
                         if y < 0 {
                             let offsetX = 0,
                                 offsetY = y * -1,
-                                gravity = constant("Imagick::GRAVITY_SOUTHEAST");
+                                gravity = constant("Enum::GRAVITY_SOUTHEAST");
                         } else {
                             let offsetX = 0,
-                                gravity = constant("Imagick::GRAVITY_NORTHEAST");
+                                gravity = constant("Enum::GRAVITY_NORTHEAST");
                         }
                     } else {
                         if y < 0 {
                             let offsetX = 0,
                                 offsetY = y * -1,
-                                gravity = constant("Imagick::GRAVITY_SOUTH");
+                                gravity = constant("Enum::GRAVITY_SOUTH");
                         } else {
                             let offsetX = 0,
-                                gravity = constant("Imagick::GRAVITY_NORTH");
+                                gravity = constant("Enum::GRAVITY_NORTH");
                         }
                     }
                 }
@@ -739,19 +740,19 @@ class Imagick extends AbstractAdapter
                             if x < 0 {
                                 let offsetX = x * -1,
                                     offsetY = 0,
-                                    gravity = constant("Imagick::GRAVITY_SOUTHEAST");
+                                    gravity = constant("Enum::GRAVITY_SOUTHEAST");
                             } else {
                                 let offsetY = 0,
-                                    gravity = constant("Imagick::GRAVITY_SOUTH");
+                                    gravity = constant("Enum::GRAVITY_SOUTH");
                             }
                         } else {
                             if x < 0 {
                                 let offsetX = x * -1,
                                     offsetY = 0,
-                                    gravity = constant("Imagick::GRAVITY_EAST");
+                                    gravity = constant("Enum::GRAVITY_EAST");
                             } else {
                                 let offsetY = 0,
-                                    gravity = constant("Imagick::GRAVITY_WEST");
+                                    gravity = constant("Enum::GRAVITY_WEST");
                             }
                         }
                     } else {
@@ -763,19 +764,19 @@ class Imagick extends AbstractAdapter
                                 if y < 0 {
                                     let offsetX = x * -1,
                                         offsetY = y * -1,
-                                        gravity = constant("Imagick::GRAVITY_SOUTHEAST");
+                                        gravity = constant("Enum::GRAVITY_SOUTHEAST");
                                 } else {
                                     let offsetX    = x * -1,
-                                        gravity = constant("Imagick::GRAVITY_NORTHEAST");
+                                        gravity = constant("Enum::GRAVITY_NORTHEAST");
                                 }
                             } else {
                                 if y < 0 {
                                     let offsetX = 0,
                                         offsetY = y * -1,
-                                        gravity = constant("Imagick::GRAVITY_SOUTHWEST");
+                                        gravity = constant("Enum::GRAVITY_SOUTHWEST");
                                 } else {
                                     let offsetX = 0,
-                                        gravity = constant("Imagick::GRAVITY_NORTHWEST");
+                                        gravity = constant("Enum::GRAVITY_NORTHWEST");
                                 }
                             }
                         }
@@ -814,9 +815,9 @@ class Imagick extends AbstractAdapter
         );
 
         watermark->evaluateImage(
-            constant("Imagick::EVALUATE_MULTIPLY"),
+            constant("Enum::EVALUATE_MULTIPLY"),
             opacity,
-            constant("Imagick::CHANNEL_ALPHA")
+            constant("Enum::CHANNEL_ALPHA")
         );
 
         this->image->setIteratorIndex(0);
@@ -824,13 +825,13 @@ class Imagick extends AbstractAdapter
         loop {
             let ret = this->image->compositeImage(
                 watermark,
-                constant("Imagick::COMPOSITE_OVER"),
+                constant("Enum::COMPOSITE_OVER"),
                 offsetX,
                 offsetY
             );
 
             if unlikely ret !== true {
-                throw new Exception("Imagick::compositeImage failed");
+                throw new Exception("Enum::compositeImage failed");
             }
 
             if this->image->nextImage() === false {
