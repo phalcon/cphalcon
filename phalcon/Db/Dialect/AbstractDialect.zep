@@ -8,13 +8,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Db;
+namespace Phalcon\Db\Dialect;
+
+use Phalcon\Db\Exception;
+use Phalcon\Db\ColumnInterface;
 
 /**
  * This is the base class to each database dialect. This implements
  * common methods to transform intermediate code into its RDBMS related syntax
  */
-abstract class Dialect implements DialectInterface
+abstract class AbstractDialect implements DialectInterface
 {
     protected escapeChar;
 

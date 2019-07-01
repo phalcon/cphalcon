@@ -12,22 +12,18 @@ namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Helper\Arr;
 use Phalcon\Mvc\Model\Exception;
-use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Mvc\Model\MetaData\AbstractMetaData;
 use Phalcon\Cache\AdapterFactory;
 
 /**
- * Phalcon\Mvc\Model\MetaData\Libmemcached
- *
  * Stores model meta-data in the Memcache.
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
  */
-class Libmemcached extends MetaData
+class Libmemcached extends AbstractMetaData
 {
     /**
      * Phalcon\Mvc\Model\MetaData\Libmemcached constructor
-     *
-     * @param array options
      */
     public function __construct(<AdapterFactory> factory, array! options = []) -> void
     {

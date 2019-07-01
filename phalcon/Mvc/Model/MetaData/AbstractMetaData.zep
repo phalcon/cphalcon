@@ -8,19 +8,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Mvc\Model;
+namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Mvc\Model\MetaData\Enum;
 use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
 use Phalcon\Mvc\Model\MetaData\StrategyInterface;
 use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 
 /**
- * Phalcon\Mvc\Model\MetaData
- *
  * Because Phalcon\Mvc\Model requires meta-data like field names, data types,
  * primary keys, etc. This component collect them and store for further
  * querying by Phalcon\Mvc\Model. Phalcon\Mvc\Model\MetaData can also use
@@ -38,25 +37,8 @@ use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
  * print_r($attributes);
  * ```
  */
-abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
+abstract class AbstractMetaData implements InjectionAwareInterface, MetaDataInterface
 {
-    const MODELS_ATTRIBUTES = 0;
-    const MODELS_AUTOMATIC_DEFAULT_INSERT = 10;
-    const MODELS_AUTOMATIC_DEFAULT_UPDATE = 11;
-    const MODELS_COLUMN_MAP = 0;
-    const MODELS_DATE_AT = 6;
-    const MODELS_DATE_IN = 7;
-    const MODELS_DATA_TYPES = 4;
-    const MODELS_DATA_TYPES_BIND = 9;
-    const MODELS_DATA_TYPES_NUMERIC = 5;
-    const MODELS_DEFAULT_VALUES = 12;
-    const MODELS_EMPTY_STRING_VALUES = 13;
-    const MODELS_IDENTITY_COLUMN = 8;
-    const MODELS_NON_PRIMARY_KEY = 2;
-    const MODELS_NOT_NULL = 3;
-    const MODELS_PRIMARY_KEY = 1;
-    const MODELS_REVERSE_COLUMN_MAP = 1;
-
     /**
      * @var CacheAdapterInterface
      */
@@ -85,7 +67,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         var data;
 
-        let data = this->readMetaDataIndex(model, self::MODELS_ATTRIBUTES);
+        let data = this->readMetaDataIndex(model, Enum::MODELS_ATTRIBUTES);
 
         if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
@@ -111,7 +93,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(
             model,
-            self::MODELS_AUTOMATIC_DEFAULT_INSERT
+            Enum::MODELS_AUTOMATIC_DEFAULT_INSERT
         );
 
         if unlikely typeof data != "array" {
@@ -138,7 +120,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(
             model,
-            self::MODELS_AUTOMATIC_DEFAULT_UPDATE
+            Enum::MODELS_AUTOMATIC_DEFAULT_UPDATE
         );
 
         if unlikely typeof data != "array" {
@@ -165,7 +147,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(
             model,
-            self::MODELS_DATA_TYPES_BIND
+            Enum::MODELS_DATA_TYPES_BIND
         );
 
         if unlikely typeof data != "array" {
@@ -190,7 +172,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         var data;
 
-        let data = this->readColumnMapIndex(model, self::MODELS_COLUMN_MAP);
+        let data = this->readColumnMapIndex(model, Enum::MODELS_COLUMN_MAP);
 
         if unlikely (data !== null && typeof data != "array") {
             throw new Exception("The meta-data is invalid or is corrupt");
@@ -214,7 +196,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         var data;
 
-        let data = this->readMetaDataIndex(model, self::MODELS_DEFAULT_VALUES);
+        let data = this->readMetaDataIndex(model, Enum::MODELS_DEFAULT_VALUES);
 
         if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
@@ -238,7 +220,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         var data;
 
-        let data = this->readMetaDataIndex(model, self::MODELS_DATA_TYPES);
+        let data = this->readMetaDataIndex(model, Enum::MODELS_DATA_TYPES);
 
         if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
@@ -264,7 +246,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(
             model,
-            self::MODELS_DATA_TYPES_NUMERIC
+            Enum::MODELS_DATA_TYPES_NUMERIC
         );
 
         if unlikely typeof data != "array" {
@@ -299,7 +281,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readMetaDataIndex(
             model,
-            self::MODELS_EMPTY_STRING_VALUES
+            Enum::MODELS_EMPTY_STRING_VALUES
         );
 
         if unlikely typeof data != "array" {
@@ -325,7 +307,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     public function getIdentityField(<ModelInterface> model) -> string
     {
-        return this->readMetaDataIndex(model, self::MODELS_IDENTITY_COLUMN);
+        return this->readMetaDataIndex(model, Enum::MODELS_IDENTITY_COLUMN);
     }
 
     /**
@@ -343,7 +325,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         var data;
 
-        let data = this->readMetaDataIndex(model, self::MODELS_NON_PRIMARY_KEY);
+        let data = this->readMetaDataIndex(model, Enum::MODELS_NON_PRIMARY_KEY);
 
         if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
@@ -367,7 +349,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         var data;
 
-        let data = this->readMetaDataIndex(model, self::MODELS_NOT_NULL);
+        let data = this->readMetaDataIndex(model, Enum::MODELS_NOT_NULL);
 
         if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
@@ -391,7 +373,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         var data;
 
-        let data = this->readMetaDataIndex(model, self::MODELS_PRIMARY_KEY);
+        let data = this->readMetaDataIndex(model, Enum::MODELS_PRIMARY_KEY);
 
         if unlikely typeof data != "array" {
             throw new Exception("The meta-data is invalid or is corrupt");
@@ -417,7 +399,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 
         let data = this->readColumnMapIndex(
             model,
-            self::MODELS_REVERSE_COLUMN_MAP
+            Enum::MODELS_REVERSE_COLUMN_MAP
         );
 
         if unlikely (data !== null && typeof data != "array") {
@@ -461,7 +443,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
             return isset columnMap[attribute];
         }
 
-        return isset this->readMetaData(model)[self::MODELS_DATA_TYPES][attribute];
+        return isset this->readMetaData(model)[Enum::MODELS_DATA_TYPES][attribute];
     }
 
     /**
@@ -641,7 +623,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         this->writeMetaDataIndex(
             model,
-            self::MODELS_AUTOMATIC_DEFAULT_INSERT,
+            Enum::MODELS_AUTOMATIC_DEFAULT_INSERT,
             attributes
         );
     }
@@ -662,7 +644,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         this->writeMetaDataIndex(
             model,
-            self::MODELS_AUTOMATIC_DEFAULT_UPDATE,
+            Enum::MODELS_AUTOMATIC_DEFAULT_UPDATE,
             attributes
         );
     }
@@ -683,7 +665,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     {
         this->writeMetaDataIndex(
             model,
-            self::MODELS_EMPTY_STRING_VALUES,
+            Enum::MODELS_EMPTY_STRING_VALUES,
             attributes
         );
     }

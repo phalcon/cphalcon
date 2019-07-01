@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Mvc\Model;
+namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\MetaData\StrategyInterface;

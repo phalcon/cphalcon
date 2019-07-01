@@ -8,13 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Mvc\Model;
+namespace Phalcon\Mvc\Model\Behavior;
 
 use Phalcon\Mvc\ModelInterface;
 
 /**
- * Phalcon\Mvc\Model\BehaviorInterface
- *
  * Interface for Phalcon\Mvc\Model\Behavior
  */
 interface BehaviorInterface

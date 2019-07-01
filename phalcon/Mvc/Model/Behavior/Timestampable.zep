@@ -12,7 +12,7 @@ namespace Phalcon\Mvc\Model\Behavior;
 
 use Closure;
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Mvc\Model\Behavior;
+use Phalcon\Mvc\Model\Behavior\AbstractBehavior;
 use Phalcon\Mvc\Model\Exception;
 
 /**
@@ -21,7 +21,7 @@ use Phalcon\Mvc\Model\Exception;
  * Allows to automatically update a model’s attribute saving the datetime when a
  * record is created or updated
  */
-class Timestampable extends Behavior
+class Timestampable extends AbstractBehavior
 {
     /**
      * Listens for notifications from the models manager
