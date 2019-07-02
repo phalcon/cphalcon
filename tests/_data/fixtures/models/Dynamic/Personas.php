@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Models\Dynamic;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model as PhalconModel;
 
 /**
  * @property string $cedula
@@ -28,7 +28,7 @@ use Phalcon\Mvc\Model\AbstractModel;
  *
  * @method static Personas findFirst($parameters = null)
  */
-class Personas extends AbstractModel
+class Personas extends PhalconModel
 {
     public function initialize()
     {
