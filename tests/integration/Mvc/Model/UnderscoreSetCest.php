@@ -13,6 +13,7 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model\Enum;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models;
 
@@ -133,7 +134,7 @@ class UnderscoreSetCest
         );
 
         $I->assertEquals(
-            Model::DIRTY_STATE_TRANSIENT,
+            Enum::DIRTY_STATE_TRANSIENT,
             $robotPart->getDirtyState()
         );
     }
@@ -160,7 +161,7 @@ class UnderscoreSetCest
 
         $I->assertEquals(
             $robotPart->getDirtyState(),
-            Model::DIRTY_STATE_TRANSIENT
+            Enum::DIRTY_STATE_TRANSIENT
         );
 
         $I->assertEquals(
@@ -190,7 +191,7 @@ class UnderscoreSetCest
         );
 
         $I->assertEquals(
-            Model::DIRTY_STATE_TRANSIENT,
+            Enum::DIRTY_STATE_TRANSIENT,
             $customer->getDirtyState()
         );
     }
@@ -216,7 +217,7 @@ class UnderscoreSetCest
         );
 
         $I->assertEquals(
-            Model::DIRTY_STATE_TRANSIENT,
+            Enum::DIRTY_STATE_TRANSIENT,
             $customer->getDirtyState()
         );
 
@@ -260,7 +261,7 @@ class UnderscoreSetCest
         );
 
         $I->assertEquals(
-            Model::DIRTY_STATE_TRANSIENT,
+            Enum::DIRTY_STATE_TRANSIENT,
             $robot->getDirtyState()
         );
     }
@@ -299,7 +300,7 @@ class UnderscoreSetCest
         );
 
         $I->assertEquals(
-            Model::DIRTY_STATE_TRANSIENT,
+            Enum::DIRTY_STATE_TRANSIENT,
             $robot->getDirtyState()
         );
     }

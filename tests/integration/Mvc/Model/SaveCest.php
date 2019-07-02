@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model\Enum;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
@@ -186,17 +187,17 @@ class SaveCest
         );
 
         $I->assertEquals(
-            Model::DIRTY_STATE_PERSISTENT,
+            Enum::DIRTY_STATE_PERSISTENT,
             $robotPart->getDirtyState()
         );
 
         $I->assertEquals(
-            Model::DIRTY_STATE_PERSISTENT,
+            Enum::DIRTY_STATE_PERSISTENT,
             $robotPart->robot->getDirtyState()
         );
 
         $I->assertEquals(
-            Model::DIRTY_STATE_PERSISTENT,
+            Enum::DIRTY_STATE_PERSISTENT,
             $part->getDirtyState()
         );
 
