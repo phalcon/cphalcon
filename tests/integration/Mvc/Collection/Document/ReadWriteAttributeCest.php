@@ -19,9 +19,9 @@ use Phalcon\Test\Fixtures\Mvc\Collections\Robots;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
- * Class ToArrayCest
+ * Class ReadWriteAttributeCest
  */
-class ToArrayCest
+class ReadWriteAttributeCest
 {
     use DiTrait;
 
@@ -33,27 +33,31 @@ class ToArrayCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Collection\Document :: toArray()
+     * Tests Phalcon\Mvc\Collection\Document :: readAttribute()
+     * Tests Phalcon\Mvc\Collection\Document :: writeAttribute()
      *
      * @param IntegrationTester $I
      * @since  2018-11-13
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function mvcCollectionDocumentToArray(IntegrationTester $I)
+    public function mvcCollectionDocumentReadWriteAttribute(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Collection\Document - toArray()');
+        $I->wantToTest('Mvc\Collection\Document - readAttribute()');
+        $I->wantToTest('Mvc\Collection\Document - writeAttribute()');
 
         $robot = new Robots;
         $robot->setId(new ObjectId);
         $robot->first_name = 'Wall';
         $robot->last_name = 'E';
 
-        $parts = [
-            'id' => $robot->getId(),
-            'common_name' => $robot->first_name . ' ' . $robot->last_name
-        ];
+        $common_name = $robot->first_name . ' ' . $robot->last_name;
 
-        $robotPart = new RobotPart($parts);
-        $I->assertEquals($robotPart->toArray(), $parts);
+        $robotPart = new RobotPart(['common_name' => $common_name]);
+
+        $robotPart->writeAttribute('id', $robot->getId());
+        $I->assertEquals($robotPart->id, $robot->getId());
+
+        $partName = $robotPart->readAttribute('common_name');
+        $I->assertEquals($common_name, $partName);
     }
 }

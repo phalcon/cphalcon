@@ -18,9 +18,9 @@ use Phalcon\Test\Fixtures\Mvc\Collections\Robots;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
- * Class SerializeCest
+ * Class CloneResultCest
  */
-class SerializeCest
+class CloneResultCest
 {
     use DiTrait;
 
@@ -41,28 +41,27 @@ class SerializeCest
 
         $this->mongo->selectCollection($this->source)->insertOne(
             [
-                'first_name' => 'Wall',
-                'last_name' => 'E',
+                'first_name' => 'Unknown',
+                'last_name' => 'Nobody',
             ]
         );
     }
 
     /**
-     * Tests Phalcon\Mvc\Collection :: serialize()
+     * Tests Phalcon\Mvc\Collection :: cloneResult()
      *
      * @param IntegrationTester $I
      * @since  2018-11-13
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function mvcCollectionSerialize(IntegrationTester $I)
+    public function mvcCollectionCloneResult(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Collection - serialize()');
+        $I->wantToTest('Mvc\Collection - cloneResult()');
 
-        /** @var Robots $robot */
         $robot = Robots::findFirst();
-        $serialized = $robot->serialize();
+        $clonedRobot = Robots::cloneResult($robot, []);
 
-        $I->assertEquals($robot->toArray(), unserialize($serialized));
+        $I->assertEquals($robot, $clonedRobot);
     }
 
     public function _after()

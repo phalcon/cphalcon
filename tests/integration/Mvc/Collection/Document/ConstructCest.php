@@ -13,15 +13,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Collection\Document;
 
 use IntegrationTester;
-use MongoDB\BSON\ObjectId;
 use Phalcon\Test\Fixtures\Mvc\Collections\Documents\RobotPart;
-use Phalcon\Test\Fixtures\Mvc\Collections\Robots;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
- * Class ToArrayCest
+ * Class ConstructCest
  */
-class ToArrayCest
+class ConstructCest
 {
     use DiTrait;
 
@@ -33,27 +31,17 @@ class ToArrayCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Collection\Document :: toArray()
+     * Tests Phalcon\Mvc\Collection\Document :: __construct()
      *
      * @param IntegrationTester $I
      * @since  2018-11-13
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function mvcCollectionDocumentToArray(IntegrationTester $I)
+    public function mvcCollectionDocumentConstruct(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Collection\Document - toArray()');
+        $I->wantToTest('Mvc\Collection\Document - offsetExists()');
 
-        $robot = new Robots;
-        $robot->setId(new ObjectId);
-        $robot->first_name = 'Wall';
-        $robot->last_name = 'E';
-
-        $parts = [
-            'id' => $robot->getId(),
-            'common_name' => $robot->first_name . ' ' . $robot->last_name
-        ];
-
-        $robotPart = new RobotPart($parts);
-        $I->assertEquals($robotPart->toArray(), $parts);
+        $robotPart = new RobotPart;
+        $I->assertInstanceOf(RobotPart::class, $robotPart);
     }
 }

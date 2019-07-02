@@ -58,7 +58,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
     protected static reserved;
 
-    protected skipped = false;
+    protected skipped;
 
     protected source;
 
@@ -171,6 +171,25 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     public function appendMessage(<MessageInterface> message)
     {
         let this->errorMessages[] = message;
+    }
+
+    /**
+     * Returns a cloned collection
+     */
+    public static function cloneResult(<CollectionInterface> collection, array! document) -> <CollectionInterface>
+    {
+        var clonedCollection, key, value;
+
+        let clonedCollection = clone collection;
+        for key, value in document {
+            clonedCollection->writeAttribute(key, value);
+        }
+
+        if method_exists(clonedCollection, "afterFetch") {
+            clonedCollection->{"afterFetch"}();
+        }
+
+        return clonedCollection;
     }
 
     /**
@@ -373,6 +392,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         }
 
         let disableEvents = self::disableEvents;
+        let this->skipped = false;
 
         if !disableEvents {
             if this->fireEventCancel("beforeDelete") === false {
@@ -380,6 +400,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             }
         }
 
+        /**
+         * Always return true if the operation is skipped
+         */
         if this->skipped === true {
             return true;
         }
@@ -530,13 +553,13 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * }
      * </code>
      */
-    public static function findById(var id) -> <CollectionInterface> | null
+    public static function findById(var id) -> <CollectionInterface> | bool
     {
         var className, collection, objectId;
 
         if typeof id != "object" {
             if !preg_match("/^[a-f\d]{24}$/i", id) {
-                return null;
+                return false;
             }
 
             let className = get_called_class();
@@ -611,7 +634,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * echo "The robot id is ", $robot->_id, "\n";
      * </code>
      */
-    public static function findFirst(array parameters = null) -> <CollectionInterface> | null
+    public static function findFirst(array parameters = null) -> <CollectionInterface> | bool
     {
         var className, collection, connection;
 
@@ -1524,6 +1547,11 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
                 return false;
             }
 
+            let this->skipped = false;
+
+            /**
+             * The operation can be skipped here
+             */
             if exists {
                 let eventName = "beforeUpdate";
             } else {
@@ -1534,6 +1562,12 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
                 return false;
             }
 
+            /**
+             * Always return true if the operation is skipped
+             */
+            if this->skipped === true {
+                return true;
+            }
         }
 
         return true;

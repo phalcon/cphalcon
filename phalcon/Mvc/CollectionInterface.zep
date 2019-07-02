@@ -25,6 +25,11 @@ interface CollectionInterface
     public function appendMessage(<MessageInterface> message);
 
     /**
+     * Returns a cloned collection
+     */
+    public static function cloneResult(<CollectionInterface> collection, array! document) -> <CollectionInterface>;
+
+    /**
      * Perform a count over a collection
      */
     public static function count(array parameters = null) -> int;
@@ -44,12 +49,12 @@ interface CollectionInterface
      *
      * @param string id
      */
-    public static function findById(var id) -> <CollectionInterface> | null;
+    public static function findById(var id) -> <CollectionInterface> | bool;
 
     /**
      * Allows to query the first record that match the specified conditions
      */
-    public static function findFirst(array parameters = null) -> <CollectionInterface> | null;
+    public static function findFirst(array parameters = null) -> <CollectionInterface> | bool;
 
     /**
      * Fires an event, implicitly calls behaviors and listeners in the events

@@ -19,8 +19,30 @@ use Phalcon\Mvc\Collection\Exception;
  * This component allows Phalcon\Mvc\Collection to return rows without an associated entity.
  * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
  */
-class Document implements EntityInterface, \ArrayAccess
+class Document implements EntityInterface, \ArrayAccess, \Countable
 {
+    /**
+     * Phalcon\Mvc\Collection\Document constructor
+     */
+    public function __construct(array! data = [])
+    {
+        var key, value;
+
+        for key, value in data {
+            this->writeAttribute(key, value);
+        }
+    }
+
+    /**
+     * Returns the count of properties set in the document
+     */
+    public function count() -> int
+    {
+        return count(
+            get_object_vars(this)
+        );
+    }
+
     /**
      * Returns the value of a field using the ArrayAccess interfase
      */

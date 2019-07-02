@@ -18,9 +18,9 @@ use Phalcon\Test\Fixtures\Mvc\Collections\Robots;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
- * Class GetDirtyStateCest
+ * Class GetSetDirtyStateCest
  */
-class GetDirtyStateCest
+class GetSetDirtyStateCest
 {
     use DiTrait;
 
@@ -42,14 +42,16 @@ class GetDirtyStateCest
 
     /**
      * Tests Phalcon\Mvc\Collection :: getDirtyState()
+     * Tests Phalcon\Mvc\Collection :: setDirtyState()
      *
      * @param IntegrationTester $I
      * @since  2018-11-13
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function mvcCollectionGetDirtyState(IntegrationTester $I)
+    public function mvcCollectionGetSetDirtyState(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Collection - getDirtyState()');
+        $I->wantToTest('Mvc\Collection - setDirtyState()');
 
         $robot = new Robots;
         $I->assertEquals(Robots::DIRTY_STATE_TRANSIENT, $robot->getDirtyState());
@@ -60,6 +62,9 @@ class GetDirtyStateCest
 
         $I->assertTrue($robot->delete());
         $I->assertEquals(Robots::DIRTY_STATE_DETACHED, $robot->getDirtyState());
+
+        $robot->setDirtyState(Robots::DIRTY_STATE_TRANSIENT);
+        $I->assertEquals(Robots::DIRTY_STATE_TRANSIENT, $robot->getDirtyState());
     }
 
     public function _after()

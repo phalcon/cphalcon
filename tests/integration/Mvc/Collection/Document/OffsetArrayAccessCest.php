@@ -19,9 +19,9 @@ use Phalcon\Test\Fixtures\Mvc\Collections\Robots;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
- * Class ToArrayCest
+ * Class OffsetArrayAccessCest
  */
-class ToArrayCest
+class OffsetArrayAccessCest
 {
     use DiTrait;
 
@@ -33,15 +33,19 @@ class ToArrayCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Collection\Document :: toArray()
+     * Tests Phalcon\Mvc\Collection\Document :: offsetExists()
+     * Tests Phalcon\Mvc\Collection\Document :: offsetGet()
+     * Tests Phalcon\Mvc\Collection\Document :: offsetSet()
      *
      * @param IntegrationTester $I
      * @since  2018-11-13
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function mvcCollectionDocumentToArray(IntegrationTester $I)
+    public function mvcCollectionDocumentOffsetExists(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Collection\Document - toArray()');
+        $I->wantToTest('Mvc\Collection\Document - offsetExists()');
+        $I->wantToTest('Mvc\Collection\Document - offsetGet()');
+        $I->wantToTest('Mvc\Collection\Document - offsetSet()');
 
         $robot = new Robots;
         $robot->setId(new ObjectId);
@@ -54,6 +58,12 @@ class ToArrayCest
         ];
 
         $robotPart = new RobotPart($parts);
-        $I->assertEquals($robotPart->toArray(), $parts);
+        $I->assertNotEmpty($robotPart->offsetExists('common_name'));
+        $I->assertEmpty($robotPart->offsetExists('random'));
+
+        $I->assertEquals($robot->getId(), $robotPart->offsetGet('id'));
+
+        $robotPart->offsetSet('date', '2018-11-13');
+        $I->assertEquals($robotPart->readAttribute('date'), '2018-11-13');
     }
 }

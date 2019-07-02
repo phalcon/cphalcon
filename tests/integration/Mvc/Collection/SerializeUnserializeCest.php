@@ -18,9 +18,9 @@ use Phalcon\Test\Fixtures\Mvc\Collections\Robots;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
- * Class SkipOperationCest
+ * Class SerializeUnserializeCest
  */
-class SkipOperationCest
+class SerializeUnserializeCest
 {
     use DiTrait;
 
@@ -38,19 +38,33 @@ class SkipOperationCest
 
         $this->source = (new Robots)->getSource();
         $this->mongo = $this->getDi()->get('mongo');
+
+        $this->mongo->selectCollection($this->source)->insertOne(
+            [
+                'first_name' => 'Wall',
+                'last_name' => 'E',
+            ]
+        );
     }
 
     /**
-     * Tests Phalcon\Mvc\Collection :: skipOperation()
+     * Tests Phalcon\Mvc\Collection :: serialize()
+     * Tests Phalcon\Mvc\Collection :: unserialize()
      *
      * @param IntegrationTester $I
      * @since  2018-11-13
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function mvcCollectionSkipOperation(IntegrationTester $I)
+    public function mvcCollectionSerialize(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Collection - skipOperation()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Mvc\Collection - serialize()');
+        $I->wantToTest('Mvc\Collection - unserialize()');
+
+        /** @var Robots $robot */
+        $robot = Robots::findFirst();
+        $serialized = $robot->serialize();
+
+        $I->assertEquals($robot->toArray(), unserialize($serialized));
     }
 
     public function _after()
