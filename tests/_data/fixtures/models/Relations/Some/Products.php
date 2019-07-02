@@ -12,9 +12,9 @@
 namespace Phalcon\Test\Models\Relations\Some;
 
 use Phalcon\Db\Column;
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
-class Products extends AbstractModel
+class Products extends Model
 {
     public function initialize()
     {

@@ -11,8 +11,8 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
-class Stock extends AbstractModel
+class Stock extends Model
 {
 }

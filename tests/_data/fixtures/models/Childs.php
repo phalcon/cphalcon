@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
-class Childs extends AbstractModel
+class Childs extends Model
 {
     public $id;
 

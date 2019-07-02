@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
-class Robots2 extends AbstractModel
+class Robots2 extends Model
 {
     protected $myname;
 

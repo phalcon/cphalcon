@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset\Simple;
 
 /**
@@ -20,7 +20,7 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  * @property Simple translations
  * @method Simple getTranslations()
  */
-class Language extends AbstractModel
+class Language extends Model
 {
     public function initialize()
     {

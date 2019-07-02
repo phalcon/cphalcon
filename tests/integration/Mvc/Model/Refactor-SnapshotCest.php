@@ -13,7 +13,7 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use DateTime;
 use IntegrationTester;
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Snapshot\Personas;

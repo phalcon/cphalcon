@@ -12,7 +12,7 @@ namespace Phalcon\Mvc\Model\MetaData\Strategy;
 
 use Phalcon\DiInterface;
 use Phalcon\Db\Column;
-use Phalcon\Mvc\Model\ModelInterface;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\MetaData\StrategyInterface;
 use Phalcon\Mvc\Model\Exception;

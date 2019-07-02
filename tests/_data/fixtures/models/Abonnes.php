@@ -12,7 +12,7 @@
 namespace Phalcon\Test\Models;
 
 use Phalcon\Messages\Message;
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 use Phalcon\Validation\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 use Phalcon\Validation\Validator\ExclusionIn as ExclusionInValidator;
@@ -22,7 +22,7 @@ use Phalcon\Validation\Validator\Regex as RegexValidator;
 use Phalcon\Validation\Validator\StringLength as StringLengthValidator;
 use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
 
-class Abonnes extends AbstractModel
+class Abonnes extends Model
 {
     public function initialize()
     {

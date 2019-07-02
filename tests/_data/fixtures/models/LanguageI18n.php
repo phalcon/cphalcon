@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
 /**
  * @property string from_lang
@@ -19,7 +19,7 @@ use Phalcon\Mvc\Model\AbstractModel;
  * @property string lang
  * @property string locale
  */
-class LanguageI18n extends AbstractModel
+class LanguageI18n extends Model
 {
     public function initialize()
     {

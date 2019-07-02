@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Models\Relations;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Row;
 
 /**
@@ -20,7 +20,7 @@ use Phalcon\Mvc\Model\Row;
  * @method static RobotsParts findFirst($parameters = null)
  * @method Row getRobots($parameters = null)
  */
-class RobotsParts extends AbstractModel
+class RobotsParts extends Model
 {
     public function initialize()
     {

@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
 class AddBehaviorCest
 {

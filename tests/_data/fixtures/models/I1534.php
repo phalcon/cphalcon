@@ -11,8 +11,8 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
-class I1534 extends AbstractModel
+class I1534 extends Model
 {
 }

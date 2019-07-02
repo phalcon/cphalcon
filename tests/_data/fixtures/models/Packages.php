@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset;
 
 /**
@@ -19,7 +19,7 @@ use Phalcon\Mvc\Model\Resultset;
  * @method Resultset|PackageDetails getDetails($parameters = null)
  * @property Resultset|PackageDetails details
  */
-class Packages extends AbstractModel
+class Packages extends Model
 {
     public $reference_type_id;
     public $reference_id;

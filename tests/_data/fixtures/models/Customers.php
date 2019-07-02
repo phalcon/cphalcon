@@ -11,14 +11,14 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Resultset\Simple;
 
 /**
  * @method static Simple|Customers[] find($parameters = null)
  * @property Simple|Users $user
  */
-class Customers extends AbstractModel
+class Customers extends Model
 {
     public $id;
     public $document_id;

@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
-class Deles extends AbstractModel
+class Deles extends Model
 {
     public function columnMap()
     {

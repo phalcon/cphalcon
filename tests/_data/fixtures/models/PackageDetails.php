@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
-class PackageDetails extends AbstractModel
+class PackageDetails extends Model
 {
     public $reference_type_id;
     public $reference_id;
