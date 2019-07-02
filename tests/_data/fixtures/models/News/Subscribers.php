@@ -11,11 +11,11 @@
 
 namespace Phalcon\Test\Models\News;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model as PhalconModel;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Mvc\Model\Behavior\Timestampable;
 
-class Subscribers extends AbstractModel
+class Subscribers extends PhalconModel
 {
     public function initialize()
     {
