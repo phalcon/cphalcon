@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models\Cacheable;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model as PhalconModel;
 
-class Model extends AbstractModel
+class Model extends PhalconModel
 {
     public static function findFirst($parameters = null)
     {
