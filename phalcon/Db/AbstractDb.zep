@@ -22,8 +22,8 @@ use \PDO as Pdo;
  * interact with databases using higher level of abstraction use
  * Phalcon\Mvc\Model.
  *
- * Phalcon\Db is an abstract class. You only can use it with a database adapter
- * like Phalcon\Db\Adapter\Pdo
+ * Phalcon\Db\AbstractDb is an abstract class. You only can use it with a
+ * database adapter like Phalcon\Db\Adapter\Pdo
  *
  *```php
  * use Phalcon\Db;
