@@ -612,7 +612,7 @@ class SnapshotCest
         $I->skipTest('TODO = Check test');
         $robots = Robots::findFirst();
 
-        AbstractModel::setup(
+        Model::setup(
             [
                 'updateSnapshotOnSave' => false,
             ]
@@ -638,7 +638,7 @@ class SnapshotCest
             $robots->hasChanged('name')
         );
 
-        AbstractModel::setup(
+        Model::setup(
             [
                 'updateSnapshotOnSave' => true,
             ]
