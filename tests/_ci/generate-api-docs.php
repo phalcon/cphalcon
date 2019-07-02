@@ -28,21 +28,27 @@ foreach ($iterator as $file) {
             $key = str_replace('.zep', '', $split[0]);
             if ('UrlInterface' === $key) {
                 $key = 'Url';
-            } elseif ('DiInterface' === $key) {
+            }
+
+            if ('DiInterface' === $key) {
                 $key = 'Di';
             }
         } else {
             $key = $split[0];
         }
 
+        $documents[$key]['title']           = 'Phalcon\\' . $split[0];
+        $documents[$key]['docs'][$fileName] = $fileName;
 
-        $documents[$key]['title']  = 'Phalcon\\' . $split[0];
-        $documents[$key]['docs'][] = $fileName;
+        if (strpos($documents[$key]['title'], 'Url') > 0) {
+            $documents[$key]['title'] = 'Phalcon\Url';
+        }
+
+        ksort($documents[$key]['docs']);
     }
 }
 
 ksort($documents);
-
 
 foreach ($documents as $document) {
     echo 'Processing: ' . $document['title'] . PHP_EOL;
