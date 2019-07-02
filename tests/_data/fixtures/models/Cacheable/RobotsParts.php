@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models\Cacheable;
 
-use Phalcon\Mvc\Model as PhalconModel;
+use Phalcon\Mvc\Model\AbstractModel;
 
-class RobotsParts extends PhalconModel
+class RobotsParts extends AbstractModel
 {
     public function initialize()
     {
