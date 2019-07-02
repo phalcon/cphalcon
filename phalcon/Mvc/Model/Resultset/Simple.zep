@@ -12,8 +12,7 @@ namespace Phalcon\Mvc\Model\Resultset;
 
 use Phalcon\Di;
 use Phalcon\DiInterface;
-use Phalcon\Mvc\Model\AbstractModel;
-use Phalcon\Mvc\Model\Enum;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Cache\Adapter\AdapterInterface;
@@ -114,15 +113,15 @@ class Simple extends Resultset
                         this->model,
                         row,
                         columnMap,
-                        Enum::DIRTY_STATE_PERSISTENT,
+                        Model::DIRTY_STATE_PERSISTENT,
                         this->keepSnapshots
                     );
                 } else {
-                    let activeRow = AbstractModel::cloneResultMap(
+                    let activeRow = Model::cloneResultMap(
                         this->model,
                         row,
                         columnMap,
-                        Enum::DIRTY_STATE_PERSISTENT,
+                        Model::DIRTY_STATE_PERSISTENT,
                         this->keepSnapshots
                     );
                 }
@@ -133,7 +132,7 @@ class Simple extends Resultset
                 /**
                  * Other kinds of hydrations
                  */
-                let activeRow = AbstractModel::cloneResultMapHydrate(
+                let activeRow = Model::cloneResultMapHydrate(
                     row,
                     columnMap,
                     hydrateMode

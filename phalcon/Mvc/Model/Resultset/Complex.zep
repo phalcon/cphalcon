@@ -10,11 +10,11 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
-use Phalcon\Db\ResultInterface;
-use Phalcon\Mvc\Model\AbstractModel;
-use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Row;
+use Phalcon\Db\ResultInterface;
 use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\DiInterface;
 use Phalcon\Di;
@@ -187,7 +187,7 @@ class Complex extends Resultset implements ResultsetInterface
                              * Get the base instance. Assign the values to the
                              * attributes using a column map
                              */
-                            let value = AbstractModel::cloneResultMap(
+                            let value = Model::cloneResultMap(
                                 column["instance"],
                                 rowModel,
                                 columnMap,
@@ -200,7 +200,7 @@ class Complex extends Resultset implements ResultsetInterface
 
                     default:
                         // Other kinds of hydration
-                        let value = AbstractModel::cloneResultMapHydrate(
+                        let value = Model::cloneResultMapHydrate(
                             rowModel,
                             columnMap,
                             hydrateMode
