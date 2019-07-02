@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Models\Dynamic;
 
-use Phalcon\Mvc\Model as PhalconModel;
+use Phalcon\Mvc\Model\AbstractModel;
 use Phalcon\Test\Models\RobotsParts;
 
 /**
@@ -26,7 +26,7 @@ use Phalcon\Test\Models\RobotsParts;
  * @method static Robots findFirst($parameters = null)
  * @method static Robots[] find($parameters = null)
  */
-class Robots extends PhalconModel
+class Robots extends AbstractModel
 {
     public $year;
 
