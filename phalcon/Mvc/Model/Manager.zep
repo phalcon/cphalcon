@@ -24,7 +24,7 @@ use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
-use Phalcon\Mvc\Model\Behavior\BehaviorInterface;
+use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 
 /**
