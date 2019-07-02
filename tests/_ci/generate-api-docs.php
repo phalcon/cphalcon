@@ -26,6 +26,11 @@ foreach ($iterator as $file) {
 
         if (strpos($fileName, '.zep') > 0) {
             $key = str_replace('.zep', '', $split[0]);
+            if ('UrlInterface' === $key) {
+                $key = 'Url';
+            } elseif ('DiInterface' === $key) {
+                $key = 'Di';
+            }
         } else {
             $key = $split[0];
         }
@@ -148,6 +153,8 @@ title: '{$document['title']}'
         }
     }
 
+    $outputDoc = str_replace('.zep', '', $outputDoc);
+
     file_put_contents(
         $outputDir . $outputDoc,
         $output
@@ -199,7 +206,8 @@ function processDocument(string $file): array
 
             $signature           .= ('class' === $type) ? ' Class ' : ' Interface ';
             $signature           .= $return['namespace'] . '\\' . $item['name'];
-            $return['signature'] = ltrim(str_replace('Phalcon\\', '', $signature));
+            $return['signature'] = ltrim($signature);
+            //$return['signature'] = ltrim(str_replace('Phalcon\\', '', $signature));
 
             $return['extends'] = $item['extends'] ?? '';
             if (true === is_array($return['extends'])) {
