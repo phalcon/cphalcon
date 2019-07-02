@@ -11,7 +11,7 @@
 
 namespace Phalcon\Test\Models\Dynamic;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model as PhalconModel;
 use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 /**
@@ -29,7 +29,7 @@ use Phalcon\Mvc\Model\Behavior\SoftDelete;
  *
  * @method static Personers findFirst($parameters = null)
  */
-class Personers extends AbstractModel
+class Personers extends PhalconModel
 {
     public function initialize()
     {
