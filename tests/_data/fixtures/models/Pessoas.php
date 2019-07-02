@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
-class Pessoas extends AbstractModel
+class Pessoas extends Model
 {
     public function initialize()
     {

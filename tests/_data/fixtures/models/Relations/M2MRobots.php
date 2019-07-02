@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models\Relations;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
-class M2MRobots extends AbstractModel
+class M2MRobots extends Model
 {
     public function initialize()
     {

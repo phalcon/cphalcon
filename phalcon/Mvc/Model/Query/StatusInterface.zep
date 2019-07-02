@@ -11,7 +11,7 @@
 namespace Phalcon\Mvc\Model\Query;
 
 use Phalcon\Messages\MessageInterface;
-use Phalcon\Mvc\Model\ModelInterface;
+use Phalcon\Mvc\ModelInterface;
 
 /**
  * Phalcon\Mvc\Model\Query\StatusInterface

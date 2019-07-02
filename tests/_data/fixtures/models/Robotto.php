@@ -12,10 +12,10 @@
 namespace Phalcon\Test\Models;
 
 use Phalcon\Db\Column;
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\MetaData;
 
-class Robotto extends AbstractModel
+class Robotto extends Model
 {
     public function initialize()
     {

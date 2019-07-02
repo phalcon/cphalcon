@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
-class ModelWithStringField extends AbstractModel
+class ModelWithStringField extends Model
 {
     /**
      * @var int

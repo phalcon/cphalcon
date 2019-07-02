@@ -13,7 +13,7 @@ namespace Phalcon\Mvc;
 /**
  * Phalcon\Mvc\EntityInterface
  *
- * Interface for Phalcon\Mvc\Collection and Phalcon\Mvc\Model\AbstractModel
+ * Interface for Phalcon\Mvc\Collection and Phalcon\Mvc\Model
  */
 interface EntityInterface
 {

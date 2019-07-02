@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models\Statistics;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
-class GenderStats extends AbstractModel
+class GenderStats extends Model
 {
     public function initialize()
     {

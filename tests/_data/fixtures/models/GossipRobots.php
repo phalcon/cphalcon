@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
-class GossipRobots extends AbstractModel
+class GossipRobots extends Model
 {
     public $trace = [];
 

@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models\Boutique;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
-class Robots extends AbstractModel
+class Robots extends Model
 {
     const setterEpilogue = ' setText';
 

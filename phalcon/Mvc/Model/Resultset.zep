@@ -18,7 +18,7 @@ use JsonSerializable;
 use Phalcon\Db\Enum;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\ModelInterface;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Cache\Adapter\AdapterInterface;
@@ -457,7 +457,7 @@ abstract class Resultset
      * Resultsets cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
      *
      * @param int index
-     * @param \Phalcon\Mvc\Model\ModelInterface value
+     * @param \Phalcon\Mvc\ModelInterface value
      */
     public function offsetSet(var index, var value) -> void
     {

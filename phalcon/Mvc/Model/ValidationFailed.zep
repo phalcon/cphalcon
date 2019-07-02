@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Mvc\Model\ModelInterface;
+use Phalcon\Mvc\ModelInterface;
 
 /**
  * Phalcon\Mvc\Model\ValidationFailed

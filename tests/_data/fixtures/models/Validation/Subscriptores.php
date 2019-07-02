@@ -12,7 +12,7 @@
 namespace Phalcon\Test\Models\Validation;
 
 use Phalcon\Messages\Message;
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 use Phalcon\Validation\Validation;
 use Phalcon\Validation\Validator\Email;
 use Phalcon\Validation\Validator\ExclusionIn;
@@ -28,7 +28,7 @@ use Phalcon\Validation\Validator\Uniqueness;
  * @property string created_at
  * @property string status
  */
-class Subscriptores extends AbstractModel
+class Subscriptores extends Model
 {
     public function beforeValidation()
     {

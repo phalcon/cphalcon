@@ -11,9 +11,9 @@
 
 namespace Phalcon\Test\Models\Boutique;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
-class Robotters extends AbstractModel
+class Robotters extends Model
 {
     /**
      * @Primary

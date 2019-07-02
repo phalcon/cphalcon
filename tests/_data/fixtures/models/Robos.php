@@ -11,12 +11,12 @@
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 
 /**
  * @author  David Napierata
  */
-class Robos extends AbstractModel
+class Robos extends Model
 {
     public function initialize()
     {

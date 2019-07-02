@@ -11,10 +11,10 @@
 
 namespace Phalcon\Test\Models\Statistics;
 
-use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model;
 use Phalcon\Test\Resultsets\Stats;
 
-class AgeStats extends AbstractModel
+class AgeStats extends Model
 {
     public function initialize()
     {
