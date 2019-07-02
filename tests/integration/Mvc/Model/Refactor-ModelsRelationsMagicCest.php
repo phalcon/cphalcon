@@ -4,6 +4,7 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\AbstractModel;
+use Phalcon\Mvc\Model\Enum;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\AlbumORama\Artists;
@@ -107,7 +108,7 @@ class ModelsRelationsMagicCest
 //
         //The artists must no be saved
         $I->assertEquals(
-            Model::DIRTY_STATE_TRANSIENT,
+            Enum::DIRTY_STATE_TRANSIENT,
             $artist->getDirtyState()
         );
 
@@ -133,12 +134,12 @@ class ModelsRelationsMagicCest
 
         //The artist model was saved correctly but album not
         $I->assertEquals(
-            Model::DIRTY_STATE_PERSISTENT,
+            Enum::DIRTY_STATE_PERSISTENT,
             $artist->getDirtyState()
         );
 
         $I->assertEquals(
-            Model::DIRTY_STATE_TRANSIENT,
+            Enum::DIRTY_STATE_TRANSIENT,
             $album->getDirtyState()
         );
 
@@ -163,12 +164,12 @@ class ModelsRelationsMagicCest
 
         //Both messages must be saved correctly
         $I->assertEquals(
-            Model::DIRTY_STATE_PERSISTENT,
+            Enum::DIRTY_STATE_PERSISTENT,
             $artist->getDirtyState()
         );
 
         $I->assertEquals(
-            Model::DIRTY_STATE_PERSISTENT,
+            Enum::DIRTY_STATE_PERSISTENT,
             $album->getDirtyState()
         );
     }
