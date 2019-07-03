@@ -17,9 +17,6 @@ use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\Stock;
 
-/**
- * Class GetModelsCest
- */
 class GetModelsCest
 {
     use DiTrait;
@@ -28,6 +25,11 @@ class GetModelsCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
     }
 
     /**
@@ -39,12 +41,14 @@ class GetModelsCest
     public function mvcModelQueryBuilderGetModelsNull(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Query\Builder - getModels() - null');
+
         $manager = $this->getService('modelsManager');
+
         $builder = $manager->createBuilder();
 
-        $expected = null;
-        $actual   = $builder->getModels();
-        $I->assertEquals($expected, $actual);
+        $I->assertNull(
+            $builder->getModels()
+        );
     }
 
     /**
@@ -56,13 +60,15 @@ class GetModelsCest
     public function mvcModelQueryBuilderGetModelsString(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Query\Builder - getModels() - string');
+
         $manager = $this->getService('modelsManager');
+
         $builder = $manager
             ->createBuilder()
             ->from(['Stock' => Stock::class])
         ;
 
-        $expected = 'Phalcon\\Test\\Models\\Stock';
+        $expected = \Phalcon\Test\Models\Stock::class;
         $actual   = $builder->getModels();
         $I->assertEquals($expected, $actual);
     }
@@ -76,7 +82,9 @@ class GetModelsCest
     public function mvcModelQueryBuilderGetModelsArray(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Query\Builder - getModels() - array');
+
         $manager = $this->getService('modelsManager');
+
         $builder = $manager
             ->createBuilder()
             ->from(['Robots' => Robots::class])
@@ -84,8 +92,8 @@ class GetModelsCest
         ;
 
         $expected = [
-            'Robots'      => 'Phalcon\Test\Models\Robots',
-            'RobotsParts' => 'Phalcon\Test\Models\RobotsParts',
+            'Robots'      => \Phalcon\Test\Models\Robots::class,
+            'RobotsParts' => \Phalcon\Test\Models\RobotsParts::class,
         ];
         $actual   = $builder->getModels();
         $I->assertEquals($expected, $actual);

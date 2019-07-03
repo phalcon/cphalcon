@@ -11,18 +11,19 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation;
 use Phalcon\Validation\Validator;
+use Phalcon\Validation\ValidatorComposite;
+use Phalcon\Validation\Validator\StringLength\Max;
+use Phalcon\Validation\Validator\StringLength\Min;
 use Phalcon\Validation\Exception;
 
 /**
- * Phalcon\Validation\Validator\StringLength
- *
  * Validates that a string has the specified maximum and minimum constraints
  * The test is passed if for a string's length L, min<=L<=max, i.e. L must
  * be at least min, and at most max.
+ * Since Phalcon v4.0 this valitor works like a container
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\StringLength as StringLength;
  *
@@ -32,10 +33,12 @@ use Phalcon\Validation\Exception;
  *     "name_last",
  *     new StringLength(
  *         [
- *             "max"            => 50,
- *             "min"            => 2,
- *             "messageMaximum" => "We don't like really long names",
- *             "messageMinimum" => "We want more than just their initials",
+ *             "max"             => 50,
+ *             "min"             => 2,
+ *             "messageMaximum"  => "We don't like really long names",
+ *             "messageMinimum"  => "We want more than just their initials",
+ *             "includedMaximum" => true,
+ *             "includedMinimum" => false,
  *         ]
  *     )
  * );
@@ -62,113 +65,94 @@ use Phalcon\Validation\Exception;
  *             "messageMinimum" => [
  *                 "name_last"  => "We don't like too short last names",
  *                 "name_first" => "We don't like too short first names",
+ *             ],
+ *             "includedMaximum" => [
+ *                 "name_last"  => false,
+ *                 "name_first" => true,
+ *             ],
+ *             "includedMinimum" => [
+ *                 "name_last"  => false,
+ *                 "name_first" => true,
  *             ]
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
-class StringLength extends Validator
+class StringLength extends ValidatorComposite
 {
     /**
-     * Executes the validation
+     * Constructor
      */
-    public function validate(<Validation> validation, var field) -> bool
+    public function __construct(array! options = []) -> void
     {
-        var isSetMin, isSetMax, value, length, message, minimum, maximum, label,
-            replacePairs, code;
+        var included = null, key, message = null, validator, value;
 
-        // At least one of 'min' or 'max' must be set
-        let isSetMin = this->hasOption("min"),
-            isSetMax = this->hasOption("max");
+        // create individual validators
+        for key, value in options {
+            if strcasecmp(key, "min") === 0 {
+                // get custom message
+                if isset options["message"] {
+                    let message = options["message"];
+                } elseif isset options["messageMinimum"] {
+                    let message = options["messageMinimum"];
+                }
 
-        if unlikely (!isSetMin && !isSetMax) {
-            throw new Exception("A minimum or maximum must be set");
-        }
+                // get included option
+                if isset options["included"] {
+                    let included = options["included"];
+                } elseif isset options["includedMinimum"] {
+                    let included = options["includedMinimum"];
+                }
 
-        let value = validation->getValue(field),
-            label = this->prepareLabel(validation, field),
-            code = this->prepareCode(field);
-
-        // Check if mbstring is available to calculate the correct length
-        if function_exists("mb_strlen") {
-            let length = mb_strlen(value);
-        } else {
-            let length = strlen(value);
-        }
-
-        /**
-         * Maximum length
-         */
-        if isSetMax {
-            let maximum = this->getOption("max");
-
-            if typeof maximum == "array" {
-                let maximum = maximum[field];
-            }
-
-            if length > maximum {
-                let message = this->prepareMessage(
-                    validation,
-                    field,
-                    "TooLong",
-                    "messageMaximum"
+                let validator = new Min(
+                    [
+                        "min" : value,
+                        "message" : message,
+                        "included" : included
+                    ]
                 );
 
-                let replacePairs = [
-                    ":field": label,
-                    ":max":   maximum
-                ];
+                unset options["min"];
+                unset options["message"];
+                unset options["messageMinimum"];
+                unset options["included"];
+                unset options["includedMinimum"];
+            } elseif strcasecmp(key, "max") === 0 {
+                // get custom message
+                if isset options["message"] {
+                    let message = options["message"];
+                } elseif isset options["messageMaximum"] {
+                    let message = options["messageMaximum"];
+                }
 
-                validation->appendMessage(
-                    new Message(
-                        strtr(message, replacePairs),
-                        field,
-                        "TooLong",
-                        code
-                    )
+                // get included option
+                if isset options["included"] {
+                    let included = options["included"];
+                } elseif isset options["includedMaximum"] {
+                    let included = options["includedMaximum"];
+                }
+
+                let validator = new Max(
+                    [
+                        "max" : value,
+                        "message" : message,
+                        "included" : included
+                    ]
                 );
 
-                return false;
+                unset options["max"];
+                unset options["message"];
+                unset options["messageMaximum"];
+                unset options["included"];
+                unset options["includedMaximum"];
+            } else {
+                continue;
             }
+
+            let this->validators[] = validator;
         }
 
-        /**
-         * Minimum length
-         */
-        if isSetMin {
-            let minimum = this->getOption("min");
-
-            if typeof minimum == "array" {
-                let minimum = minimum[field];
-            }
-
-            if length < minimum {
-                let message = this->prepareMessage(
-                    validation,
-                    field,
-                    "TooShort",
-                    "messageMinimum"
-                );
-
-                let replacePairs = [
-                    ":field": label,
-                    ":min":   minimum
-                ];
-
-                validation->appendMessage(
-                    new Message(
-                        strtr(message, replacePairs),
-                        field,
-                        "TooShort",
-                        code
-                    )
-                );
-
-                return false;
-            }
-        }
-
-        return true;
+        parent::__construct(options);
     }
 }

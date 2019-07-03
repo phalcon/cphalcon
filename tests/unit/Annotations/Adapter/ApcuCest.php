@@ -31,7 +31,9 @@ class ApcuCest
     {
         $adapter = new Apcu();
 
-        $classAnnotations = $adapter->get('TestClass');
+        $classAnnotations = $adapter->get(
+            \TestClass::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
@@ -45,7 +47,9 @@ class ApcuCest
             $classAnnotations->getClassAnnotations()
         );
 
-        $classAnnotations = $adapter->get('TestClass');
+        $classAnnotations = $adapter->get(
+            \TestClass::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
@@ -59,7 +63,9 @@ class ApcuCest
             $classAnnotations->getClassAnnotations()
         );
 
-        $classAnnotations = $adapter->get('User\TestClassNs');
+        $classAnnotations = $adapter->get(
+            \User\TestClassNs::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
@@ -73,7 +79,9 @@ class ApcuCest
             $classAnnotations->getClassAnnotations()
         );
 
-        $classAnnotations = $adapter->get('User\TestClassNs');
+        $classAnnotations = $adapter->get(
+            \User\TestClassNs::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
@@ -87,7 +95,10 @@ class ApcuCest
             $classAnnotations->getClassAnnotations()
         );
 
-        $property = $adapter->getProperty('TestClass', 'testProp1');
+        $property = $adapter->getProperty(
+            \TestClass::class,
+            'testProp1'
+        );
 
         $I->assertInternalType('object', $property);
 

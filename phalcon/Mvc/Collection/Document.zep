@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Collection;
 
+use ArrayAccess;
 use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Collection\Exception;
 
@@ -84,9 +85,9 @@ class Document implements EntityInterface, \ArrayAccess, \Countable
     /**
      * Reads an attribute value by its name
      *
-     *<code>
+     *```php
      *  echo $robot->readAttribute("name");
-     *</code>
+     *```
      */
     public function readAttribute(string! attribute) -> var | null
     {
@@ -110,9 +111,9 @@ class Document implements EntityInterface, \ArrayAccess, \Countable
     /**
      * Writes an attribute value by its name
      *
-     *<code>
+     *```php
      *  $robot->writeAttribute("name", "Rosey");
-     *</code>
+     *```
      */
     public function writeAttribute(string! attribute, var value) -> void
     {

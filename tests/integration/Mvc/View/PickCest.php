@@ -19,9 +19,6 @@ use Phalcon\Helper\Str;
 use Phalcon\Mvc\View;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class PickCest
- */
 class PickCest
 {
     use DiTrait;
@@ -37,8 +34,14 @@ class PickCest
         $I->wantToTest('Mvc\View - pick()');
 
         $container = new Di();
+
         $view = new View();
-        $view->setViewsDir(Str::dirSeparator(dataDir('fixtures/views')));
+
+        $view->setViewsDir(
+            Str::dirSeparator(
+                dataDir('fixtures/views')
+            )
+        );
 
         $view->setDI($container);
 

@@ -14,8 +14,6 @@ use Phalcon\DiInterface;
 use Phalcon\Mvc\ViewBaseInterface;
 
 /**
- * Phalcon\Mvc\View\EngineInterface
- *
  * Interface for Phalcon\Mvc\View engine adapters
  */
 interface EngineInterface

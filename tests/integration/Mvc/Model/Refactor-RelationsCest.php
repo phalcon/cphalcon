@@ -37,32 +37,62 @@ class RelationsCest
     public function shouldGetRelationRecordsUsingCompositeKey(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check if tables exist');
+
         /** @var Language $entity */
         $entity = Language::findFirst();
 
         $I->assertEquals('Dutch', $entity->lang);
         $I->assertEquals('nl-be', $entity->locale);
 
-        $I->assertInstanceOf(Simple::class, $entity->translations);
-        $I->assertInstanceOf(Simple::class, $entity->getTranslations());
+        $I->assertInstanceOf(
+            Simple::class,
+            $entity->translations
+        );
+
+        $I->assertInstanceOf(
+            Simple::class,
+            $entity->getTranslations()
+        );
 
         $I->assertCount(2, $entity->translations);
 
-        $I->assertInstanceOf(LanguageI18n::class, $entity->translations->getFirst());
-        $I->assertEquals('Belgium-1', $entity->translations->getFirst()->locale);
+        $I->assertInstanceOf(
+            LanguageI18n::class,
+            $entity->translations->getFirst()
+        );
+
+        $I->assertEquals(
+            'Belgium-1',
+            $entity->translations->getFirst()->locale
+        );
     }
 
     public function testRelationshipLoaded(IntegrationTester $I)
     {
         $I->skipTest('TODO - Check if tables exist');
+
         $hasManyModel = Artists::findFirst();
-        $I->assertFalse($hasManyModel->isRelationshipLoaded('albums'));
+
+        $I->assertFalse(
+            $hasManyModel->isRelationshipLoaded('albums')
+        );
+
         $hasManyModel->albums;
-        $I->assertTrue($hasManyModel->isRelationshipLoaded('albums'));
+
+        $I->assertTrue(
+            $hasManyModel->isRelationshipLoaded('albums')
+        );
 
         $belongsToModel = Albums::findFirst();
-        $I->assertFalse($belongsToModel->isRelationshipLoaded('artist'));
+
+        $I->assertFalse(
+            $belongsToModel->isRelationshipLoaded('artist')
+        );
+
         $belongsToModel->artist;
-        $I->assertTrue($belongsToModel->isRelationshipLoaded('artist'))->equals(true);
+
+        $I->assertTrue(
+            $belongsToModel->isRelationshipLoaded('artist')
+        );
     }
 }

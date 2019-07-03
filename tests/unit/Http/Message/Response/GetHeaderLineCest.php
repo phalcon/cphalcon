@@ -28,24 +28,24 @@ class GetHeaderLineCest
         $I->wantToTest('Http\Message\Response - getHeaderLine()');
 
         $data = [
-            'Accept' => [
+            'accept' => [
                 'text/html',
                 'text/json',
             ],
         ];
 
-        $request = new Response('php://memory', 200, $data);
+        $response = new Response('php://memory', 200, $data);
 
         $expected = 'text/html,text/json';
 
         $I->assertEquals(
             $expected,
-            $request->getHeaderLine('accept')
+            $response->getHeaderLine('accept')
         );
 
         $I->assertEquals(
             $expected,
-            $request->getHeaderLine('aCCepT')
+            $response->getHeaderLine('aCCepT')
         );
     }
 
@@ -59,11 +59,11 @@ class GetHeaderLineCest
     {
         $I->wantToTest('Http\Message\Response - getHeaderLine() - empty');
 
-        $request = new Response();
+        $response = new Response();
 
         $I->assertEquals(
             '',
-            $request->getHeaderLine('accept')
+            $response->getHeaderLine('accept')
         );
     }
 }

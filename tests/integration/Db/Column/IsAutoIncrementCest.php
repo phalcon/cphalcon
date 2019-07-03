@@ -58,10 +58,9 @@ class IsAutoIncrementCest
             [
                 'name'     => 'Mysql',
                 'data'     => [
-                    0 => Column::__set_state(
+                    0 => new Column(
+                        'field_primary',
                         [
-                            'columnName'    => 'field_primary',
-                            'schemaName'    => null,
                             'type'          => Column::TYPE_INTEGER,
                             'isNumeric'     => true,
                             'size'          => 11,
@@ -76,10 +75,9 @@ class IsAutoIncrementCest
                             'bindType'      => Column::BIND_PARAM_INT,
                         ]
                     ),
-                    1 => Column::__set_state(
+                    1 => new Column(
+                        'field_bigint',
                         [
-                            'columnName'    => 'field_bigint',
-                            'schemaName'    => null,
                             'type'          => Column::TYPE_BIGINTEGER,
                             'isNumeric'     => true,
                             'size'          => 20,
@@ -103,10 +101,9 @@ class IsAutoIncrementCest
             [
                 'name'     => 'Postgresql',
                 'data'     => [
-                    Column::__set_state(
+                    new Column(
+                        'field_primary',
                         [
-                            'columnName'    => 'field_primary',
-                            'schemaName'    => null,
                             'type'          => Column::TYPE_INTEGER,
                             'isNumeric'     => true,
                             'size'          => 0,
@@ -121,10 +118,9 @@ class IsAutoIncrementCest
                             'bindType'      => Column::BIND_PARAM_INT,
                         ]
                     ),
-                    Column::__set_state(
+                    new Column(
+                        'field_bigint',
                         [
-                            'columnName'    => 'field_bigint',
-                            'schemaName'    => null,
                             'type'          => Column::TYPE_BIGINTEGER,
                             'isNumeric'     => true,
                             'size'          => 0,

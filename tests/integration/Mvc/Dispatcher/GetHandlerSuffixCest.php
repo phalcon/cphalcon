@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
-use Exception;
 use IntegrationTester;
 use Phalcon\Dispatcher;
+use Phalcon\Mvc\Dispatcher\Exception;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
 
 class GetHandlerSuffixCest extends BaseDispatcher

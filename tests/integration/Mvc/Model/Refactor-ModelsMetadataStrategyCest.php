@@ -81,6 +81,11 @@ class ModelsMetadataStrategyCest
         $this->setNewFactoryDefault();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     public function testMetadataDatabaseIntrospection(IntegrationTester $I)
     {
         $this->setDiMysql();

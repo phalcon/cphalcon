@@ -13,7 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Message\UploadedFile;
 
 use Codeception\Example;
-use Phalcon\Http\Message\Exception;
+use function fopen;
+use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\UploadedFile;
 use Psr\Http\Message\UploadedFileInterface;
 use stdClass;
@@ -44,6 +45,29 @@ class ConstructCest
     }
 
     /**
+     * Tests Phalcon\Http\Message\UploadedFile :: __construct() - $resource
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageUploadedFileConstructResource(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\UploadedFile - __construct()');
+
+        $stream = logsDir(
+            uniqid('test')
+        );
+
+        $stream = fopen($stream, 'w+b');
+        $file = new UploadedFile($stream, 100);
+
+        $I->assertInstanceOf(
+            UploadedFileInterface::class,
+            $file
+        );
+    }
+
+    /**
      * Tests Phalcon\Http\Message\UploadedFile :: __construct() - stream
      * exception
      *
@@ -59,7 +83,7 @@ class ConstructCest
         );
 
         $I->expectThrowable(
-            new Exception('Invalid stream or file passed'),
+            new InvalidArgumentException('Invalid stream or file passed'),
             function () use ($example) {
                 $file = new UploadedFile($example[1], 100);
             }
@@ -80,7 +104,7 @@ class ConstructCest
         );
 
         $I->expectThrowable(
-            new Exception("Invalid 'error'. Must be one of the UPLOAD_ERR_* constants"),
+            new InvalidArgumentException('Invalid error. Must be one of the UPLOAD_ERR_* constants'),
             function () {
                 $stream = logsDir(
                     uniqid('test')

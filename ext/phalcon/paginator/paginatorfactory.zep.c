@@ -16,8 +16,8 @@
 #include "kernel/memory.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/array.h"
 #include "kernel/object.h"
+#include "kernel/array.h"
 #include "kernel/operators.h"
 
 
@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, __construct) {
  *      ->modelsManager
  *      ->createBuilder()
  *      ->columns("id, name")
- *      ->from("Robots")
+ *      ->from(Robots::class)
  *      ->orderBy("name");
  *
  * $options = [
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, load) {
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "options");
-	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 5, config, &_3, &_2);
+	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 8, config, &_3, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, newInstance) {
 			ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0, &options);
 			zephir_check_call_status();
 		}
-		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3 TSRMLS_CC);
+		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_5, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Paginator/PaginatorFactory.zep", 75 TSRMLS_CC);

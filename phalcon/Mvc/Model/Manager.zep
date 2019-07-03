@@ -36,7 +36,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * A ModelsManager is injected to a model via a Dependency Injector/Services
  * Container such as Phalcon\Di.
  *
- * <code>
+ * ```php
  * use Phalcon\Di;
  * use Phalcon\Mvc\Model\Manager as ModelsManager;
  *
@@ -50,7 +50,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * );
  *
  * $robot = new Robots($di);
- * </code>
+ * ```
  */
 class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareInterface
 {
@@ -292,7 +292,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Sets the prefix for all model sources.
      *
-     * <code>
+     * ```php
      * use Phalcon\Mvc\Model\Manager;
      *
      * $di->set(
@@ -309,7 +309,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * $robots = new Robots();
      *
      * echo $robots->getSource(); // wp_robots
-     * </code>
+     * ```
      */
     public function setModelPrefix(string! prefix) -> void
     {
@@ -335,12 +335,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Check whether a model property is declared as public.
      *
-     * <code>
+     * ```php
      * $isPublic = $manager->isVisibleModelProperty(
      *     new Robots(),
      *     "name"
      * );
-     * </code>
+     * ```
      */
     final public function isVisibleModelProperty(<ModelInterface> model, string property) -> bool
     {
@@ -1176,11 +1176,19 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var key, value;
         array findParams;
 
-        if typeof findParamsOne == "string" && typeof findParamsTwo == "string" {
-            return ["(" . findParamsOne . ") AND (" . findParamsTwo . ")"];
+        let findParams = [];
+
+        if typeof findParamsOne == "string" {
+            let findParamsOne = [
+                "conditions": findParamsOne
+            ];
         }
 
-        let findParams = [];
+        if typeof findParamsTwo == "string" {
+            let findParamsTwo = [
+                "conditions": findParamsTwo
+            ];
+        }
 
         if typeof findParamsOne == "array"  {
             for key, value in findParamsOne {
@@ -1190,15 +1198,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                     } else {
                         let findParams[0] = "(" . findParams[0] . ") AND (" . value . ")";
                     }
-
-                    continue;
+                } else {
+                    let findParams[key] = value;
                 }
-
-                let findParams[key] = value;
-            }
-        } else {
-            if typeof findParamsOne == "string" {
-                let findParams = ["conditions": findParamsOne];
             }
         }
 
@@ -1210,35 +1212,19 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                     } else {
                         let findParams[0] = "(" . findParams[0] . ") AND (" . value . ")";
                     }
-
-                    continue;
-                }
-
-                if key === "bind" || key === "bindTypes" {
-                    if !isset findParams[key] {
-                        if typeof value == "array" {
+                } elseif key === "bind" || key === "bindTypes" {
+                    if typeof value == "array" {
+                        if !isset findParams[key] {
                             let findParams[key] = value;
-                        }
-                    } else {
-                        if typeof value == "array" {
+                        } else {
                             let findParams[key] = array_merge(
                                 findParams[key],
                                 value
                             );
                         }
                     }
-
-                    continue;
-                }
-
-                let findParams[key] = value;
-            }
-        } else {
-            if typeof findParamsTwo == "string" {
-                if !isset findParams[0] {
-                    let findParams[0] = findParamsTwo;
                 } else {
-                    let findParams[0] = "(" . findParams[0] . ") AND (" . findParamsTwo . ")";
+                    let findParams[key] = value;
                 }
             }
         }
@@ -1574,11 +1560,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Gets all the belongsTo relations defined in a model
      *
-     *<code>
+     *```php
      * $relations = $modelsManager->getBelongsTo(
      *     new Robots()
      * );
-     *</code>
+     *```
      */
     public function getBelongsTo(<ModelInterface> model) -> <RelationInterface[]> | array
     {

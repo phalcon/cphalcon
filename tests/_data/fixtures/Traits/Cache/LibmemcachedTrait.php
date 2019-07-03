@@ -25,12 +25,10 @@ trait LibmemcachedTrait
         $I->checkExtensionIsLoaded('memcached');
     }
 
-    /**
-     * @param null $statsKey
-     */
     protected function getDataCache($statsKey = null, int $ttl = 20): Libmemcached
     {
         $config = [];
+
         if ($statsKey !== null) {
             $config['statsKey'] = $statsKey;
         }

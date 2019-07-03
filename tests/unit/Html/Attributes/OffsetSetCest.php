@@ -12,20 +12,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Html\Attributes;
 use UnitTester;
 
 class OffsetSetCest
 {
     /**
-     * Unit Tests Phalcon\Html\Attributes :: offsetSet()
+     * Tests Phalcon\Html\Attributes :: offsetSet()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-25
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-02
      */
     public function htmlAttributesOffsetSet(UnitTester $I)
     {
         $I->wantToTest('Html\Attributes - offsetSet()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes();
+
+        $attributes['class'] = 'form-control';
+
+        $I->assertEquals(
+            'form-control',
+            $attributes->get('class')
+        );
     }
 }

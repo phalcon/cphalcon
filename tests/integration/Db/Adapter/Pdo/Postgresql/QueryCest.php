@@ -26,6 +26,11 @@ class QueryCest
         $this->setDiPostgresql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Postgresql :: query()
      *

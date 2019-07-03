@@ -14,8 +14,6 @@ use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 use Phalcon\Storage\Adapter\Stream as StorageStream;
 
 /**
- * Phalcon\Cache\Adapter\Stream
- *
  * Stream adapter
  */
 class Stream extends StorageStream implements CacheAdapterInterface

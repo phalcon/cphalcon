@@ -10,6 +10,7 @@
 
 namespace Phalcon\Filter;
 
+use Closure;
 use Phalcon\Filter\Exception;
 use Phalcon\Filter\FilterInterface;
 
@@ -77,7 +78,7 @@ class Filter implements FilterInterface
             let definition = this->mapper[name];
             if typeof definition === "string" {
                 let this->services[name] = create_instance(definition);
-            } elseif definition instanceof \Closure {
+            } elseif definition instanceof Closure {
                 let this->services[name] = call_user_func(definition);
             } else {
                 let this->services[name] = definition;
@@ -226,7 +227,8 @@ class Filter implements FilterInterface
         array sanitizerParams = []
     ) -> array
     {
-        var arrayValue, itemKey, itemValue;
+        var itemKey, itemValue;
+        array arrayValue;
 
         let arrayValue = [];
 
@@ -252,13 +254,13 @@ class Filter implements FilterInterface
     {
         var sanitizerObject, params;
 
-        if this->has(sanitizerName) {
-            let sanitizerObject = this->get(sanitizerName),
-                params          = array_merge([value], sanitizerParams);
-
-            return call_user_func_array(sanitizerObject, params);
+        if !this->has(sanitizerName) {
+            return value;
         }
 
-        return value;
+        let sanitizerObject = this->get(sanitizerName),
+            params          = array_merge([value], sanitizerParams);
+
+        return call_user_func_array(sanitizerObject, params);
     }
 }

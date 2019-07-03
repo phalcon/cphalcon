@@ -16,13 +16,11 @@ use Phalcon\Events\ManagerInterface;
 use Phalcon\Filter\FilterInterface;
 
 /**
- * Phalcon\Cli\Dispatcher
- *
  * Dispatching is the process of taking the command-line arguments, extracting
  * the module name, task name, action name, and optional parameters contained in
  * it, and then instantiating a task and calling an action on it.
  *
- * <code>
+ * ```php
  * use Phalcon\Di;
  * use Phalcon\Cli\Dispatcher;
  *
@@ -37,7 +35,7 @@ use Phalcon\Filter\FilterInterface;
  * $dispatcher->setParams([]);
  *
  * $handle = $dispatcher->dispatch();
- * </code>
+ * ```
  */
 class Dispatcher extends CliDispatcher implements DispatcherInterface
 {

@@ -18,11 +18,6 @@ namespace Phalcon\Http\Response;
 interface HeadersInterface
 {
     /**
-     * Restore a \Phalcon\Http\Response\Headers object
-     */
-    public static function __set_state(array! data) -> <HeadersInterface>;
-
-    /**
      * Gets a header value from the internal bag
      */
     public function get(string name) -> string | bool;

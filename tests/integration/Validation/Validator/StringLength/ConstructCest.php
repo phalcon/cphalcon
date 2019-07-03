@@ -15,6 +15,7 @@ namespace Phalcon\Test\Integration\Validation\Validator\StringLength;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Validation\ValidatorCompositeInterface;
 
 /**
  * Class ConstructCest
@@ -36,5 +37,11 @@ class ConstructCest
         $validator = new StringLength();
 
         $this->checkConstruct($I, $validator);
+
+        $I->assertInstanceOf(
+            ValidatorCompositeInterface::class,
+            $validator,
+            'StringLength implements ValidatorCompositeInterface'
+        );
     }
 }

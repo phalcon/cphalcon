@@ -11,10 +11,9 @@
 namespace Phalcon\Helper;
 
 use Phalcon\Helper\Exception;
+use stdClass;
 
 /**
- * Phalcon\Helper\Arr
- *
  * This class offers quick array functions throughout the framework
  */
 class Arr
@@ -23,7 +22,7 @@ class Arr
     {
         var returnObject, key, value;
 
-        let returnObject = new \stdClass();
+        let returnObject = new stdClass();
 
         for key, value in collection {
             let returnObject->{key} = value;
@@ -394,5 +393,33 @@ class Arr
         }
 
         return array_filter(collection, method);
+    }
+
+    /**
+     * White list filter by key: obtain elements of an array filtering
+     * by the keys obtained from the elements of a whitelist
+     *
+     * @param array $collection
+     * @param array $whiteList
+     *
+     * @return array
+     */
+    final public static function whiteList(array! collection, array! whiteList) -> array
+    {
+        /**
+         * Clean whitelist, just strings and integers
+         */
+        let whiteList = array_filter(
+            whiteList,
+            function (element)
+            {
+                return is_int(element) || is_string(element);
+            }
+        );
+
+        return array_intersect_key(
+            collection,
+            array_flip(whiteList)
+        );
     }
 }

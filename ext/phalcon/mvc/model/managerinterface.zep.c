@@ -123,8 +123,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getBelongsTo);
 /**
  * Gets belongsTo related records from a model
  *
- * @param string modelRelation
- * @param array  parameters
+ * @param string            $modelName
+ * @param string            $modelRelation
+ * @param array|string|null $parameters
+ * @param ModelInterface    $record
+ * @param string|null       $method
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getBelongsToRecords);
 
@@ -136,8 +139,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasMany);
 /**
  * Gets hasMany related records from a model
  *
- * @param string modelRelation
- * @param array  parameters
+ * @param string            $modelName
+ * @param string            $modelRelation
+ * @param array|string|null $parameters
+ * @param ModelInterface    $record
+ * @param string|null       $method
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasManyRecords);
 
@@ -159,8 +165,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneAndHasMany);
 /**
  * Gets belongsTo related records from a model
  *
- * @param string modelRelation
- * @param array  parameters
+ * @param string            $modelName
+ * @param string            $modelRelation
+ * @param array|string|null $parameters
+ * @param ModelInterface    $record
+ * @param string|null       $method
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneRecords);
 

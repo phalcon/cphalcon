@@ -12,10 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
 class LiquidRescaleCest
 {
+    use GdTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Gd :: liquidRescale()
      *
@@ -26,6 +29,6 @@ class LiquidRescaleCest
     {
         $I->wantToTest('Image\Adapter\Gd - liquidRescale()');
 
-        $I->skipTest('Need implementation');
+        $I->skipTest('Need implementation on GD adapter first');
     }
 }

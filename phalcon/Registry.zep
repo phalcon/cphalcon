@@ -10,7 +10,8 @@
 
 namespace Phalcon;
 
-use Phalcon\Collection;
+use Phalcon\Collection\Collection;
+use Traversable;
 
 /**
  * Phalcon\Registry
@@ -19,7 +20,7 @@ use Phalcon\Collection;
  * space. By storing the value in a registry, the same object is always
  * available throughout your application.
  *
- *<code>
+ *```php
  * $registry = new \Phalcon\Registry();
  *
  * // Set value
@@ -41,7 +42,7 @@ use Phalcon\Collection;
  * unset($registry->something);
  * // or
  * unset($registry["something"]);
- *</code>
+ *```
  *
  * In addition to ArrayAccess, Phalcon\Registry also implements Countable
  * (count($registry) will return the number of elements in the registry),
@@ -125,9 +126,9 @@ final class Registry extends Collection
     /**
      * Get the element from the collection
      */
-    final public function get(string! element, var defaultValue = null, bool insensitive = true) -> var
+    final public function get(string! element, var defaultValue = null) -> var
     {
-        return parent::get(element, defaultValue, insensitive);
+        return parent::get(element, defaultValue);
     }
 
     /**
@@ -141,9 +142,9 @@ final class Registry extends Collection
     /**
      * Get the element from the collection
      */
-    final public function has(string! element, bool insensitive = true) -> bool
+    final public function has(string! element) -> bool
     {
-        return parent::has(element, insensitive);
+        return parent::has(element);
     }
 
     /**
@@ -207,9 +208,9 @@ final class Registry extends Collection
     /**
      * Delete the element from the collection
      */
-    final public function remove(string! element, bool insensitive = true) -> void
+    final public function remove(string! element) -> void
     {
-        parent::remove(element, insensitive);
+        parent::remove(element);
     }
 
     /**

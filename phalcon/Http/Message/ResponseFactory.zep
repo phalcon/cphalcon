@@ -18,7 +18,10 @@ use Phalcon\Http\Message\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 
-class ResponseFactory implements ResponseFactoryInterface
+/**
+ * PSR-17 ResponseFactory
+ */
+final class ResponseFactory implements ResponseFactoryInterface
 {
     /**
      * Create a new response.
@@ -28,6 +31,8 @@ class ResponseFactory implements ResponseFactoryInterface
      *                             code in the generated response. If none is
      *                             provided, implementations MAY use the defaults
      *                             as suggested in the HTTP specification.
+     *
+     * @return ResponseInterface
      */
     public function createResponse(int code = 200, string reasonPhrase = "") -> <ResponseInterface>
     {

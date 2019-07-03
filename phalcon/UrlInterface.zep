@@ -11,8 +11,6 @@
 namespace Phalcon;
 
 /**
- * Phalcon\UrlInterface
- *
  * Interface for Phalcon\UrlInterface
  */
 interface UrlInterface

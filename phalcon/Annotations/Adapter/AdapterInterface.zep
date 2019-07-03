@@ -15,8 +15,6 @@ use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\ReaderInterface;
 
 /**
- * Phalcon\Annotations\AdapterInterface
- *
  * This interface must be implemented by adapters in Phalcon\Annotations
  */
 interface AdapterInterface

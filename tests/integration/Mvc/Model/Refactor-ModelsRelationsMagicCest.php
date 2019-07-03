@@ -18,6 +18,11 @@ class ModelsRelationsMagicCest
         $this->setNewFactoryDefault();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     public function testModelsMysql(IntegrationTester $I)
     {
         $this->setDiMysql();

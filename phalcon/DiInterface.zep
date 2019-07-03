@@ -10,15 +10,14 @@
 
 namespace Phalcon;
 
+use ArrayAccess;
 use Phalcon\DiInterface;
 use Phalcon\Di\ServiceInterface;
 
 /**
- * Phalcon\DiInterface
- *
  * Interface for Phalcon\Di
  */
-interface DiInterface extends \ArrayAccess
+interface DiInterface extends ArrayAccess
 {
     /**
      * Attempts to register a service in the services container
@@ -31,8 +30,6 @@ interface DiInterface extends \ArrayAccess
 
     /**
      * Resolves the service based on its configuration
-     *
-     * @param array parameters
      */
     public function get(string! name, parameters = null) -> var;
 
@@ -58,8 +55,6 @@ interface DiInterface extends \ArrayAccess
 
     /**
      * Returns a shared service based on their configuration
-     *
-     * @param array parameters
      */
     public function getShared(string! name, parameters = null) -> var;
 
@@ -80,8 +75,6 @@ interface DiInterface extends \ArrayAccess
 
     /**
      * Registers a service in the services container
-     *
-     * @param mixed definition
      */
     public function set(string! name, definition, bool shared = false) -> <ServiceInterface>;
 
@@ -98,8 +91,6 @@ interface DiInterface extends \ArrayAccess
 
     /**
      * Registers an "always shared" service in the services container
-     *
-     * @param mixed definition
      */
     public function setShared(string! name, definition) -> <ServiceInterface>;
 }

@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc;
 
+use Closure;
 use Phalcon\Application as BaseApplication;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ViewInterface;
@@ -28,7 +29,7 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
  * every component needed and integrating it with the rest to allow the MVC
  * pattern to operate as desired.
  *
- *<code>
+ *```php
  * use Phalcon\Mvc\Application;
  *
  * class MyApp extends Application
@@ -65,7 +66,7 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
  * $application = new MyApp();
  *
  * $application->main();
- *</code>
+ *```
  */
 class Application extends BaseApplication
 {
@@ -122,8 +123,8 @@ class Application extends BaseApplication
             let match = matchedRoute->getMatch();
 
             if match !== null {
-                if match instanceof \Closure {
-                    let match = \Closure::bind(match, container);
+                if match instanceof Closure {
+                    let match = Closure::bind(match, container);
                 }
 
                 /**
@@ -230,7 +231,7 @@ class Application extends BaseApplication
                 /**
                  * A module definition object, can be a Closure instance
                  */
-                if unlikely !(module instanceof \Closure) {
+                if unlikely !(module instanceof Closure) {
                     throw new Exception("Invalid module definition");
                 }
 

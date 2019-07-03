@@ -11,17 +11,10 @@
 namespace Phalcon\Db;
 
 /**
- * Phalcon\Db\Reference
- *
  * Interface for Phalcon\Db\Reference
  */
 interface ReferenceInterface
 {
-    /**
-     * Restore a Phalcon\Db\Reference object from export
-     */
-    public static function __set_state(array! data) -> <ReferenceInterface>;
-
     /**
      * Gets local columns which reference is based
      */

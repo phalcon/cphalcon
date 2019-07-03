@@ -30,14 +30,14 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Paginator\Adapter
+ * Phalcon\Paginator\Adapter\AbstractAdapter
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_AbstractAdapter) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Paginator\\Adapter, AbstractAdapter, phalcon, paginator_adapter_abstractadapter, phalcon_paginator_adapter_abstractadapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
-	 * Configuration of paginator by model
+	 * Configuration of paginator
 	 */
 	zend_declare_property_null(phalcon_paginator_adapter_abstractadapter_ce, SL("config"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -64,7 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_AbstractAdapter) {
 }
 
 /**
- * Phalcon\Paginator\Adapter\Model constructor
+ * Phalcon\Paginator\Adapter\AbstractAdapter constructor
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, __construct) {
 

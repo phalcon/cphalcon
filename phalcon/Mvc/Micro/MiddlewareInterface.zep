@@ -10,9 +10,9 @@
 
 namespace Phalcon\Mvc\Micro;
 
+use Phalcon\Mvc\Micro;
+
 /**
- * Phalcon\Mvc\Micro\MiddlewareInterface
- *
  * Allows to implement Phalcon\Mvc\Micro middleware in classes
  */
 interface MiddlewareInterface
@@ -20,5 +20,5 @@ interface MiddlewareInterface
     /**
      * Calls the middleware
      */
-    public function call(<\Phalcon\Mvc\Micro> application);
+    public function call(<Micro> application);
 }

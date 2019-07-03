@@ -154,9 +154,20 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, having);
  * Adds an INNER join to the query
  *
  *<code>
- * $criteria->innerJoin("Robots");
- * $criteria->innerJoin("Robots", "r.id = RobotsParts.robots_id");
- * $criteria->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+ * $criteria->innerJoin(
+ *     Robots::class
+ * );
+ *
+ * $criteria->innerJoin(
+ *     Robots::class,
+ *     "r.id = RobotsParts.robots_id"
+ * );
+ *
+ * $criteria->innerJoin(
+ *     Robots::class,
+ *     "r.id = RobotsParts.robots_id",
+ *     "r"
+ * );
  *</code>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, innerJoin);
@@ -174,7 +185,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, inWhere);
  * Adds a LEFT join to the query
  *
  *<code>
- * $criteria->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+ * $criteria->leftJoin(
+ *     Robots::class,
+ *     "r.id = RobotsParts.robots_id",
+ *     "r"
+ * );
  *</code>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, leftJoin);
@@ -222,7 +237,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
  * Adds a RIGHT join to the query
  *
  *<code>
- * $criteria->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
+ * $criteria->rightJoin(
+ *     Robots::class,
+ *     "r.id = RobotsParts.robots_id",
+ *     "r"
+ * );
  *</code>
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, rightJoin);

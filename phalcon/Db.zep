@@ -13,8 +13,6 @@ namespace Phalcon;
 use \PDO as Pdo;
 
 /**
- * Phalcon\Db
- *
  * Phalcon\Db and its related classes provide a simple SQL database interface
  * for Phalcon Framework. The Phalcon\Db is the basic class you use to connect
  * your PHP application to an RDBMS. There is a different adapter class for each
@@ -27,7 +25,7 @@ use \PDO as Pdo;
  * Phalcon\Db is an abstract class. You only can use it with a database adapter
  * like Phalcon\Db\Adapter\Pdo
  *
- *<code>
+ *```php
  * use Phalcon\Db;
  * use Phalcon\Db\Exception;
  * use Phalcon\Db\Adapter\Pdo\Mysql as MysqlConnection;
@@ -55,7 +53,7 @@ use \PDO as Pdo;
  * } catch (Exception $e) {
  *     echo $e->getMessage(), PHP_EOL;
  * }
- * </code>
+ * ```
  */
 abstract class Db
 {

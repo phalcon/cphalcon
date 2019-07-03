@@ -21,6 +21,11 @@ class ModelsResultsetCacheStaticCest
         );
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     public function testOverrideStaticCache(IntegrationTester $I)
     {
         $this->setDiMysql();

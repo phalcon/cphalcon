@@ -28,9 +28,13 @@ class ConstructCest
     public function httpMessageServerRequestConstructCest(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - __construct()');
+
         $request = new ServerRequest();
-        $class   = ServerRequestInterface::class;
-        $I->assertInstanceOf($class, $request);
+
+        $I->assertInstanceOf(
+            ServerRequestInterface::class,
+            $request
+        );
     }
 
     /**
@@ -42,9 +46,22 @@ class ConstructCest
     public function httpMessageServerRequestConstructIssues14151(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - __construct()');
-        $request = new ServerRequest("GET", new Uri(), [], 'php://input', ['host' => ['127.0.0.1']]);
+
+        $request = new ServerRequest(
+            'GET',
+            new Uri(),
+            [],
+            'php://input',
+            [
+                'host' => ['127.0.0.1'],
+            ]
+        );
+
         $expected = ['127.0.0.1'];
-        $actual = $request->getHeader('host');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $request->getHeader('host')
+        );
     }
 }

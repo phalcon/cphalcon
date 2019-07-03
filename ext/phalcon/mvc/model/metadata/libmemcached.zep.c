@@ -13,12 +13,11 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 
 
 /**
@@ -40,9 +39,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Libmemcached) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Libmemcached, phalcon, mvc_model_metadata_libmemcached, phalcon_mvc_model_metadata_ce, phalcon_mvc_model_metadata_libmemcached_method_entry, 0);
 
-	zend_declare_property_null(phalcon_mvc_model_metadata_libmemcached_ce, SL("metaData"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	phalcon_mvc_model_metadata_libmemcached_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_MetaData_Libmemcached;
 	return SUCCESS;
 
 }
@@ -55,15 +51,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Libmemcached) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zval options;
-	zval *factory, factory_sub, *options_param = NULL, _0, _1, _2, _3;
+	zval *factory, factory_sub, *options_param = NULL, _0, _2, _3, _4, _5, _6, _7;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&options);
 
 	ZEPHIR_MM_GROW();
@@ -77,17 +77,31 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct) {
 	}
 
 
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "ph-mm-memc-");
-	zephir_array_update_string(&options, SL("prefix"), &_0, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_LONG(&_1, 172800);
-	zephir_array_update_string(&options, SL("lifetime"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "persistentId");
 	ZEPHIR_INIT_VAR(&_3);
-	ZVAL_STRING(&_3, "libmemcached");
-	ZEPHIR_CALL_METHOD(&_2, factory, "newinstance", NULL, 0, &_3, &options);
+	ZVAL_STRING(&_3, "ph-mm-mcid-");
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 8, &options, &_2, &_3);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("adapter"), &_2);
+	zephir_array_update_string(&options, SL("persistentId"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_2);
+	ZVAL_STRING(&_2, "prefix");
+	ZEPHIR_INIT_NVAR(&_3);
+	ZVAL_STRING(&_3, "ph-mm-memc-");
+	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 8, &options, &_2, &_3);
+	zephir_check_call_status();
+	zephir_array_update_string(&options, SL("prefix"), &_4, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_2);
+	ZVAL_STRING(&_2, "lifetime");
+	ZVAL_LONG(&_6, 172800);
+	ZEPHIR_CALL_CE_STATIC(&_5, phalcon_helper_arr_ce, "get", &_1, 8, &options, &_2, &_6);
+	zephir_check_call_status();
+	zephir_array_update_string(&options, SL("lifetime"), &_5, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_2);
+	ZVAL_STRING(&_2, "libmemcached");
+	ZEPHIR_CALL_METHOD(&_7, factory, "newinstance", NULL, 0, &_2, &options);
+	zephir_check_call_status();
+	zephir_update_property_zval(this_ptr, SL("adapter"), &_7);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -112,29 +126,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, reset) {
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_libmemcached_ce, getThis(), "reset", &_1, 0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
-}
-
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData_Libmemcached(zend_class_entry *class_type TSRMLS_DC) {
-
-		zval _0, _1$$3;
-		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-
-		ZEPHIR_MM_GROW();
-	
-	{
-		zval local_this_ptr, *this_ptr = &local_this_ptr;
-		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("metaData"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_0) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_1$$3);
-			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("metaData"), &_1$$3);
-		}
-		ZEPHIR_MM_RESTORE();
-		return Z_OBJ_P(this_ptr);
-	}
 
 }
 

@@ -69,7 +69,10 @@ class BinderCest
      */
     public function _before(IntegrationTester $I)
     {
-        Di::setDefault($I->getApplication()->getDI());
+        $di = $I->getApplication()->getDI();
+
+        Di::setDefault($di);
+
         $I->checkExtensionIsLoaded('apcu');
 
         if (!ini_get('apcu.enabled') ||
@@ -84,10 +87,17 @@ class BinderCest
             );
         }
 
-        $this->cache       = new Apc(new Data(['lifetime' => 20]));
+        $this->cache = new Apc(
+            new Data(
+                [
+                    'lifetime' => 20,
+                ]
+            )
+        );
+
         $this->modelBinder = new Binder($this->cache);
 
-        $this->modelsManager = $I->getApplication()->getDI()->getShared('modelsManager');
+        $this->modelsManager = $di->getShared('modelsManager');
         $this->robot         = Robots::findFirst();
         $this->people        = People::findFirst();
 
@@ -110,30 +120,31 @@ class BinderCest
     public function testDispatcherSingleBinding(IntegrationTester $I)
     {
         $dispatcher = $this->createDispatcher();
-        $this->assertDispatcher($dispatcher, $I);
 
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $this->returnDispatcherValueForAction(
                 $dispatcher,
                 'test10',
                 'view',
-                ['people' => $this->people->cedula]
+                [
+                    'people' => $this->people->cedula,
+                ]
             );
-            $I->assertInstanceOf('Phalcon\Test\Models\People', $returnedValue);
+
+            $I->assertInstanceOf(People::class, $returnedValue);
+
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
+
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test10Controller_viewAction')
             );
         }
     }
 
-    /**
-     * @return Dispatcher
-     */
-    private function createDispatcher(bool $useModelBinder = true)
+    private function createDispatcher(bool $useModelBinder = true): Dispatcher
     {
         $this->cache->flush();
 
@@ -150,28 +161,12 @@ class BinderCest
         return $dispatcher;
     }
 
-    private function assertDispatcher($dispatcher, IntegrationTester $I)
-    {
-        $I->assertInstanceOf(
-            \Phalcon\Di::class,
-            $dispatcher->getDI()
-        );
-
-        $I->haveServiceInDi('dispatcher', $dispatcher);
-    }
-
-    /**
-     * @param      $controllerName
-     * @param      $actionName
-     * @param      $params
-     * @param bool $returnValue
-     */
     private function returnDispatcherValueForAction(
         Dispatcher $dispatcher,
         $controllerName,
         $actionName,
         $params,
-        $returnValue = true
+        bool $returnValue = true
     ) {
         $dispatcher->setReturnedValue(null);
         $dispatcher->setControllerName($controllerName);
@@ -197,7 +192,6 @@ class BinderCest
     public function testDispatcherMultiBinding(IntegrationTester $I)
     {
         $dispatcher = $this->createDispatcher();
-        $this->assertDispatcher($dispatcher, $I);
 
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $this->returnDispatcherValueForAction(
@@ -225,8 +219,8 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
-                    'robots' => 'Phalcon\\Test\\Models\\Robots',
+                    'people' => People::class,
+                    'robots' => Robots::class,
                 ],
                 $this->cache->get('_PHMB_Test10Controller_multipleAction')
             );
@@ -243,8 +237,6 @@ class BinderCest
     public function testDispatcherSingleBindingWithInterface(IntegrationTester $I)
     {
         $dispatcher = $this->createDispatcher();
-
-        $this->assertDispatcher($dispatcher, $I);
 
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $this->returnDispatcherValueForAction(
@@ -265,7 +257,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test11Controller_viewAction')
             );
@@ -282,8 +274,6 @@ class BinderCest
     public function testDispatcherMultiBindingWithInterface(IntegrationTester $I)
     {
         $dispatcher = $this->createDispatcher();
-
-        $this->assertDispatcher($dispatcher, $I);
 
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $this->returnDispatcherValueForAction(
@@ -311,8 +301,8 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
-                    'robots' => 'Phalcon\\Test\\Models\\Robots',
+                    'people' => People::class,
+                    'robots' => Robots::class,
                 ],
                 $this->cache->get('_PHMB_Test11Controller_multipleAction')
             );
@@ -330,8 +320,6 @@ class BinderCest
     {
         $dispatcher = $this->createDispatcher(false);
 
-        $this->assertDispatcher($dispatcher, $I);
-
         $this->returnDispatcherValueForAction(
             $dispatcher,
             'test9',
@@ -342,26 +330,14 @@ class BinderCest
             false
         );
 
-        try {
-            $dispatcher->dispatch();
-
-            $I->assertTrue(
-                false,
-                'Here must be the exception about passing non model to the controller action'
-            );
-        } catch (Exception $e) {
-            // PHP 5.x
-            $I->assertEquals(
-                'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given',
-                $e->getMessage()
-            );
-        } catch (TypeError $e) {
-            // PHP 7.x
-            $I->assertEquals(
-                'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given',
-                $e->getMessage()
-            );
-        }
+        $I->expectThrowable(
+            new TypeError(
+                'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given'
+            ),
+            function () use ($dispatcher) {
+                $dispatcher->dispatch();
+            }
+        );
 
         $dispatcher->setModelBinder($this->modelBinder);
 
@@ -376,9 +352,10 @@ class BinderCest
             );
 
             $I->assertEquals($returnedValue->cedula, $this->people->cedula);
+
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test9Controller_viewAction')
             );
@@ -394,7 +371,7 @@ class BinderCest
      */
     public function testMicroHandlerSingleBinding(IntegrationTester $I)
     {
-        $micro = $this->createMicro($I);
+        $micro = $this->createMicro();
 
         $micro->get(
             '/{people}',
@@ -405,7 +382,9 @@ class BinderCest
         ;
 
         for ($i = 0; $i <= 1; $i++) {
-            $returnedValue = $micro->handle('/' . $this->people->cedula);
+            $returnedValue = $micro->handle(
+                '/' . $this->people->cedula
+            );
 
             $I->assertInstanceOf(
                 \Phalcon\Test\Models\People::class,
@@ -413,16 +392,17 @@ class BinderCest
             );
 
             $I->assertEquals($this->people->cedula, $returnedValue->cedula);
+
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_people')
             );
         }
     }
 
-    private function createMicro(IntegrationTester $I, bool $useModelBinder = true): Micro
+    private function createMicro(bool $useModelBinder = true): Micro
     {
         $this->cache->flush();
 
@@ -433,11 +413,6 @@ class BinderCest
         if ($useModelBinder) {
             $micro->setModelBinder($this->modelBinder);
         }
-
-        $I->assertInstanceOf(
-            \Phalcon\Di::class,
-            $micro->getDI()
-        );
 
         return $micro;
     }
@@ -451,7 +426,7 @@ class BinderCest
      */
     public function testMicroHandlerMultiBinding(IntegrationTester $I)
     {
-        $micro = $this->createMicro($I);
+        $micro = $this->createMicro();
 
         $micro->get(
             '/{people}/robot/{robots}',
@@ -480,8 +455,8 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
-                    'robots' => 'Phalcon\\Test\\Models\\Robots',
+                    'people' => People::class,
+                    'robots' => Robots::class,
                 ],
                 $this->cache->get('_PHMB_/{people}/robot/{robots}')
             );
@@ -497,7 +472,7 @@ class BinderCest
      */
     public function testMicroHandlerSingleBindingException(IntegrationTester $I)
     {
-        $micro = $this->createMicro($I, false);
+        $micro = $this->createMicro(false);
 
         $micro->get(
             '/{people}',
@@ -506,26 +481,16 @@ class BinderCest
             }
         );
 
-        try {
-            $micro->handle('/' . $this->people->cedula);
-
-            $I->assertTrue(
-                false,
-                'Here must be the exception about passing non model to the micro handler'
-            );
-        } catch (Exception $e) {
-            // PHP 5.x
-            $I->assertEquals(
-                'Argument 1 passed to Phalcon\Test\Integration\Mvc\Model\BinderCest::Phalcon\Test\Integration\Mvc\Model\{closure}() must be an instance of Phalcon\Test\Models\People, string given',
-                $e->getMessage()
-            );
-        } catch (TypeError $e) {
-            // PHP 7.x
-            $I->assertEquals(
-                'Argument 1 passed to Phalcon\Test\Integration\Mvc\Model\BinderCest::Phalcon\Test\Integration\Mvc\Model\{closure}() must be an instance of Phalcon\Test\Models\People, string given',
-                $e->getMessage()
-            );
-        }
+        $I->expectThrowable(
+            new TypeError(
+                'Argument 1 passed to Phalcon\Test\Integration\Mvc\Model\BinderCest::Phalcon\Test\Integration\Mvc\Model\{closure}() must be an instance of Phalcon\Test\Models\People, string given'
+            ),
+            function () use ($micro) {
+                $micro->handle(
+                    '/' . $this->people->cedula
+                );
+            }
+        );
 
         $micro->setModelBinder($this->modelBinder);
 
@@ -543,7 +508,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_/{people}')
             );
@@ -559,7 +524,7 @@ class BinderCest
      */
     public function testMicroControllerSingleBinding(IntegrationTester $I)
     {
-        $micro = $this->createMicro($I);
+        $micro = $this->createMicro();
 
         $test10 = new Collection();
 
@@ -585,7 +550,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test10Controller_viewAction')
             );
@@ -601,7 +566,7 @@ class BinderCest
      */
     public function testMicroControllerMultiBinding(IntegrationTester $I)
     {
-        $micro = $this->createMicro($I);
+        $micro = $this->createMicro();
 
         $test10 = new Collection();
 
@@ -633,8 +598,8 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
-                    'robots' => 'Phalcon\\Test\\Models\\Robots',
+                    'people' => People::class,
+                    'robots' => Robots::class,
                 ],
                 $this->cache->get('_PHMB_Test10Controller_multipleAction')
             );
@@ -650,7 +615,7 @@ class BinderCest
      */
     public function testMicroControllerSingleBindingWithInterface(IntegrationTester $I)
     {
-        $micro = $this->createMicro($I);
+        $micro = $this->createMicro();
 
         $test11 = new Collection();
 
@@ -674,7 +639,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test11Controller_viewAction')
             );
@@ -690,7 +655,7 @@ class BinderCest
      */
     public function testMicroControllerMultiBindingWithInterface(IntegrationTester $I)
     {
-        $micro = $this->createMicro($I);
+        $micro = $this->createMicro();
 
         $test11 = new Collection();
 
@@ -722,8 +687,8 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
-                    'robots' => 'Phalcon\\Test\\Models\\Robots',
+                    'people' => People::class,
+                    'robots' => Robots::class,
                 ],
                 $this->cache->get('_PHMB_Test11Controller_multipleAction')
             );
@@ -739,7 +704,7 @@ class BinderCest
      */
     public function testMicroControllerSingleBindingException(IntegrationTester $I)
     {
-        $micro = $this->createMicro($I, false);
+        $micro = $this->createMicro(false);
 
         $test9 = new Collection();
 
@@ -751,26 +716,17 @@ class BinderCest
 
         $micro->mount($test9);
 
-        try {
-            $micro->handle('/' . $this->people->cedula);
 
-            $I->assertTrue(
-                false,
-                'Here must be the exception about passing non model to the micro handler'
-            );
-        } catch (Exception $e) {
-            // PHP 5.x
-            $I->assertEquals(
-                'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given',
-                $e->getMessage()
-            );
-        } catch (TypeError $e) {
-            // PHP 7.x
-            $I->assertEquals(
-                'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given',
-                $e->getMessage()
-            );
-        }
+        $I->expectThrowable(
+            new TypeError(
+                'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given'
+            ),
+            function () use ($micro) {
+                $micro->handle(
+                    '/' . $this->people->cedula
+                );
+            }
+        );
 
         $micro->setModelBinder($this->modelBinder);
 
@@ -786,7 +742,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test9Controller_viewAction')
             );
@@ -802,7 +758,7 @@ class BinderCest
      */
     public function testMicroLazySingleBinding(IntegrationTester $I)
     {
-        $micro = $this->createMicro($I);
+        $micro = $this->createMicro();
 
         $test10 = new Collection();
 
@@ -827,7 +783,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test10Controller_viewAction')
             );
@@ -843,7 +799,7 @@ class BinderCest
      */
     public function testMicroLazyMultiBinding(IntegrationTester $I)
     {
-        $micro = $this->createMicro($I);
+        $micro = $this->createMicro();
 
         $test10 = new Collection();
 
@@ -876,8 +832,8 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
-                    'robots' => 'Phalcon\\Test\\Models\\Robots',
+                    'people' => People::class,
+                    'robots' => Robots::class,
                 ],
                 $this->cache->get('_PHMB_Test10Controller_multipleAction')
             );
@@ -893,7 +849,7 @@ class BinderCest
      */
     public function testMicroLazySingleBindingWithInterface(IntegrationTester $I)
     {
-        $micro = $this->createMicro($I);
+        $micro = $this->createMicro();
 
         $test11 = new Collection();
 
@@ -918,7 +874,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test11Controller_viewAction')
             );
@@ -934,7 +890,7 @@ class BinderCest
      */
     public function testMicroLazyMultiBindingWithInterface(IntegrationTester $I)
     {
-        $micro = $this->createMicro($I);
+        $micro = $this->createMicro();
 
         $test11 = new Collection();
 
@@ -967,8 +923,8 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
-                    'robots' => 'Phalcon\\Test\\Models\\Robots',
+                    'people' => People::class,
+                    'robots' => Robots::class,
                 ],
                 $this->cache->get('_PHMB_Test11Controller_multipleAction')
             );
@@ -984,7 +940,7 @@ class BinderCest
      */
     public function testMicroLazySingleBindingException(IntegrationTester $I)
     {
-        $micro = $this->createMicro($I, false);
+        $micro = $this->createMicro(false);
 
         $test9 = new Collection();
 
@@ -997,26 +953,17 @@ class BinderCest
 
         $micro->mount($test9);
 
-        try {
-            $micro->handle('/' . $this->people->cedula);
 
-            $I->assertTrue(
-                false,
-                'Here must be the exception about passing non model to the micro handler'
-            );
-        } catch (Exception $e) {
-            // PHP 5.x
-            $I->assertEquals(
-                'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given',
-                $e->getMessage()
-            );
-        } catch (TypeError $e) {
-            // PHP 7.x
-            $I->assertEquals(
-                'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given',
-                $e->getMessage()
-            );
-        }
+        $I->expectThrowable(
+            new TypeError(
+                'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given'
+            ),
+            function () use ($micro) {
+                $micro->handle(
+                    '/' . $this->people->cedula
+                );
+            }
+        );
 
         $micro->setModelBinder($this->modelBinder);
 
@@ -1032,7 +979,7 @@ class BinderCest
 
             $I->assertEquals(
                 [
-                    'people' => 'Phalcon\\Test\\Models\\People',
+                    'people' => People::class,
                 ],
                 $this->cache->get('_PHMB_Test9Controller_viewAction')
             );
@@ -1053,8 +1000,6 @@ class BinderCest
         $params = [
             'people' => $this->people->cedula,
         ];
-
-        $this->assertDispatcher($dispatcher, $I);
 
         $returnedValue = $this->returnDispatcherValueForAction(
             $dispatcher,
@@ -1086,11 +1031,10 @@ class BinderCest
     public function testDispatcherSingleBindingNoCache(IntegrationTester $I)
     {
         $dispatcher  = $this->createDispatcher(false);
+
         $modelBinder = new Binder();
 
         $dispatcher->setModelBinder($modelBinder);
-
-        $this->assertDispatcher($dispatcher, $I);
 
         for ($i = 0; $i <= 1; $i++) {
             $returnedValue = $this->returnDispatcherValueForAction(

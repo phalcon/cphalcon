@@ -28,23 +28,23 @@ class GetHeaderCest
         $I->wantToTest('Http\Message\Response - getHeader()');
 
         $data = [
-            'Cache-Control' => ['max-age=0'],
-            'Accept'        => ['text/html'],
+            'cache-control' => ['max-age=0'],
+            'accept'        => ['text/html'],
         ];
 
-        $request = new Response('php://memory', 200, $data);
+        $response = new Response('php://memory', 200, $data);
 
         $expected = ['text/html'];
 
         $I->assertEquals(
             $expected,
-            $request->getHeader('accept')
+            $response->getHeader('accept')
         );
 
 
         $I->assertEquals(
             $expected,
-            $request->getHeader('aCCepT')
+            $response->getHeader('aCCepT')
         );
     }
 
@@ -58,11 +58,11 @@ class GetHeaderCest
     {
         $I->wantToTest('Http\Message\Response - getHeader() - empty headers');
 
-        $request = new Response();
+        $response = new Response();
 
         $I->assertEquals(
             [],
-            $request->getHeader('empty')
+            $response->getHeader('empty')
         );
     }
 }

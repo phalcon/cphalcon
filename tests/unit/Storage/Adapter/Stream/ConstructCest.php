@@ -30,14 +30,25 @@ class ConstructCest
     public function storageAdapterStreamConstruct(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - __construct()');
+
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
 
-        $class = Stream::class;
-        $I->assertInstanceOf($class, $adapter);
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
 
-        $class = AdapterInterface::class;
-        $I->assertInstanceOf($class, $adapter);
+        $I->assertInstanceOf(
+            Stream::class,
+            $adapter
+        );
+
+        $I->assertInstanceOf(
+            AdapterInterface::class,
+            $adapter
+        );
     }
 
     /**

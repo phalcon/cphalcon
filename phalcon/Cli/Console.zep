@@ -17,8 +17,6 @@ use Phalcon\DiInterface;
 use Phalcon\Events\ManagerInterface;
 
 /**
- * Phalcon\Cli\Console
- *
  * This component allows to create CLI applications using Phalcon
  */
 class Console extends BaseApplication

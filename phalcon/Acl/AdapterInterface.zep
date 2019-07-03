@@ -11,8 +11,6 @@
 namespace Phalcon\Acl;
 
 /**
- * Phalcon\Acl\AdapterInterface
- *
  * Interface for Phalcon\Acl adapters
  */
 interface AdapterInterface
@@ -39,7 +37,7 @@ interface AdapterInterface
     /**
      * Adds access to components
      */
-    public function addComponentAccess(string componentName, accessList) -> void;
+    public function addComponentAccess(string componentName, accessList) -> bool;
 
     /**
      * Allow access to a role on a component

@@ -10,86 +10,136 @@
 
 namespace Phalcon\Config;
 
+use Phalcon\Config\Adapter\Grouped;
+use Phalcon\Config\Adapter\Ini;
+use Phalcon\Config\Adapter\Json;
+use Phalcon\Config\Adapter\Php;
+use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\Exception;
-use Phalcon\Config;
+use Phalcon\Factory\AbstractFactory;
+use Phalcon\Factory\Exception as FactoryException;
+use Phalcon\Helper\Arr;
 
 /**
  * Loads Config Adapter class using 'adapter' option, if no extension is
  * provided it will be added to filePath
  *
- *<code>
+ *```php
  * use Phalcon\Config\ConfigFactory;
  *
  * $options = [
  *     "filePath" => "path/config",
  *     "adapter"  => "php",
  * ];
+ *
  * $config = (new ConfigFactory())->load($options);
- *</code>
+ *```
  */
-class ConfigFactory
+class ConfigFactory extends AbstractFactory
 {
     /**
-     * @param \Phalcon\Config|array config
+     * ConfigFactory constructor.
      */
-    public function load(var config) -> object
+    public function __construct(array services = [])
     {
-        var adapter, className, mode, callbacks, filePath, extension, oldConfig;
+        this->init(services);
+    }
 
-        if typeof config == "string" {
-            let oldConfig = config;
-            let extension = substr(strrchr(config, "."), 1);
+    /**
+     * Load a config to create a new instance
+     */
+    public function load(config) -> object
+    {
+        var adapter, extension, first, oldConfig, second;
 
-            if unlikely empty extension {
+        if typeof config === "string" {
+            let oldConfig = config,
+                extension = pathinfo(config, PATHINFO_EXTENSION);
+
+            if unlikely empty(extension) {
                 throw new Exception(
-                    "You need to provide extension in file path"
+                    "You need to provide the extension in the file path"
                 );
             }
 
             let config = [
-                "adapter":  extension,
-                "filePath": oldConfig
+                "adapter"  : extension,
+                "filePath" : oldConfig
             ];
         }
 
-        if typeof config == "object" && config instanceof Config {
+        if typeof config === "object" && config instanceof Config {
             let config = config->toArray();
         }
 
-        if unlikely typeof config != "array" {
+        if unlikely typeof config !== "array" {
             throw new Exception(
-                "Config must be array or Phalcon\\Config object"
+                "Config must be array or Phalcon\\Config\\Config object"
             );
         }
 
-        if unlikely !fetch filePath, config["filePath"] {
+        if unlikely !isset config["filePath"] {
             throw new Exception(
                 "You must provide 'filePath' option in factory config parameter."
             );
         }
 
-        if unlikely !fetch adapter, config["adapter"] {
+        if unlikely !isset config["adapter"] {
             throw new Exception(
                 "You must provide 'adapter' option in factory config parameter."
             );
         }
 
-        let className = "Phalcon\\Config\\Adapter\\" . camelize(adapter);
+        let adapter = strtolower(config["adapter"]),
+            first   = config["filePath"],
+            second  = null;
 
-        if !strpos(filePath, ".") {
-            let filePath = filePath . "." . lcfirst(adapter);
+        if !strpos(first, ".") {
+            let first = first . "." . lcfirst(adapter);
         }
 
-        if className === "Phalcon\\Config\\Adapter\\Ini" {
-            if fetch mode, config["mode"] {
-                return new {className}(filePath, mode);
-            }
-        } elseif className === "Phalcon\\Config\\Adapter\\Yaml" {
-            if fetch callbacks, config["callbacks"] {
-                return new {className}(filePath, callbacks);
+        if "ini" === adapter {
+            let second = Arr::get(config, "mode", 1);
+        } elseif "yaml" === adapter {
+            let second = Arr::get(config, "callbacks", []);
+        }
+
+        return this->newInstance(adapter, first, second);
+    }
+
+    /**
+     * Returns a new Config instance
+     */
+    public function newInstance(string name, string fileName, var params = null) -> object
+    {
+        var definition;
+
+        this->checkService(name);
+
+        if !isset this->services[name] {
+            let definition = this->mapper[name];
+
+            if "json" === name || "php" === name {
+                let this->services[name] = new {definition}(fileName);
+            } else {
+                let this->services[name] = new {definition}(fileName, params);
             }
         }
 
-        return new {className}(filePath);
+        return this->services[name];
+    }
+
+    /**
+     * Returns the adapters for the factory
+     */
+    protected function getAdapters() -> array
+    {
+        return [
+            "grouped" : "\\Phalcon\\Config\\Adapter\\Grouped",
+            "ini"     : "\\Phalcon\\Config\\Adapter\\Ini",
+            "json"    : "\\Phalcon\\Config\\Adapter\\Json",
+            "php"     : "\\Phalcon\\Config\\Adapter\\Php",
+            "yaml"    : "\\Phalcon\\Config\\Adapter\\Yaml"
+        ];
     }
 }

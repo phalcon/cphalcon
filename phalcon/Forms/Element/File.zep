@@ -14,8 +14,6 @@ use Phalcon\Tag;
 use Phalcon\Forms\Element;
 
 /**
- * Phalcon\Forms\Element\File
- *
  * Component INPUT[type=file] for forms
  */
 class File extends Element

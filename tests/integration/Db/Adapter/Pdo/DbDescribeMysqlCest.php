@@ -29,6 +29,11 @@ class DbDescribeMysqlCest
         $this->setDiMysql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Db :: Mysql
      *
@@ -111,24 +116,18 @@ class DbDescribeMysqlCest
         $connection = $this->getService('db');
 
         $expectedIndexes = [
-            'PRIMARY'   => Index::__set_state(
-                [
-                    'name'    => 'PRIMARY',
-                    'columns' => ['id'],
-                    'type'    => 'PRIMARY',
-                ]
+            'PRIMARY'   => new Index(
+                'PRIMARY',
+                ['id'],
+                'PRIMARY'
             ),
-            'robots_id' => Index::__set_state(
-                [
-                    'name'    => 'robots_id',
-                    'columns' => ['robots_id'],
-                ]
+            'robots_id' => new Index(
+                'robots_id',
+                ['robots_id']
             ),
-            'parts_id'  => Index::__set_state(
-                [
-                    'name'    => 'parts_id',
-                    'columns' => ['parts_id'],
-                ]
+            'parts_id'  => new Index(
+                'parts_id',
+                ['parts_id']
             ),
         ];
 
@@ -143,21 +142,16 @@ class DbDescribeMysqlCest
         );
 
 
-
         $expectedIndexes = [
-            'PRIMARY'                  => Index::__set_state(
-                [
-                    'name'    => 'PRIMARY',
-                    'columns' => ['id'],
-                    'type'    => 'PRIMARY',
-                ]
+            'PRIMARY'                  => new Index(
+                'PRIMARY',
+                ['id'],
+                'PRIMARY'
             ),
-            'issue_11036_token_UNIQUE' => Index::__set_state(
-                [
-                    'name'    => 'issue_11036_token_UNIQUE',
-                    'columns' => ['token'],
-                    'type'    => 'UNIQUE',
-                ]
+            'issue_11036_token_UNIQUE' => new Index(
+                'issue_11036_token_UNIQUE',
+                ['token'],
+                'UNIQUE'
             ),
         ];
 
@@ -183,9 +177,9 @@ class DbDescribeMysqlCest
         $connection = $this->getService('db');
 
         $expectedReferences = [
-            'robots_parts_ibfk_1' => Reference::__set_state(
+            'robots_parts_ibfk_1' => new Reference(
+                'robots_parts_ibfk_1',
                 [
-                    'referenceName'     => 'robots_parts_ibfk_1',
                     'referencedTable'   => 'robots',
                     'columns'           => ['robots_id'],
                     'referencedColumns' => ['id'],
@@ -194,9 +188,9 @@ class DbDescribeMysqlCest
                     'onDelete'          => 'RESTRICT',
                 ]
             ),
-            'robots_parts_ibfk_2' => Reference::__set_state(
+            'robots_parts_ibfk_2' => new Reference(
+                'robots_parts_ibfk_2',
                 [
-                    'referenceName'     => 'robots_parts_ibfk_2',
                     'referencedTable'   => 'parts',
                     'columns'           => ['parts_id'],
                     'referencedColumns' => ['id'],
@@ -221,172 +215,183 @@ class DbDescribeMysqlCest
     private function getExpectedColumnsMysql(): array
     {
         return [
-            0  => Column::__set_state([
-                'columnName'    => 'cedula',
-                'schemaName'    => null,
-                'type'          => 5,
-                'isNumeric'     => false,
-                'size'          => 15,
-                'scale'         => 0,
-                'default'       => null,
-                'unsigned'      => false,
-                'notNull'       => true,
-                'autoIncrement' => false,
-                'primary'       => true,
-                'first'         => true,
-                'after'         => null,
-                'bindType'      => 2,
-            ]),
-            1  => Column::__set_state([
-                'columnName'    => 'tipo_documento_id',
-                'schemaName'    => null,
-                'type'          => 0,
-                'isNumeric'     => true,
-                'size'          => 3,
-                'scale'         => 0,
-                'default'       => null,
-                'unsigned'      => true,
-                'notNull'       => true,
-                'autoIncrement' => false,
-                'first'         => false,
-                'after'         => 'cedula',
-                'bindType'      => 1,
-            ]),
-            2  => Column::__set_state([
-                'columnName'    => 'nombres',
-                'schemaName'    => null,
-                'type'          => 2,
-                'isNumeric'     => false,
-                'size'          => 100,
-                'scale'         => 0,
-                'default'       => '',
-                'unsigned'      => false,
-                'notNull'       => true,
-                'autoIncrement' => false,
-                'first'         => false,
-                'after'         => 'tipo_documento_id',
-                'bindType'      => 2,
-            ]),
-            3  => Column::__set_state([
-                'columnName'    => 'telefono',
-                'schemaName'    => null,
-                'type'          => 2,
-                'isNumeric'     => false,
-                'size'          => 20,
-                'scale'         => 0,
-                'default'       => null,
-                'unsigned'      => false,
-                'notNull'       => false,
-                'autoIncrement' => false,
-                'first'         => false,
-                'after'         => 'nombres',
-                'bindType'      => 2,
-            ]),
-            4  => Column::__set_state([
-                'columnName'    => 'direccion',
-                'schemaName'    => null,
-                'type'          => 2,
-                'isNumeric'     => false,
-                'size'          => 100,
-                'scale'         => 0,
-                'default'       => null,
-                'unsigned'      => false,
-                'notNull'       => false,
-                'autoIncrement' => false,
-                'first'         => false,
-                'after'         => 'telefono',
-                'bindType'      => 2,
-            ]),
-            5  => Column::__set_state([
-                'columnName'    => 'email',
-                'schemaName'    => null,
-                'type'          => 2,
-                'isNumeric'     => false,
-                'size'          => 50,
-                'scale'         => 0,
-                'default'       => null,
-                'unsigned'      => false,
-                'notNull'       => false,
-                'autoIncrement' => false,
-                'first'         => false,
-                'after'         => 'direccion',
-                'bindType'      => 2,
-            ]),
-            6  => Column::__set_state([
-                'columnName'    => 'fecha_nacimiento',
-                'schemaName'    => null,
-                'type'          => 1,
-                'isNumeric'     => false,
-                'size'          => 0,
-                'scale'         => 0,
-                'default'       => '1970-01-01',
-                'unsigned'      => false,
-                'notNull'       => false,
-                'autoIncrement' => false,
-                'first'         => false,
-                'after'         => 'email',
-                'bindType'      => 2,
-            ]),
-            7  => Column::__set_state([
-                'columnName'    => 'ciudad_id',
-                'schemaName'    => null,
-                'type'          => 0,
-                'isNumeric'     => true,
-                'size'          => 10,
-                'scale'         => 0,
-                'default'       => '0',
-                'unsigned'      => true,
-                'notNull'       => false,
-                'autoIncrement' => false,
-                'first'         => false,
-                'after'         => 'fecha_nacimiento',
-                'bindType'      => 1,
-            ]),
-            8  => Column::__set_state([
-                'columnName'    => 'creado_at',
-                'schemaName'    => null,
-                'type'          => 1,
-                'isNumeric'     => false,
-                'size'          => 0,
-                'scale'         => 0,
-                'default'       => null,
-                'unsigned'      => false,
-                'notNull'       => false,
-                'autoIncrement' => false,
-                'first'         => false,
-                'after'         => 'ciudad_id',
-                'bindType'      => 2,
-            ]),
-            9  => Column::__set_state([
-                'columnName'    => 'cupo',
-                'schemaName'    => null,
-                'type'          => 3,
-                'isNumeric'     => true,
-                'size'          => 16,
-                'scale'         => 2,
-                'default'       => null,
-                'unsigned'      => false,
-                'notNull'       => true,
-                'autoIncrement' => false,
-                'first'         => false,
-                'after'         => 'creado_at',
-                'bindType'      => 32,
-            ]),
-            10 => Column::__set_state([
-                'columnName'    => 'estado',
-                'schemaName'    => null,
-                'type'          => 18,
-                'isNumeric'     => false,
-                'size'          => "'A','I','X'",
-                'scale'         => 0,
-                'default'       => null,
-                'unsigned'      => false,
-                'notNull'       => true,
-                'autoIncrement' => false,
-                'first'         => false,
-                'after'         => 'cupo',
-                'bindType'      => 2,
-            ]),
+            0  => new Column(
+                'cedula',
+                [
+                    'type'          => 5,
+                    'isNumeric'     => false,
+                    'size'          => 15,
+                    'scale'         => 0,
+                    'default'       => null,
+                    'unsigned'      => false,
+                    'notNull'       => true,
+                    'autoIncrement' => false,
+                    'primary'       => true,
+                    'first'         => true,
+                    'after'         => null,
+                    'bindType'      => 2,
+                ]
+            ),
+            1  => new Column(
+                'tipo_documento_id',
+                [
+                    'type'          => 0,
+                    'isNumeric'     => true,
+                    'size'          => 3,
+                    'scale'         => 0,
+                    'default'       => null,
+                    'unsigned'      => true,
+                    'notNull'       => true,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'cedula',
+                    'bindType'      => 1,
+                ]
+            ),
+            2  => new Column(
+                'nombres',
+                [
+                    'type'          => 2,
+                    'isNumeric'     => false,
+                    'size'          => 100,
+                    'scale'         => 0,
+                    'default'       => '',
+                    'unsigned'      => false,
+                    'notNull'       => true,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'tipo_documento_id',
+                    'bindType'      => 2,
+                ]
+            ),
+            3  => new Column(
+                'telefono',
+                [
+                    'type'          => 2,
+                    'isNumeric'     => false,
+                    'size'          => 20,
+                    'scale'         => 0,
+                    'default'       => null,
+                    'unsigned'      => false,
+                    'notNull'       => false,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'nombres',
+                    'bindType'      => 2,
+                ]
+            ),
+            4  => new Column(
+                'direccion',
+                [
+                    'type'          => 2,
+                    'isNumeric'     => false,
+                    'size'          => 100,
+                    'scale'         => 0,
+                    'default'       => null,
+                    'unsigned'      => false,
+                    'notNull'       => false,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'telefono',
+                    'bindType'      => 2,
+                ]
+            ),
+            5  => new Column(
+                'email',
+                [
+                    'type'          => 2,
+                    'isNumeric'     => false,
+                    'size'          => 50,
+                    'scale'         => 0,
+                    'default'       => null,
+                    'unsigned'      => false,
+                    'notNull'       => false,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'direccion',
+                    'bindType'      => 2,
+                ]
+            ),
+            6  => new Column(
+                'fecha_nacimiento',
+                [
+                    'type'          => 1,
+                    'isNumeric'     => false,
+                    'size'          => 0,
+                    'scale'         => 0,
+                    'default'       => '1970-01-01',
+                    'unsigned'      => false,
+                    'notNull'       => false,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'email',
+                    'bindType'      => 2,
+                ]
+            ),
+            7  => new Column(
+                'ciudad_id',
+                [
+                    'type'          => 0,
+                    'isNumeric'     => true,
+                    'size'          => 10,
+                    'scale'         => 0,
+                    'default'       => '0',
+                    'unsigned'      => true,
+                    'notNull'       => false,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'fecha_nacimiento',
+                    'bindType'      => 1,
+                ]
+            ),
+            8  => new Column(
+                'creado_at',
+                [
+                    'type'          => 1,
+                    'isNumeric'     => false,
+                    'size'          => 0,
+                    'scale'         => 0,
+                    'default'       => null,
+                    'unsigned'      => false,
+                    'notNull'       => false,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'ciudad_id',
+                    'bindType'      => 2,
+                ]
+            ),
+            9  => new Column(
+                'cupo',
+                [
+                    'type'          => 3,
+                    'isNumeric'     => true,
+                    'size'          => 16,
+                    'scale'         => 2,
+                    'default'       => null,
+                    'unsigned'      => false,
+                    'notNull'       => true,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'creado_at',
+                    'bindType'      => 32,
+                ]
+            ),
+            10 => new Column(
+                'estado',
+                [
+                    'type'          => 18,
+                    'isNumeric'     => false,
+                    'size'          => "'A','I','X'",
+                    'scale'         => 0,
+                    'default'       => null,
+                    'unsigned'      => false,
+                    'notNull'       => true,
+                    'autoIncrement' => false,
+                    'first'         => false,
+                    'after'         => 'cupo',
+                    'bindType'      => 2,
+                ]
+            ),
         ];
     }
 }

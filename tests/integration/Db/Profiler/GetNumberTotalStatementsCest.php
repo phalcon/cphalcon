@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Profiler;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Events\Manager;
 use Phalcon\Test\Fixtures\Db\ProfilerListener;
@@ -26,39 +27,22 @@ class GetNumberTotalStatementsCest
         $this->newDi();
     }
 
-
-
-    public function testDbMysql(IntegrationTester $I)
+    public function _after(IntegrationTester $I)
     {
-        $this->setDiMysql();
+        $this->container['db']->close();
+    }
+
+    /**
+     * @dataProvider adaptersProvider
+     */
+    public function testDb(IntegrationTester $I, Example $example)
+    {
+        $diFunction = 'setDi' . $example[0];
+
+        $this->{$diFunction}();
 
         $connection = $this->getService('db');
 
-        $this->executeTests($I, $connection);
-    }
-
-    public function testDbPostgresql(IntegrationTester $I)
-    {
-        $this->setDiPostgresql();
-
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
-    }
-
-    public function testDbSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
-    }
-
-
-
-    private function executeTests(IntegrationTester $I, $connection)
-    {
         $eventsManager = new Manager();
         $listener      = new ProfilerListener();
 
@@ -93,5 +77,20 @@ class GetNumberTotalStatementsCest
             3,
             $profiler->getNumberTotalStatements()
         );
+    }
+
+    private function adaptersProvider(): array
+    {
+        return [
+            [
+                'Mysql',
+            ],
+            [
+                'Postgresql',
+            ],
+            [
+                'Sqlite',
+            ],
+        ];
     }
 }

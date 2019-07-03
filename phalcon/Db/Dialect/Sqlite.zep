@@ -19,12 +19,13 @@ use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\ReferenceInterface;
 
 /**
- * Phalcon\Db\Dialect\Sqlite
- *
- * Generates database specific SQL for the Sqlite RDBMS
+ * Generates database specific SQL for the SQLite RDBMS
  */
 class Sqlite extends Dialect
 {
+    /**
+     * @var string
+     */
     protected escapeChar = "\"";
 
     /**
@@ -32,7 +33,8 @@ class Sqlite extends Dialect
      */
     public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
     {
-        var sql, defaultValue;
+        var defaultValue;
+        string sql;
 
         let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD COLUMN ";
 
@@ -74,23 +76,24 @@ class Sqlite extends Dialect
      */
     public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> string
     {
-        var sql, indexType;
+        var indexType;
+        string sql;
 
         let indexType = index->getType();
 
         if !empty indexType {
-            let sql = "CREATE " . indexType . " INDEX \"";
+            let sql = "CREATE " . indexType . " INDEX ";
         } else {
-            let sql = "CREATE INDEX \"";
+            let sql = "CREATE INDEX ";
         }
 
         if schemaName {
-            let sql .= schemaName . "\".\"" . index->getName() . "\" ON \"" . tableName . "\" (";
+            let sql .= "\"" . schemaName . "\".\"" . index->getName() . "\"";
         } else {
-            let sql .= index->getName() . "\" ON \"" . tableName . "\" (";
+            let sql .= "\"" . index->getName() . "\"";
         }
 
-        let sql .= this->getColumnList(index->getColumns()) . ")";
+        let sql .= " ON \"" . tableName . "\" (" . this->getColumnList(index->getColumns()) . ")";
 
         return sql;
     }
@@ -112,7 +115,9 @@ class Sqlite extends Dialect
     {
         var columns, table, temporary, options, createLines, columnLine,
             column, indexes, index, indexName, indexType, references, reference,
-            defaultValue, referenceSql, onDelete, onUpdate, sql, hasPrimary;
+            defaultValue, referenceSql, onDelete, onUpdate;
+        bool hasPrimary;
+        string sql;
 
         let table = this->prepareTable(tableName, schemaName);
 
@@ -131,10 +136,12 @@ class Sqlite extends Dialect
          * Create a temporary or normal table
          */
         if temporary {
-            let sql = "CREATE TEMPORARY TABLE " . table . " (\n\t";
+            let sql = "CREATE TEMPORARY TABLE " . table;
         } else {
-            let sql = "CREATE TABLE " . table . " (\n\t";
+            let sql = "CREATE TABLE " . table;
         }
+
+        let sql .= " (\n\t";
 
         let hasPrimary = false;
         let createLines = [];
@@ -184,9 +191,7 @@ class Sqlite extends Dialect
          * Create related indexes
          */
         if fetch indexes, definition["indexes"] {
-
             for index in indexes {
-
                 let indexName = index->getName();
                 let indexType = index->getType();
 
@@ -247,11 +252,11 @@ class Sqlite extends Dialect
     /**
      * Generates SQL describing a table
      *
-     * <code>
+     * ```php
      * print_r(
      *     $dialect->describeColumns("posts")
      * );
-     * </code>
+     * ```
      */
     public function describeColumns(string! table, string schema = null) -> string
     {
@@ -327,17 +332,15 @@ class Sqlite extends Dialect
      */
     public function dropTable(string! tableName, string schemaName = null, bool! ifExists = true) -> string
     {
-        var sql, table;
+        var table;
 
         let table = this->prepareTable(tableName, schemaName);
 
         if ifExists {
-            let sql = "DROP TABLE IF EXISTS " . table;
-        } else {
-            let sql = "DROP TABLE " . table;
+            return "DROP TABLE IF EXISTS " . table;
         }
 
-        return sql;
+        return "DROP TABLE " . table;
     }
 
     /**
@@ -357,7 +360,7 @@ class Sqlite extends Dialect
     }
 
     /**
-     * Returns a SQL modified with a FOR UPDATE clause. For sqlite it returns
+     * Returns a SQL modified with a FOR UPDATE clause. For SQLite it returns
      * the original query
      */
     public function forUpdate(string! sqlQuery) -> string
@@ -537,11 +540,11 @@ class Sqlite extends Dialect
     /**
      * Generates the SQL to get query list of indexes
      *
-     * <code>
+     * ```php
      * print_r(
      *     $dialect->listIndexesSql("blog")
      * );
-     * </code>
+     * ```
      */
     public function listIndexesSql(string! table, string schema = null, string keyName = null) -> string
     {
@@ -559,11 +562,11 @@ class Sqlite extends Dialect
     /**
      * List all tables in database
      *
-     * <code>
+     * ```php
      * print_r(
      *     $dialect->listTables("blog")
      * );
-     * </code>
+     * ```
      */
     public function listTables(string schemaName = null) -> string
     {
@@ -598,11 +601,11 @@ class Sqlite extends Dialect
     /**
      * Generates SQL checking for the existence of a schema.table
      *
-     * <code>
+     * ```php
      * echo $dialect->tableExists("posts", "blog");
      *
      * echo $dialect->tableExists("posts");
-     * </code>
+     * ```
      */
     public function tableExists(string! tableName, string schemaName = null) -> string
     {
@@ -622,7 +625,7 @@ class Sqlite extends Dialect
      */
     public function truncateTable(string! tableName, string! schemaName) -> string
     {
-        string table, sql;
+        string table;
 
         if schemaName {
             let table = "\"" . schemaName . "\".\"" . tableName . "\"";
@@ -630,9 +633,7 @@ class Sqlite extends Dialect
             let table = "\"" . tableName . "\"";
         }
 
-        let sql = "DELETE FROM " . table;
-
-        return sql;
+        return "DELETE FROM " . table;
     }
 
     /**

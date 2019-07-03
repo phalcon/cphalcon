@@ -10,16 +10,13 @@
 
 namespace Phalcon\Validation\Validator;
 
-use Phalcon\Messages\Message;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator;
 
 /**
- * Phalcon\Validation\Validator\Alnum
- *
  * Check for alphanumeric character(s)
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Alnum as AlnumValidator;
  *
@@ -48,35 +45,24 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Alnum extends Validator
 {
+    protected template = "Field :field must contain only letters and numbers";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, message, label, replacePairs, code;
+        var value;
 
         let value = validation->getValue(field);
 
         if !ctype_alnum(value) {
-            let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Alnum"),
-                code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "Alnum",
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

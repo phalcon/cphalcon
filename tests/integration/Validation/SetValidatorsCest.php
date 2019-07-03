@@ -30,7 +30,7 @@ class SetValidatorsCest
         $I->wantToTest('Validation - setValidators()');
 
         $validators = [
-            'date' => [
+            'date'  => [
                 new Date(),
             ],
             'email' => [

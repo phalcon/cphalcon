@@ -21,12 +21,14 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 
-/**
- * Class WriteCest
- */
 class WriteCest
 {
     use DiTrait;
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
 
 //    /**
 //     * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: write()
@@ -39,7 +41,7 @@ class WriteCest
 //        $I->wantToTest('Mvc\Model\MetaData\Libmemcached - write()');
 //        $I->skipTest('Need implementation');
 //    }
-//
+
     /**
      * Tests Phalcon\Mvc\Model\MetaData\Libmemcached :: write() - exception
      *
@@ -49,10 +51,11 @@ class WriteCest
     public function mvcModelMetadataLibmemcachedWriteException(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\MetaData\Libmemcached - write() - exception');
-        $I->skipTest('Check this to clear the cache if the key is there');
 
         $this->setNewFactoryDefault();
         $this->setDiMysql();
+
+        $I->skipTest('Check this to clear the cache if the key is there');
 
         $options  = getOptionsLibmemcached();
 

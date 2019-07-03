@@ -9,6 +9,7 @@
 
 namespace Phalcon\Mvc;
 
+use JsonSerializable;
 use Phalcon\Db\AdapterInterface;
 use Phalcon\Db\Column;
 use Phalcon\Db\DialectInterface;
@@ -40,6 +41,7 @@ use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\ValidationInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Serializable;
 
 /**
  * Phalcon\Mvc\Model
@@ -58,7 +60,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * giving to developers high performance when interacting with databases while
  * is also easy to use.
  *
- * <code>
+ * ```php
  * $robot = new Robots();
  *
  * $robot->type = "mechanical";
@@ -76,9 +78,9 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * } else {
  *     echo "Great, a new robot was saved successfully!";
  * }
- * </code>
+ * ```
  */
-abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, \Serializable, \JsonSerializable
+abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, Serializable, JsonSerializable
 {
     const DIRTY_STATE_DETACHED   = 2;
     const DIRTY_STATE_PERSISTENT = 0;
@@ -92,7 +94,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     protected container;
 
     protected dirtyState = 1;
-    
+
     protected dirtyRelated = [];
 
     protected errorMessages = [];
@@ -100,7 +102,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     protected modelsManager;
 
     protected modelsMetaData;
-    
+
     protected related = [];
 
     protected operationMade = 0;
@@ -440,7 +442,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Setups a behavior in a model
      *
-     *<code>
+     *```php
      * use Phalcon\Mvc\Model;
      * use Phalcon\Mvc\Model\Behavior\Timestampable;
      *
@@ -460,7 +462,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         );
      *     }
      * }
-     *</code>
+     *```
      */
     public function addBehavior(<BehaviorInterface> behavior) -> void
     {
@@ -470,7 +472,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Appends a customized message on the validation process
      *
-     * <code>
+     * ```php
      * use Phalcon\Mvc\Model;
      * use Phalcon\Messages\Message as Message;
      *
@@ -487,7 +489,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         }
      *     }
      * }
-     * </code>
+     * ```
      */
     public function appendMessage(<MessageInterface> message) -> <ModelInterface>
     {
@@ -499,7 +501,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Assigns values to a model from an array
      *
-     * <code>
+     * ```php
      * $robot->assign(
      *     [
      *         "type" => "mechanical",
@@ -540,7 +542,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         "year",
      *     ]
      * );
-     * </code>
+     * ```
      *
      * @param array dataColumnMap array to transform keys of data to another
      * @param array whiteList
@@ -626,7 +628,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Returns the average value on a column for a result-set of rows matching
      * the specified conditions
      *
-     * <code>
+     * ```php
      * // What's the average price of robots?
      * $average = Robots::average(
      *     [
@@ -645,7 +647,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * );
      *
      * echo "The average price of mechanical robots is ", $average, "\n";
-     * </code>
+     * ```
      *
      * @param array parameters
      * @return double
@@ -658,7 +660,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Assigns values to a model from an array returning a new model
      *
-     *<code>
+     *```php
      * $robot = Phalcon\Mvc\Model::cloneResult(
      *     new Robots(),
      *     [
@@ -667,7 +669,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         "year" => 1952,
      *     ]
      * );
-     *</code>
+     *```
      */
     public static function cloneResult(<ModelInterface> base, array! data, int dirtyState = 0) -> <ModelInterface>
     {
@@ -705,7 +707,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Assigns values to a model from an array, returning a new model.
      *
-     *<code>
+     *```php
      * $robot = \Phalcon\Mvc\Model::cloneResultMap(
      *     new Robots(),
      *     [
@@ -714,7 +716,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         "year" => 1952,
      *     ]
      * );
-     *</code>
+     *```
      *
      * @param \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row base
      * @param array columnMap
@@ -891,7 +893,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Counts how many records match the specified conditions
      *
-     * <code>
+     * ```php
      * // How many robots are there?
      * $number = Robots::count();
      *
@@ -901,7 +903,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * $number = Robots::count("type = 'mechanical'");
      *
      * echo "There are ", $number, " mechanical robots\n";
-     * </code>
+     * ```
      *
      * @param array parameters
      * @return mixed
@@ -924,7 +926,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * persistence it will throw an exception
      * Returning true on success or false otherwise.
      *
-     *<code>
+     *```php
      * // Creating a new robot
      * $robot = new Robots();
      *
@@ -946,7 +948,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * );
      *
      * $robot->create();
-     *</code>
+     *```
      */
     public function create() -> bool
     {
@@ -979,7 +981,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Deletes a model instance. Returning true on success or false otherwise.
      *
-     * <code>
+     * ```php
      * $robot = Robots::findFirst("id=100");
      *
      * $robot->delete();
@@ -989,7 +991,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * foreach ($robots as $robot) {
      *     $robot->delete();
      * }
-     * </code>
+     * ```
      */
     public function delete() -> bool
     {
@@ -1148,11 +1150,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Returns a simple representation of the object that can be used with
      * `var_dump()`
      *
-     *<code>
+     *```php
      * var_dump(
      *     $robot->dump()
      * );
-     *</code>
+     *```
      */
     public function dump() -> array
     {
@@ -1162,7 +1164,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Query for a set of records that match the specified conditions
      *
-     * <code>
+     * ```php
      * // How many robots are there?
      * $robots = Robots::find();
      *
@@ -1316,7 +1318,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *
      * $transaction1->rollback();
      * $transaction2->rollback();
-     * </code>
+     * ```
      */
     public static function find(var parameters = null) -> <ResultsetInterface>
     {
@@ -1354,7 +1356,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Query the first record that matches the specified conditions
      *
-     * <code>
+     * ```php
      * // What's the first robot in robots table?
      * $robot = Robots::findFirst();
      *
@@ -1415,7 +1417,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         'name' => 'test',
      *     ]
      * );
-     * </code>
+     * ```
      *
      * @param string|array parameters
      */
@@ -1498,7 +1500,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Returns a list of changed values.
      *
-     * <code>
+     * ```php
      * $robots = Robots::findFirst();
      * print_r($robots->getChangedFields()); // []
      *
@@ -1506,7 +1508,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *
      * $robots->getChangedFields();
      * print_r($robots->getChangedFields()); // ["deleted"]
-     * </code>
+     * ```
      */
     public function getChangedFields() -> array
     {
@@ -1607,7 +1609,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Returns array of validation messages
      *
-     *<code>
+     *```php
      * $robot = new Robots();
      *
      * $robot->type = "mechanical";
@@ -1625,7 +1627,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * } else {
      *     echo "Great, a new robot was saved successfully!";
      * }
-     * </code>
+     * ```
      */
     public function getMessages(var filter = null) -> <MessageInterface[]>
     {
@@ -1795,7 +1797,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Only returns true if the records were previously fetched
      * through the model without any additional parameters.
      *
-     * <code>
+     * ```php
      * $robot = Robots::findFirst();
      * var_dump($robot->isRelationshipLoaded('robotsParts')); // false
      *
@@ -1807,7 +1809,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *
      * $robot->robotsParts = [new RobotsParts()];
      * var_dump($robot->isRelationshipLoaded('robotsParts')); // false
-     * </code>
+     * ```
      */
     public function isRelationshipLoaded(string relationshipAlias) -> bool
     {
@@ -1841,7 +1843,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Returns a list of updated values.
      *
-     * <code>
+     * ```php
      * $robots = Robots::findFirst();
      * print_r($robots->getChangedFields()); // []
      *
@@ -1852,7 +1854,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * $robots->save();
      * print_r($robots->getChangedFields()); // []
      * print_r($robots->getUpdatedFields()); // ["deleted"]
-     * </code>
+     * ```
      */
     public function getUpdatedFields() -> array
     {
@@ -1927,7 +1929,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Check if a specific attribute has changed
      * This only works if the model is keeping data snapshots
      *
-     *<code>
+     *```php
      * $robot = new Robots();
      *
      * $robot->type = "mechanical";
@@ -1941,7 +1943,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * $hasChanged = $robot->hasChanged("type"); // returns true
      * $hasChanged = $robot->hasChanged(["type", "name"]); // returns true
      * $hasChanged = $robot->hasChanged(["type", "name"], true); // returns false
-     *</code>
+     *```
      *
      * @param string|array fieldName
      */
@@ -2013,9 +2015,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
     * Serializes the object for json_encode
     *
-    *<code>
+    *```php
     * echo json_encode($robot);
-    *</code>
+    *```
     */
     public function jsonSerialize() -> array
     {
@@ -2026,7 +2028,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Returns the maximum value of a column for a result-set of rows that match
      * the specified conditions
      *
-     * <code>
+     * ```php
      * // What is the maximum robot id?
      * $id = Robots::maximum(
      *     [
@@ -2045,7 +2047,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * );
      *
      * echo "The maximum robot id of mechanical robots is ", $id, "\n";
-     * </code>
+     * ```
      *
      * @param array parameters
      * @return mixed
@@ -2059,7 +2061,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Returns the minimum value of a column for a result-set of rows that match
      * the specified conditions
      *
-     * <code>
+     * ```php
      * // What is the minimum robot id?
      * $id = Robots::minimum(
      *     [
@@ -2078,7 +2080,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * );
      *
      * echo "The minimum robot id of mechanical robots is ", $id;
-     * </code>
+     * ```
      *
      * @param array parameters
      */
@@ -2124,9 +2126,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Reads an attribute value by its name
      *
-     * <code>
+     * ```php
      * echo $robot->readAttribute("name");
-     * </code>
+     * ```
      */
     public function readAttribute(string! attribute) -> var | null
     {
@@ -2171,7 +2173,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             /**
              * We need to check if the record exists
              */
-            if unlikely !this->_exists(metaData, readConnection, table) {
+            if unlikely !this->_exists(metaData, readConnection) {
                 throw new Exception(
                     "The record cannot be refreshed because it does not exist or is deleted"
                 );
@@ -2240,7 +2242,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Inserts or updates a model instance. Returning true on success or false
      * otherwise.
      *
-     *<code>
+     *```php
      * // Creating a new robot
      * $robot = new Robots();
      *
@@ -2256,7 +2258,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * $robot->name = "Biomass";
      *
      * $robot->save();
-     *</code>
+     *```
      */
     public function save() -> bool
     {
@@ -2309,7 +2311,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * We need to check if the record exists
          */
-        let exists = this->_exists(metaData, readConnection, table);
+        let exists = this->_exists(metaData, readConnection);
 
         if exists {
             let this->operationMade = self::OP_UPDATE;
@@ -2699,7 +2701,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Sets a transaction related to the Model instance
      *
-     *<code>
+     *```php
      * use Phalcon\Mvc\Model\Transaction\Manager as TxManager;
      * use Phalcon\Mvc\Model\Transaction\Failed as TxFailed;
      *
@@ -2733,7 +2735,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * } catch (TxFailed $e) {
      *     echo "Failed, reason: ", $e->getMessage();
      * }
-     *</code>
+     *```
      */
     public function setTransaction(<TransactionInterface> transaction) -> <ModelInterface>
     {
@@ -2842,7 +2844,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         if fetch prefetchRecords, options["prefetchRecords"] {
             globals_set("orm.resultset_prefetch_records", prefetchRecords);
         }
-	
+
         if fetch lastInsertId, options["castLastInsertIdToInt"] {
             globals_set("orm.cast_last_insert_id_to_int", lastInsertId);
         }
@@ -2872,7 +2874,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Calculates the sum on a column for a result-set of rows that match the
      * specified conditions
      *
-     * <code>
+     * ```php
      * // How much are all robots?
      * $sum = Robots::sum(
      *     [
@@ -2891,7 +2893,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * );
      *
      * echo "The total price of mechanical robots is  ", $sum, "\n";
-     * </code>
+     * ```
      *
      * @param array parameters
      * @return double
@@ -2904,11 +2906,11 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Returns the instance as an array representation
      *
-     *<code>
+     *```php
      * print_r(
      *     $robot->toArray()
      * );
-     *</code>
+     *```
      *
      * @param array $columns
      */
@@ -2968,14 +2970,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * persistence it will throw an exception. Returning true on success or
      * false otherwise.
      *
-     *<code>
+     *```php
      * // Updating a robot name
      * $robot = Robots::findFirst("id = 100");
      *
      * $robot->name = "Biomass";
      *
      * $robot->update();
-     *</code>
+     *```
      */
     public function update() -> bool
     {
@@ -3009,9 +3011,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Writes an attribute value by its name
      *
-     *<code>
+     *```php
      * $robot->writeAttribute("name", "Rosey");
-     *</code>
+     *```
      */
     public function writeAttribute(string! attribute, var value) -> void
     {
@@ -3907,15 +3909,13 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 
     /**
      * Checks whether the current record already exists
-     *
-     * @param string|array table
      */
-    protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection, var table = null) -> bool
+    protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection) -> bool
     {
         int numberEmpty, numberPrimary;
         var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,
             wherePk, field, attributeField, value, bindDataTypes, joinWhere,
-            num, type, schema, source;
+            num, type, schema, source, table;
 
         let uniqueParams = null,
             uniqueTypes = null;
@@ -4914,7 +4914,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Sets a list of attributes that must be skipped from the
      * generated UPDATE statement
      *
-     *<code>
+     *```php
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -4926,7 +4926,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         );
      *     }
      * }
-     *</code>
+     *```
      */
     protected function allowEmptyStringValues(array! attributes) -> void
     {
@@ -4959,7 +4959,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Setup a reverse 1-1 or n-1 relation between two models
      *
-     *<code>
+     *```php
      * class RobotsParts extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -4971,7 +4971,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         );
      *     }
      * }
-     *</code>
+     *```
      */
     protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
     {
@@ -5044,7 +5044,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Setup a 1-n relation between two models
      *
-     *<code>
+     *```php
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -5056,7 +5056,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         );
      *     }
      * }
-     *</code>
+     *```
      */
     protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
     {
@@ -5073,7 +5073,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Setup an n-n relation between two models, through an intermediate
      * relation
      *
-     *<code>
+     *```php
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -5089,7 +5089,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         );
      *     }
      * }
-     *</code>
+     *```
      *
      * @param    string|array fields
      * @param    string|array intermediateFields
@@ -5115,7 +5115,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Setup a 1-1 relation between two models
      *
-     *<code>
+     *```php
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -5127,7 +5127,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         );
      *     }
      * }
-     *</code>
+     *```
      */
     protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
     {
@@ -5143,7 +5143,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Sets if the model must keep the original record snapshot in memory
      *
-     *<code>
+     *```php
      * use Phalcon\Mvc\Model;
      *
      * class Robots extends Model
@@ -5153,7 +5153,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         $this->keepSnapshots(true);
      *     }
      * }
-     *</code>
+     *```
      */
     protected function keepSnapshots(bool keepSnapshot) -> void
     {
@@ -5190,7 +5190,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Sets a list of attributes that must be skipped from the
      * generated INSERT/UPDATE statement
      *
-     *<code>
+     *```php
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -5202,7 +5202,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         );
      *     }
      * }
-     *</code>
+     *```
      */
     protected function skipAttributes(array! attributes)
     {
@@ -5214,7 +5214,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Sets a list of attributes that must be skipped from the
      * generated INSERT statement
      *
-     *<code>
+     *```php
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -5226,7 +5226,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         );
      *     }
      * }
-     *</code>
+     *```
      */
     protected function skipAttributesOnCreate(array! attributes) -> void
     {
@@ -5249,7 +5249,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * Sets a list of attributes that must be skipped from the
      * generated UPDATE statement
      *
-     *<code>
+     *```php
      * class Robots extends \Phalcon\Mvc\Model
      * {
      *     public function initialize()
@@ -5261,7 +5261,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         );
      *     }
      * }
-     *</code>
+     *```
      */
     protected function skipAttributesOnUpdate(array! attributes) -> void
     {
@@ -5283,7 +5283,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Sets if a model must use dynamic update instead of the all-field update
      *
-     *<code>
+     *```php
      * use Phalcon\Mvc\Model;
      *
      * class Robots extends Model
@@ -5293,7 +5293,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         $this->useDynamicUpdate(true);
      *     }
      * }
-     *</code>
+     *```
      */
     protected function useDynamicUpdate(bool dynamicUpdate) -> void
     {
@@ -5306,7 +5306,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Executes validators on every validation call
      *
-     *<code>
+     *```php
      * use Phalcon\Mvc\Model;
      * use Phalcon\Validation;
      * use Phalcon\Validation\Validator\ExclusionIn;
@@ -5332,7 +5332,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         return $this->validate($validator);
      *     }
      * }
-     *</code>
+     *```
      */
     protected function validate(<ValidationInterface> validator) -> bool
     {
@@ -5364,7 +5364,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Check whether validation process has generated any messages
      *
-     *<code>
+     *```php
      * use Phalcon\Mvc\Model;
      * use Phalcon\Validation;
      * use Phalcon\Validation\Validator\ExclusionIn;
@@ -5390,7 +5390,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *         return $this->validate($validator);
      *     }
      * }
-     *</code>
+     *```
      */
     public function validationHasFailed() -> bool
     {

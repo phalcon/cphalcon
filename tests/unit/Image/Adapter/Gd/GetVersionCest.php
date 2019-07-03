@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image\Adapter\Gd;
 use UnitTester;
 
 class GetVersionCest
@@ -26,6 +27,11 @@ class GetVersionCest
     {
         $I->wantToTest('Image\Adapter\Gd - getVersion()');
 
-        $I->skipTest('Need implementation');
+        $gd = new Gd(dataDir('assets/images/phalconphp.jpg'));
+
+        $I->assertEquals(
+            '2.0.35',
+            $gd->getVersion()
+        );
     }
 }

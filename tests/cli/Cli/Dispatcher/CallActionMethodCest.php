@@ -13,21 +13,40 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use function dataDir;
+use MainTask;
+use Phalcon\Cli\Dispatcher;
 
-/**
- * Class CallActionMethodCest
- */
 class CallActionMethodCest
 {
     /**
      * Tests Phalcon\Cli\Dispatcher :: callActionMethod()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-24
      */
     public function cliDispatcherCallActionMethod(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - callActionMethod()');
-        $I->skipTest('Need implementation');
+
+        require_once dataDir('fixtures/tasks/MainTask.php');
+
+        $dispatcher = new Dispatcher();
+
+        $task = new MainTask();
+
+        $returnedValue = $dispatcher->callActionMethod(
+            $task,
+            'helloAction',
+            [
+                'Sid',
+                '.',
+            ]
+        );
+
+        $I->assertEquals(
+            'Hello Sid.',
+            $returnedValue
+        );
     }
 }

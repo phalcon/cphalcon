@@ -18,9 +18,6 @@ use MongoClient;
 use Phalcon\Mvc\Collection\Manager;
 use PHPUnit\Framework\SkippedTestError;
 
-/**
- * Collection Initializer
- */
 trait CollectionTrait
 {
     /**

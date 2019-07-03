@@ -18,13 +18,12 @@ use Phalcon\Db\Exception;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
+use Throwable;
 
 /**
- * Phalcon\Db\Adapter\Pdo\Postgresql
- *
  * Specific functions for the Postgresql database system
  *
- * <code>
+ * ```php
  * use Phalcon\Db\Adapter\Pdo\Postgresql;
  *
  * $config = [
@@ -36,13 +35,18 @@ use Phalcon\Db\ReferenceInterface;
  * ];
  *
  * $connection = new Postgresql($config);
- * </code>
+ * ```
  */
 class Postgresql extends PdoAdapter
 {
-
+    /**
+     * @var string
+     */
     protected dialectType = "postgresql";
 
+    /**
+     * @var string
+     */
     protected type = "pgsql";
 
     /**
@@ -111,7 +115,7 @@ class Postgresql extends PdoAdapter
 
         let sql = this->dialect->createTable(tableName, schemaName, definition);
 
-        let queries = explode(";",sql);
+        let queries = explode(";", sql);
 
         if count(queries) > 1 {
             try {
@@ -121,11 +125,12 @@ class Postgresql extends PdoAdapter
                     if empty query {
                         continue;
                     }
+
                     this->{"query"}(query . ";");
                 }
 
                 return this->{"commit"}();
-            } catch \Throwable, exception {
+            } catch Throwable, exception {
                 this->{"rollback"}();
 
                 throw exception;
@@ -140,11 +145,11 @@ class Postgresql extends PdoAdapter
     /**
      * Returns an array of Phalcon\Db\Column objects describing a table
      *
-     * <code>
+     * ```php
      * print_r(
      *     $connection->describeColumns("posts")
      * );
-     * </code>
+     * ```
      */
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
@@ -523,11 +528,11 @@ class Postgresql extends PdoAdapter
     /**
      * Lists table references
      *
-     *<code>
+     *```php
      * print_r(
      *     $connection->describeReferences("robots_parts")
      * );
-     *</code>
+     *```
      */
     public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
     {
@@ -591,7 +596,7 @@ class Postgresql extends PdoAdapter
     /**
      * Returns the default identity value to be inserted in an identity column
      *
-     *<code>
+     *```php
      * // Inserting a new robot with a valid default value for the column 'id'
      * $success = $connection->insert(
      *     "robots",
@@ -606,7 +611,7 @@ class Postgresql extends PdoAdapter
      *         "year",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function getDefaultIdValue() -> <RawValue>
     {
@@ -627,7 +632,7 @@ class Postgresql extends PdoAdapter
             currentColumn
         );
 
-        let queries = explode(";",sql);
+        let queries = explode(";", sql);
 
         if count(queries) > 1 {
             try {
@@ -642,7 +647,7 @@ class Postgresql extends PdoAdapter
                 }
 
                 return this->{"commit"}();
-            } catch \Throwable, exception {
+            } catch Throwable, exception {
                 this->{"rollback"}();
 
                 throw exception;

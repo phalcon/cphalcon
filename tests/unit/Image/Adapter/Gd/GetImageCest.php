@@ -12,10 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image\Adapter\Gd;
+use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
 class GetImageCest
 {
+    use GdTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Gd :: getImage()
      *
@@ -24,8 +28,16 @@ class GetImageCest
      */
     public function imageAdapterGdGetImage(UnitTester $I)
     {
-        $I->wantToTest('Image\Adapter\Gd - getImage()');
+        $I->wantToTest('Image\Adapter\Gd - getImage() - from jpg image');
 
-        $I->skipTest('Need implementation');
+        foreach ($this->getImages() as $image) {
+            $gd = new Gd($image);
+
+            $expected = is_resource($gd->getImage());
+
+            $I->assertTrue(
+                $expected
+            );
+        }
     }
 }

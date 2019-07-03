@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\Transaction\Manager;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Transaction;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -25,53 +26,27 @@ class GetCest
         $this->setNewFactoryDefault();
     }
 
-    /**
-     * Tests Phalcon\Mvc\Model\Transaction\Manager :: get() with MySQL
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2012-08-07
-     */
-    public function mvcModelTransactionManagerGetMysql(IntegrationTester $I)
+    public function _after(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Model\Transaction\Manager - get() with MySQL');
-
-        $this->setDiMysql();
-
-        $this->testGetNewExistingTransactionOnce($I);
+        $this->container['db']->close();
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Transaction\Manager :: get() with Postgresql
+     * Tests Phalcon\Mvc\Model\Transaction\Manager :: get()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2012-08-07
-     */
-    public function mvcModelTransactionManagerGetPostgresql(IntegrationTester $I)
-    {
-        $I->wantToTest('Mvc\Model\Transaction\Manager - get() with Postgresql');
-
-        $this->setDiPostgresql();
-
-        $this->testGetNewExistingTransactionOnce($I);
-    }
-
-    /**
-     * Tests Phalcon\Mvc\Model\Transaction\Manager :: get() with Sqlite
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2012-08-07
+     * @dataProvider adaptersProvider
      */
-    public function mvcModelTransactionManagerGetSqlite(IntegrationTester $I)
+    public function mvcModelTransactionManagerGet(IntegrationTester $I, Example $example)
     {
-        $I->wantToTest('Mvc\Model\Transaction\Manager - get() with Sqlite');
+        $I->wantToTest('Mvc\Model\Transaction\Manager - get() with ' . $example[0]);
 
-        $this->setDiSqlite();
+        $diFunction = 'setDi' . $example[0];
 
-        $this->testGetNewExistingTransactionOnce($I);
-    }
+        $this->{$diFunction}();
 
-    private function testGetNewExistingTransactionOnce(IntegrationTester $I)
-    {
         $tm = $this->container->getShared('transactionManager');
         $db = $this->container->getShared('db');
 
@@ -96,5 +71,20 @@ class GetCest
             $db->getConnectionId(),
             $transaction->getConnection()->getConnectionId()
         );
+    }
+
+    private function adaptersProvider(): array
+    {
+        return [
+            [
+                'Mysql',
+            ],
+            [
+                'Postgresql',
+            ],
+            [
+                'Sqlite',
+            ],
+        ];
     }
 }

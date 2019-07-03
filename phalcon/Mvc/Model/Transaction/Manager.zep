@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model\Transaction;
 
+use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\Transaction\ManagerInterface;
@@ -28,7 +29,7 @@ use Phalcon\Mvc\Model\TransactionInterface;
  * A transaction produces a unique connection that is passed to every object
  * part of the transaction.
  *
- * <code>
+ * ```php
  * use Phalcon\Mvc\Model\Transaction\Failed;
  * use Phalcon\Mvc\Model\Transaction\Manager;
  *
@@ -44,7 +45,7 @@ use Phalcon\Mvc\Model\TransactionInterface;
  *    $robot->name       = "WALL·E";
  *    $robot->created_at = date("Y-m-d");
  *
- *    if ($robot->save() === false){
+ *    if ($robot->save() === false) {
  *        $transaction->rollback("Can't save robot");
  *    }
  *
@@ -62,7 +63,7 @@ use Phalcon\Mvc\Model\TransactionInterface;
  * } catch (Failed $e) {
  *    echo "Failed, reason: ", $e->getMessage();
  * }
- *</code>
+ *```
  */
 class Manager implements ManagerInterface, InjectionAwareInterface
 {
@@ -87,7 +88,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     public function __construct(<DiInterface> container = null) -> void
     {
         if !container {
-            let container = \Phalcon\Di::getDefault();
+            let container = Di::getDefault();
         }
 
         let this->container = container;

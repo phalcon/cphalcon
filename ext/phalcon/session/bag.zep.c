@@ -44,7 +44,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Bag) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session, Bag, phalcon, session_bag, phalcon_collection_ce, phalcon_session_bag_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session, Bag, phalcon, session_bag, phalcon_collection_collection_ce, phalcon_session_bag_method_entry, 0);
 
 	zend_declare_property_null(phalcon_session_bag_ce, SL("container"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
@@ -63,8 +63,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Bag) {
 PHP_METHOD(Phalcon_Session_Bag, __construct) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_2 = NULL, *_5 = NULL, *_8 = NULL;
-	zval *name_param = NULL, container, data, session, _0, _1$$3, _7$$3, _3$$5, _4$$5, _6$$5;
+	zephir_fcall_cache_entry *_0 = NULL, *_3 = NULL, *_7 = NULL;
+	zval *name_param = NULL, container, data, session, _5, _6, _1$$3, _2$$3, _4$$3;
 	zval name;
 	zval *this_ptr = getThis();
 
@@ -72,12 +72,11 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 	ZVAL_UNDEF(&container);
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&session);
-	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_7$$3);
-	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_4$$5);
-	ZVAL_UNDEF(&_6$$5);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_4$$3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -95,42 +94,35 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 
 
 	zephir_update_property_zval(this_ptr, SL("name"), &name);
-	zephir_read_property(&_0, this_ptr, SL("session"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CPY_WRT(&session, &_0);
-	if (Z_TYPE_P(&session) != IS_OBJECT) {
-		zephir_read_property(&_1$$3, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CPY_WRT(&container, &_1$$3);
-		if (Z_TYPE_P(&container) != IS_OBJECT) {
-			ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_ce, "getdefault", &_2, 0);
-			zephir_check_call_status();
-			if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
-				ZEPHIR_INIT_VAR(&_3$$5);
-				object_init_ex(&_3$$5, phalcon_session_exception_ce);
-				ZEPHIR_INIT_VAR(&_6$$5);
-				ZVAL_STRING(&_6$$5, "the 'session' service");
-				ZEPHIR_CALL_CE_STATIC(&_4$$5, phalcon_session_exception_ce, "containerservicenotfound", &_5, 0, &_6$$5);
-				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 1, &_4$$5);
-				zephir_check_call_status();
-				zephir_throw_exception_debug(&_3$$5, "phalcon/Session/Bag.zep", 60 TSRMLS_CC);
-				ZEPHIR_MM_RESTORE();
-				return;
-			}
-		}
-		ZEPHIR_INIT_VAR(&_7$$3);
-		ZVAL_STRING(&_7$$3, "session");
-		ZEPHIR_CALL_METHOD(&session, &container, "getshared", NULL, 0, &_7$$3);
+	ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_ce, "getdefault", &_0, 0);
+	zephir_check_call_status();
+	if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_session_exception_ce);
+		ZEPHIR_INIT_VAR(&_4$$3);
+		ZVAL_STRING(&_4$$3, "the 'session' service");
+		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_session_exception_ce, "containerservicenotfound", &_3, 0, &_4$$3);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, SL("session"), &session);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 1, &_2$$3);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Bag.zep", 55 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
 	}
-	zephir_read_property(&_0, this_ptr, SL("name"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&data, &session, "get", NULL, 0, &_0);
+	ZEPHIR_INIT_VAR(&_5);
+	ZVAL_STRING(&_5, "session");
+	ZEPHIR_CALL_METHOD(&session, &container, "getshared", NULL, 0, &_5);
+	zephir_check_call_status();
+	zephir_update_property_zval(this_ptr, SL("container"), &container);
+	zephir_update_property_zval(this_ptr, SL("session"), &session);
+	zephir_read_property(&_6, this_ptr, SL("name"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&data, &session, "get", NULL, 0, &_6);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&data) != IS_ARRAY) {
 		ZEPHIR_INIT_NVAR(&data);
 		array_init(&data);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_session_bag_ce, getThis(), "__construct", &_8, 0, &data);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_session_bag_ce, getThis(), "__construct", &_7, 0, &data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -210,8 +202,7 @@ PHP_METHOD(Phalcon_Session_Bag, remove) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zend_bool insensitive;
-	zval *element_param = NULL, *insensitive_param = NULL, _1, _2, _3, _4;
+	zval *element_param = NULL, _1, _2, _3;
 	zval element;
 	zval *this_ptr = getThis();
 
@@ -219,10 +210,9 @@ PHP_METHOD(Phalcon_Session_Bag, remove) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &element_param, &insensitive_param);
+	zephir_fetch_params(1, 1, 0, &element_param);
 
 	if (UNEXPECTED(Z_TYPE_P(element_param) != IS_STRING && Z_TYPE_P(element_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string") TSRMLS_CC);
@@ -234,24 +224,14 @@ PHP_METHOD(Phalcon_Session_Bag, remove) {
 		ZEPHIR_INIT_VAR(&element);
 		ZVAL_EMPTY_STRING(&element);
 	}
-	if (!insensitive_param) {
-		insensitive = 1;
-	} else {
-		insensitive = zephir_get_boolval(insensitive_param);
-	}
 
 
-	if (insensitive) {
-		ZVAL_BOOL(&_1, 1);
-	} else {
-		ZVAL_BOOL(&_1, 0);
-	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_session_bag_ce, getThis(), "remove", &_0, 0, &element, &_1);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_session_bag_ce, getThis(), "remove", &_0, 0, &element);
 	zephir_check_call_status();
-	zephir_read_property(&_2, this_ptr, SL("session"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_3, this_ptr, SL("name"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_4, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, &_2, "set", NULL, 0, &_3, &_4);
+	zephir_read_property(&_1, this_ptr, SL("session"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, SL("name"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_3, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(NULL, &_1, "set", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

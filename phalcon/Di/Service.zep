@@ -18,18 +18,16 @@ use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Service\Builder;
 
 /**
- * Phalcon\Di\Service
- *
  * Represents individually a service in the services container
  *
- *<code>
+ *```php
  * $service = new \Phalcon\Di\Service(
  *     "request",
  *     \Phalcon\Http\Request::class
  * );
  *
  * $request = service->resolve();
- *</code>
+ *```
  */
 class Service implements ServiceInterface
 {
@@ -54,24 +52,6 @@ class Service implements ServiceInterface
     {
         let this->definition = definition,
             this->shared = shared;
-    }
-
-    /**
-     * Restore the internal state of a service
-     */
-    public static function __set_state(array! attributes) -> <ServiceInterface>
-    {
-        var definition, shared;
-
-        if unlikely !fetch definition, attributes["_definition"] {
-            throw new Exception("The attribute '_definition' is required");
-        }
-
-        if unlikely !fetch shared, attributes["_shared"] {
-            throw new Exception("The attribute '_shared' is required");
-        }
-
-        return new self(definition, shared);
     }
 
     /**

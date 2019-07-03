@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Exception;
 use Phalcon\Acl\Role;
 use UnitTester;
 
@@ -122,6 +123,26 @@ class AddRoleCest
 
         $I->assertTrue(
             $acl->isRole('11')
+        );
+    }
+
+    /**
+     * Tests Phalcon\Acl\Adapter\Memory :: addRole() - exception
+     *
+     * @since  2018-11-13
+     */
+    public function aclAdapterMemoryAddRoleException(UnitTester $I)
+    {
+        $I->wantToTest('Acl\Adapter\Memory - addRole() - numeric key');
+
+        $I->expectThrowable(
+            new Exception(
+                'Role must be either a string or implement RoleInterface'
+            ),
+            function () {
+                $acl = new Memory();
+                $acl->addRole(true);
+            }
         );
     }
 }

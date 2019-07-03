@@ -21,6 +21,7 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Regex;
 use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Validation\Validator\StringLength\Min;
 
 class FormCest
 {
@@ -188,25 +189,25 @@ class FormCest
                 new Message(
                     'The telephone is required',
                     'telephone',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
                 new Message(
                     'The telephone is too short',
                     'telephone',
-                    'TooShort',
+                    Min::class,
                     0
                 ),
                 new Message(
                     'The telephone has an invalid format',
                     'telephone',
-                    'Regex',
+                    Regex::class,
                     0
                 ),
                 new Message(
                     'The address is required',
                     'address',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
@@ -233,7 +234,7 @@ class FormCest
                 new Message(
                     'The telephone has an invalid format',
                     'telephone',
-                    'Regex',
+                    Regex::class,
                     0
                 ),
             ]
@@ -310,7 +311,7 @@ class FormCest
                 new Message(
                     'The telephone has an invalid format',
                     'telephone',
-                    'Regex',
+                    Regex::class,
                     0
                 ),
             ]

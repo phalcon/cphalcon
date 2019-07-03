@@ -14,8 +14,6 @@ use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 use Phalcon\Storage\Adapter\Libmemcached as StorageLibmemcached;
 
 /**
- * Phalcon\Cache\Adapter\Libmemcached
- *
  * Libmemcached adapter
  */
 class Libmemcached extends StorageLibmemcached implements CacheAdapterInterface

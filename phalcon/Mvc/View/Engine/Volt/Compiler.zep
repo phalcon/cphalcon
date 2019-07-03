@@ -10,23 +10,22 @@
 
 namespace Phalcon\Mvc\View\Engine\Volt;
 
+use Closure;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\View\Engine\Volt\Exception;
 
 /**
- * Phalcon\Mvc\View\Engine\Volt\Compiler
- *
  * This class reads and compiles Volt templates into PHP plain code
  *
- *<code>
+ *```php
  * $compiler = new \Phalcon\Mvc\View\Engine\Volt\Compiler();
  *
  * $compiler->compile("views/partials/header.volt");
  *
  * require $compiler->getCompiledTemplatePath();
- *</code>
+ *```
  */
 class Compiler implements InjectionAwareInterface
 {
@@ -161,11 +160,11 @@ class Compiler implements InjectionAwareInterface
      * Compiles a template into a file applying the compiler options
      * This method does not return the compiled path if the template was not compiled
      *
-     *<code>
+     *```php
      * $compiler->compile("views/layouts/main.volt");
      *
      * require $compiler->getCompiledTemplatePath();
-     *</code>
+     *```
      */
     public function compile(string! templatePath, bool extendsMode = false)
     {
@@ -304,7 +303,7 @@ class Compiler implements InjectionAwareInterface
             } else {
                 let compiledTemplatePath = compiledPath . prefix . templateSepPath . compiledExtension;
             }
-        } elseif typeof compiledPath == "object" && compiledPath instanceof \Closure {
+        } elseif typeof compiledPath == "object" && compiledPath instanceof Closure {
             /**
              * A closure can dynamically compile the path
              */
@@ -533,7 +532,7 @@ class Compiler implements InjectionAwareInterface
     }
 
     /**
-     * Compiles a '{{' '}}' statement returning PHP code
+     * Compiles a {% raw %}`{{` `}}`{% endraw %} statement returning PHP code
      */
     public function compileEcho(array! statement) -> string
     {
@@ -598,12 +597,12 @@ class Compiler implements InjectionAwareInterface
     /**
      * Compiles a template into a file forcing the destination path
      *
-     *<code>
+     *```php
      * $compiler->compileFile(
      *     "views/layouts/main.volt",
      *     "views/layouts/main.volt.php"
      * );
-     *</code>
+     *```
      *
      * @return string|array
      */
@@ -1111,9 +1110,9 @@ class Compiler implements InjectionAwareInterface
     /**
      * Compiles a template into a string
      *
-     *<code>
-     * echo $compiler->compileString('{{ "hello world" }}');
-     *</code>
+     *```php
+     * echo $compiler->compileString({% raw %}'{{ "hello world" }}'{% endraw %});
+     *```
      */
     public function compileString(string! viewCode, bool extendsMode = false) -> string
     {
@@ -1633,7 +1632,7 @@ class Compiler implements InjectionAwareInterface
                      * definition
                      */
                     if typeof definition == "object" {
-                        if definition instanceof \Closure {
+                        if definition instanceof Closure {
                             return call_user_func_array(
                                 definition,
                                 [arguments, funcArguments]
@@ -1931,7 +1930,7 @@ class Compiler implements InjectionAwareInterface
          * The user could use a closure generator
          */
         if typeof this->prefix == "object" {
-            if this->prefix instanceof \Closure {
+            if this->prefix instanceof Closure {
                 let this->prefix = call_user_func_array(
                     this->prefix,
                     [
@@ -1952,11 +1951,11 @@ class Compiler implements InjectionAwareInterface
     /**
      * Parses a Volt template returning its intermediate representation
      *
-     *<code>
+     *```php
      * print_r(
-     *     $compiler->parse("{{ 3 + 2 }}")
+     *     $compiler->parse("{% raw %}{{ 3 + 2 }}{% endraw %}")
      * );
-     *</code>
+     *```
      *
      * @return array
      */
@@ -2342,7 +2341,7 @@ class Compiler implements InjectionAwareInterface
              * The definition is a closure
              */
             if typeof definition == "object" {
-                if definition instanceof \Closure {
+                if definition instanceof Closure {
                     return call_user_func_array(
                         definition,
                         [arguments, funcArguments]

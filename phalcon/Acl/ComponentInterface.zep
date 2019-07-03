@@ -11,9 +11,6 @@
 namespace Phalcon\Acl;
 
 /**
- *
- * Phalcon\Acl\ComponentInterface
- *
  * Interface for Phalcon\Acl\Component
  */
 interface ComponentInterface

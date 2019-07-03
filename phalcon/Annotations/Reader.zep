@@ -11,10 +11,9 @@
 namespace Phalcon\Annotations;
 
 use Phalcon\Annotations\ReaderInterface;
+use ReflectionClass;
 
 /**
- * Phalcon\Annotations\Reader
- *
  * Parses docblocks returning an array with the found annotations
  */
 class Reader implements ReaderInterface
@@ -34,7 +33,7 @@ class Reader implements ReaderInterface
         /**
          * A ReflectionClass is used to obtain the class docblock
          */
-        let reflection = new \ReflectionClass(className);
+        let reflection = new ReflectionClass(className);
 
         let comment = reflection->getDocComment();
         if typeof comment == "string" {

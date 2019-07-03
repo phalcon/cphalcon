@@ -10,11 +10,12 @@
 
 namespace Phalcon;
 
+use ErrorException;
 use Phalcon\Helper\Arr;
+use ReflectionClass;
+use ReflectionFunction;
 
 /**
- * Phalcon\Debug
- *
  * Provides debug capabilities to Phalcon applications
  */
 class Debug
@@ -376,7 +377,7 @@ class Debug
     public function onUncaughtLowSeverity(severity, message, file, line, context) -> void
     {
         if unlikely error_reporting() & severity {
-            throw new \ErrorException(message, 0, severity, file, line);
+            throw new ErrorException(message, 0, severity, file, line);
         }
     }
 
@@ -617,7 +618,7 @@ class Debug
                  */
                 let classNameWithLink = "<a target='_new' href='https://docs.phalconphp.com/4.0/en/api/" . prepareUriClass . "'>" . className . "</a>";
             } else {
-                let classReflection = new \ReflectionClass(className);
+                let classReflection = new ReflectionClass(className);
 
                 /**
                  * Check if classes are PHP's classes
@@ -658,7 +659,7 @@ class Debug
              * Check if the function exists
              */
             if function_exists(functionName) {
-                let functionReflection = new \ReflectionFunction(functionName);
+                let functionReflection = new ReflectionFunction(functionName);
 
                 /**
                  * Internal functions links to the PHP documentation

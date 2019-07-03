@@ -2,6 +2,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -21,32 +22,20 @@ class ModelsForeignKeysCest
         $this->setNewFactoryDefault();
     }
 
-    public function testForeignKeysMysql(IntegrationTester $I)
+    public function _after(IntegrationTester $I)
     {
-        $this->setDiMysql();
-
-        $this->executeTestsNormal($I);
-        $this->executeTestsRenamed($I);
+        $this->container['db']->close();
     }
 
-    public function testForeignKeysPostgresql(IntegrationTester $I)
+    /**
+     * @dataProvider adaptersProvider
+     */
+    public function executeTestsNormal(IntegrationTester $I, Example $example)
     {
-        $this->setDiPostgresql();
+        $diFunction = 'setDi' . $example[0];
 
-        $this->executeTestsNormal($I);
-        $this->executeTestsRenamed($I);
-    }
+        $this->{$diFunction}();
 
-    public function testForeignKeysSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-
-        $this->executeTestsNormal($I);
-        $this->executeTestsRenamed($I);
-    }
-
-    private function executeTestsNormal(IntegrationTester $I)
-    {
         //Normal foreign keys
 
         $robotsParts = new RobotsParts();
@@ -59,14 +48,10 @@ class ModelsForeignKeysCest
         );
 
         $messages = [
-            0 => Message::__set_state(
-                [
-                    '_type'     => 'ConstraintViolation',
-                    '_message'  => 'Value of field "parts_id" does not exist on referenced table',
-                    '_field'    => 'parts_id',
-                    '_code'     => 0,
-                    '_metaData' => [],
-                ]
+            0 => new Message(
+                'Value of field "parts_id" does not exist on referenced table',
+                'parts_id',
+                'ConstraintViolation'
             ),
         ];
 
@@ -83,13 +68,11 @@ class ModelsForeignKeysCest
         );
 
         $messages = [
-            0 => Message::__set_state([
-                '_type'     => 'ConstraintViolation',
-                '_message'  => 'The robot code does not exist',
-                '_field'    => 'robots_id',
-                '_code'     => 0,
-                '_metaData' => [],
-            ]),
+            0 => new Message(
+                'The robot code does not exist',
+                'robots_id',
+                'ConstraintViolation'
+            ),
         ];
 
         $I->assertEquals(
@@ -110,14 +93,10 @@ class ModelsForeignKeysCest
         );
 
         $messages = [
-            0 => Message::__set_state(
-                [
-                    '_type'     => 'ConstraintViolation',
-                    '_message'  => 'Record is referenced by model Phalcon\Test\Models\RobotsParts',
-                    '_field'    => 'id',
-                    '_code'     => 0,
-                    '_metaData' => [],
-                ]
+            0 => new Message(
+                'Record is referenced by model Phalcon\Test\Models\RobotsParts',
+                'id',
+                'ConstraintViolation'
             ),
         ];
 
@@ -135,14 +114,10 @@ class ModelsForeignKeysCest
         );
 
         $messages = [
-            0 => Message::__set_state(
-                [
-                    '_type'     => 'ConstraintViolation',
-                    '_message'  => 'Parts cannot be deleted because is referenced by a Robot',
-                    '_field'    => 'id',
-                    '_code'     => 0,
-                    '_metaData' => [],
-                ]
+            0 => new Message(
+                'Parts cannot be deleted because is referenced by a Robot',
+                'id',
+                'ConstraintViolation'
             ),
         ];
 
@@ -152,8 +127,15 @@ class ModelsForeignKeysCest
         );
     }
 
-    private function executeTestsRenamed(IntegrationTester $I)
+    /**
+     * @dataProvider adaptersProvider
+     */
+    public function executeTestsRenamed(IntegrationTester $I, Example $example)
     {
+        $diFunction = 'setDi' . $example[0];
+
+        $this->{$diFunction}();
+
         //Normal foreign keys with column renaming
 
         $robottersDeles = new RobottersDeles();
@@ -166,14 +148,10 @@ class ModelsForeignKeysCest
         );
 
         $messages = [
-            0 => Message::__set_state(
-                [
-                    '_type'     => 'ConstraintViolation',
-                    '_message'  => 'Value of field "delesCode" does not exist on referenced table',
-                    '_field'    => 'delesCode',
-                    '_code'     => 0,
-                    '_metaData' => [],
-                ]
+            0 => new Message(
+                'Value of field "delesCode" does not exist on referenced table',
+                'delesCode',
+                'ConstraintViolation'
             ),
         ];
 
@@ -190,14 +168,10 @@ class ModelsForeignKeysCest
         );
 
         $messages = [
-            0 => Message::__set_state(
-                [
-                    '_type'     => 'ConstraintViolation',
-                    '_message'  => 'The robotters code does not exist',
-                    '_field'    => 'robottersCode',
-                    '_code'     => 0,
-                    '_metaData' => [],
-                ]
+            0 => new Message(
+                'The robotters code does not exist',
+                'robottersCode',
+                'ConstraintViolation'
             ),
         ];
 
@@ -219,14 +193,10 @@ class ModelsForeignKeysCest
         );
 
         $messages = [
-            0 => Message::__set_state(
-                [
-                    '_type'     => 'ConstraintViolation',
-                    '_message'  => 'Record is referenced by model Phalcon\Test\Models\RobottersDeles',
-                    '_field'    => 'code',
-                    '_code'     => 0,
-                    '_metaData' => [],
-                ]
+            0 => new Message(
+                'Record is referenced by model Phalcon\Test\Models\RobottersDeles',
+                'code',
+                'ConstraintViolation'
             ),
         ];
 
@@ -244,14 +214,10 @@ class ModelsForeignKeysCest
         );
 
         $messages = [
-            0 => Message::__set_state(
-                [
-                    '_type'     => 'ConstraintViolation',
-                    '_message'  => 'Deles cannot be deleted because is referenced by a Robotter',
-                    '_field'    => 'code',
-                    '_code'     => 0,
-                    '_metaData' => [],
-                ]
+            0 => new Message(
+                'Deles cannot be deleted because is referenced by a Robotter',
+                'code',
+                'ConstraintViolation'
             ),
         ];
 
@@ -259,5 +225,20 @@ class ModelsForeignKeysCest
             $messages,
             $dele->getMessages()
         );
+    }
+
+    private function adaptersProvider(): array
+    {
+        return [
+            [
+                'Mysql',
+            ],
+            [
+                'Postgresql',
+            ],
+            [
+                'Sqlite',
+            ],
+        ];
     }
 }

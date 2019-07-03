@@ -12,10 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class MergeCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: merge()
      *
@@ -24,8 +27,6 @@ class MergeCest
      */
     public function configAdapterGroupedMerge(UnitTester $I)
     {
-        $I->wantToTest('Config\Adapter\Grouped - merge()');
-
-        $I->skipTest('Need implementation');
+        $this->checkMergeException($I, 'Grouped');
     }
 }

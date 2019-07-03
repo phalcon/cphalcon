@@ -10,6 +10,9 @@
 
 namespace Phalcon\Http;
 
+use DateTime;
+use DateTimeZone;
+use Phalcon\Di;
 use Phalcon\DiInterface;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Response\HeadersInterface;
@@ -22,20 +25,18 @@ use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 
 /**
- * Phalcon\Http\Response
- *
  * Part of the HTTP cycle is return responses to the clients.
  * Phalcon\HTTP\Response is the Phalcon component responsible to achieve this task.
  * HTTP responses are usually composed by headers and body.
  *
- *<code>
+ *```php
  * $response = new \Phalcon\Http\Response();
  *
  * $response->setStatusCode(200, "OK");
  * $response->setContent("<html><body>Hello</body></html>");
  *
  * $response->send();
- *</code>
+ *```
  */
 class Response implements ResponseInterface, InjectionAwareInterface, EventsAwareInterface
 {
@@ -111,7 +112,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         let container = <DiInterface> this->container;
 
         if typeof container != "object" {
-            let container = \Phalcon\Di::getDefault();
+            let container = Di::getDefault();
 
             if unlikely typeof container != "object" {
                 throw new Exception(
@@ -144,9 +145,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Returns the reason phrase
      *
-     *<code>
+     *```php
      * echo $response->getReasonPhrase();
-     *</code>
+     *```
      */
     public function getReasonPhrase() -> string | null
     {
@@ -163,9 +164,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Returns the status code
      *
-     *<code>
+     *```php
      * echo $response->getStatusCode();
-     *</code>
+     *```
      */
     public function getStatusCode() -> int | null
     {
@@ -183,9 +184,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Checks if a header exists
      *
-     *<code>
+     *```php
      * $response->hasHeader("Content-Type");
-     *</code>
+     *```
      */
     public function hasHeader(string name) -> bool
     {
@@ -207,7 +208,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Redirect by HTTP to another action or URL
      *
-     *<code>
+     *```php
      * // Using a string redirect (internal/external)
      * $response->redirect("posts/index");
      * $response->redirect("http://en.wikipedia.org", true);
@@ -221,7 +222,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      *         "controller" => "index",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function redirect(location = null, bool externalRedirect = false, int statusCode = 302) -> <ResponseInterface>
     {
@@ -282,9 +283,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Remove a header in the response
      *
-     *<code>
+     *```php
      * $response->removeHeader("Expires");
-     *</code>
+     *```
      */
     public function removeHeader(string name) -> <ResponseInterface>
     {
@@ -390,15 +391,15 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Sets Cache headers to use HTTP cache
      *
-     *<code>
+     *```php
      * $this->response->setCache(60);
-     *</code>
+     *```
      */
     public function setCache(int! minutes) -> <ResponseInterface>
     {
         var date;
 
-        let date = new \DateTime();
+        let date = new DateTime();
 
         date->modify(
             "+" . minutes . " minutes"
@@ -417,9 +418,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Sets HTTP response body
      *
-     *<code>
+     *```php
      * $response->setContent("<h1>Hello!</h1>");
-     *</code>
+     *```
      */
     public function setContent(string content) -> <ResponseInterface>
     {
@@ -431,9 +432,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Sets the response content-length
      *
-     *<code>
+     *```php
      * $response->setContentLength(2048);
-     *</code>
+     *```
      */
     public function setContentLength(int contentLength) -> <ResponseInterface>
     {
@@ -445,10 +446,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Sets the response content-type mime, optionally the charset
      *
-     *<code>
+     *```php
      * $response->setContentType("application/pdf");
      * $response->setContentType("text/plain", "UTF-8");
-     *</code>
+     *```
      */
     public function setContentType(string contentType, charset = null) -> <ResponseInterface>
     {
@@ -482,13 +483,13 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Set a custom ETag
      *
-     *<code>
+     *```php
      * $response->setEtag(
      *     md5(
      *         time()
      *     )
      * );
-     *</code>
+     *```
      */
     public function setEtag(string etag) -> <ResponseInterface>
     {
@@ -500,13 +501,13 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Sets an Expires header in the response that allows to use the HTTP cache
      *
-     *<code>
+     *```php
      * $this->response->setExpires(
      *     new DateTime()
      * );
-     *</code>
+     *```
      */
-    public function setExpires(<\DateTime> datetime) -> <ResponseInterface>
+    public function setExpires(<DateTime> datetime) -> <ResponseInterface>
     {
         var date;
 
@@ -517,7 +518,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          * Change the timezone to UTC
          */
         date->setTimezone(
-            new \DateTimeZone("UTC")
+            new DateTimeZone("UTC")
         );
 
         /**
@@ -567,9 +568,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Overwrites a header in the response
      *
-     *<code>
+     *```php
      * $response->setHeader("Content-Type", "text/plain");
-     *</code>
+     *```
      */
     public function setHeader(string name, value) -> <ResponseInterface>
     {
@@ -605,13 +606,13 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      * Sets HTTP response body. The parameter is automatically converted to JSON
      * and also sets default header: Content-Type: "application/json; charset=UTF-8"
      *
-     *<code>
+     *```php
      * $response->setJsonContent(
      *     [
      *         "status" => "OK",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function setJsonContent(var content, int jsonOptions = 0, int depth = 512) -> <ResponseInterface>
     {
@@ -627,13 +628,13 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Sets Last-Modified header
      *
-     *<code>
+     *```php
      * $this->response->setLastModified(
      *     new DateTime()
      * );
-     *</code>
+     *```
      */
-    public function setLastModified(<\DateTime> datetime) -> <ResponseInterface>
+    public function setLastModified(<DateTime> datetime) -> <ResponseInterface>
     {
         var date;
 
@@ -644,7 +645,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
          * Change the timezone to UTC
          */
         date->setTimezone(
-            new \DateTimeZone("UTC")
+            new DateTimeZone("UTC")
         );
 
         /**
@@ -671,9 +672,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Sets the HTTP response code
      *
-     *<code>
+     *```php
      * $response->setStatusCode(404, "Not Found");
-     *</code>
+     *```
      */
     public function setStatusCode(int code, string message = null) -> <ResponseInterface>
     {
@@ -795,9 +796,9 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Send a raw header to the response
      *
-     *<code>
+     *```php
      * $response->setRawHeader("HTTP/1.1 404 Not Found");
-     *</code>
+     *```
      */
     public function setRawHeader(string header) -> <ResponseInterface>
     {

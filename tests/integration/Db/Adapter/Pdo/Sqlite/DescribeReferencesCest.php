@@ -39,18 +39,18 @@ class DescribeReferencesCest
         $connection = $this->getService('db');
 
         $expectedReferences = [
-            'foreign_key_0' => Reference::__set_state(
+            'foreign_key_0' => new Reference(
+                'foreign_key_0',
                 [
-                    'referenceName'     => 'foreign_key_0',
                     'referencedTable'   => 'parts',
                     'columns'           => ['parts_id'],
                     'referencedColumns' => ['id'],
                     'referencedSchema'  => null,
                 ]
             ),
-            'foreign_key_1' => Reference::__set_state(
+            'foreign_key_1' => new Reference(
+                'foreign_key_1',
                 [
-                    'referenceName'     => 'foreign_key_1',
                     'referencedTable'   => 'robots',
                     'columns'           => ['robots_id'],
                     'referencedColumns' => ['id'],

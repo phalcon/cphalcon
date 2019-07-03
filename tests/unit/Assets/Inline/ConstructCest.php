@@ -65,9 +65,12 @@ class ConstructCest
         $I->wantToTest('Assets\Asset - __construct() - css filter set');
 
         $content = 'p {color: #000099}';
-        $asset   = new Inline('css', $content, false);
 
-        $I->assertFalse($asset->getFilter());
+        $asset = new Inline('css', $content, false);
+
+        $I->assertFalse(
+            $asset->getFilter()
+        );
     }
 
     /**

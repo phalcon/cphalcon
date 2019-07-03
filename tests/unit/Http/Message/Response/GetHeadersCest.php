@@ -32,7 +32,7 @@ class GetHeadersCest
             'Accept'        => ['text/html'],
         ];
 
-        $request = new Response('php://memory', 200, $data);
+        $response = new Response('php://memory', 200, $data);
 
         $expected = [
             'Accept'        => ['text/html'],
@@ -41,7 +41,7 @@ class GetHeadersCest
 
         $I->assertEquals(
             $expected,
-            $request->getHeaders()
+            $response->getHeaders()
         );
     }
 
@@ -55,11 +55,11 @@ class GetHeadersCest
     {
         $I->wantToTest('Http\Message\Response - getHeaders() - empty');
 
-        $request = new Response();
+        $response = new Response();
 
         $I->assertEquals(
             [],
-            $request->getHeaders()
+            $response->getHeaders()
         );
     }
 }

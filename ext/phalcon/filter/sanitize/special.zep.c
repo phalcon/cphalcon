@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 /**
@@ -55,7 +56,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Special, __invoke) {
 
 
 	ZVAL_LONG(&_0, 515);
-	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 209, input, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 227, input, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -15,7 +15,7 @@ namespace Phalcon\Mvc\Micro;
  *
  * Groups Micro-Mvc handlers as controllers
  *
- *<code>
+ *```php
  * $app = new \Phalcon\Mvc\Micro();
  *
  * $collection = new Collection();
@@ -27,7 +27,7 @@ namespace Phalcon\Mvc\Micro;
  * $collection->get("/posts/edit/{id}", "edit");
  *
  * $app->mount($collection);
- *</code>
+ *```
  */
 class Collection implements CollectionInterface
 {
@@ -122,14 +122,14 @@ class Collection implements CollectionInterface
     /**
      * Maps a route to a handler via methods.
      *
-     * <code>
+     * ```php
      * $collection->mapVia(
      *     "/test",
      *     "indexAction",
      *     ["POST", "GET"],
      *     "test"
      * );
-     * </code>
+     * ```
      *
      * @param callable handler
      * @param string|array method

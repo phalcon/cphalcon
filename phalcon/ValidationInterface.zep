@@ -17,8 +17,6 @@ use Phalcon\Validation\Exception;
 use Phalcon\Validation\ValidatorInterface;
 
 /**
- * Phalcon\ValidationInterface
- *
  * Interface for the Phalcon\Validation component
  */
 interface ValidationInterface
@@ -41,11 +39,6 @@ interface ValidationInterface
      * @param array|object data
      */
     public function bind(entity, data) -> <ValidationInterface>;
-
-    /**
-     * Get default message for validator type
-     */
-    public function getDefaultMessage(string! type) -> string;
 
     /**
      * Returns the bound entity
@@ -86,11 +79,6 @@ interface ValidationInterface
      * Adds the validators to a field
      */
     public function rules(string! field, array! validators) -> <ValidationInterface>;
-
-    /**
-     * Adds default messages to validators
-     */
-    public function setDefaultMessages(array messages = []) -> array;
 
     /**
      * Adds filters to the field

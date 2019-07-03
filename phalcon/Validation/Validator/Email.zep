@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator;
  *
  * Checks if a value has a correct e-mail format
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Email as EmailValidator;
  *
@@ -48,35 +48,21 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Email extends Validator
 {
+    protected template = "Field :field must be an email address";
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, message, label, replacePairs, code;
-
-        let value = validation->getValue(field);
+        var value = validation->getValue(field);
 
         if !filter_var(value, FILTER_VALIDATE_EMAIL) {
-            let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Email"),
-                code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "Email",
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

@@ -18,13 +18,13 @@ use Phalcon\Mvc\Model\Exception;
  *
  * Stores model meta-data in PHP files.
  *
- *<code>
+ *```php
  * $metaData = new \Phalcon\Mvc\Model\MetaData\Files(
  *     [
  *         "metaDataDir" => "app/cache/metadata/",
  *     ]
  * );
- *</code>
+ *```
  */
 class Stream extends MetaData
 {

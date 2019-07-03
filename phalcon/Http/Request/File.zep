@@ -17,7 +17,7 @@ use Phalcon\Http\Request\FileInterface;
  *
  * Provides OO wrappers to the $_FILES superglobal
  *
- *<code>
+ *```php
  * use Phalcon\Mvc\Controller;
  *
  * class PostsController extends Controller
@@ -33,7 +33,7 @@ use Phalcon\Http\Request\FileInterface;
  *         }
  *     }
  * }
- *</code>
+ *```
  */
 class File implements FileInterface
 {

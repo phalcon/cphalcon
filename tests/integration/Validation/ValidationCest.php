@@ -12,6 +12,7 @@ use Phalcon\Validation\Validator\Alpha;
 use Phalcon\Validation\Validator\Email;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Validation\Validator\StringLength\Min;
 use Phalcon\Validation\Validator\Url;
 use stdClass;
 
@@ -62,6 +63,11 @@ class ValidationCest
         $this->validation->setFilters('name', 'trim');
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests the get
      *
@@ -92,7 +98,7 @@ class ValidationCest
                 new Message(
                     'Field foo is required',
                     'foo',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
@@ -135,7 +141,7 @@ class ValidationCest
                 new Message(
                     'Name cant be empty.',
                     'name',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
@@ -165,15 +171,6 @@ class ValidationCest
         $I->assertEquals(
             'SomeName',
             $users->name
-        );
-    }
-
-    public function testGetDefaultValidationMessageShouldReturnEmptyStringIfNoneIsSet(IntegrationTester $I)
-    {
-        $validation = new Validation();
-
-        $I->assertIsEmpty(
-            $validation->getDefaultMessage('_notexistentvalidationmessage_')
         );
     }
 
@@ -222,7 +219,7 @@ class ValidationCest
             new Message(
                 'The email is required',
                 'email',
-                'PresenceOf',
+                PresenceOf::class,
                 0
             ),
         ];
@@ -290,25 +287,25 @@ class ValidationCest
                 new Message(
                     'The email is required',
                     'email',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
                 new Message(
                     'The E-mail must be email',
                     'email',
-                    'Email',
+                    Email::class,
                     0
                 ),
                 new Message(
                     'The First name is required',
                     'firstname',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
                 new Message(
                     'The First name is too short',
                     'firstname',
-                    'TooShort',
+                    Min::class,
                     0
                 ),
             ]

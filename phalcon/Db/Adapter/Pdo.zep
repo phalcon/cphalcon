@@ -18,12 +18,10 @@ use Phalcon\Db\ResultInterface;
 use Phalcon\Events\ManagerInterface;
 
 /**
- * Phalcon\Db\Adapter\Pdo
- *
  * Phalcon\Db\Adapter\Pdo is the Phalcon\Db that internally uses PDO to connect
  * to a database
  *
- * <code>
+ * ```php
  * use Phalcon\Db\Adapter\Pdo\Mysql;
  *
  * $config = [
@@ -35,7 +33,7 @@ use Phalcon\Events\ManagerInterface;
  * ];
  *
  * $connection = new Mysql($config);
- *</code>
+ *```
  */
 abstract class Pdo extends Adapter
 {
@@ -65,13 +63,13 @@ abstract class Pdo extends Adapter
      * Returns the number of affected rows by the latest INSERT/UPDATE/DELETE
      * executed in the database system
      *
-     *<code>
+     *```php
      * $connection->execute(
      *     "DELETE FROM robots"
      * );
      *
      * echo $connection->affectedRows(), " were deleted";
-     *</code>
+     *```
      */
     public function affectedRows() -> int
     {
@@ -110,27 +108,26 @@ abstract class Pdo extends Adapter
             }
 
             return pdo->beginTransaction();
-        } else {
-            /**
-             * Check if the current database system supports nested transactions
-             */
-            if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
-
-                let eventsManager = <ManagerInterface> this->eventsManager,
-                    savepointName = this->getNestedTransactionSavepointName();
-
-                /**
-                 * Notify the events manager about the created savepoint
-                 */
-                if typeof eventsManager == "object" {
-                    eventsManager->fire("db:createSavepoint", this, savepointName);
-                }
-
-                return this->createSavepoint(savepointName);
-            }
         }
 
-        return false;
+        /**
+         * Check if the current database system supports nested transactions
+         */
+        if !transactionLevel || !nesting || !this->isNestedTransactionsWithSavepoints() {
+            return false;
+        }
+
+        let eventsManager = <ManagerInterface> this->eventsManager,
+            savepointName = this->getNestedTransactionSavepointName();
+
+        /**
+         * Notify the events manager about the created savepoint
+         */
+        if typeof eventsManager == "object" {
+            eventsManager->fire("db:createSavepoint", this, savepointName);
+        }
+
+        return this->createSavepoint(savepointName);
     }
 
     /**
@@ -168,37 +165,38 @@ abstract class Pdo extends Adapter
             let this->transactionLevel--;
 
             return pdo->commit();
-        } else {
+        }
+
+        /**
+         * Check if the current database system supports nested transactions
+         */
+        if !transactionLevel || !nesting || !this->isNestedTransactionsWithSavepoints() {
             /**
-             * Check if the current database system supports nested transactions
+             * Reduce the transaction nesting level
              */
-            if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
-                /**
-                 * Notify the events manager about the committed savepoint
-                 */
-                let eventsManager = <ManagerInterface> this->eventsManager,
-                    savepointName = this->getNestedTransactionSavepointName();
-                if typeof eventsManager == "object" {
-                    eventsManager->fire("db:releaseSavepoint", this, savepointName);
-                }
-
-                /**
-                 * Reduce the transaction nesting level
-                 */
+            if transactionLevel > 0 {
                 let this->transactionLevel--;
-
-                return this->releaseSavepoint(savepointName);
             }
+
+            return false;
+        }
+
+        /**
+         * Notify the events manager about the committed savepoint
+         */
+        let eventsManager = <ManagerInterface> this->eventsManager,
+            savepointName = this->getNestedTransactionSavepointName();
+
+        if typeof eventsManager == "object" {
+            eventsManager->fire("db:releaseSavepoint", this, savepointName);
         }
 
         /**
          * Reduce the transaction nesting level
          */
-        if transactionLevel > 0 {
-            let this->transactionLevel--;
-        }
+        let this->transactionLevel--;
 
-        return false;
+        return this->releaseSavepoint(savepointName);
     }
 
     /**
@@ -207,13 +205,7 @@ abstract class Pdo extends Adapter
      */
     public function close() -> bool
     {
-        var pdo;
-
-        let pdo = this->pdo;
-
-        if typeof pdo == "object" {
-            let this->pdo = null;
-        }
+        let this->pdo = null;
 
         return true;
     }
@@ -224,7 +216,7 @@ abstract class Pdo extends Adapter
      *
      * Call it when you need to restore a database connection.
      *
-     *<code>
+     *```php
      * use Phalcon\Db\Adapter\Pdo\Mysql;
      *
      * // Make a connection
@@ -240,7 +232,7 @@ abstract class Pdo extends Adapter
      *
      * // Reconnect
      * $connection->connect();
-     * </code>
+     * ```
      */
     public function connect(array descriptor = null) -> bool
     {
@@ -320,7 +312,7 @@ abstract class Pdo extends Adapter
     /**
      * Converts bound parameters such as :name: or ?1 into PDO bind params ?
      *
-     *<code>
+     *```php
      * print_r(
      *     $connection->convertBoundParams(
      *         "SELECT * FROM robots WHERE name = :name:",
@@ -329,7 +321,7 @@ abstract class Pdo extends Adapter
      *         ]
      *     )
      * );
-     *</code>
+     *```
      */
     public function convertBoundParams(string! sql, array params = []) -> array
     {
@@ -375,9 +367,9 @@ abstract class Pdo extends Adapter
      * Escapes a value to avoid SQL injections according to the active charset
      * in the connection
      *
-     *<code>
+     *```php
      * $escapedStr = $connection->escapeString("some dangerous value");
-     *</code>
+     *```
      */
     public function escapeString(string str) -> string
     {
@@ -389,7 +381,7 @@ abstract class Pdo extends Adapter
      * Use this method only when the SQL statement sent to the server doesn't
      * return any rows
      *
-     *<code>
+     *```php
      * // Inserting data
      * $success = $connection->execute(
      *     "INSERT INTO robots VALUES (1, 'Astro Boy')"
@@ -402,7 +394,7 @@ abstract class Pdo extends Adapter
      *         "Astro Boy",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function execute(string! sqlStatement, var bindParams = null, var bindTypes = null) -> bool
     {
@@ -463,7 +455,7 @@ abstract class Pdo extends Adapter
      * Executes a prepared statement binding. This function uses integer indexes
      * starting from zero
      *
-     *<code>
+     *```php
      * use Phalcon\Db\Column;
      *
      * $statement = $db->prepare(
@@ -479,9 +471,7 @@ abstract class Pdo extends Adapter
      *         "name" => Column::BIND_PARAM_INT,
      *     ]
      * );
-     *</code>
-     *
-     * @param array dataTypes
+     *```
      */
     public function executePrepared(<\PDOStatement> statement, array! placeholders, dataTypes) -> <\PDOStatement>
     {
@@ -579,8 +569,6 @@ abstract class Pdo extends Adapter
 
     /**
      * Return the error info, if any
-     *
-     * @return array
      */
     public function getErrorInfo()
     {
@@ -606,14 +594,14 @@ abstract class Pdo extends Adapter
     /**
      * Checks whether the connection is under a transaction
      *
-     *<code>
+     *```php
      * $connection->begin();
      *
      * // true
      * var_dump(
      *     $connection->isUnderTransaction()
      * );
-     *</code>
+     *```
      */
     public function isUnderTransaction() -> bool
     {
@@ -621,18 +609,18 @@ abstract class Pdo extends Adapter
 
         let pdo = this->pdo;
 
-        if typeof pdo == "object" {
-            return pdo->inTransaction();
+        if typeof pdo != "object" {
+            return false;
         }
 
-        return false;
+        return pdo->inTransaction();
     }
 
     /**
      * Returns the insert id for the auto_increment/serial column inserted in
      * the latest executed SQL statement
      *
-     *<code>
+     *```php
      * // Inserting a new robot
      * $success = $connection->insert(
      *     "robots",
@@ -648,9 +636,7 @@ abstract class Pdo extends Adapter
      *
      * // Getting the generated id
      * $id = $connection->lastInsertId();
-     *</code>
-     *
-     * @param string sequenceName
+     *```
      */
     public function lastInsertId(sequenceName = null) -> int | bool
     {
@@ -668,7 +654,7 @@ abstract class Pdo extends Adapter
     /**
      * Returns a PDO prepared statement to be executed with 'executePrepared'
      *
-     *<code>
+     *```php
      * use Phalcon\Db\Column;
      *
      * $statement = $db->prepare(
@@ -684,7 +670,7 @@ abstract class Pdo extends Adapter
      *         "name" => Column::BIND_PARAM_INT,
      *     ]
      * );
-     *</code>
+     *```
      */
     public function prepare(string! sqlStatement) -> <\PDOStatement>
     {
@@ -696,7 +682,7 @@ abstract class Pdo extends Adapter
      * Use this method only when the SQL statement sent to the server is
      * returning rows
      *
-     *<code>
+     *```php
      * // Querying data
      * $resultset = $connection->query(
      *     "SELECT * FROM robots WHERE type = 'mechanical'"
@@ -708,7 +694,7 @@ abstract class Pdo extends Adapter
      *         "mechanical",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function query(string! sqlStatement, var bindParams = null, var bindTypes = null) -> <ResultInterface> | bool
     {
@@ -800,39 +786,38 @@ abstract class Pdo extends Adapter
             let this->transactionLevel--;
 
             return pdo->rollback();
-        } else {
+        }
+
+        /**
+         * Check if the current database system supports nested transactions
+         */
+        if !transactionLevel || !nesting || !this->isNestedTransactionsWithSavepoints() {
             /**
-             * Check if the current database system supports nested transactions
+             * Reduce the transaction nesting level
              */
-            if transactionLevel && nesting && this->isNestedTransactionsWithSavepoints() {
-
-                let savepointName = this->getNestedTransactionSavepointName();
-
-                /**
-                 * Notify the events manager about the rolled back savepoint
-                 */
-                let eventsManager = <ManagerInterface> this->eventsManager;
-                if typeof eventsManager == "object" {
-                    eventsManager->fire("db:rollbackSavepoint", this, savepointName);
-                }
-
-                /**
-                 * Reduce the transaction nesting level
-                 */
+            if transactionLevel > 0 {
                 let this->transactionLevel--;
-
-                return this->rollbackSavepoint(savepointName);
             }
+
+            return false;
+        }
+
+        let savepointName = this->getNestedTransactionSavepointName();
+
+        /**
+         * Notify the events manager about the rolled back savepoint
+         */
+        let eventsManager = <ManagerInterface> this->eventsManager;
+        if typeof eventsManager == "object" {
+            eventsManager->fire("db:rollbackSavepoint", this, savepointName);
         }
 
         /**
          * Reduce the transaction nesting level
          */
-        if transactionLevel > 0 {
-            let this->transactionLevel--;
-        }
+        let this->transactionLevel--;
 
-        return false;
+        return this->rollbackSavepoint(savepointName);
     }
 
     /**

@@ -110,7 +110,7 @@ class PresenceOfCest
                 new Message(
                     'Name cant be empty.',
                     'name',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
@@ -146,13 +146,13 @@ class PresenceOfCest
                 new Message(
                     'Name cant be empty.',
                     'name',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
                 new Message(
                     'Type cant be empty.',
                     'type',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
@@ -182,19 +182,19 @@ class PresenceOfCest
                 new Message(
                     'The name is required',
                     'name',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
                 new Message(
                     'The email is required',
                     'email',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
                 new Message(
                     'The login is required',
                     'login',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
@@ -231,17 +231,17 @@ class PresenceOfCest
                 new Message(
                     'The name is required',
                     'name',
-                    'PresenceOf'
+                    PresenceOf::class
                 ),
                 new Message(
                     'The email is required',
                     'email',
-                    'PresenceOf'
+                    PresenceOf::class
                 ),
                 new Message(
                     'The login is required',
                     'login',
-                    'PresenceOf'
+                    PresenceOf::class
                 ),
             ]
         );

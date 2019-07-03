@@ -10,7 +10,7 @@
 
 namespace Phalcon;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Di\Service;
 use Phalcon\DiInterface;
 use Phalcon\Di\Exception;
@@ -23,8 +23,6 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Di\ServiceProviderInterface;
 
 /**
- * Phalcon\Di
- *
  * Phalcon\Di is a component that implements Dependency Injection/Service
  * Location of services and it's itself a container for them.
  *
@@ -42,7 +40,7 @@ use Phalcon\Di\ServiceProviderInterface;
  * Additionally, this pattern increases testability in the code, thus making it
  * less prone to errors.
  *
- *<code>
+ *```php
  * use Phalcon\Di;
  * use Phalcon\Http\Request;
  *
@@ -60,7 +58,7 @@ use Phalcon\Di\ServiceProviderInterface;
  * );
  *
  * $request = $di->getRequest();
- *</code>
+ *```
  */
 class Di implements DiInterface
 {
@@ -77,7 +75,7 @@ class Di implements DiInterface
     /**
      * Events Manager
      *
-     * @var \Phalcon\Events\ManagerInterface
+     * @var ManagerInterface
      */
     protected eventsManager;
 
@@ -316,8 +314,6 @@ class Di implements DiInterface
     /**
      * Resolves a service, the resolved service is stored in the DI, subsequent
      * requests for this service will return the same instance
-     *
-     * @param array parameters
      */
     public function getShared(string! name, parameters = null) -> var
     {
@@ -356,13 +352,13 @@ class Di implements DiInterface
     /**
      * Loads services from a php config file.
      *
-     * <code>
+     * ```php
      * $di->loadFromPhp("path/services.php");
-     * </code>
+     * ```
      *
      * And the services can be specified in the file as:
      *
-     * <code>
+     * ```php
      * return [
      *      'myComponent' => [
      *          'className' => '\Acme\Components\MyComponent',
@@ -381,7 +377,7 @@ class Di implements DiInterface
      *          'className' => '\Acme\User',
      *      ],
      * ];
-     * </code>
+     * ```
      *
      * @link https://docs.phalconphp.com/en/latest/reference/di.html
      */
@@ -397,7 +393,7 @@ class Di implements DiInterface
     /**
      * Loads services from a yaml file.
      *
-     * <code>
+     * ```php
      * $di->loadFromYaml(
      *     "path/services.yaml",
      *     [
@@ -406,11 +402,11 @@ class Di implements DiInterface
      *         }
      *     ]
      * );
-     * </code>
+     * ```
      *
      * And the services can be specified in the file as:
      *
-     * <code>
+     * ```php
      * myComponent:
      *     className: \Acme\Components\MyComponent
      *     shared: true
@@ -423,7 +419,7 @@ class Di implements DiInterface
      *
      * user:
      *    className: \Acme\User
-     * </code>
+     * ```
      *
      * @link https://docs.phalconphp.com/en/latest/reference/di.html
      */
@@ -447,9 +443,9 @@ class Di implements DiInterface
     /**
      * Allows to obtain a shared service using the array syntax
      *
-     *<code>
+     *```php
      * var_dump($di["request"]);
-     *</code>
+     *```
      */
     public function offsetGet(var name) -> var
     {
@@ -467,9 +463,9 @@ class Di implements DiInterface
     /**
      * Allows to register a shared service using the array syntax
      *
-     *<code>
+     *```php
      * $di["request"] = new \Phalcon\Http\Request();
-     *</code>
+     *```
      */
     public function offsetSet(var name, var definition) -> void
     {
@@ -487,7 +483,7 @@ class Di implements DiInterface
     /**
      * Registers a service provider.
      *
-     * <code>
+     * ```php
      * use Phalcon\DiInterface;
      * use Phalcon\Di\ServiceProviderInterface;
      *
@@ -503,7 +499,7 @@ class Di implements DiInterface
      *         );
      *     }
      * }
-     * </code>
+     * ```
      */
     public function register(<ServiceProviderInterface> provider) -> void
     {

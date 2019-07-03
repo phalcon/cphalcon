@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator;
  *
  * Checks if a value is identical to other
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Identical;
  *
@@ -53,17 +53,18 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Identical extends Validator
 {
+    protected template = "Field :field does not have the expected value";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var message, label, value, accepted, code;
-        array replacePairs;
+        var value, accepted;
         bool valid;
 
         let value = validation->getValue(field);
@@ -83,21 +84,8 @@ class Identical extends Validator
         }
 
         if !valid {
-            let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Identical"),
-                code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "Identical",
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

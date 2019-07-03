@@ -15,6 +15,9 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 use Exception;
 use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Component;
+use Phalcon\Acl\Exception as AclException;
+use Phalcon\Acl\Role;
 use Phalcon\Test\Fixtures\Acl\TestComponentAware;
 use Phalcon\Test\Fixtures\Acl\TestRoleAware;
 use UnitTester;
@@ -57,6 +60,146 @@ class AllowCest
 
         $I->assertTrue(
             $acl->isAllowed('Member', 'Post', 'update')
+        );
+    }
+
+    /**
+     * Tests Phalcon\Acl\Adapter\Memory :: allow() - wildcard
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-06-16
+     */
+    public function aclAdapterMemoryAllowWildcard(UnitTester $I)
+    {
+        $I->wantToTest('Acl\Adapter\Memory - allow() - wildcard');
+
+        $acl = new Memory();
+        $acl->setDefaultAction(Acl::DENY);
+        $acl->addRole('Member');
+        $acl->addComponent('Post', ['update']);
+
+        $acl->allow('Member', 'Post', '*');
+        $I->assertTrue(
+            $acl->isAllowed('Member', 'Post', 'update')
+        );
+
+        $acl = new Memory();
+        $acl->setDefaultAction(Acl::DENY);
+        $acl->addRole('Member');
+        $acl->addComponent('Post', ['update']);
+
+        $acl->allow('Member', '*', '*');
+        $I->assertTrue(
+            $acl->isAllowed('Member', 'Post', 'update')
+        );
+
+        $acl = new Memory();
+        $acl->setDefaultAction(Acl::DENY);
+        $acl->addRole('Member');
+        $acl->addRole('Guest');
+        $acl->addInherit('Guest', 'Member');
+        $acl->addComponent('Post', ['update']);
+
+        $acl->allow('Member', '*', '*');
+        $I->assertTrue(
+            $acl->isAllowed('Guest', 'Post', 'update')
+        );
+
+        $acl = new Memory();
+        $acl->setDefaultAction(Acl::DENY);
+
+        $aclRoles = [
+            'Admin'  => new Role('Admin'),
+            'Users'  => new Role('Users'),
+            'Guests' => new Role('Guests'),
+        ];
+
+        $aclComponents = [
+            'welcome' => ['index', 'about'],
+            'account' => ['index'],
+        ];
+
+        foreach ($aclRoles as $Role => $object) {
+            $acl->addRole($object);
+        }
+
+        foreach ($aclComponents as $component => $actions) {
+            $acl->addComponent(new Component($component), $actions);
+        }
+        $acl->allow('*', 'welcome', 'index');
+
+        foreach ($aclRoles as $Role => $object) {
+            $actual = $acl->isAllowed($Role, 'welcome', 'index');
+            $I->assertTrue($actual);
+        }
+
+        $acl->deny('*', 'welcome', 'index');
+        foreach ($aclRoles as $Role => $object) {
+            $actual = $acl->isAllowed($Role, 'welcome', 'index');
+            $I->assertFalse($actual);
+        }
+    }
+
+    /**
+     * Tests Phalcon\Acl\Adapter\Memory :: allow() - exception
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-06-16
+     */
+    public function aclAdapterMemoryAllowException(UnitTester $I)
+    {
+        $I->wantToTest('Acl\Adapter\Memory - allow() - exception');
+
+        $I->expectThrowable(
+            new AclException(
+                "Role 'Unknown' does not exist in the ACL"
+            ),
+            function () {
+                $acl = new Memory();
+                $acl->setDefaultAction(Acl::DENY);
+                $acl->addRole('Member');
+                $acl->addComponent('Post', ['update']);
+                $acl->allow('Unknown', 'Post', 'update');
+            }
+        );
+
+        $I->expectThrowable(
+            new AclException(
+                "Component 'Unknown' does not exist in the ACL"
+            ),
+            function () {
+                $acl = new Memory();
+                $acl->setDefaultAction(Acl::DENY);
+                $acl->addRole('Member');
+                $acl->addComponent('Post', ['update']);
+                $acl->allow('Member', 'Unknown', 'update');
+            }
+        );
+
+        $I->expectThrowable(
+            new AclException(
+                "Access 'Unknown' does not exist in component 'Post'"
+            ),
+            function () {
+                $acl = new Memory();
+                $acl->setDefaultAction(Acl::DENY);
+                $acl->addRole('Member');
+                $acl->addComponent('Post', ['update']);
+                $acl->allow('Member', 'Post', 'Unknown');
+            }
+        );
+
+        $I->expectThrowable(
+            new AclException(
+                "Access 'Unknown' does not exist in component 'Post'"
+            ),
+            function () {
+                $acl = new Memory();
+                $acl->setDefaultAction(Acl::DENY);
+                $acl->addRole('Member');
+                $acl->addComponent('Post', ['update']);
+                $acl->allow('Member', 'Post', ['Unknown']);
+            }
         );
     }
 
@@ -134,7 +277,7 @@ class AllowCest
     {
         $I->expectThrowable(
             new Exception(
-                "You didn't provide any parameters when 'Guests' can " .
+                "You did not provide any parameters when 'Guests' can " .
                 "'update' 'Post'. We will use default action when no arguments.",
                 1024
             ),

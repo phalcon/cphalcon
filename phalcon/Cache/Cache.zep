@@ -14,10 +14,9 @@ use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Exception\Exception;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Psr\SimpleCache\CacheInterface;
+use Traversable;
 
 /**
- * Phalcon\Cache
- *
  * This component offers caching capabilities for your application.
  * Phalcon\Cache implements PSR-16.
  */
@@ -228,7 +227,7 @@ class Cache implements CacheInterface
      */
     protected function checkKeys(var keys) -> void
     {
-        if !(typeof keys === "array" || keys instanceof \Traversable) {
+        if !(typeof keys === "array" || keys instanceof Traversable) {
             throw new InvalidArgumentException(
                 "The keys need to be an array or instance of Traversable"
             );

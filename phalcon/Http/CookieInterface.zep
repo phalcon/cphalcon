@@ -11,8 +11,6 @@
 namespace Phalcon\Http;
 
 /**
- * Phalcon\Http\CookieInterface
- *
  * Interface for Phalcon\Http\Cookie
  */
 interface CookieInterface

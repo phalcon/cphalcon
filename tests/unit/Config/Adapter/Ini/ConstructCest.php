@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Ini;
 
+use function dataDir;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
@@ -30,8 +31,20 @@ class ConstructCest
     {
         $I->wantToTest('Config\Adapter\Ini - construct');
 
-        $this->checkConstruct($I, 'Ini');
+        $this->config['database']['num1'] = false;
+        $this->config['database']['num2'] = false;
+        $this->config['database']['num3'] = false;
+        $this->config['database']['num4'] = true;
+        $this->config['database']['num5'] = true;
+        $this->config['database']['num6'] = true;
+        $this->config['database']['num7'] = null;
+        $this->config['database']['num8'] = 123;
+        $this->config['database']['num9'] = (float) 123.45;
+        $config = $this->getConfig('Ini');
+
+        $this->compareConfig($I, $this->config, $config);
     }
+
 
     /**
      * Tests Phalcon\Config\Adapter\Ini :: __construct() - constants

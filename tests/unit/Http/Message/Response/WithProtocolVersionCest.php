@@ -27,13 +27,13 @@ class WithProtocolVersionCest
     public function httpMessageResponseWithProtocolVersion(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Response - withProtocolVersion()');
-        $request     = new Response();
-        $newInstance = $request->withProtocolVersion('2.0');
+        $response     = new Response();
+        $newInstance = $response->withProtocolVersion('2.0');
 
-        $I->assertNotEquals($request, $newInstance);
+        $I->assertNotEquals($response, $newInstance);
 
         $expected = '1.1';
-        $actual   = $request->getProtocolVersion();
+        $actual   = $response->getProtocolVersion();
         $I->assertEquals($expected, $actual);
 
         $expected = '2.0';
@@ -53,8 +53,8 @@ class WithProtocolVersionCest
         $I->expectThrowable(
             new InvalidArgumentException('Unsupported protocol 1.2'),
             function () {
-                $request = new Response();
-                $request->withProtocolVersion('1.2');
+                $response = new Response();
+                $response->withProtocolVersion('1.2');
             }
         );
     }

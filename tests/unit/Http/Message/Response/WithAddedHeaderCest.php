@@ -29,15 +29,15 @@ class WithAddedHeaderCest
         $data        = [
             'Accept' => ['text/html'],
         ];
-        $request     = new Response('php://memory', 200, $data);
-        $newInstance = $request->withAddedHeader('Cache-Control', ['max-age=0']);
+        $response     = new Response('php://memory', 200, $data);
+        $newInstance = $response->withAddedHeader('Cache-Control', ['max-age=0']);
 
-        $I->assertNotEquals($request, $newInstance);
+        $I->assertNotEquals($response, $newInstance);
 
         $expected = [
             'Accept' => ['text/html'],
         ];
-        $actual   = $request->getHeaders();
+        $actual   = $response->getHeaders();
         $I->assertEquals($expected, $actual);
 
         $expected = [
@@ -59,15 +59,15 @@ class WithAddedHeaderCest
         $data        = [
             'Accept' => ['text/html'],
         ];
-        $request     = new Response('php://memory', 200, $data);
-        $newInstance = $request->withAddedHeader('Accept', ['text/json']);
+        $response     = new Response('php://memory', 200, $data);
+        $newInstance = $response->withAddedHeader('Accept', ['text/json']);
 
-        $I->assertNotEquals($request, $newInstance);
+        $I->assertNotEquals($response, $newInstance);
 
         $expected = [
             'Accept' => ['text/html'],
         ];
-        $actual   = $request->getHeaders();
+        $actual   = $response->getHeaders();
         $I->assertEquals($expected, $actual);
 
         $expected = [

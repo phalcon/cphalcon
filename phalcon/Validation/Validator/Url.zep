@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator;
  *
  * Checks if a value has a url format
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Url as UrlValidator;
  *
@@ -48,16 +48,18 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Url extends Validator
 {
+    protected template = "Field :field must be a url";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var code, label, message, options, replacePairs, result, value;
+        var options, result, value;
 
         let value = validation->getValue(field);
 
@@ -68,21 +70,8 @@ class Url extends Validator
         }
 
         if !result {
-            let label   = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Url"),
-                code    = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "Url",
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

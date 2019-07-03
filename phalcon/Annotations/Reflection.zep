@@ -13,11 +13,9 @@ namespace Phalcon\Annotations;
 use Phalcon\Annotations\Collection;
 
 /**
- * Phalcon\Annotations\Reflection
- *
  * Allows to manipulate the annotations reflection in an OO manner
  *
- *<code>
+ *```php
  * use Phalcon\Annotations\Reader;
  * use Phalcon\Annotations\Reflection;
  *
@@ -30,7 +28,7 @@ use Phalcon\Annotations\Collection;
  *
  * // Get the annotations in the class docblock
  * $classAnnotations = $reflection->getClassAnnotations();
- *</code>
+ *```
  */
 class Reflection
 {
@@ -40,6 +38,9 @@ class Reflection
 
     protected propertyAnnotations;
 
+    /**
+     * @var array
+     */
     protected reflectionData;
 
     /**
@@ -48,23 +49,6 @@ class Reflection
     public function __construct(array reflectionData = []) -> void
     {
         let this->reflectionData = reflectionData;
-    }
-
-    /**
-     * Restores the state of a Phalcon\Annotations\Reflection variable export
-     */
-    public static function __set_state(array! data) -> <Reflection>
-    {
-        var reflectionData;
-
-        /**
-         * Check for a 'reflectionData' in the array to build the Reflection
-         */
-        if fetch reflectionData, data["reflectionData"] {
-            return new self(reflectionData);
-        }
-
-        return new self();
     }
 
     /**

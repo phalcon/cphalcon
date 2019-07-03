@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Users;
 
-/**
- * Class WriteAttributeCest
- */
 class WriteAttributeCest
 {
     use DiTrait;
@@ -27,6 +24,11 @@ class WriteAttributeCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
     }
 
     /**
@@ -71,7 +73,7 @@ class WriteAttributeCest
      */
     public function mvcModelWriteAttributeWithAssociativeArray(IntegrationTester $I)
     {
-        $I->wantToTest('Tests Phalcon\Mvc\Model :: writeAttribute() with associative array');
+        $I->wantToTest('Phalcon\Mvc\Model :: writeAttribute() with associative array');
 
         $associativeArray = [
             'firstName' => 'First name',
@@ -107,7 +109,7 @@ class WriteAttributeCest
      */
     public function mvcModelWriteAttributeUndefinedPropertyWithAssociativeArray(IntegrationTester $I)
     {
-        $I->wantToTest('Tests Phalcon\Mvc\Model :: writeAttribute() undefined property with associative array');
+        $I->wantToTest('Phalcon\Mvc\Model :: writeAttribute() undefined property with associative array');
 
         $associativeArray = [
             'id'   => 123,

@@ -33,27 +33,25 @@ class GetKeysCest
         $I->wantToTest('Storage\Adapter\Libmemcached - getKeys()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Libmemcached($serializer, getOptionsLibmemcached());
 
-        $actual = $adapter->clear();
-        $I->assertTrue($actual);
+        $adapter = new Libmemcached(
+            $serializer,
+            getOptionsLibmemcached()
+        );
 
-        $key = 'key-1';
-        $adapter->set($key, 'test');
-        $actual = $adapter->has($key);
-        $I->assertTrue($actual);
+        $adapter->clear();
 
-        $key = 'key-2';
-        $adapter->set($key, 'test');
-        $actual = $adapter->has($key);
-        $I->assertTrue($actual);
+        $adapter->set('key-1', 'test');
+        $adapter->set('key-2', 'test');
 
-        $expected = [
-            'ph-memc-key-1',
-            'ph-memc-key-2',
-        ];
-        $actual   = $adapter->getKeys();
+        $actual = $adapter->getKeys();
         sort($actual);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [
+                'ph-memc-key-1',
+                'ph-memc-key-2',
+            ],
+            $actual
+        );
     }
 }

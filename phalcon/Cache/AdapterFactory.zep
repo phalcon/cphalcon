@@ -15,10 +15,13 @@ use Phalcon\Cache\Exception\Exception;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Storage\SerializerFactory;
 
+/**
+ * Factory to create Cache adapters
+ */
 class AdapterFactory extends AbstractFactory
 {
     /**
-     * @var <SerializerFactory>
+     * @var SerializerFactory
      */
     private serializerFactory;
 
@@ -49,6 +52,9 @@ class AdapterFactory extends AbstractFactory
         return this->services[name];
     }
 
+    /**
+     * Returns the available adapters
+     */
     protected function getAdapters() -> array
     {
         return [

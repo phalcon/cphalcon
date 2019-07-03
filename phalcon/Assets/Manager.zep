@@ -30,6 +30,9 @@ class Manager implements InjectionAwareInterface
 {
     protected collections;
 
+    /**
+     * @var DiInterface
+     */
     protected container;
 
     /**
@@ -44,7 +47,7 @@ class Manager implements InjectionAwareInterface
     protected implicitOutput = true;
 
     /**
-     * Phalcon\Assets\Manager
+     * Phalcon\Assets\Manager constructor
      */
     public function __construct(array options = []) -> void
     {
@@ -54,13 +57,13 @@ class Manager implements InjectionAwareInterface
     /**
      * Adds a raw asset to the manager
      *
-     *<code>
+     *```php
      * $assets->addAsset(
      *     new Phalcon\Assets\Asset("css", "css/style.css")
      * );
-     *</code>
+     *```
      */
-    public function addAsset(<$Asset> asset) -> <Manager>
+    public function addAsset(<Asset> asset) -> <Manager>
     {
         /**
          * Adds the asset by its type
@@ -76,14 +79,14 @@ class Manager implements InjectionAwareInterface
     /**
      * Adds a asset by its type
      *
-     *<code>
+     *```php
      * $assets->addAssetByType(
      *     "css",
      *     new \Phalcon\Assets\Asset\Css("css/style.css")
      * );
-     *</code>
+     *```
      */
-    public function addAssetByType(string! type, <$Asset> asset) -> <Manager>
+    public function addAssetByType(string! type, <Asset> asset) -> <Manager>
     {
         var collection;
 
@@ -103,10 +106,10 @@ class Manager implements InjectionAwareInterface
     /**
     * Adds a Css asset to the 'css' collection
     *
-    *<code>
+    *```php
     * $assets->addCss("css/bootstrap.css");
     * $assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
-    *</code>
+    *```
     */
     public function addCss(
         string! path,
@@ -187,10 +190,10 @@ class Manager implements InjectionAwareInterface
     /**
      * Adds a javascript asset to the 'js' collection
      *
-     *<code>
+     *```php
      * $assets->addJs("scripts/jquery.js");
      * $assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
-     *</code>
+     *```
      */
     public function addJs(
         string! path,
@@ -234,22 +237,22 @@ class Manager implements InjectionAwareInterface
 
         for asset in assets {
             if asset->getType() == type {
-                let $filtered[] = asset;
+                let filtered[] = asset;
             }
         }
 
-        return $filtered;
+        return filtered;
     }
 
     /**
      * Returns true or false if collection exists.
      *
-     * <code>
+     * ```php
      * if ($assets->exists("jsHeader")) {
      *     // \Phalcon\Assets\Collection
      *     $collection = $assets->get("jsHeader");
      * }
-     * </code>
+     * ```
      */
     public function exists(string! id) -> bool
     {
@@ -259,9 +262,9 @@ class Manager implements InjectionAwareInterface
     /**
      * Returns a collection by its id.
      *
-     * <code>
+     * ```php
      * $scripts = $assets->get("js");
-     * </code>
+     * ```
      */
     public function get(string! id) -> <Collection>
     {
@@ -918,9 +921,9 @@ class Manager implements InjectionAwareInterface
     /**
      * Sets a collection in the Assets Manager
      *
-     *<code>
+     *```php
      * $assets->set("js", $collection);
-     *</code>
+     *```
      */
     public function set(string! id, <Collection> collection) -> <Manager>
     {

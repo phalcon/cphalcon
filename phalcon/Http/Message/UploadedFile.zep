@@ -15,19 +15,18 @@
 namespace Phalcon\Http\Message;
 
 use Phalcon\Helper\Number;
-use Phalcon\Http\Message\Exception;
+use Phalcon\Helper\Arr;
+use Phalcon\Helper\Str;
+use Phalcon\Http\Message\Exception\InvalidArgumentException;
+use Phalcon\Http\Message\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
+use RuntimeException;
 
 /**
- * Value object representing a file uploaded through an HTTP request.
- *
- * Instances of this interface are considered immutable; all methods that
- * might change state MUST be implemented such that they retain the internal
- * state of the current instance and return an instance that contains the
- * changed state.
+ * PSR-7 UploadedFile
  */
-class UploadedFile implements UploadedFileInterface
+final class UploadedFile implements UploadedFileInterface
 {
     /**
      * If the file has already been moved, we hold that status here
@@ -43,7 +42,7 @@ class UploadedFile implements UploadedFileInterface
      * a malicious filename with the intention to corrupt or hack your
      * application.
      *
-     * Implementations SHOULD return the value stored in the "name" key of
+     * Implementations SHOULD return the value stored in the 'name' key of
      * the file in the $_FILES array.
      *
      * @var string | null
@@ -57,7 +56,7 @@ class UploadedFile implements UploadedFileInterface
      * a malicious media type with the intention to corrupt or hack your
      * application.
      *
-     * Implementations SHOULD return the value stored in the "type" key of
+     * Implementations SHOULD return the value stored in the 'type' key of
      * the file in the $_FILES array.
      *
      * @var string | null
@@ -72,7 +71,7 @@ class UploadedFile implements UploadedFileInterface
      * If the file was uploaded successfully, this method MUST return
      * UPLOAD_ERR_OK.
      *
-     * Implementations SHOULD return the value stored in the "error" key of
+     * Implementations SHOULD return the value stored in the 'error' key of
      * the file in the $_FILES array.
      *
      * @see http://php.net/manual/en/features.file-upload.errors.php
@@ -91,7 +90,7 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Retrieve the file size.
      *
-     * Implementations SHOULD return the value stored in the "size" key of
+     * Implementations SHOULD return the value stored in the 'size' key of
      * the file in the $_FILES array if available, as PHP calculates this based
      * on the actual size transmitted.
      *
@@ -102,16 +101,22 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Holds the stream/string for the uploaded file
      *
-     * @var <StreamInterface> | string | null
+     * @var StreamInterface|string|null
      */
     private stream;
 
     /**
-     * Constructor
+     * UploadedFile constructor.
+     *
+     * @param StreamInterface|string|null $stream
+     * @param int|null                    $size
+     * @param int                         $error
+     * @param string|null                 $clientFilename
+     * @param string|null                 $clientMediaType
      */
     public function __construct(
         var stream,
-        int size,
+        int size = null,
         int error = 0,
         string clientFilename = null,
         string clientMediaType = null
@@ -136,33 +141,33 @@ class UploadedFile implements UploadedFileInterface
      * Retrieve a stream representing the uploaded file.
      *
      * This method MUST return a StreamInterface instance, representing the
-     * uploaded file. The purpose of this method is to allow utilizing native PHP
-     * stream functionality to manipulate the file upload, such as
-     * stream_copy_to_stream() (though the result will need to be decorated in a
-     * native PHP stream wrapper to work with such functions).
+     * uploaded file. The purpose of this method is to allow utilizing native
+     * PHP stream functionality to manipulate the file upload, such as
+     * stream_copy_to_stream() (though the result will need to be decorated in
+     * a native PHP stream wrapper to work with such functions).
      *
-     * If the moveTo() method has been called previously, this method MUST raise
-     * an exception.
+     * If the moveTo() method has been called previously, this method MUST
+     * raise an exception.
      *
      * @return StreamInterface Stream representation of the uploaded file.
-     * @throws \RuntimeException in cases when no stream is available.
-     * @throws \RuntimeException in cases when no stream can be created.
+     * @throws RuntimeException in cases when no stream is available or can be
+     *     created.
      */
-    public function getStream() -> <StreamInterface>
+    public function getStream() -> var
     {
-        if unlikely this->error !== constant("UPLOAD_ERR_OK") {
-            throw new Exception(
+        if unlikely 0 !== this->error {
+            throw new InvalidArgumentException(
                 this->getErrorDescription(this->error)
             );
         }
 
-        if unlikely true === this->alreadyMoved {
-            throw new Exception(
+        if unlikely this->alreadyMoved {
+            throw new InvalidArgumentException(
                 "The file has already been moved to the target location"
             );
         }
 
-        if !(this->stream instanceof StreamInterface) {
+        if unlikely !(this->stream instanceof StreamInterface) {
             let this->stream = new Stream(this->fileName);
         }
 
@@ -197,45 +202,48 @@ class UploadedFile implements UploadedFileInterface
      * @see http://php.net/is_uploaded_file
      * @see http://php.net/move_uploaded_file
      *
-     * @throws \InvalidArgumentException if the $targetPath specified is invalid.
-     * @throws \RuntimeException on any error during the move operation.
-     * @throws \RuntimeException on the second or subsequent call to the method.
+     * @param string $targetPath Path to which to move the uploaded file.
+     *
+     * @throws InvalidArgumentException if the $targetPath specified is invalid.
+     * @throws RuntimeException on any error during the move operation, or on
+     *     the second or subsequent call to the method.
      */
     public function moveTo(var targetPath) -> void
     {
-        var sapi, dirname;
+        var sapi;
 
-        if unlikely true === this->alreadyMoved {
-            throw new Exception("File has already been moved");
+        if unlikely this->alreadyMoved {
+            throw new InvalidArgumentException("File has already been moved");
         }
 
-        if unlikely constant("UPLOAD_ERR_OK") !== this->error {
-            throw new Exception(
+        if unlikely 0 !== this->error {
+            throw new InvalidArgumentException(
                 this->getErrorDescription(this->error)
             );
         }
 
-        let dirname = dirname(targetPath);
-
         /**
          * All together for early failure
          */
-        if unlikely !(typeof targetPath === "string" && !empty(targetPath) && is_dir(dirname) && is_writable(dirname)) {
-            throw new Exception(
+        if unlikely !(typeof targetPath === "string" &&
+            !empty(targetPath) &&
+            is_dir(dirname(targetPath)) &&
+            is_writable(dirname(targetPath))) {
+            throw new InvalidArgumentException(
                 "Target folder is empty string, not a folder or not writable"
             );
         }
 
-        /**
-         * Figure out the SAPI path
-         */
         let sapi = constant("PHP_SAPI");
 
-        if empty(sapi) || empty(this->fileName) || starts_with(sapi, "cli") {
+        if unlikely (empty(sapi) ||
+           !empty(this->fileName) ||
+           starts_with(sapi, "cli") ||
+           starts_with(sapi, "phpdbg")) {
             this->storeFile(targetPath);
         } else {
-            if unlikely !move_uploaded_file(this->fileName, targetPath) {
-                throw new Exception(
+            if true !== move_uploaded_file(this->fileName, targetPath) {
+                throw new InvalidArgumentException(
                     "The file cannot be moved to the target folder"
                 );
             }
@@ -246,12 +254,14 @@ class UploadedFile implements UploadedFileInterface
 
     /**
      * Checks the passed error code and if not in the range throws an exception
+     *
+     * @param int $error
      */
     private function checkError(int error) -> void
     {
-        if unlikely true !== Number::between(error, constant("UPLOAD_ERR_OK"), constant("UPLOAD_ERR_EXTENSION")) {
-            throw new Exception(
-                "Invalid 'error'. Must be one of the UPLOAD_ERR_* constants"
+        if unlikely true !== Number::between(error, 0, 8) {
+            throw new InvalidArgumentException(
+                "Invalid error. Must be one of the UPLOAD_ERR_* constants"
             );
         }
 
@@ -260,66 +270,73 @@ class UploadedFile implements UploadedFileInterface
 
     /**
      * Checks the passed error code and if not in the range throws an exception
+     *
+     * @param StreamInterface|resource|string $stream
+     * @param int                             $error
      */
     private function checkStream(var stream, int error) -> void
     {
-        if error === constant("UPLOAD_ERR_OK") {
+        if unlikely 0 === error {
             switch (true) {
                 case (typeof stream === "string"):
                     let this->fileName = stream;
                     break;
-                case (true === is_resource(stream)):
+                case (typeof stream === "resource"):
                     let this->stream = new Stream(stream);
                     break;
                 case (stream instanceof StreamInterface):
                     let this->stream = stream;
                     break;
                 default:
-                    throw new Exception("Invalid stream or file passed");
+                    throw new InvalidArgumentException("Invalid stream or file passed");
             }
         }
     }
 
     /**
      * Returns a description string depending on the upload error code passed
+     *
+     * @param int $error
+     *
+     * @return string
      */
     private function getErrorDescription(int error) -> string
     {
-        switch error {
-            case constant("UPLOAD_ERR_OK"):
-                return "There is no error, the file uploaded with success.";
-            case constant("UPLOAD_ERR_INI_SIZE"):
-                return "The uploaded file exceeds the upload_max_filesize directive in php.ini.";
-            case constant("UPLOAD_ERR_FORM_SIZE"):
-                return "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.";
-            case constant("UPLOAD_ERR_PARTIAL"):
-                return "The uploaded file was only partially uploaded.";
-            case constant("UPLOAD_ERR_NO_FILE"):
-                return "No file was uploaded.";
-            case constant("UPLOAD_ERR_NO_TMP_DIR"):
-                return "Missing a temporary folder.";
-            case constant("UPLOAD_ERR_CANT_WRITE"):
-                return "Failed to write file to disk.";
-            case constant("UPLOAD_ERR_EXTENSION"):
-                return "A PHP extension stopped the file upload.";
-        }
+        array errors;
 
-        return "Unknown upload error";
+        let errors = [
+            0 : "There is no error, the file uploaded with success.",
+            1 : "The uploaded file exceeds the upload_max_filesize directive in php.ini.",
+            2 : "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.",
+            3 : "The uploaded file was only partially uploaded.",
+            4 : "No file was uploaded.",
+            6 : "Missing a temporary folder.",
+            7 : "Failed to write file to disk.",
+            8 : "A PHP extension stopped the file upload."
+        ];
+
+        return Arr::get(errors, error, "Unknown upload error");
     }
 
     /**
      * Store a file in the new location (stream)
+     *
+     * @param string $targetPath
      */
     private function storeFile(string targetPath) -> void
     {
         var data, handle, stream;
 
-        let handle = fopen(targetPath, "w+b"),
-            stream = this->getStream();
+        let handle = fopen(targetPath, "w+b");
+        if unlikely false === handle {
+            throw new InvalidArgumentException("Cannot write to file.");
+        }
+
+        let stream = this->getStream();
 
         stream->rewind();
 
-        while (true !== stream->eof()) {
+        while true !== stream->eof() {
             let data = stream->read(2048);
 
             fwrite(handle, data);

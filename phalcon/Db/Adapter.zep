@@ -16,8 +16,6 @@ use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 
 /**
- * Phalcon\Db\Adapter
- *
  * Base class for Phalcon\Db adapters
  */
 abstract class Adapter implements AdapterInterface, EventsAwareInterface
@@ -247,7 +245,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Deletes data from a table using custom RBDM SQL syntax
      *
-     * <code>
+     * ```php
      * // Deleting existing robot
      * $success = $connection->delete(
      *     "robots",
@@ -256,11 +254,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *
      * // Next SQL sentence is generated
      * DELETE FROM `robots` WHERE `id` = 101
-     * </code>
-     *
-     * @param  string whereCondition
-     * @param  array placeholders
-     * @param  array dataTypes
+     * ```
      */
     public function delete(string table, var whereCondition = null, var placeholders = null, var dataTypes = null) -> bool
     {
@@ -283,11 +277,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Lists table indexes
      *
-     *<code>
+     *```php
      * print_r(
      *     $connection->describeIndexes("robots_parts")
      * );
-     *</code>
+     *```
      */
     public function describeIndexes(string! table, string schema = null) -> <IndexInterface[]>
     {
@@ -323,11 +317,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Lists table references
      *
-     *<code>
+     *```php
      * print_r(
      *     $connection->describeReferences("robots_parts")
      * );
-     *</code>
+     *```
      */
     public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
     {
@@ -466,7 +460,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Escapes a column/table/schema name
      *
-     *<code>
+     *```php
      * $escapedTable = $connection->escapeIdentifier(
      *     "robots"
      * );
@@ -477,9 +471,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *         "robots",
      *     ]
      * );
-     *</code>
-     *
-     * @param array|string identifier
+     *```
      */
     public function escapeIdentifier(var identifier) -> string
     {
@@ -493,7 +485,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Dumps the complete result of a query into an array
      *
-     *<code>
+     *```php
      * // Getting all robots with associative indexes only
      * $robots = $connection->fetchAll(
      *     "SELECT * FROM robots",
@@ -515,10 +507,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      * foreach($robots as $robot) {
      *     print_r($robot);
      * }
-     *</code>
-     *
-     * @param array bindParams
-     * @param array bindTypes
+     *```
      */
     public function fetchAll(string sqlQuery, int fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
     {
@@ -538,7 +527,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Returns the n'th field of first row in a SQL query result
      *
-     *<code>
+     *```php
      * // Getting count of robots
      * $robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
      * print_r($robotsCount);
@@ -549,9 +538,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *     1
      * );
      * print_r($robot);
-     *</code>
-     *
-     * @param  int|string column
+     *```
      */
     public function fetchColumn(string sqlQuery, array placeholders = [], var column = 0) -> string | bool
     {
@@ -569,7 +556,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Returns the first row in a SQL query result
      *
-     *<code>
+     *```php
      * // Getting first robot
      * $robot = $connection->fetchOne("SELECT * FROM robots");
      * print_r($robot);
@@ -580,7 +567,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *     \Phalcon\Db::FETCH_ASSOC
      * );
      * print_r($robot);
-     *</code>
+     *```
      */
     public function fetchOne(string! sqlQuery, var fetchMode = Db::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
     {
@@ -617,8 +604,6 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Gets a list of columns
-     *
-     * @param    array columnList
      */
     public function getColumnList(var columnList) -> string
     {
@@ -636,7 +621,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Returns the default identity value to be inserted in an identity column
      *
-     *<code>
+     *```php
      * // Inserting a new robot with a valid default value for the column 'id'
      * $success = $connection->insert(
      *     "robots",
@@ -651,7 +636,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *         "year",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function getDefaultIdValue() -> <RawValue>
     {
@@ -662,7 +647,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      * Returns the default value to make the RBDM use the default value declared
      * in the table definition
      *
-     *<code>
+     *```php
      * // Inserting a new robot with a valid default value for the column 'year'
      * $success = $connection->insert(
      *     "robots",
@@ -675,7 +660,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *         "year",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function getDefaultValue() -> <RawValue>
     {
@@ -741,7 +726,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Inserts data into a table using custom RDBMS SQL syntax
      *
-     * <code>
+     * ```php
      * // Inserting a new robot
      * $success = $connection->insert(
      *     "robots",
@@ -751,10 +736,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *
      * // Next SQL sentence is sent to the database system
      * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
-     * </code>
-     *
-     * @param     array fields
-     * @param     array dataTypes
+     * ```
      */
     public function insert(string table, array! values, var fields = null, var dataTypes = null) -> bool
     {
@@ -838,7 +820,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Inserts data into a table using custom RBDM SQL syntax
      *
-     * <code>
+     * ```php
      * // Inserting a new robot
      * $success = $connection->insertAsDict(
      *     "robots",
@@ -850,10 +832,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *
      * // Next SQL sentence is sent to the database system
      * INSERT INTO `robots` (`name`, `year`) VALUES ("Astro boy", 1952);
-     * </code>
-     *
-     * @param     array data
-     * @param     array dataTypes
+     * ```
      */
     public function insertAsDict(string table, data, var dataTypes = null) -> bool
     {
@@ -883,9 +862,9 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Appends a LIMIT clause to $sqlQuery argument
      *
-     * <code>
+     * ```php
      * echo $connection->limit("SELECT * FROM robots", 5);
-     * </code>
+     * ```
      */
     public function limit(string! sqlQuery, int number) -> string
     {
@@ -895,11 +874,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * List all tables on a database
      *
-     *<code>
+     *```php
      * print_r(
      *     $connection->listTables("blog")
      * );
-     *</code>
+     *```
      */
     public function listTables(string! schemaName = null) -> array
     {
@@ -922,11 +901,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * List all views on a database
      *
-     *<code>
+     *```php
      * print_r(
      *     $connection->listViews("blog")
      * );
-     *</code>
+     *```
      */
     public function listViews(string! schemaName = null) -> array
     {
@@ -1063,11 +1042,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Generates SQL checking for the existence of a schema.table
      *
-     *<code>
+     *```php
      * var_dump(
      *     $connection->tableExists("blog", "posts")
      * );
-     *</code>
+     *```
      */
     public function tableExists(string! tableName, string! schemaName = null) -> bool
     {
@@ -1077,11 +1056,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Gets creation options from a table
      *
-     *<code>
+     *```php
      * print_r(
      *     $connection->tableOptions("robots")
      * );
-     *</code>
+     *```
      */
     public function tableOptions(string! tableName, string schemaName = null) -> array
     {
@@ -1099,7 +1078,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Updates data on a table using custom RBDM SQL syntax
      *
-     * <code>
+     * ```php
      * // Updating existing robot
      * $success = $connection->update(
      *     "robots",
@@ -1126,14 +1105,9 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *     ]
      * );
      *
-     * </code>
+     * ```
      *
      * Warning! If $whereCondition is string it not escaped.
-     *
-     * @param array fields
-     * @param array values
-     * @param string|array whereCondition
-     * @param array dataTypes
      */
     public function update(string table, var fields, var values, var whereCondition = null, var dataTypes = null) -> bool
     {
@@ -1249,7 +1223,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      * Updates data on a table using custom RBDM SQL syntax
      * Another, more convenient syntax
      *
-     * <code>
+     * ```php
      * // Updating existing robot
      * $success = $connection->updateAsDict(
      *     "robots",
@@ -1261,11 +1235,7 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
      *
      * // Next SQL sentence is sent to the database system
      * UPDATE `robots` SET `name` = "Astro boy" WHERE id = 101
-     * </code>
-     *
-     * @param array data
-     * @param string whereCondition
-     * @param array dataTypes
+     * ```
      */
     public function updateAsDict(string table, var data, var whereCondition = null, var dataTypes = null) -> bool
     {
@@ -1296,11 +1266,11 @@ abstract class Adapter implements AdapterInterface, EventsAwareInterface
     /**
      * Generates SQL checking for the existence of a schema.view
      *
-     *<code>
+     *```php
      * var_dump(
      *     $connection->viewExists("active_users", "posts")
      * );
-     *</code>
+     *```
      */
     public function viewExists(string! viewName, string! schemaName = null) -> bool
     {

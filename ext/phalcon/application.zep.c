@@ -183,11 +183,11 @@ PHP_METHOD(Phalcon_Application, handle) {
  * $this->registerModules(
  *     [
  *         "frontend" => [
- *             "className" => "Multiple\\Frontend\\Module",
+ *             "className" => \Multiple\Frontend\Module::class,
  *             "path"      => "../apps/frontend/Module.php",
  *         ],
  *         "backend" => [
- *             "className" => "Multiple\\Backend\\Module",
+ *             "className" => \Multiple\Backend\Module::class,
  *             "path"      => "../apps/backend/Module.php",
  *         ],
  *     ]

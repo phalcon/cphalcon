@@ -29,7 +29,7 @@ class WithQueryParamsCest
 
         $request = new ServerRequest();
 
-        $newInstance = $request->withCookieParams(
+        $newInstance = $request->withQueryParams(
             [
                 'one' => 'two',
             ]
@@ -41,7 +41,7 @@ class WithQueryParamsCest
             [
                 'one' => 'two',
             ],
-            $newInstance->getCookieParams()
+            $newInstance->getQueryParams()
         );
     }
 }

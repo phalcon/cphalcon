@@ -10,13 +10,11 @@
 
 namespace Phalcon\Html;
 
-use Phalcon\Collection;
+use Phalcon\Collection\Collection;
 use Phalcon\Html\Attributes\RenderInterface;
 use Phalcon\Tag;
 
 /**
- * Phalcon\Html\Attributes
- *
  * This class helps to work with HTML Attributes
  */
 class Attributes extends Collection implements RenderInterface

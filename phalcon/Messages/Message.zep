@@ -10,6 +10,7 @@
 
 namespace Phalcon\Messages;
 
+use JsonSerializable;
 use Phalcon\Messages\MessageInterface;
 
 /**
@@ -17,7 +18,7 @@ use Phalcon\Messages\MessageInterface;
  *
  * Stores a message from various components
  */
-class Message implements MessageInterface, \JsonSerializable
+class Message implements MessageInterface, JsonSerializable
 {
     /**
      * @var int
@@ -62,20 +63,6 @@ class Message implements MessageInterface, \JsonSerializable
     public function __toString() -> string
     {
         return this->message;
-    }
-
-    /**
-     * Magic __set_state helps to re-build messages variable exporting
-     */
-    public static function __set_state(array! message) -> <MessageInterface>
-    {
-        return new self(
-            message["_message"],
-            message["_field"],
-            message["_type"],
-            message["_code"],
-            message["_metaData"]
-        );
     }
 
     /**

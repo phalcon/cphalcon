@@ -12,22 +12,71 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\Manager;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Relations\RelationsParts;
+use Phalcon\Test\Models\Relations\RelationsRobots;
 
-/**
- * Class ExistsHasManyToManyCest
- */
 class ExistsHasManyToManyCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model\Manager :: existsHasManyToMany()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
+     *
+     * @dataProvider adaptersProvider
      */
-    public function mvcModelManagerExistsHasManyToMany(IntegrationTester $I)
+    public function mvcModelManagerExistsHasManyToMany(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Mvc\Model\Manager - existsHasManyToMany()');
-        $I->skipTest('Need implementation');
+
+        $diFunction = 'setDi' . $example[0];
+
+        $this->{$diFunction}();
+
+        $manager = $this->container->getShared('modelsManager');
+
+        $I->assertFalse(
+            $manager->existsHasManyToMany(
+                RelationsParts::class,
+                RelationsRobots::class
+            )
+        );
+
+        $I->assertTrue(
+            $manager->existsHasManyToMany(
+                RelationsRobots::class,
+                RelationsParts::class
+            )
+        );
+    }
+
+    private function adaptersProvider(): array
+    {
+        return [
+            [
+                'Mysql',
+            ],
+            [
+                'Postgresql',
+            ],
+            [
+                'Sqlite',
+            ],
+        ];
     }
 }

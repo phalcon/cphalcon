@@ -35,4 +35,23 @@ class PluckCest
         $actual   = Arr::pluck($collection, 'name');
         $I->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests Phalcon\Helper\Arr :: pluck() - object
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-04-07
+     */
+    public function helperArrPluckObject(UnitTester $I)
+    {
+        $I->wantToTest('Helper\Arr - pluck()');
+        $collection = [
+            Arr::arrayToObject(['product_id' => 'prod-100', 'name' => 'Desk']),
+            Arr::arrayToObject(['product_id' => 'prod-200', 'name' => 'Chair']),
+        ];
+
+        $expected = ['Desk', 'Chair'];
+        $actual   = Arr::pluck($collection, 'name');
+        $I->assertEquals($expected, $actual);
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-class OnConstructTask extends \Phalcon\CLI\Task
+class OnConstructTask extends \Phalcon\Cli\Task
 {
     public $onConstructExecuted = false;
 

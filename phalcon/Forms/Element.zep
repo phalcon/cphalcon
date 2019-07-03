@@ -10,6 +10,7 @@
 
 namespace Phalcon\Forms;
 
+use InvalidArgumentException;
 use Phalcon\Tag;
 use Phalcon\Forms\Exception;
 use Phalcon\Messages\MessageInterface;
@@ -17,8 +18,6 @@ use Phalcon\Messages\Messages;
 use Phalcon\Validation\ValidatorInterface;
 
 /**
- * Phalcon\Forms\Element
- *
  * This is a base class for form elements
  */
 abstract class Element implements ElementInterface
@@ -49,7 +48,7 @@ abstract class Element implements ElementInterface
         let name = trim(name);
 
         if unlikely empty name {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Form element name is required"
             );
         }

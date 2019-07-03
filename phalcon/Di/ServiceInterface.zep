@@ -13,17 +13,10 @@ namespace Phalcon\Di;
 use Phalcon\DiInterface;
 
 /**
- * Phalcon\Di\ServiceInterface
- *
  * Represents a service in the services container
  */
 interface ServiceInterface
 {
-    /**
-     * Restore the internal state of a service
-     */
-    public static function __set_state(array! attributes) -> <ServiceInterface>;
-
     /**
      * Returns the service definition
      */

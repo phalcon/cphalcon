@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
+use function dataDir;
 use Phalcon\Http\Message\Stream;
+use Phalcon\Test\Fixtures\Http\Message\StreamFixture;
 use UnitTester;
 
 class GetSizeCest
@@ -26,7 +28,7 @@ class GetSizeCest
     public function httpMessageStreamGetSize(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - getSize()');
-        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('assets/stream/bill-of-rights.txt');
         $expected = filesize($fileName);
         $stream   = new Stream($fileName, 'rb');
         $actual   = $stream->getSize();
@@ -46,5 +48,21 @@ class GetSizeCest
         $expected = 0;
         $actual   = $stream->getSize();
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Stream :: getSize() - invalid handle
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageStreamGetSizeInvalidHandle(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Stream - getSize() - invalid');
+        $stream   = new StreamFixture('php://memory', 'rb');
+        $stream->setHandle(null);
+
+        $actual   = $stream->getSize();
+        $I->assertNull($actual);
     }
 }

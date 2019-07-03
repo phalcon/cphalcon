@@ -22,8 +22,6 @@ use Phalcon\Mvc\Model\Binder;
 use Phalcon\Mvc\Model\BinderInterface;
 
 /**
- * Phalcon\Dispatcher
- *
  * This is the base class for Phalcon\Mvc\Dispatcher and Phalcon\Cli\Dispatcher.
  * This class can't be instantiated directly, you can use it to create your own
  * dispatchers.
@@ -460,7 +458,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
             if this->modelBinding {
                 let modelBinder = this->modelBinder;
                 let bindCacheKey = "_PHMB_" . handlerClass . "_" . actionMethod;
- 
+
                 let params = modelBinder->bindToHandler(
                     handler,
                     params,
@@ -601,14 +599,14 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     /**
      * Forwards the execution flow to another controller/action.
      *
-     * <code>
+     * ```php
      * $this->dispatcher->forward(
      *     [
      *         "controller" => "posts",
      *         "action"     => "index",
      *     ]
      * );
-     * </code>
+     * ```
      *
      * @throws \Phalcon\Exception
      */
@@ -701,7 +699,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     /**
      * Returns bound models from binder instance
      *
-     * <code>
+     * ```php
      * class UserController extends Controller
      * {
      *     public function showAction(User $user)
@@ -710,7 +708,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
      *         $boundModels = $this->dispatcher->getBoundModels();
      *     }
      * }
-     * </code>
+     * ```
      */
     public function getBoundModels() -> array
     {
@@ -963,7 +961,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
     /**
      * Enable model binding during dispatch
      *
-     * <code>
+     * ```php
      * $di->set(
      *     'dispatcher',
      *     function() {
@@ -977,7 +975,7 @@ abstract class Dispatcher implements DispatcherInterface, InjectionAwareInterfac
      *         return $dispatcher;
      *     }
      * );
-     * </code>
+     * ```
      */
     public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <Dispatcher>
     {

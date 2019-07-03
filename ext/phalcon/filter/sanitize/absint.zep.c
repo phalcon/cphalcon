@@ -15,6 +15,7 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 
 
 /**
@@ -57,10 +58,10 @@ PHP_METHOD(Phalcon_Filter_Sanitize_AbsInt, __invoke) {
 
 
 	ZVAL_LONG(&_0, 519);
-	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 209, input, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 227, input, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, zephir_get_intval(&_1));
-	ZEPHIR_RETURN_CALL_FUNCTION("abs", NULL, 210, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("abs", NULL, 228, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 

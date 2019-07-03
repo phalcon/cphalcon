@@ -48,7 +48,7 @@ class GetReasonPhraseCest
         $response = new Response('php://memory', 420);
 
         $I->assertEquals(
-            'Enhance Your Calm',
+            'Method Failure',
             $response->getReasonPhrase()
         );
     }

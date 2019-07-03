@@ -12,8 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\ConfigFactory;
 
+use function dataDir;
+use function hash;
+use const PATH_DATA;
 use Phalcon\Config\Adapter\Ini;
+use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\ConfigFactory;
+use Phalcon\Config\Exception;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use UnitTester;
 
@@ -87,5 +92,87 @@ class LoadCest
             Ini::class,
             $ini
         );
+    }
+
+    /**
+     * Tests Phalcon\Config\ConfigFactory :: load() -  exception
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-06-19
+     */
+    public function configFactoryLoadException(UnitTester $I)
+    {
+        $I->wantToTest('Config\ConfigFactory - load() - string - exception');
+
+        $I->expectThrowable(
+            new Exception(
+                'You need to provide the extension in the file path'
+            ),
+            function () {
+                $ini = (new ConfigFactory())->load('abced');
+            }
+        );
+
+        $I->expectThrowable(
+            new Exception(
+                'Config must be array or Phalcon\Config\Config object'
+            ),
+            function () {
+                $ini = (new ConfigFactory())->load(false);
+            }
+        );
+
+        $I->expectThrowable(
+            new Exception(
+                "You must provide 'filePath' option in factory config parameter."
+            ),
+            function () {
+                $config = [
+                    'adapter' => 'ini',
+                ];
+                $ini    = (new ConfigFactory())->load($config);
+            }
+        );
+
+        $I->expectThrowable(
+            new Exception(
+                "You must provide 'adapter' option in factory config parameter."
+            ),
+            function () {
+                $config = [
+                    'filePath' => dataDir('assets/config/config.ini'),
+                ];
+                $ini    = (new ConfigFactory())->load($config);
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Config\ConfigFactory :: load() -  yaml callback
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-06-19
+     */
+    public function configFactoryLoadYamlCallback(UnitTester $I)
+    {
+        $I->wantToTest('Config\ConfigFactory - load() - yaml callback');
+
+        $factory = new ConfigFactory();
+
+        $config = [
+            'adapter'   => 'yaml',
+            'filePath'  => dataDir('assets/config/callbacks.yml'),
+            'callbacks' => [
+                '!decrypt' => function ($value) {
+                    return hash('sha256', $value);
+                },
+                '!approot' => function ($value) {
+                    return PATH_DATA . $value;
+                },
+            ],
+        ];
+
+        $config = $factory->load($config);
+        $I->assertInstanceOf(Yaml::class, $config);
     }
 }

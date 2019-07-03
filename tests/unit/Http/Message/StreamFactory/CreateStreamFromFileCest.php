@@ -28,13 +28,10 @@ class CreateStreamFromFileCest
     {
         $I->wantToTest('Http\Message\StreamFactory - createStreamFromFile()');
 
-        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
-
+        $fileName = dataDir('assets/stream/bill-of-rights.txt');
         $expected = file_get_contents($fileName);
-
-        $factory = new StreamFactory();
-
-        $stream = $factory->createStreamFromFile($fileName);
+        $factory  = new StreamFactory();
+        $stream   = $factory->createStreamFromFile($fileName);
 
         $I->assertInstanceOf(
             Stream::class,

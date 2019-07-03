@@ -11,25 +11,27 @@
 namespace Phalcon\Debug;
 
 use Phalcon\Di;
+use Reflection;
+use ReflectionClass;
+use ReflectionProperty;
+use stdClass;
 
 /**
- * Phalcon\Debug\Dump
- *
  * Dumps information about a variable(s)
  *
- * <code>
+ * ```php
  * $foo = 123;
  *
  * echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
- * </code>
+ * ```
  *
- * <code>
+ * ```php
  * $foo = "string";
  * $bar = ["key" => "value"];
  * $baz = new stdClass();
  *
  * echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
- * </code>
+ * ```
  */
 class Dump
 {
@@ -50,8 +52,6 @@ class Dump
 
     /**
      * Phalcon\Debug\Dump constructor
-     *
-     * @param bool detailed debug object's private and protected properties
      */
     public function __construct(array! styles = [], bool detailed = false) -> void
     {
@@ -63,9 +63,6 @@ class Dump
 
     /**
      * Alias of variables() method
-     *
-     * @param mixed variable
-     * @param ...
      */
     public function all() -> string
     {
@@ -115,7 +112,7 @@ class Dump
     /**
      * Returns an JSON string of information about a single variable.
      *
-     * <code>
+     * ```php
      * $foo = [
      *     "key" => "value",
      * ];
@@ -126,7 +123,7 @@ class Dump
      * $foo->bar = "buz";
      *
      * echo (new \Phalcon\Debug\Dump())->toJson($foo);
-     * </code>
+     * ```
      */
     public function toJson(var variable) -> string
     {
@@ -139,9 +136,9 @@ class Dump
     /**
      * Returns an HTML string of information about a single variable.
      *
-     * <code>
+     * ```php
      * echo (new \Phalcon\Debug\Dump())->variable($foo, "foo");
-     * </code>
+     * ```
      */
     public function variable(var variable, string name = null) -> string
     {
@@ -158,16 +155,13 @@ class Dump
      * Returns an HTML string of debugging information about any number of
      * variables, each wrapped in a "pre" tag.
      *
-     * <code>
+     * ```php
      * $foo = "string";
      * $bar = ["key" => "value"];
      * $baz = new stdClass();
      *
      * echo (new \Phalcon\Debug\Dump())->variables($foo, $bar, $baz);
-     * </code>
-     *
-     * @param mixed variable
-     * @param ...
+     * ```
      */
     public function variables() -> string
     {
@@ -259,7 +253,7 @@ class Dump
             if variable instanceof Di {
                 // Skip debugging di
                 let output .= str_repeat(space, tab) . "[skipped]\n";
-            } elseif !this->detailed || variable instanceof \stdClass {
+            } elseif !this->detailed || variable instanceof stdClass {
                 // Debug only public properties
                 for key, value in get_object_vars(variable) {
                     let output .= str_repeat(space, tab) . strtr("-><span style=':style'>:key</span> (<span style=':style'>:type</span>) = ", [":style": this->getStyle("obj"), ":key": key, ":type": "public"]);
@@ -269,11 +263,11 @@ class Dump
                 // Debug all properties
                 var reflect, props, property;
 
-                let reflect = new \ReflectionClass(variable);
+                let reflect = new ReflectionClass(variable);
                 let props = reflect->getProperties(
-                    \ReflectionProperty::IS_PUBLIC |
-                    \ReflectionProperty::IS_PROTECTED |
-                    \ReflectionProperty::IS_PRIVATE
+                    ReflectionProperty::IS_PUBLIC |
+                    ReflectionProperty::IS_PROTECTED |
+                    ReflectionProperty::IS_PRIVATE
                 );
 
                 for property in props {
@@ -283,7 +277,7 @@ class Dump
 
                     let type = implode(
                         " ",
-                        \Reflection::getModifierNames(
+                        Reflection::getModifierNames(
                             property->getModifiers()
                         )
                     );

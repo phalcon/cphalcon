@@ -29,9 +29,18 @@ class GroupCest
         $I->wantToTest('Helper\Arr - group()');
 
         $collection = [
-            ['name' => 'Paul', 'age' => 34],
-            ['name' => 'Peter', 'age' => 31],
-            ['name' => 'John', 'age' => 29],
+            [
+                'name' => 'Paul',
+                'age'  => 34,
+            ],
+            [
+                'name' => 'Peter',
+                'age'  => 31,
+            ],
+            [
+                'name' => 'John',
+                'age'  => 29,
+            ],
         ];
 
         $expected = [

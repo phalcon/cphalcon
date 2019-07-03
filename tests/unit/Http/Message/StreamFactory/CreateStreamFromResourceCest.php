@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\StreamFactory;
 
-use InvalidArgumentException;
+use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\Stream;
 use Phalcon\Http\Message\StreamFactory;
 use UnitTester;
@@ -29,14 +29,11 @@ class CreateStreamFromResourceCest
     {
         $I->wantToTest('Http\Message\StreamFactory - createStreamFromResource()');
 
-        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
-
+        $fileName = dataDir('assets/stream/bill-of-rights.txt');
         $expected = file_get_contents($fileName);
-
         $resource = fopen($fileName, 'r+b');
-
-        $factory = new StreamFactory();
-        $stream  = $factory->createStreamFromResource($resource);
+        $factory  = new StreamFactory();
+        $stream   = $factory->createStreamFromResource($resource);
 
         $I->assertInstanceOf(
             Stream::class,

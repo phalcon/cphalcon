@@ -32,20 +32,10 @@ class RedirectCest extends HttpBase
 
         $response->redirect('some/local/uri');
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'Status'             => '302 Found',
-                    'Location'           => '/some/local/uri',
-                    'HTTP/1.1 302 Found' => null,
-                ],
-            ]
-        );
-
-        $I->assertEquals(
-            $expected,
-            $response->getHeaders()
-        );
+        $actual   = $response->getHeaders();
+        $I->assertEquals('302 Found', $actual->get('Status'));
+        $I->assertEquals('/some/local/uri', $actual->get('Location'));
+        $I->assertEquals(null, $actual->get('HTTP/1.1 302 Found'));
     }
 
     /**
@@ -62,20 +52,10 @@ class RedirectCest extends HttpBase
 
         $response->redirect('http://google.com', true);
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'Status'             => '302 Found',
-                    'Location'           => 'http://google.com',
-                    'HTTP/1.1 302 Found' => null,
-                ],
-            ]
-        );
-
-        $I->assertEquals(
-            $expected,
-            $response->getHeaders()
-        );
+        $actual = $response->getHeaders();
+        $I->assertEquals('302 Found', $actual->get('Status'));
+        $I->assertEquals('http://google.com', $actual->get('Location'));
+        $I->assertEquals(null, $actual->get('HTTP/1.1 302 Found'));
     }
 
     /**
@@ -93,20 +73,10 @@ class RedirectCest extends HttpBase
 
         $response->redirect('new/place/', false, 309);
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'Status'             => '302 Found',
-                    'Location'           => '/new/place/',
-                    'HTTP/1.1 302 Found' => null,
-                ],
-            ]
-        );
-
-        $I->assertEquals(
-            $expected,
-            $response->getHeaders()
-        );
+        $actual = $response->getHeaders();
+        $I->assertEquals('302 Found', $actual->get('Status'));
+        $I->assertEquals('/new/place/', $actual->get('Location'));
+        $I->assertEquals(null, $actual->get('HTTP/1.1 302 Found'));
     }
 
     /**
@@ -124,19 +94,9 @@ class RedirectCest extends HttpBase
 
         $response->redirect('http://google.com', true, 301);
 
-        $expected = Headers::__set_state(
-            [
-                'headers' => [
-                    'Status'                         => '301 Moved Permanently',
-                    'Location'                       => 'http://google.com',
-                    'HTTP/1.1 301 Moved Permanently' => null,
-                ],
-            ]
-        );
-
-        $I->assertEquals(
-            $expected,
-            $response->getHeaders()
-        );
+        $actual = $response->getHeaders();
+        $I->assertEquals('301 Moved Permanently', $actual->get('Status'));
+        $I->assertEquals('http://google.com', $actual->get('Location'));
+        $I->assertEquals(null, $actual->get('HTTP/1.1 302 Found'));
     }
 }

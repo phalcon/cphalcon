@@ -22,7 +22,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  *
  * A CollectionManager is injected to a collection via a Dependency Injector Container such as Phalcon\Di.
  *
- * <code>
+ * ```php
  * $di = new \Phalcon\Di();
  *
  * $di->set(
@@ -33,7 +33,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * );
  *
  * $robot = new Robots(di);
- * </code>
+ * ```
  */
 interface ManagerInterface
 {

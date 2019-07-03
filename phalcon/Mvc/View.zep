@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc;
 
+use Closure;
 use Phalcon\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\ManagerInterface;
@@ -27,7 +28,7 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  * script separate from the model and controller scripts. It provides a system
  * of helpers, output filters, and variable escaping.
  *
- * <code>
+ * ```php
  * use Phalcon\Mvc\View;
  *
  * $view = new View();
@@ -43,7 +44,7 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  *
  * // Printing views output
  * echo $view->getContent();
- * </code>
+ * ```
  */
 class View extends Injectable implements ViewInterface
 {
@@ -111,9 +112,9 @@ class View extends Injectable implements ViewInterface
     /**
      * Magic method to retrieve a variable passed to the view
      *
-     *<code>
+     *```php
      * echo $this->view->products;
-     *</code>
+     *```
      */
     public function __get(string! key) -> var | null
     {
@@ -123,9 +124,9 @@ class View extends Injectable implements ViewInterface
     /**
      * Magic method to retrieve if a variable is set in the view
      *
-     *<code>
+     *```php
      * echo isset($this->view->products);
-     *</code>
+     *```
      */
     public function __isset(string! key) -> bool
     {
@@ -135,9 +136,9 @@ class View extends Injectable implements ViewInterface
     /**
      * Magic method to pass variables to the views
      *
-     *<code>
+     *```php
      * $this->view->products = $products;
-     *</code>
+     *```
      */
     public function __set(string! key, var value)
     {
@@ -167,12 +168,12 @@ class View extends Injectable implements ViewInterface
     /**
      * Disables a specific level of rendering
      *
-     *<code>
+     *```php
      * // Render all levels except ACTION level
      * $this->view->disableLevel(
      *     View::LEVEL_ACTION_VIEW
      * );
-     *</code>
+     *```
      */
     public function disableLevel(var level) -> <ViewInterface>
     {
@@ -269,7 +270,7 @@ class View extends Injectable implements ViewInterface
             }
         }
 
-        if typeof activeRenderPath == "null" {
+        if activeRenderPath === null {
             let activeRenderPath = "";
         }
 
@@ -335,12 +336,12 @@ class View extends Injectable implements ViewInterface
     /**
      * Renders a partial view
      *
-     * <code>
+     * ```php
      * // Retrieve the contents of a partial
      * echo $this->getPartial("shared/footer");
-     * </code>
+     * ```
      *
-     * <code>
+     * ```php
      * // Retrieve the contents of a partial with arguments
      * echo $this->getPartial(
      *     "shared/footer",
@@ -348,7 +349,7 @@ class View extends Injectable implements ViewInterface
      *         "content" => $html,
      *     ]
      * );
-     * </code>
+     * ```
      */
     public function getPartial(string! partialPath, var params = null) -> string
     {
@@ -372,7 +373,7 @@ class View extends Injectable implements ViewInterface
     /**
      * Perform the automatic rendering returning the output as a string
      *
-     * <code>
+     * ```php
      * $template = $this->view->getRender(
      *     "products",
      *     "show",
@@ -380,7 +381,7 @@ class View extends Injectable implements ViewInterface
      *         "products" => $products,
      *     ]
      * );
-     * </code>
+     * ```
      *
      * @param mixed configCallback
      */
@@ -401,9 +402,7 @@ class View extends Injectable implements ViewInterface
         /**
          * Set the render variables
          */
-        if typeof params == "array" {
-            view->setVars(params);
-        }
+        view->setVars(params);
 
         /**
          * Perform extra configurations over the cloned object
@@ -478,12 +477,12 @@ class View extends Injectable implements ViewInterface
     /**
      * Renders a partial view
      *
-     * <code>
+     * ```php
      * // Show a partial inside another view
      * $this->partial("shared/footer");
-     * </code>
+     * ```
      *
-     * <code>
+     * ```php
      * // Show a partial inside another view with parameters
      * $this->partial(
      *     "shared/footer",
@@ -491,7 +490,7 @@ class View extends Injectable implements ViewInterface
      *         "content" => $html,
      *     ]
      * );
-     * </code>
+     * ```
      */
     public function partial(string! partialPath, var params = null)
     {
@@ -542,20 +541,20 @@ class View extends Injectable implements ViewInterface
     /**
      * Choose a different view to render instead of last-controller/last-action
      *
-     * <code>
+     * ```php
      * use Phalcon\Mvc\Controller;
      *
      * class ProductsController extends Controller
      * {
-     *    public function saveAction()
-     *    {
+     *     public function saveAction()
+     *     {
      *         // Do some save stuff...
      *
      *         // Then show the list view
      *         $this->view->pick("products/list");
-     *    }
+     *     }
      * }
-     * </code>
+     * ```
      */
     public function pick(var renderView) -> <View>
     {
@@ -586,7 +585,7 @@ class View extends Injectable implements ViewInterface
     /**
      * Register templating engines
      *
-     * <code>
+     * ```php
      * $this->view->registerEngines(
      *     [
      *         ".phtml" => \Phalcon\Mvc\View\Engine\Php::class,
@@ -594,7 +593,7 @@ class View extends Injectable implements ViewInterface
      *         ".mhtml" => \MyCustomEngine::class,
      *     ]
      * );
-     * </code>
+     * ```
      */
     public function registerEngines(array! engines) -> <View>
     {
@@ -606,10 +605,10 @@ class View extends Injectable implements ViewInterface
     /**
      * Executes render process from dispatching data
      *
-     *<code>
+     *```php
      * // Shows recent posts view (app/views/posts/recent.phtml)
      * $view->start()->render("posts", "recent")->finish();
-     *</code>
+     *```
      */
     public function render(
         string! controllerName,
@@ -647,9 +646,9 @@ class View extends Injectable implements ViewInterface
      * Sets base path. Depending of your platform, always add a trailing slash
      * or backslash
      *
-     * <code>
+     * ```php
      * $view->setBasePath(__DIR__ . "/");
-     * </code>
+     * ```
      */
     public function setBasePath(string basePath) -> <View>
     {
@@ -661,9 +660,9 @@ class View extends Injectable implements ViewInterface
     /**
      * Externally sets the view content
      *
-     *<code>
+     *```php
      * $this->view->setContent("<h1>hello</h1>");
-     *</code>
+     *```
      */
     public function setContent(string content) -> <View>
     {
@@ -676,9 +675,9 @@ class View extends Injectable implements ViewInterface
      * Change the layout to be used instead of using the name of the latest
      * controller name
      *
-     * <code>
+     * ```php
      * $this->view->setLayout("main");
-     * </code>
+     * ```
      */
     public function setLayout(string layout) -> <View>
     {
@@ -692,9 +691,9 @@ class View extends Injectable implements ViewInterface
      * directory. Depending of your platform, always add a trailing slash or
      * backslash
      *
-     *<code>
+     *```php
      * $view->setLayoutsDir("../common/layouts/");
-     *</code>
+     *```
      */
     public function setLayoutsDir(string layoutsDir) -> <View>
     {
@@ -707,10 +706,10 @@ class View extends Injectable implements ViewInterface
      * Sets default view name. Must be a file without extension in the views
      * directory
      *
-     * <code>
+     * ```php
      * // Renders as main view views-dir/base.phtml
      * $this->view->setMainView("base");
-     * </code>
+     * ```
      */
     public function setMainView(string viewPath) -> <View>
     {
@@ -724,9 +723,9 @@ class View extends Injectable implements ViewInterface
      * directory. Depending of your platform, always add a trailing slash or
      * backslash
      *
-     *<code>
+     *```php
      * $view->setPartialsDir("../common/partials/");
-     *</code>
+     *```
      */
     public function setPartialsDir(string partialsDir) -> <View>
     {
@@ -738,9 +737,9 @@ class View extends Injectable implements ViewInterface
     /**
      * Adds parameters to views (alias of setVar)
      *
-     *<code>
+     *```php
      * $this->view->setParamToView("products", $products);
-     *</code>
+     *```
      */
     public function setParamToView(string! key, var value) -> <View>
     {
@@ -752,12 +751,12 @@ class View extends Injectable implements ViewInterface
     /**
      * Sets the render level for the view
      *
-     * <code>
+     * ```php
      * // Render the view related to the controller only
      * $this->view->setRenderLevel(
      *     View::LEVEL_LAYOUT
      * );
-     * </code>
+     * ```
      */
     public function setRenderLevel(int level) -> <ViewInterface>
     {
@@ -797,9 +796,9 @@ class View extends Injectable implements ViewInterface
     /**
      * Set a single view parameter
      *
-     *<code>
+     *```php
      * $this->view->setVar("products", $products);
-     *</code>
+     *```
      */
     public function setVar(string! key, var value) -> <View>
     {
@@ -811,13 +810,13 @@ class View extends Injectable implements ViewInterface
     /**
      * Set all the render params
      *
-     *<code>
+     *```php
      * $this->view->setVars(
      *     [
      *         "products" => $products,
      *     ]
      * );
-     *</code>
+     *```
      */
     public function setVars(array! params, bool merge = true) -> <View>
     {
@@ -1034,8 +1033,8 @@ class View extends Injectable implements ViewInterface
                         /**
                          * Engine can be a closure
                          */
-                        if engineService instanceof \Closure {
-                            let engineService = \Closure::bind(
+                        if engineService instanceof Closure {
+                            let engineService = Closure::bind(
                                 engineService,
                                 di
                             );
@@ -1102,9 +1101,7 @@ class View extends Injectable implements ViewInterface
         let this->controllerName = controllerName,
             this->actionName     = actionName;
 
-        if typeof params == "array" {
-            this->setVars(params);
-        }
+        this->setVars(params);
 
         /**
          * Check if there is a layouts directory set

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequest;
 
-use Phalcon\Collection;
+use Phalcon\Collection\Collection;
 use Phalcon\Http\Message\ServerRequest;
 use UnitTester;
 

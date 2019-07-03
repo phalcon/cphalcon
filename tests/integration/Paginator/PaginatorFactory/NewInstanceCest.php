@@ -30,6 +30,7 @@ class NewInstanceCest
         $I->wantToTest('Paginator\AdapterFactory - newInstance()');
 
         $factory = new PaginatorFactory();
+
         $adapter = $factory->newInstance('nativeArray');
 
         $I->assertInstanceOf(

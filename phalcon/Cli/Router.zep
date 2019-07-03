@@ -11,18 +11,17 @@
 namespace Phalcon\Cli;
 
 use Phalcon\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Router\Exception;
 
 /**
- * Phalcon\Cli\Router
- *
  * Phalcon\Cli\Router is the standard framework router. Routing is the process
  * of taking a command-line arguments and decomposing it into parameters to
  * determine which module, task, and action of that task should receive the
  * request.
  *
- *<code>
+ *```php
  * $router = new \Phalcon\Cli\Router();
  *
  * $router->handle(
@@ -34,9 +33,9 @@ use Phalcon\Cli\Router\Exception;
  * );
  *
  * echo $router->getTaskName();
- *</code>
+ *```
  */
-class Router implements \Phalcon\Di\InjectionAwareInterface
+class Router implements InjectionAwareInterface
 {
     protected action;
 
@@ -106,9 +105,9 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Adds a route to the router
      *
-     *<code>
+     *```php
      * $router->add("/about", "About::main");
-     *</code>
+     *```
      *
      * @param string|array paths
      */
@@ -449,14 +448,14 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
      * will use the defined here. This method must not be used to set a 404
      * route
      *
-     *<code>
+     *```php
      * $router->setDefaults(
      *     [
      *         "module" => "common",
      *         "action" => "index",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function setDefaults(array! defaults) -> <Router>
     {

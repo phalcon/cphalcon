@@ -18,11 +18,9 @@ use Phalcon\Db\ResultInterface;
 }%
 
 /**
- * Phalcon\Db\Result\Pdo
- *
  * Encapsulates the resultset internals
  *
- * <code>
+ * ```php
  * $result = $connection->query("SELECT * FROM robots ORDER BY name");
  *
  * $result->setFetchMode(
@@ -32,7 +30,7 @@ use Phalcon\Db\ResultInterface;
  * while ($robot = $result->fetchArray()) {
  *     print_r($robot);
  * }
- * </code>
+ * ```
  */
 class Pdo implements ResultInterface
 {
@@ -62,29 +60,22 @@ class Pdo implements ResultInterface
 
     /**
      * Phalcon\Db\Result\Pdo constructor
-     *
-     * @param \Phalcon\Db\AdapterInterface connection
-     * @param \PDOStatement result
-     * @param string sqlStatement
-     * @param array bindParams
-     * @param array bindTypes
      */
     public function __construct(<Db\AdapterInterface> connection, <\PDOStatement> result,
         sqlStatement = null, bindParams = null, bindTypes = null) -> void
     {
         let this->connection = connection,
-            this->pdoStatement = result;
-
-        let this->sqlStatement = sqlStatement;
-        let this->bindParams = bindParams;
-        let this->bindTypes = bindTypes;
+            this->pdoStatement = result,
+            this->sqlStatement = sqlStatement,
+            this->bindParams = bindParams,
+            this->bindTypes = bindTypes;
     }
 
     /**
      * Moves internal resultset cursor to another position letting us to fetch a
      * certain row
      *
-     *<code>
+     *```php
      * $result = $connection->query(
      *     "SELECT * FROM robots ORDER BY name"
      * );
@@ -94,7 +85,7 @@ class Pdo implements ResultInterface
      *
      * // Fetch third row
      * $row = $result->fetch();
-     *</code>
+     *```
      */
     public function dataSeek(long number) -> void
     {
@@ -151,7 +142,7 @@ class Pdo implements ResultInterface
      * or FALSE if there are no more rows. This method is affected by the active
      * fetch flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
      *
-     *<code>
+     *```php
      * $result = $connection->query("SELECT * FROM robots ORDER BY name");
      *
      * $result->setFetchMode(
@@ -161,7 +152,7 @@ class Pdo implements ResultInterface
      * while ($robot = $result->fetch()) {
      *     echo $robot->name;
      * }
-     *</code>
+     *```
      */
     public function $fetch(var fetchStyle = null, var cursorOrientation = null, var cursorOffset = null)
     {
@@ -177,13 +168,13 @@ class Pdo implements ResultInterface
      * This method is affected by the active fetch flag set using
      * `Phalcon\Db\Result\Pdo::setFetchMode()`
      *
-     *<code>
+     *```php
      * $result = $connection->query(
      *     "SELECT * FROM robots ORDER BY name"
      * );
      *
      * $robots = $result->fetchAll();
-     *</code>
+     *```
      */
     public function fetchAll(var fetchStyle = null, var fetchArgument = null, var ctorArgs = null) -> array
     {
@@ -191,24 +182,23 @@ class Pdo implements ResultInterface
 
         let pdoStatement = this->pdoStatement;
 
-        if typeof fetchStyle == "integer" {
-
-            if fetchStyle == Db::FETCH_CLASS {
-                return pdoStatement->fetchAll(
-                    fetchStyle,
-                    fetchArgument,
-                    ctorArgs
-                );
-            }
-
-            if fetchStyle == Db::FETCH_COLUMN || fetchStyle == Db::FETCH_FUNC {
-                return pdoStatement->fetchAll(fetchStyle, fetchArgument);
-            }
-
-            return pdoStatement->fetchAll(fetchStyle);
+        if typeof fetchStyle != "integer" {
+            return pdoStatement->fetchAll();
         }
 
-        return pdoStatement->fetchAll();
+        if fetchStyle == Db::FETCH_CLASS {
+            return pdoStatement->fetchAll(
+                fetchStyle,
+                fetchArgument,
+                ctorArgs
+            );
+        }
+
+        if fetchStyle == Db::FETCH_COLUMN || fetchStyle == Db::FETCH_FUNC {
+            return pdoStatement->fetchAll(fetchStyle, fetchArgument);
+        }
+
+        return pdoStatement->fetchAll(fetchStyle);
     }
 
     /**
@@ -216,7 +206,7 @@ class Pdo implements ResultInterface
      * if there are no more rows. This method is affected by the active fetch
      * flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
      *
-     *<code>
+     *```php
      * $result = $connection->query("SELECT * FROM robots ORDER BY name");
      *
      * $result->setFetchMode(
@@ -226,7 +216,7 @@ class Pdo implements ResultInterface
      * while ($robot = result->fetchArray()) {
      *     print_r($robot);
      * }
-     *</code>
+     *```
      */
     public function fetchArray()
     {
@@ -244,13 +234,13 @@ class Pdo implements ResultInterface
     /**
      * Gets number of rows returned by a resultset
      *
-     *<code>
+     *```php
      * $result = $connection->query(
      *     "SELECT * FROM robots ORDER BY name"
      * );
      *
      * echo "There are ", $result->numRows(), " rows in the resultset";
-     *</code>
+     *```
      */
     public function numRows() -> int
     {
@@ -316,7 +306,7 @@ class Pdo implements ResultInterface
     /**
      * Changes the fetching mode affecting Phalcon\Db\Result\Pdo::fetch()
      *
-     *<code>
+     *```php
      * // Return array with integer indexes
      * $result->setFetchMode(
      *     \Phalcon\Db::FETCH_NUM
@@ -336,7 +326,7 @@ class Pdo implements ResultInterface
      * $result->setFetchMode(
      *     \Phalcon\Db::FETCH_OBJ
      * );
-     *</code>
+     *```
      */
     public function setFetchMode(int fetchMode, var colNoOrClassNameOrObject = null, var ctorargs = null) -> bool
     {

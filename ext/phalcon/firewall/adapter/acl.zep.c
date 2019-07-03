@@ -457,8 +457,8 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, getAccessFromCache) {
 	if (Z_TYPE_P(&access) != IS_NULL) {
 		RETURN_MM_NULL();
 	}
-	zephir_array_fetch_long(&_11, &explodedKey, 0, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Acl.zep", 194 TSRMLS_CC);
-	zephir_array_fetch_long(&_12, &explodedKey, 1, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Acl.zep", 194 TSRMLS_CC);
+	zephir_array_fetch_long(&_11, &explodedKey, 0, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Acl.zep", 196 TSRMLS_CC);
+	zephir_array_fetch_long(&_12, &explodedKey, 1, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Acl.zep", 196 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_13);
 	ZEPHIR_CONCAT_VSVSV(&_13, &_11, "!", &_12, "!*", &roleCacheKey);
 	ZEPHIR_CALL_PARENT(&access, phalcon_firewall_adapter_acl_ce, getThis(), "getaccessfromcache", &_4, 0, &_13);
@@ -466,7 +466,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, getAccessFromCache) {
 	if (Z_TYPE_P(&access) != IS_NULL) {
 		RETURN_CCTOR(&access);
 	}
-	zephir_array_fetch_long(&_14, &explodedKey, 0, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Acl.zep", 205 TSRMLS_CC);
+	zephir_array_fetch_long(&_14, &explodedKey, 0, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Acl.zep", 208 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_15);
 	ZEPHIR_CONCAT_VSV(&_15, &_14, "!*!*", &roleCacheKey);
 	ZEPHIR_CALL_PARENT(&access, phalcon_firewall_adapter_acl_ce, getThis(), "getaccessfromcache", &_4, 0, &_15);
@@ -477,13 +477,13 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, getAccessFromCache) {
 
 PHP_METHOD(Phalcon_Firewall_Adapter_Acl, handleDispatcher) {
 
-	zend_string *_32$$19;
-	zend_ulong _31$$19;
+	zend_string *_33$$19;
+	zend_ulong _32$$19;
 	zval _15$$9, _21$$13;
-	zend_bool defaultAccess = 0, _12, _17, _19$$12, _34$$25, _38$$25;
+	zend_bool defaultAccess = 0, _12, _17, _19$$12, _35$$28, _39$$28;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *dispatcher, dispatcher_sub, __$null, acl, aclAccess, aclRole, aclServiceName, actionName, boundModel, boundModelKey, boundModelKeyMap, boundModels, boundModelsKeyMap, cacheKey, componentName, container, controllerName, modelBinder, moduleName, moduleSeparator, originalValues, parameters, roleCacheKey, roleCacheCallback, role, value, _4, _5, _6, _11, _13, _16, _0$$3, _1$$3, _3$$3, _7$$4, _8$$5, _9$$5, _10$$5, _14$$9, _18$$12, _22$$12, _25$$12, _33$$12, _20$$13, _23$$14, _24$$14, _26$$15, _27$$16, _28$$16, _29$$17, *_30$$19, _35$$25, _36$$26, _37$$26, _39$$27;
+	zval *dispatcher, dispatcher_sub, __$null, acl, aclAccess, aclRole, aclServiceName, actionName, boundModel, boundModelKey, boundModelKeyMap, boundModels, boundModelsKeyMap, cacheKey, componentName, container, controllerName, modelBinder, moduleName, moduleSeparator, originalValues, parameters, roleCacheKey, roleCacheCallback, role, value, _4, _5, _6, _11, _13, _16, _0$$3, _1$$3, _3$$3, _7$$4, _8$$5, _9$$5, _10$$5, _14$$9, _18$$12, _22$$12, _25$$12, _34$$12, _20$$13, _23$$14, _24$$14, _26$$15, _27$$16, _28$$16, _29$$17, *_30$$19, _31$$19, _36$$28, _37$$29, _38$$29, _40$$30;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&dispatcher_sub);
@@ -528,7 +528,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, handleDispatcher) {
 	ZVAL_UNDEF(&_18$$12);
 	ZVAL_UNDEF(&_22$$12);
 	ZVAL_UNDEF(&_25$$12);
-	ZVAL_UNDEF(&_33$$12);
+	ZVAL_UNDEF(&_34$$12);
 	ZVAL_UNDEF(&_20$$13);
 	ZVAL_UNDEF(&_23$$14);
 	ZVAL_UNDEF(&_24$$14);
@@ -536,10 +536,11 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, handleDispatcher) {
 	ZVAL_UNDEF(&_27$$16);
 	ZVAL_UNDEF(&_28$$16);
 	ZVAL_UNDEF(&_29$$17);
-	ZVAL_UNDEF(&_35$$25);
-	ZVAL_UNDEF(&_36$$26);
-	ZVAL_UNDEF(&_37$$26);
-	ZVAL_UNDEF(&_39$$27);
+	ZVAL_UNDEF(&_31$$19);
+	ZVAL_UNDEF(&_36$$28);
+	ZVAL_UNDEF(&_37$$29);
+	ZVAL_UNDEF(&_38$$29);
+	ZVAL_UNDEF(&_40$$30);
 	ZVAL_UNDEF(&_15$$9);
 	ZVAL_UNDEF(&_21$$13);
 
@@ -559,7 +560,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, handleDispatcher) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 1, &_1$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Firewall/Adapter/Acl.zep", 220 TSRMLS_CC);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Firewall/Adapter/Acl.zep", 226 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -625,7 +626,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, handleDispatcher) {
 		ZEPHIR_CONCAT_SS(&_15$$9, "When using ACL service as firewall configuration you can ", "pass role only as string or object implementing 'Phalcon\\Acl\\RoleAware'.");
 		ZEPHIR_CALL_METHOD(NULL, &_14$$9, "__construct", NULL, 1, &_15$$9);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_14$$9, "phalcon/Firewall/Adapter/Acl.zep", 258 TSRMLS_CC);
+		zephir_throw_exception_debug(&_14$$9, "phalcon/Firewall/Adapter/Acl.zep", 267 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -665,7 +666,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, handleDispatcher) {
 			ZEPHIR_CONCAT_SS(&_21$$13, "You need to add acl service to dependency injector ", "container which is implementing 'Phalcon\\Acl\\AdapterInterface'");
 			ZEPHIR_CALL_METHOD(NULL, &_20$$13, "__construct", NULL, 1, &_21$$13);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_20$$13, "phalcon/Firewall/Adapter/Acl.zep", 279 TSRMLS_CC);
+			zephir_throw_exception_debug(&_20$$13, "phalcon/Firewall/Adapter/Acl.zep", 289 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -678,7 +679,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, handleDispatcher) {
 			ZEPHIR_CONCAT_SVS(&_24$$14, "Role ", &aclRole, " doesn't exist in ACL");
 			ZEPHIR_CALL_METHOD(NULL, &_23$$14, "__construct", NULL, 1, &_24$$14);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_23$$14, "phalcon/Firewall/Adapter/Acl.zep", 284 TSRMLS_CC);
+			zephir_throw_exception_debug(&_23$$14, "phalcon/Firewall/Adapter/Acl.zep", 294 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -716,24 +717,48 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, handleDispatcher) {
 			}
 		}
 		if (!(ZEPHIR_IS_EMPTY(&boundModels))) {
-			zephir_is_iterable(&boundModels, 0, "phalcon/Firewall/Adapter/Acl.zep", 313);
-			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&boundModels), _31$$19, _32$$19, _30$$19)
-			{
-				ZEPHIR_INIT_NVAR(&boundModelKey);
-				if (_32$$19 != NULL) { 
-					ZVAL_STR_COPY(&boundModelKey, _32$$19);
-				} else {
-					ZVAL_LONG(&boundModelKey, _31$$19);
+			zephir_is_iterable(&boundModels, 0, "phalcon/Firewall/Adapter/Acl.zep", 328);
+			if (Z_TYPE_P(&boundModels) == IS_ARRAY) {
+				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&boundModels), _32$$19, _33$$19, _30$$19)
+				{
+					ZEPHIR_INIT_NVAR(&boundModelKey);
+					if (_33$$19 != NULL) { 
+						ZVAL_STR_COPY(&boundModelKey, _33$$19);
+					} else {
+						ZVAL_LONG(&boundModelKey, _32$$19);
+					}
+					ZEPHIR_INIT_NVAR(&boundModel);
+					ZVAL_COPY(&boundModel, _30$$19);
+					ZEPHIR_OBS_NVAR(&boundModelKeyMap);
+					if (zephir_array_isset_fetch(&boundModelKeyMap, &boundModelsKeyMap, &boundModelKey, 0 TSRMLS_CC)) {
+						zephir_array_update_zval(&parameters, &boundModelKeyMap, &boundModel, PH_COPY | PH_SEPARATE);
+					} else {
+						zephir_array_update_zval(&parameters, &boundModelKey, &boundModel, PH_COPY | PH_SEPARATE);
+					}
+				} ZEND_HASH_FOREACH_END();
+			} else {
+				ZEPHIR_CALL_METHOD(NULL, &boundModels, "rewind", NULL, 0);
+				zephir_check_call_status();
+				while (1) {
+					ZEPHIR_CALL_METHOD(&_31$$19, &boundModels, "valid", NULL, 0);
+					zephir_check_call_status();
+					if (!zend_is_true(&_31$$19)) {
+						break;
+					}
+					ZEPHIR_CALL_METHOD(&boundModelKey, &boundModels, "key", NULL, 0);
+					zephir_check_call_status();
+					ZEPHIR_CALL_METHOD(&boundModel, &boundModels, "current", NULL, 0);
+					zephir_check_call_status();
+						ZEPHIR_OBS_NVAR(&boundModelKeyMap);
+						if (zephir_array_isset_fetch(&boundModelKeyMap, &boundModelsKeyMap, &boundModelKey, 0 TSRMLS_CC)) {
+							zephir_array_update_zval(&parameters, &boundModelKeyMap, &boundModel, PH_COPY | PH_SEPARATE);
+						} else {
+							zephir_array_update_zval(&parameters, &boundModelKey, &boundModel, PH_COPY | PH_SEPARATE);
+						}
+					ZEPHIR_CALL_METHOD(NULL, &boundModels, "next", NULL, 0);
+					zephir_check_call_status();
 				}
-				ZEPHIR_INIT_NVAR(&boundModel);
-				ZVAL_COPY(&boundModel, _30$$19);
-				ZEPHIR_OBS_NVAR(&boundModelKeyMap);
-				if (zephir_array_isset_fetch(&boundModelKeyMap, &boundModelsKeyMap, &boundModelKey, 0 TSRMLS_CC)) {
-					zephir_array_update_zval(&parameters, &boundModelKeyMap, &boundModel, PH_COPY | PH_SEPARATE);
-				} else {
-					zephir_array_update_zval(&parameters, &boundModelKey, &boundModel, PH_COPY | PH_SEPARATE);
-				}
-			} ZEND_HASH_FOREACH_END();
+			}
 			ZEPHIR_INIT_NVAR(&boundModel);
 			ZEPHIR_INIT_NVAR(&boundModelKey);
 		}
@@ -746,30 +771,30 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, handleDispatcher) {
 		}
 		ZEPHIR_CALL_METHOD(&cacheKey, &acl, "getactivekey", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_33$$12, &acl, "getactivefunction", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_34$$12, &acl, "getactivefunction", NULL, 0);
 		zephir_check_call_status();
-		if (Z_TYPE_P(&_33$$12) != IS_NULL) {
-			_34$$25 = !(ZEPHIR_IS_EMPTY(&parameters));
-			if (_34$$25) {
-				ZEPHIR_CALL_METHOD(&_35$$25, &acl, "getactivefunctioncustomargumentscount", NULL, 0);
+		if (Z_TYPE_P(&_34$$12) != IS_NULL) {
+			_35$$28 = !(ZEPHIR_IS_EMPTY(&parameters));
+			if (_35$$28) {
+				ZEPHIR_CALL_METHOD(&_36$$28, &acl, "getactivefunctioncustomargumentscount", NULL, 0);
 				zephir_check_call_status();
-				_34$$25 = ZEPHIR_GT_LONG(&_35$$25, 0);
+				_35$$28 = ZEPHIR_GT_LONG(&_36$$28, 0);
 			}
-			if (_34$$25) {
-				ZEPHIR_INIT_VAR(&_36$$26);
-				zephir_fast_join_str(&_36$$26, SL("!"), &originalValues TSRMLS_CC);
-				ZEPHIR_INIT_VAR(&_37$$26);
-				ZEPHIR_CONCAT_SV(&_37$$26, "!", &_36$$26);
-				zephir_concat_self(&cacheKey, &_37$$26 TSRMLS_CC);
+			if (_35$$28) {
+				ZEPHIR_INIT_VAR(&_37$$29);
+				zephir_fast_join_str(&_37$$29, SL("!"), &originalValues TSRMLS_CC);
+				ZEPHIR_INIT_VAR(&_38$$29);
+				ZEPHIR_CONCAT_SV(&_38$$29, "!", &_37$$29);
+				zephir_concat_self(&cacheKey, &_38$$29 TSRMLS_CC);
 			}
-			_38$$25 = Z_TYPE_P(&roleCacheKey) != IS_NULL;
-			if (_38$$25) {
-				_38$$25 = Z_TYPE_P(&role) == IS_OBJECT;
+			_39$$28 = Z_TYPE_P(&roleCacheKey) != IS_NULL;
+			if (_39$$28) {
+				_39$$28 = Z_TYPE_P(&role) == IS_OBJECT;
 			}
-			if (_38$$25) {
-				ZEPHIR_INIT_VAR(&_39$$27);
-				ZEPHIR_CONCAT_SV(&_39$$27, "!", &roleCacheKey);
-				zephir_concat_self(&cacheKey, &_39$$27 TSRMLS_CC);
+			if (_39$$28) {
+				ZEPHIR_INIT_VAR(&_40$$30);
+				ZEPHIR_CONCAT_SV(&_40$$30, "!", &roleCacheKey);
+				zephir_concat_self(&cacheKey, &_40$$30 TSRMLS_CC);
 			}
 		}
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "saveaccessincache", NULL, 0, &cacheKey, &aclAccess);
@@ -819,7 +844,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, saveAccessInCache) {
 	zephir_fast_explode_str(&explodedKey, SL("!"), &key, LONG_MAX TSRMLS_CC);
 	zephir_read_property(&_0, this_ptr, SL("activeRole"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&activeRole, &_0);
-	zephir_array_fetch_long(&_1, &explodedKey, 0, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Acl.zep", 352 TSRMLS_CC);
+	zephir_array_fetch_long(&_1, &explodedKey, 0, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Acl.zep", 367 TSRMLS_CC);
 	if (!ZEPHIR_IS_EQUAL(&_1, &activeRole)) {
 		zephir_array_update_long(&explodedKey, 0, &activeRole, PH_COPY | PH_SEPARATE ZEPHIR_DEBUG_PARAMS_DUMMY);
 		ZEPHIR_INIT_NVAR(&key);

@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator;
  *
  * Allows validate if the value of a field matches a regular expression
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Regex as RegexValidator;
  *
@@ -53,16 +53,18 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Regex extends Validator
 {
+    protected template = "Field :field does not match the required format";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var matches, message, value, label, replacePairs, code, pattern;
+        var matches, value, pattern;
         bool failed;
 
         // Regular expression is set in the option 'pattern'
@@ -83,21 +85,8 @@ class Regex extends Validator
         }
 
         if failed {
-            let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Regex"),
-                code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "Regex",
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

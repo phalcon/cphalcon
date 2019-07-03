@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Message\Request;
 
 use Phalcon\Http\Message\Request;
+use Phalcon\Http\Message\Uri;
 use UnitTester;
 
 class GetRequestTargetCest
@@ -27,10 +28,11 @@ class GetRequestTargetCest
     {
         $I->wantToTest('Http\Message\Request - getRequestTarget()');
 
-        $request = new Request();
+        $uri     = new Uri('https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag');
+        $request = new Request('GET', $uri);
 
         $I->assertEquals(
-            '/',
+            '/action?param=value',
             $request->getRequestTarget()
         );
     }

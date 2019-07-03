@@ -89,11 +89,6 @@ trait ValidationTrait
         $I->assertFalse(
             $validator->hasOption('option')
         );
-
-
-        $I->assertTrue(
-            $validator->hasOption('message')
-        );
     }
 
     /**

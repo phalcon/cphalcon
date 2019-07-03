@@ -19,8 +19,6 @@ use Phalcon\Di\Exception;
 use Phalcon\Session\BagInterface;
 
 /**
- * Phalcon\Di\Injectable
- *
  * This class allows to access services in the services container by just only
  * accessing a public property with the same name of a registered service
  *
@@ -54,7 +52,7 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
     /**
      * Dependency Injector
      *
-     * @var \Phalcon\DiInterface
+     * @var DiInterface
      */
     protected container;
 
@@ -70,12 +68,12 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
      */
     public function __get(string! propertyName) -> var | null
     {
-        var container, service, persistent;
+        var container, service;
 
         let container = <DiInterface> this->container;
 
         if typeof container != "object" {
-            let container = \Phalcon\Di::getDefault();
+            let container = Di::getDefault();
 
             if unlikely typeof container != "object" {
                 throw new Exception(
@@ -104,10 +102,14 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
          * Accessing the persistent property will create a session bag on any class
          */
         if propertyName == "persistent" {
-            let persistent = <BagInterface> container->get("sessionBag", [get_class(this)]),
-                this->{"persistent"} = persistent;
+            let this->{"persistent"} = <BagInterface> container->get(
+                "sessionBag",
+                [
+                    get_class(this)
+                ]
+            );
 
-            return persistent;
+            return this->{"persistent"};
         }
 
         /**
@@ -117,7 +119,7 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
 
         return null;
     }
-    
+
     /**
      * Returns the internal dependency injector
      */

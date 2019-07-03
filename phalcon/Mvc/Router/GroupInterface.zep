@@ -15,7 +15,7 @@ use Phalcon\Mvc\Router\RouteInterface;
 /**
  * Phalcon\Mvc\Router\GroupInterface
  *
- *<code>
+ *```php
  * $router = new \Phalcon\Mvc\Router();
  *
  * // Create a group with a common module and controller
@@ -56,16 +56,16 @@ use Phalcon\Mvc\Router\RouteInterface;
  *
  * // Add the group to the router
  * $router->mount($blog);
- *</code>
+ *```
  */
 interface GroupInterface
 {
     /**
      * Adds a route to the router on any HTTP method
      *
-     *<code>
+     *```php
      * router->add("/about", "About::index");
-     *</code>
+     *```
      */
     public function add(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>;
 

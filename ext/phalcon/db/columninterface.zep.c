@@ -68,11 +68,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getName);
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getScale);
 
 /**
- * Returns schema's table related to column
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getSchemaName);
-
-/**
  * Returns column size
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getSize);

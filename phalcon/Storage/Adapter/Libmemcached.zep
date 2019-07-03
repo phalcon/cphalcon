@@ -17,8 +17,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
- * Phalcon\Storage\Adapter\Libmemcached
- *
  * Libmemcached adapter
  */
 class Libmemcached extends AbstractAdapter
@@ -37,7 +35,7 @@ class Libmemcached extends AbstractAdapter
     {
         if !isset options["servers"] {
             let options["servers"] = [
-                0: [
+                0 : [
                     "host"   : "127.0.0.1",
                     "port"   : 11211,
                     "weight" : 1
@@ -109,12 +107,13 @@ class Libmemcached extends AbstractAdapter
      */
     public function getAdapter() -> var
     {
-        var client, connection, failover, options, persistentId, 
-	        servers, serverList;
+        var client, connection, failover, options, persistentId,
+            sasl, saslPass, saslUser, servers, serverList;
 
         if null === this->adapter {
             let options      = this->options,
                 persistentId = Arr::get(options, "persistentId", "ph-mcid-"),
+                sasl         = Arr::get(options, "saslAuthData", []),
                 connection   = new \Memcached(persistentId),
                 serverList   = connection->getServerList();
 
@@ -123,6 +122,8 @@ class Libmemcached extends AbstractAdapter
             if count(serverList) < 1 {
                 let servers  = Arr::get(options, "servers", []),
                     client   = Arr::get(options, "client", []),
+                    saslUser = Arr::get(sasl, "user", ""),
+                    saslPass = Arr::get(sasl, "pass", ""),
                     failover = [
                         \Memcached::OPT_CONNECT_TIMEOUT       : 10,
                         \Memcached::OPT_DISTRIBUTION          : \Memcached::DISTRIBUTION_CONSISTENT,
@@ -138,6 +139,10 @@ class Libmemcached extends AbstractAdapter
 
                 if !connection->addServers(servers) {
                     throw new Exception("Cannot connect to the Memcached server(s)");
+                }
+
+                if !empty saslUser {
+                    connection->setSaslAuthData(saslUser, saslPass);
                 }
             }
 
@@ -158,8 +163,8 @@ class Libmemcached extends AbstractAdapter
     public function getKeys() -> array
     {
     	var keys;
-	
-        let keys = $this->getAdapter()->getAllKeys();
+
+        let keys = this->getAdapter()->getAllKeys();
 
         return !keys ? [] : keys;
     }

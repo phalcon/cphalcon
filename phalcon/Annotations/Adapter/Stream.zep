@@ -15,11 +15,9 @@ use Phalcon\Annotations\Reflection;
 use Phalcon\Annotations\Exception;
 
 /**
- * Phalcon\Annotations\Adapter\Stream
- *
  * Stores the parsed annotations in files. This adapter is suitable for production
  *
- *<code>
+ *```php
  * use Phalcon\Annotations\Adapter\Stream;
  *
  * $annotations = new Stream(
@@ -27,7 +25,7 @@ use Phalcon\Annotations\Exception;
  *         "annotationsDir" => "app/cache/annotations/",
  *     ]
  * );
- *</code>
+ *```
  */
 class Stream extends AbstractAdapter
 {

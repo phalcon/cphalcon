@@ -10,6 +10,7 @@
 
 namespace Phalcon\Validation\Validator;
 
+use DateTime;
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator;
@@ -19,7 +20,7 @@ use Phalcon\Validation\Validator;
  *
  * Checks if a value is a valid date
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Date as DateValidator;
  *
@@ -53,16 +54,18 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Date extends Validator
 {
+    protected template = "Field :field is not a valid date";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, format, label, message, replacePairs, code;
+        var value, format;
 
         let value = validation->getValue(field);
         let format = this->getOption("format");
@@ -76,21 +79,8 @@ class Date extends Validator
         }
 
         if !this->checkDate(value, format) {
-            let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Date"),
-                code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "Date",
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;
@@ -107,8 +97,8 @@ class Date extends Validator
             return false;
         }
 
-        let date = \DateTime::createFromFormat(format, value);
-        let errors = \DateTime::getLastErrors();
+        let date = DateTime::createFromFormat(format, value);
+        let errors = DateTime::getLastErrors();
 
         return errors["warning_count"] == 0 && errors["error_count"] == 0;
     }

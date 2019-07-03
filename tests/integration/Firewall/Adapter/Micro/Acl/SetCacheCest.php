@@ -103,6 +103,8 @@ class SetCacheCest
     public function _after()
     {
         ob_end_clean();
+
+        $this->container['db']->close();
     }
 
     /**
@@ -163,13 +165,55 @@ class SetCacheCest
         $micro = $this->micro;
 
         $examples = [
-            ['/album/1', new BindingRole('ROLE1', 1), 'allowed', 'ROLE1!Micro!album-get!1!1', true],
-            ['/album/1', new BindingRole('ROLE1', 2), false, 'ROLE1!Micro!album-get!1!2', false],
-            ['/album/1', new BindingRole('ROLE2', 1), 'allowed', 'ROLE2!Micro!*!1!1', true],
-            ['/album/1', new BindingRole('ROLE2', 2), false, 'ROLE2!Micro!*!1!2', false],
-            ['/album/1', new BindingRole('ROLE3', 2), 'allowed', 'ROLE3!*!*', true],
-            ['/album/1', new BindingRole('ROLE4', 2), 'allowed', 'ROLE4!Micro!*', true],
-            ['/album/1', new BindingRole('ROLE5', 2), 'allowed', 'ROLE5!Micro!album-get', true],
+            [
+                '/album/1',
+                new BindingRole('ROLE1', 1),
+                'allowed',
+                'ROLE1!Micro!album-get!1!1',
+                true,
+            ],
+            [
+                '/album/1',
+                new BindingRole('ROLE1', 2),
+                false,
+                'ROLE1!Micro!album-get!1!2',
+                false,
+            ],
+            [
+                '/album/1',
+                new BindingRole('ROLE2', 1),
+                'allowed',
+                'ROLE2!Micro!*!1!1',
+                true,
+            ],
+            [
+                '/album/1',
+                new BindingRole('ROLE2', 2),
+                false,
+                'ROLE2!Micro!*!1!2',
+                false,
+            ],
+            [
+                '/album/1',
+                new BindingRole('ROLE3', 2),
+                'allowed',
+                'ROLE3!*!*',
+                true,
+            ],
+            [
+                '/album/1',
+                new BindingRole('ROLE4', 2),
+                'allowed',
+                'ROLE4!Micro!*',
+                true,
+            ],
+            [
+                '/album/1',
+                new BindingRole('ROLE5', 2),
+                'allowed',
+                'ROLE5!Micro!album-get',
+                true,
+            ],
         ];
 
         foreach ($examples as $example) {
@@ -179,8 +223,16 @@ class SetCacheCest
                 $example[0],
                 $example[1]
             );
-            $I->assertEquals($returnedValue, $example[2]);
-            $I->assertEquals($cache->get('_PHF_')[$example[3]], $example[4]);
+
+            $I->assertEquals(
+                $example[2],
+                $returnedValue
+            );
+
+            $I->assertEquals(
+                $example[4],
+                $cache->get('_PHF_')[$example[3]]
+            );
         }
     }
 }

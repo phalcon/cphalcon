@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator;
  *
  * Check for alphabetic character(s)
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Alpha as AlphaValidator;
  *
@@ -48,35 +48,24 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 class Alpha extends Validator
 {
+    protected template = "Field :field must contain only letters";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, message, label, replacePairs, code;
+        var value;
 
         let value = validation->getValue(field);
 
         if preg_match("/[^[:alpha:]]/imu", value) {
-            let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Alpha"),
-                code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "Alpha",
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

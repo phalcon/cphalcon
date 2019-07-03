@@ -22,7 +22,7 @@ class WithSchemeCest
     /**
      * Tests Phalcon\Http\Message\Uri :: withScheme()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
      */
     public function httpMessageUriWithScheme(UnitTester $I)
@@ -51,6 +51,30 @@ class WithSchemeCest
     }
 
     /**
+     * Tests Phalcon\Http\Message\Uri :: withScheme() - exception unsupported
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-06-01
+     */
+    public function httpUriWithSchemeExceptionUnsupported(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - withScheme() - exception - unsupported');
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Unsupported scheme [ftp]. Scheme must be one of [http, https]'
+            ),
+            function () {
+                $uri = new Uri(
+                    'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag'
+                );
+
+                $instance = $uri->withScheme('ftp');
+            }
+        );
+    }
+
+    /**
      * Tests Phalcon\Http\Message\Uri :: withScheme() - exception no string
      *
      * @dataProvider getExamples
@@ -64,7 +88,7 @@ class WithSchemeCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Method requires a string argument instead of ' . $example[0]
+                'Method requires a string argument'
             ),
             function () use ($example) {
                 $uri = new Uri(
@@ -76,15 +100,40 @@ class WithSchemeCest
         );
     }
 
+    
     private function getExamples(): array
     {
         return [
-            ['NULL', 'null', null],
-            ['boolean', 'true', true],
-            ['boolean', 'false', false],
-            ['integer', 'number', 1234],
-            ['array', 'array', ['/action']],
-            ['stdClass', 'object', (object) ['/action']],
+            [
+                'NULL',
+                'null',
+                null,
+            ],
+            [
+                'boolean',
+                'true',
+                true,
+            ],
+            [
+                'boolean',
+                'false',
+                false,
+            ],
+            [
+                'integer',
+                'number',
+                1234,
+            ],
+            [
+                'array',
+                'array',
+                ['/action'],
+            ],
+            [
+                'stdClass',
+                'object',
+                (object) ['/action'],
+            ],
         ];
     }
 }

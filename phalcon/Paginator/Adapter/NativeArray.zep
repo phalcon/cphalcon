@@ -19,7 +19,7 @@ use Phalcon\Paginator\RepositoryInterface;
  *
  * Pagination using a PHP array as source of data
  *
- * <code>
+ * ```php
  * use Phalcon\Paginator\Adapter\NativeArray;
  *
  * $paginator = new NativeArray(
@@ -35,7 +35,7 @@ use Phalcon\Paginator\RepositoryInterface;
  *         "page"  => $currentPage,
  *     ]
  * );
- *</code>
+ *```
  */
 class NativeArray extends AbstractAdapter
 {
@@ -76,7 +76,11 @@ class NativeArray extends AbstractAdapter
             let totalPages++;
         }
 
-        let items = array_slice(items, show * (pageNumber - 1), show);
+        let items = array_slice(
+            items,
+            show * (pageNumber - 1),
+            show
+        );
 
         //Fix next
         if pageNumber < totalPages {

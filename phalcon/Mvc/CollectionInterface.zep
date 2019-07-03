@@ -13,8 +13,6 @@ namespace Phalcon\Mvc;
 use Phalcon\Messages\MessageInterface;
 
 /**
- * Phalcon\Mvc\CollectionInterface
- *
  * Interface for Phalcon\Mvc\Collection
  */
 interface CollectionInterface

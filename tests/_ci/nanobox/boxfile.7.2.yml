@@ -82,7 +82,7 @@ run.config:
     - echo -e 'apc.enable_cli=1' >> "/data/etc/php/dev_php.ini"
     #===========================================================================
     # Get the Zephir phar
-    - wget --no-clobber -O /data/bin/zephir https://github.com/phalcon/zephir/releases/download/0.11.8/zephir.phar
+    - wget --no-clobber -O /data/bin/zephir https://github.com/phalcon/zephir/releases/download/0.12.0/zephir.phar
     - chmod +x /data/bin/zephir
 
 data.memcached:
