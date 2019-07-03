@@ -264,6 +264,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      *     ]
      * );
      * </code>
+     *
+     * @deprecated
      */
     public function createIfNotExist(array! criteria) -> bool
     {
@@ -305,16 +307,16 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             return false;
         }
 
-        let keys = array_flip( criteria );
+        let keys = array_flip(criteria);
         let data = this->toArray();
 
-        if unlikely array_diff_key( keys, data ) {
+        if unlikely array_diff_key(keys, data) {
             throw new Exception(
                 "Criteria parameter must be array with one or more attributes of the model"
             );
         }
 
-        let query = array_intersect_key( data, keys );
+        let query = array_intersect_key(data, keys);
 
         let success = false;
 
@@ -322,10 +324,13 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          * $setOnInsert in conjunction with upsert ensures creating a new document
          * "new": false returns null if new document created, otherwise new or old document could be returned
          */
-        let status = collection->findAndModify(query,
+        let status = collection->findAndModify(
+            query,
             ["$setOnInsert": data],
             null,
-            ["new": false, "upsert": true]);
+            ["new": false, "upsert": true]
+        );
+
         if status == null {
             let doc = collection->findOne(query);
             if typeof doc == "array" {
@@ -1017,6 +1022,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
     /**
      * Allows to perform a summatory group for a column in the collection
+     *
+     * @deprecated
      */
     public static function summatory(string! field, conditions = null, finalize = null) -> array
     {

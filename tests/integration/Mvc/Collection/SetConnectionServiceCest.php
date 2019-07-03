@@ -72,5 +72,6 @@ class SetConnectionServiceCest
     public function _after()
     {
         $this->mongo->dropCollection($this->source);
+        $this->mongo->dropCollection('otherMongo');
     }
 }
