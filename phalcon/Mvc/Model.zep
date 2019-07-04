@@ -1112,6 +1112,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         } else {
             let table = source;
         }
+        let table = writeConnection->escapeIdentifier(table);
 
         /**
          * Join the conditions in the array using an AND operator
@@ -2168,7 +2169,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             let table = source;
         }
 
-        let uniqueKey = this->uniqueKey;
+        let table     = readConnection->escapeIdentifier(table),
+            uniqueKey = this->uniqueKey;
 
         if !uniqueKey {
             /**
@@ -2207,7 +2209,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             tables = dialect->select(
                 [
                     "columns": fields,
-                    "tables":  readConnection->escapeIdentifier(table),
+                    "tables":  table,
                     "where":   uniqueKey
                 ]
             );
@@ -2307,7 +2309,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Create/Get the current database connection
          */
-        let readConnection = this->getReadConnection();
+        let readConnection = this->getReadConnection(),
+            table          = readConnection->escapeIdentifier(table);
 
         /**
          * We need to check if the record exists
@@ -4041,13 +4044,14 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         } else {
             let table = source;
         }
+        let table = connection->escapeIdentifier(table);
 
         /**
          * Here we use a single COUNT(*) without PHQL to make the execution
          * faster
          */
         let num = connection->fetchOne(
-            "SELECT COUNT(*) \"rowcount\" FROM " . connection->escapeIdentifier(table) . " WHERE " . uniqueKey,
+            "SELECT COUNT(*) \"rowcount\" FROM " . table . " WHERE " . uniqueKey,
             null,
             uniqueParams,
             uniqueTypes
