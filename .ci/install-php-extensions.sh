@@ -55,6 +55,17 @@ then
 	echo 'extension="redis.so"' > "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/redis.ini"
 fi
 
+# Install mongodb
+mongodb_ext=`$(phpenv which php-config) --extension-dir`/mongodb.so
+if [[ ! -f "${mongodb_ext}" ]]; then
+	printf "\n" | pecl install --force mongodb 1> /dev/null
+fi
+
+if [[ "$(php -m | grep mongodb | wc -l)" = "0" ]] && [[ -f "${mongodb_ext}" ]];
+then
+	echo 'extension="mongodb.so"' > "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/mongodb.ini"
+fi
+
 # Local variables:
 # tab-width: 4
 # c-basic-offset: 4
