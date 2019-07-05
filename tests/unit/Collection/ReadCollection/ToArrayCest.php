@@ -10,22 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Collection\ReadCollection;
+namespace Phalcon\Test\Unit\Collection\ReadOnly;
 
-use Phalcon\Collection\ReadCollection;
+use Phalcon\Collection\ReadOnly;
 use UnitTester;
 
 class ToArrayCest
 {
     /**
-     * Tests Phalcon\Collection\ReadCollection :: toArray()
+     * Tests Phalcon\Collection\ReadOnly :: toArray()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionToArray(UnitTester $I)
     {
-        $I->wantToTest('ReadCollection - toArray()');
+        $I->wantToTest('ReadOnly - toArray()');
 
         $data = [
             'one'   => 'two',
@@ -33,7 +33,7 @@ class ToArrayCest
             'five'  => 'six',
         ];
 
-        $collection = new ReadCollection($data);
+        $collection = new ReadOnly($data);
 
         $I->assertEquals(
             $data,

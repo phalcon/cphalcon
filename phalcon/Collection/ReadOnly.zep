@@ -14,9 +14,9 @@ use Phalcon\Collection;
 use Phalcon\Collection\Exception;
 
 /**
- * Phalcon\Collection\ReadCollection is a read only Collection object
+ * Phalcon\Collection\ReadOnly is a read only Collection object
  */
-class ReadCollection extends Collection
+class ReadOnly extends Collection
 {
     /**
      * Delete the element from the collection

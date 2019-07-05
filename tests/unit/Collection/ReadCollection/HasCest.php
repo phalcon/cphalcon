@@ -10,15 +10,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Collection\ReadCollection;
+namespace Phalcon\Test\Unit\Collection\ReadOnly;
 
-use Phalcon\Collection\ReadCollection;
+use Phalcon\Collection\ReadOnly;
 use UnitTester;
 
 class HasCest
 {
     /**
-     * Tests Phalcon\Collection\ReadCollection :: has()
+     * Tests Phalcon\Collection\ReadOnly :: has()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -33,7 +33,7 @@ class HasCest
             'five'  => 'six',
         ];
 
-        $collection = new ReadCollection($data);
+        $collection = new ReadOnly($data);
 
         $I->assertTrue(
             $collection->has('three')
@@ -69,7 +69,7 @@ class HasCest
     }
 
     /**
-     * Tests Phalcon\Collection\ReadCollection :: has() - sensitive
+     * Tests Phalcon\Collection\ReadOnly :: has() - sensitive
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -84,7 +84,7 @@ class HasCest
             'five'  => 'six',
         ];
 
-        $collection = new ReadCollection($data, false);
+        $collection = new ReadOnly($data, false);
 
         $I->assertTrue(
             $collection->has('three')
