@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Crypt;
 
-use Phalcon\Crypt\Crypt;
+use Phalcon\Crypt;
 use UnitTester;
 
 class SetPaddingCest
 {
     /**
-     * Tests Phalcon\Crypt\Crypt :: setPadding()
+     * Tests Phalcon\Crypt :: setPadding()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-17

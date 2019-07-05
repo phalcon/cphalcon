@@ -12,14 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Crypt;
 
-use Phalcon\Crypt\Crypt;
+use Phalcon\Crypt;
 use Phalcon\Crypt\Exception;
 use UnitTester;
 
 class GetSetCipherCest
 {
     /**
-     * Tests Phalcon\Crypt\Crypt :: getCipher() / setCipher()
+     * Tests Phalcon\Crypt :: getCipher() / setCipher()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

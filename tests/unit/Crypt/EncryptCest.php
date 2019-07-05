@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Crypt;
 
-use Phalcon\Crypt\Crypt;
+use Phalcon\Crypt;
 use Phalcon\Crypt\Exception;
 use function substr;
 use UnitTester;
@@ -20,7 +20,7 @@ use UnitTester;
 class EncryptCest
 {
     /**
-     * Tests Phalcon\Crypt\Crypt :: encrypt()
+     * Tests Phalcon\Crypt :: encrypt()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -82,7 +82,7 @@ class EncryptCest
     }
 
     /**
-     * Tests Phalcon\Crypt\Crypt :: encrypt() - unsupported algo
+     * Tests Phalcon\Crypt :: encrypt() - unsupported algo
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -104,7 +104,7 @@ class EncryptCest
     }
 
     /**
-     * Tests Phalcon\Crypt\Crypt :: encrypt() - gcm
+     * Tests Phalcon\Crypt :: encrypt() - gcm
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-15

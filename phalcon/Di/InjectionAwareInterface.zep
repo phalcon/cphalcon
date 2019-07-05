@@ -10,7 +10,7 @@
 
 namespace Phalcon\Di;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 
 /**
  * This interface must be implemented in those classes that uses internally the

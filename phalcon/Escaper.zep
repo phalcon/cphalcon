@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Escaper;
+namespace Phalcon;
 
 use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Escaper\Exception;

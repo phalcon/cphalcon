@@ -18,11 +18,11 @@ namespace Phalcon\Test\Unit\Di;
 
 use function dataDir;
 use InjectableComponent;
-use Phalcon\Config\Config;
+use Phalcon\Config;
 use Phalcon\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Service;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use SimpleComponent;

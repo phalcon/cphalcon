@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Config;
+namespace Phalcon;
 
-use Phalcon\Collection\Collection;
+use Phalcon\Collection;
 use Phalcon\Config\Exception;
 
 /**

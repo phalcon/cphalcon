@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Security;
 
 use Codeception\Example;
-use Phalcon\Security\Security;
+use Phalcon\Security;
 use UnitTester;
 
 class ComputeHmacCest

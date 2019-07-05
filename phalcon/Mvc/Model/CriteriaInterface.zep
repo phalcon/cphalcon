@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 
 /**
  * Phalcon\Mvc\Model\CriteriaInterface

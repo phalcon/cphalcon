@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Collection\Collection;
 
-use Phalcon\Collection\Collection;
+use Phalcon\Collection;
 use UnitTester;
 
 class ClearCest
 {
     /**
-     * Tests Phalcon\Collection\Collection :: clear()
+     * Tests Phalcon\Collection :: clear()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

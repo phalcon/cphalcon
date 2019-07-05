@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Crypt;
+namespace Phalcon;
 
 use Phalcon\Crypt\CryptInterface;
 use Phalcon\Crypt\Exception;
@@ -18,7 +18,7 @@ use Phalcon\Crypt\Mismatch;
  * Provides encryption capabilities to Phalcon applications.
  *
  * ```php
- * use Phalcon\Crypt\Crypt;
+ * use Phalcon\Crypt;
  *
  * $crypt = new Crypt();
  *
@@ -95,7 +95,7 @@ class Crypt implements CryptInterface
     protected useSigning = true;
 
     /**
-     * Phalcon\Crypt\Crypt constructor.
+     * Phalcon\Crypt constructor.
      */
     public function __construct(string! cipher = "aes-256-cfb", bool useSigning = false) -> void
     {

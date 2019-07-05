@@ -10,7 +10,7 @@
 
 namespace Phalcon\Http;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\FileInterface;

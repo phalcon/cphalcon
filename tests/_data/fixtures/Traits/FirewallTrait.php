@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Traits;
 
 use Phalcon\Di;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Micro;

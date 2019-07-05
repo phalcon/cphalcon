@@ -14,7 +14,7 @@
 
 namespace Phalcon\Http\Message;
 
-use Phalcon\Collection\Collection;
+use Phalcon\Collection;
 use Phalcon\Http\Message\AbstractRequest;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\Stream\Input;

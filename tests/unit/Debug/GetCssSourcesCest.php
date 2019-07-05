@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Debug;
 
-use Phalcon\Debug\Debug;
+use Phalcon\Debug;
 use function sprintf;
 use UnitTester;
 

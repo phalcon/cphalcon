@@ -12,7 +12,7 @@
 namespace Phalcon\Test\Unit\Di;
 
 use Phalcon\Di;
-use Phalcon\Escaper\Escaper;
+use Phalcon\Escaper;
 use UnitTester;
 
 class ServiceCest

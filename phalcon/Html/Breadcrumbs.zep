@@ -10,7 +10,7 @@
 
 namespace Phalcon\Html;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 
 /**
  * Phalcon\Html\Breadcrumbs

@@ -10,13 +10,13 @@
 
 namespace Phalcon\Html;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Escaper\Escaper;
+use Phalcon\Escaper;
 use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Html\Exception;
-use Phalcon\UrlInterface;
+use Phalcon\Url\UrlInterface;
 
 /**
  * Phalcon\Html\Tag

@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Crypt;
 
-use Phalcon\Crypt\Crypt;
+use Phalcon\Crypt;
 use UnitTester;
 
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Crypt\Crypt :: __construct()
+     * Tests Phalcon\Crypt :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

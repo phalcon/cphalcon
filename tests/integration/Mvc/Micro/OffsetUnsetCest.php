@@ -14,7 +14,7 @@ namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
 use Phalcon\Di;
-use Phalcon\Escaper\Escaper;
+use Phalcon\Escaper;
 use Phalcon\Mvc\Micro;
 
 class OffsetUnsetCest

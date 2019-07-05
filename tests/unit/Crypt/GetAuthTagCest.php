@@ -17,7 +17,7 @@ use UnitTester;
 class GetAuthTagCest
 {
     /**
-     * Unit Tests Phalcon\Crypt\Crypt :: getAuthTag()
+     * Unit Tests Phalcon\Crypt :: getAuthTag()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-25

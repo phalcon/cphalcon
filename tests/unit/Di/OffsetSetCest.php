@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
-use Phalcon\Crypt\Crypt;
+use Phalcon\Crypt;
 use Phalcon\Di;
-use Phalcon\Escaper\Escaper;
+use Phalcon\Escaper;
 use UnitTester;
 
 class OffsetSetCest

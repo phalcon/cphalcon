@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Debug;
+namespace Phalcon;
 
 use ErrorException;
 use Phalcon\Helper\Arr;

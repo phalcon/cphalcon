@@ -17,7 +17,7 @@ use UnitTester;
 class SetHashAlgoCest
 {
     /**
-     * Tests Phalcon\Crypt\Crypt :: setHashAlgo()
+     * Tests Phalcon\Crypt :: setHashAlgo()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16

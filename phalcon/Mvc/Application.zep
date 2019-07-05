@@ -12,7 +12,7 @@ namespace Phalcon\Mvc;
 
 use Closure;
 use Phalcon\Application\AbstractApplication;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\ViewInterface;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Http\ResponseInterface;

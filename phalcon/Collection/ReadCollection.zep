@@ -10,7 +10,7 @@
 
 namespace Phalcon\Collection;
 
-use Phalcon\Collection\Collection;
+use Phalcon\Collection;
 use Phalcon\Collection\Exception;
 
 /**
