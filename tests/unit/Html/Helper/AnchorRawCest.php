@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Html\Helper;
 
 use Codeception\Example;
+use Phalcon\Escaper;
 use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\AnchorRaw;
 use Phalcon\Html\TagFactory;

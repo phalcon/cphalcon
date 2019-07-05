@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Di;
 
 use Exception;
 use Phalcon\Di;
+use Phalcon\Escaper;
 use UnitTester;
 
 class GetRawCest

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Html\Helper\TextArea;
 
 use Codeception\Example;
+use Phalcon\Escaper;
 use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\TextArea;
 use Phalcon\Html\TagFactory;
