@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Crypt;
 
+use Phalcon\Crypt;
 use Phalcon\Crypt\Exception;
 use UnitTester;
 use function substr;

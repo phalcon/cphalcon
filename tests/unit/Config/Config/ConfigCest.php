@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Config\Config;
 
+use Phalcon\Config;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
