@@ -86,7 +86,7 @@ interface AdapterInterface
     /**
      * Deletes data from a table using custom RDBMS SQL syntax
      */
-    public function delete(string table, whereCondition = null, placeholders = null, dataTypes = null) -> bool;
+    public function delete(var table, whereCondition = null, placeholders = null, dataTypes = null) -> bool;
 
     /**
      * Returns an array of Phalcon\Db\Column objects describing a table
