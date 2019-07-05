@@ -21,8 +21,8 @@ class GetLocalCest
     /**
      * Tests Phalcon\Assets\Asset :: getLocal() - default
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider defaultProvider
      */
@@ -57,8 +57,8 @@ class GetLocalCest
     /**
      * Tests Phalcon\Assets\Asset :: getLocal()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider provider
      */

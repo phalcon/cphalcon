@@ -125,7 +125,7 @@ class WithPathCest
         );
     }
 
-    
+
     private function getExamples(): array
     {
         return [
@@ -137,7 +137,7 @@ class WithPathCest
         ];
     }
 
-    
+
     private function getExceptions(): array
     {
         return [

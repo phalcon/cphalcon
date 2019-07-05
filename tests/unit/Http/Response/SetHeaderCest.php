@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
-use Phalcon\Http\Response\Headers;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
@@ -32,7 +31,7 @@ class SetHeaderCest extends HttpBase
 
         $response->setHeader('Content-Type', 'text/html');
 
-        $actual   = $response->getHeaders();
+        $actual = $response->getHeaders();
         $I->assertEquals(
             'text/html',
             $actual->get('Content-Type')
@@ -40,7 +39,7 @@ class SetHeaderCest extends HttpBase
 
         $response->setHeader('Content-Length', '1234');
 
-        $actual   = $response->getHeaders();
+        $actual = $response->getHeaders();
         $I->assertEquals(
             'text/html',
             $actual->get('Content-Type')

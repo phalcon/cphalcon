@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security\Random;
 
+use Phalcon\Security\Random;
 use UnitTester;
 
 class Base62Cest
@@ -26,8 +27,7 @@ class Base62Cest
     {
         $I->wantToTest("Security\Random - base62()");
 
-        $random = new \Phalcon\Security\Random();
-
+        $random = new Random();
 
 
         $base62 = $random->base62();
@@ -45,12 +45,10 @@ class Base62Cest
         );
 
 
-
         $differentString = $random->base62();
 
         // Buy lottery ticket if this fails (or fix the bug)
         $I->assertNotEquals($base62, $differentString);
-
 
 
         $expectedLength = 30;

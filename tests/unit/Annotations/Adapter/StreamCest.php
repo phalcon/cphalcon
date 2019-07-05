@@ -11,9 +11,13 @@
 
 namespace Phalcon\Test\Unit\Annotations\Adapter;
 
-use function outputDir;
 use Phalcon\Annotations\Adapter\Stream;
+use Phalcon\Annotations\Collection;
+use Phalcon\Annotations\Reflection;
+use TestClass;
 use UnitTester;
+use User\TestClassNs;
+use function outputDir;
 
 class StreamCest
 {
@@ -29,74 +33,70 @@ class StreamCest
         );
 
 
-
         $classAnnotations = $adapter->get(
-            \TestClass::class
+            TestClass::class
         );
 
         $I->assertInternalType('object', $classAnnotations);
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Reflection::class,
+            Reflection::class,
             $classAnnotations
         );
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Collection::class,
+            Collection::class,
             $classAnnotations->getClassAnnotations()
         );
 
 
-
         $classAnnotations = $adapter->get(
-            \TestClass::class
+            TestClass::class
         );
 
         $I->assertInternalType('object', $classAnnotations);
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Reflection::class,
+            Reflection::class,
             $classAnnotations
         );
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Collection::class,
+            Collection::class,
             $classAnnotations->getClassAnnotations()
         );
 
 
-
         $classAnnotations = $adapter->get(
-            \User\TestClassNs::class
+            TestClassNs::class
         );
 
         $I->assertInternalType('object', $classAnnotations);
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Reflection::class,
+            Reflection::class,
             $classAnnotations
         );
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Collection::class,
+            Collection::class,
             $classAnnotations->getClassAnnotations()
         );
 
 
-
         $classAnnotations = $adapter->get(
-            \User\TestClassNs::class
+            TestClassNs::class
         );
 
         $I->assertInternalType('object', $classAnnotations);
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Reflection::class,
+            Reflection::class,
             $classAnnotations
         );
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Collection::class,
+            Collection::class,
             $classAnnotations->getClassAnnotations()
         );
 

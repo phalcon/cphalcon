@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Crypt;
 
-use Phalcon\Crypt;
 use UnitTester;
 
 class ConstructCest
@@ -28,14 +27,12 @@ class ConstructCest
         $I->wantToTest('Crypt - __construct()');
 
 
-
         $crypt = new Crypt();
 
         $I->assertInstanceOf(
             Crypt::class,
             $crypt
         );
-
 
 
         $crypt = new Crypt('aes-256-cfb', true);

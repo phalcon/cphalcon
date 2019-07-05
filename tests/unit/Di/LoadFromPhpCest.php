@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
-use Phalcon\Config;
 use Phalcon\Di;
 use UnitTester;
 

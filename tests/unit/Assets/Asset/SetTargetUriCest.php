@@ -21,8 +21,8 @@ class SetTargetUriCest
     /**
      * Tests Phalcon\Assets\Asset :: setTargetUri() - local
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider localProvider
      */
@@ -48,8 +48,8 @@ class SetTargetUriCest
     /**
      * Tests Phalcon\Assets\Asset :: setTargetUri() - remote
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider remoteProvider
      */

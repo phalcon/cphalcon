@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Config;
 
-use Phalcon\Config;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
@@ -461,7 +460,6 @@ class MergeCest
             $expected,
             $config->toArray()
         );
-
 
 
         $config = new Config(

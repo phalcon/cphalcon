@@ -39,8 +39,8 @@ class RandomCest
     /**
      * Tests Phalcon\Helper\Str :: random() - alnum
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-06
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-04-06
      *
      * @dataProvider oneToTenProvider
      */
@@ -74,8 +74,8 @@ class RandomCest
     /**
      * Tests Phalcon\Helper\Str :: random() - alpha
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-06
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-04-06
      *
      * @dataProvider oneToTenProvider
      */
@@ -109,8 +109,8 @@ class RandomCest
     /**
      * Tests Phalcon\Helper\Str :: random() - hexdec
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-06
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-04-06
      *
      * @dataProvider oneToTenProvider
      */
@@ -144,8 +144,8 @@ class RandomCest
     /**
      * Tests Phalcon\Helper\Str :: random() - numeric
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-06
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-04-06
      *
      * @dataProvider oneToTenProvider
      */
@@ -179,8 +179,8 @@ class RandomCest
     /**
      * Tests Phalcon\Helper\Str :: random() - non zero
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-06
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-04-06
      *
      * @dataProvider oneToTenProvider
      */

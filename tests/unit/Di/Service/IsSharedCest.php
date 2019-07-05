@@ -21,8 +21,8 @@ class IsSharedCest
     /**
      * Tests Phalcon\Di\Service :: isShared()
      *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-06-12
+     * @author       Sid Roberts <https://github.com/SidRoberts>
+     * @since        2019-06-12
      *
      * @dataProvider provider
      */

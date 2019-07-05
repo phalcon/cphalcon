@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Response;
 
 use Phalcon\Http\Response;
-use Phalcon\Http\Response\Headers;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
@@ -57,7 +56,7 @@ class SetNotModifiedCest extends HttpBase
         $response->resetHeaders();
         $response->setNotModified();
 
-        $actual   = $response->getHeaders();
+        $actual = $response->getHeaders();
         $I->assertEquals(
             false,
             $actual->get('HTTP/1.1 304 Not modified')

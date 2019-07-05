@@ -40,7 +40,7 @@ class GetAuthorityCest
         );
     }
 
-    
+
     private function getExamples(): array
     {
         return [

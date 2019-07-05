@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\ConfigFactory;
 
-use function dataDir;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Adapter\Json;
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\ConfigFactory;
 use UnitTester;
+use function dataDir;
 
 class NewInstanceCest
 {
@@ -33,7 +33,7 @@ class NewInstanceCest
         $I->wantToTest('Config\ConfigFactory - newInstance()');
 
         $factory = new ConfigFactory();
-        $config = $factory->newInstance(
+        $config  = $factory->newInstance(
             'ini',
             dataDir('assets/config/config.ini')
         );

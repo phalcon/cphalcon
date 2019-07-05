@@ -88,7 +88,7 @@ class CropCest
         $offsetY   = 200;
         $cropImage = 'cropwithoffset.jpg';
         $output    = outputDir($outputDir . '/' . $cropImage);
-        $hash       = 'fffff00000000000';
+        $hash      = 'fffff00000000000';
 
         // Resize to 200 pixels on the shortest side
         $image->crop($width, $height, $offsetX, $offsetY)->save($output);

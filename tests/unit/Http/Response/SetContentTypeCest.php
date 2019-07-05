@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
-use Phalcon\Http\Response\Headers;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
@@ -32,7 +31,7 @@ class SetContentTypeCest extends HttpBase
 
         $response->setContentType('application/json');
 
-        $actual   = $response->getHeaders();
+        $actual = $response->getHeaders();
         $I->assertEquals(
             'application/json',
             $actual->get('Content-Type')
@@ -53,7 +52,7 @@ class SetContentTypeCest extends HttpBase
 
         $response->setContentType('application/json', 'utf-8');
 
-        $actual   = $response->getHeaders();
+        $actual = $response->getHeaders();
         $I->assertEquals(
             'application/json; charset=utf-8',
             $actual->get('Content-Type')

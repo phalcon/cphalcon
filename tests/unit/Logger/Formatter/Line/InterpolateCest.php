@@ -77,6 +77,7 @@ class InterpolateCest
             $formatter->format($item)
         );
     }
+
     /**
      * Tests Phalcon\Logger\Formatter\Line :: interpolate() - empty
      */

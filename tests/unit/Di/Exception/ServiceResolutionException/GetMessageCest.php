@@ -17,7 +17,8 @@ use UnitTester;
 class GetMessageCest
 {
     /**
-     * Unit Tests Phalcon\Di\Exception\ServiceResolutionException :: getMessage()
+     * Unit Tests Phalcon\Di\Exception\ServiceResolutionException ::
+     * getMessage()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-06-13

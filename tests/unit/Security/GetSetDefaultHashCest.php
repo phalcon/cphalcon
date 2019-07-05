@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use Phalcon\Security;
 use UnitTester;
 
 class GetSetDefaultHashCest
@@ -30,11 +29,9 @@ class GetSetDefaultHashCest
         $security = new Security();
 
 
-
         $I->assertNull(
             $security->getDefaultHash()
         );
-
 
 
         $I->assertEquals(
@@ -43,14 +40,12 @@ class GetSetDefaultHashCest
         );
 
 
-
         $security->setDefaultHash(1);
 
         $I->assertEquals(
             1,
             $security->getDefaultHash()
         );
-
 
 
         $security->setRandomBytes(22);

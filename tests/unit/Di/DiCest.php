@@ -16,13 +16,10 @@
 
 namespace Phalcon\Test\Unit\Di;
 
-use function dataDir;
 use InjectableComponent;
-use Phalcon\Config;
 use Phalcon\Di;
-use Phalcon\Di\Exception;
-use Phalcon\Di\Service;
 use Phalcon\Di\DiInterface;
+use Phalcon\Di\Exception;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use SimpleComponent;
@@ -30,6 +27,7 @@ use SomeComponent;
 use SomeServiceProvider;
 use stdClass;
 use UnitTester;
+use function dataDir;
 
 /**
  * Tests the \Phalcon\Di component

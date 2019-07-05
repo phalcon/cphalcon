@@ -13,11 +13,11 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset;
 
 use Codeception\Example;
-use function dataDir;
-use function filemtime;
 use Phalcon\Assets\Asset;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
+use function dataDir;
+use function filemtime;
 
 class GetTargetUriCest
 {
@@ -36,8 +36,8 @@ class GetTargetUriCest
     /**
      * Tests Phalcon\Assets\Asset :: getTargetUri() - local
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider localProvider
      */
@@ -63,8 +63,8 @@ class GetTargetUriCest
     /**
      * Tests Phalcon\Assets\Asset :: getTargetUri() - remote
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider remoteProvider
      */

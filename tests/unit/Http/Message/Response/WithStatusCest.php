@@ -69,7 +69,8 @@ class WithStatusCest
     }
 
     /**
-     * Tests Phalcon\Http\Message\Response :: withStatus() - exception invalid code
+     * Tests Phalcon\Http\Message\Response :: withStatus() - exception invalid
+     * code
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
@@ -83,14 +84,15 @@ class WithStatusCest
                 'Invalid status code; it must be an integer or string'
             ),
             function () {
-                $response = new Response();
+                $response    = new Response();
                 $newInstance = $response->withStatus(true, '');
             }
         );
     }
 
     /**
-     * Tests Phalcon\Http\Message\Response :: withStatus() - exception invalid phrase
+     * Tests Phalcon\Http\Message\Response :: withStatus() - exception invalid
+     * phrase
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-03-09
@@ -104,7 +106,7 @@ class WithStatusCest
                 'Invalid response reason'
             ),
             function () {
-                $response = new Response();
+                $response    = new Response();
                 $newInstance = $response->withStatus(200, true);
             }
         );

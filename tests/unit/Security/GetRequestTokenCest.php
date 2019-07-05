@@ -12,12 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use Phalcon\Security;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use UnitTester;
 use function session_destroy;
 use function session_start;
 use function session_status;
-use UnitTester;
 
 class GetRequestTokenCest
 {
@@ -92,7 +91,6 @@ class GetRequestTokenCest
         );
 
 
-
         $_POST = [
             $tokenKey => $requestToken,
         ];
@@ -100,7 +98,6 @@ class GetRequestTokenCest
         $I->assertTrue(
             $security->checkToken(null, null, false)
         );
-
 
 
         $_POST = [
@@ -114,7 +111,6 @@ class GetRequestTokenCest
         $I->assertFalse(
             $security->checkToken()
         );
-
 
 
         $security->destroyToken();

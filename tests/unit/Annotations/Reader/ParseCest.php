@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Reader;
 
-use function dataDir;
 use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Reader;
 use ReflectionException;
 use UnitTester;
+use function dataDir;
 
 class ParseCest
 {

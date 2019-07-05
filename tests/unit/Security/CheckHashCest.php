@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use Phalcon\Security;
 use UnitTester;
 
 class CheckHashCest
@@ -32,7 +31,6 @@ class CheckHashCest
         $password = 'PhalconROCKS!';
 
 
-
         $security->setDefaultHash(
             Security::CRYPT_DEFAULT
         );
@@ -43,7 +41,6 @@ class CheckHashCest
                 $security->hash($password)
             )
         );
-
 
 
         $security->setDefaultHash(
@@ -58,7 +55,6 @@ class CheckHashCest
         );
 
 
-
         $security->setDefaultHash(
             Security::CRYPT_EXT_DES
         );
@@ -69,7 +65,6 @@ class CheckHashCest
                 $security->hash($password)
             )
         );
-
 
 
         $security->setDefaultHash(
@@ -84,7 +79,6 @@ class CheckHashCest
         );
 
 
-
         $security->setDefaultHash(
             Security::CRYPT_BLOWFISH_A
         );
@@ -95,7 +89,6 @@ class CheckHashCest
                 $security->hash($password)
             )
         );
-
 
 
         $security->setDefaultHash(
@@ -110,7 +103,6 @@ class CheckHashCest
         );
 
 
-
         $security->setDefaultHash(
             Security::CRYPT_BLOWFISH_Y
         );
@@ -123,7 +115,6 @@ class CheckHashCest
         );
 
 
-
         $security->setDefaultHash(
             Security::CRYPT_SHA256
         );
@@ -134,7 +125,6 @@ class CheckHashCest
                 $security->hash($password)
             )
         );
-
 
 
         $security->setDefaultHash(

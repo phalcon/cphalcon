@@ -13,10 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Serializer\Igbinary;
 
 use Codeception\Example;
-use function igbinary_serialize;
 use Phalcon\Storage\Serializer\Igbinary;
 use stdClass;
 use UnitTester;
+use function igbinary_serialize;
 
 class UnserializeCest
 {

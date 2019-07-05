@@ -17,7 +17,8 @@ use UnitTester;
 class ToStringCest
 {
     /**
-     * Unit Tests Phalcon\Di\Exception\ServiceResolutionException :: __toString()
+     * Unit Tests Phalcon\Di\Exception\ServiceResolutionException ::
+     * __toString()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-06-13

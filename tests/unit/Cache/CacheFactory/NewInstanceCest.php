@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\CacheFactory;
 
 use Phalcon\Cache\AdapterFactory;
-use Phalcon\Cache;
 use Phalcon\Cache\CacheFactory;
 use Phalcon\Storage\SerializerFactory;
 use Psr\SimpleCache\CacheInterface;

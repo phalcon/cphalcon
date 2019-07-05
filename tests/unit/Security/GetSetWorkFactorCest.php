@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use Phalcon\Security;
 use UnitTester;
 
 class GetSetWorkFactorCest
@@ -30,12 +29,10 @@ class GetSetWorkFactorCest
         $security = new Security();
 
 
-
         $I->assertEquals(
             8,
             $security->getWorkFactor()
         );
-
 
 
         $expected = 31;

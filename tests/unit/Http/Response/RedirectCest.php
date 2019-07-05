@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
-use Phalcon\Http\Response\Headers;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
@@ -32,7 +31,7 @@ class RedirectCest extends HttpBase
 
         $response->redirect('some/local/uri');
 
-        $actual   = $response->getHeaders();
+        $actual = $response->getHeaders();
         $I->assertEquals('302 Found', $actual->get('Status'));
         $I->assertEquals('/some/local/uri', $actual->get('Location'));
         $I->assertEquals(null, $actual->get('HTTP/1.1 302 Found'));

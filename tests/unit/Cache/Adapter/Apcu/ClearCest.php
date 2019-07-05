@@ -38,13 +38,11 @@ class ClearCest
         $key2 = uniqid();
 
 
-
         $adapter->set($key1, 'test');
 
         $I->assertTrue(
             $adapter->has($key1)
         );
-
 
 
         $adapter->set($key2, 'test');
@@ -87,7 +85,6 @@ class ClearCest
         $I->assertTrue(
             $adapter->has($key1)
         );
-
 
 
         $adapter->set($key2, 'test');

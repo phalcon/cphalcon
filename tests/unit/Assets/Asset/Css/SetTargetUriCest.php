@@ -21,8 +21,8 @@ class SetTargetUriCest
     /**
      * Tests Phalcon\Assets\Asset\Css :: setTargetUri()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider provider
      */

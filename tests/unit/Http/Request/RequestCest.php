@@ -685,7 +685,6 @@ class RequestCest extends HttpBase
         }
 
 
-
         $I->assertEquals(
             'f0',
             $all[0]->getName()
@@ -710,7 +709,6 @@ class RequestCest extends HttpBase
             'f4',
             $all[4]->getName()
         );
-
 
 
         $I->assertEquals(
@@ -739,7 +737,6 @@ class RequestCest extends HttpBase
         );
 
 
-
         $I->assertEquals(
             'f0',
             $successful[0]->getName()
@@ -759,7 +756,6 @@ class RequestCest extends HttpBase
             'f3',
             $successful[3]->getName()
         );
-
 
 
         $I->assertEquals(

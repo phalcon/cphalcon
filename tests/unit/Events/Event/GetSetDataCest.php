@@ -28,7 +28,6 @@ class GetSetDataCest
         $I->wantToTest('Events\Event - getData() when not explicitly set');
 
 
-
         $event = new Event(
             'some-type:beforeSome',
             $this

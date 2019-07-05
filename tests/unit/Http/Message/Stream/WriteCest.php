@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
-use function logsDir;
 use Phalcon\Http\Message\Stream;
 use Phalcon\Test\Fixtures\Http\Message\StreamFixture;
 use RuntimeException;
 use UnitTester;
+use function logsDir;
 
 class WriteCest
 {
@@ -34,7 +34,7 @@ class WriteCest
         $stream   = new Stream($fileName, 'wb');
 
         $source   = 'A well regulated Militia, being necessary to the security of a free State, '
-                  . 'the right of the people to keep and bear Arms, shall not be infringed.';
+            . 'the right of the people to keep and bear Arms, shall not be infringed.';
         $expected = strlen($source);
         $actual   = $stream->write($source);
         $I->assertEquals($expected, $actual);
