@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation;
 
 use IntegrationTester;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\Validator\Alpha;
 use Phalcon\Validation\Validator\Email;
 use Phalcon\Validation\Validator\PresenceOf;
@@ -21,7 +21,7 @@ use Phalcon\Validation\Validator\PresenceOf;
 class RuleCest
 {
     /**
-     * Tests Phalcon\Validation\Validation :: rule()
+     * Tests Phalcon\Validation :: rule()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-27

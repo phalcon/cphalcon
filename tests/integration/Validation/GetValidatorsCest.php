@@ -20,7 +20,7 @@ use IntegrationTester;
 class GetValidatorsCest
 {
     /**
-     * Tests Phalcon\Validation\Validation :: getValidators()
+     * Tests Phalcon\Validation :: getValidators()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16

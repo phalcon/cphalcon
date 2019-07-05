@@ -20,7 +20,7 @@ use IntegrationTester;
 class GetValueCest
 {
     /**
-     * Tests Phalcon\Validation\Validation :: getValue()
+     * Tests Phalcon\Validation :: getValue()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16

@@ -13,13 +13,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation;
 
 use IntegrationTester;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use stdClass;
 
 class BindCest
 {
     /**
-     * Tests Phalcon\Validation\Validation :: bind()
+     * Tests Phalcon\Validation :: bind()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17

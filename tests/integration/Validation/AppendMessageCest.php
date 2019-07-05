@@ -20,7 +20,7 @@ use IntegrationTester;
 class AppendMessageCest
 {
     /**
-     * Tests Phalcon\Validation\Validation :: appendMessage()
+     * Tests Phalcon\Validation :: appendMessage()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16
