@@ -2309,7 +2309,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         /**
          * Create/Get the current database connection
          */
-        let readConnection = this->getReadConnection();
+        let readConnection = this->getReadConnection(),
+            table          = readConnection->escapeIdentifier(table);
 
         /**
          * We need to check if the record exists
