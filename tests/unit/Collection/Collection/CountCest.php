@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Collection\Collection;
 
-use Phalcon\Collection\Collection;
+use Phalcon\Collection;
 use UnitTester;
 
 class CountCest
 {
     /**
-     * Tests Phalcon\Collection\Collection :: count()
+     * Tests Phalcon\Collection :: count()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -10,7 +10,7 @@
 
 namespace Phalcon\Http\Response;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Http\CookieInterface;
 use Phalcon\Http\Response\CookiesInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -29,7 +29,7 @@ use Phalcon\Http\Cookie\Exception;
  *
  * ```php
  * use Phalcon\Di;
- * use Phalcon\Crypt\Crypt;
+ * use Phalcon\Crypt;
  * use Phalcon\Http\Response\Cookies;
  *
  * $di = new Di();

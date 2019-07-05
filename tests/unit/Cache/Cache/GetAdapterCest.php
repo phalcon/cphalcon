@@ -14,14 +14,14 @@ namespace Phalcon\Test\Unit\Cache\Cache;
 
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\AdapterFactory;
-use Phalcon\Cache\Cache;
+use Phalcon\Cache;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 
 class GetAdapterCest
 {
     /**
-     * Tests Phalcon\Cache\Cache :: getAdapter()
+     * Tests Phalcon\Cache :: getAdapter()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01

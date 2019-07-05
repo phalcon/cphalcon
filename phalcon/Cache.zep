@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Cache;
+namespace Phalcon;
 
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Exception\Exception;

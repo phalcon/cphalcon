@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Mvc\Router\Exception;
 use Phalcon\Http\RequestInterface;

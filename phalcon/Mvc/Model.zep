@@ -17,7 +17,7 @@ use Phalcon\Db\Enum;
 use Phalcon\Db\RawValue;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Di;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Messages\Message;

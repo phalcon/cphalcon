@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Crypt;
 
-use Phalcon\Crypt\Crypt;
+use Phalcon\Crypt;
 use UnitTester;
 
 class EncryptBase64Cest
 {
     /**
-     * Tests Phalcon\Crypt\Crypt :: encryptBase64()
+     * Tests Phalcon\Crypt :: encryptBase64()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16

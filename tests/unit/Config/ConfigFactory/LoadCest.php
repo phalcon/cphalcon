@@ -115,7 +115,7 @@ class LoadCest
 
         $I->expectThrowable(
             new Exception(
-                'Config must be array or Phalcon\Config\Config object'
+                'Config must be array or Phalcon\Config object'
             ),
             function () {
                 $ini = (new ConfigFactory())->load(false);

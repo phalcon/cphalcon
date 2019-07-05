@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Crypt;
 
-use Phalcon\Crypt\Crypt;
+use Phalcon\Crypt;
 use Phalcon\Crypt\Mismatch;
 use UnitTester;
 

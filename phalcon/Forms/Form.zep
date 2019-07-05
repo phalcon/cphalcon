@@ -13,7 +13,7 @@ namespace Phalcon\Forms;
 use Countable;
 use Iterator;
 use Phalcon\Di\Injectable;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\FilterInterface;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Forms\Exception;

@@ -11,7 +11,7 @@
 namespace Phalcon\Crypt;
 
 /**
- * Interface for Phalcon\Crypt\Crypt
+ * Interface for Phalcon\Crypt
  */
 interface CryptInterface
 {

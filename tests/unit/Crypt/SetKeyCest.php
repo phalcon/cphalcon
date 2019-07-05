@@ -17,7 +17,7 @@ use UnitTester;
 class SetKeyCest
 {
     /**
-     * Tests Phalcon\Crypt\Crypt :: setKey()
+     * Tests Phalcon\Crypt :: setKey()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16

@@ -14,7 +14,7 @@ use Mongo;
 use MongoCollection;
 use MongoId;
 use Phalcon\Di;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Collection\BehaviorInterface;

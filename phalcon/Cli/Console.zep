@@ -13,7 +13,7 @@ namespace Phalcon\Cli;
 use Phalcon\Application\AbstractApplication;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Console\Exception;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface;
 
 /**

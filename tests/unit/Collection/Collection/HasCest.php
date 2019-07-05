@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Collection\Collection;
 
-use Phalcon\Collection\Collection;
+use Phalcon\Collection;
 use UnitTester;
 
 class HasCest
 {
     /**
-     * Tests Phalcon\Collection\Collection :: has()
+     * Tests Phalcon\Collection :: has()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -69,7 +69,7 @@ class HasCest
     }
 
     /**
-     * Tests Phalcon\Collection\Collection :: has() - sensitive
+     * Tests Phalcon\Collection :: has() - sensitive
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

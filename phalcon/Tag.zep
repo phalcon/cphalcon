@@ -13,7 +13,7 @@ namespace Phalcon;
 use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
-use Phalcon\UrlInterface;
+use Phalcon\Url\UrlInterface;
 
 /**
  * Phalcon\Tag is designed to simplify building of HTML tags.

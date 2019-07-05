@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Security;
+namespace Phalcon;
 
 use Phalcon\DiInterface;
 use Phalcon\Security\Random;
@@ -58,7 +58,7 @@ class Security implements InjectionAwareInterface
     protected workFactor = 8 { set, get };
 
     /**
-     * Phalcon\Security\Security constructor
+     * Phalcon\Security constructor
      */
     public function __construct() -> void
     {

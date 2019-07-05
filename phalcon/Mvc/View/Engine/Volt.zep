@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc\View\Engine;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\View\Engine\AbstractEngine;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;

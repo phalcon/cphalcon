@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Cache;
 
 use Phalcon\Cache\AdapterFactory;
-use Phalcon\Cache\Cache;
+use Phalcon\Cache;
 use Phalcon\Storage\SerializerFactory;
 use function uniqid;
 use UnitTester;
@@ -21,7 +21,7 @@ use UnitTester;
 class ClearCest
 {
     /**
-     * Tests Phalcon\Cache\Cache :: clear()
+     * Tests Phalcon\Cache :: clear()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01

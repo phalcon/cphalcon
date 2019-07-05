@@ -12,7 +12,7 @@
 namespace Phalcon\Test\Fixtures\Mvc\View\Engine;
 
 use Mustache_Engine;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\View\Engine\AbstractEngine;
 use Phalcon\Mvc\View\Engine\EngineInterface;
 use Phalcon\Mvc\ViewBaseInterface;

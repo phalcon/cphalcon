@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Container;
 
 use Phalcon\Container\Container;
 use Phalcon\Di\Service;
-use Phalcon\Escaper\Escaper;
+use Phalcon\Escaper;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 

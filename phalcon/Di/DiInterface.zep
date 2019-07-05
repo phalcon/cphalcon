@@ -8,10 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon;
+namespace Phalcon\Di;
 
 use ArrayAccess;
-use Phalcon\DiInterface;
 use Phalcon\Di\ServiceInterface;
 
 /**

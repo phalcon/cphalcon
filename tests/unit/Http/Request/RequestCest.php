@@ -12,7 +12,7 @@
 namespace Phalcon\Test\Unit\Http;
 
 use Codeception\Example;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Http\Request;
 use Phalcon\Test\Fixtures\Http\PhpStream;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
