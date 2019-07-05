@@ -11,7 +11,7 @@
 namespace Phalcon\Validation;
 
 use Phalcon\Di;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface
 use Phalcon\Di\Injectable;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Messages\MessageInterface;
