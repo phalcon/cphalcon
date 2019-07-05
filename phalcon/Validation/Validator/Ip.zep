@@ -10,7 +10,7 @@
 
 namespace Phalcon\Validation\Validator;
 
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\AbstractValidator;
 use Phalcon\Messages\Message;
 

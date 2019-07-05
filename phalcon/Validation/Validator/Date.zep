@@ -12,14 +12,14 @@ namespace Phalcon\Validation\Validator;
 
 use DateTime;
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\AbstractValidator;
 
 /**
  * Checks if a value is a valid date
  *
  * ```php
- * use Phalcon\Validation\Validation;
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Date as DateValidator;
  *
  * $validator = new Validation();

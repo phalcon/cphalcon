@@ -14,7 +14,7 @@ use Closure;
 use Phalcon\Acl\Enum;
 use Phalcon\Acl\RoleAware;
 use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
-use Phalcon\Di\DiInterface
+use Phalcon\Di\DiInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Firewall\Exception;

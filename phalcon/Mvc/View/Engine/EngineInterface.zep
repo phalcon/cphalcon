@@ -10,9 +10,6 @@
 
 namespace Phalcon\Mvc\View\Engine;
 
-use Phalcon\Di\DiInterface
-use Phalcon\Mvc\ViewBaseInterface;
-
 /**
  * Interface for Phalcon\Mvc\View engine adapters
  */

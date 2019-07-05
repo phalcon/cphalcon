@@ -11,7 +11,7 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\AbstractValidator;
 
 /**
@@ -19,7 +19,7 @@ use Phalcon\Validation\AbstractValidator;
  * For a value x, the test is passed if minimum<=x<=maximum.
  *
  * ```php
- * use Phalcon\Validation\Validation;
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Between;
  *
  * $validator = new Validation();

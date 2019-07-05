@@ -11,7 +11,7 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\AbstractValidator;
 use Phalcon\Validation\Exception;
 
@@ -19,7 +19,7 @@ use Phalcon\Validation\Exception;
  * Check if a value is not included into a list of values
  *
  * ```php
- * use Phalcon\Validation\Validation;
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\ExclusionIn;
  *
  * $validator = new Validation();

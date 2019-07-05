@@ -12,7 +12,7 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Helper\Arr;
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\AbstractValidatorComposite;
 use Phalcon\Validation\Validator\File\MimeType;
 use Phalcon\Validation\Validator\File\Resolution\Equal as EqualResolution;
@@ -26,7 +26,7 @@ use Phalcon\Validation\Validator\File\Size\Min as MinFileSize;
  * Checks if a value has a correct file
  *
  * ```php
- * use Phalcon\Validation\Validation;
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\File as FileValidator;
  *
  * $validator = new Validation();

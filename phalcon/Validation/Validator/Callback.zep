@@ -11,7 +11,7 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\ValidatorInterface;
 use Phalcon\Validation\AbstractValidator;
 
@@ -19,7 +19,7 @@ use Phalcon\Validation\AbstractValidator;
  * Calls user function for validation
  *
  * ```php
- * use Phalcon\Validation\Validation;
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Callback as CallbackValidator;
  * use Phalcon\Validation\Validator\Numericality as NumericalityValidator;
  *
