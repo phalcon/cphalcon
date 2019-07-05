@@ -29,13 +29,11 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Assets\Inline
- *
  * Represents an inline asset
  *
- *<code>
+ *```php
  * $inline = new \Phalcon\Assets\Inline("js", "alert('hello world');");
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline) {
 
@@ -46,6 +44,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline) {
 	 */
 	zend_declare_property_null(phalcon_assets_inline_ce, SL("attributes"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_assets_inline_ce, SL("content"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
@@ -74,6 +75,8 @@ PHP_METHOD(Phalcon_Assets_Inline, getAttributes) {
 
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Assets_Inline, getContent) {
 
 	zval *this_ptr = getThis();

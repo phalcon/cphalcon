@@ -30,13 +30,11 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Text
- *
  * Provides utilities to work with texts
  */
 ZEPHIR_INIT_CLASS(Phalcon_Text) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon, Text, phalcon, text, phalcon_text_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	ZEPHIR_REGISTER_CLASS(Phalcon, Text, phalcon, text, phalcon_text_method_entry, 0);
 
 	zephir_declare_class_constant_long(phalcon_text_ce, SL("RANDOM_ALNUM"), 0);
 
@@ -57,11 +55,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Text) {
 /**
  * Converts strings to camelize style
  *
- * <code>
+ * ```php
  * echo Phalcon\Text::camelize("coco_bongo"); // CocoBongo
  * echo Phalcon\Text::camelize("co_co-bon_go", "-"); // Co_coBon_go
  * echo Phalcon\Text::camelize("co_co-bon_go", "_-"); // CoCoBonGo
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Text, camelize) {
 
@@ -104,7 +102,7 @@ PHP_METHOD(Phalcon_Text, camelize) {
  * Concatenates strings using the separator only once without duplication in
  * places concatenation
  *
- * <code>
+ * ```php
  * $str = Phalcon\Text::concat(
  *     "/",
  *     "/tmp/",
@@ -115,7 +113,7 @@ PHP_METHOD(Phalcon_Text, camelize) {
  *
  * // /tmp/folder_1/folder_2/folder_3/
  * echo $str;
- * </code>
+ * ```
  *
  * @param string separator
  * @param string a
@@ -146,7 +144,7 @@ PHP_METHOD(Phalcon_Text, concat) {
 /**
  * Generates random text in accordance with the template
  *
- * <code>
+ * ```php
  * // Hi my name is a Bob
  * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
  *
@@ -162,7 +160,7 @@ PHP_METHOD(Phalcon_Text, concat) {
  *     "[", "]",
  *     "/"
  * );
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Text, dynamic) {
 
@@ -246,11 +244,11 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 /**
  * Check if a string ends with a given string
  *
- * <code>
+ * ```php
  * echo Phalcon\Text::endsWith("Hello", "llo"); // true
  * echo Phalcon\Text::endsWith("Hello", "LLO", false); // false
  * echo Phalcon\Text::endsWith("Hello", "LLO"); // true
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Text, endsWith) {
 
@@ -282,7 +280,7 @@ PHP_METHOD(Phalcon_Text, endsWith) {
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "endswith", &_0, 254, &text, &end, &_1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "endswith", &_0, 261, &text, &end, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -291,10 +289,10 @@ PHP_METHOD(Phalcon_Text, endsWith) {
 /**
  * Makes an underscored or dashed phrase human-readable
  *
- * <code>
+ * ```php
  * echo Phalcon\Text::humanize("start-a-horse"); // "start a horse"
  * echo Phalcon\Text::humanize("five_cats"); // "five cats"
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Text, humanize) {
 
@@ -331,10 +329,10 @@ PHP_METHOD(Phalcon_Text, humanize) {
  * Adds a number to a string or increment that number if it already is
  * defined
  *
- * <code>
+ * ```php
  * echo Phalcon\Text::increment("a"); // "a_1"
  * echo Phalcon\Text::increment("a_1"); // "a_2"
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Text, increment) {
 
@@ -369,9 +367,9 @@ PHP_METHOD(Phalcon_Text, increment) {
  * Lowercases a string, this function makes use of the mbstring extension if
  * available
  *
- * <code>
+ * ```php
  * echo Phalcon\Text::lower("HELLO"); // hello
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Text, lower) {
 
@@ -423,11 +421,11 @@ PHP_METHOD(Phalcon_Text, lower) {
 /**
  * Check if a string starts with a given string
  *
- * <code>
+ * ```php
  * echo Phalcon\Text::startsWith("Hello", "He"); // true
  * echo Phalcon\Text::startsWith("Hello", "he", false); // false
  * echo Phalcon\Text::startsWith("Hello", "he"); // true
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Text, startsWith) {
 
@@ -459,7 +457,7 @@ PHP_METHOD(Phalcon_Text, startsWith) {
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "startswith", &_0, 253, &text, &start, &_1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "startswith", &_0, 260, &text, &start, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -469,12 +467,12 @@ PHP_METHOD(Phalcon_Text, startsWith) {
  * Generates a random string based on the given type. Type is one of the
  * RANDOM_* constants
  *
- * <code>
+ * ```php
  * use Phalcon\Text;
  *
  * // "aloiwkqz"
  * echo Text::random(Text::RANDOM_ALNUM);
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Text, random) {
 
@@ -513,13 +511,13 @@ PHP_METHOD(Phalcon_Text, random) {
 /**
  * Reduces multiple slashes in a string to single slashes
  *
- * <code>
+ * ```php
  * // foo/bar/baz
  * echo Phalcon\Text::reduceSlashes("foo//bar/baz");
  *
  * // http://foo.bar/baz/buz
  * echo Phalcon\Text::reduceSlashes("http://foo.bar///baz/buz");
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Text, reduceSlashes) {
 
@@ -555,10 +553,10 @@ PHP_METHOD(Phalcon_Text, reduceSlashes) {
 /**
  * Uncamelize strings which are camelized
  *
- * <code>
+ * ```php
  * echo Phalcon\Text::uncamelize("CocoBongo"); // coco_bongo
  * echo Phalcon\Text::uncamelize("CocoBongo", "-"); // coco-bongo
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Text, uncamelize) {
 
@@ -600,10 +598,10 @@ PHP_METHOD(Phalcon_Text, uncamelize) {
 /**
  * Makes a phrase underscored instead of spaced
  *
- * <code>
+ * ```php
  * echo Phalcon\Text::underscore("look behind"); // "look_behind"
  * echo Phalcon\Text::underscore("Awesome Phalcon"); // "Awesome_Phalcon"
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Text, underscore) {
 
@@ -640,9 +638,9 @@ PHP_METHOD(Phalcon_Text, underscore) {
  * Uppercases a string, this function makes use of the mbstring extension if
  * available
  *
- * <code>
+ * ```php
  * echo Phalcon\Text::upper("hello"); // HELLO
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Text, upper) {
 

@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Annotations\Exception
- *
  * Class for exceptions thrown by Phalcon\Annotations
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Exception) {

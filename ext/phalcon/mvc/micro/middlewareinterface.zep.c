@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Micro\MiddlewareInterface
- *
  * Allows to implement Phalcon\Mvc\Micro middleware in classes
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_MiddlewareInterface) {

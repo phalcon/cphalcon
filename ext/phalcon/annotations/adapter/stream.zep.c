@@ -33,11 +33,9 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Annotations\Adapter\Stream
- *
  * Stores the parsed annotations in files. This adapter is suitable for production
  *
- *<code>
+ *```php
  * use Phalcon\Annotations\Adapter\Stream;
  *
  * $annotations = new Stream(
@@ -45,7 +43,7 @@
  *         "annotationsDir" => "app/cache/annotations/",
  *     ]
  * );
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Stream) {
 
@@ -185,7 +183,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write) {
 	ZEPHIR_INIT_VAR(&_6);
 	zephir_file_put_contents(&_6, &path, &code TSRMLS_CC);
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&_6))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written", "phalcon/Annotations/Adapter/Stream.zep", 85);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written", "phalcon/Annotations/Adapter/Stream.zep", 83);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

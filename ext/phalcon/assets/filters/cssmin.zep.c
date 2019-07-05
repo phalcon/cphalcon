@@ -28,10 +28,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Assets\Filters\Cssmin
- *
- * Minify the css - removes comments
- * removes newlines and line feeds keeping
+ * Minify the css - removes comments removes newlines and line feeds keeping
  * removes last semicolon from last property
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Cssmin) {
@@ -45,6 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Cssmin) {
 
 /**
  * Filters the content using CSSMIN
+ * NOTE: This functionality is not currently available
  */
 PHP_METHOD(Phalcon_Assets_Filters_Cssmin, filter) {
 

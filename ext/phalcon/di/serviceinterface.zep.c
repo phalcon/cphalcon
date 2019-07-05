@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Di\ServiceInterface
- *
  * Represents a service in the services container
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di_ServiceInterface) {
@@ -32,11 +30,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_ServiceInterface) {
 	return SUCCESS;
 
 }
-
-/**
- * Restore the internal state of a service
- */
-ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceInterface, __set_state);
 
 /**
  * Returns the service definition

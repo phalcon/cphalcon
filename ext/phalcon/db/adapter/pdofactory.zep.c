@@ -37,6 +37,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_PdoFactory) {
 
 }
 
+/**
+ * Constructor
+ */
 PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, __construct) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -90,13 +93,13 @@ PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, load) {
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Db/Adapter/PdoFactory.zep", 32 TSRMLS_CC);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Db/Adapter/PdoFactory.zep", 35 TSRMLS_CC);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_2);
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "options");
-	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 8, config, &_3, &_2);
+	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 12, config, &_3, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
@@ -152,7 +155,7 @@ PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, newInstance) {
 	zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset(&_0, &name))) {
 		zephir_read_property(&_1$$3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/PdoFactory.zep", 51 TSRMLS_CC);
+		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/PdoFactory.zep", 54 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_fetch_safe_class(&_3$$3, &definition);
 		_4$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_3$$3), Z_STRLEN_P(&_3$$3), ZEND_FETCH_CLASS_AUTO);
@@ -164,11 +167,14 @@ PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, newInstance) {
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_5, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/PdoFactory.zep", 55 TSRMLS_CC);
+	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/PdoFactory.zep", 58 TSRMLS_CC);
 	RETURN_CTOR(&_6);
 
 }
 
+/**
+ * Returns the available adapters
+ */
 PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, getAdapters) {
 
 	zval *this_ptr = getThis();

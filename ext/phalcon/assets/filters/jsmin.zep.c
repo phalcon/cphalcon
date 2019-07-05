@@ -28,8 +28,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Assets\Filters\Jsmin
- *
  * Deletes the characters which are insignificant to JavaScript. Comments will
  * be removed. Tabs will be replaced with spaces. Carriage returns will be
  * replaced with linefeeds. Most spaces and linefeeds will be removed.
@@ -45,6 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Jsmin) {
 
 /**
  * Filters the content using JSMIN
+ * NOTE: This functionality is not currently available
  */
 PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter) {
 

@@ -324,26 +324,26 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct) {
 	if (UNEXPECTED(ZEPHIR_IS_IDENTICAL(&_0, body))) {
 		ZEPHIR_INIT_NVAR(body);
 		object_init_ex(body, phalcon_http_message_stream_input_ce);
-		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 280);
+		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 287);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", NULL, 291, &uploadFiles);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", NULL, 298, &uploadFiles);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processprotocol", NULL, 27, &protocol);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processprotocol", NULL, 33, &protocol);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("protocolVersion"), &_1);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processmethod", NULL, 92, &method);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processmethod", NULL, 97, &method);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("method"), &_2);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "processheaders", NULL, 282, headers);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "processheaders", NULL, 289, headers);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("headers"), &_3);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "processuri", NULL, 281, uri);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "processuri", NULL, 288, uri);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("uri"), &_4);
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "w+b");
-	ZEPHIR_CALL_METHOD(&_5, this_ptr, "processbody", NULL, 26, body, &_6);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "processbody", NULL, 32, body, &_6);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("body"), &_5);
 	zephir_update_property_zval(this_ptr, SL("uploadedFiles"), &uploadFiles);
@@ -352,8 +352,8 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct) {
 	zephir_update_property_zval(this_ptr, SL("cookieParams"), &cookies);
 	zephir_update_property_zval(this_ptr, SL("queryParams"), &queryParams);
 	ZEPHIR_INIT_NVAR(&_6);
-	object_init_ex(&_6, phalcon_collection_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_6, "__construct", NULL, 11);
+	object_init_ex(&_6, phalcon_collection_ce);
+	ZEPHIR_CALL_METHOD(NULL, &_6, "__construct", NULL, 17);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("attributes"), &_6);
 	ZEPHIR_MM_RESTORE();
@@ -473,7 +473,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withAttribute) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "attributes");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 10, &attributes, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 16, &attributes, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -515,7 +515,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withCookieParams) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "cookieParams");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 10, &cookies, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 16, &cookies, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -566,7 +566,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withParsedBody) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "parsedBody");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 10, data, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 16, data, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -612,7 +612,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withQueryParams) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "queryParams");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 10, &query, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 16, &query, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -647,11 +647,11 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUploadedFiles) {
 	zephir_get_arrval(&uploadedFiles, uploadedFiles_param);
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", NULL, 291, &uploadedFiles);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", NULL, 298, &uploadedFiles);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "uploadedFiles");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 10, &uploadedFiles, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 16, &uploadedFiles, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -698,7 +698,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withoutAttribute) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "attributes");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 10, &attributes, &_2);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 16, &attributes, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -735,7 +735,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, checkUploadedFiles) {
 			ZEPHIR_INIT_NVAR(&file);
 			ZVAL_COPY(&file, _0);
 			if (UNEXPECTED(Z_TYPE_P(&file) == IS_ARRAY)) {
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", &_2, 291, &file);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", &_2, 298, &file);
 				zephir_check_call_status();
 			} else {
 				_3$$5 = Z_TYPE_P(&file) == IS_OBJECT;
@@ -760,7 +760,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, checkUploadedFiles) {
 			ZEPHIR_CALL_METHOD(&file, &files, "current", NULL, 0);
 			zephir_check_call_status();
 				if (UNEXPECTED(Z_TYPE_P(&file) == IS_ARRAY)) {
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", &_2, 291, &file);
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", &_2, 298, &file);
 					zephir_check_call_status();
 				} else {
 					_4$$9 = Z_TYPE_P(&file) == IS_OBJECT;

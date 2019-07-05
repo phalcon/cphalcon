@@ -106,7 +106,7 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model(zend_class_entry *class_ty
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, data)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\DiInterface, 1)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 1)
 	ZEND_ARG_OBJ_INFO(0, modelsManager, Phalcon\\Mvc\\Model\\ManagerInterface, 1)
 ZEND_END_ARG_INFO()
 
@@ -311,9 +311,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getdirtystate,
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_getdi, 0, 0, Phalcon\\DiInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getdi, 0, 0, IS_OBJECT, "Phalcon\\DiInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getdi, 0, 0, IS_OBJECT, "Phalcon\\Di\\DiInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -361,9 +361,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getoldsnapshot
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_getreadconnection, 0, 0, Phalcon\\Db\\AdapterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_getreadconnection, 0, 0, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getreadconnection, 0, 0, IS_OBJECT, "Phalcon\\Db\\AdapterInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getreadconnection, 0, 0, IS_OBJECT, "Phalcon\\Db\\Adapter\\AdapterInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -424,9 +424,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getupdatedfiel
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_getwriteconnection, 0, 0, Phalcon\\Db\\AdapterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_getwriteconnection, 0, 0, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getwriteconnection, 0, 0, IS_OBJECT, "Phalcon\\Db\\AdapterInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_getwriteconnection, 0, 0, IS_OBJECT, "Phalcon\\Db\\Adapter\\AdapterInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -490,7 +490,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query, 0, 0, Ph
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\Model\\CriteriaInterface", 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\DiInterface, 1)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_readattribute, 0, 0, 1)
@@ -547,7 +547,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_setdirtystate, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_setdi, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\DiInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_seteventsmanager, 0, 0, 1)
@@ -667,7 +667,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__dolowinsert, 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__dolowinsert, 0, 4, _IS_BOOL, NULL, 0)
 #endif
 	ZEND_ARG_OBJ_INFO(0, metaData, Phalcon\\Mvc\\Model\\MetaDataInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\AdapterInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_INFO(0, table)
 	ZEND_ARG_INFO(0, identityField)
 ZEND_END_ARG_INFO()
@@ -678,7 +678,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__dolowupdate, 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__dolowupdate, 0, 3, _IS_BOOL, NULL, 0)
 #endif
 	ZEND_ARG_OBJ_INFO(0, metaData, Phalcon\\Mvc\\Model\\MetaDataInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\AdapterInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_INFO(0, table)
 ZEND_END_ARG_INFO()
 
@@ -688,7 +688,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__exists, 0, 2,
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__exists, 0, 2, _IS_BOOL, NULL, 0)
 #endif
 	ZEND_ARG_OBJ_INFO(0, metaData, Phalcon\\Mvc\\Model\\MetaDataInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\AdapterInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model__getrelatedrecords, 0, 0, 3)
@@ -764,7 +764,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__presaverelate
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__presaverelatedrecords, 0, 2, _IS_BOOL, NULL, 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\AdapterInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_INFO(0, related)
 ZEND_END_ARG_INFO()
 
@@ -790,7 +790,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__postsaverelat
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__postsaverelatedrecords, 0, 2, _IS_BOOL, NULL, 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\AdapterInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_INFO(0, related)
 ZEND_END_ARG_INFO()
 
@@ -931,7 +931,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_validate, 0, 1
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_validate, 0, 1, _IS_BOOL, NULL, 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\ValidationInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\Validation\\ValidationInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200

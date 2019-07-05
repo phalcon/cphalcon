@@ -29,14 +29,12 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\Dispatcher
- *
  * Dispatching is the process of taking the request object, extracting the
  * module name, controller name, action name, and optional parameters contained
  * in it, and then instantiating a controller and calling an action of that
  * controller.
  *
- *<code>
+ *```php
  * $di = new \Phalcon\Di();
  *
  * $dispatcher = new \Phalcon\Mvc\Dispatcher();
@@ -48,11 +46,11 @@
  * $dispatcher->setParams([]);
  *
  * $controller = $dispatcher->dispatch();
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, Dispatcher, phalcon, mvc_dispatcher, phalcon_dispatcher_ce, phalcon_mvc_dispatcher_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, Dispatcher, phalcon, mvc_dispatcher, phalcon_dispatcher_abstractdispatcher_ce, phalcon_mvc_dispatcher_method_entry, 0);
 
 	zend_declare_property_string(phalcon_mvc_dispatcher_ce, SL("defaultAction"), "index", ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -68,7 +66,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher) {
 /**
  * Forwards the execution flow to another controller/action.
  *
- * <code>
+ * ```php
  * use Phalcon\Events\Event;
  * use Phalcon\Mvc\Dispatcher;
  * use App\Backend\Bootstrap as Backend;
@@ -120,7 +118,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher) {
  *         "action"     => "index",
  *     ]
  * );
- * </code>
+ * ```
  *
  * @param array forward
  */
@@ -426,9 +424,9 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException) {
 		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_mvc_dispatcher_exception_ce, "containerservicenotfound", &_3, 0, &_4$$3);
 		zephir_check_call_status();
 		ZVAL_LONG(&_5$$3, 0);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 1, &_2$$3, &_5$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 5, &_2$$3, &_5$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Dispatcher.zep", 232 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Dispatcher.zep", 230 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -445,14 +443,14 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException) {
 	ZEPHIR_INIT_VAR(&exception);
 	object_init_ex(&exception, phalcon_mvc_dispatcher_exception_ce);
 	ZVAL_LONG(&_0, exceptionCode);
-	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 1, &message, &_0);
+	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 5, &message, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_6, this_ptr, "handleexception", NULL, 0, &exception);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_6)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(&exception, "phalcon/Mvc/Dispatcher.zep", 254 TSRMLS_CC);
+	zephir_throw_exception_debug(&exception, "phalcon/Mvc/Dispatcher.zep", 252 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

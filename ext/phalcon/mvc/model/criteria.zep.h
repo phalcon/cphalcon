@@ -44,13 +44,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute);
 zend_object *zephir_init_properties_Phalcon_Mvc_Model_Criteria(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteria_setdi, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\DiInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_getdi, 0, 0, Phalcon\\DiInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_criteria_getdi, 0, 0, IS_OBJECT, "Phalcon\\DiInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_criteria_getdi, 0, 0, IS_OBJECT, "Phalcon\\Di\\DiInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -399,7 +399,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_criteria_fromin
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_criteria_frominput, 0, 3, IS_OBJECT, "Phalcon\\Mvc\\Model\\CriteriaInterface", 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\DiInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
 #else

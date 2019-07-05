@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Cli\Console\Exception
- *
  * Exceptions thrown in Phalcon\Cli\Console will use this class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_Console_Exception) {

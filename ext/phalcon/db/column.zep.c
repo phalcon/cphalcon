@@ -30,11 +30,9 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Db\Column
- *
  * Allows to define columns to be used on create or alter table operations
  *
- *<code>
+ *```php
  * use Phalcon\Db\Column as Column;
  *
  * // Column definition
@@ -52,7 +50,7 @@
  *
  * // Add column to existing table
  * $connection->addColumn("robots", null, $column);
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 
@@ -462,7 +460,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 	zephir_update_property_zval(this_ptr, SL("name"), &name);
 	ZEPHIR_OBS_VAR(&type);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&type, &definition, SL("type"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/Db/Column.zep", 325);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/Db/Column.zep", 323);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("type"), &type);
@@ -489,7 +487,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 	ZEPHIR_OBS_VAR(&scale);
 	if (zephir_array_isset_string_fetch(&scale, &definition, SL("scale"), 0)) {
 		do {
-			if (ZEPHIR_IS_LONG(&type, 0) || ZEPHIR_IS_LONG(&type, 7) || ZEPHIR_IS_LONG(&type, 3) || ZEPHIR_IS_LONG(&type, 9) || ZEPHIR_IS_LONG(&type, 14)) {
+			if (ZEPHIR_IS_LONG(&type, 14) || ZEPHIR_IS_LONG(&type, 3) || ZEPHIR_IS_LONG(&type, 9) || ZEPHIR_IS_LONG(&type, 7) || ZEPHIR_IS_LONG(&type, 0) || ZEPHIR_IS_LONG(&type, 21) || ZEPHIR_IS_LONG(&type, 22) || ZEPHIR_IS_LONG(&type, 26)) {
 				zephir_update_property_zval(this_ptr, SL("scale"), &scale);
 				break;
 			}
@@ -544,112 +542,6 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 		zephir_update_property_zval(this_ptr, SL("bindType"), &bindType);
 	}
 	ZEPHIR_MM_RESTORE();
-
-}
-
-/**
- * Restores the internal state of a Phalcon\Db\Column object
- */
-PHP_METHOD(Phalcon_Db_Column, __set_state) {
-
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data_param = NULL, columnType, notNull, size, dunsigned, after, isNumeric, first, bindType, primary, columnName, scale, defaultValue, autoIncrement, columnTypeReference, columnTypeValues, _0$$7, _1$$12;
-	zval data, definition;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&data);
-	ZVAL_UNDEF(&definition);
-	ZVAL_UNDEF(&columnType);
-	ZVAL_UNDEF(&notNull);
-	ZVAL_UNDEF(&size);
-	ZVAL_UNDEF(&dunsigned);
-	ZVAL_UNDEF(&after);
-	ZVAL_UNDEF(&isNumeric);
-	ZVAL_UNDEF(&first);
-	ZVAL_UNDEF(&bindType);
-	ZVAL_UNDEF(&primary);
-	ZVAL_UNDEF(&columnName);
-	ZVAL_UNDEF(&scale);
-	ZVAL_UNDEF(&defaultValue);
-	ZVAL_UNDEF(&autoIncrement);
-	ZVAL_UNDEF(&columnTypeReference);
-	ZVAL_UNDEF(&columnTypeValues);
-	ZVAL_UNDEF(&_0$$7);
-	ZVAL_UNDEF(&_1$$12);
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &data_param);
-
-	ZEPHIR_OBS_COPY_OR_DUP(&data, data_param);
-
-
-	ZEPHIR_OBS_VAR(&columnName);
-	if (!(zephir_array_isset_string_fetch(&columnName, &data, SL("columnName"), 0))) {
-		ZEPHIR_OBS_NVAR(&columnName);
-		if (UNEXPECTED(!(zephir_array_isset_string_fetch(&columnName, &data, SL("name"), 0)))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column name is required", "phalcon/Db/Column.zep", 456);
-			return;
-		}
-	}
-	ZEPHIR_INIT_VAR(&definition);
-	array_init(&definition);
-	if (zephir_array_isset_string_fetch(&columnType, &data, SL("type"), 1)) {
-		zephir_array_update_string(&definition, SL("type"), &columnType, PH_COPY | PH_SEPARATE);
-	}
-	if (zephir_array_isset_string_fetch(&columnTypeReference, &data, SL("typeReference"), 1)) {
-		zephir_array_update_string(&definition, SL("typeReference"), &columnTypeReference, PH_COPY | PH_SEPARATE);
-	} else {
-		ZEPHIR_INIT_VAR(&_0$$7);
-		ZVAL_LONG(&_0$$7, -1);
-		zephir_array_update_string(&definition, SL("typeReference"), &_0$$7, PH_COPY | PH_SEPARATE);
-	}
-	if (zephir_array_isset_string_fetch(&columnTypeValues, &data, SL("typeValues"), 1)) {
-		zephir_array_update_string(&definition, SL("typeValues"), &columnTypeValues, PH_COPY | PH_SEPARATE);
-	}
-	if (zephir_array_isset_string_fetch(&notNull, &data, SL("notNull"), 1)) {
-		zephir_array_update_string(&definition, SL("notNull"), &notNull, PH_COPY | PH_SEPARATE);
-	}
-	if (zephir_array_isset_string_fetch(&primary, &data, SL("primary"), 1)) {
-		zephir_array_update_string(&definition, SL("primary"), &primary, PH_COPY | PH_SEPARATE);
-	}
-	if (zephir_array_isset_string_fetch(&size, &data, SL("size"), 1)) {
-		zephir_array_update_string(&definition, SL("size"), &size, PH_COPY | PH_SEPARATE);
-	}
-	if (zephir_array_isset_string_fetch(&scale, &data, SL("scale"), 1)) {
-		zephir_array_fetch_string(&_1$$12, &definition, SL("type"), PH_NOISY | PH_READONLY, "phalcon/Db/Column.zep", 490 TSRMLS_CC);
-		do {
-			if (ZEPHIR_IS_LONG(&_1$$12, 0) || ZEPHIR_IS_LONG(&_1$$12, 7) || ZEPHIR_IS_LONG(&_1$$12, 3) || ZEPHIR_IS_LONG(&_1$$12, 9) || ZEPHIR_IS_LONG(&_1$$12, 14)) {
-				zephir_array_update_string(&definition, SL("scale"), &scale, PH_COPY | PH_SEPARATE);
-				break;
-			}
-		} while(0);
-
-	}
-	if (zephir_array_isset_string_fetch(&defaultValue, &data, SL("default"), 1)) {
-		zephir_array_update_string(&definition, SL("default"), &defaultValue, PH_COPY | PH_SEPARATE);
-	}
-	if (zephir_array_isset_string_fetch(&dunsigned, &data, SL("unsigned"), 1)) {
-		zephir_array_update_string(&definition, SL("unsigned"), &dunsigned, PH_COPY | PH_SEPARATE);
-	}
-	if (zephir_array_isset_string_fetch(&autoIncrement, &data, SL("autoIncrement"), 1)) {
-		zephir_array_update_string(&definition, SL("autoIncrement"), &autoIncrement, PH_COPY | PH_SEPARATE);
-	}
-	if (zephir_array_isset_string_fetch(&isNumeric, &data, SL("isNumeric"), 1)) {
-		zephir_array_update_string(&definition, SL("isNumeric"), &isNumeric, PH_COPY | PH_SEPARATE);
-	}
-	if (zephir_array_isset_string_fetch(&first, &data, SL("first"), 1)) {
-		zephir_array_update_string(&definition, SL("first"), &first, PH_COPY | PH_SEPARATE);
-	}
-	if (zephir_array_isset_string_fetch(&after, &data, SL("after"), 1)) {
-		zephir_array_update_string(&definition, SL("after"), &after, PH_COPY | PH_SEPARATE);
-	}
-	if (zephir_array_isset_string_fetch(&bindType, &data, SL("bindType"), 1)) {
-		zephir_array_update_string(&definition, SL("bindType"), &bindType, PH_COPY | PH_SEPARATE);
-	}
-	object_init_ex(return_value, phalcon_db_column_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 182, &columnName, &definition);
-	zephir_check_call_status();
-	RETURN_MM();
 
 }
 

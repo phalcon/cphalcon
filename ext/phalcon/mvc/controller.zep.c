@@ -36,7 +36,7 @@
  * interrogating the models for data, and passing that data on to the views for
  * presentation.
  *
- *<code>
+ *```php
  * <?php
  *
  * class PeopleController extends \Phalcon\Mvc\Controller
@@ -63,7 +63,7 @@
  *         );
  *     }
  * }
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Controller) {
 

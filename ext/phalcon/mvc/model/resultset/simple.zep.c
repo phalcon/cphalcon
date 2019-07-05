@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 								object_init_ex(&_8$$10, phalcon_mvc_model_exception_ce);
 								ZEPHIR_INIT_LNVAR(_9$$10);
 								ZEPHIR_CONCAT_SVS(&_9$$10, "Column '", &key, "' is not part of the column map");
-								ZEPHIR_CALL_METHOD(NULL, &_8$$10, "__construct", &_10, 1, &_9$$10);
+								ZEPHIR_CALL_METHOD(NULL, &_8$$10, "__construct", &_10, 5, &_9$$10);
 								zephir_check_call_status();
 								zephir_throw_exception_debug(&_8$$10, "phalcon/Mvc/Model/Resultset/Simple.zep", 206 TSRMLS_CC);
 								ZEPHIR_MM_RESTORE();
@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 									object_init_ex(&_11$$12, phalcon_mvc_model_exception_ce);
 									ZEPHIR_INIT_LNVAR(_12$$12);
 									ZEPHIR_CONCAT_SVS(&_12$$12, "Column '", &key, "' is not part of the column map");
-									ZEPHIR_CALL_METHOD(NULL, &_11$$12, "__construct", &_10, 1, &_12$$12);
+									ZEPHIR_CALL_METHOD(NULL, &_11$$12, "__construct", &_10, 5, &_12$$12);
 									zephir_check_call_status();
 									zephir_throw_exception_debug(&_11$$12, "phalcon/Mvc/Model/Resultset/Simple.zep", 213 TSRMLS_CC);
 									ZEPHIR_MM_RESTORE();
@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 									object_init_ex(&_13$$14, phalcon_mvc_model_exception_ce);
 									ZEPHIR_INIT_LNVAR(_14$$14);
 									ZEPHIR_CONCAT_SVS(&_14$$14, "Column '", &key, "' is not part of the column map");
-									ZEPHIR_CALL_METHOD(NULL, &_13$$14, "__construct", &_10, 1, &_14$$14);
+									ZEPHIR_CALL_METHOD(NULL, &_13$$14, "__construct", &_10, 5, &_14$$14);
 									zephir_check_call_status();
 									zephir_throw_exception_debug(&_13$$14, "phalcon/Mvc/Model/Resultset/Simple.zep", 206 TSRMLS_CC);
 									ZEPHIR_MM_RESTORE();
@@ -351,7 +351,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 										object_init_ex(&_15$$16, phalcon_mvc_model_exception_ce);
 										ZEPHIR_INIT_LNVAR(_16$$16);
 										ZEPHIR_CONCAT_SVS(&_16$$16, "Column '", &key, "' is not part of the column map");
-										ZEPHIR_CALL_METHOD(NULL, &_15$$16, "__construct", &_10, 1, &_16$$16);
+										ZEPHIR_CALL_METHOD(NULL, &_15$$16, "__construct", &_10, 5, &_16$$16);
 										zephir_check_call_status();
 										zephir_throw_exception_debug(&_15$$16, "phalcon/Mvc/Model/Resultset/Simple.zep", 213 TSRMLS_CC);
 										ZEPHIR_MM_RESTORE();
@@ -398,7 +398,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 									object_init_ex(&_21$$19, phalcon_mvc_model_exception_ce);
 									ZEPHIR_INIT_LNVAR(_22$$19);
 									ZEPHIR_CONCAT_SVS(&_22$$19, "Column '", &key, "' is not part of the column map");
-									ZEPHIR_CALL_METHOD(NULL, &_21$$19, "__construct", &_10, 1, &_22$$19);
+									ZEPHIR_CALL_METHOD(NULL, &_21$$19, "__construct", &_10, 5, &_22$$19);
 									zephir_check_call_status();
 									zephir_throw_exception_debug(&_21$$19, "phalcon/Mvc/Model/Resultset/Simple.zep", 206 TSRMLS_CC);
 									ZEPHIR_MM_RESTORE();
@@ -411,7 +411,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 										object_init_ex(&_23$$21, phalcon_mvc_model_exception_ce);
 										ZEPHIR_INIT_LNVAR(_24$$21);
 										ZEPHIR_CONCAT_SVS(&_24$$21, "Column '", &key, "' is not part of the column map");
-										ZEPHIR_CALL_METHOD(NULL, &_23$$21, "__construct", &_10, 1, &_24$$21);
+										ZEPHIR_CALL_METHOD(NULL, &_23$$21, "__construct", &_10, 5, &_24$$21);
 										zephir_check_call_status();
 										zephir_throw_exception_debug(&_23$$21, "phalcon/Mvc/Model/Resultset/Simple.zep", 213 TSRMLS_CC);
 										ZEPHIR_MM_RESTORE();
@@ -439,7 +439,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 										object_init_ex(&_25$$23, phalcon_mvc_model_exception_ce);
 										ZEPHIR_INIT_LNVAR(_26$$23);
 										ZEPHIR_CONCAT_SVS(&_26$$23, "Column '", &key, "' is not part of the column map");
-										ZEPHIR_CALL_METHOD(NULL, &_25$$23, "__construct", &_10, 1, &_26$$23);
+										ZEPHIR_CALL_METHOD(NULL, &_25$$23, "__construct", &_10, 5, &_26$$23);
 										zephir_check_call_status();
 										zephir_throw_exception_debug(&_25$$23, "phalcon/Mvc/Model/Resultset/Simple.zep", 206 TSRMLS_CC);
 										ZEPHIR_MM_RESTORE();
@@ -452,7 +452,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 											object_init_ex(&_27$$25, phalcon_mvc_model_exception_ce);
 											ZEPHIR_INIT_LNVAR(_28$$25);
 											ZEPHIR_CONCAT_SVS(&_28$$25, "Column '", &key, "' is not part of the column map");
-											ZEPHIR_CALL_METHOD(NULL, &_27$$25, "__construct", &_10, 1, &_28$$25);
+											ZEPHIR_CALL_METHOD(NULL, &_27$$25, "__construct", &_10, 5, &_28$$25);
 											zephir_check_call_status();
 											zephir_throw_exception_debug(&_27$$25, "phalcon/Mvc/Model/Resultset/Simple.zep", 213 TSRMLS_CC);
 											ZEPHIR_MM_RESTORE();
@@ -545,7 +545,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 6, &data);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 10, &data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -603,7 +603,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 		ZEPHIR_CALL_METHOD(&resultset, &serializer, "unserialize", NULL, 0, data);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 7, data);
+		ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 11, data);
 		zephir_check_call_status();
 	}
 	if (UNEXPECTED(Z_TYPE_P(&resultset) != IS_ARRAY)) {

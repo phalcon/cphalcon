@@ -8,7 +8,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance);
 PHP_METHOD(Phalcon_Html_TagFactory, getAdapters);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_tagfactory___construct, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\EscaperInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\Escaper\\EscaperInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, services, 0)
 ZEND_END_ARG_INFO()
 

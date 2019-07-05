@@ -31,29 +31,29 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Config\Adapter\Yaml
- *
  * Reads YAML files and converts them to Phalcon\Config objects.
  *
  * Given the following configuration file:
  *
- *<code>
+ *```yaml
  * phalcon:
  *   baseuri:        /phalcon/
  *   controllersDir: !approot  /app/controllers/
  * models:
  *   metadata: memory
- *</code>
+ *```
  *
  * You can read it as follows:
  *
- *<code>
+ *```php
  * define(
  *     "APPROOT",
  *     dirname(__DIR__)
  * );
  *
- * $config = new \Phalcon\Config\Adapter\Yaml(
+ * use Phalcon\Config\Adapter\Yaml;
+ *
+ * $config = new Yaml(
  *     "path/config.yaml",
  *     [
  *         "!approot" => function($value) {
@@ -65,11 +65,11 @@
  * echo $config->phalcon->controllersDir;
  * echo $config->phalcon->baseuri;
  * echo $config->models->metadata;
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Yaml) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Yaml, phalcon, config_adapter_yaml, phalcon_config_config_ce, phalcon_config_adapter_yaml_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Yaml, phalcon, config_adapter_yaml, phalcon_config_ce, phalcon_config_adapter_yaml_method_entry, 0);
 
 	return SUCCESS;
 
@@ -77,8 +77,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Yaml) {
 
 /**
  * Phalcon\Config\Adapter\Yaml constructor
- *
- * @throws \Phalcon\Config\Exception
  */
 PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 
@@ -124,20 +122,20 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 	ndocs = 0;
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "yaml");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 161, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 168, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(!zephir_is_true(&_1))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Yaml extension not loaded", "phalcon/Config/Adapter/Yaml.zep", 66);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Yaml extension not loaded", "phalcon/Config/Adapter/Yaml.zep", 64);
 		return;
 	}
 	if (ZEPHIR_IS_EMPTY(&callbacks)) {
-		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", NULL, 162, &filePath);
+		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", NULL, 169, &filePath);
 		zephir_check_call_status();
 	} else {
 		ZVAL_LONG(&_2$$5, 0);
 		ZVAL_LONG(&_3$$5, ndocs);
 		ZEPHIR_MAKE_REF(&_3$$5);
-		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", NULL, 162, &filePath, &_2$$5, &_3$$5, &callbacks);
+		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", NULL, 169, &filePath, &_2$$5, &_3$$5, &callbacks);
 		ZEPHIR_UNREF(&_3$$5);
 		zephir_check_call_status();
 	}
@@ -148,9 +146,9 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 		zephir_basename(&_5$$6, &filePath TSRMLS_CC);
 		ZEPHIR_INIT_VAR(&_6$$6);
 		ZEPHIR_CONCAT_SVS(&_6$$6, "Configuration file ", &_5$$6, " can't be loaded");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", NULL, 1, &_6$$6);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", NULL, 5, &_6$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$6, "phalcon/Config/Adapter/Yaml.zep", 78 TSRMLS_CC);
+		zephir_throw_exception_debug(&_4$$6, "phalcon/Config/Adapter/Yaml.zep", 76 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

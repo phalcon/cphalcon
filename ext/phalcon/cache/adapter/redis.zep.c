@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Cache\Adapter\Redis
- *
  * Redis adapter
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Adapter_Redis) {

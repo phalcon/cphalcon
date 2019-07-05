@@ -39,7 +39,7 @@
  *
  * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\Di.
  *
- * <code>
+ * ```php
  * $di = new \Phalcon\Di();
  *
  * $di->set(
@@ -50,7 +50,7 @@
  * );
  *
  * $robot = new Robots($di);
- * </code>
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_Manager) {
 
@@ -220,7 +220,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
 		ZVAL_STRING(&_4$$5, "the services related to the ORM");
 		ZEPHIR_CALL_CE_STATIC(&_2$$5, phalcon_mvc_collection_exception_ce, "containerservicenotfound", &_3, 0, &_4$$5);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 1, &_2$$5);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 5, &_2$$5);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$5, "phalcon/Mvc/Collection/Manager.zep", 134 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

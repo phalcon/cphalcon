@@ -12,7 +12,6 @@ PHP_METHOD(Phalcon_Db_Reference, getSchemaName);
 PHP_METHOD(Phalcon_Db_Reference, getOnDelete);
 PHP_METHOD(Phalcon_Db_Reference, getOnUpdate);
 PHP_METHOD(Phalcon_Db_Reference, __construct);
-PHP_METHOD(Phalcon_Db_Reference, __set_state);
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_reference_getcolumns, 0, 0, IS_ARRAY, 0)
@@ -79,14 +78,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_reference___construct, 0, 0, 2)
 	ZEND_ARG_ARRAY_INFO(0, definition, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_reference___set_state, 0, 1, Phalcon\\Db\\ReferenceInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_reference___set_state, 0, 1, IS_OBJECT, "Phalcon\\Db\\ReferenceInterface", 0)
-#endif
-	ZEND_ARG_ARRAY_INFO(0, data, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_db_reference_method_entry) {
 	PHP_ME(Phalcon_Db_Reference, getColumns, arginfo_phalcon_db_reference_getcolumns, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Reference, getName, arginfo_phalcon_db_reference_getname, ZEND_ACC_PUBLIC)
@@ -97,6 +88,5 @@ ZEPHIR_INIT_FUNCS(phalcon_db_reference_method_entry) {
 	PHP_ME(Phalcon_Db_Reference, getOnDelete, arginfo_phalcon_db_reference_getondelete, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Reference, getOnUpdate, arginfo_phalcon_db_reference_getonupdate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Reference, __construct, arginfo_phalcon_db_reference___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Db_Reference, __set_state, arginfo_phalcon_db_reference___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

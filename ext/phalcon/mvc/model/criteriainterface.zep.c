@@ -44,9 +44,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, andWhere);
 /**
  * Appends a BETWEEN condition to the current conditions
  *
- *<code>
+ *```php
  * $criteria->betweenWhere("price", 100.25, 200.50);
- *</code>
+ *```
  *
  * @param mixed minimum
  * @param mixed maximum
@@ -153,7 +153,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, having);
 /**
  * Adds an INNER join to the query
  *
- *<code>
+ *```php
  * $criteria->innerJoin(
  *     Robots::class
  * );
@@ -168,29 +168,29 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, having);
  *     "r.id = RobotsParts.robots_id",
  *     "r"
  * );
- *</code>
+ *```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, innerJoin);
 
 /**
  * Appends an IN condition to the current conditions
  *
- *<code>
+ *```php
  * $criteria->inWhere("id", [1, 2, 3]);
- *</code>
+ *```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, inWhere);
 
 /**
  * Adds a LEFT join to the query
  *
- *<code>
+ *```php
  * $criteria->leftJoin(
  *     Robots::class,
  *     "r.id = RobotsParts.robots_id",
  *     "r"
  * );
- *</code>
+ *```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, leftJoin);
 
@@ -202,9 +202,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, limit);
 /**
  * Appends a NOT BETWEEN condition to the current conditions
  *
- *<code>
+ *```php
  * $criteria->notBetweenWhere("price", 100.25, 200.50);
- *</code>
+ *```
  *
  * @param mixed minimum
  * @param mixed maximum
@@ -214,9 +214,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere);
 /**
  * Appends a NOT IN condition to the current conditions
  *
- *<code>
+ *```php
  * $criteria->notInWhere("id", [1, 2, 3]);
- *</code>
+ *```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notInWhere);
 
@@ -236,13 +236,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
 /**
  * Adds a RIGHT join to the query
  *
- *<code>
+ *```php
  * $criteria->rightJoin(
  *     Robots::class,
  *     "r.id = RobotsParts.robots_id",
  *     "r"
  * );
- *</code>
+ *```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, rightJoin);
 

@@ -15,7 +15,6 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/array.h"
 #include "kernel/object.h"
 
 
@@ -28,11 +27,9 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Validation\Validator\Digit
- *
  * Check for numeric character(s)
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Digit as DigitValidator;
  *
@@ -61,11 +58,13 @@
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Digit) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Digit, phalcon, validation_validator_digit, phalcon_validation_validator_ce, phalcon_validation_validator_digit_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Digit, phalcon, validation_validator_digit, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_digit_method_entry, 0);
+
+	zend_declare_property_string(phalcon_validation_validator_digit_ce, SL("template"), "Field :field must be numeric", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 
@@ -78,20 +77,14 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 
 	zend_bool _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, value, message, label, replacePairs, code, _1, _2, _3, _4;
+	zval *validation, validation_sub, *field, field_sub, value, _1, _2;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
 	ZVAL_UNDEF(&field_sub);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&message);
-	ZVAL_UNDEF(&label);
-	ZVAL_UNDEF(&replacePairs);
-	ZVAL_UNDEF(&code);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
@@ -109,24 +102,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 	if (_0) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, field);
-	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_STRING(&_2, "Digit");
-	ZEPHIR_CALL_METHOD(&message, this_ptr, "preparemessage", NULL, 0, validation, field, &_2);
-	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&code, this_ptr, "preparecode", NULL, 0, field);
-	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&replacePairs);
-	zephir_create_array(&replacePairs, 1, 0 TSRMLS_CC);
-	zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_2);
-	object_init_ex(&_2, phalcon_messages_message_ce);
-	ZEPHIR_CALL_FUNCTION(&_3, "strtr", NULL, 80, &message, &replacePairs);
-	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_4);
-	ZVAL_STRING(&_4, "Digit");
-	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 411, &_3, field, &_4, &code);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "messagefactory", NULL, 0, validation, field);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_2);
 	zephir_check_call_status();

@@ -36,7 +36,7 @@
  *
  * A router that reads routes annotations from classes/resources
  *
- * <code>
+ * ```php
  * use Phalcon\Mvc\Router\Annotations;
  *
  * $di->setShared(
@@ -51,7 +51,7 @@
  *         return $router;
  *     }
  * );
- * </code>
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Annotations) {
 
@@ -285,7 +285,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 		ZVAL_STRING(&_4$$3, "the 'annotations' service");
 		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_mvc_router_exception_ce, "containerservicenotfound", &_3, 0, &_4$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 1, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 5, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Router/Annotations.zep", 97 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

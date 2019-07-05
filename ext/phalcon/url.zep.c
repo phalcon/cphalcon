@@ -33,11 +33,9 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Url
- *
  * This components helps in the generation of: URIs, URLs and Paths
  *
- *<code>
+ *```php
  * // Generate a URL appending the URI to the base URI
  * echo $url->get("products/edit/1");
  *
@@ -49,7 +47,7 @@
  *         "year"  => "2012",
  *     ]
  * );
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Url) {
 
@@ -77,7 +75,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Url) {
 	 */
 	zend_declare_property_null(phalcon_url_ce, SL("staticBaseUri"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(phalcon_url_ce TSRMLS_CC, 1, phalcon_urlinterface_ce);
+	zend_class_implements(phalcon_url_ce TSRMLS_CC, 1, phalcon_url_urlinterface_ce);
 	zend_class_implements(phalcon_url_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 	return SUCCESS;
 
@@ -86,7 +84,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Url) {
 /**
  * Generates a URL
  *
- *<code>
+ *```php
  * // Generate a URL appending the URI to the base URI
  * echo $url->get("products/edit/1");
  *
@@ -114,7 +112,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Url) {
  *     null,
  *     false
  * );
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Url, get) {
 
@@ -191,9 +189,9 @@ PHP_METHOD(Phalcon_Url, get) {
 	if (local == 0) {
 		_0$$3 = Z_TYPE_P(uri) == IS_STRING;
 		if (_0$$3) {
-			_1$$3 = zephir_memnstr_str(uri, SL("//"), "phalcon/Url.zep", 102);
+			_1$$3 = zephir_memnstr_str(uri, SL("//"), "phalcon/Url.zep", 100);
 			if (!(_1$$3)) {
-				_1$$3 = zephir_memnstr_str(uri, SL(":"), "phalcon/Url.zep", 102);
+				_1$$3 = zephir_memnstr_str(uri, SL(":"), "phalcon/Url.zep", 100);
 			}
 			_0$$3 = _1$$3;
 		}
@@ -221,7 +219,7 @@ PHP_METHOD(Phalcon_Url, get) {
 	if (Z_TYPE_P(uri) == IS_ARRAY) {
 		ZEPHIR_OBS_VAR(&routeName);
 		if (UNEXPECTED(!(zephir_array_isset_string_fetch(&routeName, uri, SL("for"), 0)))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_url_exception_ce, "It's necessary to define the route name with the parameter 'for'", "phalcon/Url.zep", 121);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_url_exception_ce, "It's necessary to define the route name with the parameter 'for'", "phalcon/Url.zep", 119);
 			return;
 		}
 		zephir_read_property(&_6$$9, this_ptr, SL("router"), PH_NOISY_CC | PH_READONLY);
@@ -236,9 +234,9 @@ PHP_METHOD(Phalcon_Url, get) {
 				ZVAL_STRING(&_11$$12, "the 'router' service");
 				ZEPHIR_CALL_CE_STATIC(&_9$$12, phalcon_url_exception_ce, "containerservicenotfound", &_10, 0, &_11$$12);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, &_8$$12, "__construct", NULL, 1, &_9$$12);
+				ZEPHIR_CALL_METHOD(NULL, &_8$$12, "__construct", NULL, 5, &_9$$12);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_8$$12, "phalcon/Url.zep", 137 TSRMLS_CC);
+				zephir_throw_exception_debug(&_8$$12, "phalcon/Url.zep", 135 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -257,9 +255,9 @@ PHP_METHOD(Phalcon_Url, get) {
 			object_init_ex(&_15$$13, phalcon_url_exception_ce);
 			ZEPHIR_INIT_VAR(&_16$$13);
 			ZEPHIR_CONCAT_SVS(&_16$$13, "Cannot obtain a route using the name '", &routeName, "'");
-			ZEPHIR_CALL_METHOD(NULL, &_15$$13, "__construct", NULL, 1, &_16$$13);
+			ZEPHIR_CALL_METHOD(NULL, &_15$$13, "__construct", NULL, 5, &_16$$13);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_15$$13, "phalcon/Url.zep", 152 TSRMLS_CC);
+			zephir_throw_exception_debug(&_15$$13, "phalcon/Url.zep", 150 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -410,7 +408,7 @@ PHP_METHOD(Phalcon_Url, getDI) {
 /**
  * Generates a URL for a static resource
  *
- *<code>
+ *```php
  * // Generate a URL for a static resource
  * echo $url->getStatic("img/logo.png");
  *
@@ -420,7 +418,7 @@ PHP_METHOD(Phalcon_Url, getDI) {
  *         "for" => "logo-cdn",
  *     ]
  * );
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Url, getStatic) {
 
@@ -481,9 +479,9 @@ PHP_METHOD(Phalcon_Url, getStaticBaseUri) {
 /**
  * Sets a base path for all the generated paths
  *
- *<code>
+ *```php
  * $url->setBasePath("/var/www/htdocs/");
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Url, setBasePath) {
 
@@ -516,11 +514,11 @@ PHP_METHOD(Phalcon_Url, setBasePath) {
 /**
  * Sets a prefix for all the URIs to be generated
  *
- *<code>
+ *```php
  * $url->setBaseUri("/invo/");
  *
  * $url->setBaseUri("/invo/index.php/");
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Url, setBaseUri) {
 
@@ -576,9 +574,9 @@ PHP_METHOD(Phalcon_Url, setDI) {
 /**
  * Sets a prefix for all static URLs generated
  *
- *<code>
+ *```php
  * $url->setStaticBaseUri("/invo/");
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Url, setStaticBaseUri) {
 

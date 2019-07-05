@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Cli\TaskInterface
- *
  * Interface for task handlers
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_TaskInterface) {

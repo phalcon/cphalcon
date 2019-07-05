@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Cli\Router\RouteInterface
- *
  * Interface for Phalcon\Cli\Router\Route
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_RouteInterface) {

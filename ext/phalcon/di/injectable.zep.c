@@ -31,14 +31,12 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Di\Injectable
- *
  * This class allows to access services in the services container by just only
  * accessing a public property with the same name of a registered service
  *
  * @property \Phalcon\Mvc\Dispatcher|\Phalcon\Mvc\DispatcherInterface $dispatcher
  * @property \Phalcon\Mvc\Router|\Phalcon\Mvc\RouterInterface $router
- * @property \Phalcon\Url|\Phalcon\UrlInterface $url
+ * @property \Phalcon\Url|\Phalcon\Url\UrlInterface $url
  * @property \Phalcon\Http\Request|\Phalcon\Http\RequestInterface $request
  * @property \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface $response
  * @property \Phalcon\Http\Response\Cookies|\Phalcon\Http\Response\CookiesInterface $cookies
@@ -47,17 +45,17 @@
  * @property \Phalcon\Flash\Session $flashSession
  * @property \Phalcon\Session\ManagerInterface $session
  * @property \Phalcon\Events\Manager|\Phalcon\Events\ManagerInterface $eventsManager
- * @property \Phalcon\Db\AdapterInterface $db
+ * @property \Phalcon\Db\Adapter\AdapterInterface $db
  * @property \Phalcon\Security $security
  * @property \Phalcon\Crypt|\Phalcon\CryptInterface $crypt
  * @property \Phalcon\Tag $tag
- * @property \Phalcon\Escaper|\Phalcon\EscaperInterface $escaper
+ * @property \Phalcon\Escaper|\Phalcon\Escaper\EscaperInterface $escaper
  * @property \Phalcon\Annotations\Adapter\Memory|\Phalcon\Annotations\Adapter $annotations
  * @property \Phalcon\Mvc\Model\Manager|\Phalcon\Mvc\Model\ManagerInterface $modelsManager
  * @property \Phalcon\Mvc\Model\MetaData\Memory|\Phalcon\Mvc\Model\MetadataInterface $modelsMetadata
  * @property \Phalcon\Mvc\Model\Transaction\Manager|\Phalcon\Mvc\Model\Transaction\ManagerInterface $transactionManager
  * @property \Phalcon\Assets\Manager $assets
- * @property \Phalcon\Di|\Phalcon\DiInterface $di
+ * @property \Phalcon\Di|\Phalcon\Di\DiInterface $di
  * @property \Phalcon\Session\Bag|\Phalcon\Session\BagInterface $persistent
  * @property \Phalcon\Mvc\View|\Phalcon\Mvc\ViewInterface $view
  */
@@ -138,9 +136,9 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 			ZVAL_STRING(&_5$$4, "internal services");
 			ZEPHIR_CALL_CE_STATIC(&_3$$4, phalcon_di_exception_ce, "containerservicenotfound", &_4, 0, &_5$$4);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 1, &_3$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 5, &_3$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_2$$4, "phalcon/Di/Injectable.zep", 83 TSRMLS_CC);
+			zephir_throw_exception_debug(&_2$$4, "phalcon/Di/Injectable.zep", 81 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -174,7 +172,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	}
 	ZEPHIR_INIT_VAR(&_11);
 	ZEPHIR_CONCAT_SV(&_11, "Access to undefined property ", &propertyName);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 2, &_11);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 6, &_11);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 
