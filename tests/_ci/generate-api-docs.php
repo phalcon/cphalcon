@@ -17,23 +17,29 @@ $iterator = new RecursiveIteratorIterator(
     RecursiveIteratorIterator::CHILD_FIRST
 );
 
-$documents = [];
+$iteratorDocs = [];
 foreach ($iterator as $file) {
     if (true === $file->isFile()) {
-        $fileName = str_replace($sourceDir, '', $file->getPathName());
-        $split    = explode("/", $fileName);
-        $title    = str_replace('Phalcon\\', '', $fileName);
-        $key      = $split[0];
-
-        $documents[$key]['title']           = 'Phalcon\\' . $split[0];
-        $documents[$key]['docs'][$fileName] = $fileName;
-
-        if (strpos($documents[$key]['title'], 'Url') > 0) {
-            $documents[$key]['title'] = 'Phalcon\Url';
-        }
-
-        ksort($documents[$key]['docs']);
+        $iteratorDocs[] = str_replace($sourceDir, '', $file->getPathName());
     }
+}
+
+asort($iteratorDocs);
+
+$documents = [];
+foreach ($iteratorDocs as $fileName) {
+    $split    = explode("/", $fileName);
+    $title    = str_replace('Phalcon\\', '', $fileName);
+    $key      = str_replace('.zep', '', $split[0]);
+
+    $documents[$key]['title']           = 'Phalcon\\' . $key; //$split[0];
+    $documents[$key]['docs'][$fileName] = $fileName;
+
+    if (strpos($documents[$key]['title'], 'Url') > 0) {
+        $documents[$key]['title'] = 'Phalcon\Url';
+    }
+
+    ksort($documents[$key]['docs']);
 }
 
 ksort($documents);
@@ -154,6 +160,28 @@ title: '{$document['title']}'
         $output
     );
 }
+
+// API Json
+$api = [];
+foreach ($documents as $document) {
+    $api[] = [
+        'title' => $document['title'],
+        'docs'  => array_map(
+            function ($value) {
+                return str_replace('.zep', '', $value);
+            },
+            array_values($document['docs'])
+        ),
+    ];
+}
+
+file_put_contents(
+    $outputDir . 'api.json',
+    json_encode($api, JSON_PRETTY_PRINT)
+);
+
+
+
 
 /**
  * Read the file and parse it
