@@ -21,15 +21,13 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Cli\DispatcherInterface
- *
  * Interface for Phalcon\Cli\Dispatcher
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_DispatcherInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Cli, DispatcherInterface, phalcon, cli_dispatcherinterface, phalcon_cli_dispatcherinterface_method_entry);
 
-	zend_class_implements(phalcon_cli_dispatcherinterface_ce TSRMLS_CC, 1, phalcon_dispatcherinterface_ce);
+	zend_class_implements(phalcon_cli_dispatcherinterface_ce TSRMLS_CC, 1, phalcon_dispatcher_dispatcherinterface_ce);
 	return SUCCESS;
 
 }

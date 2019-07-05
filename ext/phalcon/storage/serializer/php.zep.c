@@ -56,7 +56,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, serialize) {
 		RETURN_MM_MEMBER(getThis(), "data");
 	}
 	zephir_read_property(&_2, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 6, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 10, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize) {
 	if (zephir_is_true(&_0)) {
 		zephir_update_property_zval(this_ptr, SL("data"), data);
 	} else {
-		ZEPHIR_CALL_FUNCTION(&_1$$4, "unserialize", NULL, 7, data);
+		ZEPHIR_CALL_FUNCTION(&_1$$4, "unserialize", NULL, 11, data);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("data"), &_1$$4);
 	}

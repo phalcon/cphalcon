@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Annotations\Reader
- *
  * Parses docblocks returning an array with the found annotations
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_ReaderInterface) {

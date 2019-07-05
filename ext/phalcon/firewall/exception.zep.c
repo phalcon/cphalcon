@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Firewall\Exception
- *
  * Exceptions thrown in Phalcon\Firewall will use this class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Firewall_Exception) {

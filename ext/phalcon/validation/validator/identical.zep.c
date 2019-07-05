@@ -28,11 +28,9 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Validation\Validator\Identical
- *
  * Checks if a value is identical to other
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Identical;
  *
@@ -66,11 +64,13 @@
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Identical) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Identical, phalcon, validation_validator_identical, phalcon_validation_validator_ce, phalcon_validation_validator_identical_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Identical, phalcon, validation_validator_identical, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_identical_method_entry, 0);
+
+	zend_declare_property_string(phalcon_validation_validator_identical_ce, SL("template"), "Field :field does not have the expected value", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 
@@ -82,18 +82,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Identical) {
 PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 
 	zend_bool valid = 0;
-	zval replacePairs;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, message, label, value, accepted, code, _0, _1, _2, _3$$3, _4$$4, _5$$6, _6$$7, _7$$7, _8$$7;
+	zval *validation, validation_sub, *field, field_sub, value, accepted, _0, _1, _2, _3$$3, _4$$4, _5$$6, _6$$7;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
 	ZVAL_UNDEF(&field_sub);
-	ZVAL_UNDEF(&message);
-	ZVAL_UNDEF(&label);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&accepted);
-	ZVAL_UNDEF(&code);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
@@ -101,9 +97,6 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_5$$6);
 	ZVAL_UNDEF(&_6$$7);
-	ZVAL_UNDEF(&_7$$7);
-	ZVAL_UNDEF(&_8$$7);
-	ZVAL_UNDEF(&replacePairs);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
@@ -133,30 +126,13 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 	}
 	if (zephir_is_true(&accepted)) {
 		if (Z_TYPE_P(&accepted) == IS_ARRAY) {
-			zephir_array_fetch(&_5$$6, &accepted, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Identical.zep", 79 TSRMLS_CC);
+			zephir_array_fetch(&_5$$6, &accepted, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Identical.zep", 78 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(&accepted, &_5$$6);
 		}
 		valid = ZEPHIR_IS_EQUAL(&value, &accepted);
 	}
 	if (!(valid)) {
-		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, field);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_6$$7);
-		ZVAL_STRING(&_6$$7, "Identical");
-		ZEPHIR_CALL_METHOD(&message, this_ptr, "preparemessage", NULL, 0, validation, field, &_6$$7);
-		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&code, this_ptr, "preparecode", NULL, 0, field);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&replacePairs);
-		zephir_create_array(&replacePairs, 1, 0 TSRMLS_CC);
-		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
-		ZEPHIR_INIT_NVAR(&_6$$7);
-		object_init_ex(&_6$$7, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_7$$7, "strtr", NULL, 80, &message, &replacePairs);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_8$$7);
-		ZVAL_STRING(&_8$$7, "Identical");
-		ZEPHIR_CALL_METHOD(NULL, &_6$$7, "__construct", NULL, 411, &_7$$7, field, &_8$$7, &code);
+		ZEPHIR_CALL_METHOD(&_6$$7, this_ptr, "messagefactory", NULL, 0, validation, field);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_6$$7);
 		zephir_check_call_status();

@@ -35,7 +35,7 @@
  *
  * Helper class to create a group of routes with common attributes
  *
- *<code>
+ *```php
  * $router = new \Phalcon\Mvc\Router();
  *
  * //Create a group with a common module and controller
@@ -76,7 +76,7 @@
  *
  * //Add the group to the router
  * $router->mount($blog);
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Group) {
 
@@ -137,9 +137,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct) {
 /**
  * Adds a route to the router on any HTTP method
  *
- *<code>
+ *```php
  * $router->add("/about", "About::index");
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, add) {
 
@@ -853,10 +853,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addRoute) {
 	zephir_read_property(&_1, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_VV(&_2, &_1, &pattern);
-	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 100, &_2, &mergedPaths, httpMethods);
+	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 105, &_2, &mergedPaths, httpMethods);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("routes"), &route);
-	ZEPHIR_CALL_METHOD(NULL, &route, "setgroup", NULL, 489, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, &route, "setgroup", NULL, 497, this_ptr);
 	zephir_check_call_status();
 	RETURN_CCTOR(&route);
 

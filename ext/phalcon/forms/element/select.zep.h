@@ -20,9 +20,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_select___construct, 0, 0, 1
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_select_addoption, 0, 1, Phalcon\\Forms\\Element, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_select_addoption, 0, 1, Phalcon\\Forms\\Element\\Element, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_select_addoption, 0, 1, IS_OBJECT, "Phalcon\\Forms\\Element", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_select_addoption, 0, 1, IS_OBJECT, "Phalcon\\Forms\\Element\\Element", 0)
 #endif
 	ZEND_ARG_INFO(0, option)
 ZEND_END_ARG_INFO()
@@ -36,9 +36,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_select_ren
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_select_setoptions, 0, 1, Phalcon\\Forms\\Element, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_select_setoptions, 0, 1, Phalcon\\Forms\\Element\\Element, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_select_setoptions, 0, 1, IS_OBJECT, "Phalcon\\Forms\\Element", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_select_setoptions, 0, 1, IS_OBJECT, "Phalcon\\Forms\\Element\\Element", 0)
 #endif
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()

@@ -29,6 +29,9 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * Factory to create annotations components
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_AnnotationsFactory) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations, AnnotationsFactory, phalcon, annotations_annotationsfactory, phalcon_factory_abstractfactory_ce, phalcon_annotations_annotationsfactory_method_entry, 0);
@@ -93,13 +96,13 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load) {
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Annotations/AnnotationsFactory.zep", 35 TSRMLS_CC);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Annotations/AnnotationsFactory.zep", 38 TSRMLS_CC);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_2);
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "options");
-	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 8, config, &_3, &_2);
+	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 12, config, &_3, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
@@ -155,7 +158,7 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, newInstance) {
 	zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset(&_0, &name))) {
 		zephir_read_property(&_1$$3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY | PH_READONLY, "phalcon/Annotations/AnnotationsFactory.zep", 54 TSRMLS_CC);
+		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY | PH_READONLY, "phalcon/Annotations/AnnotationsFactory.zep", 57 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_fetch_safe_class(&_3$$3, &definition);
 		_4$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_3$$3), Z_STRLEN_P(&_3$$3), ZEND_FETCH_CLASS_AUTO);
@@ -167,11 +170,14 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, newInstance) {
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_5, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Annotations/AnnotationsFactory.zep", 58 TSRMLS_CC);
+	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Annotations/AnnotationsFactory.zep", 61 TSRMLS_CC);
 	RETURN_CTOR(&_6);
 
 }
 
+/**
+ * The available adapters
+ */
 PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, getAdapters) {
 
 	zval *this_ptr = getThis();

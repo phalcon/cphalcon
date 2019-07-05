@@ -32,11 +32,9 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Tag
- *
  * Phalcon\Tag is designed to simplify building of HTML tags.
  * It provides a set of helpers to generate HTML in a dynamic way.
- * This component is an abstract class that you can extend to add more helpers.
+ * This component is a class that you can extend to add more helpers.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Tag) {
 
@@ -134,19 +132,19 @@ PHP_METHOD(Phalcon_Tag, appendTitle) {
 /**
  * Builds a HTML input[type="check"] tag
  *
- *<code>
+ *```php
  * echo Phalcon\Tag::checkField(
  *     [
  *         "terms",
  *         "value" => "Y",
  *     ]
  * );
- *</code>
+ *```
  *
  * Volt syntax:
- *<code>
+ *```php
  * {{ check_field("terms") }}
- *</code>
+ *```
  *
  * @param array parameters
  */
@@ -204,14 +202,14 @@ PHP_METHOD(Phalcon_Tag, colorField) {
 /**
  * Builds a HTML input[type="date"] tag
  *
- * <code>
+ * ```php
  * echo Phalcon\Tag::dateField(
  *     [
  *         "born",
  *         "value" => "14-12-1980",
  *     ]
  * );
- * </code>
+ * ```
  *
  * @param array parameters
  */
@@ -333,9 +331,9 @@ PHP_METHOD(Phalcon_Tag, displayTo) {
 /**
  * Builds a HTML input[type="email"] tag
  *
- * <code>
+ * ```php
  * echo Phalcon\Tag::emailField("email");
- * </code>
+ * ```
  *
  * @param array parameters
  */
@@ -377,9 +375,9 @@ PHP_METHOD(Phalcon_Tag, endForm) {
 /**
  * Builds a HTML input[type="file"] tag
  *
- *<code>
+ *```php
  * echo Phalcon\Tag::fileField("file");
- *</code>
+ *```
  *
  * @param array parameters
  */
@@ -409,7 +407,7 @@ PHP_METHOD(Phalcon_Tag, fileField) {
 /**
  * Builds a HTML FORM tag
  *
- * <code>
+ * ```php
  * echo Phalcon\Tag::form("posts/save");
  *
  * echo Phalcon\Tag::form(
@@ -418,13 +416,13 @@ PHP_METHOD(Phalcon_Tag, fileField) {
  *         "method" => "post",
  *     ]
  * );
- * </code>
+ * ```
  *
  * Volt syntax:
- * <code>
+ * ```php
  * {{ form("posts/save") }}
  * {{ form("posts/save", "method": "post") }}
- * </code>
+ * ```
  *
  * @param array parameters
  */
@@ -496,9 +494,9 @@ PHP_METHOD(Phalcon_Tag, form) {
 /**
  * Converts texts into URL-friendly titles
  *
- *<code>
+ *```php
  * echo Phalcon\Tag::friendlyTitle("These are big important news", "-")
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 
@@ -556,19 +554,19 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "iconv");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 161, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 168, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		ZVAL_LONG(&_2$$3, 6);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "en_US.UTF-8");
-		ZEPHIR_CALL_FUNCTION(&locale, "setlocale", NULL, 270, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&locale, "setlocale", NULL, 277, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "UTF-8");
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "ASCII//TRANSLIT");
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "iconv", NULL, 271, &_3$$3, &_4$$3, &text);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "iconv", NULL, 278, &_3$$3, &_4$$3, &text);
 		zephir_check_call_status();
 		zephir_get_strval(&text, &_5$$3);
 	}
@@ -627,7 +625,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	ZVAL_STRING(&_0, "/[^a-zA-Z0-9\\/_|+ -]/");
 	ZEPHIR_INIT_VAR(&_15);
 	ZVAL_STRING(&_15, "");
-	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 38, &_0, &_15, &text);
+	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 44, &_0, &_15, &text);
 	zephir_check_call_status();
 	if (lowercase) {
 		ZEPHIR_INIT_VAR(&_16$$10);
@@ -636,7 +634,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "/[\\/_|+ -]+/");
-	ZEPHIR_CALL_FUNCTION(&_17, "preg_replace", NULL, 38, &_0, &separator, &friendly);
+	ZEPHIR_CALL_FUNCTION(&_17, "preg_replace", NULL, 44, &_0, &separator, &friendly);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&friendly, &_17);
 	ZEPHIR_INIT_NVAR(&_0);
@@ -644,11 +642,11 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	ZEPHIR_CPY_WRT(&friendly, &_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "iconv");
-	ZEPHIR_CALL_FUNCTION(&_17, "extension_loaded", NULL, 161, &_0);
+	ZEPHIR_CALL_FUNCTION(&_17, "extension_loaded", NULL, 168, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_17)) {
 		ZVAL_LONG(&_18$$11, 6);
-		ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 270, &_18$$11, &locale);
+		ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 277, &_18$$11, &locale);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(&friendly);
@@ -858,7 +856,7 @@ PHP_METHOD(Phalcon_Tag, getEscaperService) {
 			ZVAL_STRING(&_3$$4, "the 'escaper' service");
 			ZEPHIR_CALL_CE_STATIC(&_1$$4, phalcon_tag_exception_ce, "containerservicenotfound", &_2, 0, &_3$$4);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 1, &_1$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 5, &_1$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_0$$4, "phalcon/Tag.zep", 423 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
@@ -879,7 +877,7 @@ PHP_METHOD(Phalcon_Tag, getEscaperService) {
  * Gets the current document title.
  * The title will be automatically escaped.
  *
- * <code>
+ * ```php
  * Tag::prependTitle('Hello');
  * Tag::setTitle('World');
  * Tag::appendTitle('from Phalcon');
@@ -888,11 +886,11 @@ PHP_METHOD(Phalcon_Tag, getEscaperService) {
  * echo Tag::getTitle(false);        // World from Phalcon
  * echo Tag::getTitle(true, false);  // Hello World
  * echo Tag::getTitle(false, false); // World
- * </code>
+ * ```
  *
- * <code>
+ * ```php
  * {{ get_title() }}
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Tag, getTitle) {
 
@@ -972,7 +970,7 @@ PHP_METHOD(Phalcon_Tag, getTitle) {
 		zephir_read_static_property_ce(&_6$$3, phalcon_tag_ce, SL("documentPrependTitle"), PH_NOISY_CC);
 		ZEPHIR_CPY_WRT(&documentPrependTitle, &_6$$3);
 		if (!(ZEPHIR_IS_EMPTY(&documentPrependTitle))) {
-			ZEPHIR_CALL_FUNCTION(&tmp$$5, "array_reverse", NULL, 273, &documentPrependTitle);
+			ZEPHIR_CALL_FUNCTION(&tmp$$5, "array_reverse", NULL, 280, &documentPrependTitle);
 			zephir_check_call_status();
 			zephir_is_iterable(&tmp$$5, 0, "phalcon/Tag.zep", 479);
 			if (Z_TYPE_P(&tmp$$5) == IS_ARRAY) {
@@ -1065,13 +1063,13 @@ PHP_METHOD(Phalcon_Tag, getTitle) {
 /**
  * Gets the current document title separator
  *
- * <code>
+ * ```php
  * echo Phalcon\Tag::getTitleSeparator();
- * </code>
+ * ```
  *
- * <code>
+ * ```php
  * {{ get_title_separator() }}
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Tag, getTitleSeparator) {
 
@@ -1118,7 +1116,7 @@ PHP_METHOD(Phalcon_Tag, getUrlService) {
 			ZVAL_STRING(&_3$$4, "the 'url' service");
 			ZEPHIR_CALL_CE_STATIC(&_1$$4, phalcon_tag_exception_ce, "containerservicenotfound", &_2, 0, &_3$$4);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 1, &_1$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 5, &_1$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_0$$4, "phalcon/Tag.zep", 542 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
@@ -1214,14 +1212,14 @@ PHP_METHOD(Phalcon_Tag, hasValue) {
 /**
  * Builds a HTML input[type="hidden"] tag
  *
- *<code>
+ *```php
  * echo Phalcon\Tag::hiddenField(
  *     [
  *         "name",
  *         "value" => "mike",
  *     ]
  * );
- *</code>
+ *```
  *
  * @param array parameters
  */
@@ -1251,7 +1249,7 @@ PHP_METHOD(Phalcon_Tag, hiddenField) {
 /**
  * Builds HTML IMG tags
  *
- * <code>
+ * ```php
  * echo Phalcon\Tag::image("img/bg.png");
  *
  * echo Phalcon\Tag::image(
@@ -1260,14 +1258,14 @@ PHP_METHOD(Phalcon_Tag, hiddenField) {
  *         "alt" => "Some Photo",
  *     ]
  * );
- * </code>
+ * ```
  *
  * Volt Syntax:
- * <code>
+ * ```php
  * {{ image("img/bg.png") }}
  * {{ image("img/photo.jpg", "alt": "Some Photo") }}
  * {{ image("http://static.mywebsite.com/img/bg.png", false) }}
- * </code>
+ * ```
  *
  * @param  array parameters
  */
@@ -1352,18 +1350,18 @@ PHP_METHOD(Phalcon_Tag, image) {
 /**
  * Builds a HTML input[type="image"] tag
  *
- *<code>
+ *```php
  * echo Phalcon\Tag::imageInput(
  *     [
  *         "src" => "/img/button.png",
  *     ]
  * );
- *</code>
+ *```
  *
  * Volt syntax:
- *<code>
+ *```php
  * {{ image_input("src": "/img/button.png") }}
- *</code>
+ *```
  *
  * @param array parameters
  */
@@ -1395,20 +1393,20 @@ PHP_METHOD(Phalcon_Tag, imageInput) {
 /**
  * Builds a SCRIPT[type="javascript"] tag
  *
- * <code>
+ * ```php
  * echo Phalcon\Tag::javascriptInclude(
  *     "http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js",
  *     false
  * );
  *
  * echo Phalcon\Tag::javascriptInclude("javascript/jquery.js");
- * </code>
+ * ```
  *
  * Volt syntax:
- * <code>
+ * ```php
  * {{ javascript_include("http://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js", false) }}
  * {{ javascript_include("javascript/jquery.js") }}
- * </code>
+ * ```
  *
  * @param array parameters
  */
@@ -1516,7 +1514,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude) {
 /**
  * Builds a HTML A tag using framework conventions
  *
- *<code>
+ *```php
  * echo Phalcon\Tag::linkTo("signup/register", "Register Here!");
  *
  * echo Phalcon\Tag::linkTo(
@@ -1561,7 +1559,7 @@ PHP_METHOD(Phalcon_Tag, javascriptInclude) {
  *     ]
  * );
  *
- *</code>
+ *```
  *
  * @param array|string parameters
  * @param string text
@@ -1697,7 +1695,7 @@ PHP_METHOD(Phalcon_Tag, monthField) {
 /**
  * Builds a HTML input[type="number"] tag
  *
- * <code>
+ * ```php
  * echo Phalcon\Tag::numericField(
  *     [
  *         "price",
@@ -1705,7 +1703,7 @@ PHP_METHOD(Phalcon_Tag, monthField) {
  *         "max" => "5",
  *     ]
  * );
- * </code>
+ * ```
  *
  * @param array parameters
  */
@@ -1735,14 +1733,14 @@ PHP_METHOD(Phalcon_Tag, numericField) {
 /**
  * Builds a HTML input[type="password"] tag
  *
- *<code>
+ *```php
  * echo Phalcon\Tag::passwordField(
  *     [
  *         "name",
  *         "size" => 30,
  *     ]
  * );
- *</code>
+ *```
  *
  * @param array parameters
  */
@@ -1804,19 +1802,19 @@ PHP_METHOD(Phalcon_Tag, prependTitle) {
 /**
  * Builds a HTML input[type="radio"] tag
  *
- *<code>
+ *```php
  * echo Phalcon\Tag::radioField(
  *     [
  *         "weather",
  *         "value" => "hot",
  *     ]
  * );
- *</code>
+ *```
  *
  * Volt syntax:
- *<code>
+ *```php
  * {{ radio_field("Save") }}
- *</code>
+ *```
  *
  * @param array parameters
  */
@@ -2051,7 +2049,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 					zephir_gettype(&_16$$13, &value TSRMLS_CC);
 					ZEPHIR_INIT_LNVAR(_17$$13);
 					ZEPHIR_CONCAT_SVSVS(&_17$$13, "Value at index: '", &key, "' type: '", &_16$$13, "' cannot be rendered");
-					ZEPHIR_CALL_METHOD(NULL, &_15$$13, "__construct", &_18, 1, &_17$$13);
+					ZEPHIR_CALL_METHOD(NULL, &_15$$13, "__construct", &_18, 5, &_17$$13);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_15$$13, "phalcon/Tag.zep", 1014 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
@@ -2097,7 +2095,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 						zephir_gettype(&_24$$18, &value TSRMLS_CC);
 						ZEPHIR_INIT_LNVAR(_25$$18);
 						ZEPHIR_CONCAT_SVSVS(&_25$$18, "Value at index: '", &key, "' type: '", &_24$$18, "' cannot be rendered");
-						ZEPHIR_CALL_METHOD(NULL, &_23$$18, "__construct", &_18, 1, &_25$$18);
+						ZEPHIR_CALL_METHOD(NULL, &_23$$18, "__construct", &_18, 5, &_25$$18);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_23$$18, "phalcon/Tag.zep", 1014 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
@@ -2126,7 +2124,7 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
 /**
  * Renders the title with title tags. The title is automaticall escaped
  *
- * <code>
+ * ```php
  * Tag::prependTitle('Hello');
  * Tag::setTitle('World');
  * Tag::appendTitle('from Phalcon');
@@ -2135,11 +2133,11 @@ PHP_METHOD(Phalcon_Tag, renderAttributes) {
  * echo Tag::renderTitle(false);        // <title>World from Phalcon</title>
  * echo Tag::renderTitle(true, false);  // <title>Hello World</title>
  * echo Tag::renderTitle(false, false); // <title>World</title>
- * </code>
+ * ```
  *
- * <code>
+ * ```php
  * {{ render_title() }}
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Tag, renderTitle) {
 
@@ -2251,7 +2249,7 @@ PHP_METHOD(Phalcon_Tag, searchField) {
 /**
  * Builds a HTML SELECT tag using a Phalcon\Mvc\Model resultset as options
  *
- *<code>
+ *```php
  * echo Phalcon\Tag::select(
  *     [
  *         "robotId",
@@ -2259,12 +2257,12 @@ PHP_METHOD(Phalcon_Tag, searchField) {
  *         "using" => ["id", "name"],
  *     ]
  * );
- *</code>
+ *```
  *
  * Volt syntax:
- *<code>
+ *```php
  * {{ select("robotId", robots, "using": ["id", "name"]) }}
- *</code>
+ *```
  *
  * @param array parameters
  * @param array data
@@ -2298,7 +2296,7 @@ PHP_METHOD(Phalcon_Tag, select) {
 /**
  * Builds a HTML SELECT tag using a PHP array for options
  *
- *<code>
+ *```php
  * echo Phalcon\Tag::selectStatic(
  *     "status",
  *     [
@@ -2306,7 +2304,7 @@ PHP_METHOD(Phalcon_Tag, select) {
  *         "I" => "Inactive",
  *     ]
  * );
- *</code>
+ *```
  *
  * @param array parameters
  * @param array data
@@ -2362,13 +2360,13 @@ PHP_METHOD(Phalcon_Tag, setAutoescape) {
 /**
  * Assigns default values to generated tags by helpers
  *
- * <code>
+ * ```php
  * // Assigning "peter" to "name" component
  * Phalcon\Tag::setDefault("name", "peter");
  *
  * // Later in the view
  * echo Phalcon\Tag::textField("name"); // Will have the value "peter" by default
- * </code>
+ * ```
  *
  * @param string value
  */
@@ -2415,7 +2413,7 @@ PHP_METHOD(Phalcon_Tag, setDefault) {
 /**
  * Assigns default values to generated tags by helpers
  *
- * <code>
+ * ```php
  * // Assigning "peter" to "name" component
  * Phalcon\Tag::setDefaults(
  *     [
@@ -2425,7 +2423,7 @@ PHP_METHOD(Phalcon_Tag, setDefault) {
  *
  * // Later in the view
  * echo Phalcon\Tag::textField("name"); // Will have the value "peter" by default
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Tag, setDefaults) {
 
@@ -2523,9 +2521,9 @@ PHP_METHOD(Phalcon_Tag, setDocType) {
 /**
  * Set the title of view content
  *
- *<code>
+ *```php
  * Phalcon\Tag::setTitle("Welcome to my Page");
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Tag, setTitle) {
 
@@ -2549,9 +2547,9 @@ PHP_METHOD(Phalcon_Tag, setTitle) {
 /**
  * Set the title separator of view content
  *
- *<code>
+ *```php
  * Phalcon\Tag::setTitleSeparator("-");
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Tag, setTitleSeparator) {
 
@@ -2575,20 +2573,20 @@ PHP_METHOD(Phalcon_Tag, setTitleSeparator) {
 /**
  * Builds a LINK[rel="stylesheet"] tag
  *
- * <code>
+ * ```php
  * echo Phalcon\Tag::stylesheetLink(
  *     "http://fonts.googleapis.com/css?family=Rosario",
  *     false
  * );
  *
  * echo Phalcon\Tag::stylesheetLink("css/style.css");
- * </code>
+ * ```
  *
  * Volt Syntax:
- *<code>
+ *```php
  * {{ stylesheet_link("http://fonts.googleapis.com/css?family=Rosario", false) }}
  * {{ stylesheet_link("css/style.css") }}
- *</code>
+ *```
  *
  * @param array parameters
  */
@@ -2709,14 +2707,14 @@ PHP_METHOD(Phalcon_Tag, stylesheetLink) {
 /**
  * Builds a HTML input[type="submit"] tag
  *
- *<code>
+ *```php
  * echo Phalcon\Tag::submitButton("Save")
- *</code>
+ *```
  *
  * Volt syntax:
- *<code>
+ *```php
  * {{ submit_button("Save") }}
- *</code>
+ *```
  *
  * @param array parameters
  */
@@ -2830,9 +2828,9 @@ PHP_METHOD(Phalcon_Tag, tagHtml) {
 /**
  * Builds a HTML tag closing tag
  *
- *<code>
+ *```php
  * echo Phalcon\Tag::tagHtmlClose("script", true);
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Tag, tagHtmlClose) {
 
@@ -2897,7 +2895,7 @@ PHP_METHOD(Phalcon_Tag, telField) {
 /**
  * Builds a HTML TEXTAREA tag
  *
- *<code>
+ *```php
  * echo Phalcon\Tag::textArea(
  *     [
  *         "comments",
@@ -2905,12 +2903,12 @@ PHP_METHOD(Phalcon_Tag, telField) {
  *         "rows" => 4,
  *     ]
  * );
- *</code>
+ *```
  *
  * Volt syntax:
- *<code>
+ *```php
  * {{ text_area("comments", "cols": 10, "rows": 4) }}
- *</code>
+ *```
  *
  * @param array parameters
  */
@@ -2975,7 +2973,7 @@ PHP_METHOD(Phalcon_Tag, textArea) {
 	ZVAL_STRING(&_1, "<textarea");
 	ZEPHIR_CALL_SELF(&code, "renderattributes", NULL, 0, &_1, &params);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "htmlspecialchars", NULL, 216, &content);
+	ZEPHIR_CALL_FUNCTION(&_2, "htmlspecialchars", NULL, 223, &content);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_SVS(&_3, ">", &_2, "</textarea>");
@@ -2987,14 +2985,14 @@ PHP_METHOD(Phalcon_Tag, textArea) {
 /**
  * Builds a HTML input[type="text"] tag
  *
- * <code>
+ * ```php
  * echo Phalcon\Tag::textField(
  *     [
  *         "name",
  *         "size" => 30,
  *     ]
  * );
- * </code>
+ * ```
  *
  * @param array parameters
  */

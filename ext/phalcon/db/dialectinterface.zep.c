@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Db\DialectInterface
- *
  * Interface for Phalcon\Db dialects
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_DialectInterface) {

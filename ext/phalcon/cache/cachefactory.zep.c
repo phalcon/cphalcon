@@ -30,8 +30,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\CacheFactory
- *
  * Creates a new Cache class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_CacheFactory) {
@@ -39,7 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_CacheFactory) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Cache, CacheFactory, phalcon, cache_cachefactory, phalcon_cache_cachefactory_method_entry, 0);
 
 	/**
-	 * @var <AdapterFactory>
+	 * @var AdapterFactory
 	 */
 	zend_declare_property_null(phalcon_cache_cachefactory_ce, SL("adapterFactory"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -91,7 +89,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load) {
 
 	_0 = Z_TYPE_P(config) == IS_OBJECT;
 	if (_0) {
-		_0 = zephir_instance_of_ev(config, phalcon_config_config_ce TSRMLS_CC);
+		_0 = zephir_instance_of_ev(config, phalcon_config_ce TSRMLS_CC);
 	}
 	if (_0) {
 		ZEPHIR_CALL_METHOD(&_1$$3, config, "toarray", NULL, 0);
@@ -99,20 +97,20 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load) {
 		ZEPHIR_CPY_WRT(config, &_1$$3);
 	}
 	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Cache/CacheFactory.zep", 56);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Cache/CacheFactory.zep", 54);
 		return;
 	}
 	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("adapter"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Cache/CacheFactory.zep", 62);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Cache/CacheFactory.zep", 60);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 65 TSRMLS_CC);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 63 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_3);
 	array_init(&_3);
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "options");
-	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_2, 8, config, &_4, &_3);
+	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_2, 12, config, &_4, &_3);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
@@ -121,9 +119,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load) {
 }
 
 /**
- * Constructor.
- *
- * @param AdapterInterface  adapter The cache adapter
+ * Constructs a new Cache instance.
  */
 PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance) {
 
@@ -162,8 +158,8 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance) {
 	zephir_read_property(&_0, this_ptr, SL("adapterFactory"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&adapter, &_0, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
-	object_init_ex(return_value, phalcon_cache_cache_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 151, &adapter);
+	object_init_ex(return_value, phalcon_cache_ce);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 158, &adapter);
 	zephir_check_call_status();
 	RETURN_MM();
 

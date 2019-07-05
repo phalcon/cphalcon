@@ -29,14 +29,14 @@
  *
  * Adapter to store logs in plain text files
  *
- *<code>
+ *```php
  * $logger = new \Phalcon\Logger\Adapter\Noop();
  *
  * $logger->log(\Phalcon\Logger::ERROR, "This is an error");
  * $logger->error("This is another error");
  *
  * $logger->close();
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Noop) {
 

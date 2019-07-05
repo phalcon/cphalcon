@@ -65,19 +65,19 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, columns);
 /**
  * Sets SELECT DISTINCT / SELECT ALL flag
  *
- *<code>
+ *```php
  * $builder->distinct("status");
  * $builder->distinct(null);
- *</code>
+ *```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, distinct);
 
 /**
  * Sets a FOR UPDATE clause
  *
- *<code>
+ *```php
  * $builder->forUpdate(true);
- *</code>
+ *```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, forUpdate);
 
@@ -197,7 +197,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, inWhere);
  * @param string conditions
  * @param string alias
  * @param string type
- * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+ * @return BuilderInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, join);
 

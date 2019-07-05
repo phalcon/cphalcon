@@ -108,13 +108,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setHeader);
 /**
  * Sets HTTP response body. The parameter is automatically converted to JSON
  *
- *<code>
+ *```php
  * $response->setJsonContent(
  *     [
  *         "status" => "OK",
  *     ]
  * );
- *</code>
+ *```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_ResponseInterface, setJsonContent);
 

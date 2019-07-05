@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Acl\RoleInterface
- *
  * Interface for Phalcon\Acl\Role
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_RoleInterface) {

@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\CollectionInterface
- *
  * Interface for Phalcon\Mvc\Collection
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_CollectionInterface) {

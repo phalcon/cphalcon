@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, orderAttributes) {
 	zephir_array_update_string(&order, SL("name"), &__$null, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&order, SL("value"), &__$null, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&order, SL("class"), &__$null, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_FUNCTION(&intersect, "array_intersect_key", NULL, 4, &order, &attributes);
+	ZEPHIR_CALL_FUNCTION(&intersect, "array_intersect_key", NULL, 8, &order, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&results);
 	zephir_fast_array_merge(&results, &intersect, &attributes TSRMLS_CC);
@@ -303,7 +303,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes) {
 					zephir_gettype(&_8$$5, &value TSRMLS_CC);
 					ZEPHIR_INIT_LNVAR(_9$$5);
 					ZEPHIR_CONCAT_SVSVS(&_9$$5, "Value at index: \"", &key, "\" type: \"", &_8$$5, "\" cannot be rendered");
-					ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", &_10, 1, &_9$$5);
+					ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", &_10, 5, &_9$$5);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_7$$5, "phalcon/Html/Helper/AbstractHelper.zep", 121 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
@@ -350,7 +350,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes) {
 						zephir_gettype(&_18$$8, &value TSRMLS_CC);
 						ZEPHIR_INIT_LNVAR(_19$$8);
 						ZEPHIR_CONCAT_SVSVS(&_19$$8, "Value at index: \"", &key, "\" type: \"", &_18$$8, "\" cannot be rendered");
-						ZEPHIR_CALL_METHOD(NULL, &_17$$8, "__construct", &_10, 1, &_19$$8);
+						ZEPHIR_CALL_METHOD(NULL, &_17$$8, "__construct", &_10, 5, &_19$$8);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_17$$8, "phalcon/Html/Helper/AbstractHelper.zep", 121 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();

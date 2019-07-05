@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Assets\AssetInterface
- *
  * Interface for custom Phalcon\Assets reources
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_AssetInterface) {

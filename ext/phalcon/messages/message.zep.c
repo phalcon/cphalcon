@@ -17,7 +17,6 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
-#include "kernel/fcall.h"
 #include "kernel/array.h"
 
 
@@ -200,41 +199,6 @@ PHP_METHOD(Phalcon_Messages_Message, __toString) {
 
 
 	RETURN_MEMBER(getThis(), "message");
-
-}
-
-/**
- * Magic __set_state helps to re-build messages variable exporting
- */
-PHP_METHOD(Phalcon_Messages_Message, __set_state) {
-
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, _0, _1, _2, _3, _4;
-	zval message;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&message);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &message_param);
-
-	ZEPHIR_OBS_COPY_OR_DUP(&message, message_param);
-
-
-	object_init_ex(return_value, phalcon_messages_message_ce);
-	zephir_array_fetch_string(&_0, &message, SL("_message"), PH_NOISY | PH_READONLY, "phalcon/Messages/Message.zep", 73 TSRMLS_CC);
-	zephir_array_fetch_string(&_1, &message, SL("_field"), PH_NOISY | PH_READONLY, "phalcon/Messages/Message.zep", 74 TSRMLS_CC);
-	zephir_array_fetch_string(&_2, &message, SL("_type"), PH_NOISY | PH_READONLY, "phalcon/Messages/Message.zep", 75 TSRMLS_CC);
-	zephir_array_fetch_string(&_3, &message, SL("_code"), PH_NOISY | PH_READONLY, "phalcon/Messages/Message.zep", 76 TSRMLS_CC);
-	zephir_array_fetch_string(&_4, &message, SL("_metaData"), PH_NOISY | PH_READONLY, "phalcon/Messages/Message.zep", 78 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 411, &_0, &_1, &_2, &_3, &_4);
-	zephir_check_call_status();
-	RETURN_MM();
 
 }
 

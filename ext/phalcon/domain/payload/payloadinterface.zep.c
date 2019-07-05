@@ -29,8 +29,6 @@
  * @see Original inspiration for the https://github.com/phalcon/phalcon-api
  */
 /**
- * Phalcon\Domain\Payload\PayableInterface
- *
  * This interface is used for consumers
  */
 ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_PayloadInterface) {

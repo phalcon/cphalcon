@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Db\Reference
- *
  * Interface for Phalcon\Db\Reference
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_ReferenceInterface) {
@@ -32,11 +30,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_ReferenceInterface) {
 	return SUCCESS;
 
 }
-
-/**
- * Restore a Phalcon\Db\Reference object from export
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, __set_state);
 
 /**
  * Gets local columns which reference is based

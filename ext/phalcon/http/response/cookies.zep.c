@@ -40,7 +40,7 @@
  * used to generate a message authentication code use
  * `Phalcon\Http\Response\Cookies::setSignKey()`.
  *
- * <code>
+ * ```php
  * use Phalcon\Di;
  * use Phalcon\Crypt;
  * use Phalcon\Http\Response\Cookies;
@@ -75,7 +75,7 @@
  *         return $cookies;
  *     }
  * );
- * </code>
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies) {
 
@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 353);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 362);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_BOOL(0);
@@ -411,7 +411,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
  *
  * This method overrides any cookie set before with the same name.
  *
- * <code>
+ * ```php
  * use Phalcon\Http\Response\Cookies;
  *
  * $now = new DateTimeImmutable();
@@ -423,7 +423,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
  *     json_encode(['user_id' => 1]),
  *     (int) $tomorrow->format('U'),
  * );
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 
@@ -594,7 +594,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 			ZVAL_STRING(&_15$$7, "the 'response' service");
 			ZEPHIR_CALL_CE_STATIC(&_13$$7, phalcon_http_cookie_exception_ce, "containerservicenotfound", &_14, 0, &_15$$7);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_12$$7, "__construct", NULL, 1, &_13$$7);
+			ZEPHIR_CALL_METHOD(NULL, &_12$$7, "__construct", NULL, 5, &_13$$7);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_12$$7, "phalcon/Http/Response/Cookies.zep", 298 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();

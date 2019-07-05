@@ -30,14 +30,12 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Flash\Session
- *
  * Temporarily stores the messages in session, then messages can be printed in
  * the next request
  */
 ZEPHIR_INIT_CLASS(Phalcon_Flash_Session) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Flash, Session, phalcon, flash_session, phalcon_flash_ce, phalcon_flash_session_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Flash, Session, phalcon, flash_session, phalcon_flash_abstractflash_ce, phalcon_flash_session_method_entry, 0);
 
 	return SUCCESS;
 
@@ -212,7 +210,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 	}
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getsessionmessages", NULL, 0, &_0);
 	zephir_check_call_status();
-	zephir_is_iterable(&messages, 0, "phalcon/Flash/Session.zep", 90);
+	zephir_is_iterable(&messages, 0, "phalcon/Flash/Session.zep", 88);
 	if (Z_TYPE_P(&messages) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&messages), _3, _4, _1)
 		{

@@ -35,7 +35,7 @@
  * space. By storing the value in a registry, the same object is always
  * available throughout your application.
  *
- *<code>
+ *```php
  * $registry = new \Phalcon\Registry();
  *
  * // Set value
@@ -57,7 +57,7 @@
  * unset($registry->something);
  * // or
  * unset($registry["something"]);
- *</code>
+ *```
  *
  * In addition to ArrayAccess, Phalcon\Registry also implements Countable
  * (count($registry) will return the number of elements in the registry),
@@ -80,7 +80,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Registry) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Registry, phalcon, registry, phalcon_collection_collection_ce, phalcon_registry_method_entry, ZEND_ACC_FINAL_CLASS);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Registry, phalcon, registry, phalcon_collection_ce, phalcon_registry_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	return SUCCESS;
 

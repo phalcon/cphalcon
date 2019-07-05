@@ -21,9 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- *
- * Phalcon\Acl\ComponentInterface
- *
  * Interface for Phalcon\Acl\Component
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_ComponentInterface) {

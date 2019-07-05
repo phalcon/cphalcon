@@ -27,13 +27,11 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Forms\Element\TextArea
- *
  * Component TEXTAREA for forms
  */
 ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_TextArea) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, TextArea, phalcon, forms_element_textarea, phalcon_forms_element_ce, phalcon_forms_element_textarea_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, TextArea, phalcon, forms_element_textarea, phalcon_forms_element_abstractelement_ce, phalcon_forms_element_textarea_method_entry, 0);
 
 	return SUCCESS;
 

@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Validation\Exception
- *
  * Exceptions thrown in Phalcon\Validation\Validator\* classes will use this
  * class
  */
