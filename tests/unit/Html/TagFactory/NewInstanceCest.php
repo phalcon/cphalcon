@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Html\TagFactory;
 
 use Codeception\Example;
+use Phalcon\Escaper;
 use Phalcon\Factory\Exception;
 use Phalcon\Html\Helper\Anchor;
 use Phalcon\Html\Helper\AnchorRaw;
@@ -31,13 +32,13 @@ use UnitTester;
 class NewInstanceCest
 {
     /**
-     * Tests Phalcon\Filter\FilterFactory :: newInstance() - services
+     * Tests Phalcon\Tag\TagFactory :: newInstance() - services
      *
      * @dataProvider getData
      */
-    public function filterFilterFactoryNewInstanceServices(UnitTester $I, Example $example)
+    public function filterTagFactoryNewInstanceServices(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Filter\FilterLocatorFactory - newInstance() - services ' . $example[0]);
+        $I->wantToTest('Tag\TagLocatorFactory - newInstance() - services ' . $example[0]);
         $escaper = new Escaper();
         $factory = new TagFactory($escaper);
         $service = $factory->newInstance($example[0]);
@@ -54,9 +55,9 @@ class NewInstanceCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      */
-    public function filterFilterFactoryNewInstanceException(UnitTester $I)
+    public function filterTagFactoryNewInstanceException(UnitTester $I)
     {
-        $I->wantToTest('Filter\FilterFactory - newInstance() - exception');
+        $I->wantToTest('Tag\TagFactory - newInstance() - exception');
 
         $I->expectThrowable(
             new Exception('Service unknown is not registered'),

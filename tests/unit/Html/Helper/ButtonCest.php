@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Html\Helper\Button;
 
 use Codeception\Example;
+use Phalcon\Escaper;
 use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Button;
 use Phalcon\Html\TagFactory;

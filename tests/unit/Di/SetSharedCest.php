@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Di;
 
 use Phalcon\Di;
+use Phalcon\Escaper;
 use UnitTester;
 
 class SetSharedCest

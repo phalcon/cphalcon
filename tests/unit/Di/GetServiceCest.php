@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Di;
 use Phalcon\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Service;
+use Phalcon\Escaper;
 use UnitTester;
 
 class GetServiceCest
@@ -45,7 +46,9 @@ class GetServiceCest
 
         // non exists service
         $I->expectThrowable(
-            new Exception("Service 'non-exists' wasn't found in the dependency injection container"),
+            new Exception(
+                "Service 'non-exists' wasn't found in the dependency injection container"
+            ),
             function () use ($di) {
                 $di->getService('non-exists');
             }
