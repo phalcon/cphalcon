@@ -20,7 +20,7 @@ use IntegrationTester;
 class SetDefaultMessagesCest
 {
     /**
-     * Tests Phalcon\Validation\Validation :: setDefaultMessages()
+     * Tests Phalcon\Validation :: setDefaultMessages()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16

@@ -7,7 +7,7 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Users;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\Validator\Alpha;
 use Phalcon\Validation\Validator\Email;
 use Phalcon\Validation\Validator\PresenceOf;
@@ -18,7 +18,7 @@ use stdClass;
 
 /**
  * Phalcon\Test\Integration\ValidationCest
- * Tests the \Phalcon\Validation\Validation component
+ * Tests the \Phalcon\Validation component
  *
  * @copyright (c) 2011-2017 Phalcon Team
  * @link          http://www.phalconphp.com

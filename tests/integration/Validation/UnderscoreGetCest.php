@@ -20,7 +20,7 @@ use IntegrationTester;
 class UnderscoreGetCest
 {
     /**
-     * Tests Phalcon\Validation\Validation :: __get()
+     * Tests Phalcon\Validation :: __get()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-04-16

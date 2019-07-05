@@ -17,7 +17,7 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Some\Robotters;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\Validator\Uniqueness;
 
 class UniquenessCest
