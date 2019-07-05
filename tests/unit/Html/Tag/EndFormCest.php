@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Html\Tag;
 
 use Phalcon\Html\Tag;
-use const PHP_EOL;
 use UnitTester;
+use const PHP_EOL;
 
 class EndFormCest
 {

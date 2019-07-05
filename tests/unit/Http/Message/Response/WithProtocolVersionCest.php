@@ -27,7 +27,7 @@ class WithProtocolVersionCest
     public function httpMessageResponseWithProtocolVersion(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Response - withProtocolVersion()');
-        $response     = new Response();
+        $response    = new Response();
         $newInstance = $response->withProtocolVersion('2.0');
 
         $I->assertNotEquals($response, $newInstance);

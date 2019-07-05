@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
 use Codeception\Example;
-use Phalcon\Http\Message\Exception;
 use Phalcon\Http\Message\Stream;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
@@ -45,7 +44,7 @@ class ConstructCest
      *
      * @dataProvider getExceptionExamples
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-08
      */
     public function httpMessageStreamConstructException(UnitTester $I, Example $example)

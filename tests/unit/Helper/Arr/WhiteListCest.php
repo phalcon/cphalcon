@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Helper\Arr;
 
 use Phalcon\Helper\Arr;
+use stdClass;
 use UnitTester;
 
 class WhiteListCest
@@ -39,7 +40,7 @@ class WhiteListCest
         ];
 
         $whiteList = [
-            7, 5, 0, 'key-3 ', null, -13, new \stdClass(), [], 3.1415,
+            7, 5, 0, 'key-3 ', null, -13, new stdClass(), [], 3.1415,
         ];
 
         $expected = [

@@ -12,15 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\ConfigFactory;
 
-use function dataDir;
-use function hash;
-use const PATH_DATA;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Config\ConfigFactory;
 use Phalcon\Config\Exception;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use UnitTester;
+use function dataDir;
+use function hash;
+use const PATH_DATA;
 
 class LoadCest
 {

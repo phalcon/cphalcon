@@ -47,7 +47,8 @@ class SharpenCest
             $output      = outputDir($outputDir . '/' . $outputImage);
 
             $image->sharpen($amount)
-                ->save($output);
+                  ->save($output)
+            ;
 
             $I->amInPath(
                 outputDir($outputDir)

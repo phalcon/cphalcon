@@ -21,8 +21,8 @@ class GetPathCest
     /**
      * Tests Phalcon\Assets\Asset\Js :: getPath()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider provider
      */

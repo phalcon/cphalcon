@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Container;
 
-use Phalcon\Container\Container;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 

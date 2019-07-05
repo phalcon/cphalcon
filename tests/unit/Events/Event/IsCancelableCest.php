@@ -28,7 +28,6 @@ class IsCancelableCest
         $I->wantToTest('Events\Event - isCancelable()');
 
 
-
         $event = new Event(
             'some-type:beforeSome',
             $this,
@@ -38,7 +37,6 @@ class IsCancelableCest
         $I->assertTrue(
             $event->isCancelable()
         );
-
 
 
         $event = new Event(
@@ -51,7 +49,6 @@ class IsCancelableCest
         $I->assertFalse(
             $event->isCancelable()
         );
-
 
 
         $event = new Event(

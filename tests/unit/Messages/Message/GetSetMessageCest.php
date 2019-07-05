@@ -28,16 +28,14 @@ class GetSetMessageCest
         $I->wantToTest('Messages\Message - getMessage()/setMessage()');
 
 
-
         $expected = 'This is a message #1';
 
-        $message  = new Message($expected);
+        $message = new Message($expected);
 
         $I->assertEquals(
             $expected,
             $message->getMessage()
         );
-
 
 
         $expected = 'This is a message #2';

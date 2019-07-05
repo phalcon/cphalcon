@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 
-use function getOptionsLibmemcached;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
+use function getOptionsLibmemcached;
 
 class DecrementCest
 {
@@ -43,13 +43,11 @@ class DecrementCest
         );
 
 
-
         $key = 'cache-data';
 
         $I->assertTrue(
             $adapter->set($key, 100)
         );
-
 
 
         $expected = 99;
@@ -65,7 +63,6 @@ class DecrementCest
         );
 
 
-
         $expected = 90;
 
         $I->assertEquals(
@@ -77,7 +74,6 @@ class DecrementCest
             $expected,
             $adapter->get($key)
         );
-
 
 
         /**

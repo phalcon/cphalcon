@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Collection\Collection;
 
-use Phalcon\Collection;
 use UnitTester;
 
 class ToArrayCest

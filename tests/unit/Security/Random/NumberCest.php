@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security\Random;
 
+use Exception;
+use Phalcon\Security\Random;
 use UnitTester;
 
 class NumberCest
@@ -26,24 +28,22 @@ class NumberCest
     {
         $I->wantToTest("Security\Random - number()");
 
-        $random = new \Phalcon\Security\Random();
-
+        $random = new Random();
 
 
         $I->expectException(
-            \Exception::class,
+            Exception::class,
             function () {
                 $randNumber = $random->number();
             }
         );
 
         $I->expectException(
-            \Exception::class,
+            Exception::class,
             function () {
                 $randNumber = $random->number(-1);
             }
         );
-
 
 
         $maxRand    = 1;
@@ -54,14 +54,12 @@ class NumberCest
         $I->assertLessOrEquals($maxRand, $randNumber);
 
 
-
         $maxRand    = 1000000000000000000;
         $randNumber = $random->number($maxRand);
 
         $I->assertGreaterOrEquals(0, $randNumber);
 
         $I->assertLessOrEquals($maxRand, $randNumber);
-
 
 
         //Buy lottery ticket if this fails (or fix the bug)

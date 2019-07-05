@@ -12,9 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
-use Phalcon\Crypt;
 use Phalcon\Di;
-use Phalcon\Escaper;
 use UnitTester;
 
 class GetSharedCest
@@ -46,7 +44,7 @@ class GetSharedCest
 
         $I->assertInstanceOf(Crypt::class, $actual);
 
-        $actual = $di->getShared('crypt');
+        $actual   = $di->getShared('crypt');
         $expected = new Crypt();
 
         $I->assertEquals($expected, $actual);

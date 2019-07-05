@@ -21,8 +21,8 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - local
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider provider
      */
@@ -43,8 +43,8 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - remote
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider provider
      */
@@ -66,8 +66,8 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - filter
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider provider
      */
@@ -88,8 +88,8 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - filter set
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider provider
      */
@@ -112,8 +112,8 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - attributes
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider provider
      */
@@ -135,8 +135,8 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - attributes set
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider provider
      */

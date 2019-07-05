@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Escaper;
 
 use Codeception\Example;
-use Phalcon\Escaper;
 use UnitTester;
 
 class DetectEncodingCest

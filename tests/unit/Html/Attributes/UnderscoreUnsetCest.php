@@ -42,7 +42,6 @@ class UnderscoreUnsetCest
         );
 
 
-
         unset($attributes['class']);
 
         $expected = [

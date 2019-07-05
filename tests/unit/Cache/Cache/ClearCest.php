@@ -13,10 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Cache;
 
 use Phalcon\Cache\AdapterFactory;
-use Phalcon\Cache;
 use Phalcon\Storage\SerializerFactory;
-use function uniqid;
 use UnitTester;
+use function uniqid;
 
 class ClearCest
 {

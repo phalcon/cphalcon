@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Redis;
 
-use function getOptionsRedis;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use UnitTester;
+use function getOptionsRedis;
 
 class IncrementCest
 {
@@ -48,7 +48,6 @@ class IncrementCest
         );
 
 
-
         $expected = 2;
 
         $I->assertEquals(
@@ -62,7 +61,6 @@ class IncrementCest
         );
 
 
-
         $expected = 10;
 
         $I->assertEquals(
@@ -74,7 +72,6 @@ class IncrementCest
             $expected,
             $adapter->get($key)
         );
-
 
 
         /**

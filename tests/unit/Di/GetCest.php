@@ -15,7 +15,6 @@ namespace Phalcon\Test\Unit\Di;
 use Phalcon\Di;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Service;
-use Phalcon\Escaper;
 use UnitTester;
 
 class GetCest
@@ -40,7 +39,7 @@ class GetCest
         $I->assertFalse($actual->isShared());
 
         // get escaper service
-        $actual = $di->get('escaper');
+        $actual   = $di->get('escaper');
         $expected = new Escaper();
 
         $I->assertInstanceOf(Escaper::class, $actual);

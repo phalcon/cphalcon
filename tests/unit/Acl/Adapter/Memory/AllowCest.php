@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Exception;
-use Phalcon\Acl\Enum;
 use Phalcon\Acl\Adapter\Memory;
 use Phalcon\Acl\Component;
+use Phalcon\Acl\Enum;
 use Phalcon\Acl\Exception as AclException;
 use Phalcon\Acl\Role;
 use Phalcon\Test\Fixtures\Acl\TestComponentAware;

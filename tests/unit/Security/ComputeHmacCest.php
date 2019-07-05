@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Security;
 
 use Codeception\Example;
-use Phalcon\Security;
 use UnitTester;
 
 class ComputeHmacCest
@@ -21,8 +20,8 @@ class ComputeHmacCest
     /**
      * Tests the HMAC computation
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-09-12
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2014-09-12
      *
      * @dataProvider securityComputeHmacProvider
      */

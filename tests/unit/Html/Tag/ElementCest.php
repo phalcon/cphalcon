@@ -16,8 +16,8 @@ use BadMethodCallException;
 use Phalcon\Html\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
-use const PHP_EOL;
 use UnitTester;
+use const PHP_EOL;
 
 class ElementCest
 {

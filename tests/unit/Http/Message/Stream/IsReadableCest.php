@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
 use Codeception\Example;
-use function logsDir;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
+use function logsDir;
 
 class IsReadableCest
 {
@@ -24,7 +24,7 @@ class IsReadableCest
      *
      * @dataProvider getExamples
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-10
      */
     public function httpMessageStreamIsReadable(UnitTester $I, Example $example)
@@ -46,7 +46,7 @@ class IsReadableCest
      *
      * @dataProvider getExamplesX
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-10
      */
     public function httpMessageStreamIsReadableWithX(UnitTester $I, Example $example)

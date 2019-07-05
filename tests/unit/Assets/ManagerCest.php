@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets;
 
-use function dataDir;
 use Phalcon\Assets\Filters\Jsmin;
 use Phalcon\Assets\Filters\None;
 use Phalcon\Assets\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function uniqid;
 use UnitTester;
+use function dataDir;
+use function uniqid;
 
 class ManagerCest
 {
@@ -130,7 +130,6 @@ class ManagerCest
         $assets->useImplicitOutput(false);
 
 
-
         $expectedJS = sprintf(
             "%s\n%s\n",
             '<script src="http:://cdn.example.com/js/script1.js"></script>',
@@ -141,7 +140,6 @@ class ManagerCest
             $expectedJS,
             $assets->outputJs('header')
         );
-
 
 
         $expectedCSS = sprintf(

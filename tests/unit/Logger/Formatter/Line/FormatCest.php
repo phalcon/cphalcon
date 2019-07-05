@@ -15,8 +15,8 @@ namespace Phalcon\Test\Unit\Logger\Formatter\Line;
 use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\Item;
 use Phalcon\Logger\Logger;
-use const PHP_EOL;
 use UnitTester;
+use const PHP_EOL;
 
 class FormatCest
 {

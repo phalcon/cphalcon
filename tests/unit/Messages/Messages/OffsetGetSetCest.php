@@ -74,7 +74,6 @@ class OffsetGetSetCest
         );
 
 
-
         $I->assertEquals('This is a message #3', $message->getMessage());
         $I->assertEquals('MyField3', $message->getField());
         $I->assertEquals('MyType3', $message->getType());

@@ -30,14 +30,12 @@ class OffsetSetCest
         $registry = new Registry();
 
 
-
         $registry->offsetSet('three', 123);
 
         $I->assertEquals(
             123,
             $registry->get('three')
         );
-
 
 
         $registry['three'] = 456;

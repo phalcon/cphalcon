@@ -13,11 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Cache;
 
 use Phalcon\Cache\AdapterFactory;
-use Phalcon\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
-use function uniqid;
 use UnitTester;
+use function uniqid;
 
 class GetSetCest
 {
@@ -41,13 +40,11 @@ class GetSetCest
         $key2 = uniqid();
 
 
-
         $adapter->set($key1, 'test');
 
         $I->assertTrue(
             $adapter->has($key1)
         );
-
 
 
         $adapter->set($key2, 'test');

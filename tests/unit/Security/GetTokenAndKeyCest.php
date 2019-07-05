@@ -12,12 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use Phalcon\Security;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use UnitTester;
 use function session_destroy;
 use function session_start;
 use function session_status;
-use UnitTester;
 
 class GetTokenAndKeyCest
 {
@@ -67,7 +66,6 @@ class GetTokenAndKeyCest
         $token    = $security->getToken();
 
 
-
         $I->assertEquals(
             $tokenKey,
             $security->getTokenKey()
@@ -82,7 +80,6 @@ class GetTokenAndKeyCest
             $token,
             $security->getSessionToken()
         );
-
 
 
         $security->destroyToken();
@@ -101,7 +98,6 @@ class GetTokenAndKeyCest
             $token,
             $security->getSessionToken()
         );
-
 
 
         $security->destroyToken();

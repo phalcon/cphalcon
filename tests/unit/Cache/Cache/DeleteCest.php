@@ -13,11 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\Cache;
 
 use Phalcon\Cache\AdapterFactory;
-use Phalcon\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
-use function uniqid;
 use UnitTester;
+use function uniqid;
 
 class DeleteCest
 {
@@ -38,7 +37,6 @@ class DeleteCest
         $adapter = new Cache($instance);
 
 
-
         $key1 = uniqid();
         $key2 = uniqid();
 
@@ -47,7 +45,6 @@ class DeleteCest
         $I->assertTrue(
             $adapter->has($key1)
         );
-
 
 
         $adapter->set($key2, 'test');

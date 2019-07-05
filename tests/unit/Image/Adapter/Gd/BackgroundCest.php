@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
-use Phalcon\Image\Enum;
 use Phalcon\Image\Adapter\Gd;
+use Phalcon\Image\Enum;
 use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
@@ -36,7 +36,7 @@ class BackgroundCest
             [null, 150, Enum::HEIGHT, '00FF00', 75, '10787c3c1e1c3818'],
         ];
 
-        $outputDir   = 'tests/image/gd';
+        $outputDir = 'tests/image/gd';
 
         foreach ($params as list($width, $height, $master, $color, $opacity, $hash)) {
             $resultImage = $color . 'bg.png';
@@ -47,8 +47,9 @@ class BackgroundCest
             );
 
             $image->background($color, $opacity)
-                ->resize($width, $height, $master)
-                ->save($output);
+                  ->resize($width, $height, $master)
+                  ->save($output)
+            ;
 
             $I->amInPath(
                 outputDir($outputDir)

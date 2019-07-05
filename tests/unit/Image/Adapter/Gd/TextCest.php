@@ -106,7 +106,8 @@ class TextCest
             $output      = outputDir($outputDir . '/' . $outputImage);
 
             $image->text($text, $offsetX, $offsetY, $opacity, $color, $size, $font)
-                ->save($output);
+                  ->save($output)
+            ;
 
             $I->amInPath(
                 outputDir($outputDir)

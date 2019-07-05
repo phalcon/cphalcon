@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
-use function dataDir;
 use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
 use Phalcon\Translate\Adapter\Gettext;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
+use function dataDir;
 
 class GetSetDirectoryCest
 {

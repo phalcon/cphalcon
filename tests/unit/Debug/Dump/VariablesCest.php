@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Debug\Dump;
 
-use function dataDir;
-use function file_get_contents;
 use Phalcon\Debug\Dump;
 use stdClass;
 use UnitTester;
+use function dataDir;
+use function file_get_contents;
 
 class VariablesCest
 {

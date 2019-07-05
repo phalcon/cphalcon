@@ -53,7 +53,7 @@ class GetMetadataCest
      *
      * @dataProvider getExamples
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-10
      */
     public function httpMessageStreamGetMetadataByKey(UnitTester $I, Example $example)
@@ -70,16 +70,16 @@ class GetMetadataCest
     /**
      * Tests Phalcon\Http\Message\Stream :: getMetadata() - invalid handle
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-10
      */
     public function httpMessageStreamGetMetadataInvalidHandle(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - getMetadata() - invalid handle');
-        $stream   = new StreamFixture('php://memory', 'rb');
+        $stream = new StreamFixture('php://memory', 'rb');
         $stream->setHandle(null);
 
-        $actual   = $stream->getMetadata();
+        $actual = $stream->getMetadata();
         $I->assertNull($actual);
     }
 

@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
-use Phalcon\Http\Response\Headers;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
@@ -32,7 +31,7 @@ class SetStatusCodeCest extends HttpBase
 
         $response->setStatusCode(404, 'Not Found');
 
-        $actual   = $response->getHeaders();
+        $actual = $response->getHeaders();
         $I->assertEquals(
             '',
             $actual->get('HTTP/1.1 404 Not Found')
@@ -60,7 +59,7 @@ class SetStatusCodeCest extends HttpBase
         $response->setStatusCode(404, 'Not Found');
         $response->setStatusCode(409, 'Conflict');
 
-        $actual   = $response->getHeaders();
+        $actual = $response->getHeaders();
         $I->assertEquals(
             '',
             $actual->get('HTTP/1.1 409 Conflict')
@@ -79,7 +78,7 @@ class SetStatusCodeCest extends HttpBase
 
         $response->setStatusCode(103);
 
-        $actual   = $response->getHeaders();
+        $actual = $response->getHeaders();
         $I->assertEquals(
             '',
             $actual->get('HTTP/1.1 103 Early Hints')
@@ -91,7 +90,7 @@ class SetStatusCodeCest extends HttpBase
 
         $response->setStatusCode(200);
 
-        $actual   = $response->getHeaders();
+        $actual = $response->getHeaders();
         $I->assertEquals(
             '',
             $actual->get('HTTP/1.1 200 OK')
@@ -103,7 +102,7 @@ class SetStatusCodeCest extends HttpBase
 
         $response->setStatusCode(418);
 
-        $actual   = $response->getHeaders();
+        $actual = $response->getHeaders();
         $I->assertEquals(
             '',
             $actual->get("HTTP/1.1 418 I'm a teapot")
@@ -115,7 +114,7 @@ class SetStatusCodeCest extends HttpBase
 
         $response->setStatusCode(418, 'My own message');
 
-        $actual   = $response->getHeaders();
+        $actual = $response->getHeaders();
         $I->assertEquals(
             '',
             $actual->get('HTTP/1.1 418 My own message')

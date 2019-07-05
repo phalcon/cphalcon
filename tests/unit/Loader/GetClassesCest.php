@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Loader;
 
-use function dataDir;
 use Phalcon\Loader;
 use UnitTester;
+use function dataDir;
 
 class GetClassesCest
 {

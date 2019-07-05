@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use Phalcon\Security;
 use UnitTester;
 
 class GetSaltBytesCest

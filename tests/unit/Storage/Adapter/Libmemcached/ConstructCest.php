@@ -14,12 +14,12 @@ namespace Phalcon\Test\Unit\Storage\Adapter\Libmemcached;
 
 use DateInterval;
 use Exception;
-use function getOptionsLibmemcached;
 use Phalcon\Storage\Adapter\AdapterInterface;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Storage\Adapter\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
+use function getOptionsLibmemcached;
 
 class ConstructCest
 {

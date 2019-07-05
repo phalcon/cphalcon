@@ -42,7 +42,6 @@ class RemoveCest
         );
 
 
-
         $attributes->remove('class');
 
         $expected = [

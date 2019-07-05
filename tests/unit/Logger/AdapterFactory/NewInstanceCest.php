@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\AdapterFactory;
 
-use function outputDir;
 use Phalcon\Logger\Adapter\AdapterInterface;
 use Phalcon\Logger\AdapterFactory;
 use UnitTester;
+use function outputDir;
 
 class NewInstanceCest
 {
@@ -31,7 +31,7 @@ class NewInstanceCest
 
         $fileName = $I->getNewFileName();
         $fileName = outputDir('tests/logs/' . $fileName);
-        $factory = new AdapterFactory();
+        $factory  = new AdapterFactory();
 
         $logger = $factory->newInstance('stream', $fileName);
         $I->assertInstanceOf(AdapterInterface::class, $logger);

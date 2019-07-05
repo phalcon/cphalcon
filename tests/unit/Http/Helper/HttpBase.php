@@ -163,7 +163,7 @@ class HttpBase
     /**
      * Checks the get functions for sanitized data (array filters)
      *
-     * @param array      $filter
+     * @param array $filter
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05

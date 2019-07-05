@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
-use Phalcon\Http\Response\Headers;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
@@ -32,7 +31,7 @@ class SetContentLengthCest extends HttpBase
 
         $response->setContentLength(100);
 
-        $actual   = $response->getHeaders();
+        $actual = $response->getHeaders();
         $I->assertEquals(
             100,
             $actual->get('Content-Length')

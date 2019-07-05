@@ -17,7 +17,8 @@ use UnitTester;
 class ContainerServiceNotFoundCest
 {
     /**
-     * Unit Tests Phalcon\Di\Exception\ServiceResolutionException :: containerServiceNotFound()
+     * Unit Tests Phalcon\Di\Exception\ServiceResolutionException ::
+     * containerServiceNotFound()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-06-13

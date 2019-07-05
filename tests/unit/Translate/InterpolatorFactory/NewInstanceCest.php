@@ -26,8 +26,8 @@ class NewInstanceCest
      *
      * @dataProvider getExamples
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-18
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-05-18
      */
     public function translateInterpolatorFactoryNewInstance(UnitTester $I, Example $example)
     {
@@ -45,8 +45,8 @@ class NewInstanceCest
      *
      * @dataProvider getExamples
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-05-18
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-05-18
      */
     public function translateInterpolatorFactoryNewInstanceException(UnitTester $I)
     {

@@ -51,13 +51,12 @@ class SessionCest
     }
 
 
-
     /**
      * Tests auto escaping
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalconphp.com>
      * @issue  https://github.com/phalcon/cphalcon/issues/11448
-     * @since  2016-06-15
+     * @since        2016-06-15
      *
      * @dataProvider testShouldAutoEscapeHtmlProvider
      */
@@ -66,7 +65,6 @@ class SessionCest
         $function = $example[0];
 
         $flash = $this->getFlash();
-
 
 
         $flash->setAutoescape(false);
@@ -83,7 +81,6 @@ class SessionCest
         );
 
 
-
         ob_start();
         $flash->$function(
             "<script>alert('This will execute as JavaScript!')</script>"
@@ -98,7 +95,6 @@ class SessionCest
         );
 
 
-
         $flash->setAutoescape(true);
 
         $message = "<script>alert('This will execute as JavaScript!')</script>";
@@ -111,7 +107,6 @@ class SessionCest
             ],
             $flash->getMessages($function)
         );
-
 
 
         ob_start();
@@ -235,8 +230,8 @@ class SessionCest
     /**
      * Test output formatted messages
      *
-     * @author Iván Guillén <zeopix@gmail.com>
-     * @since  2015-10-26
+     * @author       Iván Guillén <zeopix@gmail.com>
+     * @since        2015-10-26
      *
      * @dataProvider testMessageFormatProvider
      */
@@ -251,7 +246,7 @@ class SessionCest
             $this->classes[$function]
         );
 
-        $message  = 'sample message';
+        $message = 'sample message';
 
         $expected = sprintf(
             '<div%s>%s</div>' . PHP_EOL,
@@ -292,7 +287,7 @@ class SessionCest
 
         $flash->setCustomTemplate($template);
 
-        $message  = 'sample message';
+        $message = 'sample message';
 
         $flash->success($message);
 

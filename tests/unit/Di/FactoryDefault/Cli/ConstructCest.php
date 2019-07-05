@@ -16,13 +16,10 @@ use Phalcon\Annotations\Adapter\Memory;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Router;
 use Phalcon\Di\FactoryDefault\Cli;
-use Phalcon\Escaper;
 use Phalcon\Events\Manager;
-use Phalcon\Filter;
 use Phalcon\Mvc\Model\Manager as ModelManager;
 use Phalcon\Mvc\Model\MetaData\Memory as MemoryMedaData;
 use Phalcon\Mvc\Model\Transaction\Manager as ManagerTransaction;
-use Phalcon\Security;
 use UnitTester;
 
 class ConstructCest

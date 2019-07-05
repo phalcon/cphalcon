@@ -12,12 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use Phalcon\Security;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use UnitTester;
 use function session_destroy;
 use function session_start;
 use function session_status;
-use UnitTester;
 
 class CheckTokenCest
 {
@@ -65,7 +64,6 @@ class CheckTokenCest
         $security->setDI($container);
 
 
-
         // Random token and token key check
         $tokenKey = $security->getTokenKey();
         $token    = $security->getToken();
@@ -87,7 +85,6 @@ class CheckTokenCest
         );
 
 
-
         // Destroy token check
         $tokenKey = $security->getTokenKey();
         $token    = $security->getToken();
@@ -101,7 +98,6 @@ class CheckTokenCest
         $I->assertFalse(
             $security->checkToken()
         );
-
 
 
         // Custom token key check
@@ -122,7 +118,6 @@ class CheckTokenCest
         $I->assertTrue(
             $security->checkToken('custom_key')
         );
-
 
 
         // Custom token value check

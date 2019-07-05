@@ -17,7 +17,8 @@ use UnitTester;
 class GetPreviousCest
 {
     /**
-     * Unit Tests Phalcon\Di\Exception\ServiceResolutionException :: getPrevious()
+     * Unit Tests Phalcon\Di\Exception\ServiceResolutionException ::
+     * getPrevious()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-06-13

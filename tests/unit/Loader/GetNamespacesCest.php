@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Loader;
 
-use function dataDir;
 use Phalcon\Loader;
 use UnitTester;
+use function dataDir;
 
 class GetNamespacesCest
 {
@@ -32,7 +32,7 @@ class GetNamespacesCest
 
         $loader->registerNamespaces(
             [
-                'Example\Namespaces\Base' => dataDir('fixtures/Loader/Example/Namespaces/Base/'),
+                'Example\Namespaces\Base'    => dataDir('fixtures/Loader/Example/Namespaces/Base/'),
                 'Example\Namespaces\Adapter' => dataDir('fixtures/Loader/Example/Namespaces/Adapter/'),
                 'Example\Namespaces'         => dataDir('fixtures/Loader/Example/Namespaces/'),
             ]
@@ -40,13 +40,13 @@ class GetNamespacesCest
 
         $I->assertEquals(
             [
-                'Example\Namespaces\Base' => [
+                'Example\Namespaces\Base'    => [
                     dataDir('fixtures/Loader/Example/Namespaces/Base/'),
                 ],
                 'Example\Namespaces\Adapter' => [
                     dataDir('fixtures/Loader/Example/Namespaces/Adapter/'),
                 ],
-                'Example\Namespaces' => [
+                'Example\Namespaces'         => [
                     dataDir('fixtures/Loader/Example/Namespaces/'),
                 ],
             ],
