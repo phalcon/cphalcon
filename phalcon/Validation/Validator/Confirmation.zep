@@ -11,7 +11,7 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\AbstractValidator;
 
@@ -19,7 +19,7 @@ use Phalcon\Validation\AbstractValidator;
  * Checks that two values have the same value
  *
  * ```php
- * use Phalcon\Validation\Validation;
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Confirmation;
  *
  * $validator = new Validation();

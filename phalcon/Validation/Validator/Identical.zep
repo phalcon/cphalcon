@@ -11,14 +11,14 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\AbstractValidator;
 
 /**
  * Checks if a value is identical to other
  *
  * ```php
- * use Phalcon\Validation\Validation;
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Identical;
  *
  * $validator = new Validation();

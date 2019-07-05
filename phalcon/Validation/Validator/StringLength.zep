@@ -24,7 +24,7 @@ use Phalcon\Validation\Exception;
  * Since Phalcon v4.0 this valitor works like a container
  *
  * ```php
- * use Phalcon\Validation\Validation;
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\StringLength as StringLength;
  *
  * $validator = new Validation();

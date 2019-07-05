@@ -22,7 +22,7 @@ use Phalcon\Html\Attributes;
 use Phalcon\Html\Attributes\AttributesInterface;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\ValidationInterface;
 
 /**

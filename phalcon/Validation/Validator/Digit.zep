@@ -11,14 +11,14 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\AbstractValidator;
 
 /**
  * Check for numeric character(s)
  *
  * ```php
- * use Phalcon\Validation\Validation;
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Digit as DigitValidator;
  *
  * $validator = new Validation();

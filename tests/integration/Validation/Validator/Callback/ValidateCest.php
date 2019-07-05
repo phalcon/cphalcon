@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Validation\Validator\Callback;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\Validator\Callback;
 use Phalcon\Validation\Validator\Exception;
 use Phalcon\Validation\Validator\PresenceOf;

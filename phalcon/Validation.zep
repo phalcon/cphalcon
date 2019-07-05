@@ -8,10 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Validation;
+namespace Phalcon;
 
 use Phalcon\Di;
-use Phalcon\Di\DiInterface
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Messages\MessageInterface;
@@ -36,7 +36,7 @@ class Validation extends Injectable implements ValidationInterface
     protected values;
 
     /**
-     * Phalcon\Validation\Validation constructor
+     * Phalcon\Validation constructor
      */
     public function __construct(array validators = []) -> void
     {

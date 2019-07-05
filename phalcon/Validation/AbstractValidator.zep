@@ -13,7 +13,7 @@ namespace Phalcon\Validation;
 use Phalcon\Collection;
 use Phalcon\Helper\Arr;
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\ValidatorInterface;
 

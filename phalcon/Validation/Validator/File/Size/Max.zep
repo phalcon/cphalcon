@@ -11,7 +11,7 @@
 namespace Phalcon\Validation\Validator\File\Size;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\Validator\File\Size\Max;
 use Phalcon\Validation\Validator\File\AbstractFile;
 
@@ -19,7 +19,7 @@ use Phalcon\Validation\Validator\File\AbstractFile;
  * Checks if a value has a correct file
  *
  * ```php
- * use Phalcon\Validation\Validation;
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\File\Size;
  *
  * $validator = new Validation();

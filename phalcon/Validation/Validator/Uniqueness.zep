@@ -11,7 +11,7 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\AbstractCombinedFieldsValidator;
 use Phalcon\Validation\Exception;
 use Phalcon\Mvc\ModelInterface;
@@ -23,7 +23,7 @@ use Phalcon\Mvc\Collection;
  * Check that a field is unique in the related table
  *
  * ```php
- * use Phalcon\Validation\Validation;
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
  *
  * $validator = new Validation();

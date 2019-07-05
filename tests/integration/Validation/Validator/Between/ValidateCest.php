@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Validation\Validator\Between;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\Validator\Between;
 
 /**

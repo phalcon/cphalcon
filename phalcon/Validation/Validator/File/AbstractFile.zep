@@ -11,14 +11,14 @@
 namespace Phalcon\Validation\Validator\File;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\AbstractValidator;
 
 /**
  * Checks if a value has a correct file
  *
  * ```php
- * use Phalcon\Validation\Validation;
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\File\Size;
  *
  * $validator = new Validation();

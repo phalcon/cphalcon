@@ -11,7 +11,7 @@
 namespace Phalcon;
 
 use Psr\Container\ContainerInterface;
-use Phalcon\Di\DiInterface
+use Phalcon\Di\DiInterface;
 
 /**
  * PSR-11 Wrapper for `Phalcon\Di`

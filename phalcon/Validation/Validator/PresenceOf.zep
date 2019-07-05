@@ -11,14 +11,14 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\AbstractValidator;
 
 /**
  * Validates that a value is not null or empty string
  *
  * ```php
- * use Phalcon\Validation\Validation;
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\PresenceOf;
  *
  * $validator = new Validation();

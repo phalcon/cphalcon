@@ -11,7 +11,7 @@
 namespace Phalcon\Validation\Validator\StringLength;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\AbstractValidator;
 use Phalcon\Validation\Exception;
 
@@ -21,7 +21,7 @@ use Phalcon\Validation\Exception;
  * be at most max.
  *
  * ```php
- * use Phalcon\Validation\Validation;
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\StringLength\Max;
  *
  * $validator = new Validation();

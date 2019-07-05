@@ -11,7 +11,7 @@
 namespace Phalcon\Validation;
 
 use Phalcon\Collection;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 
 /**
  * Interface for Phalcon\Validation\AbstractValidator

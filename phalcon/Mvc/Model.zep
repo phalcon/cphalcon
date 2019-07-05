@@ -5309,7 +5309,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *
      *```php
      * use Phalcon\Mvc\Model;
-     * use Phalcon\Validation\Validation;
+     * use Phalcon\Validation;
      * use Phalcon\Validation\Validator\ExclusionIn;
      *
      * class Subscriptors extends Model
@@ -5367,7 +5367,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *
      *```php
      * use Phalcon\Mvc\Model;
-     * use Phalcon\Validation\Validation;
+     * use Phalcon\Validation;
      * use Phalcon\Validation\Validator\ExclusionIn;
      *
      * class Subscriptors extends Model

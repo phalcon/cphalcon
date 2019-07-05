@@ -14,7 +14,7 @@ namespace Phalcon\Test\Integration\Validation\Validator\Numericality;
 
 use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\Validator\Numericality;
 use stdClass;
 

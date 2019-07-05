@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Validation\Validator\StringLength;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\Validator\StringLength;
 use Phalcon\Validation\Validator\StringLength\Max;
 use Phalcon\Validation\Validator\StringLength\Min;

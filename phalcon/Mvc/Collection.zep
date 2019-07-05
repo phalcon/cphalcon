@@ -1225,7 +1225,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      *
      *```php
      * use Phalcon\Mvc\Collection;
-     * use Phalcon\Validation\Validation;
+     * use Phalcon\Validation;
      * use Phalcon\Validation\Validator\ExclusionIn;
      *
      * class Subscriptors extends Collection

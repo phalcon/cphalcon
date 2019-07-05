@@ -11,14 +11,14 @@
 namespace Phalcon\Validation\Validator\File\Resolution;
 
 use Phalcon\Messages\Message;
-use Phalcon\Validation\Validation;
+use Phalcon\Validation;
 use Phalcon\Validation\Validator\File\AbstractFile;
 
 /**
  * Checks if a file has the rigth resolution
  *
  * ```php
- * use Phalcon\Validation\Validation;
+ * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\File\Resolution\Min;
  *
  * $validator = new Validation();
