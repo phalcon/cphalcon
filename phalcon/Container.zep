@@ -8,10 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Container;
+namespace Phalcon;
 
 use Psr\Container\ContainerInterface;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface
 
 /**
  * PSR-11 Wrapper for `Phalcon\Di`

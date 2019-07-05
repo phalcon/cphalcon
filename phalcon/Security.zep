@@ -10,7 +10,7 @@
 
 namespace Phalcon;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface
 use Phalcon\Security\Random;
 use Phalcon\Security\Exception;
 use Phalcon\Di\InjectionAwareInterface;
