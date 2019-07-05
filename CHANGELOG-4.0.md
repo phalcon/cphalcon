@@ -40,8 +40,8 @@
 - Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getHasManyRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)  
 - Validator messages were moved into each validator. [#13208](https://github.com/phalcon/cphalcon/issues/13208)  
 - `Phalcon\Paginator\Repository::getProperty()` now uses `Phalcon\Helper\Arr::get()`.
-- Refactored `Phalcon\Collection\Collection` to allow conditional key case sensitivity. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
-- Refactored `Phalcon\Registry` to align with the `Phalcon\Collection\Collection` interface. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
+- Refactored `Phalcon\Collection` to allow conditional key case sensitivity. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
+- Refactored `Phalcon\Registry` to align with the `Phalcon\Collection` interface. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
 - `Phalcon\Mvc\Micro::setModelBinder()` now uses the Factory Default DI if none is set. [#14171](https://github.com/phalcon/cphalcon/pull/14171)
 - `Phalcon\Mvc\Model\ValidationFailed` now works with `ModelInterface`.
 - Refactored `Phalcon\Config` to extend `Phalcon\Collection` [#13201](https://github.com/phalcon/cphalcon/issues/13201), [#13768](https://github.com/phalcon/cphalcon/issues/13768)
