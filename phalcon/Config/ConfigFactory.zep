@@ -10,6 +10,7 @@
 
 namespace Phalcon\Config;
 
+use Phalcon\Config;
 use Phalcon\Config\Adapter\Grouped;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Adapter\Json;
@@ -74,7 +75,7 @@ class ConfigFactory extends AbstractFactory
 
         if unlikely typeof config !== "array" {
             throw new Exception(
-                "Config must be array or Phalcon\\Config\\Config object"
+                "Config must be array or Phalcon\\Config object"
             );
         }
 
