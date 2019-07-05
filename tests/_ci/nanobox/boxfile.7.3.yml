@@ -78,7 +78,7 @@ run.config:
         rm -fR $CURRENT_FOLDER/build/msgpack-php
         cd $CURRENT_FOLDER/build
         git clone --depth=1 https://github.com/msgpack/msgpack-php.git
-        cd php-psr
+        cd msgpack-php
         set -e
         phpize
         ./configure --with-php-config=$(which php-config)
