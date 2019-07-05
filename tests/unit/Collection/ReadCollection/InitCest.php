@@ -10,22 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Collection\ReadCollection;
+namespace Phalcon\Test\Unit\Collection\ReadOnly;
 
-use Phalcon\Collection\ReadCollection;
+use Phalcon\Collection\ReadOnly;
 use UnitTester;
 
 class InitCest
 {
     /**
-     * Tests Phalcon\Collection\ReadCollection :: init()
+     * Tests Phalcon\Collection\ReadOnly :: init()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionInit(UnitTester $I)
     {
-        $I->wantToTest('ReadCollection - init()');
+        $I->wantToTest('ReadOnly - init()');
 
         $data = [
             'one'   => 'two',
@@ -33,7 +33,7 @@ class InitCest
             'five'  => 'six',
         ];
 
-        $collection = new ReadCollection();
+        $collection = new ReadOnly();
 
         $I->assertEquals(
             0,

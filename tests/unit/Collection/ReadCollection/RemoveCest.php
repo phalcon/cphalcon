@@ -10,30 +10,30 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Collection\ReadCollection;
+namespace Phalcon\Test\Unit\Collection\ReadOnly;
 
 use Phalcon\Collection\Exception;
-use Phalcon\Collection\ReadCollection;
+use Phalcon\Collection\ReadOnly;
 use UnitTester;
 
 class RemoveCest
 {
     /**
-     * Tests Phalcon\Collection\ReadCollection :: remove()
+     * Tests Phalcon\Collection\ReadOnly :: remove()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionRemove(UnitTester $I)
     {
-        $I->wantToTest('ReadCollection - remove()');
+        $I->wantToTest('ReadOnly - remove()');
 
         $data       = [
             'one'   => 'two',
             'three' => 'four',
             'five'  => 'six',
         ];
-        $collection = new ReadCollection($data);
+        $collection = new ReadOnly($data);
 
         $I->expectThrowable(
             new Exception('The object is read only'),
