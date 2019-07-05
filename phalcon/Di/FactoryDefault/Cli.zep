@@ -38,13 +38,13 @@ class Cli extends FactoryDefault
         let this->services = [
             "annotations":        new Service("Phalcon\\Annotations\\Adapter\\Memory", true),
             "dispatcher":         new Service("Phalcon\\Cli\\Dispatcher", true),
-            "escaper":            new Service("Phalcon\\Escaper\\Escaper", true),
+            "escaper":            new Service("Phalcon\\Escaper", true),
             "eventsManager":      new Service("Phalcon\\Events\\Manager", true),
             "filter":             new Service(filter->newInstance(), true),
             "modelsManager":      new Service("Phalcon\\Mvc\\Model\\Manager", true),
             "modelsMetadata":     new Service("Phalcon\\Mvc\\Model\\MetaData\\Memory", true),
             "router":             new Service("Phalcon\\Cli\\Router", true),
-            "security":           new Service("Phalcon\\Security\\Security", true),
+            "security":           new Service("Phalcon\\Security", true),
             "transactionManager": new Service("Phalcon\\Mvc\\Model\\Transaction\\Manager", true)
         ];
     }
