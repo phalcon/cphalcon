@@ -23,19 +23,7 @@ foreach ($iterator as $file) {
         $fileName = str_replace($sourceDir, '', $file->getPathName());
         $split    = explode("/", $fileName);
         $title    = str_replace('Phalcon\\', '', $fileName);
-
-        if (strpos($fileName, '.zep') > 0) {
-            $key = str_replace('.zep', '', $split[0]);
-            if ('UrlInterface' === $key) {
-                $key = 'Url';
-            }
-
-            if ('DiInterface' === $key) {
-                $key = 'Di';
-            }
-        } else {
-            $key = $split[0];
-        }
+        $key      = $split[0];
 
         $documents[$key]['title']           = 'Phalcon\\' . $split[0];
         $documents[$key]['docs'][$fileName] = $fileName;
