@@ -16,6 +16,7 @@
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Config;
 use InjectableComponent;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;

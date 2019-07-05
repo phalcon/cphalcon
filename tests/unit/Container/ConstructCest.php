@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Container;
 
+use Phalcon\Container;
 use Phalcon\Di;
 use Psr\Container\ContainerInterface;
 use UnitTester;
