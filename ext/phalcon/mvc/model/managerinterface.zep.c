@@ -263,12 +263,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, isUsingDynamicUpdate);
 /**
  * Check whether a model property is declared as public.
  *
- * <code>
+ * ```php
  * $isPublic = $manager->isVisibleModelProperty(
  *     new Robots(),
  *     "name"
  * );
- * </code>
+ * ```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, isVisibleModelProperty);
 

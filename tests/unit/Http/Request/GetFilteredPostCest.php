@@ -15,8 +15,8 @@ namespace Phalcon\Test\Unit\Http\Request;
 use Codeception\Example;
 use Phalcon\Http\Request;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function ucfirst;
 use UnitTester;
+use function ucfirst;
 
 class GetFilteredPostCest
 {

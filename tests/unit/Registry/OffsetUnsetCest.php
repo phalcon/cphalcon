@@ -36,7 +36,6 @@ class OffsetUnsetCest
         $registry = new Registry($data);
 
 
-
         unset($registry['five']);
 
         $I->assertEquals(
@@ -46,7 +45,6 @@ class OffsetUnsetCest
             ],
             $registry->toArray()
         );
-
 
 
         $registry->offsetUnset('one');

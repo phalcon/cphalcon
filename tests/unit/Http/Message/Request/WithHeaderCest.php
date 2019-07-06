@@ -96,8 +96,8 @@ class WithHeaderCest
      *
      * @dataProvider getExamples
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-10
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-02-10
      */
     public function httpMessageRequestWithHeaderExceptionValue(UnitTester $I, Example $example)
     {
@@ -120,7 +120,7 @@ class WithHeaderCest
         );
     }
 
-    
+
     private function getExamples(): array
     {
         return [

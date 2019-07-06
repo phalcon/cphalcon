@@ -10,6 +10,7 @@
 
 namespace Phalcon\Image\Adapter;
 
+use Phalcon\Image\Enum;
 use Phalcon\Image\Adapter\AbstractAdapter;
 use Phalcon\Image\Exception;
 
@@ -224,7 +225,7 @@ class Gd extends AbstractAdapter
 
     protected function processFlip(int direction)
     {
-        if direction == \Phalcon\Image::HORIZONTAL {
+        if direction == Enum::HORIZONTAL {
             imageflip(this->image, IMG_FLIP_HORIZONTAL);
         } else {
             imageflip(this->image, IMG_FLIP_VERTICAL);

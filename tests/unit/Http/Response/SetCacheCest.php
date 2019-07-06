@@ -14,7 +14,6 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use DateTime;
 use DateTimeZone;
-use Phalcon\Http\Response\Headers;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
@@ -40,7 +39,7 @@ class SetCacheCest extends HttpBase
 
         $response->setCache(60);
 
-        $actual   = $response->getHeaders();
+        $actual = $response->getHeaders();
         $I->assertEquals(
             $expiry->format('D, d M Y H:i:s') . ' GMT',
             $actual->get('Expires')

@@ -41,7 +41,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, delete);
 /**
  * Filters a resultset returning only those the developer requires
  *
- *<code>
+ *```php
  * $filtered = $robots->filter(
  *     function ($robot) {
  *         if ($robot->id < 3) {
@@ -49,7 +49,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, delete);
  *         }
  *     }
  * );
- *</code>
+ *```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, filter);
 

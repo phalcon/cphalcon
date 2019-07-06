@@ -15,7 +15,7 @@ use Phalcon\Mvc\Dispatcher\Exception;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\ControllerInterface;
-use Phalcon\Dispatcher as BaseDispatcher;
+use Phalcon\Dispatcher\AbstractDispatcher as BaseDispatcher;
 
 /**
  * Dispatching is the process of taking the request object, extracting the
@@ -226,7 +226,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
         if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("the 'response' service"),
-                BaseDispatcher::EXCEPTION_NO_DI
+                Exception::EXCEPTION_NO_DI
             );
         }
 

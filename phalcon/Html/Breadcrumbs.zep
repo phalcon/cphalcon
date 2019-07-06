@@ -10,7 +10,7 @@
 
 namespace Phalcon\Html;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 
 /**
  * Phalcon\Html\Breadcrumbs
@@ -97,7 +97,6 @@ class Breadcrumbs
      * Renders and outputs breadcrumbs based on previously set template.
      *
      * ```php
-     * // PHP Engine
      * echo $breadcrumbs->render();
      * ```
      */

@@ -29,12 +29,15 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * Factory to create Cache adapters
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_AdapterFactory) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache, AdapterFactory, phalcon, cache_adapterfactory, phalcon_factory_abstractfactory_ce, phalcon_cache_adapterfactory_method_entry, 0);
 
 	/**
-	 * @var <SerializerFactory>
+	 * @var SerializerFactory
 	 */
 	zend_declare_property_null(phalcon_cache_adapterfactory_ce, SL("serializerFactory"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
@@ -127,7 +130,7 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, newInstance) {
 	zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset(&_0, &name))) {
 		zephir_read_property(&_1$$3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY | PH_READONLY, "phalcon/Cache/AdapterFactory.zep", 45 TSRMLS_CC);
+		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY | PH_READONLY, "phalcon/Cache/AdapterFactory.zep", 48 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_fetch_safe_class(&_3$$3, &definition);
 		_4$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_3$$3), Z_STRLEN_P(&_3$$3), ZEND_FETCH_CLASS_AUTO);
@@ -140,11 +143,14 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, newInstance) {
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_6, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_7, &_6, &name, PH_NOISY | PH_READONLY, "phalcon/Cache/AdapterFactory.zep", 49 TSRMLS_CC);
+	zephir_array_fetch(&_7, &_6, &name, PH_NOISY | PH_READONLY, "phalcon/Cache/AdapterFactory.zep", 52 TSRMLS_CC);
 	RETURN_CTOR(&_7);
 
 }
 
+/**
+ * Returns the available adapters
+ */
 PHP_METHOD(Phalcon_Cache_AdapterFactory, getAdapters) {
 
 	zval *this_ptr = getThis();

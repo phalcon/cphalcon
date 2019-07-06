@@ -16,7 +16,7 @@ use IntegrationTester;
 use function ob_end_clean;
 use function ob_start;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl as PhAcl;
+use Phalcon\Acl\Enum;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Micro\Acl;
 use Phalcon\Mvc\Micro;
@@ -133,7 +133,7 @@ class BeforeExecuteRouteCest
             ]
         );
 
-        $acl->setDefaultAction(PhAcl::DENY);
+        $acl->setDefaultAction(Enum::DENY);
 
         $acl->addRole('ROLE1');
         $acl->addRole('ROLE2');

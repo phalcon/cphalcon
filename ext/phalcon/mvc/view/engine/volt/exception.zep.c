@@ -27,8 +27,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\View\Exception
- *
  * Class for exceptions thrown by Phalcon\Mvc\View
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt_Exception) {

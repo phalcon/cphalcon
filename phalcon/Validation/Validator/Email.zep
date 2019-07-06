@@ -12,11 +12,9 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\Email
- *
  * Checks if a value has a correct e-mail format
  *
  * ```php
@@ -50,7 +48,7 @@ use Phalcon\Validation\Validator;
  * );
  * ```
  */
-class Email extends Validator
+class Email extends AbstractValidator
 {
     protected template = "Field :field must be an email address";
     /**

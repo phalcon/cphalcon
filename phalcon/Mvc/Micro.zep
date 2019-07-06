@@ -12,7 +12,7 @@ namespace Phalcon\Mvc;
 
 use ArrayAccess;
 use Closure;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Mvc\Controller;
 use Phalcon\Di\FactoryDefault;

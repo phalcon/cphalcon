@@ -12,11 +12,10 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\ValidatorInterface;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\Callback
- *
  * Calls user function for validation
  *
  * ```php
@@ -60,7 +59,7 @@ use Phalcon\Validation\Validator;
  * );
  * ```
  */
-class Callback extends Validator
+class Callback extends AbstractValidator
 {
     protected template = "Field :field must match the callback function";
 
@@ -92,7 +91,7 @@ class Callback extends Validator
                 }
 
                 return true;
-            } elseif typeof returnedValue == "object" && returnedValue instanceof Validator {
+            } elseif typeof returnedValue == "object" && returnedValue instanceof ValidatorInterface {
                 return returnedValue->validate(validation, field);
             }
 

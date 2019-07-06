@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
-use function dataDir;
 use Phalcon\Assets\Asset\Js;
 use UnitTester;
+use function dataDir;
 
 class GetContentCest
 {

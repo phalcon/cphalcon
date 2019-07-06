@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\UploadedFile;
 
-use function outputDir;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\Stream;
 use Phalcon\Http\Message\UploadedFile;
 use Psr\Http\Message\StreamInterface;
 use UnitTester;
+use function outputDir;
 use const UPLOAD_ERR_CANT_WRITE;
 
 class GetStreamCest
@@ -93,7 +93,8 @@ class GetStreamCest
     }
 
     /**
-     * Tests Phalcon\Http\Message\UploadedFile :: getStream() - exception already moved
+     * Tests Phalcon\Http\Message\UploadedFile :: getStream() - exception
+     * already moved
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-10

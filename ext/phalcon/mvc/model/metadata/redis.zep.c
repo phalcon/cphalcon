@@ -35,7 +35,7 @@
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
  *
- *<code>
+ *```php
  * use Phalcon\Mvc\Model\MetaData\Redis;
  *
  * $metaData = new Redis(
@@ -47,7 +47,7 @@
  *         "index"      => 2,
  *     ]
  * );
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Redis) {
 

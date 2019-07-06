@@ -13,7 +13,7 @@ namespace Phalcon\Session;
 use InvalidArgumentException;
 use RuntimeException;
 use SessionHandlerInterface;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\DI\InjectionAwareInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Session\ManagerInterface;

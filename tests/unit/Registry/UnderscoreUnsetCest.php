@@ -41,7 +41,6 @@ class UnderscoreUnsetCest
         );
 
 
-
         unset($registry->five);
 
         $I->assertEquals(
@@ -51,7 +50,6 @@ class UnderscoreUnsetCest
             ],
             $registry->toArray()
         );
-
 
 
         unset($registry->FIVE);

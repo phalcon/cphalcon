@@ -10,7 +10,7 @@
 
 namespace Phalcon\Config\Adapter;
 
-use Phalcon\Config\Config;
+use Phalcon\Config;
 use Phalcon\Config\Exception;
 use Phalcon\Factory\Exception as FactoryException;
 use Phalcon\Config\ConfigFactory;

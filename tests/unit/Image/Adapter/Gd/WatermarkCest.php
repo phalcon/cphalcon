@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
-use Phalcon\Image;
 use Phalcon\Image\Adapter\Gd;
+use Phalcon\Image\Enum;
 use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
@@ -38,7 +38,7 @@ class WatermarkCest
         $watermark = new Gd(
             dataDir('assets/images/phalconphp.jpg')
         );
-        $watermark->resize(250, null, Image::WIDTH);
+        $watermark->resize(250, null, Enum::WIDTH);
 
         $outputDir   = 'tests/image/gd';
         $outputImage = 'watermark.jpg';
@@ -123,7 +123,7 @@ class WatermarkCest
         $watermark = new Gd(
             dataDir('assets/images/phalconphp.jpg')
         );
-        $watermark->resize(50, 50, Image::NONE);
+        $watermark->resize(50, 50, Enum::NONE);
 
         $outputDir   = 'tests/image/gd';
         $outputImage = 'watermark.png';
@@ -167,7 +167,7 @@ class WatermarkCest
         $watermark = new Gd(
             dataDir('assets/images/logo.png')
         );
-        $watermark->resize(null, 30, Image::HEIGHT);
+        $watermark->resize(null, 30, Enum::HEIGHT);
 
         $outputDir   = 'tests/image/gd';
         $outputImage = 'watermark.png';

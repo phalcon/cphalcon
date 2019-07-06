@@ -12,11 +12,9 @@ namespace Phalcon\Validation\Validator\File\Resolution;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator\File\FileAbstract;
+use Phalcon\Validation\Validator\File\AbstractFile;
 
 /**
- * Phalcon\Validation\Validator\File\Resolution\Equal
- *
  * Checks if a file has the rigth resolution
  *
  * ```php
@@ -55,7 +53,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  * );
  * ```
  */
-class Equal extends FileAbstract
+class Equal extends AbstractFile
 {
     protected template = "The resolution of the field :field has to be equal :resolution";
 

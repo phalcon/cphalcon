@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Annotations\AdapterInterface
- *
  * This interface must be implemented by adapters in Phalcon\Annotations
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_AdapterInterface) {

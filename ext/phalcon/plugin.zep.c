@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Plugin
- *
  * This class can be used to provide user plugins an easy access to services
  * in the application
  */

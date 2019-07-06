@@ -10,7 +10,7 @@
 
 namespace Phalcon\Di\Service;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception;
 
 /**

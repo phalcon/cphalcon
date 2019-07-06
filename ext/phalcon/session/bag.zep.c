@@ -35,16 +35,16 @@
  * this way you can easily create groups of session variables into the
  * application
  *
- * <code>
+ * ```php
  * $user = new \Phalcon\Session\Bag("user");
  *
  * $user->name = "Kimbra Johnson";
  * $user->age  = 22;
- * </code>
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Bag) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session, Bag, phalcon, session_bag, phalcon_collection_collection_ce, phalcon_session_bag_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session, Bag, phalcon, session_bag, phalcon_collection_ce, phalcon_session_bag_method_entry, 0);
 
 	zend_declare_property_null(phalcon_session_bag_ce, SL("container"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 		ZVAL_STRING(&_4$$3, "the 'session' service");
 		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_session_exception_ce, "containerservicenotfound", &_3, 0, &_4$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 1, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 5, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Bag.zep", 55 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

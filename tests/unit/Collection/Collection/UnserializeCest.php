@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Collection\Collection;
 
-use Phalcon\Collection\Collection;
+use Phalcon\Collection;
 use UnitTester;
 
 class UnserializeCest
 {
     /**
-     * Tests Phalcon\Collection\Collection :: unserialize()
+     * Tests Phalcon\Collection :: unserialize()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

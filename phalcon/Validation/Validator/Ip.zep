@@ -11,12 +11,10 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 use Phalcon\Messages\Message;
 
 /**
- * Phalcon\Validation\Validator\ip
- *
  * Check for IP addresses
  *
  * ```php
@@ -67,7 +65,7 @@ use Phalcon\Messages\Message;
  * );
  * ```
  */
-class Ip extends Validator
+class Ip extends AbstractValidator
 {
     const VERSION_4  = FILTER_FLAG_IPV4;
     const VERSION_6  = FILTER_FLAG_IPV6;

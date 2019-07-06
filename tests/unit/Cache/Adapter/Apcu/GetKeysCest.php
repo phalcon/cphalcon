@@ -37,7 +37,6 @@ class GetKeysCest
         $adapter->clear();
 
 
-
         $key = 'key-1';
 
         $adapter->set($key, 'test');
@@ -47,7 +46,6 @@ class GetKeysCest
         );
 
 
-
         $key = 'key-2';
 
         $adapter->set($key, 'test');
@@ -55,7 +53,6 @@ class GetKeysCest
         $I->assertTrue(
             $adapter->has($key)
         );
-
 
 
         $expected = [

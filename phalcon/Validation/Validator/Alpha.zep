@@ -12,11 +12,9 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\Alpha
- *
  * Check for alphabetic character(s)
  *
  * ```php
@@ -50,7 +48,7 @@ use Phalcon\Validation\Validator;
  * );
  * ```
  */
-class Alpha extends Validator
+class Alpha extends AbstractValidator
 {
     protected template = "Field :field must contain only letters";
 

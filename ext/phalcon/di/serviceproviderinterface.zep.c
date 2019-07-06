@@ -21,15 +21,13 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Di\ServiceProviderInterface
- *
  * Should be implemented by service providers, or such components, which
  * register a service in the service container.
  *
- * <code>
+ * ```php
  * namespace Acme;
  *
- * use Phalcon\DiInterface;
+ * use Phalcon\Di\DiInterface;
  * use Phalcon\Di\ServiceProviderInterface;
  *
  * class SomeServiceProvider implements ServiceProviderInterface
@@ -44,7 +42,7 @@
  *         );
  *     }
  * }
- * </code>
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di_ServiceProviderInterface) {
 

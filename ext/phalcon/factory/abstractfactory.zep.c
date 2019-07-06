@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, checkService) {
 		object_init_ex(&_1$$3, phalcon_factory_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Service ", &name, " is not registered");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 1, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 5, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Factory/AbstractFactory.zep", 34 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, checkConfig) {
 
 	_0 = Z_TYPE_P(config) == IS_OBJECT;
 	if (_0) {
-		_0 = zephir_instance_of_ev(config, phalcon_config_config_ce TSRMLS_CC);
+		_0 = zephir_instance_of_ev(config, phalcon_config_ce TSRMLS_CC);
 	}
 	if (_0) {
 		ZEPHIR_CALL_METHOD(&_1$$3, config, "toarray", NULL, 0);

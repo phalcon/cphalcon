@@ -29,8 +29,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Assets\Asset\Css
- *
  * Represents CSS assets
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Asset_Css) {
@@ -42,7 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Asset_Css) {
 }
 
 /**
- * Phalcon\Assets\Asset\Css
+ * Phalcon\Assets\Asset\Css constructor
  */
 PHP_METHOD(Phalcon_Assets_Asset_Css, __construct) {
 

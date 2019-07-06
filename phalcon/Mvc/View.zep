@@ -11,7 +11,7 @@
 namespace Phalcon\Mvc;
 
 use Closure;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Helper\Arr;

@@ -18,7 +18,7 @@ use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config\Adapter\Json;
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
-use Phalcon\Config\Config;
+use Phalcon\Config;
 use Phalcon\Config\Exception;
 use UnitTester;
 

@@ -12,17 +12,17 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Cache;
 
+use Phalcon\Cache;
 use Phalcon\Cache\AdapterFactory;
-use Phalcon\Cache\Cache;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
-use function uniqid;
 use UnitTester;
+use function uniqid;
 
 class SetMultipleCest
 {
     /**
-     * Tests Phalcon\Cache\Cache :: setMultiple()
+     * Tests Phalcon\Cache :: setMultiple()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01
@@ -64,7 +64,7 @@ class SetMultipleCest
     }
 
     /**
-     * Tests Phalcon\Cache\Cache :: setMultiple() - exception
+     * Tests Phalcon\Cache :: setMultiple() - exception
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01

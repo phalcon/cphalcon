@@ -29,8 +29,6 @@
  * @see Original inspiration for the https://github.com/phalcon/phalcon-api
  */
 /**
- * Phalcon\Domain\Payload\WriteableInterface
- *
  * This interface is used for consumers (write)
  */
 ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_WriteableInterface) {

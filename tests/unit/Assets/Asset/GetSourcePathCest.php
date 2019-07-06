@@ -21,8 +21,8 @@ class GetSourcePathCest
     /**
      * Tests Phalcon\Assets\Asset :: getSourcePath() - local
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider localProvider
      */
@@ -48,8 +48,8 @@ class GetSourcePathCest
     /**
      * Tests Phalcon\Assets\Asset :: getSourcePath() - remote
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider remoteProvider
      */

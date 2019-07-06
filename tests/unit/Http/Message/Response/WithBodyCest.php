@@ -29,7 +29,7 @@ class WithBodyCest
         $I->wantToTest('Http\Message\Response - withBody()');
         $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $stream   = new Stream($fileName, 'rb');
-        $response  = new Response();
+        $response = new Response();
 
         $newInstance = $response->withBody($stream);
 

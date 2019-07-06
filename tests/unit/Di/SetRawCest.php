@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Di;
 
 use Phalcon\Di;
 use Phalcon\Di\Service;
+use Phalcon\Escaper;
 use UnitTester;
 
 class SetRawCest

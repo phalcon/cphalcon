@@ -30,7 +30,6 @@ class SetCest
         $registry = new Registry();
 
 
-
         $registry->set('three', 'two');
 
         $I->assertEquals(

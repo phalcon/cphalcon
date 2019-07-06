@@ -12,12 +12,10 @@ namespace Phalcon\Validation\Validator\StringLength;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 use Phalcon\Validation\Exception;
 
 /**
- * Phalcon\Validation\Validator\StringLength
- *
  * Validates that a string has the specified maximum constraints
  * The test is passed if for a string's length L, L<=max, i.e. L must
  * be at most max.
@@ -63,7 +61,7 @@ use Phalcon\Validation\Exception;
  * );
  * ```
  */
-class Max extends Validator
+class Max extends AbstractValidator
 {
     protected template = "Field :field must not exceed :max characters long";
 

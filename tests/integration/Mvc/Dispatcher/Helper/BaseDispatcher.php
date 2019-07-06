@@ -4,6 +4,7 @@ namespace Phalcon\Test\Integration\Mvc\Dispatcher\Helper;
 
 use IntegrationTester;
 use Phalcon\Di;
+use Phalcon\Dispatcher\DispatcherInterface;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Dispatcher;
@@ -96,7 +97,7 @@ abstract class BaseDispatcher
     /**
      * Returns the current dispatcher instance.
      */
-    protected function getDispatcher(): Dispatcher
+    protected function getDispatcher(): DispatcherInterface
     {
         return $this->di->getShared('dispatcher');
     }

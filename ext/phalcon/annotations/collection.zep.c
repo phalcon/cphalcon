@@ -31,12 +31,10 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Annotations\Collection
- *
  * Represents a collection of annotations. This class allows to traverse a group
  * of annotations easily
  *
- *<code>
+ *```php
  * // Traverse annotations
  * foreach ($classAnnotations as $annotation) {
  *     echo "Name=", $annotation->getName(), PHP_EOL;
@@ -47,7 +45,7 @@
  *
  * // Get an specific annotation in the collection
  * $annotation = $classAnnotations->get("Cacheable");
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection) {
 
@@ -59,7 +57,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection) {
 	zend_declare_property_null(phalcon_annotations_collection_ce, SL("annotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
-	 * @var int 
+	 * @var int
 	 */
 	zend_declare_property_long(phalcon_annotations_collection_ce, SL("position"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -108,7 +106,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 			ZVAL_COPY(&annotationData, _0);
 			ZEPHIR_INIT_NVAR(&_2$$3);
 			object_init_ex(&_2$$3, phalcon_annotations_annotation_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", &_3, 135, &annotationData);
+			ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", &_3, 142, &annotationData);
 			zephir_check_call_status();
 			zephir_array_append(&annotations, &_2$$3, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 57);
 		} ZEND_HASH_FOREACH_END();
@@ -125,7 +123,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 			zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_4$$4);
 				object_init_ex(&_4$$4, phalcon_annotations_annotation_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", &_3, 135, &annotationData);
+				ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", &_3, 142, &annotationData);
 				zephir_check_call_status();
 				zephir_array_append(&annotations, &_4$$4, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 57);
 			ZEPHIR_CALL_METHOD(NULL, &reflectionData, "next", NULL, 0);
@@ -241,7 +239,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 	object_init_ex(&_5, phalcon_annotations_exception_ce);
 	ZEPHIR_INIT_VAR(&_6);
 	ZEPHIR_CONCAT_SVS(&_6, "Collection doesn't have an annotation called '", &name, "'");
-	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 1, &_6);
+	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 5, &_6);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_5, "phalcon/Annotations/Collection.zep", 102 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

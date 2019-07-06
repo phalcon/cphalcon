@@ -28,7 +28,7 @@
  *
  * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\Di.
  *
- * <code>
+ * ```php
  * $di = new \Phalcon\Di();
  *
  * $di->set(
@@ -39,7 +39,7 @@
  * );
  *
  * $robot = new Robots(di);
- * </code>
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_ManagerInterface) {
 

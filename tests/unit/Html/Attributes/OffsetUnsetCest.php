@@ -42,7 +42,6 @@ class OffsetUnsetCest
         );
 
 
-
         unset($attributes['class']);
 
         $expected = [

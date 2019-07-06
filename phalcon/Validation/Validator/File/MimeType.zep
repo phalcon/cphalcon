@@ -13,11 +13,9 @@ namespace Phalcon\Validation\Validator\File;
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
 use Phalcon\Validation\Exception;
-use Phalcon\Validation\Validator\File\FileAbstract;
+use Phalcon\Validation\Validator\File\AbstractFile;
 
 /**
- * Phalcon\Validation\Validator\File
- *
  * Checks if a value has a correct file mime type
  *
  * ```php
@@ -65,7 +63,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  * );
  * ```
  */
-class MimeType extends FileAbstract
+class MimeType extends AbstractFile
 {
     protected template = "File :field must be of type: :types";
 

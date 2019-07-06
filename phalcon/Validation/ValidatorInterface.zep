@@ -14,7 +14,7 @@ use Phalcon\Collection;
 use Phalcon\Validation;
 
 /**
- * Interface for Phalcon\Validation\Validator
+ * Interface for Phalcon\Validation\AbstractValidator
  */
 interface ValidatorInterface
 {

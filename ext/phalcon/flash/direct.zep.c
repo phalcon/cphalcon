@@ -27,14 +27,12 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Flash\Direct
- *
  * This is a variant of the Phalcon\Flash that immediately outputs any message
  * passed to it
  */
 ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Flash, Direct, phalcon, flash_direct, phalcon_flash_ce, phalcon_flash_direct_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Flash, Direct, phalcon, flash_direct, phalcon_flash_abstractflash_ce, phalcon_flash_direct_method_entry, 0);
 
 	return SUCCESS;
 
@@ -91,7 +89,7 @@ PHP_METHOD(Phalcon_Flash_Direct, output) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Flash/Direct.zep", 42);
+	zephir_is_iterable(&_0, 0, "phalcon/Flash/Direct.zep", 40);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 		{

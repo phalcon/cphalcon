@@ -21,8 +21,8 @@ class SetAttributesCest
     /**
      * Tests Phalcon\Assets\Asset\Js :: setAttributes()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider provider
      */

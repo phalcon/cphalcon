@@ -10,9 +10,9 @@
 
 namespace Phalcon;
 
-use Phalcon\Config\Config;
+use Phalcon\Config;
 use Phalcon\Di\Service;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception;
 use Phalcon\Di\Exception\ServiceResolutionException;
 use Phalcon\Config\Adapter\Php;
@@ -484,7 +484,7 @@ class Di implements DiInterface
      * Registers a service provider.
      *
      * ```php
-     * use Phalcon\DiInterface;
+     * use Phalcon\Di\DiInterface;
      * use Phalcon\Di\ServiceProviderInterface;
      *
      * class SomeServiceProvider implements ServiceProviderInterface

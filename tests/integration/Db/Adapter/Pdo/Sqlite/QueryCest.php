@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Sqlite;
 
+use Phalcon\Db\Enum;
 use IntegrationTester;
-use Phalcon\Db;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class QueryCest
@@ -70,7 +70,7 @@ class QueryCest
 
 
         $result = $connection->query('SELECT * FROM personas LIMIT 5');
-        $result->setFetchMode(Db::FETCH_NUM);
+        $result->setFetchMode(Enum::FETCH_NUM);
         $row = $result->fetch();
         $I->assertInternalType('array', $row);
         $I->assertCount(11, $row);
@@ -81,7 +81,7 @@ class QueryCest
 
 
         $result = $connection->query('SELECT * FROM personas LIMIT 5');
-        $result->setFetchMode(Db::FETCH_ASSOC);
+        $result->setFetchMode(Enum::FETCH_ASSOC);
         $row = $result->fetch();
         $I->assertInternalType('array', $row);
         $I->assertCount(11, $row);
@@ -92,7 +92,7 @@ class QueryCest
 
 
         $result = $connection->query('SELECT * FROM personas LIMIT 5');
-        $result->setFetchMode(Db::FETCH_OBJ);
+        $result->setFetchMode(Enum::FETCH_OBJ);
         $row = $result->fetch();
         $I->assertInternalType('object', $row);
         $I->assertTrue(isset($row->cedula));
@@ -100,7 +100,7 @@ class QueryCest
 
 
         $result = $connection->query('SELECT * FROM personas LIMIT 5');
-        $result->setFetchMode(Db::FETCH_BOTH);
+        $result->setFetchMode(Enum::FETCH_BOTH);
         $result->dataSeek(4);
         $row = $result->fetch();
         $row = $result->fetch();

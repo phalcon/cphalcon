@@ -23,7 +23,7 @@ class WithSchemeCest
      * Tests Phalcon\Http\Message\Uri :: withScheme()
      *
      * @author       Phalcon Team <team@phalconphp.com>
-     * @since  2019-02-09
+     * @since        2019-02-09
      */
     public function httpMessageUriWithScheme(UnitTester $I)
     {
@@ -100,7 +100,7 @@ class WithSchemeCest
         );
     }
 
-    
+
     private function getExamples(): array
     {
         return [

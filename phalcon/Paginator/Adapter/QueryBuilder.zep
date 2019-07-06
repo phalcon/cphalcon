@@ -10,11 +10,11 @@
 
 namespace Phalcon\Paginator\Adapter;
 
+use Phalcon\Db\Enum;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Paginator\Adapter\AbstractAdapter;
 use Phalcon\Paginator\RepositoryInterface;
 use Phalcon\Paginator\Exception;
-use Phalcon\Db;
 
 /**
  * Phalcon\Paginator\Adapter\QueryBuilder
@@ -224,7 +224,7 @@ class QueryBuilder extends AbstractAdapter
 
             let row = db->fetchOne(
                 "SELECT COUNT(*) as \"rowcount\" FROM (" .  sql["sql"] . ") as T1",
-                Db::FETCH_ASSOC,
+                Enum::FETCH_ASSOC,
                 sql["bind"]
             );
 

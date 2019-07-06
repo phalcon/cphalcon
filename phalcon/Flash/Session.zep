@@ -10,8 +10,8 @@
 
 namespace Phalcon\Flash;
 
-use Phalcon\Flash as FlashBase;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
+use Phalcon\Flash\AbstractFlash;
 use Phalcon\Flash\Exception;
 use Phalcon\Session\ManagerInterface as SessionInterface;
 
@@ -19,7 +19,7 @@ use Phalcon\Session\ManagerInterface as SessionInterface;
  * Temporarily stores the messages in session, then messages can be printed in
  * the next request
  */
-class Session extends FlashBase
+class Session extends AbstractFlash
 {
     /**
      * Clear messages in the session messenger

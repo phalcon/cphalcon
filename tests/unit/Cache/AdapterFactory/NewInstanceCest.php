@@ -13,9 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Cache\AdapterFactory;
 
 use Codeception\Example;
-use function getOptionsLibmemcached;
-use function getOptionsRedis;
-use function outputDir;
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Cache\Adapter\Memory;
@@ -25,6 +22,9 @@ use Phalcon\Cache\AdapterFactory;
 use Phalcon\Factory\Exception;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
+use function getOptionsLibmemcached;
+use function getOptionsRedis;
+use function outputDir;
 
 class NewInstanceCest
 {

@@ -10,10 +10,10 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
-use Phalcon\Db;
-use Phalcon\Db\Adapter\Pdo as PdoAdapter;
+use Phalcon\Db\Adapter\Pdo\AbstractPdo as PdoAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\Enum;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
@@ -97,7 +97,7 @@ class Mysql extends PdoAdapter
 
         let fields = this->fetchAll(
             this->dialect->describeColumns(table, schema),
-            Db::FETCH_NUM
+            Enum::FETCH_NUM
         );
 
         /**
@@ -465,7 +465,7 @@ class Mysql extends PdoAdapter
 
         let indexes = [];
 
-        for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
+        for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Enum::FETCH_ASSOC) {
             let keyName = index["Key_name"];
             let indexType = index["Index_type"];
 
@@ -523,7 +523,7 @@ class Mysql extends PdoAdapter
 
         let references = [];
 
-        for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Db::FETCH_NUM) {
+        for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Enum::FETCH_NUM) {
 
             let constraintName = reference[2];
 

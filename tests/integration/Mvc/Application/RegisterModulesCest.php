@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Mvc\Application;
 use IntegrationTester;
 use Phalcon\Di;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;

@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Assets\Exception
- *
  * Exceptions thrown in Phalcon\Assets will use this class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Exception) {

@@ -17,7 +17,8 @@ use UnitTester;
 class ConstructCest
 {
     /**
-     * Unit Tests Phalcon\Di\Exception\ServiceResolutionException :: __construct()
+     * Unit Tests Phalcon\Di\Exception\ServiceResolutionException ::
+     * __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-06-13

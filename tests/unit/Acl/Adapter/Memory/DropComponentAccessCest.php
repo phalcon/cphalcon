@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
-use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Enum;
 use UnitTester;
 
 class DropComponentAccessCest
@@ -31,7 +31,7 @@ class DropComponentAccessCest
         $acl = new Memory();
 
         $acl->setDefaultAction(
-            Acl::DENY
+            Enum::DENY
         );
 
         $acl->addRole('Guests');

@@ -12,11 +12,9 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\Between
- *
  * Validates that a value is between an inclusive range of two values.
  * For a value x, the test is passed if minimum<=x<=maximum.
  *
@@ -61,7 +59,7 @@ use Phalcon\Validation\Validator;
  * );
  * ```
  */
-class Between extends Validator
+class Between extends AbstractValidator
 {
     protected template = "Field :field must be within the range of :min to :max";
 

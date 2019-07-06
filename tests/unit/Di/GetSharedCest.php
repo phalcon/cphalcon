@@ -46,7 +46,7 @@ class GetSharedCest
 
         $I->assertInstanceOf(Crypt::class, $actual);
 
-        $actual = $di->getShared('crypt');
+        $actual   = $di->getShared('crypt');
         $expected = new Crypt();
 
         $I->assertEquals($expected, $actual);

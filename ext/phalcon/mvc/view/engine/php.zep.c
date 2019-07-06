@@ -30,13 +30,11 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\View\Engine\Php
- *
  * Adapter to use PHP itself as templating engine
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Php) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Php, phalcon, mvc_view_engine_php, phalcon_mvc_view_engine_ce, phalcon_mvc_view_engine_php_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Php, phalcon, mvc_view_engine_php, phalcon_mvc_view_engine_abstractengine_ce, phalcon_mvc_view_engine_php_method_entry, 0);
 
 	return SUCCESS;
 
@@ -86,11 +84,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
 
 	if (mustClean) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 493);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 501);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(params) == IS_ARRAY) {
-		zephir_is_iterable(params, 0, "phalcon/Mvc/View/Engine/Php.zep", 40);
+		zephir_is_iterable(params, 0, "phalcon/Mvc/View/Engine/Php.zep", 38);
 		if (Z_TYPE_P(params) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(params), _2$$4, _3$$4, _0$$4)
 			{
@@ -136,7 +134,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	}
 	if (mustClean) {
 		zephir_read_property(&_6$$7, this_ptr, SL("view"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_7$$7, "ob_get_contents", NULL, 492);
+		ZEPHIR_CALL_FUNCTION(&_7$$7, "ob_get_contents", NULL, 500);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_6$$7, "setcontent", NULL, 0, &_7$$7);
 		zephir_check_call_status();

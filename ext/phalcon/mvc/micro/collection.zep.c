@@ -34,7 +34,7 @@
  *
  * Groups Micro-Mvc handlers as controllers
  *
- *<code>
+ *```php
  * $app = new \Phalcon\Mvc\Micro();
  *
  * $collection = new Collection();
@@ -46,7 +46,7 @@
  * $collection->get("/posts/edit/{id}", "edit");
  *
  * $app->mount($collection);
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Collection) {
 
@@ -301,14 +301,14 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map) {
 /**
  * Maps a route to a handler via methods.
  *
- * <code>
+ * ```php
  * $collection->mapVia(
  *     "/test",
  *     "indexAction",
  *     ["POST", "GET"],
  *     "test"
  * );
- * </code>
+ * ```
  *
  * @param callable handler
  * @param string|array method

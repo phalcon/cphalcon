@@ -15,7 +15,7 @@ namespace Phalcon\Test\Fixtures\Traits;
 use function dataDir;
 use function outputDir;
 use Phalcon\Config\Adapter\Ini;
-use Phalcon\Config\Config;
+use Phalcon\Config;
 
 trait FactoryTrait
 {

@@ -171,11 +171,11 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 /**
  * Check whether the event is cancelable.
  *
- * <code>
+ * ```php
  * if ($event->isCancelable()) {
  *     $event->stop();
  * }
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Events_Event, isCancelable) {
 
@@ -256,11 +256,11 @@ PHP_METHOD(Phalcon_Events_Event, setType) {
 /**
  * Stops the event preventing propagation.
  *
- * <code>
+ * ```php
  * if ($event->isCancelable()) {
  *     $event->stop();
  * }
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Events_Event, stop) {
 

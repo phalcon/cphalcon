@@ -10,22 +10,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Collection\ReadCollection;
+namespace Phalcon\Test\Unit\Collection\ReadOnly;
 
-use Phalcon\Collection\ReadCollection;
+use Phalcon\Collection\ReadOnly;
 use UnitTester;
 
 class GetIteratorCest
 {
     /**
-     * Tests Phalcon\Collection\ReadCollection :: getIterator()
+     * Tests Phalcon\Collection\ReadOnly :: getIterator()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionGetIterator(UnitTester $I)
     {
-        $I->wantToTest('ReadCollection - getIterator()');
+        $I->wantToTest('ReadOnly - getIterator()');
 
         $data = [
             'one'   => 'two',
@@ -33,7 +33,7 @@ class GetIteratorCest
             'five'  => 'six',
         ];
 
-        $collection = new ReadCollection($data);
+        $collection = new ReadOnly($data);
 
         foreach ($collection as $key => $value) {
             $I->assertEquals(

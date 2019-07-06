@@ -22,7 +22,8 @@ class GetSetDefaultDomainCest
     use TranslateGettextTrait;
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: getDefaultDomain()/setDefaultDomain()
+     * Tests Phalcon\Translate\Adapter\Gettext ::
+     * getDefaultDomain()/setDefaultDomain()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

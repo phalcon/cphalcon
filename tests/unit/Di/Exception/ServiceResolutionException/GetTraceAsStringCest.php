@@ -17,7 +17,8 @@ use UnitTester;
 class GetTraceAsStringCest
 {
     /**
-     * Unit Tests Phalcon\Di\Exception\ServiceResolutionException :: getTraceAsString()
+     * Unit Tests Phalcon\Di\Exception\ServiceResolutionException ::
+     * getTraceAsString()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-06-13

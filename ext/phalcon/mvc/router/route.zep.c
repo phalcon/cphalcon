@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct) {
  * The developer can implement any arbitrary conditions here
  * If the callback returns false the route is treated as not matched
  *
- *<code>
+ *```php
  * $router->add(
  *     "/login",
  *     [
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, __construct) {
  *         return true;
  *     }
  * );
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, beforeMatch) {
 
@@ -703,7 +703,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths) {
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, SL("paths"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_flip", NULL, 155, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_flip", NULL, 162, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -828,7 +828,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getRoutePaths) {
 /**
  * Allows to set a callback to handle the request directly in the route
  *
- *<code>
+ *```php
  * $router->add(
  *     "/help",
  *     []
@@ -837,7 +837,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getRoutePaths) {
  *         return $this->getResponse()->redirect("https://support.google.com/", true);
  *     }
  * );
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, match) {
 
@@ -960,7 +960,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setGroup) {
 /**
  * Sets a set of HTTP methods that constraint the matching of the route (alias of via)
  *
- *<code>
+ *```php
  * $route->setHttpMethods("GET");
  *
  * $route->setHttpMethods(
@@ -969,7 +969,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setGroup) {
  *         "POST",
  *     ]
  * );
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, setHttpMethods) {
 
@@ -993,9 +993,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setHttpMethods) {
 /**
  * Sets a hostname restriction to the route
  *
- *<code>
+ *```php
  * $route->setHostname("localhost");
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, setHostname) {
 
@@ -1028,14 +1028,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setHostname) {
 /**
  * Sets the route's name
  *
- *<code>
+ *```php
  * $router->add(
  *     "/about",
  *     [
  *         "controller" => "about",
  *     ]
  * )->setName("about");
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, setName) {
 
@@ -1059,7 +1059,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setName) {
 /**
  * Set one or more HTTP methods that constraint the matching of the route
  *
- *<code>
+ *```php
  * $route->via("GET");
  *
  * $route->via(
@@ -1068,7 +1068,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setName) {
  *         "POST",
  *     ]
  * );
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Router_Route, via) {
 

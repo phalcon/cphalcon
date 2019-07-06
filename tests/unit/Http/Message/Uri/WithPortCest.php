@@ -15,8 +15,8 @@ namespace Phalcon\Test\Unit\Http\Message\Uri;
 use Codeception\Example;
 use InvalidArgumentException;
 use Phalcon\Http\Message\Uri;
-use function sprintf;
 use UnitTester;
+use function sprintf;
 
 class WithPortCest
 {
@@ -84,7 +84,7 @@ class WithPortCest
         );
     }
 
-    
+
     private function getExamples(): array
     {
         return [
@@ -121,7 +121,7 @@ class WithPortCest
         ];
     }
 
-    
+
     private function getExceptions(): array
     {
         return [

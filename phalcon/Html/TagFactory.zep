@@ -11,7 +11,7 @@
 namespace Phalcon\Html;
 
 use Phalcon\Escaper;
-use Phalcon\EscaperInterface;
+use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Factory\AbstractFactory;
 
 /**

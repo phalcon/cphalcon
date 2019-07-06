@@ -10,7 +10,7 @@
 
 namespace Phalcon\Di;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 
 /**
  * Should be implemented by service providers, or such components, which
@@ -19,7 +19,7 @@ use Phalcon\DiInterface;
  * ```php
  * namespace Acme;
  *
- * use Phalcon\DiInterface;
+ * use Phalcon\Di\DiInterface;
  * use Phalcon\Di\ServiceProviderInterface;
  *
  * class SomeServiceProvider implements ServiceProviderInterface

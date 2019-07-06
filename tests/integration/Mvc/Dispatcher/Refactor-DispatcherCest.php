@@ -3,9 +3,8 @@
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
 use DispatcherTestDefaultNoNamespaceController;
-use Exception;
 use IntegrationTester;
-use Phalcon\Dispatcher;
+use Phalcon\Dispatcher\Exception;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultSimpleController;
@@ -508,7 +507,7 @@ class DispatcherCest extends BaseDispatcher
         $I->expectThrowable(
             new Exception(
                 'Dispatcher has detected a cyclic routing causing stability problems',
-                Dispatcher::EXCEPTION_CYCLIC_ROUTING
+                Exception::EXCEPTION_CYCLIC_ROUTING
             ),
             function () use ($dispatcher) {
                 $dispatcher->dispatch();
@@ -540,7 +539,7 @@ class DispatcherCest extends BaseDispatcher
         $I->expectThrowable(
             new Exception(
                 'Invalid handler returned from the services container',
-                Dispatcher::EXCEPTION_INVALID_HANDLER
+                Exception::EXCEPTION_INVALID_HANDLER
             ),
             function () use ($dispatcher) {
                 $dispatcher->dispatch();

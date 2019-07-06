@@ -11,7 +11,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes);
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, selfClose);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_abstracthelper___construct, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\EscaperInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\Escaper\\EscaperInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200

@@ -8,7 +8,7 @@ PHP_METHOD(Phalcon_Container, get);
 PHP_METHOD(Phalcon_Container, has);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container___construct, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\DiInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_get, 0, 0, 1)

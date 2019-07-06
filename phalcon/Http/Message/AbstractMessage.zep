@@ -14,7 +14,7 @@
 
 namespace Phalcon\Http\Message;
 
-use Phalcon\Collection\Collection;
+use Phalcon\Collection;
 use Phalcon\Http\Message\AbstractCommon;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\Stream;
@@ -515,7 +515,7 @@ abstract class AbstractMessage extends AbstractCommon
         } else {
             if unlikely !(typeof headers === "object" && headers instanceof Collection) {
                 throw new InvalidArgumentException(
-                    "Headers needs to be either an array or instance of Phalcon\\Collection\\Collection"
+                    "Headers needs to be either an array or instance of Phalcon\\Collection"
                 );
             }
 

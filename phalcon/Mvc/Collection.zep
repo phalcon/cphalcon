@@ -13,7 +13,7 @@ namespace Phalcon\Mvc;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Unserializable;
 use Phalcon\Di;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Collection\BehaviorInterface;
@@ -21,7 +21,7 @@ use Phalcon\Mvc\Collection\Document;
 use Phalcon\Mvc\Collection\Exception;
 use Phalcon\Mvc\Collection\ManagerInterface;
 use Phalcon\Messages\Message as Message;
-use Phalcon\ValidationInterface;
+use Phalcon\Validation\ValidationInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use Serializable;
 

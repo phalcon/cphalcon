@@ -13,12 +13,12 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Escaper;
 
 use Codeception\Example;
+use Phalcon\Escaper;
+use UnitTester;
 use const ENT_HTML401;
 use const ENT_HTML5;
 use const ENT_XHTML;
 use const ENT_XML1;
-use Phalcon\Escaper;
-use UnitTester;
 
 class EscapeHtmlAttrCest
 {

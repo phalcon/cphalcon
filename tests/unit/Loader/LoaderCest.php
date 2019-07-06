@@ -11,13 +11,13 @@
 
 namespace Phalcon\Test\Unit;
 
-use function dataDir;
 use LoaderEvent;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Loader;
 use Phalcon\Test\Fixtures\Traits\LoaderTrait;
 use UnitTester;
+use function dataDir;
 
 class LoaderCest
 {

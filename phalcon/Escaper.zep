@@ -10,7 +10,8 @@
 
 namespace Phalcon;
 
-use Phalcon\EscaperInterface;
+use Phalcon\Di\DiInterface;
+use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Escaper\Exception;
 
 /**

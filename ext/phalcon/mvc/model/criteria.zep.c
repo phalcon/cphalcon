@@ -38,7 +38,7 @@
  * Phalcon\Mvc\Model::find() and Phalcon\Mvc\Model::findFirst() using an
  * object-oriented interface.
  *
- * <code>
+ * ```php
  * $robots = Robots::query()
  *     ->where("type = :type:")
  *     ->andWhere("year < 2000")
@@ -46,7 +46,7 @@
  *     ->limit(5, 10)
  *     ->orderBy("name")
  *     ->execute();
- * </code>
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Criteria) {
 
@@ -272,14 +272,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, distinct) {
 /**
  * Sets the columns to be queried
  *
- *<code>
+ *```php
  * $criteria->columns(
  *     [
  *         "id",
  *         "name",
  *     ]
  * );
- *</code>
+ *```
  *
  * @param string|array columns
  */
@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, columns) {
 /**
  * Adds an INNER join to the query
  *
- *<code>
+ *```php
  * $criteria->join(
  *     Robots::class
  * );
@@ -328,7 +328,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, columns) {
  *     "r",
  *     "LEFT"
  * );
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, join) {
 
@@ -415,7 +415,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join) {
 /**
  * Adds an INNER join to the query
  *
- *<code>
+ *```php
  * $criteria->innerJoin(
  *     Robots::class
  * );
@@ -430,7 +430,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join) {
  *     "r.id = RobotsParts.robots_id",
  *     "r"
  * );
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin) {
 
@@ -479,13 +479,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin) {
 /**
  * Adds a LEFT join to the query
  *
- *<code>
+ *```php
  * $criteria->leftJoin(
  *     Robots::class,
  *     "r.id = RobotsParts.robots_id",
  *     "r"
  * );
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin) {
 
@@ -534,13 +534,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin) {
 /**
  * Adds a RIGHT join to the query
  *
- *<code>
+ *```php
  * $criteria->rightJoin(
  *     Robots::class,
  *     "r.id = RobotsParts.robots_id",
  *     "r"
  * );
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin) {
 
@@ -782,9 +782,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere) {
 /**
  * Appends a BETWEEN condition to the current conditions
  *
- *<code>
+ *```php
  * $criteria->betweenWhere("price", 100.25, 200.50);
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere) {
 
@@ -845,9 +845,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere) {
 /**
  * Appends a NOT BETWEEN condition to the current conditions
  *
- *<code>
+ *```php
  * $criteria->notBetweenWhere("price", 100.25, 200.50);
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere) {
 
@@ -912,9 +912,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere) {
 /**
  * Appends an IN condition to the current conditions
  *
- * <code>
+ * ```php
  * $criteria->inWhere("id", [1, 2, 3]);
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
 
@@ -1023,9 +1023,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
 /**
  * Appends a NOT IN condition to the current conditions
  *
- *<code>
+ *```php
  * $criteria->notInWhere("id", [1, 2, 3]);
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere) {
 
@@ -1241,11 +1241,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, having) {
 /**
  * Adds the limit parameter to the criteria.
  *
- * <code>
+ * ```php
  * $criteria->limit(100);
  * $criteria->limit(100, 200);
  * $criteria->limit("100", "200");
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit) {
 
@@ -1272,11 +1272,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit) {
 
 
 	ZVAL_LONG(&_0, limit);
-	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 228, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "abs", NULL, 235, &_0);
 	zephir_check_call_status();
 	limit = zephir_get_numberval(&_1);
 	ZVAL_LONG(&_0, offset);
-	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 228, &_0);
+	ZEPHIR_CALL_FUNCTION(&_2, "abs", NULL, 235, &_0);
 	zephir_check_call_status();
 	offset = zephir_get_numberval(&_2);
 	if (UNEXPECTED(limit == 0)) {
@@ -1747,12 +1747,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 		ZEPHIR_INIT_VAR(&_19$$16);
 		ZEPHIR_CONCAT_SVS(&_19$$16, " ", &operator, " ");
 		zephir_fast_join(&_18$$16, &_19$$16, &conditions TSRMLS_CC);
-		ZEPHIR_CALL_METHOD(NULL, &criteria, "where", NULL, 444, &_18$$16);
+		ZEPHIR_CALL_METHOD(NULL, &criteria, "where", NULL, 452, &_18$$16);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &criteria, "bind", NULL, 445, &bind);
+		ZEPHIR_CALL_METHOD(NULL, &criteria, "bind", NULL, 453, &bind);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 437, &modelName);
+	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 446, &modelName);
 	zephir_check_call_status();
 	RETURN_CCTOR(&criteria);
 
@@ -1761,12 +1761,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 /**
  * Creates a query builder from criteria.
  *
- * <code>
+ * ```php
  * $builder = Robots::query()
  *     ->where("type = :type:")
  *     ->bind(["type" => "mechanical"])
  *     ->createBuilder();
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, createBuilder) {
 

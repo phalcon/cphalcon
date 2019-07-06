@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
-use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Enum;
 use UnitTester;
 
 class GetSetDefaultActionCest
@@ -31,11 +31,11 @@ class GetSetDefaultActionCest
         $acl = new Memory();
 
         $acl->setDefaultAction(
-            Acl::ALLOW
+            Enum::ALLOW
         );
 
         $I->assertEquals(
-            Acl::ALLOW,
+            Enum::ALLOW,
             $acl->getDefaultAction()
         );
     }
@@ -53,7 +53,7 @@ class GetSetDefaultActionCest
         $acl = new Memory();
 
         $I->assertEquals(
-            Acl::DENY,
+            Enum::DENY,
             $acl->getDefaultAction()
         );
     }

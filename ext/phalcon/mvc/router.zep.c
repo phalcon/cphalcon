@@ -39,7 +39,7 @@
  * base URL) and decomposing it into parameters to determine which module,
  * controller, and action of that controller should receive the request
  *
- * <code>
+ * ```php
  * use Phalcon\Mvc\Router;
  *
  * $router = new Router();
@@ -57,7 +57,7 @@
  * );
  *
  * echo $router->getControllerName();
- * </code>
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router) {
 
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 		add_assoc_long_ex(&_1$$3, SL("controller"), 1);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "#^/([\\w0-9\\_\\-]+)[/]{0,1}$#u");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 100, &_2$$3, &_1$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 105, &_2$$3, &_1$$3);
 		zephir_check_call_status();
 		zephir_array_append(&routes, &_0$$3, PH_SEPARATE, "phalcon/Mvc/Router.zep", 96);
 		ZEPHIR_INIT_NVAR(&_2$$3);
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 		add_assoc_long_ex(&_3$$3, SL("params"), 3);
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "#^/([\\w0-9\\_\\-]+)/([\\w0-9\\.\\_]+)(/.*)*$#u");
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 100, &_4$$3, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 105, &_4$$3, &_3$$3);
 		zephir_check_call_status();
 		zephir_array_append(&routes, &_2$$3, PH_SEPARATE, "phalcon/Mvc/Router.zep", 105);
 	}
@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 /**
  * Adds a route to the router without any HTTP constraint
  *
- *<code>
+ *```php
  * use Phalcon\Mvc\Router;
  *
  * $router->add("/about", "About::index");
@@ -250,7 +250,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
  *     ["GET", "POST"],
  *     Router::POSITION_FIRST
  * );
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Router, add) {
 
@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Mvc_Router, add) {
 
 	ZEPHIR_INIT_VAR(&route);
 	object_init_ex(&route, phalcon_mvc_router_route_ce);
-	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 100, &pattern, paths, httpMethods);
+	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 105, &pattern, paths, httpMethods);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "attach", NULL, 0, &route, position);
 	zephir_check_call_status();
@@ -788,7 +788,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addTrace) {
 /**
  * Attach Route object to the routes stack.
  *
- * <code>
+ * ```php
  * use Phalcon\Mvc\Router;
  * use Phalcon\Mvc\Router\Route;
  *
@@ -802,7 +802,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addTrace) {
  *     new CustomRoute("/about", "About::index", ["GET", "HEAD"]),
  *     Router::POSITION_FIRST
  * );
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Mvc_Router, attach) {
 
@@ -1170,10 +1170,10 @@ PHP_METHOD(Phalcon_Mvc_Router, getRoutes) {
 /**
  * Handles routing information received from the rewrite engine
  *
- *<code>
+ *```php
  * // Passing a URL
  * $router->handle("/posts/edit/1");
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Router, handle) {
 
@@ -1316,7 +1316,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 
 
 	ZVAL_LONG(&_0, 5);
-	ZEPHIR_CALL_FUNCTION(&_1, "parse_url", NULL, 101, &uri, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "parse_url", NULL, 106, &uri, &_0);
 	zephir_check_call_status();
 	zephir_get_strval(&uri, &_1);
 	zephir_read_property(&_0, this_ptr, SL("removeExtraSlashes"), PH_NOISY_CC | PH_READONLY);
@@ -1382,7 +1382,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 						ZVAL_STRING(&_12$$9, "the 'request' service");
 						ZEPHIR_CALL_CE_STATIC(&_10$$9, phalcon_mvc_router_exception_ce, "containerservicenotfound", &_11, 0, &_12$$9);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(NULL, &_9$$9, "__construct", &_13, 1, &_10$$9);
+						ZEPHIR_CALL_METHOD(NULL, &_9$$9, "__construct", &_13, 5, &_10$$9);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_9$$9, "phalcon/Mvc/Router.zep", 466 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
@@ -1414,7 +1414,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 						ZVAL_STRING(&_21$$13, "the 'request' service");
 						ZEPHIR_CALL_CE_STATIC(&_20$$13, phalcon_mvc_router_exception_ce, "containerservicenotfound", &_11, 0, &_21$$13);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(NULL, &_19$$13, "__construct", &_13, 1, &_20$$13);
+						ZEPHIR_CALL_METHOD(NULL, &_19$$13, "__construct", &_13, 5, &_20$$13);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_19$$13, "phalcon/Mvc/Router.zep", 497 TSRMLS_CC);
 						ZEPHIR_MM_RESTORE();
@@ -1525,7 +1525,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 								object_init_ex(&_36$$34, phalcon_mvc_router_exception_ce);
 								ZEPHIR_INIT_LNVAR(_37$$34);
 								ZEPHIR_CONCAT_SV(&_37$$34, "Wrong key in paths: ", &part);
-								ZEPHIR_CALL_METHOD(NULL, &_36$$34, "__construct", &_13, 1, &_37$$34);
+								ZEPHIR_CALL_METHOD(NULL, &_36$$34, "__construct", &_13, 5, &_37$$34);
 								zephir_check_call_status();
 								zephir_throw_exception_debug(&_36$$34, "phalcon/Mvc/Router.zep", 616 TSRMLS_CC);
 								ZEPHIR_MM_RESTORE();
@@ -1591,7 +1591,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 									object_init_ex(&_43$$45, phalcon_mvc_router_exception_ce);
 									ZEPHIR_INIT_LNVAR(_44$$45);
 									ZEPHIR_CONCAT_SV(&_44$$45, "Wrong key in paths: ", &part);
-									ZEPHIR_CALL_METHOD(NULL, &_43$$45, "__construct", &_13, 1, &_44$$45);
+									ZEPHIR_CALL_METHOD(NULL, &_43$$45, "__construct", &_13, 5, &_44$$45);
 									zephir_check_call_status();
 									zephir_throw_exception_debug(&_43$$45, "phalcon/Mvc/Router.zep", 616 TSRMLS_CC);
 									ZEPHIR_MM_RESTORE();
@@ -1678,7 +1678,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 							ZVAL_STRING(&_53$$58, "the 'request' service");
 							ZEPHIR_CALL_CE_STATIC(&_52$$58, phalcon_mvc_router_exception_ce, "containerservicenotfound", &_11, 0, &_53$$58);
 							zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(NULL, &_51$$58, "__construct", &_13, 1, &_52$$58);
+							ZEPHIR_CALL_METHOD(NULL, &_51$$58, "__construct", &_13, 5, &_52$$58);
 							zephir_check_call_status();
 							zephir_throw_exception_debug(&_51$$58, "phalcon/Mvc/Router.zep", 466 TSRMLS_CC);
 							ZEPHIR_MM_RESTORE();
@@ -1710,7 +1710,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 							ZVAL_STRING(&_61$$62, "the 'request' service");
 							ZEPHIR_CALL_CE_STATIC(&_60$$62, phalcon_mvc_router_exception_ce, "containerservicenotfound", &_11, 0, &_61$$62);
 							zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(NULL, &_59$$62, "__construct", &_13, 1, &_60$$62);
+							ZEPHIR_CALL_METHOD(NULL, &_59$$62, "__construct", &_13, 5, &_60$$62);
 							zephir_check_call_status();
 							zephir_throw_exception_debug(&_59$$62, "phalcon/Mvc/Router.zep", 497 TSRMLS_CC);
 							ZEPHIR_MM_RESTORE();
@@ -1821,7 +1821,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 									object_init_ex(&_76$$83, phalcon_mvc_router_exception_ce);
 									ZEPHIR_INIT_LNVAR(_77$$83);
 									ZEPHIR_CONCAT_SV(&_77$$83, "Wrong key in paths: ", &part);
-									ZEPHIR_CALL_METHOD(NULL, &_76$$83, "__construct", &_13, 1, &_77$$83);
+									ZEPHIR_CALL_METHOD(NULL, &_76$$83, "__construct", &_13, 5, &_77$$83);
 									zephir_check_call_status();
 									zephir_throw_exception_debug(&_76$$83, "phalcon/Mvc/Router.zep", 616 TSRMLS_CC);
 									ZEPHIR_MM_RESTORE();
@@ -1887,7 +1887,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 										object_init_ex(&_83$$94, phalcon_mvc_router_exception_ce);
 										ZEPHIR_INIT_LNVAR(_84$$94);
 										ZEPHIR_CONCAT_SV(&_84$$94, "Wrong key in paths: ", &part);
-										ZEPHIR_CALL_METHOD(NULL, &_83$$94, "__construct", &_13, 1, &_84$$94);
+										ZEPHIR_CALL_METHOD(NULL, &_83$$94, "__construct", &_13, 5, &_84$$94);
 										zephir_check_call_status();
 										zephir_throw_exception_debug(&_83$$94, "phalcon/Mvc/Router.zep", 616 TSRMLS_CC);
 										ZEPHIR_MM_RESTORE();
@@ -2356,14 +2356,14 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultNamespace) {
  * will use the defined here. This method must not be used to set a 404
  * route
  *
- *<code>
+ *```php
  * $router->setDefaults(
  *     [
  *         "module" => "common",
  *         "action" => "index",
  *     ]
  * );
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Router, setDefaults) {
 

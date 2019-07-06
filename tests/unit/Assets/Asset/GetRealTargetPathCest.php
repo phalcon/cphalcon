@@ -21,8 +21,8 @@ class GetRealTargetPathCest
     /**
      * Tests Phalcon\Assets\Asset :: getRealTargetPath() - css local
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider localProvider
      */
@@ -44,8 +44,8 @@ class GetRealTargetPathCest
     /**
      * Tests Phalcon\Assets\Asset :: getRealTargetPath() - css remote
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider remoteProvider
      */

@@ -38,7 +38,6 @@ class DecrementCest
         );
 
 
-
         $expected = 99;
 
         $I->assertEquals(
@@ -50,7 +49,6 @@ class DecrementCest
             $expected,
             $adapter->get($key)
         );
-
 
 
         $expected = 90;

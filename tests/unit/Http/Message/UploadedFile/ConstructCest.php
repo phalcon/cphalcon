@@ -13,12 +13,12 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Message\UploadedFile;
 
 use Codeception\Example;
-use function fopen;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\UploadedFile;
 use Psr\Http\Message\UploadedFileInterface;
 use stdClass;
 use UnitTester;
+use function fopen;
 
 class ConstructCest
 {
@@ -59,7 +59,7 @@ class ConstructCest
         );
 
         $stream = fopen($stream, 'w+b');
-        $file = new UploadedFile($stream, 100);
+        $file   = new UploadedFile($stream, 100);
 
         $I->assertInstanceOf(
             UploadedFileInterface::class,

@@ -10,7 +10,7 @@
 
 namespace Phalcon\Image\Adapter;
 
-use Phalcon\Image;
+use Phalcon\Image\Enum;
 use Phalcon\Image\Exception;
 
 /**
@@ -145,8 +145,8 @@ abstract class AbstractAdapter implements AdapterInterface
       */
     public function flip(int direction) -> <Adapter>
     {
-        if direction != Image::HORIZONTAL && direction != Image::VERTICAL {
-            let direction = Image::HORIZONTAL;
+        if direction != Enum::HORIZONTAL && direction != Enum::VERTICAL {
+            let direction = Enum::HORIZONTAL;
         }
 
         this->{"processFlip"}(direction);
@@ -240,38 +240,38 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Resize the image to the given size
       */
-    public function resize(int width = null, int height = null, int master = Image::AUTO) -> <Adapter>
+    public function resize(int width = null, int height = null, int master = Enum::AUTO) -> <Adapter>
     {
         var ratio;
 
-        if master == Image::TENSILE {
+        if master == Enum::TENSILE {
 
             if unlikely (!width || !height) {
                 throw new Exception("width and height must be specified");
             }
 
         } else {
-            if master == Image::AUTO {
+            if master == Enum::AUTO {
 
                 if unlikely (!width || !height) {
                     throw new Exception("width and height must be specified");
                 }
 
-                let master = (this->width / width) > (this->height / height) ? Image::WIDTH : Image::HEIGHT;
+                let master = (this->width / width) > (this->height / height) ? Enum::WIDTH : Enum::HEIGHT;
             }
 
-            if master == Image::INVERSE {
+            if master == Enum::INVERSE {
 
                 if unlikely (!width || !height) {
                     throw new Exception("width and height must be specified");
                 }
 
-                let master = (this->width / width) > (this->height / height) ? Image::HEIGHT : Image::WIDTH;
+                let master = (this->width / width) > (this->height / height) ? Enum::HEIGHT : Enum::WIDTH;
             }
 
             switch master {
 
-                case Image::WIDTH:
+                case Enum::WIDTH:
                     if unlikely !width {
                         throw new Exception("width must be specified");
                     }
@@ -280,7 +280,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
                     break;
 
-                case Image::HEIGHT:
+                case Enum::HEIGHT:
                     if unlikely !height {
                         throw new Exception("height must be specified");
                     }
@@ -289,7 +289,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
                     break;
 
-                case Image::PRECISE:
+                case Enum::PRECISE:
                     if unlikely (!width || !height) {
                         throw new Exception(
                             "width and height must be specified"
@@ -306,7 +306,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
                     break;
 
-                case Image::NONE:
+                case Enum::NONE:
                     if !width {
                         let width = (int) this->width;
                     }

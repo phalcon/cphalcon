@@ -70,6 +70,44 @@ run.config:
       )
     - echo -e 'extension=psr.so' >> "/data/etc/php/dev_php.ini"
     #===========================================================================
+    # msgpack extension compilation
+    - |
+      (
+        CURRENT_FOLDER=$(pwd)
+        rm -fR $CURRENT_FOLDER/build/msgpack-php
+        cd $CURRENT_FOLDER/build
+        git clone --depth=1 https://github.com/msgpack/msgpack-php.git
+        cd msgpack-php
+        set -e
+        phpize
+        ./configure --with-php-config=$(which php-config)
+        make -j"$(getconf _NPROCESSORS_ONLN)"
+        make install
+        cd $CURRENT_FOLDER
+        rm -fR $CURRENT_FOLDER/build/msgpack-php
+        unset CURRENT_FOLDER
+      )
+    - echo -e 'extension=msgpack.so' >> "/data/etc/php/dev_php.ini"
+    #===========================================================================
+    # php-zephir-parser extension compilation
+    - |
+      (
+        CURRENT_FOLDER=$(pwd)
+        rm -fR $CURRENT_FOLDER/build/php-zephir-parser
+        cd $CURRENT_FOLDER/build
+        git clone --depth=1 https://github.com/phalcon/php-zephir-parser.git
+        cd php-zephir-parser
+        set -e
+        phpize
+        ./configure --with-php-config=$(which php-config)
+        make -j"$(getconf _NPROCESSORS_ONLN)"
+        make install
+        cd $CURRENT_FOLDER
+        rm -fR $CURRENT_FOLDER/build/php-zephir-parser
+        unset CURRENT_FOLDER
+      )
+    - echo -e 'extension=zephir_parser.so' >> "/data/etc/php/dev_php.ini"
+    #===========================================================================
     # This is here so that Phalcon can be used right after compilation
     - echo -e 'extension=phalcon.so' >> "/data/etc/php/dev_php.ini"
     #===========================================================================

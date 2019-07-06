@@ -14,8 +14,8 @@ namespace Phalcon\Test\Unit\Crypt;
 
 use Phalcon\Crypt;
 use Phalcon\Crypt\Exception;
-use function substr;
 use UnitTester;
+use function substr;
 
 class EncryptCest
 {

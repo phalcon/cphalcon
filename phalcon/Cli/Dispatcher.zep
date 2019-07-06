@@ -11,7 +11,7 @@
 namespace Phalcon\Cli;
 
 use Phalcon\Cli\Dispatcher\Exception;
-use Phalcon\Dispatcher as CliDispatcher;
+use Phalcon\Dispatcher\AbstractDispatcher as CliDispatcher;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Filter\FilterInterface;
 
@@ -119,7 +119,7 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
         if typeof container != "object" {
             this->{"throwDispatchException"}(
                 Exception::containerServiceNotFound("the 'filter' service"),
-                CliDispatcher::EXCEPTION_NO_DI
+                Exception::EXCEPTION_NO_DI
             );
         }
 

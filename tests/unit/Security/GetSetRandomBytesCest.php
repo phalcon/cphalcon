@@ -37,7 +37,6 @@ class GetSetRandomBytesCest
         $expected = 22;
 
 
-
         $security->setRandomBytes($expected);
 
         $I->assertEquals(

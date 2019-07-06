@@ -12,6 +12,8 @@ namespace Phalcon;
 
 use ErrorException;
 use Phalcon\Helper\Arr;
+use Phalcon\Version;
+use Phalcon\Tag;
 use ReflectionClass;
 use ReflectionFunction;
 

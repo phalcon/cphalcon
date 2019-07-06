@@ -11,7 +11,7 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 
 /**
  * Check for alphanumeric character(s)
@@ -47,7 +47,7 @@ use Phalcon\Validation\Validator;
  * );
  * ```
  */
-class Alnum extends Validator
+class Alnum extends AbstractValidator
 {
     protected template = "Field :field must contain only letters and numbers";
 

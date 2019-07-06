@@ -12,11 +12,9 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\CreditCard
- *
  * Checks if a value has a valid credit card number
  *
  * ```php
@@ -50,7 +48,7 @@ use Phalcon\Validation\Validator;
  * );
  * ```
  */
-class CreditCard extends Validator
+class CreditCard extends AbstractValidator
 {
     protected template = "Field :field is not valid for a credit card number";
 

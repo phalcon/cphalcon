@@ -13,6 +13,7 @@ namespace Phalcon\Image\Adapter;
 use Imagick;
 use ImagickDraw;
 use ImagickPixel;
+use Phalcon\Image\Enum;
 use Phalcon\Image\Adapter\AbstractAdapter;
 use Phalcon\Image\Exception;
 
@@ -93,10 +94,10 @@ class Imagick extends AbstractAdapter
             let this->realpath = this->file;
         }
 
-        let this->width = this->image->getImageWidth();
+        let this->width  = this->image->getImageWidth();
         let this->height = this->image->getImageHeight();
-        let this->type = this->image->getImageType();
-        let this->mime = "image/" . this->image->getImageFormat();
+        let this->type   = this->image->getImageType();
+        let this->mime   = "image/" . this->image->getImageFormat();
     }
 
     /**
@@ -263,7 +264,7 @@ class Imagick extends AbstractAdapter
 
         let func = "flipImage";
 
-        if direction == \Phalcon\Image::HORIZONTAL {
+        if direction == Enum::HORIZONTAL {
            let func = "flopImage";
         }
 

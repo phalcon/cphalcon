@@ -13,17 +13,17 @@ namespace Phalcon\Forms;
 use Countable;
 use Iterator;
 use Phalcon\Di\Injectable;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\FilterInterface;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Forms\Exception;
-use Phalcon\Forms\ElementInterface;
+use Phalcon\Forms\Element\ElementInterface;
 use Phalcon\Html\Attributes;
 use Phalcon\Html\Attributes\AttributesInterface;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Validation;
-use Phalcon\ValidationInterface;
+use Phalcon\Validation\ValidationInterface;
 
 /**
  * This component allows to build forms using an object-oriented interface

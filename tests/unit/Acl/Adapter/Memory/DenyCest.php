@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
-use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Enum;
 use UnitTester;
 
 class DenyCest
@@ -31,7 +31,7 @@ class DenyCest
         $acl = new Memory();
 
         $acl->setDefaultAction(
-            Acl::ALLOW
+            Enum::ALLOW
         );
 
         $acl->addRole('Guests');

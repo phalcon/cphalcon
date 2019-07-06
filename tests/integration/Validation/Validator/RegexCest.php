@@ -255,7 +255,7 @@ class RegexCest
 
         $validation->add(
             'car_plate',
-            new Validation\Validator\Regex(
+            new Regex(
                 [
                     'pattern' => '/[A-Z]{3}\-[0-9]{3}/',
                     'message' => 'The car plate is not valid',

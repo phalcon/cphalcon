@@ -13,11 +13,9 @@ namespace Phalcon\Validation\Validator;
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
 use Phalcon\Validation\Exception;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\Confirmation
- *
  * Checks that two values have the same value
  *
  * ```php
@@ -56,7 +54,7 @@ use Phalcon\Validation\Validator;
  * );
  * ```
  */
-class Confirmation extends Validator
+class Confirmation extends AbstractValidator
 {
     protected template = "Field :field must be the same as :with";
 

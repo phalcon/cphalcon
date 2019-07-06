@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Collection\Exception
- *
  * Exceptions for the Collection object
  */
 ZEPHIR_INIT_CLASS(Phalcon_Collection_Exception) {

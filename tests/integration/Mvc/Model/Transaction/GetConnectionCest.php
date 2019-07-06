@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Transaction;
 
 use IntegrationTester;
-use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class GetConnectionCest

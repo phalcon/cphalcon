@@ -12,12 +12,10 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 use Phalcon\Validation\Exception;
 
 /**
- * Phalcon\Validation\Validator\ExclusionIn
- *
  * Check if a value is not included into a list of values
  *
  * ```php
@@ -62,7 +60,7 @@ use Phalcon\Validation\Exception;
  * );
  * ```
  */
-class ExclusionIn extends Validator
+class ExclusionIn extends AbstractValidator
 {
     protected template = "Field :field must not be a part of list: :domain";
 

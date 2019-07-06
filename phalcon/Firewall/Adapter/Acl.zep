@@ -10,18 +10,19 @@
 
 namespace Phalcon\Firewall\Adapter;
 
+use Phalcon\Acl\Adapter\AdapterInterface as AclAdapterInterface;
 use Phalcon\Di;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Events\Event;
 use Phalcon\Events\ManagerInterface;
-use Phalcon\Firewall\Adapter;
+use Phalcon\Firewall\Adapter\AbstractAdapter;
 use Phalcon\Firewall\Exception;
 use Phalcon\Mvc\DispatcherInterface;
 
 /**
  * FirewallZ for Phalcon\Application which depends on acl and dispatcher
  */
-class Acl extends Adapter
+class Acl extends AbstractAdapter
 {
     /**
      * Acl service name
@@ -277,10 +278,10 @@ class Acl extends Adapter
             let aclServiceName = this->aclServiceName,
                 acl            = container->get(aclServiceName);
 
-            if typeof acl != "object" || !(acl instanceof \Phalcon\Acl\AdapterInterface) {
+            if typeof acl != "object" || !(acl instanceof AclAdapterInterface) {
                 throw new Exception(
                     "You need to add acl service to dependency injector " .
-                    "container which is implementing 'Phalcon\\Acl\\AdapterInterface'"
+                    "container which is implementing 'Phalcon\\Acl\\Adapter\\AdapterInterface'"
                 );
             }
 

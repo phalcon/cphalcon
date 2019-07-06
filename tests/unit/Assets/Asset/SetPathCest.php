@@ -21,8 +21,8 @@ class SetPathCest
     /**
      * Tests Phalcon\Assets\Asset :: setPath() - local
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider localProvider
      */
@@ -48,8 +48,8 @@ class SetPathCest
     /**
      * Tests Phalcon\Assets\Asset :: setPath() - remote
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider remoteProvider
      */

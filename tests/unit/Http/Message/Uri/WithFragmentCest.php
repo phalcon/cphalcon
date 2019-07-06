@@ -88,7 +88,7 @@ class WithFragmentCest
         );
     }
 
-    
+
     private function getExamples(): array
     {
         return [

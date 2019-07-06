@@ -30,7 +30,6 @@ class UnderscoreSetCest
         $registry = new Registry();
 
 
-
         $registry->three = 'Phalcon';
 
         $I->assertEquals(

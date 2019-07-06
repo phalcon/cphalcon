@@ -10,14 +10,16 @@
 
 namespace Phalcon;
 
+use Phalcon\Di\DiInterface;
+use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
-use Phalcon\UrlInterface;
+use Phalcon\Url\UrlInterface;
 
 /**
  * Phalcon\Tag is designed to simplify building of HTML tags.
  * It provides a set of helpers to generate HTML in a dynamic way.
- * This component is an abstract class that you can extend to add more helpers.
+ * This component is a class that you can extend to add more helpers.
  */
 class Tag
 {

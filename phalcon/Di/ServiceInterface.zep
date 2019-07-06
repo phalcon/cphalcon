@@ -10,7 +10,7 @@
 
 namespace Phalcon\Di;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 
 /**
  * Represents a service in the services container

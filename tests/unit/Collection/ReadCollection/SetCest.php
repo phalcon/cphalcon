@@ -10,28 +10,28 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Collection\ReadCollection;
+namespace Phalcon\Test\Unit\Collection\ReadOnly;
 
 use Phalcon\Collection\Exception;
-use Phalcon\Collection\ReadCollection;
+use Phalcon\Collection\ReadOnly;
 use UnitTester;
 
 class SetCest
 {
     /**
-     * Tests Phalcon\Collection\ReadCollection :: set()
+     * Tests Phalcon\Collection\ReadOnly :: set()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function collectionSet(UnitTester $I)
     {
-        $I->wantToTest('ReadCollection - set()');
+        $I->wantToTest('ReadOnly - set()');
 
         $I->expectThrowable(
             new Exception('The object is read only'),
             function () {
-                $collection = new ReadCollection();
+                $collection = new ReadOnly();
                 $collection->set('three', 123);
             }
         );
@@ -39,7 +39,7 @@ class SetCest
         $I->expectThrowable(
             new Exception('The object is read only'),
             function () {
-                $collection        = new ReadCollection();
+                $collection        = new ReadOnly();
                 $collection->three = 'Phalcon';
             }
         );
@@ -47,7 +47,7 @@ class SetCest
         $I->expectThrowable(
             new Exception('The object is read only'),
             function () {
-                $collection = new ReadCollection();
+                $collection = new ReadOnly();
                 $collection->offsetSet('three', 123);
             }
         );
@@ -55,7 +55,7 @@ class SetCest
         $I->expectThrowable(
             new Exception('The object is read only'),
             function () {
-                $collection          = new ReadCollection();
+                $collection          = new ReadOnly();
                 $collection['three'] = true;
             }
         );

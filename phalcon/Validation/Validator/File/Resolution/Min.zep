@@ -12,11 +12,9 @@ namespace Phalcon\Validation\Validator\File\Resolution;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator\File\FileAbstract;
+use Phalcon\Validation\Validator\File\AbstractFile;
 
 /**
- * Phalcon\Validation\Validator\File\Resolution\Min
- *
  * Checks if a file has the rigth resolution
  *
  * ```php
@@ -60,7 +58,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  * );
  * ```
  */
-class Min extends FileAbstract
+class Min extends AbstractFile
 {
     protected template = "File :field can not have the minimum resolution of :resolution";
 

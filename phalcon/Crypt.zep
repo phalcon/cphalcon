@@ -10,7 +10,7 @@
 
 namespace Phalcon;
 
-use Phalcon\CryptInterface;
+use Phalcon\Crypt\CryptInterface;
 use Phalcon\Crypt\Exception;
 use Phalcon\Crypt\Mismatch;
 

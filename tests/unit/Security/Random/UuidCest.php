@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security\Random;
 
+use Phalcon\Security\Random;
 use UnitTester;
 
 class UuidCest
@@ -26,8 +27,7 @@ class UuidCest
     {
         $I->wantToTest("Security\Random - uuid()");
 
-        $random = new \Phalcon\Security\Random();
-
+        $random = new Random();
 
 
         $uuid = $random->uuid();
@@ -49,7 +49,7 @@ class UuidCest
     {
         $I->wantToTest("Security\Random - uuid() produces different results");
 
-        $random = new \Phalcon\Security\Random();
+        $random = new Random();
 
         $uuid1 = $random->uuid();
         $uuid2 = $random->uuid();

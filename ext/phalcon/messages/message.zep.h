@@ -10,7 +10,6 @@ PHP_METHOD(Phalcon_Messages_Message, getType);
 PHP_METHOD(Phalcon_Messages_Message, getMetaData);
 PHP_METHOD(Phalcon_Messages_Message, __construct);
 PHP_METHOD(Phalcon_Messages_Message, __toString);
-PHP_METHOD(Phalcon_Messages_Message, __set_state);
 PHP_METHOD(Phalcon_Messages_Message, jsonSerialize);
 PHP_METHOD(Phalcon_Messages_Message, setCode);
 PHP_METHOD(Phalcon_Messages_Message, setField);
@@ -82,14 +81,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_message___tostr
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_messages_message___set_state, 0, 1, Phalcon\\Messages\\MessageInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_message___set_state, 0, 1, IS_OBJECT, "Phalcon\\Messages\\MessageInterface", 0)
-#endif
-	ZEND_ARG_ARRAY_INFO(0, message, 0)
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_message_jsonserialize, 0, 0, IS_ARRAY, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_message_jsonserialize, 0, 0, IS_ARRAY, NULL, 0)
@@ -156,7 +147,6 @@ ZEPHIR_INIT_FUNCS(phalcon_messages_message_method_entry) {
 	PHP_ME(Phalcon_Messages_Message, getMetaData, arginfo_phalcon_messages_message_getmetadata, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Messages_Message, __construct, arginfo_phalcon_messages_message___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Messages_Message, __toString, arginfo_phalcon_messages_message___tostring, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Messages_Message, __set_state, arginfo_phalcon_messages_message___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Messages_Message, jsonSerialize, arginfo_phalcon_messages_message_jsonserialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Messages_Message, setCode, arginfo_phalcon_messages_message_setcode, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Messages_Message, setField, arginfo_phalcon_messages_message_setfield, ZEND_ACC_PUBLIC)

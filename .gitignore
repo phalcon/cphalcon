@@ -49,6 +49,7 @@ autom4te.cache/
 /ide/
 
 .zephir/
+.temp/
 zephir.phar
 
 boxfile.yml

@@ -13,11 +13,9 @@ namespace Phalcon\Validation\Validator\File\Size;
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\File\Size\Max;
-use Phalcon\Validation\Validator\File\FileAbstract;
+use Phalcon\Validation\Validator\File\AbstractFile;
 
 /**
- * Phalcon\Validation\Validator\File
- *
  * Checks if a value has a correct file
  *
  * ```php
@@ -61,7 +59,7 @@ use Phalcon\Validation\Validator\File\FileAbstract;
  * );
  * ```
  */
-class Max extends FileAbstract
+class Max extends AbstractFile
 {
     protected template = "File :field exceeds the size of :size";
 

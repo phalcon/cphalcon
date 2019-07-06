@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Cache\Adapter\Apcu
- *
  * Apcu adapter
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Adapter_Apcu) {

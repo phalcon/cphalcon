@@ -128,8 +128,8 @@ class LoadCest
     }
 
     /**
-     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - header host array
-     * prefixed
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - header host
+     * array prefixed
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-09
@@ -159,7 +159,7 @@ class LoadCest
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - IIS path
      * name/port prefixed
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadIisPath(UnitTester $I)
@@ -182,10 +182,10 @@ class LoadCest
     }
 
     /**
-     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - original path info
-     * name/port prefixed
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - original
+     * path info name/port prefixed
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadOriginalPathInfo(UnitTester $I)
@@ -209,7 +209,7 @@ class LoadCest
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - server header
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadServerHeader(UnitTester $I)
@@ -240,7 +240,7 @@ class LoadCest
      *
      * @dataProvider getServerNameExamples
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalconphp.com>
      * @since        2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadServerNamePort(UnitTester $I, Example $example)
@@ -441,7 +441,7 @@ class LoadCest
         $I->assertEquals('http', $uri->getScheme());
     }
 
-    
+
     private function getServerNameExamples(): array
     {
         return [

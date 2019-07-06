@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Validation\Exception
- *
  * Exceptions thrown in Phalcon\Validation\* classes will use this class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Exception) {

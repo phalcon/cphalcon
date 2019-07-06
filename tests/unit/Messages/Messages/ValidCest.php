@@ -36,7 +36,6 @@ class ValidCest
         );
 
 
-
         $messages->rewind();
 
         $I->assertTrue(
@@ -44,13 +43,11 @@ class ValidCest
         );
 
 
-
         $messages->next();
 
         $I->assertTrue(
             $messages->valid()
         );
-
 
 
         $messages->next();

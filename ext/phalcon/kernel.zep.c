@@ -28,8 +28,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Kernel
- *
  * This class allows to change the internal behavior of the framework in runtime
  */
 ZEPHIR_INIT_CLASS(Phalcon_Kernel) {

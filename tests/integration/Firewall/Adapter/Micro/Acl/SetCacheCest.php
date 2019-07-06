@@ -16,7 +16,7 @@ use IntegrationTester;
 use function ob_end_clean;
 use function ob_start;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl as PhAcl;
+use Phalcon\Acl\Enum;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Events\Manager;
 use Phalcon\Firewall\Adapter\Micro\Acl;
@@ -119,7 +119,7 @@ class SetCacheCest
 
         $acl = new Memory();
         $acl->addComponent('Micro', ['album-get']);
-        $acl->setDefaultAction(PhAcl::DENY);
+        $acl->setDefaultAction(Enum::DENY);
         $acl->addRole('ROLE1');
         $acl->addRole('ROLE2');
         $acl->addRole('ROLE3');

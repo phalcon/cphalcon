@@ -21,8 +21,8 @@ class ReduceSlashesCest
     /**
      * Tests Phalcon\Text :: reduceSlashes()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider textReduceSlashesProvider
      */

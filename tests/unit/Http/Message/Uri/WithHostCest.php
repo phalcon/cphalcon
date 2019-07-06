@@ -76,7 +76,7 @@ class WithHostCest
         );
     }
 
-    
+
     private function getExamples(): array
     {
         return [

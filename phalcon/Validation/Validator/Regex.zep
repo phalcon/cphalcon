@@ -12,11 +12,9 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\Regex
- *
  * Allows validate if the value of a field matches a regular expression
  *
  * ```php
@@ -55,7 +53,7 @@ use Phalcon\Validation\Validator;
  * );
  * ```
  */
-class Regex extends Validator
+class Regex extends AbstractValidator
 {
     protected template = "Field :field does not match the required format";
 

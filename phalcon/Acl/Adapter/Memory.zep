@@ -10,8 +10,8 @@
 
 namespace Phalcon\Acl\Adapter;
 
-use Phalcon\Acl;
-use Phalcon\Acl\Adapter;
+use Phalcon\Acl\Adapter\AbstractAdapter;
+use Phalcon\Acl\Enum;
 use Phalcon\Acl\Role;
 use Phalcon\Acl\RoleInterface;
 use Phalcon\Acl\Component;
@@ -30,7 +30,7 @@ use ReflectionFunction;
  * $acl = new \Phalcon\Acl\Adapter\Memory();
  *
  * $acl->setDefaultAction(
- *     \Phalcon\Acl::DENY
+ *     \Phalcon\Acl\Enum::DENY
  * );
  *
  * // Register roles
@@ -86,7 +86,7 @@ use ReflectionFunction;
  * }
  *```
  */
-class Memory extends Adapter
+class Memory extends AbstractAdapter
 {
     /**
      * Access
@@ -149,7 +149,7 @@ class Memory extends Adapter
      *
      * @var mixed
      */
-    protected noArgumentsDefaultAction = Acl::DENY;
+    protected noArgumentsDefaultAction = Enum::DENY;
 
     /**
      * Roles
@@ -454,7 +454,7 @@ class Memory extends Adapter
                 roleName,
                 componentName,
                 access,
-                Acl::ALLOW,
+                Enum::ALLOW,
                 func
             );
         } else {
@@ -463,7 +463,7 @@ class Memory extends Adapter
                     innerRoleName,
                     componentName,
                     access,
-                    Acl::ALLOW,
+                    Enum::ALLOW,
                     func
                 );
             }
@@ -492,14 +492,14 @@ class Memory extends Adapter
         var innerRoleName;
 
         if "*" !== roleName {
-            this->allowOrDeny(roleName, componentName, access, Acl::DENY, func);
+            this->allowOrDeny(roleName, componentName, access, Enum::DENY, func);
         } else {
             for innerRoleName, _ in this->rolesNames {
                 this->allowOrDeny(
                     innerRoleName,
                     componentName,
                     access,
-                    Acl::DENY,
+                    Enum::DENY,
                     func
                 );
             }
@@ -631,7 +631,7 @@ class Memory extends Adapter
         let rolesNames = this->rolesNames;
 
         if !isset rolesNames[roleName] {
-            return (this->defaultAccess == Acl::ALLOW);
+            return (this->defaultAccess == Enum::ALLOW);
         }
 
         /**
@@ -664,7 +664,7 @@ class Memory extends Adapter
              */
             let this->activeKey = roleName . "!" . componentName . "!" . access;
 
-            return this->defaultAccess == Acl::ALLOW;
+            return this->defaultAccess == Enum::ALLOW;
         }
 
         /**
@@ -680,7 +680,7 @@ class Memory extends Adapter
              * array
              */
             if parameterNumber === 0 {
-                return haveAccess == Acl::ALLOW && call_user_func(funcAccess);
+                return haveAccess == Enum::ALLOW && call_user_func(funcAccess);
             }
 
             let parametersForFunction      = [],
@@ -766,19 +766,19 @@ class Memory extends Adapter
                         "'. We will use default action when no arguments."
                     );
 
-                    return haveAccess == Acl::ALLOW && this->noArgumentsDefaultAction == Acl::ALLOW;
+                    return haveAccess == Enum::ALLOW && this->noArgumentsDefaultAction == Enum::ALLOW;
                 }
 
                 /**
                  * Number of required parameters == 0 so call funcAccess without
                  * any arguments
                  */
-                return haveAccess == Acl::ALLOW && call_user_func(funcAccess);
+                return haveAccess == Enum::ALLOW && call_user_func(funcAccess);
             }
 
             // Check necessary parameters
             if count(parametersForFunction) >= numberOfRequiredParameters {
-                return haveAccess == Acl::ALLOW && call_user_func_array(funcAccess, parametersForFunction);
+                return haveAccess == Enum::ALLOW && call_user_func_array(funcAccess, parametersForFunction);
             }
 
             // We don't have enough parameters
@@ -789,7 +789,7 @@ class Memory extends Adapter
             );
         }
 
-        return haveAccess == Acl::ALLOW;
+        return haveAccess == Enum::ALLOW;
     }
 
     /**
@@ -809,7 +809,7 @@ class Memory extends Adapter
     }
 
     /**
-     * Sets the default access level (`Phalcon\Acl::ALLOW` or `Phalcon\Acl::DENY`)
+     * Sets the default access level (`Phalcon\Enum::ALLOW` or `Phalcon\Enum::DENY`)
      * for no arguments provided in isAllowed action if there exists func for
      * accessKey
      */
