@@ -58,7 +58,7 @@ fi
 
 # Install latest mongodb
 printf "\n" | pecl install --force mongodb-stable 1> /dev/null
-echo 'extension="mongodb.so"' > $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/mongodb.ini
+#echo 'extension="mongodb.so"' > $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/mongodb.ini
 
 
 # Local variables:
