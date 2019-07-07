@@ -43,6 +43,7 @@ printf "\n" | pecl install --force igbinary 1> /dev/null
 printf "\n" | pecl install --force imagick 1> /dev/null
 printf "\n" | pecl install --force psr 1> /dev/null
 printf "\n" | pecl install --force yaml 1> /dev/null
+printf "\n" | pecl install --force mongodb 1> /dev/null
 
 # Install redis
 redis_ext=`$(phpenv which php-config) --extension-dir`/redis.so
