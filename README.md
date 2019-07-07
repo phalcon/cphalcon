@@ -10,8 +10,6 @@ Phalcon is an open source web framework delivered as a C extension for the PHP l
 
 A big thank you to [our Backers](https://github.com/phalcon/cphalcon/blob/master/BACKERS.md); you rock!
 
-## Contents
-
 ## Getting Started
 
 Phalcon is written in [Zephir/C](https://zephir-lang.com/) with platform independence in mind.
