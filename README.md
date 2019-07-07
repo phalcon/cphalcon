@@ -12,136 +12,39 @@ A big thank you to [our Backers](https://github.com/phalcon/cphalcon/blob/master
 
 ## Contents
 
-- [Get Started](#get-started)
-  - [Windows](#windows)
-  - [Linux/Unix/Mac](#linuxunixmac)
-    - [Requirements](#requirements)
-      - [Ubuntu](#ubuntu)
-      - [Suse](#suse)
-      - [CentOS/Fedora/RHEL](#centosfedorarhel)
-    - [macOS](#macos)
-    - [Gentoo](#gentoo)
-  - [Compilation](#compilation)
-  - [Contributing](#contributing)
-  - [External Links](#external-links)
-  - [Meet the Incubator](#meet-the-incubator)
-  - [Sponsors](#sponsors)
-  - [Backers](#backers)
-  - [License](#license)
-
-## Get Started
+## Getting Started
 
 Phalcon is written in [Zephir/C](https://zephir-lang.com/) with platform independence in mind.
 As a result, Phalcon is available on Microsoft Windows, GNU/Linux, FreeBSD and MacOS.
 You can either download a binary package for the system of your choice or build it from source.
 
-
 **NOTE:** Phalcon requires the [PSR PHP extension](https://github.com/jbboehr/php-psr) to be installed and enabled.
 
-### Windows
+## Installation
 
-To install Phalcon on Windows:
+For detailed installation instructions you can check our [installation](https://docs.phalconphp.com/4.0/en/installation) page in the docs.
 
-1. Download [Phalcon for Windows](https://phalconphp.com/en/download/windows)
-2. Extract the DLL file and copy it to your PHP extensions directory
-3. Edit your **php.ini** file and add this line:
-   ```ini
-   extension=php_phalcon.dll
-   ```
-4. Finally, restart your web server
+## Links
 
-**Hint:** To ensure that your Phalcon installation was successful, debug with
-```php
-<?php phpinfo(); ?>
-```
-and search for a section mentioning the Phalcon extension.
+### General
+* [Contributing to Phalcon](CONTRIBUTING.md) 
+* [Official Documentation](https://docs.phalconphp.com/)
+* [Zephir](https://zephir-lang.com/) - The language Phalcon is written on
+* [Incubator](https://phalcon.link/incubator) - Community driven plugins and classes extending the framework (written in PHP)
 
-### Linux/Unix/Mac
+### Support
+* [Forum](https://phalcon.link/forum)
+* [Discord](https://phalcon.link/discord)
+* [Stack Overflow](https://phalcon.link/so)
 
-On a Unix-based platform you can easily compile and install the extension from sources.
+### Social Media
+* [Telegram](https://phalcon.link/telegram)
+* [Gab](https://phalcon.link/gab)
+* [Parler](https://phalcon.link/parler)
+* [MeWe](https://phalcon.link/mewe)
+* [Facebook](https://phalcon.link/fb)
+* [Twitter](https://phalcon.link/t)
 
-#### Requirements
-
-Prerequisite packages are:
-
-* PHP 7.2.x/7.3.x development resources
-* `g++` >= 4.4 | `clang++` >= 3.x | `vc++` >= 11
-* GNU `make` >= 3.81
-* [`re2c`](http://re2c.org) >= 0.13
-
-##### Ubuntu
-
-```bash
-# Use actual PHP development headers and tools here
-sudo apt-get install php-dev libpcre3-dev gcc make re2c
-```
-
-##### Suse
-
-```bash
-# Use actual PHP development headers and tools here
-sudo zypper install php7-devel gcc make re2c
-```
-
-##### CentOS/Fedora/RHEL
-
-```bash
-# Use actual PHP development headers and tools here
-sudo yum install php-devel pcre-devel gcc make re2c
-```
-
-##### macOS
-
-We recommend to use command line to build Phalcon extension suitable for your system.
-Another way is to use OSX MAMP ready extension: https://github.com/majksner/php-phalcon-mamp
-
-##### Gentoo
-
-There is Gentoo ebuilds maintained for the Phalcon: https://github.com/smoke/phalcon-gentoo-overlay
-
-## Compilation
-
-Follow these instructions to generate a binary extension for your platform:
-
-```bash
-git clone git://github.com/phalcon/cphalcon.git
-cd cphalcon/build
-sudo ./install
-```
-
-If you have specific php versions running
-
-```bash
-git clone https://github.com/phalcon/cphalcon
-cd cphalcon/build
-sudo ./install --phpize /usr/bin/phpize7.3 --php-config /usr/bin/php-config7.3
-```
-
-Add the extension to your **php.ini**:
-
-```ini
-extension=phalcon.so
-```
-
-Finally, **restart the web server**.
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
-
-## External Links
-
-* [Documentation](https://docs.phalconphp.com/)
-* [Support](https://forum.phalconphp.com)
-* [Zephir](https://zephir-lang.com/)
-* [Twitter](https://twitter.com/phalconphp)
-
-## Meet the Incubator
-
-Our community is developing amazing extra features for Phalcon every day via [Incubator](https://github.com/phalcon/incubator).
-There are resources to enhance your experience with the framework and that enlarge the main features.
-
-Just give it a try and help us improve Phalcon even more!
 
 ## Sponsors
 
