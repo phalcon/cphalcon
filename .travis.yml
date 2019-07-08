@@ -74,9 +74,7 @@ install:
 before_script:
   - |
     # Setting up Travis' PHP
-    echo 'variables_order = EGPCS'    >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-    echo 'session.save_path = "/tmp"' >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-    echo 'opcache.enable_cli = 1'     >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+    cat .ci/travis.ini >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     if [ "$(php-config --vernum)" -ge "70400" ]; then
       export REPORT_COVERAGE=0
     fi

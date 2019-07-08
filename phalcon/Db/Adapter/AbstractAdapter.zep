@@ -263,7 +263,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * DELETE FROM `robots` WHERE `id` = 101
      * ```
      */
-    public function delete(string table, var whereCondition = null, var placeholders = null, var dataTypes = null) -> bool
+    public function delete(var table, var whereCondition = null, var placeholders = null, var dataTypes = null) -> bool
     {
         var sql, escapedTable;
 
