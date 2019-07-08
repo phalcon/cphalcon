@@ -42,7 +42,6 @@ fi
 printf "\n" | pecl install --force igbinary 1> /dev/null
 printf "\n" | pecl install --force imagick 1> /dev/null
 printf "\n" | pecl install --force psr 1> /dev/null
-printf "\n" | pecl install --force mongodb 1> /dev/null
 printf "\n" | pecl install --force yaml 1> /dev/null
 printf "\n" | pecl install --force mongodb 1> /dev/null
 
@@ -56,11 +55,6 @@ if [[ "$(php -m | grep redis | wc -l)" = "0" ]] && [[ -f "${redis_ext}" ]];
 then
 	echo 'extension="redis.so"' > "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/redis.ini"
 fi
-
-# Install latest mongodb
-printf "\n" | pecl install --force mongodb 1> /dev/null
-#echo 'extension="mongodb.so"' > $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/mongodb.ini
-
 
 # Local variables:
 # tab-width: 4
