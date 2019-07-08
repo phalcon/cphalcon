@@ -56,6 +56,8 @@ then
 	echo 'extension="redis.so"' > "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/redis.ini"
 fi
 
+php -r "echo phpversion('mongodb') . PHP_EOL;"
+
 # Local variables:
 # tab-width: 4
 # c-basic-offset: 4
