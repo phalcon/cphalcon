@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Collection;
 
 use IntegrationTester;
-use Phalcon\DiInterface;
 use Phalcon\Test\Fixtures\Mvc\Collections\Robots;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -43,6 +42,6 @@ class GetDICest
         $I->wantToTest('Mvc\Collection - getDI()');
 
         $robot = new Robots;
-        $I->assertTrue(is_subclass_of($robot->getDI(), DiInterface::class));
+        $I->assertEquals($robot->getDI(), $this->getDi());
     }
 }
