@@ -398,15 +398,11 @@ class Crypt implements CryptInterface
      */
     public function getAvailableHashAlgos() -> array
     {
-        var algos;
-
         if likely function_exists("hash_hmac_algos") {
-            let algos = hash_hmac_algos();
-        } else {
-            let algos = hash_algos();
+            return hash_hmac_algos();
         }
 
-        return algos;
+        return hash_algos();
     }
 
     /**
