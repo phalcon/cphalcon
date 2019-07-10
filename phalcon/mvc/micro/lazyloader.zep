@@ -60,7 +60,11 @@ class LazyLoader
 		let definition = this->_definition;
 
 		if typeof handler != "object" {
-			let handler = new {definition}();
+			if !class_exists(definition) {
+				throw new Exception("Handler '" . definition . "' doesn't exist");
+			}
+
+			let handler = create_instance(definition);
 			let this->_handler = handler;
 		}
 
