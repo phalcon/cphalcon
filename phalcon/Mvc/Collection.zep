@@ -1682,7 +1682,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 			let this->{key} = value;
 		}
 
-		if (method_exists(this, "afterFetch")) {
+		if method_exists(this, "afterFetch") {
 			this->{"afterFetch"}();
 		}
 	}
