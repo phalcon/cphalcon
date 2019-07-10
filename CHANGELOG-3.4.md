@@ -1,9 +1,11 @@
+# [3.4.5](https://github.com/phalcon/cphalcon/releases/tag/v3.4.5) (2019-XX-XX)
+- Fixed segfault in `Phalcon\Mvc\Micro\LazyLoader::__call()` when the handler has a syntax error. [#12396](https://github.com/phalcon/cphalcon/issues/12396)
+
 # [3.4.4](https://github.com/phalcon/cphalcon/releases/tag/v3.4.4) (2019-06-30)
 - Generated Dialect Class referring to a PHP class can't be found [#13867](https://github.com/phalcon/cphalcon/pull/13867)
 - Changed default gcc's CFLAGS so that, the extension should be properly generated for most hosts, including Docker [#13143](https://github.com/phalcon/cphalcon/issues/13143)
 - `Phalcon\Forms\Form::clear()` now correctly clears single fields. [#14217](https://github.com/phalcon/cphalcon/issues/14217)
 - Used latest stable Zephir from 0.10.x branch to prevent segfaults with PHP 7.3.6 [#14160](https://github.com/phalcon/cphalcon/issues/14160)
-- Fixed segfault in `Phalcon\Mvc\Micro\LazyLoader::__call()` when the handler has a syntax error. [#12396](https://github.com/phalcon/cphalcon/issues/12396)
 
 # [3.4.3](https://github.com/phalcon/cphalcon/releases/tag/v3.4.3) (2019-02-24)
 - Provided PHP 7.3 support [#13847](https://github.com/phalcon/cphalcon/issues/13847)
