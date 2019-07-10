@@ -1646,44 +1646,44 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     }
 
     /**
-	 * {@inheritdoc}
-	 */
-	public function bsonUnserialize(array data)
-	{
-		var container, manager, key, value;
+    * {@inheritdoc}
+    */
+    public function bsonUnserialize(array data)
+    {
+        var container, manager, key, value;
 
-		/**
-		 * Obtain the default DI
-		 */
-		let container = Di::getDefault();
-		if typeof container != "object" {
-			throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
-		}
+        /**
+         * Obtain the default DI
+         */
+        let container = Di::getDefault();
+        if typeof container != "object" {
+            throw new Exception("A dependency injector container is required to obtain the services related to the ORM");
+        }
 
-		/**
-		 * Update the dependency injector
-		 */
-		let this->container = container;
+        /**
+         * Update the dependency injector
+         */
+        let this->container = container;
 
-		let manager = container->getShared("collectionManager");
-		if typeof manager != "object" {
-			throw new Exception("The injected service 'collectionManager' is not valid");
-		}
+        let manager = container->getShared("collectionManager");
+        if typeof manager != "object" {
+            throw new Exception("The injected service 'collectionManager' is not valid");
+        }
 
-		/**
-		 * Update the models manager
-		 */
-		let this->modelsManager = manager;
+        /**
+         * Update the models manager
+         */
+        let this->modelsManager = manager;
 
-		/**
-		 * Update the objects attributes
-		 */
-		for key, value in data {
-			let this->{key} = value;
-		}
+        /**
+         * Update the objects attributes
+         */
+        for key, value in data {
+            let this->{key} = value;
+        }
 
-		if method_exists(this, "afterFetch") {
-			this->{"afterFetch"}();
-		}
-	}
+        if method_exists(this, "afterFetch") {
+            this->{"afterFetch"}();
+        }
+    }
 }
