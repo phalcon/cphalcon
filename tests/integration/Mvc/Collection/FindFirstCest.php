@@ -76,7 +76,7 @@ class FindFirstCest
         $I->assertEquals('Wall', $firstRobot->first_name);
         $I->assertInstanceOf(Robots::class, $robot);
         $I->assertEquals('Nobody', $robot->last_name);
-        $I->assertFalse($noRobot);
+        $I->assertNull($noRobot);
     }
 
     public function _after()

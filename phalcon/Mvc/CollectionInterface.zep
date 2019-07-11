@@ -47,12 +47,12 @@ interface CollectionInterface
      *
      * @param string id
      */
-    public static function findById(var id) -> <CollectionInterface> | bool;
+    public static function findById(var id) -> <CollectionInterface> | null;
 
     /**
      * Allows to query the first record that match the specified conditions
      */
-    public static function findFirst(array parameters = null) -> <CollectionInterface> | bool;
+    public static function findFirst(array parameters = null) -> <CollectionInterface> | null;
 
     /**
      * Fires an event, implicitly calls behaviors and listeners in the events

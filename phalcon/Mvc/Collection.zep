@@ -560,13 +560,13 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * }
      * ```
      */
-    public static function findById(var id) -> <CollectionInterface> | bool
+    public static function findById(var id) -> <CollectionInterface> | null
     {
         var className, collection, objectId;
 
         if typeof id != "object" {
             if !preg_match("/^[a-f\d]{24}$/i", id) {
-                return false;
+                return null;
             }
 
             let className = get_called_class();
@@ -641,7 +641,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * echo "The robot id is ", $robot->_id, "\n";
      * ```
      */
-    public static function findFirst(array parameters = null) -> <CollectionInterface> | bool
+    public static function findFirst(array parameters = null) -> <CollectionInterface> | null
     {
         var className, collection, connection;
 
@@ -1020,57 +1020,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     public function skipOperation(bool skip)
     {
         let this->skipped = skip;
-    }
-
-    /**
-     * Allows to perform a summatory group for a column in the collection
-     *
-     * @deprecated
-     */
-    public static function summatory(string! field, conditions = null, finalize = null) -> array
-    {
-        var className, model, connection, source, collection, initial,
-            reduce, group, retval, firstRetval;
-
-        let className = get_called_class();
-
-        let model = new {className}();
-
-        let connection = model->getConnection();
-
-        let source = model->getSource();
-        if unlikely empty source {
-            throw new Exception("Method getSource() returns empty string");
-        }
-
-        let collection = connection->selectCollection(source);
-
-        /**
-         * Uses a javascript hash to group the results
-         */
-        let initial = [
-            "summatory": []
-        ];
-
-        /**
-         * Uses a javascript hash to group the results, however this is slow
-         * with larger datasets
-         */
-        let reduce = "function (curr, result) { if (typeof result.summatory[curr." . field . "] === \"undefined\") { result.summatory[curr." . field . "] = 1; } else { result.summatory[curr." . field . "]++; } }";
-
-        let group = collection->group([], initial, reduce);
-
-        if fetch retval, group["retval"] {
-            if fetch firstRetval, retval[0] {
-                if isset firstRetval["summatory"] {
-                    return firstRetval["summatory"];
-                }
-                return firstRetval;
-            }
-            return retval;
-        }
-
-        return [];
     }
 
     /**
@@ -1470,7 +1419,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             let document = mongoCollection->findOne(conditions, params);
 
             if empty document {
-                return false;
+                return null;
             }
 
             if method_exists(base, "afterFetch") {
