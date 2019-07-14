@@ -95,10 +95,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
 
-	zend_class_entry *_2$$3;
 	zval _4;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *method_param = NULL, *arguments = NULL, arguments_sub, *modelBinder = NULL, modelBinder_sub, __$null, handler, definition, bindCacheKey, _0, _1$$3, _3$$4;
+	zval *method_param = NULL, *arguments = NULL, arguments_sub, *modelBinder = NULL, modelBinder_sub, __$null, handler, definition, bindCacheKey, _0, _1$$4, _2$$4, _3$$5;
 	zval method;
 	zval *this_ptr = getThis();
 
@@ -110,8 +109,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&bindCacheKey);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&_3$$5);
 	ZVAL_UNDEF(&_4);
 
 	ZEPHIR_MM_GROW();
@@ -139,22 +139,28 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
 	zephir_read_property(&_0, this_ptr, SL("definition"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&definition, &_0);
 	if (Z_TYPE_P(&handler) != IS_OBJECT) {
-		ZEPHIR_INIT_NVAR(&handler);
-		zephir_fetch_safe_class(&_1$$3, &definition);
-		_2$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_1$$3), Z_STRLEN_P(&_1$$3), ZEND_FETCH_CLASS_AUTO);
-		object_init_ex(&handler, _2$$3);
-		if (zephir_has_constructor(&handler TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(NULL, &handler, "__construct", NULL, 0);
+		if (!(zephir_class_exists(&definition, 1 TSRMLS_CC))) {
+			ZEPHIR_INIT_VAR(&_1$$4);
+			object_init_ex(&_1$$4, phalcon_mvc_micro_exception_ce);
+			ZEPHIR_INIT_VAR(&_2$$4);
+			ZEPHIR_CONCAT_SVS(&_2$$4, "Handler '", &definition, "' doesn't exist");
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 5, &_2$$4);
 			zephir_check_call_status();
+			zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Micro/LazyLoader.zep", 49 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
+			return;
 		}
+		ZEPHIR_INIT_NVAR(&handler);
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&handler, &definition TSRMLS_CC);
+		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("handler"), &handler);
 	}
 	if (Z_TYPE_P(modelBinder) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&bindCacheKey);
 		ZEPHIR_CONCAT_SVSV(&bindCacheKey, "_PHMB_", &definition, "_", &method);
-		ZEPHIR_CALL_METHOD(&_3$$4, modelBinder, "bindtohandler", NULL, 0, &handler, arguments, &bindCacheKey, &method);
+		ZEPHIR_CALL_METHOD(&_3$$5, modelBinder, "bindtohandler", NULL, 0, &handler, arguments, &bindCacheKey, &method);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(arguments, &_3$$4);
+		ZEPHIR_CPY_WRT(arguments, &_3$$5);
 	}
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_create_array(&_4, 2, 0 TSRMLS_CC);

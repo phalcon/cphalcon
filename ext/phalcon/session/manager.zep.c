@@ -740,9 +740,9 @@ PHP_METHOD(Phalcon_Session_Manager, start) {
 	zephir_read_property(&_3, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "registerhandler", NULL, 0, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "session_start", NULL, 0);
+	ZEPHIR_RETURN_CALL_FUNCTION("session_start", NULL, 0);
 	zephir_check_call_status();
-	RETURN_MM_BOOL(1);
+	RETURN_MM();
 
 }
 
